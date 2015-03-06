@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-06 12:49+0000\n"
-"PO-Revision-Date: 2015-03-06 13:52+0200\n"
+"PO-Revision-Date: 2015-03-06 17:22+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,10 +20,10 @@ msgstr ""
 #. module: deltatech_purchase_xls
 #: model:ir.actions.report.xml,name:deltatech_purchase_xls.action_purchase_order_xls
 msgid "Export Excel Purchase Order"
-msgstr "Exporta Comanda de Achizitie"
+msgstr ""
 
 #. module: deltatech_purchase_xls
 #: code:addons/deltatech_purchase_xls/report/purchase_xls.py:100
 #, python-format
 msgid "Purchase Order"
-msgstr "Comanda de Achizitie"
+msgstr ""
