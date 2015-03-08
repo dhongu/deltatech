@@ -31,7 +31,7 @@ Nu se permite achizitia unui produs stocabil fara comanda aprovizionare
 
 La creare factura din piking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
 
-Validare data factura sa fie mai mare decat data din utlima factura
+Validare data factura sa fie mai mare decat data din ultima factura
     """,
     "category" : "Generic Modules/Other",
     "depends" : ["base","stock","account","purchase"],

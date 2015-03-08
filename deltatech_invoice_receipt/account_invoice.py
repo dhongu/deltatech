@@ -34,7 +34,7 @@ class account_invoice(models.Model):
         res = super(account_invoice,self).onchange_journal_id(journal_id)
         msg = self.check_data(journal_id=journal_id, date_invoice=self.date_invoice)
         if msg != '': 
-            res['warning'] = {'title':_('warning'),'message':msg}          
+            res['warning'] = {'title':_('Warning'),'message':msg}          
         return res
     
     @api.multi
@@ -42,7 +42,7 @@ class account_invoice(models.Model):
         res = super(account_invoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
         msg =  self.check_data(journal_id=self.journal_id.id, date_invoice=date_invoice)
         if msg != '':
-            res['warning'] = {'title':_('warning'),'message':msg}
+            res['warning'] = {'title':_('Warning'),'message':msg}
         return res
 
     @api.multi    
