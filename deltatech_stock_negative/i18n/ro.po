@@ -32,7 +32,7 @@ msgstr "Companii"
 #: field:res.company,no_negative_stock:0
 #: field:stock.config.settings,no_negative_stock:0
 msgid "No negative stock"
-msgstr "Fara stoc negativ"
+msgstr "Fară stoc negativ"
 
 #. module: deltatech_stock_negative
 #: model:ir.model,name:deltatech_stock_negative.model_stock_quant
@@ -48,4 +48,4 @@ msgstr "Depozit"
 #: code:addons/deltatech_stock_negative/stock.py:40
 #, python-format
 msgid "You have chosen to avoid negative stock.                         %s pieces of %s are remaining in location %s  but you want to transfer                          %s pieces. Please adjust your quantities or                         correct your stock with an inventory adjustment."
-msgstr "Ati ales sa evitati stocurile negative.   %s bucati din %s exista in locatia %s dar dvs vreti sa transferati %s bucati.Ajustati cantitatile sau corectati stocul cu o ajustare de inventar."
+msgstr "Ați ales să evitați stocurile negative.   %s din %s există în locația %s dar dvs vreți să transferați %s. Ajustați cantitățile sau corectați stocul cu o ajustare de inventar."

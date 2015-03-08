@@ -27,12 +27,15 @@
     "description": """
  
 Sale Margin  
+ - New technical access group for display margin and purchase price in sale order
+ - New technical access group to prevent changing price in sale order
+ - Warning on sale order if sale price is below the purchase price
 
     """,
     
     "depends" : ["sale_margin"],
  
-    "data" : ['security/sale_security.xml','security/ir.model.access.csv','sale_margin_view.xml'],
+    "data" : ['security/sale_security.xml','security/ir.model.access.csv','sale_margin_view.xml','account_invoice_view.xml'],
     "active": False,
     "installable": True,
 }
