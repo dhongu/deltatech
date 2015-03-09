@@ -24,6 +24,7 @@
 import sale
 import account_invoice
 import stock
+import report
 
 
 

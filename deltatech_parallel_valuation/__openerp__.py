@@ -28,6 +28,8 @@
 Evaluarea in stocului in alta moneda
 
     """,
+    
+    
     "category" : "Generic Modules/Stock",
     "depends" : ["stock_account",'l10n_ro_stock_account'],
  
@@ -37,4 +39,14 @@ Evaluarea in stocului in alta moneda
     "installable": True,
 }
 
-
+'''
+Pentru afisare curs valutar in factura trebuie modificat l10n_ro_invoice_report.l10n_ro_report_invoice_document:
+                <p id='exchange_rate'>
+                    <span>Exchange rate: 1</span> 
+                    <span t-field="res_company.parallel_currency_id.symbol"/> 
+                    <span>=</span>
+                    <t t-set="from_currency" t-value="res_company.parallel_currency_id.with_context(date=o.date_invoice)"/>
+                    <span t-esc="formatLang(from_currency.compute(1,o.currency_id,round=False),digits=6)"/> 
+                    <span t-field="o.currency_id.symbol"/>
+                </p>
+'''

@@ -18,34 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Sale Margin",
-    "version" : "1.0",
-    "category" : "Sales Management",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
+
+
+
  
-Features:
- - New technical access group for display margin and purchase price in sale order and customer invoice
- - New technical access group to prevent changing price in sale order and customer invoice
- - New technical access group to allow sale price  below the purchase price
- - Warning/Error on sale order if sale price is below the purchase price
- - Warning/Error on customer invoice if sale price is below the purchase price
- - New report for analysis profitability
-
-    """,
-    
-    "depends" : ["sale_margin",'account'],
- 
-    "data" : ['security/sale_security.xml',
-              'security/ir.model.access.csv',
-              'sale_margin_view.xml',
-              'account_invoice_view.xml',
-              'report/sale_margin_report.xml'],
-              
-    "active": False,
-    "installable": True,
-}
-
-
+import sale_margin_report
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
