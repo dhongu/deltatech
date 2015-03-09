@@ -43,7 +43,7 @@ class purchase_order_xls_parser(report_sxw.rml_parse):
         
         self.localcontext.update({
             'datetime': datetime,
-             'wanted_list': ['name','product_qty'],
+             'wanted_list': ['name','desc','unit','product_qty'],
             #'template_changes': template_changes,
             '_': self._,
         })
@@ -82,12 +82,17 @@ class purchase_order_xls(report_xls):
         
         self.col_specs_template = {
             'name': {
-                'header': [1, 42, 'text', _render("_('Name')")],
-                'lines': [1, 0, 'text', _render("line.name or ''")] },
- 
+                'header': [1, 12, 'text', _render("_('Item No.')")],
+                'lines': [1, 0, 'text', _render("line.product_id.default_code or ''")] },
+            'desc': {
+                'header': [1, 42, 'text', _render("_('Description')")],
+                'lines': [1, 0, 'text', _render("line.product_id.name_template or ''")] },
+            'unit': {
+                'header': [1, 20, 'text', _render("_('Unit of measure')")],
+                'lines': [1, 0, 'text', _render("'PCS'")] },
             'product_qty': {
-                'header': [1, 18, 'text', _render("_('Quantity')"), None, self.rh_cell_style_right],
-                'lines': [1, 0, 'number', _render("line.product_qty"), None, self.aml_cell_style_decimal] },
+                'header': [1, 10, 'text', _render("_('Quantity')"), None, self.rh_cell_style_right],
+                'lines': [1, 0, 'number', _render("line.product_qty")] },
         }
 
     def generate_xls_report(self, _p, _xs, data, objects, wb):
@@ -98,7 +103,7 @@ class purchase_order_xls(report_xls):
 
           # report_name = objects[0]._description or objects[0]._name
         report_name = _("Purchase Order")
-        ws = wb.add_sheet(report_name[:31])
+        ws = wb.add_sheet("Data")
         ws.panes_frozen = True
         ws.remove_splits = True
         ws.portrait = 0  # Landscape
@@ -114,8 +119,8 @@ class purchase_order_xls(report_xls):
             cell_style = xlwt.easyxf(_xs['xls_title'])
             c_specs = [ ('report_name', 1, 0, 'text', report_name+':'+order.name) ]           
             row_data = self.xls_row_template(c_specs, ['report_name'])
-            row_pos = self.xls_write_row( ws, row_pos, row_data, row_style=cell_style)
-            row_pos += 1
+            #row_pos = self.xls_write_row( ws, row_pos, row_data, row_style=cell_style)
+            #row_pos += 1
             # Column headers
             c_specs = map(lambda x: self.render(x, self.col_specs_template, 'header', render_space={'_': _p._}),  wanted_list)
             row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
@@ -125,11 +130,20 @@ class purchase_order_xls(report_xls):
                 c_specs = map(lambda x: self.render(x, self.col_specs_template, 'lines'), wanted_list)
                 row_data = self.xls_row_template(c_specs, [x[0] for x in c_specs])
                 row_pos = self.xls_write_row( ws, row_pos, row_data, row_style=self.aml_cell_style )
-                 
-
-         
         
- 
+            #date romsystems
+            font0 = xlwt.Font()
+            font0.bold = True
+            style0 = xlwt.XFStyle()
+            style0.font = font0
+            ws.col(5).width = 256*20
+            ws.col(6).width = 256*25
+            ws.write(3, 5, 'Denumire Client',style0)
+            ws.write(3, 6, 'SC ROMSYSTEMS SRL')
+            ws.write(4, 5, 'Cod Client',style0)
+            ws.write(4, 6, 'CL022842')
+            ws.write(5, 5, 'Mod Livrare',style0)
+            ws.write(6, 5, 'Observatii',style0)
 
 purchase_order_xls('report.purchase.order.xls',
               'purchase.order',
