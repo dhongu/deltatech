@@ -100,10 +100,6 @@ msgstr "Mișcare stoc"
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:45
 #, python-format
 msgid "Warning"
-msgstr "atenție"
+msgstr "Atenție"
 
-# Ultima linie intraductibila
-#. module: deltatech_invoice_receipt
-#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type, 'date':date_invoice}"
-msgstr ""
+ 
