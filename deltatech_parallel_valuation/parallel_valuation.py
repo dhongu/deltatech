@@ -75,7 +75,7 @@ class sale_margin_report(models.Model):
             , sum(parallel_line_value) as parallel_line_value
             , sum(parallel_line_value-parallel_stock_value) as parallel_profit
         """ 
-        print select_str
+ 
         return select_str     
      
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

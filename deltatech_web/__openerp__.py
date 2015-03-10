@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,16 +17,33 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
+{
+    "name" : "Deltatech Web Style",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
+
+Functionalitati:
+ - Afisarea foilor din forme pe 90% din latimea ferestrei
+ - Modificare butoane din rosu in albastru (new style din Odoo 9)
+ - Modificare dimensiune H1 din 2em in 1.8em
 
 
+    """,
+    
+    "category" : "Generic Modules",
+    "depends" : ["web"],
 
+   'data':['views/deltatech_web_assets.xml'],
+ 
+    "installable": True,
+    'auto_install': False,
+}
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
