@@ -20,10 +20,10 @@ msgstr ""
 #. module: deltatech_purchase_xls
 #: model:ir.actions.report.xml,name:deltatech_purchase_xls.action_purchase_order_xls
 msgid "Export Excel Purchase Order"
-msgstr "Exporta Comanda de Achizitie"
+msgstr "Exportă în Excel Comanda de Achiziție"
 
 #. module: deltatech_purchase_xls
 #: code:addons/deltatech_purchase_xls/report/purchase_xls.py:100
 #, python-format
 msgid "Purchase Order"
-msgstr "Comanda de Achizitie"
+msgstr "Comanda de Achiziție"
