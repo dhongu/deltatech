@@ -14,8 +14,7 @@
 					<field name="product_uom" invisible="not context.get('set_visible',False)" groups = "product.group_uom"/>
 					
 					<field name="user_id" invisible="1"/>
-					
-					
+ 		
 					<field name="partner_id" invisible="1"/>
 					<field name="commercial_partner_id" invisible="1"/>
 					
@@ -81,6 +80,8 @@
 					<field name="commercial_partner_id"/>
 					<field name="product_id"/>
 					<field name="user_id"/>
+					<field name="period_id"/>
+					<field name="date"/>
 					
 					<group expand="0" string="Extended Filters...">
 						<field name="categ_id"/>
@@ -102,6 +103,8 @@
 				</search>
 			</field>
 		</record>
+		
+		
 		<record id="action_sale_margin_report" model="ir.actions.act_window">
 			<field name="name">Sale margin report</field>
 			<field name="res_model">sale.margin.report</field>
@@ -112,10 +115,12 @@
 			<field name="help">This report performs analysis on your invoices.</field>
 			<field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':[]}</field>
 		</record>
+		
 		<record model="ir.actions.act_window.view" id="action_sale_margin_report_graph">
 			<field name="sequence" eval="1"/>
 			<field name="view_mode">graph</field>
 			<field name="view_id" ref="view_sale_margin_report_graph"/>
+			<field name="act_window_id" ref="action_sale_margin_report"/>
 		</record>
 
 		<record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">

@@ -24,29 +24,27 @@
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
-Evaluarea in stocului in alta moneda
+
+Functionalitati:
+ - Definire moneda paralela de evaluare si raportare
+ - Evaluarea  stocului in moneda paralela
+ - Afisare curs valutar in moneda paralela
+ - Raport de stoc valorinc exprimat in moneda paralela la data curenta
 
     """,
     
     
     "category" : "Generic Modules/Stock",
-    "depends" : ["stock_account",'l10n_ro_stock_account'],
+    "depends" : ["account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
  
-    "data" : [ 'res_config_view.xml', 'stock_valuation_history_view.xml','stock_view.xml','product_view.xml'],
+    "data" : [ 'res_config_view.xml',
+               'stock_valuation_history_view.xml',
+               'stock_view.xml',
+               'product_view.xml',
+               'views/invoice_report.xml',
+               ],
     
     "active": False,
     "installable": True,
 }
-
-'''
-Pentru afisare curs valutar in factura trebuie modificat l10n_ro_invoice_report.l10n_ro_report_invoice_document:
-                <p id='exchange_rate'>
-                    <span>Exchange rate: 1</span> 
-                    <span t-field="res_company.parallel_currency_id.symbol"/> 
-                    <span>=</span>
-                    <t t-set="from_currency" t-value="res_company.parallel_currency_id.with_context(date=o.date_invoice)"/>
-                    <span t-esc="formatLang(from_currency.compute(1,o.currency_id,round=False),digits=6)"/> 
-                    <span t-field="o.currency_id.symbol"/>
-                </p>
-'''
+ 

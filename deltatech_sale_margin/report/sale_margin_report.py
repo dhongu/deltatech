@@ -24,11 +24,14 @@ from openerp import tools
 import openerp.addons.decimal_precision as dp
 
 
-class _sale_margin_report(osv.osv):
+class sale_margin_report(osv.osv):
     _name = "sale.margin.report"
     _description = "Sale margin report"
     _auto = False
+    _order = 'date desc'
 
+
+ 
 
     _columns = {
         
@@ -38,15 +41,17 @@ class _sale_margin_report(osv.osv):
         'product_id': fields.many2one('product.product', 'Product', readonly=True),
         'product_uom': fields.many2one('product.uom', 'Unit of Measure', readonly=True),
         'product_uom_qty': fields.float('Quantity', readonly=True),
-        'sale_val': fields.float('Sale value', readonly=True),
+        'sale_val': fields.float('Sale value', readonly=True, help="Sale value in company currency" ),
  
-        'stock_val': fields.float("Stock value",  readonly=True),
-        'profit_val': fields.float("Profit",   readonly=True),
+        'stock_val': fields.float("Stock value",  readonly=True, help="Stock value in company currency"),
+        'profit_val': fields.float("Profit",   readonly=True, help="Profit obtained at invoicing in company currency"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True),
         'commercial_partner_id': fields.many2one('res.partner', 'Commercial Partner', readonly=True),
         'user_id': fields.many2one('res.users', 'Salesperson', readonly=True),
-        'warehouse_id': fields.many2one('stock.warehouse', 'Warehouse', required=True),
+        
         'company_id': fields.many2one('res.company','Company',readonly=True), 
+        
+        'period_id': fields.many2one('account.period', 'Period', readonly=True),
         
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
@@ -64,12 +69,10 @@ class _sale_margin_report(osv.osv):
             ], 'Invoice Status', readonly=True),
  
     }
+    
 
-    def init(self, cr):
-        tools.drop_view_if_exists(cr, 'sale_margin_report')
-        cr.execute("""
-
-         create or replace view sale_margin_report as (
+    def _select(self):
+        select_str = """
                 select
                     min(l.id) as id,
                     s.date_invoice as date,               
@@ -87,22 +90,33 @@ class _sale_margin_report(osv.osv):
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
                     s.user_id as user_id,
-                     
+                    s.period_id,
                     s.company_id as company_id,
                     s.type,
                     s.state 
+        """
+        return select_str
 
-                from
+    def _from(self):
+        from_str = """
                     account_invoice s
                     left join account_invoice_line l on (s.id=l.invoice_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.uos_id)
                     left join product_uom u2 on (u2.id=t.uom_id)
+                    
+        """
+        return from_str
 
-                where s.type in ( 'out_invoice', 'out_refund')
+    def _where(self):
+        where_str = """
+              s.type in ( 'out_invoice', 'out_refund')
+        """
+        return  where_str
 
-                group by
+    def _group_by(self):
+        group_by_str = """
                     l.product_id,
                     l.invoice_id,
                     t.uom_id,
@@ -112,12 +126,22 @@ class _sale_margin_report(osv.osv):
                     s.commercial_partner_id,
                     s.user_id,
                     s.company_id,
+                    s.period_id,
                     s.type,
-                    s.state
- 
-       ) """)
- 
+                    s.state 
+        """
+        return group_by_str
 
+ 
+    def init(self, cr):
+        # self._table = sale_report
+        tools.drop_view_if_exists(cr, self._table)
+        cr.execute("""CREATE or REPLACE VIEW %s as (
+            %s
+            FROM ( %s )
+            WHERE %s
+            GROUP BY %s
+            )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
 
 

@@ -23,6 +23,7 @@ import res_config
 import product
 import stock
 import parallel_valuation
+import account_invoice
 
 
 

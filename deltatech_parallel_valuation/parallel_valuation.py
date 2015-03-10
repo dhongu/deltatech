@@ -56,7 +56,28 @@ class stock_history(models.Model):
                 line['parallel_inventory_value'] =  env.user.company_id.currency_id.compute( line['inventory_value'],  env.user.company_id.parallel_currency_id )
                 
         return res    
-    
+   
+   
+class sale_margin_report(models.Model):
+    _inherit = "sale.margin.report"
+
+    parallel_stock_value = fields.Float(string="Parallel Stock Value", digits= dp.get_precision('Product Price'), readonly=True,
+                                        help="Stock value in parallel currency evaluated at purchasing")     
+    parallel_line_value = fields.Float(string="Parallel Line Value", digits= dp.get_precision('Product Price'), readonly=True,
+                                        help="Sale value in parallel currency evaluated at invoicing" )   
+    parallel_profit= fields.Float(string="Parallel Profit", digits= dp.get_precision('Product Price'), readonly=True,
+                                       help="Profit obtained at invoicing in parallel currency" )
+
+    def _select(self):
+        select_str = super(sale_margin_report,self)._select()
+        select_str = select_str +   """
+            , sum(parallel_stock_value) as parallel_stock_value 
+            , sum(parallel_line_value) as parallel_line_value
+            , sum(parallel_line_value-parallel_stock_value) as parallel_profit
+        """ 
+        print select_str
+        return select_str     
+     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 

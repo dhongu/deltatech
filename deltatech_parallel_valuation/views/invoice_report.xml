@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<template id="report_invoice_document_exchange_rate" inherit_id="account.report_invoice_document">
+			<xpath expr="//p[@t-if='o.comment']" position="before">
+			     <p id='exchange_rate'>
+		            <span>Exchange rate: 1</span> 
+		            <span t-field="res_company.parallel_currency_id.symbol"/> 
+		            <span>=</span>
+		            <t t-set="from_currency" t-value="res_company.parallel_currency_id.with_context(date=o.date_invoice)"/>
+		            <span t-esc="formatLang(from_currency.compute(1,o.currency_id,round=False),digits=6)"/> 
+		            <span t-field="o.currency_id.symbol"/>
+		        </p>
+			</xpath>
+		</template>
+
+
+	</data>
+</openerp>
