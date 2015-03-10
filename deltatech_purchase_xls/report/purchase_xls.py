@@ -138,12 +138,13 @@ class purchase_order_xls(report_xls):
             style0.font = font0
             ws.col(5).width = 256*20
             ws.col(6).width = 256*25
-            ws.write(3, 5, 'Denumire Client',style0)
-            ws.write(3, 6, 'SC ROMSYSTEMS SRL')
+            ws.write(3, 5, _('Client Name'),style0)
+            ws.write(3, 6, order.company_id.name)
             ws.write(4, 5, 'Cod Client',style0)
             ws.write(4, 6, 'CL022842')
             ws.write(5, 5, 'Mod Livrare',style0)
             ws.write(6, 5, 'Observatii',style0)
+            ws.write(6, 6, order.notes)
 
 purchase_order_xls('report.purchase.order.xls',
               'purchase.order',
