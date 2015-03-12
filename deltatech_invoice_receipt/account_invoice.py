@@ -249,6 +249,14 @@ class account_invoice(models.Model):
               
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
+
+
+    @api.multi
+    def unlink(self):
+        # de verificat daca sunt miscari din liste de ridicare care au statusul Facturat!
+        res = super(account_invoice_line, self).unlink()
+        return res
+
         
     @api.multi
     # pretul din factura se determina in functie de cursul de schimb din data facturii  
