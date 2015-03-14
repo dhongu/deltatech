@@ -286,7 +286,8 @@ class account_invoice_line(models.Model):
                 if currency and  from_currency:
                     res['value']['price_unit'] = from_currency.compute(price_unit, currency)
 
-        
+            # oare e bine sa las asa ?????
+            # cred ca mai trebuie pus un camp in produs prin care sa se specifice clar care din produse intra prin 408
             if type == 'in_invoice':
                 account_id = self.env.user.company_id and self.env.user.company_id.property_stock_picking_payable_account_id and self.env.user.company_id.property_stock_picking_payable_account_id.id
                 if  product_obj.type == 'product' and account_id: 
