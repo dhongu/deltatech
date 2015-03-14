@@ -26,9 +26,8 @@
     "description": """
 
 Adaugare campuri suplimentare in datele de contact.
-
  -  birthdate, CNP,  nr carte de identitate
-    
+
    
     """,
     

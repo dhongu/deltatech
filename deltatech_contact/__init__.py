@@ -22,7 +22,7 @@
 
 
 import res_partner
-import company
+
 
  
 
