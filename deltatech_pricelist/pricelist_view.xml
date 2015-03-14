@@ -6,7 +6,7 @@
 			<field name="model">product.pricelist.item</field>
 			<field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
 			<field name="arch" type="xml">
-				<!--  de adaugat proprieta la  -->
+				 
 				<xpath expr="//tree" position="attributes">
 					<attribute name="default_order">price_version_id,sequence</attribute>
 				</xpath>			

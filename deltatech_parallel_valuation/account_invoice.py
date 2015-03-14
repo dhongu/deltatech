@@ -36,6 +36,8 @@ class account_invoice_line(models.Model):
     @api.one
     @api.depends('price_unit', 'purchase_price', 'quantity', 'discount', 'invoice_id.date_invoice' )
     def _compute_parallel_inventory_value(self):           
+        if not self.invoice_id.currency_id:
+            return
         date_eval = self.invoice_id.date_invoice or fields.Date.context_today(self) 
         from_currency = self.invoice_id.currency_id.with_context(date=date_eval)
         to_currency = self.env.user.company_id.parallel_currency_id
