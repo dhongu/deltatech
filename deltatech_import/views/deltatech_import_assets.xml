@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <template id="assets_backend" name="Deltatech web assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">       
+				 <script type="text/javascript" src="/deltatech_import/static/src/js/extension.js"></script>
+            </xpath>
+        </template>    
+    
+ 
+    </data>
+</openerp>
+
+
