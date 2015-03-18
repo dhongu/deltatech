@@ -39,7 +39,10 @@ Functionalitati:
     "depends" : ["web"],
 
    'data':['views/deltatech_web_assets.xml'],
+
  
+    
+    
     "installable": True,
     'auto_install': False,
 }
