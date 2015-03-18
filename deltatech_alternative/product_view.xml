@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+		<record id="view_product_catalog_tree" model="ir.ui.view">
+			<field name="name">Product Catalog</field>
+			<field name="model">product.catalog</field>
+			<field name="arch" type="xml">
+				<tree string="Product Catalog" >
+ 					<field name="code"/>
+ 					<field name="code_new"/>
+ 					<field name="name"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_product_catalog_form" model="ir.ui.view">
+			<field name="name">Product Catalog</field>
+			<field name="model">product.catalog</field>
+			<field name="arch" type="xml">
+				<form string="Product Catalog">
+					<header>
+                        <button name="create_product"  string="Create Product" type="object" />				
+					</header>
+					<group col="2">
+	  					<field name="code"/>
+	 					<field name="code_new"/>
+	 					<field name="name"/> 
+	 					<field name="list_price"/>
+						<field name="categ_id"/>
+						<field name="supplier_id"/>
+						<field name="product_id"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_product_catalog_filter" model="ir.ui.view">
+			<field name="name">product.catalog.select</field>
+			<field name="model">product.catalog</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+ 					<field name="code"/>
+ 					<field name="code_new"/>					
+				</search>
+			</field>
+		</record>
+
+
+
+		<record id="action_product_catalog" model="ir.actions.act_window">
+			<field name="name">Product Catalog</field>
+			<field name="res_model">product.catalog</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Product Catalog" id="menu_product_catalog"
+			action="action_product_catalog" parent="stock.menu_stock_product" sequence="102"/>
+
+		<!-- Product Alternative_ -->
+		
+		<record model="ir.ui.view" id="product_alternative_search_form_view">
+            <field name="name">product.template.search</field>
+            <field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_search_view" />
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="alternative_ids"  />
+				</field>
+			</field>
+		</record>
+          
+
+		<record model="ir.ui.view" id="view_product_tree_alternative">
+			<field name="name">product.template.product.alternative.tree</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_tree_view" />
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="alternative_code" />
+					<field name="alternative_ids" />
+				</field>
+			</field>
+		</record>
+
+
+
+		<record model="ir.ui.view" id="view_product_form_alternative">
+			<field name="name">product.template.alternative.form</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_form_view" />
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<field name="active" position="after">
+					<field name="alternative_code" />
+				</field>
+				<notebook position="inside">
+					<page string="Alternative">
+						<separator string="Alternative" colspan="4" />
+						<field name="alternative_ids" colspan="4" nolabel="1">
+							<tree string="Product Alternatives" editable="bottom">
+								<field name="sequence" widget="handle" />
+								<field name="name" />
+							</tree>
+						</field>
+					</page>
+				</notebook>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="product_alternative_tree_view">
+			<field name="name">product.alternative.tree</field>
+			<field name="model">product.alternative</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Product Alternatives" editable="bottom">
+					<field name="product_tmpl_id" />
+					<field name="sequence" widget="handle" />
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="product_alternative_form_view">
+			<field name="name">product.alternative.form</field>
+			<field name="model">product.alternative</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Product Alternatives">
+					<field name="product_tmpl_id" />
+					<field name="name" />
+				</form>
+			</field>
+		</record>
+
+	</data>
+</openerp>
+
