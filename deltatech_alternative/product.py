@@ -109,8 +109,9 @@ class product_product(models.Model):
         if not res:
             # poate e un cod din catalog
             alt = []
+            prod_cat =  self.env['product.catalog']
             while name and len(name)>2:
-                prod_cat =  self.env['product.catalog'].search(  [('code', '=', name)], limit=1 )
+                prod_cat =  prod_cat.search(  [('code', '=', name)], limit=1 )
                 if prod_cat:
                     alt.append(name)
                     name = prod_cat.code_new      
