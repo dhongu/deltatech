@@ -24,6 +24,9 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
 
+class product_pricelist(models.Model):
+    _inherit = "product.pricelist"  
+    code = fields.Char(string="Code") # folosit pt a putea face reguli de acces
 
 class product_pricelist_item(models.Model):
     _inherit = "product.pricelist.item"  

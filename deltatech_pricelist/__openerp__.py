@@ -28,6 +28,7 @@
 Functionalitati:
  - Acces din meniu la pozitii din listele de preturi
  - Camp nou pt afisare text calcul pret
+ - Camp nou pt cod lista de preturi
 
     """,
     

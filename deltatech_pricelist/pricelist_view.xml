@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+
+		<record id="product_pricelist_view" model="ir.ui.view">
+			<field name="name">product.pricelist.form</field>
+			<field name="model">product.pricelist</field>
+			<field name="inherit_id" ref="product.product_pricelist_view" />
+			<field name="arch" type="xml">
+				<field name="type" position="after">
+					<field name="code" />
+				</field>
+			</field>
+		</record>
+
 		<record id="product_pricelist_item_tree_view" model="ir.ui.view">
 			<field name="name">product.pricelist.item.tree</field>
 			<field name="model">product.pricelist.item</field>
 			<field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
 			<field name="arch" type="xml">
-				 
+
 				<xpath expr="//tree" position="attributes">
 					<attribute name="default_order">price_version_id,sequence</attribute>
-				</xpath>			
+				</xpath>
 				<field name="sequence" position="replace">
 					<field name="sequence" widget="handle" />
 					<field name="price_version_id" invisible="context.get('hide_price_version_id', True)" />
@@ -21,9 +33,9 @@
 					<field name="base" invisible="1" />
 					<field name="price_text" />
 				</field>
-				 
+
 			</field>
-			
+
 		</record>
 
 
@@ -33,7 +45,7 @@
 			<field name="arch" type="xml">
 				<search string="Products Price Item Search">
 					<field name="name" />
-					<field name="product_id"/>
+					<field name="product_id" />
 					<field name="categ_id" />
 					<field name="price_version_id" />
 
