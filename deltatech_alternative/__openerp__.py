@@ -28,8 +28,8 @@
     "demo_xml" : [],
     "description": "A module that add  alternative on the product form",
     "update_xml" : [
-        
-        "product_view.xml"
+        "product_view.xml",
+        'security/ir.model.access.csv',
     ],
     "active": False,
     "installable": True,
