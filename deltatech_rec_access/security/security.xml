@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+
+ 
+
+     <record id="stock_location_personal_rule" model="ir.rule">
+        <field name="name">Personal stock</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+    </record>
+    
+    <record id="stock_location_see_all" model="ir.rule">
+        <field name="name">All stock</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    </record>
+
+
+     <record model="ir.rule" id="stock_move_personal_rule">
+        <field name="name">Personal stock move</field>
+        <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+        <field name="domain_force">['|',('location_id.user_id','=',user.id),('location_dest_id.user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="stock_move_see_all_rule">
+        <field name="name">All stock move</field>
+        <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+     </record>
+
+     <record model="ir.rule" id="stock_quant_personal_rule">
+        <field name="name">Personal stock quant</field>
+        <field name="model_id" search="[('model','=','stock.quant')]" model="ir.model"/>
+        <field name="domain_force">[('location_id.user_id','=',user.id), ('location_id.user_id','=',False) ]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+     </record>
+     
+     <record model="ir.rule" id="stock_quant_see_all_rule">
+        <field name="name">All stock quant</field>
+        <field name="model_id" search="[('model','=','stock.quant')]" model="ir.model"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+     </record>
+
+
+	</data>
+</openerp>

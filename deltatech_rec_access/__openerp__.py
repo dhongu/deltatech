@@ -19,31 +19,21 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Parallel Valuation",
+    "name" : "Deltatech Access at Records ",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
+    "category" : "Generic Modules",
+    "depends" : ["product",'stock'],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "description": "",
+    "update_xml" : [
+        "stock_view.xml",
+        'security/security.xml',
 
-Functionalitati:
- - Definire moneda paralela de evaluare si raportare
- - Evaluarea  stocului in moneda paralela
- - Afisare curs valutar in moneda paralela
- - Raport de stoc valorinc exprimat in moneda paralela la data curenta
-
-    """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ["account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
- 
-    "data" : [ 'res_config_view.xml',
-               'stock_valuation_history_view.xml',
-               'stock_view.xml',
-               'views/invoice_report.xml',
-               ],
-    
+    ],
     "active": False,
     "installable": True,
+   
 }
- 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
