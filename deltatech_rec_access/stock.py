@@ -18,32 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Parallel Valuation",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- - Definire moneda paralela de evaluare si raportare
- - Evaluarea  stocului in moneda paralela
- - Afisare curs valutar in moneda paralela
- - Raport de stoc valorinc exprimat in moneda paralela la data curenta
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from openerp.exceptions import   Warning, RedirectWarning
 
-    """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ["account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
+
  
-    "data" : [ 'res_config_view.xml',
-               'stock_valuation_history_view.xml',
-               'stock_view.xml',
-               'views/invoice_report.xml',
-               ],
+class stock_location(models.Model):
+    _inherit = "stock.location"
     
-    "active": False,
-    "installable": True,
-}
- 
+    user_id = fields.Many2one('res.users', string='Manager') 
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

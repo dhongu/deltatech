@@ -21,6 +21,7 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
+from openerp.exceptions import   Warning, RedirectWarning
 
 
 class product_catalog(models.Model):
@@ -50,10 +51,12 @@ class product_catalog(models.Model):
                     for old in old_code:
                         alt.append((0, 0, {'name':old.code}))
                     values['alternative_ids'] =  alt
-                    
-                prod_new = prod.sudo().create(values)
                 
-                prod_cat.write({'product_id':prod_new.id})
+                prod_new = prod.search( [('default_code', '=', prod_cat.code)] )
+                if not prod_new:  
+                    prod_new = prod.sudo().create(values)
+                
+                prod_cat.sudo().write({'product_id':prod_new.id})
                 
                 prod += prod_new
                 
@@ -68,7 +71,12 @@ class product_catalog(models.Model):
             ids_very_old = ids_old.get_echiv()
             res = ids_old | ids_very_old
         return res
-        
+
+
+    _sql_constraints = [
+        ('code_uniq', 'unique(code)', 'Code must be unique !'),
+    ]  
+            
 
 class product_template(models.Model):
     _inherit = 'product.template'
@@ -143,5 +151,9 @@ class product_alternative(models.Model):
     _defaults = {
         'sequence': lambda *a: 10,
     }
+
+    _sql_constraints = [
+        ('code_uniq', 'unique(name)', 'Alternative code must be unique !'),
+    ]  
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
