@@ -40,7 +40,7 @@ class product_catalog(models.Model):
     def create_product(self):
         prod = self.env['product.product']
         for prod_cat in self:
-            if not prod_cat.code_new and not prod_cat.product_id:
+            if (not prod_cat.code_new or len(prod_cat.code_new)<2 ) and not prod_cat.product_id   :
                 values =  {'name':prod_cat.name,
                            'default_code':prod_cat.code,
                            'lst_price':prod_cat.list_price,
@@ -52,7 +52,7 @@ class product_catalog(models.Model):
                         alt.append((0, 0, {'name':old.code}))
                     values['alternative_ids'] =  alt
                 
-                prod_new = prod.search( [('default_code', '=', prod_cat.code)] )
+                prod_new = prod.search( [('default_code', '=ilike', prod_cat.code)] )
                 if not prod_new:  
                     prod_new = prod.sudo().create(values)
                 
@@ -67,7 +67,7 @@ class product_catalog(models.Model):
     def get_echiv(self):
         res =  self.env['product.catalog']
         for prod_cat in self:
-            ids_old = self.search( [('code_new', '=', prod_cat.code)] )
+            ids_old = self.search( [('code_new', '=ilike', prod_cat.code)] )
             ids_very_old = ids_old.get_echiv()
             res = ids_old | ids_very_old
         return res
@@ -101,7 +101,7 @@ class product_product(models.Model):
         args = args or []
         res_alt = []
         if name and len(name)>2:
-            alternative_ids =  self.env['product.alternative'].search(  [('name', 'ilike', '%' + name + '%')], limit=10 )   
+            alternative_ids =  self.env['product.alternative'].search(  [('name', 'ilike',  name  )], limit=10 )   
             #ids = []
             products = self.env['product.product']
             for alternative in alternative_ids:
@@ -121,7 +121,7 @@ class product_product(models.Model):
             prod_cat = False 
 
             while name and len(name)>2:
-                prod_cat =  self.env['product.catalog'].search(  [('code', '=', name)], limit=1 )
+                prod_cat =  self.env['product.catalog'].search(  [('code', '=ilike', name)], limit=1 )
                 if prod_cat:
                     alt.append(name)
                     name = prod_cat.code_new      

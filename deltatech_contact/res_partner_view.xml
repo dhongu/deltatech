@@ -8,11 +8,7 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
-				<field name="parent_id"  position="after">
-				<div class="oe_edit_only">
-					<field name="is_department" attrs="{'invisible': [('is_company','=', True)]}" class="oe_inline"/> <label for="is_department" string="Is an department?"/> 
-				</div>
-				</field>
+
 
 				<field name="function"  position="replace">
                     <field name="function" placeholder="e.g. Sales Director"  attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/> 
