@@ -82,7 +82,6 @@
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="alternative_code" />
-					<field name="alternative_ids" />
 				</field>
 			</field>
 		</record>
