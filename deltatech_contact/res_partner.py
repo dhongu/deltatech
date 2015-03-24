@@ -21,15 +21,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields
-from openerp.osv import osv
-from openerp.tools.translate import _
-import time   
+
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
+from openerp.api import Environment
 
 
-
-class res_partner(osv.osv):
+class res_partner(models.Model):
     _inherit = 'res.partner'
+
 
     def check_cnp(self, cr, uid, ids, context=None):
         
@@ -87,22 +88,29 @@ class res_partner(osv.osv):
 
 
 
-    _columns = {
-        'cnp': fields.char('CNP', size=13, required=False),
-        'id_nr':fields.char('ID Nr', size=12), 
-        'id_issued_by':fields.char('ID Issued by', size=20),
-        'mean_transp': fields.char('Mean transport', size=15, required=False),
-        'is_department': fields.boolean('Is department')
-    }
+    @api.one
+    @api.depends('type', 'is_company')
+    def _compute_is_department(self):
+        if self.is_company or self.type == 'contact': 
+            self.is_department = False
+        else:
+            self.is_department = True
+                
+
+    cnp = fields.Char(string='CNP', size=13)
+    id_nr = fields.Char(string='ID Nr', size=12)
+    id_issued_by = fields.Char(string='ID Issued by', size=20)
+    mean_transp = fields.Char(string='ID Issued by', size=12)
+    is_department = fields.Boolean(string='Is department', compute='_compute_is_department')
+
+
  
  
     _defaults = {'user_id': lambda self, cr, uid, context: uid} 
     _constraints = [(check_cnp, _("CNP invaid"), ["cnp"]), ]
 
 
-
     def name_get(self, cr, uid, ids, context=None):
-        #res = super(res_partner,self).name_get( cr, uid, ids, context)
         if context is None:
             context = {}
         if isinstance(ids, (int, long)):
@@ -110,7 +118,7 @@ class res_partner(osv.osv):
         res = []
         for record in self.browse(cr, uid, ids, context=context):
             name = record.name
-            if record.parent_id and not record.is_company and record.child_ids: 
+            if record.parent_id and not record.is_company and record.type != 'contact': 
                     name = "%s, %s" % (record.parent_name, name)
             if context.get('show_address_only'):
                 name = self._display_address(cr, uid, record, without_company=True, context=context)
@@ -123,7 +131,7 @@ class res_partner(osv.osv):
             res.append((record.id, name))
         return res
  
- 
+
 
 
 
