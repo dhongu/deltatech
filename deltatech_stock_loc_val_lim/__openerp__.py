@@ -19,19 +19,21 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Access at Records ",
+    "name" : "Deltatech Location Value Limit",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : ["product",'stock'],
+    "website" : "",
+    "description": """
  
-    "description": "",
-    "data" : [
-         'security/security.xml',
-         'stock_view.xml',
-    ],
+Limitare valoare stoc pe locatii
+
+    """,
+    "category" : "Generic Modules/Stock",
+    "depends" : ["base","stock"],
+ 
+    "data" : [ 'stock_view.xml'],
     "active": False,
     "installable": True,
-   
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+

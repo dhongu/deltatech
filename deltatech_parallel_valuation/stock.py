@@ -30,7 +30,7 @@ class stock_quant(models.Model):
 
 
     @api.one
-    @api.depends('inventory_value', 'in_date' )
+    @api.depends('cost', 'qty', 'in_date' )
     def _compute_parallel_inventory_value(self):           
         date_eval = self.in_date or fields.Date.context_today(self) 
         from_currency = self.env.user.company_id.currency_id.with_context(date=date_eval)
