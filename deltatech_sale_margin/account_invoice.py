@@ -49,8 +49,14 @@ class account_invoice_line(models.Model):
     @api.one
     @api.constrains('price_unit', 'purchase_price')
     def _check_seats_limit(self):
-        if not self.env.user.has_group('deltatech_sale_margin.group_sale_below purchase price'):
-            if self.price_unit < self.purchase_price :
+        if not self.env.user.has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
+            date_eval = self.invoice_id.date_invoice or fields.Date.context_today(self)
+            if  self.invoice_id.currency_id and self.invoice_id.currency_id.id <> self.env.user.company_id.currency_id.id:
+                from_currency = self.invoice_id.currency_id.with_context(date=date_eval)
+                price_unit = from_currency.compute(self.price_unit, self.env.user.company_id.currency_id )
+            else:
+                price_unit = self.price_unit
+            if price_unit < self.purchase_price :
                 raise Warning(_('You can not sell below the purchase price.'))
         
 
