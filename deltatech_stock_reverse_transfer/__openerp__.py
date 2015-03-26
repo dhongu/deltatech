@@ -18,22 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
-
-
-class stock_warehouse(models.Model):
-    _inherit = "stock.warehouse"
-    
-    user_id = fields.Many2one('res.users', string='Manager') 
-
+{
+    "name" : "Deltatech Picking Reverse transfer ",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
  
-class stock_location(models.Model):
-    _inherit = "stock.location"
-    
-    user_id = fields.Many2one('res.users', string='Manager') 
+ 
+
+    """,
+    "category" : "Generic Modules/Stock",
+    "depends" : ["base","stock","purchase"],
+ 
+    "data" : ['stock_return_picking_view.xml'],
+    "active": False,
+    "installable": True,
+}
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

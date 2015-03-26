@@ -19,21 +19,13 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+
+import stock_return_picking
 
 
-class stock_warehouse(models.Model):
-    _inherit = "stock.warehouse"
-    
-    user_id = fields.Many2one('res.users', string='Manager') 
 
- 
-class stock_location(models.Model):
-    _inherit = "stock.location"
-    
-    user_id = fields.Many2one('res.users', string='Manager') 
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
