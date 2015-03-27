@@ -36,7 +36,7 @@ class stock_quant(models.Model):
         from_currency = self.env.user.company_id.currency_id.with_context(date=date_eval)
         to_currency = self.env.user.company_id.parallel_currency_id
         if to_currency:
-            value =  from_currency.compute(self.inventory_value, to_currency )
+            value =  from_currency.compute(self._get_inventory_value(self), to_currency )
             self.parallel_inventory_value = value
     
     parallel_inventory_value = fields.Float(string="Parallel Inventory Value", digits= dp.get_precision('Product Price'),
