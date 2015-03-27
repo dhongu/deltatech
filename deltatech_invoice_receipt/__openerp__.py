@@ -34,7 +34,7 @@ La creare factura din piking se face ajustarea automata a monedei de facturare i
 Validare data factura sa fie mai mare decat data din ultima factura
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ["base","stock","account","purchase"],
+    "depends" : ["base","stock","account","purchase","stock_picking_invoice_link"],
  
     "data" : [ 'account_invoice_view.xml'],
     "active": False,

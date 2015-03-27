@@ -64,13 +64,14 @@ class stock_return_picking(models.TransientModel):
                 
                 new_move.write({'purchase_line_id':   move.origin_returned_move_id.purchase_line_id.id,})
  
+            pick_return.do_transfer()
             pick_backorder.action_confirm()
             pick_backorder.action_assign()
             
         return new_picking_id, pick_type_id
     
    
-    
+  
           
  
  
