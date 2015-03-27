@@ -29,6 +29,11 @@ from datetime import datetime
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
+    # camp pt a indica din ce factura se face stornarea
+    origin_refund_invoice_id = fields.Many2one('account.invoice', string='Origin Invoice',   copy=False)
+    # camp prin care se indica prin ce factura se face stornarea 
+    refund_invoice_id = fields.Many2one('account.invoice', string='Refund Invoice',    copy=False)
+
     @api.multi
     def onchange_journal_id(self, journal_id=False):
         res = super(account_invoice,self).onchange_journal_id(journal_id)
@@ -75,16 +80,31 @@ class account_invoice(models.Model):
         super(account_invoice, self).action_number()
         return True
 
-
-
-
-    #de definit un nou camp in care sa trec ca e facuta receptia ?
+    @api.multi
+    @api.returns('self')
+    def refund(self, date=None, period_id=None, description=None, journal_id=None):
+        new_invoices = super(account_invoice, self).refund(date, period_id, description,journal_id )
+        new_invoices.write({'origin_refund_invoice_id':self.id})
+        self.write({'refund_invoice_id':new_invoices.id})
+        return new_invoices        
+        
     @api.multi
     def invoice_create_receipt(self):
         
         #trebuie sa verific ca factura nu este generata dintr-un flux normal de achiztie !!
-        if not self.type in ('in_invoice', 'in_refund'):
+        if self.type != 'in_invoice': 
             return
+        
+        if self.amount_total < 0: 
+            if self.origin_refund_invoice_id:
+                for picking in self.origin_refund_invoice_id.picking_ids:
+                    return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id}).create({})
+                    new_picking_id, pick_type_id  = return_obj._create_returns()
+                    new_picking = self.env['stock.picking'].browse(new_picking_id)
+                    new_picking.write({'invoice_id':self.id,
+                                       'invoice_state':'invoiced',})   
+                    #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
+            return             
         
         date_eval = self.date_invoice or fields.Date.context_today(self) 
         date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
@@ -193,6 +213,7 @@ class account_invoice(models.Model):
                 link.move_id.write({
                                     'price_unit': line['price_unit'],
                                     'date_expected': date_receipt ,
+                                    'invoice_line_id':line['invoice_line'].id,
                                     })
                 
                 if line['product_id'].cost_method == 'real' and  line['product_id'].standard_price <> line['price_unit']:
@@ -214,6 +235,7 @@ class account_invoice(models.Model):
                 line['picking'].do_transfer()
                 line['picking'].write({'date_done': date_receipt,  
                                        'invoice_state':'invoiced',
+                                       'invoice_id':self.id,
                                        #'reception_to_invoice':False, 
                                        'origin':self.supplier_invoice_number or line['picking'].origin })
                 msg = _('Picking list %s was receipted') % line['picking'].name
