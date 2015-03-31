@@ -31,6 +31,23 @@ import openerp.addons.decimal_precision as dp
 class stock_move(models.Model):
     _inherit = 'stock.move'
     
+    def _prepare_procurement_from_move(self, cr, uid, move, context=None):
+        move_obj = self.pool.get('stock.move')
+        def get_parent_move(move_id):
+            move = move_obj.browse(cr, uid, move_id)
+            if move.move_dest_id:
+                return get_parent_move(move.move_dest_id.id)
+            return move_id
+        
+        res = super(stock_move,self)._prepare_procurement_from_move(cr, uid, move, context)
+        parent_move_line = get_parent_move(move.id)
+        if parent_move_line:
+            move = move_obj.browse(cr, uid, parent_move_line)
+            partner_name = move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.order_id.partner_id.name or False
+            name = move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.order_id.name or False
+            if partner_name:
+                res['origin'] = name + ':' +partner_name
+        return res
     
     """
     def _create_procurement(self, cr, uid, move, context=None):

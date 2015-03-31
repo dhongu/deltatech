@@ -77,7 +77,8 @@ class procurement_order(models.Model):
                 
             procurement = self.browse(procurement_id)    
             disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]['qty_available']
-            
+            msg = _("Necesar  %s si in stoc  %s.") %   (str(qty), str(disp))  
+            procurement.message_post( body= msg)            
             """
             if disp > qty:
                 po_line.unlink()

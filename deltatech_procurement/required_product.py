@@ -44,7 +44,8 @@ class required_order(models.Model):
 
     
     required_line = fields.One2many('required.order.line', 'required_id', string='Required Lines', readonly=True, states={'draft': [('readonly', False)]} )   
-    date_planned  = fields.Datetime(string='Scheduled Date',required=True, readonly=True, states={'draft': [('readonly', False)]} )
+    date_planned  = fields.Datetime(string='Scheduled Date',required=True, readonly=True, states={'draft': [('readonly', False)]} ,
+                                    default=fields.Datetime.now() )
     location_id   = fields.Many2one('stock.location', required=True,string='Procurement Location', readonly=True, states={'draft': [('readonly', False)]} ) 
     group_id =  fields.Many2one('procurement.group', string='Procurement Group',readonly=True )
 
