@@ -28,8 +28,8 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
-class purchase_order(models.Model):
-    _inherit = 'purchase.order' 
+class sale_order(models.Model):
+    _inherit = 'sale.order' 
 
 
     @api.one
@@ -37,8 +37,8 @@ class purchase_order(models.Model):
     def _compute_procurement_count(self):           
         value = 0 
         procurements = self.env['procurement.order']
-        for po in self:
-            for line in po.order_line:
+        for sale in self:
+            for line in sale.order_line:
                 for procurement in line.procurement_ids:
                     procurements = procurements | procurement 
                  
@@ -58,8 +58,8 @@ class purchase_order(models.Model):
         action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
 
         procurement_ids = []
-        for po in self.browse(cr, uid, ids, context=context):
-            for line in po.order_line:
+        for order in self.browse(cr, uid, ids, context=context):
+            for line in order.order_line:
                 procurement_ids += [procurement.id for procurement in line.procurement_ids]
 
         action['context'] = {}

@@ -31,6 +31,7 @@ import openerp.addons.decimal_precision as dp
 class procurement_order(models.Model):
     _inherit = 'procurement.order' 
 
+    required_id = fields.Many2one('required.order', string='Required Products Order', index=True)
 
     @api.multi
     def run(self,  autocommit=False ):      
@@ -56,11 +57,15 @@ class procurement_order(models.Model):
         
         return res
 
-    def _check(self, cr, uid, procurement, context=None):
+    @api.model
+    def _check(self,   procurement):
         if procurement.rule_id and procurement.rule_id.action == 'buy' and procurement.state == "running" and not procurement.purchase_id:
-            self.write(cr, uid, [procurement.id], {'state': 'cancel'}, context=context)
+            procurement.write ({'state': 'cancel'} )
             return False
-        return super(procurement_order, self)._check(cr, uid, procurement, context)
+        res = super(procurement_order, self)._check( procurement)
+        if procurement.required_id:         
+            procurement.required_id.check_order_done()
+        return res
  
     @api.multi 
     def make_po(self):      

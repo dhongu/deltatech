@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech procurement",
+    "name" : "Deltatech Procurement",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
@@ -31,7 +31,8 @@
     "category" : "Generic Modules/Stock",
     "depends" : ["base","stock","purchase",'procurement'],
  
-    "data" : ['purchase_view.xml','required_product_view.xml'],
+    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml',
+               'security/ir.model.access.csv',],
     "active": False,
     "installable": True,
 }

@@ -39,9 +39,20 @@
 				<form string="Required Order">
 					<header>
 						<button name="order_confirm" states="draft" type="object" class="oe_highlight" string="Confirm" />
+						<button name="check_order_done" states="progress" type="object" class="oe_highlight" string="Check status" />
 						<field name="state" widget="statusbar" statusbar_visible="draft,progress,done" />
 					</header>
 					<sheet>
+						<div name="buttons" class="oe_right oe_button_box" >
+	
+							<button type="object" name="view_procurement" 
+									class="oe_stat_button" icon="fa-stack-overflow" 
+									attrs="{'invisible': [('procurement_count', '=', 0)]}">
+								<field name="procurement_count" widget="statinfo" string="Procurements" />
+							</button>
+	
+						</div>					
+					
 						<div class="oe_title oe_left">
 							<h1>
 								<label class="oe_edit_only" for="name" string="Required Products Order" />
