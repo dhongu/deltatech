@@ -33,16 +33,24 @@ class procurement_order(models.Model):
 
     required_id = fields.Many2one('required.order', string='Required Products Order', index=True)
 
+
+    """
+    def run(self, cr, uid, ids, autocommit=False, context=None):
+        res = super(procurement_order, self).run(cr, uid, ids, autocommit, context)
+        self.message_stock(cr, uid, ids, context)
+        return res
+
+
     @api.multi
-    def run(self,  autocommit=False ):      
-        res = super(procurement_order, self).run( autocommit=autocommit )
- 
+    def message_stock(self):      
         for procurement in self:
             if procurement.location_id.usage == 'internal':
                 disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]
-                msg = _("In momentul rularii era disponibila cantitate %s in location %s") % (str(disp['qty_available']), procurement.location_id.name)
+                msg = _("When running was available quantity %s in location %s") % (str(disp['qty_available']), procurement.location_id.name)
                 self.message_post( body= msg)            
-        return res
+        return
+    """
+
  
 
     @api.model
@@ -52,7 +60,7 @@ class procurement_order(models.Model):
         seller_qty = procurement.product_id.seller_qty
         qty = procurement.product_qty
         if seller_qty and seller_qty > qty:
-            msg = _("Necesar %s, dar cantitatea minima de comandat este %s") % ( str(qty) , str(seller_qty) )
+            msg = _("Required %s, but the Minimum order quantity is %s") % ( str(qty) , str(seller_qty) )
             procurement.message_post( body= msg)
         
         return res
@@ -101,11 +109,12 @@ class procurement_order(models.Model):
                 if disp > 0:
                     qty = qty - disp
             """
+            """
             # si daca produsul are reorder point trebuie adaugat la qunt si cantitatea de reaprovizionat!!!
             #if seller_qty:
             #    qty = max(qty, seller_qty)
             #po_line.write({'product_qty':qty})
-
+            """
         return res
         
 

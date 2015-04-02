@@ -40,11 +40,23 @@ class purchase_order(models.Model):
         for po in self:
             for line in po.order_line:
                 for procurement in line.procurement_ids:
-                    procurements = procurements | procurement 
-                 
+                    procurements = procurements | procurement                  
         self.procurement_count = len(procurements)
 
+    @api.one
+    def _compute_invoiced_rate(self):   
+        tot = 0.0
+        for invoice in self.invoice_ids:
+            if invoice.state not in ('draft','cancel'):
+                tot += invoice.amount_untaxed
+        
+        if self.amount_untaxed:
+            self.invoiced_rate = min(100.0, tot * 100.0 / (self.amount_untaxed))
+        else:
+            self.invoiced_rate = 0.0
+ 
     procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
+    invoiced_rate = fields.Float(  string='Invoiced',compute='_compute_invoiced_rate' ) 
 
 
     def view_procurement(self, cr, uid, ids, context=None):

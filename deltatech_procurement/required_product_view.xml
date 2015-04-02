@@ -19,6 +19,22 @@
 	<data>
 
 
+    <record id="mt_order_confirmed" model="mail.message.subtype">
+        <field name="name">Required Products Order</field>
+        <field name="res_model">required.order</field>
+        <field name="default" eval="False"/>
+        <field name="description">Required Products Order Confirmed</field>
+    </record>
+
+    <record id="mt_order_done" model="mail.message.subtype">
+        <field name="name">Required Products Order</field>
+        <field name="res_model">required.order</field>
+        <field name="default" eval="False"/>
+        <field name="description">Required Products Order Done</field>
+    </record>
+
+
+
 		<record id="view_required_order_tree" model="ir.ui.view">
 			<field name="name">Required Products Orders</field>
 			<field name="model">required.order</field>
@@ -78,6 +94,7 @@
 							<tree string="Lines" editable="bottom">
 								<field name="product_id" />
 								<field name="product_qty" />
+								<field name="note"/>
 							</tree>
 						</field>
 					</sheet>

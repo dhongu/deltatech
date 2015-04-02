@@ -33,6 +33,15 @@ class required_order(models.Model):
     _description = "Required Products Order"
     _inherit = 'mail.thread'
 
+    _track = {
+        'state': {
+            'deltatech_procurement.mt_order_confirmed': lambda self, cr, uid, obj, ctx=None: obj.state in ['progress'],
+            'deltatech_procurement.mt_order_done': lambda self, cr, uid, obj, ctx=None: obj.state in ['done']
+        },
+    }
+
+
+
     name = fields.Char(string='Reference',  index=True, readonly=True,  states={'draft': [('readonly', False)]},   copy=False)
     
     state = fields.Selection([
@@ -76,40 +85,7 @@ class required_order(models.Model):
         for order in self:
             group =  self.env['procurement.group'].create({'name':order.name})
             order.write({'group_id':group.id})
-            procurement = order.required_line.create_procurement()   
-              
-            if 1 == 2:
-                
-                picking_vals = {
-                    'picking_type_id': procurement.rule_id.picking_type_id.id,
-                    'date': order.date_planned,
-                    'origin': order.name,
-                    'state': 'draft',
-                }
-                picking = self.env['stock.picking'].create(picking_vals)
-                
-                for line in order.required_line:
-                    move_vals = {
-                        'name':line.product_id.name or '',
-                        'product_id': line.product_id.id,
-                        'product_uom_qty': line.product_qty,
-                        'product_uom': line.product_id.uom_id.id,
-                        'picking_id': picking.id,
-                        'location_id':  procurement.rule_id.location_src_id.id or  
-                                        procurement.rule_id.picking_type_id.default_location_src_id.id, 
-                        'location_dest_id': order.location_id.id,
-                        'picking_type_id': procurement.rule_id.picking_type_id.id,
-                        'group_id': group.id,
-                        'procurement_id': line.procurement_id.id, 
-                        'origin': order.name,
-                        'warehouse_id': order.warehouse_id.id,
-                        'invoice_state': 'none'                 
-                    }
-     
-                    move = self.env['stock.move'].create(move_vals)
-                    
-                picking.action_confirm()
-                picking.action_assign()       
+            procurement = order.required_line.create_procurement()         
         return self.write( {'state': 'progress'})
  
     @api.multi
@@ -172,12 +148,13 @@ class required_order(models.Model):
 class required_order_line(models.Model):
     _name = 'required.order.line'
     _description = "Required Products Order Line"   
-          
+    
+       
     required_id = fields.Many2one('required.order', string='Required Products Order', ondelete='cascade', index=True)
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null'  )
     product_qty = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     procurement_id =  fields.Many2one('procurement.order', string='Procurement Order')
-    
+    note = fields.Char(string='Note') 
     
     @api.multi
     def create_procurement(self):
@@ -185,7 +162,7 @@ class required_order_line(models.Model):
         for line in self:
             order = line.required_id
             values = {
-                    'name': line.product_id.name,
+                    'name': line.note or line.product_id.name,
                     'origin': order.name + ':' + order.location_id.name,
                     'date_planned': order.date_planned,
                     'product_id': line.product_id.id,
