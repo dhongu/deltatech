@@ -1,0 +1,305 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_procurement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-05 12:44+0000\n"
+"PO-Revision-Date: 2015-04-05 15:03+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: ro\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Canceled"
+msgstr "Anulat"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Check status"
+msgstr "Verifică starea"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Confirm"
+msgstr "Confirmă"
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Confirmed"
+msgstr "Confirmat(ă)"
+
+#. module: deltatech_procurement
+#: field:required.order,create_uid:0 field:required.order.line,create_uid:0
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_procurement
+#: field:required.order,create_date:0 field:required.order.line,create_date:0
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_procurement
+#: help:required.order,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Data ultimului mesaj postat pe înregistrare."
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Draft"
+msgstr "Ciorna"
+
+#. module: deltatech_procurement
+#: field:required.order,message_follower_ids:0
+msgid "Followers"
+msgstr "Urmaritori"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Group By..."
+msgstr "Grupează după"
+
+#. module: deltatech_procurement
+#: help:required.order,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Contine rezumatul Chatter (numar de mesaje, ...). Acest rezumat este direct in format HTML, cu scopul de a se introduce in vizualizari kanban."
+
+#. module: deltatech_procurement
+#: field:required.order,id:0 field:required.order.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_procurement
+#: help:required.order,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Daca este selectat, mesajele noi necesita atentia dumneavoastra."
+
+#. module: deltatech_procurement
+#: field:required.order,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Este un urmăritor"
+
+#. module: deltatech_procurement
+#: field:required.order,message_last_post:0
+msgid "Last Message Date"
+msgstr "Data ultimului mesaj"
+
+#. module: deltatech_procurement
+#: field:required.order,write_uid:0 field:required.order.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_procurement
+#: field:required.order,write_date:0 field:required.order.line,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Lines"
+msgstr "Poziţii"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Location"
+msgstr "Locaţie"
+
+#. module: deltatech_procurement
+#: field:required.order,message_ids:0
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_procurement
+#: help:required.order,message_ids:0
+msgid "Messages and communication history"
+msgstr "Istoric mesaje si conversatii"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:93
+#, python-format
+msgid "Necesar  %s si in stoc  %s."
+msgstr "Necesar  %s si in stoc  %s."
+
+#. module: deltatech_procurement
+#: field:required.order.line,note:0
+msgid "Note"
+msgstr "Observaţii"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_procurement_order
+msgid "Procurement"
+msgstr "Aprovizionare"
+
+#. module: deltatech_procurement
+#: field:required.order,group_id:0
+msgid "Procurement Group"
+msgstr "Grup aprovizionare"
+
+#. module: deltatech_procurement
+#: field:required.order,location_id:0
+msgid "Procurement Location"
+msgstr "Locaţie aprovizionare"
+
+#. module: deltatech_procurement
+#: field:required.order.line,procurement_id:0
+msgid "Procurement Order"
+msgstr "Comandă aprovizionare"
+
+#. module: deltatech_procurement
+#: view:purchase.order:deltatech_procurement.purchase_order_form
+#: view:required.order:deltatech_procurement.view_required_order_form
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "Procurements"
+msgstr "Aproviyionări"
+
+#. module: deltatech_procurement
+#: field:required.order.line,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_procurement
+#: field:required.order.line,product_qty:0
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_procurement
+#: field:required.order,name:0
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:63
+#, python-format
+msgid "Required %s, but the Minimum order quantity is %s"
+msgstr "Necesar %s, dar cantitatea minimă de comandat este %s"
+
+#. module: deltatech_procurement
+#: field:required.order,required_line:0
+msgid "Required Lines"
+msgstr "Poziţii necesare"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Required Order"
+msgstr "Comandă achiziţionare"
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_required_order
+#: model:ir.ui.menu,name:deltatech_procurement.menu_required_order
+msgid "Required Orders"
+msgstr "Comenzi achiziţionare"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_required_order
+#: model:mail.message.subtype,name:deltatech_procurement.mt_order_confirmed
+#: model:mail.message.subtype,name:deltatech_procurement.mt_order_done
+#: field:procurement.order,required_id:0
+#: view:required.order:deltatech_procurement.view_required_order_form
+#: field:required.order.line,required_id:0
+msgid "Required Products Order"
+msgstr "Comandă achiziţionare produse"
+
+#. module: deltatech_procurement
+#: model:mail.message.subtype,description:deltatech_procurement.mt_order_confirmed
+msgid "Required Products Order Confirmed"
+msgstr "Comandă achiziţionare produse confirmată"
+
+#. module: deltatech_procurement
+#: model:mail.message.subtype,description:deltatech_procurement.mt_order_done
+msgid "Required Products Order Done"
+msgstr "Comandă achiziţionare produse finalizată"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_required_order_line
+msgid "Required Products Order Line"
+msgstr "Poziţie comandă achiziţionare produse"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_tree
+msgid "Required Products Orders"
+msgstr "Comenzi achiziţionare produse"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:184
+#, python-format
+msgid "Role not found for product %s!"
+msgstr "Nu a fost găsit un rol pentru produsul %s!"
+
+#. module: deltatech_procurement
+#: field:required.order,route_id:0
+msgid "Route"
+msgstr "Rută"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_procurement
+#: field:required.order,date_planned:0
+msgid "Scheduled Date"
+msgstr "Dată programată"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Share a message..."
+msgstr "Share un mesaj..."
+
+#. module: deltatech_procurement
+#: field:required.order,state:0
+msgid "Status"
+msgstr "Status"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_procurement
+#: field:required.order,message_summary:0
+msgid "Summary"
+msgstr "Sumar"
+
+#. module: deltatech_procurement
+#: field:required.order,message_unread:0
+msgid "Unread Messages"
+msgstr "Mesaje Necitite"
+
+#. module: deltatech_procurement
+#: field:required.order,warehouse_id:0
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_procurement
+#: help:required.order,warehouse_id:0
+msgid "Warehouse to consider for the route selection"
+msgstr "Depozit pentru ruta selectată"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:95
+#, python-format
+msgid "You cannot delete a order which is not draft or cancelled. "
+msgstr "Nu puteţi şterge o comandă care nu este ciornă sau anulată. "
