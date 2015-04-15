@@ -25,7 +25,12 @@
     "website" : "",
     "description": """
  
- 
+Functionalitati:
+* Campuri noi in comanda de vanzare si achizitie: procurement_count, invoiced_rate
+* Boton in comanda de vanzare si de achizitie pt afisare comenzi de aprovizionare generate
+* adaugare mesaje suplimnetare in log la rulare necesar de aprovizionare
+* Obiect nou - Necesar de materiale intr-o locatie
+
 
     """,
     "category" : "Generic Modules/Stock",

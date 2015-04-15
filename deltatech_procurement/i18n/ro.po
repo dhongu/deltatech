@@ -35,7 +35,7 @@ msgstr "Confirmă"
 #. module: deltatech_procurement
 #: selection:required.order,state:0
 msgid "Confirmed"
-msgstr "Confirmat(ă)"
+msgstr "Confirmată"
 
 #. module: deltatech_procurement
 #: field:required.order,create_uid:0 field:required.order.line,create_uid:0
@@ -60,12 +60,12 @@ msgstr "Efectuat"
 #. module: deltatech_procurement
 #: selection:required.order,state:0
 msgid "Draft"
-msgstr "Ciorna"
+msgstr "Ciornă"
 
 #. module: deltatech_procurement
 #: field:required.order,message_follower_ids:0
 msgid "Followers"
-msgstr "Urmaritori"
+msgstr "Urmăritori"
 
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_filter
@@ -85,7 +85,7 @@ msgstr "ID"
 #. module: deltatech_procurement
 #: help:required.order,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Daca este selectat, mesajele noi necesita atentia dumneavoastra."
+msgstr "Daca este selectat, mesajele noi necesită atenția dumneavoastră."
 
 #. module: deltatech_procurement
 #: field:required.order,message_is_follower:0
@@ -110,12 +110,12 @@ msgstr "Ultima actualizare la"
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_form
 msgid "Lines"
-msgstr "Poziţii"
+msgstr "Poziții"
 
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_filter
 msgid "Location"
-msgstr "Locaţie"
+msgstr "Locație"
 
 #. module: deltatech_procurement
 #: field:required.order,message_ids:0
@@ -125,18 +125,18 @@ msgstr "Mesaje"
 #. module: deltatech_procurement
 #: help:required.order,message_ids:0
 msgid "Messages and communication history"
-msgstr "Istoric mesaje si conversatii"
+msgstr "Istoric mesaje și conversații"
 
 #. module: deltatech_procurement
 #: code:addons/deltatech_procurement/procurement.py:93
 #, python-format
 msgid "Necesar  %s si in stoc  %s."
-msgstr "Necesar  %s si in stoc  %s."
+msgstr "Necesar  %s și în stoc  %s."
 
 #. module: deltatech_procurement
 #: field:required.order.line,note:0
 msgid "Note"
-msgstr "Observaţii"
+msgstr "Observații"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_procurement_order
@@ -151,7 +151,7 @@ msgstr "Grup aprovizionare"
 #. module: deltatech_procurement
 #: field:required.order,location_id:0
 msgid "Procurement Location"
-msgstr "Locaţie aprovizionare"
+msgstr "Locație aprovizionare"
 
 #. module: deltatech_procurement
 #: field:required.order.line,procurement_id:0
@@ -163,7 +163,7 @@ msgstr "Comandă aprovizionare"
 #: view:required.order:deltatech_procurement.view_required_order_form
 #: view:sale.order:deltatech_procurement.view_order_form
 msgid "Procurements"
-msgstr "Aproviyionări"
+msgstr "Aprovizionări"
 
 #. module: deltatech_procurement
 #: field:required.order.line,product_id:0
@@ -194,18 +194,18 @@ msgstr "Necesar %s, dar cantitatea minimă de comandat este %s"
 #. module: deltatech_procurement
 #: field:required.order,required_line:0
 msgid "Required Lines"
-msgstr "Poziţii necesare"
+msgstr "Poziții necesar"
 
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_form
 msgid "Required Order"
-msgstr "Comandă achiziţionare"
+msgstr "Necesar de produse"
 
 #. module: deltatech_procurement
 #: model:ir.actions.act_window,name:deltatech_procurement.action_required_order
 #: model:ir.ui.menu,name:deltatech_procurement.menu_required_order
 msgid "Required Orders"
-msgstr "Comenzi achiziţionare"
+msgstr "Necesare de produse"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_required_order
@@ -215,33 +215,33 @@ msgstr "Comenzi achiziţionare"
 #: view:required.order:deltatech_procurement.view_required_order_form
 #: field:required.order.line,required_id:0
 msgid "Required Products Order"
-msgstr "Comandă achiziţionare produse"
+msgstr "Comandă necesar produe"
 
 #. module: deltatech_procurement
 #: model:mail.message.subtype,description:deltatech_procurement.mt_order_confirmed
 msgid "Required Products Order Confirmed"
-msgstr "Comandă achiziţionare produse confirmată"
+msgstr "Comandă achiziționare produse confirmată"
 
 #. module: deltatech_procurement
 #: model:mail.message.subtype,description:deltatech_procurement.mt_order_done
 msgid "Required Products Order Done"
-msgstr "Comandă achiziţionare produse finalizată"
+msgstr "Comandă necesar produse finalizată"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_required_order_line
 msgid "Required Products Order Line"
-msgstr "Poziţie comandă achiziţionare produse"
+msgstr "Poziţie comandă necear produse"
 
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_tree
 msgid "Required Products Orders"
-msgstr "Comenzi achiziţionare produse"
+msgstr "Comenzi necesar produse"
 
 #. module: deltatech_procurement
 #: code:addons/deltatech_procurement/required_product.py:184
 #, python-format
 msgid "Role not found for product %s!"
-msgstr "Nu a fost găsit un rol pentru produsul %s!"
+msgstr "Nu a fost găsită o regulă pentru produsul %s!"
 
 #. module: deltatech_procurement
 #: field:required.order,route_id:0
@@ -302,4 +302,4 @@ msgstr "Depozit pentru ruta selectată"
 #: code:addons/deltatech_procurement/required_product.py:95
 #, python-format
 msgid "You cannot delete a order which is not draft or cancelled. "
-msgstr "Nu puteţi şterge o comandă care nu este ciornă sau anulată. "
+msgstr "Nu puteți șterge o comandă care nu este ciornă sau anulată. "

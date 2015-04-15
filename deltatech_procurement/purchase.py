@@ -45,13 +45,24 @@ class purchase_order(models.Model):
 
     @api.one
     def _compute_invoiced_rate(self):   
-        tot = 0.0
-        for invoice in self.invoice_ids:
-            if invoice.state not in ('draft','cancel'):
-                tot += invoice.amount_untaxed
-        
-        if self.amount_untaxed:
-            self.invoiced_rate = min(100.0, tot * 100.0 / (self.amount_untaxed))
+
+        if self.currency_id:
+            to_currency = self.currency_id
+        else:
+            to_currency = self.env.user.company_id.currency_id
+ 
+        if self.amount_untaxed:   
+            invoice_tot = 0.0     
+            for invoice in self.invoice_ids:
+                if invoice.state not in ('draft','cancel'):
+                    if invoice.currency_id:
+                        from_currency = invoice.currency_id.with_context(date=invoice.date_invoice)
+                    else:    
+                        from_currency = self.env.user.company_id.currency_id.with_context(date=invoice.date_invoice)
+                         
+                    invoice_tot += from_currency.compute(invoice.amount_untaxed, to_currency )
+                    
+            self.invoiced_rate =   invoice_tot * 100.0 / (self.amount_untaxed) 
         else:
             self.invoiced_rate = 0.0
  
