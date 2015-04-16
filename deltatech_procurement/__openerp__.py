@@ -25,11 +25,11 @@
     "website" : "",
     "description": """
  
-Functionalitati:
-* Campuri noi in comanda de vanzare si achizitie: procurement_count, invoiced_rate
-* Boton in comanda de vanzare si de achizitie pt afisare comenzi de aprovizionare generate
-* adaugare mesaje suplimnetare in log la rulare necesar de aprovizionare
-* Obiect nou - Necesar de materiale intr-o locatie
+Features:
+ - New fields in sale and purchase order: procurement_count, invoiced_rate
+ - New buttons in sale and purchase order for display procurement order
+ - New messages in log for procurement run. 
+ - New object - Required product
 
 
     """,

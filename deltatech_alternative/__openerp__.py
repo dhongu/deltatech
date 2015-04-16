@@ -26,7 +26,12 @@
     "depends" : ["product",'stock'],
     "init_xml" : [],
     "demo_xml" : [],
-    "description": "A module that add  alternative on the product form",
+    "description": """
+Features:    
+ - A module that add alternative on the product form
+ - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life    
+ 
+""",
     "update_xml" : [
         "product_view.xml",
         'security/ir.model.access.csv',
