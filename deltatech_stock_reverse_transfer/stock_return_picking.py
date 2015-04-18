@@ -38,9 +38,9 @@ class stock_return_picking(models.TransientModel):
     @api.multi
     def _create_returns(self): 
         
+        new_picking_id, pick_type_id = super(stock_return_picking,self)._create_returns()
         if self.make_new_picking: 
-            new_picking_id, pick_type_id = super(stock_return_picking,self)._create_returns()
-            
+
             record_id = self.env.context and self.env.context.get('active_id', False) or False
             pick = self.env['stock.picking'].browse(record_id)
             pick_return = self.env['stock.picking'].browse(new_picking_id)
@@ -52,8 +52,7 @@ class stock_return_picking(models.TransientModel):
                                     'move_lines': [],
                                 })
            
-            pick_return.write({ 'origin': pick.origin})
-            
+            pick_return.write({ 'origin': pick.origin})         
             for move in pick_return.move_lines:
                 move.write({'purchase_line_id':   move.origin_returned_move_id.purchase_line_id.id,})
                 
@@ -70,11 +69,6 @@ class stock_return_picking(models.TransientModel):
             
         return new_picking_id, pick_type_id
     
-   
-  
-          
- 
- 
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

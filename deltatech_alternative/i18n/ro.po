@@ -26,6 +26,22 @@ msgstr "Echivalență"
 msgid "Alternatives"
 msgstr "Echivalențe"
 
+#: field:product.template,shelf_life:0
+#. module: deltatech_alternative
+msgid "Shelf Life"
+msgstr "Durata de viață"
+
+#: field:product.template,uom_shelf_life:0
+#. module: deltatech_alternative
+msgid "Unit of Measurer Shelf Life"
+msgstr "Unitate măsură Durata de viață"
+
+#: help:product.template,uom_shelf_life:0
+#. module: deltatech_alternative
+msgid "Unit of Measurer for Shelf Life"
+msgstr "Unitate măsură pentru durata de viață"
+ 
+
 #: field:product.alternative,name:0
 #: field:product.catalog,code:0
 #. module: deltatech_alternative
@@ -36,6 +52,8 @@ msgstr "Cod"
 #. module: deltatech_alternative
 msgid "Code New"
 msgstr "Cod echivalent"
+
+
 
 #: view:product.catalog:deltatech_alternative.view_product_catalog_form
 #. module: deltatech_alternative
