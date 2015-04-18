@@ -41,6 +41,7 @@ Functionalitati:
                'stock_valuation_history_view.xml',
                'stock_view.xml',
                'views/invoice_report.xml',
+               'product_view.xml'
                ],
     
     "active": False,
