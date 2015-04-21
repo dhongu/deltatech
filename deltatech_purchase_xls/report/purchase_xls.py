@@ -144,8 +144,10 @@ class purchase_order_xls(report_xls):
             ws.write(4, 6, 'CL022842')
             ws.write(5, 5, 'Mod Livrare',style0)
             ws.write(6, 5, 'Observatii',style0)
-            ws.write(6, 6, order.notes)
-
+            if order.notes:
+                ws.write(6, 6, order.notes)
+            else:
+                ws.write(6, 6, '')
 purchase_order_xls('report.purchase.order.xls',
               'purchase.order',
               parser=purchase_order_xls_parser)
