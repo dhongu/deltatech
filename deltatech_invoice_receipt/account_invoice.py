@@ -145,7 +145,11 @@ class account_invoice(models.Model):
             raise except_orm(_('Picking not found!'),
                              _('No purchase orders from this supplier'))
         
-        
+        # caut liniile care au cantitate zero si nu sunt anulate si le anulez
+        for picking in pickings:
+            for move in picking.move_lines:
+                if move.product_uom_qty == 0 and move.state == 'assigned':
+                    move.write({'state':'cancel'})
  
         # pregatire picking list pentru receptii partiale
         for picking in pickings:
