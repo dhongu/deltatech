@@ -17,6 +17,11 @@
 								attrs="{'invisible': [('procurement_count', '=', 0)]}">
 							<field name="procurement_count" widget="statinfo" string="Procurements" />
 						</button>
+						
+					 <button class="oe_inline oe_stat_button" string="To Be Delivered" 
+					 	name="view_to_be_delivered"
+					 	type="object" 
+					 	groups="stock.group_stock_user" icon="fa-arrows-v"/>
 
 					</div>
 
