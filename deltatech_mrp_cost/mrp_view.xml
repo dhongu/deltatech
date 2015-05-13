@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record id="mrp_production_form_view" model="ir.ui.view">
+			<field name="name">deltatech.mrp.production.form</field>
+			<field name="model">mrp.production</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="mrp.mrp_production_form_view" />
+			<field name="arch" type="xml">
+				<field name="date_planned" position="after">
+					<field name="amount" invisible="1"/>
+					<field name="calculate_price" invisible="1"/>
+				</field>
+			</field>
+		</record>
+
+
+	</data>
+</openerp>
