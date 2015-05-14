@@ -92,18 +92,20 @@ class account_invoice(models.Model):
     def invoice_create_receipt(self):
         
         #trebuie sa verific ca factura nu este generata dintr-un flux normal de achiztie !!
-        if self.type != 'in_invoice': 
+        if self.type not in ['in_invoice' ,'in_refund']: 
             return
         
-        if self.amount_total < 0: 
-            if self.origin_refund_invoice_id:
-                for picking in self.origin_refund_invoice_id.picking_ids:
-                    return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id}).create({})
-                    new_picking_id, pick_type_id  = return_obj._create_returns()
-                    new_picking = self.env['stock.picking'].browse(new_picking_id)
-                    new_picking.write({'invoice_id':self.id,
-                                       'invoice_state':'invoiced',})   
-                    #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
+        
+        if self.origin_refund_invoice_id:
+            for picking in self.origin_refund_invoice_id.picking_ids:
+                msg = _('Picking list %s return') % picking.name                   
+                self.message_post(body=msg)
+                return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id}).create({})
+                new_picking_id, pick_type_id  = return_obj._create_returns()
+                new_picking = self.env['stock.picking'].browse(new_picking_id)
+                new_picking.write({'invoice_id':self.id,
+                                   'invoice_state':'invoiced',})   
+                #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
             return             
         
         date_eval = self.date_invoice or fields.Date.context_today(self) 
