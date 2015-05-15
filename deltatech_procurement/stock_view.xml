@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="view_picking_form" model="ir.ui.view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form" />
+			<field name="arch" type="xml">
+				<button name="rereserve_pick" position="attributes">
+					<attribute name="states">waiting,partially_available</attribute>
+				</button>
+			</field>
+		</record>
+
+
+		<record id="view_move_form" model="ir.ui.view">
+			<field name="name">stock.move.form</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_form" />
+			<field name="arch" type="xml">
+				<group name="quants_grp" position="after">
+					<group string="Original Moves" colspan="4">
+						<field name="move_orig_ids" />
+					</group>
+					<field name="move_dest_id" />
+				   
+					<field name="procurement_id" />	
+				</group>
+			</field>
+		</record>
+
+
+		<record id="view_move_picking_form" model="ir.ui.view">
+			<field name="name">stock.move.form</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_form" />
+			<field name="arch" type="xml">
+				<group name="quants_grp" position="after">
+					<group string="Original Moves" colspan="4">
+						<field name="move_orig_ids" />
+					</group>
+					<field name="move_dest_id" />
+				    
+					<field name="procurement_id" />					
+				</group>
+			</field>
+		</record>
+
+
+	</data>
+</openerp>

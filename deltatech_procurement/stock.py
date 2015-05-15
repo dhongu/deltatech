@@ -2,7 +2,8 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com 
+#                    Kyle Waid  <kyle.waid(@)gcotech(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -28,8 +29,60 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+    
+    @api.multi
+    def rereserve_pick(self):
+        res = super(stock_picking, self).rereserve_pick()
+        for picking in self:
+            for move in picking.move_lines:
+                if move.state == 'waiting' and move.availability >= 0:
+                    """
+                    if round(move.availability, 2) < round(move.product_qty, 2):
+                        move_new_id = self.env['stock.move'].split( move=move, qty=move.availability)  
+                        move_new = self.browse([move_new_id])
+                        move.write({'availability':  0})
+                    else:
+                    """                    
+                    move.write({'procure_method':  'make_to_stock',
+                                'state':'confirmed',
+                                'move_orig_ids':[(6,0,[])]})
+                    #move.do_unreserve()
+                    move.action_assign()
+                                                            
+        return res
+
 class stock_move(models.Model):
     _inherit = 'stock.move'
+    
+       
+        
+    
+    @api.multi
+    def do_make_to_stock(self):
+        for move in self:
+            if move.product_qty > 0 and move.procure_method == 'make_to_order' and round(move.availability, 2) >= round(move.product_qty, 2):
+                procurement = self.env['procurement.order'].search([('move_dest_id','=',move.id)])
+                if procurement:
+                    procurement.cancel() 
+                move.procure_method = 'make_to_stock'  
+                  
+    
+
+    def action_assign(self, cr, uid, ids, context=None):
+        #self.do_make_to_stock(cr, uid, ids, context)
+        return super(stock_move, self).action_assign(cr, uid, ids, context)
+
+
+
+    def action_confirm(self, cr, uid, ids, context=None):
+        """
+        from https://github.com/aliomattux/make_to_order_check_availability/blob/master/models/stock.py
+        """
+        #self.do_make_to_stock(cr, uid, ids, context)
+        return super(stock_move, self).action_confirm(cr, uid, ids, context)
+
     
     def _prepare_procurement_from_move(self, cr, uid, move, context=None):
         move_obj = self.pool.get('stock.move')

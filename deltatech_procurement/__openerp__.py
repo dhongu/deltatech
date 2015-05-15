@@ -36,7 +36,7 @@ Features:
     "category" : "Generic Modules/Stock",
     "depends" : ["base","stock","purchase",'procurement'],
  
-    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml',
+    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml','stock_view.xml','procurement_view.xml',
                'security/ir.model.access.csv',],
     "active": False,
     "installable": True,

@@ -123,6 +123,17 @@ class sale_order(models.Model):
             action['res_id'] = move_ids and move_ids[0] or False
         return action 
  
+    def action_ship_create(self, cr, uid, ids, context=None):
+        """
+         from https://github.com/aliomattux/auto_check_availability/blob/master/models/stock.py
+        """
+        picking_obj = self.pool.get('stock.picking')
+        res = super(sale_order, self).action_ship_create(cr, uid, ids, context=context)
+        for order in self.browse(cr, uid, ids):
+            for picking in order.picking_ids:
+                if picking.state == 'confirmed':
+                    picking_obj.action_assign(cr, uid, picking.id)
 
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
