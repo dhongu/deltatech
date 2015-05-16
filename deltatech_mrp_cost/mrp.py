@@ -69,10 +69,14 @@ class mrp_production(osv.osv):
         'calculate_price': fields.function(_calculate_amount, multi='amount',  type='float',digits_compute= dp.get_precision('Product Price'),store=False, string='Calculate Price'),
     }
 
+    def _get_raw_material_procure_method(self, cr, uid, product, location_id=False, location_dest_id=False, context=None):
+        return "make_to_stock"
 
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         production = self.browse(cr, uid, production_id, context=context)
-        
+        #for move in production.move_lines:
+        #    move.write({'procure_method' : 'make_to_stock'})
+            
         if production.product_id.cost_method == 'real' and production.product_id.standard_price <> production.calculate_price:
             self.pool.get('product.product').write(cr,uid,[production.product_id.id],{'standard_price':production.calculate_price})
         
