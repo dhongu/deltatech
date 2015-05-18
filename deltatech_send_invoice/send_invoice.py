@@ -23,7 +23,7 @@ from openerp import models, fields, api, tools, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
-from _dbus_bindings import Message
+
 
 
 
