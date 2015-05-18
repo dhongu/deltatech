@@ -77,25 +77,7 @@ class stock_move(models.Model):
 
  
  
-class stock_inventory(models.Model):
-    _inherit = 'stock.inventory'
 
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
-
-    def prepare_inventory(self, cr, uid, ids, context=None):
-        for inventory in self.browse(cr, uid, ids, context=context):
-            date = inventory.date
-            res = super(stock_inventory, self).prepare_inventory(cr, uid, ids, context)
-            self.write(cr, uid, inventory.id, { 'date': date})
-        return res    
-    
-    def action_done(self, cr, uid, ids, context=None):
-        super(stock_inventory,self).action_done(cr, uid, ids, context)
-        for inv in self.browse(cr, uid, ids, context=context):
-            for move in inv.move_ids:
-                if move.date_expected != inv.date or move.date != inv.date   :
-                    self.pool.get('stock.move').write(cr, uid, [move.id], { 'date_expected': inv.date, 'date':inv.date }, context )
-        return True
  
 
 class stock_picking(models.Model):
