@@ -24,7 +24,10 @@
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
+
+Functionalitati:
+ - Transmitere factura in atentia altui utilizator
+ - Deschiderea unui document nu duce si la marcarea ca fiind citit
  
     """,
     "category" : "Generic Modules/Other",

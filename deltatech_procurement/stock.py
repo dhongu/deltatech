@@ -53,6 +53,30 @@ class stock_picking(models.Model):
                                                             
         return res
 
+    @api.cr_uid_ids_context
+    def do_enter_receipt_details(self, cr, uid, picking, context=None):
+        return self.do_enter_transfer_details(cr,uid,picking, context )
+        
+    @api.cr_uid_ids_context
+    def do_enter_delivery_details(self, cr, uid, picking, context=None):
+        return self.do_enter_transfer_details(cr,uid,picking, context )
+
+
+    def do_print_picking(self, cr, uid, ids, context=None):
+        '''
+            This function prints the picking list
+            Trebuie tiparit  fiecare document pe formularul lui!
+            - Bon de consum -
+            - Aviz de expeditie - cu/fara pret
+            - Transter intre gestiuni
+            - Intrare marfa in stoc ???
+        
+        '''
+        
+        context = dict(context or {}, active_ids=ids)       
+        return self.pool.get("report").get_action(cr, uid, ids, 'stock.report_picking', context=context)
+
+
 class stock_move(models.Model):
     _inherit = 'stock.move'
     

@@ -1,21 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* deltatech_procurement
+#	* deltatech_procurement
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-05 12:44+0000\n"
-"PO-Revision-Date: 2015-04-05 15:03+0200\n"
+"POT-Creation-Date: 2015-05-17 06:45+0000\n"
+"PO-Revision-Date: 2015-05-17 06:45+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: ro\n"
-"X-Generator: Poedit 1.7.4\n"
 
 #. module: deltatech_procurement
 #: selection:required.order,state:0
@@ -38,12 +36,14 @@ msgid "Confirmed"
 msgstr "Confirmată"
 
 #. module: deltatech_procurement
-#: field:required.order,create_uid:0 field:required.order.line,create_uid:0
+#: field:required.order,create_uid:0
+#: field:required.order.line,create_uid:0
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: deltatech_procurement
-#: field:required.order,create_date:0 field:required.order.line,create_date:0
+#: field:required.order,create_date:0
+#: field:required.order.line,create_date:0
 msgid "Created on"
 msgstr "Creat la"
 
@@ -51,6 +51,11 @@ msgstr "Creat la"
 #: help:required.order,message_last_post:0
 msgid "Date of the last message posted on the record."
 msgstr "Data ultimului mesaj postat pe înregistrare."
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Delivery"
+msgstr "Livrare"
 
 #. module: deltatech_procurement
 #: selection:required.order,state:0
@@ -61,6 +66,11 @@ msgstr "Efectuat"
 #: selection:required.order,state:0
 msgid "Draft"
 msgstr "Ciornă"
+
+#. module: deltatech_procurement
+#: view:procurement.order:deltatech_procurement.procurement_form_view
+msgid "Extra Information"
+msgstr "Informații suplimentare"
 
 #. module: deltatech_procurement
 #: field:required.order,message_follower_ids:0
@@ -78,7 +88,8 @@ msgid "Holds the Chatter summary (number of messages, ...). This summary is dire
 msgstr "Contine rezumatul Chatter (numar de mesaje, ...). Acest rezumat este direct in format HTML, cu scopul de a se introduce in vizualizari kanban."
 
 #. module: deltatech_procurement
-#: field:required.order,id:0 field:required.order.line,id:0
+#: field:required.order,id:0
+#: field:required.order.line,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -86,6 +97,16 @@ msgstr "ID"
 #: help:required.order,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "Daca este selectat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Incoming"
+msgstr "Receptii"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Internal"
+msgstr "Intern"
 
 #. module: deltatech_procurement
 #: field:required.order,message_is_follower:0
@@ -98,12 +119,14 @@ msgid "Last Message Date"
 msgstr "Data ultimului mesaj"
 
 #. module: deltatech_procurement
-#: field:required.order,write_uid:0 field:required.order.line,write_uid:0
+#: field:required.order,write_uid:0
+#: field:required.order.line,write_uid:0
 msgid "Last Updated by"
 msgstr "Ultima actualizare făcută de"
 
 #. module: deltatech_procurement
-#: field:required.order,write_date:0 field:required.order.line,write_date:0
+#: field:required.order,write_date:0
+#: field:required.order.line,write_date:0
 msgid "Last Updated on"
 msgstr "Ultima actualizare la"
 
@@ -128,7 +151,7 @@ msgid "Messages and communication history"
 msgstr "Istoric mesaje și conversații"
 
 #. module: deltatech_procurement
-#: code:addons/deltatech_procurement/procurement.py:93
+#: code:addons/deltatech_procurement/procurement.py:99
 #, python-format
 msgid "Necesar  %s si in stoc  %s."
 msgstr "Necesar  %s și în stoc  %s."
@@ -137,6 +160,22 @@ msgstr "Necesar  %s și în stoc  %s."
 #: field:required.order.line,note:0
 msgid "Note"
 msgstr "Observații"
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_form
+#: view:stock.move:deltatech_procurement.view_move_picking_form
+msgid "Original Moves"
+msgstr "Mișcări inițiale"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Outgoing"
+msgstr "Livrări"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_stock_picking
+msgid "Picking List"
+msgstr "Listă ridicare"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_procurement_order
@@ -181,12 +220,17 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Receipt"
+msgstr "Recepție"
+
+#. module: deltatech_procurement
 #: field:required.order,name:0
 msgid "Reference"
 msgstr "Referință"
 
 #. module: deltatech_procurement
-#: code:addons/deltatech_procurement/procurement.py:63
+#: code:addons/deltatech_procurement/procurement.py:69
 #, python-format
 msgid "Required %s, but the Minimum order quantity is %s"
 msgstr "Necesar %s, dar cantitatea minimă de comandat este %s"
@@ -269,19 +313,58 @@ msgid "Share a message..."
 msgstr "Share un mesaj..."
 
 #. module: deltatech_procurement
+#: view:procurement.order:deltatech_procurement.procurement_form_view
+msgid "Source"
+msgstr "Source"
+
+#. module: deltatech_procurement
 #: field:required.order,state:0
 msgid "Status"
 msgstr "Status"
 
 #. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_incoming
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_incoming
+msgid "Stock Incoming"
+msgstr "Intări în stoc"
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_internal
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_internal
+msgid "Stock Internal Transfer"
+msgstr "Transferuri interne"
+
+#. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_stock_move
+#: view:procurement.order:deltatech_procurement.procurement_form_view
 msgid "Stock Move"
 msgstr "Mișcare stoc"
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing
+msgid "Stock Outgoing"
+msgstr "Ieșiri din stoc"
 
 #. module: deltatech_procurement
 #: field:required.order,message_summary:0
 msgid "Summary"
 msgstr "Sumar"
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "To Be Delivered"
+msgstr "De livrat"
+
+#. module: deltatech_procurement
+#: view:purchase.order:deltatech_procurement.purchase_order_form
+msgid "To Be Received"
+msgstr "De recepționat"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Transfer"
+msgstr "Transfer"
 
 #. module: deltatech_procurement
 #: field:required.order,message_unread:0
@@ -303,3 +386,9 @@ msgstr "Depozit pentru ruta selectată"
 #, python-format
 msgid "You cannot delete a order which is not draft or cancelled. "
 msgstr "Nu puteți șterge o comandă care nu este ciornă sau anulată. "
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "waiting,partially_available"
+msgstr "waiting,partially_available"
+
