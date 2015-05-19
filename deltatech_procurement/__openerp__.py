@@ -31,7 +31,7 @@ Features:
  - New messages in log for procurement run. 
  - New object - Required product
  - New menu for Stock Outgoing, Stock Internal Transfer, Stock Incoming
- - Trecerea e la make_to_order la make_to_stock
+ - Trecerea de la make_to_order la make_to_stock
 
 
     """,

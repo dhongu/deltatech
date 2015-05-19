@@ -9,20 +9,20 @@
 			<field name="inherit_id" ref="mrp.mrp_production_form_view" />
 			<field name="arch" type="xml">
 				<field name="date_planned" position="after">
-					<field name="amount" invisible="1"/>
-					<field name="calculate_price" invisible="1"/>
+					<field name="amount" invisible="1" />
+					<field name="calculate_price" invisible="1" />
 				</field>
 			</field>
 		</record>
 
 
 
-        <record id="mrp_bom_form_view" model="ir.ui.view">
-            <field name="name">mrp.bom.form</field>
-            <field name="model">mrp.bom</field>
+		<record id="mrp_bom_form_view" model="ir.ui.view">
+			<field name="name">mrp.bom.form</field>
+			<field name="model">mrp.bom</field>
 			<field name="inherit_id" ref="mrp.mrp_bom_form_view" />
 			<field name="arch" type="xml">
-			
+
 				<field name="type" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</field>
@@ -31,16 +31,16 @@
 				</field>
 				<field name="product_efficiency" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</field>				
+				</field>
 				<field name="date_start" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</field>					
+				</field>
 				<field name="date_stop" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</field>								
- 				<field name="attribute_value_ids" position="attributes">
+				</field>
+				<field name="attribute_value_ids" position="attributes">
 					<attribute name="invisible">1</attribute>
-				</field>                           
+				</field>
 				<field name="property_ids" position="attributes">
 					<attribute name="invisible">1</attribute>
 				</field>
@@ -48,6 +48,9 @@
 			</field>
 		</record>
 
-
 	</data>
+	
+	
+
+
 </openerp>

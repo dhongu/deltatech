@@ -10,14 +10,14 @@
 				<button name="rereserve_pick" position="attributes">
 					<attribute name="states">waiting,partially_available</attribute>
 				</button>
-                <button name="do_enter_transfer_details"  position="replace">
-                    <button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer" groups="stock.group_stock_user" type="object" class="oe_highlight"
-                     attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}" />
-                    <button name="do_enter_receipt_details" states="assigned,partially_available" string="Receipt" groups="stock.group_stock_user" type="object" class="oe_highlight"
-                     attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming')]}" />
-                    <button name="do_enter_delivery_details" states="assigned,partially_available" string="Delivery" groups="stock.group_stock_user" type="object" class="oe_highlight"
-                     attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}" />
-                </button>				
+				<button name="do_enter_transfer_details" position="replace">
+					<button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer" groups="stock.group_stock_user" type="object"
+						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}" />
+					<button name="do_enter_receipt_details" states="assigned,partially_available" string="Receipt" groups="stock.group_stock_user" type="object"
+						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming')]}" />
+					<button name="do_enter_delivery_details" states="assigned,partially_available" string="Delivery" groups="stock.group_stock_user" type="object"
+						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}" />
+				</button>
 			</field>
 		</record>
 
@@ -32,8 +32,8 @@
 						<field name="move_orig_ids" />
 					</group>
 					<field name="move_dest_id" />
-				   
-					<field name="procurement_id" />	
+
+					<field name="procurement_id" />
 				</group>
 			</field>
 		</record>
@@ -49,88 +49,129 @@
 						<field name="move_orig_ids" />
 					</group>
 					<field name="move_dest_id" />
-				    
-					<field name="procurement_id" />					
+
+					<field name="procurement_id" />
 				</group>
 			</field>
 		</record>
 
 
-        <record id="view_picking_internal_search" model="ir.ui.view">
-            <field name="name">stock.picking.internal.search</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_internal_search" />
-            <field name="arch" type="xml">
-            	<field name="picking_type_id" position="after">
-            		<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]"/>
-            		<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]"/>
-            		<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]"/>
-            	</field>
-            </field>
-        </record>
+		<record id="view_picking_internal_search" model="ir.ui.view">
+			<field name="name">stock.picking.internal.search</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_internal_search" />
+			<field name="arch" type="xml">
+				<field name="picking_type_id" position="after">
+					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
+					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
+					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
+				</field>
+			</field>
+		</record>
 
-        <record id="action_picking_tree_incoming" model="ir.actions.act_window">
-            <field name="name">Stock Incoming</field>
-            <field name="res_model">stock.picking</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="domain"></field>
-            <field name="context">{
-                    'contact_display': 'partner_address',
-                    'search_default_picking_type_incoming': 1,
-                    'search_default_available': 1,
-            }
-            </field>
-            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
-        </record>
+		<record id="action_picking_tree_incoming" model="ir.actions.act_window">
+			<field name="name">Stock Incoming</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_incoming': 1,
+				'search_default_available': 1,
+				'default_picking_type_code':'incoming',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
 
-        <menuitem
-        	id="menu_picking_tree_incoming"
-            action="action_picking_tree_incoming"
-            parent="stock.menu_stock_warehouse_mgmt" sequence="100"/>
+		<menuitem id="menu_picking_tree_incoming" action="action_picking_tree_incoming" parent="stock.menu_stock_warehouse_mgmt" sequence="100" />
 
-        <record id="action_picking_tree_internal" model="ir.actions.act_window">
-            <field name="name">Stock Internal Transfer</field>
-            <field name="res_model">stock.picking</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="domain"></field>
-            <field name="context">{
-                    'contact_display': 'partner_address',
-                    'search_default_picking_type_internal': 1,
-                    'search_default_available': 1,
-            }
-            </field>
-            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
-        </record>
+		<record id="action_picking_tree_internal" model="ir.actions.act_window">
+			<field name="name">Stock Internal Transfer</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_internal': 1,
+				'search_default_available': 1,
+				'default_picking_type_code':'internal',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
 
-        <menuitem
-        	id="menu_picking_tree_internal"
-            action="action_picking_tree_internal"
-            parent="stock.menu_stock_warehouse_mgmt" sequence="101"/>
-        
-        <record id="action_picking_tree_outgoing" model="ir.actions.act_window">
-            <field name="name">Stock Outgoing</field>
-            <field name="res_model">stock.picking</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar</field>
-            <field name="domain"></field>
-            <field name="context">{
-                    'contact_display': 'partner_address',
-                    'search_default_picking_type_outgoing': 1,
-                    'search_default_available': 1,
-            }
-            </field>
-            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
-        </record>
-        
-        <menuitem
-        	id="menu_picking_tree_outgoing"
-            action="action_picking_tree_outgoing"
-            parent="stock.menu_stock_warehouse_mgmt" sequence="102"/>
+		<menuitem id="menu_picking_tree_internal" action="action_picking_tree_internal" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
+
+		<record id="action_picking_tree_outgoing" model="ir.actions.act_window">
+			<field name="name">Stock Outgoing</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_outgoing': 1,
+				'search_default_available': 1,
+				'default_picking_type_code':'outgoing',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
+
+		<menuitem id="menu_picking_tree_outgoing" action="action_picking_tree_outgoing" parent="stock.menu_stock_warehouse_mgmt" sequence="102" />
+
+	</data>
+
+
+	<data noupdate="0">
+		<record id="seq_picking_consume" model="ir.sequence">
+			<field name="name">Sequence Consume</field>
+			<field name="code">stock.picking</field>
+			<field name="prefix">CONS/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+	</data>
+
+
+	<data>
+		<record id="stock.picking_type_consume" model="stock.picking.type">
+			<field name="name">Consume</field>
+			<field name="code">internal</field>
+			<field name="sequence_id" ref="seq_picking_consume" />
+			<field name="default_location_src_id" ref="stock.stock_location_stock" />
+			<field name="default_location_dest_id" ref="stock.location_production" />
+		</record>
+
+
+
+		<record id="action_picking_tree_consume" model="ir.actions.act_window">
+			<field name="name">Consume Voucher</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_internal': 1,
+				'search_default_available': 1,
+				'default_picking_type_code':'consume',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
+
+		<menuitem id="menu_picking_tree_consume" action="action_picking_tree_consume" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
+
+
 
 	</data>
 </openerp>

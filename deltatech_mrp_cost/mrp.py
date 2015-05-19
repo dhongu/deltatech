@@ -90,11 +90,15 @@ class mrp_production(models.Model):
                 if not move.picking_id:
                     move_list += move
             if move_list:
-                picking_type = self.env.ref('stock.picking_type_internal')
-                picking = self.env['stock.picking'].create({'picking_type_id':picking_type.id,
-                                                            'date':production.date_planned,
-                                                            'origin':production.name})
-                move_list.write({'picking_id':picking.id})
+                picking_type = self.env.ref('stock.picking_type_consume',raise_if_not_found=False)
+                if not picking_type:
+                    picking_type  = self.env.ref('stock.picking_type_internal',raise_if_not_found=False)
+                
+                if picking_type: 
+                    picking = self.env['stock.picking'].create({'picking_type_id':picking_type.id,
+                                                                'date':production.date_planned,
+                                                                'origin':production.name})
+                    move_list.write({'picking_id':picking.id})
      
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

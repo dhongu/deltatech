@@ -28,7 +28,8 @@
     "description": """
     
 Ajustari:
- 
+ - Calculeaza pretul de productie ca fiind pretul real al componentelor
+ - Simplificare lista de materiale
 
     """,
     

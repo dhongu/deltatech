@@ -31,6 +31,35 @@ import openerp.addons.decimal_precision as dp
 
 class stock_picking(models.Model):
     _inherit = "stock.picking"
+
+    @api.model
+    def default_get(self, fields ):
+
+        res = super(stock_picking, self).default_get(  fields )
+        if not res.get('picking_type_id', False):
+            context = self.env.context
+            if context is None: context = {}
+            default_picking_type_code = context.get('default_picking_type_code', [])
+            
+            try:            
+                if default_picking_type_code == 'incoming':
+                    picking_type = self.env.ref('stock.picking_type_in')
+               
+                elif default_picking_type_code == 'outgoing':
+                    picking_type = self.env.ref('stock.picking_type_out')
+    
+                elif default_picking_type_code == 'internal':
+                    picking_type = self.env.ref('stock.picking_type_internal')
+
+                elif default_picking_type_code == 'consume':
+                    picking_type = self.env.ref('stock.picking_type_consume')    
+                                
+                if picking_type: 
+                    res['picking_type_id'] = picking_type.id
+            except:
+                pass
+        return res
+
     
     @api.multi
     def rereserve_pick(self):
