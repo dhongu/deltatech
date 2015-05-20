@@ -44,7 +44,9 @@ class product_catalog(models.Model):
                 values =  {'name':prod_cat.name,
                            'default_code':prod_cat.code,
                            'lst_price':prod_cat.list_price,
-                           'categ_id':prod_cat.categ_id.id}
+                           'categ_id':prod_cat.categ_id.id,
+                           'route_ids':[(6,0,[self.env.ref('stock.route_warehouse0_mto').id,self.env.ref('purchase.route_warehouse0_buy').id])],
+                           'seller_ids':[(0,0,{'name':prod_cat.supplier_id.id})]}
                 old_code = prod_cat.get_echiv()
                 if old_code:
                     alt = []     
