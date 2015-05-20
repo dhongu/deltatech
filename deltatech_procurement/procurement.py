@@ -32,7 +32,13 @@ class procurement_order(models.Model):
     _inherit = 'procurement.order' 
 
     required_id = fields.Many2one('required.order', string='Required Products Order', index=True)
+    proc_src_ids = fields.One2many('procurement.order', string='Source Procurement', compute='_compute_source_procurement'  )
 
+
+    @api.one
+    def _compute_source_procurement(self):    
+        self.proc_src_ids = self.search([('move_dest_id', 'in', [x.id for x in self.move_ids])])
+        
 
     """
     def run(self, cr, uid, ids, autocommit=False, context=None):

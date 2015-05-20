@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,15 +17,34 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
- 
-import send_invoice
-import mail_message
+{
+    "name" : "Deltatech MRP Cost",
+    "version" : "2.0",
+    "author" : "Deltatech",
+    "website" : "",
+    "description": """
+    
+Ajustari:
+ - Calculeaza pretul de productie ca fiind pretul real al componentelor
+ - Simplificare lista de materiale
+
+    """,
+    
+    "category" : "Generic Modules/Production",
+    "depends" : ["base","mrp","stock","sale","product"],
 
 
-
-
+    "data" : [      
+                "mrp_view.xml"
+                
+                ],
+    "active": False,
+    "installable": True,
+}
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -18,14 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name" : "Deltatech Stock Inventory",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
  
-import send_invoice
-import mail_message
+ 
+    """,
+    "category" : "Generic Modules/Other",
+    "depends" : ["stock"],
+ 
+    "data" : ['stock_view.xml'],
+    "active": False,
+    "installable": True,
+}
 
 
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

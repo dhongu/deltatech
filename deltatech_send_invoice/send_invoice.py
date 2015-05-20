@@ -26,6 +26,7 @@ from openerp.api import Environment
 
 
 
+
 class send_invoice(models.TransientModel):
     """ Wizard to send invoice to partners and make them followers. """
     _name = 'send.invoice'
@@ -35,11 +36,10 @@ class send_invoice(models.TransientModel):
     partner_ids = fields.Many2many('res.partner', 'send_invoice_partener_rel', 'send_invoice_id','partner_id', 
                                       string='Recipients',help="List of partners that will be added as follower of the current document." )
     
+    subject = fields.Char(string='Subject')
     message = fields.Html(string='Message')
 
  
-
-
 
     @api.multi
     def do_send(self):
@@ -50,15 +50,17 @@ class send_invoice(models.TransientModel):
             for document in invoices: 
                 new_follower_ids = [p.id for p in wizard.partner_ids]
                 document.message_subscribe(new_follower_ids)
-                
-                message = self.env['mail.message'].create({
+                 
+                message = self.env['mail.message'].with_context({'default_starred':True}).create({
                     'model': 'account.invoice',
                     'res_id': document.id,
                     'record_name': document.name_get()[0][1],
                     'email_from': self.env['mail.message']._get_default_from( ),
                     'reply_to': self.env['mail.message']._get_default_from( ),
-                    'subject': _('Invitation to follow %s: %s') % ('Invoice', document.name_get()[0][1]),
-                    'body': '%s' % wizard.message,
+                    #'subject': _('Invoice %s') % ( document.name_get()[0][1]),
+                    #'body': '%s' % wizard.message,
+                    'subject': wizard.subject or '',
+                    'body': wizard.message or '',
                      
                     'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
                     'partner_ids': [(4, id) for id in new_follower_ids],

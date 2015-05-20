@@ -30,13 +30,15 @@ Features:
  - New buttons in sale and purchase order for display procurement order
  - New messages in log for procurement run. 
  - New object - Required product
+ - New menu for Stock Outgoing, Stock Internal Transfer, Stock Incoming
+ - Trecerea de la make_to_order la make_to_stock
 
 
     """,
     "category" : "Generic Modules/Stock",
     "depends" : ["base","stock","purchase",'procurement'],
  
-    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml',
+    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml','stock_view.xml','procurement_view.xml',
                'security/ir.model.access.csv',],
     "active": False,
     "installable": True,

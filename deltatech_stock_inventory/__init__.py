@@ -20,8 +20,7 @@
 ##############################################################################
 
  
-import send_invoice
-import mail_message
+import stock
 
 
 

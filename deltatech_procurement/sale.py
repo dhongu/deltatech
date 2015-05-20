@@ -97,8 +97,43 @@ class sale_order(models.Model):
             action['res_id'] = procurement_ids and procurement_ids[0] or False
         return action      
     
- 
- 
+    def view_to_be_delivered(self, cr, uid, ids, context=None):
+        '''
+        This function returns an action that display existing move  .
+        '''
+        if context is None:
+            context = {}
+        mod_obj = self.pool.get('ir.model.data')
+        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'stock', 'action_move_form2'))
+        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
 
+        move_ids = []
+        for order in self.browse(cr, uid, ids, context=context):
+            for line in order.order_line:
+                for procurement in line.procurement_ids:
+                    move_ids += [move.id for move in procurement.move_ids if move.state in ['assigned','waiting','confirmed'] ]
+
+        action['context'] = {}
+         
+        if len(move_ids) >= 1:
+            action['domain'] = "[('id','in',[" + ','.join(map(str, move_ids)) + "])]"
+        else:
+            res = mod_obj.get_object_reference(cr, uid, 'stock', 'action_move_form2')
+            action['views'] = [(res and res[1] or False, 'form')]
+            action['res_id'] = move_ids and move_ids[0] or False
+        return action 
+ 
+    def action_ship_create(self, cr, uid, ids, context=None):
+        """
+         from https://github.com/aliomattux/auto_check_availability/blob/master/models/stock.py
+        """
+        picking_obj = self.pool.get('stock.picking')
+        res = super(sale_order, self).action_ship_create(cr, uid, ids, context=context)
+        for order in self.browse(cr, uid, ids):
+            for picking in order.picking_ids:
+                if picking.state == 'confirmed':
+                    picking_obj.action_assign(cr, uid, picking.id)
+
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

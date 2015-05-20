@@ -19,13 +19,29 @@
 #
 ##############################################################################
 
- 
-import send_invoice
-import mail_message
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
+from openerp.api import Environment
 
 
+class mail_message(models.Model):
+    _inherit = 'mail.message' 
+
+    # deschiderea unui document nu duce si la marcarea ca fiind citit
+    @api.cr_uid_ids_context
+    def set_message_read(self, cr, uid, msg_ids, read, create_missing=True, context=None):
+        mail_read_set_read = context.get('mail_read_set_read',False)
+        if mail_read_set_read:
+            return
+        return super(mail_message,self).set_message_read( cr, uid, msg_ids, read, create_missing, context)
+        
 
 
-
-
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+
+
+
