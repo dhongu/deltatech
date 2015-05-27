@@ -4,7 +4,7 @@
 
 
 		<template id="report_invoice_document_exchange_rate" inherit_id="account.report_invoice_document">
-			<xpath expr="//p[@t-if='o.comment']" position="before">
+			<xpath expr="//p[@t-if='o.comment']" position="after">
 			     <p id='exchange_rate'>
 		            <span>Exchange rate: 1</span> 
 		            <span t-field="res_company.parallel_currency_id.symbol"/> 

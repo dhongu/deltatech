@@ -46,7 +46,7 @@ class sale_order_line(models.Model):
         
         if not res['value'].get('warning', False):
             if 'price_unit' in res['value'] and 'purchase_price' in res['value']:
-                if res['value']['price_unit'] < res['value']['purchase_price']:
+                if res['value']['price_unit'] < res['value']['purchase_price'] and res['value']['purchase_price'] > 0:
                         warning = {
                                'title': _('Price Error!'),
                                'message' : _('You can not sell below the purchase price.'),
@@ -56,7 +56,7 @@ class sale_order_line(models.Model):
  
     def price_unit_change(self, cr, uid, ids, price_unit, purchase_price, context=None):
         res = {}
-        if price_unit < purchase_price:
+        if price_unit < purchase_price and purchase_price > 0:
                 warning = {
                        'title': _('Price Error!'),
                        'message' : _('You can not sell below the purchase price.'),
