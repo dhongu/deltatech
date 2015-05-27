@@ -84,9 +84,10 @@ class stock_picking(models.Model):
     _inherit = 'stock.picking'
   
 
-    @api.multi
-    # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
 
+    # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
+    
+    @api.multi
     def action_invoice_create(self,  journal_id, group=False, type='out_invoice' ): 
         invoices = super(stock_picking,self).action_invoice_create( journal_id, group, type )
         
