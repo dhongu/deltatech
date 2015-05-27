@@ -103,7 +103,7 @@ class purchase_order_xls(report_xls):
 
           # report_name = objects[0]._description or objects[0]._name
         report_name = _("Purchase Order")
-        ws = wb.add_sheet("Data")
+        ws = wb.add_sheet("Import")
         ws.panes_frozen = True
         ws.remove_splits = True
         ws.portrait = 0  # Landscape

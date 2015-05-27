@@ -82,7 +82,7 @@ class stock_move(models.Model):
 
 class stock_picking(models.Model):
     _inherit = 'stock.picking'
-  
+
     # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
     @api.multi
     def action_invoice_create(self,  journal_id, group=False, type='out_invoice' ): 

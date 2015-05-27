@@ -38,7 +38,7 @@ class account_invoice_line(models.Model):
 
     def price_unit_change(self, cr, uid, ids, price_unit, purchase_price, context=None):
         res = {}
-        if price_unit < purchase_price:
+        if price_unit < purchase_price and purchase_price > 0:
                 warning = {
                        'title': _('Price Error!'),
                        'message' : _('You can not sell below the purchase price.'),
@@ -56,7 +56,7 @@ class account_invoice_line(models.Model):
                 price_unit = from_currency.compute(self.price_unit, self.env.user.company_id.currency_id )
             else:
                 price_unit = self.price_unit
-            if price_unit < self.purchase_price :
+            if price_unit < self.purchase_price and purchase_price > 0 :
                 raise Warning(_('You can not sell below the purchase price.'))
         
 
