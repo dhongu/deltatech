@@ -60,11 +60,11 @@ class send_invoice(models.TransientModel):
                     #'subject': _('Invoice %s') % ( document.name_get()[0][1]),
                     #'body': '%s' % wizard.message,
                     'subject': wizard.subject or '',
-                    'body': wizard.message or '',
+                    'body': wizard.message or wizard.subject,
                      
                     'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
                     'partner_ids': [(4, id) for id in new_follower_ids],
-                    'notified_partner_ids': [(4, id) for id in new_follower_ids]
+                    #'notified_partner_ids': [(4, id) for id in new_follower_ids]
                 })
                 
 
