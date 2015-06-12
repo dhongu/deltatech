@@ -33,7 +33,11 @@ class account_invoice(models.Model):
     origin_refund_invoice_id = fields.Many2one('account.invoice', string='Origin Invoice',   copy=False)
     # camp prin care se indica prin ce factura se face stornarea 
     refund_invoice_id = fields.Many2one('account.invoice', string='Refund Invoice',    copy=False)
+   
+     
 
+     
+    
     @api.multi
     def onchange_journal_id(self, journal_id=False):
         res = super(account_invoice,self).onchange_journal_id(journal_id)
@@ -62,7 +66,8 @@ class account_invoice(models.Model):
             if inv_type == 'out_invoice' or inv_type == 'out_refund':
                 res = self.search(  [('type','=',inv_type),
                                      ('date_invoice','>',date_invoice), 
-                                     ('journal_id', '=', journal_id)  ],
+                                     ('journal_id', '=', journal_id) ,
+                                     ('state','in',['open','paid']) ],
                                   limit = 1,
                                   order = 'date_invoice desc')
                 if res:                
@@ -119,10 +124,11 @@ class account_invoice(models.Model):
                 purchase_line_ids = self.env['purchase.order.line'].search([('invoice_lines','=', line.id)])
                 ok = True
                 if purchase_line_ids:
-                    # oare sunt facute receptii de aceste  comenzi (factura generata din comanda sau din linii de comanda)
-                    for move in purchase_line_ids.move_ids:
-                        if move.state == 'done':                       # dar daca am receptii partiale pe aceasta linie ???
-                            ok = False
+                    for purchase_line in purchase_line_ids:
+                        # oare sunt facute receptii de aceste  comenzi (factura generata din comanda sau din linii de comanda)
+                        for move in purchase_line.move_ids:
+                            if move.state == 'done':                       # dar daca am receptii partiale pe aceasta linie ???
+                                ok = False
                 if ok:             
                     price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                     lines.append({'invoice_line': line,
