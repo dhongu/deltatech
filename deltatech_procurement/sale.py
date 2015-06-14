@@ -136,4 +136,11 @@ class sale_order(models.Model):
 
         return res
 
+
+class sale_order_line(models.Model):
+    _inherit = 'sale.order.line' 
+    
+    qty_available =  fields.Float( related= 'product_id.qty_available')
+    virtual_available = fields.Float(  related= 'product_id.virtual_available'  )     
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

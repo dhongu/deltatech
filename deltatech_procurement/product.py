@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,22 @@
 ##############################################################################
 
 
-import purchase
-import procurement
-import required_product
-import stock
-import sale
-import product
+
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
+from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
+import openerp.addons.decimal_precision as dp
 
 
+class product_template(models.Model):
+    _inherit = 'product.template' 
 
-
-
-
+    @api.one
+    @api.constrains('seller_ids','purchase_ok')
+    def _check_description(self):
+        if self.purchase_ok:
+            if not self.seller_ids:
+                raise ValidationError(_("No defined a supplier of this product"))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

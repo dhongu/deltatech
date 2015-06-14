@@ -10,21 +10,20 @@
 			<field name="arch" type="xml">
 
 				<xpath expr="//sheet/h1" position="before">
-					<div name="buttons" class="oe_right oe_button_box" >
+					<div name="buttons" class="oe_right oe_button_box">
 
-						<button type="object" name="view_procurement" 
-								class="oe_stat_button" icon="fa-stack-overflow" 
-								attrs="{'invisible': [('procurement_count', '=', 0)]}">
+						<button type="object" name="view_procurement" class="oe_stat_button" icon="fa-stack-overflow" attrs="{'invisible': [('procurement_count', '=', 0)]}">
 							<field name="procurement_count" widget="statinfo" string="Procurements" />
 						</button>
-						
-					 <button class="oe_inline oe_stat_button" string="To Be Delivered" 
-					 	name="view_to_be_delivered"
-					 	type="object" 
-					 	groups="stock.group_stock_user" icon="fa-arrows-v"/>
+
+						<button class="oe_inline oe_stat_button" string="To Be Delivered" name="view_to_be_delivered" type="object" groups="stock.group_stock_user"
+							icon="fa-arrows-v" />
 
 					</div>
-
+				</xpath>
+				<xpath expr="//tree/field[@name='price_unit']" position="before">
+					<field name="qty_available"/>         
+					<field name="virtual_available"/>    
 				</xpath>
 			</field>
 		</record>
@@ -35,9 +34,16 @@
 			<field name="model">sale.order</field>
 			<field name="inherit_id" ref="sale.view_order_tree" />
 			<field name="arch" type="xml">
+				<field name="amount_total" position="before">
+					<field name="amount_untaxed" sum="Total untaxed" />
+				</field>
+				<field name="amount_total" position="after">
+					<field name="currency_id" />
+				</field>
 				<field name="state" position="after">
-					<field name="invoiced_rate" widget="progressbar"/>
-				</field>	
+					<field name="client_order_ref" />
+					<field name="invoiced_rate" widget="progressbar" />
+				</field>
 			</field>
 		</record>
 

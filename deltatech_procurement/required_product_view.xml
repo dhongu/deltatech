@@ -94,6 +94,8 @@
 							<tree string="Lines" editable="bottom">
 								<field name="product_id" />
 								<field name="product_qty" />
+								<field name="qty_available"/>         
+  								<field name="virtual_available"/>    
 								<field name="note"/>
 							</tree>
 						</field>
