@@ -165,15 +165,19 @@ class account_invoice(models.Model):
                 picking.do_prepare_partial()
             
         # memorez intr-o lista operatiile pregatite de receptie
-        operations = []
+        operations = self.env['stock.pack.operation']
+        
         for picking in pickings:
             if picking.picking_type_id.code == 'incoming':
-                for op in picking.pack_operation_ids:
-                    operations.append({'picking':picking,
-                                       'op':op,
-                                       'product_qty':op.product_qty,})
+                operations = operations |  picking.pack_operation_ids
+
     
-    
+        operations = operations.sorted(key=lambda r: r.date)
+       
+        quantities = {} 
+        for op  in operations:
+            quantities[op.id] = op.product_qty
+            
         new_picking_line = []
         
         is_ok = True
@@ -181,31 +185,30 @@ class account_invoice(models.Model):
             is_ok = False
             for line in lines:
                 if line['quantity'] > 0 :
-                    for operation in operations:
-                        op = operation['op']
-                        if operation['product_qty'] > 0 and line['quantity'] > 0 and op.product_id.id == line['product_id'].id:
+                    for op in operations:
+                        if quantities[op.id] > 0 and line['quantity'] > 0 and op.product_id.id == line['product_id'].id:
                             # am gasit o line de comanda din care se poate scade o cantitate  
                             is_ok = True                                                                   
-                            if operation['product_qty'] >= line['quantity']:
-                                new_picking_line.append({'picking':operation['picking'],
+                            if quantities[op.id] >= line['quantity']:
+                                new_picking_line.append({'picking':op.picking_id,
                                                          'operation':op,
                                                          'product_id':op.product_id, 
                                                          'product_qty':line['quantity'],
                                                          'price_unit':line['price_unit'],
-                                                         'invoice_line': line['invoice_line']})
-                                 
+                                                         'invoice_line': line['invoice_line']})                 
                                 qty = line['quantity']
                                 line['quantity'] = 0 
                             else:
-                                new_picking_line.append({'picking':operation['picking'],
+                                new_picking_line.append({'picking':op.picking_id,
                                                          'operation':op,
                                                          'product_id':op.product_id, 
-                                                         'product_qty':operation['product_qty'],
+                                                          'product_qty':quantities[op.id],
                                                          'price_unit':line['price_unit'],
                                                          'invoice_line': line['invoice_line']})
-                                qty = operation['product_qty']
-                                line['quantity'] =  line['quantity'] - operation['product_qty']
-                            operation['product_qty'] = operation['product_qty'] - qty
+
+                                qty = quantities[op.id]
+                                line['quantity'] =  line['quantity'] - quantities[op.id]
+                            quantities[op.id] = quantities[op.id] - qty
         
         for line in lines:
            if line['quantity'] > 0:
