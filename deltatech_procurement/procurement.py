@@ -76,7 +76,18 @@ class procurement_order(models.Model):
         if procurement.rule_id and procurement.rule_id.action == 'buy' and procurement.state == "running" and not procurement.purchase_id:
             procurement.write ({'state': 'cancel'} )
             return False
-        res = super(procurement_order, self)._check( procurement)
+
+        res = super(procurement_order, self)._check( procurement) 
+        if not res:
+            if procurement.move_ids:
+                done = True
+                for move in procurement.move_ids:
+                    done = done and (move.state == 'done')
+                if done:
+                    return True  
+            else:
+                if procurement.move_dest_id and procurement.move_dest_id.state == 'done':
+                    return True
         if procurement.required_id:         
             procurement.required_id.check_order_done()
         return res

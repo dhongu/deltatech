@@ -39,6 +39,20 @@
 		</record>
 
 
+		<record id="view_move_picking_tree" model="ir.ui.view">
+			<field name="name">stock.move.tree</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_picking_tree" />
+			<field name="arch" type="xml">
+				<tree string="Stock Moves" position="attributes">
+					<attribute name="editable">bottom</attribute>
+				</tree>
+				<field name="location_id" position="attributes">
+					<attribute name="invisible">0</attribute>
+				</field>
+			</field>
+		</record>
+
 		<record id="view_move_picking_form" model="ir.ui.view">
 			<field name="name">stock.move.form</field>
 			<field name="model">stock.move</field>

@@ -32,6 +32,11 @@ Features:
  - New object - Required product
  - New menu for Stock Outgoing, Stock Internal Transfer, Stock Incoming
  - Trecerea de la make_to_order la make_to_stock
+ - Afisare campuri de cantitate disponibila in comanda de vanzare
+ - Daca produsul se compara atunci trebuie definit obligatoriu un furnizor
+ - pozitiile din lista de ridicare sunt editabile
+ - afisare locatie sursa in lista cu pozitiile din lista de ridicare
+ 
 
 
     """,
