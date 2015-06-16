@@ -110,7 +110,13 @@ class stock_picking(models.Model):
         return invoices
 
 
-
+    @api.model 
+    def _create_invoice_from_picking(self,  picking, vals):        
+        invoice_id = super(stock_picking, self)._create_invoice_from_picking( picking, vals)
+        if picking.sale_id:
+            picking.sale_id.write( {'invoice_ids': [(4, invoice_id)]})
+         
+        return invoice_id
 
  
 
