@@ -36,6 +36,11 @@
 		<field name="category_id" ref="base.module_category_hidden" />
 	</record>
 
+	<record id="group_sale_order_no_confirm" model="res.groups">
+		<field name="name">Confirm sale order not allowed</field>
+		<field name="category_id" ref="base.module_category_hidden" />
+	</record>
+
      <record model="ir.rule" id="stock_move_see_all_rule">
         <field name="name">All stock move</field>
         <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>

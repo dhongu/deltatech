@@ -23,12 +23,19 @@
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules",
-    "depends" : ["product",'stock'],
+    "depends" : ["product",'stock','sale'],
  
-    "description": "",
+    "description": """
+    - Restrictionare acces la transfer stoc
+    - restrictionare acces la confirmare comanda de vanzare
+    - afisare stoc personal
+    - afisare miscari personale
+    - afisare quanturi proprii
+    """,
     "data" : [
          'security/security.xml',
          'stock_view.xml',
+         'sale_view.xml'
     ],
     "active": False,
     "installable": True,
