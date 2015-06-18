@@ -69,7 +69,7 @@ class required_order(models.Model):
     def onchange_warehouse_id(self):     
         self.location_id = self.warehouse_id.lot_stock_id
 
-     
+    #todo: move to new api 
     _defaults = {      
         'name': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'required.order'),
      }
@@ -78,8 +78,7 @@ class required_order(models.Model):
     def order_done(self):
         return self.write({'state': 'done'})
            
-            
-            
+                      
     @api.multi
     def order_confirm(self):
         for order in self:
@@ -87,6 +86,21 @@ class required_order(models.Model):
             order.write({'group_id':group.id})
             procurement = order.required_line.create_procurement()         
         return self.write( {'state': 'progress'})
+
+    @api.multi
+    def action_cancel(self):
+        for order in self:
+            is_cancel = True
+            for line in order.required_line:
+                line.procurement_id.cancel()
+            
+                #is_cancel = is_cancel and   (line.procurement_id.state == 'cancel')    
+            is_cancel = all(line.procurement_id.state == 'cancel' for line in order.required_line)   
+            if is_cancel:
+                order.write({'state':'cancel'})   
+            else:
+                raise Warning(_('You cannot cancel a order with procurement not canceled '))
+
  
     @api.multi
     def unlink(self):
@@ -144,7 +158,10 @@ class required_order(models.Model):
             action['views'] = [(res and res[1] or False, 'form')]
             action['res_id'] = procurement_ids and procurement_ids[0] or False
         return action     
- 
+    
+
+        
+        
 class required_order_line(models.Model):
     _name = 'required.order.line'
     _description = "Required Products Order Line"   

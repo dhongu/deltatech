@@ -56,6 +56,7 @@
 					<header>
 						<button name="order_confirm" states="draft" type="object" class="oe_highlight" string="Confirm" />
 						<button name="check_order_done" states="progress" type="object" class="oe_highlight" string="Check status" />
+						<button name="action_cancel" states="progress" string="Cancel Order" type="object" groups="base.group_user"/>
 						<field name="state" widget="statusbar" statusbar_visible="draft,progress,done" />
 					</header>
 					<sheet>
