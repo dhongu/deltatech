@@ -143,4 +143,5 @@ class sale_order_line(models.Model):
     qty_available =  fields.Float( related= 'product_id.qty_available')
     virtual_available = fields.Float(  related= 'product_id.virtual_available'  )     
 
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

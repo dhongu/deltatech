@@ -69,7 +69,7 @@ class sale_order_line(models.Model):
     @api.one
     @api.constrains('price_unit', 'purchase_price')
     def _check_seats_limit(self):
-        if not self.env.user.has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
+        if not self.env['res.users'].has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
             if self.price_unit < self.purchase_price :
                 raise Warning(_('You can not sell below the purchase price.'))
 

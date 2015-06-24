@@ -35,5 +35,21 @@ class stock_location(models.Model):
     
     user_id = fields.Many2one('res.users', string='Manager') 
 
-
+ 
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+    
+    @api.multi
+    def check_authorization_transfer(self):
+        group_ext_id = 'deltatech_rec_access.group_stock_no_transfer' 
+        res =  self.env['res.users'].has_group(group_ext_id)
+        if res:
+            raise Warning(_('You can not have authorization transfer.'))
+        return True
+ 
+    @api.cr_uid_ids_context
+    def do_enter_transfer_details(self, cr, uid, picking, context=None):
+        self.check_authorization_transfer(cr, uid, picking, context)
+        return super(stock_picking, self).do_enter_transfer_details( cr, uid, picking, context )
+ 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
