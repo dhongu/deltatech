@@ -42,6 +42,7 @@
             <field name="model">stock.picking</field>
 			<field name="inherit_id" ref="stock.view_picking_form" />
 			<field name="groups_id" eval="[ (4, ref('group_stock_no_transfer'))]" />
+			<field name="sequence">99</field>
 			<field name="arch" type="xml">
 				<button name="do_enter_transfer_details" position="attributes">
 					<attribute name="invisible">1</attribute>
@@ -55,6 +56,7 @@
             <field name="model">stock.move</field>		
  			<field name="inherit_id" ref="stock.view_move_tree" />
 			<field name="groups_id" eval="[ (4, ref('group_stock_no_transfer'))]" />
+			<field name="sequence">99</field>
 			<field name="arch" type="xml">
 				<button name="action_done" position="attributes">
 					<attribute name="invisible">1</attribute>
@@ -68,6 +70,7 @@
             <field name="model">stock.move</field>	
  			<field name="inherit_id" ref="stock.view_move_form" />
 			<field name="groups_id" eval="[ (4, ref('group_stock_no_transfer'))]" />
+			<field name="sequence">99</field>
 			<field name="arch" type="xml">
 				<button name="action_done" position="attributes">
 					<attribute name="invisible">1</attribute>
