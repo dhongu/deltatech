@@ -29,6 +29,8 @@
 	 					<field name="list_price"/>
 						<field name="categ_id"/>
 						<field name="supplier_id"/>
+						<field name="purchase_delay"/>
+						<field name="sale_delay"/>
 						<field name="product_id"/>
 					</group>
 				</form>

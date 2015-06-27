@@ -43,9 +43,19 @@ msgid "Code New"
 msgstr "Cod echivalent"
 
 #. module: deltatech_alternative
+#: field:product.catalog,purchase_delay:0
+msgid "Purchase delay"
+msgstr "Zile pentru achiziție"
+
+#. module: deltatech_alternative
+#: field:product.catalog,sale_delay:0
+msgid "Sale delay"
+msgstr "Zile pentru livrare"
+
+#. module: deltatech_alternative
 #: sql_constraint:product.catalog:0
 msgid "Code must be unique !"
-msgstr "Codul trebuie sa fie unic!"
+msgstr "Codul trebuie să fie unic!"
 
 #. module: deltatech_alternative
 #: view:product.catalog:deltatech_alternative.view_product_catalog_form

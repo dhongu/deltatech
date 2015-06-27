@@ -35,6 +35,8 @@ class product_catalog(models.Model):
     categ_id = fields.Many2one('product.category', string='Internal Category', required=True, domain="[('type','=','normal')]" ,help="Select category for the current product")
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
+    purchase_delay = fields.Integer(string = "Purchase delay")
+    sale_delay = fields.Integer(string = "Sale delay")
 
     @api.multi
     def create_product(self):
@@ -46,7 +48,9 @@ class product_catalog(models.Model):
                            'lst_price':prod_cat.list_price,
                            'categ_id':prod_cat.categ_id.id,
                            'route_ids':[(6,0,[self.env.ref('stock.route_warehouse0_mto').id,self.env.ref('purchase.route_warehouse0_buy').id])],
-                           'seller_ids':[(0,0,{'name':prod_cat.supplier_id.id})]}
+                           'sale_delay':prod_cat.sale_delay,
+                           'seller_ids':[(0,0,{'name':prod_cat.supplier_id.id,
+                                               'delay':prod_cat.purchase_delay})]}
                 old_code = prod_cat.get_echiv()
                 if old_code:
                     alt = []     
