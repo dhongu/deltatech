@@ -24,15 +24,16 @@
     "author" : "Dorin Hongu",
     "category" : "Generic Modules/Inventory Control",
     "depends" : ["product",'stock'],
-    "init_xml" : [],
-    "demo_xml" : [],
+
+
     "description": """
 Features:    
+ - New model: product_catelog
  - A module that add alternative on the product form
  - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life    
  
 """,
-    "update_xml" : [
+    "data" : [
         "product_view.xml",
         'security/ir.model.access.csv',
     ],
