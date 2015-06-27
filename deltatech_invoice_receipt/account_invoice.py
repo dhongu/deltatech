@@ -197,6 +197,7 @@ class account_invoice(models.Model):
                                                          'price_unit':line['price_unit'],
                                                          'invoice_line': line['invoice_line']})                 
                                 qty = line['quantity']
+                                qty = quantities[op.id]  #scad toata cantitatea pentru ca nu stiu cum sa gestionez accelasi produs de mai multe ori pe factura
                                 line['quantity'] = 0 
                             else:
                                 new_picking_line.append({'picking':op.picking_id,
@@ -208,7 +209,8 @@ class account_invoice(models.Model):
 
                                 qty = quantities[op.id]
                                 line['quantity'] =  line['quantity'] - quantities[op.id]
-                            quantities[op.id] = quantities[op.id] - qty
+                            quantities[op.id] = quantities[op.id] - qty   
+                            
         
         for line in lines:
            if line['quantity'] > 0:
@@ -220,8 +222,8 @@ class account_invoice(models.Model):
         purchase_line_ids = []
         for line in new_picking_line:
             op = line['operation']
-            op.write({'product_qty': line['product_qty'],
-                      'date':date_receipt}) 
+            op.write({'product_qty': line['product_qty'], 
+                      'date':date_receipt}) ## asta insemana ca nu trebuie sa scad de doua ori dint-o operatie
             processed_ids.append(op.id)    
             for link in op.linked_move_operation_ids:
                 purchase_line_ids.append(link.move_id.purchase_line_id)
