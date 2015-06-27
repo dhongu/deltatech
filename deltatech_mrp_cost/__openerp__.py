@@ -34,7 +34,7 @@ Ajustari:
     """,
     
     "category" : "Generic Modules/Production",
-    "depends" : ["base","mrp","stock","sale","product"],
+    "depends" : ["base","mrp","stock","sale","product","l10n_ro_stock_account"],
 
 
     "data" : [      

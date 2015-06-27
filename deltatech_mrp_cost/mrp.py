@@ -97,8 +97,9 @@ class mrp_production(models.Model):
                 if picking_type: 
                     picking = self.env['stock.picking'].create({'picking_type_id':picking_type.id,
                                                                 'date':production.date_planned,
-                                                                'origin':production.name})
+                                                                'origin':production.name})                    
                     move_list.write({'picking_id':picking.id})
+                    picking.get_account_move_lines()
      
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
