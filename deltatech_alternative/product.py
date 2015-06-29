@@ -47,7 +47,8 @@ class product_catalog(models.Model):
                            'default_code':prod_cat.code,
                            'lst_price':prod_cat.list_price,
                            'categ_id':prod_cat.categ_id.id,
-                           'route_ids':[(6,0,[self.env.ref('stock.route_warehouse0_mto').id,self.env.ref('purchase.route_warehouse0_buy').id])],
+                           'route_ids':[(6,0,[self.env.ref('stock.route_warehouse0_mto').id,
+                                              self.env.ref('purchase.route_warehouse0_buy').id])],
                            'sale_delay':prod_cat.sale_delay,
                            'seller_ids':[(0,0,{'name':prod_cat.supplier_id.id,
                                                'delay':prod_cat.purchase_delay})]}
