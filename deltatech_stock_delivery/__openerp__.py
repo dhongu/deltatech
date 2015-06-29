@@ -19,19 +19,26 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Stock Inventory",
+    "name" : "Deltatech Delivery ",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
 
-     Afisare coloana de pret de stoc la inventariere
+Functionalitati:
+ - Setare camp Notice din lista de ridicare in functie de invoice_state
+ - Adugare buton in factura pt afisare receptie sau livrare
+
  
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"stock"],
+    "depends" : ['deltatech',
+                 "stock",
+                 "l10n_ro_stock_account",
+                 'stock_picking_invoice_link'],
  
-    "data" : ['stock_view.xml'],
+    "data" : ['stock_account_view.xml',
+              'account_invoice_view.xml'],
     "active": False,
     "installable": True,
 }

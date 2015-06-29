@@ -18,22 +18,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Stock Inventory",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-     Afisare coloana de pret de stoc la inventariere
- 
-    """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"stock"],
- 
-    "data" : ['stock_view.xml'],
-    "active": False,
-    "installable": True,
-}
+from openerp import models, fields, api,  SUPERUSER_ID
+from openerp.tools.translate import _
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 
 
+import openerp.addons.decimal_precision as dp 
+
+class stock_picking(models.Model):
+    _inherit = 'stock.picking'
+
+    notice = fields.Boolean(string='Is a notice', states={'done': [('readonly', True)], 
+                                                          'cancel': [('readonly', True)]},
+                            compute='_compute_notice', store = True)              
+
+    @api.one
+    @api.depends('invoice_state')
+    def _compute_notice(self ):
+        invoice_state = self.invoice_state
+        self.notice = (invoice_state <> 'none')
+        
+
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
