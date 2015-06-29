@@ -23,7 +23,7 @@
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules",
-    "depends" : ["product",'stock','sale'],
+    "depends" : ['deltatech',"product",'stock','sale'],
  
     "description": """
     - Restrictionare acces la transfer stoc

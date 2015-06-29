@@ -31,7 +31,7 @@ Functionalitati:
  
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ["base","mail","account"],
+    "depends" : ['deltatech',"base","mail","account"],
  
     "data" : ['send_invoice_view.xml'],
     "active": False,

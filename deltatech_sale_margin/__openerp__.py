@@ -36,7 +36,7 @@ Features:
 
     """,
     
-    "depends" : ["sale_margin",'account'],
+    "depends" : ['deltatech',"sale_margin",'account'],
  
     "data" : ['security/sale_security.xml',
               'security/ir.model.access.csv',

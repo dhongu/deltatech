@@ -101,6 +101,8 @@ class mrp_production(models.Model):
                     move_list.write({'picking_id':picking.id})
                     picking.get_account_move_lines()
      
-
+        """
+        Totate produsele receptionte  se vor reuni intr-un picking list?? 
+        """
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

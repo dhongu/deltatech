@@ -18,7 +18,7 @@
 			<field name="name">Sell below the purchase price</field>
 			<field name="category_id" ref="base.module_category_hidden" />
 		</record>
-
+ 
 
 	</data>
 </openerp>

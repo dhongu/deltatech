@@ -29,7 +29,7 @@ Limitare valoare stoc pe locatii
 
     """,
     "category" : "Generic Modules/Stock",
-    "depends" : ["base","stock"],
+    "depends" : ['deltatech',"base","stock"],
  
     "data" : [ 'stock_view.xml'],
     "active": False,

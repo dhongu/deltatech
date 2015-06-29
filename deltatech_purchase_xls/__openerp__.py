@@ -29,7 +29,7 @@ Send Excel file from purchase order
 
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ["purchase","report_xls"],
+    "depends" : ['deltatech',"purchase","report_xls"],
  
     "data" : [ 'report/purchase_xls.xml'],
     "active": False,

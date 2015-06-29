@@ -18,22 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Picking Reverse transfer ",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
- 
- 
 
-    """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase"],
- 
-    "data" : ['stock_return_picking_view.xml'],
-    "active": False,
-    "installable": True,
-}
 
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

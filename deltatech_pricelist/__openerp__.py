@@ -34,7 +34,7 @@ Functionalitati:
     
     
     "category" : "Generic Modules/Stock",
-    "depends" : ["product"],
+    "depends" : ['deltatech',"product"],
  
     "data" : [ 'pricelist_view.xml',
                ],

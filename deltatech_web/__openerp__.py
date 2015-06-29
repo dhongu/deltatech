@@ -31,12 +31,13 @@ Functionalitati:
  - Afisarea foilor din forme pe 90% din latimea ferestrei
  - Modificare butoane din rosu in albastru (new style din Odoo 9)
  - Modificare dimensiune H1 din 2em in 1.8em
+ - adaugare afisare metadate in meniul Mai Multe 
 
 
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["web"],
+    "depends" : ['deltatech',"web"],
 
    'data':['views/deltatech_web_assets.xml'],
 

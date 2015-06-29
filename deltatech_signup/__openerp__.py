@@ -19,19 +19,19 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Picking Reverse transfer ",
+    "name" : "Deltatech Signup Extension ",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
- 
 
-    """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase"],
  
-    "data" : ['stock_return_picking_view.xml'],
+ 
+    """,
+    "category" : "Generic Modules/Other",
+    "depends" : ['deltatech',"base","auth_signup"],
+ 
+    "data" : ['views/auth_signup_login.xml'],
     "active": False,
     "installable": True,
 }

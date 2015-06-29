@@ -30,18 +30,22 @@ Functionalitati:
  - Evaluarea  stocului in moneda paralela
  - Afisare curs valutar in moneda paralela
  - Raport de stoc valorinc exprimat in moneda paralela la data curenta
-
+ - Camp pentru curs valutar in factura
+ - Data facturii  editabila si in cazul in care factura este in starea proforma
+ - Nume/referinta factura  editabil si in cazul in care factura este in starea proforma
+ 
     """,
     
     
     "category" : "Generic Modules/Stock",
-    "depends" : ["account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
+    "depends" : ['deltatech',"account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
  
     "data" : [ 'res_config_view.xml',
                'stock_valuation_history_view.xml',
                'stock_view.xml',
                'views/invoice_report.xml',
-               'product_view.xml'
+               'product_view.xml',
+               'account_invoice_view.xml'
                ],
     
     "active": False,

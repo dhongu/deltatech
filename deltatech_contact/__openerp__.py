@@ -32,7 +32,7 @@ Adaugare campuri suplimentare in datele de contact.
     """,
     
     "category" : "Generic Modules/Base",
-    "depends" : ["base"],
+    "depends" : ['deltatech',"base"],
 
 
  

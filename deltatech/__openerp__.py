@@ -19,21 +19,15 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Picking Reverse transfer ",
+    "name" : "Deltatech",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
- 
- 
-
-    """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase"],
- 
-    "data" : ['stock_return_picking_view.xml'],
+    "category" : "Generic Modules",
+    "depends" : [],
+    "description": '',
+    "data" : [],
     "active": False,
     "installable": True,
+   
 }
-
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

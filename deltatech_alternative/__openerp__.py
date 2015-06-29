@@ -23,7 +23,7 @@
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules/Inventory Control",
-    "depends" : ["product",'stock'],
+    "depends" : ['deltatech',"product",'stock'],
 
 
     "description": """

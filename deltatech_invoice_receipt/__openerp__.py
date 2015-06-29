@@ -38,7 +38,7 @@ Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe o
 
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ["base","stock","account","purchase","stock_picking_invoice_link"],
+    "depends" : ['deltatech',"base","stock","account","purchase","stock_picking_invoice_link"],
  
     "data" : [ 'account_invoice_view.xml'],
     "active": False,
