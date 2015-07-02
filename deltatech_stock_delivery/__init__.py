@@ -20,7 +20,7 @@
 ##############################################################################
 
  
-import stock
+#import stock
 import account_invoice
 
 

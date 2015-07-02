@@ -141,10 +141,10 @@ class account_invoice(models.Model):
             return
  
         # se va completa la produsele stocabile contul 408
-        account_id = self.company_id and self.company_id.property_stock_picking_payable_account_id and self.company_id.property_stock_picking_payable_account_id.id 
-        if account_id:
+        stock_picking_payable_account_id = self.company_id and self.company_id.property_stock_picking_payable_account_id and self.company_id.property_stock_picking_payable_account_id.id 
+        if stock_picking_payable_account_id:
             for line in lines:
-                line['invoice_line'].write({'account_id':account_id})
+                line['invoice_line'].write({'account_id':stock_picking_payable_account_id})
  
          # caut  picking listurile pregatite pt receptie de la acest furnizor
         domain=[('state', '=', 'assigned'),('partner_id','=',self.partner_id.id)]
@@ -248,7 +248,8 @@ class account_invoice(models.Model):
         origin = ''
         for line in new_picking_line:
             if line['picking'].state == 'assigned': 
-                line['picking'].write({'notice': True})                 
+                if stock_picking_payable_account_id:
+                    line['picking'].write({'notice': True})                 
                 line['picking'].do_transfer()
                 line['picking'].write({'date_done': date_receipt,  
                                        'invoice_state':'invoiced',
@@ -328,8 +329,13 @@ class account_invoice_line(models.Model):
             # oare e bine sa las asa ?????
             # cred ca mai trebuie pus un camp in produs prin care sa se specifice clar care din produse intra prin 408
             if type == 'in_invoice':
-                account_id = self.env.user.company_id and self.env.user.company_id.property_stock_picking_payable_account_id and self.env.user.company_id.property_stock_picking_payable_account_id.id
-                if  product_obj.type == 'product' and account_id: 
+                if  product_obj.type == 'product':
+                    account_id = self.env.user.company_id and self.env.user.company_id.property_stock_picking_payable_account_id and   self.env.user.company_id.property_stock_picking_payable_account_id.id
+                    if  not account_id: 
+                        account_id = product_obj.property_stock_account_input and product_obj.property_stock_account_input.id or False
+                        if not account_id:
+                            account_id = product_obj.categ_id.property_stock_account_input_categ and product_obj.categ_id.property_stock_account_input_categ.id or False
+
                     res['value']['account_id'] = account_id
                   
         

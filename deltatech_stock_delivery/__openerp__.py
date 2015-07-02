@@ -37,8 +37,7 @@ Functionalitati:
                  "l10n_ro_stock_account",
                  'stock_picking_invoice_link'],
  
-    "data" : ['stock_account_view.xml',
-              'account_invoice_view.xml'],
+    "data" : [ 'account_invoice_view.xml'],
     "active": False,
     "installable": True,
 }
