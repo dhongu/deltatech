@@ -39,7 +39,7 @@ class account_invoice(models.Model):
         to_currency = self.currency_id or self.env.user.company_id.currency_id
         from_currency = self.env.user.company_id.parallel_currency_id
         if to_currency and  from_currency:
-            res = from_currency.with_context(date=date_eval).compute(1,to_currency)
+            res = from_currency.with_context(date=date_eval).compute(1,to_currency,round=False)
         return res
 
 
@@ -50,7 +50,7 @@ class account_invoice(models.Model):
             res['value']['currency_rate'] = self._get_default_currency_rate() 
         return res
     
-    currency_rate = fields.Float( string='Currency Rate', digits=(12, 4), readonly=True, states={'draft': [('readonly', False)]}, default=_get_default_currency_rate ) 
+    currency_rate = fields.Float( string='Currency Rate', digits=(12, 6), readonly=True, states={'draft': [('readonly', False)]}, default=_get_default_currency_rate ) 
     date_invoice = fields.Date(string='Invoice Date',
         readonly=True, states={'draft': [('readonly', False)],
                                'proforma':[('readonly', False)],
