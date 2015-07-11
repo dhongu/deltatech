@@ -40,7 +40,6 @@
   background-image: linear-gradient(to bottom, #81a9d4, #396fb3);
 }
 
-/*
 .openerp .oe_form .oe_title h1, .openerp .oe_form h1 {
   font-size: 24px;
 }
@@ -53,8 +52,10 @@
 .openerp .oe_form .oe_title h4, .openerp .oe_form h4 {
   font-size: 18px;
 }
-*/
-
+ 
+.openerp .oe_form label {
+  padding: 2px 2px 2px 0px;
+} 
 
 h1 {
   font-size: 24px;
@@ -68,4 +69,5 @@ h3 {
 h4 {
   font-size: 18px;
 }
+
 

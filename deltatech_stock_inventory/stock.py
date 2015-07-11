@@ -56,9 +56,26 @@ class stock_inventory(models.Model):
 class stock_inventory_line(models.Model):
     _inherit = "stock.inventory.line"
 
-    standard_price = fields.Float(related='product_id.standard_price',store=True)
+    standard_price = fields.Float(string='Price')
+
+    
+    def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False,
+                                                prod_lot_id=False, partner_id=False, company_id=False, context=None):
+        res = super(stock_inventory_line,self).onchange_createline( cr, uid, ids, location_id, product_id, uom_id, package_id,
+                                                                        prod_lot_id, partner_id, company_id, context)
+        if product_id:
+            obj_product = self.pool.get('product.product').browse(cr, uid, product_id, context=context)
+            return {'value': {'standard_price':  obj_product.standard_price}}        
+        return res
 
 
+    def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):  
+        if inventory_line.product_id.cost_method == 'real':
+            self.pool.get('product.product').write(cr, uid, inventory_line.product_id.id,{'standard_price':inventory_line.standard_price},context )
+            move_id = super(stock_inventory_line,self)._resolve_inventory_line(  cr, uid, inventory_line, context)
+            move_obj = self.pool.get('stock.move')
+            move_obj.action_done(cr, uid, move_id, context=context)
+        return move_id
  
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
