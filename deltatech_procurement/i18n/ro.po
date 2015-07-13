@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-19 17:04+0000\n"
-"PO-Revision-Date: 2015-05-19 17:04+0000\n"
+"POT-Creation-Date: 2015-07-13 05:04+0000\n"
+"PO-Revision-Date: 2015-07-13 05:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Cancel Order"
+msgstr "Anulare comandă"
 
 #. module: deltatech_procurement
 #: selection:required.order,state:0
@@ -102,7 +107,7 @@ msgstr "ID"
 #. module: deltatech_procurement
 #: help:required.order,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr "Daca este selectat, mesajele noi necesită atenția dumneavoastră."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
 
 #. module: deltatech_procurement
 #: view:stock.picking:deltatech_procurement.view_picking_internal_search
@@ -157,10 +162,16 @@ msgid "Messages and communication history"
 msgstr "Istoric mesaje și conversații"
 
 #. module: deltatech_procurement
-#: code:addons/deltatech_procurement/procurement.py:99
+#: code:addons/deltatech_procurement/procurement.py:110
 #, python-format
 msgid "Necesar  %s si in stoc  %s."
 msgstr "Necesar  %s și în stoc  %s."
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/product.py:39
+#, python-format
+msgid "No defined a supplier of this product"
+msgstr "Nu este definit un furnizor pentru acest produs"
 
 #. module: deltatech_procurement
 #: field:required.order.line,note:0
@@ -181,12 +192,12 @@ msgstr "Livrări"
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_stock_picking
 msgid "Picking List"
-msgstr "Listă ridicare"
+msgstr "Listă de ridicare"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_procurement_order
 msgid "Procurement"
-msgstr "Aprovizionare"
+msgstr "Planificare necesar"
 
 #. module: deltatech_procurement
 #: field:required.order,group_id:0
@@ -214,6 +225,11 @@ msgstr "Aprovizionări"
 #: field:required.order.line,product_id:0
 msgid "Product"
 msgstr "Produs"
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
 
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_purchase_order
@@ -261,7 +277,6 @@ msgstr "Necesare de produse"
 #: model:ir.model,name:deltatech_procurement.model_required_order
 #: model:mail.message.subtype,name:deltatech_procurement.mt_order_confirmed
 #: model:mail.message.subtype,name:deltatech_procurement.mt_order_done
-#: field:procurement.order,required_id:0
 #: view:required.order:deltatech_procurement.view_required_order_form
 #: field:required.order.line,required_id:0
 msgid "Required Products Order"
@@ -288,7 +303,7 @@ msgid "Required Products Orders"
 msgstr "Comenzi necesar produse"
 
 #. module: deltatech_procurement
-#: code:addons/deltatech_procurement/required_product.py:184
+#: code:addons/deltatech_procurement/required_product.py:204
 #, python-format
 msgid "Role not found for product %s!"
 msgstr "Nu a fost găsită o regulă pentru produsul %s!"
@@ -304,6 +319,11 @@ msgid "Sales Order"
 msgstr "Comandă de vânzare"
 
 #. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_procurement
 #: field:required.order,date_planned:0
 msgid "Scheduled Date"
 msgstr "Dată programată"
@@ -317,6 +337,11 @@ msgstr "Caută"
 #: view:required.order:deltatech_procurement.view_required_order_form
 msgid "Share a message..."
 msgstr "Share un mesaj..."
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_tree
+msgid "Show"
+msgstr "Show"
 
 #. module: deltatech_procurement
 #: view:procurement.order:deltatech_procurement.procurement_form_view
@@ -347,6 +372,11 @@ msgid "Stock Move"
 msgstr "Mișcare stoc"
 
 #. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "Stock Moves"
+msgstr "Mișcări stoc"
+
+#. module: deltatech_procurement
 #: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing
 #: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing
 msgid "Stock Outgoing"
@@ -366,6 +396,11 @@ msgstr "De livrat"
 #: view:purchase.order:deltatech_procurement.purchase_order_form
 msgid "To Be Received"
 msgstr "De recepționat"
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_tree
+msgid "Total untaxed"
+msgstr "Total untaxed"
 
 #. module: deltatech_procurement
 #: view:stock.picking:deltatech_procurement.view_picking_form
@@ -388,13 +423,36 @@ msgid "Warehouse to consider for the route selection"
 msgstr "Depozit pentru ruta selectată"
 
 #. module: deltatech_procurement
-#: code:addons/deltatech_procurement/required_product.py:95
+#: code:addons/deltatech_procurement/required_product.py:102
+#, python-format
+msgid "You cannot cancel a order with procurement not canceled "
+msgstr "Nu puteți anula o comandă cu aprovizionări neanulate"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:109
 #, python-format
 msgid "You cannot delete a order which is not draft or cancelled. "
 msgstr "Nu puteți șterge o comandă care nu este ciornă sau anulată. "
 
 #. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "bottom"
+msgstr "bottom"
+
+#. module: deltatech_procurement
 #: view:stock.picking:deltatech_procurement.view_picking_form
 msgid "waiting,partially_available"
 msgstr "waiting,partially_available"
+
+#. module: deltatech_procurement
+#: field:required.order.line,qty_available:0
+#: field:sale.order.line,qty_available:0
+msgid "Quantity On Hand"
+msgstr "Cantitate disponibilă"
+
+#. module: deltatech_procurement
+#: field:required.order.line,virtual_available:0
+#: field:sale.order.line,virtual_available:0
+msgid "Quantity Available"
+msgstr "Cantitate prevăzută"
 

@@ -33,7 +33,10 @@
 			<field name="name">sale.order.tree</field>
 			<field name="model">sale.order</field>
 			<field name="inherit_id" ref="sale.view_order_tree" />
-			<field name="arch" type="xml">
+			<field name="arch" type="xml">				 
+				<field name="name" position="after">
+					<button name="open_sale_order"  icon="STOCK_DND" string="Show" type="object" class="oe_highlight"/>
+				</field>
 				<field name="amount_total" position="before">
 					<field name="amount_untaxed" sum="Total untaxed" />
 				</field>

@@ -136,12 +136,22 @@ class sale_order(models.Model):
 
         return res
 
-
+    @api.multi
+    def open_sale_order(self):
+        
+        url =  "web?=#id="+str(self.id)+"&view_type=form&model=sale.order"
+        
+        return {
+            "type": "ir.actions.act_url",
+            "url": url,
+            "target": "new",
+            }
+        
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line' 
     
-    qty_available =  fields.Float( related= 'product_id.qty_available')
-    virtual_available = fields.Float(  related= 'product_id.virtual_available'  )     
+    qty_available =  fields.Float( related= 'product_id.qty_available',string='Quantity On Hand')
+    virtual_available = fields.Float(  related= 'product_id.virtual_available' , string='Quantity Available' )     
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

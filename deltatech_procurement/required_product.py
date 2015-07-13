@@ -172,9 +172,9 @@ class required_order_line(models.Model):
     product_qty = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     procurement_id =  fields.Many2one('procurement.order', string='Procurement Order')
     note = fields.Char(string='Note') 
-    qty_available =  fields.Float( related= 'product_id.qty_available')
-    virtual_available = fields.Float(  related= 'product_id.virtual_available'  )   
-
+ 
+    qty_available =  fields.Float( related= 'product_id.qty_available',string='Quantity On Hand')
+    virtual_available = fields.Float(  related= 'product_id.virtual_available' , string='Quantity Available' )     
     
     @api.multi
     def create_procurement(self):

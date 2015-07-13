@@ -57,6 +57,7 @@
   padding: 2px 2px 2px 0px;
 } 
 
+/*
 h1 {
   font-size: 24px;
 }
@@ -69,5 +70,11 @@ h3 {
 h4 {
   font-size: 18px;
 }
+
+address {
+  margin-bottom: 5px;
+}
+
+*/
 
 
