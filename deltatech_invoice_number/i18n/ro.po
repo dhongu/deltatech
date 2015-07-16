@@ -34,7 +34,7 @@ msgstr "Anulare"
 #: view:account.invoice.change.number:deltatech_invoice_number.view_account_invoice_change_number_form
 #: model:ir.actions.act_window,name:deltatech_invoice_number.action_account_invoice_change_number
 msgid "Change invoice number"
-msgstr "Modifică numpr factură"
+msgstr "Modifică număr factură"
 
 
 #. module: deltatech_invoice_number
