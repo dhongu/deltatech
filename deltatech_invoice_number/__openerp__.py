@@ -19,27 +19,22 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Invoice Receipt",
+    "name" : "Deltatech Invoice Number",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
-Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
 
-Nu se permite achizitia unui produs stocabil fara comanda aprovizionare
-
-La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
-
-
-Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
+Validare data factura sa fie mai mare decat data din ultima factura
+Posibilitatea de a modifica numarul unei facturi
 
 
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"base","stock","account","purchase","stock_picking_invoice_link"],
+    "depends" : ['deltatech',"account"],
  
-    "data" : [ 'account_invoice_view.xml'],
+    "data" : ['security/sale_security.xml',
+              'wizard/account_invoice_change_number_view.xml' ],
     "active": False,
     "installable": True,
 }

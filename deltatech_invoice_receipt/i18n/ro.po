@@ -88,7 +88,7 @@ msgstr "Postați factura cu o dată mai mare de %s"
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_quant
 msgid "Quants"
-msgstr "Quant-uri"
+msgstr "Poziții de stoc"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_move

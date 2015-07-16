@@ -18,30 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Invoice Receipt",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
- 
-Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
 
-Nu se permite achizitia unui produs stocabil fara comanda aprovizionare
-
-La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
+import account_invoice_change_number
 
 
-Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
 
 
-    """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"base","stock","account","purchase","stock_picking_invoice_link"],
- 
-    "data" : [ 'account_invoice_view.xml'],
-    "active": False,
-    "installable": True,
-}
 
 
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
