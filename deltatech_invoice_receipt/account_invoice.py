@@ -37,7 +37,8 @@ class account_invoice(models.Model):
      
 
      
-    
+    """
+    cod mutat in deltatech_invoice_number
     @api.multi
     def onchange_journal_id(self, journal_id=False):
         res = super(account_invoice,self).onchange_journal_id(journal_id)
@@ -63,7 +64,7 @@ class account_invoice(models.Model):
             date_invoice = date_invoice or obj_inv.date_invoice
             journal_id = journal_id or obj_inv.journal_id.id
          
-            if inv_type == 'out_invoice' or inv_type == 'out_refund':
+            if (inv_type == 'out_invoice' or inv_type == 'out_refund') and not obj_inv.internal_number:
                 res = self.search(  [('type','=',inv_type),
                                      ('date_invoice','>',date_invoice), 
                                      ('journal_id', '=', journal_id) ,
@@ -84,7 +85,8 @@ class account_invoice(models.Model):
             raise except_orm(_('Date Inconsistency'), msg )            
         super(account_invoice, self).action_number()
         return True
-
+    """
+    
     @api.multi
     @api.returns('self')
     def refund(self, date=None, period_id=None, description=None, journal_id=None):

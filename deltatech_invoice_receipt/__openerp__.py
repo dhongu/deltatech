@@ -31,7 +31,6 @@ Nu se permite achizitia unui produs stocabil fara comanda aprovizionare
 
 La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
 
-Validare data factura sa fie mai mare decat data din ultima factura
 
 Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
 
