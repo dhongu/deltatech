@@ -94,26 +94,57 @@ class account_invoice(models.Model):
         new_invoices.write({'origin_refund_invoice_id':self.id})
         self.write({'refund_invoice_id':new_invoices.id})
         return new_invoices        
+
+    @api.one
+    def check_invoice_with_delivery(self):
+        if self.type == 'out_invoice':
+            for line in self.invoice_line:
+                if line.product_id.type == 'product': 
+                    ok = False
+                    for picking in self.picking_ids:
+                        for move in picking.move_lines:
+                            if move.product_id == line.product_id:
+                                ok = True
+                                break
+                        if ok:
+                            break
+                    if not ok:
+                       raise except_orm(_('Delivery not found!'),
+                                        _('No delivery line for product %s') % line.product_id.name)
+        return 
         
     @api.multi
-    def invoice_create_receipt(self):
-        
+    def invoice_create_receipt(self):   
+        if self.origin_refund_invoice_id:
+            for picking in self.origin_refund_invoice_id.picking_ids:
+                #msg = _('Picking list %s return') % picking.name                   
+                #self.message_post(body=msg)
+                 
+                default_make_new_picking = (self.type != 'out_refund')               
+                return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id,
+                                                                            'default_make_new_picking':default_make_new_picking}).create({})
+                # anularea miscarilor de stoc trebuie facut in functie de tipul de anulare                                                                 
+                new_picking_id, pick_type_id  = return_obj._create_returns()
+                if new_picking_id: 
+                    new_picking = self.env['stock.picking'].browse(new_picking_id)
+                    new_picking.write({'invoice_id':self.id,
+                                       'invoice_state':'invoiced',})
+                    if new_picking.sale_id:
+                        picking.sale_id.write( {'invoice_ids': [(4, self.id)]})
+                    # de vazut cum pun referinta facturii si in comanda de achizitie!
+                    msg = _('Picking list %s was returned by the picking list %s') % (picking.name,  new_picking.name)                 
+                    self.message_post(body=msg)
+                    picking.message_post(body=msg)
+                    new_picking.message_post(body=msg)
+                    new_picking.do_transfer()
+                #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
+            return             
+
+        self.check_invoice_with_delivery() 
+
         #trebuie sa verific ca factura nu este generata dintr-un flux normal de achiztie !!
         if self.type not in ['in_invoice' ,'in_refund']: 
             return
-        
-        
-        if self.origin_refund_invoice_id:
-            for picking in self.origin_refund_invoice_id.picking_ids:
-                msg = _('Picking list %s return') % picking.name                   
-                self.message_post(body=msg)
-                return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id}).create({})
-                new_picking_id, pick_type_id  = return_obj._create_returns()
-                new_picking = self.env['stock.picking'].browse(new_picking_id)
-                new_picking.write({'invoice_id':self.id,
-                                   'invoice_state':'invoiced',})   
-                #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
-            return             
         
         date_eval = self.date_invoice or fields.Date.context_today(self) 
         date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
