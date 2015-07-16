@@ -190,6 +190,11 @@ msgid "Outgoing"
 msgstr "Livrări"
 
 #. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Invoice Not Applicable"
+msgstr "Nefacturabil"
+
+#. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_stock_picking
 msgid "Picking List"
 msgstr "Listă de ridicare"

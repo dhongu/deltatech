@@ -79,6 +79,9 @@
 			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="stock.view_picking_internal_search" />
 			<field name="arch" type="xml">
+				<filter name="backorder" position="after">
+					<filter string="Invoice Not Applicable" name="not2binvoiced"  domain="[('invoice_state', '=', 'none')]"/>
+				</filter>
 				<field name="picking_type_id" position="after">
 					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
 					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
