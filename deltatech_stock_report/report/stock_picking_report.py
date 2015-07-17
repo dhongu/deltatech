@@ -57,6 +57,7 @@ class stock_picking_report(osv.osv):
         'product_qty': fields.float(  'Quantity',   digits_compute=dp.get_precision('Product UoM'), readonly=True ),
         'amount': fields.float(   'Amount',  digits_compute=dp.get_precision('Account'), readonly=True ),
 
+        'commercial_partner_id' : fields.many2one('res.partner', string='Commercial Entity')
         
 
     }
@@ -67,14 +68,14 @@ class stock_picking_report(osv.osv):
          create or replace view stock_picking_report as (
 
 select min(1000000*sp.id+1000*sm.id+sq.id) as id,
-sp.partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.invoice_state, sp.company_id,
+sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.invoice_state, sp.company_id,
 pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
 sm.location_id,sm.location_dest_id,
 sum(sq.qty) as product_qty, 
 sum(sq.qty*sq.cost) as amount
 
 from stock_picking as sp
- 
+join res_partner as rp on rp.id = sp.partner_id 
 join stock_move as sm on sp.id = sm.picking_id
 join stock_quant_move_rel on sm.id = stock_quant_move_rel.move_id
 join stock_quant as sq on stock_quant_move_rel.quant_id = sq.id
@@ -82,7 +83,7 @@ LEFT JOIN product_product pp ON  sm.product_id = pp.id
 LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
 
 where sm.state  = 'done'
-group by sp.partner_id, sp.picking_type_id,   sp.state, sp.date,   sp.invoice_state,sp.company_id,
+group by sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,   sp.invoice_state,sp.company_id,
 pt.categ_id, sm.product_id,  pt.uom_id ,
 sm.location_id,sm.location_dest_id
 
