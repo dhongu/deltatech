@@ -19,15 +19,23 @@
 #
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
+ 
 
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+ 
 
+ 
+class gamification_challenge_line(models.Model):
+    _inherit =  'gamification.challenge.line' 
 
-
+    @api.multi
+    def write(self,  vals ):
+        write_res = super(gamification_challenge_line, self).write(  vals )
+        if 'target_goal' in vals:
+            goals =  self.env['gamification.goal'].search([('line_id','in', self.ids)])
+            goals.write({'target_goal':vals['target_goal']})
+        return write_res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

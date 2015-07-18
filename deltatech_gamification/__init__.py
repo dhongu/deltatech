@@ -19,12 +19,11 @@
 #
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
+import res_users
+import challenge
+import goal
+
+
 
 
 

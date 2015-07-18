@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,15 +19,5 @@
 #
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
-
-
-
-
-
+import invoice_report
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

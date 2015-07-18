@@ -105,6 +105,12 @@ class stock_picking(models.Model):
         context = dict(context or {}, active_ids=ids)       
         return self.pool.get("report").get_action(cr, uid, ids, 'stock.report_picking', context=context)
 
+    @api.multi
+    def rereserve_pick(self):
+        msg = _("Rereserve stock")
+        self.message_post( body= msg)
+        super(stock_picking,self).rereserve_pick()
+
 
 class stock_move(models.Model):
     _inherit = 'stock.move'

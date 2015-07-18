@@ -19,15 +19,25 @@
 #
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
+ 
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
+ 
 
 
+class gamification_goal_definition(models.Model):
+    _inherit =  'gamification.goal.definition' 
+    inverse_value = fields.Boolean(string='Inverse value')
 
+    
+class gamification_goal(models.Model):
+    _inherit =  'gamification.goal' 
 
-
+    def _get_write_values(self, cr, uid, goal, new_value, context=None):
+        if goal.definition_id.inverse_value:
+            new_value = -new_value           
+        res = super(gamification_goal,self)._get_write_values(cr, uid, goal, new_value, context)
+        return res 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

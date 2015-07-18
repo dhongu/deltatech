@@ -24,6 +24,8 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
 
+ 
+
 
 class stock_quant(models.Model):
     _inherit = "stock.quant"   
@@ -39,7 +41,10 @@ class stock_quant(models.Model):
             value =  from_currency.compute(self._get_inventory_value(self), to_currency )
             self.parallel_inventory_value = value
     
-    parallel_inventory_value = fields.Float(string="Parallel Inventory Value", digits= dp.get_precision('Product Price'),
+
+    
+    parallel_inventory_value = fields.Float(string="Parallel Inventory Value",
+                                              digits= dp.get_precision('Product Price'),
                                              readonly=True, compute='_compute_parallel_inventory_value', store=True)    
     
     

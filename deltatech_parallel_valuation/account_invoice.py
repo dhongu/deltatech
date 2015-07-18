@@ -35,7 +35,7 @@ class account_invoice(models.Model):
     @api.model
     def _get_default_currency_rate(self):
         res = None
-        date_eval = self.date_invoice or fields.Date.context_today(self) 
+        date_eval = self.env.context.get('date',False) or self.date_invoice or fields.Date.context_today(self) 
         to_currency = self.currency_id or self.env.user.company_id.currency_id
         from_currency = self.env.user.company_id.parallel_currency_id
         if to_currency and  from_currency:
@@ -46,11 +46,11 @@ class account_invoice(models.Model):
     @api.multi
     def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):
         res = super(account_invoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
-        if self.currency_rate == 0.0:
-            res['value']['currency_rate'] = self._get_default_currency_rate() 
+        res['value']['currency_rate'] = self.with_context(date=date_invoice)._get_default_currency_rate() 
         return res
     
-    currency_rate = fields.Float( string='Currency Rate', digits=(12, 6), readonly=True, states={'draft': [('readonly', False)]}, default=_get_default_currency_rate ) 
+    currency_rate = fields.Float( string='Currency Rate', digits=(12, 4), readonly=True, states={'draft': [('readonly', False)]}, default=_get_default_currency_rate ) 
+    
     date_invoice = fields.Date(string='Invoice Date',
         readonly=True, states={'draft': [('readonly', False)],
                                'proforma':[('readonly', False)],
@@ -75,10 +75,13 @@ class account_invoice_line(models.Model):
         from_currency = self.invoice_id.currency_id.with_context(date=date_eval)
         to_currency = self.env.user.company_id.parallel_currency_id
         if to_currency:
-           line_value =  self.quantity * self.price_unit * (100.0-self.discount) / 100.0 
-           stock_value =  self.quantity * self.purchase_price             
-           self.parallel_stock_value = from_currency.compute(stock_value, to_currency )
-           self.parallel_line_value = from_currency.compute(line_value, to_currency )
+            line_value =  self.quantity * self.price_unit * (100.0-self.discount) / 100.0 
+            if self.purchase_price:
+                stock_value =  self.quantity * self.purchase_price
+            else:
+                stock_value = line_value
+            self.parallel_stock_value = from_currency.compute(stock_value, to_currency )
+            self.parallel_line_value = from_currency.compute(line_value, to_currency )
     
     parallel_stock_value = fields.Float(string="Parallel Stock Value", digits= dp.get_precision('Product Price'),
                                              readonly=True, compute='_compute_parallel_inventory_value', store=True)  

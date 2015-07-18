@@ -67,7 +67,7 @@ class sale_margin_report(osv.osv):
             ('paid','Done'),
             ('cancel','Cancelled')
             ], 'Invoice Status', readonly=True),
- 
+
     }
     
 
@@ -80,20 +80,37 @@ class sale_margin_report(osv.osv):
                     t.categ_id as categ_id,                    
                     l.product_id as product_id,
                     t.uom_id as product_uom,
-      
-                    sum(l.quantity / u.factor * u2.factor) as product_uom_qty,
-                    sum(l.quantity * l.price_unit * (100.0-l.discount) / 100.0) as sale_val,
-                    sum(l.quantity * l.purchase_price ) as stock_val,    
-                                   
-                    sum ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * l.purchase_price )) as profit_val,  
-                    
+
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                        THEN -(l.quantity / u.factor * u2.factor)
+                        ELSE  (l.quantity / u.factor * u2.factor)
+                    END) AS product_uom_qty,
+
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                        THEN -(l.quantity * l.price_unit * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+                        ELSE  (l.quantity * l.price_unit * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+                    END) AS sale_val,
+                          
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                        THEN -(l.quantity * COALESCE( l.purchase_price, 0 ) )
+                        ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
+                    END) AS stock_val,
+
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                        THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
+                        ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
+                    END) AS profit_val,   
+                                                       
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
                     s.user_id as user_id,
                     s.period_id,
                     s.company_id as company_id,
-                    s.type,
-                    s.state 
+                    s.type, s.state 
         """
         return select_str
 
@@ -111,7 +128,7 @@ class sale_margin_report(osv.osv):
 
     def _where(self):
         where_str = """
-              s.type in ( 'out_invoice', 'out_refund')
+              s.type in ( 'out_invoice', 'out_refund') and s.state in ( 'open','paid')
         """
         return  where_str
 

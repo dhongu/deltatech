@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-10 08:05+0000\n"
-"PO-Revision-Date: 2015-03-10 08:05+0000\n"
+"POT-Creation-Date: 2015-07-17 20:39+0000\n"
+"PO-Revision-Date: 2015-07-17 20:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
+msgid "Show purchase price on sale order lines and customer invoice"
+msgstr "Afișare preț de achiziție în comanda de vânzare și facură client"
 
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
@@ -64,11 +69,6 @@ msgid "Date"
 msgstr "Date"
 
 #. module: deltatech_sale_margin
-#: model:ir.model,name:deltatech_sale_margin.model_deltatech_sale_margin_report
-msgid "Deltatech sale margin report"
-msgstr "Deltatech raport analiză profit"
-
-#. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
 msgid "Done"
 msgstr "Efectuat"
@@ -110,8 +110,8 @@ msgstr "Vânzările mele"
 
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_no_change_price
-msgid "No change price on sale order and customer invoice"
-msgstr "Nu permite modificarea prețului în comanda de vânzare și factură client"
+msgid "No change price on sale order"
+msgstr "Nu permite modificarea prețului în comanda de vânzare"
 
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
@@ -204,14 +204,9 @@ msgid "Sale_report"
 msgstr "Sale_report"
 
 #. module: deltatech_sale_margin
-#: model:ir.model,name:deltatech_sale_margin.model_sale_order
-msgid "Sales Order"
-msgstr "Comanda de vânzare"
-
-#. module: deltatech_sale_margin
 #: model:ir.model,name:deltatech_sale_margin.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Linie comanda de vânzare"
+msgstr "Linie comandă de vânzare"
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
@@ -240,14 +235,9 @@ msgid "Search"
 msgstr "Caută"
 
 #. module: deltatech_sale_margin
-#: model:res.groups,name:deltatech_sale_margin.group_sale_below purchase price
+#: model:res.groups,name:deltatech_sale_margin.group_sale_below_purchase_price
 msgid "Sell below the purchase price"
-msgstr "Vânzare la preț mai mic față de achiziție"
-
-#. module: deltatech_sale_margin
-#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
-msgid "Show purchase price on sale order lines and customer invoice"
-msgstr "Afișare preț de achiziție în comanda de vânzare și facură client"
+msgstr "Sell below the purchase price"
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
@@ -307,7 +297,7 @@ msgstr "Unitate de măsură"
 
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/account_invoice.py:44
-#: code:addons/deltatech_sale_margin/account_invoice.py:54
+#: code:addons/deltatech_sale_margin/account_invoice.py:60
 #: code:addons/deltatech_sale_margin/sale.py:52
 #: code:addons/deltatech_sale_margin/sale.py:62
 #: code:addons/deltatech_sale_margin/sale.py:74
@@ -315,8 +305,4 @@ msgstr "Unitate de măsură"
 msgid "You can not sell below the purchase price."
 msgstr "Nu puteți vinde cu preț mai mic față de prețul de achiziție."
 
-#. module: deltatech_sale_margin
-#: view:sale.order:deltatech_sale_margin.sale_margin_sale_order
-msgid "deltatech_sale_margin.group_sale_margin"
-msgstr "deltatech_sale_margin.group_sale_margin"
-
+ 

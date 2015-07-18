@@ -49,10 +49,13 @@
 .openerp .oe_form .oe_title h3, .openerp .oe_form h3 {
   font-size: 20px;
 }
+
+/*
 .openerp .oe_form .oe_title h4, .openerp .oe_form h4 {
   font-size: 18px;
 }
- 
+*/
+
 .openerp .oe_form label {
   padding: 2px 2px 2px 0px;
 } 

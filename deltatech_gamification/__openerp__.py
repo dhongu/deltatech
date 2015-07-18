@@ -18,16 +18,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
-
+{
+    "name" : "Deltatech Gamification extension",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
 
+    """,
+    "category" : "Generic Modules/Other",
+    "depends" : ['deltatech',"gamification"],
+ 
+    "data" : [ 'goal_view.xml'],
+    "active": False,
+    "installable": True,
+}
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

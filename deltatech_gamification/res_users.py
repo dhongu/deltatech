@@ -19,14 +19,25 @@
 #
 ##############################################################################
 
-import res_config
-import product
-import stock
-import account_invoice
-import parallel_valuation
-import report
+ 
 
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
+ 
 
+ 
+
+class res_users_gamification_group(models.Model):
+    _inherit =  'res.users' 
+
+    def _serialised_goals_summary(self, cr, uid, user_id, excluded_categories=None, context=None):        
+        if context is None:
+            context = {}
+            user = self.browse(cr, uid, uid, context=context)
+            context['lang'] =  user.lang
+        return super(res_users_gamification_group,self)._serialised_goals_summary(cr, uid, user_id, excluded_categories, context) 
 
 
 
