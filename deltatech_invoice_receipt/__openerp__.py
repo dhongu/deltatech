@@ -27,10 +27,14 @@
  
 Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
 
-Nu se permite achizitia unui produs stocabil fara comanda aprovizionare
+Nu se permite achizitia unui produs stocabil fara comanda aprovizionare (picking in asteptare).
 
 La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
 
+Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
+
+
+La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
 
 Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
 

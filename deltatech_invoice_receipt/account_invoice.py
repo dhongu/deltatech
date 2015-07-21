@@ -112,7 +112,38 @@ class account_invoice(models.Model):
                        raise except_orm(_('Delivery not found!'),
                                         _('No delivery line for product %s') % line.product_id.name)
         return 
-        
+    
+    @api.multi
+    def invoice_create_picking(self):  
+        if self.picking_ids or self.type != 'in_invoice':
+            return
+        picking_value = {
+                          'partner_id':self.partner_id.id,
+                          'date':self.date_invoice,
+                          'picking_type_id':self.env.ref('stock.picking_type_in').id,
+                          'invoice_id':self.id,    
+                          'origin':self.supplier_invoice_number,     
+                         }
+        picking = self.env['stock.picking'].create(picking_value)
+        for line in self.invoice_line:
+            if line.product_id.type == 'product':
+                move_value= {
+                               'product_id':line.product_id.id,
+                               'product_uom_qty':line.quantity,
+                               'product_uom':line.product_id.uom_id.id,
+                               'name':line.name,
+                               'location_id':self.env.ref('stock.stock_location_suppliers').id,
+                               'location_dest_id':self.env.ref('stock.stock_location_stock').id,
+                               'invoice_state':'invoiced',
+                               'invoice_line_id':line.id, 
+                               'picking_id':picking.id    
+                            }
+                self.env['stock.move'].create(move_value)
+        picking.action_confirm()
+        picking.do_transfer()        
+        msg = _('Picking list %s without reference to purchase order was created') % picking.name
+        self.message_post(body=msg)
+                
     @api.multi
     def invoice_create_receipt(self):   
         if self.origin_refund_invoice_id:
@@ -120,7 +151,10 @@ class account_invoice(models.Model):
                 #msg = _('Picking list %s return') % picking.name                   
                 #self.message_post(body=msg)
                  
-                default_make_new_picking = (self.type != 'out_refund')               
+                default_make_new_picking = (self.type != 'out_refund')
+                if default_make_new_picking and  picking.move[0].purchase_line_id:  # recepte fara comanda de aprovizionare
+                    default_make_new_picking = False
+                            
                 return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id,
                                                                             'default_make_new_picking':default_make_new_picking}).create({})
                 # anularea miscarilor de stoc trebuie facut in functie de tipul de anulare                                                                 
@@ -146,6 +180,7 @@ class account_invoice(models.Model):
         if self.type not in ['in_invoice' ,'in_refund']: 
             return
         
+        
         date_eval = self.date_invoice or fields.Date.context_today(self) 
         date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
         from_currency = self.currency_id.with_context(date=date_eval)
@@ -154,6 +189,13 @@ class account_invoice(models.Model):
         lines = []
         for line in self.invoice_line:
             if line.product_id.type == 'product': 
+                ok = True
+                moves = self.env['stock.move'].search([('invoice_line_id','=',line.id)] ) 
+                for move in moves:
+                    if move.state == 'done':                       # dar daca am receptii partiale pe aceasta linie ???
+                        ok = False
+                
+                """
                 purchase_line_ids = self.env['purchase.order.line'].search([('invoice_lines','=', line.id)])
                 ok = True
                 if purchase_line_ids:
@@ -162,6 +204,7 @@ class account_invoice(models.Model):
                         for move in purchase_line.move_ids:
                             if move.state == 'done':                       # dar daca am receptii partiale pe aceasta linie ???
                                 ok = False
+                """
                 if ok:             
                     price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                     lines.append({'invoice_line': line,
@@ -180,6 +223,7 @@ class account_invoice(models.Model):
                 line['invoice_line'].write({'account_id':stock_picking_payable_account_id})
  
          # caut  picking listurile pregatite pt receptie de la acest furnizor
+   
         domain=[('state', '=', 'assigned'),('partner_id','=',self.partner_id.id)]
         pickings = self.env['stock.picking'].search(domain, order='date ASC',) 
         if not pickings:

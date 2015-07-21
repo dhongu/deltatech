@@ -1,22 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* deltatech_invoice_receipt
+#	* deltatech_invoice_receipt
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-06 12:37+0000\n"
-"PO-Revision-Date: 2015-03-06 17:18+0200\n"
+"POT-Creation-Date: 2015-07-20 19:48+0000\n"
+"PO-Revision-Date: 2015-07-20 19:48+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
-"Language: ro\n"
-"X-Generator: Poedit 1.7.4\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_receipt
+#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
+msgid "Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open."
+msgstr "Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
 
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
@@ -24,10 +26,10 @@ msgid "Create receipt"
 msgstr "Creare recepție"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:74
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:112
 #, python-format
-msgid "Date Inconsistency"
-msgstr "Neconcordanță la data"
+msgid "Delivery not found!"
+msgstr "Livrare negăsită!"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_inventory
@@ -37,53 +39,75 @@ msgstr "Inventar"
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice
 msgid "Invoice"
-msgstr "Factură"
+msgstr "Factura"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Linie Factură"
+msgstr "Linie factură"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:69
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:126
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:113
+#, python-format
+msgid "No delivery line for product %s"
+msgstr "Nu există livrare pentru produsul %s"
+
+#. module: deltatech_invoice_receipt
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:228
 #, python-format
 msgid "No purchase orders from this supplier"
-msgstr "Nu exista comenzi de achiziție pentru acest furnizor"
+msgstr "Nu există comenzi de achiziție pentru acest furnizor"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:124
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:181
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:292
 #, python-format
 msgid "No purchase orders line from product %s in quantity of %s "
 msgstr "Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
 
 #. module: deltatech_invoice_receipt
+#: field:account.invoice,origin_refund_invoice_id:0
+msgid "Origin Invoice"
+msgstr "Origin Invoice"
+
+#. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_pack_operation
 msgid "Packing Operation"
-msgstr "Operații"
+msgstr "Operație ambalare"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:162
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:219
+#: model:ir.model,name:deltatech_invoice_receipt.model_stock_picking
+msgid "Picking List"
+msgstr "Listă ridicare"
+
+#. module: deltatech_invoice_receipt
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:333
 #, python-format
 msgid "Picking list %s was receipted"
-msgstr "Lista de picking %s a fost recepționată"
+msgstr "Documentul de recepție %s a fost înregistrat"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:68
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:123
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:125
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:180
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:166
+#, python-format
+msgid "Picking list %s was returned by the picking list %s"
+msgstr "Lista de ridicare  %s a fost returnată prin lista de ridicare %s"
+
+#. module: deltatech_invoice_receipt
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:144
+#, python-format
+msgid "Picking list %s without reference to purchase order was created"
+msgstr "Recepția %s fără referință la comandă de achiziție a fost realizată"
+
+#. module: deltatech_invoice_receipt
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:227
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:291
 #, python-format
 msgid "Picking not found!"
-msgstr "Picking-ul nu a fost gasit!"
+msgstr "Lista de ridicare nu a fost gasită!"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:66
-#, python-format
-msgid "Post the invoice with a greater date than %s"
-msgstr "Postați factura cu o dată mai mare de %s"
+#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
+msgid "Receipt without purchase order"
+msgstr "Recepție fără comandă de achiziție"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_quant
@@ -91,15 +115,12 @@ msgid "Quants"
 msgstr "Poziții de stoc"
 
 #. module: deltatech_invoice_receipt
+#: field:account.invoice,refund_invoice_id:0
+msgid "Refund Invoice"
+msgstr "Factură rembursare"
+
+#. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_move
 msgid "Stock Move"
 msgstr "Mișcare stoc"
 
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:37
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:45
-#, python-format
-msgid "Warning"
-msgstr "Atenție"
-
- 
