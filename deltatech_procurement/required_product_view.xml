@@ -133,7 +133,7 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Required Orders" id="menu_required_order" action="action_required_order" parent="stock.menu_stock_sched" sequence="100" />
+		<menuitem name="Required Orders" id="menu_required_order" action="action_required_order" parent="stock.menu_stock_warehouse_mgmt" sequence="500" />
 
 
 	</data>

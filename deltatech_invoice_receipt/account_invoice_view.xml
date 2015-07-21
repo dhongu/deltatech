@@ -20,6 +20,9 @@ invoice_validate()</field>
 			<field name="inherit_id" ref="account.invoice_supplier_form" />
 			<field name="arch" type="xml">
 				<button name="invoice_open" position="before">
+					  <button name="invoice_create_picking" states="draft" type="object"  string="Receipt without purchase order"  
+					  groups="base.group_user" 
+					   confirm="Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open." />
                       <button name="invoice_create_receipt" states="draft" type="object"  string="Create receipt" class="oe_highlight" groups="base.group_user"/>
 				</button>
 				<field name="date_invoice" position="attributes">
