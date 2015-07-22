@@ -10,6 +10,7 @@
 				<button name="rereserve_pick" position="attributes">
 					<attribute name="states">waiting,partially_available</attribute>
 				</button>
+				
 				<button name="do_enter_transfer_details" position="replace">
 					<button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer" groups="stock.group_stock_user" type="object"
 						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}" />
@@ -18,9 +19,52 @@
 					<button name="do_enter_delivery_details" states="assigned,partially_available" string="Delivery" groups="stock.group_stock_user" type="object"
 						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}" />
 				</button>
+				
+
+				<field name="partner_id" position="attributes">
+					<attribute name="attrs">{'invisible':[('picking_type_code', '=', 'internal')]}</attribute>
+				</field>				
 			</field>
 		</record>
 
+
+		<record id="view_picking_internal_search" model="ir.ui.view">
+			<field name="name">stock.picking.internal.search</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_internal_search" />
+			<field name="arch" type="xml">
+				<filter name="backorder" position="after">
+					<filter string="Invoice Not Applicable" name="not2binvoiced"  domain="[('invoice_state', '=', 'none')]"/>
+                    <field name="location_id" groups="stock.group_locations"/>
+                    <field name="location_dest_id" groups="stock.group_locations"/>
+				</filter>
+				
+				<filter name="late" position="after">
+									<filter string="This Year" name="year"  
+						domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
+						  />					
+
+					<filter string="This Month" name="month"  
+						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+						  />		
+
+					<filter string="Previous Month" name="prev_month"  
+						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+						  />	
+					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]"/>
+					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]"/>			
+				</filter>	
+				
+				
+				<field name="picking_type_id" position="after">
+					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
+					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
+					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
+				</field>
+			</field>
+		</record>
 
 		<record id="view_move_form" model="ir.ui.view">
 			<field name="name">stock.move.form</field>
@@ -74,21 +118,7 @@
 		</record>
 
 
-		<record id="view_picking_internal_search" model="ir.ui.view">
-			<field name="name">stock.picking.internal.search</field>
-			<field name="model">stock.picking</field>
-			<field name="inherit_id" ref="stock.view_picking_internal_search" />
-			<field name="arch" type="xml">
-				<filter name="backorder" position="after">
-					<filter string="Invoice Not Applicable" name="not2binvoiced"  domain="[('invoice_state', '=', 'none')]"/>
-				</filter>
-				<field name="picking_type_id" position="after">
-					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
-					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
-					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
-				</field>
-			</field>
-		</record>
+
 
 		<record id="action_picking_tree_incoming" model="ir.actions.act_window">
 			<field name="name">Stock Incoming</field>
@@ -147,6 +177,45 @@
 
 		<menuitem id="menu_picking_tree_outgoing" action="action_picking_tree_outgoing" parent="stock.menu_stock_warehouse_mgmt" sequence="102" />
 
+		<record id="action_picking_tree_outgoing_not2binvoiced" model="ir.actions.act_window">
+			<field name="name">Stock Outgoing not invoice</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_outgoing': 1,
+				'search_default_not2binvoiced':1,
+				'default_picking_type_code':'outgoing',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
+
+		<menuitem id="menu_picking_tree_outgoing_not2binvoiced" action="action_picking_tree_outgoing_not2binvoiced" parent="stock.menu_stock_warehouse_mgmt" sequence="103" />
+
+		<record id="action_picking_tree_consume" model="ir.actions.act_window">
+			<field name="name">Consume Voucher</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context">{
+				'contact_display': 'partner_address',
+				'search_default_picking_type_internal': 1,
+				'search_default_available': 1,
+				'default_picking_type_code':'consume',
+				}
+			</field>
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
+
+		<menuitem id="menu_picking_tree_consume" action="action_picking_tree_consume" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
+
+
 	</data>
 
 
@@ -170,28 +239,6 @@
 			<field name="default_location_src_id" ref="stock.stock_location_stock" />
 			<field name="default_location_dest_id" ref="stock.location_production" />
 		</record>
-
-
-
-		<record id="action_picking_tree_consume" model="ir.actions.act_window">
-			<field name="name">Consume Voucher</field>
-			<field name="res_model">stock.picking</field>
-			<field name="type">ir.actions.act_window</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form,calendar</field>
-			<field name="domain"></field>
-			<field name="context">{
-				'contact_display': 'partner_address',
-				'search_default_picking_type_internal': 1,
-				'search_default_available': 1,
-				'default_picking_type_code':'consume',
-				}
-			</field>
-			<field name="search_view_id" ref="stock.view_picking_internal_search" />
-		</record>
-
-		<menuitem id="menu_picking_tree_consume" action="action_picking_tree_consume" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
-
 
 
 	</data>

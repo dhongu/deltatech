@@ -194,6 +194,33 @@ msgstr "Livrări"
 msgid "Invoice Not Applicable"
 msgstr "Nefacturabil"
 
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "This Year"
+msgstr "Acest an"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "This Month"
+msgstr "Luna aceasta"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Previous Month"
+msgstr "Luna anterioară"
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Date From"
+msgstr "De la data" 
+
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Date To"
+msgstr "Până la data"
+
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_stock_picking
 msgid "Picking List"
@@ -370,6 +397,8 @@ msgstr "Intrări în stoc"
 msgid "Stock Internal Transfer"
 msgstr "Transferuri interne"
 
+
+
 #. module: deltatech_procurement
 #: model:ir.model,name:deltatech_procurement.model_stock_move
 #: view:procurement.order:deltatech_procurement.procurement_form_view
@@ -385,7 +414,14 @@ msgstr "Mișcări stoc"
 #: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing
 #: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing
 msgid "Stock Outgoing"
-msgstr "Ieșiri din stoc"
+msgstr "Ieșiri stoc (avize)"
+
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing_not2binvoiced
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing_not2binvoiced
+msgid "Stock Outgoing not invoice"
+msgstr "Avize nefacturabile"
 
 #. module: deltatech_procurement
 #: field:required.order,message_summary:0
