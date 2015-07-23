@@ -86,9 +86,12 @@ class stock_picking(models.Model):
     # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
     @api.multi
     def action_invoice_create(self,  journal_id, group=False, type='out_invoice' ): 
-
-        #this = self.with_context(inv_type=type)  # foarte important pt a determina corect moneda
+        
         invoices = super(stock_picking,self).action_invoice_create( journal_id, group, type )
+        
+ 
+        #this = self.with_context(inv_type=type)  # foarte important pt a determina corect moneda
+        
         #self = this
         
         journal = self.env['account.journal'].browse(journal_id)
@@ -96,20 +99,18 @@ class stock_picking(models.Model):
         
         to_currency = journal.currency or self.env.user.company_id.currency_id
 
-        if to_currency == obj_invoices.currency_id:
-            return invoices
-      
-        
+ 
         for obj_inv in obj_invoices:
-        
-            from_currency = obj_invoices.currency_id.with_context(date=obj_inv.date_invoice)
+            if to_currency == obj_inv.currency_id:
+                continue
+            from_currency = obj_inv.currency_id.with_context(date=obj_inv.date_invoice)
  
             for line in obj_inv.invoice_line:
                 new_price = from_currency.compute(line.price_unit, to_currency )
                 line.write(  {'price_unit': new_price})
                 
             obj_inv.write(  {'currency_id': to_currency.id} )
-        obj_invoices.button_compute()
+            obj_inv.button_compute()
         return invoices
 
 
@@ -118,6 +119,7 @@ class stock_picking(models.Model):
         invoice_id = super(stock_picking, self)._create_invoice_from_picking( picking, vals)
         if picking.sale_id:
             picking.sale_id.write( {'invoice_ids': [(4, invoice_id)]})
+        picking.write({'invoice_id':invoice_id})
          
         return invoice_id
 
