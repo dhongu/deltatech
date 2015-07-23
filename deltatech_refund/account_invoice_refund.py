@@ -26,7 +26,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FO
 import time 
 from datetime import datetime
 
-class account_invoice_refund(models.Model):
+class account_invoice_refund(models.TransientModel):
     _inherit = "account.invoice.refund"
 
     @api.model
