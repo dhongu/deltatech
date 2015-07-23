@@ -26,11 +26,13 @@
     "depends" : ['deltatech',"product",'stock','sale'],
  
     "description": """
-    - Restrictionare acces la transfer stoc
-    - restrictionare acces la confirmare comanda de vanzare
-    - afisare stoc personal
-    - afisare miscari personale
-    - afisare quanturi proprii
+
+Functionalitati:
+ - Restrictionare acces la transfer stoc
+ - restrictionare acces la confirmare comanda de vanzare
+ - afisare stoc personal
+ - afisare miscari personale
+ - afisare quanturi proprii
     """,
     "data" : [
          'security/security.xml',

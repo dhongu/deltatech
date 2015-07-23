@@ -25,7 +25,7 @@
     "website" : "",
     "description": """
 
- 
+Functionalitati: 
  
     """,
     "category" : "Generic Modules/Other",

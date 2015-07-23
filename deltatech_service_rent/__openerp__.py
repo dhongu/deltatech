@@ -27,8 +27,7 @@
     "website" : "",
     "description": """
 
-
-
+Functionalitati:
  
     """,
     

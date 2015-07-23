@@ -24,8 +24,9 @@
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
-Send Excel file from purchase order
+
+Functionalitati: 
+ - Send Excel file from purchase order
 
     """,
     "category" : "Generic Modules/Other",

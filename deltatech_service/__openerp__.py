@@ -27,8 +27,9 @@
     "website" : "",
     "description": """
 
-Ofera posibilitatea de a defini contracte de servicii.
-Lunar in baza acestor contracte se genereaza facturi.
+Functionalitati:
+ - Ofera posibilitatea de a defini contracte de servicii.
+ - Lunar in baza acestor contracte se genereaza facturi.
 
  
     """,

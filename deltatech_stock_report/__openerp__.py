@@ -26,6 +26,8 @@
     "author": "Dorin Hongu",
     "website": "",
     "description": """
+    
+Functionalitati:
     Raport cu pozitii din liste de ridicare
     """,
 

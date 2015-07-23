@@ -26,13 +26,12 @@
     "description": """
 
 Functionalitati:
- - Setare camp Notice din lista de ridicare in functie de invoice_state
  - Adugare buton in factura pt afisare receptie sau livrare
 
  
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',
+    "depends" : ['deltatech','account',
                  "stock",
                  "l10n_ro_stock_account",
                  'stock_picking_invoice_link'],

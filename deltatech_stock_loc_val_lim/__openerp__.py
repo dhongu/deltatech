@@ -25,7 +25,8 @@
     "website" : "",
     "description": """
  
-Limitare valoare stoc pe locatii
+Functionalitati:
+ - Limitare valoare stoc pe locatii
 
     """,
     "category" : "Generic Modules/Stock",
