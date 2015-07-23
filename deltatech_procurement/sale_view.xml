@@ -9,21 +9,30 @@
 			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
 
+				<button name="invoice_cancel" position="after">
+					<button name="action_button_confirm_to_invoice" states="draft"
+					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
+					<button name="action_button_confirm_to_invoice" states="progress"
+					 string="Deliver and Invoice" type="object" groups="base.group_user" />
+				</button>
+
+
 				<xpath expr="//sheet/h1" position="before">
 					<div name="buttons" class="oe_right oe_button_box">
 
-						<button type="object" name="view_procurement" class="oe_stat_button" icon="fa-stack-overflow" attrs="{'invisible': [('procurement_count', '=', 0)]}">
+						<button type="object" name="view_procurement" class="oe_stat_button" 
+						                 icon="fa-stack-overflow" attrs="{'invisible': [('procurement_count', '=', 0)]}">
 							<field name="procurement_count" widget="statinfo" string="Procurements" />
 						</button>
 
-						<button class="oe_inline oe_stat_button" string="To Be Delivered" name="view_to_be_delivered" type="object" groups="stock.group_stock_user"
-							icon="fa-arrows-v" />
+						<button class="oe_inline oe_stat_button" string="To Be Delivered" name="view_to_be_delivered" 
+						                  type="object" groups="stock.group_stock_user" icon="fa-arrows-v" />
 
 					</div>
 				</xpath>
 				<xpath expr="//tree/field[@name='price_unit']" position="before">
-					<field name="qty_available"/>         
-					<field name="virtual_available"/>    
+					<field name="qty_available" />
+					<field name="virtual_available" />
 				</xpath>
 			</field>
 		</record>
@@ -33,9 +42,9 @@
 			<field name="name">sale.order.tree</field>
 			<field name="model">sale.order</field>
 			<field name="inherit_id" ref="sale.view_order_tree" />
-			<field name="arch" type="xml">				 
+			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<button name="open_sale_order"  icon="STOCK_DND" string="Show" type="object" class="oe_highlight"/>
+					<button name="open_sale_order" icon="STOCK_DND" string="Show" type="object" class="oe_highlight" />
 				</field>
 				<field name="amount_total" position="before">
 					<field name="amount_untaxed" sum="Total untaxed" />

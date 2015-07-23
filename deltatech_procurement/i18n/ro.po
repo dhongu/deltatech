@@ -375,6 +375,17 @@ msgstr "Share un mesaj..."
 msgid "Show"
 msgstr "Show"
 
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "Confirm, Deliver and Invoice"
+msgstr "Confimă, Livrează și Facturează"
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "Deliver and Invoice"
+msgstr "Livrează și Facturează"
+
 #. module: deltatech_procurement
 #: view:procurement.order:deltatech_procurement.procurement_form_view
 msgid "Source"

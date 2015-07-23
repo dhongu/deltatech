@@ -142,6 +142,7 @@ class sale_order(models.Model):
         """
         picking_obj = self.pool.get('stock.picking')
         res = super(sale_order, self).action_ship_create(cr, uid, ids, context=context)
+        
         for order in self.browse(cr, uid, ids):
             for picking in order.picking_ids:
                 if picking.state == 'confirmed':
@@ -159,6 +160,23 @@ class sale_order(models.Model):
             "url": url,
             "target": "new",
             }
+    
+    @api.multi
+    def action_button_confirm_to_invoice(self): 
+        if self.state == 'draft':     
+            self.action_button_confirm()  # confirma comanda
+        for picking in self.picking_ids:
+            picking.action_assign()   # verifica disponibilitate
+            if not all(move.state == 'assigned' for move in picking.move_lines):
+                raise Warning(_('Not all products are available. ')   )
+            picking.do_transfer()
+  
+        action_obj = self.env.ref('stock_account.action_stock_invoice_onshipping')
+        action = action_obj.read()[0]
+
+        action['context'] =  {'active_ids': self.picking_ids.ids, 'active_id': self.picking_ids[0].id  } 
+        return   action
+
         
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line' 

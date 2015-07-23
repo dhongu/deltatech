@@ -36,6 +36,7 @@ Features:
  - Daca produsul se compara atunci trebuie definit obligatoriu un furnizor
  - pozitiile din lista de ridicare sunt editabile
  - afisare locatie sursa in lista cu pozitiile din lista de ridicare
+ - buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
  
 
 
