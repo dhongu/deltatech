@@ -29,7 +29,7 @@ import openerp.addons.decimal_precision as dp
 
 
 
-class stock_picking(models.TransientModel):
+class stock_picking(models.Model):
     _inherit = "stock.picking"
 
 
