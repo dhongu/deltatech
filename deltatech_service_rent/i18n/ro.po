@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_service_rent
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-21 03:34+0000\n"
+"PO-Revision-Date: 2015-07-21 03:34+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Agreement"
+msgstr "Contract"
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,consumption_id:0
+msgid "Consumption"
+msgstr "Consum"
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_agreement
+msgid "Contract Services"
+msgstr "Contracte servicii"
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,counter_value:0
+msgid "Counter Value"
+msgstr "Valoare contor"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,create_uid:0
+#: field:service.meter,create_uid:0
+#: field:service.meter.reading,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,date:0
+msgid "Date"
+msgstr "Dată"
+
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,difference:0
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_rent.menu_service_equipment
+#: field:service.agreement.line,equipment_id:0
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+#: field:service.meter,equipment_id:0
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
+#: field:service.meter.reading,equipment_id:0
+msgid "Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_rent
+#: model:ir.actions.act_window,name:deltatech_service_rent.action_service_equipment
+#: view:service.agreement:deltatech_service_rent.view_service_agreement_form
+msgid "Equipments"
+msgstr "Echipamente"
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,estimated:0
+msgid "Estimated"
+msgstr "Estimat"
+
+ 
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_filter
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
+msgid "Group by..."
+msgstr "Grupează după..."
+
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Invoices"
+msgstr "Facturi"
+
+
+#. module: deltatech_service_rent
+#: field:service.equipment,partner_id:0
+msgid "Location"
+msgstr "Locație"
+
+
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_meter
+#: field:service.agreement.line,meter_id:0
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
+#: field:service.meter.reading,meter_id:0
+msgid "Meter"
+msgstr "Contor"
+
+#. module: deltatech_service_rent
+#: model:ir.actions.act_window,name:deltatech_service_rent.action_service_meter_reading
+#: model:ir.model,name:deltatech_service_rent.model_service_meter_reading
+#: model:ir.ui.menu,name:deltatech_service_rent.menu_service_meter_reading
+#: field:service.consumption,meter_reading_id:0
+#: field:service.equipment,meter_reading_ids:0
+#: field:service.meter,meter_reading_ids:0
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_form
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Meter Reading"
+msgstr "Citire contor"
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Meter Readings"
+msgstr "Citiri contori"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,meter_ids:0
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Meters"
+msgstr "Contori"
+
+ 
+#. module: deltatech_service_rent
+#: field:service.equipment,name:0
+#: field:service.meter,name:0
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,note:0
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_service_rent
+#: code:addons/deltatech_service_rent/service_rent.py:226
+#, python-format
+msgid "Old index: %s, New index:%s"
+msgstr "Index vechi: %s, Index nou:%s"
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_filter
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_service_rent
+#: field:service.meter.reading,previous_counter_value:0
+msgid "Previous Counter Value"
+msgstr "Valoare anterioară contor"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,quant_id:0
+msgid "Quant"
+msgstr "Poziție de stoc"
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_filter
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,serial_id:0
+msgid "Serial Number"
+msgstr "Număr serial"
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_agreement_line
+msgid "Service Agreement Line"
+msgstr "Linie contract"
+
+#. module: deltatech_service_rent
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+msgid "Service Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_consumption
+msgid "Service consumption"
+msgstr "Consum serviciu"
+
+#. module: deltatech_service_rent
+#: view:service.consumption:deltatech_service_rent.view_service_consumption_tree
+msgid "Services Consumption"
+msgstr "Consumuri Servicii"
+
+#. module: deltatech_service_rent
+#: code:addons/deltatech_service_rent/service_rent.py:190
+#: view:service.equipment:deltatech_service_rent.view_service_equipment_tree
+#, python-format
+msgid "Services Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_rent
+#: code:addons/deltatech_service_rent/service_rent.py:73
+#: code:addons/deltatech_service_rent/service_rent.py:94
+#, python-format
+msgid "Services Invoices"
+msgstr "Facturi servicii"
+
+#. module: deltatech_service_rent
+#: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_tree
+msgid "Services equipment"
+msgstr "Echipament"
+
+
+#. module: deltatech_service_rent
+#: field:service.equipment,start_date:0
+msgid "Start Date"
+msgstr "Data de start"
+
+#. module: deltatech_service_rent
+#: field:service.equipment,message_summary:0
+msgid "Summary"
+msgstr "Summary"
+
+#. module: deltatech_service_rent
+#: field:service.meter,total_counter_value:0
+msgid "Total Counter Value"
+msgstr "Valoare total contor"
+
+
+#. module: deltatech_service_rent
+#: field:service.equipment,work_location:0
+msgid "Work Location"
+msgstr "Punct de lucru"
+
