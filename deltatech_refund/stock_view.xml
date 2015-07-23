@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="view_picking_form" model="ir.ui.view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form" />
+			<field name="arch" type="xml">
+			<button  string="Reverse Transfer" position="attributes">
+					 <attribute name="attrs">{'invisible':['|',('origin_refund_picking_id','!=',False),('refund_picking_id','!=',False)]}</attribute>			
+			</button>
+				<field name="date_done" position="after">
+					<field name="origin_refund_picking_id"  attrs="{'invisible':[('origin_refund_picking_id','==',False)]}" />
+					<field name="refund_picking_id" attrs="{'invisible':[('refund_picking_id','==',False)]}" />
+				</field>
+			</field>
+		</record>
+
+
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+            	 <field name="origin" position="after">
+            	 	<field name="origin_returned_move_id"  attrs="{'invisible':[('origin_returned_move_id','==',False)]}" />
+            	 	<field name="returned_move_ids"  attrs="{'invisible':[('returned_move_ids','==',False)]}" />           	 	
+            	 </field>	
+            </field>
+        </record>
+
+
+	</data>
+</openerp>

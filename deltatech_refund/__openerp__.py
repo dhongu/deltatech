@@ -19,19 +19,29 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Picking Reverse transfer ",
+    "name" : "Deltatech Refund",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
- 
+
+Functionalitati: 
+ - Adaugate campuri in lista de ridicare pentru rambursare si pt documentul rambursat
+ - La o rambursare se poate genera o noua rambursare in asteptare
+ - Documentul de rambursare se poate inregistra in mod automat 
+ - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
+
 
     """,
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase"],
+    "depends" : ['deltatech',
+                 "base",
+                 "stock",
+                 "purchase",
+                 'account'],
  
-    "data" : ['stock_return_picking_view.xml'],
+    "data" : [ 'stock_return_picking_view.xml',
+              'stock_view.xml'],
     "active": False,
     "installable": True,
 }

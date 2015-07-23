@@ -86,7 +86,10 @@ class stock_picking(models.Model):
     # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
     @api.multi
     def action_invoice_create(self,  journal_id, group=False, type='out_invoice' ): 
+
+        #this = self.with_context(inv_type=type)  # foarte important pt a determina corect moneda
         invoices = super(stock_picking,self).action_invoice_create( journal_id, group, type )
+        #self = this
         
         journal = self.env['account.journal'].browse(journal_id)
         obj_invoices = self.env['account.invoice'].browse(invoices)

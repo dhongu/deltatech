@@ -19,26 +19,14 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api,  SUPERUSER_ID
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+
+import stock_return_picking
+import stock
+import account_invoice
+import account_invoice_refund
 
 
-import openerp.addons.decimal_precision as dp 
 
-class stock_picking(models.Model):
-    _inherit = 'stock.picking'
-
-    notice = fields.Boolean(string='Is a notice', states={'done': [('readonly', True)], 
-                                                          'cancel': [('readonly', True)]},
-                            compute='_compute_notice', store = True)              
-
-    @api.one
-    @api.depends('invoice_state')
-    def _compute_notice(self ):
-        invoice_state = self.invoice_state
-        self.notice = (invoice_state <> 'none')
-        
 
 
 

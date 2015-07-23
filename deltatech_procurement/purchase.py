@@ -31,7 +31,11 @@ import openerp.addons.decimal_precision as dp
 class purchase_order(models.Model):
     _inherit = 'purchase.order' 
 
-
+    procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
+    invoiced_rate = fields.Float(compute='_compute_invoiced_rate' ) # string='Invoiced Ratio', 
+    invoiced = fields.Boolean(compute='_compute_invoiced' )
+    
+    
     @api.one
     @api.depends('order_line.procurement_ids' )
     def _compute_procurement_count(self):           
@@ -44,6 +48,7 @@ class purchase_order(models.Model):
         self.procurement_count = len(procurements)
 
     @api.one
+    @api.depends('invoice_ids.amount_untaxed', 'amount_untaxed')
     def _compute_invoiced_rate(self):   
 
         if self.currency_id:
@@ -59,15 +64,27 @@ class purchase_order(models.Model):
                         from_currency = invoice.currency_id.with_context(date=invoice.date_invoice)
                     else:    
                         from_currency = self.env.user.company_id.currency_id.with_context(date=invoice.date_invoice)
-                         
-                    invoice_tot += from_currency.compute(invoice.amount_untaxed, to_currency )
                     
-            self.invoiced_rate =   invoice_tot * 100.0 / (self.amount_untaxed) 
+                    value = invoice.amount_untaxed
+                    if  invoice.type == 'in_refund' :
+                        value = -value                         
+                    invoice_tot += from_currency.compute(value, to_currency )
+                    
+            self.invoiced_rate =   min(100.00, invoice_tot * 100.0 / (self.amount_untaxed or 1.00))
         else:
             self.invoiced_rate = 0.0
- 
-    procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
-    invoiced_rate = fields.Float(  string='Invoiced',compute='_compute_invoiced_rate' ) 
+
+    # todo: sa tina cont si de facturile rambursate
+    @api.one
+    @api.depends('invoice_ids')
+    def _compute_invoiced(self):
+        self.invoiced = False
+        for invoice in self.invoice_ids:
+            if invoice.state =='paid':
+                self.invoiced = True
+        return res
+
+
 
 
     def view_procurement(self, cr, uid, ids, context=None):

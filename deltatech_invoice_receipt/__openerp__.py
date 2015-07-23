@@ -24,19 +24,16 @@
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
- 
-Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
 
-Nu se permite achizitia unui produs stocabil fara comanda aprovizionare (picking in asteptare).
+Functionalitati: 
+ - Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
+ - Nu se permite achizitia unui produs stocabil fara comanda aprovizionare (picking in asteptare).
+ - La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
+ - Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
+ - Se permite generarea unei document de recepție pentru produsele care nu au comanda de achizitie
 
-La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
-
-Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
-
-
-La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
-
-Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
+Antentie:
+ - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
 
 
     """,
@@ -46,10 +43,13 @@ Antentie la inregistrarea facturilor in care sunt un produs apare de mai multe o
                  "stock",
                  "account",
                  "purchase",
-                 "deltatech_stock_reverse_transfer",
+                 'deltatech_refund',
+                 #"deltatech_stock_reverse_transfer",
                  "stock_picking_invoice_link"],
  
-    "data" : [ 'account_invoice_view.xml'],
+    "data" : [
+               'account_invoice_view.xml'
+               ],
     "active": False,
     "installable": True,
 }

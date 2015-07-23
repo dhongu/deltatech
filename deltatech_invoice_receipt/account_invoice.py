@@ -28,73 +28,33 @@ from datetime import datetime
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
-
+    
+    """
     # camp pt a indica din ce factura se face stornarea
     origin_refund_invoice_id = fields.Many2one('account.invoice', string='Origin Invoice',   copy=False)
     # camp prin care se indica prin ce factura se face stornarea 
     refund_invoice_id = fields.Many2one('account.invoice', string='Refund Invoice',    copy=False)
-   
-     
-
-     
     """
-    cod mutat in deltatech_invoice_number
-    @api.multi
-    def onchange_journal_id(self, journal_id=False):
-        res = super(account_invoice,self).onchange_journal_id(journal_id)
-        msg = self.check_data(journal_id=journal_id, date_invoice=self.date_invoice)
-        if msg != '': 
-            res['warning'] = {'title':_('Warning'),'message':msg}          
-        return res
+    @api.model
+    def get_link(self, model ):
+        for model_id, model_name in model.name_get():
+            link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name )
+        return link
     
-    @api.multi
-    def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):    
-        res = super(account_invoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
-        msg =  self.check_data(journal_id=self.journal_id.id, date_invoice=date_invoice)
-        if msg != '':
-            res['warning'] = {'title':_('Warning'),'message':msg}
-        return res
-
-    @api.multi    
-    def check_data(self, journal_id=None, date_invoice=None):
-        
-        for obj_inv in self:
-            inv_type = obj_inv.type
-            number = obj_inv.number
-            date_invoice = date_invoice or obj_inv.date_invoice
-            journal_id = journal_id or obj_inv.journal_id.id
-         
-            if (inv_type == 'out_invoice' or inv_type == 'out_refund') and not obj_inv.internal_number:
-                res = self.search(  [('type','=',inv_type),
-                                     ('date_invoice','>',date_invoice), 
-                                     ('journal_id', '=', journal_id) ,
-                                     ('state','in',['open','paid']) ],
-                                  limit = 1,
-                                  order = 'date_invoice desc')
-                if res:                
-                    lang = self.env['res.lang'].search([('code','=',self.env.user.lang)])                       
-                    date_invoice = datetime.strptime(res.date_invoice, DEFAULT_SERVER_DATE_FORMAT).strftime(lang.date_format.encode('utf-8'))
-                    return  _('Post the invoice with a greater date than %s') % date_invoice
-        return ''
-    
-       
-    @api.multi
-    def action_number(self):
-        msg = self.check_data()
-        if msg != '':
-            raise except_orm(_('Date Inconsistency'), msg )            
-        super(account_invoice, self).action_number()
-        return True
-    """
-    
+    """     
     @api.multi
     @api.returns('self')
     def refund(self, date=None, period_id=None, description=None, journal_id=None):
         new_invoices = super(account_invoice, self).refund(date, period_id, description,journal_id )
         new_invoices.write({'origin_refund_invoice_id':self.id})
         self.write({'refund_invoice_id':new_invoices.id})
+        msg = _('Invoice %s was refunded by %s') % (self.get_link(self),  self.get_link(new_invoices))
+        self.message_post(body=msg)
+        new_invoices.message_post(body=msg)
         return new_invoices        
-
+    """
+    
+    
     @api.one
     def check_invoice_with_delivery(self):
         if self.type == 'out_invoice':
@@ -141,37 +101,17 @@ class account_invoice(models.Model):
                 self.env['stock.move'].create(move_value)
         picking.action_confirm()
         picking.do_transfer()        
-        msg = _('Picking list %s without reference to purchase order was created') % picking.name
+        msg = _('Picking list %s without reference to purchase order was created') % self.get_link(picking)
         self.message_post(body=msg)
+        picking.message_post(body=msg)
                 
     @api.multi
     def invoice_create_receipt(self):   
+        for picking in  self.picking_ids:
+            if picking.state in ['assigned']:
+                picking.do_transfer()
         if self.origin_refund_invoice_id:
-            for picking in self.origin_refund_invoice_id.picking_ids:
-                #msg = _('Picking list %s return') % picking.name                   
-                #self.message_post(body=msg)
-                 
-                default_make_new_picking = (self.type != 'out_refund')
-                if default_make_new_picking and  picking.move[0].purchase_line_id:  # recepte fara comanda de aprovizionare
-                    default_make_new_picking = False
-                            
-                return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id,
-                                                                            'default_make_new_picking':default_make_new_picking}).create({})
-                # anularea miscarilor de stoc trebuie facut in functie de tipul de anulare                                                                 
-                new_picking_id, pick_type_id  = return_obj._create_returns()
-                if new_picking_id: 
-                    new_picking = self.env['stock.picking'].browse(new_picking_id)
-                    new_picking.write({'invoice_id':self.id,
-                                       'invoice_state':'invoiced',})
-                    if new_picking.sale_id:
-                        picking.sale_id.write( {'invoice_ids': [(4, self.id)]})
-                    # de vazut cum pun referinta facturii si in comanda de achizitie!
-                    msg = _('Picking list %s was returned by the picking list %s') % (picking.name,  new_picking.name)                 
-                    self.message_post(body=msg)
-                    picking.message_post(body=msg)
-                    new_picking.message_post(body=msg)
-                    new_picking.do_transfer()
-                #TODO: si la fiecare miscare trebuie sa trec care este linia din factura ....
+            # e o factura de rambursare asa ca nu mai am ce face
             return             
 
         self.check_invoice_with_delivery() 
@@ -297,6 +237,9 @@ class account_invoice(models.Model):
         # sa incepem receptia
         processed_ids = []
         purchase_line_ids = []
+        
+        purchase_ids = self.env['purchase.order']
+        
         for line in new_picking_line:
             op = line['operation']
             op.write({'product_qty': line['product_qty'], 
@@ -314,8 +257,19 @@ class account_invoice(models.Model):
                     line['product_id'].write({'standard_price':line['price_unit']})   # actualizare pret cu ultimul pret din factura!!
                     
                 link.move_id.purchase_line_id.write({'invoice_lines': [(4, line['invoice_line'].id)]})
-                link.move_id.purchase_line_id.order_id.write({'invoice_ids': [(4, line['invoice_line'].invoice_id.id)]}) 
-
+                purchase_ids = purchase_ids | link.move_id.purchase_line_id.order_id
+                #link.move_id.purchase_line_id.order_id.write({'invoice_ids': [(4, line['invoice_line'].invoice_id.id)]}) 
+                
+        if purchase_ids:
+            purchase_ids.write({'invoice_ids': [(4, self.id)]})
+            msg_for_PO = _('Was entered invoice %s') % self.get_link(self)    
+            
+            msg = _('Was enter reception for purchase order:')
+            for purchase in purchase_ids:
+                purchase.message_post(body=msg_for_PO)
+                msg =  msg + ' '+ self.get_link(purchase)
+            self.message_post(body=msg)
+ 
         for line in new_picking_line:
             if line['picking'].state == 'assigned':
                 # Delete the others
@@ -333,9 +287,12 @@ class account_invoice(models.Model):
                                        'invoice_id':self.id,
                                        #'reception_to_invoice':False, 
                                        'origin':self.supplier_invoice_number or line['picking'].origin })
-                msg = _('Picking list %s was receipted') % line['picking'].name
+                msg = _('Picking list %s was receipted') % self.get_link(line['picking'])
                 origin = origin + ' '+ line['picking'].name
                 self.message_post(body=msg)
+       
+
+            
         if not self.origin:
             self.write({'origin':origin.strip()})
 

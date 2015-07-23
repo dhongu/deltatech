@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,12 +20,24 @@
 ##############################################################################
 
 
-import stock_return_picking
+
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
+import openerp.addons.decimal_precision as dp
 
 
 
+class stock_picking(models.TransientModel):
+    _inherit = "stock.picking"
 
 
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    # camp pt a indica din ce picking se face stornarea
+    origin_refund_picking_id = fields.Many2one('stock.picking', string='Origin Picking',   copy=False)
+    # camp prin care se indica prin ce picking se face rambursarea 
+    refund_picking_id = fields.Many2one('stock.picking', string='Refund Picking',    copy=False)  #posibil sa fie necesare mai multe intrari many2many
+    
+    with_refund = fields.Boolean(string="With refund",help="Picking list with refund or is an refund")
+    
+    

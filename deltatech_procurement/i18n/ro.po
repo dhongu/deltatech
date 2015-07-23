@@ -312,7 +312,7 @@ msgstr "Necesare de produse"
 #: view:required.order:deltatech_procurement.view_required_order_form
 #: field:required.order.line,required_id:0
 msgid "Required Products Order"
-msgstr "Comandă necesar produe"
+msgstr "Comandă necesar produse"
 
 #. module: deltatech_procurement
 #: model:mail.message.subtype,description:deltatech_procurement.mt_order_confirmed
