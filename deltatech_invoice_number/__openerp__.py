@@ -25,8 +25,9 @@
     "website" : "",
     "description": """
 
-Validare data factura sa fie mai mare decat data din ultima factura
-Posibilitatea de a modifica numarul unei facturi
+Functionalitati:
+ - Validare data factura sa fie mai mare decat data din ultima factura
+ - Posibilitatea de a modifica numarul unei facturi
 
 
     """,
