@@ -30,7 +30,7 @@ Functionalitati:
  - La o rambursare se poate genera o noua rambursare in asteptare
  - Documentul de rambursare se poate inregistra in mod automat 
  - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
-
+ - La stergerea unei facturi se va schimba si starea picking listului
 
     """,
     "category" : "Generic Modules/Stock",

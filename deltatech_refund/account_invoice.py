@@ -52,6 +52,34 @@ class account_invoice(models.Model):
         new_invoices.message_post(body=msg)
         return new_invoices         
 
+
+ 
+
+
+    @api.multi
+    def unlink(self):
+        for invoice in self:
+            for picking in self.picking_ids:
+                picking.write({'invoice_state':'2binvoiced'})
+            
+        res = super(account_invoice, self).unlink()
+        return res
+    
+    
+    
+class stock_move(models.Model):
+    _inherit = 'stock.move'
+
+    @api.model
+    def _create_invoice_line_from_vals(self,  move, invoice_line_vals ):
+        invoice_line_id = super(stock_move, self)._create_invoice_line_from_vals(  move, invoice_line_vals  )
+        move.picking_id.write({'invoice_id': invoice_line_vals['invoice_id']})
+        return invoice_line_id
+        
+        
+        
+        
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
 
