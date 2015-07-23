@@ -83,7 +83,6 @@ class sale_order(models.Model):
         for invoice in self.invoice_ids:
             if invoice.state =='paid':
                 self.invoiced = True
-        return res
 
 
     def view_procurement(self, cr, uid, ids, context=None):

@@ -82,7 +82,6 @@ class purchase_order(models.Model):
         for invoice in self.invoice_ids:
             if invoice.state =='paid':
                 self.invoiced = True
-        return res
 
 
 

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
+
+
+	<data noupdate="1">
+		<record id="seq_picking_consume" model="ir.sequence">
+			<field name="name">Sequence Consume</field>
+			<field name="code">stock.picking</field>
+			<field name="prefix">CONS/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+	</data>
+
+
 	<data>
+		<record id="stock.picking_type_consume" model="stock.picking.type">
+			<field name="name">Consume</field>
+			<field name="code">internal</field>
+			<field name="sequence_id" ref="seq_picking_consume" />
+			<field name="default_location_src_id" ref="stock.stock_location_stock" />
+			<field name="default_location_dest_id" ref="stock.location_production" />
+		</record>
+
+
+
 
 		<record id="view_picking_form" model="ir.ui.view">
 			<field name="name">stock.picking.form</field>
@@ -10,7 +34,7 @@
 				<button name="rereserve_pick" position="attributes">
 					<attribute name="states">waiting,partially_available</attribute>
 				</button>
-				
+
 				<button name="do_enter_transfer_details" position="replace">
 					<button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer" groups="stock.group_stock_user" type="object"
 						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}" />
@@ -19,11 +43,11 @@
 					<button name="do_enter_delivery_details" states="assigned,partially_available" string="Delivery" groups="stock.group_stock_user" type="object"
 						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}" />
 				</button>
-				
+
 
 				<field name="partner_id" position="attributes">
 					<attribute name="attrs">{'invisible':[('picking_type_code', '=', 'internal')]}</attribute>
-				</field>				
+				</field>
 			</field>
 		</record>
 
@@ -34,30 +58,26 @@
 			<field name="inherit_id" ref="stock.view_picking_internal_search" />
 			<field name="arch" type="xml">
 				<filter name="backorder" position="after">
-					<filter string="Invoice Not Applicable" name="not2binvoiced"  domain="[('invoice_state', '=', 'none')]"/>
-                    <field name="location_id" groups="stock.group_locations"/>
-                    <field name="location_dest_id" groups="stock.group_locations"/>
+					<filter string="Invoice Not Applicable" name="not2binvoiced" domain="[('invoice_state', '=', 'none')]" />
+					<field name="location_id" groups="stock.group_locations" />
+					<field name="location_dest_id" groups="stock.group_locations" />
 				</filter>
-				
+
 				<filter name="late" position="after">
-									<filter string="This Year" name="year"  
-						domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-						  />					
+					<filter string="This Year" name="year" domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]" />
 
-					<filter string="This Month" name="month"  
+					<filter string="This Month" name="month"
 						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-						  />		
+								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
 
-					<filter string="Previous Month" name="prev_month"  
+					<filter string="Previous Month" name="prev_month"
 						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-						  />	
-					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]"/>
-					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]"/>			
-				</filter>	
-				
-				
+								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
+					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]" />
+					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]" />
+				</filter>
+
+
 				<field name="picking_type_id" position="after">
 					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
 					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
@@ -146,15 +166,17 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context">{
+		    <field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_internal': 1,
-				'search_default_available': 1,
+				'search_default_picking_type_internal': 1,				
 				'default_picking_type_code':'internal',
-				}
-			</field>
+				'default_picking_type_id':        ref('stock.picking_type_internal'),
+				'search_default_picking_type_id': ref('stock.picking_type_internal'),
+				}"/>
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
+
+
 
 		<menuitem id="menu_picking_tree_internal" action="action_picking_tree_internal" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
 
@@ -194,7 +216,8 @@
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
-		<menuitem id="menu_picking_tree_outgoing_not2binvoiced" action="action_picking_tree_outgoing_not2binvoiced" parent="stock.menu_stock_warehouse_mgmt" sequence="103" />
+		<menuitem id="menu_picking_tree_outgoing_not2binvoiced" action="action_picking_tree_outgoing_not2binvoiced" parent="stock.menu_stock_warehouse_mgmt"
+			sequence="103" />
 
 		<record id="action_picking_tree_consume" model="ir.actions.act_window">
 			<field name="name">Consume Voucher</field>
@@ -203,13 +226,15 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context">{
+			<field name="context" eval="{
 				'contact_display': 'partner_address',
 				'search_default_picking_type_internal': 1,
-				'search_default_available': 1,
-				'default_picking_type_code':'consume',
-				}
-			</field>
+				
+				'default_picking_type_code':'internal',
+				'default_picking_type_id':        ref('stock.picking_type_consume'),
+				'search_default_picking_type_id': ref('stock.picking_type_consume'),
+				}"/>
+				
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -219,27 +244,5 @@
 	</data>
 
 
-	<data noupdate="0">
-		<record id="seq_picking_consume" model="ir.sequence">
-			<field name="name">Sequence Consume</field>
-			<field name="code">stock.picking</field>
-			<field name="prefix">CONS/</field>
-			<field name="padding">5</field>
-			<field name="number_next">1</field>
-			<field name="number_increment">1</field>
-		</record>
-	</data>
 
-
-	<data>
-		<record id="stock.picking_type_consume" model="stock.picking.type">
-			<field name="name">Consume</field>
-			<field name="code">internal</field>
-			<field name="sequence_id" ref="seq_picking_consume" />
-			<field name="default_location_src_id" ref="stock.stock_location_stock" />
-			<field name="default_location_dest_id" ref="stock.location_production" />
-		</record>
-
-
-	</data>
 </openerp>
