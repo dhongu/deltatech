@@ -77,9 +77,14 @@ class account_invoice(models.Model):
     def invoice_create_picking(self):  
         if self.picking_ids or self.type != 'in_invoice':
             return
+        
+        date_eval = self.date_invoice or fields.Date.context_today(self) 
+        date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
+        from_currency = self.currency_id.with_context(date=date_eval)
+        
         picking_value = {
                           'partner_id':self.partner_id.id,
-                          'date':self.date_invoice,
+                          'date':date_receipt,
                           'picking_type_id':self.env.ref('stock.picking_type_in').id,
                           'invoice_id':self.id,    
                           'origin':self.supplier_invoice_number,     
@@ -87,6 +92,8 @@ class account_invoice(models.Model):
         picking = self.env['stock.picking'].create(picking_value)
         for line in self.invoice_line:
             if line.product_id.type == 'product':
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                price = from_currency.compute(price, self.env.user.company_id.currency_id )
                 move_value= {
                                'product_id':line.product_id.id,
                                'product_uom_qty':line.quantity,
@@ -96,7 +103,9 @@ class account_invoice(models.Model):
                                'location_dest_id':self.env.ref('stock.stock_location_stock').id,
                                'invoice_state':'invoiced',
                                'invoice_line_id':line.id, 
-                               'picking_id':picking.id    
+                               'picking_id':picking.id,
+                               'price_unit': price,
+                               'date_expected': date_receipt 
                             }
                 self.env['stock.move'].create(move_value)
         picking.action_confirm()
@@ -104,6 +113,8 @@ class account_invoice(models.Model):
         msg = _('Picking list %s without reference to purchase order was created') % self.get_link(picking)
         self.message_post(body=msg)
         picking.message_post(body=msg)
+        
+        
                 
     @api.multi
     def invoice_create_receipt(self):   
@@ -220,7 +231,7 @@ class account_invoice(models.Model):
                                 new_picking_line.append({'picking':op.picking_id,
                                                          'operation':op,
                                                          'product_id':op.product_id, 
-                                                          'product_qty':quantities[op.id],
+                                                         'product_qty':quantities[op.id],
                                                          'price_unit':line['price_unit'],
                                                          'invoice_line': line['invoice_line']})
 
