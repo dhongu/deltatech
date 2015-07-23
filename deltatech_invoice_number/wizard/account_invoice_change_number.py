@@ -49,7 +49,8 @@ class account_invoice_change_number(models.TransientModel):
             invoice = self.env['account.invoice'].browse(active_id)
             invoice.write({'number':self.internal_number,
                            'internal_number':self.internal_number })
-            invoice.action_number()
+            if invoice.state == 'open':
+                invoice.action_number()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
