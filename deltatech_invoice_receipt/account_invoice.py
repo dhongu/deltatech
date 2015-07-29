@@ -57,7 +57,7 @@ class account_invoice(models.Model):
     
     @api.one
     def check_invoice_with_delivery(self):
-        if self.type == 'out_invoice':
+        if self.type != 'in_invoice':
             for line in self.invoice_line:
                 if line.product_id.type == 'product': 
                     ok = False
