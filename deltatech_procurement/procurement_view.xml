@@ -7,8 +7,9 @@
 			<field name="inherit_id" ref="procurement.procurement_form_view" />
 			<field name="arch" type="xml">
 				<field name="origin" position="after">
+					<field name="sale_id" />
 					<field name="move_dest_id" />
-				</field>
+				</field>				
 				<page string="Extra Information" position="after">
 					<page string="Stock Move">
 						<field name="move_ids" />

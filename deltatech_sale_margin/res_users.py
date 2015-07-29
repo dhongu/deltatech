@@ -19,14 +19,19 @@
 #
 ##############################################################################
 
- 
-import res_users
-import sale
-import account_invoice
-import stock
-import report
+
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
+from openerp.api import Environment
 
 
+class res_user(models.Model):
+    _inherit = 'res.users'
+    
+    #target = fields.Float(string="Target")
+    rate =  fields.Float(string="Rate", default=0.01) 
+    
 
 
 

@@ -80,7 +80,7 @@ class purchase_order(models.Model):
     def _compute_invoiced(self):
         self.invoiced = False
         for invoice in self.invoice_ids:
-            if invoice.state =='paid':
+            if invoice.state =='paid' and not (invoice.origin_refund_invoice_id or  invoice.refund_invoice_id):
                 self.invoiced = True
 
 

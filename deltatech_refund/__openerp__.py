@@ -38,6 +38,7 @@ Functionalitati:
                  "base",
                  "stock",
                  "purchase",
+                 "sale",
                  'account'],
  
     "data" : [ 'stock_return_picking_view.xml',

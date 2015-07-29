@@ -32,6 +32,7 @@ import openerp.addons.decimal_precision as dp
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
+    """
     @api.model
     def default_get(self, fields ):
 
@@ -59,29 +60,42 @@ class stock_picking(models.Model):
             except:
                 pass
         return res
-
+    """
     
     @api.multi
     def rereserve_pick(self):
         res = super(stock_picking, self).rereserve_pick()
         for picking in self:
+            msg = ''
             for move in picking.move_lines:
-                if move.state == 'waiting' and move.availability >= 0:
+                if move.procure_method=='make_to_order' and move.availability >= 0:  #move.state == 'waiting' 
                     """
                     if round(move.availability, 2) < round(move.product_qty, 2):
                         move_new_id = self.env['stock.move'].split( move=move, qty=move.availability)  
                         move_new = self.browse([move_new_id])
                         move.write({'availability':  0})
                     else:
-                    """                    
+                    """
+                   
+                    msg = msg + _('Quantity %s of product %s has bring to order.\n') % ( move.product_qty, move.product_id.name)
+                                        
                     move.write({'procure_method':  'make_to_stock',
                                 'state':'confirmed',
                                 'move_orig_ids':[(6,0,[])]})
                     #move.do_unreserve()
                     move.action_assign()
-                                                            
+            self.message_post( subject=_("Rereserve stock"), body= msg)                                                
         return res
 
+    """
+    @api.multi
+    def rereserve_pick(self):
+        msg = _("Rereserve stock")
+        self.message_post( body= msg)
+        super(stock_picking,self).rereserve_pick()
+    """
+    
+    
     @api.cr_uid_ids_context
     def do_enter_receipt_details(self, cr, uid, picking, context=None):
         return self.do_enter_transfer_details(cr,uid,picking, context )
@@ -105,11 +119,7 @@ class stock_picking(models.Model):
         context = dict(context or {}, active_ids=ids)       
         return self.pool.get("report").get_action(cr, uid, ids, 'stock.report_picking', context=context)
 
-    @api.multi
-    def rereserve_pick(self):
-        msg = _("Rereserve stock")
-        self.message_post( body= msg)
-        super(stock_picking,self).rereserve_pick()
+
 
 
 class stock_move(models.Model):

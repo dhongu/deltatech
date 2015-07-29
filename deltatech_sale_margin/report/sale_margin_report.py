@@ -45,6 +45,7 @@ class sale_margin_report(osv.osv):
  
         'stock_val': fields.float("Stock value",  readonly=True, help="Stock value in company currency"),
         'profit_val': fields.float("Profit",   readonly=True, help="Profit obtained at invoicing in company currency"),
+        'commission': fields.float("Commission",   readonly=True),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True),
         'commercial_partner_id': fields.many2one('res.partner', 'Commercial Partner', readonly=True),
         'user_id': fields.many2one('res.users', 'Salesperson', readonly=True),
@@ -104,7 +105,20 @@ class sale_margin_report(osv.osv):
                         THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
                         ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
                     END) AS profit_val,   
-                                                       
+                                          
+                    SUM(CASE 
+                        WHEN s.state::text = 'paid'::character varying::text 
+                        THEN
+                          CASE
+                            WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                            THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*ru.rate
+                            ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*ru.rate
+                          END
+                        ELSE
+                         0.0
+                        END
+                    ) AS commission,   
+                                                                                                  
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
                     s.user_id as user_id,
@@ -122,6 +136,7 @@ class sale_margin_report(osv.osv):
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.uos_id)
                     left join product_uom u2 on (u2.id=t.uom_id)
+                    left join res_users ru on (s.user_id = ru.id)
                     
         """
         return from_str
@@ -145,7 +160,8 @@ class sale_margin_report(osv.osv):
                     s.company_id,
                     s.period_id,
                     s.type,
-                    s.state 
+                    s.state
+                    
         """
         return group_by_str
 

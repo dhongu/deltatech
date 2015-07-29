@@ -71,11 +71,12 @@
 								 ('date','&lt;=', (context_today() - relativedelta(day=31, months=1)).strftime('%%Y-%%m-%%d')) ]"
 						help="Sales performed during previous month"  />
 
-												
- 
+					<separator/>							
+						
+						 
 					<separator/>
-					<filter   string="My Sales" help="My Sales" domain="[('user_id','=',uid)]"/>
-					
+					<filter   string="My Sales"  domain="[('user_id','=',uid)]"/>
+					<filter   string="Paid"  domain="[('state','=','paid')]"/>
 					<field name="partner_id"/>
 					<field name="commercial_partner_id"/>
 					<field name="product_id"/>

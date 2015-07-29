@@ -53,13 +53,10 @@ class account_invoice(models.Model):
         return new_invoices         
 
 
- 
-
-
     @api.multi
     def unlink(self):
         for invoice in self:
-            for picking in self.picking_ids:
+            for picking in invoice.picking_ids:
                 picking.write({'invoice_state':'2binvoiced'})
             
         res = super(account_invoice, self).unlink()

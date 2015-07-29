@@ -18,19 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+{
+    "name" : "Deltatech QR on invoice",
+    "version" : "1.0",
+    "category" : "Sales Management",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
  
-import res_users
-import sale
-import account_invoice
-import stock
-import report
+Features:
+ 
+
+    """,
+    
+    "depends" : ['deltatech',"account",'crm'],
+ 
+    "data" : [
+              "crm_view.xml",
+              'views/invoice_report.xml',
+              ],
+              
+    "active": False,
+    "installable": True,
+}
 
 
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -42,7 +42,9 @@ Features:
               'security/ir.model.access.csv',
               'sale_margin_view.xml',
               'account_invoice_view.xml',
-              'report/sale_margin_report.xml'],
+              'report/sale_margin_report.xml',
+              'res_users_view.xml',
+              ],
               
     "active": False,
     "installable": True,
