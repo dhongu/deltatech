@@ -91,9 +91,9 @@ class product_template(models.Model):
 
     alternative_code = fields.Char(string='Alternative Code', index=True,  compute='_compute_alternative_code' )
     alternative_ids = fields.One2many('product.alternative', 'product_tmpl_id', string='Alternatives')  
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Char(string='Shelf Life' )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
+    #dimensions = fields.Char(string='Dimensions' )
+    #shelf_life = fields.Char(string='Shelf Life' )
+    #uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
 
 
     @api.one
