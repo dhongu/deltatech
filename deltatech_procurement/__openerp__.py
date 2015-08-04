@@ -34,10 +34,11 @@ Features:
  - Trecerea de la make_to_order la make_to_stock
  - Afisare campuri de cantitate disponibila in comanda de vanzare
  - Daca produsul se compara atunci trebuie definit obligatoriu un furnizor
- - pozitiile din lista de ridicare sunt editabile
- - afisare locatie sursa in lista cu pozitiile din lista de ridicare
- - buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
- 
+ - Pozitiile din lista de ridicare sunt editabile
+ - Afisare locatie sursa in lista cu pozitiile din lista de ridicare
+ - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
+ - Filtru my pentru liste de ridicare
+ - Adugare butone in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare stoc cu pozitiile din document
 
 
     """,

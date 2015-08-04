@@ -19,6 +19,9 @@
 					 	name="view_to_be_received"
 					 	type="object" 
 					 	groups="stock.group_stock_user" icon="fa-arrows-v"/>
+					 
+					 <button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" 
+						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />
 				</div>
 			</field>
 		</record>

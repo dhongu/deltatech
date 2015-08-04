@@ -144,7 +144,28 @@ class purchase_order(models.Model):
             action['views'] = [(res and res[1] or False, 'form')]
             action['res_id'] = move_ids and move_ids[0] or False
         return action  
- 
+
+    def view_current_stock(self, cr, uid, ids, context=None):
+        '''
+        This function returns an action that display existing stock  .
+        '''
+        if context is None:
+            context = {}
+        mod_obj = self.pool.get('ir.model.data')
+        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'stock', 'product_open_quants'))
+        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
+
+        product_ids = []
+        for order in self.browse(cr, uid, ids, context=context):
+            product_ids += [line.product_id.id for line in order.order_line]
+        
+        action['context'] = {'search_default_internal_loc': 1, 
+                        #     'search_default_product_id': product_ids and product_ids[0] or Falses, 
+                             'search_default_locationgroup':1}
+        
+        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
+
+        return action  
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

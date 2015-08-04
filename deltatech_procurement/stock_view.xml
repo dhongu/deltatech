@@ -44,6 +44,10 @@
 						class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}" />
 				</button>
 
+				<button name="open_barcode_interface" position="after">
+					 <button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" 
+						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />				
+				</button>
 
 				<field name="partner_id" position="attributes">
 					<attribute name="attrs">{'invisible':[('picking_type_code', '=', 'internal')]}</attribute>
@@ -82,6 +86,10 @@
 					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
 					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
 					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
+					<separator/>
+					<filter name="my" string="My" domain="['|',('location_id.user_id.id','=',uid),
+															   ('location_dest_id.user_id.id','=',uid)]"  />
+					
 				</field>
 			</field>
 		</record>
@@ -147,13 +155,13 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context">{
+			<field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_incoming': 1,
-				'search_default_available': 1,
+				'search_default_picking_type_incoming': 1,				
 				'default_picking_type_code':'incoming',
-				}
-			</field>
+				'default_picking_type_id':        ref('stock.picking_type_in'),
+				'search_default_picking_type_id': ref('stock.picking_type_in'),
+				}"/>
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -168,7 +176,8 @@
 			<field name="domain"></field>
 		    <field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_internal': 1,				
+				'search_default_picking_type_internal': 1,	
+				'search_default_my': 1,				
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_internal'),
 				'search_default_picking_type_id': ref('stock.picking_type_internal'),
@@ -187,13 +196,14 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context">{
+			<field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_outgoing': 1,
-				'search_default_available': 1,
+				'search_default_picking_type_outgoing': 1,				
 				'default_picking_type_code':'outgoing',
-				}
-			</field>
+				'default_picking_type_id':        ref('stock.picking_type_out'),
+				'search_default_picking_type_id': ref('stock.picking_type_out'),
+				}"/>
+ 
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -206,13 +216,15 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context">{
+			<field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_outgoing': 1,
-				'search_default_not2binvoiced':1,
+				'search_default_picking_type_outgoing': 1,				
 				'default_picking_type_code':'outgoing',
-				}
-			</field>
+				'search_default_not2binvoiced':1,
+				'search_default_my': 1,	
+				'default_picking_type_id':        ref('stock.picking_type_out'),
+				'search_default_picking_type_id': ref('stock.picking_type_out'),
+				}"/>			
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -229,7 +241,7 @@
 			<field name="context" eval="{
 				'contact_display': 'partner_address',
 				'search_default_picking_type_internal': 1,
-				
+				'search_default_my': 1,	
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_consume'),
 				'search_default_picking_type_id': ref('stock.picking_type_consume'),

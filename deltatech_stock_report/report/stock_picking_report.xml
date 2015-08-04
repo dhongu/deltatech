@@ -126,7 +126,7 @@
 			<field name="act_window_id" ref="action_stock_picking_report"/>
 		</record>
 
-		<menuitem name="Ricking Analysis" action="action_stock_picking_report" id="menu_stock_picking_report_tree" parent="stock.next_id_61"/>
+		<menuitem name="Picking Analysis" action="action_stock_picking_report" id="menu_stock_picking_report_tree" parent="stock.next_id_61"/>
 	</data>
 </openerp>
 

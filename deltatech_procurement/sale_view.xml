@@ -28,6 +28,9 @@
 						<button class="oe_inline oe_stat_button" string="To Be Delivered" name="view_to_be_delivered" 
 						                  type="object" groups="stock.group_stock_user" icon="fa-arrows-v" />
 
+
+						<button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" 
+						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />
 					</div>
 				</xpath>
 				<xpath expr="//tree/field[@name='price_unit']" position="before">

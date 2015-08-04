@@ -33,6 +33,7 @@ class stock_picking_report(osv.osv):
 
         'partner_id': fields.many2one(  'res.partner', 'Partner', readonly=True),
         'picking_type_id':fields.many2one( 'stock.picking.type', 'Picking Type', readonly=True),
+        'picking_id':fields.many2one('stock.picking', 'Picking', readonly=True),
         
         'picking_type_code': fields.related('picking_type_id', 'code', type='char', string='Picking Type Code',readonly=True),  
               
@@ -62,33 +63,55 @@ class stock_picking_report(osv.osv):
 
     }
 
+
+    def _select(self):
+        select_str = """
+            SELECT min(sm.id) as id, sp.id as picking_id,
+            sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.invoice_state, sp.company_id,
+            pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
+            sm.location_id,sm.location_dest_id,
+            sum(sq.qty) as product_qty, 
+            sum(sq.qty*sq.cost) as amount
+        """
+        return select_str
+
+
+
+    def _from(self):
+        from_str = """
+            FROM stock_picking as sp
+            LEFT JOIN res_partner as rp ON rp.id = sp.partner_id 
+            LEFT JOIN stock_move as sm ON sp.id = sm.picking_id
+            LEFT JOIN stock_quant_move_rel ON sm.id = stock_quant_move_rel.move_id
+            LEFT JOIN stock_quant as sq ON stock_quant_move_rel.quant_id = sq.id
+            LEFT JOIN product_product as pp ON  sm.product_id = pp.id
+            LEFT JOIN product_template as pt ON  pp.product_tmpl_id = pt.id
+
+        """
+        return from_str
+
+
+    def _group_by(self):
+        group_by_str = """
+            GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,   sp.invoice_state,sp.company_id,
+            pt.categ_id, sm.product_id,  pt.uom_id ,
+            sm.location_id,sm.location_dest_id
+        """
+        return group_by_str
+
+
     def init(self, cr):
-        tools.sql.drop_view_if_exists(cr, 'stock_picking_report')
-        cr.execute("""
-         create or replace view stock_picking_report as (
 
-select min(1000000*sp.id+1000*sm.id+sq.id) as id,
-sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.invoice_state, sp.company_id,
-pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
-sm.location_id,sm.location_dest_id,
-sum(sq.qty) as product_qty, 
-sum(sq.qty*sq.cost) as amount
-
-from stock_picking as sp
-join res_partner as rp on rp.id = sp.partner_id 
-join stock_move as sm on sp.id = sm.picking_id
-join stock_quant_move_rel on sm.id = stock_quant_move_rel.move_id
-join stock_quant as sq on stock_quant_move_rel.quant_id = sq.id
-LEFT JOIN product_product pp ON  sm.product_id = pp.id
-LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
-
-where sm.state  = 'done'
-group by sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,   sp.invoice_state,sp.company_id,
-pt.categ_id, sm.product_id,  pt.uom_id ,
-sm.location_id,sm.location_dest_id
-
-
-        )""")
+        tools.drop_view_if_exists(cr, self._table)
+        cr.execute("""CREATE or REPLACE VIEW %s as (
+            %s
+            %s 
+            WHERE sm.state  = 'done'
+            %s
+        )""" % ( self._table,  self._select(), self._from(), self._group_by() ) )
+                   
+        
+        
 
  
 
