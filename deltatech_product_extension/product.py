@@ -19,20 +19,18 @@
 #
 ##############################################################################
 
-
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-from openerp.api import Environment
+from openerp.exceptions import   Warning, RedirectWarning
 
 
-class res_users(models.Model):
-    _inherit = 'res.users'
-    
-    rate =  fields.Float(string="Rate", default=0.01) 
-    
 
+class product_template(models.Model):
+    _inherit = 'product.template'
 
+    dimensions = fields.Char(string='Dimensions' )
+    shelf_life = fields.Float(string='Shelf Life',  digits_compute=dp.get_precision('Product UoM') )
+    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life" )
 
 
 

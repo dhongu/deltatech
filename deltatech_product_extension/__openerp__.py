@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.api import Environment
-
-
-class res_users(models.Model):
-    _inherit = 'res.users'
+{
+    "name" : "Deltatech Products Extension",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
     
-    rate =  fields.Float(string="Rate", default=0.01) 
+    'category': 'Sales Management',
     
+    "depends" : ['deltatech',"product"],
 
 
-
-
-
-
+    "description": """
+Features:    
+ - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life    
+ 
+""",
+    "data" : [
+        "product_view.xml",
+    ],
+    "active": False,
+    "installable": True,
+   
+}
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Products Alternative ",
+    "name" : "Deltatech Products Alternative",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules/Inventory Control",
@@ -30,7 +30,7 @@
 Features:    
  - New model: product_catelog
  - A module that add alternative on the product form
- - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life    
+ 
  
 """,
     "data" : [
