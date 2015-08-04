@@ -34,7 +34,7 @@
 	            <graph string="picking_report for stock" type="pivot" >	
 	                <field name="picking_type_id" type="row"/>
 	                <field name="commercial_partner_id" type="row"/>	
-	                <field name="product_id"  />  
+	              <!--   <field name="product_id" type="row"/>	  -->
 	                <field name="product_qty" type="measure"/>
 	                <field name="amount" type="measure"/>
 	            </graph>
@@ -71,6 +71,12 @@
 								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
 						  />					
 					
+					<separator/>
+					<filter string="Invoice Not Applicable" name="not2binvoiced" domain="[('invoice_state', '=', 'none')]" />
+					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
+					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
+					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
+
 					
 					<group expand="0" string="Extended Filters..." >
 						<field name="company_id" groups="base.group_multi_company"/>
@@ -109,7 +115,7 @@
 			<field name="view_id" ref="view_stock_picking_report_tree"/>
 			<field name="search_view_id" ref="view_stock_picking_report_filter"/>
 			<field name="help">This reporting allows you to analysis stock pickings.</field>
-			<field name="context">{'search_default_location': 1,'search_default_category': 1, 'group_by':['picking_type_id']}</field>
+			<field name="context">{'search_default_location': 1,'search_default_category': 1}</field>
 		</record>
 		
 		<record model="ir.actions.act_window.view" id="action_stock_picking_report_graph">

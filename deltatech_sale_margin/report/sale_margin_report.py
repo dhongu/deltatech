@@ -36,7 +36,7 @@ class sale_margin_report(osv.osv):
     _columns = {
         
         'date': fields.date('Date', readonly=True),
-         
+        'invoice_id': fields.many2one('account.invoice', 'Invoice', readonly=True),
         'categ_id': fields.many2one('product.category', 'Category', readonly=True), 
         'product_id': fields.many2one('product.product', 'Product', readonly=True),
         'product_uom': fields.many2one('product.uom', 'Unit of Measure', readonly=True),
@@ -77,7 +77,7 @@ class sale_margin_report(osv.osv):
                 select
                     min(l.id) as id,
                     s.date_invoice as date,               
-                                     
+                    l.invoice_id as invoice_id,                 
                     t.categ_id as categ_id,                    
                     l.product_id as product_id,
                     t.uom_id as product_uom,

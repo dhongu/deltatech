@@ -425,7 +425,7 @@ msgstr "Mișcări stoc"
 #: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing
 #: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing
 msgid "Stock Outgoing"
-msgstr "Ieșiri stoc (avize)"
+msgstr "Ieșiri stoc"
 
 
 #. module: deltatech_procurement

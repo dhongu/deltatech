@@ -23,7 +23,7 @@ from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import   Warning, RedirectWarning
 
-
+"""
 class stock_warehouse(models.Model):
     _inherit = "stock.warehouse"
     
@@ -34,10 +34,13 @@ class stock_location(models.Model):
     _inherit = "stock.location"
     
     user_id = fields.Many2one('res.users', string='Manager') 
-
+"""
  
 class stock_picking(models.Model):
     _inherit = "stock.picking"
+
+
+
     
     @api.multi
     def check_authorization_transfer(self):

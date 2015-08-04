@@ -93,7 +93,7 @@
 						<filter string="Partner"    name="customer" context="{'group_by':'partner_id'}"/>
 						<filter string="Commercial Partner"    name="customer" context="{'group_by':'commercial_partner_id'}"/>
 						<filter string="Product"   name="product" context="{'group_by':'product_id','set_visible':True}"/>
-						
+						<filter string="Invoice"   name="invoice" context="{'group_by':'invoice_id'}"/>
 						<filter string="Category of Product"  name="category" context="{'group_by':'categ_id'}"/>
 						<filter string="Status"   context="{'group_by':'state'}"/>
 						 
@@ -114,7 +114,7 @@
 			<field name="view_id" ref="view_sale_margin_report_tree"/>
 			<field name="search_view_id" ref="view_sale_margin_report_filter"/>
 			<field name="help">This report performs analysis on your invoices.</field>
-			<field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':[]}</field>
+			<field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}</field>
 		</record>
 		
 		<record model="ir.actions.act_window.view" id="action_sale_margin_report_graph">
