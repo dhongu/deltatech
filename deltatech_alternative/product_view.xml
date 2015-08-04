@@ -106,9 +106,11 @@
 				<field name="active" position="after">
 					<field name="alternative_code" />
 				</field>
+				<!-- 
 				<field name="volume" position="before">
 					<field name="dimensions" />
-				</field>	
+				</field>
+					
 				<field name="product_manager" position="after">
 					
 					<label for="shelf_life"/>
@@ -117,7 +119,8 @@
                         <field name="uom_shelf_life" class="oe_inline"/> 
                     </div>
 
-				</field>								
+				</field>
+				 -->								
 				<notebook position="inside">
 					<page string="Alternative">
 						<separator string="Alternative" colspan="4" />
