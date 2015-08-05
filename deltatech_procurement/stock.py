@@ -176,8 +176,25 @@ class stock_picking(models.Model):
 class stock_move(models.Model):
     _inherit = 'stock.move'
     
-       
-        
+    @api.model
+    def default_get(self, fields):
+        defaults = super(stock_move, self).default_get(fields)  
+        picking_type_id = self.env.context.get('default_picking_type_id', False)
+        if picking_type_id:
+            central_location = self.env.ref('stock.stock_location_stock')
+            my_location = self.env['stock.location'].search([('user_id','=',self.env.user.id),('id','!=',central_location.id)],limit=1)
+            my_location = my_location and my_location[0] or False
+
+            picking_type_internal = self.env.ref('stock.picking_type_internal')
+            picking_type_consume = self.env.ref('stock.picking_type_consume')
+            
+            if my_location and picking_type_internal and picking_type_id == picking_type_internal.id:
+                defaults['location_dest_id'] = my_location.id
+                
+            if my_location and picking_type_consume and picking_type_id == picking_type_consume.id:
+                defaults['location_id'] = my_location.id       
+                     
+        return defaults   
     
     @api.multi
     def do_make_to_stock(self):

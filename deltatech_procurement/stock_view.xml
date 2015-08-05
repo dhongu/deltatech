@@ -91,7 +91,7 @@
 					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
 					<separator/>
 					<filter name="my" string="My" domain="['|',('location_id.user_id.id','=',uid),
-															   ('location_dest_id.user_id.id','=',uid)]"  />
+															   ('location_dest_id.user_id.id','=',uid)]"   />
 					
 				</field>
 			</field>
