@@ -60,7 +60,7 @@ class product_catalog(models.Model):
                         alt.append((0, 0, {'name':old.code}))
                     values['alternative_ids'] =  alt
                 
-                prod_new = prod.search( [('default_code', '=ilike', prod_cat.code)] )
+                prod_new = prod.with_context({'no_catalog':True}).search( [('default_code', '=ilike', prod_cat.code)] )
                 if not prod_new:  
                     prod_new = prod.sudo().create(values)
                 
@@ -107,6 +107,46 @@ class product_template(models.Model):
 
 class product_product(models.Model):
     _inherit = 'product.product'
+
+    @api.model
+    @api.returns('self')
+    def search(self,   args, offset=0, limit=None, order=None, context=None, count=False):
+        #return models.Model.search(self, cr, user, args, offset=offset, limit=limit, order=order, context=context, count=count)
+        res = models.Model.search(self,  args, offset=offset, limit=limit, order=order, context=context, count=count)
+        
+        if not res and not self.env.context.get('no_catalog',False):
+            name = ''
+            for opt in args:
+                if isinstance(opt, tuple):
+                    left, operator, right = opt
+                    if left in ['name','default_code']:
+                        name = right
+            if name:
+                res = self.search_in_catalog(name)  
+        return res
+
+
+    @api.model
+    def search_in_catalog(self, name):
+        alt = []
+        prod_cat = False 
+        while name and len(name)>2:
+            prod_cat =  self.env['product.catalog'].search(  [('code', '=ilike', name)], limit=1 )
+            if prod_cat:
+                alt.append(name)
+                name = prod_cat.code_new      
+            else:
+                name = ''   
+        if prod_cat:
+            if not prod_cat.product_id:
+                prod_new = prod_cat.with_context({'no_catalog':True}).create_product()
+                res =  prod_new
+            else:
+                res =  prod_cat.product_id 
+        return res 
+        
+
+ 
     
     @api.model
     def name_search(self,  name, args=None, operator='ilike',  limit=100): 
@@ -127,26 +167,9 @@ class product_product(models.Model):
         res =  super(product_product,self).name_search(  name, args, operator=operator, limit=limit) + res_alt
         prod_cat_ids = None
         if not res:
-            # poate e un cod din catalog
-            alt = []
-
-            prod_cat = False 
-
-            while name and len(name)>2:
-                prod_cat =  self.env['product.catalog'].search(  [('code', '=ilike', name)], limit=1 )
-                if prod_cat:
-                    alt.append(name)
-                    name = prod_cat.code_new      
-                else:
-                    name = ''
-                    
-            if prod_cat:
-                if not prod_cat.product_id:
-                    prod_new = prod_cat.create_product()
-                    res =  prod_new.name_get()
-                else:
-                    res =  prod_cat.product_id.name_get()
-                              
+            prod = self.search_in_catalog(name)
+            if prod:
+                res = prod.name_get()           
         return res            
 
             
