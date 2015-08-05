@@ -61,6 +61,35 @@ class stock_picking(models.Model):
                 pass
         return res
     """
+
+    @api.multi
+    def action_confirm(self):
+        for picking in self:
+            new_follower_ids = []
+            msg = ''
+            if picking.location_id.user_id:
+                new_follower_ids += [picking.location_id.user_id.partner_id.id]
+                if picking.location_id.user_id.id <> self.env.user.id:
+                    msg = _('Please confirm transfer')
+            if picking.location_dest_id.user_id:
+                new_follower_ids += [picking.location_dest_id.user_id.partner_id.id]                
+            if new_follower_ids:
+                picking.message_subscribe(new_follower_ids)
+            
+            if msg and not self.env.context.get('no_message',False):
+                picking.message_post(body=msg,type='comment',subtype='mt_comment')
+        super(stock_picking, self).action_confirm()
+        
+
+
+    @api.multi
+    def action_direct_transfer(self):
+        for picking in self:
+            picking.with_context({'no_message':True}).action_confirm()
+            picking.action_assign()   # verifica disponibilitate
+            if not all(move.state == 'assigned' for move in picking.move_lines):
+                raise Warning(_('Not all products are available. ')   )
+            picking.do_transfer()
     
     @api.multi
     def rereserve_pick(self):
