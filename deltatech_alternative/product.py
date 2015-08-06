@@ -130,6 +130,7 @@ class product_product(models.Model):
     def search_in_catalog(self, name):
         alt = []
         prod_cat = False 
+        res = None
         while name and len(name)>2:
             prod_cat =  self.env['product.catalog'].search(  [('code', '=ilike', name)], limit=1 )
             if prod_cat:
