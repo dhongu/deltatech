@@ -11,6 +11,17 @@
 			<field name="number_next">1</field>
 			<field name="number_increment">1</field>
 		</record>
+	
+		<record id="seq_picking_outgoing_not2binvoiced" model="ir.sequence">
+			<field name="name">Stock Outgoing not invoice</field>
+			<field name="code">stock.picking</field>
+			<field name="prefix">OUT/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+		
+		
 	</data>
 
 
@@ -23,7 +34,13 @@
 			<field name="default_location_dest_id" ref="stock.location_production" />
 		</record>
 
-
+		<record id="stock.picking_type_outgoing_not2binvoiced" model="stock.picking.type">
+			<field name="name">Stock Outgoing not invoice </field>
+			<field name="code">outgoing</field>
+			<field name="sequence_id" ref="seq_picking_outgoing_not2binvoiced" />
+			<field name="default_location_src_id" ref="stock.stock_location_stock" />
+			<field name="default_location_dest_id" ref="stock.stock_location_customers" />
+		</record>
 
 
 		<record id="view_picking_form" model="ir.ui.view">
@@ -225,8 +242,8 @@
 				'default_picking_type_code':'outgoing',
 				'search_default_not2binvoiced':1,
 				'search_default_my': 1,	
-				'default_picking_type_id':        ref('stock.picking_type_out'),
-				'search_default_picking_type_id': ref('stock.picking_type_out'),
+				'default_picking_type_id':        ref('stock.picking_type_outgoing_not2binvoiced'),
+				'search_default_picking_type_id': ref('stock.picking_type_outgoing_not2binvoiced'),
 				}"/>			
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>

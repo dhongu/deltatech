@@ -127,7 +127,7 @@ class procurement_order(models.Model):
                     qty = qty - disp
             """
             """
-            # si daca produsul are reorder point trebuie adaugat la qunt si cantitatea de reaprovizionat!!!
+            # si daca produsul are reorder point trebuie adaugat la qunat si cantitatea de reaprovizionat!!!
             #if seller_qty:
             #    qty = max(qty, seller_qty)
             #po_line.write({'product_qty':qty})
