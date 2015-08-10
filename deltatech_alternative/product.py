@@ -109,7 +109,7 @@ class product_product(models.Model):
     _inherit = 'product.product'
 
 
-    """
+    
     @api.model
     @api.returns('self')
     def search(self,   args, offset=0, limit=None, order=None, context=None, count=False):
@@ -126,7 +126,7 @@ class product_product(models.Model):
             if name:
                 res = self.search_in_catalog(name)  
         return res
-    """
+    
 
     @api.model
     def search_in_catalog(self, name):
@@ -167,8 +167,8 @@ class product_product(models.Model):
                 #res_alt =  recs.name_get()
                 res_alt =  products.name_get()
 
-        
-        res =  super(product_product,self).name_search(name, args, operator=operator, limit=limit) + res_alt
+        this = self.with_context({'no_catalog':True})
+        res =  super(product_product,this).name_search(name, args, operator=operator, limit=limit) + res_alt
          
         prod_cat_ids = None
         if not res:
