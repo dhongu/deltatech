@@ -65,15 +65,16 @@ class stock_picking(models.Model):
         return super(stock_picking, self).do_transfer( cr, uid, picking_ids, context )
     """
 
-    @api.multi
-    def do_enter_transfer_details(self):
-        self.check_authorization_transfer()
-        return super(stock_picking, self).do_enter_transfer_details(  )
 
-    @api.multi
-    def do_transfer(self):
-        self.check_authorization_transfer()
-        return super(stock_picking, self).do_transfer(  )
+    @api.cr_uid_ids_context
+    def do_enter_transfer_details(self, cr, uid, picking, context=None):
+        self.check_authorization_transfer(cr, uid, picking, context)
+        return super(stock_picking, self).do_enter_transfer_details( cr, uid, picking, context )
+
+    @api.cr_uid_ids_context
+    def do_transfer(self, cr, uid, picking_ids, context=None):
+        self.check_authorization_transfer(cr, uid, picking_ids, context)
+        return super(stock_picking, self).do_transfer( cr, uid, picking_ids, context)
 
 
  
