@@ -41,6 +41,17 @@
 			<field name="default_location_src_id" ref="stock.stock_location_stock" />
 			<field name="default_location_dest_id" ref="stock.stock_location_customers" />
 		</record>
+		
+        <record id="view_stock_invoice_onshipping" model="ir.ui.view">
+            <field name="name">Stock Invoice Onshipping</field>
+            <field name="model">stock.invoice.onshipping</field>
+            <field name="inherit_id" ref="stock_account.view_stock_invoice_onshipping" />
+            <field name="arch" type="xml">
+            	<field name="journal_id" position="attributes">
+            		<attribute name="groups">account.group_account_manager</attribute>
+            	</field>
+            </field>
+        </record>
 
 
 		<record id="view_picking_form" model="ir.ui.view">
@@ -176,8 +187,7 @@
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
 			<field name="context" eval="{
-				'contact_display': 'partner_address',
-				'search_default_picking_type_incoming': 1,				
+				'contact_display': 'partner_address',		
 				'default_picking_type_code':'incoming',
 				'default_picking_type_id':        ref('stock.picking_type_in'),
 				'search_default_picking_type_id': ref('stock.picking_type_in'),
@@ -196,7 +206,7 @@
 			<field name="domain"></field>
 		    <field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_internal': 1,	
+
 				'search_default_my': 1,				
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_internal'),
@@ -217,8 +227,7 @@
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
 			<field name="context" eval="{
-				'contact_display': 'partner_address',
-				'search_default_picking_type_outgoing': 1,				
+				'contact_display': 'partner_address',			
 				'default_picking_type_code':'outgoing',
 				'default_picking_type_id':        ref('stock.picking_type_out'),
 				'search_default_picking_type_id': ref('stock.picking_type_out'),
@@ -230,17 +239,15 @@
 		<menuitem id="menu_picking_tree_outgoing" action="action_picking_tree_outgoing" parent="stock.menu_stock_warehouse_mgmt" sequence="102" />
 
 		<record id="action_picking_tree_outgoing_not2binvoiced" model="ir.actions.act_window">
-			<field name="name">Stock Outgoing not invoice</field>
+			<field name="name">Stock Outgoing not billable</field>
 			<field name="res_model">stock.picking</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
 			<field name="context" eval="{
-				'contact_display': 'partner_address',
-				'search_default_picking_type_outgoing': 1,				
+				'contact_display': 'partner_address',			
 				'default_picking_type_code':'outgoing',
-				'search_default_not2binvoiced':1,
 				'search_default_my': 1,	
 				'default_picking_type_id':        ref('stock.picking_type_outgoing_not2binvoiced'),
 				'search_default_picking_type_id': ref('stock.picking_type_outgoing_not2binvoiced'),
@@ -260,7 +267,6 @@
 			<field name="domain"></field>
 			<field name="context" eval="{
 				'contact_display': 'partner_address',
-				'search_default_picking_type_internal': 1,
 				'search_default_my': 1,	
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_consume'),

@@ -39,6 +39,6 @@ class sale_order(models.Model):
             raise Warning(_('You can not have authorization to confirm sale order.'))
         return super(sale_order,self).action_button_confirm()
  
-
-
+    
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

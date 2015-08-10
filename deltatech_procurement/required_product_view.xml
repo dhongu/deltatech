@@ -73,7 +73,7 @@
 						<div class="oe_title oe_left">
 							<h1>
 								<label class="oe_edit_only" for="name" string="Required Products Order" />
-								<field name="name" class="oe_inline" />
+								<field name="name" readonly="True" class="oe_inline" />
 							</h1>
 						</div>
 						<div class="oe_right oe_button_box" name="buttons">
@@ -81,9 +81,11 @@
 						</div>
 						<group>
 							<group>
+							
 								<field name="date_planned" />
 								<field name="group_id" />
 								<field name="route_id" />
+								<field name="comment" />
 							</group>
 							<group>
 								<field name="warehouse_id" />
@@ -116,6 +118,7 @@
 			<field name="arch" type="xml">
 				<search string="Search">
 					<field name="location_id" />
+					<filter name="my" string="My" domain="[('location_id.user_id.id','=',uid) ]"   />
 					<newline />
 					<group expand="1" string="Group By...">
 						<filter string="Location" name="location" context="{'group_by':'location_id'}" />
@@ -131,6 +134,9 @@
 			<field name="res_model">required.order</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+			<field name="context" eval="{
+				'search_default_my': 1,				
+				}"/>
 		</record>
 
 		<menuitem name="Required Orders" id="menu_required_order" action="action_required_order" parent="stock.menu_stock_warehouse_mgmt" sequence="500" />

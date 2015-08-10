@@ -39,20 +39,42 @@ class stock_location(models.Model):
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
-
-
     
     @api.multi
     def check_authorization_transfer(self):
         group_ext_id = 'deltatech_rec_access.group_stock_no_transfer' 
         res =  self.env['res.users'].has_group(group_ext_id)
         if res:
-            raise Warning(_('You can not have authorization transfer.'))
+            for picking in self:
+                if  picking.location_id.user_id and picking.location_id.user_id.id != self.env.user.id :
+                    raise Warning(_('You can not have authorization transfer stock from this location.'))    
+                if  picking.location_dest_id.usage not in ['customer','production'] :
+                    raise Warning(_('You can not have authorization transfer stock to this location.\n'+
+                                    'The destination location selected is not a client or production location'))  
         return True
- 
+    """ 
     @api.cr_uid_ids_context
     def do_enter_transfer_details(self, cr, uid, picking, context=None):
         self.check_authorization_transfer(cr, uid, picking, context)
         return super(stock_picking, self).do_enter_transfer_details( cr, uid, picking, context )
+
+    @api.cr_uid_ids_context
+    def do_transfer(self, cr, uid, picking_ids, context=None):
+        for picking in self.browse(cr, uid, picking_ids, context=context):
+            self.check_authorization_transfer(cr, uid, picking, context)
+        return super(stock_picking, self).do_transfer( cr, uid, picking_ids, context )
+    """
+
+    @api.multi
+    def do_enter_transfer_details(self):
+        self.check_authorization_transfer()
+        return super(stock_picking, self).do_enter_transfer_details(  )
+
+    @api.multi
+    def do_transfer(self):
+        self.check_authorization_transfer()
+        return super(stock_picking, self).do_transfer(  )
+
+
  
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -182,7 +182,10 @@ class stock_move(models.Model):
         picking_type_id = self.env.context.get('default_picking_type_id', False)
         if picking_type_id:
             central_location = self.env.ref('stock.stock_location_stock')
-            my_location = self.env['stock.location'].search([('user_id','=',self.env.user.id),('id','!=',central_location.id)],limit=1)
+            my_location = self.env['stock.location'].search([('usage','=','internal'),
+                                                             ('user_id','=',self.env.user.id),
+                                                             ('id','!=',central_location.id)],
+                                                            limit=1)
             my_location = my_location and my_location[0] or False
 
             picking_type_internal = self.env.ref('stock.picking_type_internal')
@@ -250,8 +253,19 @@ class stock_move(models.Model):
         return procurement_id
     """
     
- 
- 
+class stock_invoice_onshipping(models.TransientModel):
+    _inherit = "stock.invoice.onshipping"
+    
 
+    @api.model
+    def default_get(self, fields):
+        res = super(stock_invoice_onshipping,self).default_get(fields)
+        journal_type = self._get_journal_type()
+        journals = self.env['account.journal'].search( [('type', '=', journal_type)])
+        
+        for journal in  journals:
+            if journal.user_id.id == self.env.user.id:
+                res['journal_id'] = journal.id        
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

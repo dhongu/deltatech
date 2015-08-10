@@ -64,10 +64,32 @@ class required_order(models.Model):
                                     help="Warehouse to consider for the route selection")
     
     procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
+    comment = fields.Char(string='Comment')
 
-    @api.onchange('warehouse_id')
-    def onchange_warehouse_id(self):     
-        self.location_id = self.warehouse_id.lot_stock_id
+
+    @api.model
+    def default_get(self, fields):
+        defaults = super(required_order, self).default_get(fields) 
+        central_location = self.env.ref('stock.stock_location_stock') 
+        my_location = self.env['stock.location'].search([('user_id','=',self.env.user.id),
+                                                         ('id','!=',central_location.id),
+                                                         ('usage','=','internal')
+                                                         ], limit=1)               
+        
+        if my_location:
+            defaults['location_id'] = my_location.id
+        else:
+           defaults['location_id'] = central_location.id
+        
+        defaults['warehouse_id'] = self.env.ref('stock.warehouse0').id  
+        
+                     
+        return defaults 
+
+
+#    @api.onchange('warehouse_id')
+#    def onchange_warehouse_id(self):     
+#        self.location_id = self.warehouse_id.lot_stock_id
 
     #todo: move to new api 
     _defaults = {      
@@ -82,9 +104,9 @@ class required_order(models.Model):
     @api.multi
     def order_confirm(self):
         for order in self:
-            group =  self.env['procurement.group'].create({'name':order.name})
+            group =  self.env['procurement.group'].sudo().create({'name':order.name})
             order.write({'group_id':group.id})
-            procurement = order.required_line.create_procurement()         
+            procurement = order.required_line.sudo().create_procurement()         
         return self.write( {'state': 'progress'})
 
     @api.multi
