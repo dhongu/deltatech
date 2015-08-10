@@ -20,13 +20,8 @@
 ##############################################################################
 
  
-import commission_users
-import sale
-import account_invoice
-import stock
-import report
-import wizard
 
+import commission_compute
 
 
 

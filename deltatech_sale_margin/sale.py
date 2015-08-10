@@ -73,6 +73,28 @@ class sale_order_line(models.Model):
             if self.price_unit < self.purchase_price :
                 raise Warning(_('You can not sell below the purchase price.'))
 
+    @api.multi
+    def write(self, values):  
+        if values.get('product_id')  and 'price_unit' not in values :
+            order = self[0].order_id     
+
+            defaults = self.product_id_change(  pricelist = order.pricelist_id.id, 
+                                                product =  values['product_id'],
+                                                qty = float(values.get('product_uom_qty', self[0].product_uom_qty)),
+                                                uom = values.get('product_uom', self[0].product_uom.id if self[0].product_uom else False),
+                                                qty_uos = float(values.get('product_uos_qty', self[0].product_uos_qty)), 
+                                                uos=values.get('product_uos', self[0].product_uos.id if self[0].product_uos else False),
+                                                name=values.get('name', False),
+                                                partner_id=order.partner_id.id,                                               
+                                                date_order=order.date_order,
+                                                fiscal_position=order.fiscal_position.id if order.fiscal_position else False,
+                                            )                                
+                                                                                        
+            values['price_unit'] = defaults['value']['price_unit']            
+        return super(sale_order_line, self).write(values) 
+ 
+ 
+
  
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -7,7 +7,7 @@
 			<field name="model">sale.margin.report</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
-				<tree   string="Sale_report" create="false">
+				<tree   string="Sale margin report" create="false">
 					<field name="date" invisible="1"/>
 					<field name="categ_id" invisible="1"/>
 					<field name="product_id" invisible="1"/>
@@ -30,12 +30,41 @@
 			</field>
 		</record>
 		
+
+		<record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
+			<field name="name">sale.margin.report.commission.tree</field>
+			<field name="model">sale.margin.report</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree   string="Sale margin report" create="false">
+					<field name="date"  />
+					<field name="categ_id"  />
+					<field name="product_id"  />
+					<field name="user_id"  />
+					<field name="partner_id" />
+					<field name="commercial_partner_id" />
+					<field name="invoice_id" />
+					
+					<field name="period_id" />
+					<field name="product_uom_qty" sum="Qty"/>
+					<field name="sale_val" sum="Sale value"/>
+					<field name="stock_val" sum="Stock value"/>
+					<field name="profit_val" sum="Profit"/>
+					<field name="commission_computed" sum="Commission Computed"/>
+					<field name="commission" sum="Commission"/>
+					<field name="company_id" invisible="1" groups="base.group_multi_company"/>
+					<field name="type" invisible="1"/>
+					<field name="state" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
 		
 		<record id="view_sale_margin_report_graph" model="ir.ui.view">
 	        <field name="name">sale.margin.report.graph</field>
 	        <field name="model">sale.margin.report</field>
 	        <field name="arch" type="xml">
-	            <graph string="Sale_report" type="pivot" stacked="True">
+	            <graph string="Sale margin report" type="pivot" stacked="True">
 	                <field name="categ_id" type="row"/>
 	                <field name="product_id" type="row"/>	                
 	                <field name="product_uom_qty" type="measure"/>
@@ -76,7 +105,8 @@
 						 
 					<separator/>
 					<filter   string="My Sales"  domain="[('user_id','=',uid)]"/>
-					<filter   string="Paid"  domain="[('state','=','paid')]"/>
+					<filter   string="Paid"  name="paid" domain="[('state','=','paid')]"/>
+					<filter   string="Open"  name="open" domain="[('state','=','open')]"/>
 					<field name="partner_id"/>
 					<field name="commercial_partner_id"/>
 					<field name="product_id"/>
@@ -132,6 +162,20 @@
 		</record>
 
 		<menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="base.next_id_64"/>
+		
+		<record id="action_sale_margin_commission_report" model="ir.actions.act_window">
+			<field name="name">Commission</field>
+			<field name="res_model">sale.margin.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_sale_margin_report_commission_tree"/>
+			<field name="search_view_id" ref="view_sale_margin_report_filter"/>
+			<field name="domain">[('state','=','paid'),('type','in',['out_invoice','out_refund'])]</field> 
+		</record>
+
+	
+		<menuitem name="Commission" id="menu_commission" parent="base.menu_base_partner" groups="base.group_sale_manager"/>	
+		<menuitem action="action_sale_margin_commission_report" id="menu_sale_margin_commission_report_tree" parent="menu_commission"/>
 	</data>
 </openerp>
 

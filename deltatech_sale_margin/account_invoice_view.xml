@@ -22,7 +22,7 @@
 		
 		<!-- daca fac campul de pret readonly nu se mai salveaza valoarea  -->
 				
-       <!--  record id="invoice_form_no_change_price" model="ir.ui.view">
+       <record id="invoice_form_no_change_price" model="ir.ui.view">
             <field name="name">account.invoice.form</field>
             <field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
@@ -33,7 +33,7 @@
 					<attribute name="readonly">1</attribute> 
 				</xpath>
 			</field>
-		</record -->		
+		</record>		
 
 	</data>
 </openerp>

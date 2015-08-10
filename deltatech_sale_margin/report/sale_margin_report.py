@@ -22,16 +22,15 @@
 from openerp.osv import fields,osv
 from openerp import tools
 import openerp.addons.decimal_precision as dp
+from openerp import models, api, _
 
 
-class sale_margin_report(osv.osv):
+class sale_margin_report(models.Model):
     _name = "sale.margin.report"
     _description = "Sale margin report"
     _auto = False
     _order = 'date desc'
 
-
- 
 
     _columns = {
         
@@ -45,10 +44,11 @@ class sale_margin_report(osv.osv):
  
         'stock_val': fields.float("Stock value",  readonly=True, help="Stock value in company currency"),
         'profit_val': fields.float("Profit",   readonly=True, help="Profit obtained at invoicing in company currency"),
-        'commission': fields.float("Commission",   readonly=True),
+        'commission_computed': fields.float("Commission Computed",   readonly=True),
+        'commission': fields.float("Commission"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True),
         'commercial_partner_id': fields.many2one('res.partner', 'Commercial Partner', readonly=True),
-        'user_id': fields.many2one('res.users', 'Salesperson', readonly=True),
+        'user_id': fields.many2one('res.users', 'Salesperson'),
         
         'company_id': fields.many2one('res.company','Company',readonly=True), 
         
@@ -111,13 +111,14 @@ class sale_margin_report(osv.osv):
                         THEN
                           CASE
                             WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                            THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*ru.rate
-                            ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*ru.rate
+                            THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
+                            ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
                           END
                         ELSE
                          0.0
                         END
-                    ) AS commission,   
+                    ) AS commission_computed,
+                    sum(l.commission) as commission,   
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
@@ -136,7 +137,7 @@ class sale_margin_report(osv.osv):
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.uos_id)
                     left join product_uom u2 on (u2.id=t.uom_id)
-                    left join res_users ru on (s.user_id = ru.id)
+                    left join commission_users cu on (s.user_id = cu.user_id)
                     
         """
         return from_str
@@ -176,7 +177,15 @@ class sale_margin_report(osv.osv):
             GROUP BY %s
             )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
-
+    
+    @api.multi
+    def write(self, vals):
+        invoice_line = self.env['account.invoice.line'].browse(self.id)
+        invoice_line.write({'commission':vals.get('commission',False)})
+        if 'user_id' in vals:
+            invoice = self.env['account.invoice'].browse(self.invoice_id)
+            invoice.write({'user_id':vals['user_id']})
+        return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

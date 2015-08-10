@@ -26,9 +26,12 @@ import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
 
 
-class res_users(models.Model):
-    _inherit = 'res.users'
+class commission_users(models.Model):
+    _name = 'commission.users'
+    _description = "Users commission"
     
+    user_id = fields.Many2one('res.users', string='Salesperson', required=True)
+    name = fields.Char(string='Name', related='user_id.name')
     rate =  fields.Float(string="Rate", default=0.01) 
     
 

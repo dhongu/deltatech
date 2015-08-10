@@ -237,7 +237,7 @@ msgstr "Caută"
 #. module: deltatech_sale_margin
 #: model:res.groups,name:deltatech_sale_margin.group_sale_below_purchase_price
 msgid "Sell below the purchase price"
-msgstr "Sell below the purchase price"
+msgstr "Vânzare sub prețul de achiziție"
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter

@@ -7,9 +7,9 @@
 			<field name="model">sale.order</field>
 			<field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
 			<field name="arch" type="xml">
-				<field name="margin" position="attributes">
+				<group name="sale_margin_grp" position="attributes">
 					<attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
-				</field>
+				</group>
 			</field>
 		</record>
 

@@ -35,6 +35,8 @@ class account_invoice_line(models.Model):
  
 
     purchase_price = fields.Float(string='Cost Price', digits= dp.get_precision('Product Price'))
+    commission =  fields.Float(string="Commission",default=0.0) 
+    
 
     def price_unit_change(self, cr, uid, ids, price_unit, purchase_price, context=None):
         res = {}
@@ -58,6 +60,42 @@ class account_invoice_line(models.Model):
                 price_unit = self.price_unit
             if price_unit < self.purchase_price and purchase_price > 0 :
                 raise Warning(_('You can not sell below the purchase price.'))
-        
+
+
+    @api.model
+    def create(self,   values ):
+        if values.get('product_id') and values.get('invoice_id') and 'price_unit' not in values :
+            
+            invoice = self.env['account.invoice'].browse(values['invoice_id'])
+       
+            defaults = self.product_id_change(values['product_id'],
+                                              uom_id = values.get('uos_id', False),
+                                              qty=float(values.get('quantity', False)),
+                                              name=values.get('name', False),
+                                              type=invoice.type,
+                                              partner_id=invoice.partner_id.id,
+                                              fposition_id=invoice.fiscal_position.id if invoice.fiscal_position else False,
+                                              price_unit=False,
+                                              currency_id=invoice.currency_id.id if invoice.currency_id else False,
+                                              company_id=invoice.company_id.id)
+            values['price_unit'] = defaults['value']['price_unit']
+        return super(account_invoice_line, self).create(  values )
+    
+    @api.multi
+    def write(self, values):  
+        if values.get('product_id')  and 'price_unit' not in values :
+            invoice = self[0].invoice_id     
+            defaults = self.product_id_change(values['product_id'],
+                                              uom_id = values.get('uos_id', self[0].uos_id.id if self[0].uos_id else False),
+                                              qty=float(values.get('quantity', self[0].quantity)),
+                                              name=values.get('name', self[0].name),
+                                              type=invoice.type,
+                                              partner_id=invoice.partner_id.id,
+                                              fposition_id=invoice.fiscal_position.id if invoice.fiscal_position else False,
+                                              price_unit=False,
+                                              currency_id=invoice.currency_id.id if invoice.currency_id else False,
+                                              company_id=invoice.company_id.id)
+            values['price_unit'] = defaults['value']['price_unit']            
+        return super(account_invoice_line, self).write(values)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

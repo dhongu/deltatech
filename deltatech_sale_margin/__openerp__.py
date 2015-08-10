@@ -33,6 +33,7 @@ Features:
  - Warning/Error on sale order if sale price is below the purchase price
  - Warning/Error on customer invoice if sale price is below the purchase price
  - New report for analysis profitability
+ - Calcul comisione de vanzari
 
     """,
     
@@ -43,7 +44,9 @@ Features:
               'sale_margin_view.xml',
               'account_invoice_view.xml',
               'report/sale_margin_report.xml',
-              'res_users_view.xml',
+              'commission_users_view.xml',
+              'wizard/commission_compute_view.xml'
+
               ],
               
     "active": False,
