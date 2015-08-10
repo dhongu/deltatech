@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,30 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Access at Records",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : ['deltatech',"product",'stock','sale','l10n_ro_stock_picking_report'],
- 
-    "description": """
 
-Functionalitati:
- - Restrictionare acces la transfer stoc
- - restrictionare acces la confirmare comanda de vanzare
- - afisare stoc personal
- - afisare miscari personale
- - afisare quanturi proprii
-    """,
-    "data" : [
-         'security/security.xml',
-         'stock_view.xml',
-         'sale_view.xml',
-         'res_users_view.xml'
-    ],
-    "active": False,
-    "installable": True,
-   
-}
+
+
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
+import openerp.addons.decimal_precision as dp
+
+
+class res_users(models.Model):
+    _inherit = 'res.users' 
+
+    @api.multi
+    def revoke_rights(self):
+        self.write({'groups_id':[(5,False,False)]})
+
+ 
+    
+        
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
