@@ -121,7 +121,7 @@ class product_product(models.Model):
     _inherit = 'product.product'
 
 
-    
+    """
     @api.model
     @api.returns('self')
     def search(self,   args, offset=0, limit=None, order=None, context=None, count=False):
@@ -138,7 +138,7 @@ class product_product(models.Model):
             if name:
                 res = self.search_in_catalog(name)  
         return res
-    
+    """
 
     @api.model
     def search_in_catalog(self, name):
