@@ -241,8 +241,8 @@ msgstr "Listă ridicare"
 #. module: deltatech_procurement
 #: code:addons/deltatech_procurement/stock.py:73
 #, python-format
-msgid "Please confirm transfer"
-msgstr "Confirmă te rog transferul"
+msgid "Please confirm transfer from %s to %s"
+msgstr "Confirmă te rog transferul de la %s la %s"
 
 #. module: deltatech_procurement
 #: view:stock.picking:deltatech_procurement.view_picking_internal_search
@@ -405,12 +405,12 @@ msgstr "Caută"
 #. module: deltatech_procurement
 #: view:required.order:deltatech_procurement.view_required_order_form
 msgid "Share a message..."
-msgstr "Share un mesaj..."
+msgstr "Împarte un mesaj..."
 
 #. module: deltatech_procurement
 #: view:sale.order:deltatech_procurement.view_order_tree
 msgid "Show"
-msgstr "Show"
+msgstr "Afișare"
 
 #. module: deltatech_procurement
 #: view:procurement.order:deltatech_procurement.procurement_form_view

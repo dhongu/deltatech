@@ -37,6 +37,18 @@ class product_catalog(models.Model):
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
     purchase_delay = fields.Integer(string = "Purchase delay")
     sale_delay = fields.Integer(string = "Sale delay")
+    list_price_currency_id = fields.Many2one('res.currency',  string='Currency List Price', help="Currency for list price." , compute='_compute_currency_id' )
+
+
+    @api.one
+    def _compute_currency_id(self):            
+        price_type = self.env['product.price.type'].search([('field','=','list_price')]) 
+        if price_type:
+            self.list_price_currency_id = price_type.currency_id
+        else:
+            self.list_price_currency_id = self.env.user.company_id
+        
+
 
     @api.multi
     def create_product(self):

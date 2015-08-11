@@ -70,14 +70,32 @@ class stock_picking(models.Model):
             if picking.location_id.user_id:
                 new_follower_ids += [picking.location_id.user_id.partner_id.id]
                 if picking.location_id.user_id.id <> self.env.user.id:
-                    msg = _('Please confirm transfer')
+                    msg = _('Please confirm transfer from %s to %s') % (picking.location_id.name, picking.location_dest_id.name)
             if picking.location_dest_id.user_id:
                 new_follower_ids += [picking.location_dest_id.user_id.partner_id.id]                
             if new_follower_ids:
                 picking.message_subscribe(new_follower_ids)
             
             if msg and not self.env.context.get('no_message',False):
-                picking.message_post(body=msg,type='comment',subtype='mt_comment')
+                #picking.message_post(body=msg,type='comment',subtype='mt_comment')
+                document = picking
+                message = self.env['mail.message'].with_context({'default_starred':True}).create({
+                    'model': 'stock.picking',
+                    'res_id': document.id,
+                    'record_name': document.name_get()[0][1],
+                    'email_from': self.env['mail.message']._get_default_from( ),
+                    'reply_to': self.env['mail.message']._get_default_from( ),
+                    #'subject': _('Invoice %s') % ( document.name_get()[0][1]),
+                    #'body': '%s' % wizard.message,
+                    'subject': _('Transfer'),
+                    'body': msg,
+                     
+                    'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
+                    'partner_ids': [(4, id) for id in new_follower_ids],
+                    #'notified_partner_ids': [(4, id) for id in new_follower_ids]
+                })
+                
+                
         super(stock_picking, self).action_confirm()
         
 

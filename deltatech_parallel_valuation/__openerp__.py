@@ -34,16 +34,7 @@ Functionalitati:
  - Data facturii  editabila si in cazul in care factura este in starea proforma
  - Nume/referinta factura  editabil si in cazul in care factura este in starea proforma
  - in raportul standard de analiza facturi au foat adaugate doua colone cu valoarea stocului in moneda paralela si cu valoarea liniei in moneda paralela
- 
- update account_invoice_line set
-  parallel_stock_value = parallel_line_value
-where parallel_stock_value = 0 ;
-
- update account_invoice_line set
-  purchase_price = 0
-where purchase_price is null;
-
- 
+ - Pretul de cost este afisat doar la manager depozit 
     """,
     
     
