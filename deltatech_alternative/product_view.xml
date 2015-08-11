@@ -27,13 +27,14 @@
 					<group col="2">
 	  					<field name="code"/>
 	 					<field name="code_new"/>
-	 					<field name="name"/> 
-	 					<field name="list_price"/>
+	 					<field name="name"/> 	 					
+	 					<field name="list_price" widget="monetary" options="{'currency_field': 'list_price_currency_id'}" />
 						<field name="categ_id"/>
 						<field name="supplier_id"/>
 						<field name="purchase_delay"/>
 						<field name="sale_delay"/>
 						<field name="product_id"/>
+						<field name="list_price_currency_id" invisible="1"/>
 					</group>
 				</form>
 			</field>
