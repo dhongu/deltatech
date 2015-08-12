@@ -31,6 +31,7 @@ Functionalitati:
  - Documentul de rambursare se poate inregistra in mod automat 
  - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
  - La stergerea unei facturi se va schimba si starea picking listului
+ - dupa anularea unei facturi se poate actiona un buton pentru a rambursa operatiile de stoc
 
     """,
     "category" : "Generic Modules/Stock",
@@ -42,7 +43,8 @@ Functionalitati:
                  'account'],
  
     "data" : [ 'stock_return_picking_view.xml',
-              'stock_view.xml'],
+              'stock_view.xml',
+              'account_invoice_view.xml'],
     "active": False,
     "installable": True,
 }

@@ -63,15 +63,35 @@ class account_invoice(models.Model):
         return res
     
     
-    
-class stock_move(models.Model):
-    _inherit = 'stock.move'
+    @api.multi
+    def action_cancel_pickings(self):
+        for invoice in self:
+            for picking in invoice.picking_ids:                
+                if  picking.refund_picking_id or picking.origin_refund_picking_id:
+                    continue
+                
+                return_obj = self.env['stock.return.picking'].with_context({'active_id':picking.id,
+                                                                            'default_make_new_picking':False,
+                                                                            'default_do_transfer':True}).create({})
+                                                                                 
+                new_picking_id, pick_type_id  = return_obj._create_returns()
 
-    @api.model
-    def _create_invoice_line_from_vals(self,  move, invoice_line_vals ):
-        invoice_line_id = super(stock_move, self)._create_invoice_line_from_vals(  move, invoice_line_vals  )
-        move.picking_id.write({'invoice_id': invoice_line_vals['invoice_id']})
-        return invoice_line_id
+                new_picking = self.env['stock.picking'].browse(new_picking_id)
+                new_picking.write({'invoice_id':invoice.id,
+                                   'invoice_state':'invoiced',})
+                if new_picking.sale_id:
+                    new_picking.sale_id.write( {'invoice_ids': [(4, invoice.id)]})
+                
+                purchase = self.env['purchase.order']
+                for move in new_picking.move_lines:
+                    if move.purchase_line_id and move.purchase_line_id.order_id:
+                        purchase  = purchase | move.purchase_line_id.order_id
+                if purchase:
+                    purchase.write( {'invoice_ids': [(4, invoice.id)]})
+                    
+                # de vazut cum pun referinta facturii si in comanda de achizitie!
+                msg = _('Picking list %s was refunded by %s') % (self.get_link(picking),  self.get_link(new_picking))                 
+                invoice.message_post(body=msg)
         
         
         

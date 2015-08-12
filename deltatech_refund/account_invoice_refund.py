@@ -68,7 +68,7 @@ class account_invoice_refund(models.TransientModel):
                 new_picking.write({'invoice_id':inv.id,
                                    'invoice_state':'invoiced',})
                 if new_picking.sale_id:
-                    picking.sale_id.write( {'invoice_ids': [(4, inv.id)]})
+                    new_picking.sale_id.write( {'invoice_ids': [(4, inv.id)]})
                 
                 purchase = self.env['purchase.order']
                 for move in new_picking.move_lines:

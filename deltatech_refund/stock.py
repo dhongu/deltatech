@@ -28,6 +28,14 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
+class stock_move(models.Model):
+    _inherit = 'stock.move'
+
+    @api.model
+    def _create_invoice_line_from_vals(self,  move, invoice_line_vals ):
+        invoice_line_id = super(stock_move, self)._create_invoice_line_from_vals(  move, invoice_line_vals  )
+        move.picking_id.write({'invoice_id': invoice_line_vals['invoice_id']})
+        return invoice_line_id
 
 class stock_picking(models.Model):
     _inherit = "stock.picking"
