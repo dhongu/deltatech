@@ -21,11 +21,6 @@
 			<field name="number_increment">1</field>
 		</record>
 		
-		
-	</data>
-
-
-	<data>
 		<record id="stock.picking_type_consume" model="stock.picking.type">
 			<field name="name">Consume</field>
 			<field name="code">internal</field>
@@ -35,12 +30,18 @@
 		</record>
 
 		<record id="stock.picking_type_outgoing_not2binvoiced" model="stock.picking.type">
-			<field name="name">Stock Outgoing not invoice </field>
+			<field name="name">Stock Outgoing not invoice</field>
 			<field name="code">outgoing</field>
 			<field name="sequence_id" ref="seq_picking_outgoing_not2binvoiced" />
 			<field name="default_location_src_id" ref="stock.stock_location_stock" />
 			<field name="default_location_dest_id" ref="stock.stock_location_customers" />
-		</record>
+		</record>		
+		
+	</data>
+
+
+	<data>
+
 		
         <record id="view_stock_invoice_onshipping" model="ir.ui.view">
             <field name="name">Stock Invoice Onshipping</field>
