@@ -29,10 +29,10 @@
 
 Functionalitati:
  - Restrictionare acces la transfer stoc
- - restrictionare acces la confirmare comanda de vanzare
- - afisare stoc personal
- - afisare miscari personale
- - afisare quanturi proprii
+ - Restrictionare acces la confirmare comanda de vanzare
+ - Afisare stoc personal (dezactivat)
+ - Afisare miscari personale (dezactivat)
+ - Afisare quanturi proprii (dezactivat)
     """,
     "data" : [
          'security/security.xml',

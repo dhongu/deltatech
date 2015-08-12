@@ -52,18 +52,7 @@ class stock_picking(models.Model):
                     raise Warning(_('You can not have authorization transfer stock to this location.\n'+
                                     'The destination location selected is not a client or production location'))  
         return True
-    """ 
-    @api.cr_uid_ids_context
-    def do_enter_transfer_details(self, cr, uid, picking, context=None):
-        self.check_authorization_transfer(cr, uid, picking, context)
-        return super(stock_picking, self).do_enter_transfer_details( cr, uid, picking, context )
-
-    @api.cr_uid_ids_context
-    def do_transfer(self, cr, uid, picking_ids, context=None):
-        for picking in self.browse(cr, uid, picking_ids, context=context):
-            self.check_authorization_transfer(cr, uid, picking, context)
-        return super(stock_picking, self).do_transfer( cr, uid, picking_ids, context )
-    """
+ 
 
 
     @api.cr_uid_ids_context
