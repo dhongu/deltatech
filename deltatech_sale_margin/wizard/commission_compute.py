@@ -32,7 +32,7 @@ class commission_compute(models.TransientModel):
 
 
     invoice_line_ids = fields.Many2many('sale.margin.report', 'commission_compute_inv_rel', 'compute_id','invoice_line_id', 
-                                        string='Account invoice line', domain=[('state', '=', 'paid')])    
+                                        string='Account invoice line')    
 
 
    
@@ -43,7 +43,7 @@ class commission_compute(models.TransientModel):
         active_ids = self.env.context.get('active_ids', False)
         
         if active_ids:
-            domain=[('state', '=', 'paid'),('commission','=',0.0),('id','in', active_ids )]   
+            domain=[('id','in', active_ids )]   
         else:
             domain=[('state', '=', 'paid'),('commission','=',0.0)]
         res = self.env['sale.margin.report'].search(domain)

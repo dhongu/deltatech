@@ -36,12 +36,12 @@
 			<field name="model">sale.margin.report</field>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
-				<tree   string="Sale margin report" create="false">
-					<field name="date"  />
-					<field name="categ_id"  />
+				<tree   string="Sale margin report" delete="false" create="false">
+					<field name="date"  invisible="1"/>
+					<field name="categ_id" invisible="1" />
 					<field name="product_id"  />
 					<field name="user_id"  />
-					<field name="partner_id" />
+					<field name="partner_id" invisible="1"/>
 					<field name="commercial_partner_id" />
 					<field name="invoice_id" />
 					
@@ -128,7 +128,7 @@
 						<filter string="Status"   context="{'group_by':'state'}"/>
 						 
 						<filter string="Company"   groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
-						<filter string="Date"  context="{'group_by':'date:month'}" help="Ordered date of the sales order"/>
+						<filter string="Date"  context="{'group_by':'date:month'}" />
 
 					</group>
 				</search>
@@ -170,7 +170,8 @@
 			<field name="view_mode">tree,form</field>
 			<field name="view_id" ref="view_sale_margin_report_commission_tree"/>
 			<field name="search_view_id" ref="view_sale_margin_report_filter"/>
-			<field name="domain">[('state','=','paid'),('type','in',['out_invoice','out_refund'])]</field> 
+			<field name="context">{'search_default_paid':1}</field>
+			<field name="domain">[('type','in',['out_invoice','out_refund'])]</field> 
 		</record>
 
 	

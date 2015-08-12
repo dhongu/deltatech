@@ -106,16 +106,10 @@ class sale_margin_report(models.Model):
                         ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
                     END) AS profit_val,   
                                           
-                    SUM(CASE 
-                        WHEN s.state::text = 'paid'::character varying::text 
-                        THEN
-                          CASE
+                    SUM( CASE
                             WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
                             THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
                             ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
-                          END
-                        ELSE
-                         0.0
                         END
                     ) AS commission_computed,
                     sum(l.commission) as commission,   

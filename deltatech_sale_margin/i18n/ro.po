@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 20:39+0000\n"
-"PO-Revision-Date: 2015-07-17 20:39+0000\n"
+"POT-Creation-Date: 2015-08-12 15:53+0000\n"
+"PO-Revision-Date: 2015-08-12 15:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,14 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_sale_margin
-#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
-msgid "Show purchase price on sale order lines and customer invoice"
-msgstr "Afișare preț de achiziție în comanda de vânzare și facură client"
+#: field:commission.compute,invoice_line_ids:0
+msgid "Account invoice line"
+msgstr "Line Factură"
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+msgid "Cancel"
+msgstr "Anulează"
 
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
@@ -42,15 +47,47 @@ msgid "Commercial Partner"
 msgstr "Partener comercial"
 
 #. module: deltatech_sale_margin
+#: field:account.invoice.line,commission:0
+#: code:addons/deltatech_sale_margin/wizard/commission_compute.py:62
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_sale_margin_commission_report
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_sale_margin_commission_report_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,commission:0
+#, python-format
+msgid "Commission"
+msgstr "Comision"
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,commission_computed:0
+msgid "Commission Computed"
+msgstr "Comision calculat"
+
+#. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 #: field:sale.margin.report,company_id:0
 msgid "Company"
 msgstr "Companie"
 
 #. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_compute
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission_compute
+msgid "Compute Commission"
+msgstr "Calcul comisioane"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_commission_compute
+msgid "Compute commission"
+msgstr "Calcul comisioane"
+
+#. module: deltatech_sale_margin
 #: field:account.invoice.line,purchase_price:0
 msgid "Cost Price"
 msgstr "Preț de cost"
+
+ 
 
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,type:0
@@ -66,7 +103,7 @@ msgstr "Retur client"
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 #: field:sale.margin.report,date:0
 msgid "Date"
-msgstr "Date"
+msgstr "Dată"
 
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
@@ -84,14 +121,26 @@ msgid "Extended Filters..."
 msgstr "Filtre extinse..."
 
 #. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+msgid "For the selected invoice line will compute commission"
+msgstr "Pentru liniile de facturi selectate se vor calcula comisionul"
+
+#. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 msgid "Group By..."
 msgstr "Grupează după..."
 
 #. module: deltatech_sale_margin
+#: field:commission.compute,id:0
+#: field:commission.users,id:0
 #: field:sale.margin.report,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Invoice"
+msgstr "Factură"
 
 #. module: deltatech_sale_margin
 #: model:ir.model,name:deltatech_sale_margin.model_account_invoice_line
@@ -102,6 +151,8 @@ msgstr "Linie factură"
 #: field:sale.margin.report,state:0
 msgid "Invoice Status"
 msgstr "Status factură"
+
+ 
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
@@ -114,14 +165,18 @@ msgid "No change price on sale order"
 msgstr "Nu permite modificarea prețului în comanda de vânzare"
 
 #. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 #: selection:sale.margin.report,state:0
 msgid "Open"
 msgstr "Deschis"
 
+
+
+
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
-msgid "Ordered date of the sales order"
-msgstr "Ordered date of the sales order"
+msgid "Paid"
+msgstr "Pătit"
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
@@ -140,7 +195,7 @@ msgid "Previous Month"
 msgstr "Luna anterioară"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/account_invoice.py:43
+#: code:addons/deltatech_sale_margin/account_invoice.py:45
 #: code:addons/deltatech_sale_margin/sale.py:51
 #: code:addons/deltatech_sale_margin/sale.py:61
 #, python-format
@@ -150,7 +205,7 @@ msgstr "Eroare preț!"
 #. module: deltatech_sale_margin
 #: selection:sale.margin.report,state:0
 msgid "Pro-forma"
-msgstr "Pro-forma"
+msgstr "Pro-formă"
 
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
@@ -159,6 +214,7 @@ msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
 #: field:sale.margin.report,profit_val:0
 msgid "Profit"
@@ -170,6 +226,7 @@ msgid "Profit obtained at invoicing in company currency"
 msgstr "Profitul obținut la facturare în moneda companiei"
 
 #. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
 msgid "Qty"
 msgstr "Cant"
@@ -180,13 +237,22 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_sale_margin
+#: field:commission.users,rate:0
+msgid "Rate"
+msgstr "Rată"
+
+#. module: deltatech_sale_margin
 #: model:ir.actions.act_window,name:deltatech_sale_margin.action_sale_margin_report
 #: model:ir.model,name:deltatech_sale_margin.model_sale_margin_report
 #: model:ir.ui.menu,name:deltatech_sale_margin.menu_sale_margin_report_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_graph
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
 msgid "Sale margin report"
 msgstr "Raport analiză profit"
 
 #. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
 #: field:sale.margin.report,sale_val:0
 msgid "Sale value"
@@ -196,12 +262,6 @@ msgstr "Valoare vânzare"
 #: help:sale.margin.report,sale_val:0
 msgid "Sale value in company currency"
 msgstr "Valoare vânzare în moneda companiei"
-
-#. module: deltatech_sale_margin
-#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_graph
-#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
-msgid "Sale_report"
-msgstr "Sale_report"
 
 #. module: deltatech_sale_margin
 #: model:ir.model,name:deltatech_sale_margin.model_sale_order_line
@@ -224,6 +284,7 @@ msgid "Sales performed during previous month"
 msgstr "Vânzări facute luna anterioară"
 
 #. module: deltatech_sale_margin
+#: field:commission.users,user_id:0
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 #: field:sale.margin.report,user_id:0
 msgid "Salesperson"
@@ -240,6 +301,11 @@ msgid "Sell below the purchase price"
 msgstr "Vânzare sub prețul de achiziție"
 
 #. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
+msgid "Show purchase price on sale order lines and customer invoice"
+msgstr "Afișare preț de achiziție în comanda de vânzare și facură client"
+
+#. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 msgid "Status"
 msgstr "Status"
@@ -250,6 +316,7 @@ msgid "Stock Move"
 msgstr "Mișcare stoc"
 
 #. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
 #: field:sale.margin.report,stock_val:0
 msgid "Stock value"
@@ -296,13 +363,42 @@ msgid "Unit of Measure"
 msgstr "Unitate de măsură"
 
 #. module: deltatech_sale_margin
-#: code:addons/deltatech_sale_margin/account_invoice.py:44
-#: code:addons/deltatech_sale_margin/account_invoice.py:60
+#: model:ir.model,name:deltatech_sale_margin.model_res_users
+msgid "Users"
+msgstr "Utilizatori"
+
+#. module: deltatech_sale_margin
+#: view:commission.users:deltatech_sale_margin.view_commission_users_tree
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_users
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission_users
+msgid "Users Commission"
+msgstr "Comisioane agenți"
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_commission_users
+msgid "Users commission"
+msgstr "Comisioane agenți"
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/account_invoice.py:46
+#: code:addons/deltatech_sale_margin/account_invoice.py:62
 #: code:addons/deltatech_sale_margin/sale.py:52
 #: code:addons/deltatech_sale_margin/sale.py:62
 #: code:addons/deltatech_sale_margin/sale.py:74
 #, python-format
 msgid "You can not sell below the purchase price."
 msgstr "Nu puteți vinde cu preț mai mic față de prețul de achiziție."
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+ 
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+msgid "or"
+msgstr "sau"
 
  
