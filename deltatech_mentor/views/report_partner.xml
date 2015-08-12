@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+         <report 
+            string="Export Parteneri pt Mentor" 
+            id="action_report_res_partner_mentor" 
+            model="res.partner" 
+            report_type="qweb-html"
+            name="deltatech_mentor.report_res_partner"  
+            file="deltatech_mentor.report_res_partner"  />
+
+ 
+   
+<template id="report_res_partner">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+        	<div>
+				<div>[ParteneriNoi_<span t-field="o.vat" />]</div>
+				<div>Denumire=<span t-field="o.name" /></div>
+				<div>Tara=Romania</div>
+				<div>Localitate=</div>
+				<div>Judet=</div>
+				<div>Adresa=</div>
+				<div>Sediu=</div>
+				<div>Telefon=</div>
+				<div>Email=</div>
+			</div>
+        </t>
+    </t>	
+</template>
+</data>
+</openerp>
+
+
+

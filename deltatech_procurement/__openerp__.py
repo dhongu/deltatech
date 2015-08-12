@@ -39,6 +39,7 @@ Features:
  - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
  - Filtru my pentru liste de ridicare
  - Adugare butone in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare stoc cu pozitiile din document
+ - Butonul Scrap Products este afisat doar la manager stoc
 
 
     """,

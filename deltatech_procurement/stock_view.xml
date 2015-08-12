@@ -154,10 +154,16 @@
 				<field name="location_id" position="attributes">
 					<attribute name="invisible">0</attribute>
 				</field>
+				
 				<field name="product_id" position="replace">
 					<field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, parent.partner_id)" />
 					<field name="name" />
 				</field>
+				
+				<button string="Scrap Products" position="attributes">
+					<attribute name="groups">stock.group_stock_manager</attribute>= 
+				</button>				
+				
 			</field>
 		</record>
 
