@@ -206,14 +206,21 @@ class stock_move(models.Model):
                                                             limit=1)
             my_location = my_location and my_location[0] or False
 
-            picking_type_internal = self.env.ref('stock.picking_type_internal')
-            picking_type_consume = self.env.ref('stock.picking_type_consume')
-            
-            if my_location and picking_type_internal and picking_type_id == picking_type_internal.id:
-                defaults['location_dest_id'] = my_location.id
+            if my_location:
+                picking_type_internal = self.env.ref('stock.picking_type_internal')
+                picking_type_consume = self.env.ref('stock.picking_type_consume')
+                picking_type_outgoing_not2binvoiced = self.env.ref('stock.picking_type_outgoing_not2binvoiced')
                 
-            if my_location and picking_type_consume and picking_type_id == picking_type_consume.id:
-                defaults['location_id'] = my_location.id       
+                
+                if picking_type_internal and picking_type_id == picking_type_internal.id:
+                    defaults['location_dest_id'] = my_location.id
+                    
+                if picking_type_consume and picking_type_id == picking_type_consume.id:
+                    defaults['location_id'] = my_location.id       
+    
+                if picking_type_outgoing_not2binvoiced and picking_type_id == picking_type_outgoing_not2binvoiced.id:
+                    defaults['location_id'] = my_location.id       
+
                      
         return defaults   
     
