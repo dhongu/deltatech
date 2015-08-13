@@ -19,35 +19,23 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Procurement",
+    "name" : "Deltatech Fast Sale",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
  
 Features:
- - New fields in sale and purchase order: procurement_count, invoiced_rate
- - New buttons in sale and purchase order for display procurement order
- - New messages in log for procurement run. 
- - New object - Required product
- - New menu for Stock Outgoing, Stock Internal Transfer, Stock Incoming
- - Trecerea de la make_to_order la make_to_stock
- - Afisare campuri de cantitate disponibila in comanda de vanzare
- - Daca produsul se compara atunci trebuie definit obligatoriu un furnizor
- - Pozitiile din lista de ridicare sunt editabile
- - Afisare locatie sursa in lista cu pozitiile din lista de ridicare
 
- - Filtru my pentru liste de ridicare
- - Adugare butone in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare stoc cu pozitiile din document
- - Butonul Scrap Products este afisat doar la manager stoc
+ - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
+ 
 
 
     """,
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase",'procurement','deltatech_refund'],
+    "depends" : ['deltatech',"base","sale"],
  
-    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml','stock_view.xml','procurement_view.xml',
-               'security/ir.model.access.csv',],
+    "data" : ['sale_view.xml'],
     "active": False,
     "installable": True,
 }

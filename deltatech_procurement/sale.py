@@ -183,7 +183,9 @@ class sale_order(models.Model):
             "url": url,
             "target": "new",
             }
-    
+
+    """
+    mutat in fast_sale
     @api.multi
     def action_button_confirm_to_invoice(self): 
         if self.state == 'draft':     
@@ -199,7 +201,7 @@ class sale_order(models.Model):
 
         action['context'] =  {'active_ids': self.picking_ids.ids, 'active_id': self.picking_ids[0].id  } 
         return   action
-
+    """
         
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line' 

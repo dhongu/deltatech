@@ -9,13 +9,14 @@
 			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
 
+				<!--  
 				<button name="invoice_cancel" position="after">
 					<button name="action_button_confirm_to_invoice" states="draft"
 					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
 					<button name="action_button_confirm_to_invoice" states="progress"
 					 string="Deliver and Invoice" type="object" groups="base.group_user" />
 				</button>
-
+				-->
 
 				<xpath expr="//sheet/h1" position="before">
 					<div name="buttons" class="oe_right oe_button_box">
