@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="view_order_form" model="ir.ui.view">
+			<field name="name">Sale Order</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+
+				<button name="invoice_cancel" position="after">
+					<button name="action_button_confirm_to_invoice" states="draft"
+					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
+					<button name="action_button_confirm_to_invoice" states="progress"
+					 string="Deliver and Invoice" type="object" groups="base.group_user" />
+				</button>
+
+			</field>
+		</record>
+
+
+ 
+
+	</data>
+</openerp>
