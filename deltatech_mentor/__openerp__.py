@@ -42,6 +42,7 @@ http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%
               'views/report_product.xml',
               'views/report_invoice.xml',
               'views/report_partner.xml',
+              'wizard/export_mentor_view.xml'
               ],
     
     "active": False,

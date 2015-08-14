@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_export_mentor_form" model="ir.ui.view">
+			<field name="name">Export Mentor</field>
+			<field name="model">export.mentor</field>
+			<field name="arch" type="xml">
+				<form string="Export Mentor">
+				    <field name="state" invisible="1" />
+                    <field name="name" invisible="1"/>
+					<group states="choose" string="Export">
+						<field name="period_id" />
+					</group>
+                    <div states="get">
+                        <h2>Export Complete</h2>
+                        <field name="result" />
+                    </div>					
+					<footer states="choose">
+						<button name="do_export" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="_Cancel" class="oe_link" special="cancel" />
+					</footer>
+					
+                    <footer states="get">
+                    	<field  name="data_file" readonly="1" filename="name"  />
+                    	or	
+                        <button string="_Cancel" class="oe_link" special="cancel" />
+                    </footer>					
+					
+				</form>
+			</field>
+		</record>
+
+		
+		<record id="action_export_mentor" model="ir.actions.act_window">
+		  <field name="name">Export Mentor</field> 
+		  <field name="res_model">export.mentor</field>
+		  <field name="view_mode">form</field>
+		  <field name="target">new</field>	  
+		 </record>
+
+		<menuitem name="Export Mentor" id="menu_export_mentor"
+					action="action_export_mentor" parent="account.menu_finance_periodical_processing" groups="account.group_account_manager"/>
+
+
+	</data>
+</openerp>

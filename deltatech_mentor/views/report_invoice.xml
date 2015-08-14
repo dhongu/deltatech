@@ -2,7 +2,7 @@
 <openerp>
 <data>
          <report 
-            string="Export Facturi intrare pt Mentor" 
+            string="Export Facturi pt Mentor" 
             id="action_report_invoice_in_mentor" 
             model="account.invoice" 
             report_type="qweb-html"
