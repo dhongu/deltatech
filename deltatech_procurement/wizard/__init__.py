@@ -19,19 +19,6 @@
 #
 ##############################################################################
 
-
-import purchase
-import procurement
-import required_product
-import stock
-import sale
-import product
-import wizard
-
-
-
-
-
-
+import procurement_change_status
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

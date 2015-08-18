@@ -26,6 +26,7 @@ from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
+import openerp
 
 
 class procurement_order(models.Model):
@@ -133,7 +134,47 @@ class procurement_order(models.Model):
             #po_line.write({'product_qty':qty})
             """
         return res
-        
 
+
+
+
+    def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False, company_id = False, context=None):
+
+        old_cr = cr
+        if context is None:
+            context = {}
+        if use_new_cursor:
+            cr = openerp.registry(cr.dbname).cursor()
+        orderpoint_obj = self.pool.get('stock.warehouse.orderpoint')
+
+        procurement_obj = self.pool.get('procurement.order')
+        dom = company_id and [('company_id', '=', company_id)] or []
+        orderpoint_ids = orderpoint_obj.search(cr, uid, dom)
+         
+         
+        while orderpoint_ids:
+            ids = orderpoint_ids[:100]
+            
+            del orderpoint_ids[:100]
+            try:
+                procurement_ids = procurement_obj.search(cr, uid, [('orderpoint_id','in',ids),('state','=','exception')])
+                procurement_obj.cancel(cr, uid, procurement_ids)
+                if use_new_cursor:
+                    cr.commit()
+            except OperationalError:
+                if use_new_cursor:
+                    cr.rollback()
+                    continue
+                else:
+                    raise
+            
+        res = super(procurement_order, self)._procure_orderpoint_confirm(old_cr, uid, use_new_cursor, company_id, context)
+        
+ 
+        if use_new_cursor:
+            cr.commit()
+            cr.close()         
+        
+        return res        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -40,13 +40,19 @@ Features:
  - Filtru my pentru liste de ridicare
  - Adugare butone in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare stoc cu pozitiile din document
  - Butonul Scrap Products este afisat doar la manager stoc
+ - Anularea in masa a aprovizionarilor
 
 
     """,
     "category" : "Generic Modules/Stock",
     "depends" : ['deltatech',"base","stock","purchase",'procurement','deltatech_refund'],
  
-    "data" : ['purchase_view.xml','required_product_view.xml','sale_view.xml','stock_view.xml','procurement_view.xml',
+    "data" : ['purchase_view.xml',
+              'required_product_view.xml',
+              'sale_view.xml',
+              'stock_view.xml',
+              'procurement_view.xml',
+              'wizard/procurement_change_status_view.xml',
                'security/ir.model.access.csv',],
     "active": False,
     "installable": True,
