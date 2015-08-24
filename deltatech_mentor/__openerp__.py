@@ -28,20 +28,21 @@
 Functionalitati:
  - Permite exportul de date din Odoo pentru a fi importate in Mentor
    
-Documentatia Mentor de import  din alte aplicatii
-http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
+Documentatia Mentor de import  din alte aplicatii:
+ http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
    
     """,
     
     "category" : "Generic Modules/Base",
     "depends" : ['deltatech',"base"],
-
+    "external_depends":['html2text'],
 
  
     "data" : [
               'views/report_product.xml',
               'views/report_invoice.xml',
               'views/report_partner.xml',
+              'views/report_picking.xml',
               'wizard/export_mentor_view.xml'
               ],
     

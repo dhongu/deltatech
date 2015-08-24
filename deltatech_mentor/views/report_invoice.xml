@@ -3,22 +3,32 @@
 <data>
          <report 
             string="Export Facturi pt Mentor" 
-            id="action_report_invoice_in_mentor" 
+            id="action_report_invoice_mentor" 
             model="account.invoice" 
             report_type="qweb-html"
-            name="deltatech_mentor.report_invoice_in_template"  
-            file="deltatech_mentor.report_invoice_in_template"  />
+            name="deltatech_mentor.report_invoice"  
+            file="deltatech_mentor.report_invoice"  />
 
  
             
             
-<template id="report_invoice_in_template">
+<template id="report_invoice">
     <t t-call="report.html_container">
 	    <div>
 			<div>[InfoPachet]</div> 
-			<div>AnLucru=</div>
-			<div>LunaLucru=</div>
-			<div>TipDocument=FACTURA INTRARE</div>
+			<t t-set="invoice_date" t-value="docs[0].date_invoice"></t>
+			<div>AnLucru=<span t-esc="invoice_date"></span></div>
+			<div>LunaLucru=<span t-esc="invoice_date"></span></div>
+			<t t-set="invoice_type" t-value="docs[0].type"></t>
+			<div>TipDocument=
+				<t t-if='invoice_type=="out_invoice"'>
+					<span>FACTURA IESIRE</span>
+				</t>
+				<t t-if='invoice_type=="in_invoice"'>
+					<span>FACTURA INTRARE</span>
+				</t>
+			</div>
+			<t t-log="docs"></t>
 			<t t-set="TotalFacturi" t-value="len(docs)"/>
 			<div><span>TotalFacturi=</span>
             <span t-esc="TotalFacturi"/></div>

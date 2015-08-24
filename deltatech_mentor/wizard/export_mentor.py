@@ -30,8 +30,12 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 
-from openerp.addons.email_template import html2text
-#import html2text
+
+try: 
+    import html2text
+except:
+    from openerp.addons.email_template import html2text
+    
 
 class export_mentor(models.TransientModel):
     _name = 'export.mentor'
@@ -94,36 +98,40 @@ class export_mentor(models.TransientModel):
         result_html += '<div>Parteneri %s</div>' % str(len(partner_ids))
 
         if  invoice_in_ids:         
-            result = self.env['report'].get_html(records=invoice_in_ids, report_name='deltatech_mentor.report_invoice_in_template')
-            result = html2text.html2text(result).encode('utf8')   
-            result = result.replace(chr(13), '\n')
-            result = result.replace('\n\n', '\r\n')
-            zip_archive.writestr('Facturi_Intrare.txt', result)
+            result = self.env['report'].get_html(records=invoice_in_ids, report_name='deltatech_mentor.report_invoice')
+            if result:
+                result = html2text.html2text(result).decode('utf8','replace')   
+                result = result.replace(chr(13), '\n')
+                result = result.replace('\n\n', '\r\n')
+                zip_archive.writestr('Facturi_Intrare.txt', result.encode('utf8' ))
             
 
         if  invoice_out_ids:         
-            result = self.env['report'].get_html(records=invoice_out_ids, report_name='deltatech_mentor.report_invoice_in_template')
-            result = html2text.html2text(result).encode('utf8')   
-            result = result.replace(chr(13), '\n')
-            result = result.replace('\n\n', '\r\n')
-            zip_archive.writestr('Facturi_Iesire.txt', result)
+            result = self.env['report'].get_html(records=invoice_out_ids, report_name='deltatech_mentor.report_invoice')
+            if result:
+                result = html2text.html2text(result.decode('utf8','replace'))   
+                result = result.replace(chr(13), '\n')
+                result = result.replace('\n\n', '\r\n')
+                zip_archive.writestr('Facturi_Iesire.txt', result.encode('utf8'))
 
 
         if product_ids:          
             result = self.env['report'].get_html(records=product_ids, report_name='deltatech_mentor.report_product_template')
-            result = html2text.html2text(result).encode('utf8')   
-            result = result.replace(chr(13), '\n')
-            result = result.replace('\n\n', '\r\n')
-            zip_archive.writestr('Articole.txt', result)            
+            if result:
+                result = html2text.html2text(result.decode('utf8','replace'))   
+                result = result.replace(chr(13), '\n')
+                result = result.replace('\n\n', '\r\n')
+                zip_archive.writestr('Articole.txt', result.encode('utf8'))            
 
-
+        
         if  partner_ids:           
             result = self.env['report'].get_html(records=partner_ids, report_name='deltatech_mentor.report_res_partner')
-            result = html2text.html2text(result).encode('utf8')   
-            result = result.replace(chr(13), '\n')
-            result = result.replace('\n\n', '\r\n')
-            zip_archive.writestr('Partner.txt', result)
-    
+            if result:     
+                result = html2text.html2text(result.decode('utf8','replace')) 
+                result = result.replace(chr(13), '\n')
+                result = result.replace('\n\n', '\r\n')
+                zip_archive.writestr('Partner.txt', result.encode('utf8'))
+        
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object
         zip_archive.close()
