@@ -124,11 +124,18 @@ class res_partner(models.Model):
                 name = self._display_address(cr, uid, record, without_company=True, context=context)
             if context.get('show_address'):
                 name = name + "\n" + self._display_address(cr, uid, record, without_company=True, context=context)
-            name = name.replace('\n\n','\n')
-            name = name.replace('\n\n','\n')
             if context.get('show_email') and record.email:
                 name = "%s <%s>" % (name, record.email)
-            res.append((record.id, name))
+            if context.get('show_phone') and record.phone:    
+                name = "%s\n<%s>" % (name, record.phone)
+            if context.get('show_category') and record.category_id:    
+                cat = []               
+                for category in record.category_id:  
+                    cat.append(category.name)  
+                name = name + "\n["+','.join(cat)+"]"
+            name = name.replace('\n\n','\n')
+            name = name.replace('\n\n','\n')                
+            res.append((record.id, name))      
         return res
  
 
