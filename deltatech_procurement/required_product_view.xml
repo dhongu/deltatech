@@ -81,7 +81,7 @@
 						</div>
 						<group>
 							<group>
-							
+								<field name="date"/>
 								<field name="date_planned" groups="stock.group_stock_manager"/>
 								<field name="group_id" groups="stock.group_stock_manager"/>
 								<field name="route_id" groups="sale_stock.group_route_so_lines"/>
@@ -118,10 +118,12 @@
 			<field name="arch" type="xml">
 				<search string="Search">
 					<field name="location_id" />
+					<field name="product_id" />
 					<filter name="my" string="My" domain="[('location_id.user_id.id','=',uid) ]"   />
 					<newline />
 					<group expand="1" string="Group By...">
 						<filter string="Location" name="location" context="{'group_by':'location_id'}" />
+						<filter string="Product" name="product" context="{'group_by':'product_id'}" />
 					</group>
 				</search>
 			</field>

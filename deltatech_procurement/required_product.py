@@ -26,7 +26,7 @@ from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
-
+from dateutil.relativedelta import relativedelta
 
 class required_order(models.Model):
     _name = 'required.order'
@@ -43,6 +43,8 @@ class required_order(models.Model):
 
 
     name = fields.Char(string='Reference',  index=True, readonly=True,  states={'draft': [('readonly', False)]},   copy=False)
+    date = fields.Date(string='Date',required=True, readonly=True, states={'draft': [('readonly', False)]} ,
+                                    default=fields.Date.today() )
     
     state = fields.Selection([
             ('draft','Draft'),
@@ -53,8 +55,7 @@ class required_order(models.Model):
 
     
     required_line = fields.One2many('required.order.line', 'required_id', string='Required Lines', readonly=True, states={'draft': [('readonly', False)]} )   
-    date_planned  = fields.Datetime(string='Scheduled Date',required=True, readonly=True, states={'draft': [('readonly', False)]} ,
-                                    default=fields.Datetime.now() )
+    date_planned  = fields.Date(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]}   )
     location_id   = fields.Many2one('stock.location', required=True,string='Procurement Location', readonly=True, states={'draft': [('readonly', False)]} ) 
     group_id =  fields.Many2one('procurement.group', string='Procurement Group',readonly=True )
 
@@ -65,6 +66,7 @@ class required_order(models.Model):
     
     procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
     comment = fields.Char(string='Comment')
+    product_id = fields.Many2one('product.product', string='Product', related='required_line.product_id') 
 
 
     @api.model
@@ -106,7 +108,14 @@ class required_order(models.Model):
         for order in self:
             group =  self.env['procurement.group'].sudo().create({'name':order.name})
             order.write({'group_id':group.id})
-            procurement = order.required_line.sudo().create_procurement()         
+            procurement = order.required_line.sudo().create_procurement()  
+            if not self.date_planned:
+                date_planned = self.date
+                for line in order.required_line:
+                    if line.date_planned > date_planned:
+                        date_planned =  line.date_planned
+                order.write({'date_planned':date_planned[:10]})
+                
         return self.write( {'state': 'progress'})
 
     @api.multi
@@ -182,7 +191,8 @@ class required_order(models.Model):
         return action     
     
 
-        
+
+          
         
 class required_order_line(models.Model):
     _name = 'required.order.line'
@@ -197,16 +207,41 @@ class required_order_line(models.Model):
  
     qty_available =  fields.Float( related= 'product_id.qty_available',string='Quantity On Hand')
     virtual_available = fields.Float(  related= 'product_id.virtual_available' , string='Quantity Available' )     
+
+    date_planned  = fields.Datetime(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]}  
+                                     , compute='_compute_date_planned',store=True)
+
+
+    @api.one
+    @api.depends('required_id.date','product_id')
+    def _compute_date_planned(self ):
+        supplierinfo = False
+ 
+        for supplier in self.product_id.seller_ids:
+            supplierinfo = supplier
+            break
+        
+        supplier_delay = int(supplierinfo.delay) if supplierinfo else 0       
+        date_planned = fields.Date.from_string(self.required_id.date)  + relativedelta(days=supplier_delay)
+        date_planned = fields.Datetime.to_string(date_planned)
+        if self.required_id.date_planned and self.required_id.date_planned > date_planned[:10]:
+            date_planned = self.required_id.date_planned
+
+        self.date_planned = date_planned
+
+
     
     @api.multi
     def create_procurement(self):
         procurement = self.env['procurement.order']
         for line in self:
+            
+            
             order = line.required_id
             values = {
                     'name': line.note or line.product_id.name,
                     'origin': order.name + ':' + order.location_id.name,
-                    'date_planned': order.date_planned,
+                    'date_planned': line.date_planned,
                     'product_id': line.product_id.id,
                     'product_qty': line.product_qty,
                     'product_uom': line.product_id.uom_id.id,
@@ -229,7 +264,7 @@ class required_order_line(models.Model):
         return procurement
         
     
- 
+
  
 
 

@@ -127,7 +127,11 @@ class procurement_order(models.Model):
             procurement = self.browse(procurement_id)    
             disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]['qty_available']
             msg = _("It is necessary quantity %s and in stock is %s.") %   (str(qty), str(disp))  
-            procurement.message_post( body= msg)            
+            procurement.message_post( body= msg)  
+            if  po_line.order_id.date_order[:10] < fields.Date.today() :
+                msg = _("Acquisition should be done in the past at %s") %   (po_line.order_id.date_order)  
+                procurement.message_post( body= msg)    
+                po_line.order_id.write({'date_order':fields.Datetime.now()})                   
             """
             if disp > qty:
                 po_line.unlink()
