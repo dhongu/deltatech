@@ -75,10 +75,28 @@ class procurement_order(models.Model):
     @api.model
     def _check(self,   procurement):
         if procurement.rule_id and procurement.rule_id.action == 'buy' and procurement.state == "running" and not procurement.purchase_id:
+            msg = _("Purchase order was deleted")
+            procurement.message_post( body= msg)
             procurement.write ({'state': 'cancel'} )
             return False
 
+        picking_type_internal = self.env.ref('stock.picking_type_internal')
+        
+        # transferurile interne se vor forta pentru a fi cu make_to_stock
+        msg = ''
+        for move in procurement.move_ids:
+            if move.picking_type_id and  move.picking_type_id.id == picking_type_internal.id:
+                if move.procure_method=='make_to_order' and move.availability >= 0:
+                    move.write({'procure_method':  'make_to_stock',
+                                'state':'confirmed',
+                                'move_orig_ids':[(6,0,[])]})   # nu se mai asteapata alte miscari si se va face transferul
+                    msg = msg + _('Quantity %s is available from %s .\n') % (move.availability, move.product_qty  )
+                    move.action_assign() 
+        if msg:
+            procurement.message_post( subject=_("Internal stock transfer"), body= msg)           
+
         res = super(procurement_order, self)._check( procurement) 
+        
         if not res:
             if procurement.move_ids:
                 done = True
@@ -108,7 +126,7 @@ class procurement_order(models.Model):
                 
             procurement = self.browse(procurement_id)    
             disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]['qty_available']
-            msg = _("Necesar  %s si in stoc  %s.") %   (str(qty), str(disp))  
+            msg = _("It is necessary quantity %s and in stock is %s.") %   (str(qty), str(disp))  
             procurement.message_post( body= msg)            
             """
             if disp > qty:

@@ -228,8 +228,8 @@ msgstr "Istoric mesaje și conversații"
 #: code:addons/deltatech_procurement/procurement.py:111
 #. module: deltatech_procurement
 #, python-format
-msgid "Necesar  %s si in stoc  %s."
-msgstr "Necesar  %s și în stoc  %s."
+msgid "It is necessary quantity %s and in stock is %s."
+msgstr "Este necesară cantitatea %s și în stoc este cantitatea %s."
 
 #: code:addons/deltatech_procurement/product.py:39
 #. module: deltatech_procurement

@@ -14,6 +14,9 @@
                     	<field name="flag_run"/>
                     	<field name="flag_check"/>
                     </group>
+                    <group>
+                    	<field name="flag_cancel_no_check"/>                    	
+                    </group>
                     <footer>
                         <button name="change_status" string="Change status" type="object"  class="oe_highlight"  />
                         or

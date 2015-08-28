@@ -32,6 +32,7 @@ class procurement_change_status(models.TransientModel):
     _name = 'procurement.order.change.status'
     _description = 'Compute all schedulers'
     
+    flag_cancel_no_check =  fields.Boolean(string="Cancel procurement without check")
     flag_cancel =  fields.Boolean(string="Cancel procurement")
     flag_run =  fields.Boolean(string="Run procurement")
     flag_check =  fields.Boolean(string="Check procurement")
@@ -46,6 +47,11 @@ class procurement_change_status(models.TransientModel):
             procurement_ids.check()
         if self.flag_run:
             procurement_ids.run()
+        if self.flag_cancel_no_check:
+            for procurement in procurement_ids:
+                for move in procurement.move_ids:
+                    move.action_cancel()
+            procurement_ids.write( {'state': 'cancel'} )
             
         return {'type': 'ir.actions.act_window_close'}
         

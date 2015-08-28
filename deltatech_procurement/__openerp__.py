@@ -45,7 +45,12 @@ Features:
 
     """,
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock","purchase",'procurement','deltatech_refund'],
+    "depends" : ['deltatech',
+                 "base",
+                 "stock",
+                 "purchase",
+                 'procurement',
+                 'deltatech_refund'],
  
     "data" : ['purchase_view.xml',
               'required_product_view.xml',
