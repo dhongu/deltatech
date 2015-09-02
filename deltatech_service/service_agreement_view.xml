@@ -2,11 +2,7 @@
 <openerp>
 	<data>
 
-
-		<menuitem name="Service" id="base.menu_service_app"  sequence="25"/>
-		
-		<menuitem name="Service" id="base.menu_service" parent="base.menu_service_app"  />
-			
+ 
 			
         <record id="view_account_invoice_filter" model="ir.ui.view">
             <field name="name">account.invoice.select</field>
@@ -103,7 +99,9 @@
 							<field name="description" />
 							<field name="date_agreement" />
 							</group>
-							<group></group>
+							<group>
+							<field name="type_id" />
+							</group>
 						</group>
 						<field name="agreement_line">
 							<tree string="Agreement Lines" editable="bottom">
@@ -151,6 +149,17 @@
 
 		<menuitem name="Services Agreements" id="menu_service_agreement"
 			action="action_service_agreement" parent="base.menu_service" sequence="100" />
+
+
+		<record id="action_service_agreement_type" model="ir.actions.act_window">
+			<field name="name">Services Agreements Type</field>
+			<field name="res_model">service.agreement.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Services Agreement Type" id="menu_service_agreement_type"
+			action="action_service_agreement_type" parent="base.menu_service_config" sequence="100" />
 
 
 			

@@ -43,7 +43,7 @@ class service_billing_preparation(models.TransientModel):
         defaults = super(service_billing_preparation, self).default_get(fields)
           
         active_ids = self.env.context.get('active_ids', False)
-        print active_ids
+         
         if active_ids:
             domain=[('state', '=', 'open'),('id','in', active_ids )]   
         else:

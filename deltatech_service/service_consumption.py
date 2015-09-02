@@ -59,22 +59,33 @@ class service_consumption(models.Model):
     
     state = fields.Selection([
             ('draft','Without invoice'),
+            ("none", "Not Applicable"),
             ('done','With invoice'),
-        ], string='Status', index=True, readonly=True, default='draft', copy=False, compute='_compute_state', stored = True )
+        ], string='Status', index=True, readonly=True, default='draft', copy=False )  #
+ 
     
     agreement_id = fields.Many2one('service.agreement', string='Agreement', readonly=True, ondelete='restrict', copy=False )
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True, ondelete='restrict', copy=False )
-    invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set null', readonly=True, copy=False )
+    invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False )
 
-    
-    
-    @api.one
-    @api.depends('invoice_id')
-    def _compute_state(self):
-        if self.invoice_id:
-            self.state = 'done'
-        else:
-            self.state = 'draft'
-        
+
+
+    _sql_constraints = [
+        ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',
+            'Agreement line in period already exist!'),
+    ]  
+
+
  
+
+
+ 
+    @api.multi
+    def unlink(self):
+        for item in self:
+            if item.state == 'done':
+                raise Warning(_('You cannot delete a service consumption which is invoiced.'))
+        return super(service_consumption, self).unlink()       
+ 
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 

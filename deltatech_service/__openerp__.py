@@ -38,7 +38,8 @@ Functionalitati:
     "depends" : ["base", "product","account"],
 
 
-    "data" : [             
+    "data" : [ 
+              'data.xml',      
               "service_agreement_view.xml",  
               "service_consumption_view.xml",
               "wizard/service_billing_preparation_view.xml",
@@ -46,7 +47,9 @@ Functionalitati:
               "wizard/service_distribution_view.xml",
               "wizard/service_price_change_view.xml",
               #"account_invoice_penalty_view.xml",
-              'security/ir.model.access.csv'
+              'security/service_security.xml',
+              'security/ir.model.access.csv',
+              
                 ],
     'application': True,
     "active": False,

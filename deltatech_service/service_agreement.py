@@ -26,12 +26,12 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 
-class service_agreement (models.Model):
+class service_agreement(models.Model):
     _name = 'service.agreement'
-    _description = "Contract Services"
+    _description = "Service Agreement"
     _inherit = 'mail.thread'
     
-    name = fields.Char(string='Reference', index=True, readonly=True, states={'draft': [('readonly', False)]}, copy=False)
+    name = fields.Char(string='Reference', index=True,default='/', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
    
     description = fields.Char(string='Description',   readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     
@@ -50,6 +50,21 @@ class service_agreement (models.Model):
             ('closed','Terminated'),
         ], string='Status', index=True, readonly=True, default='draft',   copy=False )    
 
+    type_id = fields.Many2one('service.agreement.type', string='Type', readonly=True, states={'draft': [('readonly', False)]})
+
+    # interval de facturare
+    
+    # interval revizii
+    
+    # valoare contract ???
+
+    @api.model
+    def create(self,   vals ):  
+        if ('name' not in vals) or (vals.get('name') in ('/', False)):
+            sequence_agreement = self.env.ref('deltatech_service.sequence_agreement')
+            if sequence_agreement:
+                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_agreement.id)         
+        return super(service_agreement, self).create( vals )    
 
     @api.multi
     def contract_close(self):
@@ -62,6 +77,20 @@ class service_agreement (models.Model):
     @api.multi
     def contract_draft(self):
         return self.write( {'state': 'draft'})    
+
+    @api.multi
+    def unlink(self):
+        for item in self:
+            if item.state not in ('draft'):
+                raise Warning(_('You cannot delete a service agreement which is not draft.'))
+        return super(service_agreement, self).unlink() 
+
+ 
+# CAT, CATG CATPG
+class service_agreement_type(models.Model):
+    _name = 'service.agreement.type'
+    _description = "Service Agreement Type"     
+    name = fields.Char(string='Type', translate=True)  
  
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'
@@ -100,9 +129,25 @@ class service_agreement_line(models.Model):
           return  cons_value
 
 
+
+    
+    
+# e posibil ca o factura sa contina mai multe contracte 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
-    agreement_id = fields.Many2one('service.agreement', string='Contract Services' ) 
-    
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='invoice_line.agreement_line_id.agreement_id') 
+
+
+    @api.multi
+    def unlink(self):
+        consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)])
+        if consumptions:
+            consumptions.write( {'state':'draft'})
+
+        return super(account_invoice, self).unlink() 
+
+class account_invoice_line(models.Model):
+    _inherit = 'account.invoice.line'
+    agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line' )     
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 

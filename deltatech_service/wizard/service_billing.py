@@ -32,8 +32,17 @@ class service_billing(models.TransientModel):
     _description = "Service Billing"
     
     journal_id = fields.Many2one('account.journal', 'Journal', required=True)
-    date_invoice = fields.Date(string='Invoice Date', required=True)
-    group_service = fields.Boolean(string="Group by service")
+    date_invoice = fields.Date(string='Invoice Date', required=True,default = fields.Date.today())
+    
+    # facturile pot fi facute grupat dupa partner sau dupa contract
+    group_invoice = fields.Selection([('partner','Group by partner'),
+                                      ('agreement','Group by agreement')], string="Group invoice", default='agreement')
+    
+    
+    # indica daca liniile din facura sunt insumate dupa servicu
+    
+    group_service = fields.Boolean(string="Group by service",default=False)
+    
     consumption_ids = fields.Many2many('service.consumption', 'service_billing_consumption', 'billing_id','consumption_id', 
                                         string='Consumptions', domain=[('invoice_id', '=', False)])
         
@@ -45,9 +54,9 @@ class service_billing(models.TransientModel):
         active_ids = self.env.context.get('active_ids', False)
         print active_ids
         if active_ids:
-            domain=[('invoice_id', '=', False),('id','in', active_ids )]   
+            domain=[('state','=','draft'),('id','in', active_ids )]   
         else:
-            domain=[('invoice_id', '=', False)]
+            domain=[('state','=','draft')]
         
         
         res = self.env['service.consumption'].search(domain)
@@ -57,7 +66,7 @@ class service_billing(models.TransientModel):
 
     @api.multi
     def do_billing(self):
-        pre_invoice = {}
+        pre_invoice = {}   # lista de facuri
         for cons in self.consumption_ids:
             # convertire pret in moneda companeie
             
@@ -69,7 +78,12 @@ class service_billing(models.TransientModel):
 
             if cons.name and not self.group_service:
                 name = name + ' ' + cons.name
-                
+            
+            if self.group_invoice == 'agreement':
+                key = cons.agreement_id.id
+            else:
+                key = cons.partner_id.id
+                 
             if cons.quantity > cons.agreement_line_id.quantity_free:
                 invoice_line = {
                     'product_id': cons.product_id.id,
@@ -77,32 +91,43 @@ class service_billing(models.TransientModel):
                     'price_unit': price_unit ,
                     'name': name,
                     'account_id': cons.product_id.property_account_income.id or cons.product_id.categ_id.property_account_income_categ.id,
-                    'invoice_line_tax_id'  : [(6, 0, (  [rec.id for rec in cons.product_id.taxes_id] ))]
+                    'invoice_line_tax_id'  : [(6, 0, (  [rec.id for rec in cons.product_id.taxes_id] ))],
+                    'agreement_line_id':cons.agreement_line_id.id,
                 }
     
-                if pre_invoice.get(cons.agreement_id.id,False):
+                if pre_invoice.get(key,False):
                     is_prod = False
                     if self.group_service:
-                        for line in pre_invoice[cons.agreement_id.id]['lines']:
-                            if line['product_id'] ==  cons.product_id.id and  float_compare(line['price_unit'],invoice_line['price_unit']) == 0 :
+                        for line in pre_invoice[key]['lines']:
+                            if line['product_id'] ==  cons.product_id.id and  float_compare(line['price_unit'],invoice_line['price_unit'], precision_digits=2) == 0 :
                                 line['quantity'] += invoice_line['quantity']
                                 is_prod = True
                                 break
                     if not is_prod:   
-                        pre_invoice[cons.agreement_id.id]['lines'].append(invoice_line)
-                    pre_invoice[cons.agreement_id.id]['cons'] += cons
+                        pre_invoice[key]['lines'].append(invoice_line)
+                    pre_invoice[key]['cons'] += cons
+                    pre_invoice[key]['agreement_ids'] |= cons.agreement_id
                 else:
-                    comment = _('According to agreement %s from %s') % (cons.agreement_id.name or '____', cons.agreement_id.date_agreement or '____')
-                    pre_invoice[cons.agreement_id.id] = {'lines':[invoice_line],
-                                                       'cons':cons,
-                                                       'comment':  comment,
-                                                       'agreement_id':cons.agreement_id.id,
-                                                       'partner_id':cons.partner_id.id,
-                                                       'account_id':cons.partner_id.property_account_receivable.id, }
-        
+                    #comment = _('According to agreement %s from %s') % (cons.agreement_id.name or '____', cons.agreement_id.date_agreement or '____')
+                    pre_invoice[key] = {   'lines':[invoice_line],
+                                           'cons':cons,
+                                           #'comment':  comment,
+                                           'partner_id':cons.partner_id.id,
+                                           'account_id':cons.partner_id.property_account_receivable.id, }
+                    
+                    pre_invoice[key]['agreement_ids'] = cons.agreement_id
+            else: # cons.quantity < cons.agreement_line_id.quantity_free:
+                cons.write({'state':'none'})   
+                 
             
+        if not pre_invoice:
+            raise Warning (_('No condition for create a new invoice') )
         res = []
         for key in pre_invoice:
+            comment = _('According to agreement ')
+            for  agreement in pre_invoice[key]['agreement_ids']:
+                comment += _('%s from %s \n') % (agreement.name or '____', agreement.date_agreement or '____')
+            
             
             invoice_value = { 
                 #'name': _('Invoice'),
@@ -113,8 +138,8 @@ class service_billing(models.TransientModel):
                 'type': 'out_invoice',
                 'state': 'draft',
                 'invoice_line': [(0, 0, x) for x in pre_invoice[key]['lines']],
-                'comment':pre_invoice[key]['comment'],
-                'agreement_id':pre_invoice[key]['agreement_id'],
+                'comment':comment,
+                #'agreement_id':pre_invoice[key]['agreement_id'],
             }
             invoice_id = self.env['account.invoice'].create(invoice_value)
             invoice_id.button_compute(True)

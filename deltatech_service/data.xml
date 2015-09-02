@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	
+
+	
+	<data noupdate="1">	
+		<menuitem name="Service" id="base.menu_service_app"  sequence="25"/>
+		
+		<menuitem name="Service" id="base.menu_service" parent="base.menu_service_app"  sequence="100" />	
+		
+		<menuitem name="Configuration" id="base.menu_service_config" parent="base.menu_service_app"   sequence="900" />		
+			
+	     <record id="sequence_agreement" model="ir.sequence">
+            <field name="name">Service agreement</field>
+            <field name="prefix">AG/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+	</data>	
+	
+</openerp>
+        
+     
