@@ -75,8 +75,13 @@ class account_invoice(models.Model):
     
     @api.multi
     def invoice_create_picking(self):  
-        if self.picking_ids or self.type != 'in_invoice':
+        if  self.type != 'in_invoice':
             return
+        if self.picking_ids:
+            for picking in self.picking_ids:
+                if not (picking.origin_refund_picking_id or picking.refund_picking_id):  
+                    return
+                
         
         date_eval = self.date_invoice or fields.Date.context_today(self) 
         date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
