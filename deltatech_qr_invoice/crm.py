@@ -40,7 +40,7 @@ class crm_tracking_campaign(models.Model):
 
     @api.one
     def _compute_image_qr_html(self):
-        self.image_qr_html = "<img src='/report/barcode/?type=%s&value=%s&width=%s&height=%s'/>" %   ('QR', self.text_qr, 200, 200)
+        self.image_qr_html = "<img src='/report/barcode/?type=%s&value=%s&width=%s&height=%s'/>" %   ('QR', self.text_qr, 100, 100)
         
 
     @api.multi

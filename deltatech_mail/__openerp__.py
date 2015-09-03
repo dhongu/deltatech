@@ -26,7 +26,15 @@
     "description": """
 
 Functionalitati:
-
+ - Trimite email documente din sistem
+    - parternerii sunt automat adaugati la urmaritori in documentele trimise
+ - Setare documente ca citite
+ - Setare documente ca necitite 
+     - Nota: pentru a seta simultan mai multe documente trebuie modificata metoda message_mark_as_unread din mail_thread:
+             (SELECT id from mail_message where res_id=any(%s) and model=%s limit 1)
+             (SELECT id from mail_message where res_id=any(%s) and model=%s)
+ - Notificare la primire mesaj
+ 
  
     """,
     "category" : "Generic Modules/Other",

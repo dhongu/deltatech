@@ -24,7 +24,7 @@ from dateutil import relativedelta
 
 import time
 from openerp.exceptions import except_orm, Warning, RedirectWarning
- 
+from openerp.tools import float_compare, float_is_zero
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
@@ -37,13 +37,19 @@ class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
-   
-    def prepare_inventory(self, cr, uid, ids, context=None):
-        for inventory in self.browse(cr, uid, ids, context=context):
+
+
+
+    @api.multi    
+    def prepare_inventory(self):
+        res = super(stock_inventory, self).prepare_inventory()
+        for inventory in self:
             date = inventory.date
-            res = super(stock_inventory, self).prepare_inventory(cr, uid, [inventory.id], context)
-            self.write(cr, uid, inventory.id, { 'date': date})
-        return res    
+            inventory.write({ 'date': date})
+            for line in  inventory.line_ids:
+                line.write({'standard_price':line.get_price()})
+        return res
+           
     
     def action_done(self, cr, uid, ids, context=None):
         super(stock_inventory,self).action_done(cr, uid, ids, context)
@@ -58,23 +64,64 @@ class stock_inventory_line(models.Model):
 
     standard_price = fields.Float(string='Price')
 
+    @api.one
+    @api.onchange('theoretical_qty')
+    def onchange_theoretical_qty(self):
+        self.standard_price = self.get_price()
+
+
+    @api.model
+    def get_price(self):                
+        price  =  self.product_id.standard_price 
+        if  self.product_id.cost_method == 'real': 
+            dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id), ('lot_id', '=', self.prod_lot_id.id),
+                        ('product_id','=', self.product_id.id), ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
+            dom = [('location_id', '=', self.location_id.id),     ('product_id','=', self.product_id.id) , ('lot_id', '=', self.prod_lot_id.id), 
+                   ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
+             
+            quants = self.env['stock.quant'].search(dom)
+            
+            value = sum([q.inventory_value for q in quants])
+            if self.theoretical_qty > 0:
+                price = value / self.theoretical_qty
+             
+        return price
     
+    """
     def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False,
                                                 prod_lot_id=False, partner_id=False, company_id=False, context=None):
         res = super(stock_inventory_line,self).onchange_createline( cr, uid, ids, location_id, product_id, uom_id, package_id,
                                                                         prod_lot_id, partner_id, company_id, context)
         if product_id:
-            obj_product = self.pool.get('product.product').browse(cr, uid, product_id, context=context)
-            return {'value': {'standard_price':  obj_product.standard_price}}        
+            res['value']['standard_price'] = self.get_price(cr, uid, product_id, location_id )
         return res
+    """
 
-
-    def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):  
+    @api.model
+    def _resolve_inventory_line(self,  inventory_line):  
         if inventory_line.product_id.cost_method == 'real':
-            self.pool.get('product.product').write(cr, uid, inventory_line.product_id.id,{'standard_price':inventory_line.standard_price},context )
-            move_id = super(stock_inventory_line,self)._resolve_inventory_line(  cr, uid, inventory_line, context)
-            move_obj = self.pool.get('stock.move')
-            move_obj.action_done(cr, uid, move_id, context=context)
+            price = inventory_line.get_price( )           
+            product_qty = inventory_line.product_qty
+            
+           
+            if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2 ): 
+                
+                line_price = inventory_line.standard_price
+                inventory_line.write( {'standard_price': price, 'product_qty':0.0 } )
+                inventory_line.product_id.write({'standard_price':price} )
+                move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
+                if move_id:
+                    move = self.env['stock.move'].browse(move_id)
+                    move.action_done()
+                inventory_line.write( {'standard_price': line_price, 'product_qty':product_qty + inventory_line.theoretical_qty } )
+                
+            inventory_line.product_id.write( {'standard_price':inventory_line.standard_price}  ) 
+            move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
+            if   product_qty <> inventory_line.product_qty:
+                inventory_line.write( {'product_qty':product_qty } )
+            if move_id:
+                move = self.env['stock.move'].browse(move_id)
+                move.action_done()
         return move_id
  
 
