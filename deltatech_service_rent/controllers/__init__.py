@@ -21,16 +21,7 @@
 ##############################################################################
 
 
-import service_rent
-import service_notification
-import stock
+import main
 
-import controllers
-import service_equipment
-import service_order
-import service_plan
-import service_meter
-import service_consumable
-import service_efficiency_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

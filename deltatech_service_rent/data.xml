@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+	<data>
+
+		
+		<menuitem name="Planing" id="base.menu_service_planing" parent="base.menu_service_app" sequence="200"  />
+		
+
+	</data> 
+
+	<data noupdate="0">
+		<record id="menu_website_service" model="website.menu">
+			<field name="name">Service</field>
+			<field name="url">/service</field>
+			<field name="parent_id" ref="website.main_menu" />
+			<field name="sequence" type="int">59</field>
+		</record>
+		<record id="menu_website_service_equipment" model="website.menu">
+			<field name="name">Equipments</field>
+			<field name="url">/service/equipment/</field>
+			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
+		</record>
+		<record id="menu_website_service_notification" model="website.menu">
+			<field name="name">Notification</field>
+			<field name="url">/service/notification/</field>
+			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
+		</record>
+		<record id="menu_website_service_order" model="website.menu">
+			<field name="name">Service order</field>
+			<field name="url">/service/order/</field>
+			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
+		</record>
+	</data>
+	
+	
+	<data noupdate="1">	
+	     <record id="sequence_notification" model="ir.sequence">
+            <field name="name">Service notification</field>
+            <field name="prefix">NO/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        
+        <record id="sequence_order" model="ir.sequence">
+            <field name="name">Service Order</field>
+            <field name="prefix">ORD/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+ 
+         <record id="sequence_plan" model="ir.sequence">
+            <field name="name">Service Plan</field>
+            <field name="prefix">P/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+ 
+        
+	</data>	
+	
+	<data noupdate="1">	
+		<record id="equi_work" model="service.operating.parameter">
+			<field name="name">echipamentul functioneaza</field>
+		</record>
+		<record id="equi_work_again" model="service.operating.parameter">
+			<field name="name">defectul a fost inlaturat echipamentul functioneaza</field>
+		</record>	
+		<record id="equi_work_with_faulty" model="service.operating.parameter">
+			<field name="name">defectul nu a fost inlaturat echipamentul functioneaza</field>
+		</record>
+		<record id="equi_not_work" model="service.operating.parameter">
+			<field name="name">echipamentul nu functioneaza</field>
+		</record>	
+		<!-- 
+		<record id="equi_not_work_confirm" model="service.operating.parameter">
+			<field name="name">confirmam primirea unei copii a prezentului raport</field>
+		</record>
+		 -->		
+	</data>	
+	
+	
+	<data noupdate="1">	
+		<record id="cycle_on_month" model="service.cycle">
+			<field name="name">Lunar</field>
+			<field name="value">1</field>
+			<field name="unit">month</field>
+		</record>	
+		<record id="cycle_on_3month" model="service.cycle">
+			<field name="name">Trimestrial</field>
+			<field name="value">2</field>
+			<field name="unit">month</field>
+		</record>
+		<record id="cycle_on_year" model="service.cycle">
+			<field name="name">Anual</field>
+			<field name="value">1</field>
+			<field name="unit">year</field>
+		</record>		
+	</data>	
+</openerp>
+        
+     

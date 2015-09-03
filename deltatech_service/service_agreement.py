@@ -128,7 +128,9 @@ class service_agreement_line(models.Model):
                 }
           return  cons_value
 
-
+    @api.model
+    def after_create_consumption(self, consumption):
+        pass
 
     
     

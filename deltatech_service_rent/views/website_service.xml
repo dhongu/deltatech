@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Service frontend assets">
+			<xpath expr="." position="inside">
+				<script type="text/javascript" src="/deltatech_service_rent/static/src/js/website_service.js"></script>
+				<script type="text/javascript" src="/website_quote/static/lib/jSignature/jSignature.min.js"></script>
+				<script type="text/javascript" src="/deltatech_service_rent/static/lib/datatables/js/jquery.dataTables.js"></script>
+				<script type="text/javascript" src="/deltatech_service_rent/static/lib/datatables/js/dataTables.bootstrap.js"></script>
+				<link rel='stylesheet' href='/deltatech_service_rent/static/lib/datatables/css/dataTables.bootstrap.css' />
+
+			</xpath>
+		</template>
+
+
+		<!-- Page -->
+		<template id="equipments" name="Equipments">
+			<t t-call="website.layout">
+				<div id="wrap">
+					<div class="oe_structure" />
+					<div class="container">
+
+						<div class="row" style="width: 100%;">
+							<t t-call="deltatech_service_rent.search">
+								<t t-set="search_class">pagination form-inline col-md-3</t>
+							</t>
+							<t t-call="website.pager" />
+						</div>
+
+
+						<div class="row mt32 mb32">
+							<div class="col-md-9" id="middle_column">
+								<div class="text-center text-muted" t-if="not equipment_ids">
+									<h1>No equipment found</h1>
+								</div>
+								<ul class="media-list">
+									<li t-foreach="equipment_ids" t-as="equipment" class="media">
+										<div itemscope="itemscope" class="media-body">
+
+											<a itemprop="url" t-attf-href="/service/equipment/#{slug(equipment)}">
+												<h1 t-field="equipment.name"></h1>
+
+											</a>
+
+											<div>
+												<label>Work Location:</label>
+												<span t-field="equipment.work_location" />
+											</div>
+											<div>
+												<label>Product:</label>
+												<span t-field="equipment.product_id" />
+											</div>
+											<div>
+												<label>Serial Number:</label>
+												<span t-field="equipment.serial_id" />
+											</div>
+
+										</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-3 oe_structure" id="right_column">
+							</div>
+						</div>
+					</div>
+					<div class="oe_structure" />
+				</div>
+			</t>
+		</template>
+
+
+		<template id="equipment_item" name="Equipment">
+			<h1 t-field="equipment.name"></h1>
+			<div>
+				<label>Work Location:</label>
+				<span t-field="equipment.work_location" />
+			</div>
+			<div>
+				<label>Product:</label>
+				<span t-field="equipment.product_id" />
+			</div>
+			<div>
+				<label>Serial Number:</label>
+				<span t-field="equipment.serial_id" />
+			</div>
+		</template>
+
+		<template id="equipment" name="Equipment">
+			<t t-call="website.layout">
+				<t t-set="additional_title" t-value="equipment.name" />
+				<div id="wrap">
+					<div class="oe_structure" />
+
+					<div class="container">
+						<div class="row">
+							<br />
+							<div class="col-sm-4">
+								<ol class="breadcrumb">
+									<li>
+										<a href="/service/equipment/">Equipments</a>
+									</li>
+									<li class="active">
+										<span t-field="equipment.name" />
+									</li>
+								</ol>
+							</div>
+							<div class="col-sm-3">
+								<t t-call="deltatech_service_rent.search">
+									<t t-set="search_class">pull-right</t>
+								</t>
+							</div>
+							<div class="col-sm-4" groups="base.group_sale_manager">
+								<t t-set="object" t-value="equipment" />
+								<t t-set="action" t-value="'deltatech_service_rent.action_service_equipment'" />
+								<a class="btn btn-default" t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{object._name}&amp;id=#{object.id}&amp;action=#{action}"
+									title="Edit in backend">Edit</a>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div t-attf-class="alert alert-dismissable alert-#{message_type}" t-if="message">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+								<span t-esc="message" />
+							</div>
+							<t t-call="deltatech_service_rent.equipment_item" />
+							<div>
+								<label>Meters</label>
+								<ol>
+									<li t-foreach="equipment.meter_ids" t-as="meter">
+										<div>
+											<span t-field="meter.name" />
+											<span> - Index:</span>
+											<span t-field="meter.total_counter_value" />
+											<t t-if="meter.type == 'counter'">
+												<a class="btn btn-primary btn-xs" t-att-id="meter.id" data-toggle="modal" data-target="#update_meter">
+													<i class="fa fa-tachometer" />
+													Update
+												</a>
+												<t t-call="deltatech_service_rent.meter_update_modal" />
+											</t>
+										</div>
+										<br />
+									</li>
+								</ol>
+							</div>
+							<a class="btn btn-warning " data-toggle="modal" data-target="#notification_add" title="Create a new notification">
+								<span class="fa fa-bell-o" />
+								New Notification
+							</a>
+							<t t-call="deltatech_service_rent.notification_add_modal" />
+						</div>
+
+						<div class="col-md-4 mb32" t-if='equipment.address_id'>
+							<address itemscope="itemscope" itemtype="http://schema.org/Organization">
+								<h4 t-field="equipment.address_id" t-field-options='{  "widget": "contact",  "fields": ["address","phone", "fax"], "no_tag_br": true  }' />
+							</address>
+							<a t-att-href="equipment.address_id.google_map_link()" target="_BLANK">
+								<img class="thumbnail img-responsive" t-att-src="equipment.address_id.google_map_img(zoom=15)" />
+							</a>
+						</div>
+
+
+
+						<div class="row mt32 mb32">
+							<t t-raw="0" />
+						</div>
+					</div>
+					<div class="oe_structure" />
+
+
+
+				</div>
+			</t>
+		</template>
+
+
+		<template id="meter_update_modal" name="Meter Update modal">
+			<div class="modal fade" id="update_meter" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<form id="decline" method="POST" t-attf-action="/service/equipment/meter_post/#{slug(meter)}" class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+							<h4 class="modal-title">Update Meter</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+								Prease enter new index for
+								<span t-field="meter.name" />
+							</p>
+							<input type="float" class="form-control" name="index" t-attf-value="#{meter.total_counter_value or ''}" />
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Update</button>
+							or
+							<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</template>
+
+
+		<template id="notification_add_modal" name="Notification Add Modal">
+			<div class="modal fade" id="notification_add" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<form id="decline" method="POST" t-attf-action="/service/equipment/notification_post/#{slug(equipment)}" class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+							<h4 class="modal-title">Notification</h4>
+						</div>
+						<div class="modal-body">
+
+							<div t-attf-class="form-group">
+								<label class="control-label" for="subject">Subject</label>
+								<input class="form-control" name="subject" t-attf-value="#{subject or ''}" />
+
+							</div>
+							<div t-attf-class="form-group">
+								<label class="control-label" for="index">Description</label>
+								<textarea rows="4" class="form-control" name="description" t-attf-value="#{description or ''}" />
+
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-primary">Send</button>
+							or
+							<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</template>
+
+
+
+
+
+		<template id="search">
+			<form action="/service/equipment" method="get" t-att-class="search_class">
+				<div class="input-group">
+					<input type="text" name="search" class="search-query form-control" placeholder="Search..." t-att-value="search" />
+					<span class="input-group-btn">
+						<a class="btn btn-default a-submit">
+							<i class="fa fa-search" />
+						</a>
+					</span>
+				</div>
+			</form>
+		</template>
+
+
+
+		<template id="order" name="Order">
+			<t t-call="website.layout">
+				<div class="container o_website_service">
+
+					<div class="modal fade" id="modelaccept" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<form id="accept" method="POST" t-attf-action="/service/order/accept/#{order.id}/?token=#{order.access_token}" class="js_accept_json modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+									<h4 class="modal-title">Validate Order</h4>
+								</div>
+								<div class="modal-body" id="sign-dialog">
+									<p>
+										I agree that by signing this service order.
+									</p>
+									<div id="signer" class="form-group">
+										<label class="control-label" for="name">Your Name:</label>
+										<input type="text" name="signer" id="name" class="form-control" t-attf-value="#{signer or ''}" />
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="submit" t-attf-class="btn btn-primary">Sign Order</button>
+									or
+									<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="modal fade" id="modeldecline" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<form id="decline" method="POST" t-attf-action="/service/order/#{order.id}/#{order.access_token}/decline" class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+									<h4 class="modal-title">Reject This Service Order</h4>
+								</div>
+								<div class="modal-body">
+									<p>
+										Tell us why you are refusing this service order, this will help us improve our services.
+									</p>
+									<textarea rows="4" name="decline_message" placeholder="Your feedback....." class="form-control" />
+								</div>
+								<div class="modal-footer">
+									<button type="submit" t-att-id="order.id" class="btn btn-primary">Reject</button>
+									or
+									<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<br />
+						<div class="col-sm-4">
+							<ol class="breadcrumb">
+								<li>
+									<a href="/service/order/">Equipments</a>
+								</li>
+								<li class="active">
+									<span t-field="order.name" />
+								</li>
+							</ol>
+						</div>
+						<div class="col-sm-3">
+							<t t-call="deltatech_service_rent.search">
+								<t t-set="search_class">pull-right</t>
+							</t>
+						</div>
+						<div class="col-sm-4" groups="base.group_sale_manager">
+							<t t-set="object" t-value="order" />
+							<t t-set="action" t-value="'deltatech_service_rent.action_service_order'" />
+							<a class="btn btn-default" t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{object._name}&amp;id=#{object.id}&amp;action=#{action}"
+								title="Edit in backend">Edit</a>
+						</div>
+					</div>
+
+					<div class="row mt16">
+						<h1>
+							<span>Service Order:</span>
+							<span t-field="order.name" />
+						</h1>
+						<div t-field="order.state" />
+
+						<div class="alert alert-success alert-dismissable" t-if="message==1">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+							Your message has been successfully sent!
+						</div>
+						<div class="alert alert-warning alert-dismissable" t-if="message==2">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+							This service order has been rejected.
+						</div>
+						<div class="alert alert-warning alert-dismissable" t-if="message==3">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
+							This service order has been validated.
+						</div>
+						<div>
+							<span itemprop="image" t-field="order.signature" t-field-options="{&quot;widget&quot;: &quot;image&quot;}" />
+						</div>
+					</div>
+				</div>
+				<div class="text-center hidden-print" t-if="order.state == 'work_done' ">
+					<a class="btn btn-success" data-toggle="modal" data-target="#modelaccept">
+						<i class="fa fa-check"></i>
+						Accept
+					</a>
+					<a class="btn btn-danger fa fa-times" data-toggle="modal" data-target="#modeldecline">
+						Reject
+					</a>
+				</div>
+			</t>
+		</template>
+
+		<!-- Options:Quotation Signature -->
+		<template id="opt_order_signature" name="Ask Signature" customize_show="True" inherit_id="deltatech_service_rent.order">
+			<xpath expr="//div[@id='sign-dialog']" position="inside">
+				<div class="panel panel-default mt16 mb0" id="drawsign">
+					<div class="panel-heading">
+						<div class="pull-right">
+							<a id="sign_clean" class="btn btn-xs">Clear</a>
+						</div>
+						<strong>Draw your signature</strong>
+					</div>
+					<div id="signature" class="panel-body" style="padding: 0" />
+				</div>
+			</xpath>
+		</template>
+
+
+	</data>
+</openerp>

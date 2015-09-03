@@ -1,0 +1,196 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+
+
+		<record id="view_service_equipment_tree" model="ir.ui.view">
+			<field name="name">Services equipment</field>
+			<field name="model">service.equipment</field>
+			<field name="arch" type="xml">
+				<tree string="Services Equipment">
+					<field name="address_id" />								
+					<field name="work_location" />
+					<field name="name" />
+					<field name="product_id" />
+					<field name="serial_id" />
+					<field name="quant_id" />
+					<field name="start_date" />
+					<field name="message_unread" invisible="1"/>
+				</tree>
+			</field>
+		</record>
+
+
+        <record id="mt_equipment_change_status" model="mail.message.subtype">
+            <field name="name">Change status</field>
+            <field name="res_model">service.equipment</field>
+            <field name="default" eval="False"/>
+            <field name="description">Equipment change status</field>
+        </record>
+
+		<record id="view_service_equipment_form" model="ir.ui.view">
+			<field name="name">Service equipment</field>
+			<field name="model">service.equipment</field>
+			<field name="arch" type="xml">
+				<form string="Service Equipment">
+					<header>
+					    <button name="new_piking_button" type="object" string="Delivery for service"/>
+						<field name="state" widget="statusbar" clickable="True" />
+					</header>
+					<sheet>
+						<div class="oe_title oe_left">
+							<h1>
+								<label string="Equipment" />
+								<field name="name" class="oe_inline" />
+							</h1>
+						</div>
+						<div class="oe_right oe_button_box" name="buttons">
+							<button type="action" class="oe_stat_button" id="meter_button" icon="fa fa-slack" name="%(action_service_meter)d"
+								context="{'search_default_equipment_id': id,'default_equipment_id': id}">
+								<div>Meters</div>
+							</button>
+													
+							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa fa-tachometer" name="%(action_service_meter_reading)d"
+								context="{'search_default_equipment_id': id,'default_equipment_id': id}">
+								<div>Meter Readings</div>
+							</button>
+							<button type="object" class="oe_stat_button" id="invoice_button" icon="fa-pencil-square-o" name="invoice_button" groups="account.group_account_invoice">
+								<div>Invoices</div>
+							</button>
+
+							<button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out" name="picking_button">
+								<div>Deliveries</div>
+							</button>
+														
+							<button type="object" class="oe_stat_button" id="notification_button" icon="fa-bell-o" name="notification_button">
+								<div>Notifications</div>
+							</button>							
+
+							<button type="object" class="oe_stat_button" id="order_button" icon="fa-ticket" name="order_button">
+								<div>Service Order</div>
+							</button>	
+							
+						</div>
+						<group>
+							<group>
+								<field name="partner_id" />
+                          	    <field name="address_id"   context="{'search_default_customer':1, 'show_address': 1 }" 
+														  options="{'always_reload': True}" />								
+															/>		
+								<field name="work_location" />
+								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" 
+														  options="{'always_reload': True}" />	
+								<field name="start_date" />
+								<field name="agreement_id" />
+								<field name="user_id"/>						  
+							</group>
+							<group>
+								<field name="product_id" />
+								<field name="serial_id" domain="[('product_id','=',product_id )]" context="{'default_product_id':product_id, 'product_id':product_id }" />
+								<field name="quant_id" domain="[('product_id','=',product_id )]" />
+								
+								<field name="ean_code" />
+								<field name="vendor_id" />
+								<field name="manufacturer_id" />
+							</group>
+							
+						</group>
+						<group>
+							<group>
+								<field name="meter_ids" widget="one2many_list">
+									<tree string="Meters" editable="bottom">
+										
+										<field name="uom" />
+										
+										<field name="total_counter_value" />
+										<field name="estimated_value" />
+									</tree>
+								</field>
+							</group>
+							<group>
+								<field name="plan_ids" />
+							</group>
+						</group>
+
+						<group>
+							<group>
+								 
+								<field name="consumable_item_ids" widget="many2many_kanban" nolabel="1" colspan="2" context="{'equipment_id': id}">
+									<kanban>
+										<field name="product_id" />
+										<field name="shelf_life" />
+										<field name="colors" />
+										<templates>
+                        					<t t-name="kanban-box">
+ 												<div class="oe_kanban_card">
+	 												<div class="oe_dropdown_toggle oe_dropdown_kanban">
+	 
+													</div>
+													<div class="oe_kanban_content">
+														<field name="quantity" widget="gauge" style="width:150px; height: 110px;" 
+															 t-attf-options="{'levelcolors': #{record.colors.raw_value}, 'max_field': 'shelf_life'}">
+															<field name="product_id" />
+														</field>
+													</div>
+	 												<div class="oe_clear"></div>
+ 												</div>
+                        					</t>
+                        				</templates>									
+									</kanban>
+								</field>
+							</group>
+						</group>
+						<field name="note" />
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+						<field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_service_equipment_filter" model="ir.ui.view">
+			<field name="name">service.equipment.select</field>
+			<field name="model">service.equipment</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="address_id" />
+					<field name="ean_code" />
+					<newline />
+					<group expand="1" string="Group By...">
+						<filter string="Location" name="partner" context="{'group_by':'partner_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+
+		<record id="action_service_equipment" model="ir.actions.act_window">
+			<field name="name">Equipments</field>
+			<field name="res_model">service.equipment</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Equipment" id="menu_service_equipment" action="action_service_equipment" parent="base.menu_service" sequence="500" />
+
+
+
+
+
+		<record id="action_service_equipment_type" model="ir.actions.act_window">
+			<field name="name">Services Equipment Type</field>
+			<field name="res_model">service.equipment.type</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Equipment Type" id="menu_service_equipment_type"
+			action="action_service_equipment_type" parent="base.menu_service_config" sequence="200" />
+
+	</data>
+</openerp>

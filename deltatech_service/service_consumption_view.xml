@@ -84,7 +84,7 @@
 		</record>
 
 		<menuitem name="Services Consumption" id="menu_service_consumption"
-			action="action_service_consumption" parent="base.menu_service" sequence="102"/>
+			action="action_service_consumption" parent="base.menu_service_agr" sequence="102"/>
 
 
 	</data>

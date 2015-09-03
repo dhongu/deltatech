@@ -116,10 +116,20 @@ class service_billing(models.TransientModel):
                                            'account_id':cons.partner_id.property_account_receivable.id, }
                     
                     pre_invoice[key]['agreement_ids'] = cons.agreement_id
+                cons.write({'state':'done'})  
             else: # cons.quantity < cons.agreement_line_id.quantity_free:
                 cons.write({'state':'none'})   
                  
+        for cons in self.consumption_ids:
+            if cons.state == 'none':
+                if self.group_invoice == 'agreement':
+                    key = cons.agreement_id.id
+                else:
+                    key = cons.partner_id.id
+                if pre_invoice.get(key,False):  # daca a fost generata o factura atunci leg si consumul de facura pentru a aparea in centralizator
+                    pre_invoice[key]['cons'] += cons
             
+                
         if not pre_invoice:
             raise Warning (_('No condition for create a new invoice') )
         res = []
@@ -143,7 +153,7 @@ class service_billing(models.TransientModel):
             }
             invoice_id = self.env['account.invoice'].create(invoice_value)
             invoice_id.button_compute(True)
-            pre_invoice[key]['cons'].write( {'invoice_id':invoice_id.id,'state':'done'})
+            pre_invoice[key]['cons'].write( {'invoice_id':invoice_id.id})
             res.append(invoice_id.id)
         return {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",

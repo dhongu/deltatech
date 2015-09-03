@@ -68,6 +68,7 @@ class service_billing_preparation(models.TransientModel):
                     }) 
                     consumption = self.env['service.consumption'].create(cons_value) 
                     res.append(consumption.id)  
+                    line.after_create_consumption(consumption)
         return {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",
             'name': _('Service Consumption'),

@@ -21,16 +21,21 @@
 ##############################################################################
 
 
-import service_rent
-import service_notification
-import stock
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
 
-import controllers
-import service_equipment
-import service_order
-import service_plan
-import service_meter
-import service_consumable
-import service_efficiency_report
 
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+    
+    equipment_id = fields.Many2one('service.equipment', string='Equipment', index=True) 
+    agreement_id = fields.Many2one('service.agreement', string='Contract Services')
+    
+
+
+
+#todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite 
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

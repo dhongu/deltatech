@@ -32,11 +32,28 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["deltatech","deltatech_service"],
+    "depends" : ["website","mail",
+                 "deltatech",
+                 "deltatech_service",
+                 "deltatech_procurement",
+                 "deltatech_product_extension",
+                 "deltatech_stock_report"],
 
 
-    "data" : [ 'service_rent_view.xml',
-               'security/ir.model.access.csv'
+    "data" : [ 'data.xml',
+              
+               'service_rent_view.xml',
+               'service_notification_view.xml',
+               'service_efficiency_report.xml',
+               'stock_view.xml',
+               'security/service_security.xml',
+               'security/ir.model.access.csv',
+               'views/website_service.xml',
+               'service_order_view.xml',
+               'service_meter_view.xml',
+               'service_equipment_view.xml',
+               'service_consumable_view.xml',
+               'service_plan_view.xml',
                 ],
     "active": False,
     "installable": True,
