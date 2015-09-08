@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+ 		<record id="view_mail_automatically_tree" model="ir.ui.view">
+			<field name="name">Automatically Mail</field>
+			<field name="model">mail.automatically</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="picking_type_id" />
+	                <field name="partner_ids" widget="many2many_tags_email"
+	                        placeholder="Add contacts to notify..."
+	                        context="{'force_email':True, 'show_email':True}"/>
+					<field name="subject" />
+					<field name="type" />
+				</tree>
+			</field>
+		</record>
+ 
+ 		<record id="view_mail_automatically_form" model="ir.ui.view">
+			<field name="name">Automatically Mail</field>
+			<field name="model">mail.automatically</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+					<field name="type" />
+					<field name="picking_type_id" attrs="{'invisible':[ ('type', '!=', 'picking')]}" />
+					<field name="journal_id"      attrs="{'invisible':[ ('type', '!=', 'invoice')]}" />
+                    <field name="partner_ids" widget="many2many_tags_email"
+                            placeholder="Add contacts to notify..."
+                            context="{'force_email':True, 'show_email':True}"/>
+					<field name="subject" />
+					<field name="message" />
+				    </group>
+				</form>
+			</field>
+		</record>       
+ 
+ 		<record id="action_mail_automatically" model="ir.actions.act_window">
+			<field name="name">Automatically Mail</field>
+			<field name="res_model">mail.automatically</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Automatically Mail" id="menu_mail_automatically"
+			action="action_mail_automatically" parent="base.menu_email" sequence="900" />
+ 
+ 
+        
+    </data>
+</openerp>
