@@ -2,6 +2,15 @@
 <openerp>
 	<data>
 
+		<record id="action_service_meter_reading" model="ir.actions.act_window">
+			<field name="name">Meter Reading</field>
+			<field name="res_model">service.meter.reading</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Meter Reading" id="menu_service_meter_reading" action="action_service_meter_reading" parent="base.menu_service" sequence="502" />
+
 
 		<record id="view_service_meter_tree" model="ir.ui.view">
 			<field name="name">Meter</field>
@@ -81,14 +90,6 @@
 		<menuitem name="Meter" id="menu_service_meter" action="action_service_meter" parent="base.menu_service" sequence="501" />
 
 
-		<record id="action_service_meter_reading" model="ir.actions.act_window">
-			<field name="name">Meter Reading</field>
-			<field name="res_model">service.meter.reading</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
-
-		<menuitem name="Meter Reading" id="menu_service_meter_reading" action="action_service_meter_reading" parent="base.menu_service" sequence="502" />
 
 
 
