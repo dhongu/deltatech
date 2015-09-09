@@ -22,27 +22,54 @@
 			<field name="arch" type="xml">
 				<form string="Meter">
 					<header>
-					    <button name="calc_forcast_coef" type="object" string="Forcast Coef "/>
+						<button name="calc_forcast_coef" type="object" string="Forcast Coef " />
+						<button name="recheck_value" type="object" string="Recheck Value " />
 					</header>
 					<sheet>
-					<group>
-					  <group>
-						<field name="equipment_id" />
-						<field name="uom" />
-						<field name="last_meter_reading_id" />
-						<field name="total_counter_value" />
-						<field name="estimated_value" />
-						<field name="type" />				  
-					  </group>
-
-						<field name="meter_ids"  attrs="{'invisible':[ ('type', '=', 'counter')]}"/>
-						<field name="meter_reading_ids" readonly='1'  attrs="{'invisible':[ ('type', '=', 'collector')]}"/>	
+						<div class="oe_right oe_button_box" name="buttons">
+							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa fa-tachometer" name="%(action_service_meter_reading)d"
+								context="{'search_default_equipment_id': equipment_id,
+										  'default_equipment_id': equipment_id,
+										  'search_default_meter_id': id,
+										  'default_meter_id': id }">
+								<div>Meter Readings</div>
+							</button>
+						</div>
+						<group>
+							<group>
+								<field name="equipment_id" />
+								<field name="uom_id" />
+								<field name="type" />
+								<field name="start_value" />
+							</group>
+							<group>
+								<field name="last_meter_reading_id" />
+								<field name="total_counter_value" />
+								<field name="estimated_value" />							
+							</group>
 						</group>
-					</sheet>				
+							<field name="meter_ids" attrs="{'invisible':[ ('type', '=', 'counter')]}" />
+							<field name="meter_reading_ids" readonly='1' attrs="{'invisible':[ ('type', '=', 'collector')]}" />
+						
+					</sheet>
 				</form>
 			</field>
 		</record>
 
+		<record id="view_service_meter_filter" model="ir.ui.view">
+			<field name="name">service.meter.select</field>
+			<field name="model">service.meter</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="equipment_id" />
+					<newline />
+					<group expand="1" string="Group By...">
+						<filter string="Equipment" name="equipment" context="{'group_by':'equipment_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
 
 		<record id="action_service_meter" model="ir.actions.act_window">
 			<field name="name">Meter</field>
@@ -92,8 +119,11 @@
 					<sheet>
 						<group>
 							<group>
-								<field name="equipment_id" />
-								<field name="meter_id" domain="[('equipment_id','=', equipment_id ),('type', '=', 'counter')]" />
+								<field name='id' invisible='1'/>
+								<field name="equipment_id" attrs="{'readonly':[('id','!=',False)]}"/>
+								<field name="meter_id" 
+									attrs="{'readonly':[('id','!=',False)]}"
+									domain="[('equipment_id','=', equipment_id ),('type', '=', 'counter')]" />
 								<field name="date" />
 							</group>
 							<group>
@@ -132,7 +162,7 @@
 
 
 
- 
+
 
 
 

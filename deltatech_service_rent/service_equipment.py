@@ -81,6 +81,8 @@ class service_equipment(models.Model):
     contact_id = fields.Many2one('res.partner', string='Contact person',  track_visibility='onchange')    
 
     name = fields.Char(string='Name', index=True, default="/" )
+    display_name = fields.Char(compute='_compute_display_name')
+    
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     serial_id = fields.Many2one('stock.production.lot', string='Serial Number', ondelete="restrict")
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict")
@@ -116,6 +118,14 @@ class service_equipment(models.Model):
         ('ean_code_uniq', 'unique(ean_code)',
             'EAN Code already exist!'),
     ]  
+
+    @api.one
+    @api.depends('name', 'address_id')     # this definition is recursive
+    def _compute_display_name(self):
+        if self.address_id:
+            self.display_name = self.name + ' / ' + self.address_id.name
+        else:
+            self.display_name = self.name
     
     @api.one
     def _compute_consumable_item_ids(self):

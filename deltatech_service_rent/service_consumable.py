@@ -45,7 +45,7 @@ class service_consumable_item(models.Model):
     name = fields.Char(string='Name', related='product_id.name')
     consumable_id =  fields.Many2one('service.consumable', string='Consumable List', ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Consumable', ondelete='restrict', domain=[('type', '=', 'product')] ) 
-    quantity = fields.Float(string='Quantity', compute='_compute_quantity')
+    quantity = fields.Float(string='Quantity', compute='_compute_quantity', digits= dp.get_precision('Product Unit of Measure') )
     shelf_life = fields.Float(string='Shelf Life', related='product_id.shelf_life')
     colors = fields.Char("HTML Colors Index",default="['#a9d70b', '#f9c802', '#ff0000']")
 

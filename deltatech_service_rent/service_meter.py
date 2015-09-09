@@ -39,19 +39,19 @@ class service_meter(models.Model):
     _name = 'service.meter'
     _description = "Meter"
 
-    name = fields.Char(string='Name', related='uom.name')
+    name = fields.Char(string='Name', related='uom_id.name')
     type = fields.Selection([('counter','Counter'),('collector','Collector')], string='Type', default='counter')
     equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True,  ondelete='cascade' ) 
     meter_reading_ids = fields.One2many('service.meter.reading', 'meter_id', string='Meter Reading')
    
     meter_ids = fields.Many2many('service.meter', 'service_meter_collector_meter', 'meter_collector_id', 'meter_id', string='Meter',  domain=[('type', '=', 'counter')])
  
-    
+    start_value = fields.Float(string='Start Value')
     last_meter_reading_id = fields.Many2one('service.meter.reading', string='Last Meter Reading',compute='_compute_last_meter_reading' )
     total_counter_value = fields.Float(string='Total Counter Value',  compute='_compute_last_meter_reading' )
     estimated_value= fields.Float(string='Estimated Value',  compute='_compute_estimated_value' ) 
     
-    uom = fields.Many2one('product.uom', string='Unit of Measure' ,required=True )
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure' ,required=True )
 
     value_a =  fields.Float()
     value_b =  fields.Float()
@@ -60,7 +60,7 @@ class service_meter(models.Model):
     value_per_day = fields.Float(string="Estimated per day",  compute='_compute_last_meter_reading' )
 
     _sql_constraints = [
-        ('equipment_uom_uniq', 'unique(equipment_id,uom)', 'Two meter for one equipment with the same unit of measure? Impossible!')
+        ('equipment_uom_uniq', 'unique(equipment_id,uom_id)', 'Two meter for one equipment with the same unit of measure? Impossible!')
     ]
 
 
@@ -153,6 +153,19 @@ class service_meter(models.Model):
         return value
 
 
+    @api.multi
+    def recheck_value(self):
+        for meter in self:
+            readings = meter.meter_reading_ids.sorted(key=lambda r: r.date)
+            previous_counter_value = meter.start_value
+            for reading in readings:
+                #reading.previous_counter_value = previous_counter_value
+                #difference = 
+                #reading._store_set_values
+                reading.write({'previous_counter_value':previous_counter_value,
+                               'difference' : reading.counter_value-previous_counter_value})
+                previous_counter_value = reading.counter_value
+
 
 class service_meter_reading(models.Model):
     _name = 'service.meter.reading'
@@ -166,10 +179,10 @@ class service_meter_reading(models.Model):
     equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True, ondelete='cascade' ) 
     
     date = fields.Date(string='Date', index=True, required=True, default = fields.Date.today()  ) 
-    previous_counter_value = fields.Float(string='Previous Counter Value',readonly=True, compute='_compute_previous_counter_value',store=True)
+    previous_counter_value = fields.Float(string='Previous Counter Value',readonly=True , compute='_compute_previous_counter_value', store=True)
     counter_value = fields.Float(string='Counter Value', group_operator="max")
     estimated = fields.Boolean(string='Estimated')
-    difference = fields.Float(string='Difference', readonly=True, compute='_compute_difference',store=True)
+    difference = fields.Float(string='Difference', readonly=True,  compute='_compute_difference', store=True)
     consumption_id = fields.Many2one('service.consumption', string='Consumption',readonly=True) 
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
     note =  fields.Text(String='Notes')  
@@ -177,9 +190,9 @@ class service_meter_reading(models.Model):
     #todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
     
     @api.one
-    @api.depends('date','meter_id')
+    @api.depends('date','meter_id','equipment_id')
     def _compute_previous_counter_value(self ):
-        self.previous_counter_value = 0
+        self.previous_counter_value = self.meter_id.start_value
         if self.date and self.meter_id:
             previous = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
                                                                  ('date','<',self.date)],limit=1, order='date desc, id desc')
@@ -187,29 +200,37 @@ class service_meter_reading(models.Model):
                 self.previous_counter_value = previous.counter_value
                 self.difference = self.counter_value - self.previous_counter_value
                 #self.invalidate_cache() # asta e solutia ?
-                
+ 
+ 
             
     @api.one
-    @api.depends('counter_value')
+    @api.depends('counter_value','previous_counter_value')
     def _compute_difference(self):
         self.difference = self.counter_value - self.previous_counter_value
         next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
                                                          ('date','>',self.date)],limit=1, order='date, id')
         if next and next.previous_counter_value <>  self.counter_value:
             next.write({'previous_counter_value': self.counter_value,
-                        'difference' : (next.counter_value - self.counter_value)})       
+                        'difference' : (next.counter_value - self.counter_value)})
+            #next._compute_difference()      
+
+ 
             
-    @api.onchange('equipment_id','date','meter_id')
+    @api.onchange('equipment_id')
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.meter_id = self.equipment_id.meter_ids[0]
-            self.previous_counter_value = self.meter_id.last_meter_reading_id.counter_value
-            self.counter_value =  self.meter_id.get_forcast(self.date)   #self.previous_counter_value 
+            if len(self.equipment_id.meter_ids) == 1:
+                self.meter_id = self.equipment_id.meter_ids[0]
+             
+            #self.previous_counter_value = self.meter_id.last_meter_reading_id.counter_value
+            #self.counter_value =  self.meter_id.get_forcast(self.date)   #self.previous_counter_value 
+
 
     @api.onchange('meter_id')
     def onchange_meter_id(self):
         if self.meter_id:
             self.equipment_id = self.meter_id.equipment_id
+             
             
 
     @api.model
@@ -217,7 +238,39 @@ class service_meter_reading(models.Model):
         res = super(service_meter_reading,self).create(vals)
         self.meter_id.calc_forcast_coef()
         return res
+
+    @api.multi
+    def write(self, vals):
+        res = super(service_meter_reading,self).write(vals)
+        if  vals.get('date',False):
+            for reading in self:
+                reading.meter_id.recheck_value()
+                reading.meter_id.calc_forcast_coef()
+        return 
+
+
+    @api.multi
+    def unlink(self):
+        nexts = self.env['service.meter.reading']
+        meters = self.env['service.meter']
+        for reading in self:
+            if self.consumption_id:
+                raise Warning('Meter reading recorder in consumption prepared for billing.')
+            meters |= reading.meter_id
+            #next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
+            #                                                      ('date','>',self.date)],limit=1, order='date, id')
+            #nexts |= next
+            
+        res = super(service_meter_reading,self).unlink()
         
+        #for next in nexts:
+        #    next._compute_previous_counter_value()
+        #    next._compute_difference()
+        #  self.env.cr.commit()      este necesar ???
+        meters.recheck_value() 
+  
+ 
+        return res
  
 
 

@@ -48,8 +48,11 @@ class service_consumption(models.Model):
     quantity = fields.Float(string='Quantity', digits= dp.get_precision('Product Unit of Measure'), 
                             readonly=True, states={'draft': [('readonly', False)]},
                             required=True, default=1)
+    invoiced_qty = fields.Float(string='Invoiced Quantity', digits= dp.get_precision('Product Unit of Measure'), 
+                            readonly=True, default=0.0)
+
  
-    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Product Price'),
+    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),
                               readonly=True, states={'draft': [('readonly', False)]},
                                 default=1) 
 
@@ -68,7 +71,7 @@ class service_consumption(models.Model):
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True, ondelete='restrict', copy=False )
     invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False )
 
-
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id')
 
     _sql_constraints = [
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',

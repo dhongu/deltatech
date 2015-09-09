@@ -97,19 +97,26 @@
 							
 						</group>
 						<group>
-							<group>
-								<field name="meter_ids" widget="one2many_list">
+							<group string="Meters">
+								<field name="meter_ids" nolabel="1" widget="one2many_list">
 									<tree string="Meters" editable="bottom">
 										
-										<field name="uom" />
+										<field name="uom_id" />
 										
 										<field name="total_counter_value" />
 										<field name="estimated_value" />
 									</tree>
 								</field>
 							</group>
-							<group>
-								<field name="plan_ids" />
+							<group string="Plans" >
+								<field name="plan_ids" nolabel="1" context="{'default_equipment_id':id  }"  >
+									<tree string="Plans"    >
+										<field name="name" />
+										<field name='state' invisible="1"/>
+										<field name="cycle_id" />
+										<field name='last_call_done_date' />
+									</tree>
+								</field>
 							</group>
 						</group>
 

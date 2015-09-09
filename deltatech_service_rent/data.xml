@@ -18,17 +18,17 @@
 		</record>
 		<record id="menu_website_service_equipment" model="website.menu">
 			<field name="name">Equipments</field>
-			<field name="url">/service/equipment/</field>
+			<field name="url">/service/equipments/</field>
 			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
 		</record>
 		<record id="menu_website_service_notification" model="website.menu">
-			<field name="name">Notification</field>
-			<field name="url">/service/notification/</field>
+			<field name="name">Notifications</field>
+			<field name="url">/service/notifications/</field>
 			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
 		</record>
 		<record id="menu_website_service_order" model="website.menu">
-			<field name="name">Service order</field>
-			<field name="url">/service/order/</field>
+			<field name="name">Service orders</field>
+			<field name="url">/service/orders/</field>
 			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
 		</record>
 	</data>

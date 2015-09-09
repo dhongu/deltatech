@@ -109,7 +109,7 @@ class service_efficiency_report(models.Model):
                     uom_usage = product.uom_shelf_life.id  
 
         if uom_usage and equipment_id:   
-            meter = self.env['service.meter'].search([('equipment_id','=',equipment_id),('uom','=',uom_usage)]) 
+            meter = self.env['service.meter'].search([('equipment_id','=',equipment_id),('uom_id','=',uom_usage)]) 
             if meter:
                 usage = meter.get_counter_value(begin_date,end_date)
 

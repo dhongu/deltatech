@@ -60,6 +60,9 @@ class service_agreement_line(models.Model):
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True)
     meter_id = fields.Many2one('service.meter', string='Meter')  
     
+
+
+    # de adaugat constringerea ca unitatea de masura de la linie sa fi la fel ca si cea de la meter
     
     @api.onchange('equipment_id')
     def onchange_equipment_id(self):
@@ -68,13 +71,10 @@ class service_agreement_line(models.Model):
  
  
     @api.onchange('meter_id')
-    def onchange_equipment_id(self):
+    def onchange_meter_id(self):
         if self.meter_id:
             self.equipment_id = self.meter_id.equipment_id
-                                
-
-
-
+            self.uom_id = self.meter_id.uom_id                    
 
     @api.model
     def after_create_consumption(self, consumption):
@@ -82,42 +82,34 @@ class service_agreement_line(models.Model):
         if self.equipment_id: 
             if self.meter_id:
                 readings =  self.meter_id.meter_reading_ids.filtered(lambda r: not r.consumption_id)
-                
+                readings = readings.filtered(lambda r:  r.date <= consumption.period_id.date_stop )
                 quantity = 0
                
-                for reading in readings:                     
-                    quantity +=   reading.difference
+                for reading in readings:   
+                    from_uom = reading.meter_id.uom_id
+                    to_uom =  consumption.agreement_line_id.uom_id
+                    
+                    amount = reading.difference/from_uom.factor
+                    if to_uom:
+                        amount = amount * to_uom.factor
+                               
+                    quantity += amount
                 
-                name = ''
+                name = self.equipment_id.display_name + '\n'
                 if readings:
                     first_reading = readings[-1]
                     last_reading = readings[0]
-                    name = _('Old index: %s, New index:%s') % (first_reading.previous_counter_value, last_reading.counter_value)  
+                    name +=  _('Old index: %s, New index:%s') % (first_reading.previous_counter_value, last_reading.counter_value)  
                     
                     readings.write({'consumption_id':consumption.id})
                     
                 consumption.write({'quantity':quantity, 'name':name})
+            else:
+                consumption.write({'name':self.equipment_id.display_name})
                 
                 
                 
             
-        
- 
-""" 
-class service_consumption(models.Model):
-    _inherit = 'service.consumption'
-    
-    meter_reading_id = fields.Many2one('service.meter.reading', string='Meter Reading', readonly = True)
-
-    @api.model
-    def create(self, vals):
-        consumption = super(service_consumption,self).create(vals) 
-        if consumption.meter_reading_id:
-            consumption.meter_reading_id.consumption_id = consumption
-        return consumption
-""" 
- 
-
 
 
 

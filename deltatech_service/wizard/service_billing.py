@@ -76,10 +76,12 @@ class service_billing(models.TransientModel):
             
             name =  cons.product_id.name
 
-            if cons.name and not self.group_service:
-                name = name + ' ' + cons.name
+            if cons.name and not (self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail'):
+                name += cons.name
             
-            if self.group_invoice == 'agreement':
+                
+
+            if self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail':
                 key = cons.agreement_id.id
             else:
                 key = cons.partner_id.id
@@ -89,6 +91,7 @@ class service_billing(models.TransientModel):
                     'product_id': cons.product_id.id,
                     'quantity': cons.quantity - cons.agreement_line_id.quantity_free,
                     'price_unit': price_unit ,
+                    'uos_id': cons.agreement_line_id.uom_id.id,
                     'name': name,
                     'account_id': cons.product_id.property_account_income.id or cons.product_id.categ_id.property_account_income_categ.id,
                     'invoice_line_tax_id'  : [(6, 0, (  [rec.id for rec in cons.product_id.taxes_id] ))],
@@ -97,7 +100,7 @@ class service_billing(models.TransientModel):
     
                 if pre_invoice.get(key,False):
                     is_prod = False
-                    if self.group_service:
+                    if ( self.group_service and  cons.agreement_id.invoice_mode!='detail' ) or cons.agreement_id.invoice_mode=='service':
                         for line in pre_invoice[key]['lines']:
                             if line['product_id'] ==  cons.product_id.id and  float_compare(line['price_unit'],invoice_line['price_unit'], precision_digits=2) == 0 :
                                 line['quantity'] += invoice_line['quantity']
@@ -108,21 +111,20 @@ class service_billing(models.TransientModel):
                     pre_invoice[key]['cons'] += cons
                     pre_invoice[key]['agreement_ids'] |= cons.agreement_id
                 else:
-                    #comment = _('According to agreement %s from %s') % (cons.agreement_id.name or '____', cons.agreement_id.date_agreement or '____')
                     pre_invoice[key] = {   'lines':[invoice_line],
                                            'cons':cons,
-                                           #'comment':  comment,
                                            'partner_id':cons.partner_id.id,
                                            'account_id':cons.partner_id.property_account_receivable.id, }
                     
                     pre_invoice[key]['agreement_ids'] = cons.agreement_id
-                cons.write({'state':'done'})  
+                cons.write({'state':'done',
+                            'invoiced_qty': cons.quantity - cons.agreement_line_id.quantity_free,})  
             else: # cons.quantity < cons.agreement_line_id.quantity_free:
                 cons.write({'state':'none'})   
                  
         for cons in self.consumption_ids:
             if cons.state == 'none':
-                if self.group_invoice == 'agreement':
+                if self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail':
                     key = cons.agreement_id.id
                 else:
                     key = cons.partner_id.id
@@ -155,7 +157,11 @@ class service_billing(models.TransientModel):
             invoice_id.button_compute(True)
             pre_invoice[key]['cons'].write( {'invoice_id':invoice_id.id})
             res.append(invoice_id.id)
-        return {
+        action = self.env.ref('deltatech_service.action_service_invoice').read()[0]  
+        action['domain'] = "[('id','in', ["+','.join(map(str,res))+"])]"
+        return action
+        """
+        {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",
             'name': _('Services Invoices'),
             'view_type': 'form',
@@ -165,6 +171,6 @@ class service_billing(models.TransientModel):
             'context': "{'type':'out_invoice', 'journal_type': 'sale'}",
             'type': 'ir.actions.act_window'
         }
-        
+        """
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 

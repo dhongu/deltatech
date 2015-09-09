@@ -39,7 +39,7 @@ from openerp import SUPERUSER_ID
 
 class website_service(http.Controller):
 
-    @http.route(['/service/equipment', '/service/equipment/page/<int:page>'], type='http', auth="user", website=True)
+    @http.route(['/service/equipments', '/service/equipments/page/<int:page>'], type='http', auth="user", website=True)
     def equipments(self, page=1, search='',  **post):
         cr, uid, context = request.cr, request.uid, request.context
         equipment_obj = request.registry['service.equipment']
@@ -61,7 +61,7 @@ class website_service(http.Controller):
         equipment_count = equipment_obj.search(request.cr, request.uid, domain, count=True, context=request.context)
         
         pager = request.website.pager(
-            url="/service/equipment",
+            url="/service/equipments",
             url_args={},
             total=equipment_count,
             page=page,
@@ -133,7 +133,7 @@ class website_service(http.Controller):
 
 
     @http.route(['/service/equipment/notification_post/<model("service.equipment"):equipment>'], type='http', auth="user", methods=['POST'], website=True)
-    def notification_port(self, equipment, subject, description, **post):
+    def notification_post(self, equipment, subject, description, **post):
         notification_obj = request.registry['service.notification']
         
         values = {
@@ -155,6 +155,90 @@ class website_service(http.Controller):
         return request.website.render("deltatech_service_rent.equipment", values)
 
 
+    @http.route(['/service/notifications', '/service/notifications/page/<int:page>'], type='http', auth="user", website=True)
+    def notifications(self, page=1, search='',  **post):
+        cr, uid, context = request.cr, request.uid, request.context
+        notification_obj = request.registry['service.notification']
+        
+        order = 'name'
+
+        step = 10  # Number of order per page
+
+        domain = []
+        if search:
+            for srch in search.split(" "):
+                domain += ['|', '|', '|',
+                           ('name', 'ilike', srch), 
+                           ('equipment_id.ean_code', '=', srch),
+                           ('equipment_id.name', 'ilike', srch)]
+
+        
+        notification_count = notification_obj.search(request.cr, request.uid, domain, count=True, context=request.context)
+        
+        pager = request.website.pager(
+            url="/service/notifications",
+            url_args={},
+            total=notification_count,
+            page=page,
+            step=step,
+            scope=5)
+
+
+        obj_ids = notification_obj.search( request.cr, request.uid, domain, limit=step,
+                                        offset=pager['offset'], order=order, context=request.context)
+        
+        notification_ids = notification_obj.browse(request.cr, request.uid, obj_ids, context=request.context)
+        
+        values = {
+            'search': search,
+            'notification_ids':notification_ids,
+            'pager': pager,
+        }
+
+        return request.website.render("deltatech_service_rent.notifications", values)
+
+
+    @http.route(['/service/orders', '/service/orders/page/<int:page>'], type='http', auth="user", website=True)
+    def orders(self, page=1, search='',  **post):
+        cr, uid, context = request.cr, request.uid, request.context
+        order_obj = request.registry['service.order']
+        
+        order = 'name'
+
+        step = 10  # Number of order per page
+
+        domain = []
+        if search:
+            for srch in search.split(" "):
+                domain += ['|', '|', '|',
+                           ('name', 'ilike', srch), 
+                           ('equipment_id.ean_code', '=', srch),
+                           ('equipment_id.name', 'ilike', srch)]
+
+        
+        order_count = order_obj.search(request.cr, request.uid, domain, count=True, context=request.context)
+        
+        pager = request.website.pager(
+            url="/service/orders",
+            url_args={},
+            total=order_count,
+            page=page,
+            step=step,
+            scope=5)
+
+
+        obj_ids = order_obj.search( request.cr, request.uid, domain, limit=step,
+                                        offset=pager['offset'], order=order, context=request.context)
+        
+        order_ids = order_obj.browse(request.cr, request.uid, obj_ids, context=request.context)
+        
+        values = {
+            'search': search,
+            'order_ids':order_ids,
+            'pager': pager,
+        }
+
+        return request.website.render("deltatech_service_rent.orders", values)
  
 
     @http.route(['/service/order/<int:order_id>',
@@ -206,7 +290,31 @@ class website_service(http.Controller):
 
         return werkzeug.utils.redirect("/service/order/%s/%s?message=2" % (order_id, token))
 
-
+    @http.route(['/service/order/comment/<int:order_id>/<token>'], type='http', auth="public", website=True)
+    def service_comment(self, order_id, token, **post):
+        if token:
+            order_obj = request.registry.get('service.order')
+            order = order_obj.browse(request.cr, SUPERUSER_ID, order_id)           
+            if token != order.access_token:
+                return request.website.render('website.404')
+            cr, uid, context = request.cr, SUPERUSER_ID, request.context
+        else:
+            if not request.session.uid:
+                return login_redirect()
+            cr, uid, context = request.cr, request.uid, request.context
+            
+        if post.get('comment'):
+            request.registry['service.order'].message_post(
+                cr, uid, order_id,
+                body=post.get('comment'),
+                type='comment',
+                subtype='mt_comment',
+                context=dict(context, mail_create_nosubscribe=True))
+        if token:
+            url = '/service/order/%s/%s#comments' % (order_id, token)
+        else:
+            url = '/service/order/%s#comments' % order_id
+        return werkzeug.utils.redirect(url)
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

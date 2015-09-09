@@ -51,12 +51,14 @@
 			<field name="name">Services Agreements</field>
 			<field name="model">service.agreement</field>
 			<field name="arch" type="xml">
-				<tree string="Services Agreements">
+				<tree string="Services Agreements" fonts="bold:message_unread==True"
+					colors="grey:state in ('cancel','closed')">
 					<field name="name" />
 					<field name="date_agreement" />
 					<field name="partner_id" />
 					<field name="description" />
 					<field name="state" />
+					<field name="message_unread" invisible="1" />
 				</tree>
 			</field>
 		</record>
@@ -95,18 +97,20 @@
 						</div>
 						<group>
 							<group>
-							<field name="partner_id" />
-							<field name="description" />
-							<field name="date_agreement" />
+								<field name="date_agreement" />
+								<field name="partner_id" />
+								<field name="description" />
 							</group>
 							<group>
-							<field name="type_id" />
+								<field name="type_id" />
+								<field name="invoice_mode" />
 							</group>
 						</group>
 						<field name="agreement_line">
 							<tree string="Agreement Lines" editable="bottom">
 								<field name="product_id" />
 								<field name="quantity" />
+								<field name="uom_id" groups="product.group_uom"/>
 								<field name="price_unit" />
 								<field name="currency_id" options="{'no_create': True}" />
 								<field name="quantity_free" />

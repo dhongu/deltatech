@@ -35,7 +35,7 @@ class service_agreement(models.Model):
    
     description = fields.Char(string='Description',   readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     
-    date_agreement = fields.Date(string='Agreement Date',
+    date_agreement = fields.Date(string='Agreement Date', default=fields.Date.today(),
         readonly=True, states={'draft': [('readonly', False)]},  copy=False)
     
     partner_id = fields.Many2one('res.partner', string='Partner', 
@@ -57,6 +57,20 @@ class service_agreement(models.Model):
     # interval revizii
     
     # valoare contract ???
+
+    display_name = fields.Char(compute='_compute_display_name')
+    
+    invoice_mode = fields.Selection([('none','Not defined'), ('service','Group by service'),('detail','Detail')], 
+                                        string="Invoice Mode",   default='none' , readonly=True, states={'draft': [('readonly', False)]})
+
+    @api.one
+    @api.depends('name', 'date_agreement')
+    def _compute_display_name(self):
+        if self.date_agreement:
+            self.display_name =  self.name + ' / '+ self.date_agreement
+        else:
+            self.display_name =  self.name
+
 
     @api.model
     def create(self,   vals ):  
@@ -85,7 +99,10 @@ class service_agreement(models.Model):
                 raise Warning(_('You cannot delete a service agreement which is not draft.'))
         return super(service_agreement, self).unlink() 
 
+
  
+        
+    
 # CAT, CATG CATPG
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
@@ -106,7 +123,8 @@ class service_agreement_line(models.Model):
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null', domain=[('type', '=', 'service')] )
     quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
-    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Product Price'),  default=1)  
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
+    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
     currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency,
                                   domain=[('name', 'in', ['RON','EUR'])])   
     

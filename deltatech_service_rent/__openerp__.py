@@ -28,6 +28,22 @@
     "description": """
 
 Functionalitati:
+
+- gestionare echipamente
+- gestionare contoare  
+- gestionare citiri contoare
+- facturare in baza citirilor
+- caclul estimat 
+- intoducere automat la sfarsit de perioada a valorilor estimate
+
+- gestionare sesizari
+- gestionare comenzi de service
+- gestionare planuri de revizii
+- generare automat a comenzilor de service in baza planului
+
+- gestionare consumabile pentru un echipament
+
+- raport calcul eficienta echipamente
  
     """,
     
@@ -37,7 +53,9 @@ Functionalitati:
                  "deltatech_service",
                  "deltatech_procurement",
                  "deltatech_product_extension",
-                 "deltatech_stock_report"],
+                 "deltatech_stock_report",
+                 "web_notification",   #pentru afisare mesaje procese lansate in background
+                 ],
 
 
     "data" : [ 'data.xml',
@@ -49,11 +67,16 @@ Functionalitati:
                'security/service_security.xml',
                'security/ir.model.access.csv',
                'views/website_service.xml',
+               'views/website_order.xml',
                'service_order_view.xml',
                'service_meter_view.xml',
                'service_equipment_view.xml',
                'service_consumable_view.xml',
                'service_plan_view.xml',
+               
+               'wizard/estimate_view.xml',
+               'wizard/rescheduling_view.xml',
+               'wizard/enter_readings_view.xml'
                 ],
     "active": False,
     "installable": True,
