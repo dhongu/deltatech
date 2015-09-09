@@ -45,7 +45,9 @@ class sale_order(models.Model):
         action_obj = self.env.ref('stock_account.action_stock_invoice_onshipping')
         action = action_obj.read()[0]
 
-        action['context'] =  {'active_ids': self.picking_ids.ids, 'active_id': self.picking_ids[0].id  } 
+        if picking_ids:
+            action['context'] =  {'active_ids': self.picking_ids.ids, 
+                                  'active_id': self.picking_ids[0].id  } 
         return   action
 
     
