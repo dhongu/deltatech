@@ -3,11 +3,11 @@
 
 	<data>
 
-		
-		<menuitem name="Planing" id="base.menu_service_planing" parent="base.menu_service_app" sequence="200"  />
-		
 
-	</data> 
+		<menuitem name="Planing" id="base.menu_service_planing" parent="base.menu_service_app" sequence="200" />
+
+
+	</data>
 
 	<data noupdate="0">
 		<record id="menu_website_service" model="website.menu">
@@ -32,63 +32,60 @@
 			<field name="parent_id" ref="deltatech_service_rent.menu_website_service" />
 		</record>
 	</data>
-	
-	
-	<data noupdate="1">	
-	     <record id="sequence_notification" model="ir.sequence">
-            <field name="name">Service notification</field>
-            <field name="prefix">NO/</field>
-            <field name="padding">5</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
-        
-        <record id="sequence_order" model="ir.sequence">
-            <field name="name">Service Order</field>
-            <field name="prefix">ORD/</field>
-            <field name="padding">5</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
- 
-         <record id="sequence_plan" model="ir.sequence">
-            <field name="name">Service Plan</field>
-            <field name="prefix">P/</field>
-            <field name="padding">5</field>
-            <field name="number_next">1</field>
-            <field name="number_increment">1</field>
-        </record>
- 
-        
-	</data>	
-	
-	<data noupdate="1">	
+
+
+	<data noupdate="1">
+		<record id="sequence_notification" model="ir.sequence">
+			<field name="name">Service notification</field>
+			<field name="prefix">NO/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+
+		<record id="sequence_order" model="ir.sequence">
+			<field name="name">Service Order</field>
+			<field name="prefix">ORD/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+
+		<record id="sequence_plan" model="ir.sequence">
+			<field name="name">Service Plan</field>
+			<field name="prefix">P/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+
+
+	</data>
+
+	<data noupdate="1">
 		<record id="equi_work" model="service.operating.parameter">
 			<field name="name">echipamentul functioneaza</field>
 		</record>
 		<record id="equi_work_again" model="service.operating.parameter">
 			<field name="name">defectul a fost inlaturat echipamentul functioneaza</field>
-		</record>	
+		</record>
 		<record id="equi_work_with_faulty" model="service.operating.parameter">
 			<field name="name">defectul nu a fost inlaturat echipamentul functioneaza</field>
 		</record>
 		<record id="equi_not_work" model="service.operating.parameter">
 			<field name="name">echipamentul nu functioneaza</field>
-		</record>	
-		<!-- 
-		<record id="equi_not_work_confirm" model="service.operating.parameter">
-			<field name="name">confirmam primirea unei copii a prezentului raport</field>
 		</record>
-		 -->		
-	</data>	
-	
-	
-	<data noupdate="1">	
+		<!-- <record id="equi_not_work_confirm" model="service.operating.parameter"> <field name="name">confirmam primirea unei copii a prezentului raport</field> 
+			</record> -->
+	</data>
+
+
+	<data noupdate="1">
 		<record id="cycle_on_month" model="service.cycle">
 			<field name="name">Lunar</field>
 			<field name="value">1</field>
 			<field name="unit">month</field>
-		</record>	
+		</record>
 		<record id="cycle_on_3month" model="service.cycle">
 			<field name="name">Trimestrial</field>
 			<field name="value">2</field>
@@ -98,8 +95,16 @@
 			<field name="name">Anual</field>
 			<field name="value">1</field>
 			<field name="unit">year</field>
-		</record>		
-	</data>	
+		</record>
+	</data>
+
+
+	<data noupdate="1">
+		<record forcecreate="True" id="decimal_meter_value" model="decimal.precision">
+			<field name="name">Meter Value</field>
+			<field name="digits">2</field>
+		</record>
+	</data>
 </openerp>
         
      

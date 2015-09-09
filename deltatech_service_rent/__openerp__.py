@@ -66,8 +66,9 @@ Functionalitati:
                'stock_view.xml',
                'security/service_security.xml',
                'security/ir.model.access.csv',
-               'views/website_service.xml',
-               'views/website_order.xml',
+               
+
+               
                'service_order_view.xml',
                'service_meter_view.xml',
                'service_equipment_view.xml',
@@ -76,7 +77,12 @@ Functionalitati:
                
                'wizard/estimate_view.xml',
                'wizard/rescheduling_view.xml',
-               'wizard/enter_readings_view.xml'
+               'wizard/enter_readings_view.xml',
+               
+               'views/website_service.xml',
+               'views/website_order.xml',
+               'views/website_notification.xml',
+                              
                 ],
     "active": False,
     "installable": True,

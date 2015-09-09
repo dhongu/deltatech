@@ -37,7 +37,7 @@ class service_price_change(models.TransientModel):
  
     product_id = fields.Many2one('product.product', string='Product',required=True,  domain=[('type', '=', 'service')] )
 
-    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Product Price') ) 
+    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price') ) 
 
     currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency) 
 

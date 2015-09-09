@@ -69,6 +69,6 @@ class service_enter_reading_item(models.TransientModel):
 
     enter_reading_id = fields.Many2one('service.enter.reading', string='Enter Reading',required=True ) 
     meter_id = fields.Many2one('service.meter', string='Meter',required=True,   domain=[('type', '=', 'counter')]) 
-    counter_value = fields.Float(string='Counter Value')
+    counter_value = fields.Float(string='Counter Value', digits= dp.get_precision('Meter Value'))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:    

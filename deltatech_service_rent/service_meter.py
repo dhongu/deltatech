@@ -46,18 +46,16 @@ class service_meter(models.Model):
    
     meter_ids = fields.Many2many('service.meter', 'service_meter_collector_meter', 'meter_collector_id', 'meter_id', string='Meter',  domain=[('type', '=', 'counter')])
  
-    start_value = fields.Float(string='Start Value')
+    start_value = fields.Float(string='Start Value',digits= dp.get_precision('Meter Value'))
     last_meter_reading_id = fields.Many2one('service.meter.reading', string='Last Meter Reading',compute='_compute_last_meter_reading' )
-    total_counter_value = fields.Float(string='Total Counter Value',  compute='_compute_last_meter_reading' )
-    estimated_value= fields.Float(string='Estimated Value',  compute='_compute_estimated_value' ) 
+    total_counter_value = fields.Float(string='Total Counter Value', digits= dp.get_precision('Meter Value'),  compute='_compute_last_meter_reading' )
+    estimated_value= fields.Float(string='Estimated Value', digits= dp.get_precision('Meter Value'), compute='_compute_estimated_value' ) 
     
     uom_id = fields.Many2one('product.uom', string='Unit of Measure' ,required=True )
 
     value_a =  fields.Float()
     value_b =  fields.Float()
     
-    
-    value_per_day = fields.Float(string="Estimated per day",  compute='_compute_last_meter_reading' )
 
     _sql_constraints = [
         ('equipment_uom_uniq', 'unique(equipment_id,uom_id)', 'Two meter for one equipment with the same unit of measure? Impossible!')
@@ -179,10 +177,16 @@ class service_meter_reading(models.Model):
     equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True, ondelete='cascade' ) 
     
     date = fields.Date(string='Date', index=True, required=True, default = fields.Date.today()  ) 
-    previous_counter_value = fields.Float(string='Previous Counter Value',readonly=True , compute='_compute_previous_counter_value', store=True)
-    counter_value = fields.Float(string='Counter Value', group_operator="max")
+    previous_counter_value = fields.Float(string='Previous Counter Value',readonly=True ,
+                                           digits= dp.get_precision('Meter Value'),
+                                           compute='_compute_previous_counter_value', store=True)
+    counter_value = fields.Float(string='Counter Value',
+                                 digits= dp.get_precision('Meter Value'),
+                                  group_operator="max")
     estimated = fields.Boolean(string='Estimated')
-    difference = fields.Float(string='Difference', readonly=True,  compute='_compute_difference', store=True)
+    difference = fields.Float(string='Difference', readonly=True, 
+                              digits= dp.get_precision('Meter Value'),
+                               compute='_compute_difference', store=True)
     consumption_id = fields.Many2one('service.consumption', string='Consumption',readonly=True) 
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
     note =  fields.Text(String='Notes')  
