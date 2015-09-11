@@ -36,6 +36,7 @@ class sale_order(models.Model):
     def action_button_confirm_to_invoice(self): 
         if self.state == 'draft':     
             self.action_button_confirm()  # confirma comanda
+        
         for picking in self.picking_ids:
             picking.action_assign()   # verifica disponibilitate
             if not all(move.state == 'assigned' for move in picking.move_lines):
@@ -45,7 +46,7 @@ class sale_order(models.Model):
         action_obj = self.env.ref('stock_account.action_stock_invoice_onshipping')
         action = action_obj.read()[0]
 
-        if picking_ids:
+        if self.picking_ids:
             action['context'] =  {'active_ids': self.picking_ids.ids, 
                                   'active_id': self.picking_ids[0].id  } 
         return   action
