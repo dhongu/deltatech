@@ -14,6 +14,7 @@
 				</field>
 				<field name="inventory_value" position="attributes">
 					<attribute name="groups">stock.group_stock_manager</attribute>
+					<attribute name="sum">Total Value</attribute>
 				</field>
 			</field>
 		</record>

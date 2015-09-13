@@ -29,7 +29,7 @@
  
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"stock"],
+    "depends" : ['deltatech','deltatech_stock_date',"stock"],
  
     "data" : ['stock_view.xml'],
     "active": False,

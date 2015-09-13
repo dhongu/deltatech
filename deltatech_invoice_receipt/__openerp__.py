@@ -39,6 +39,7 @@ Antentie:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',
+                 'deltatech_stock_date',
                  "base",
                  "stock",
                  "account",

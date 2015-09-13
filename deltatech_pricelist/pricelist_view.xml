@@ -2,16 +2,7 @@
 <openerp>
 	<data>
 
-		<record id="product_pricelist_view" model="ir.ui.view">
-			<field name="name">product.pricelist.form</field>
-			<field name="model">product.pricelist</field>
-			<field name="inherit_id" ref="product.product_pricelist_view" />
-			<field name="arch" type="xml">
-				<field name="type" position="after">
-					<field name="code" />
-				</field>
-			</field>
-		</record>
+ 
 
 		<record id="product_pricelist_item_tree_view" model="ir.ui.view">
 			<field name="name">product.pricelist.item.tree</field>

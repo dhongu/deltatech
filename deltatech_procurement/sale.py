@@ -137,6 +137,19 @@ class sale_order(models.Model):
         return action 
  
  
+    @api.multi
+    def view_current_stock(self):
+        action = self.env.ref('stock.product_open_quants').read()[0]  
+        product_ids = []
+        for order in self:
+            product_ids += [line.product_id.id for line in order.order_line]
+        action['context'] = {'search_default_internal_loc': 1, 
+                             'search_default_locationgroup':1}
+        
+        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"            
+        return action 
+ 
+    """
     def view_current_stock(self, cr, uid, ids, context=None):
         '''
         This function returns an action that display existing stock  .
@@ -158,7 +171,8 @@ class sale_order(models.Model):
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
 
         return action 
- 
+    """
+    
     def action_ship_create(self, cr, uid, ids, context=None):
         """
          from https://github.com/aliomattux/auto_check_availability/blob/master/models/stock.py

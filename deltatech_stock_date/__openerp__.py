@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,37 +17,33 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.api import Environment
+{
+    "name" : "Deltatech Stock Date",
+    "version" : "1.0",
+    "author" : "Deltatech",
+    "website" : "",
+    "description": """
 
+Functionalitati:
+- preluare data efectiva din trecut in documente 
  
+    """,
+    
+    "category" : "Generic Modules/Other",
+    "depends" : ["base", "stock"],
 
-class product_pricelist_item(models.Model):
-    _inherit = "product.pricelist.item"  
 
- 
-    @api.one
-    @api.depends('base','price_discount', 'price_surcharge' )
-    def _compute_text_price(self):
-        # todo: de convertit in format local
-        value = (1 + self.price_discount) 
-        
-        self.price_text = self._price_field_get()[self.base-1][1] +' * '+str(value)
-        if self.price_surcharge:      
-            self.price_text +=  str(self.price_surcharge)
- 
-    
-    price_text = fields.Char(string="Text Price",  readonly=True, compute='_compute_text_price' )    
-    
-    
-    
+    "data" : [ 
+              
+                ],
+    'application': True,
+    "active": False,
+    "installable": True,
+}
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
-
-
 
