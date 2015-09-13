@@ -33,51 +33,7 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
-class stock_pack_operation(models.Model):
-    _inherit = "stock.pack.operation"
-
-    def create(self, cr, uid, vals, context=None):
-        context = context or {}
-        if vals.get("picking_id"):
-            picking = self.pool.get("stock.picking").browse(cr, uid, vals['picking_id'], context=context)
-            vals['date'] = picking.min_date  # trebuie sa fie minimul dintre data curenta si data din picking
-        res_id = super(stock_pack_operation, self).create(cr, uid, vals, context=context)
-        return res_id
-
-
-class stock_quant(models.Model):
-    _inherit = "stock.quant"
-    
-    def _quant_create(self, cr, uid, qty, move, lot_id=False, owner_id=False, src_package_id=False, dest_package_id=False, force_location_from=False, force_location_to=False, context=None):         
-        quant = super(stock_quant, self)._quant_create(cr, uid, qty, move, lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id, dest_package_id=dest_package_id, force_location_from=force_location_from, force_location_to=force_location_to, context=context)
-        self.write(cr, uid, [quant.id], {'in_date': move.date_expected }, context=context)
-        return quant    
-    
-          
-                   
-    
-class stock_move(models.Model):
-    _inherit = 'stock.move'
-
-    def write(self, cr, uid, ids, vals, context=None):   
-        date_fields = set(['date', 'date_expected'])
-        if date_fields.intersection(vals):
-            for move in self.browse(cr, uid, ids, context=context):
-                today = time.strftime(DEFAULT_SERVER_DATE_FORMAT)
-                if 'date' in vals:
-                    if move.date_expected[:10] < today and move.date_expected < vals['date']:
-                        vals['date'] =  move.date_expected
-                    if move.date[:10] < today and move.date < vals['date']:
-                        vals['date'] =  move.date                      
-                if 'date_expected' in vals:
-                    if move.date[:10] < today and move.date < vals['date_expected']:
-                        vals['date_expected'] =  move.date 
-                           
-        return  super(stock_move, self).write(cr, uid, ids, vals, context=context)     
-
  
- 
-
  
 
 class stock_picking(models.Model):
