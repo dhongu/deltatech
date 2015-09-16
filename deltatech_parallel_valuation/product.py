@@ -42,13 +42,13 @@ class product_template(models.Model):
         if price_type:
             self.list_price_currency_id = price_type.currency_id
         else:
-            self.list_price_currency_id = self.env.user.company_id
+            self.list_price_currency_id = self.env.user.company_id.currency_id
         
         price_type = self.env['product.price.type'].search([('field','=','standard_price')]) 
         if price_type:
             self.cost_price_currency_id = price_type.currency_id
         else:
-            self.cost_price_currency_id = self.env.user.company_id
+            self.cost_price_currency_id = self.env.user.company_id.currency_id
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
