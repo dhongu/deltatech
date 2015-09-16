@@ -42,6 +42,7 @@ class service_consumption(models.Model):
     period_id = fields.Many2one('account.period', string='Period', required=True,
         domain=[('state', '!=', 'done')], copy=False, readonly=True )     
 
+  
     product_id = fields.Many2one('product.product', string='Product', required=True, ondelete='restrict',
                                   readonly=True,  index=True, domain=[('type', '=', 'service')] )
 
@@ -64,14 +65,16 @@ class service_consumption(models.Model):
             ('draft','Without invoice'),
             ("none", "Not Applicable"),
             ('done','With invoice'),
-        ], string='Status', index=True, readonly=True, default='draft', copy=False )  #
+        ], string='Status', index=True,  default='draft', copy=False, readonly=True, states={'draft': [('readonly', False)]} )
  
     
     agreement_id = fields.Many2one('service.agreement', string='Agreement', readonly=True, ondelete='restrict', copy=False )
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True, ondelete='restrict', copy=False )
     invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False )
 
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id')
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True, copy=False )
+
+    date_invoice = fields.Date(string='Invoice Date', readonly=True)
 
     _sql_constraints = [
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',

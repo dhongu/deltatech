@@ -23,18 +23,7 @@
 		</record>
 
 
-		<record id="view_service_consumption_tree" model="ir.ui.view">
-			<field name="name">Services consumption</field>
-			<field name="model">service.consumption</field>
-			<field name="inherit_id" ref="deltatech_service.view_service_consumption_tree" />
-			<field name="arch" type="xml">
-				<tree string="Services Consumption" editable="bottom">
-					<field name="agreement_id" position="after">
-						<field name="meter_reading_id" />
-					</field>
-				</tree>
-			</field>
-		</record>
+ 
 
 
 

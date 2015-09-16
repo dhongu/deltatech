@@ -51,57 +51,79 @@
 			</t>
 		</template>
 
+		<template id="order_accept">
+			<div class="modal fade" id="modelaccept" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<form id="accept" method="POST" t-attf-action="/service/order/accept/#{order.id}/?token=#{order.access_token}" class="js_accept_json modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+							<h4 class="modal-title">Validate Order</h4>
+						</div>
+						<div class="modal-body" id="sign-dialog">
+							<p>
+								I agree that by signing this service order.
+							</p>
+							<div id="signer" class="form-group">
+								<label class="control-label" for="name">Your Name:</label>
+								<input type="text" name="signer" id="name" class="form-control" t-attf-value="#{signer or ''}" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" t-attf-class="btn btn-primary">Sign Order</button>
+							or
+							<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</template>
+
+		<!-- Options:Quotation Signature -->
+		<template id="opt_order_signature" name="Ask Signature" customize_show="True" inherit_id="deltatech_service_rent.order_accept">
+			<xpath expr="//div[@id='sign-dialog']" position="inside">
+				<div class="panel panel-default mt16 mb0" id="drawsign">
+					<div class="panel-heading">
+						<div class="pull-right">
+							<a id="sign_clean" class="btn btn-xs">Clear</a>
+						</div>
+						<strong>Draw your signature</strong>
+					</div>
+					<div id="signature" class="panel-body" style="padding: 0" />
+				</div>
+			</xpath>
+		</template>
+
+		<template id="order_decline">
+			<div class="modal fade" id="modeldecline" role="dialog" aria-hidden="true">
+				<div class="modal-dialog">
+					<form id="decline" method="POST" t-attf-action="/service/order/#{order.id}/#{order.access_token}/decline" class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
+							<h4 class="modal-title">Reject This Service Order</h4>
+						</div>
+						<div class="modal-body">
+							<p>
+								Tell us why you are refusing this service order, this will help us improve our services.
+							</p>
+							<textarea rows="4" name="decline_message" placeholder="Your feedback....." class="form-control" />
+						</div>
+						<div class="modal-footer">
+							<button type="submit" t-att-id="order.id" class="btn btn-primary">Reject</button>
+							or
+							<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</template>
 
 		<template id="order" name="Order">
 			<t t-call="website.layout">
 				<div class="container o_website_service">
 
-					<div class="modal fade" id="modelaccept" role="dialog" aria-hidden="true">
-						<div class="modal-dialog">
-							<form id="accept" method="POST" t-attf-action="/service/order/accept/#{order.id}/?token=#{order.access_token}" class="js_accept_json modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
-									<h4 class="modal-title">Validate Order</h4>
-								</div>
-								<div class="modal-body" id="sign-dialog">
-									<p>
-										I agree that by signing this service order.
-									</p>
-									<div id="signer" class="form-group">
-										<label class="control-label" for="name">Your Name:</label>
-										<input type="text" name="signer" id="name" class="form-control" t-attf-value="#{signer or ''}" />
-									</div>
-								</div>
-								<div class="modal-footer">
-									<button type="submit" t-attf-class="btn btn-primary">Sign Order</button>
-									or
-									<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
-								</div>
-							</form>
-						</div>
-					</div>
 
-					<div class="modal fade" id="modeldecline" role="dialog" aria-hidden="true">
-						<div class="modal-dialog">
-							<form id="decline" method="POST" t-attf-action="/service/order/#{order.id}/#{order.access_token}/decline" class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button>
-									<h4 class="modal-title">Reject This Service Order</h4>
-								</div>
-								<div class="modal-body">
-									<p>
-										Tell us why you are refusing this service order, this will help us improve our services.
-									</p>
-									<textarea rows="4" name="decline_message" placeholder="Your feedback....." class="form-control" />
-								</div>
-								<div class="modal-footer">
-									<button type="submit" t-att-id="order.id" class="btn btn-primary">Reject</button>
-									or
-									<button type="button" class="btn btn-link" data-dismiss="modal" style="padding: 0">Cancel</button>
-								</div>
-							</form>
-						</div>
-					</div>
+					<t t-call="deltatech_service_rent.order_accept" />
+					<t t-call="deltatech_service_rent.order_decline" />
 
 
 					<div class="row">
@@ -116,11 +138,8 @@
 								</li>
 							</ol>
 						</div>
-						<div class="col-sm-3">
-							<t t-call="deltatech_service_rent.search">
-								<t t-set="search_class">pull-right</t>
-							</t>
-						</div>
+
+						<!-- div class="col-sm-3"> <t t-call="deltatech_service_rent.equipment_search"> <t t-set="search_class">pull-right</t> </t> </div -->
 						<div class="col-sm-4" groups="base.group_sale_manager">
 							<t t-set="object" t-value="order" />
 							<t t-set="action" t-value="'deltatech_service_rent.action_service_order'" />
@@ -134,7 +153,9 @@
 							<span>Service Order:</span>
 							<span t-field="order.name" />
 						</h1>
-						<div t-field="order.state" />
+						
+						
+						<t t-call="deltatech_service_rent.equipment_item" />
 
 						<div class="alert alert-success alert-dismissable" t-if="message==1">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&amp;times;</button>
@@ -162,25 +183,12 @@
 						</a>
 					</div>
 				</div>
-				<div id="discussion"/>
+				<div id="discussion" />
 				<div class="oe_structure" />
 			</t>
 		</template>
 
-		<!-- Options:Quotation Signature -->
-		<template id="opt_order_signature" name="Ask Signature" customize_show="True" inherit_id="deltatech_service_rent.order">
-			<xpath expr="//div[@id='sign-dialog']" position="inside">
-				<div class="panel panel-default mt16 mb0" id="drawsign">
-					<div class="panel-heading">
-						<div class="pull-right">
-							<a id="sign_clean" class="btn btn-xs">Clear</a>
-						</div>
-						<strong>Draw your signature</strong>
-					</div>
-					<div id="signature" class="panel-body" style="padding: 0" />
-				</div>
-			</xpath>
-		</template>
+
 
 
 		<template id="opt_order_discussion" inherit_id="deltatech_service_rent.order" active="False" customize_show="True" name="Discussion">
@@ -244,7 +252,7 @@
 								<img class="img pull-left img-rounded" t-att-src="website.image_url(user_id.partner_id, 'image_small')" style="width: 50px; margin-right: 10px;" />
 								<div class="pull-left mb32" style="width: 75%">
 									<textarea rows="3" name="comment" class="form-control" placeholder="Write a comment..." />
-									<a class="btn btn-primary mt8 a-submit">Post</a>
+									<button class="btn btn-primary mt8 a-submit">Post</button>
 								</div>
 							</form>
 						</div>

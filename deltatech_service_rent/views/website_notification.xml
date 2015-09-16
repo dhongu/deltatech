@@ -21,8 +21,10 @@
 						</thead>
 						<tbody>
 							<tr t-foreach="notification_ids" t-as="notification">
-								<td>
-									<span t-field="notification.name" />
+								<td>								
+									<a t-attf-href="/service/notification/#{slug(notification)}">
+										<span t-field="notification.name" />
+									</a>
 								</td>
 								<td>
 									<span t-field="notification.date" />
@@ -51,7 +53,44 @@
 			</t>
 		</template>
 
+		<template id="notification" name="Notification">
+			<t t-call="website.layout">
+				<div class="container">
+					<div class="row">
+						<br />
+						<div class="col-sm-4">
+							<ol class="breadcrumb">
+								<li>
+									<a href="/service/notifications/">Notification</a>
+								</li>
+								<li class="active">
+									<span t-field="notification.name" />
+								</li>
+							</ol>
+						</div>
 
+						<!-- div class="col-sm-3"> <t t-call="deltatech_service_rent.equipment_search"> <t t-set="search_class">pull-right</t> </t> </div -->
+						<div class="col-sm-4" groups="base.group_sale_manager">
+							<t t-set="object" t-value="notification" />
+							<t t-set="action" t-value="'deltatech_service_rent.action_service_notification'" />
+							<a class="btn btn-default" t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{object._name}&amp;id=#{object.id}&amp;action=#{action}"
+								title="Edit in backend">Edit</a>
+						</div>
+					</div>
+
+					<div class="row mt16">
+						<h1>
+							<span>Notification:</span>
+							<span t-field="notification.name" />
+						</h1>
+
+
+						<t t-call="deltatech_service_rent.equipment_item" />
+
+					</div>
+				</div>
+			</t>
+		</template>
 
 
 		<template id="notification_add_modal" name="Notification Add Modal">

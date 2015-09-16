@@ -21,37 +21,22 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services",
+    "name" : "Deltatech Website extension",
     "version" : "1.0",
     "author" : "Deltatech",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Ofera posibilitatea de a defini contracte de servicii.
- - Lunar in baza acestor contracte se genereaza facturi.
-
+ -  DataTables 1.10.7
  
     """,
     
-    "category" : "Service Management",
-    "depends" : ["base", "product","account"],
+    "category" : "Generic Modules",
+    "depends" : ["website" ],
 
 
-    "data" : [ 
-              'data.xml',      
-              "service_agreement_view.xml",  
-              "service_consumption_view.xml",
-              "wizard/service_billing_preparation_view.xml",
-              "wizard/service_billing_view.xml",
-              "wizard/service_distribution_view.xml",
-              "wizard/service_price_change_view.xml",
-              #"account_invoice_penalty_view.xml",
-              'security/service_security.xml',
-              'security/ir.model.access.csv',
-              
-                ],
-    'application': True,
+    "data" : ['views/website.xml' ],
     "active": False,
     "installable": True,
 }

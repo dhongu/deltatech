@@ -25,11 +25,41 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+
+class service_cycle(models.Model):
+    _name = 'service.cycle'
+    _description = "Cycle"
+
+    name = fields.Char(string='Cycle', translate=True)  
+    value = fields.Integer(string='Value')
+    unit  = fields.Selection([('day','Day'), ('week','Week'), ('month','Month'), ('year','Year')],
+                               string= 'Unit Of Measure',    help="Unit of Measure for Cycle.")
+
+
+    @api.model
+    def get_cyle(self):
+        if self.unit == 'day':
+            return  timedelta(days=self.value)
+        if self.unit == 'week':
+            return  timedelta(weeks=self.value)             
+        if self.unit == 'month':
+            return  relativedelta(months=+self.value) #monthdelta(self.value)  
+        if self.unit == 'year':
+            return  relativedelta(years=+self.value)
+
+
+
 
 class service_agreement(models.Model):
     _name = 'service.agreement'
     _description = "Service Agreement"
     _inherit = 'mail.thread'
+
+    @api.model
+    def _default_currency(self):
+        return self.env.user.company_id.currency_id
     
     name = fields.Char(string='Reference', index=True,default='/', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
    
@@ -63,6 +93,41 @@ class service_agreement(models.Model):
     invoice_mode = fields.Selection([('none','Not defined'), ('service','Group by service'),('detail','Detail')], 
                                         string="Invoice Mode",   default='none' , readonly=True, states={'draft': [('readonly', False)]})
 
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency,
+                                  domain=[('name', 'in', ['RON','EUR'])], readonly=True, states={'draft': [('readonly', False)]})
+
+
+    cycle_id = fields.Many2one('service.cycle', string='Billing Cycle' ,  readonly=True,  states={'draft': [('readonly', False)]})
+
+    last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id"  )
+
+    invoice_day = fields.Integer(string='Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]},
+                                    help="""Day of the month, set -1 for the last day of the month.
+                                 If it's positive, it gives the day of the month. Set 0 for net days .""")
+    
+    next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
+    
+    @api.one
+    def _compute_last_invoice_id(self):
+        self.last_invoice_id = self.env['account.invoice'].search([('agreement_id','=',self.id),('state','in',['open','paid'])],
+                                                                   order='date_invoice desc, id desc', limit=1)
+        
+        if self.last_invoice_id:
+            date_invoice =  self.last_invoice_id.date_invoice
+        else:
+            date_invoice = self.date_agreement
+            
+        if date_invoice and self.cycle_id: 
+            next_date =  fields.Date.from_string(date_invoice) + self.cycle_id.get_cyle()    
+            if self.invoice_day < 0:
+                next_first_date = next_date + relativedelta(day=1,months=1) #Getting 1st of next month
+                next_date = next_first_date + relativedelta(days=self.invoice_day )
+            if self.invoice_day > 0:
+                next_date += relativedelta(day=self.invoice_day , months=0)           
+            
+            self.next_date_invoice = fields.Date.to_string(next_date)
+        
+        
     @api.one
     @api.depends('name', 'date_agreement')
     def _compute_display_name(self):
@@ -114,26 +179,26 @@ class service_agreement_line(models.Model):
     _description = "Service Agreement Line"  
 
 
-    @api.model
-    def _default_currency(self):
-        return self.env.user.company_id.currency_id
-
-
     agreement_id = fields.Many2one('service.agreement', string='Contract Services' , ondelete='cascade')   
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null', domain=[('type', '=', 'service')] )
     quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
-    currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency,
-                                  domain=[('name', 'in', ['RON','EUR'])])   
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
     
-  
   
     @api.onchange('product_id')
     def onchange_product_id(self):
         price_unit = self.product_id.list_price
-        self.price_unit = self.env.user.company_id.currency_id.compute(price_unit, self.currency_id )
+        
+        price_type = self.env['product.price.type'].search([('field','=','list_price')]) 
+        if price_type:
+            list_price_currency_id = price_type.currency_id
+        else:
+            list_price_currency_id = self.env.user.company_id.currency_id
+            
+        self.price_unit = list_price_currency_id.compute(price_unit, self.currency_id )
     
 
     @api.model

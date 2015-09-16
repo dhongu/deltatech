@@ -9,13 +9,16 @@
 			<field name="model">service.equipment</field>
 			<field name="arch" type="xml">
 				<tree string="Services Equipment">
+					<field name="partner_id" />
 					<field name="address_id" />								
-					<field name="work_location" />
+					<field name="emplacement" />
 					<field name="name" />
 					<field name="product_id" />
 					<field name="serial_id" />
 					<field name="quant_id" />
 					<field name="start_date" />
+					<field name="agreement_type_id" />
+					<field name="readings_status" />	
 					<field name="message_unread" invisible="1"/>
 				</tree>
 			</field>
@@ -78,7 +81,7 @@
                           	    <field name="address_id"   context="{'search_default_customer':1, 'show_address': 1 }" 
 														  options="{'always_reload': True}" />								
 															/>		
-								<field name="work_location" />
+								<field name="emplacement" />
 								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" 
 														  options="{'always_reload': True}" />	
 								<field name="start_date" />
@@ -164,8 +167,10 @@
 			<field name="type">search</field>
 			<field name="arch" type="xml">
 				<search string="Search">
+					<field name="partner_id" />
 					<field name="address_id" />
 					<field name="ean_code" />
+					<field name="agreement_type_id" />
 					<newline />
 					<group expand="1" string="Group By...">
 						<filter string="Location" name="partner" context="{'group_by':'partner_id'}" />

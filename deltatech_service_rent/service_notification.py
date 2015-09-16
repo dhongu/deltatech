@@ -51,21 +51,22 @@ class service_notification(models.Model):
 
 
     name = fields.Char(string='Reference', readonly=True, default='/')    
-    date = fields.Date(string='Date', default=fields.Date.today())
+    date = fields.Date(string='Date', default=fields.Date.today() , readonly=True, states={'new': [('readonly', False)]})
     
     state = fields.Selection([  ('new','New'), 
                                 ('assigned','Assigned'),
                                 ('progress','In Progress'), 
                                 ('done','Done')], default='new', string='Status',  track_visibility='always')
        
-    equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True   )
-    partner_id = fields.Many2one('res.partner', string='Partner')
-    agreement_id = fields.Many2one('service.agreement', string='Contract Services'  )   
-    address_id = fields.Many2one('res.partner', string='Location')
-    contact_id = fields.Many2one('res.partner', string='Reported by',help='The person who reported the notification') 
-    user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange', readonly=True, states={'new': [('readonly', False)]})
+    equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'new': [('readonly', False)]})
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, states={'new': [('readonly', False)]})
+    agreement_id = fields.Many2one('service.agreement', string='Contract Services'  , readonly=True, states={'new': [('readonly', False)]})   
+    address_id = fields.Many2one('res.partner', string='Location', readonly=True, states={'new': [('readonly', False)]})
+    contact_id = fields.Many2one('res.partner', string='Reported by',help='The person who reported the notification', readonly=True, states={'new': [('readonly', False)]})
+
+    user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'new': [('readonly', False)]})
     
-    type =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type')   
+    type =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type' , readonly=True, states={'new': [('readonly', False)]})   
     
     subject = fields.Char('Subject', readonly=True, states={'new': [('readonly', False)]})
     description = fields.Text('Notes', readonly=True, states={'new': [('readonly', False)]})
@@ -76,13 +77,24 @@ class service_notification(models.Model):
     
     
     priority =  fields.Selection(AVAILABLE_PRIORITIES, string='Priority', select=True, readonly=True, states={'new': [('readonly', False)]})  
-    
-
     color =  fields.Integer(string='Color Index', default=0)  
-
-    order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )
-    
+    order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )    
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
+
+
+
+    @api.model
+    def company_user(self, present_ids, domain, **kwargs):
+        partner_id = self.env.user.company_id.partner_id
+        users = self.env['res.users'].search([('partner_id.parent_id','=',partner_id.id)])         
+        users_name = users.name_get()
+        users_name.append((False,False)) 
+        return users_name, None
+        
+    _group_by_full = {
+        'user_id': company_user,
+    }
+    
 
     @api.one
     def _compute_order_id(self ):
@@ -146,7 +158,7 @@ class service_notification(models.Model):
     @api.multi
     def write(self, vals):
         if 'user_id' in vals:
-            if  self.state == 'assigned': 
+            if  self.state != 'new': 
                 raise Warning(_('Notification is assigned.'))
         result = super(service_notification, self).write(vals)
         return result 

@@ -26,7 +26,9 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 import math
-from openerp.osv.fields import related
+from dateutil.relativedelta import relativedelta
+from datetime import date, datetime
+
 
 
 def ean_checksum(eancode):
@@ -71,13 +73,15 @@ class service_equipment(models.Model):
     _description = "Equipment"
     _inherit = 'mail.thread'
 
-    agreement_id = fields.Many2one('service.agreement', string='Contract Services', compute="_compute_agreement_id")
+    agreement_id = fields.Many2one('service.agreement', string='Contract Service', compute="_compute_agreement_id")
     partner_id = fields.Many2one('res.partner', string='Partner', compute="_compute_agreement_id")
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
+    
+    agreement_type_id = fields.Many2one('service.agreement.type', string='Type', related='agreement_id.type_id')
         
     # unde este echipamentul
     address_id = fields.Many2one('res.partner', string='Location',  required=True,  track_visibility='onchange') 
-    work_location = fields.Char(string='Work Location')
+    emplacement = fields.Char(string='Emplacement')
     contact_id = fields.Many2one('res.partner', string='Contact person',  track_visibility='onchange')    
 
     name = fields.Char(string='Name', index=True, default="/" )
@@ -114,10 +118,33 @@ class service_equipment(models.Model):
     
     consumable_item_ids =  fields.Many2many('service.consumable.item', string='Consumables', compute="_compute_consumable_item_ids", readonly=True)
 
+
+    readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string = "Readings Status", compute="_compute_readings_status" )
+    
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
             'EAN Code already exist!'),
     ]  
+
+
+    @api.one
+    def _compute_readings_status(self):
+        from_date = date.today() + relativedelta(day=01, months=0, days=0)
+        to_date =  date.today() + relativedelta(day=01, months=1, days=-1)
+        from_date =  fields.Date.to_string(from_date) 
+        to_date =  fields.Date.to_string(to_date) 
+        
+        current_month  = [('date','>=', from_date  ),  ('date','<=',  to_date ) ] 
+
+        self.readings_status = 'done'
+        for meter in self.meter_ids:
+            if not meter.last_meter_reading_id:
+                self.readings_status = 'unmade'
+                return
+            if not ( from_date  <= meter.last_meter_reading_id.date <= to_date ):
+                self.readings_status = 'unmade'
+                return
+        
 
     @api.one
     @api.depends('name', 'address_id')     # this definition is recursive

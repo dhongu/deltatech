@@ -148,14 +148,7 @@
 		<menuitem name="Plan Calls" id="menu_service_plan_call" action="action_service_plan_call" parent="base.menu_service_planing" />
 
 
-		<record id="action_service_cycle" model="ir.actions.act_window">
-			<field name="name">Service Cycle</field>
-			<field name="res_model">service.cycle</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
 
-		<menuitem name="Cycle" id="menu_service_cycle" action="action_service_cycle" parent="base.menu_service_config" />
 
 
 	</data>

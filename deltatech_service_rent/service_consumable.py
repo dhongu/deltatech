@@ -48,6 +48,7 @@ class service_consumable_item(models.Model):
     quantity = fields.Float(string='Quantity', compute='_compute_quantity', digits= dp.get_precision('Product Unit of Measure') )
     shelf_life = fields.Float(string='Shelf Life', related='product_id.shelf_life')
     colors = fields.Char("HTML Colors Index",default="['#a9d70b', '#f9c802', '#ff0000']")
+    max_qty = fields.Float(string='Quantity Max', digits= dp.get_precision('Product Unit of Measure'), help="Maximum Quantity allowed" )
 
     @api.one
     def _compute_quantity(self):

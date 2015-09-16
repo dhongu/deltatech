@@ -48,13 +48,14 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["website","mail",
+    "depends" : ["base","website","mail",
                  "deltatech",
                  "deltatech_service",
                  "deltatech_procurement",
                  "deltatech_product_extension",
                  "deltatech_stock_report",
                  "web_notification",   #pentru afisare mesaje procese lansate in background
+                 'deltatech_website',
                  ],
 
 
@@ -79,6 +80,7 @@ Functionalitati:
                'wizard/rescheduling_view.xml',
                'wizard/enter_readings_view.xml',
                
+               'views/website_equipment.xml',
                'views/website_service.xml',
                'views/website_order.xml',
                'views/website_notification.xml',

@@ -30,27 +30,19 @@ from dateutil.relativedelta import relativedelta
 
 
 class service_cycle(models.Model):
-    _name = 'service.cycle'
-    _description = "Cycle"
-
-    name = fields.Char(string='Cycle', translate=True)  
-    value = fields.Integer(string='Value')
-    unit  = fields.Selection([('day','Day'), ('week','Week'), ('month','Month'), ('year','Year'),('counter','From counter')],
-                               string= 'Unit Of Measure',    help="Unit of Measure for Cycle.")
+    _inherit = 'service.cycle'
+    
+    unit  = fields.Selection(  selection_add = [('counter','From counter')], string= 'Unit Of Measure')
 
 
     @api.model
     def get_cyle(self):
-        if self.unit == 'day':
-            return  timedelta(days=self.value)
-        if self.unit == 'week':
-            return  timedelta(weeks=self.value)             
-        if self.unit == 'month':
-            return  relativedelta(months=+self.value) #monthdelta(self.value)  
-        if self.unit == 'year':
-            return  relativedelta(years=+self.value)
         if self.unit == 'counter':
-            return   self.value 
+            return self.value
+        else:
+            return super(service_cycle,self).get_cyle()
+
+
 
 
 class service_plan(models.Model):

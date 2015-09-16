@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-06 06:21+0000\n"
-"PO-Revision-Date: 2015-09-06 06:21+0000\n"
+"POT-Creation-Date: 2015-09-15 18:38+0000\n"
+"PO-Revision-Date: 2015-09-15 18:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,39 +15,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.equipment
-#: view:website:deltatech_service_rent.meter_update_modal
-#: view:website:deltatech_service_rent.notification_add_modal
-#: view:website:deltatech_service_rent.order
-msgid "&times;"
-msgstr "&times;"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:58
-#, python-format
-msgid "(filtered from _MAX_ total entries)"
-msgstr "(filtrate dintr-un total de _MAX_ înregistrări)"
-
-#. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.equipment
-msgid "- Index:"
-msgstr "- Index:"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:73
-#, python-format
-msgid ": activate to sort column ascending"
-msgstr ": activate to sort column ascending"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:74
-#, python-format
-msgid ": activate to sort column descending"
-msgstr ": activate to sort column descending"
+ 
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.order
@@ -58,11 +26,6 @@ msgstr "Acceptă"
 #: selection:service.plan,state:0
 msgid "Active"
 msgstr "Activ"
-
-#. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.equipment_item
-msgid "Address"
-msgstr "Address"
 
 #. module: deltatech_service_rent
 #: view:service.plan.rescheduling:deltatech_service_rent.view_service_plan_rescheduling_form
@@ -130,12 +93,14 @@ msgid "Can not delete order in status %s"
 msgstr "Nu puteți șterge o comandă în starea %s"
 
 #. module: deltatech_service_rent
+#: view:service.enter.reading:deltatech_service_rent.view_service_enter_reading_form
 #: view:service.meter.reading.estimate:deltatech_service_rent.view_service_meter_reading_estimate_form
 #: selection:service.order,state:0
 #: view:service.plan.rescheduling:deltatech_service_rent.view_service_plan_rescheduling_form
 #: view:website:deltatech_service_rent.meter_update_modal
 #: view:website:deltatech_service_rent.notification_add_modal
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
+#: view:website:deltatech_service_rent.order_decline
 msgid "Cancel"
 msgstr "Renunță"
 
@@ -156,7 +121,7 @@ msgid "Change status"
 msgstr "Schimbă status"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "Clear"
 msgstr "Golește"
 
@@ -254,6 +219,7 @@ msgid "Counter"
 msgstr "Contor"
 
 #. module: deltatech_service_rent
+#: field:service.enter.reading.item,counter_value:0
 #: field:service.meter.reading,counter_value:0
 msgid "Counter Value"
 msgstr "Valoare contor"
@@ -267,6 +233,8 @@ msgstr "Crează o nouă sesizare"
 #: field:service.consumable,create_uid:0
 #: field:service.consumable.item,create_uid:0
 #: field:service.cycle,create_uid:0
+#: field:service.enter.reading,create_uid:0
+#: field:service.enter.reading.item,create_uid:0
 #: field:service.equipment,create_uid:0
 #: field:service.equipment.type,create_uid:0
 #: field:service.meter,create_uid:0
@@ -288,6 +256,8 @@ msgstr "Creat de"
 #: field:service.consumable,create_date:0
 #: field:service.consumable.item,create_date:0
 #: field:service.cycle,create_date:0
+#: field:service.enter.reading,create_date:0
+#: field:service.enter.reading.item,create_date:0
 #: field:service.equipment,create_date:0
 #: field:service.equipment.type,create_date:0
 #: field:service.meter,create_date:0
@@ -307,7 +277,6 @@ msgstr "Creat la"
 
 #. module: deltatech_service_rent
 #: model:ir.model,name:deltatech_service_rent.model_service_cycle
-#: model:ir.ui.menu,name:deltatech_service_rent.menu_service_cycle
 #: field:service.cycle,name:0
 #: field:service.plan,cycle_id:0
 msgid "Cycle"
@@ -316,9 +285,11 @@ msgstr "Ciclu"
 #. module: deltatech_service_rent
 #: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_filter
 #: field:service.efficiency.report,date:0
+#: field:service.enter.reading,date:0
 #: field:service.meter.reading,date:0
 #: field:service.notification,date:0
 #: field:service.order,date:0
+#: view:website:deltatech_service_rent.notifications
 #: view:website:deltatech_service_rent.orders
 msgid "Date"
 msgstr "Dată"
@@ -351,8 +322,8 @@ msgid "Deliveries"
 msgstr "Livrări"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:245
-#: code:addons/deltatech_service_rent/service_equipment.py:277
+#: code:addons/deltatech_service_rent/service_equipment.py:282
+#: code:addons/deltatech_service_rent/service_equipment.py:314
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_form
 #: view:service.order:deltatech_service_rent.view_service_order_form
 #, python-format
@@ -392,7 +363,7 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "Draw your signature"
 msgstr "Desenați semnătura"
 
@@ -408,12 +379,14 @@ msgstr "EAN Code already exist!"
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.equipment
+#: view:website:deltatech_service_rent.notification
 #: view:website:deltatech_service_rent.order
 msgid "Edit"
 msgstr "Editare"
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.equipment
+#: view:website:deltatech_service_rent.notification
 #: view:website:deltatech_service_rent.order
 msgid "Edit in backend"
 msgstr "Editare în backend"
@@ -424,25 +397,50 @@ msgid "Edit..."
 msgstr "Edit..."
 
 #. module: deltatech_service_rent
+#: field:service.equipment,emplacement:0
+msgid "Emplacement"
+msgstr "Amplasare"
+
+#. module: deltatech_service_rent
+#: model:ir.model,name:deltatech_service_rent.model_service_enter_reading_item
+msgid "Enter Meter Reading Item"
+msgstr "Introducere citiri poziție"
+
+#. module: deltatech_service_rent
+#: model:ir.actions.act_window,name:deltatech_service_rent.action_service_enter_reading
+#: model:ir.model,name:deltatech_service_rent.model_service_enter_reading
+#: view:service.enter.reading:deltatech_service_rent.view_service_enter_reading_form
+msgid "Enter Meter Readings"
+msgstr "Introducere citiri"
+
+#. module: deltatech_service_rent
+#: field:service.enter.reading.item,enter_reading_id:0
+msgid "Enter Reading"
+msgstr "Introducere citiri"
+
+#. module: deltatech_service_rent
 #: model:ir.model,name:deltatech_service_rent.model_service_equipment
 #: model:ir.ui.menu,name:deltatech_service_rent.menu_service_equipment
 #: field:service.agreement.line,equipment_id:0
 #: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_filter
 #: field:service.efficiency.report,equipment_id:0
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+#: view:service.meter:deltatech_service_rent.view_service_meter_filter
 #: field:service.meter,equipment_id:0
 #: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
 #: field:service.meter.reading,equipment_id:0
+#: view:service.notification:deltatech_service_rent.view_service_notification_filter
 #: field:service.notification,equipment_id:0
 #: field:service.order,equipment_id:0
 #: field:service.plan,equipment_id:0
 #: field:stock.picking,equipment_id:0
+#: view:website:deltatech_service_rent.notifications
 #: view:website:deltatech_service_rent.orders
 msgid "Equipment"
 msgstr "Echipament"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:146
+#: code:addons/deltatech_service_rent/service_equipment.py:183
 #, python-format
 msgid "Equipment %s assigned to many agreements."
 msgstr "Echipament %s la mai multe contracte."
@@ -461,13 +459,12 @@ msgstr "Echipament modificare stare"
 #: model:ir.actions.act_window,name:deltatech_service_rent.action_service_equipment
 #: view:service.agreement:deltatech_service_rent.view_service_agreement_form
 #: view:website:deltatech_service_rent.equipment
-#: view:website:deltatech_service_rent.order
 #: model:website.menu,name:deltatech_service_rent.menu_website_service_equipment
 msgid "Equipments"
 msgstr "Echipamente"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:294
+#: code:addons/deltatech_service_rent/service_equipment.py:331
 #, python-format
 msgid "Error: Invalid EAN code"
 msgstr "Eroare: Cod EAN invalid"
@@ -500,13 +497,6 @@ msgid "External"
 msgstr "Extern"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:67
-#, python-format
-msgid "First"
-msgstr "Prima"
-
-#. module: deltatech_service_rent
 #: field:service.equipment,message_follower_ids:0
 #: field:service.notification,message_follower_ids:0
 #: field:service.order,message_follower_ids:0
@@ -514,14 +504,19 @@ msgid "Followers"
 msgstr "Interesați"
 
 #. module: deltatech_service_rent
+#: view:service.enter.reading:deltatech_service_rent.view_service_enter_reading_form
+msgid "For the selected meters please enter readings"
+msgstr "Pentru contorii selectați vă rugăm să întroduceți citiri"
+
+#. module: deltatech_service_rent
 #: view:service.meter.reading.estimate:deltatech_service_rent.view_service_meter_reading_estimate_form
 msgid "For the selected meters will generate estimate readings"
-msgstr "For the selected meters will generate estimate readings"
+msgstr "Pentru contorii selectati se vor genera citiri estimate"
 
 #. module: deltatech_service_rent
 #: view:service.meter:deltatech_service_rent.view_service_meter_form
 msgid "Forcast Coef"
-msgstr "Forcast Coef"
+msgstr "Caclul coef"
 
 #. module: deltatech_service_rent
 #: selection:service.cycle,unit:0
@@ -546,6 +541,7 @@ msgstr "Grupeză după"
 #. module: deltatech_service_rent
 #: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_filter
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_filter
+#: view:service.meter:deltatech_service_rent.view_service_meter_filter
 #: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
 #: view:service.plan.call:deltatech_service_rent.view_service_plan_call_filter
 msgid "Group By..."
@@ -569,7 +565,7 @@ msgid "Holds the Chatter summary (number of messages, ...). This summary is dire
 msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "I agree that by signing this service order."
 msgstr "Confirm comanda de servicii prin semnare."
 
@@ -578,6 +574,8 @@ msgstr "Confirm comanda de servicii prin semnare."
 #: field:service.consumable.item,id:0
 #: field:service.cycle,id:0
 #: field:service.efficiency.report,id:0
+#: field:service.enter.reading,id:0
+#: field:service.enter.reading.item,id:0
 #: field:service.equipment,id:0
 #: field:service.equipment.type,id:0
 #: field:service.meter,id:0
@@ -613,7 +611,12 @@ msgstr "În progres"
 #: code:addons/deltatech_service_rent/controllers/main.py:129
 #, python-format
 msgid "Index was been updated"
-msgstr "Index a fost modificat"
+msgstr "Indexul a fost modificat"
+
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.equipment
+msgid "Index:"
+msgstr "Index:"
 
 #. module: deltatech_service_rent
 #: code:addons/deltatech_service_rent/controllers/main.py:119
@@ -650,11 +653,9 @@ msgid "Is a Follower"
 msgstr "Is a Follower"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:68
-#, python-format
-msgid "Last"
-msgstr "Ultima"
+#: field:service.enter.reading,items:0
+msgid "Items"
+msgstr "Poziții"
 
 #. module: deltatech_service_rent
 #: field:service.plan,last_call_done_id:0
@@ -672,6 +673,8 @@ msgstr "Last Message Date"
 #: field:service.consumable,write_uid:0
 #: field:service.consumable.item,write_uid:0
 #: field:service.cycle,write_uid:0
+#: field:service.enter.reading,write_uid:0
+#: field:service.enter.reading.item,write_uid:0
 #: field:service.equipment,write_uid:0
 #: field:service.equipment.type,write_uid:0
 #: field:service.meter,write_uid:0
@@ -693,6 +696,8 @@ msgstr "Last Updated by"
 #: field:service.consumable,write_date:0
 #: field:service.consumable.item,write_date:0
 #: field:service.cycle,write_date:0
+#: field:service.enter.reading,write_date:0
+#: field:service.enter.reading.item,write_date:0
 #: field:service.equipment,write_date:0
 #: field:service.equipment.type,write_date:0
 #: field:service.meter,write_date:0
@@ -714,13 +719,6 @@ msgstr "Last Updated on"
 #: help:service.plan,period:0
 msgid "Length of time in days for which the system creates  calls during plan scheduling"
 msgstr "Length of time in days for which the system creates  calls during plan scheduling"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:62
-#, python-format
-msgid "Loading..."
-msgstr "Încarcă..."
 
 #. module: deltatech_service_rent
 #: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_filter
@@ -751,7 +749,12 @@ msgstr "Lunar"
 #. module: deltatech_service_rent
 #: field:service.equipment,manufacturer_id:0
 msgid "Manufacturer"
-msgstr "Manufacturer"
+msgstr "Fabricant"
+
+#. module: deltatech_service_rent
+#: help:service.consumable.item,max_qty:0
+msgid "Maximum Quantity allowed"
+msgstr "Cantitate maximă permisă"
 
 #. module: deltatech_service_rent
 #: field:service.equipment,message_ids:0
@@ -772,6 +775,7 @@ msgstr "Mesaje și istoric comunicare"
 #: model:ir.model,name:deltatech_service_rent.model_service_meter
 #: model:ir.ui.menu,name:deltatech_service_rent.menu_service_meter
 #: field:service.agreement.line,meter_id:0
+#: field:service.enter.reading.item,meter_id:0
 #: view:service.meter:deltatech_service_rent.view_service_meter_form
 #: view:service.meter:deltatech_service_rent.view_service_meter_tree
 #: field:service.meter,meter_ids:0
@@ -798,10 +802,14 @@ msgstr "Citire contor"
 msgid "Meter Reading Estimate"
 msgstr "Estimare citire contor"
 
-
+#. module: deltatech_service_rent
+#: view:service.meter.reading.estimate:deltatech_service_rent.view_service_meter_reading_estimate_form
+msgid "Meter Reading Estimaten"
+msgstr "Meter Reading Estimaten"
 
 #. module: deltatech_service_rent
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+#: view:service.meter:deltatech_service_rent.view_service_meter_form
 #: field:service.order,meter_reading_ids:0
 msgid "Meter Readings"
 msgstr "Citiri contori"
@@ -829,7 +837,7 @@ msgstr "Nume"
 #: view:service.notification:deltatech_service_rent.view_service_notification_filter
 #: selection:service.notification,state:0
 msgid "New"
-msgstr "Nou"
+msgstr "Nouă"
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.equipment
@@ -837,30 +845,9 @@ msgid "New Notification"
 msgstr "Sesizare nouă"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:69
-#, python-format
-msgid "Next"
-msgstr "Următoarea"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:55
-#, python-format
-msgid "No data available in table"
-msgstr "Nu sunt date în tabel"
-
-#. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.equipments
 msgid "No equipment found"
 msgstr "Niciun echipament găsit"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:65
-#, python-format
-msgid "No matching records found"
-msgstr "Nu am găsit nimic - ne pare rău"
 
 #. module: deltatech_service_rent
 #: selection:service.notification,priority:0
@@ -873,6 +860,7 @@ msgid "Not Applicable"
 msgstr "Neaplicabil"
 
 #. module: deltatech_service_rent
+#: field:service.enter.reading,note:0
 #: field:service.equipment,note:0
 #: field:service.meter.reading,note:0
 msgid "Note"
@@ -888,25 +876,26 @@ msgstr "Note"
 #: model:ir.ui.menu,name:deltatech_service_rent.menu_service_notification
 #: view:service.notification:deltatech_service_rent.view_service_notification_filter
 #: field:service.order,notification_id:0
+#: view:website:deltatech_service_rent.notification
 #: view:website:deltatech_service_rent.notification_add_modal
 msgid "Notification"
 msgstr "Sesizare"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:166
-#: code:addons/deltatech_service_rent/service_notification.py:196
+#: code:addons/deltatech_service_rent/service_notification.py:178
+#: code:addons/deltatech_service_rent/service_notification.py:208
 #, python-format
 msgid "Notification is already assigned."
 msgstr "Sesizarea este deja atribuită."
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:150
+#: code:addons/deltatech_service_rent/service_notification.py:162
 #, python-format
 msgid "Notification is assigned."
 msgstr "Sesizarea este atibuită."
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:157
+#: code:addons/deltatech_service_rent/service_notification.py:169
 #, python-format
 msgid "Notification is not assigned."
 msgstr "Sesizarea nu este atibuită."
@@ -918,8 +907,14 @@ msgid "Notification was posted with number %s"
 msgstr "Sesizarea a fost înregistrată cu numărul %s"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:203
+#: view:website:deltatech_service_rent.notification
+msgid "Notification:"
+msgstr "Sesizare:"
+
+#. module: deltatech_service_rent
+#: code:addons/deltatech_service_rent/service_equipment.py:240
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_form
+#: view:website:deltatech_service_rent.notifications
 #: model:website.menu,name:deltatech_service_rent.menu_website_service_notification
 #, python-format
 msgid "Notifications"
@@ -936,7 +931,7 @@ msgid "Offline"
 msgstr "Nefuncțional"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_rent.py:95
+#: code:addons/deltatech_service_rent/service_rent.py:102
 #, python-format
 msgid "Old index: %s, New index:%s"
 msgstr "Index vechi: %s, Index nou:%s"
@@ -966,7 +961,8 @@ msgid "Order Type"
 msgstr "Tip comandă"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:225
+#: code:addons/deltatech_service_rent/service_equipment.py:262
+#: view:website:deltatech_service_rent.order
 #, python-format
 msgid "Orders"
 msgstr "Comenzi"
@@ -982,6 +978,7 @@ msgstr "Paramentru"
 #: field:service.efficiency.report,partner_id:0
 #: field:service.notification,partner_id:0
 #: field:service.order,partner_id:0
+#: view:website:deltatech_service_rent.notifications
 #: view:website:deltatech_service_rent.orders
 msgid "Partner"
 msgstr "Partener"
@@ -1067,34 +1064,32 @@ msgid "Please select a parameter."
 msgstr "Selectați vă rog un paramentru."
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:164
+#: code:addons/deltatech_service_rent/service_notification.py:176
 #, python-format
 msgid "Please select a responsible."
 msgstr "Selectați vă rog un responsabil."
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_plan.py:278
+#: code:addons/deltatech_service_rent/service_plan.py:270
 #, python-format
 msgid "Please select close order %s."
 msgstr "Închideți vă rog comanda %s."
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:173
+#: code:addons/deltatech_service_rent/service_notification.py:185
 #, python-format
 msgid "Please solve notification: %s"
 msgstr "Rezolvați vă rog sesizarea: %s"
 
 #. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.order
+msgid "Post"
+msgstr "Postați"
+
+#. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.meter_update_modal
 msgid "Prease enter new index for"
 msgstr "Introduceți nou index pentru"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:70
-#, python-format
-msgid "Previous"
-msgstr "Precedentă"
 
 #. module: deltatech_service_rent
 #: field:service.meter.reading,previous_counter_value:0
@@ -1110,13 +1105,6 @@ msgstr "Luna anterioară"
 #: field:service.notification,priority:0
 msgid "Priority"
 msgstr "Prioritate"
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:63
-#, python-format
-msgid "Processing..."
-msgstr "Procesare..."
 
 #. module: deltatech_service_rent
 #: field:service.consumable,product_id:0
@@ -1144,6 +1132,12 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_service_rent
+#: field:service.consumable.item,max_qty:0
+msgid "Quantity Max"
+msgstr "Cantitate maximă"
+
+#. module: deltatech_service_rent
+#: field:service.enter.reading,read_by:0
 #: field:service.meter.reading,read_by:0
 msgid "Read by"
 msgstr "Citit de"
@@ -1161,19 +1155,25 @@ msgid "Reasons"
 msgstr "Motive"
 
 #. module: deltatech_service_rent
+#: view:service.meter:deltatech_service_rent.view_service_meter_form
+msgid "Recheck Value"
+msgstr "Reverificare valori"
+
+#. module: deltatech_service_rent
 #: field:service.notification,name:0
 #: field:service.order,name:0
 #: field:service.plan,name:0
 msgid "Reference"
-msgstr "referință"
+msgstr "Referință"
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_decline
 msgid "Reject"
 msgstr "Respinge"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_decline
 msgid "Reject This Service Order"
 msgstr "Respinge această comandă de servicii"
 
@@ -1222,6 +1222,7 @@ msgstr "Perioadă planificare"
 #. module: deltatech_service_rent
 #: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_filter
 #: view:service.equipment:deltatech_service_rent.view_service_equipment_filter
+#: view:service.meter:deltatech_service_rent.view_service_meter_filter
 #: view:service.meter.reading:deltatech_service_rent.view_service_meter_reading_filter
 #: view:service.plan:deltatech_service_rent.view_service_plan_filter
 #: view:service.plan.call:deltatech_service_rent.view_service_plan_call_filter
@@ -1229,16 +1230,9 @@ msgid "Search"
 msgstr "Caută"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.search
+#: view:website:deltatech_service_rent.equipment_search
 msgid "Search..."
 msgstr "Căutare...."
-
-#. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:64
-#, python-format
-msgid "Search:"
-msgstr "Caută:"
 
 #. module: deltatech_service_rent
 #: field:service.order,access_token:0
@@ -1277,11 +1271,6 @@ msgid "Service Agreement Line"
 msgstr "Linie contract"
 
 #. module: deltatech_service_rent
-#: model:ir.actions.act_window,name:deltatech_service_rent.action_service_cycle
-msgid "Service Cycle"
-msgstr "Ciclu service"
-
-#. module: deltatech_service_rent
 #: model:ir.ui.menu,name:deltatech_service_rent.menu_service_efficiency_report_tree
 msgid "Service Efficiency Analysis"
 msgstr "Analiză eficiență service"
@@ -1305,7 +1294,7 @@ msgstr "Tip Echipament Service"
 #. module: deltatech_service_rent
 #: model:ir.model,name:deltatech_service_rent.model_service_notification_type
 msgid "Service Notification Type"
-msgstr "Service Notification Type"
+msgstr "Tip sesizare"
 
 #. module: deltatech_service_rent
 #: model:ir.actions.act_window,name:deltatech_service_rent.action_service_operating_parameter
@@ -1383,7 +1372,7 @@ msgid "Services Equipment Type"
 msgstr "Services Tip Echipament"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_equipment.py:176
+#: code:addons/deltatech_service_rent/service_equipment.py:213
 #, python-format
 msgid "Services Invoices"
 msgstr "Servicii Facturate"
@@ -1395,7 +1384,7 @@ msgid "Services Notification"
 msgstr "Sesizări"
 
 #. module: deltatech_service_rent
-#: code:addons/deltatech_service_rent/service_notification.py:229
+#: code:addons/deltatech_service_rent/service_notification.py:241
 #: model:ir.actions.act_window,name:deltatech_service_rent.action_service_order
 #: view:service.order:deltatech_service_rent.view_service_order_form
 #: view:service.order:deltatech_service_rent.view_service_order_tree
@@ -1455,28 +1444,17 @@ msgid "Shelf Life"
 msgstr "Durată viață"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:61
-#, python-format
-msgid "Show _MENU_ entries"
-msgstr "Afișeaza _MENU_ înregistrări pe pagină"
+#: view:website:deltatech_service_rent.equipment
+msgid "Show Notifications"
+msgstr "Afișare sesizări"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:57
-#, python-format
-msgid "Showing 0 to 0 of 0 entries"
-msgstr "Afișate de la 0 la 0 din 0 înregistrări"
+#: view:website:deltatech_service_rent.equipment
+msgid "Show notifications"
+msgstr "Afișare sesizări"
 
 #. module: deltatech_service_rent
-#. openerp-web
-#: code:addons/deltatech_service_rent/static/src/js/website_service.js:56
-#, python-format
-msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "Afișate de la _START_ la _END_ din _TOTAL_ înregistrări"
-
-#. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "Sign Order"
 msgstr "Semnează comanda"
 
@@ -1509,6 +1487,11 @@ msgstr "Start"
 #: field:service.plan,start_date:0
 msgid "Start Date"
 msgstr "Data de start"
+
+#. module: deltatech_service_rent
+#: field:service.meter,start_value:0
+msgid "Start Value"
+msgstr "Valoare start"
 
 #. module: deltatech_service_rent
 #: field:service.plan,start_counter:0
@@ -1547,6 +1530,7 @@ msgstr "Oprit"
 #. module: deltatech_service_rent
 #: field:service.notification,subject:0
 #: view:website:deltatech_service_rent.notification_add_modal
+#: view:website:deltatech_service_rent.notifications
 msgid "Subject"
 msgstr "Subiect"
 
@@ -1555,7 +1539,7 @@ msgstr "Subiect"
 #: field:service.notification,message_summary:0
 #: field:service.order,message_summary:0
 msgid "Summary"
-msgstr "Summary"
+msgstr "Sumar"
 
 #. module: deltatech_service_rent
 #: view:service.notification:deltatech_service_rent.view_service_notification_form
@@ -1563,7 +1547,7 @@ msgid "Taking"
 msgstr "Preluat"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_decline
 msgid "Tell us why you are refusing this service order, this will help us improve our services."
 msgstr "Vă rugăm să spuneți ce nu confirmați comanda de servicii, aceasta ne va ajuta să ne înbunătățim serviciile."
 
@@ -1676,7 +1660,7 @@ msgstr "Mesaje necitite"
 #: view:website:deltatech_service_rent.equipment
 #: view:website:deltatech_service_rent.meter_update_modal
 msgid "Update"
-msgstr "Actualizare"
+msgstr "Actualizează"
 
 #. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.meter_update_modal
@@ -1689,7 +1673,7 @@ msgid "Usage"
 msgstr "Utilizare"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "Validate Order"
 msgstr "Validare comandă"
 
@@ -1759,15 +1743,15 @@ msgid "Work Done"
 msgstr "Lucru terminat"
 
 #. module: deltatech_service_rent
-#: field:service.equipment,work_location:0
-msgid "Work Location"
-msgstr "Punct de lucru"
-
-#. module: deltatech_service_rent
 #: view:website:deltatech_service_rent.equipment_item
 #: view:website:deltatech_service_rent.equipments
 msgid "Work Location:"
 msgstr "Punct de lucru:"
+
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.order
+msgid "Write a comment..."
+msgstr "Write a comment..."
 
 #. module: deltatech_service_rent
 #: selection:service.cycle,unit:0
@@ -1775,12 +1759,12 @@ msgid "Year"
 msgstr "An"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
 msgid "Your Name:"
 msgstr "Numele dumneavoastră:"
 
 #. module: deltatech_service_rent
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_decline
 msgid "Your feedback....."
 msgstr "Răspusul dumneavoastră....."
 
@@ -1790,10 +1774,21 @@ msgid "Your message has been successfully sent!"
 msgstr "Mesajul a fost trimis cu succes!"
 
 #. module: deltatech_service_rent
+#: view:service.enter.reading:deltatech_service_rent.view_service_enter_reading_form
 #: view:service.meter.reading.estimate:deltatech_service_rent.view_service_meter_reading_estimate_form
 #: view:service.plan.rescheduling:deltatech_service_rent.view_service_plan_rescheduling_form
 msgid "_Apply"
 msgstr "_Aplică"
+
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.order
+msgid "comment"
+msgstr "comment"
+
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.order
+msgid "comments"
+msgstr "comments"
 
 #. module: deltatech_service_rent
 #: model:service.operating.parameter,name:deltatech_service_rent.equi_not_work_confirm
@@ -1821,13 +1816,33 @@ msgid "echipamentul nu functioneaza"
 msgstr "echipamentul nu functioneaza"
 
 #. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.order
+msgid "on"
+msgstr "pe"
+
+#. module: deltatech_service_rent
+#: view:service.enter.reading:deltatech_service_rent.view_service_enter_reading_form
 #: view:service.meter.reading.estimate:deltatech_service_rent.view_service_meter_reading_estimate_form
 #: view:service.plan.rescheduling:deltatech_service_rent.view_service_plan_rescheduling_form
 #: view:website:deltatech_service_rent.meter_update_modal
 #: view:website:deltatech_service_rent.notification_add_modal
-#: view:website:deltatech_service_rent.order
+#: view:website:deltatech_service_rent.order_accept
+#: view:website:deltatech_service_rent.order_decline
 msgid "or"
 msgstr "sau"
 
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.equipments
+msgid "pagination form-inline col-md-3"
+msgstr "pagination form-inline col-md-3"
 
+#. module: deltatech_service_rent
+#: view:service.efficiency.report:deltatech_service_rent.view_service_efficiency_report_graph
+msgid "picking_report for stock"
+msgstr "picking_report for stock"
+
+#. module: deltatech_service_rent
+#: view:website:deltatech_service_rent.equipment
+msgid "pull-right"
+msgstr "pull-right"
 

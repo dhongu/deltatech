@@ -156,7 +156,7 @@ class website_service(http.Controller):
 
 
     @http.route(['/service/notifications', '/service/notifications/page/<int:page>'], type='http', auth="user", website=True)
-    def notifications(self, page=1, search='',  **post):
+    def notifications(self, page=1, search='', equipment_id='',  **post):
         cr, uid, context = request.cr, request.uid, request.context
         notification_obj = request.registry['service.notification']
         
@@ -171,8 +171,12 @@ class website_service(http.Controller):
                            ('name', 'ilike', srch), 
                            ('equipment_id.ean_code', '=', srch),
                            ('equipment_id.name', 'ilike', srch)]
-
         
+        if equipment_id:
+            equipment_id = int(equipment_id)
+            domain += [('equipment_id','=',equipment_id)]
+            equipment = request.registry['service.equipment'].browse(request.cr, request.uid, equipment_id, context=request.context)
+            
         notification_count = notification_obj.search(request.cr, request.uid, domain, count=True, context=request.context)
         
         pager = request.website.pager(
@@ -187,6 +191,7 @@ class website_service(http.Controller):
         obj_ids = notification_obj.search( request.cr, request.uid, domain, limit=step,
                                         offset=pager['offset'], order=order, context=request.context)
         
+        
         notification_ids = notification_obj.browse(request.cr, request.uid, obj_ids, context=request.context)
         
         values = {
@@ -194,9 +199,20 @@ class website_service(http.Controller):
             'notification_ids':notification_ids,
             'pager': pager,
         }
-
+        if equipment_id:
+            values['equipment'] = equipment
+            
         return request.website.render("deltatech_service_rent.notifications", values)
 
+
+    @http.route(['/service/notification/<model("service.notification"):notification>'], type='http', auth="user", website=True)
+    def notification_page(self, notification,  **post):            
+        values = {
+            'notification': notification,
+            'equipment': notification.equipment_id,
+        }
+        return request.website.render("deltatech_service_rent.notification", values)
+    
 
     @http.route(['/service/orders', '/service/orders/page/<int:page>'], type='http', auth="user", website=True)
     def orders(self, page=1, search='',  **post):
@@ -257,6 +273,7 @@ class website_service(http.Controller):
             
         values = {
             'order': order,
+            'equipment': order.equipment_id,
             'signer':signer,
             'message': message and int(message) or False,
         }
@@ -277,7 +294,7 @@ class website_service(http.Controller):
 
 
     @http.route(['/service/order/<int:order_id>/<token>/decline'], type='http', auth="public", website=True)
-    def order_decline(self, order_id, token, **post):
+    def order_decline(self, order_id, token=None, **post):
         order_obj = request.registry.get('service.order')
         order = order_obj.browse(request.cr, SUPERUSER_ID, order_id)
         if token != order.access_token:
@@ -290,8 +307,11 @@ class website_service(http.Controller):
 
         return werkzeug.utils.redirect("/service/order/%s/%s?message=2" % (order_id, token))
 
-    @http.route(['/service/order/comment/<int:order_id>/<token>'], type='http', auth="public", website=True)
-    def service_comment(self, order_id, token, **post):
+
+    @http.route(['/service/order/comment/<int:order_id>',
+                 '/service/order/comment/<int:order_id>/<token>'], type='http', auth="public",methods=['POST'], website=True)
+    def service_comment(self, order_id, token=None, **post):
+        print "trece pe aici"
         if token:
             order_obj = request.registry.get('service.order')
             order = order_obj.browse(request.cr, SUPERUSER_ID, order_id)           

@@ -82,7 +82,8 @@
 			<field name="name">notification</field>
 			<field name="model">service.notification</field>
 			<field name="arch" type="xml">
-				<kanban default_group_by="user_id" quick_create="0" class="oe_notes oe_kanban_quickcreate_textarea">
+				<kanban default_group_by="user_id" edit='false' attrs="{'edit': [('state','=','new')]}"
+					  quick_create="0" class="oe_notes oe_kanban_quickcreate_textarea">
 					<field name="color" />
 					<field name="name" />
 					<field name="date" />
@@ -92,7 +93,13 @@
 					<field name="message_follower_ids" />
 					<templates>
 						<t t-name="kanban-box">
-							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+							<t t-if="record.state.raw_value=='new'">
+								<t t-set="drag" t-value="'oe_kanban_draghandle'"/>
+							</t>
+							<t t-if="record.state.raw_value!='new'">
+								<t t-set="drag" t-value="''"/>
+							</t>							
+							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click #{drag}">
 								<div class="oe_dropdown_toggle oe_dropdown_kanban">
 									<span class="oe_e">í</span>
 									<ul class="oe_dropdown_menu">
@@ -149,6 +156,7 @@
 				<search string="Notification">
 					<field name="subject" />
 					<field name="user_id" />
+					<field name="equipment_id" />
 					<separator />
 					<filter name="new" string="New" domain="[('state', '=', 'new')]" />
 					<filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
@@ -160,6 +168,7 @@
 					<group expand="0" string="Group By">
 						<filter string="Responsible" context="{'group_by':'user_id'}" />
 						<filter string="State" context="{'group_by':'state'}" />
+						<filter string="Equipment" context="{'group_by':'equipment_id'}"/>
 					</group>
 				</search>
 			</field>

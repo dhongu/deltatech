@@ -9,6 +9,7 @@
 				<tree string="Services Consumption" editable="bottom" create="false">
 					<field name="name" />
 					<field name="period_id" />
+					<field name="date_invoice" />
 					<field name="partner_id" />
 					<field name="product_id" />
 					<field name="quantity"  />
@@ -60,6 +61,15 @@
 					<field name="partner_id" />
 					<field name="period_id" options="{'no_create': True}"/>
 					<field name="agreement_id" />
+
+					<filter string="This Month" name="month"
+						domain="[('date_invoice','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date_invoice','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
+
+					<filter string="Previous Month" name="prev_month"
+						domain="[('date_invoice','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date_invoice','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
+
 					
 					<filter name="draft" string="To Be Invoiced" domain="[('state','=','draft')]"/>
 					<filter name="done" string="Invoiced" domain="[('state','=','done')]"/>
