@@ -39,7 +39,7 @@ Functionalitati:
     "data" : [ 
               
                 ],
-    'application': True,
+    'application': False,
     "active": False,
     "installable": True,
 }

@@ -23,13 +23,22 @@
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules",
-    "depends" : ['mail',
-                 'stock'],
+    "depends" : [
+                 'mail',
+                 'deltatech',
+                 'stock',
+                 'account',
+                 ],
+                 
+                 
     "description": """
 Functionalitati:
  - se timit automat liste de ridicare la o lista de destinatari
 """,
-    "data" : ['mail_automatically_view.xml'],
+    "data" : [
+              'mail_automatically_view.xml',
+              'security/ir.model.access.csv',
+               ],
     "active": False,
     "installable": True,
    

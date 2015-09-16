@@ -21,6 +21,7 @@
 
 from openerp.osv import fields,osv
 from openerp import tools
+from openerp import models
  
 
 class ir_model_fields(osv.osv):
