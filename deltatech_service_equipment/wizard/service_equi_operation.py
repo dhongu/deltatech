@@ -96,18 +96,18 @@ class service_equi_operation(models.TransientModel):
             
         new_hist = self.env['service.equipment.history'].create(values)
         
- 
         
-        if self.stare == 'ins':
+        
+        if self.state == 'ins':
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'installed'})     
-        elif self.stare == 'rem':
+        elif self.state == 'rem':
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'available'})      
-        elif self.stare == 'ebk':
+        elif self.state == 'ebk':
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'backuped'})   
             values['equipment_id'] = equipment_backup_id.id
             new_hist = self.env['service.equipment.history'].create(values)
             self.equipment_backup_id.write({'state':'installed','equipment_history_id':new_hist.id}) 
-        elif self.stare == 'dbk':
+        elif self.state == 'dbk':
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'installed'})
             values =   {'equipment_id':self.equipment_backup_id.id,
                     'from_date': self.date,
@@ -118,10 +118,16 @@ class service_equi_operation(models.TransientModel):
             new_hist = self.env['service.equipment.history'].create(values)
             self.equipment_backup_id.write({'state':'available','equipment_history_id':new_hist.id})    
             
-
+            for item in self.items:
+                self.env['service.meter.reading'].create({'meter_id':item.meter_id.id,
+                                                          'equipment_id':item.meter_id.equipment_id.id,
+                                                          'date':enter_reading.date,
+                                                          'read_by':enter_reading.read_by.id,
+                                                          'note':enter_reading.note,
+                                                          'counter_value':item.counter_value})
                     
         
-        self.do_enter()  # enter readings
+ 
         return
 
        
