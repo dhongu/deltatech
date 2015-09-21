@@ -21,38 +21,52 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services",
+    "name" : "Deltatech Services Maintenance",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Ofera posibilitatea de a defini contracte de servicii.
- - Periodic in baza acestor contracte se genereaza facturi.
+
+- gestionare sesizari
+- gestionare comenzi de service
+- gestionare planuri de revizii
+- generare automat a comenzilor de service in baza planului
+
+
+
 
  
     """,
     
-    "category" : "Service Management",
-    "depends" : ["base", "product","account"],
+    "category" : "Generic Modules",
+    "depends" : ["base","mail",
+                 "deltatech",
+                 "deltatech_service",
+                 "deltatech_service_equipment",
+                 "deltatech_procurement",
+                 "deltatech_product_extension",
+                 "deltatech_stock_report",
+                 "web_notification",   #pentru afisare mesaje procese lansate in background
+                 ],
 
 
-    "data" : [ 
-              'data.xml',      
-              "service_agreement_view.xml",  
-              "service_consumption_view.xml",
-              "wizard/service_billing_preparation_view.xml",
-              "wizard/service_billing_view.xml",
-              "wizard/service_distribution_view.xml",
-              "wizard/service_price_change_view.xml",
-              "wizard/service_change_invoice_date_view.xml",
-              #"account_invoice_penalty_view.xml",
-              'security/service_security.xml',
-              'security/ir.model.access.csv',
-              
+    "data" : [ 'data.xml',
+
+               'service_notification_view.xml',
+               'service_order_view.xml',
+               'service_plan_view.xml',
+
+               'service_equipment_view.xml',
+               
+               'security/service_security.xml',
+               'security/ir.model.access.csv',
+               
+               'wizard/rescheduling_view.xml',
+
+                            
                 ],
-    'application': True,
     "active": False,
     "installable": True,
 }

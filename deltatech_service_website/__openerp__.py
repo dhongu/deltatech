@@ -21,38 +21,40 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services",
+    "name" : "Deltatech Services Website",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Ofera posibilitatea de a defini contracte de servicii.
- - Periodic in baza acestor contracte se genereaza facturi.
 
+- afisare in frontent a listei de echipamente
+- introducere de citiri contori 
+- afisare in frontend a listei de notificari
+- adaugre sesizari
+- afisare in frontend a listiei de comenzi
+- semnare comanda
  
     """,
     
-    "category" : "Service Management",
-    "depends" : ["base", "product","account"],
+    "category" : "Generic Modules",
+    "depends" : ["website",
+                 "deltatech",
+                 "deltatech_service",
+                 "deltatech_service_equipment",
+                 "deltatech_service_maintenance",
+                 'deltatech_website',
+                 ],
 
 
-    "data" : [ 
-              'data.xml',      
-              "service_agreement_view.xml",  
-              "service_consumption_view.xml",
-              "wizard/service_billing_preparation_view.xml",
-              "wizard/service_billing_view.xml",
-              "wizard/service_distribution_view.xml",
-              "wizard/service_price_change_view.xml",
-              "wizard/service_change_invoice_date_view.xml",
-              #"account_invoice_penalty_view.xml",
-              'security/service_security.xml',
-              'security/ir.model.access.csv',
-              
+    "data" : [ 'data.xml',             
+               'views/website_equipment.xml',
+               'views/website_service.xml',
+               'views/website_order.xml',
+               'views/website_notification.xml',
+                              
                 ],
-    'application': True,
     "active": False,
     "installable": True,
 }

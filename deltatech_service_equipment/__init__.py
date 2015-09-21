@@ -20,12 +20,19 @@
 #
 ##############################################################################
 
-import service_billing
-import service_billing_preparation
-import service_distribution
-import service_price_change
-import service_change_invoice_date
 
+import service_rent
  
+import stock
+
+
+import service_equipment
+import service_meter
+import service_consumable
+
+
+import wizard
+
+import service_efficiency_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

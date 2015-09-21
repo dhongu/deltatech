@@ -67,6 +67,9 @@ class service_agreement(models.Model):
     
     date_agreement = fields.Date(string='Agreement Date', default=fields.Date.today(),
         readonly=True, states={'draft': [('readonly', False)]},  copy=False)
+
+
+
     
     partner_id = fields.Many2one('res.partner', string='Partner', 
         required=True, readonly=True, states={'draft': [('readonly', False)]})
@@ -213,7 +216,7 @@ class service_agreement_line(models.Model):
 
     @api.model
     def after_create_consumption(self, consumption):
-        pass
+        return [consumption.id]
 
     
     

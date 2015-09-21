@@ -32,7 +32,7 @@
 
 		<act_window id="action_service_billing_preparation" name="Billing Preparation"
 			res_model="service.billing.preparation" src_model="service.agreement"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+			view_mode="form" multi="False" target="new" key2="client_action_multi" />
 
 
 		<!--  menuitem name="Billing Preparation" id="menu_service_billing_preparation"

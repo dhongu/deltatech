@@ -28,6 +28,27 @@
         </record>
 
 	</data>
+	
+	<data noupdate="1">
+		<record id="cycle_monthly" model="service.cycle">
+			<field name="name">Monthly</field>
+			<field name="value">1</field>
+			<field name="unit">month</field>
+		</record>
+		<record id="cycle_quarterly" model="service.cycle">
+			<field name="name">Quarterly</field>
+			<field name="value">3</field>
+			<field name="unit">month</field>
+		</record>
+		<record id="cycle_yearly" model="service.cycle">
+			<field name="name">Yearly</field>
+			<field name="value">1</field>
+			<field name="unit">year</field>
+		</record>
+	</data>
+	
+	
+	
 </openerp>
         
      

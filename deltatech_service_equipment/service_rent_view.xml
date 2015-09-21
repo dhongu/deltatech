@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+ 
+
+		<record id="view_service_agreement_form" model="ir.ui.view">
+			<field name="name">Service Agreement</field>
+			<field name="model">service.agreement</field>
+			<field name="inherit_id" ref="deltatech_service.view_service_agreement_form" />
+			<field name="arch" type="xml">
+
+				<button id="invoice_button" position="after">
+					<button type="object" class="oe_stat_button" id="service_equipment" icon="fa-cogs" name="service_equipment" groups="account.group_account_invoice">
+						<div>Equipments</div>
+					</button>
+				</button>
+				<field name="product_id" position="after">
+					<field name="equipment_id" domain="[('address_id','child_of', parent.partner_id )]" options="{'no_create': True}"/>
+					<field name="meter_id" domain="[('equipment_id','=', equipment_id )]" options="{'no_create': True}"/>
+				</field>
+			</field>
+		</record>
+
+
+ 
+
+
+
+
+	</data>
+</openerp>

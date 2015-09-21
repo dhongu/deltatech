@@ -20,12 +20,24 @@
 #
 ##############################################################################
 
-import service_billing
-import service_billing_preparation
-import service_distribution
-import service_price_change
-import service_change_invoice_date
 
- 
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
 
+
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+
+    
+    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')    
+    equipment_id = fields.Many2one('service.equipment', string='Equipment', related='equipment_history_id.equipment_id' ,store=True)
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',store=True)
+    
+
+
+
+#todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite 
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
