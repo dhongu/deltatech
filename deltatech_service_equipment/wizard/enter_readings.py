@@ -53,6 +53,21 @@ class service_enter_reading(models.TransientModel):
         return defaults
 
 
+    @api.onchange('date')
+    def onchange_date(self):
+        meters = self.env['service.meter']
+        for item in self.items:
+            meters |=  item.meter_id
+        items = []
+        for meter in meters:
+            meter = meter.with_context({'date':self.date})
+            items += [(0,0,{'meter_id':meter.id,
+                            'equipment_id':meter.equipment_id.id,
+                             'counter_value':meter.estimated_value})]
+
+        items =  self._convert_to_cache({'items': items }, validate=False)
+        self.update(items) 
+
     @api.multi
     def do_enter(self):
         for enter_reading in self:
@@ -70,7 +85,7 @@ class service_enter_reading_item(models.TransientModel):
     _description = "Enter Meter Reading Item"
 
     enter_reading_id = fields.Many2one('service.enter.reading', string='Enter Reading') 
-    meter_id = fields.Many2one('service.meter', string='Meter',required=True,   domain=[('type', '=', 'counter')] , readonly=True ) 
+    meter_id = fields.Many2one('service.meter', string='Meter',  readonly=True ) 
     equipment_id = fields.Many2one('service.equipment', string="Equipment", readonly=True)
     counter_value = fields.Float(string='Counter Value', digits= dp.get_precision('Meter Value'), required=True)
 

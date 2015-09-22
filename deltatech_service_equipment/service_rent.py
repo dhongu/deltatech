@@ -80,7 +80,7 @@ class service_agreement_line(models.Model):
         # la data citirii echipamentul functiona in baza contractului???\\
         # daca echipamentul a fost inlocuit de unul de rezeva ?
         
-  
+        self.ensure_one()
         res = [consumption.id]   # trebuie musai fa folosesc super ???
         if self.equipment_id: 
             
@@ -104,13 +104,13 @@ class service_agreement_line(models.Model):
                 # se selecteaza citirile pentru intervalul in care echipamentul era instalat la client
                 
                 if readings:
-                    end_date = min( readings[0].date, consumption.period_id.date_start)
-                    start_date = max( readings[-1].date, consumption.period_id.date_stop)
+                    end_date = max( readings[0].date, consumption.period_id.date_stop)
+                    start_date = min( readings[-1].date, consumption.period_id.date_start)
                 else:
                     end_date =  consumption.period_id.date_start 
                     start_date =  consumption.period_id.date_stop                         
                 
-                domain = [('id','in',readings.ids ),('equipment_history_id.address_id','child of',self.agreement_id.partner_id)]
+                domain = [('id','in',readings.ids ),('equipment_history_id.address_id','child_of',self.agreement_id.partner_id.id)]
                 
                 readings = self.env['service.meter.reading'].search(domain)
                 quantity = 0
@@ -137,7 +137,7 @@ class service_agreement_line(models.Model):
                     
                 consumption.write({'quantity':quantity,
                                     'name':name,
-                                    'equipment_id':equipmentt.id })
+                                    'equipment_id':equipment.id })
                 
                 # determin daca in interval echipamentul a fost inlcuit de altul
                 domain = [('equipment_id','=',equipment.id),('from_date','>=',start_date),('from_date','<=',end_date)]

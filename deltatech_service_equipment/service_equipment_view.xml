@@ -2,17 +2,30 @@
 <openerp>
 	<data>
 
+		<record id="view_service_equipment_history_tree" model="ir.ui.view">
+			<field name="name">Services equipment history</field>
+			<field name="model">service.equipment.history</field>
+			<field name="arch" type="xml">
+				<tree string="Services Equipment History" create="false">
+					<field name="name" />
+					<field name="partner_id" />
+					<field name="address_id" />								
+					<field name="emplacement" />
+					<field name="equipment_id" />
 
+				</tree>
+			</field>
+		</record>
 
 		<record id="view_service_equipment_tree" model="ir.ui.view">
 			<field name="name">Services equipment</field>
 			<field name="model">service.equipment</field>
 			<field name="arch" type="xml">
 				<tree string="Services Equipment">
+					<field name="name" />
 					<field name="partner_id" />
 					<field name="address_id" />								
 					<field name="emplacement" />
-					<field name="name" />
 					<field name="product_id" />
 					<field name="serial_id" />
 					<field name="quant_id" />
@@ -171,6 +184,19 @@
 			</field>
 		</record>
 
+
+
+
+
+
+		<record id="action_service_equipment_history" model="ir.actions.act_window">
+			<field name="name">Equipments History</field>
+			<field name="res_model">service.equipment.history</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem name="Equipment History" id="menu_service_equipment_history" action="action_service_equipment_history" parent="base.menu_service" sequence="400" />
 
 
 		<record id="action_service_equipment" model="ir.actions.act_window">

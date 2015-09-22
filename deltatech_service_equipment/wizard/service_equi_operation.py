@@ -40,7 +40,7 @@ class service_equi_operation(models.TransientModel):
     equipment_backup_id = fields.Many2one('service.equipment', string="Backup Equipment",domain=[('state','=','available')])
     
     partner_id = fields.Many2one('res.partner', string='Owner',domain=[('is_company','=',True)])
-    address_id = fields.Many2one('res.partner', string='Location',domain=[('type','in',['default','other'])]) # sa fac un nou tip de partener? locatie ?
+    address_id = fields.Many2one('res.partner', string='Location') # sa fac un nou tip de partener? locatie ?
     emplacement = fields.Char(string='Emplacement')    
 
 
@@ -118,13 +118,14 @@ class service_equi_operation(models.TransientModel):
             new_hist = self.env['service.equipment.history'].create(values)
             self.equipment_backup_id.write({'state':'available','equipment_history_id':new_hist.id})    
             
-            for item in self.items:
-                self.env['service.meter.reading'].create({'meter_id':item.meter_id.id,
-                                                          'equipment_id':item.meter_id.equipment_id.id,
-                                                          'date':enter_reading.date,
-                                                          'read_by':enter_reading.read_by.id,
-                                                          'note':enter_reading.note,
-                                                          'counter_value':item.counter_value})
+        for item in self.items:
+            self.env['service.meter.reading'].create({'meter_id':item.meter_id.id,
+                                                      'equipment_id':item.meter_id.equipment_id.id,
+                                                      'equipment_history_id':new_hist.id,
+                                                      'date':self.date,
+                                                      'read_by':self.read_by.id,
+                                                      'note':self.note,
+                                                      'counter_value':item.counter_value})
                     
         
  

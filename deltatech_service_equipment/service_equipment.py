@@ -71,9 +71,9 @@ class service_equipment_history(models.Model):
     
     
     name =  fields.Char(string='Name', related='equipment_id.name')
-    from_date = fields.Date(string="Installation Date")
+    from_date = fields.Date(string="Installation Date",required=True)
 
-    equipment_id = fields.Many2one('service.equipment', string="Equipment")
+    equipment_id = fields.Many2one('service.equipment', string="Equipment",  ondelete='cascade')
 
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement')   
     partner_id = fields.Many2one('res.partner', string='Owner',help='The owner of the equipment')
@@ -101,9 +101,12 @@ class service_equipment(models.Model):
     agreement_type_id = fields.Many2one('service.agreement.type', string='Agreement Type', related='agreement_id.type_id')       
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
     
+    
         
     # unde este echipamentul
-    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history',  copy=False)
+    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment actual location',  copy=False)
+   
+    equipment_history_ids = fields.One2many('service.equipment.history', 'equipment_id', string='Equipment History')
    
     # proprietarul  echipamentului
     partner_id = fields.Many2one('res.partner', string='Owner', related='equipment_history_id.partner_id',
@@ -114,7 +117,7 @@ class service_equipment(models.Model):
                               help='Detail of location of the equipment in working point')
     install_date = fields.Date(string='Installation Date', related='equipment_history_id.from_date',readonly=True)
     
-    contact_id = fields.Many2one('res.partner', string='Contact Person',  track_visibility='onchange', domain=[('type','=','contact')])    
+    contact_id = fields.Many2one('res.partner', string='Contact Person',  track_visibility='onchange', domain=[('type','=','contact'),('is_company','=',False)])    
 
     name = fields.Char(string='Name', index=True, default="/" )
     display_name = fields.Char(compute='_compute_display_name')
@@ -127,7 +130,7 @@ class service_equipment(models.Model):
     start_date = fields.Date(string='Start Date') 
 
     meter_ids = fields.One2many('service.meter', 'equipment_id', string='Meters' )     
-    meter_reading_ids = fields.One2many('service.meter.reading', 'equipment_id', string='Meter Reading',   copy=False) # mai trebuie ??
+    #meter_reading_ids = fields.One2many('service.meter.reading', 'equipment_id', string='Meter Reading',   copy=False) # mai trebuie ??
     
     ean_code = fields.Char(string="EAN Code")
 
@@ -152,19 +155,26 @@ class service_equipment(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence = self.env.ref('deltatech_service_equipment.sequence_equipment')
             if sequence:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)         
+                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+        #if not vals.get('equipment_history_id',False):
+        #    vals['equipment_history_ids'] = [(0,0,{'from_date':  '2000-01-01'})]
         return super(service_equipment, self).create( vals )
 
 
 
 
     @api.returns('service.equipment.history')
-    def get_history_id(self,date):
-        if self.equipment_history_id and date > self.equipment_history_id.from_date:
-            return self.equipment_history_id
-        else:
-            return self.env['service.equipment.history'].search([('equipment_id','=',self.id),('from_date','<=',date)], order='from_date DESC', limit=1)
+    def get_history_id(self, date): 
 
+        if self.equipment_history_id and date > self.equipment_history_id.from_date:
+            res =  self.equipment_history_id
+        else:
+            res = self.env['service.equipment.history'].search([('equipment_id','=',self.id),
+                                                                ('from_date','<=',date)], order='from_date DESC', limit=1)
+           
+        return res 
+    
+    
     @api.multi
     def _compute_readings_status(self):
         from_date = date.today() + relativedelta(day=01, months=0, days=0)

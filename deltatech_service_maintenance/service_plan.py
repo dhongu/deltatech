@@ -37,6 +37,7 @@ class service_cycle(models.Model):
 
     @api.model
     def get_cyle(self):
+        self.ensure_one()
         if self.unit == 'counter':
             return self.value
         else:

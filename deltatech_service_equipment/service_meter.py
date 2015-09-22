@@ -28,6 +28,9 @@ import openerp.addons.decimal_precision as dp
 import math
 from datetime import datetime
 
+import logging
+_logger = logging.getLogger(__name__)
+
 READING_TYPE_SELECTION = [
     ('inc', 'Increase'),
     ('dec', 'Decrease'),
@@ -110,23 +113,29 @@ class service_meter(models.Model):
             x = []
             y = []
             for reading in meter.meter_reading_ids:
-                x  += [ fields.Date.from_string(reading.date).toordinal() ]
-                y  += [ reading.counter_value]
+                if not reading.estimated:
+                    x  += [ fields.Date.from_string(reading.date).toordinal() ]
+                    y  += [ reading.counter_value]
             
             a,b =  linreg(x,y) 
-            meter.write({'value_a':a,
-                        'value_b':b})
+            meter.write({'value_a':a, 'value_b':b})
+            _logger.info("Value A: %s, Value B: %s" % (str(a), str(b) ))
        
  
     @api.model
     def get_forcast(self, date):
-        "Calculeaza valoarea estimata in functie de data"
+        "Calculeaza valoarea estimata in functie de data"  
+        self.ensure_one()      
         x = fields.Date.from_string(date).toordinal()
-        return self.value_a * x + self.value_b
+        res = self.value_a * x + self.value_b
+        if not res:
+            res = self.total_counter_value
+        return res
 
     @api.model
     def get_forcast_date(self, value):
         "Calculeaza data estimata in functie de valoare"
+        self.ensure_one()
         if self.value_a:
             x = (value - self.value_b ) / self.value_a
             date = datetime.fromordinal(int(x))
@@ -223,7 +232,7 @@ class service_meter_reading(models.Model):
 
  
             
-    @api.onchange('equipment_id')
+    @api.onchange('equipment_id','date')
     def onchange_equipment_id(self):
         if self.equipment_id:
             if len(self.equipment_id.meter_ids) == 1:
@@ -244,9 +253,15 @@ class service_meter_reading(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['agreement_id'] = self.equipment_id.agreement_id.id   # data la care
+        if not vals.get('equipment_history_id',False):
+            equipment = self.env['service.equipment'].browse(vals['equipment_id'])
+            history_id = equipment.get_history_id(vals['date']) 
+            print history_id
+            if history_id:
+                vals['equipment_history_id'] =  history_id.id
+                 
         res = super(service_meter_reading,self).create(vals)
-        self.meter_id.calc_forcast_coef()
+        #self.meter_id.calc_forcast_coef()
         return res
 
     @api.multi
@@ -264,7 +279,7 @@ class service_meter_reading(models.Model):
         nexts = self.env['service.meter.reading']
         meters = self.env['service.meter']
         for reading in self:
-            if self.consumption_id:
+            if reading.consumption_id:
                 raise Warning('Meter reading recorder in consumption prepared for billing.')
             meters |= reading.meter_id
             #next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),

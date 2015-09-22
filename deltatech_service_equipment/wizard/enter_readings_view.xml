@@ -36,7 +36,7 @@
 
 		<act_window id="action_service_enter_reading" name="Enter Meter Readings"
 			res_model="service.enter.reading" src_model="service.equipment"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+			view_mode="form" multi="False" target="new" key2="client_action_multi" />
 
 
  

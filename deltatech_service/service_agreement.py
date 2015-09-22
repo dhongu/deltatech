@@ -40,6 +40,7 @@ class service_cycle(models.Model):
 
     @api.model
     def get_cyle(self):
+        self.ensure_one()
         if self.unit == 'day':
             return  timedelta(days=self.value)
         if self.unit == 'week':
@@ -61,7 +62,7 @@ class service_agreement(models.Model):
     def _default_currency(self):
         return self.env.user.company_id.currency_id
     
-    name = fields.Char(string='Reference', index=True,default='/', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
+    name = fields.Char(string='Reference', index=True, default='/', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
    
     description = fields.Char(string='Description',   readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     
@@ -100,7 +101,7 @@ class service_agreement(models.Model):
                                   domain=[('name', 'in', ['RON','EUR'])], readonly=True, states={'draft': [('readonly', False)]})
 
 
-    cycle_id = fields.Many2one('service.cycle', string='Billing Cycle' ,  readonly=True,  states={'draft': [('readonly', False)]})
+    cycle_id = fields.Many2one('service.cycle', string='Billing Cycle' , required=True, readonly=True,  states={'draft': [('readonly', False)]})
 
     last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id"  )
 

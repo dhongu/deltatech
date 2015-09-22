@@ -52,7 +52,7 @@ class service_order(models.Model):
 
 
 
-    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')         
+    equipment_history_id = fields.Many2one('service.equipment.history', required=True, string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'draft': [('readonly', False)]})
  
     partner_id = fields.Many2one('res.partner', string='Partner', related='equipment_history_id.partner_id', readonly=True)
