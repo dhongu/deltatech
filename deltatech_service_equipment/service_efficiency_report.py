@@ -35,9 +35,9 @@ class service_efficiency_report(models.Model):
 
     equipment_id = fields.Many2one('service.equipment', string='Equipment', index=True) 
     agreement_id = fields.Many2one('service.agreement', string='Contract Services')      
-    usage =  fields.Float( string='Usage',   digits_compute=dp.get_precision('Product UoM'), readonly=True, compute="_compute_usage"  ,store=True  )
+    usage =  fields.Float( string='Usage',   digits =dp.get_precision('Product UoM'), readonly=True, compute="_compute_usage"  ,store=True  )
     uom_usage = fields.Many2one('product.uom', string='Unit of Measure Usage', help="Unit of Measure for Usage", index=True) 
-    shelf_life = fields.Float(string='Shelf Life',  digits_compute=dp.get_precision('Product UoM')  )
+    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM')  )
 
 
     def _select(self):

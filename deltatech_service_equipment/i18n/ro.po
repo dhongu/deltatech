@@ -109,10 +109,7 @@ msgstr "Valoare estimată"
 msgid "Contact person"
 msgstr "Persoană de contact"
 
-#. module: deltatech_service_equipment
-#: field:service.equipment,contact_id:0
-msgid "Contact person"
-msgstr "Persoană de contact"
+
 
 #. module: deltatech_service_maintenance
 #: field:service.equipment,user_id:0

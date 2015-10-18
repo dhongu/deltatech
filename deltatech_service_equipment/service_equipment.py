@@ -119,7 +119,7 @@ class service_equipment(models.Model):
     
     contact_id = fields.Many2one('res.partner', string='Contact Person',  track_visibility='onchange', domain=[('type','=','contact'),('is_company','=',False)])    
 
-    name = fields.Char(string='Name', index=True, default="/" )
+    name = fields.Char(string='Name', index=True, default="/", copy=False )
     display_name = fields.Char(compute='_compute_display_name')
     
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
@@ -129,7 +129,7 @@ class service_equipment(models.Model):
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
 
-    meter_ids = fields.One2many('service.meter', 'equipment_id', string='Meters' )     
+    meter_ids = fields.One2many('service.meter', 'equipment_id', string='Meters', copy=True )     
     #meter_reading_ids = fields.One2many('service.meter.reading', 'equipment_id', string='Meter Reading',   copy=False) # mai trebuie ??
     
     ean_code = fields.Char(string="EAN Code")
@@ -227,7 +227,10 @@ class service_equipment(models.Model):
             if len(agreements) > 0:
                 self.agreement_id =  agreements[0]
                 self.partner_id = agreements[0].partner_id
-    
+
+    #@api.onchange('type_id')
+    #def onchange_type_id(self):   
+    #    self.product_id = self.type_id.product_id 
     
     @api.onchange('product_id','partner_id')
     def onchange_product_id(self):
@@ -332,6 +335,7 @@ class service_equipment_type(models.Model):
     _name = 'service.equipment.type'
     _description = "Service Equipment Type"     
     name = fields.Char(string='Type', translate=True)  
+    #product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

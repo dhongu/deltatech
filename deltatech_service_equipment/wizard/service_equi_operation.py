@@ -55,23 +55,29 @@ class service_equi_operation(models.TransientModel):
             raise Warning(_('Please select equipment.'))
         return defaults
 
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        self.address_id = self.partner_id
+
 
     @api.onchange('equipment_backup_id','date')
     def onchange_equipment_backup_id(self):
         items = []
         for meter in self.equipment_id.meter_ids:
-            meter = meter.with_context({'date':self.date})
-            items += [(0,0,{'meter_id':meter.id,
-                            'equipment_id':meter.equipment_id.id,
-                             'counter_value':meter.estimated_value})]
-            
-        
-        if self.equipment_backup_id:
-            for meter in self.equipment_backup_id.meter_ids:
+            if meter.type == 'counter':
                 meter = meter.with_context({'date':self.date})
                 items += [(0,0,{'meter_id':meter.id,
                                 'equipment_id':meter.equipment_id.id,
                                  'counter_value':meter.estimated_value})]
+            
+        
+        if self.equipment_backup_id:
+            for meter in self.equipment_backup_id.meter_ids:
+                if meter.type == 'counter':
+                    meter = meter.with_context({'date':self.date})
+                    items += [(0,0,{'meter_id':meter.id,
+                                    'equipment_id':meter.equipment_id.id,
+                                     'counter_value':meter.estimated_value})]
                 
 
         items =  self._convert_to_cache({'items': items }, validate=False)

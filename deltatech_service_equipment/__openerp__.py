@@ -33,7 +33,7 @@ Functionalitati:
 - gestionare contoare  
 - gestionare citiri contoare
 - facturare in baza citirilor
-- caclul estimat 
+- caclul estimare citiri
 - intoducere automat la sfarsit de perioada a valorilor estimate
 
 - gestionare consumabile pentru un echipament
@@ -71,6 +71,8 @@ Functionalitati:
                'service_equipment_view.xml',
                'service_consumable_view.xml',
 
+               'demo.xml',
+               'service.meter.reading.csv'
                               
                 ],
     "active": False,

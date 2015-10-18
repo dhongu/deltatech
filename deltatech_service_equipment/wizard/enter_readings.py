@@ -46,9 +46,10 @@ class service_enter_reading(models.TransientModel):
         meters = self.env['service.meter'].search(domain)
         defaults['items'] = []
         for meter in meters:
-            defaults['items'] += [(0,0,{'meter_id':meter.id,
-                                        'equipment_id':meter.equipment_id.id,
-                                        'counter_value':meter.estimated_value})]
+            if meter.type == 'counter':
+                defaults['items'] += [(0,0,{'meter_id':meter.id,
+                                            'equipment_id':meter.equipment_id.id,
+                                            'counter_value':meter.estimated_value})]
 
         return defaults
 
@@ -60,10 +61,11 @@ class service_enter_reading(models.TransientModel):
             meters |=  item.meter_id
         items = []
         for meter in meters:
-            meter = meter.with_context({'date':self.date})
-            items += [(0,0,{'meter_id':meter.id,
-                            'equipment_id':meter.equipment_id.id,
-                             'counter_value':meter.estimated_value})]
+            if meter.type == 'counter':
+                meter = meter.with_context({'date':self.date})
+                items += [(0,0,{'meter_id':meter.id,
+                                'equipment_id':meter.equipment_id.id,
+                                 'counter_value':meter.estimated_value})]
 
         items =  self._convert_to_cache({'items': items }, validate=False)
         self.update(items) 

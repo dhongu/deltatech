@@ -38,6 +38,9 @@ READING_TYPE_SELECTION = [
     ('src', 'Meter')
 ]
 
+# de deinit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
+
+
 class service_meter(models.Model):
     _name = 'service.meter'
     _description = "Meter"
