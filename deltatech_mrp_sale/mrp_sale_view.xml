@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="action_sale_mrp_resource" model="ir.actions.act_window">
+			<field name="name">Sale Resource</field>
+			<field name="res_model">sale.mrp.resource</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">graph,tree</field>
+			<field name="context">{}</field>
+		</record>
+
+		<record id="view_order_form" model="ir.ui.view">
+			<field name="name">sale.order.form</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<field name="pricelist_id" position="after">
+					<field name="specification" />
+					<group colspan="4" attrs="{'invisible': [('specification', '=', False)]}">
+						<label for="qty_primary" />
+						<div>
+							<field name="qty_primary" class="oe_inline" />
+							<field name="primary_uom" class="oe_inline" groups="product.group_uom" />
+						</div>
+						<field name="price_unit" />
+					</group>
+				</field>
+
+
+				<page string="Order Lines" position="before">
+					<page name="art" string="Articles" attrs="{'invisible': [('specification', '=', False)]}">
+						<field name="article_ids">
+							<tree>
+								<field name="sequence" widget="handle" />
+								 
+								<field name="product_template" />
+								<field name="product_id" />
+
+								<field name="product_uom_qty" />
+								<field name="item_categ" />
+
+								<field name="product_uom" groups="product.group_uom" />
+								<field name="resource_ids" invisible='1' />
+								<field name="price_unit" />
+								<field name="amount" sum="Amount" />
+
+							</tree>
+							<form>
+								<group>
+									<group>
+										<field name="product_template" />
+										<field name="product_attributes_count" invisible="1" />
+										<field name="product_id" />
+										<field name="product_uom_qty" />
+										<field name="product_uom" groups="product.group_uom" class="oe_inline"/>
+										<field name="item_categ" />
+										<field name="bom_id" />
+										<div colspan="4" attrs="{'invisible': [('product_attributes_count', '=', 0)]}">
+											<label for="product_attributes" />
+											<field name="product_attributes">
+												<tree create="false" delete="false" editable="1">
+													<field name="attribute" />
+													<field name="possible_values" invisible="1" widget="many2many_tags" />
+													<field name="value" />
+												</tree>
+											</field>
+										</div>
+										<div colspan="4">
+											<label for="resource_ids" />
+											<field name="resource_ids"  attrs="{'invisible':[('resource_ids','=',[])]}">
+												<tree create="false" delete="false" editable="0">
+													<field name="product_id" />
+													<field name="name" />
+													<field name="product_uom_qty" />
+													<field name="product_uom" groups="product.group_uom" />
+													<field name="item_categ" />
+													<field name="price_unit" />
+													<field name="amount" sum="Amount" />
+													 
+												</tree>
+											</field>
+										</div>
+									</group>
+								</group>
+
+								<div class="oe_clear" />
+							</form>
+						</field>
+					</page>
+					<page name="res" string="Resources" attrs="{'invisible': [('specification', '=', False)]}">
+						<group>
+							<button name="button_update" string="(update)" type="object" class="oe_edit_only oe_link" />
+						</group>
+						<field name="resource_ids" nolabel="1" widget="one2many_list" context="{ 'order_id':id}">
+							<tree>
+								
+								<field name="product_id" />
+								<field name="name" />
+								<field name="product_uom_qty" />
+								<field name="product_uom" groups="product.group_uom" />
+								<field name="item_categ" />
+								<field name="price_unit" />
+								<field name="amount" sum="Amount" />
+								
+							</tree>
+						</field>
+					</page>
+				</page>
+
+				<!-- <page string="Order Lines" position="attributes"> <attribute name="attrs">{'invisible': [('specification', '=', True)]}</attribute> </page> <xpath 
+					expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after"> <group colspan="4"> <button name="estimated_cost" string="Fetching 
+					Estimated Cost" type="object" class="oe_edit_only"/> </group> </xpath> -->
+
+			</field>
+		</record>
+
+
+		<record id="view_sale_mrp_resource_tree" model="ir.ui.view">
+			<field name="name">Sale Resource</field>
+			<field name="model">sale.mrp.resource</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="order_id" />
+					<field name="categ_id" />
+					<field name="product_id" />
+					<field name="product_uom_qty" />
+					<field name="product_uom" groups="product.group_uom" />
+					<field name="price_unit" />
+					<field name="amount" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_sale_mrp_resource_graph" model="ir.ui.view">
+			<field name="name">sale.mrp.resource.graph</field>
+			<field name="model">sale.mrp.resource</field>
+			<field name="arch" type="xml">
+				<graph type="pivot">
+					<field name="product_id" type="row" />
+					<field name="product_uom_qty" type="measure" />
+					<field name="amount" type="measure" />
+				</graph>
+			</field>
+		</record>
+
+
+
+
+		<menuitem name="Sale Resources" id="menu_sale_mrp_resource" action="action_sale_mrp_resource" parent="base.menu_sales" sequence="2" />
+
+		<record id="view_sale_mrp_resource_filter" model="ir.ui.view">
+			<field name="name">sale.mrp.resource.select</field>
+			<field name="model">sale.mrp.resource</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="order_id" />
+					<field name="product_id" />
+					<field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]" />
+					<group expand="1" string="Group By...">
+						<filter string="Order" name="order_id" context="{'group_by':'order_id'}" />
+						<filter string="Category of Product" name="category_product" context="{'group_by':'categ_id','residual_invisible':True}" />
+						<filter string="Product" name="product_id" context="{'group_by':'product_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+
+
+
+	</data>
+</openerp>

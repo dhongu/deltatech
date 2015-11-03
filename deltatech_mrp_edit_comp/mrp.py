@@ -19,20 +19,30 @@
 #
 ##############################################################################
 
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+
+
+class mrp_production(models.Model):
+    _inherit = 'mrp.production'
+
+    move_lines = fields.One2many( readonly=False, states={'done': [('readonly', True)]}  ) 
+ 
 
 
 
-class product_template(models.Model):
-    _inherit = 'product.template'
 
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
-
-
-
+    @api.multi
+    def write(self,  vals ):
+        res = super(mrp_production, self).write(  vals )
+        for move in self.move_lines:
+            if move.state == 'draft':
+                # se de facut o copie a miscarii si trecuta miscarea la la productie la productie 
+                move.action_confirm()        
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

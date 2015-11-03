@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+
+
+
+		<record id="mrp_bom_form_view" model="ir.ui.view">
+			<field name="name">deltatech.mrp.bom.form</field>
+			<field name="model">mrp.bom</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='bom_line_ids']//tree//field[@name='product_uom']" position="after">
+					<field name="item_categ" />
+				</xpath>
+			</field>
+		</record>
+		
+
+
+
+	</data>
+	
+	
+
+
+</openerp>

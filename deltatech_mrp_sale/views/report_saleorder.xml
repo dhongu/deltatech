@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="report_saleorder_document_specification" inherit_id="sale.report_saleorder_document">
+			<xpath expr="//div[@t-if='o.payment_term']" position="after">
+				<div t-if="o.specification" class="col-xs-3">
+					<strong>Primary Quantity:</strong>
+					<p>
+						<span t-field="o.qty_primary" />
+						<span t-field="o.primary_uom" />
+					</p>
+				</div>
+			</xpath>
+
+			<xpath expr="//tbody[@class='sale_tbody']" position="replace">
+
+				<tbody t-if='not o.specification' class="sale_tbody">
+					<tr t-foreach="o.order_line" t-as="l">
+						<td>
+							<span t-field="l.name" />
+						</td>
+						<td>
+							<span t-esc="', '.join(map(lambda x: x.name, l.tax_id))" />
+						</td>
+						<td class="text-right">
+							<span t-field="l.product_uom_qty" />
+							<span groups="product.group_uom" t-field="l.product_uom" />
+						</td>
+						<td class="text-right">
+							<span t-field="l.price_unit" />
+						</td>
+						<td groups="sale.group_discount_per_so_line">
+							<span t-field="l.discount" />
+						</td>
+						<td class="text-right">
+							<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+						</td>
+					</tr>
+				</tbody>
+
+				<tbody t-if='o.specification' class="sale_tbody">
+					<tr>
+						<td>
+							<strong>Base Kit</strong>
+						</td>
+					</tr>
+					<t t-set='total1' t-value='0' />
+					<t t-foreach="o.order_line" t-as="l">
+						<t t-if='l.item_categ=="normal"'>
+							<t t-set='total1' t-value='total1 + l.price_subtotal' />
+							<tr>
+								<td>
+									<span t-field="l.name" />
+								</td>
+								<td>
+									<span t-esc="', '.join(map(lambda x: x.name, l.tax_id))" />
+								</td>
+								<td class="text-right">
+									<span t-field="l.product_uom_qty" />
+									<span groups="product.group_uom" t-field="l.product_uom" />
+								</td>
+								<td class="text-right">
+									<span />
+								</td>
+								<td groups="sale.group_discount_per_so_line">
+									<span />
+								</td>
+								<td class="text-right">
+									<span />
+								</td>
+							</tr>
+						</t>
+					</t>
+					<tr>
+						<td>
+							<trong>Total</trong>
+						</td>
+						<td>
+
+						</td>
+						<td class="text-right">
+
+						</td>
+						<td class="text-right">
+
+						</td>
+						<td groups="sale.group_discount_per_so_line">
+
+						</td>
+						<td class="text-right">
+							<span t-esc='total1' />
+							<span t-field="o.pricelist_id.currency_id.symbol" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<strong>Optional items</strong>
+						</td>
+					</tr>
+					<t t-set='total2' t-value='0' />
+					<t t-foreach="o.order_line" t-as="l">
+						<t t-if='l.item_categ=="optional"'>
+							<t t-set='total2' t-value='total2 + l.price_subtotal' />
+							<tr>
+								<td>
+									<span t-field="l.name" />
+								</td>
+								<td>
+									<span t-esc="', '.join(map(lambda x: x.name, l.tax_id))" />
+								</td>
+								<td class="text-right">
+									<span t-field="l.product_uom_qty" />
+									<span groups="product.group_uom" t-field="l.product_uom" />
+								</td>
+								<td class="text-right">
+									<span t-field="l.price_unit" />
+								</td>
+								<td groups="sale.group_discount_per_so_line">
+									<span t-field="l.discount" />
+								</td>
+								<td class="text-right">
+									<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+								</td>
+							</tr>
+						</t>
+					</t>
+					<tr>
+						<td>
+							<trong>Total</trong>
+						</td>
+						<td>
+
+						</td>
+						<td class="text-right">
+
+						</td>
+						<td class="text-right">
+
+						</td>
+						<td groups="sale.group_discount_per_so_line">
+
+						</td>
+						<td class="text-right">
+							<span t-esc='total2' />
+							<span t-field="o.pricelist_id.currency_id.symbol" />
+						</td>
+					</tr>
+				</tbody>
+
+
+			</xpath>
+
+		</template>
+	</data>
+</openerp>

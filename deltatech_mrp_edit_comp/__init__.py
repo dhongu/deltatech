@@ -17,20 +17,14 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+
+import mrp
 
 
 
-class product_template(models.Model):
-    _inherit = 'product.template'
-
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
 
 
 

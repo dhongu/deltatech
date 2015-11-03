@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,22 +17,39 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+{
+    "name" : "Deltatech MRP Sale",
+    "version" : "2.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
+    
+Functionalitati:
+ - Se permite intocmirea unei liste de produse
+ - se face explozia listie initiale in a lista de materii prime
+ - se calculeaza pretul si marginea
+
+    """,
+    
+    "category" : "Generic Modules/Production",
+    "depends" : ['deltatech',"base","mrp","sale",'mrp_product_variants','sale_product_variants'],
 
 
-
-class product_template(models.Model):
-    _inherit = 'product.template'
-
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
-
-
+    "data" : [   
+                'mrp_sale_view.xml',
+                'mrp_view.xml' ,
+                'wizard/take_bom_view.xml',
+                'views/report_saleorder.xml',
+             ],
+    
+    
+    "active": False,
+    "installable": True,
+}
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
