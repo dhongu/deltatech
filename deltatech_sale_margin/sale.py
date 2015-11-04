@@ -34,7 +34,25 @@ from datetime import datetime
 class sale_order_line(models.Model):
     _inherit = "sale.order.line"
 
-
+    purchase_price = fields.Float(string='Cost Price', digits = dp.get_precision('Product Price'), compute="_compute_purchase_price", store=True)
+    
+    
+    @api.one
+    @api.depends('product_id')
+    def _compute_purchase_price(self):
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = self.order_id.currency_id
+        if self.product_id:
+            purchase_price = self.product_id.standard_price
+            to_uom = self.product_uom.id  
+            if to_uom != self.product_id.uom_id.id:
+                purchase_price = self.env['product.uom']._compute_price( self.product_id.uom_id.id, purchase_price, to_uom)
+            
+            self.purchase_price = frm_cur.with_context(date=self.order_id.date_order).compute(purchase_price,to_cur,round=False)
+        else:
+            self.purchase_price = 0   
+ 
+    
 
     def product_id_change(self, cr, uid, ids, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
@@ -73,13 +91,14 @@ class sale_order_line(models.Model):
             if self.price_unit < self.purchase_price :
                 raise Warning(_('You can not sell below the purchase price.'))
 
+
     @api.multi
     def write(self, values):  
-        if values.get('product_id')  and 'price_unit' not in values :
+        if  'product_id' in values and  'price_unit' not in values:
             order = self[0].order_id     
-
+            
             defaults = self.product_id_change(  pricelist = order.pricelist_id.id, 
-                                                product =  values['product_id'],
+                                                product =  values.get('product_id',self.product_id.id),
                                                 qty = float(values.get('product_uom_qty', self[0].product_uom_qty)),
                                                 uom = values.get('product_uom', self[0].product_uom.id if self[0].product_uom else False),
                                                 qty_uos = float(values.get('product_uos_qty', self[0].product_uos_qty)), 
@@ -88,9 +107,10 @@ class sale_order_line(models.Model):
                                                 partner_id=order.partner_id.id,                                               
                                                 date_order=order.date_order,
                                                 fiscal_position=order.fiscal_position.id if order.fiscal_position else False,
-                                            )                                
-                                                                                        
-            values['price_unit'] = defaults['value']['price_unit']            
+                                            )   
+                                      
+            values['price_unit'] = defaults['value']['price_unit']    
+    
         return super(sale_order_line, self).write(values) 
  
  
