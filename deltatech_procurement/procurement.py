@@ -157,7 +157,23 @@ class procurement_order(models.Model):
             """
         return res
 
-
+    
+    @api.model
+    def _product_virtual_get(self, order_point):
+        ''' trebuie sa scad toate comenzile de aprovizionare deschise'''  
+        qty = super(procurement_order,self)._product_virtual_get(order_point)
+        
+        domain = [('product_id','=',order_point.product_id.id),
+                  ('state','=','running'),
+                  ('location_id','=',order_point.location_id.id)]
+        
+        procurement_ids = self.env['procurement.order'].search(domain)
+        print procurement_ids
+        for procurement in procurement_ids:
+            if procurement.rule_id.action == 'buy':
+                qty += procurement.product_qty
+         
+        return qty
 
 
     def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False, company_id = False, context=None):
