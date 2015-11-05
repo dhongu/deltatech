@@ -79,7 +79,7 @@ class account_invoice_line(models.Model):
             if self.purchase_price:
                 stock_value =  self.quantity * self.purchase_price
             else:
-                stock_value = line_value
+                stock_value = 0.0
             self.parallel_stock_value = from_currency.compute(stock_value, to_currency )
             self.parallel_line_value = from_currency.compute(line_value, to_currency )
     
