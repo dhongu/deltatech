@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<template id="snippet_hover" inherit_id="website.snippets" name="Hover Effect">
+			<xpath expr="//div[@id='snippet_content']" position="inside">
+				<div>
+					<div class="oe_snippet_thumbnail">
+						<img class="oe_snippet_thumbnail_img" src="/deltatech_website_hover/static/src/img/hover.png" />
+						<span class="oe_snippet_thumbnail_title">Hover Effect</span>
+					</div>
+					<div class="oe_snippet_body panel">
+						 
+							<div class="grid">
+								<figure class="effect-lily ">
+									<img class="img img-responsive" src="/deltatech_website_hover/static/src/img/1.jpg" alt="img1"/>
+									<figcaption>
+										<div class="content">
+											<h2>Nice <span>Title</span></h2>
+											<p class="icon-links">
+												<a href="#"><span class="fa fa-heart"></span></a>
+												<a href="#"><span class="fa fa-eye"></span></a>
+												<a href="#"><span class="fa fa-paperclip"></span></a>
+											</p>
+											<p class="description">Short description</p>
+										</div>
+									</figcaption>			
+								</figure>
+							</div>
+						 
+					</div>
+				</div>
+			</xpath>
+		</template>
+
+
+<template id="snippet_hover_opt" name="Snippet Hover Effect Options" inherit_id="website.snippet_options">
+  <xpath expr="." position="inside">
+     <div data-snippet-option-id='snippet_hover_op'
+        data-selector="figure">
+      <li class="dropdown-submenu">
+        <a tabindex="-1" href="#">Hover Effect Style</a>
+        <ul class="dropdown-menu"> <!-- Options list -->
+          <li data-select_class="effect-lily"><a>Lily</a></li>
+          <li data-select_class="effect-sadie"><a>Sadie</a></li>
+          <li data-select_class="effect-honey"><a>Honey</a></li>
+          <li data-select_class="effect-layla"><a>Layla</a></li>
+          <li data-select_class="effect-zoe"><a>Zoe</a></li>
+          <li data-select_class="effect-oscar"><a>Oscar</a></li>
+          <li data-select_class="effect-marley"><a>Marley</a></li>
+          <li data-select_class="effect-ruby"><a>Ruby</a></li>
+          <li data-select_class="effect-roxy"><a>Roxy</a></li>   
+
+           <li data-select_class="effect-bubba"><a>Bubba</a></li>    
+           <li data-select_class="effect-romeo"><a>Romeo</a></li>    
+           <li data-select_class="effect-dexter"><a>Dexter</a></li>    
+           <li data-select_class="effect-sarah"><a>Sarah</a></li>    
+           <li data-select_class="effect-chico"><a>Chico</a></li>   
+           <li data-select_class="effect-milo"><a>Milo</a></li>    
+ 
+                
+        </ul>
+      </li>
+    </div>
+  </xpath>
+ </template>
+
+
+
+	</data>
+</openerp>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Service frontend assets">
+			<xpath expr="." position="inside">
+				<link rel='stylesheet' href='/deltatech_website_hover/static/src/css/normalize.css' />
+				<link rel='stylesheet' href='/deltatech_website_hover/static/src/css/set1.css' /> 
+			</xpath>
+		</template>
+
+
+	</data>
+</openerp>
