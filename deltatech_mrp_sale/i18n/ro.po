@@ -1,0 +1,408 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_mrp_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-11-08 23:07+0000\n"
+"PO-Revision-Date: 2015-11-08 23:07+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp_sale
+#: view:sale.order:deltatech_mrp_sale.view_order_form
+msgid "(update)"
+msgstr "(actualizare)"
+
+#. module: deltatech_mrp_sale
+#: view:sale.order:deltatech_mrp_sale.view_order_form
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article.attribute,article_id:0
+#: field:sale.mrp.resource,article_id:0
+msgid "Article"
+msgstr "Articol"
+
+#. module: deltatech_mrp_sale
+#: view:sale.order:deltatech_mrp_sale.view_order_form
+#: field:sale.order,article_ids:0
+msgid "Articles"
+msgstr "Articole"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article.attribute,attribute:0
+msgid "Attribute"
+msgstr "Atribute"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Base Kit"
+msgstr "Kit de bază"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_mrp_bom
+msgid "Bill of Material"
+msgstr "Listă de materiale"
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
+msgid "Cancel"
+msgstr "Revocare"
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
+msgid "Category of Product"
+msgstr "Categoria de produs"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,create_uid:0
+#: field:sale.mrp.article.attribute,create_uid:0
+#: field:sale.mrp.resource,create_uid:0
+#: field:sale.mrp.take.bom,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,create_date:0
+#: field:sale.mrp.article.attribute,create_date:0
+#: field:sale.mrp.resource,create_date:0
+#: field:sale.mrp.take.bom,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Customer signature"
+msgstr "Semnătură client"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_mrp_sale
+#: help:sale.mrp.article,sequence:0
+msgid "Gives the sequence of this line when displaying the order."
+msgstr "Gives the sequence of this line when displaying the order."
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
+msgid "Group By..."
+msgstr "Group By..."
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,id:0
+#: field:sale.mrp.article.attribute,id:0
+#: field:sale.mrp.resource,id:0
+#: field:sale.mrp.take.bom,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.resource,categ_id:0
+msgid "Internal Category"
+msgstr "Categorie internă"
+
+#. module: deltatech_mrp_sale
+#: code:addons/deltatech_mrp_sale/mrp.py:87
+#, python-format
+msgid "Invalid Action! BoM \"%s\" contains a BoM line with a product recursion: \"%s\"."
+msgstr "Invalid Action! BoM \"%s\" contains a BoM line with a product recursion: \"%s\"."
+
+#. module: deltatech_mrp_sale
+#: code:addons/deltatech_mrp_sale/mrp.py:159
+#, python-format
+msgid "Invalid Action! BoM \"%s\" contains a phantom BoM line but the product \"%s\" does not have any BoM defined."
+msgstr "Invalid Action! BoM \"%s\" contains a phantom BoM line but the product \"%s\" does not have any BoM defined."
+
+#. module: deltatech_mrp_sale
+#: field:mrp.bom.line,item_categ:0
+#: field:sale.mrp.article,item_categ:0
+#: field:sale.mrp.resource,item_categ:0
+#: field:sale.order.line,item_categ:0
+msgid "Item Category"
+msgstr "Categorie poziție"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.take.bom,bom_id:0
+msgid "Kit"
+msgstr "Kit"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,write_uid:0
+#: field:sale.mrp.article.attribute,write_uid:0
+#: field:sale.mrp.resource,write_uid:0
+#: field:sale.mrp.take.bom,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,write_date:0
+#: field:sale.mrp.article.attribute,write_date:0
+#: field:sale.mrp.resource,write_date:0
+#: field:sale.mrp.take.bom,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,name:0
+#: field:sale.mrp.resource,name:0
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,bom_id:0
+msgid "Norm"
+msgstr "Norma"
+
+#. module: deltatech_mrp_sale
+#: selection:mrp.bom.line,item_categ:0
+#: selection:sale.mrp.article,item_categ:0
+#: selection:sale.mrp.resource,item_categ:0
+#: selection:sale.order.line,item_categ:0
+msgid "Normal"
+msgstr "Normal"
+
+#. module: deltatech_mrp_sale
+#: selection:mrp.bom.line,item_categ:0
+#: selection:sale.mrp.article,item_categ:0
+#: selection:sale.mrp.resource,item_categ:0
+#: selection:sale.order.line,item_categ:0
+msgid "Optional"
+msgstr "Opțional"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Optional Items"
+msgstr "Poziții opționale"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,order_id:0
+#: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
+#: field:sale.mrp.resource,order_id:0
+msgid "Order"
+msgstr "Comandă"
+
+#. module: deltatech_mrp_sale
+#: view:sale.order:deltatech_mrp_sale.view_order_form
+msgid "Order Lines"
+msgstr "Linii comandă"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Price"
+msgstr "Preț"
+
+#. module: deltatech_mrp_sale
+#: selection:mrp.bom.line,item_categ:0
+#: selection:sale.mrp.article,item_categ:0
+#: selection:sale.mrp.resource,item_categ:0
+#: selection:sale.order.line,item_categ:0
+msgid "Primary"
+msgstr "Principal"
+
+#. module: deltatech_mrp_sale
+#: field:sale.order,qty_primary:0
+msgid "Primary Quantity"
+msgstr "Cantitate primară"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Primary Quantity:"
+msgstr "Cantitate primară:"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,product_id:0
+#: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
+#: field:sale.mrp.resource,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,product_uom_qty:0
+#: field:sale.mrp.resource,product_uom_qty:0
+msgid "Product Quantity"
+msgstr "Cantitate produs"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,product_template:0
+msgid "Product Template"
+msgstr "Produs șablon"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,product_attributes:0
+msgid "Product attributes"
+msgstr "Atribute produs"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,resource_ids:0
+#: view:sale.order:deltatech_mrp_sale.view_order_form
+#: field:sale.order,resource_ids:0
+msgid "Resources"
+msgstr "Resurse"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_mrp_article
+msgid "Sale Article"
+msgstr "Articole vânzare"
+
+#. module: deltatech_mrp_sale
+#: model:ir.actions.act_window,name:deltatech_mrp_sale.action_sale_mrp_resource
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_mrp_resource
+msgid "Sale Resource"
+msgstr "Resurse vânzare"
+
+#. module: deltatech_mrp_sale
+#: model:ir.ui.menu,name:deltatech_mrp_sale.menu_sale_mrp_resource
+msgid "Sale Resources"
+msgstr "Vânzare resurse"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_mrp_sale
+#: help:sale.mrp.resource,categ_id:0
+msgid "Select category for the current product"
+msgstr "Select category for the current product"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,sequence:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: deltatech_mrp_sale
+#: selection:mrp.bom.line,item_categ:0
+#: selection:sale.mrp.article,item_categ:0
+#: selection:sale.mrp.resource,item_categ:0
+#: selection:sale.order.line,item_categ:0
+msgid "Service"
+msgstr "Service"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Signing this document means accepting the offer commercial and technical responsibility by customer.\n"
+"					Any other request later after signing this\n"
+"					estimate will be subject to recalculation and a tender attached to this estimate."
+msgstr "Semnarea prezentului document semnifica acceptarea ofertei tehnico-comerciale si angajarea responsabilitatii clientului. \n"
+"Orice alta solicitare ulterioara dupa semnarea prezentului deviz va face obiectul unui nou calcul si a unei oferte anexate prezentului deviz."
+
+#. module: deltatech_mrp_sale
+#: field:sale.order,specification:0
+msgid "Specification"
+msgstr "Deviz"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,amount:0
+#: field:sale.mrp.resource,amount:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: deltatech_mrp_sale
+#: model:ir.actions.act_window,name:deltatech_mrp_sale.action_take_bom
+msgid "Take BOM"
+msgstr "Preluare BOM"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_mrp_take_bom
+msgid "Take BOM in Sale Order"
+msgstr "Preluare LdM în comanda de vânzare"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "This estimate is a contractual document we take responsibility for that.\n"
+"					Any other technical and commercial communicated during our\n"
+"					correspondence for this project are not included in this estimate will not be counted."
+msgstr "Prezentul deviz este un document contractual pentru care noi ne asumăm responsabilitatea.\n"
+" Orice altă informație tehnico-comercială comunicată în timpul corespondenței noastre pentru acest proiect și nu figurează în acest deviz nu va fi luată în calcul."
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Total Kit"
+msgstr "Total Kit"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Total Kit + Optional"
+msgstr "Total Kit + Opționale"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Total Optional Items"
+msgstr "Total poziții opționale"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.resource,price_unit:0
+#: field:sale.order,price_unit:0
+#: view:website:sale.report_saleorder_document
+msgid "Unit Price"
+msgstr "Preț unitar"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article,product_uom:0
+#: field:sale.mrp.resource,product_uom:0
+#: field:sale.order,primary_uom:0
+msgid "Unit of Measure"
+msgstr "Unitate de măsură"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.article.attribute,value:0
+msgid "Value"
+msgstr "Valoare"
+
+#. module: deltatech_mrp_sale
+#: field:mrp.bom,website_message_ids:0
+#: field:sale.order,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mesaje Website"
+
+#. module: deltatech_mrp_sale
+#: help:mrp.bom,website_message_ids:0
+#: help:sale.order,website_message_ids:0
+msgid "Website communication history"
+msgstr "Istoric comunicare website"
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "What is not included in the estimate will not be delivered!"
+msgstr "Ce nu figurează în deviz nu va fi livrat!"
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+#. module: deltatech_mrp_sale
+#: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
+msgid "or"
+msgstr "sau"
+

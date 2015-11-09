@@ -34,6 +34,10 @@ from openerp.addons.product import _common
 
 _logger = logging.getLogger(__name__)
 
+
+ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service')]
+
+
 class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
@@ -103,10 +107,10 @@ class mrp_bom(models.Model):
             if (bom_line_id.type != "phantom" and
                     (not bom_id or self.browse(bom_id).type != "phantom")):
 
-                if not bom_line_id.product_id:
-                    if production_attr_values:
-                        product_attributes = ( bom_line_id.product_template._get_product_attributes_inherit_dict(production_attr_values))
-                        comp_product = self.env['product.product']._product_find(  bom_line_id.product_template, product_attributes)
+               
+                if production_attr_values:
+                    product_attributes = ( bom_line_id.product_template._get_product_attributes_inherit_dict(production_attr_values))
+                    comp_product = self.env['product.product']._product_find(  bom_line_id.product_template, product_attributes)
                 else:
                     comp_product = bom_line_id.product_id
                     product_attributes = (  bom_line_id.product_id. _get_product_attributes_values_dict())
@@ -161,4 +165,11 @@ class mrp_bom(models.Model):
 
 class mrp_bom_line(models.Model):
     _inherit = 'mrp.bom.line'   
-    item_categ = fields.Selection([('primary','Primary'),('optional','Optional'),('normal','Normal')], default='normal', string='Item Category')
+    item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
+    
+    
+    
+    
+    
+    
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -32,6 +32,13 @@ from openerp.osv.fields import related
 _logger = logging.getLogger(__name__)
 
 
+# primary - e utilizat doar pentru calculul cantitatii primare
+# normal   - elementele din kitul de baza
+# optional - elemente optionale
+# service - alte servicii prestate pentru lucrare 
+
+ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service')]
+
 class sale_order(models.Model):
     _inherit = 'sale.order'
 
@@ -108,7 +115,9 @@ class sale_order(models.Model):
 
             else:
                 qty = line_to_update.product_uom_qty + resource.product_uom_qty
-                line_to_update.write({'product_uom_qty':qty,
+                line_to_update.write({'name':resource.name,
+                                      'item_categ':resource.item_categ,
+                                      'product_uom_qty':qty,
                                       'price_unit':resource.price_unit})
                 
 
@@ -124,19 +133,10 @@ class sale_order(models.Model):
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line'
     
-    item_categ = fields.Selection([('primary','Primary'),('optional','Optional'),('normal','Normal')], default='normal', string='Item Category')
+    item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
     
     
-
-# pentru a imparti articolele in kit structura si optionale
-class sale_mrp_article_category(models.Model):
-    _name = 'sale.mrp.article.category'
-    name = fields.Char(string='Name')
-    dispaly_name = fields.Char(string='Display Name', translate=True)
-    # de definit campuri petru 
-    #    - afisare in documentul tipait 
-    #    - afisare cantitate in documentul tiparit
-    
+ 
  
 class sale_mrp_article_attribute(models.Model):
     _name = 'sale.mrp.article.attribute'
@@ -159,6 +159,8 @@ class sale_mrp_article_attribute(models.Model):
             if attr_line.attribute_id.id == self.attribute.id:
                 attr_values |= attr_line.value_ids
         self.possible_values = attr_values.sorted()
+
+
    
 class sale_mrp_article(models.Model):
     _name = 'sale.mrp.article'
@@ -185,7 +187,7 @@ class sale_mrp_article(models.Model):
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
     
-    item_categ = fields.Selection([('primary','Primary'),('optional','Optional'),('normal','Normal')], default='normal', string='Item Category')
+    item_categ = fields.Selection(ITEM_CATEG, default='optional', string='Item Category')
     
     #primary_item = fields.Boolean(string='Primary Item')
     #category_id = fields.Many2one('sale.mrp.article.category', string='Article Category')
@@ -218,7 +220,9 @@ class sale_mrp_article(models.Model):
     @api.onchange('bom_id')
     def onchange_bom(self):
         if self.bom_id:
+            _logger.info('BOMul a fost modificat')
             self.product_template = self.bom_id.product_tmpl_id
+            self.item_categ = 'normal'
             if self.bom_id.product_id:
                 self.product_id = self.bom_id.product_id
         self.explode_bom()
@@ -244,7 +248,7 @@ class sale_mrp_article(models.Model):
 
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         self.bom_id = self.env['mrp.bom'].browse(bom_id)
-        self.explode_bom()
+        #self.explode_bom()
          
 
 
@@ -266,7 +270,14 @@ class sale_mrp_article(models.Model):
         if not self.product_id:
             return
         
-        self.name = self.product_id.name  # de preluat numele lung pt vanzare 
+        
+        self.name  = self.product_id.with_context(context=self.order_id.partner_id).name_get()[0][1]
+        if self.product_id.description_sale:
+            self.name += '\n'+self.product_id.description_sale 
+
+        if self.product_id.type  == 'service':
+            self.item_categ = 'service'
+            
                                
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id,
                                                product_id      = self.product_id.id,
@@ -275,14 +286,14 @@ class sale_mrp_article(models.Model):
         if bom_id:
             self.bom_id = self.env['mrp.bom'].browse(bom_id)
             # determinare pret 
-        if self.product_id:
-            self.product_uom = self.product_id.uom_id
-            attributes = (self.product_id._get_product_attributes_values_dict())
-           
-            self.product_attributes = attributes
+ 
+        self.product_uom = self.product_id.uom_id
+        attributes = (self.product_id._get_product_attributes_values_dict())
+       
+        self.product_attributes = attributes
 
             # explozie bom
-        self.explode_bom() 
+        #self.explode_bom() 
 
 
 
@@ -295,7 +306,7 @@ class sale_mrp_article(models.Model):
 
     @api.model
     def explode_bom(self):
-        _logger.info('explode_bom')
+       
         article = self
         items = []
         if self.bom_id:
@@ -342,18 +353,19 @@ class sale_mrp_article(models.Model):
                                     'item_categ':item['item_categ'],
                                     }
         
-                value['name'] = product.name
+                value['name'] = product.with_context(context=self.order_id.partner_id).name_get()[0][1]
                 if product.description_sale:
-                    value['name'] += '\n'+product.description_sale  
+                     value['name'] += '\n'+self.product_id.description_sale 
+ 
                 #value['order_id'] = self.order_id.id
                 #value['article_id'] = self.id
                     
                 resources += [(0,0,value)]
                 #resources += [value]
         
-        print resources
+         
         resource_ids =  self._convert_to_cache({'resource_ids': resources }, validate=False)
-        print resource_ids
+         
         self.update(resource_ids) 
         #self.resource_ids = (resources)
         return resource_ids
@@ -366,11 +378,11 @@ class sale_mrp_resource(models.Model):
     _description = "Sale Resource"
      
     order_id  = fields.Many2one('sale.order', related='article_id.order_id', store=True, string='Order', copy=False)
-    order_line_id = fields.Many2one('sale.order.line', string='Order Line Reference', ondelete="cascade",  required=True)
+    #order_line_id = fields.Many2one('sale.order.line', string='Order Line Reference', ondelete="cascade",  required=True)
 
     article_id  = fields.Many2one('sale.mrp.article', string='Article', copy=False, ondelete='cascade')
     
-    item_categ = fields.Selection([('primary','Primary'),('optional','Optional'),('normal','Normal')], default='normal', string='Item Category')
+    item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
 
     product_id  = fields.Many2one('product.product', string='Product')
     name        = fields.Char(string='Name')

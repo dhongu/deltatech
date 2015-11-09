@@ -43,6 +43,7 @@ Functionalitati:
                 'mrp_view.xml' ,
                 'wizard/take_bom_view.xml',
                 'views/report_saleorder.xml',
+                'security/ir.model.access.csv',
              ],
     
     

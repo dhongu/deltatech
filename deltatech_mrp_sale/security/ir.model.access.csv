@@ -1,0 +1,7 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_sale_mrp_article_attribute,access_sale_mrp_article_attribute,model_sale_mrp_article_attribute,,1,1,1,1
+access_sale_mrp_article,access_sale_mrp_article,model_sale_mrp_article,,1,1,1,1
+access_sale_mrp_resource,access_sale_mrp_resource,model_sale_mrp_resource,,1,1,1,1
+
+
