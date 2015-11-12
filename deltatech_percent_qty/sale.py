@@ -23,8 +23,8 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
 
+from openerp.tools import float_compare, float_is_zero
 import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
@@ -66,7 +66,8 @@ class sale_order_line(models.Model):
             total_amount += line.price_subtotal
             
         total_amount =  total_amount / 100 
-        if self.price_unit <>  total_amount: 
+        
+        if not float_is_zero(self.price_unit -  total_amount, precision_digits=2): 
             self.write({'price_unit':total_amount})
             
      
