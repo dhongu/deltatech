@@ -47,5 +47,12 @@ class take_bom(models.TransientModel):
                                                  'product_uom_qty':item.product_qty,
                                                  'product_uom':item.product_uom.id,
                                                  'item_categ':item.item_categ})
+        # declansare determinare lista de materiale si atribute
+        for article in sale_order.article_ids:
+            if article.product_id:
+                article.onchange_product_id()
+            else:
+                article.onchange_product_template()
+            
         return True
         
