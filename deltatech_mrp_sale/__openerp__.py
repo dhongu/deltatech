@@ -28,9 +28,12 @@
     "description": """
     
 Functionalitati:
- - Se permite intocmirea unei liste de produse
- - se face explozia listie initiale in a lista de materii prime
+ - Se permite intocmirea unei liste de produse in comanda de vanzare
+ - In lista de produse se pot defini atribute
+ - se face explozia listie initiale in a lista de componente
  - se calculeaza pretul si marginea
+ 
+ - se permite ca in lista de materiale sa existe cantitati negative (recuperari)
 
     """,
     
@@ -38,10 +41,10 @@ Functionalitati:
     "depends" : ['deltatech',"base","mrp","sale",'mrp_product_variants','sale_product_variants'],
 
 
-    "data" : [   
+    "data" : [  'wizard/take_bom_view.xml',
                 'mrp_sale_view.xml',
                 'mrp_view.xml' ,
-                'wizard/take_bom_view.xml',
+                
                 'views/report_saleorder.xml',
                 'security/ir.model.access.csv',
              ],

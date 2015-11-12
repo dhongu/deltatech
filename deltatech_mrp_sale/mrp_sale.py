@@ -37,7 +37,7 @@ _logger = logging.getLogger(__name__)
 # optional - elemente optionale
 # service - alte servicii prestate pentru lucrare 
 
-ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service')]
+ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service'),('opt_serv','Optional Service')]
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
@@ -60,6 +60,9 @@ class sale_order(models.Model):
     #extrase de resurse
     resource_ids = fields.One2many('sale.mrp.resource','order_id',  string="Resources", copy=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )  
 
+
+    #attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
+    #                                      string='Order attributes', copy=True )
 
     @api.multi
     @api.depends('article_ids')
@@ -92,7 +95,7 @@ class sale_order(models.Model):
                 continue
             line_to_update = self.env['sale.order.line']
             for line in self.order_line:
-                if line.product_id.id == resource.product_id.id:
+                if line.product_id.id == resource.product_id.id and line.item_categ == resource.item_categ:
                     line_to_update = line
                     break
        
@@ -110,16 +113,17 @@ class sale_order(models.Model):
                 if not fpos:
                     fpos = self.partner_id.property_account_position
                 
-                vals['tax_id'] = fpos.map_tax(resource.product_id.product_tmpl_id.taxes_id)               
+                vals['tax_id'] = [[6,0,fpos.map_tax(resource.product_id.product_tmpl_id.taxes_id).ids]]     
                 self.env['sale.order.line'].create(vals)
 
             else:
                 qty = line_to_update.product_uom_qty + resource.product_uom_qty
                 line_to_update.write({'name':resource.name,
-                                      'item_categ':resource.item_categ,
                                       'product_uom_qty':qty,
                                       'price_unit':resource.price_unit})
-                
+        for line in self.order_line:
+            if line.product_uom_qty == 0:
+                line.unlink()
 
     @api.multi
     def write(self,vals):
@@ -129,6 +133,29 @@ class sale_order(models.Model):
                 order.button_update()
         return res
 
+"""
+class sale_mrp_order_attribute(models.Model):
+    _name = 'sale.mrp.order.attribute'
+
+    order_id  = fields.Many2one('sale.oder', string='Sale Order', copy=False, ondelete='cascade')
+    attribute = fields.Many2one( comodel_name='product.attribute', string='Attribute')
+   
+    value = fields.Many2one( comodel_name='product.attribute.value', string='Value',
+                             domain="[('id', 'in', possible_values[0][2])]")
+    possible_values = fields.Many2many( comodel_name='product.attribute.value',
+                                        compute='_get_possible_attribute_values', readonly=True)
+
+    @api.one
+    @api.depends('attribute')
+    def _get_possible_attribute_values(self):
+        attr_values = self.env['product.attribute.value']
+        attr_values = self.attribute.value_ids.ids
+        self.possible_values = attr_values.sorted()
+"""
+
+
+# mai adaug categoria de cost  unde o sa intre manopera de montare lambriu / gips 
+# la cantitatea se calculeaza dupa un filtru iar 
 
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line'
@@ -248,7 +275,7 @@ class sale_mrp_article(models.Model):
 
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         self.bom_id = self.env['mrp.bom'].browse(bom_id)
-        #self.explode_bom()
+ 
          
 
 
@@ -272,8 +299,8 @@ class sale_mrp_article(models.Model):
         
         
         self.name  = self.product_id.with_context(context=self.order_id.partner_id).name_get()[0][1]
-        if self.product_id.description_sale:
-            self.name += '\n'+self.product_id.description_sale 
+        #if self.product_id.description_sale:
+        #    self.name += '\n'+self.product_id.description_sale 
 
         if self.product_id.type  == 'service':
             self.item_categ = 'service'
@@ -292,8 +319,7 @@ class sale_mrp_article(models.Model):
        
         self.product_attributes = attributes
 
-            # explozie bom
-        #self.explode_bom() 
+ 
 
 
 
@@ -354,8 +380,8 @@ class sale_mrp_article(models.Model):
                                     }
         
                 value['name'] = product.with_context(context=self.order_id.partner_id).name_get()[0][1]
-                if product.description_sale:
-                     value['name'] += '\n'+self.product_id.description_sale 
+                #if product.description_sale:
+                #     value['name'] += '\n'+product.description_sale 
  
                 #value['order_id'] = self.order_id.id
                 #value['article_id'] = self.id
@@ -403,15 +429,16 @@ class sale_mrp_resource(models.Model):
 
     @api.onchange('product_id','product_uom_qty')
     def onchange_product_id(self):
-        if self.product_id:
+        if self.product_id and self.article_id.order_id and self.article_id.order_id.pricelist_id:
             self.product_uom = self.product_id.uom_id
-            price = self.order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0, self.order_id.partner_id.id)[self.order_id.pricelist_id.id]
+            order_id = self.article_id.order_id
+            price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )
             self.price_unit = price
             self.name = self.product_id.name
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]
-            if self.product_id.description_sale:
-                self.name += '\n'+self.product_id.description_sale 
+            #if self.product_id.description_sale:
+            #    self.name += '\n'+self.product_id.description_sale 
                 
        
     

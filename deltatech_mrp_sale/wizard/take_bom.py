@@ -32,7 +32,7 @@ class take_bom(models.TransientModel):
     _description = "Take BOM in Sale Order"
     
 
-    bom_id      =  fields.Many2one('mrp.bom', string='Kit')
+    bom_id      =  fields.Many2one('mrp.bom', string='Article List')
     
     
     @api.multi
@@ -41,7 +41,9 @@ class take_bom(models.TransientModel):
         sale_order =  self.env['sale.order'].browse(active_id)
         order_line = []
         for item in self.bom_id.bom_line_ids:
-            self.env['sale.mrp.article'].create({'product_id':item.product_id.id,
+            self.env['sale.mrp.article'].create({'order_id':active_id,
+                                                 'product_template':item.product_template.id,
+                                                 'product_id':item.product_id.id,
                                                  'product_uom_qty':item.product_qty,
                                                  'product_uom':item.product_uom.id,
                                                  'item_categ':item.item_categ})

@@ -35,12 +35,15 @@ from openerp.addons.product import _common
 _logger = logging.getLogger(__name__)
 
 
-ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service')]
+ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service'),('opt_serv','Optional Service')]
+
 
 
 class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
+    article_list = fields.Boolean(string='Article List')
+    
     @api.model
     def _bom_explode_variants_categ(
             self, bom, product, factor, properties=None, level=0,
@@ -55,8 +58,8 @@ class mrp_bom(models.Model):
         def _factor(factor, product_efficiency, product_rounding):
             factor = factor / (product_efficiency or 1.0)
             factor = _common.ceiling(factor, product_rounding)
-            if factor < product_rounding:
-                factor = product_rounding
+            #if factor < product_rounding:
+            #    factor = product_rounding
             return factor
 
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
@@ -168,7 +171,10 @@ class mrp_bom_line(models.Model):
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
     
     
-    
+    _sql_constraints = [
+        ('bom_qty_zero', 'CHECK (product_qty<>0)', 'All product quantities must be greater than 0.\n' \
+            'You should install the mrp_byproduct module if you want to manage extra products on BoMs !'),
+    ]    
     
     
     

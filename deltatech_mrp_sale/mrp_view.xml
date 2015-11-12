@@ -11,6 +11,9 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="mrp.mrp_bom_form_view" />
 			<field name="arch" type="xml">
+				<xpath expr="//field[@name='type']"  position="after">
+					<field name="article_list" />
+				</xpath>
 				<xpath expr="//field[@name='bom_line_ids']//tree//field[@name='product_uom']" position="after">
 					<field name="item_categ" />
 				</xpath>

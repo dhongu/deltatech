@@ -45,6 +45,31 @@
 				</tbody>
 
 				<tbody t-if='o.specification' class="sale_tbody">
+					<t>
+						<t t-set='total_kit' t-value='0' />
+						<t t-set='total_opt' t-value='0' />
+						<t t-set='total_service' t-value='0' />
+						<t t-set='total_opt_serv' t-value='0' />
+
+						<t t-foreach="o.order_line" t-as="l">
+							<t t-if='l.item_categ=="normal"'>
+								<t t-set='total_kit' t-value='total_kit + l.price_subtotal' />
+							</t>
+							<t t-if='l.item_categ=="optional"'>
+								<t t-set='total_opt' t-value='total_opt + l.price_subtotal' />
+							</t>
+							<t t-if='l.item_categ=="service"'>
+								<t t-set='total_service' t-value='total_service + l.price_subtotal' />
+							</t>
+							<t t-if='l.item_categ=="opt_serv"'>
+								<t t-set='total_opt_serv' t-value='total_opt_serv + l.price_subtotal' />
+							</t>
+						</t>
+						<t t-set='total1' t-value='total_kit+total_opt' />
+						<t t-set='total2' t-value='total1+total_service' />
+						<t t-set='total2' t-value='total2+total_opt_serv' />
+					</t>
+
 					<tr>
 						<td colspan="4"></td>
 					</tr>
@@ -53,13 +78,16 @@
 							<strong>Base Kit</strong>
 						</td>
 					</tr>
-					<t t-set='total_kit' t-value='0' />
+
 					<t t-foreach="o.order_line" t-as="l">
 						<t t-if='l.item_categ=="normal"'>
-							<t t-set='total_kit' t-value='total_kit + l.price_subtotal' />
+
 							<tr style="background-color:#D8E4BC">
 								<td>
 									<span t-field="l.name" />
+									<div t-if="l.product_id.description_sale">
+										<span t-field="l.product_id.description_sale" />
+									</div>
 								</td>
 								<td class="text-right">
 									<span t-field="l.product_uom_qty" />
@@ -103,10 +131,9 @@
 							<strong>Optional Items</strong>
 						</td>
 					</tr>
-					<t t-set='total_opt' t-value='0' />
+
 					<t t-foreach="o.order_line" t-as="l">
 						<t t-if='l.item_categ=="optional"'>
-							<t t-set='total_opt' t-value='total_opt + l.price_subtotal' />
 							<tr style="background-color:#E6B8B7">
 								<td>
 									<span t-field="l.name" />
@@ -118,7 +145,6 @@
 								<td class="text-right">
 									<span t-field="l.price_unit" />
 								</td>
-
 								<td class="text-right">
 									<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
 								</td>
@@ -138,7 +164,7 @@
 						<td colspan="4"></td>
 					</tr>
 					<tr style="background-color:#DA9694">
-						<t t-set='total1' t-value='total_kit+total_opt' />
+
 						<th>
 							<strong>Total Kit + Optional</strong>
 						</th>
@@ -154,7 +180,6 @@
 							</t>
 						</td>
 						<th class="text-right">
-
 							<span t-esc='round(total1,2)' />
 							<span t-field="o.pricelist_id.currency_id.symbol" />
 						</th>
@@ -164,11 +189,14 @@
 					<tr>
 						<td colspan="4"></td>
 					</tr>
+					<tr style="background-color:#B8CCE4">
+						<td colspan="4">
+							<strong>Service</strong>
+						</td>
+					</tr>
 
-					<t t-set='total_service' t-value='0' />
 					<t t-foreach="o.order_line" t-as="l">
 						<t t-if='l.item_categ=="service"'>
-							<t t-set='total_service' t-value='total_service + l.price_subtotal' />
 							<tr>
 								<td>
 									<span t-field="l.name" />
@@ -187,9 +215,9 @@
 						</t>
 					</t>
 					<tr style="background-color:#B8CCE4">
-						<t t-set='total2' t-value='total1+total_service' />
+
 						<th>
-							<trong>Total</trong>
+							<trong>Total Kit + Optional + Service</trong>
 						</th>
 						<td class="text-right">
 							<span t-field="o.qty_primary" />
@@ -208,11 +236,64 @@
 							<span t-field="o.pricelist_id.currency_id.symbol" />
 						</th>
 					</tr>
+					<tr>
+						<td colspan="4"></td>
+					</tr>
+					
+					<tr >
+						<td colspan="4">
+							<strong>Optional Service</strong>
+						</td>
+					</tr>
+
+					<t t-foreach="o.order_line" t-as="l">
+						<t t-if='l.item_categ=="opt_serv"'>
+							<tr>
+								<td>
+									<span t-field="l.name" />
+								</td>
+								<td class="text-right">
+
+								</td>
+								<td class="text-right">
+
+								</td>
+								<td class="text-right">
+									<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+								</td>
+							</tr>
+						</t>
+					</t>
+					<!-- tr>
+						
+						<th>
+							<trong>Grand Total</trong>
+						</th>
+						<td class="text-right">
+							<span t-field="o.qty_primary" />
+							<span groups="product.group_uom" t-field="o.primary_uom" />
+						</td>
+						<td class="text-right">
+							<t t-if='o.qty_primary'>
+								<t t-set='price' t-value='total3/qty_primary' />
+								<span t-esc='round(price,2)' />
+								<span t-field="o.pricelist_id.currency_id.symbol" />
+							</t>
+						</td>
+						<th class="text-right">
+							<span t-esc='round(total3,2)' />
+							<span t-field="o.pricelist_id.currency_id.symbol" />
+						</th>
+					</tr -->
 
 
 				</tbody>
 
 
+			</xpath>
+
+			<xpath expr="//table/following-sibling::*[1]" position="replace">
+			
 			</xpath>
 
 			<xpath expr="//p[@t-field='o.note']" position="before">
@@ -223,7 +304,8 @@
 				<p style="background-color:#D0D0D0">What is not included in the estimate will not be delivered!
 				</p>
 				<p style="background-color:#F8F8F8; color:#FF0000">Signing this document means accepting the offer commercial and technical responsibility by customer.
-					Any other request later after signing this
+					Any other request later after
+					signing this
 					estimate will be subject to recalculation and a tender attached to this estimate.
 				</p>
 				<br />

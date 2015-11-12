@@ -2,13 +2,13 @@
 <openerp>
 	<data>
 		<record id="view_take_bom_form" model="ir.ui.view">
-			<field name="name">Take BOM</field>
+			<field name="name">Take List</field>
 			<field name="model">sale.mrp.take.bom</field>
 			<field name="arch" type="xml">
 				<form>
 
 					<group>
-						<field name="bom_id" />
+						<field name="bom_id" domain="[('article_list','=',True)]" />
 					</group>
 
 					<footer>
@@ -24,7 +24,7 @@
 
 
 
-		<act_window id="action_take_bom" name="Take BOM"
+		<act_window id="action_take_bom" name="Take List"
 			res_model="sale.mrp.take.bom" src_model="sale.order"
 			view_mode="form"   target="new"   />
 
