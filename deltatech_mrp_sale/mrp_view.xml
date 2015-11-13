@@ -17,6 +17,12 @@
 				<xpath expr="//field[@name='bom_line_ids']//tree//field[@name='product_uom']" position="after">
 					<field name="item_categ" />
 				</xpath>
+				<xpath expr="//field[@name='bom_line_ids']//tree//field[@name='product_uom']" position="after">
+					<field name="item_categ" />
+				</xpath>
+				<field name="attribute_value_ids" position="replace">
+					<field name="attribute_value_ids" widget="many2many_tags"/>
+				</field>			
 			</field>
 		</record>
 		

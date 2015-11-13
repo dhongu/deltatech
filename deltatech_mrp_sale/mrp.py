@@ -43,6 +43,24 @@ class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
     article_list = fields.Boolean(string='Article List')
+ 
+  
+    #orveride 'attribute_value_ids': fields.many2many('product.attribute.value', string='Variants', help="BOM Product Variants needed form apply this line."),
+
+    product_template = fields.Many2one(comodel_name='product.template',  string='Product')    
+    attribute_value_ids = fields.Many2one( comodel_name='product.attribute.value', domain="[('id', 'in', possible_values[0][2])]")
+    possible_values = fields.Many2many( comodel_name='product.attribute.value',
+                                        compute='_get_possible_attribute_values', readonly=True)
+
+    @api.one
+    @api.depends( 'product_template')
+    def _get_possible_attribute_values(self):
+        attr_values = self.env['product.attribute.value']
+        template = self.product_template
+        for attr_line in template.attribute_line_ids:
+            attr_values |= attr_line.value_ids
+        self.possible_values = attr_values.sorted() 
+    
     
     @api.model
     def _bom_explode_variants_categ(
@@ -169,7 +187,21 @@ class mrp_bom(models.Model):
 class mrp_bom_line(models.Model):
     _inherit = 'mrp.bom.line'   
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
-    
+
+    def _get_child_bom_lines(self, cr, uid, ids, field_name, arg, context=None):
+        """If the BOM line refers to a BOM, return the ids of the child BOM lines"""
+        bom_obj = self.pool['mrp.bom']
+        res = {}
+        for bom_line in self.browse(cr, uid, ids, context=context):
+            bom_id = bom_obj._bom_find(cr, uid,
+                product_tmpl_id=bom_line.product_template.id,
+                product_id=bom_line.product_id.id, context=context)
+            if bom_id:
+                child_bom = bom_obj.browse(cr, uid, bom_id, context=context)
+                res[bom_line.id] = [x.id for x in child_bom.bom_line_ids]
+            else:
+                res[bom_line.id] = False
+        return res   
     
     _sql_constraints = [
         ('bom_qty_zero', 'CHECK (product_qty<>0)', 'All product quantities must be greater than 0.\n' \
