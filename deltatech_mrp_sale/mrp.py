@@ -99,10 +99,10 @@ class mrp_bom(models.Model):
             if not product and self.env.context.get('production'):
                 production = self.env.context['production']
                 product_attributes = (
-                    bom_line.product_template._get_product_attributes_inherit_dict(
+                    line.product_template._get_product_attributes_inherit_dict(
                         production.product_attributes))
                 comp_product = self.env['product.product']._product_find(
-                    bom_line.product_template, product_attributes)
+                    line.product_template, product_attributes)
                 if not comp_product:
                     return True
         return False
