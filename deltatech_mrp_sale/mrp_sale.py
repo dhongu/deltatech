@@ -257,7 +257,6 @@ class sale_mrp_article(models.Model):
     @api.onchange('bom_id')
     def onchange_bom(self):
         if self.bom_id:
-            
             self.product_template = self.bom_id.product_tmpl_id
             self.item_categ = 'normal'
             if self.bom_id.product_id:
@@ -288,7 +287,9 @@ class sale_mrp_article(models.Model):
                     attribute.value = attribute.attribute.default_value
 
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
-        self.bom_id = self.env['mrp.bom'].browse(bom_id)
+        bom = self.env['mrp.bom'].browse(bom_id)
+        if bom.type == 'phantom':
+            self.bom_id = bom
  
          
 
@@ -322,11 +323,11 @@ class sale_mrp_article(models.Model):
                                
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id,
                                                product_id      = self.product_id.id,
-                                               #properties      = self.property_ids.ids 
                                                )
         if bom_id:
-            self.bom_id = self.env['mrp.bom'].browse(bom_id)
-            # determinare pret 
+            bom = self.env['mrp.bom'].browse(bom_id)
+            if bom.type == 'phantom':
+                self.bom_id = bom
  
         self.product_uom = self.product_id.uom_id
         attributes = (self.product_id._get_product_attributes_values_dict())

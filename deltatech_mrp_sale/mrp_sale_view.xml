@@ -42,7 +42,7 @@
 								<field name="sequence" widget="handle" />
 								 
 								<field name="product_template" />
-								<field name="product_id" />
+								<field name="product_id" domain="[('product_tmpl_id','=',product_template)]"/>
 								<field name="product_attributes_values"   widget="many2many_tags"/>
 								<field name="product_uom_qty" />
 								<field name="product_uom" groups="product.group_uom" />
@@ -57,11 +57,11 @@
 									<group>
 										<field name="product_template" />
 										<field name="product_attributes_count" invisible="1" />
-										<field name="product_id" />
+										<field name="product_id" domain="[('product_tmpl_id','=',product_template)]"/>
 										<field name="product_uom_qty" />
 										<field name="product_uom" groups="product.group_uom" class="oe_inline"/>
 										<field name="item_categ" />
-										<field name="bom_id" />
+										<field name="bom_id" domain="[('product_tmpl_id','=',product_template),('type','=','phantom')]"/>
 										<div colspan="4" attrs="{'invisible': [('product_attributes_count', '=', 0)]}">
 											<label for="product_attributes" />
 											<field name="product_attributes">
