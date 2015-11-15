@@ -56,6 +56,7 @@ class stock_picking_report(osv.osv):
 
 
         'product_qty': fields.float(  'Quantity',   digits_compute=dp.get_precision('Product UoM'), readonly=True ),
+        'price': fields.float(   'Price Unit',  digits_compute=dp.get_precision('Account'), readonly=True, group_operator="avg"),
         'amount': fields.float(   'Amount',  digits_compute=dp.get_precision('Account'), readonly=True ),
 
         'commercial_partner_id' : fields.many2one('res.partner', string='Commercial Entity')
@@ -71,6 +72,7 @@ class stock_picking_report(osv.osv):
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,
             sum(sq.qty) as product_qty, 
+            avg(sq.cost) as price,
             sum(sq.qty*sq.cost) as amount
         """
         return select_str
