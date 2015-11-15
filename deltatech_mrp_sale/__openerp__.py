@@ -38,13 +38,13 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"base","mrp","sale",'mrp_product_variants','sale_product_variants'],
+    "depends" : ['deltatech',"base","mrp","sale",'mrp_product_variants','sale_product_variants','deltatech_mrp_bom_cost'],
 
 
     "data" : [  'wizard/take_bom_view.xml',
                 'mrp_sale_view.xml',
                 'mrp_view.xml' ,
-                
+                'product_view.xml',
                 'views/report_saleorder.xml',
                 'security/ir.model.access.csv',
              ],

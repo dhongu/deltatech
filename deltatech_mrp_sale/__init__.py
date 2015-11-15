@@ -23,6 +23,7 @@
 import mrp
 import mrp_sale
 import wizard
+import product
 
 
 

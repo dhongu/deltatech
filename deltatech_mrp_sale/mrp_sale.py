@@ -43,7 +43,7 @@ class sale_order(models.Model):
     _inherit = 'sale.order'
 
 
-    specification = fields.Boolean(string='Specification', default=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
+    specification = fields.Boolean(string='Specification', default=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     #articole de deviz
     article_ids = fields.One2many('sale.mrp.article','order_id', string="Articles", copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )
     
@@ -208,8 +208,10 @@ class sale_mrp_article(models.Model):
     product_attributes = fields.One2many( comodel_name='sale.mrp.article.attribute', inverse_name='article_id',
                                           string='Product attributes', copy=True )
     product_attributes_count = fields.Integer( compute="_get_product_attributes_count")
+    product_attributes_values = fields.Many2many( comodel_name='product.attribute.value',
+                                        compute='_get_attribute_values', readonly=True)
     
-    product_id  = fields.Many2one('product.product', string='Product')
+    product_id  = fields.Many2one('product.product', string='Product Variant')
     name = fields.Char(string='Name')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
@@ -227,6 +229,14 @@ class sale_mrp_article(models.Model):
   
     #property_ids = fields.Many2many('mrp.property', 'sale_order_article_property_rel', 'article_id', 'property_id', 'Properties')
 
+
+    @api.one
+    @api.depends('product_attributes')
+    def _get_attribute_values(self):
+        attr_values = self.env['product.attribute.value']
+        for attr_line in self.product_attributes:
+            attr_values |= attr_line.value
+        self.product_attributes_values = attr_values.sorted()
  
     @api.one
     @api.depends('product_attributes')
@@ -247,7 +257,7 @@ class sale_mrp_article(models.Model):
     @api.onchange('bom_id')
     def onchange_bom(self):
         if self.bom_id:
-            _logger.info('BOMul a fost modificat')
+            
             self.product_template = self.bom_id.product_tmpl_id
             self.item_categ = 'normal'
             if self.bom_id.product_id:
@@ -272,6 +282,10 @@ class sale_mrp_article(models.Model):
         attributes =  (self.product_template._get_product_attributes_dict())
         
         self.product_attributes = attributes
+        for attribute in self.product_attributes:
+            if not attribute.value:
+                if attribute.attribute.default_value:
+                    attribute.value = attribute.attribute.default_value
 
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         self.bom_id = self.env['mrp.bom'].browse(bom_id)
@@ -337,14 +351,18 @@ class sale_mrp_article(models.Model):
         items = []
         if self.bom_id:
             factor = self.env['product.uom']._compute_qty(self.product_uom.id, self.product_uom_qty, self.bom_id.product_uom.id)
-            _logger.info('Factor %s', str(factor))
+            
         
             factor =  factor / self.bom_id.product_qty
-            items  = self.bom_id._bom_explode_variants_categ( bom=self.bom_id,
+             
+            items, work = self.bom_id.with_context(production=self)._bom_explode(product=self.product_id, factor = factor)
+            """         
+            items  = self.bom_id._bom_explode_variants_categ( 
                                                           product=self.product_id, 
                                                           factor = factor, 
-                                                          production_attr_values = self.product_attributes,
+                                                          product_attributes = self.product_attributes,
                                                           )
+            """
             #print routing, items 
         else:
             if self.product_id:
@@ -355,7 +373,7 @@ class sale_mrp_article(models.Model):
                             'item_categ':self.item_categ
                            }] 
          
-        _logger.info('Au fost gasite %s pozitii', len(items))
+        
         resources = []
         for item in items:
             product = self.env['product.product'].browse(item['product_id'])
@@ -393,6 +411,9 @@ class sale_mrp_article(models.Model):
         resource_ids =  self._convert_to_cache({'resource_ids': resources }, validate=False)
          
         self.update(resource_ids) 
+        for resource in self.resource_ids:
+            resource.onchange_product_id()
+            
         #self.resource_ids = (resources)
         return resource_ids
         #article.order_id.resource_ids.invalidate_cache()            
@@ -427,13 +448,24 @@ class sale_mrp_resource(models.Model):
             resource.amount = resource.product_uom_qty * resource.price_unit
 
 
+
+
+
     @api.onchange('product_id','product_uom_qty')
     def onchange_product_id(self):
         if self.product_id and self.article_id.order_id and self.article_id.order_id.pricelist_id:
+           
             self.product_uom = self.product_id.uom_id
             order_id = self.article_id.order_id
-            price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]
-            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )
+            
+            bom_id = self.env['mrp.bom']._bom_find( product_id   = self.product_id.id )
+            if bom_id:
+                bom = self.env['mrp.bom'].browse(bom_id)
+                price = bom.with_context(production=self.article_id).get_price(order_id.partner_id,order_id.pricelist_id)
+            else:
+                price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]
+                
+            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
             self.price_unit = price
             self.name = self.product_id.name
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]

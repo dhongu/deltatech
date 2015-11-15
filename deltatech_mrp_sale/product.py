@@ -17,35 +17,33 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech MRP BOM Cost",
-    "version" : "2.0",
-    "author" : "Deltatech",
-    "website" : "",
-    "description": """
-    
-Functionalitati:
- - Calculeaza pretul pentru fiecare lista de materiale
- - La fiecare bom exista posibilitatea de a defini costuri indirecte
- 
-
-    """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"base","mrp_hook"],
 
 
-    "data" : [      
-                "mrp_view.xml"
-                
-                ],
-    "active": False,
-    "installable": True,
-}
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+import logging
+from openerp.osv.fields import related
+
+from openerp.addons.product import _common
+
+_logger = logging.getLogger(__name__)
+
+
+
+
+class product_attribute(models.Model):
+    _inherit = 'product.attribute'
+
+    default_value = fields.Many2one('product.attribute.value',  string='Default Value', copy=True)
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

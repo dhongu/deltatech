@@ -23,7 +23,7 @@
 {
     "name" : "Deltatech MRP Cost",
     "version" : "2.0",
-    "author" : "Deltatech",
+    "author" : "Dorin Hongu",
     "website" : "",
     "description": """
     

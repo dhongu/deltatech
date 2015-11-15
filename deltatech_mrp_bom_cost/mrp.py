@@ -26,6 +26,7 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
+
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
 
@@ -62,9 +63,6 @@ class mrp_production(models.Model):
 
 
 
-    # asta trbuie sa fie facuta prin configurare
-    def _get_raw_material_procure_method(self, cr, uid, product, location_id=False, location_dest_id=False, context=None):
-        return "make_to_stock"
 
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         production = self.browse(cr, uid, production_id, context=context)
@@ -109,6 +107,43 @@ class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
 
+    @api.model
+    def get_price(self, partner, pricelist):  
+        amount = 0
+        #print "Determinare pret pentru ", self.name, partner, pricelist
+        
+        uom_obj = self.env['product.uom']
+ 
+             
+        results, results2 = self._bom_explode(  self.product_id, 1 )
+
+
+        for line in results:
+            if line['product_id']:
+                line_product = self.env['product.product'].browse(line['product_id'])
+                product_qty = self.env['product.uom']._compute_qty( from_uom_id = line['product_uom'],  
+                                                                    qty = line['product_qty'],
+                                                                    to_uom_id = line_product.uom_id.id, 
+                                                                    round = False)
+                
+                item_bom_id = self.env['mrp.bom']._bom_find(product_id  = line['product_id'] )
+                if item_bom_id:
+                    item_bom = self.env['mrp.bom'].browse(item_bom_id)
+                    price = item_bom.get_price(partner,pricelist)
+                else:
+                    price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
+                amount +=  price * product_qty 
+            else:
+                price = 0
+             
+            
+             
+        price = amount / self.product_qty + amount/self.product_qty*self.value_overhead
+        #print price
+        return price
+             
+
+
     @api.multi
     @api.depends('value_overhead','bom_line_ids')
     def _calculate_price(self):
@@ -129,15 +164,14 @@ class mrp_bom(models.Model):
     def _calculate_standard_price(self):
         for bom in self:
             if bom.product_id:
-                bom.standard_price = bom.product_id.standard_price
-                
+                bom.standard_price = bom.product_id.standard_price 
             else:
                 bom.standard_price = bom.product_tmpl_id.standard_price
                 
 
     #name = fields.Char( store=True, compute='_compute_name')   
-    value_overhead = fields.Float(string='Value Overhead', help="For Value Overhead percent enter % ratio between 0-1.", default='0.2')
-    calculate_price = fields.Float(compute='_calculate_price',  digits = dp.get_precision('Account'), store=True, string='Calculate Price')
+    value_overhead = fields.Float(string='Value Overhead', help="For Value Overhead percent enter % ratio between 0-1.", default='0.0')
+    calculate_price = fields.Float(compute='_calculate_price',  digits = dp.get_precision('Account'), store=False, string='Calculate Price')
     standard_price = fields.Float(compute='_calculate_standard_price',  digits = dp.get_precision('Product Price'),store=False, string="Cost Price")  
      
 
@@ -159,13 +193,17 @@ class mrp_bom(models.Model):
             raise ValidationError("Percentages for Value Overhead must be between 0 and 1, Example: 0.02 for 2%")
  
 
-
+    """
+    pentru ce am facut metoda asta ????
     def _bom_explode(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
         result, result2 = super(mrp_bom,self)._bom_explode(cr, uid, bom, product, factor, properties, level, routing_id, previous_products, master_bom, context)
         uom_obj = self.pool.get("product.uom")
         for res in result:
             res['product_qty'] = uom_obj._compute_qty(cr, uid, res['product_uom'], res['product_qty'], res['product_uom'] )
         return result, result2
+    """
+
+
 
 
 
@@ -184,18 +222,22 @@ class mrp_bom_line(models.Model):
                 price = child_bom.calculate_price
             else:
                 price = bom_line.product_id.standard_price   
-            #if bom_line.product_uom.id <>  bom_line.product_id.uom_id.id:
-            #    price = self.env['product.uom']._compute_price(bom_line.product_id.uom_id.id, price, bom_line.product_uom.id )
             bom_line.calculate_price = price
 
  
  
  
     calculate_price = fields.Float(compute='_calculate_price',  digits = dp.get_precision('Account'), store=False, string='Calculate Price')
-    standard_price = fields.Float(related='product_id.standard_price',  digits = dp.get_precision('Product Price'),store=False, string="Cost Price")  
+    standard_price = fields.Float(compute='_calculate_standard_price',  digits = dp.get_precision('Product Price'),store=False, string="Cost Price")  
 
          
-       
+
+    @api.multi
+    def _calculate_standard_price(self): 
+        for bom_line in self:
+            bom_line.standard_price = bom_line.product_id.standard_price  
+ 
+                   
         
         
         

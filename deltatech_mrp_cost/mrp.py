@@ -29,8 +29,8 @@ import openerp.addons.decimal_precision as dp
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
 
-    amount = fields.Float(digits_compute= dp.get_precision('Account'), string='Production Amount', compute='_calculate_amount')
-    calculate_price = fields.Float(digits_compute= dp.get_precision('Account'), string='Calculate Price', compute='_calculate_amount')
+    amount = fields.Float(digits = dp.get_precision('Account'), string='Production Amount', compute='_calculate_amount')
+    calculate_price = fields.Float(digits = dp.get_precision('Account'), string='Calculate Price', compute='_calculate_amount')
  
 
     @api.one

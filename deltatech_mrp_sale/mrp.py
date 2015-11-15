@@ -24,13 +24,15 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
+from openerp.addons.product import _common
 import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
-from openerp.osv.fields import related
-
-from openerp.addons.product import _common
+import time
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
+from operator import attrgetter
+from itertools import groupby
 
 _logger = logging.getLogger(__name__)
 
@@ -43,34 +45,80 @@ class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
     article_list = fields.Boolean(string='Article List')
- 
-  
-    #orveride 'attribute_value_ids': fields.many2many('product.attribute.value', string='Variants', help="BOM Product Variants needed form apply this line."),
 
-    product_template = fields.Many2one(comodel_name='product.template',  string='Product')    
-    attribute_value_ids = fields.Many2one( comodel_name='product.attribute.value', domain="[('id', 'in', possible_values[0][2])]")
-    possible_values = fields.Many2many( comodel_name='product.attribute.value',
-                                        compute='_get_possible_attribute_values', readonly=True)
-
-    @api.one
-    @api.depends( 'product_template')
-    def _get_possible_attribute_values(self):
-        attr_values = self.env['product.attribute.value']
-        template = self.product_template
-        for attr_line in template.attribute_line_ids:
-            attr_values |= attr_line.value_ids
-        self.possible_values = attr_values.sorted() 
-    
-    
     @api.model
+    def _factor(self, factor, product_efficiency, product_rounding):
+        factor = factor / (product_efficiency or 1.0)
+        factor = _common.ceiling(factor, product_rounding)
+        return factor
+
+
+    @api.model
+    def _prepare_consume_line(self, bom_line, quantity, factor=1):
+        res = super(mrp_bom, self)._prepare_consume_line(bom_line, quantity, factor)
+        res['item_categ'] = bom_line.item_categ
+        return res
+
+
+    def _check_attribute_in_list(self, check_attribs, component_attribs):
+        """ Check if component is suitable for given attributes
+        @param check_attribs: Attribute id list
+        @param component_attribs: Component defined attributes to check
+        @return: Component validity
+        """
+        getattr = attrgetter('attribute_id')
+        for key, group in groupby(component_attribs, getattr):
+            if set(check_attribs).intersection([x.id for x in group]):
+                return True
+        return False    
+
+
+    # metoda a fost redefinita pentru a selecta o linie daca exista cel putin un atribut
+    def _skip_bom_line(self, line, product):
+        today = fields.Date.context_today(self)
+        if (line.date_start and
+                line.date_start > today or
+                line.date_stop and (line.date_stop < today)):
+            return True
+        # all bom_line_id variant values must be in the product
+        if line.attribute_value_ids:
+            production_attr_values = []
+            if not product and self.env.context.get('production'):
+                production = self.env.context['production']
+                for attr_value in production.product_attributes:
+                    production_attr_values.append(attr_value.value.id)
+                if not self._check_attribute_in_list(
+                        production_attr_values,
+                        line.attribute_value_ids):
+                    return True
+            elif not product or not self._check_product_suitable(
+                    product.attribute_value_ids.ids,
+                    line.attribute_value_ids):
+                return True
+        if not line.product_id:
+            if not product and self.env.context.get('production'):
+                production = self.env.context['production']
+                product_attributes = (
+                    bom_line.product_template._get_product_attributes_inherit_dict(
+                        production.product_attributes))
+                comp_product = self.env['product.product']._product_find(
+                    bom_line.product_template, product_attributes)
+                if not comp_product:
+                    return True
+        return False
+
+
+    """
+    @api.multi      
     def _bom_explode_variants_categ(
-            self, bom, product, factor, properties=None, level=0,
-            routing_id=False, previous_products=None, master_bom=None, production_attr_values=None):
+            self,  product, factor, properties=None, level=0,
+            routing_id=False, previous_products=None, master_bom=None, product_attributes=None):
 
-
+        self.ensure_one()
+        bom = self
         routing_id = bom.routing_id.id or routing_id
         uom_obj = self.env["product.uom"]
-        routing_obj = self.env['mrp.routing']
+         
         master_bom = master_bom or bom
 
         def _factor(factor, product_efficiency, product_rounding):
@@ -83,25 +131,30 @@ class mrp_bom(models.Model):
         factor = _factor(factor, bom.product_efficiency, bom.product_rounding)
 
         result = []
-
+        production_attr_values = []
+        for attr_value in product_attributes:
+            if attr_value.value:
+                production_attr_values.append(attr_value.value.id)  
 
         for bom_line_id in bom.bom_line_ids:
-            if bom_line_id.date_start and \
-                    (bom_line_id.date_start > fields.Date.context_today(self))\
-                    or bom_line_id.date_stop and \
-                    (bom_line_id.date_stop < fields.Date.context_today(self)):
+                        
+            if bom_line_id.date_start and  (bom_line_id.date_start > fields.Date.context_today(self)) or \
+               bom_line_id.date_stop  and  (bom_line_id.date_stop < fields.Date.context_today(self)):
                 continue
             # all bom_line_id variant values must be in the product
             if bom_line_id.attribute_value_ids:
-                if not product and production_attr_values:
-                    if not self._check_product_suitable(
-                            production_attr_values,
-                            bom_line_id.attribute_value_ids):
+                if not product and product_attributes:
+
+                    
+                    if not self._check_attribute_in_list(    production_attr_values,
+                                                            bom_line_id.attribute_value_ids):
+
                         continue
-                elif not product or not self._check_product_suitable(
-                        product.attribute_value_ids.ids,
-                        bom_line_id.attribute_value_ids):
+                elif not product or not self._check_product_suitable(   product.attribute_value_ids.ids,
+                                                                        bom_line_id.attribute_value_ids):
+
                     continue
+  
             if previous_products and (bom_line_id.product_id.product_tmpl_id.id
                                       in previous_products):
                 raise exceptions.Warning(
@@ -116,9 +169,8 @@ class mrp_bom(models.Model):
 
             if not bom_line_id.product_id:
                 if not bom_line_id.type != "phantom":
-                    bom_id = self._bom_find(
-                        product_tmpl_id=bom_line_id.product_template.id,
-                        properties=properties)
+                    bom_id = self._bom_find( product_tmpl_id=bom_line_id.product_template.id,
+                                             properties=properties)
                 else:
                     bom_id = False
             else:
@@ -128,13 +180,14 @@ class mrp_bom(models.Model):
             if (bom_line_id.type != "phantom" and
                     (not bom_id or self.browse(bom_id).type != "phantom")):
 
-               
-                if production_attr_values:
-                    product_attributes = ( bom_line_id.product_template._get_product_attributes_inherit_dict(production_attr_values))
-                    comp_product = self.env['product.product']._product_find(  bom_line_id.product_template, product_attributes)
+                
+                
+                if not bom_line_id.product_id  and product_attributes:
+                    item_product_attributes = ( bom_line_id.product_template._get_product_attributes_inherit_dict(product_attributes))
+                    comp_product = self.env['product.product']._product_find(  bom_line_id.product_template, item_product_attributes)
                 else:
                     comp_product = bom_line_id.product_id
-                    product_attributes = (  bom_line_id.product_id. _get_product_attributes_values_dict())
+                    item_product_attributes = (  bom_line_id.product_id. _get_product_attributes_values_dict())
                     
                 result.append({
                     'name': (bom_line_id.product_id.name or
@@ -153,7 +206,7 @@ class mrp_bom(models.Model):
                     'product_uos': (bom_line_id.product_uos and
                                     bom_line_id.product_uos.id or False),
                     'product_attributes': map(lambda x: (0, 0, x),
-                                              product_attributes),
+                                              item_product_attributes),
                     #'level':level,
                     'item_categ':bom_line_id.item_categ,
                     #'row': bom_id is False
@@ -166,10 +219,9 @@ class mrp_bom(models.Model):
                 factor2 = uom_obj._compute_qty(
                     bom_line_id.product_uom.id, quantity, bom2.product_uom.id)
                 quantity2 = factor2 / bom2.product_qty
-                res = self._bom_explode_variants_categ(
-                    bom2, bom_line_id.product_id, quantity2,
+                res = bom2._bom_explode_variants_categ(  bom_line_id.product_id, quantity2,
                     properties=properties, level=level + 1,
-                    previous_products=all_prod, master_bom=master_bom, production_attr_values = production_attr_values)
+                    previous_products=all_prod, master_bom=master_bom, product_attributes = product_attributes)
                 result = result + res
             else:
                 if not bom_line_id.product_id:
@@ -182,11 +234,98 @@ class mrp_bom(models.Model):
                     (master_bom.name, name))
 
         return result
+    """
+
+    def _bom_find(self, cr, uid, product_tmpl_id=None, product_id=None, properties=None, context=None):
+        """ Finds BoM for particular product and product uom.
+        @param product_tmpl_id: Selected product.
+        @param product_uom: Unit of measure of a product.
+        @param properties: List of related properties.
+        @return: False or BoM id.
+        """
+        if not context:
+            context = {}
+        if properties is None:
+            properties = []
+        if product_id:
+            if not product_tmpl_id:
+                product_tmpl_id = self.pool['product.product'].browse(cr, uid, product_id, context=context).product_tmpl_id.id
+            domain = [
+                '|',
+                    ('product_id', '=', product_id),
+                    '&',
+                        ('product_id', '=', False),
+                        ('product_tmpl_id', '=', product_tmpl_id)
+            ]
+        elif product_tmpl_id:
+            #domain = [('product_id', '=', False), ('product_tmpl_id', '=', product_tmpl_id)]
+            domain = [ ('product_tmpl_id', '=', product_tmpl_id)]
+        else:
+            # neither product nor template, makes no sense to search
+            return False
+        if context.get('company_id'):
+            domain = domain + [('company_id', '=', context['company_id'])]
+        domain = domain + [ '|', ('date_start', '=', False), ('date_start', '<=', time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
+                            '|', ('date_stop', '=', False), ('date_stop', '>=', time.strftime(DEFAULT_SERVER_DATE_FORMAT))]
+        # order to prioritize bom with product_id over the one without
+        ids = self.search(cr, uid, domain, order='sequence, product_id', context=context)
+        # Search a BoM which has all properties specified, or if you can not find one, you could
+        # pass a BoM without any properties with the smallest sequence
+        bom_empty_prop = False
+        for bom in self.pool.get('mrp.bom').browse(cr, uid, ids, context=context):
+            if not set(map(int, bom.property_ids or [])) - set(properties or []):
+                if not properties or bom.property_ids:
+                    return bom.id
+                elif not bom_empty_prop:
+                    bom_empty_prop = bom.id
+        return bom_empty_prop
+
+
 
 
 class mrp_bom_line(models.Model):
     _inherit = 'mrp.bom.line'   
+    
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
+
+    child_bom_id = fields.Many2one('mrp.bom',string="Child BOM", compute="_compute_child_bom")
+
+
+    @api.multi
+    def _compute_child_bom(self):
+        for bom_line in self:
+           bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_template.id,
+                                                   product_id=bom_line.product_id.id, 
+                                                   properties=bom_line.property_ids )
+           bom_line.child_bom_id = self.env['mrp.bom'].browse( bom_id )
+             
+
+
+    @api.multi
+    def _calculate_standard_price(self): 
+        for bom_line in self:
+            if bom_line.product_id:
+                bom_line.standard_price = bom_line.product_id.standard_price  
+            else:
+                bom_line.standard_price = bom_line.product_template.standard_price 
+            
+
+
+    @api.multi
+    def _calculate_price(self):
+        for bom_line in self:            
+            if bom_line.child_bom_id:
+                price = bom_line.child_bom_id.calculate_price
+            else:
+                if bom_line.product_id:
+                    price = bom_line.product_id.standard_price
+                else:
+                   price = bom_line.product_template.standard_price  
+            
+            bom_line.calculate_price = price
+
+    
+        
 
     def _get_child_bom_lines(self, cr, uid, ids, field_name, arg, context=None):
         """If the BOM line refers to a BOM, return the ids of the child BOM lines"""
@@ -204,10 +343,33 @@ class mrp_bom_line(models.Model):
         return res   
     
     _sql_constraints = [
-        ('bom_qty_zero', 'CHECK (product_qty<>0)', 'All product quantities must be greater than 0.\n' \
-            'You should install the mrp_byproduct module if you want to manage extra products on BoMs !'),
+        ('bom_qty_zero', 'CHECK (1=1)', 'Error'),
     ]    
-    
-    
+
+    @api.multi
+    def open_bom(self):
+        self.ensure_one()
+        if self.child_bom_id:
+            print "Deschid sublista de materiale"
+            return {
+                'res_id': self.child_bom_id.id,
+                'domain': "[('id','=', "+str(self.child_bom_id.id)+")]",
+                'name': _('BOM'),
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'mrp.bom',
+                'view_id': False,
+                'target': 'current',
+                'nodestroy': True,   
+               'type': 'ir.actions.act_window'             
+            }
+  
+    @api.multi
+    def check_line(self):
+        for line in self:
+            if not line.product_id:
+                if line.product_template.product_variant_count == 1:
+                    for product in line.product_template.product_variant_ids:
+                        line.write({'product_id':product.id})
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
