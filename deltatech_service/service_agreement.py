@@ -110,7 +110,10 @@ class service_agreement(models.Model):
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
     
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
-    
+
+
+    #TODO: de legat acest contract la un cont analitic ...
+
     @api.one
     def _compute_last_invoice_id(self):
         self.last_invoice_id = self.env['account.invoice'].search([('agreement_id','=',self.id),('state','in',['open','paid'])],

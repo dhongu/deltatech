@@ -29,6 +29,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
 from openerp.osv.fields import related
+ 
 _logger = logging.getLogger(__name__)
 
 
@@ -126,11 +127,17 @@ class sale_order(models.Model):
                 line.unlink()
 
     @api.multi
-    def write(self,vals):
-        res =  super(sale_order,self).write(vals)
+    def button_dummy(self):
+        res =  super(sale_order,self).button_dummy(vals)
         for order in self:
             if order.specification:
                 order.button_update()
+        return res
+    
+    @api.multi
+    def write(self,vals):
+        res =  super(sale_order,self).write(vals)
+        self.button_dummy()
         return res
 
 """
