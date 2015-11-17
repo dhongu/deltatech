@@ -35,15 +35,22 @@ from openerp.addons.product import _common
 _logger = logging.getLogger(__name__)
 
 
+ 
 
 
 class product_attribute(models.Model):
     _inherit = 'product.attribute'
 
+    _order = 'sequence'
+    
     default_value = fields.Many2one('product.attribute.value',  string='Default Value', copy=True)
+    sequence = fields.Integer(string='Sequence', help="Determine the display order")
 
 
-
-
+class product_attribute_line(models.Model):
+    _inherit = "product.attribute.line"
+    _order = 'sequence'
+    sequence = fields.Integer(string='Sequence', related="attribute_id.sequence", store=True)
+    
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

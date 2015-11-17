@@ -175,6 +175,9 @@ class sale_order_line(models.Model):
 class sale_mrp_article_attribute(models.Model):
     _name = 'sale.mrp.article.attribute'
 
+    _order = 'sequence'
+    sequence = fields.Integer(string='Sequence', related="attribute.sequence", store=True)
+    
     article_id  = fields.Many2one('sale.mrp.article', string='Article', copy=False, ondelete='cascade')
     attribute = fields.Many2one( comodel_name='product.attribute', string='Attribute')
    
