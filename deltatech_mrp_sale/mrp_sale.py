@@ -128,7 +128,7 @@ class sale_order(models.Model):
 
     @api.multi
     def button_dummy(self):
-        res =  super(sale_order,self).button_dummy(vals)
+        res =  super(sale_order,self).button_dummy()
         for order in self:
             if order.specification:
                 order.button_update()
