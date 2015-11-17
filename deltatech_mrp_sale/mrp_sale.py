@@ -62,8 +62,8 @@ class sale_order(models.Model):
     resource_ids = fields.One2many('sale.mrp.resource','order_id',  string="Resources", copy=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )  
 
 
-    #attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
-    #                                      string='Order attributes', copy=True )
+    attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
+                                          string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} ) 
 
     @api.multi
     @api.depends('article_ids')
@@ -140,25 +140,33 @@ class sale_order(models.Model):
         self.button_dummy()
         return res
 
-"""
+
 class sale_mrp_order_attribute(models.Model):
     _name = 'sale.mrp.order.attribute'
 
-    order_id  = fields.Many2one('sale.oder', string='Sale Order', copy=False, ondelete='cascade')
+    _order = 'sequence'
+    sequence = fields.Integer(string='Sequence', related="attribute.sequence", store=True)
+
+
+    order_id  = fields.Many2one('sale.order', string='Sale Order', copy=False, ondelete='cascade')
     attribute = fields.Many2one( comodel_name='product.attribute', string='Attribute')
    
     value = fields.Many2one( comodel_name='product.attribute.value', string='Value',
-                             domain="[('id', 'in', possible_values[0][2])]")
-    possible_values = fields.Many2many( comodel_name='product.attribute.value',
-                                        compute='_get_possible_attribute_values', readonly=True)
-
-    @api.one
-    @api.depends('attribute')
-    def _get_possible_attribute_values(self):
-        attr_values = self.env['product.attribute.value']
-        attr_values = self.attribute.value_ids.ids
-        self.possible_values = attr_values.sorted()
-"""
+                             domain="[('attribute_id', '=', attribute)]")
+    
+ 
+    @api.onchange('attribute')
+    def onchange_attribute(self):
+        self.value = self.attribute.default_value
+    
+    @api.multi
+    def change_all(self):
+        for order_attribute in self:
+            if order_attribute.order_id:
+                for article in order_attribute.order_id.article_ids:
+                    for attr in article.product_attributes:
+                        if attr.attribute == self.attribute:
+                            attr.value = self.value
 
 
 # mai adaug categoria de cost  unde o sa intre manopera de montare lambriu / gips 
@@ -295,6 +303,9 @@ class sale_mrp_article(models.Model):
             if not attribute.value:
                 if attribute.attribute.default_value:
                     attribute.value = attribute.attribute.default_value
+                for order_attr in self.order_id.attributes:
+                    if attribute.attribute == order_attr.attribute:
+                        attribute.value = order_attr.value
 
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         bom = self.env['mrp.bom'].browse(bom_id)

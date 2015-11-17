@@ -36,6 +36,17 @@
 
 
 				<page string="Order Lines" position="before">
+					<page name="attr" string="Attributes" attrs="{'invisible': [('specification', '=', False)]}">
+						<field name="attributes">
+							<tree editable="bootom">
+								<field name="attribute" />
+								
+								<field name="value" />		
+								<button name="change_all" icon="gtk-convert" string="Change" type="object" />					
+							</tree>
+						</field>
+					</page>
+				
 					<page name="art" string="Articles" attrs="{'invisible': [('specification', '=', False)]}">
 						<field name="article_ids">
 							<tree>
