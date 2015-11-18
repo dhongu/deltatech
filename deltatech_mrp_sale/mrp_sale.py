@@ -86,6 +86,39 @@ class sale_order(models.Model):
             if  order.qty_primary <> 0:
                 order.price_unit = amount / order.qty_primary
 
+    @api.one
+    @api.onchange('article_ids')
+    def onchange_article_ids(self):
+        
+        # transfer atribute de la produs in lista de atribute a comenzii
+        order_attribute_values = []
+             
+        for article in self.article_ids: 
+            for attribute in article.product_attributes:
+                if attribute.value:
+                    order_attribute = self.env['sale.mrp.order.attribute']  
+                    for order_attr in self.attributes:
+                        if attribute.attribute == order_attr.attribute:
+                            order_attribute = order_attr
+                    if not order_attribute:
+                        #temp = self.attributes
+                        self.attributes =    [{'attribute':attribute.attribute.id, 
+                                                        'value':attribute.value.id}]
+                        #print self.attributes
+                        #self.attributes += temp
+                        #print self.attributes
+                        
+                        
+        #for order_attribute_value in order_attribute_values:
+        #    attribute = self.env['sale.mrp.order.attribute'].new( order_attribute_value ) # generez o linie noua 
+        #    self.attributes += attribute
+        
+        #self.attributes = order_attribute_values
+        print "noua lista de atribute este:"
+        for attribute in self.attributes:
+            print attribute, attribute.value, attribute.order_id.name  
+         
+
     @api.multi
     def button_update(self):
         self.ensure_one()
