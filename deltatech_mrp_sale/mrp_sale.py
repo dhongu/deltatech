@@ -520,14 +520,15 @@ class sale_mrp_resource(models.Model):
            
             self.product_uom = self.product_id.uom_id
             order_id = self.article_id.order_id
-            
+            """
             bom_id = self.env['mrp.bom']._bom_find( product_id   = self.product_id.id )
             if bom_id:
                 bom = self.env['mrp.bom'].browse(bom_id)
                 price = bom.with_context(production=self.article_id).get_price(order_id.partner_id,order_id.pricelist_id)
             else:
                 price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]
-                
+            """
+            price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
             self.price_unit = price
             self.name = self.product_id.name

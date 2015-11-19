@@ -126,13 +126,18 @@ class mrp_bom(models.Model):
                                                                     to_uom_id = line_product.uom_id.id, 
                                                                     round = False)
                 
+                """
                 item_bom_id = self.env['mrp.bom']._bom_find(product_id  = line['product_id'] )
                 if item_bom_id:
                     item_bom = self.env['mrp.bom'].browse(item_bom_id)
                     price = item_bom.get_price(partner,pricelist)
                 else:
                     price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
+                """
+                
+                price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
                 amount +=  price * product_qty 
+                print " Pret pentru ",  line_product.name, ' este ' , price, " conform listei ", pricelist.name
             else:
                 price = 0
              
