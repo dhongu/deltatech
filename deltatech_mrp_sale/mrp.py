@@ -292,6 +292,7 @@ class mrp_bom_line(models.Model):
 
 
     @api.multi
+    @api.depends('product_template','product_id')
     def _compute_child_bom(self):
         for bom_line in self:
            bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_template.id,
@@ -302,6 +303,7 @@ class mrp_bom_line(models.Model):
 
 
     @api.multi
+    @api.depends('product_template','product_id')
     def _calculate_standard_price(self): 
         for bom_line in self:
             if bom_line.product_id:
@@ -312,6 +314,7 @@ class mrp_bom_line(models.Model):
 
 
     @api.multi
+    @api.depends('product_template','product_id','child_bom_id')
     def _calculate_price(self):
         for bom_line in self:            
             if bom_line.child_bom_id:

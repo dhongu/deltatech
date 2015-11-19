@@ -86,37 +86,7 @@ class sale_order(models.Model):
             if  order.qty_primary <> 0:
                 order.price_unit = amount / order.qty_primary
 
-    @api.one
-    @api.onchange('article_ids')
-    def onchange_article_ids(self):
-        
-        # transfer atribute de la produs in lista de atribute a comenzii
-        order_attribute_values = []
-             
-        for article in self.article_ids: 
-            for attribute in article.product_attributes:
-                if attribute.value:
-                    order_attribute = self.env['sale.mrp.order.attribute']  
-                    for order_attr in self.attributes:
-                        if attribute.attribute == order_attr.attribute:
-                            order_attribute = order_attr
-                    if not order_attribute:
-                        #temp = self.attributes
-                        self.attributes =    [{'attribute':attribute.attribute.id, 
-                                                        'value':attribute.value.id}]
-                        #print self.attributes
-                        #self.attributes += temp
-                        #print self.attributes
-                        
-                        
-        #for order_attribute_value in order_attribute_values:
-        #    attribute = self.env['sale.mrp.order.attribute'].new( order_attribute_value ) # generez o linie noua 
-        #    self.attributes += attribute
-        
-        #self.attributes = order_attribute_values
-        print "noua lista de atribute este:"
-        for attribute in self.attributes:
-            print attribute, attribute.value, attribute.order_id.name  
+
          
 
     @api.multi
@@ -263,7 +233,7 @@ class sale_mrp_article(models.Model):
                                         compute='_get_attribute_values', readonly=True)
     
     product_id  = fields.Many2one('product.product', string='Product Variant')
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name',related='product_template.name')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
     
@@ -288,6 +258,9 @@ class sale_mrp_article(models.Model):
         for attr_line in self.product_attributes:
             attr_values |= attr_line.value
         self.product_attributes_values = attr_values.sorted()
+        
+        
+        
  
     @api.one
     @api.depends('product_attributes')
@@ -315,13 +288,31 @@ class sale_mrp_article(models.Model):
         self.explode_bom()
          
 
-             
+    @api.multi
+    def _get_attributes(self):
+        self.ensure_one()
+        if self.product_id:
+            attributes =   self.product_id._get_product_attributes_values_dict() 
+        else:
+            attributes =   self.product_template._get_product_attributes_dict() 
+   
+        
+        for attr in attributes:
+            if not attr.get('value',False):
+                attribute = self.env['product.attribute'].browse(attr['attribute'])
+                if attribute.default_value:
+                    attr['value'] = attribute.default_value.id
+                for order_attr in self.order_id.attributes:
+                    if attribute.id == order_attr.attribute.id:
+                        attr['value'] = order_attr.value.id
+            
+        return attributes
 
     @api.one
     @api.onchange('product_template')
     def onchange_product_template(self):
         self.ensure_one()
-        self.name = self.product_template.name
+        #self.name = self.product_template.name
         if not self.product_template.attribute_line_ids:
             self.product_id = ( self.product_template.product_variant_ids and
                                 self.product_template.product_variant_ids[0])
@@ -329,6 +320,8 @@ class sale_mrp_article(models.Model):
             self.product_id = False
             self.product_uom = self.product_template.uom_id
         
+        self.product_attributes = self._get_attributes()
+        """
         attributes =  (self.product_template._get_product_attributes_dict())
         
         self.product_attributes = attributes
@@ -339,7 +332,8 @@ class sale_mrp_article(models.Model):
                 for order_attr in self.order_id.attributes:
                     if attribute.attribute == order_attr.attribute:
                         attribute.value = order_attr.value
-
+        """
+        
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         bom = self.env['mrp.bom'].browse(bom_id)
         if bom.type == 'phantom':
@@ -357,7 +351,24 @@ class sale_mrp_article(models.Model):
                                                     self.product_attributes)
         self.explode_bom()
         
-
+        """ asta nu merge!
+        order_attribute_values = []
+        article = self     
+        for attribute in article.product_attributes:
+            if attribute.value:
+                order_attribute = self.env['sale.mrp.order.attribute']  
+                for order_attr in self.order_id.attributes:
+                    if attribute.attribute == order_attr.attribute:
+                        order_attribute = order_attr
+                if not order_attribute:
+                    temp = self.order_id.attributes
+                    self.order_id.attributes =    [{'attribute':attribute.attribute.id, 
+                                                    'value':attribute.value.id}]
+                    print "Atribute vechi", self.order_id.attributes
+                    self.order_id.attributes += temp  
+                    
+                    print  "Atribute noi", self.order_id.attributes
+        """     
         
     @api.one
     @api.onchange('product_id' )
@@ -365,15 +376,13 @@ class sale_mrp_article(models.Model):
 
         if not self.product_id:
             return
-        
-        
-        self.name  = self.product_id.with_context(context=self.order_id.partner_id).name_get()[0][1]
+         
+        #self.name  = self.product_id.with_context(context=self.order_id.partner_id).name_get()[0][1]
         #if self.product_id.description_sale:
         #    self.name += '\n'+self.product_id.description_sale 
 
         if self.product_id.type  == 'service':
-            self.item_categ = 'service'
-            
+            self.item_categ = 'service'     
                                
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id,
                                                product_id      = self.product_id.id,
@@ -384,9 +393,9 @@ class sale_mrp_article(models.Model):
                 self.bom_id = bom
  
         self.product_uom = self.product_id.uom_id
-        attributes = (self.product_id._get_product_attributes_values_dict())
-       
-        self.product_attributes = attributes
+        
+        #attributes = (self.product_id._get_product_attributes_values_dict())
+        self.product_attributes = self._get_attributes()
 
  
 
@@ -405,9 +414,9 @@ class sale_mrp_article(models.Model):
         article = self
         items = []
         if self.bom_id:
+
             factor = self.env['product.uom']._compute_qty(self.product_uom.id, self.product_uom_qty, self.bom_id.product_uom.id)
-            
-        
+
             factor =  factor / self.bom_id.product_qty
              
             items, work = self.bom_id.with_context(production=self)._bom_explode(product=self.product_id, factor = factor)
@@ -501,7 +510,6 @@ class sale_mrp_resource(models.Model):
     def _compute_amount(self):
         for resource in self:
             resource.amount = resource.product_uom_qty * resource.price_unit
-
 
 
 

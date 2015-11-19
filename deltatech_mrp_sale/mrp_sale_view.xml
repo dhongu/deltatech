@@ -35,17 +35,9 @@
 				</field>
 
 
+				
 				<page string="Order Lines" position="before">
-					<page name="attr" string="Attributes" attrs="{'invisible': [('specification', '=', False)]}">
-						<field name="attributes">
-							<tree editable="bootom">
-								<field name="attribute" />
-								
-								<field name="value" />		
-								<button name="change_all" icon="gtk-convert" string="Change" type="object" />					
-							</tree>
-						</field>
-					</page>
+
 				
 					<page name="art" string="Articles" attrs="{'invisible': [('specification', '=', False)]}">
 						<field name="article_ids">
@@ -111,7 +103,7 @@
 						</group>
 						<field name="resource_ids" nolabel="1" widget="one2many_list" context="{ 'order_id':id}">
 							<tree>
-								
+								<field name="article_id" />
 								<field name="product_id" />
 								<field name="name" />
 								<field name="product_uom_qty" />
@@ -125,6 +117,18 @@
 					</page>
 				</page>
 
+				<page string="Other Information" position="after">
+					<page name="attr" string="Attributes" attrs="{'invisible': [('specification', '=', False)]}">
+						<field name="attributes">
+							<tree editable="bootom">
+								<field name="attribute" />
+								
+								<field name="value" />		
+								<button name="change_all" icon="gtk-convert" string="Change" type="object" />					
+							</tree>
+						</field>
+					</page>
+				</page>
 				<!-- <page string="Order Lines" position="attributes"> <attribute name="attrs">{'invisible': [('specification', '=', True)]}</attribute> </page> <xpath 
 					expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after"> <group colspan="4"> <button name="estimated_cost" string="Fetching 
 					Estimated Cost" type="object" class="oe_edit_only"/> </group> </xpath> -->

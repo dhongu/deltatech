@@ -34,6 +34,9 @@ Functionalitati:
  - se calculeaza pretul si marginea
  
  - se permite ca in lista de materiale sa existe cantitati negative (recuperari)
+ 
+ - se permite editarea manuala a atibutelor unui produs
+ - se pot defini valori implicite la atribute - preluate in comanda de vanzare
 
     """,
     

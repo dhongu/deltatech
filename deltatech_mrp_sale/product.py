@@ -36,7 +36,9 @@ _logger = logging.getLogger(__name__)
 
 
  
-
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+    attribute_value_ids = fields.Many2many(readonly=False)
 
 class product_attribute(models.Model):
     _inherit = 'product.attribute'

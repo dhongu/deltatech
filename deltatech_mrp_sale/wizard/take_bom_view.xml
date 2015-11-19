@@ -8,6 +8,7 @@
 				<form>
 
 					<group>
+						<field name="product_id" />
 						<field name="bom_id" domain="[('article_list','=',True)]" />
 					</group>
 

@@ -145,7 +145,7 @@ class mrp_bom(models.Model):
 
 
     @api.multi
-    @api.depends('value_overhead','bom_line_ids')
+    @api.depends('value_overhead','bom_line_ids','value_overhead')
     def _calculate_price(self):
         for bom in self:
             amount = 0
@@ -161,6 +161,7 @@ class mrp_bom(models.Model):
             bom.calculate_price = price
  
     @api.multi
+    @api.depends('product_id','product_tmpl_id')
     def _calculate_standard_price(self):
         for bom in self:
             if bom.product_id:
@@ -233,6 +234,7 @@ class mrp_bom_line(models.Model):
          
 
     @api.multi
+    @api.depends('product_id')
     def _calculate_standard_price(self): 
         for bom_line in self:
             bom_line.standard_price = bom_line.product_id.standard_price  
