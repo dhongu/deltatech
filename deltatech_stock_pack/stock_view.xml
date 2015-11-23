@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="view_quant_package_form" model="ir.ui.view">
+			<field name="name">stock.quant.package.form</field>
+			<field name="model">stock.quant.package</field>
+			<field name="inherit_id" ref="stock.view_quant_package_form" />
+			<field name="arch" type="xml">
+				<button name="unpack" position="replace"/>
+				<sheet position="before">			
+					<header>
+						<button name="%(action_pack_transfer)d" string="Transfer" type="action"   groups="base.group_user"/>
+						<button name="unpack" string="Unpack" type="object" confirm="You are going to unpack. Are you sure?"
+					</header>
+				</sheet>
+			</field>
+		</record>
+
+	</data>
+</openerp>
