@@ -27,7 +27,7 @@ from openerp import http
 from openerp.http import request
 import openerp.addons.website_sale.controllers.main
 
-
+"""
 class website_sale(openerp.addons.website_sale.controllers.main.website_sale):
 
 
@@ -48,6 +48,6 @@ class website_sale(openerp.addons.website_sale.controllers.main.website_sale):
             domain = [('id','in', str(product_ids))]
             print "cautare dupa:", domain
         return domain
-
+"""
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

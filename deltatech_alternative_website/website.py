@@ -38,12 +38,15 @@ class website(models.Model):
             product_ids = []
             alt_domain = []
             for srch in search.split(" "):
-                alt_domain += [ ('name', '=ilike', srch)]
+                alt_domain += [ ('name', 'ilike', srch)]
             alternative_ids =  self.env['product.alternative'].search(  alt_domain, limit=10 ) 
             for alternative in alternative_ids:
                 product_ids += alternative.product_tmpl_id.product_variant_ids.ids
             if product_ids:
-                domain = ['|',('id','in', product_ids)]
+                if len(product_ids)==1:
+                    domain += ['|',('id','=', product_ids[0])]
+                else:
+                    domain += ['|',('id','in', product_ids)]
                 print "cautare dupa:", domain           
         return domain
 
