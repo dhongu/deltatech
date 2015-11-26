@@ -170,7 +170,7 @@ class mrp_bom(models.Model):
     def _calculate_standard_price(self):
         for bom in self:
             if bom.product_id:
-                bom.standard_price = bom.product_id.standard_price 
+                bom.standard_price = bom.product_id.standard_price or bom.product_tmpl_id.standard_price
             else:
                 bom.standard_price = bom.product_tmpl_id.standard_price
                 
@@ -210,6 +210,14 @@ class mrp_bom(models.Model):
     """
 
 
+    @api.multi
+    def button_set_standard_price(self):
+        for bom in self:
+            if bom.product_id:
+                bom.product_id.write({'standard_price':bom.calculate_price})
+            else:
+                bom.product_tmpl_id.write({'standard_price':bom.calculate_price})
+            
 
 
 
@@ -217,6 +225,22 @@ class mrp_bom_line(models.Model):
     _inherit = 'mrp.bom.line'
 
 
+    calculate_price = fields.Float(compute='_calculate_price',  digits = dp.get_precision('Account'), store=False, string='Calculate Price')
+    standard_price = fields.Float(compute='_calculate_standard_price',  digits = dp.get_precision('Product Price'),store=False, string="Cost Price")  
+    amount = fields.Float(digits= dp.get_precision('Account'), string='Amount', compute='_calculate_amount')
+
+    @api.multi
+    @api.depends('calculate_price','product_qty')
+    def _calculate_amount(self):
+        for bom_line in self:   
+            product_qty = self.env['product.uom']._compute_qty( from_uom_id = bom_line.product_uom.id,  
+                                                                    qty = bom_line.product_qty,
+                                                                    to_uom_id = bom_line.product_id.uom_id.id, 
+                                                                    round = False)
+                 
+            bom_line.amount =  bom_line.calculate_price * product_qty 
+            
+                
 
     @api.multi
     def _calculate_price(self):
@@ -227,22 +251,16 @@ class mrp_bom_line(models.Model):
                 child_bom = self.env['mrp.bom'].browse( bom_id )
                 price = child_bom.calculate_price
             else:
-                price = bom_line.product_id.standard_price   
+                price = bom_line.product_id.standard_price   or bom_line.product_tmpl_id.standard_price
             bom_line.calculate_price = price
 
- 
- 
- 
-    calculate_price = fields.Float(compute='_calculate_price',  digits = dp.get_precision('Account'), store=False, string='Calculate Price')
-    standard_price = fields.Float(compute='_calculate_standard_price',  digits = dp.get_precision('Product Price'),store=False, string="Cost Price")  
-
-         
+    
 
     @api.multi
     @api.depends('product_id')
     def _calculate_standard_price(self): 
         for bom_line in self:
-            bom_line.standard_price = bom_line.product_id.standard_price  
+            bom_line.standard_price = bom_line.product_id.standard_price or bom_line.product_tmpl_id.standard_price
  
                    
         

@@ -31,7 +31,8 @@ Functionalitati:
  - Calculeaza pretul pentru fiecare lista de materiale
  - La fiecare bom exista posibilitatea de a defini costuri indirecte
  
-
+Obs: depinde si de mrp_product_variants
+ 
     """,
     
     "category" : "Generic Modules/Production",

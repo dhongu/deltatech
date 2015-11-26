@@ -35,6 +35,18 @@ from openerp.addons.product import _common
 _logger = logging.getLogger(__name__)
 
 
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    @api.multi
+    @api.multi
+    def write(self, vals):
+        if 'standard_price' in vals and self.product_variant_count == 1:
+            self.product_variant_ids.write({'standard_price':vals['standard_price']})          
+        res = super(ProductTemplate,self).write(vals)
+        
+
+    
  
 class ProductProduct(models.Model):
     _inherit = 'product.product'
