@@ -38,13 +38,16 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    @api.multi
+
     @api.multi
     def write(self, vals):
-        if 'standard_price' in vals and self.product_variant_count == 1:
-            self.product_variant_ids.write({'standard_price':vals['standard_price']})          
         res = super(ProductTemplate,self).write(vals)
-        
+        for template in self:
+            if 'standard_price' in vals and template.product_variant_count == 1:
+                product = template.product_variant_ids[0]
+                if vals['standard_price'] <> product.standard_price:
+                    product.write({'standard_price':vals['standard_price']})          
+        return res
 
     
  
