@@ -353,7 +353,7 @@ class mrp_bom_line(models.Model):
     def open_bom(self):
         self.ensure_one()
         if self.child_bom_id:
-            print "Deschid sublista de materiale"
+            #print "Deschid sublista de materiale"
             return {
                 'res_id': self.child_bom_id.id,
                 'domain': "[('id','=', "+str(self.child_bom_id.id)+")]",

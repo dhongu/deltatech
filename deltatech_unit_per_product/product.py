@@ -23,34 +23,39 @@
 
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
-from dateutil.relativedelta import relativedelta
-from datetime import datetime, date, timedelta
-import logging
-from openerp.osv.fields import related
-
-from openerp.addons.product import _common
-
-_logger = logging.getLogger(__name__)
-
-
  
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
-    
-    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price', compute='_calculate_bom_price')
-    standard_price = fields.Float()
 
-    @api.one
-    def _calculate_bom_price(self ):
-        bom_id = self.env['mrp.bom']._bom_find( product_id = self.id)
-        if bom_id:
-            bom = self.env['mrp.bom'].browse(bom_id)
-            self.bom_price = bom.calculate_price
-        else:
-            self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
-        
+
+
+class product_uom_categ(models.Model):
+    _inherit = 'product.uom.categ'
     
+    product_template_id = fields.Many2one('product.template', string='Product Template' )
+
+
+
+class product_uom(models.Model):
+    _inherit = 'product.uom'
+        
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        return self.with_context(show_product=True)._name_search(name, args, operator, limit=limit)
+
+    @api.multi
+    def name_get(self):
+        res = []
+        show_product = self.env.context.get('show_product',False)
+        if show_product:
+            for unit in self:
+                name = unit.name 
+                if unit.category_id.product_template_id:
+                    name = "%s (%s)" %(name,unit.category_id.product_template_id.name )
+                res.append((unit.id, name))  
+        else:
+            res = super(product_uom,self).name_get()           
+                    
+        return res  
+        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

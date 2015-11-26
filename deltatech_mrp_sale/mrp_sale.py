@@ -43,6 +43,7 @@ ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),
 class sale_order(models.Model):
     _inherit = 'sale.order'
 
+    
 
     specification = fields.Boolean(string='Specification', default=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     #articole de deviz
@@ -63,10 +64,13 @@ class sale_order(models.Model):
 
 
     attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
-                                          string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} ) 
+                                          string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )
+     
+     
 
+    
     @api.multi
-    @api.depends('article_ids')
+    @api.depends('article_ids.product_uom_qty')
     def _compute_qty_primary(self):
         for order in self:
             order.qty_primary = 0
@@ -144,6 +148,30 @@ class sale_order(models.Model):
         return res
 
 
+
+
+    @api.multi
+    def button_update_order_attribute(self):
+        for order in self:       
+            # transfer atribute de la produs in lista de atribute a comenzii
+            order_attribute_values = {}
+            
+            for order_attr in order.attributes:
+                order_attribute_values[order_attr.attribute.id] = order_attr.value.id
+                
+            for article in order.article_ids: 
+                for attribute in article.product_attributes:
+                    if attribute.value:
+                        order_attribute_values[attribute.attribute.id] = attribute.value.id
+           
+            order_attribute = self.env['sale.mrp.order.attribute'] 
+            for key, value in order_attribute_values.items():
+                order_attribute += self.env['sale.mrp.order.attribute'].new({ 'attribute':key, 'value':value}) 
+            order.attributes = order_attribute
+        
+ 
+
+
 class sale_mrp_order_attribute(models.Model):
     _name = 'sale.mrp.order.attribute'
 
@@ -190,6 +218,8 @@ class sale_mrp_article_attribute(models.Model):
     sequence = fields.Integer(string='Sequence', related="attribute.sequence", store=True)
     
     article_id  = fields.Many2one('sale.mrp.article', string='Article', copy=False, ondelete='cascade')
+ 
+    
     attribute = fields.Many2one( comodel_name='product.attribute', string='Attribute')
    
     value = fields.Many2one( comodel_name='product.attribute.value', string='Value',
@@ -260,8 +290,6 @@ class sale_mrp_article(models.Model):
         self.product_attributes_values = attr_values.sorted()
         
         
-        
- 
     @api.one
     @api.depends('product_attributes')
     def _get_product_attributes_count(self):
@@ -321,18 +349,8 @@ class sale_mrp_article(models.Model):
             self.product_uom = self.product_template.uom_id
         
         self.product_attributes = self._get_attributes()
-        """
-        attributes =  (self.product_template._get_product_attributes_dict())
-        
-        self.product_attributes = attributes
-        for attribute in self.product_attributes:
-            if not attribute.value:
-                if attribute.attribute.default_value:
-                    attribute.value = attribute.attribute.default_value
-                for order_attr in self.order_id.attributes:
-                    if attribute.attribute == order_attr.attribute:
-                        attribute.value = order_attr.value
-        """
+
+
         
         bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id = self.product_template.id)
         bom = self.env['mrp.bom'].browse(bom_id)
@@ -351,7 +369,8 @@ class sale_mrp_article(models.Model):
                                                     self.product_attributes)
         self.explode_bom()
         
-        """ asta nu merge!
+        
+        """ 
         order_attribute_values = []
         article = self     
         for attribute in article.product_attributes:
@@ -361,14 +380,15 @@ class sale_mrp_article(models.Model):
                     if attribute.attribute == order_attr.attribute:
                         order_attribute = order_attr
                 if not order_attribute:
-                    temp = self.order_id.attributes
-                    self.order_id.attributes =    [{'attribute':attribute.attribute.id, 
-                                                    'value':attribute.value.id}]
-                    print "Atribute vechi", self.order_id.attributes
-                    self.order_id.attributes += temp  
+                    print "Atribute vechi", self.order_id.attributes 
                     
+                    self.order_id.attributes += self.env['sale.mrp.order.attribute'].new({'order_id':self.order_id.id,
+                                                                                       'attribute':attribute.attribute.id, 
+                                                                                       'value':attribute.value.id})              
                     print  "Atribute noi", self.order_id.attributes
-        """     
+                    for a in self.order_id.attributes:
+                        print "Atribute", a.attribute.name, a.value.name, a.order_id.id
+        """
         
     @api.one
     @api.onchange('product_id' )
