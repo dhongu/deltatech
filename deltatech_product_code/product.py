@@ -48,4 +48,17 @@ class product_template(models.Model):
                 self.write({'default_code':default_code})
 
 
+
+class product_product(models.Model):
+    _inherit = 'product.product'
+
+
+    @api.multi
+    def button_new_code(self):
+        self.ensure_one()
+        if not self.default_code or self.default_code == '/' or self.default_code == 'auto':
+            if self.categ_id.sequence_id:
+                default_code =  self.env['ir.sequence'].next_by_id( self.categ_id.sequence_id.id  )
+                self.write({'default_code':default_code})
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
