@@ -35,7 +35,7 @@ Functionalitati:
     "category" : "Website",
     "depends" : ['deltatech',"website_sale","deltatech_alternative"],
 
-   'data':[],
+   'data':['product_view.xml'],
 
  
     
