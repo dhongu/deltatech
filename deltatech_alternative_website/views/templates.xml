@@ -2,6 +2,16 @@
 <openerp>
 	<data>
 
+
+		<template id="product_item_code" inherit_id="website_sale.products_item" name="Internal code">
+			<xpath expr="//div[@itemprop='offers']" position="before">			 
+				<div t-if="product.default_code">
+					<span  itemprop="productID" t-field="product.default_code" class="text-muted" />
+				</div>
+			</xpath>
+		</template>
+
+
 		<template id="product_code" inherit_id="website_sale.product" name="Internal code">
 			<xpath expr="//h1[@t-field='product.name']" position="after">
 				
