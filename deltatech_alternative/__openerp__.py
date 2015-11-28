@@ -30,6 +30,7 @@
 Features:    
  - New model: product_catelog
  - A module that add alternative on the product form
+ - Camp nou in produs (used for) pentru a indica la ce poate fi folosit produsul
  
  
 """,

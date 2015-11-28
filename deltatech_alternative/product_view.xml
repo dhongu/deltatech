@@ -92,6 +92,7 @@
 			<field name="arch" type="xml">
 				<field name="name" position="after">
 					<field name="alternative_code" />
+					<field name="used_for"  />
 				</field>
 			</field>
 		</record>
@@ -106,6 +107,7 @@
 			<field name="arch" type="xml">
 				<field name="active" position="after">
 					<field name="alternative_code" />
+					<field name="used_for"  />
 				</field>
 				<!-- 
 				<field name="volume" position="before">
