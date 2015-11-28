@@ -106,7 +106,7 @@ class product_template(models.Model):
     #dimensions = fields.Char(string='Dimensions' )
     #shelf_life = fields.Char(string='Shelf Life' )
     #uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
-
+    used_for = fields.Char(string="Used For")
 
     @api.one
     @api.depends('alternative_ids')

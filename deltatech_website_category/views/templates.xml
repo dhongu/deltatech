@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+<template id="category_on_top" inherit_id="website_sale.products" active="False" customize_show="True" name="Category on Top">
+  <xpath expr="//div[@id='products_grid']/table" position="before">
+      <div class="text-info oe_subdescription" contenteditable="false">
+        
+      <div class="" id="category_grid">
+          <t t-if="category">
+              <t t-set="category_child" t-value="category.child_id"/></t>
+          <t t-if="not category">
+              <t t-set="category_child" t-value="categories"/></t>
+              
+          <div class="col-sm-6 col-md-3 text-center" t-foreach="category_child" t-as="categ">
+              <a t-att-href="keep('/shop/category/' + slug(categ), category=0)">
+              	<img  class="img img-responsive center-block shadow shrink" t-att-src="website.image_url(categ, 'image', '300x300')"/> 
+              </a>
+             
+          </div>
+      </div>
+
+      </div>
+  </xpath>
+</template>
+
+
+
+</data>
+</openerp>
