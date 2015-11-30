@@ -33,10 +33,10 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules",
-    "depends" : ["website" ],
+    "depends" : ["website_sale" ],
 
 
-    "data" : ['views/website.xml' ],
+    "data" : ['views/website.xml', 'data/data.xml' ],
     "active": False,
     "installable": True,
 }

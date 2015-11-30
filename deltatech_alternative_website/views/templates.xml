@@ -4,9 +4,9 @@
 
 
 		<template id="product_item_code" inherit_id="website_sale.products_item" name="Internal code">
-			<xpath expr="//div[@itemprop='offers']" position="before">			 
+			<xpath expr="//div[@itemprop='offers']" position="before">
 				<div t-if="product.default_code">
-					<span  itemprop="productID" t-field="product.default_code" class="text-muted" />
+					<span itemprop="productID" t-field="product.default_code" class="text-muted" />
 				</div>
 			</xpath>
 		</template>
@@ -14,12 +14,12 @@
 
 		<template id="product_code" inherit_id="website_sale.product" name="Internal code">
 			<xpath expr="//h1[@t-field='product.name']" position="after">
-				
-				 
+
+
 				<div t-if="product.default_code">
-					<span  itemprop="productID" t-field="product.default_code" class="text-muted" />
+					<span itemprop="productID" t-field="product.default_code" class="text-muted" />
 				</div>
-				 
+
 
 
 			</xpath>
@@ -29,14 +29,13 @@
 
 		<template id="product_alterantive_code" inherit_id="website_sale.product" active="True" customize_show="True" name="Alternative code">
 			<xpath expr="//hr[@t-if='product.description_sale']" position="before">
-
-				<hr t-if="product.alternative_code" />
-				<div>
-					<p itemprop="alternateName"  t-field="product.alternative_code" class="text-muted" />
-				</div>
+				<t t-if="website.user_id != user_id">
+					<hr t-if="product.alternative_code" />
+					<div>
+						<p itemprop="alternateName" t-field="product.alternative_code" class="text-muted" />
+					</div>
+				</t>
 				<hr />
-
-
 			</xpath>
 		</template>
 
@@ -47,7 +46,7 @@
 
 				<hr t-if="product.used_for" />
 				<div>
-					<p  itemprop="isConsumableFor"  t-field="product.used_for" class="text-muted" />
+					<p itemprop="isConsumableFor" t-field="product.used_for" class="text-muted" />
 				</div>
 				<hr />
 

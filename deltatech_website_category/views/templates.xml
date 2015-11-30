@@ -6,8 +6,8 @@
 		<template id="category_on_top" inherit_id="website_sale.products" active="False" customize_show="True" name="Category on Top">
 			<xpath expr="//div[@id='products_grid']/table" position="before">
 				<div class="text-info oe_subdescription" contenteditable="false">
-
-					<div class="" id="category_grid">
+					
+					<div t-if="not search" id="category_grid">
 						<t t-if="category">
 							<t t-set="category_child" t-value="category.child_id" />
 						</t>
