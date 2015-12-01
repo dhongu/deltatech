@@ -111,9 +111,10 @@ class product_template(models.Model):
     @api.one
     @api.depends('alternative_ids')
     def _compute_alternative_code(self):
-        code = ''
-        for line in self.alternative_ids:
-            code = '%s %s' % (code, line.name)
+        code = '; '.join(self.alternative_ids.mapped('name'))
+        #code = ''
+        #for line in self.alternative_ids:
+        #    code = '%s %s' % (code, line.name)
         self.alternative_code = code
             
 
