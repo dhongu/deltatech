@@ -33,7 +33,7 @@ Functionalitati:
     """,
     
     "category" : "Website",
-    "depends" : ['deltatech',"website_sale","deltatech_alternative"],
+    "depends" : ['deltatech',"website_sale","deltatech_alternative",'l10n_ro_invoice_report'],
 
    'data':['product_view.xml','views/templates.xml'],
 

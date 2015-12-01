@@ -24,7 +24,8 @@ from openerp import models, fields, api, _
 from openerp import SUPERUSER_ID
 from openerp.addons.web.http import request
 from openerp.tools.translate import _
-
+from sys import maxint
+ 
 
 
 class website(models.Model):
@@ -41,15 +42,20 @@ class website(models.Model):
                 alt_domain += [ ('name', 'ilike', srch)]
             alternative_ids =  self.env['product.alternative'].search(  alt_domain, limit=10 ) 
             for alternative in alternative_ids:
-                product_ids += alternative.product_tmpl_id.product_variant_ids.ids
+                product_ids += [alternative.product_tmpl_id.id]
             if product_ids:
                 if len(product_ids)==1:
                     domain += ['|',('id','=', product_ids[0])]
                 else:
                     domain += ['|',('id','in', product_ids)]
-                print "cautare dupa:", domain           
+                         
         return domain
 
 
+    def _image(self, cr, uid, model, id, field, response, max_width=maxint, max_height=maxint, cache=None, context=None):
+        if model == 'product.template' and field == 'image':
+            field = 'watermark_image'
+        response =  super(website,self)._image(cr, uid, model, id, field, response, max_width, max_height, cache, context)
+        return response
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
