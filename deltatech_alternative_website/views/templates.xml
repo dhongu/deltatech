@@ -32,6 +32,7 @@
 							<span itemprop="alternateName" t-field="product.alternative_code" class="text-muted" />
 						</div>
 					</hr>
+					<hr/>
 				</t>
 			</xpath>
 		</template>

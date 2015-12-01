@@ -53,8 +53,24 @@ class website(models.Model):
 
 
     def _image(self, cr, uid, model, id, field, response, max_width=maxint, max_height=maxint, cache=None, context=None):
+        
+        # daca nu 
+        if model == 'product.template' and field == 'image': 
+            Model = self.pool[model]
+            id = int(id)
+            record = Model.browse(cr, uid, id, context=context)
+            if record and not record.image:
+                if record.public_categ_ids:
+                     
+                    model = 'product.public.category'
+                    id = record.public_categ_ids.ids[0]
+                    print model, id
+                    
+                    
+                
         if model == 'product.template' and field == 'image':
             field = 'watermark_image'
+        
         response =  super(website,self)._image(cr, uid, model, id, field, response, max_width, max_height, cache, context)
         return response
 

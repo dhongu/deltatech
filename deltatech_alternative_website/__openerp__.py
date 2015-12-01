@@ -29,6 +29,7 @@
 
 Functionalitati:
     - cautare produs dupa cod echivalent
+    - afisare igagini produse in magazinul virtual cu watermark
 
     """,
     
