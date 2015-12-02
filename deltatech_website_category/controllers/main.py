@@ -1,40 +1,48 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 ##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
+# For copyright and license notices, see __openerp__.py file in root directory
 ##############################################################################
 
 
+import openerp
+from openerp import http
+from openerp.http import request
+from openerp.addons.website_sale.controllers.main import website_sale
+from openerp.addons.website_sale.controllers.main import QueryURL
 
+    
+class WebsiteSale(website_sale):
+    @http.route(
+        [
+         '/shop',
+         '/shop/page/<int:page>',
+         '/shop/category/<model("product.public.category"):category>',
+         '/shop/category/<model("product.public.category"):category>/page/<int:page>'],
+        type='http', auth="public", website=True)
+    def shop(self, page=0, category=None, search='', **post):
+        parent_category_ids = []
+        if category:
+            parent_category_ids = [category.id]
+            current_category = category
+            while current_category.parent_id:
+                parent_category_ids.append(current_category.parent_id.id)
+                current_category = current_category.parent_id
+        response = super(WebsiteSale, self).shop(
+            page=page, category=category, search=search, **post)
+        
+        has_products = lambda categ: self._child_has_products(categ)    # noqua
+        
+        response.qcontext['parent_category_ids'] = parent_category_ids
+        response.qcontext['_has_products'] = has_products
+        return response
 
+    def _child_has_products(self, category):
+        if category.child_id:
+            return any(self._child_has_products(child)
+                       for child in category.child_id)
+        elif category.product_ids:
+            return True
+        else:
+            return False
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+#openerp.addons.website_sale.controllers.main.website_sale = WebsiteSale

@@ -28,6 +28,48 @@
 		</template>
 
 
+        <template id="categ_class_nav_pills" inherit_id="website_sale.categories_recursive" active="True">
+          <xpath expr="//li" position="attributes">
+            <attribute name="data-id">category-pills</attribute>
+          </xpath>
+        </template>
+
+        <template id="option_collapse_categories_recursive" name="Collapse Category Recursive">
+          <li t-att-class="'active' if categ.id == int(category or 0) else ''">
+            <i t-if="categ.child_id and _has_products(categ)"
+              t-attf-class="text-primary fa #{'fa-chevron-down' if categ.id in parent_category_ids else 'fa-chevron-right'}"/>
+            <t t-if="_has_products(categ) or categ.product_ids">
+              <astyle="display:inline-block; width:80%" t-att-href="keep('/shop/category/' + slug(categ), category=0)">
+                <t t-esc="'%s ' %(categ.name)"/>
+                <span class="badge">
+                  <t t-esc="'%s' %(categ.total_tree_products)"/>
+                </span>
+              </a>
+            </t>
+            <ul t-if="_has_products(categ)" class="nav nav-pills nav-stacked nav-hierarchy"
+              t-att-style="'display:block;' if categ.id in parent_category_ids else 'display:none;'">
+              <t t-foreach="categ.child_id" t-as="categ">
+                <t t-call="deltatech_website_category.option_collapse_categories_recursive"/>
+              </t>
+            </ul>
+          </li>
+        </template>
+
+
+
+        <template id="option_collapse_products_categories"
+          name="Collapsible Category List" inherit_id="website_sale.products_categories" active="False" customize_show="True">
+          <xpath expr="//div[@id='products_grid_before']/ul" position="replace">
+            <ul class="nav nav-pills nav-stacked mt16" id="o_shop_collapse_category">
+              <li t-att-class=" '' if category else 'active' ">
+                <a t-att-href="keep('/shop',category=0)">All Products</a>
+              </li>
+              <t t-foreach="categories" t-as="categ">
+                <t t-call="deltatech_website_category.option_collapse_categories_recursive"/>
+              </t>
+            </ul>
+          </xpath>
+        </template>
 
 	</data>
 </openerp>
