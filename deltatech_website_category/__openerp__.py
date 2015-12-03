@@ -36,7 +36,7 @@ Functionalitati:
     "depends" : ["website_sale" ],
 
 
-    "data" : ['views/templates.xml','views/assets.xml' ],
+    "data" : ['views/templates.xml','views/assets.xml','views/product_view.xml' ],
     "active": False,
     "installable": True,
 }
