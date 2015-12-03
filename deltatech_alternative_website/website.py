@@ -55,6 +55,22 @@ class website(models.Model):
     def _image(self, cr, uid, model, id, field, response, max_width=maxint, max_height=maxint, cache=None, context=None):
         
         # daca nu 
+        
+        """ 
+        nu este necesar daca se face in Qweb 
+
+  <div class="oe_product_image">
+      <a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))">
+          <t t-if="product.image or not product.public_categ_ids">
+            <img itemprop="image" class="img img-responsive" t-att-src="website.image_url(product, 'image', None if product_image_big else '300x300')"/>
+          </t>
+          <t t-if="not product.image and product.public_categ_ids">
+            <t t-set="categ"  t-value="product.public_categ_ids[0]"/>
+            <img itemprop="image" class="img img-responsive" t-att-src="website.image_url(categ, 'image', None if product_image_big else '300x300')"/>
+          </t>
+      </a>
+  </div>
+    
         if model == 'product.template' and field == 'image': 
             Model = self.pool[model]
             id = int(id)
@@ -65,7 +81,7 @@ class website(models.Model):
                     model = 'product.public.category'
                     id = record.public_categ_ids.ids[0]
                     print model, id
-                    
+        """
                     
                 
         if model == 'product.template' and field == 'image':

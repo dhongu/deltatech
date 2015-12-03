@@ -39,7 +39,7 @@
             <i t-if="categ.child_id and _has_products(categ)"
               t-attf-class="text-primary fa #{'fa-chevron-down' if categ.id in parent_category_ids else 'fa-chevron-right'}"/>
             <t t-if="_has_products(categ) or categ.product_ids">
-              <astyle="display:inline-block; width:80%" t-att-href="keep('/shop/category/' + slug(categ), category=0)">
+              <a style="display:inline-block; width:80%" t-att-href="keep('/shop/category/' + slug(categ), category=0)">
                 <t t-esc="'%s ' %(categ.name)"/>
                 <span class="badge">
                   <t t-esc="'%s' %(categ.total_tree_products)"/>

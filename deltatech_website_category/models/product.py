@@ -27,36 +27,40 @@ from datetime import datetime
 import time
 from openerp import SUPERUSER_ID
 
+import time
 
 
 
 class ProductCategory(models.Model):
     _inherit = 'product.public.category'
 
+    product_ids = fields.Many2many('product.template', relation='product_public_category_product_template_rel', column1='product_public_category_id', column2='product_template_id')
+    total_tree_products = fields.Integer("Total Subcategory Prods",  compute="_get_product_count", store=True)
+
+
     @api.multi
     def _get_products(self):
         product_obj = self.env["product.template"]
         for record in self:
+            print "determinare produse care sunt intr-o categorie"
+            start_time = time.time()
+
             product_ids = []
-            product_published = product_obj.search(
-                [("website_published", "=", True)])
+            product_published = product_obj.search( [("website_published", "=", True)])
 
             for product in product_published:
                 if record in product.public_categ_ids:
                     product_ids.append(product.id)
             record.product_ids = product_ids
+            print("--- %s seconds ---" % (time.time() - start_time))
 
-    product_ids = fields.Many2many('product.template', compute="_get_products")
-    total_tree_products = fields.Integer("Total Subcategory Prods",
-                                         compute="_get_product_count",
-                                         store=True,)
 
     @api.multi
     @api.depends('product_ids')
     def _get_product_count(self):
         prod_obj = self.env["product.template"]
         for rec in self:
-            prod_ids = prod_obj.search(
-                [('public_categ_ids', 'child_of', rec.id),
-                 ('website_published', '=', True)])
-            rec.total_tree_products = len(prod_ids)
+            if not isinstance(rec.id, models.NewId):
+                counts = prod_obj.search_count( [('public_categ_ids', 'child_of', rec.id),
+                                                   ('website_published', '=', True)])
+                rec.total_tree_products = counts

@@ -133,6 +133,9 @@ class sale_order(models.Model):
             if line.product_uom_qty == 0:
                 line.unlink()
 
+
+    # actualizarea liniilor din comanda se face manula prin apasarea unui buton
+    """
     @api.multi
     def button_dummy(self):
         res =  super(sale_order,self).button_dummy()
@@ -146,7 +149,7 @@ class sale_order(models.Model):
         res =  super(sale_order,self).write(vals)
         self.button_dummy()
         return res
-
+    """
 
 
 
