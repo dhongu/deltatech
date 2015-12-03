@@ -9,7 +9,7 @@ from openerp import http
 from openerp.http import request
 from openerp.addons.website_sale.controllers.main import website_sale
 from openerp.addons.website_sale.controllers.main import QueryURL
-#import time
+import time
     
 class WebsiteSale(website_sale):
     @http.route(
@@ -19,34 +19,53 @@ class WebsiteSale(website_sale):
          '/shop/category/<model("product.public.category"):category>',
          '/shop/category/<model("product.public.category"):category>/page/<int:page>'],
         type='http', auth="public", website=True)
-    def shop(self, page=0, category=None, search='', **post):
+    def shop(self, page=0, category=None, search='', order_by='', **post):
+        
+        cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
+        
+        print "Start selectie date"
+        start_time = time.time()
+        
+         
         parent_category_ids = []
         if category:
+            category = pool['product.public.category'].browse(cr, uid, int(category), context=context)
             parent_category_ids = [category.id]
             current_category = category
             while current_category.parent_id:
                 parent_category_ids.append(current_category.parent_id.id)
                 current_category = current_category.parent_id
-        #print "Start selectie date"
-        #start_time = time.time()
+
+        context = request.context
+        if context is None:
+            context = {}
+
+        order_by = order_by or request.session.get('website_order_by', False)
+        
+        print "Order ", order_by
+        
+         
+        context['website_order_by'] = order_by
+        request.session['website_order_by'] = order_by
+        
+         
+        request.context =  context   
+        
         response = super(WebsiteSale, self).shop(
             page=page, category=category, search=search, **post)
 
-        has_products = lambda categ: self._child_has_products(categ)    # noqua
+ 
         
         response.qcontext['parent_category_ids'] = parent_category_ids
-        response.qcontext['_has_products'] = has_products
-        #print "Stop selectie date"
-        #print("--- %s seconds ---" % (time.time() - start_time))
+        
+        response.qcontext['order_by'] = order_by
+       
+ 
+        print "Stop selectie date"
+        print("--- %s seconds ---" % (time.time() - start_time))
+        
         return response
 
-    def _child_has_products(self, category):
-        if category.child_id:
-            return any(self._child_has_products(child)
-                       for child in category.child_id)
-        elif category.product_ids:
-            return True
-        else:
-            return False
+ 
 
 #openerp.addons.website_sale.controllers.main.website_sale = WebsiteSale

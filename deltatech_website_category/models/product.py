@@ -29,7 +29,19 @@ from openerp import SUPERUSER_ID
 
 import time
 
-
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+    
+    @api.returns('self',
+        upgrade=lambda self, value, args, offset=0, limit=None, order=None, count=False: value if count else self.browse(value),
+        downgrade=lambda self, value, args, offset=0, limit=None, order=None, count=False: value if count else value.ids)
+    def search(self, cr, user, args, offset=0, limit=None, order=None, context=None, count=False):
+        if context and context.get('website_order_by',False):
+            order = context['website_order_by']
+        res =  super(ProductTemplate,self).search( cr,  user, args, offset, limit, order, context, count)
+        return res
+    
+    
 
 class ProductCategory(models.Model):
     _inherit = 'product.public.category'
