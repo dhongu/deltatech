@@ -482,6 +482,7 @@ class sale_mrp_article(models.Model):
                                     'amount': price_unit * item['product_qty'],
                                     'state':'draft',
                                     'item_categ':item['item_categ'],
+                                    
                                     }
         
                 value['name'] = product.with_context(context=self.order_id.partner_id).name_get()[0][1]
@@ -526,7 +527,7 @@ class sale_mrp_resource(models.Model):
     amount      = fields.Float( string='Subtotal', digits = dp.get_precision('Account'), compute='_compute_amount', store=True)   
     categ_id    = fields.Many2one('product.category', related='product_id.categ_id', store=True) # este nevoie ? mai bine se aduce informatia direct in raport ?
 
-
+    purchase_price = fields.Float(string='Purchase Price')
 
     @api.multi
     @api.depends('price_unit','product_uom_qty')
@@ -534,8 +535,21 @@ class sale_mrp_resource(models.Model):
         for resource in self:
             resource.amount = resource.product_uom_qty * resource.price_unit
 
-
-
+    @api.onchange('purchase_price')
+    def onchange_purchase_price(self):
+        if self.purchase_price and self.product_id and self.order_id and self.order_id.pricelist_id:
+            order_id = self.order_id
+            
+            from_currency =  order_id.pricelist_id.currency_id.with_context( date=order_id.date_order)
+            purchase_price  = from_currency.compute( self.purchase_price, self.env.user.company_id.currency_id )
+            
+            self.product_id.write({'standard_price': purchase_price})
+            
+            
+            price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
+            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )  
+            self.price_unit = price
+ 
 
     @api.onchange('product_id','product_uom_qty')
     def onchange_product_id(self):
@@ -555,6 +569,12 @@ class sale_mrp_resource(models.Model):
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
             self.price_unit = price
             self.name = self.product_id.name
+            
+            
+            from_currency = self.env.user.company_id.currency_id.with_context(date=order_id.date_order)
+            self.purchase_price  = from_currency.compute( self.product_id.standard_price,  order_id.pricelist_id.currency_id )
+            
+             
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]
             #if self.product_id.description_sale:
             #    self.name += '\n'+self.product_id.description_sale 

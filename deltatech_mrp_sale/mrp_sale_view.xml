@@ -19,7 +19,7 @@
 				<button name="invoice_cancel" position="after">
 					<span attrs="{'invisible': [('specification', '=', False)]}">
 						<button name="%(action_take_bom)d" string="Take List" type="action" states="draft" groups="base.group_user" />
-						<button name="button_update" string="Update Order Line" type="object"   states="draft" groups="base.group_user" />
+						<button name="button_update" string="Update Order Line" type="object"   states="draft,sent" groups="base.group_user" />
 					</span>
 				</button>
 
@@ -32,6 +32,7 @@
 							<field name="primary_uom" class="oe_inline" groups="product.group_uom" />
 						</div>
 						<field name="price_unit" />
+						<field name="id" invisible='1' />
 					</group>
 				</field>
 
@@ -41,7 +42,7 @@
 
 
 					<page name="art" string="Articles" attrs="{'invisible': [('specification', '=', False)]}">
-						<field name="article_ids">
+						<field name="article_ids" context="{'default_order_id':id, 'order_id':id}">
 							<tree>
 								<field name="sequence" widget="handle" />
 
@@ -54,11 +55,12 @@
 								<field name="item_categ" />
 								<field name="price_unit" invisible='1' />
 								<field name="amount" invisible='1' sum="Amount" />
-
+								
 							</tree>
 							<form>
 								<group>
 									<group>
+										<field name="order_id"  invisible="1"  />
 										<field name="product_template" />
 										<field name="product_attributes_count" invisible="1" />
 										<field name="product_id" domain="[('product_tmpl_id','=',product_template)]" />
@@ -78,13 +80,14 @@
 										</div>
 										<div colspan="4">
 											<label for="resource_ids" />
-											<field name="resource_ids" attrs="{'invisible':[('resource_ids','=',[])]}">
+											<field name="resource_ids" attrs="{'invisible':[('resource_ids','=',[])]}"   context="{'order_id':order_id}">
 												<tree create="false" delete="false" editable="0">
 													<field name="product_id" />
 													<field name="name" />
 													<field name="product_uom_qty" />
 													<field name="product_uom" groups="product.group_uom" />
 													<field name="item_categ" />
+													<field name="purchase_price" />
 													<field name="price_unit" />
 													<field name="amount" sum="Amount" />
 
@@ -110,6 +113,7 @@
 								<field name="product_uom_qty" />
 								<field name="product_uom" groups="product.group_uom" />
 								<field name="item_categ" />
+								<field name="purchase_price" />
 								<field name="price_unit" />
 								<field name="amount" sum="Amount" />
 
