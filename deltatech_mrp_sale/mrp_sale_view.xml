@@ -43,7 +43,7 @@
 
 					<page name="art" string="Articles" attrs="{'invisible': [('specification', '=', False)]}">
 						<field name="article_ids" context="{'default_order_id':id, 'order_id':id}">
-							<tree>
+							<tree colors="silver:product_uom_qty==0.0">
 								<field name="sequence" widget="handle" />
 
 								<field name="product_template" />
@@ -81,7 +81,7 @@
 										<div colspan="4">
 											<label for="resource_ids" />
 											<field name="resource_ids" attrs="{'invisible':[('resource_ids','=',[])]}"   context="{'order_id':order_id}">
-												<tree create="false" delete="false" editable="0">
+												<tree create="false" delete="false" editable="0" colors="silver:product_uom_qty==0.0">
 													<field name="product_id" />
 													<field name="name" />
 													<field name="product_uom_qty" />
@@ -91,7 +91,7 @@
 													<field name="price_unit" />
 													<field name="amount" sum="Amount" />
 
-												</tree>
+  												</tree>
 											</field>
 										</div>
 									</group>
@@ -106,7 +106,7 @@
 							<button name="button_update" string="(update)" type="object" class="oe_edit_only oe_link" />
 						</group>
 						<field name="resource_ids" nolabel="1" widget="one2many_list" context="{ 'order_id':id}">
-							<tree>
+							<tree colors="silver:product_uom_qty==0.0">
 								<field name="article_id" />
 								<field name="product_id" />
 								<field name="name" />
@@ -197,7 +197,38 @@
 			</field>
 		</record>
 
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+            	<field name="name" position="after">
+            		<field name="client_order_ref"/>
+            	</field>            
+            </field>
+        </record>
 
+         <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+            	<field name="name" position="after">
+            		<field name="client_order_ref"/>
+            	</field>
+            </field>
+        </record>
+
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+            	<field name="product_id" position="after">
+            		<field name="client_order_ref"/>
+            	</field>
+            </field>
+        </record>
 
 
 	</data>

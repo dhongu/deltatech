@@ -37,7 +37,11 @@ from itertools import groupby
 _logger = logging.getLogger(__name__)
 
 
-ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service'),('opt_serv','Optional Service')]
+ITEM_CATEG = [('primary','Primary'),
+              ('normal','Normal'),
+              ('optional','Optional'),
+              ('service','Service'),
+              ('opt_serv','Optional Service')]
 
 
 

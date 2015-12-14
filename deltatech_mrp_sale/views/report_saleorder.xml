@@ -86,7 +86,7 @@
 								<td>
 									<span t-field="l.name" />
 									<div t-if="l.product_id.description_sale">
-										<span t-field="l.product_id.description_sale" />
+										<small t-field="l.product_id.description_sale" />
 									</div>
 								</td>
 								<td class="text-right">
@@ -137,6 +137,9 @@
 							<tr style="background-color:#E6B8B7">
 								<td>
 									<span t-field="l.name" />
+									<div t-if="l.product_id.description_sale">
+										<small t-field="l.product_id.description_sale" />
+									</div>
 								</td>
 								<td class="text-right">
 									<span t-field="l.product_uom_qty" />
@@ -200,6 +203,9 @@
 							<tr>
 								<td>
 									<span t-field="l.name" />
+									<div t-if="l.product_id.description_sale">
+										<small t-field="l.product_id.description_sale" />
+									</div>
 								</td>
 								<td class="text-right">
 
@@ -250,7 +256,9 @@
 						<t t-if='l.item_categ=="opt_serv"'>
 							<tr>
 								<td>
-									<span t-field="l.name" />
+									<div t-if="l.product_id.description_sale">
+										<small t-field="l.product_id.description_sale" />
+									</div>
 								</td>
 								<td class="text-right">
 
