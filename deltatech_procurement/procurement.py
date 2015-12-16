@@ -27,7 +27,7 @@ from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 import openerp
-
+from psycopg2 import OperationalError
 
 class procurement_order(models.Model):
     _inherit = 'procurement.order' 
@@ -199,7 +199,7 @@ class procurement_order(models.Model):
                 procurement_obj.cancel(cr, uid, procurement_ids)
                 if use_new_cursor:
                     cr.commit()
-            except OperationalError:
+            except:
                 if use_new_cursor:
                     cr.rollback()
                     continue
