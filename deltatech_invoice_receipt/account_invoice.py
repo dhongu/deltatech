@@ -312,11 +312,17 @@ class account_invoice(models.Model):
         if not self.origin:
             self.write({'origin':origin.strip()})
 
+
+    # nu mai este necear codul urmator deoarece schimbarea monediei se face in stock_picking.action_invoice_create
+    """
     @api.model
     def create(self, vals):
-        journal_id = vals.get('journal_id',self.default_get(['journal_id'])['journal_id'])
-        currency_id = vals.get('currency_id',self.default_get(['currency_id'])['currency_id'])
         
+        defaults_value = self.default_get(['journal_id','currency_id'])
+        
+        journal_id = vals.get('journal_id',defaults_value['journal_id'])
+        currency_id = vals.get('currency_id',defaults_value['currency_id'])
+         
         
         if journal_id  and currency_id:
             journal = self.env['account.journal'].browse(journal_id)
@@ -328,15 +334,20 @@ class account_invoice(models.Model):
                 invoice_line = vals.get('invoice_line',False)
                 if invoice_line:
                     for a,b,line in invoice_line:
-                        line_obj = self.env['account.invoice.line'].browse(line)
-                        if line_obj:
-                            line_obj.price_unit  = from_currency.compute( line_obj.price_unit,to_currency)
+                        if isinstance(line, int):
+                            lines = self.env['account.invoice.line'].browse(line)
+                            for l in  lines:
+                                l.price_unit  = from_currency.compute( l.price_unit,to_currency)
+                        if isinstance(line, dict):
+                            line['price_unit']  = from_currency.compute(  line['price_unit'] ,to_currency)
                         
                     vals['currency_id'] = to_currency.id
+                    
         inv_id = super(account_invoice,self).create(vals)
          
         return inv_id
-              
+    """
+    
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
