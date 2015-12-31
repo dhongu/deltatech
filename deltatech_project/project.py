@@ -93,9 +93,12 @@ class project_project(models.Model):
     @api.model
     def get_tasks_progress(self):
         progress = []
+        tasks_progres = 0.0
         for task in self.tasks:
             if task.current:
-                progress += [task.progress]
+                tasks_progres +=  task.progress*task.project_progress/100 
+        if self.tasks:
+            progress = [tasks_progres]
         if self.project_child_ids:
             for child in self.project_child_ids:
                progress += child.get_tasks_progress()
@@ -142,6 +145,7 @@ class project_task(models.Model):
     _inherit = "project.task"
     
     progress = fields.Float(string='Progress', compute='_get_progress',store=True)
+    project_progress = fields.Float(string='Progress Project') # progresul cu care se afecteaza proiectul daca se indepineste obiectivul
     recurrence = fields.Boolean(string="Recurrence")
     current = fields.Boolean(string='Current Task', default=True, copy=False, compute='_get_current', store=True)  # se va actualiza cu CRON
     #recurrent_ids = fields.Many2many('project.task', relation='project_task_to_task_recurrence', column1='main_task_id', column2='task_id')
@@ -172,8 +176,7 @@ class project_task(models.Model):
             else:
                 task.current = True
 
-    
-                    
+                       
 
     @api.multi
     @api.depends('work_ids', 'remaining_hours', 'planned_hours',  'stage_id')

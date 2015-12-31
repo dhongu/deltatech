@@ -148,6 +148,7 @@
 					<field name="recurrence" />
 					<field name="next_recurrent_task" attrs="{'invisible':[('recurrence','=', False)]}" />
 					<field name="progress" widget="progressbar" />
+					<field name="project_progress"/>
 				</field>
 			</field>
 		</record>
