@@ -70,6 +70,8 @@ class stock_inventory_line(models.Model):
         self.standard_price = self.get_price()
 
 
+    #todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
+    
     @api.model
     def get_price(self):                
         price  =  self.product_id.standard_price 
@@ -99,29 +101,29 @@ class stock_inventory_line(models.Model):
 
     @api.model
     def _resolve_inventory_line(self,  inventory_line):  
+
+        product_qty = inventory_line.product_qty
         if inventory_line.product_id.cost_method == 'real':
             price = inventory_line.get_price( )           
-            product_qty = inventory_line.product_qty
-            
-           
+      
             if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2 ): 
-                
+                # se completeaza o line de inventar cu cantitate zero si cu vechiul pret
                 line_price = inventory_line.standard_price
                 inventory_line.write( {'standard_price': price, 'product_qty':0.0 } )
                 inventory_line.product_id.write({'standard_price':price} )
                 move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
-                if move_id:
-                    move = self.env['stock.move'].browse(move_id)
-                    move.action_done()
+
                 inventory_line.write( {'standard_price': line_price, 'product_qty':product_qty + inventory_line.theoretical_qty } )
                 
-            inventory_line.product_id.write( {'standard_price':inventory_line.standard_price}  ) 
-            move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
-            if   product_qty <> inventory_line.product_qty:
-                inventory_line.write( {'product_qty':product_qty } )
-            if move_id:
-                move = self.env['stock.move'].browse(move_id)
-                move.action_done()
+            inventory_line.product_id.write( {'standard_price':inventory_line.standard_price}  ) # acutlizare pret in produs
+            
+        move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
+        if   product_qty <> inventory_line.product_qty:
+            inventory_line.write( {'product_qty':product_qty } )
+        if move_id:
+            move = self.env['stock.move'].browse(move_id)
+            move.action_done()
+                
         return move_id
  
 
