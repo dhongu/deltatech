@@ -53,7 +53,8 @@ class stock_quant(models.Model):
         if location_to.usage == 'internal' and location_to.value_limit > 0: 
             new_value = location_to.actual_value  
             for quant, qty in quants:
-                new_value += quant.inventory_value
+                if quant:
+                    new_value += quant.inventory_value
             if new_value > location_to.value_limit:
                 raise Warning(_('Exceeding the limit value stock!'))              
         super(stock_quant, self).quants_move(cr, uid, quants, move, location_to, location_from, lot_id, owner_id, src_package_id, dest_package_id, context)
