@@ -268,6 +268,7 @@ class sale_mrp_article(models.Model):
     product_id  = fields.Many2one('product.product', string='Product Variant')
     name = fields.Char(string='Name',related='product_template.name')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
+    qty_formula =  fields.Char(string='Formula for Quantity')
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
     
     item_categ = fields.Selection(ITEM_CATEG, default='optional', string='Item Category')
@@ -317,7 +318,20 @@ class sale_mrp_article(models.Model):
             if self.bom_id.product_id:
                 self.product_id = self.bom_id.product_id
         self.explode_bom()
-         
+
+
+    @api.one
+    @api.onchange('qty_formula')
+    def change_qty_formula(self):   
+        if self.qty_formula and self.qty_formula[0]=='=':         
+            try:
+                formula = self.qty_formula[1:]
+                value = eval(formula)
+                if value:
+                    self.product_uom_qty = value
+            except:
+                raise Warning('Eroare evaluare formula')
+                 
 
     @api.multi
     def _get_attributes(self):
@@ -505,6 +519,26 @@ class sale_mrp_article(models.Model):
         #self.resource_ids = (resources)
         return resource_ids
         #article.order_id.resource_ids.invalidate_cache()            
+
+
+    @api.multi
+    def open_bom(self):
+        self.ensure_one()
+        if self.bom_id:
+            #print "Deschid sublista de materiale"
+            return {
+                'res_id': self.bom_id.id,
+                'domain': "[('id','=', "+str(self.bom_id.id)+")]",
+                'name': _('BOM'),
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'mrp.bom',
+                'view_id': False,
+                'target': 'current',
+                'nodestroy': True,   
+               'type': 'ir.actions.act_window'             
+            }
+
       
 class sale_mrp_resource(models.Model):
     _name = 'sale.mrp.resource'
@@ -528,6 +562,16 @@ class sale_mrp_resource(models.Model):
     categ_id    = fields.Many2one('product.category', related='product_id.categ_id', store=True) # este nevoie ? mai bine se aduce informatia direct in raport ?
 
     purchase_price = fields.Float(string='Purchase Price')
+    
+    bom_id      =  fields.Many2one('mrp.bom', string='BOM', compute='_compute_get_bom') 
+
+
+
+    @api.one
+    @api.depends('product_id')
+    def _compute_get_bom(self):
+        self.bom_id = self.env['mrp.bom']._bom_find(product_id  = self.product_id.id)
+
 
     @api.multi
     @api.depends('price_unit','product_uom_qty')
@@ -578,6 +622,23 @@ class sale_mrp_resource(models.Model):
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]
             #if self.product_id.description_sale:
             #    self.name += '\n'+self.product_id.description_sale 
-                
+
+    @api.multi
+    def open_bom(self):
+        self.ensure_one()
+        if self.bom_id:
+            #print "Deschid sublista de materiale"
+            return {
+                'res_id': self.bom_id.id,
+                'domain': "[('id','=', "+str(self.bom_id.id)+")]",
+                'name': _('BOM'),
+                'view_type': 'form',
+                'view_mode': 'form,tree',
+                'res_model': 'mrp.bom',
+                'view_id': False,
+                'target': 'current',
+                'nodestroy': True,   
+               'type': 'ir.actions.act_window'             
+            }                
        
     
