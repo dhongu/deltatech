@@ -115,7 +115,8 @@ class sale_order(models.Model):
                     'product_uom_qty':resource.product_uom_qty,
                     'price_unit':resource.price_unit,
                     'item_categ':resource.item_categ,
-                    'product_uom':resource.product_uom.id} 
+                    'product_uom':resource.product_uom.id,
+                    'sequence':resource.article_id.sequence} 
                 
                 fpos = self.fiscal_position
                 if not fpos:
@@ -128,6 +129,7 @@ class sale_order(models.Model):
                 qty = line_to_update.product_uom_qty + resource.product_uom_qty
                 line_to_update.write({'name':resource.name,
                                       'product_uom_qty':qty,
+                                      'sequence':resource.article_id.sequence,
                                       'price_unit':resource.price_unit})
         for line in self.order_line:
             if line.product_uom_qty == 0:
