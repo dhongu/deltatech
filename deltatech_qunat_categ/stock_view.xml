@@ -8,8 +8,27 @@
 			<field name="arch" type="xml">
 				 <field name="qty" position="after">
 				 	<field name="categ_id"/>
+				 	<field name="partner_id"/>
 				</field>
 			</field>
 		</record>
+		
+		<record id="quant_search_view" model="ir.ui.view">
+            <field name="name">stock.quant.search</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view" /> 
+            <field name="arch" type="xml">
+            	<field name="location_id" position="after">
+				 	<field name="partner_id"/>            	
+            	</field>
+            	
+            	<filter name="productgroup" position="after">
+            		 <filter name="partnergroup" string='Partner' context="{'group_by' : 'partner_id'}"/>
+            	</filter>
+            </field>
+       </record>
+		
+		
+		
 	</data>
 </openerp>

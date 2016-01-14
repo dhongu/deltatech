@@ -27,6 +27,7 @@
 
 Functionalitati:
  - Afisare colona de categorie produs in lista de pozitii de stoc
+ - Adaugare partener pentru pozitiile de stoc livrate care un partener
  
  
     """,

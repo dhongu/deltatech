@@ -29,7 +29,27 @@ class stock_quant(models.Model):
     _inherit = "stock.quant"   
     
     inventory_value = fields.Float(store=True)    
-    categ_id = fields.Many2one('product.category',string='Internal Category',related="product_id.categ_id", store=True)    
+    categ_id = fields.Many2one('product.category',string='Internal Category',related="product_id.categ_id", store=True)  
+    partner_id = fields.Many2one('res.partner',string='Partner')
+
+
+
+class stock_move(models.Model):
+    _inherit = "stock.move"  
+
+    @api.multi
+    def update_quant_partner(self):
+        for move in self:
+            if move.location_dest_id.usage  == 'customer' and move.picking_id and move.picking_id.partner_id:
+                move.quant_ids.write({'partner_id':move.picking_id.partner_id.id})
+            else:
+                move.quant_ids.write({'partner_id':False})
+                
+    @api.multi
+    def action_done(self):
+        res = super(stock_move,self).action_done()
+        self.update_quant_partner()
+        return res
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
