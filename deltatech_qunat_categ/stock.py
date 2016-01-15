@@ -30,8 +30,9 @@ class stock_quant(models.Model):
     
     inventory_value = fields.Float(store=True)    
     categ_id = fields.Many2one('product.category',string='Internal Category',related="product_id.categ_id", store=True)  
-    partner_id = fields.Many2one('res.partner',string='Partner')
-
+    customer_id = fields.Many2one('res.partner',string='Customer')
+    supplier_id = fields.Many2one('res.partner',string='Supplier')
+    origin =  fields.Char(string='Source Document')
 
 
 class stock_move(models.Model):
@@ -40,10 +41,13 @@ class stock_move(models.Model):
     @api.multi
     def update_quant_partner(self):
         for move in self:
-            if move.location_dest_id.usage  == 'customer' and move.picking_id and move.picking_id.partner_id:
-                move.quant_ids.write({'partner_id':move.picking_id.partner_id.id})
-            else:
-                move.quant_ids.write({'partner_id':False})
+            if move.picking_id and move.picking_id.partner_id:
+                if move.location_dest_id.usage == 'customer':
+                    move.quant_ids.write({'customer_id':move.picking_id.partner_id.id,
+                                          'origin':move.picking_id.origin})
+                if move.location_dest_id.usage  == 'supplier': 
+                    move.quant_ids.write({'supplier_id':move.picking_id.partner_id.id,
+                                          'origin':move.picking_id.origin})
                 
     @api.multi
     def action_done(self):
