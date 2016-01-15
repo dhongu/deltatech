@@ -12,7 +12,7 @@
 				<sheet position="before">			
 					<header>
 						<button name="%(action_pack_transfer)d" string="Transfer" type="action"   groups="base.group_user"/>
-						<button name="unpack" string="Unpack" type="object" confirm="You are going to unpack. Are you sure?"
+						<button name="unpack" string="Unpack" type="object" confirm="You are going to unpack. Are you sure?"/>
 					</header>
 				</sheet>
 			</field>
