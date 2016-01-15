@@ -153,6 +153,7 @@ class project_task(models.Model):
      
     doc_count = fields.Integer(string="Number of documents attached", compute='_get_attached_docs')
 
+    previous_task = fields.Many2one('project.task',string='Task Previous', copy=False)
 
 
     @api.multi
@@ -165,14 +166,17 @@ class project_task(models.Model):
     @api.depends('date_start','date_end')
     def _get_current(self):
         for task in self:
-            if task.recurrence:           
-                if task.progress < 100:
-                    task.current = True
+            if task.recurrence:
+                if task.date_start > fields.Datetime.now():  # task in viitor
+                    task.current = False 
                 else:
-                    if task.date_start < fields.Datetime.now() < task.date_end: 
+                    if task.progress < 100:
                         task.current = True
                     else:
-                        task.current = False
+                        if task.date_start < fields.Datetime.now() < task.date_end: 
+                            task.current = True
+                        else:
+                            task.current = False
             else:
                 task.current = True
 
@@ -202,10 +206,12 @@ class project_task(models.Model):
     @api.onchange('date_deadline')
     def on_change_date_deadline(self):
         if self.date_deadline:
-            if not self.date_end or self.date_end < self.date_deadline:
-                self.date_end = self.date_deadline + fields.Datetime.now()[-9:]
-                if self.date_start > self.date_end:
-                    self.date_start = self.date_end
+            #if not self.date_end or self.date_end < self.date_deadline:
+            self.date_end = self.date_deadline + fields.Datetime.now()[-9:]
+            self.date_start = self.date_end[:8]+'01'+self.date_end[10:]
+
+            print self.date_start, self.date_end
+ 
 
 
     @api.multi
@@ -269,12 +275,20 @@ class project_task(models.Model):
     def default_get(self, fields):
         defaults = super(project_task, self).default_get(fields)
         if not defaults.get('project_id', False): 
-            project_id = self.env.context.get('active_id', False) 
+            active_id = self.env.context.get('active_id', False) 
+            active_model = self.env.context.get('active_model', False)
+            if active_model == 'project.project':
+                project_id = active_id
+            if active_model == 'project.task':
+                task = self.env['project.task'].browse(active_id) 
+                project_id = task.project_id.id
         else:
             project_id = defaults['project_id']
-        project= self.env['project.project'].browse(project_id) 
+        project = self.env['project.project'].browse(project_id) 
         if project:
             defaults['project_id'] = project.id
+            if project.partner_id:
+                defaults['partner_id'] = project.partner_id.id
             defaults['date_start'] = project.date_start
             defaults['date_end'] = project.date
             defaults['date_deadline'] = project.date

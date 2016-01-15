@@ -128,7 +128,7 @@ class project_task_recurrence(models.TransientModel):
             prev_task = new_task
             
         action = self.env.ref('project.action_view_task').read()[0]  
-        action['domain'] = "[('id','in', ["+','.join(map(str,res))+"])]"
+        action['domain'] = "[('id','in', ["+','.join(map(str,tasks.ids))+"])]"
         return action
 
             

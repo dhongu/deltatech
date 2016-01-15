@@ -70,7 +70,13 @@
 				<field name="doc_count" position="after">
 					<field name="child_count" />
 					<field name="progress_rate" />
+					 <field name="code" />
 				</field>
+				
+				<xpath expr="//div[@class='oe_kanban_content']/h4/strong" position="before">
+					<field name="code" />
+				</xpath >
+				
 				<field name="name" position="replace">
 					<a type="open">
 						<field name="name" />
@@ -102,6 +108,7 @@
 				<field name="name" position="after">
 					<field name="categ_id" />
 					<field name="project_parent_id" />
+					<field name="code" />
 					<filter string="General" name="General" domain="[('project_parent_id', '=', False)]" />
 
 					<separator />
