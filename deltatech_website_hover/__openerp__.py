@@ -32,7 +32,7 @@ https://github.com/codrops/HoverEffectIdeas
  
     """,
     
-    "category" : "Generic Modules",
+    "category" : "Website",
     "depends" : ["website" ],
 
 

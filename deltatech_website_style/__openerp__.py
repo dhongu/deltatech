@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Website style",
+    "name" : "Deltatech Website Style",
     "version" : "1.0",
     "author" : "Deltatech",
     "website" : "",

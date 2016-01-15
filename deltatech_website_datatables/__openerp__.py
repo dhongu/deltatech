@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Website extension",
+    "name" : "Deltatech Website DataTables",
     "version" : "1.0",
     "author" : "Deltatech",
     "website" : "",

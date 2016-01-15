@@ -44,7 +44,7 @@ Functionalitati:
                  "deltatech_service",
                  "deltatech_service_equipment",
                  "deltatech_service_maintenance",
-                 'deltatech_website',
+                 'deltatech_website_datatables',
                  ],
 
 
