@@ -39,16 +39,21 @@ class sale_order(models.Model):
     _inherit = 'sale.order'
 
     @api.multi
-    def _amount_all(self, field_name, arg):
-        
+    def button_update(self):
         for order in self:
             # exista pozitii cu unitatea de masura %
             for line in order.order_line:
                 if line.product_uom.name == '%':
-                    line.calc_price_percent()       
+                    line.calc_price_percent()                   
+          
+                
+
+    """
+    @api.multi
+    def _amount_all(self, field_name, arg):
         res = super(sale_order, self)._amount_all(field_name, arg)
         return res
-
+    """
 
 
 class sale_order_line(models.Model):

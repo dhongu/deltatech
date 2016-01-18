@@ -95,6 +95,7 @@ class sale_order(models.Model):
 
     @api.multi
     def button_update(self):
+        
         self.ensure_one()
         self.order_line.write({'product_uom_qty':0.0})
   
@@ -135,6 +136,7 @@ class sale_order(models.Model):
             if line.product_uom_qty == 0:
                 line.unlink()
 
+        super(sale_order,self).button_update()
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
     """

@@ -41,7 +41,10 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"base","mrp","sale",'mrp_product_variants','sale_product_variants','deltatech_mrp_bom_cost'],
+    "depends" : ["mrp","sale",'mrp_product_variants','sale_product_variants',
+                 'deltatech',
+                 'deltatech_mrp_bom_cost',
+                 'deltatech_percent_qty'],
 
 
     "data" : [  'wizard/take_bom_view.xml',

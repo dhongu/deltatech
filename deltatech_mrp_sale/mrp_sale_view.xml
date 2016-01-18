@@ -19,7 +19,7 @@
 				<button name="invoice_cancel" position="after">
 					<span attrs="{'invisible': [('specification', '=', False)]}">
 						<button name="%(action_take_bom)d" string="Take List" type="action" states="draft" groups="base.group_user" />
-						<button name="button_update" string="Update Order Line" type="object"   states="draft,sent" groups="base.group_user" />
+						
 					</span>
 				</button>
 

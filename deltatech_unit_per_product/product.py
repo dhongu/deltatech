@@ -37,6 +37,9 @@ class product_uom_categ(models.Model):
 
 class product_uom(models.Model):
     _inherit = 'product.uom'
+    
+    description = fields.Char(string="Additional description")
+    
         
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -51,6 +54,8 @@ class product_uom(models.Model):
                 name = unit.name 
                 if unit.category_id.product_template_id:
                     name = "%s (%s)" %(name,unit.category_id.product_template_id.name )
+                if unit.description:
+                    name = "%s [%s]" % (name,unit.description )
                 res.append((unit.id, name))  
         else:
             res = super(product_uom,self).name_get()           

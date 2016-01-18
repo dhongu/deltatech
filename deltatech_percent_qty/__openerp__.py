@@ -34,6 +34,10 @@ Functionalitati:
     - pretul este calculat prin suma valorilor liniilor din comanda filtrate cu ajutorul domeniului definit la produs
 
 
+actualizarea se face manual prin apasarea butonului
+<button name="button_update" string="Update Order Line" type="object"   states="draft,sent" groups="base.group_user" />
+
+
     """,
     
     "category" : "Generic Modules/Production",
@@ -42,6 +46,7 @@ Functionalitati:
 
     "data" : [   
                 'product_view.xml',
+                'sale_view.xml',
                 'data.xml',
              ],
     
