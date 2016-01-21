@@ -43,23 +43,7 @@ class product_template(models.Model):
     list_price_gold   = fields.Float(string="Gold Price",compute="_compute_price",store=True, readonly=True)
 
 
-    @api.one
-    @api.constrains('percent_bronze')
-    def _check_percent_bronze(self):
-        if ( self.percent_bronze < -1.0 or self.percent_bronze > 1.0):
-            raise ValidationError("Percentages must be between -1 and 1, Example: 0.02 for 2%")
-
-    @api.one
-    @api.constrains('percent_silver')
-    def _check_percent_silver(self):
-        if ( self.percent_silver < -1.0 or self.percent_silver > 1.0):
-            raise ValidationError("Percentages must be between -1 and 1, Example: 0.02 for 2%")
-          
-    @api.one
-    @api.constrains('percent_gold')
-    def _check_percent_gold(self):
-        if ( self.percent_gold < -1.0 or self.percent_gold > 1.0):
-            raise ValidationError("Percentages must be between -1 and 1, Example: 0.02 for 2%")
+ 
 
 
     @api.multi
