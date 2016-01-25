@@ -23,7 +23,7 @@ class WebsiteSale(website_sale):
         
         cr, uid, context, pool = request.cr, request.uid, request.context, request.registry
         
-        print "Start selectie date"
+         
         start_time = time.time()
         
          
@@ -42,7 +42,7 @@ class WebsiteSale(website_sale):
 
         order_by = order_by or request.session.get('website_order_by', False)
         
-        print "Order ", order_by
+        #print "Order ", order_by
         
          
         context['website_order_by'] = order_by
@@ -61,8 +61,8 @@ class WebsiteSale(website_sale):
         response.qcontext['order_by'] = order_by
        
  
-        print "Stop selectie date"
-        print("--- %s seconds ---" % (time.time() - start_time))
+        #print "Stop selectie date"
+        #print("--- %s seconds ---" % (time.time() - start_time))
         
         return response
 

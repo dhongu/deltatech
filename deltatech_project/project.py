@@ -153,7 +153,7 @@ class project_task(models.Model):
      
     doc_count = fields.Integer(string="Number of documents attached", compute='_get_attached_docs')
 
-    previous_task = fields.Many2one('project.task',string='Task Previous', copy=False)
+    #previous_task = fields.Many2one('project.task',string='Task Previous', copy=False)
 
 
     @api.multi

@@ -24,11 +24,11 @@ class product_template(models.Model):
     @api.multi
     def _compute_available(self):
         res = {}
-        for product in self.sudo():
+        for product in self:
             if product.at_order:
                 product.is_qty_available = 'order'
             else:
-                if product.qty_available > 0:
+                if product.sudo().qty_available > 0:
                     product.is_qty_available = 'stock'
                 else:
                     product.is_qty_available = 'provider'

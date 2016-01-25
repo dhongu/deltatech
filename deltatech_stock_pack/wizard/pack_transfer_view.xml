@@ -16,6 +16,7 @@
 					<group>
 						<field name="location_dest_id" contex="{'search_default_in_location':1}"/>
 						<field name="picking_type_id" />
+						<field name="date"/>
 					</group>
 					<footer>
 						<button name="do_transfer" string="_Apply" type="object" class="oe_highlight" />

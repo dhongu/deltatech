@@ -35,7 +35,7 @@ class stock_pack_transfer(models.TransientModel):
     # data ? pentru data la care sa se faca transferul?
     location_dest_id = fields.Many2one('stock.location', required=True, string="Destination Location Zone" )
     picking_type_id = fields.Many2one('stock.picking.type', required=True, string="Picking Type")
-    
+    date            = fields.Datetime(string="Date", default=fields.Datetime.now())
  
     @api.multi
     def do_transfer(self):
@@ -43,6 +43,8 @@ class stock_pack_transfer(models.TransientModel):
         packages = self.env['stock.quant.package'].browse(active_ids)
         location_dest_id =  self.location_dest_id
         picking = self.env['stock.picking'].create({'picking_type_id':self.picking_type_id.id,
+                                                    'date':self.date,
+                                                    'min_date':self.date,
                                                     'state':'assigned'})
         for package in packages:
             for quant in package.quant_ids:
@@ -56,6 +58,8 @@ class stock_pack_transfer(models.TransientModel):
                                              'location_dest_id':location_dest_id.id,
                                              'name':quant.product_id.name,
                                              'product_uom':quant.product_id.uom_id.id,
+                                             'date':self.date,
+                                             'date_expected':self.date,
                                              #'quant_ids':[(6,0,[quant.id])]
                                              })
                 quant.write({'reservation_id':move.id})
