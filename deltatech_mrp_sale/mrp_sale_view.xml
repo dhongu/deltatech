@@ -2,6 +2,16 @@
 <openerp>
 	<data>
 
+	      <report 
+            string="Specification" 
+            id="action_report_specification" 
+            model="sale.order" 
+            report_type="qweb-pdf"
+            name="deltatech_mrp_sale.report_specification" 
+            file="deltatech_mrp_sale.report_specification"    />
+	  
+
+
 		<record id="action_sale_mrp_resource" model="ir.actions.act_window">
 			<field name="name">Sale Resource</field>
 			<field name="res_model">sale.mrp.resource</field>

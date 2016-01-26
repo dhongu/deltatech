@@ -137,6 +137,20 @@ class sale_order(models.Model):
                 line.unlink()
 
         super(sale_order,self).button_update()
+        
+        for article in self.article_ids:
+            if article.product_uom.name == '%':
+                for line in self.order_line:
+                    if article.product_id == line.product_id:
+                        article.write({'price_unit':line.price_unit,
+                                       'amount':line.price_subtotal})
+
+        for resource in self.resource_ids:
+            if resource.product_uom.name == '%':
+                for line in self.order_line:
+                    if resource.product_id == line.product_id:
+                        resource.write({'price_unit':line.price_unit,
+                                       'amount':line.price_subtotal})                        
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
     """
