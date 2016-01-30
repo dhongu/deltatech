@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,16 @@
 ##############################################################################
 
 
-import stock_return_picking
-import stock
-import account_invoice
-import account_invoice_refund
-import report
 
-import res_company
-import res_config
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
 
 
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class account_config_settings(models.TransientModel):
+    _inherit = 'account.config.settings'
+    
+    invoice_picking_refund = fields.Boolean(string='Picking refund after cancel invoice', related='company_id.invoice_picking_refund')
+    
+ 

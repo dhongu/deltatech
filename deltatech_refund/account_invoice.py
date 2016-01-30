@@ -33,6 +33,32 @@ class account_invoice(models.Model):
     origin_refund_invoice_id = fields.Many2one('account.invoice', string='Origin Invoice',   copy=False)
     # camp prin care se indica prin ce factura se face stornarea 
     refund_invoice_id = fields.Many2one('account.invoice', string='Refund Invoice',    copy=False)
+    
+ 
+    with_refund = fields.Boolean(string="With refund",help="Invoice with refund or is an refund", compute="_compute_with_refund", store=False)
+    
+ 
+    #daca in configurare se completeaza ca listele de ridicare trebuie revocate automat
+    @api.multi
+    def action_cancel(self):
+        res = super(account_invoice,self).action_cancel()
+        for invoice in self:
+            if invoice.company_id.invoice_picking_refund:
+                invoice.action_cancel_pickings() 
+        
+        return res
+
+    
+    @api.one
+    @api.depends('origin_refund_invoice_id','refund_invoice_id')
+    def _compute_with_refund(self):
+        for invoice in self:
+            if invoice.origin_refund_invoice_id or invoice.refund_invoice_id:
+                invoice.with_refund = True
+            else:
+                invoice.with_refund = False
+ 
+    
    
     @api.model
     def get_link(self, model ):
@@ -94,7 +120,14 @@ class account_invoice(models.Model):
                 invoice.message_post(body=msg)
         
         
-        
+    @api.multi
+    def action_cancel_draft(self):
+        for invoice in self:
+            for picking in invoice.picking_ids:
+                if  picking.with_refund:
+                    raise Warning(_('Picking list %s was refunded') % picking.name)
+            
+        return super(account_invoice,self).action_cancel_draft()
         
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

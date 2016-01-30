@@ -59,6 +59,12 @@ msgid "Note"
 msgstr "Note"
 
 #. module: deltatech_refund
+#: field:res.company,invoice_picking_refund:0
+#: field:account.config.settings,invoice_picking_refund:0
+msgid "Picking refund after cancel invoice"
+msgstr "Rabursare transfer după anulare factură"
+
+#. module: deltatech_refund
 #: field:stock.picking,origin_refund_picking_id:0
 msgid "Origin Picking"
 msgstr "Ridicare inițială"
@@ -85,6 +91,12 @@ msgstr "Operația de stoc %s a fost rambursată de %s "
 #: help:stock.picking,with_refund:0
 msgid "Picking list with refund or is an refund"
 msgstr "Operație de stoc de rambursare sau cu rambursare"
+
+
+#. module: deltatech_refund
+#: help:account.invoice,with_refund:0
+msgid "Invoice with refund or is an refund"
+msgstr "Factură de raburs sau rambursare"
 
 #. module: deltatech_refund
 #: field:stock.picking,refund_picking_id:0
@@ -132,6 +144,7 @@ msgstr "Nu se poate pregăti o nouă listă de ridicare cu toate cantitățile. 
 
 #. module: deltatech_refund
 #: field:stock.picking,with_refund:0
+#: field:account.invoice,with_refund:0
 msgid "With refund"
 msgstr "Cu rambursare"
 

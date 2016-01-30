@@ -44,9 +44,12 @@ Functionalitati:
                  'account',
                  'deltatech_stock_report'],
  
-    "data" : [ 'stock_return_picking_view.xml',
+    "data" : [ 
+              'stock_return_picking_view.xml',
               'stock_view.xml',
-              'account_invoice_view.xml'],
+              'account_invoice_view.xml',
+              'res_config_view.xml',
+              ],
     "active": False,
     "installable": True,
 }

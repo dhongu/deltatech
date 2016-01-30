@@ -25,6 +25,23 @@
 			</field>
 		</record>	 
 
+
+        <record id="invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+
+				<tree position="attributes">
+					<attribute name="colors">blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';silver:with_refund</attribute>
+					<attribute name="fonts">italic:with_refund</attribute>
+				</tree>            
+            
+				<field name="state" position="after">
+					<field name="with_refund" />
+				</field>
+            </field>
+       </record>
       
     </data>
 </openerp>
