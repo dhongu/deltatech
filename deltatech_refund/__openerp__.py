@@ -32,6 +32,7 @@ Functionalitati:
  - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
  - La stergerea unei facturi se va schimba si starea picking listului
  - dupa anularea unei facturi se poate actiona un buton pentru a rambursa operatiile de stoc
+ - in lista de ridicari sunt afisate rambursarile cu gri si italic
 
     """,
     "category" : "Generic Modules/Stock",
@@ -40,7 +41,8 @@ Functionalitati:
                  "stock",
                  "purchase",
                  "sale",
-                 'account'],
+                 'account',
+                 'deltatech_stock_report'],
  
     "data" : [ 'stock_return_picking_view.xml',
               'stock_view.xml',

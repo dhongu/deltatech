@@ -101,6 +101,9 @@ class stock_picking_report(osv.osv):
         """
         return group_by_str
 
+    def _where(self):
+        where_str = " WHERE sm.state  = 'done' "
+        return where_str
 
     def init(self, cr):
 
@@ -108,9 +111,9 @@ class stock_picking_report(osv.osv):
         cr.execute("""CREATE or REPLACE VIEW %s as (
             %s
             %s 
-            WHERE sm.state  = 'done'
             %s
-        )""" % ( self._table,  self._select(), self._from(), self._group_by() ) )
+            %s
+        )""" % ( self._table,  self._select(), self._from(), self._where(), self._group_by() ) )
                    
         
         

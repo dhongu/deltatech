@@ -26,7 +26,7 @@ from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
-
+#import openerp.workflow as workflow
 
 class stock_move(models.Model):
     _inherit = 'stock.move'
@@ -37,6 +37,8 @@ class stock_move(models.Model):
         move.picking_id.write({'invoice_id': invoice_line_vals['invoice_id']})
         return invoice_line_id
 
+ 
+
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
@@ -46,6 +48,16 @@ class stock_picking(models.Model):
     # camp prin care se indica prin ce picking se face rambursarea 
     refund_picking_id = fields.Many2one('stock.picking', string='Refund Picking',    copy=False)  #posibil sa fie necesare mai multe intrari many2many
     
-    with_refund = fields.Boolean(string="With refund",help="Picking list with refund or is an refund")
+    with_refund = fields.Boolean(string="With refund",help="Picking list with refund or is an refund", compute="_compute_with_refund", store=False)
     
+ 
     
+    @api.one
+    @api.depends('origin_refund_picking_id','refund_picking_id')
+    def _compute_with_refund(self):
+        for picking in self:
+            if picking.origin_refund_picking_id or picking.refund_picking_id:
+                picking.with_refund = True
+            else:
+                picking.with_refund = False
+        
