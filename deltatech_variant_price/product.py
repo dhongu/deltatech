@@ -44,7 +44,9 @@ class product_product(models.Model):
     price_extra_variant = fields.Float( string="Variant Public Price", digits=dp.get_precision('Product Price') )
     lst_price = fields.Float(compute="_get_product_lst_price", inverse="_set_product_lst_price")
     # fields.function(_product_lst_price, fnct_inv=_set_product_lst_price, type='float', string='Public Price', digits_compute=dp.get_precision('Product Price')),
-
+    description_sale = fields.Text(string='Sale Description',translate=True)
+    
+    
 
     @api.multi
     def _get_product_lst_price(self):      
