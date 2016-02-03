@@ -20,6 +20,15 @@
 			<field name="context">{}</field>
 		</record>
 
+		<record id="action_sale_mrp_resource_item" model="ir.actions.act_window">
+			<field name="name">Sale Resource Item</field>
+			<field name="res_model">sale.mrp.resource.item</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">graph,tree</field>
+			<field name="context">{}</field>
+		</record>
+
+
 		<record id="view_order_form" model="ir.ui.view">
 			<field name="name">sale.order.form</field>
 			<field name="model">sale.order</field>
@@ -139,6 +148,20 @@
 							</tree>
 						</field>
 					</page>
+					<page name="all_product" string="All Products" attrs="{'invisible': [('specification', '=', False)]}" groups="base.group_no_one">
+						<group>
+							<button name="button_update_all" string="(update)" type="object" class="oe_edit_only oe_link" />
+						</group>
+						<field name="resource_item_ids" nolabel="1" widget="one2many_list" context="{ 'order_id':id}">
+							<tree colors="silver:product_uom_qty==0.0">
+								<field name="article_id" />
+								<field name="resource_id" />
+								<field name="product_id" />							 
+								<field name="product_uom_qty" />
+								<field name="product_uom" groups="product.group_uom" />
+							</tree>
+						</field>
+					</page>
 				</page>
 
 				<page string="Other Information" position="after">
@@ -163,6 +186,21 @@
 			</field>
 		</record>
 
+		<record id="view_sale_mrp_resource_item_tree" model="ir.ui.view">
+			<field name="name">Sale Resource Item</field>
+			<field name="model">sale.mrp.resource.item</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="order_id" />
+					<field name="article_id" />
+					<field name="resource_id" />
+					<field name="product_id" />
+					<field name="product_uom_qty" />
+					<field name="product_uom" groups="product.group_uom" />
+				</tree>
+			</field>
+		</record>
+
 
 		<record id="view_sale_mrp_resource_tree" model="ir.ui.view">
 			<field name="name">Sale Resource</field>
@@ -177,6 +215,18 @@
 					<field name="price_unit" />
 					<field name="amount" />
 				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_sale_mrp_resource_item_graph" model="ir.ui.view">
+			<field name="name">sale.mrp.resource.item.graph</field>
+			<field name="model">sale.mrp.resource.item</field>
+			<field name="arch" type="xml">
+				<graph type="pivot">
+					<field name="product_id" type="row" />
+					<field name="product_uom_qty" type="measure" />
+				</graph>
 			</field>
 		</record>
 
@@ -215,6 +265,28 @@
 				</search>
 			</field>
 		</record>
+
+
+		<menuitem name="Sale Resources Item" id="menu_sale_mrp_resource_item" action="action_sale_mrp_resource_item" parent="base.menu_sales" sequence="2" />
+
+		<record id="view_sale_mrp_resource_item_filter" model="ir.ui.view">
+			<field name="name">sale.mrp.resource.item.select</field>
+			<field name="model">sale.mrp.resource.item</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="order_id" />
+					<field name="product_id" />
+					<group expand="1" string="Group By...">
+						<filter string="Order" name="order_id" context="{'group_by':'order_id'}" />
+						<filter string="Article" name="article_id" context="{'group_by':'article_id'}" />
+						<filter string="Resource" name="resource_id" context="{'group_by':'resource_id'}" />
+						<filter string="Product" name="product_id" context="{'group_by':'product_id'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
 
         <record id="view_quotation_tree" model="ir.ui.view">
             <field name="name">sale.order.tree</field>

@@ -61,7 +61,7 @@ class sale_order(models.Model):
     
     #extrase de resurse
     resource_ids = fields.One2many('sale.mrp.resource','order_id',  string="Resources", copy=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )  
-
+    resource_item_ids = fields.One2many('sale.mrp.resource.item',inverse_name='order_id', string="All Products", copy=True)
 
     attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
                                           string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )
@@ -91,7 +91,13 @@ class sale_order(models.Model):
                 order.price_unit = amount / order.qty_primary
 
 
-         
+    @api.multi
+    def button_update_all(self):
+        for order in self:
+            order.resource_item_ids.unlink()    
+            for resource in order.resource_ids:
+                if resource.product_uom_qty <> 0.0:
+                    resource.explode_bom()    
 
     @api.multi
     def button_update(self):
@@ -518,14 +524,10 @@ class sale_mrp_article(models.Model):
                                     }
         
                 value['name'] = product.with_context(context=self.order_id.partner_id).name_get()[0][1]
-                #if product.description_sale:
-                #     value['name'] += '\n'+product.description_sale 
  
-                #value['order_id'] = self.order_id.id
-                #value['article_id'] = self.id
                     
                 resources += [(0,0,value)]
-                #resources += [value]
+ 
         
          
         resource_ids =  self._convert_to_cache({'resource_ids': resources }, validate=False)
@@ -583,7 +585,7 @@ class sale_mrp_resource(models.Model):
     
     bom_id      =  fields.Many2one('mrp.bom', string='BOM', compute='_compute_get_bom') 
 
-
+    resource_item_ids = fields.One2many('sale.mrp.resource.item',inverse_name='resource_id', string="Products", copy=True)
 
     @api.one
     @api.depends('product_id')
@@ -641,6 +643,50 @@ class sale_mrp_resource(models.Model):
             #if self.product_id.description_sale:
             #    self.name += '\n'+self.product_id.description_sale 
 
+    @api.model
+    def explode_product(self, product_id, product_uom_qty,  product_uom_id):
+        
+        bom_id = self.env['mrp.bom']._bom_find(product_id  =  product_id)
+        
+        bom = self.env['mrp.bom'].browse(bom_id)
+        items = []
+        if not bom:
+            items =  [{    'product_id':  product_id,  
+                            'product_qty': product_uom_qty,
+                            'product_uom': product_uom_id,    
+                           }] 
+        else:
+            uom = self.env['product.uom'].browse(product_uom_id)
+            product = self.env['product.product'].browse(product_id)
+            
+            factor = self.env['product.uom']._compute_qty(product_uom_id, product_uom_qty, bom.product_uom.id)
+            factor =  factor / bom.product_qty
+            bom_items, work = bom.with_context(production=self.article_id)._bom_explode(product=product_id, factor = factor)
+            for item in bom_items:
+                items += self.explode_product(item['product_id'],item['product_qty'],item['product_uom'])
+        return items
+
+    @api.model
+    def explode_bom(self):
+
+        items = self.explode_product(self.product_id.id,  self.product_uom_qty, self.product_uom.id)
+     
+        resources = []
+        for item in items:         
+            value = {   'product_id': item['product_id'],
+                        'product_uom_qty': item['product_qty'],
+                        'product_uom': item['product_uom'],                            
+                        }
+            resources += [(0,0,value)]
+
+        resource_item_ids =  self._convert_to_cache({'resource_item_ids': resources }, validate=False)
+         
+        self.update(resource_item_ids) 
+ 
+        return resource_item_ids
+
+
+
     @api.multi
     def open_bom(self):
         self.ensure_one()
@@ -658,5 +704,17 @@ class sale_mrp_resource(models.Model):
                 'nodestroy': True,   
                'type': 'ir.actions.act_window'             
             }                
-       
+
+class sale_mrp_resource_item(models.Model):
+    _name = 'sale.mrp.resource.item'
+    _description = "Sale Resource Item"       
+
+    order_id  = fields.Many2one('sale.order', related='article_id.order_id', store=True, string='Order', copy=False)
+    article_id  = fields.Many2one('sale.mrp.article', related='resource_id.article_id', store=True, string='Article', copy=False, ondelete='cascade')
+    resource_id  = fields.Many2one('sale.mrp.resource', string='Resource', copy=False, ondelete='cascade')
+    product_id  = fields.Many2one('product.product', string='Product')
+    product_uom_qty = fields.Float(string='Product Quantity', required=True, digits =dp.get_precision('Product Unit of Measure'))
+    product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
+ 
+ 
     
