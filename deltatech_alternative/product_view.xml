@@ -82,6 +82,20 @@
 				</field>
 			</field>
 		</record>
+
+
+		<record id="product_product_tree_alternative" model="ir.ui.view" >
+			<field name="name">product.product.alternative.tree</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_product_tree_view" />
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="seller_id" />
+					<field name="alternative_code" />
+				</field>
+			</field>
+		</record>		
           
 
 		<record model="ir.ui.view" id="view_product_tree_alternative">
@@ -98,32 +112,20 @@
 		</record>
 
 
-
-		<record model="ir.ui.view" id="view_product_form_alternative">
+		 
+		<record id="view_product_template_form_alternative" model="ir.ui.view" >
 			<field name="name">product.template.alternative.form</field>
 			<field name="model">product.template</field>
 			<field name="inherit_id" ref="product.product_template_form_view" />
-			<field name="type">form</field>
+ 
+			<field name="priority" eval="16"/>
 			<field name="arch" type="xml">
+				   
 				<field name="active" position="after">
 					<field name="alternative_code" />
 					<field name="used_for"  />
 				</field>
-				<!-- 
-				<field name="volume" position="before">
-					<field name="dimensions" />
-				</field>
-					
-				<field name="product_manager" position="after">
-					
-					<label for="shelf_life"/>
-                    <div>
-                        <field name="shelf_life" class="oe_inline"/> 
-                        <field name="uom_shelf_life" class="oe_inline"/> 
-                    </div>
-
-				</field>
-				 -->								
+								
 				<notebook position="inside">
 					<page string="Alternative">
 						<separator string="Alternative" colspan="4" />
@@ -135,9 +137,11 @@
 						</field>
 					</page>
 				</notebook>
+				
 			</field>
 		</record>
-
+   
+		
 		<record model="ir.ui.view" id="product_alternative_tree_view">
 			<field name="name">product.alternative.tree</field>
 			<field name="model">product.alternative</field>
