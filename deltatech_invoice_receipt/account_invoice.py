@@ -99,6 +99,7 @@ class account_invoice(models.Model):
             if line.product_id.type == 'product':
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 price = from_currency.compute(price, self.env.user.company_id.currency_id )
+                line.product_id.standard_price = price # asta trbuie sa fie in functie de o bifa de prin configurare
                 move_value= {
                                'product_id':line.product_id.id,
                                'product_uom_qty':line.quantity,
@@ -118,7 +119,15 @@ class account_invoice(models.Model):
         msg = _('Picking list %s without reference to purchase order was created') % self.get_link(picking)
         self.message_post(body=msg)
         picking.message_post(body=msg)
-        
+
+        for line in self.invoice_line:
+            if not line.product_id.seller_id:
+                values = {'seller_ids':[(0,False,{'name':self.partner_id.id})]}
+                
+                line.product_id.write(values)
+                msg = _('Supplier added from invoice %s') % self.get_link(self)
+                line.product_id.message_post(body=msg)
+                
         
                 
     @api.multi
