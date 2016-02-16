@@ -31,6 +31,8 @@ Functionalitati:
  - La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
  - Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
  - Se permite generarea unei document de recepție pentru produsele care nu au comanda de achizitie
+ - Pretul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
+ - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie 
 
 Antentie:
  - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
