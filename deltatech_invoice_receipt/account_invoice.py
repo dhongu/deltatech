@@ -111,6 +111,7 @@ class account_invoice(models.Model):
                                'invoice_line_id':line.id, 
                                'picking_id':picking.id,
                                'price_unit': price,
+                               'data':date_receipt,
                                'date_expected': date_receipt 
                             }
                 self.env['stock.move'].create(move_value)
@@ -274,6 +275,7 @@ class account_invoice(models.Model):
                 purchase_line_ids.append(link.move_id.purchase_line_id)
                 link.move_id.write({
                                     'price_unit': line['price_unit'],
+                                    'date':date_receipt ,
                                     'date_expected': date_receipt ,
                                     'invoice_line_id':line['invoice_line'].id,
                                     })
@@ -307,7 +309,8 @@ class account_invoice(models.Model):
                 if stock_picking_payable_account_id:
                     line['picking'].write({'notice': True})                 
                 line['picking'].do_transfer()
-                line['picking'].write({'date_done': date_receipt,  
+                line['picking'].write({'date':date_receipt, 
+                                       'date_done': date_receipt,  
                                        'invoice_state':'invoiced',
                                        'invoice_id':self.id,
                                        #'reception_to_invoice':False, 
@@ -315,6 +318,9 @@ class account_invoice(models.Model):
                 msg = _('Picking list %s was receipted') % self.get_link(line['picking'])
                 origin = origin + ' '+ line['picking'].name
                 self.message_post(body=msg)
+                for move in line['picking'].move_lines:
+                    move.write({'date':date_receipt ,
+                                'date_expected': date_receipt})
        
 
             
