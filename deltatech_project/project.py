@@ -198,7 +198,10 @@ class project_task(models.Model):
                     task.progress = round(min(100.0 * hours.get(task.id, 0.0) / task.total_hours, 99.99),2)
                 if task.stage_id and  task.stage_id.use_progress:
                     task.progress = task.stage_id.progress
-
+                   
+                if task.progress > 0.0:
+                    if not task.work_ids:
+                        raise Warning(_('Please fill work activity'))
 
             
             
@@ -216,6 +219,7 @@ class project_task(models.Model):
 
     @api.multi
     def write(self, vals):
+
         res = super(project_task,self).write(vals)
         
         common_fields = ['name','project_id','description']
