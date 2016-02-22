@@ -23,7 +23,8 @@
 			<field name="arch" type="xml">
 				 <field name="qty" position="after">
 				 	<field name="categ_id"/>
-				 	<field name="supplier_id"/>				 	
+				 	<field name="supplier_id"/>	
+				 	<field name="invoice_id"/>				 	
 				 	<field name="customer_id"/>
 				 	<field name="origin"/>
 				</field>

@@ -18,12 +18,34 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name" : "Deltatech Quant",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
+Functionalitati:
+ - Afisare coloana de categorie produs in lista de pozitii de stoc
+ - Adaugare client pentru pozitiile de stoc livrate care un partener
+ - Adaugare furnizor pentru pozitiile de stoc achizitionate
+ - Coloana cu numarul facturii de achiztiei 
+ - Ofera posibilitatea de a modifica lotul unei pozitii de stoc
  
-import stock
+    """,
+    
+    
+    "category" : "Generic Modules/Stock",
+    "depends" : ['deltatech',"stock","account",
+                 #"stock_picking_invoice_link"
+                 ],
  
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    "data" : [  
+               'stock_view.xml',
+               'wizard/stock_quant_change_lot_view.xml'
+               ],
+    
+    "active": False,
+    "installable": True,
+}
+ 
