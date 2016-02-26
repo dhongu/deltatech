@@ -49,10 +49,10 @@ class product_template(models.Model):
     @api.multi
     @api.depends('list_price_base','standard_price','list_price','percent_bronze','percent_silver','percent_gold')
     def _compute_price(self): 
-        for product in self:
+        for product in self.sudo():
             
             tax_inc = False
-            # sa speram ca e un singur cod de taxa
+            
             for tax in product.taxes_id:
                 if tax.price_include:
                     tax_inc = True
