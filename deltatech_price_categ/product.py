@@ -49,34 +49,34 @@ class product_template(models.Model):
     @api.multi
     @api.depends('list_price_base','standard_price','list_price','percent_bronze','percent_silver','percent_gold')
     def _compute_price(self): 
-        for product in self.sudo():
+        for product in self:
             
             tax_inc = False
             
-            for tax in product.taxes_id:
+            taxe = product.taxes_id.sudo()
+            
+            for tax in taxe:
                 if tax.price_include:
                     tax_inc = True
             
             if product.list_price_base == 'standard_price':
-                price = product.standard_price
+                price = product.sudo().standard_price
             else:
                 price = product.list_price
                 if tax_inc:
-                    taxes = product.taxes_id.compute_all(product.list_price, 1)
+                    taxes = taxe.compute_all(product.list_price, 1)
                     price = taxes['total']
-                                
-
             
             product.list_price_bronze =  price  * (1 + product.percent_bronze)            
             product.list_price_silver =  price  * (1 + product.percent_silver)
             product.list_price_gold  =   price  * (1 + product.percent_gold)
             
             if tax_inc: 
-                taxes = product.taxes_id.compute_all( product.list_price_bronze, 1, force_excluded=True)
+                taxes = taxe.compute_all( product.list_price_bronze, 1, force_excluded=True)
                 product.list_price_bronze =  taxes['total_included']
-                taxes = product.taxes_id.compute_all( product.list_price_silver, 1, force_excluded=True)
+                taxes = taxe.compute_all( product.list_price_silver, 1, force_excluded=True)
                 product.list_price_silver =  taxes['total_included']            
-                taxes = product.taxes_id.compute_all( product.list_price_gold, 1, force_excluded=True)
+                taxes = taxe.compute_all( product.list_price_gold, 1, force_excluded=True)
                 product.list_price_gold =  taxes['total_included']            
                 
            
