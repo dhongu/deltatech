@@ -38,9 +38,9 @@ class product_template(models.Model):
     percent_silver    = fields.Float(string="Silver Percent")
     percent_gold      = fields.Float(string="Gold Percent")
     
-    list_price_bronze = fields.Float(string="Bronze Price",compute="_compute_price",store=True, readonly=True)
-    list_price_silver = fields.Float(string="Silver Price",compute="_compute_price",store=True, readonly=True)
-    list_price_gold   = fields.Float(string="Gold Price",compute="_compute_price",store=True, readonly=True)
+    list_price_bronze = fields.Float(string="Bronze Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
+    list_price_silver = fields.Float(string="Silver Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
+    list_price_gold   = fields.Float(string="Gold Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
 
 
  
@@ -50,7 +50,7 @@ class product_template(models.Model):
     @api.depends('list_price_base','standard_price','list_price','percent_bronze','percent_silver','percent_gold')
     def _compute_price(self): 
         for product in self:
-            
+            print "Calcul pret"
             tax_inc = False
             
             taxe = product.taxes_id.sudo()
@@ -60,7 +60,10 @@ class product_template(models.Model):
                     tax_inc = True
             
             if product.list_price_base == 'standard_price':
-                price = product.sudo().standard_price
+                try:
+                    price = product.standard_price
+                except:
+                    price = product.sudo().standard_price
             else:
                 price = product.list_price
                 if tax_inc:
@@ -77,9 +80,9 @@ class product_template(models.Model):
                 taxes = taxe.compute_all( product.list_price_silver, 1, force_excluded=True)
                 product.list_price_silver =  taxes['total_included']            
                 taxes = taxe.compute_all( product.list_price_gold, 1, force_excluded=True)
-                product.list_price_gold =  taxes['total_included']            
-                
-           
+                product.list_price_gold =  taxes['total_included']   
+                         
+            print product.list_price_bronze, product.list_price_silver, product.list_price_gold
     
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
