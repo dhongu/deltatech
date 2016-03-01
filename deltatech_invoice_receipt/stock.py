@@ -42,7 +42,9 @@ class stock_picking(models.Model):
     # ajustare automata a monedei de facturare in conformitate cu moneda din jurnal
     @api.multi
     def action_invoice_create(self,  journal_id, group=False, type='out_invoice' ): 
-        
+        for picking in self:
+            if picking.state != 'done':
+                raise Warning(_("The picking list %s isn't transferred.") % picking.name   )
         invoices = super(stock_picking,self).action_invoice_create( journal_id, group, type )
         
  
