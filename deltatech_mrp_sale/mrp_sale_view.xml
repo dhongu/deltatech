@@ -3,13 +3,20 @@
 	<data>
 
 	      <report 
-            string="Specification" 
-            id="action_report_specification" 
+            string="Specification V1" 
+            id="action_report_specification1" 
             model="sale.order" 
             report_type="qweb-pdf"
-            name="deltatech_mrp_sale.report_specification" 
-            file="deltatech_mrp_sale.report_specification"    />
-	  
+            name="deltatech_mrp_sale.report_specification1" 
+            file="deltatech_mrp_sale.report_specification1"    />
+	      
+	      <report 
+            string="Specification V2" 
+            id="action_report_specification2" 
+            model="sale.order" 
+            report_type="qweb-pdf"
+            name="deltatech_mrp_sale.report_specification2" 
+            file="deltatech_mrp_sale.report_specification2"    />	  
 
 
 		<record id="action_sale_mrp_resource" model="ir.actions.act_window">
