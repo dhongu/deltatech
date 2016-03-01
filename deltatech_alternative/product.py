@@ -55,12 +55,21 @@ class product_catalog(models.Model):
         prod = self.env['product.product']
         for prod_cat in self:
             if (not prod_cat.code_new or len(prod_cat.code_new)<2 ) and not prod_cat.product_id   :
+                
+                route_ids = []
+                mto = self.env.ref('stock.route_warehouse0_mto', raise_if_not_found=False)
+                
+                if mto: 
+                    route_ids += [mto.id]
+                buy = self.env.ref('purchase.route_warehouse0_buy', raise_if_not_found=False)
+                if buy: 
+                    route_ids += [buy.id]                    
+                
                 values =  {'name':prod_cat.name,
                            'default_code':prod_cat.code,
                            'lst_price':prod_cat.list_price,
                            'categ_id':prod_cat.categ_id.id,
-                           'route_ids':[(6,0,[self.env.ref('stock.route_warehouse0_mto').id,
-                                              self.env.ref('purchase.route_warehouse0_buy').id])],
+                           'route_ids':[(6,0,route_ids)],
                            'sale_delay':prod_cat.sale_delay }
                 if prod_cat.supplier_id:
                     values['seller_ids'] = [(0,0,{'name':prod_cat.supplier_id.id,
