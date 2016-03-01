@@ -19,14 +19,31 @@
 #
 ##############################################################################
 
-import stock_quant_change_lot
-import stock_quant_split
 
 
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
+import openerp.addons.decimal_precision as dp
 
 
-
-
+class sale_order(models.Model):
+    _inherit = 'sale.order' 
+    
+     
+    @api.multi
+    def view_current_stock(self):
+        action = self.env.ref('stock.product_open_quants').read()[0]  
+        product_ids = []
+        for order in self:
+            product_ids += [line.product_id.id for line in order.order_line]
+        action['context'] = {'search_default_internal_loc': 1, 
+                             'search_default_locationgroup':1}
+        
+        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"            
+        return action 
+ 
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

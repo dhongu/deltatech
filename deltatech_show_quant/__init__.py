@@ -19,8 +19,9 @@
 #
 ##############################################################################
 
-import stock_quant_change_lot
-import stock_quant_split
+
+
+import sale
 
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,35 +19,25 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Quant",
+    "name" : "Deltatech Show Quant",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
+ 
+Features:
+ - Afisare stoc direct din comanda de vanzare
 
-Functionalitati:
- - Afisare coloana de categorie produs in lista de pozitii de stoc
- - Adaugare client pentru pozitiile de stoc livrate care un partener
- - Adaugare furnizor pentru pozitiile de stoc achizitionate
- - Coloana cu numarul facturii de achiztiei 
- - Ofera posibilitatea de a modifica lotul unei pozitii de stoc
- - Permite impartirea unei pozitii de stoc
- 
+
     """,
-    
-    
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"stock","account",
-                 #"stock_picking_invoice_link"
-                 ],
+    "depends" : ['deltatech',
+                 "sale",
+                  ],
  
-    "data" : [  
-               'stock_view.xml',
-               'wizard/stock_quant_change_lot_view.xml',
-               'wizard/stock_quant_split_view.xml'
-               ],
-    
+    "data" : [ 'sale_view.xml' ],
     "active": False,
     "installable": True,
 }
- 
+
+
