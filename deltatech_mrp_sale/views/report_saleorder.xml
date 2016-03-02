@@ -71,7 +71,7 @@
 					</t>
 
 					<tr>
-						<td colspan="4"></td>
+						<td colspan="4" />
 					</tr>
 					<tr style="background-color:#C4D773">
 						<td colspan="4">
@@ -124,7 +124,7 @@
 					</tr>
 
 					<tr>
-						<td colspan="4"></td>
+						<td colspan="4" />
 					</tr>
 					<tr style="background-color:#DA9694">
 						<td colspan="4">
@@ -164,7 +164,7 @@
 						</th>
 					</tr>
 					<tr>
-						<td colspan="4"></td>
+						<td colspan="4" />
 					</tr>
 					<tr style="background-color:#DA9694">
 
@@ -190,7 +190,7 @@
 
 
 					<tr>
-						<td colspan="4"></td>
+						<td colspan="4" />
 					</tr>
 					<tr style="background-color:#B8CCE4">
 						<td colspan="4">
@@ -207,12 +207,12 @@
 										<small t-field="l.product_id.description_sale" />
 									</div>
 								</td>
-								<td class="text-right">
+								<td class="text-right" />
 
-								</td>
-								<td class="text-right">
 
-								</td>
+								<td class="text-right" />
+
+
 
 								<td class="text-right">
 									<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
@@ -243,7 +243,7 @@
 						</th>
 					</tr>
 					<tr>
-						<td colspan="4"></td>
+						<td colspan="4" />
 					</tr>
 
 					<tr>
@@ -260,12 +260,12 @@
 										<small t-field="l.product_id.description_sale" />
 									</div>
 								</td>
-								<td class="text-right">
+								<td class="text-right" />
 
-								</td>
-								<td class="text-right">
 
-								</td>
+								<td class="text-right" />
+
+
 								<td class="text-right">
 									<span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
 								</td>
@@ -279,9 +279,9 @@
 
 			</xpath>
 
-			<xpath expr="//table/following-sibling::*[1]" position="replace">
+			<xpath expr="//table/following-sibling::*[1]" position="replace" />
 
-			</xpath>
+
 
 			<xpath expr="//p[@t-field='o.note']" position="before">
 				<p style="background-color:#F8F8F8; color:#FF0000">This estimate is a contractual document we take responsibility for that.
@@ -436,7 +436,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td colspan="5"></td>
+								<td colspan="5" />
 							</tr>
 							<tr style="background-color:#DA9694">
 								<td colspan="5">
@@ -481,7 +481,7 @@
 								</th>
 							</tr>
 							<tr>
-								<td colspan="5"></td>
+								<td colspan="5" />
 							</tr>
 							<tr style="background-color:#B8CCE4">
 								<td colspan="5">
@@ -614,7 +614,7 @@
 						</td>
 					</t>
 				</tr>
-				<t t-if="a.resource_ids and len(a.resource_ids)>1">
+				<t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
 					<tr t-foreach="a.resource_ids" t-as="r">
 						<t t-if="r.product_uom_qty != 0.0">
 							<td>
@@ -668,27 +668,19 @@
 					<div class="oe_structure" />
 					<div class="row">
 						<div class="col-xs-6">
-							<strong t-if="o.partner_shipping_id == o.partner_invoice_id">Invoice and shipping address:</strong>
-							<strong t-if="o.partner_shipping_id != o.partner_invoice_id">Invoice address:</strong>
-							<div t-field="o.partner_invoice_id"
+							<strong>Customer:</strong>
+							<div t-field="o.partner_id"
 								t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}" />
 							<p t-if="o.partner_id.vat">
 								VAT:
 								<span t-field="o.partner_id.vat" />
 							</p>
-							<div t-if="o.partner_shipping_id != o.partner_invoice_id" class="mt8">
-								<strong>Shipping address:</strong>
-								<div t-field="o.partner_shipping_id"
-									t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}" />
-								<p t-if="o.partner_id.vat">
-									VAT:
-									<span t-field="o.partner_id.vat" />
-								</p>
-							</div>
+
 						</div>
+
 						<div class="col-xs-5 col-xs-offset-1">
-							<div t-field="o.partner_id"
-								t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" />
+							<strong>Salesperson:</strong>
+							<p t-field="o.user_id.name" />
 						</div>
 					</div>
 
@@ -708,10 +700,7 @@
 							<strong t-if="o.state in ['draft','sent']">Quotation Date:</strong>
 							<p t-field="o.date_order" />
 						</div>
-						<div t-if="o.user_id.name" class="col-xs-3">
-							<strong>Salesperson:</strong>
-							<p t-field="o.user_id.name" />
-						</div>
+
 						<div t-if="o.payment_term" class="col-xs-3">
 							<strong>Payment Term:</strong>
 							<p t-field="o.payment_term" />
@@ -769,12 +758,15 @@
 						<tbody class="sale_tbody">
 							<tr style="background-color:#C4D773">
 								<td colspan="5">
-									<strong>Base Kit</strong>
+									<h3>Base Kit</h3>
+									<t t-set="with_price" t-value="0" />
 								</td>
 							</tr>
 
 							<t t-foreach="o.article_ids" t-as="a">
+
 								<t t-if="a.item_categ==&quot;normal&quot;">
+
 									<t t-call="deltatech_mrp_sale.report_specification_article2" />
 								</t>
 							</t>
@@ -783,12 +775,12 @@
 								<td colspan="2">
 									<strong>Studiu tehnic + Piese asamblare</strong>
 								</td>
-								<td class="text-right">
+								<td class="text-right" />
 
-								</td>
-								<td class="text-right">
 
-								</td>
+								<td class="text-right" />
+
+
 								<td class="text-right" style="white-space: nowrap;">
 									<span t-esc="round(total_primary,2)" />
 									<span t-field="o.pricelist_id.currency_id.symbol" />
@@ -820,9 +812,11 @@
 							</tr>
 							<tr style="background-color:#DA9694">
 								<td colspan="5">
-									<strong>Optional Items</strong>
+									<h3>Optional Items</h3>
+									<t t-set="with_price" t-value="1" />
 								</td>
 							</tr>
+
 
 
 							<t t-foreach="o.article_ids" t-as="a">
@@ -865,7 +859,7 @@
 							</tr>
 							<tr style="background-color:#B8CCE4">
 								<td colspan="5">
-									<strong>Service</strong>
+									<h3>Service</h3>
 								</td>
 							</tr>
 
@@ -967,7 +961,7 @@
 				<tr>
 					<td colspan="2">
 						<b t-if="a.item_categ==&quot;normal&quot;">
-							<span t-field="a.name" />
+							<h4 t-field="a.name" />
 						</b>
 						<t t-if="a.item_categ!=&quot;normal&quot;">
 							<span t-field="a.name" />
@@ -982,11 +976,15 @@
 							<span groups="product.group_uom" t-field="a.product_uom" />
 						</td>
 						<td class="text-right" style="white-space: nowrap;">
-							<span t-field="a.price_unit" />
+							<t t-if="with_price  and a.price_unit&gt;0">
+								<span t-field="a.price_unit" />
+							</t>
 						</td>
 
 						<td class="text-right" style="white-space: nowrap;">
-							<span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+							<t t-if="with_price and a.amount&gt;0">
+								<span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+							</t>
 						</td>
 					</t>
 					<t t-if="a.resource_ids and len(a.resource_ids)!=1">
@@ -995,11 +993,16 @@
 							<span groups="product.group_uom" t-field="a.product_uom" />
 						</td>
 						<td class="text-right" style="white-space: nowrap;">
-							<span t-field="a.price_unit" />
+							<t t-if="with_price and a.price_unit&gt;0">
+								<span t-field="a.price_unit" />
+							</t>
 						</td>
 
 						<td class="text-right" style="white-space: nowrap;">
-							<strong t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+							<t t-if="with_price and a.amount&gt;0">
+								<strong t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
+
+							</t>
 						</td>
 					</t>
 				</tr>
@@ -1023,19 +1026,16 @@
 									</div>
 								</i>
 							</td>
-							<!-- <td class="text-right"> <span t-field="r.product_uom_qty"/> <span groups="product.group_uom" t-field="r.product_uom"/> </td> <td class="text-right"> 
-								<span t-field="r.price_unit"/> </td> <td class="text-right"> <span t-field="r.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: 
-								&quot;o.pricelist_id.currency_id&quot;}"/> </td> -->
-							<td></td>
-							<td></td>
-							<td></td>
+
+							<td />
+							<td />
+							<td />
 						</t>
 					</tr>
 				</t>
 			</t>
 
 		</template>
-
 
 
 		<template id="report_specification2">
