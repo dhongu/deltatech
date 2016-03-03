@@ -339,6 +339,7 @@
 						<span t-field="o.name" />
 					</h2>
 
+
 					<div class="row mt32 mb32" id="informations">
 						<div t-if="o.client_order_ref" class="col-xs-3">
 							<strong>Your Reference:</strong>
@@ -365,6 +366,13 @@
 								<span t-field="o.primary_uom" />
 							</p>
 						</div>
+					</div>
+
+					<div class="row mt32 mb32" id="introduction">
+						<span>Casele Ecokit sunt realizate cu lemn uscat, tratat si rindeluit.</span>
+						<span>Proiectele sunt relizate conform normelor de calcul EUROCODE 5.</span>
+						<span>Ecokit foloseste in proiectarea structurilor sale programme specializate –WOODENGINE , RoofCoon- TrussCon,</span>
+						<span>toate piesele metalice si conectorii utilizati provenind de la furnizori certificati european.</span>
 					</div>
 
 					<table class="table table-condensed">
@@ -583,7 +591,7 @@
 
 		<template id="report_specification_article1">
 			<t t-if="a.product_uom_qty != 0.0">
-				<tr>
+				<tr style="background-color:#A9E2F3">
 					<td colspan="2">
 						<b t-if='a.item_categ=="normal"'>
 							<span t-field="a.name" />
@@ -591,9 +599,6 @@
 						<t t-if='a.item_categ!="normal"'>
 							<span t-field="a.name" />
 						</t>
-						<div t-if="a.product_template.description_sale">
-							<small t-field="a.product_template.description_sale" />
-						</div>
 					</td>
 					<t t-if="a.resource_ids and len(a.resource_ids)==1">
 						<td class="text-right">
@@ -614,6 +619,11 @@
 						</td>
 					</t>
 				</tr>
+				<tr t-if="a.product_template.description_sale">
+					<td colspan="5">
+						<small t-field="a.product_template.description_sale" />
+					</td>
+				</tr>
 				<t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
 					<tr t-foreach="a.resource_ids" t-as="r">
 						<t t-if="r.product_uom_qty != 0.0">
@@ -624,10 +634,10 @@
 							<td>
 								<i>
 									<b t-if='r.item_categ=="normal"'>
-										<span t-field="r.name" />
+										<strong t-field="r.name" />
 									</b>
 									<t t-if='r.item_categ!="normal"'>
-										<span t-field="r.name" />
+										<strong t-field="r.name" />
 									</t>
 									<div t-if="r.product_id.description_sale">
 										<small t-field="r.product_id.description_sale" />
@@ -704,6 +714,10 @@
 						<div t-if="o.payment_term" class="col-xs-3">
 							<strong>Payment Term:</strong>
 							<p t-field="o.payment_term" />
+						</div>
+						<div  class="col-xs-3">
+							<strong>Intocmit:</strong>
+							<p t-field="o.write_uid" />
 						</div>
 						<div t-if="o.specification" class="col-xs-3">
 							<strong>Primary Quantity:</strong>
@@ -927,16 +941,28 @@
 							</table>
 						</div>
 					</div>
-					<p style="background-color:#F8F8F8; color:#FF0000">This estimate is a contractual document we take responsibility for that.
-						Any other technical and commercial communicated during our
-						correspondence for this project are not included in this estimate will not be counted.
+					<div>
+						<div>Tratare Lemn</div>
+						  <ul>
+							<ui><div> * Lemnul nostru este uscat in uscatoare industriale, controlate electronic, umiditatea lemnului folosit este intre 14-16 %</div></ui>
+							<ui><div> * Tot lemnul folosit este tratat prin imersie (nu pensulare, nu pulverizare) in cuve speciale. </div></ui>
+							<ui><div> * Produsul folosit pentru tratare este omologat si certificat.</div></ui>
+							<ui><div> * Lemnul folosit pentru talpa de fixare pe beton este tratat in autoclava</div>
+							</ui>
+						 </ul>
+					</div>
+					<p style="background-color:#F8F8F8; color:#FF0000">
+						<span>This estimate is a contractual document we take responsibility for that.</span>
+						<span>Any other technical and commercial communicated during our correspondence for this project are not included in this estimate will not be
+							counted.
+						</span>
 					</p>
-					<p style="background-color:#D0D0D0">What is not included in the estimate will not be delivered!
+					<p style="background-color:#D0D0D0">
+						<span>What is not included in the estimate will not be delivered!</span>
 					</p>
-					<p style="background-color:#F8F8F8; color:#FF0000">Signing this document means accepting the offer commercial and technical responsibility by customer.
-						Any other request later after
-						signing this
-						estimate will be subject to recalculation and a tender attached to this estimate.
+					<p style="background-color:#F8F8F8; color:#FF0000">
+						<span>Signing this document means accepting the offer commercial and technical responsibility by customer.</span>
+						<span>Any other request later after signing this estimate will be subject to recalculation and a tender attached to this estimate.</span>
 					</p>
 					<br />
 					<br />
@@ -958,17 +984,16 @@
 
 		<template id="report_specification_article2">
 			<t t-if="a.product_uom_qty != 0.0">
-				<tr>
+				<tr style="background-color:#A9E2F3">
 					<td colspan="2">
-						<b t-if="a.item_categ==&quot;normal&quot;">
-							<h4 t-field="a.name" />
+						<b t-if="a.item_categ=='normal'">
+							<h4>
+								<strong t-field="a.name" />
+							</h4>
 						</b>
-						<t t-if="a.item_categ!=&quot;normal&quot;">
-							<span t-field="a.name" />
+						<t t-if="a.item_categ!='normal'">
+							<strong t-field="a.name" />
 						</t>
-						<div t-if="a.product_template.description_sale">
-							<small t-field="a.product_template.description_sale" />
-						</div>
 					</td>
 					<t t-if="a.resource_ids and len(a.resource_ids)==1">
 						<td class="text-right" style="white-space: nowrap;">
@@ -1005,6 +1030,11 @@
 							</t>
 						</td>
 					</t>
+				</tr>
+				<tr t-if="a.product_template.description_sale">
+					<td colspan="5">
+						<small t-field="a.product_template.description_sale" />
+					</td>
 				</tr>
 				<t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
 					<tr t-foreach="a.resource_ids" t-as="r">
