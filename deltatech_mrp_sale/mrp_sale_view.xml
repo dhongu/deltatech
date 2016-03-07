@@ -58,6 +58,7 @@
 							<field name="primary_uom" class="oe_inline" groups="product.group_uom" />
 						</div>
 						<field name="price_unit" />
+						<field name="add_inst_day" />
 						<field name="id" invisible='1' />
 					</group>
 				</field>

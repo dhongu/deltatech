@@ -715,7 +715,7 @@
 							<strong>Payment Term:</strong>
 							<p t-field="o.payment_term" />
 						</div>
-						<div  class="col-xs-3">
+						<div class="col-xs-3">
 							<strong>Intocmit:</strong>
 							<p t-field="o.write_uid" />
 						</div>
@@ -728,7 +728,12 @@
 							</p>
 						</div>
 					</div>
-
+					<p>
+						<span>The EcoKit houses are made with dried wood, treated and planing wood. </span>
+						<span>Projects are done according to calculation rules EUROCODE 5. </span>
+						<span>Ecokit uses specialized software for designing the timber frame structures - WOODENGINE, RoofCoon- TrussCon, </span>
+						<span>all metal parts and connectors used come from certified suppliers in Europe.</span>
+					</p>
 					<table class="table table-condensed">
 						<thead>
 							<tr>
@@ -942,31 +947,78 @@
 						</div>
 					</div>
 					<div>
-						<div>Tratare Lemn</div>
-						  <ul>
-							<ui><div> * Lemnul nostru este uscat in uscatoare industriale, controlate electronic, umiditatea lemnului folosit este intre 14-16 %</div></ui>
-							<ui><div> * Tot lemnul folosit este tratat prin imersie (nu pensulare, nu pulverizare) in cuve speciale. </div></ui>
-							<ui><div> * Produsul folosit pentru tratare este omologat si certificat.</div></ui>
-							<ui><div> * Lemnul folosit pentru talpa de fixare pe beton este tratat in autoclava</div>
-							</ui>
-						 </ul>
+						<div>WOOD TREATMENT</div>
+						<div sytle="margin-left: 40px;">
+							<ul>
+								<li>
+									<div>Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16%</div>
+								</li>
+								<li>
+									<div>
+										<span>All wood used is treated by immersion (no brush, no spraying) in special vats.</span>
+										<span>The product used for the treatment is approved and certified </span>
+									</div>
+								</li>
+
+								<li>
+									<div>The wood used for the concrete base plate is autoclave treated</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<p style="background-color:#F8F8F8; color:#FF0000">
-						<span>This estimate is a contractual document we take responsibility for that.</span>
-						<span>Any other technical and commercial communicated during our correspondence for this project are not included in this estimate will not be
-							counted.
+						<span>This estimate is a contractual document for which EcoKit take responsibility. </span>
+						<span>Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate
+							will not be counted.
 						</span>
 					</p>
+
+
 					<p style="background-color:#D0D0D0">
 						<span>What is not included in the estimate will not be delivered!</span>
 					</p>
 					<p style="background-color:#F8F8F8; color:#FF0000">
-						<span>Signing this document means accepting the offer commercial and technical responsibility by customer.</span>
+						<span>Signing this document means accepting the offer commercial and technical commitment to the responsibility.</span>
 						<span>Any other request later after signing this estimate will be subject to recalculation and a tender attached to this estimate.</span>
 					</p>
+
+					<div t-if='o.add_inst_day'>
+						<p>
+							Gypsum board or paneling interior (where the client wants to finish interior paneling) are provided but not installed.
+							Price above does not
+							include installation installing these items because of the difficulties that may arise during the works carried out in
+							collaboration with the
+							electrician and plumber.
+							However, if you can ensure timely two please consider a charge of 3 euro / sq m without VAT for fitting plasterboard
+							and painting without tape, and 4 €
+							/ sq m without VAT for mounting interior paneling.
+						</p>
+
+						<p>
+							Number of days estimated for mounting the house (including gypsum board or paneling interior) <span t-field="o.add_inst_day" />
+						</p>
+						<p>
+							<span>Specifications:</span>
+							<div sytle="margin-left: 40px;">
+								<ul>
+									<li>Transport, accommodation, and meals for the team of workers is the responsibility of the customer</li>
+									<t t-if="o.partner_id.country_id.code != 'RO'">
+										<li>The cost of transporting team of workers from Romania round-trip is EUR 1,200</li>
+										<li>The cost meal / team / day: 50 Euro</li>
+									</t>
+									<li>Accommodation is customer choice</li>
+									<li>If the site is 10 km away, plus it will calculate a value for fuel</li>
+									<li>The fork lift truck (Manitou) with driver (for download) is the responsibility of the customer.</li>
+									<li>The offer is valid for 3 months, excepting the offer for the exterior joinery that is valid for one month.</li>
+								</ul>
+							</div>
+						</p>
+					</div>
+
+
 					<br />
 					<br />
-					<p>Customer signature</p>
+					<p>Client's signature :</p>
 					<br />
 					<br />
 					<br />

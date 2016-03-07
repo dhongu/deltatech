@@ -66,7 +66,7 @@ class sale_order(models.Model):
     attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
                                           string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )
      
-     
+    add_inst_day = fields.Integer(string="Additional installing days")
 
     
     @api.multi

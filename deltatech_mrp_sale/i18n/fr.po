@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 09:49+0000\n"
-"PO-Revision-Date: 2016-03-07 09:49+0000\n"
+"POT-Creation-Date: 2016-03-07 10:35+0000\n"
+"PO-Revision-Date: 2016-03-07 10:35+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,44 +18,44 @@ msgstr ""
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "(update)"
-msgstr "(actualizare)"
+msgstr "(mise à jour)"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Accommodation is customer choice"
-msgstr "Cazarea este la alegerea clientului"
+msgstr "L'hébergement est à votre choix;"
 
 #. module: deltatech_mrp_sale
 #: field:sale.order,add_inst_day:0
 msgid "Additional installing days"
-msgstr "Zile suplimentare motaj"
+msgstr "Additional installing days"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 #: field:sale.order,resource_item_ids:0
 msgid "All Products"
-msgstr "Toate produsele"
+msgstr "All Products"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "All wood used is treated by immersion (no brush, no spraying) in special vats."
-msgstr "Tot lemnul folosit este tratat prin imersie (nu pensulare, nu pulverizare) in cuve speciale."
+msgstr "Tout le bois de structure est traité par immersion, dans des cuves spéciales avec des  produits homologués et certifiés;"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Amount"
-msgstr "Valoare"
+msgstr "Amount"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate\n"
 "							will not be counted."
-msgstr "Orice alta informatie tehnico-comercială comunicată în timpul corespondenței noastre pentru acest proiect și nu figurează în acest deviz nu va fi luată în calcul."
+msgstr "Toute autre  information technico-commerciale communiquée le long de notre correspondance sur le&nbsp;  présent dossier qui n'apparait pas dans ce devis n'est pas prise en compte!"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Any other request later after signing this estimate will be subject to recalculation and a tender attached to this estimate."
-msgstr "Orice alta solicitare ulterioară după semnarea prezentului deviz va face obiectul unui nou calcul și a unei oferte anexate prezentului deviz."
+msgstr "Toute autre demande ultérieure à la signature du présent  devis fera l'objet d'un chiffrage et d'une offre annexée au présent devis."
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article.attribute,article_id:0
@@ -69,24 +69,24 @@ msgstr "Article"
 #: field:mrp.bom,article_list:0
 #: field:sale.mrp.take.bom,bom_id:0
 msgid "Article List"
-msgstr "Listă articole"
+msgstr "Article List"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 #: field:sale.order,article_ids:0
 msgid "Articles"
-msgstr "Articole"
+msgstr "Articles"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article.attribute,attribute:0
 #: field:sale.mrp.order.attribute,attribute:0
 msgid "Attribute"
-msgstr "Atribute"
+msgstr "Attribute"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Attributes"
-msgstr "Atribute"
+msgstr "Attributes"
 
 #. module: deltatech_mrp_sale
 #: code:addons/deltatech_mrp_sale/mrp.py:364
@@ -94,7 +94,7 @@ msgstr "Atribute"
 #: code:addons/deltatech_mrp_sale/mrp_sale.py:698
 #, python-format
 msgid "BOM"
-msgstr "LDM"
+msgstr "BOM"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -106,34 +106,34 @@ msgstr "Base Kit"
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_mrp_bom
 msgid "Bill of Material"
-msgstr "Listă de materiale"
+msgstr "Nomenclature"
 
 #. module: deltatech_mrp_sale
 #: view:mrp.bom:deltatech_mrp_sale.mrp_bom_tree_view
 msgid "Bill of Materials"
-msgstr "Listă de materiale"
+msgstr "Bill of Materials"
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "Cancel"
-msgstr "Revocare"
+msgstr "Cancel"
 
  
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
 msgid "Category of Product"
-msgstr "Categorie de Product"
+msgstr "Category of Product"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Change"
-msgstr "Schimbă"
+msgstr "Change"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Client's signature :"
-msgstr "Semnatură client:"
+msgstr "Signature du client:"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,create_uid:0
@@ -159,30 +159,30 @@ msgstr "Created on"
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:sale.report_saleorder_document
 msgid "Customer signature"
-msgstr "Semnătură client"
+msgstr "Customer signature"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Customer:"
-msgstr "Client:"
+msgstr "Customer:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Date Ordered:"
-msgstr "Data Comenzii"
+msgstr "Date de commande :"
 
 #. module: deltatech_mrp_sale
 #: field:product.attribute,default_value:0
 msgid "Default Value"
-msgstr "Valoare implicită"
+msgstr "Default Value"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Description"
-msgstr "Descriere"
+msgstr "Description"
 
 #. module: deltatech_mrp_sale
 #: help:product.attribute,sequence:0
@@ -190,24 +190,24 @@ msgstr "Descriere"
 #: help:sale.mrp.article.attribute,sequence:0
 #: help:sale.mrp.order.attribute,sequence:0
 msgid "Determine the display order"
-msgstr "Determină ordine de afișare în comandă"
+msgstr "Determine the display order"
 
-
+ 
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Ecokit uses specialized software for designing the timber frame structures - WOODENGINE, RoofCoon- TrussCon,"
-msgstr "Ecokit foloseste in proiectarea structurilor sale programe  specializate –WOODENGINE, RoofCoon- TrussCon,"
+msgstr "Ecokit utilise pour  l’étude de ces structures des logiciels spécialisés -WOODENGINE, ROOFCON-TRUSSCON,"
 
 #. module: deltatech_mrp_sale
 #: sql_constraint:mrp.bom.line:0
 msgid "Error"
-msgstr "Eroare"
+msgstr "Error"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,qty_formula:0
 msgid "Formula for Quantity"
-msgstr "Formula pentru cantitate"
+msgstr "Formula for Quantity"
 
 #. module: deltatech_mrp_sale
 #: help:sale.mrp.article,sequence:0
@@ -218,7 +218,7 @@ msgstr "Gives the sequence of this line when displaying the order."
 #: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
 #: view:sale.mrp.resource.item:deltatech_mrp_sale.view_sale_mrp_resource_item_filter
 msgid "Group By..."
-msgstr "Grupează după..."
+msgstr "Group By..."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
@@ -230,9 +230,7 @@ msgid "Gypsum board or paneling interior (where the client wants to finish inter
 "							However, if you can ensure timely two please consider a charge of 3 euro / sq m without VAT for fitting plasterboard\n"
 "							and painting without tape, and 4 €\n"
 "							/ sq m without VAT for mounting interior paneling."
-msgstr "*Gips cartonul sau lambriul interior (in cazul in care clientul doreste la interior finisaj cu lambriu), sunt furnizat dar nu sunt montate.\n"
-" Pretul montajului de mai sus nu cuprinde  montarea acestor elemente datorita dificultatilor ce pot aparea in timpul lucrarilor efectuate in colaborare cu electricianul si instalatorul..\n"
-" Totuși, daca dumneavoastra puteti garanta finalizarea lucrarilor cu instalatiile în timp util vă rugam să luați in considerare un tarif de 3 euro/mp fară  TVA pentru montajul gips-cartonului fara banda si zugraveli, si 4 euro/mp fara TVA pentru  montajul lambriului interior."
+msgstr "*Le placo ou le lambris intérieur (au cas où le client souhaite une finition intérieure en lambris)  sont fournis mais ne sont pas posés. Le prix de pose annoncé plus haut ne comprend pas la&nbsp;  pose de ces éléments à cause des difficultés qu'il peut avoir pour la coordination avec&nbsp;  l'électricien et le plombier. Si quand bien même vous pouvez garantir l'intervention de ces 2&nbsp;  corps de métier en temps utile, prenez en compte un budget de 3 .15 euros/m² HT pour la pose&nbsp;  du placo hors bandes et peinture et 4.20 euros/m² HT pour la pose du lambris intérieur."
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,id:0
@@ -247,7 +245,7 @@ msgstr "ID"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "If the site is 10 km away, plus it will calculate a value for fuel"
-msgstr "Daca santierul este mai departe de 10 km , se va calcula o plus valoare pentru  combustibil"
+msgstr "Si le chantier est plus loin de 10 km, une plus-value combustible sera calculée;"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,categ_id:0
@@ -257,17 +255,17 @@ msgstr "Internal Category"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Intocmit:"
-msgstr "Întocmit:"
+msgstr "Intocmit:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "Invoice address:"
-msgstr "Adresa de facturare:"
+msgstr "Adresse de facturation :"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "Invoice and shipping address:"
-msgstr "Adresa de facturare şi livrare:"
+msgstr "Adresse de facturation et livraison"
 
 #. module: deltatech_mrp_sale
 #: field:mrp.bom.line,item_categ:0
@@ -275,7 +273,7 @@ msgstr "Adresa de facturare şi livrare:"
 #: field:sale.mrp.resource,item_categ:0
 #: field:sale.order.line,item_categ:0
 msgid "Item Category"
-msgstr "Categorie poziție"
+msgstr "Item Category"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,write_uid:0
@@ -300,12 +298,12 @@ msgstr "Last Updated on"
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,name:0
 msgid "Name"
-msgstr "Nume"
+msgstr "Name"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,bom_id:0
 msgid "Norm"
-msgstr "Norma"
+msgstr "Norm"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -318,7 +316,7 @@ msgstr "Normal"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Number of days estimated for mounting the house (including gypsum board or paneling interior)"
-msgstr "Numar de zile estimative pentru montaj (inclusiv montajul gips-carton / lambriu)"
+msgstr "Nombre de jours de pose estimé (y compris pose placo/lambris):"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -326,14 +324,14 @@ msgstr "Numar de zile estimative pentru montaj (inclusiv montajul gips-carton / 
 #: selection:sale.mrp.resource,item_categ:0
 #: selection:sale.order.line,item_categ:0
 msgid "Optional"
-msgstr "Opțional"
+msgstr "Optional"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Optional Items"
-msgstr "Poziții opționale"
+msgstr "Optional Items"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -342,7 +340,7 @@ msgstr "Poziții opționale"
 #: selection:sale.order.line,item_categ:0
 #: view:website:sale.report_saleorder_document
 msgid "Optional Service"
-msgstr "Servicii obționale"
+msgstr "Optional Service"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,order_id:0
@@ -351,46 +349,46 @@ msgstr "Servicii obționale"
 #: view:sale.mrp.resource.item:deltatech_mrp_sale.view_sale_mrp_resource_item_filter
 #: field:sale.mrp.resource.item,order_id:0
 msgid "Order"
-msgstr "Comandă"
+msgstr "Order"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Order Lines"
-msgstr "Linii comandă"
+msgstr "Lignes de la commande"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Order N°"
-msgstr "Nr Comandă"
+msgstr "N° de commande"
 
 #. module: deltatech_mrp_sale
 #: field:sale.order,attributes:0
 msgid "Order attributes"
-msgstr "Atribute comandă"
+msgstr "Order attributes"
 
 #. module: deltatech_mrp_sale
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Other Information"
-msgstr "Alte informaţii"
+msgstr "Autre information"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16%"
-msgstr "Lemnul nostru este uscat in uscatoare industriale, controlate electronic, umiditatea emnului folosit este intre 14-16 %"
+msgstr "<p>Notre bois est séché en séchoirs industriels, l’humidité du bois utilisé est entre 14-<span style=\"line-height: 1.42857;\">16%;</span></p>"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Payment Term:"
-msgstr "Termenul de plată"
+msgstr "Conditions de règlement :"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Price"
-msgstr "Preț"
+msgstr "Prix"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -398,19 +396,19 @@ msgstr "Preț"
 #: selection:sale.mrp.resource,item_categ:0
 #: selection:sale.order.line,item_categ:0
 msgid "Primary"
-msgstr "Principal"
+msgstr "Primary"
 
 #. module: deltatech_mrp_sale
 #: field:sale.order,qty_primary:0
 msgid "Primary Quantity"
-msgstr "Suprafata casei (m²):"
+msgstr "Primary Quantity"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Primary Quantity:"
-msgstr "Suprafata casei (m²):"
+msgstr "Primary Quantity:"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_product_product
@@ -419,19 +417,19 @@ msgstr "Suprafata casei (m²):"
 #: view:sale.mrp.resource.item:deltatech_mrp_sale.view_sale_mrp_resource_item_filter
 #: field:sale.mrp.resource.item,product_id:0
 msgid "Product"
-msgstr "Produs"
+msgstr "Article"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_product_attribute
 msgid "Product Attribute"
-msgstr "Atribut produs"
+msgstr "Product Attribute"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,product_uom_qty:0
 #: field:sale.mrp.resource,product_uom_qty:0
 #: field:sale.mrp.resource.item,product_uom_qty:0
 msgid "Product Quantity"
-msgstr "Cantitate produs"
+msgstr "Product Quantity"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,product_template:0
@@ -442,62 +440,65 @@ msgstr "Product Template"
 #: field:sale.mrp.article,product_id:0
 #: field:sale.mrp.take.bom,product_id:0
 msgid "Product Variant"
-msgstr "Variantă de produs"
+msgstr "Product Variant"
 
 #. module: deltatech_mrp_sale
 #: field:product.product,product_attributes:0
 #: field:sale.mrp.article,product_attributes:0
 msgid "Product attributes"
-msgstr "Atribute produs"
+msgstr "Product attributes"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,resource_item_ids:0
 msgid "Products"
-msgstr "Produse"
+msgstr "Products"
 
-
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "Proiectele sunt relizate conform normelor de calcul EUROCODE 5."
+msgstr "Proiectele sunt relizate conform normelor de calcul EUROCODE 5."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Projects are done according to calculation rules EUROCODE 5."
-msgstr "Proiectele sunt realizate conform  normelor de calcul EUROCODE 5."
+msgstr "L’étude  technique est réalisée conformément aux n ormes de calcul EUROCODE 5."
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,purchase_price:0
 msgid "Purchase Price"
-msgstr "Preț achiziție"
+msgstr "Purchase Price"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Quantity"
-msgstr "Cantitate"
+msgstr "Quantité"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Quotation Date:"
-msgstr "Data Ofertei"
+msgstr "Date du devis:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Quotation N°"
-msgstr "Nr. Ofertă"
+msgstr "Devis N°"
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.resource.item:deltatech_mrp_sale.view_sale_mrp_resource_item_filter
 #: field:sale.mrp.resource.item,resource_id:0
 msgid "Resource"
-msgstr "Resursă"
+msgstr "Resource"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,resource_ids:0
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 #: field:sale.order,resource_ids:0
 msgid "Resources"
-msgstr "Resurse"
+msgstr "Resources"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_sale_mrp_article
@@ -507,7 +508,7 @@ msgstr "Sale Article"
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.order.attribute,order_id:0
 msgid "Sale Order"
-msgstr "Comandă vânzare"
+msgstr "Sale Order"
 
 #. module: deltatech_mrp_sale
 #: model:ir.actions.act_window,name:deltatech_mrp_sale.action_sale_mrp_resource
@@ -534,24 +535,24 @@ msgstr "Sale Resources Item"
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_sale_order
 msgid "Sales Order"
-msgstr "Comandă de vânzare"
+msgstr "Bon de commande"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Linie comandă de vânzare"
+msgstr "Ligne de commandes de vente"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Salesperson:"
-msgstr "Agent de vânzări:"
+msgstr "Vendeur:"
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
 #: view:sale.mrp.resource.item:deltatech_mrp_sale.view_sale_mrp_resource_item_filter
 msgid "Search"
-msgstr "Caută"
+msgstr "Search"
 
 #. module: deltatech_mrp_sale
 #: help:sale.mrp.resource,categ_id:0
@@ -565,7 +566,7 @@ msgstr "Select category for the current product"
 #: field:sale.mrp.article.attribute,sequence:0
 #: field:sale.mrp.order.attribute,sequence:0
 msgid "Sequence"
-msgstr "Secvență"
+msgstr "Sequence"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -581,41 +582,60 @@ msgstr "Service"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "Shipping address:"
-msgstr "Adresă de livrare:"
+msgstr "Adresse de livraison :"
 
 #. module: deltatech_mrp_sale
 #: view:mrp.bom:deltatech_mrp_sale.mrp_bom_form_view
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Show"
-msgstr "Afișează"
+msgstr "Show"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:sale.report_saleorder_document
 msgid "Signing this document means accepting the offer commercial and technical commitment to the responsibility."
-msgstr "Semnarea prezentului document semnifica acceptarea ofertei tehnico-comerciale si angajarea&nbsp;  responsabilitatii clientului."
+msgstr "La signature du présent document signifie l'acceptation de l'offre technico-commerciale et  engage la responsabilité du client."
 
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "Signing this document means accepting the offer commercial and technical responsibility by customer.\n"
+"						Any other request later after\n"
+"						signing this\n"
+"						estimate will be subject to recalculation and a tender attached to this estimate."
+msgstr "Signing this document means accepting the offer commercial and technical responsibility by customer.\n"
+"						Any other request later after\n"
+"						signing this\n"
+"						estimate will be subject to recalculation and a tender attached to this estimate."
+
+#. module: deltatech_mrp_sale
+#: view:website:sale.report_saleorder_document
+msgid "Signing this document means accepting the offer commercial and technical responsibility by customer.\n"
+"					Any other request later after\n"
+"					signing this\n"
+"					estimate will be subject to recalculation and a tender attached to this estimate."
+msgstr "Signing this document means accepting the offer commercial and technical responsibility by customer.\n"
+"					Any other request later after\n"
+"					signing this\n"
+"					estimate will be subject to recalculation and a tender attached to this estimate."
 
 #. module: deltatech_mrp_sale
 #: field:sale.order,specification:0
 msgid "Specification"
-msgstr "Deviz"
+msgstr "Specification"
 
 #. module: deltatech_mrp_sale
 #: model:ir.actions.report.xml,name:deltatech_mrp_sale.action_report_specification1
 msgid "Specification V1"
-msgstr "Deviz V1"
+msgstr "Specification V1"
 
 #. module: deltatech_mrp_sale
 #: model:ir.actions.report.xml,name:deltatech_mrp_sale.action_report_specification2
 msgid "Specification V2"
-msgstr "Deviz V2"
+msgstr "Specification V2"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Specifications:"
-msgstr "Precizari:"
+msgstr "Précisions:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
@@ -637,65 +657,71 @@ msgstr "Take BOM in Sale Order"
 #: model:ir.actions.act_window,name:deltatech_mrp_sale.action_take_bom
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Take List"
-msgstr "Preia lista"
+msgstr "Take List"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Taxes"
-msgstr "TVA"
+msgstr "Taxes"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The EcoKit houses are made with dried wood, treated and planing wood."
-msgstr "Casele Ecokit sunt realizate cu lemn uscat , tratat si rindeluit."
+msgstr "Les maisons ECOKIT sont réalisées avec du bois séché, traité et raboté 4 faces."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The cost meal / team / day: 50 Euro"
-msgstr "Costul mesei / echipa / zi : 50 euro"
+msgstr "Coût de la restauration / équipe / jour: 50 euros;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The cost of transporting team of workers from Romania round-trip is EUR 1,200"
-msgstr "Costul pentru transport al echipei de montaj din Romania (dus-intors) este de 1200 euro"
+msgstr "Coût du transport Roumanie-France: 1200 euros;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The fork lift truck (Manitou) with driver (for download) is the responsibility of the customer."
-msgstr "Motostivuitorul (manitou) cu sofer (pentru descarcare) cade in sarcina clientului."
+msgstr "Engin de levage avec chauffeur (pour le déchargement) à la charge du client;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The offer is valid for 3 months, excepting the offer for the exterior joinery that is valid for one month."
-msgstr "Prezenta oferta este valabila 3 luni, cu exceptia ofertei pentru tamplaria exterioara ce  are valabilitate 1 luna"
+msgstr "La présente offre est valable 3 mois, sauf l’offre de prix des menuiseries qui est valable 1 mois."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The product used for the treatment is approved and certified"
-msgstr "Produsul folosit pentru tratare este omologat si certificat."
+msgstr "&nbsp;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The wood used for the concrete base plate is autoclave treated"
-msgstr "Lemnul folosit pentru talpa de fixare pe beton este tratat in autoclava"
+msgstr "Le bois des lisses basses est traité en autoclave (classe IV)."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "This estimate is a contractual document for which EcoKit take responsibility."
-msgstr "Prezentul deviz este un document contractual pentru care EcoKit isi asuma responsabilitatea."
+msgstr "Ce présent devis est un document contractuel et engage la responsabilité d'Ecokit."
 
-
-
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "This estimate is a contractual document we take responsibility for that.\n"
+"						Any other technical and commercial communicated during our\n"
+"						correspondence for this project are not included in this estimate will not be counted."
+msgstr "This estimate is a contractual document we take responsibility for that.\n"
+"						Any other technical and commercial communicated during our\n"
+"						correspondence for this project are not included in this estimate will not be counted."
 
 #. module: deltatech_mrp_sale
 #: view:website:sale.report_saleorder_document
 msgid "This estimate is a contractual document we take responsibility for that.\n"
 "					Any other technical and commercial communicated during our\n"
 "					correspondence for this project are not included in this estimate will not be counted."
-msgstr "Prezentul deviz este un document contractual pentru care noi ne asumăm responsabilitatea.\n"
-" Orice altă informație tehnico-comercială comunicată în timpul corespondenței noastre pentru acest proiect și nu figurează în acest deviz nu va fi luată în calcul."
+msgstr "This estimate is a contractual document we take responsibility for that.\n"
+"					Any other technical and commercial communicated during our\n"
+"					correspondence for this project are not included in this estimate will not be counted."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -715,7 +741,7 @@ msgstr "Total Kit"
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Total Kit + Optional"
-msgstr "Total Kit + Opționale"
+msgstr "Total Kit + Optional"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -729,18 +755,18 @@ msgstr "Total Kit + Optional + Service"
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Total Optional Items"
-msgstr "Total poziții opționale"
+msgstr "Total Optional Items"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Total Without Taxes"
-msgstr "Total fără TVA"
+msgstr "Total HT"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Transport, accommodation, and meals for the team of workers is the responsibility of the customer"
-msgstr "Transportul, cazarea, și masa echipei de montaj cade în sarcina clientului"
+msgstr "L'équipe de pose est prise en charge par le client pour le transport, la restauration et  l'hébergement;"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,price_unit:0
@@ -749,7 +775,7 @@ msgstr "Transportul, cazarea, și masa echipei de montaj cade în sarcina client
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "Unit Price"
-msgstr "Preț unitar"
+msgstr "Prix unitaire"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article,product_uom:0
@@ -757,13 +783,13 @@ msgstr "Preț unitar"
 #: field:sale.mrp.resource.item,product_uom:0
 #: field:sale.order,primary_uom:0
 msgid "Unit of Measure"
-msgstr "Unitate de măsură"
+msgstr "Unit of Measure"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "VAT:"
-msgstr "TVA:"
+msgstr "TVA :"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.article.attribute,value:0
@@ -774,48 +800,49 @@ msgstr "Value"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "WOOD TREATMENT"
-msgstr "TRATARE LEMN"
+msgstr "TRAITEMENT DU BOIS"
 
 #. module: deltatech_mrp_sale
 #: field:mrp.bom,website_message_ids:0
 #: field:sale.order,website_message_ids:0
 msgid "Website Messages"
-msgstr "Mesaje Website"
+msgstr "Messages du site web"
 
 #. module: deltatech_mrp_sale
 #: help:mrp.bom,website_message_ids:0
 #: help:sale.order,website_message_ids:0
 msgid "Website communication history"
-msgstr "Istoric comunicare website"
+msgstr "Historique de communication du site web"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:sale.report_saleorder_document
 msgid "What is not included in the estimate will not be delivered!"
-msgstr "Ce nu figurează în deviz nu va fi livrat!"
+msgstr "Tout ce qui n'est pas marqué n'est pas livré!"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Your Reference:"
-msgstr "Referința"
+msgstr "Votre Référence:"
+
  
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "_Apply"
-msgstr "_Aplică"
+msgstr "_Apply"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "all metal parts and connectors used come from certified suppliers in Europe."
-msgstr "toate piesele metalice și conectorii utilizați provin de la furnizori certificați european."
+msgstr "toutes  les pièces métalliques et les connecteurs utilisés provenant des fournisseurs certifiés en&nbsp;  Europe."
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "or"
-msgstr "sau"
+msgstr "or"
 
-
+ 
 
