@@ -750,6 +750,8 @@
 							<t t-set="total_opt" t-value="0" />
 							<t t-set="total_service" t-value="0" />
 							<t t-set="total_opt_serv" t-value="0" />
+							<t t-set="with_price" t-value="1" />
+							<t t-set="with_qty" t-value="1" />
 
 							<t t-foreach="o.article_ids" t-as="a">
 								<t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
@@ -779,6 +781,7 @@
 								<td colspan="5">
 									<h3>Base Kit</h3>
 									<t t-set="with_price" t-value="0" />
+									<t t-set="with_qty" t-value="1" />
 								</td>
 							</tr>
 
@@ -805,7 +808,28 @@
 									<span t-field="o.pricelist_id.currency_id.symbol" />
 								</td>
 							</tr>
+							<tr>
+								<td colspan="5">
+									<div>WOOD TREATMENT</div>
+									<div sytle="margin-left: 40px;">
+										<ul>
+											<li>
+												<div>Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16%</div>
+											</li>
+											<li>
+												<div>
+													<span>All wood used is treated by immersion (no brush, no spraying) in special vats.</span>
+													<span>The product used for the treatment is approved and certified </span>
+												</div>
+											</li>
 
+											<li>
+												<div>The wood used for the concrete base plate is autoclave treated</div>
+											</li>
+										</ul>
+									</div>
+								</td>
+							</tr>
 							<tr style="background-color:#C4D773">
 								<td colspan="2">
 									<strong>Total Kit</strong>
@@ -833,6 +857,7 @@
 								<td colspan="5">
 									<h3>Optional Items</h3>
 									<t t-set="with_price" t-value="1" />
+									<t t-set="with_qty" t-value="1" />
 								</td>
 							</tr>
 
@@ -878,7 +903,10 @@
 							</tr>
 							<tr style="background-color:#B8CCE4">
 								<td colspan="5">
-									<h3>Service</h3>
+									<h3><!-- Service -->
+									</h3>
+									<t t-set="with_price" t-value="1" />
+									<t t-set="with_qty" t-value="1" />
 								</td>
 							</tr>
 
@@ -909,6 +937,10 @@
 									<span t-field="o.pricelist_id.currency_id.symbol" />
 								</th>
 							</tr>
+
+							<t t-set="with_price" t-value="1" />
+							<t t-set="with_qty" t-value="0" />
+
 							<t t-foreach="o.article_ids" t-as="a">
 								<t t-if="a.item_categ==&quot;opt_serv&quot;">
 									<t t-call="deltatech_mrp_sale.report_specification_article2" />
@@ -946,26 +978,7 @@
 							</table>
 						</div>
 					</div>
-					<div>
-						<div>WOOD TREATMENT</div>
-						<div sytle="margin-left: 40px;">
-							<ul>
-								<li>
-									<div>Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16%</div>
-								</li>
-								<li>
-									<div>
-										<span>All wood used is treated by immersion (no brush, no spraying) in special vats.</span>
-										<span>The product used for the treatment is approved and certified </span>
-									</div>
-								</li>
 
-								<li>
-									<div>The wood used for the concrete base plate is autoclave treated</div>
-								</li>
-							</ul>
-						</div>
-					</div>
 					<p style="background-color:#F8F8F8; color:#FF0000">
 						<span>This estimate is a contractual document for which EcoKit take responsibility. </span>
 						<span>Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate
@@ -995,7 +1008,8 @@
 						</p>
 
 						<p>
-							Number of days estimated for mounting the house (including gypsum board or paneling interior) <span t-field="o.add_inst_day" />
+							Number of days estimated for mounting the house (including gypsum board or paneling interior)
+							<span t-field="o.add_inst_day" />
 						</p>
 						<p>
 							<span>Specifications:</span>
@@ -1038,39 +1052,37 @@
 			<t t-if="a.product_uom_qty != 0.0">
 				<tr style="background-color:#A9E2F3">
 					<td colspan="2">
-						<b t-if="a.item_categ=='normal'">
-							<h4>
-								<strong t-field="a.name" />
-							</h4>
-						</b>
-						<t t-if="a.item_categ!='normal'">
+						<h4>
 							<strong t-field="a.name" />
-						</t>
+						</h4>
 					</td>
 					<t t-if="a.resource_ids and len(a.resource_ids)==1">
 						<td class="text-right" style="white-space: nowrap;">
-							<span t-field="a.product_uom_qty" />
-							<span groups="product.group_uom" t-field="a.product_uom" />
+							<t t-if="with_qty">
+								<span t-field="a.product_uom_qty" />
+								<span groups="product.group_uom" t-field="a.product_uom" />
+							</t>
 						</td>
 						<td class="text-right" style="white-space: nowrap;">
-							<t t-if="with_price  and a.price_unit&gt;0">
+							<t t-if="with_qty and with_price  and a.price_unit&gt;0">
 								<span t-field="a.price_unit" />
 							</t>
 						</td>
-
 						<td class="text-right" style="white-space: nowrap;">
-							<t t-if="with_price and a.amount&gt;0">
+							<t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">
 								<span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}" />
 							</t>
 						</td>
 					</t>
 					<t t-if="a.resource_ids and len(a.resource_ids)!=1">
 						<td class="text-right" style="white-space: nowrap;">
-							<span t-field="a.product_uom_qty" />
-							<span groups="product.group_uom" t-field="a.product_uom" />
+							<t t-if="with_qty">
+								<span t-field="a.product_uom_qty" />
+								<span groups="product.group_uom" t-field="a.product_uom" />
+							</t>
 						</td>
 						<td class="text-right" style="white-space: nowrap;">
-							<t t-if="with_price and a.price_unit&gt;0">
+							<t t-if="with_qty and with_price and a.price_unit&gt;0">
 								<span t-field="a.price_unit" />
 							</t>
 						</td>
@@ -1083,32 +1095,30 @@
 						</td>
 					</t>
 				</tr>
-				<tr t-if="a.product_template.description_sale">
-					<td colspan="5">
+
+				<td colspan="5">
+					<t t-if="a.product_id">
+						<small t-field="a.product_id.description_sale" />
+					</t>
+					<t t-if="not a.product_id">
 						<small t-field="a.product_template.description_sale" />
-					</td>
-				</tr>
+					</t>
+				</td>
+
 				<t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
 					<tr t-foreach="a.resource_ids" t-as="r">
 						<t t-if="r.product_uom_qty != 0.0">
 							<td>
 								<span />
 							</td>
-
 							<td>
 								<i>
-									<b t-if="r.item_categ==&quot;normal&quot;">
-										<span t-field="r.name" />
-									</b>
-									<t t-if="r.item_categ!=&quot;normal&quot;">
-										<span t-field="r.name" />
-									</t>
+									<strong t-field="r.name" />
 									<div t-if="r.product_id.description_sale">
 										<small t-field="r.product_id.description_sale" />
 									</div>
 								</i>
 							</td>
-
 							<td />
 							<td />
 							<td />
