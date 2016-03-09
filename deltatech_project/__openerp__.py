@@ -35,7 +35,9 @@ Features:
 """,
     "data" : [
         "project_view.xml",  "project_data.xml",
-        'wizard/recurrence_view.xml'
+        'wizard/recurrence_view.xml',
+        'views/report_project_do_today.xml'
+
     ],
     "active": False,
     "installable": True,

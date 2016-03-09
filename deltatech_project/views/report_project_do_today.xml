@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	 <template id="report_project">
+
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+						    <t t-set="do_today" t-value="False" />
+							<t t-call="deltatech_project.report_project_do_today_item" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	
+	
+		<template id="report_project_do_today">
+
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+							<t t-set="do_today" t-value="True" />
+							<t t-call="deltatech_project.report_project_do_today_item" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<template id="report_project_do_today_item">
+			<div t-if="project.project_child_ids or project.tasks">
+				<t t-if="project.parent_id and not project.parent_id.parent_id">
+					<h3 t-if="project.partner_id">
+						<strong t-field="project.partner_id" />
+					</h3>
+				</t>
+
+
+				<h4 t-if="project.parent_id">
+					<strong t-field="project.code" />
+					<strong t-field="project.name" />
+				</h4>
+
+				<h2 t-if="not project.parent_id">
+					<strong t-field="project.code" />
+					<strong t-field="project.name" />
+				</h2>
+
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-6">
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" t-att-aria-valuenow="project.progress_rate" aria-valuemin="0" aria-valuemax="100"
+								t-attf-style="width: {{project.progress_rate}}%;">
+								<div t-field="project.progress_rate" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<p t-if="project.description">
+					<i t-field="project.description" />
+				</p>
+				<ul t-foreach="project.project_child_ids" t-as="o" class="list-unstyled">
+					<li>
+						<t t-set="project" t-value="o" />
+						<t t-call="deltatech_project.report_project_do_today_item" />
+					</li>
+				</ul>
+				<ul t-foreach="project.tasks" t-as="task" class="list-unstyled">
+					<li t-if="not do_today or (task.progress &lt; 100 and date_start &lt;= time.strftime('%Y-%m-%d'))">
+						<div class="row">
+
+							<div class="col-xs-5 col-xs-offset-1">
+
+								<strong t-field="task.name" />
+							</div>
+							<div class="col-xs-3">
+								<t t-if="task.date_deadline &gt; time.strftime('%Y-%m-%d')">
+									<span>Deadline:</span>
+									<span t-field="task.date_deadline" />
+								</t>
+								<t t-if="task.date_deadline &lt; time.strftime('%Y-%m-%d')">
+									<div class="label label-danger">
+										<span>Deadline:</span>
+										<span t-field="task.date_deadline" />
+									</div>
+								</t>
+								<t t-if="task.date_deadline == time.strftime('%Y-%m-%d')">
+									<div class="label label-warning">
+										<span>Deadline:</span>
+										<span t-field="task.date_deadline" />
+									</div>
+								</t>
+							</div>
+							<div class="col-xs-3">
+								<span>Assigned:</span>
+								<span t-field="task.user_id" />
+							</div>
+
+							<div t-if="task.description" class="col-xs-11 col-xs-offset-1">
+								<i t-field="task.description" />
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</template>
+
+		<report string="Do today" id="action_report_project_do_today" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project_do_today"
+			file="deltatech_project.report_project_do_today" />
+
+		<report string="Project" id="action_report_project" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project"
+			file="deltatech_project.report_project" />
+
+	</data>
+</openerp>

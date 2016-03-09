@@ -43,7 +43,8 @@ class project_project(models.Model):
     parent_id = fields.Many2one('account.analytic.account')
 
     child_count = fields.Integer(compute='_get_project_child_count',  string="Child Projects Count")
-    progress_rate = fields.Float(string='Progress', compute='_compute_progress_rate', store=False,   digits=(16,2) ) #,
+    progress_rate = fields.Float(string='Progress',   compute='_compute_progress_rate', store=False,   digits=(16,2) ) #,
+    project_progress = fields.Float(string='Progress'  )  
 
     task_count = fields.Integer( compute='_task_count',  string="Tasks")
 
@@ -89,9 +90,16 @@ class project_project(models.Model):
             res.append((project_item.id, data))
         return res
 
+    def _progress_rate(self, cr, uid, ids, names, arg, context=None):
+        print "_progress_rate"
+    
+    @api.multi
+    def refresh_progress(self):
+        for project in self:
+            project.get_tasks_progress(with_write=True)
     
     @api.model
-    def get_tasks_progress(self):
+    def get_tasks_progress(self, with_write=False):
         progress = []
         tasks_progres = 0.0
         for task in self.tasks:
@@ -101,21 +109,35 @@ class project_project(models.Model):
             progress = [tasks_progres]
         if self.project_child_ids:
             for child in self.project_child_ids:
-               progress += child.get_tasks_progress()
-        
+               progress += child.get_tasks_progress(with_write)
+
+        if with_write:
+            if progress:
+                progress_rate =  round(sum(progress) / len(progress), 2)
+            else:
+                progress_rate = 0.0 
+            print "New progress_rate: %s for %s" % (progress_rate, self.name )
+            self.write({'project_progress':progress_rate})
+                          
         return progress
 
     #         
     @api.multi
     @api.depends('task_ids.progress')  
     def _compute_progress_rate(self):
+         
         for project in self:
+            project.progress_rate = project.project_progress
+            """
             progress = project.get_tasks_progress()
             if progress:
                 project.progress_rate = sum(progress) / len(progress)
             else:
-                project.progress_rate = 0.0           
+                project.progress_rate = 0.0
+            """         
  
+    # nu mai este folosita 
+    """
     @api.multi
     def update_progress(self):
         for project in self:
@@ -128,7 +150,8 @@ class project_project(models.Model):
             print project.name, progress_rate
             if  project.project_parent_id:
                 project.project_parent_id.update_progress()         
-                
+    """
+    
     @api.model
     def default_get(self, fields):
         defaults = super(project_project, self).default_get(fields)
@@ -154,7 +177,8 @@ class project_task(models.Model):
     doc_count = fields.Integer(string="Number of documents attached", compute='_get_attached_docs')
 
     #previous_task = fields.Many2one('project.task',string='Task Previous', copy=False)
-
+    
+    #partner_id = fields.Many2one('res.partner', related='project_id.partner_id', readonly=True)
 
     @api.multi
     def _get_attached_docs(self):
@@ -163,7 +187,7 @@ class project_task(models.Model):
             
 
     @api.multi
-    @api.depends('date_start','date_end')
+    @api.depends('date_start','date_end','progress')
     def _get_current(self):
         for task in self:
             if task.recurrence:
@@ -179,7 +203,12 @@ class project_task(models.Model):
                             task.current = False
             else:
                 task.current = True
-
+                """
+                if task.progress < 100:
+                    task.current = True
+                else:
+                    task.current = False
+                """
                        
 
     @api.multi
@@ -196,6 +225,7 @@ class project_task(models.Model):
                           
                 if not float_is_zero(task.total_hours, precision_digits=2):
                     task.progress = round(min(100.0 * hours.get(task.id, 0.0) / task.total_hours, 99.99),2)
+                    
                 if task.stage_id and  task.stage_id.use_progress:
                     task.progress = task.stage_id.progress
                    
@@ -278,7 +308,8 @@ class project_task(models.Model):
     @api.model
     def default_get(self, fields):
         defaults = super(project_task, self).default_get(fields)
-        if not defaults.get('project_id', False): 
+        project_id = defaults.get('project_id', False)
+        if not project_id: 
             active_id = self.env.context.get('active_id', False) 
             active_model = self.env.context.get('active_model', False)
             if active_model == 'project.project':
@@ -286,21 +317,23 @@ class project_task(models.Model):
             if active_model == 'project.task':
                 task = self.env['project.task'].browse(active_id) 
                 project_id = task.project_id.id
-        else:
-            project_id = defaults['project_id']
-        project = self.env['project.project'].browse(project_id) 
-        if project:
-            defaults['project_id'] = project.id
-            if project.partner_id:
-                defaults['partner_id'] = project.partner_id.id
-            defaults['date_start'] = project.date_start
-            defaults['date_end'] = project.date
-            defaults['date_deadline'] = project.date
-            defaults['color'] = project.color
+
+        if project_id:
+            project = self.env['project.project'].browse(project_id) 
+            if project:
+                defaults['project_id'] = project.id
+                
+                if project.partner_id:
+                    defaults['partner_id'] = project.partner_id.id
+                defaults['date_start'] = project.date_start
+                defaults['date_end'] = project.date
+                defaults['date_deadline'] = project.date
+                defaults['color'] = project.color
+        
         return defaults
 
     @api.model
-    def  cron_update(self):
+    def cron_update(self):
         tasks = self.search([('recurrence','=',True)])
         tasks._get_current()
             

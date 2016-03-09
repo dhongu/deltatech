@@ -22,6 +22,9 @@
 			<field name="type">form</field>
 			<field name="inherit_id" ref="project.edit_project" />
 			<field name="arch" type="xml">
+			 	<button name="set_cancel" position="after">
+			 		<button name="refresh_progress" string="Refresh" type="object" states="open" groups="base.group_user"/>
+			 	</button>
 				<xpath expr="//sheet/group/p" position="replace">
 				</xpath>
 				<field name="partner_id" position="after">
@@ -160,6 +163,18 @@
 			</field>
 		</record>
 
+        <record id="view_task_tree2" model="ir.ui.view">
+            <field name="name">project.task.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+            	<field name="progress" position="replace">
+            		<field name="sequence" widget="handle" />
+            	</field>
+            </field>
+        </record>
+
+
 		<record id="view_task_search_form" model="ir.ui.view">
 			<field name="name">project.task.search</field>
 			<field name="model">project.task</field>
@@ -167,6 +182,19 @@
 			<field name="arch" type="xml">
 				<filter string="My Tasks" position="before">
 					<filter string="Current" name="Current" domain="[('current', '=', True)]" />
+					<filter string="Do Today" domain="[('progress','&lt;','100'),
+													  ('date_start','&lt;', datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+					<filter string="Finished Today" domain="[('progress','&lt;','100'),('date_deadline','=',datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
+					
+					<filter string="This Month" name="month"  
+						domain="[('date_deadline','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date_deadline','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+						  help="Task with deadline in current month"  />	
+ 
+
+				</filter>
+				<filter string="Company" position="before">
+					<filter string="Partner" context="{'group_by':'partner_id'}" />
 				</filter>
 			</field>
 		</record>
