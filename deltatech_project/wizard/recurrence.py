@@ -45,7 +45,7 @@ class project_task_recurrence(models.TransientModel):
     
     interval =  fields.Integer('Repeat Every', help="Repeat every (Days/Week/Month)")
     cycle  = fields.Selection([('day','Day'), ('week','Week'), ('month','Month') ],  string= 'Cycle', default='month' )
-
+    project_progress = fields.Float(string='Progress for all task'  ) 
 
 
 
@@ -62,6 +62,7 @@ class project_task_recurrence(models.TransientModel):
         defaults['task_id'] = task.id
         defaults['first_date'] = task.date_deadline
         defaults['last_date'] = task.project_id.date
+        defaults['project_progress'] = task.project_progress
         return defaults
 
     @api.model
@@ -126,6 +127,11 @@ class project_task_recurrence(models.TransientModel):
             prev_task.write({'recurrence':True,
                              'next_recurrent_task':new_task.id})
             prev_task = new_task
+        
+        #actualizare procent 
+        if self.project_progress and tasks:
+            tasks.write({'project_progress':self.project_progress/len(tasks)})
+            
             
         action = self.env.ref('project.action_view_task').read()[0]  
         action['domain'] = "[('id','in', ["+','.join(map(str,tasks.ids))+"])]"

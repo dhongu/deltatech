@@ -24,6 +24,7 @@
 			<field name="arch" type="xml">
 			 	<button name="set_cancel" position="after">
 			 		<button name="refresh_progress" string="Refresh" type="object" states="open" groups="base.group_user"/>
+			 		<button name="%(action_project_print_report_date)d" string="Print" type="action" groups="base.group_user"/>
 			 	</button>
 				<xpath expr="//sheet/group/p" position="replace">
 				</xpath>
@@ -168,8 +169,16 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_tree2" />
             <field name="arch" type="xml">
-            	<field name="progress" position="replace">
+            <xpath expr="//tree" position="attributes">
+			    <attribute name="colors">red:date_deadline and (date_deadline&lt;current_date) and progress &lt;100 </attribute>			    
+			</xpath>
+            
+            
+            	<field name="sequence" position="replace">
             		<field name="sequence" widget="handle" />
+            	</field>
+            	<field name="progress" position="before">
+            		<field name="project_progress" sum="Project"/>
             	</field>
             </field>
         </record>

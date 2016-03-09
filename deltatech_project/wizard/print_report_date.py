@@ -19,9 +19,36 @@
 #
 ##############################################################################
 
-import project
-import wizard
-import report
+ 
+ 
+ 
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
 
+
+
+class project_print_report_date(models.TransientModel):
+    _name = 'project.print.report.date'
+    _description = "Project Print Report Date"
+ 
+
+    for_date = fields.Date(string="For Date",default=fields.Date.today())
+
+    @api.multi
+    def do_print(self):  
+        data = {}
+        data['for_date'] = self.for_date
+        project_id = self.env.context.get('active_id', False)
+        
+        project = self.env['project.project'].browse(project_id)
+        return self.env['report'].get_action( records = project, report_name='deltatech_project.report_project_do_on_date', data=data )
+         
+
+            
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

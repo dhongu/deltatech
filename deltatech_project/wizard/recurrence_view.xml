@@ -14,6 +14,7 @@
 					<group>
 						<field name="first_date" />
 						<field name="last_date" />
+						<field name="project_progress" />					   
 					</group>
 					<group>
 						<label for="interval" />

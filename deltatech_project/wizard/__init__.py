@@ -20,6 +20,8 @@
 ##############################################################################
 
 import recurrence
+import task_set_progress
+import print_report_date
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

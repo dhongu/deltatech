@@ -36,7 +36,10 @@ Features:
     "data" : [
         "project_view.xml",  "project_data.xml",
         'wizard/recurrence_view.xml',
-        'views/report_project_do_today.xml'
+        'wizard/task_set_progress_view.xml',
+        'wizard/print_report_date_view.xml',
+        'views/report_project_do_today.xml',
+        
 
     ],
     "active": False,

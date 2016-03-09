@@ -96,15 +96,14 @@ class project_project(models.Model):
     @api.multi
     def refresh_progress(self):
         for project in self:
-            project.get_tasks_progress(with_write=True)
+            project.sudo().get_tasks_progress(with_write=True)
     
     @api.model
     def get_tasks_progress(self, with_write=False):
         progress = []
         tasks_progres = 0.0
         for task in self.tasks:
-            if task.current:
-                tasks_progres +=  task.progress*task.project_progress/100 
+            tasks_progres +=  task.progress * task.project_progress/100 
         if self.tasks:
             progress = [tasks_progres]
         if self.project_child_ids:
@@ -163,6 +162,12 @@ class project_project(models.Model):
             defaults['date'] = project_parent.date
             defaults['color'] = project_parent.color
         return defaults
+ 
+
+    def print_button(self, cr, uid, ids, data,  context=None):     
+        data['ceva'] = 'ceva'     
+        return self.pool['report'].get_action(cr, uid, [], 'deltatech_project.report_project', data=data, context=context)
+ 
                 
 class project_task(models.Model):
     _inherit = "project.task"
