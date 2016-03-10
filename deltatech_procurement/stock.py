@@ -32,6 +32,9 @@ import openerp.addons.decimal_precision as dp
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
+
+    physical_transfer = fields.Boolean(string="Physical transfer")
+
     """
     @api.model
     def default_get(self, fields ):
@@ -108,7 +111,14 @@ class stock_picking(models.Model):
             if not all(move.state == 'assigned' for move in picking.move_lines):
                 raise Warning(_('Not all products are available. ')   )
             picking.do_transfer()
-    
+
+    @api.multi
+    def confirm_physical_transfer(self):
+        msg = _("Physical transfer was made")   
+        self.message_post( body= msg)
+        self.write({'physical_transfer':True})
+
+   
     @api.multi
     def rereserve_pick(self):
         res = super(stock_picking, self).rereserve_pick()

@@ -41,6 +41,7 @@ Features:
  - Adugare butone in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare stoc cu pozitiile din document
  - Butonul Scrap Products este afisat doar la manager stoc
  - Anularea in masa a aprovizionarilor
+ - Buton nou in lista de ridicare pentru validare operare transfer fizic 
 
 
     """,

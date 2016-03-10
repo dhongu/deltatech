@@ -11,7 +11,7 @@
 			<field name="number_next">1</field>
 			<field name="number_increment">1</field>
 		</record>
-	
+
 		<record id="seq_picking_outgoing_not2binvoiced" model="ir.sequence">
 			<field name="name">Stock Outgoing not invoice</field>
 			<field name="code">stock.picking</field>
@@ -20,7 +20,7 @@
 			<field name="number_next">1</field>
 			<field name="number_increment">1</field>
 		</record>
-		
+
 		<record id="stock.picking_type_consume" model="stock.picking.type">
 			<field name="name">Consume</field>
 			<field name="code">internal</field>
@@ -35,24 +35,24 @@
 			<field name="sequence_id" ref="seq_picking_outgoing_not2binvoiced" />
 			<field name="default_location_src_id" ref="stock.stock_location_stock" />
 			<field name="default_location_dest_id" ref="stock.stock_location_customers" />
-		</record>		
-		
+		</record>
+
 	</data>
 
 
 	<data>
 
-		
-        <record id="view_stock_invoice_onshipping" model="ir.ui.view">
-            <field name="name">Stock Invoice Onshipping</field>
-            <field name="model">stock.invoice.onshipping</field>
-            <field name="inherit_id" ref="stock_account.view_stock_invoice_onshipping" />
-            <field name="arch" type="xml">
-            	<field name="journal_id" position="attributes">
-            		<attribute name="groups">account.group_account_manager</attribute>
-            	</field>
-            </field>
-        </record>
+
+		<record id="view_stock_invoice_onshipping" model="ir.ui.view">
+			<field name="name">Stock Invoice Onshipping</field>
+			<field name="model">stock.invoice.onshipping</field>
+			<field name="inherit_id" ref="stock_account.view_stock_invoice_onshipping" />
+			<field name="arch" type="xml">
+				<field name="journal_id" position="attributes">
+					<attribute name="groups">account.group_account_manager</attribute>
+				</field>
+			</field>
+		</record>
 
 
 		<record id="view_picking_form" model="ir.ui.view">
@@ -61,7 +61,9 @@
 			<field name="inherit_id" ref="stock.view_picking_form" />
 			<field name="arch" type="xml">
 				<button name="action_confirm" position="before">
-					<button name="action_direct_transfer" states="draft" string="Direct Transfer" type="object" class="oe_highlight"  groups="base.group_user"/>
+					<button name="action_direct_transfer" states="draft" string="Direct Transfer" type="object" class="oe_highlight" groups="base.group_user" />
+					<button name="confirm_physical_transfer" states="assigned,done" string="Confirm Physical Transfer" type="object" class="oe_highlight"
+						groups="base.group_user" attrs="{'invisible': ['|',('physical_transfer', '=', True)]}" />
 				</button>
 				<button name="rereserve_pick" position="attributes">
 					<attribute name="states">waiting,partially_available</attribute>
@@ -77,13 +79,18 @@
 				</button>
 
 				<button name="open_barcode_interface" position="after">
-					 <button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" 
-						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />				
+					<button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" type="object" groups="stock.group_stock_user"
+						icon="fa-building-o" />
 				</button>
 
 				<field name="partner_id" position="attributes">
 					<attribute name="attrs">{'invisible':[('picking_type_code', '=', 'internal')]}</attribute>
 				</field>
+
+				<field name="date_done" position="after">
+					<field name="physical_transfer" invisible="1" />
+				</field>
+
 			</field>
 		</record>
 
@@ -111,6 +118,7 @@
 								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
 					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]" />
 					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]" />
+					<filter name="physical_transfer" string="Do Physical Transfer" domain="[('physical_transfer','=',False)]" />
 				</filter>
 
 
@@ -118,10 +126,10 @@
 					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
 					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
 					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
-					<separator/>
+					<separator />
 					<filter name="my" string="My" domain="['|',('location_id.user_id.id','=',uid),
-															   ('location_dest_id.user_id.id','=',uid)]"   />
-					
+															   ('location_dest_id.user_id.id','=',uid)]" />
+
 				</field>
 			</field>
 		</record>
@@ -154,16 +162,17 @@
 				<field name="location_id" position="attributes">
 					<attribute name="invisible">0</attribute>
 				</field>
-				
+
 				<field name="product_id" position="replace">
 					<field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, parent.partner_id)" />
 					<field name="name" />
 				</field>
-				
+
 				<button string="Scrap Products" position="attributes">
-					<attribute name="groups">stock.group_stock_manager</attribute>= 
-				</button>				
-				
+					<attribute name="groups">stock.group_stock_manager</attribute>
+					=
+				</button>
+
 			</field>
 		</record>
 
@@ -193,12 +202,13 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context" eval="{
+			<field name="context"
+				eval="{
 				'contact_display': 'partner_address',		
 				'default_picking_type_code':'incoming',
 				'default_picking_type_id':        ref('stock.picking_type_in'),
 				'search_default_picking_type_id': ref('stock.picking_type_in'),
-				}"/>
+				}" />
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -211,14 +221,15 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-		    <field name="context" eval="{
+			<field name="context"
+				eval="{
 				'contact_display': 'partner_address',
 
 				'search_default_my': 1,				
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_internal'),
 				'search_default_picking_type_id': ref('stock.picking_type_internal'),
-				}"/>
+				}" />
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -233,13 +244,14 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context" eval="{
+			<field name="context"
+				eval="{
 				'contact_display': 'partner_address',			
 				'default_picking_type_code':'outgoing',
 				'default_picking_type_id':        ref('stock.picking_type_out'),
 				'search_default_picking_type_id': ref('stock.picking_type_out'),
-				}"/>
- 
+				}" />
+
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -252,13 +264,14 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context" eval="{
+			<field name="context"
+				eval="{
 				'contact_display': 'partner_address',			
 				'default_picking_type_code':'outgoing',
 				'search_default_my': 1,	
 				'default_picking_type_id':        ref('stock.picking_type_outgoing_not2binvoiced'),
 				'search_default_picking_type_id': ref('stock.picking_type_outgoing_not2binvoiced'),
-				}"/>			
+				}" />
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
@@ -272,14 +285,15 @@
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form,calendar</field>
 			<field name="domain"></field>
-			<field name="context" eval="{
+			<field name="context"
+				eval="{
 				'contact_display': 'partner_address',
 				'search_default_my': 1,	
 				'default_picking_type_code':'internal',
 				'default_picking_type_id':        ref('stock.picking_type_consume'),
 				'search_default_picking_type_id': ref('stock.picking_type_consume'),
-				}"/>
-				
+				}" />
+
 			<field name="search_view_id" ref="stock.view_picking_internal_search" />
 		</record>
 
