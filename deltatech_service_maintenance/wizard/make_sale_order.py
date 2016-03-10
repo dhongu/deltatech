@@ -20,16 +20,19 @@
 #
 ##############################################################################
 
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
+from openerp.api import Environment
 
- 
-import service_notification
-import service_order
-import service_plan
 
-import service_equipment
 
-import wizard
-import stock
-import sale
+class service_make_sale_order(models.TransientModel):
+    _name = 'service.make.sale.order'
+    _description = "Service Make Sale Order"
+    
+    partner_id = fields.Many2one('res.partner', string='Partner')
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:    

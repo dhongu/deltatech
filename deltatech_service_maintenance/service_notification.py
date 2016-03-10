@@ -61,8 +61,8 @@ class service_notification(models.Model):
     equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'new': [('readonly', False)]})
  
-    partner_id = fields.Many2one('res.partner', string='Partner', related='equipment_history_id.partner_id', readonly=True)
-    address_id = fields.Many2one('res.partner', string='Location',   related='equipment_history_id.address_id', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, states={'new': [('readonly', False)]})  #, related='equipment_history_id.partner_id', readonly=True)
+    address_id = fields.Many2one('res.partner', string='Location',readonly=True, states={'new': [('readonly', False)]})  #,  related='equipment_history_id.address_id', readonly=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)        
   
@@ -83,9 +83,12 @@ class service_notification(models.Model):
     priority =  fields.Selection(AVAILABLE_PRIORITIES, string='Priority', select=True, readonly=True, states={'new': [('readonly', False)]})  
     color =  fields.Integer(string='Color Index', default=0)  
     order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )    
+
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
+    sale_order_id = fields.Many2one('sale.order', string="Sale Order")  # legatua la comanda de vanzare
 
-
+    item_ids = fields.One2many('service.notification.item', 'notification_id', string='Notification Lines',
+                                readonly=False, states={'done': [('readonly', True)]}, copy=True)  
 
     @api.model
     def company_user(self, present_ids, domain, **kwargs):
@@ -110,6 +113,8 @@ class service_notification(models.Model):
         if self.equipment_id:
             self.equipment_history_id = self.equipment_id.get_history_id(self.date)        
             self.user_id =  self.equipment_id.user_id
+            self.partner_id =  self.equipment_history_id.partner_id
+            self.address_id = self.equipment_history_id.address_id
         else: 
             self.equipment_history_id = False     
                 
@@ -216,6 +221,9 @@ class service_notification(models.Model):
 
     @api.multi
     def action_start(self):
+        for notification in self:
+            if not notification.partner_id:
+                raise Warning(_('Notification %s without partner.') % notification.name )
         self.message_mark_as_read()
         self.write({'state':'progress',
                     'date_start':fields.Datetime.now()})
@@ -259,12 +267,124 @@ class service_notification(models.Model):
 
 
     #TODO: De anuntat utilizatorul ca are o sesizare 
-    
+
+
+
+    @api.multi
+    def new_piking_button(self):         
+        # todo: de pus in config daca livrarea se face la adresa din echipamente sau contract
+        context = {'default_equipment_id': self.equipment_id.id,
+                   'default_agreement_id': self.agreement_id.id,
+                   'default_picking_type_code':'outgoing',
+                   'default_picking_type_id': self.env.ref('stock.picking_type_outgoing_not2binvoiced').id,
+                   'default_partner_id':self.address_id.id or self.partner_id.id}
+
+        if self.item_ids:
+            
+            picking = self.env['stock.picking'].with_context(context)
+            
+            context['default_move_lines'] = []
+           
+            for item in self.item_ids:                
+                value = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)['value']
+                value['location_id'] =  picking.move_lines._default_location_source()
+                value['location_dest_id'] =  picking.move_lines._default_location_destination()
+                value['date_expected'] = fields.Datetime.now()
+                value['product_id'] = item.product_id.id
+                value['product_uom_qty'] = item.quantity
+                context['default_move_lines'] += [(0,0,value)]
+                context['notification_id'] = self.id
+        return {
+            'name': _('Delivery for service'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.picking',
+            'view_id': False,
+            'views': [[False, 'form']],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
+
+    @api.multi
+    def piking_button(self):
+        if self.piking_id:
+            return {
+                   'domain': "[('id','=', ["+str(self.piking_id.id)+"])]",
+                   'name': _('Delivery for service'),
+                   'view_type': 'form',
+                   'view_mode': 'tree,form',
+                   'res_model': 'stock.picking',
+                   'view_id': False,
+                   'context': {},
+                   'type': 'ir.actions.act_window'
+               } 
+
+
+    @api.multi
+    def new_sale_order_button(self):
+        # todo: de pus in config daca livrarea se face la adresa din echipamente sau contract
+        context = {'default_partner_id':self.partner_id.id,
+                   'default_partner_shipping_id':self.address_id.id}
+
+        if self.item_ids:
+            
+            sale_order = self.env['sale.order'].with_context(context)
+            pricelist = self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False
+            context['default_order_line'] = []          
+            for item in self.item_ids:                
+                value = sale_order.order_line.product_id_change( pricelist=pricelist, product=item.product_id.id, qty=item.quantity, partner_id=self.partner_id.id )['value']
+                value['product_id'] = item.product_id.id
+                value['product_uom_qty'] = item.quantity
+                value['state'] = 'draft'
+                context['default_order_line'] += [(0,0,value)]
+                context['notification_id'] = self.id
+        return {
+            'name': _('Sale Order for Notification'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order',
+            'view_id': False,
+            'views': [[False, 'form']],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
+
+    @api.multi
+    def sale_order_button(self):
+        if self.sale_order_id:
+            return {
+                   'domain': "[('id','=', ["+str(self.sale_order_id.id)+"])]",
+                   'name': _('Sale Order for Notification'),
+                   'view_type': 'form',
+                   'view_mode': 'tree,form',
+                   'res_model': 'sale.order',
+                   'view_id': False,
+                   'context': {},
+                   'type': 'ir.actions.act_window'
+               } 
+
+
+class service_notification_item(models.Model):
+    _name = 'service.notification.item'
+    _description = "Notification Item"
+ 
+    notification_id = fields.Many2one('service.notification', string='Notification', readonly=True )
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
+    product_uom = fields.Many2one('product.uom', string='Unit of Measure ' )
+    note = fields.Char(string='Note') 
+
+
+    @api.onchange('product_id')
+    def onchange_product_id(self): 
+        self.product_uom = self.product_id.uom_id
+        
     
 class service_notification_type(models.Model):
     _name = 'service.notification.type'
     _description = "Service Notification Type"     
-    name = fields.Char(string='Type', translate=True)      
+    name = fields.Char(string='Type', translate=True)   
+    scope =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type' )   
     
     
     
