@@ -37,8 +37,8 @@ class project_task_recurrence(models.TransientModel):
  
  
     task_id = fields.Many2one('project.task',string='Base Task', readonly=True )
-    first_date = fields.Datetime(string='First Date', required=True ,)
-    last_date  = fields.Datetime(string='Last Date', required=True ,)
+    first_date = fields.Datetime(string='First Recurrence Date', required=True ,)
+    last_date  = fields.Datetime(string='Last Recurrenc Date', required=True ,)
     
     day_start = fields.Integer('Start day of month')
     day_end   = fields.Integer('End day of month')

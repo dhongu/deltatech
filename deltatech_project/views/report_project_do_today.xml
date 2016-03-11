@@ -178,9 +178,7 @@
 		    name="deltatech_project.report_project_do_tomorrow"
 			file="deltatech_project.report_project_do_tomorrow" />
 
-		<report string="Do on date" id="action_project_print_report_date" model="project.project" report_type="qweb-pdf" 
-		    name="deltatech_project.report_project_do_on_date"
-			file="deltatech_project.report_project_do_on_date" />
+
 
 
 		<report string="Project" id="action_report_project" model="project.project" report_type="qweb-pdf" 
