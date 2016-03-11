@@ -170,9 +170,14 @@
 			</div>
 		</template>
 
-		<report string="Do today" id="action_report_project_do_today" model="project.project" report_type="qweb-pdf" 
+
+		<report string="Do today" id="action_report_project_do_on_date" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project_do_on_date"
+			file="deltatech_project.report_project_do_on_date" />
+
+		<!-- report string="Do today" id="action_report_project_do_today" model="project.project" report_type="qweb-pdf" 
 		    name="deltatech_project.report_project_do_today"
-			file="deltatech_project.report_project_do_today" />
+			file="deltatech_project.report_project_do_today"  -->
 
 		<report string="Do tomorow" id="action_report_project_do_tomorrow" model="project.project" report_type="qweb-pdf" 
 		    name="deltatech_project.report_project_do_tomorrow"
