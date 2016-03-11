@@ -321,6 +321,8 @@ class account_invoice(models.Model):
                 for move in line['picking'].move_lines:
                     move.write({'date':date_receipt ,
                                 'date_expected': date_receipt})
+                    move.quant_ids.write({'in_date': date_receipt})
+                        
        
 
             
