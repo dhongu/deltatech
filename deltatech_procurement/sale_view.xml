@@ -38,6 +38,9 @@
 					<field name="qty_available" />
 					<field name="virtual_available" />
 				</xpath>
+				<field name="note" position="after">
+					<field name="deliveriy_note" class="oe_inline" placeholder="Delivery Note..."/>
+				</field>
 			</field>
 		</record>
 

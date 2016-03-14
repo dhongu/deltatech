@@ -35,6 +35,7 @@ class sale_order(models.Model):
     procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
     invoiced_rate = fields.Float(  compute='_compute_invoiced_rate' )  # string='Invoiced Ratio', exista acest camp dar este suprascris pt a apela alta metoda de calcul
     invoiced = fields.Boolean(compute='_compute_invoiced' )
+    deliveriy_note = fields.Text(string="Delivery note")
 
     @api.one
     @api.depends('order_line.procurement_ids' )
@@ -184,6 +185,7 @@ class sale_order(models.Model):
             for picking in order.picking_ids:
                 if picking.state == 'confirmed':
                     picking_obj.action_assign(cr, uid, picking.id)
+            order.picking_ids.write({'note':order.deliveriy_note})
 
         return res
 

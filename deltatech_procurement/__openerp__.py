@@ -42,6 +42,7 @@ Features:
  - Butonul Scrap Products este afisat doar la manager stoc
  - Anularea in masa a aprovizionarilor
  - Buton nou in lista de ridicare pentru validare operare transfer fizic 
+ - Cmap nou in comanda de vanzare pentru specificare date de livrare, date care sunt preluate in picking
 
 
     """,
