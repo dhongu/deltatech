@@ -70,7 +70,9 @@ class service_notification(models.Model):
 
     user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'new': [('readonly', False)]})
     
-    type =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type' , readonly=True, states={'new': [('readonly', False)]})   
+    type =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type' , readonly=True, states={'new': [('readonly', False)]}) 
+   
+
     
     subject = fields.Char('Subject', readonly=True, states={'new': [('readonly', False)]})
     description = fields.Text('Notes', readonly=True, states={'new': [('readonly', False)]})
@@ -84,11 +86,27 @@ class service_notification(models.Model):
     color =  fields.Integer(string='Color Index', default=0)  
     order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )    
 
+    category = fields.Selection([  ('delivery','Delivery'), 
+                                ('sale','Sale'),
+                                ('transfer','Transfer'), 
+                                ('required','Required')], default='delivery', string='Category' )  
+
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
     sale_order_id = fields.Many2one('sale.order', string="Sale Order")  # legatua la comanda de vanzare
+    required_order_id = fields.Many2one('required.order', string="Required Products Order")
+    
+    related_doc = fields.Boolean(_compute="_get_related_doc")
 
     item_ids = fields.One2many('service.notification.item', 'notification_id', string='Notification Lines',
                                 readonly=False, states={'done': [('readonly', True)]}, copy=True)  
+
+
+    @api.one
+    def _get_related_doc(self):
+        self.related_doc =  False
+        if self.piking_id or self.sale_order_id or self.required_order_id:
+            return True
+        
 
     @api.model
     def company_user(self, present_ids, domain, **kwargs):
@@ -221,9 +239,9 @@ class service_notification(models.Model):
 
     @api.multi
     def action_start(self):
-        for notification in self:
-            if not notification.partner_id:
-                raise Warning(_('Notification %s without partner.') % notification.name )
+        #for notification in self:
+        #    if not notification.partner_id:
+        #        raise Warning(_('Notification %s without partner.') % notification.name )
         self.message_mark_as_read()
         self.write({'state':'progress',
                     'date_start':fields.Datetime.now()})
@@ -271,8 +289,7 @@ class service_notification(models.Model):
 
 
     @api.multi
-    def new_piking_button(self):         
-        # todo: de pus in config daca livrarea se face la adresa din echipamente sau contract
+    def new_delivery_button(self):         
         context = {'default_equipment_id': self.equipment_id.id,
                    'default_agreement_id': self.agreement_id.id,
                    'default_picking_type_code':'outgoing',
@@ -306,7 +323,7 @@ class service_notification(models.Model):
         }
 
     @api.multi
-    def piking_button(self):
+    def delivery_button(self):
         if self.piking_id:
             return {
                    'domain': "[('id','=', ["+str(self.piking_id.id)+"])]",
@@ -318,6 +335,57 @@ class service_notification(models.Model):
                    'context': {},
                    'type': 'ir.actions.act_window'
                } 
+
+    @api.multi    
+    def new_transfer_button(self):         
+        
+        context = {
+                   #'default_equipment_id': self.equipment_id.id,
+                   #'default_agreement_id': self.agreement_id.id,
+                   'default_picking_type_code':'internal',
+                   'default_picking_type_id': self.env.ref('stock.picking_type_internal').id }
+
+        if self.item_ids:
+            
+            picking = self.env['stock.picking'].with_context(context)
+            
+            context['default_move_lines'] = []
+           
+            for item in self.item_ids:                
+                value = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)['value']
+                value['location_id'] =  picking.move_lines._default_location_source()
+                value['location_dest_id'] =  picking.move_lines._default_location_destination()
+                value['date_expected'] = fields.Datetime.now()
+                value['product_id'] = item.product_id.id
+                value['product_uom_qty'] = item.quantity
+                context['default_move_lines'] += [(0,0,value)]
+                context['notification_id'] = self.id
+        return {
+            'name': _('Transfer for service'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'stock.picking',
+            'view_id': False,
+            'views': [[False, 'form']],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
+
+    @api.multi
+    def transfer_button(self):
+        if self.piking_id:
+            return {
+                   'domain': "[('id','=', ["+str(self.piking_id.id)+"])]",
+                   'name': _('Transfer for service'),
+                   'view_type': 'form',
+                   'view_mode': 'tree,form',
+                   'res_model': 'stock.picking',
+                   'view_id': False,
+                   'context': {},
+                   'type': 'ir.actions.act_window'
+               } 
+
+
 
 
     @api.multi
@@ -358,6 +426,47 @@ class service_notification(models.Model):
                    'view_type': 'form',
                    'view_mode': 'tree,form',
                    'res_model': 'sale.order',
+                   'view_id': False,
+                   'context': {},
+                   'type': 'ir.actions.act_window'
+               } 
+
+
+    @api.multi
+    def new_required_order_button(self):
+        context = {'default_partner_id':self.partner_id.id,
+                  'default_partner_shipping_id':self.address_id.id}
+        if self.item_ids:            
+           sale_order = self.env['required.order'].with_context(context)
+
+           context['default_required_line'] = []          
+           for item in self.item_ids:  
+               value = {}           
+               value['product_id'] = item.product_id.id
+               value['product_qty'] = item.quantity
+               value['note'] = item.note
+               context['default_required_line'] += [(0,0,value)]
+               context['notification_id'] = self.id
+        return {
+           'name': _('Required Products Order for Notification'),
+           'view_type': 'form',
+           'view_mode': 'form',
+           'res_model': 'required.order',
+           'view_id': False,
+           'views': [[False, 'form']],
+           'context': context,
+           'type': 'ir.actions.act_window'
+        }       
+        
+        
+    def required_order_button(self):
+        if self.required_order_id:
+            return {
+                   'domain': "[('id','=', ["+str(self.required_order.id)+"])]",
+                   'name': _('Required Products Order for Notification'),
+                   'view_type': 'form',
+                   'view_mode': 'tree,form',
+                   'res_model': 'required.order',
                    'view_id': False,
                    'context': {},
                    'type': 'ir.actions.act_window'

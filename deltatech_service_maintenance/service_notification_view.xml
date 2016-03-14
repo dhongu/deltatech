@@ -11,6 +11,8 @@
 
 					<field name="name" />
 					<field name="date" />
+					<field name="type" />
+					<field name="category" />
 					<field name="equipment_id" />
 					<field name="subject" />
 					<field name="user_id" />
@@ -28,16 +30,19 @@
 			<field name="arch" type="xml">
 				<form string="Services Notification">
 					<header>
-						<button name="new_piking_button" type="object" string="New Delivery" attrs="{'invisible': ['|',('piking_id','!=',False),(('sale_order_id','!=',False))]}"   />
-						<button name="piking_button" type="object" string="Delivery" attrs="{'invisible': [('piking_id','==',False)]}"   />
-						<button name="new_sale_order_button" type="object" string="New Sale Order" attrs="{'invisible': ['|',('piking_id','!=',False),(('sale_order_id','!=',False))]}"   />
-						<button name="sale_order_button" type="object" string="Sale Order" attrs="{'invisible': [('sale_order_id','==',False)]}"   />
-						
+						<span attrs="{'invisible': ['|','|', ('piking_id','!=',False ),('sale_order_id','!=',False),('required_order_id','!=',False)]}">
+							<button name="new_delivery_button" type="object" string="New Delivery"     attrs="{'invisible': [('category','!=','delivery' )]}" />
+							<button name="new_transfer_button" type="object" string="New Transfer"     attrs="{'invisible': [('category','!=','transfer' )]}" />
+							<button name="new_sale_order_button" type="object" string="New Sale Order" attrs="{'invisible': [('category','!=','sale'     )]}" />
+							<button name="new_required_order_button" type="object" string="New Required Order" attrs="{'invisible': [('category','!=','required')]}" />
+						</span>
+
+			
 						<button name="action_assing" type="object" string="Assign" class="oe_highlight" states="new" />
 						<button name="action_taking" type="object" string="Taking " states="new" />
 						<button name="action_start" type="object" string="Start" class="oe_highlight" states="assigned" />
 						<button name="action_cancel_assing" type="object" string="Assign Cancel" states="assigned" />
-						<button name="action_order" type="object" string="Service Order" states="progress" attrs="{'invisible': [('order_id','!=',False)]}"   />
+						<button name="action_order" type="object" string="Service Order" states="progress" attrs="{'invisible': [('order_id','!=',False)]}" />
 						<button name="action_done" type="object" class="oe_highlight" string="Done" states="progress" />
 						<field name="state" widget="statusbar" />
 					</header>
@@ -49,22 +54,24 @@
 							<group>
 								<field name="date" />
 								<field name="type" />
+								<field name="category" />
 								<field name="user_id" />
 								<field name="order_id" />
-								<field name="piking_id" invisible="1" />
-								<field name="sale_order_id" invisible="1" />
+								 
+								<field name="piking_id"  attrs="{'invisible': [('piking_id','=',False ),'|',('category','!=','delivery' ),('category','!=','transfer' )]}" />
+								<field name="sale_order_id"  attrs="{'invisible': [('category','!=','sale' ),('sale_order_id','=',False)]}" />
+								<field name="required_order_id"  attrs="{'invisible': [('category','!=','required' ),('required_order_id','=',False)]}" />
+								 
 							</group>
 							<group>
-								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" 
-														  options="{'always_reload': True}" />	
+								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" options="{'always_reload': True}" />
 								<field name="equipment_id" />
 								<field name="partner_id" />
 								<field name="agreement_id" />
-                          	    <field name="address_id"   context="{'search_default_customer':1, 'show_address': 1 }" 
-														  options="{'always_reload': True}" />		
+								<field name="address_id" context="{'search_default_customer':1, 'show_address': 1 }" options="{'always_reload': True}" />
 							</group>
 							<group>
-								<field name="priority" widget="priority"/>
+								<field name="priority" widget="priority" />
 								<field name="subject" />
 								<field name="description" />
 							</group>
@@ -96,8 +103,8 @@
 			<field name="name">notification</field>
 			<field name="model">service.notification</field>
 			<field name="arch" type="xml">
-				<kanban default_group_by="user_id" edit='false' attrs="{'edit': [('state','=','new')]}"
-					  quick_create="0" class="oe_notes oe_kanban_quickcreate_textarea">
+				<kanban default_group_by="user_id" edit='false' attrs="{'edit': [('state','=','new')]}" quick_create="0"
+					class="oe_notes oe_kanban_quickcreate_textarea">
 					<field name="color" />
 					<field name="name" />
 					<field name="date" />
@@ -108,11 +115,11 @@
 					<templates>
 						<t t-name="kanban-box">
 							<t t-if="record.state.raw_value=='new'">
-								<t t-set="drag" t-value="'oe_kanban_draghandle'"/>
+								<t t-set="drag" t-value="'oe_kanban_draghandle'" />
 							</t>
 							<t t-if="record.state.raw_value!='new'">
-								<t t-set="drag" t-value="''"/>
-							</t>							
+								<t t-set="drag" t-value="''" />
+							</t>
 							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click #{drag}">
 								<div class="oe_dropdown_toggle oe_dropdown_kanban">
 									<span class="oe_e">í</span>
@@ -122,9 +129,13 @@
 												<a type="edit">Edit...</a>
 											</li>
 										</t>
-										
-										<li><a name="action_assing" type="object" states="new">Assign</a></li>
-										<li><a name="action_cancel_assing" type="object" states="assigned">Assign Cancel</a></li>
+
+										<li>
+											<a name="action_assing" type="object" states="new">Assign</a>
+										</li>
+										<li>
+											<a name="action_cancel_assing" type="object" states="assigned">Assign Cancel</a>
+										</li>
 
 										<li>
 											<ul class="oe_kanban_colorpicker" data-field="color" />
@@ -133,9 +144,13 @@
 								</div>
 								<div class="oe_kanban_content">
 									<div>
-										 
-										<a name="action_assing" type="object" states="new" title="Lock allocation"><i class="fa fa-unlock" /></a>
-										<a name="action_cancel_assing" type="object" states="assigned"><i class="fa fa-lock" /></a>
+
+										<a name="action_assing" type="object" states="new" title="Lock allocation">
+											<i class="fa fa-unlock" />
+										</a>
+										<a name="action_cancel_assing" type="object" states="assigned">
+											<i class="fa fa-lock" />
+										</a>
 										<b>
 											<field name="name" />
 										</b>
@@ -178,11 +193,11 @@
 					<filter name='done' string="Done" domain="[('state', '=', 'done')]" />
 					<separator />
 					<filter string="My" domain="[('user_id','=',uid)]" help="Notifications that are assigned to me" />
-					<filter string="Unassigned" name="unassigned" domain="[('user_id','=', False)]"  />
+					<filter string="Unassigned" name="unassigned" domain="[('user_id','=', False)]" />
 					<group expand="0" string="Group By">
 						<filter string="Responsible" context="{'group_by':'user_id'}" />
 						<filter string="State" context="{'group_by':'state'}" />
-						<filter string="Equipment" context="{'group_by':'equipment_id'}"/>
+						<filter string="Equipment" context="{'group_by':'equipment_id'}" />
 					</group>
 				</search>
 			</field>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,30 @@
 ##############################################################################
 
 
- 
-import service_notification
-import service_order
-import service_plan
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
 
-import service_equipment
 
-import wizard
-import stock
-import sale
-import required_product
+class required_order(models.Model):
+    _inherit = 'required.order'
 
+    
+    @api.model
+    @api.returns('self', lambda value:value.id)
+    def create(self, vals):
+        res = super(required_order, self).create(vals)
+        notification_id = self.env.context.get('notification_id',False)
+        if notification_id:
+            notification =  self.env['service.notification'].browse(notification_id)
+            notification.write({'required_order_id': res.id})
+        return res
+        
+    
+
+
+
+#todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite 
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
