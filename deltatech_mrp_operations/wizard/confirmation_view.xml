@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_mrp_production_conf_form" model="ir.ui.view">
+			<field name="name">mrp.production.conf.form</field>
+			<field name="model">mrp.production.conf</field>
+			<field name="arch" type="xml">
+				<form>
+					<group string="Production Order Confirmation">
+
+						<field name="scanned_barcode" widget="barcode_scanner" barcode_type="ean13" barcode_field="scanned_barcode"/>
+						<field name="production_id" />
+						<field name="partner_id" invisible="1" />
+						<field name="operation_id"  invisible="1" />
+						<field name="error_message" />
+					</group>
+
+					<field name="operation_ids" widget="many2many" options="{ 'no_create': True}">
+						<tree>
+						    <field name="sequence"/>
+                            <field name="name"/>
+							<field name="partner_id" />
+							<field name="hour" widget="float_time"/>
+			                <field name="state"/>
+			                <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert"/>
+			                <button name="button_start_working" string="Start" states="draft" icon="gtk-media-play"/>
+			                <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause"/>
+			                <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause"/>
+			                <button name="button_done" string="Finished" states="startworking" icon="terp-check"/>							
+						</tree>
+					</field>
+					<footer>
+						<button string="OK"  special="cancel" class="oe_highlight" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<act_window id="action_mrp_production_conf" name="Production Confirmation" res_model="mrp.production.conf" src_model="mrp.production"
+			view_mode="form" multi="False" target="new" key2="client_action_multi" />
+
+
+		<menuitem name="Production Confirmation" id="menu_mrp_production_conf" action="action_mrp_production_conf" parent="mrp.menu_mrp_manufacturing"
+			sequence="102" />
+
+	</data>
+</openerp>
