@@ -28,15 +28,18 @@ class account_invoice_report(models.Model):
 
     state_id = fields.Many2one("res.country.state", string='Region', readonly=True ) 
     invoice_id = fields.Many2one('account.invoice', string='Invoice', readonly=True)
-
+    supplier_id = fields.Many2one('res.partner', string='Supplier', readonly=True)
 
     def _select(self):
-        return  super(account_invoice_report, self)._select() + ", sub.state_id,  sub.invoice_id"
+        return  super(account_invoice_report, self)._select() + ", sub.state_id,  sub.invoice_id, sub.supplier_id"
+
+    def _from(self):
+        return  super(account_invoice_report, self)._from() + " LEFT JOIN product_supplierinfo supplier ON pt.id = supplier.product_tmpl_id"
 
     def _sub_select(self):
-        return  super(account_invoice_report, self)._sub_select() + ", partner.state_id,  ail.invoice_id"
+        return  super(account_invoice_report, self)._sub_select() + ", partner.state_id,  ail.invoice_id, supplier.name as supplier_id"
 
     def _group_by(self):
-        return super(account_invoice_report, self)._group_by() + ", partner.state_id,  ail.invoice_id"
+        return super(account_invoice_report, self)._group_by() + ", partner.state_id,  ail.invoice_id,  supplier.name "
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
