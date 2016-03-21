@@ -364,6 +364,27 @@ class account_invoice(models.Model):
          
         return inv_id
     """
+ 
+    @api.multi
+    def view_stock(self):
+        action = self.env.ref('stock.product_open_quants').read()[0]  
+        product_ids = []
+        self.ensure_one()
+        
+        if not self.picking_ids:
+            product_ids += [line.product_id.id for line in self.invoice_line]
+            action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]" 
+        else:
+            quant_ids = []
+            for picking in self.picking_ids:
+                for move in picking.move_lines:
+                     quant_ids += [quant.id for quant in move.quant_ids]
+            action['domain'] = "[('id','in',[" + ','.join(map(str, quant_ids)) + "])]" 
+            
+        action['context'] = {}
+        
+                   
+        return action  
     
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
