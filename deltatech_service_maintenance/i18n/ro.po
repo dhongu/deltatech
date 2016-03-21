@@ -20,7 +20,7 @@ msgstr ""
 #: field:service.order,partner_id:0
 #: field:service.notification,partner_id:0
 msgid "Owner"
-msgstr "Proprietar"
+msgstr "Client"
 
 #. module: deltatech_service_maintenance
 #: field:service.order,address_id:0

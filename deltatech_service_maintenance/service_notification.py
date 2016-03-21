@@ -66,9 +66,10 @@ class service_notification(models.Model):
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)        
   
-    contact_id = fields.Many2one('res.partner', string='Reported by',help='The person who reported the notification', readonly=True, states={'new': [('readonly', False)]})
+    contact_id = fields.Many2one('res.partner', string='Reported by',help='The person who reported the notification', default=lambda self: self.env.user.partner_id,
+                                 readonly=True, states={'new': [('readonly', False)]})
 
-    user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'new': [('readonly', False)]})
+    user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'new': [('readonly', False)]}  )
     
     type =  fields.Selection([ ('external','External'), ('internal','Internal')], default='external', string='Type' , readonly=True, states={'new': [('readonly', False)]}) 
    
