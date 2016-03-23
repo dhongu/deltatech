@@ -74,6 +74,7 @@ class mail_notification(models.Model):
 
             notify_pids.append(partner.id)
             
+ 
         
         if not notify_pids:
             return True
@@ -87,12 +88,13 @@ class mail_notification(models.Model):
 
     # nu se mai trimit toate notificarile si pe email
     
-    def _notify(self, cr, uid, message_id, partners_to_notify=None, context=None,
-                force_send=False, user_signature=True):
+    def _notify(self, cr, uid, message_id, partners_to_notify=None, context=None, force_send=False, user_signature=True):
         if context is None:
             context = {}  
-        if not 'mail_notify_noemail' in context:
-            
+         
+        context = context.copy() 
+
+        if not 'mail_notify_noemail' in context:            
             context['mail_notify_noemail'] = self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", context=context)
             
         res = super(mail_notification,self)._notify( cr, uid,  message_id, partners_to_notify, context)
