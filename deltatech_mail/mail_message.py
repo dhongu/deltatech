@@ -19,13 +19,22 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, tools, _
+from openerp import models, fields, api, tools, _ , SUPERUSER_ID
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
+ 
 
 
+class mail_compose_message(models.TransientModel):
+    _inherit = 'mail.compose.message'
 
+    def send_mail(self, cr, uid, ids, context=None):
+        """ Process the wizard content and proceed with sending the related
+            email(s), rendering any template patterns on the fly if needed. """
+        context = dict(context or {})
+        context['mail_notify_noemail'] = False
+        return super(mail_compose_message, self).send_mail(cr, uid, ids, context)
 
 class mail_message(models.Model):
     _inherit = 'mail.message' 
@@ -76,10 +85,27 @@ class mail_notification(models.Model):
             user.post_notification(title=title,message=message.subject or ' ')        
 
 
+    # nu se mai trimit toate notificarile si pe email
+    
+    def _notify(self, cr, uid, message_id, partners_to_notify=None, context=None,
+                force_send=False, user_signature=True):
+        if context is None:
+            context = {}  
+        if not 'mail_notify_noemail' in context:
+            
+            context['mail_notify_noemail'] = self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", context=context)
+            
+        res = super(mail_notification,self)._notify( cr, uid,  message_id, partners_to_notify, context)
+        ids = self.search(cr, SUPERUSER_ID, [('message_id', '=', message_id), ('partner_id', 'in', partners_to_notify)], context=context)
+        self.web_notification( cr, uid, ids, message_id, context=context)
+        return res
+
+    
+    """
     def _notify_email(self, cr, uid, ids, message_id, force_send=False, user_signature=True, context=None):
         self.web_notification( cr, uid, ids, message_id, context=context)
         return super(mail_notification,self)._notify_email( cr, uid, ids, message_id, force_send, user_signature, context)
-    
+    """
     
         
 

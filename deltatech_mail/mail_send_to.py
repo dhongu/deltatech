@@ -79,7 +79,7 @@ class mail_send_to(models.TransientModel):
                 if track != 'none':
                         document.message_subscribe(new_follower_ids)
                  
-                message = self.env['mail.message'].with_context({'default_starred':True}).create({
+                message = self.env['mail.message'].with_context({'default_starred':True, 'mail_notify_noemail': False}).create({
                     'model': wizard.action_id.res_model,
                     'res_id': document.id,
                     'record_name': document.name_get()[0][1],

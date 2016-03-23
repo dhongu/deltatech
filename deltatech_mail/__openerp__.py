@@ -35,6 +35,8 @@ Functionalitati:
              (SELECT id from mail_message where res_id=any(%s) and model=%s)
  - Notificare la primire mesaj
  
+ - Se configreaza iesirea de email in afara sistemului prin paramentrul mail.notify.noemail
+ 
  
     """,
     "category" : "Generic Modules/Other",
