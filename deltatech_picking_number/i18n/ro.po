@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_picking_number
 #: view:stock.picking:deltatech_picking_number.view_picking_form
 msgid "Alocate number"
-msgstr "Alcare număr"
+msgstr "Alocare număr"
 
 #. module: deltatech_picking_number
 #: model:ir.model,name:deltatech_picking_number.model_stock_picking

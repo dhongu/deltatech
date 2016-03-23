@@ -63,7 +63,9 @@
 				<button name="action_confirm" position="before">
 					<button name="action_direct_transfer" states="draft" string="Direct Transfer" type="object" class="oe_highlight" groups="base.group_user" />
 					<button name="confirm_physical_transfer" states="assigned,done" string="Confirm Physical Transfer" type="object" class="oe_highlight"
-						groups="base.group_user" attrs="{'invisible': ['|',('physical_transfer', '=', True)]}" />
+						groups="base.group_user" attrs="{'invisible': ['|',('physical_transfer', '!=', 'req')]}" />
+					<button name="todo_physical_transfer" states="assigned,done" string="To Do Physical Transfer" type="object" class="oe_highlight"
+						groups="base.group_user" attrs="{'invisible': ['|',('physical_transfer', '!=', 'none')]}" />						
 				</button>
 				<button name="rereserve_pick" position="attributes">
 					<attribute name="states">waiting,partially_available</attribute>
@@ -118,7 +120,7 @@
 								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
 					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]" />
 					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]" />
-					<filter name="physical_transfer" string="Do Physical Transfer" domain="[('physical_transfer','=',False)]" />
+					<filter name="physical_transfer" string="To Do Physical Transfer" domain="[('physical_transfer','=','req')]" />
 				</filter>
 
 
