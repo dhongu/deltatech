@@ -580,7 +580,7 @@ class sale_mrp_resource(models.Model):
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits =dp.get_precision('Product Unit of Measure'))
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
     price_unit  = fields.Float(string='Unit Price', digits = dp.get_precision('Product Price') )
-    amount      = fields.Float( string='Subtotal', digits = dp.get_precision('Account'), compute='_compute_amount', store=True)   
+    amount      = fields.Float( string='Amount', digits = dp.get_precision('Account'), compute='_compute_amount', store=True)   
     categ_id    = fields.Many2one('product.category', related='product_id.categ_id', store=True) # este nevoie ? mai bine se aduce informatia direct in raport ?
 
     purchase_price = fields.Float(string='Purchase Price')
@@ -591,6 +591,7 @@ class sale_mrp_resource(models.Model):
     
     # o fi mai bine sa fac un raport in care sa auc camurile
     margin = fields.Float(string='Margin', compute='_compute_margin', store=True)
+    purchase_amount = fields.Float(string='Purchase Amount', compute='_compute_margin', store=True)
     currency_id = fields.Many2one('res.currency',  related="order_id.pricelist_id.currency_id", store=True)
 
 
@@ -598,7 +599,7 @@ class sale_mrp_resource(models.Model):
     @api.depends('price_unit','purchase_price','product_uom_qty')
     def _compute_margin(self):
         self.margin = self.product_uom_qty*self.price_unit - self.product_uom_qty*self.purchase_price
-        
+        self.purchase_amount = self.product_uom_qty*self.purchase_price
 
     @api.one
     @api.depends('product_id')
