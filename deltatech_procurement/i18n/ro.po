@@ -124,6 +124,16 @@ msgstr "Livrare"
 msgid "Direct Transfer"
 msgstr "Transfer direct"
 
+#: view:stock.picking:deltatech_procurement.view_picking_form
+#. module: deltatech_procurement
+msgid "Confirm Physical Transfer"
+msgstr "Confirmare transfer fizic"
+
+#: view:stock.picking:deltatech_procurement.view_picking_form
+#. module: deltatech_procurement
+msgid "To Do Physical Transfer"
+msgstr "De făcut transfer fizic"
+
 #: selection:required.order,state:0
 #. module: deltatech_procurement
 msgid "Done"
