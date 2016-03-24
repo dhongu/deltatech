@@ -99,7 +99,7 @@ class mail_notification(models.Model):
             
         res = super(mail_notification,self)._notify( cr, uid,  message_id, partners_to_notify, context)
         ids = self.search(cr, SUPERUSER_ID, [('message_id', '=', message_id), ('partner_id', 'in', partners_to_notify)], context=context)
-        self.web_notification( cr, uid, ids, message_id, context=context)
+        self.web_notification( cr, SUPERUSER_ID, ids, message_id, context=context)
         return res
 
     
