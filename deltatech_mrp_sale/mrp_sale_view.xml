@@ -128,6 +128,7 @@
   												</tree>
 											</field>
 										</div>
+										<field name="note" />
 									</group>
 								</group>
 

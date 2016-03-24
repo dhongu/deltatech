@@ -308,6 +308,8 @@ class sale_mrp_article(models.Model):
   
     #property_ids = fields.Many2many('mrp.property', 'sale_order_article_property_rel', 'article_id', 'property_id', 'Properties')
 
+    note = fields.Text(string='Note')
+
 
     @api.one
     @api.depends('product_attributes')
@@ -586,6 +588,17 @@ class sale_mrp_resource(models.Model):
     bom_id      =  fields.Many2one('mrp.bom', string='BOM', compute='_compute_get_bom') 
 
     resource_item_ids = fields.One2many('sale.mrp.resource.item',inverse_name='resource_id', string="Products", copy=True)
+    
+    # o fi mai bine sa fac un raport in care sa auc camurile
+    margin = fields.Float(string='Margin', compute='_compute_margin', store=True)
+    currency_id = fields.Many2one('res.currency',  related="order_id.pricelist_id.currency_id", store=True)
+
+
+    @api.one
+    @api.depends('price_unit','purchase_price','product_uom_qty')
+    def _compute_margin(self):
+        self.margin = self.product_uom_qty*self.price_unit - self.product_uom_qty*self.purchase_price
+        
 
     @api.one
     @api.depends('product_id')
