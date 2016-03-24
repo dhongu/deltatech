@@ -61,7 +61,7 @@ class service_notification(models.Model):
     equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'new': [('readonly', False)]})
  
-    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, states={'new': [('readonly', False)]})  #, related='equipment_history_id.partner_id', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, required=True, states={'new': [('readonly', False)]})  #, related='equipment_history_id.partner_id', readonly=True)
     address_id = fields.Many2one('res.partner', string='Location',readonly=True, states={'new': [('readonly', False)]})  #,  related='equipment_history_id.address_id', readonly=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)        
@@ -208,8 +208,9 @@ class service_notification(models.Model):
                     'date_assing':fields.Datetime.now()})
 
         new_follower_ids = [self.user_id.partner_id.id]
+        
         if self.user_id <> self.env.user.id:
-            msg = _('Please solve notification: %s') % (self.description or '')
+            msg = _('Please solve notification for %s: %s') % ( self.partner_id.name, self.description or '')
        
             if msg and not self.env.context.get('no_message',False):
                 document = self
@@ -283,6 +284,28 @@ class service_notification(models.Model):
     def action_done(self):
         self.write({'state':'done',
                     'date_done':fields.Datetime.now()})
+
+        new_follower_ids = [self.contact_id.id]
+        
+        if self.user_id <> self.env.user.id:
+            msg = _('Notification %s for %s was done') % ( self.description or '', self.partner_id.name )
+       
+            if msg and not self.env.context.get('no_message',False):
+                document = self
+                message = self.env['mail.message'].with_context({'default_starred':True}).create({
+                    'model': 'service.notification',
+                    'res_id': document.id,
+                    'record_name': document.name_get()[0][1],
+                    'email_from': self.env['mail.message']._get_default_from( ),
+                    'reply_to': self.env['mail.message']._get_default_from( ),
+
+                    'subject': self.subject,
+                    'body': msg,
+                     
+                    'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
+                    'partner_ids': [(4, id) for id in new_follower_ids],
+                     
+                }) 
 
 
     #TODO: De anuntat utilizatorul ca are o sesizare 
@@ -480,7 +503,7 @@ class service_notification_item(models.Model):
  
     notification_id = fields.Many2one('service.notification', string='Notification', readonly=True )
     product_id = fields.Many2one('product.product', string='Product')
-    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
+    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
     product_uom = fields.Many2one('product.uom', string='Unit of Measure ' )
     note = fields.Char(string='Note') 
 
