@@ -156,7 +156,8 @@ class sale_order(models.Model):
                 for line in self.order_line:
                     if resource.product_id == line.product_id:
                         resource.write({'price_unit':line.price_unit,
-                                       'amount':line.price_subtotal})                        
+                                       'amount':line.price_subtotal})  
+        self.button_update_all()
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
     """
