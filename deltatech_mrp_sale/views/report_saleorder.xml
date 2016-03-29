@@ -676,6 +676,29 @@
 			<t t-name="deltatech_mrp_sale.report_saleorder_document_specification2">
 			  <t t-call="report.external_layout">
 			    <div class="page">
+			      <!--begin header-->
+			      <div class="headerFirstPage">
+			        <div class="row">
+			          <div class="col-xs-3">
+			            <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
+			          </div>
+			          <div class="col-xl-2">
+			            <div t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="margin-bottom:-20px;;"/>
+			          </div>
+			          <div class="col-xs-9 text-right" style="margin-top:10px;" t-field="res_company.rml_header1"/>
+			        </div>
+			        <div class="row zero_min_height">
+			          <div class="col-xs-12">
+			            <div style="border-bottom: 1px solid black;"/>
+			          </div>
+			        </div>
+			        <div class="row">
+			          <div class="col-xs-3">
+			            <!--<div t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;"/>-->
+			          </div>
+			        </div>
+			      </div>
+			      <!--end header-->
 			      <div class="oe_structure"/>
 			      <div class="row">
 			        <div class="col-xs-6">
@@ -691,11 +714,11 @@
 			          <p class="oe_editable" t-field="o.user_id.name"/>
 			        </div>
 			      </div>
-			      <h2 style="margin-top:7px;">
+			      <h4 style="margin-top:10px;font-weight:bold;">
 			        <span t-if="o.state not in ['draft','sent']">Order N° </span>
 			        <span t-if="o.state in ['draft','sent']">Quotation ID: </span>
 			        <span t-field="o.name"/>
-			      </h2>
+			      </h4>
 			      <div class="row" id="informations">
 			        <div t-if="o.client_order_ref" class="col-xs-3">
 			          <b>Project name</b>
@@ -718,12 +741,18 @@
 			          <strong>Surface house:</strong>
 			          <p>
 			            <t t-set="qty_primary" t-value="o.qty_primary or 1"/>
-			            <span t-field="o.qty_primary"/>
+			            <span t-esc="round(o.qty_primary,2)"/>
+			            <!--<span t-field="o.qty_primary"/>-->
 			            <span t-field="o.primary_uom"/>
 			          </p>
 			        </div>
 			      </div>
-			      <p style="margin-bottom:-7px;">
+			      <div class="row zero_min_height">
+			        <div class="col-xs-12">
+			          <div style="border-bottom: 1px solid #cadb34;"/>
+			        </div>
+			      </div>
+			      <p style="margin-bottom:-7px;margin-top:75px;">
 			        <span>The EcoKit houses are made with dried wood, treated and planing wood. </span>
 			        <span>Projects are done according to calculation rules EUROCODE 5. </span>
 			        <span>Ecokit uses specialized software for designing the timber frame structures - WOODENGINE, RoofCoon- TrussCon, </span>
@@ -731,8 +760,9 @@
 			      </p>
 			      <table class="table table-condensed">
 			        <thead>
+			          <tr style="height:40px;"></tr>
 			          <tr>
-			            <th colspan="2">Description</th>
+			            <th colspan="2"/>
 			            <th class="text-right"> </th>
 			            <!--<th class="text-right">Quantity</th>-->
 			            <!--<th class="text-right">Unit Price</th>-->
@@ -770,23 +800,23 @@
 			          <t t-set="total3" t-value="total2+total_opt_serv"/>
 			        </t>
 			        <tbody class="sale_tbody">
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34;">
 			            <td colspan="5">
-			              <h3 style="margin: 0 0 0 0;">TIMBER FRAME STRUCTURE</h3>
+			              <h4 style="margin: 00 0 0 0;font-weight:bold;">KIT</h4>
 			              <t t-set="qty_only" t-value="1"/>
 			              <t t-set="with_price" t-value="0"/>
 			              <t t-set="with_qty" t-value="1"/>
 			            </td>
-			            <td />
+			            <td/>
 			          </tr>
 			          <t t-foreach="o.article_ids" t-as="a">
 			            <t t-if="a.item_categ==&quot;normal&quot;">
 			              <t t-call="deltatech_mrp_sale.report_specification_article2"/>
 			            </t>
 			          </t>
-			          <tr>
+			          <tr style="background-color:#A9E2F3;">
 			            <td colspan="3">
-			              <strong>Tehnical execution project + Metallic assembly parts</strong>
+			              <h4 style="margin:0 0 0 0;"><strong>Tehnical execution project + Metallic assembly parts</strong></h4>
 			            </td>
 			            <td class="text-right"/>
 			            <td class="text-right"/>
@@ -798,32 +828,39 @@
 			            -->
 			            </td>
 			          </tr>
+			          <tr style="height:3px;"></tr>
+			          <tr style="background-color:#A9E2F3">
+			            <td colspan="6">
+			              <div><h4 style="margin:0 0 0 0;"><strong>WOOD TREATMENT</strong></h4></div>
+			            </td>
+			          </tr>
 			          <tr>
 			            <td colspan="6">
-			              <div>WOOD TREATMENT</div>
 			              <div sytle="margin-left: 40px;">
 			                <ul>
 			                  <li>
-			                    <div>Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16%</div>
+			                    <div><small style="font-style: normal;"> Our wood is dried in industrial dryers, electronically controlled, the humidity of used wood is between 14-16% </small></div>
 			                  </li>
 			                  <li>
 			                    <div>
+			                      <small style="font-style: normal;">
 			                      <span>All wood used is treated by immersion (no brush, no spraying) in special vats.</span>
 			                      <span>The product used for the treatment is approved and certified </span>
+			                      </small>
 			                    </div>
 			                  </li>
 			                  <li>
-			                    <div>The wood used for the concrete base plate is autoclave treated</div>
+			                    <div><small style="font-style: normal;">The wood used for the concrete base plate is autoclave treated</small></div>
 			                  </li>
 			                </ul>
 			              </div>
 			            </td>
 			          </tr>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34">
 			            <td colspan="4">
-			              <strong>TOTAL TIMBER FRAME STRUCTURE</strong>
+			              <h4><strong>TOTAL TIMBER FRAME STRUCTURE</strong></h4>
 			            </td>
-			            <td />
+			            <td/>
 			            <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
@@ -840,16 +877,16 @@
 			            -->
 			            <td class="text-right" style="white-space: nowrap;">
 			              <strong>
-			              <span t-esc="round(total_kit,2)"/>
-			              <span t-field="o.pricelist_id.currency_id.symbol"/>
+			                <span t-esc="round(total_kit,2)"/>
+			                <span t-field="o.pricelist_id.currency_id.symbol"/>
 			              </strong>
 			            </td>
 			          </tr>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34">
 			            <td colspan="4">
 			              PRICE / m<sup>2</sup>
 			            </td>
-			            <td />
+			            <td/>
 			            <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
@@ -872,14 +909,14 @@
 			          </tr>
 			        </tbody>
 			      </table>
-			      <br />
-			      <br />
+			      <br/>
+			      <br/>
 			      <table class="table table-condensed">
 			        <thead>
 			          <tr>
-			            <th colspan="2">Description</th>
-			            <th />
-			            <th />
+			            <th colspan="2"></th>
+			            <th/>
+			            <th/>
 			            <th class="text-right">Quantity</th>
 			            <th class="text-right">Price</th>
 			          </tr>
@@ -888,31 +925,33 @@
 			          <tr>
 			            <td colspan="6"/>
 			          </tr>
-			          <tr style="background-color:#DA9694">
+			          <tr style="background-color:#cadb34">
 			            <td colspan="6">
-			              <h3 style="margin: 0 0 0 0;">OPTIONAL SUPPLIES</h3>
+			              <h4 style="margin: 0 0 0 0;font-weight:bold;">OPTIONAL SUPPLIES</h4>
 			              <t t-set="qty_only" t-value="0"/>
 			              <t t-set="with_price" t-value="1"/>
 			              <t t-set="with_qty" t-value="1"/>
 			            </td>
 			          </tr>
+			          <tr style="height:75px;"></tr>
 			          <t t-foreach="o.article_ids" t-as="a">
 			            <t t-if="a.item_categ==&quot;optional&quot;">
 			              <t t-call="deltatech_mrp_sale.report_specification_article2"/>
 			            </t>
 			          </t>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#A9E2F3">
 			            <th colspan="5">
-			              <strong>TOTAL OPTIONAL SUPPLIES</strong>
+			              <h4><strong>TOTAL OPTIONAL SUPPLIES</strong></h4>
 			            </th>
 			            <th class="text-right" style="white-space: nowrap;">
 			              <span t-esc="round(total_opt,2)"/>
 			              <span t-field="o.pricelist_id.currency_id.symbol"/>
 			            </th>
 			          </tr>
-			          <tr style="background-color:#C4D773">
+			          <tr style="height:20px;"></tr>
+			          <tr style="background-color:#cadb34">
 			            <th colspan="5">
-			              <strong>TOTAL TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES</strong>
+			              <h4><strong>TOTAL TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES</strong></h4>
 			            </th>
 			            <!--
 			            <td class="text-right">
@@ -932,7 +971,7 @@
 			              <span t-field="o.pricelist_id.currency_id.symbol"/>
 			            </th>
 			          </tr>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34">
 			            <td colspan="5">
 			              PRICE / m<sup>2</sup>
 			            </td>
@@ -978,9 +1017,9 @@
 			              <t t-call="deltatech_mrp_sale.report_specification_article2"/>
 			            </t>
 			          </t>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34">
 			            <th colspan="5">
-			              <strong>TOTAL (TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES + MONTAGE + TRANSPORT)</strong>
+			              <h4><strong>TOTAL (TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES + MONTAGE + TRANSPORT)</strong></h4>
 			              <t t-set="with_price" t-value="1"/>
 			              <t t-set="with_qty" t-value="1"/>
 			            </th>
@@ -1002,7 +1041,7 @@
 			              <span t-field="o.pricelist_id.currency_id.symbol"/>
 			            </th>
 			          </tr>
-			          <tr style="background-color:#C4D773">
+			          <tr style="background-color:#cadb34">
 			            <td colspan="5">
 			              PRICE / m<sup>2</sup>
 			              <t t-set="with_price" t-value="1"/>
@@ -1052,6 +1091,21 @@
 			          </table>
 			        </div>
 			      </div>
+			      <div class="row">
+			        <div class="col-xs-4 pull-right">
+			          <table class="table table-condensed">
+			            <tr>
+			              <td>
+			                <strong></strong>
+			              </td>
+			              <td class="text-right">
+			                <strong>NO VAT</strong>
+			              </td>
+			            </tr>
+			          </table>
+			        </div>
+			      </div>
+			      <p style="width:75px;"></p>
 			      <p style="background-color:#F8F8F8; color:#FF0000">
 			        <span>This estimate is a contractual document for which EcoKit take responsibility. </span>
 			        <span>Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate
@@ -1112,7 +1166,6 @@
 			    </div>
 			  </t>
 			</t>
-			
 		</template>
 
 
