@@ -36,7 +36,7 @@ Functionalitati:
     "depends" : ["base", "stock"],
 
 
-    "data" : [ 
+    "data" : [ 'wizard/stock_transfer_details_view.xml'
               
                 ],
     'application': False,
