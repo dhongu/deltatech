@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_crm_new_survey_form" model="ir.ui.view">
+			<field name="name">CRM New Survey</field>
+			<field name="model">crm.new.survey</field>
+			<field name="arch" type="xml">
+				<form string="CRM New Survey">
+					<group string="Create a New Survey Result">
+						<div class="oe_grey">
+							Prepare survey for partner
+						</div>
+					</group>
+					<group>
+						<field name="survey_id" options="{'no_create': True}" />
+						<field name="partner_id" options="{'no_create': True}" />
+					</group>
+
+					<footer>
+						<button name="do_new_survey" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		
+	  <act_window id="action_crm_new_survey" name="New Survey"
+			res_model="crm.new.survey" src_model="crm.lead"
+			view_mode="form"   target="new"   />
+		
+		
+	</data>
+</openerp>
