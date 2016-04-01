@@ -30,15 +30,22 @@ Functionalitati:
  - Afisare oferta daca exista
  - Adaugare campuri suplimentare: agent comercial
 
+ - Preluare functionalitati din Odoo9 legate de activitati
    
     """,
     
     'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"sale_crm"],
+    "depends" : ['deltatech',"crm","sale_crm"],
 
 
  
-    "data" : [ 'sale_crm_view.xml'],
+    "data" : [ 'crm_activity_view.xml',
+              'crm_lead_view.xml',
+              'security/ir.model.access.csv',
+              'sale_crm_view.xml',
+              
+              'data/crm_action_data.xml',
+              ],
     
     "active": False,
     "installable": True,
