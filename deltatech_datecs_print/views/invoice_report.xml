@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<report string="Print Datecs" 
+		id="action_report_invoice" model="account.invoice" 
+		report_type="qweb-pdf" name="deltatech_datecs_print.report_invoice"
+			file="deltatech_datecs_print.report_invoice" />
+
+
+
+		<template id="report_invoice">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-foreach="o.invoice_line" t-as="line">
+
+						<t t-set='line_value' t-value='"P,1,______,_,__;"+line.product_id.name+";;;;;"' />
+						<div t-esc='line_value' />
+						<t t-set='line_value' t-value='"S,1,______,_,__;"+line.product_id.default_code+";"+str(line.price_unit)+";"+str(line.quantity)+";1;2;1;0;0;"' />
+						<div t-esc='line_value' />
+
+					</t>
+					<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(o.amount_total)+";;;;"' />
+					<div t-esc='line_total' />
+
+				</t>
+			</t>
+		</template>
+	</data> 
+</openerp>   

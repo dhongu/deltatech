@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_export_datecs_form" model="ir.ui.view">
+			<field name="name">Export Datecs</field>
+			<field name="model">export.datecs</field>
+			<field name="arch" type="xml">
+				<form string="Export Datecs">
+
+					<field name="name" invisible="1" />
+
+					<h2>Datecs format: <field name="data_file" readonly="1" filename="name" /></h2>
+
+					<footer>
+						<button string="_Close" class="oe_link" special="cancel" />
+					</footer>
+
+				</form>
+			</field>
+		</record>
+
+
+		<act_window id="action_export_datecs" name="Export Datecs" res_model="export.datecs" src_model="account.invoice" view_mode="form" target="new" />
+
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+            	 <field name="state" position="before">
+            	 	 <button name="print_datecs" states="open,paid" string="Print Datecs" type="object" groups="base.group_no_one"/>
+            	 </field>
+            </field>
+        </record>
+
+	</data>
+</openerp>
