@@ -34,5 +34,20 @@
 
 
 
+        <record id="crm_case_categ-view" model="ir.ui.view">
+            <field name="name">crm.case.categ.form</field>
+            <field name="model">crm.case.categ</field>
+            <field name="inherit_id" ref="crm.crm_case_categ-view" />
+            <field name="arch" type="xml">
+                <form string="Case Category">
+                    <group>
+                        <field name="survey_id" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+
 	</data>
 </openerp>

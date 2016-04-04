@@ -44,7 +44,11 @@ class crm_new_survey(models.TransientModel):
         lead = self.env['crm.lead'].browse(active_id) 
         defaults['lead_id'] = lead.id
         defaults['partner_id'] = lead.partner_id.id 
-        defaults['survey_id'] = lead.stage_id.survey_id.id
+        if lead.stage_id.survey_id:
+            defaults['survey_id'] = lead.stage_id.survey_id.id
+        else:
+            if lead.categ_ids:
+                defaults['survey_id'] = lead.categ_ids[0].survey_id.id
         return defaults
     
     @api.multi

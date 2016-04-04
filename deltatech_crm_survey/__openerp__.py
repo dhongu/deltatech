@@ -27,6 +27,7 @@
 
 Functionalitati:
  - adugarea de chestionar la un stadiu
+ - adugarea de chestionar la etapa
  - adugare rezultate chestionar la oportunitate
 
    

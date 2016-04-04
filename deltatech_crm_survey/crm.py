@@ -29,10 +29,14 @@ import openerp.addons.decimal_precision as dp
 
 
 class crm_case_stage(models.Model):
-    _inherit = "crm.case.stage"
-    
+    _inherit = "crm.case.stage"  
     survey_id = fields.Many2one('survey.survey', string='Survey')
 
+
+class crm_case_categ(models.Model):
+    _inherit = "crm.case.categ"  
+    survey_id = fields.Many2one('survey.survey', string='Survey')
+    
 
 class crm_lead(models.Model):
     _inherit = "crm.lead"
