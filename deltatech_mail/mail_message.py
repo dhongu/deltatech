@@ -44,7 +44,9 @@ class mail_message(models.Model):
     def set_message_read(self, cr, uid, msg_ids, read, create_missing=True, context=None):
         mail_read_set_read = context.get('mail_read_set_read',False)
         if mail_read_set_read:
-            return
+            open_set_read =  eval(self.pool['ir.config_parameter'].get_param(cr, uid, "mail.open.set.read", default="False", context=context))
+            if not open_set_read:
+                return
         return super(mail_message,self).set_message_read( cr, uid, msg_ids, read, create_missing, context)
     
         
@@ -94,8 +96,15 @@ class mail_notification(models.Model):
          
         context = context.copy() 
 
-        if not 'mail_notify_noemail' in context:            
-            context['mail_notify_noemail'] = self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", context=context)
+        if not 'mail_notify_noemail' in context:         
+            try:
+                mail_notify_noemail =  eval(self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", context=context))
+            except:
+                print "eroare evaluare mail.notify.noemail"   
+                  
+            context['mail_notify_noemail'] = mail_notify_noemail
+        
+        print 'mail_notify_noemail', context['mail_notify_noemail'], type(context['mail_notify_noemail'])
             
         res = super(mail_notification,self)._notify( cr, uid,  message_id, partners_to_notify, context)
         ids = self.search(cr, SUPERUSER_ID, [('message_id', '=', message_id), ('partner_id', 'in', partners_to_notify)], context=context)
