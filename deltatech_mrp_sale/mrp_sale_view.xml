@@ -255,7 +255,7 @@
 
 
 
-		<menuitem name="Sale Resources" id="menu_sale_mrp_resource" action="action_sale_mrp_resource" parent="base.menu_sales" sequence="2" />
+		<menuitem name="Sale Resources" id="menu_sale_mrp_resource" action="action_sale_mrp_resource"  parent="base.next_id_64" sequence="2" />
 
 		<record id="view_sale_mrp_resource_filter" model="ir.ui.view">
 			<field name="name">sale.mrp.resource.select</field>
@@ -276,7 +276,8 @@
 		</record>
 
 
-		<menuitem name="Sale Resources Item" id="menu_sale_mrp_resource_item" action="action_sale_mrp_resource_item" parent="base.menu_sales" sequence="2" />
+		<menuitem name="Sale Resources Item" id="menu_sale_mrp_resource_item" action="action_sale_mrp_resource_item" 
+ parent="base.next_id_64" sequence="2" />
 
 		<record id="view_sale_mrp_resource_item_filter" model="ir.ui.view">
 			<field name="name">sale.mrp.resource.item.select</field>
