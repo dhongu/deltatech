@@ -43,8 +43,10 @@ Functionalitati:
               'crm_lead_view.xml',
               'security/ir.model.access.csv',
               'sale_crm_view.xml',
-              
+              'crm_view.xml',
               'data/crm_action_data.xml',
+              
+              'report/crm_activity_report_view.xml',
               ],
     
     "active": False,

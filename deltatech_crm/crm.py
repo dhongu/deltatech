@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,14 +21,19 @@
 
 
 
-import crm
-import crm_lead
-import crm_activity
-import report
-
- 
-
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp import SUPERUSER_ID, api
+import openerp.addons.decimal_precision as dp
 
 
+class crm_case_stage(models.Model):
+    _inherit = "crm.case.stage"  
+    template_id = fields.Many2one('email.template', string='Template')
+
+
+
+    
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

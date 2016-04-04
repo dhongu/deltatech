@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_crm_activity_user,crm.activity.user,model_crm_activity,base.group_user,1,1,1,0
 access_crm_activity_manager,crm.activity.manager,model_crm_activity,base.group_sale_manager,1,1,1,1
 access_crm_activity_salesman,crm.activity.salesman,model_crm_activity,base.group_sale_salesman,1,1,1,0
+access_crm_activity_report_user,crm.activity.report.user,model_crm_activity_report,base.group_user,1,0,0,0

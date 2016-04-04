@@ -22,11 +22,12 @@
 
 
 from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _
+from openerp import models, fields, api, _, tools
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
-
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
 
 class crm_lead(models.Model):
     _inherit = "crm.lead"
@@ -40,7 +41,43 @@ class crm_lead(models.Model):
     next_activity_2 = fields.Char(related="last_activity_id.activity_2_id.name",  string="Next Activity 2")
     next_activity_3 = fields.Char(related="last_activity_id.activity_3_id.name",  string="Next Activity 3")
      
- 
+
+
+    @api.multi
+    def action_send_email(self):
+        '''
+        This function opens a window to compose an email, with the template message loaded by default
+        '''
+        
+        self.ensure_one()
+        
+        template_id = self.stage_id.template_id.id
+        try:
+            compose_form_id = self.env['ir.model.data'].get_object_reference( 'mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False 
+        ctx = dict()
+        ctx.update({
+            'default_model': 'crm.lead',
+            'default_res_id': self.id,
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
+
+
+
 
     @api.multi
     def show_quotation(self): 
@@ -101,7 +138,7 @@ class crm_lead(models.Model):
 %if object.title_action:
 <div>${object.title_action}</div>
 %endif"""
-            body_html = self.pool['mail.template'].render_template(cr, uid, body_html, 'crm.lead', lead.id, context=context)
+            body_html = self.pool['email.template'].render_template(cr, uid, body_html, 'crm.lead', lead.id, context=context)
             msg_id = lead.message_post(body_html, subtype_id=lead.next_activity_id.subtype_id.id)
             to_clear_ids.append(lead.id)
             self.write(cr, uid, [lead.id], {'last_activity_id': lead.next_activity_id.id}, context=context)
