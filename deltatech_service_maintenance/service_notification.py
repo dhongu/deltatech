@@ -326,8 +326,9 @@ class service_notification(models.Model):
             
             context['default_move_lines'] = []
            
-            for item in self.item_ids:                
-                value = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)['value']
+            for item in self.item_ids: 
+                res = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)                
+                value = res.get('value',{})  
                 value['location_id'] =  picking.move_lines._default_location_source()
                 value['location_dest_id'] =  picking.move_lines._default_location_destination()
                 value['date_expected'] = fields.Datetime.now()
@@ -375,8 +376,10 @@ class service_notification(models.Model):
             
             context['default_move_lines'] = []
            
-            for item in self.item_ids:                
-                value = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)['value']
+            for item in self.item_ids:     
+                res = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)
+                value = res.get('value',{})          
+                
                 value['location_id'] =  picking.move_lines._default_location_source()
                 value['location_dest_id'] =  picking.move_lines._default_location_destination()
                 value['date_expected'] = fields.Datetime.now()
@@ -424,7 +427,8 @@ class service_notification(models.Model):
             pricelist = self.partner_id.property_product_pricelist and self.partner_id.property_product_pricelist.id or False
             context['default_order_line'] = []          
             for item in self.item_ids:                
-                value = sale_order.order_line.product_id_change( pricelist=pricelist, product=item.product_id.id, qty=item.quantity, partner_id=self.partner_id.id )['value']
+                res = sale_order.order_line.product_id_change( pricelist=pricelist, product=item.product_id.id, qty=item.quantity, partner_id=self.partner_id.id )
+                value = res.get('value',{})  
                 value['product_id'] = item.product_id.id
                 value['product_uom_qty'] = item.quantity
                 value['state'] = 'draft'
