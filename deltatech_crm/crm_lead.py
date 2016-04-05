@@ -29,6 +29,8 @@ import openerp.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
+
+
 class crm_lead(models.Model):
     _inherit = "crm.lead"
 
@@ -78,6 +80,36 @@ class crm_lead(models.Model):
 
 
 
+    @api.model
+    def message_new(self,  msg_dict, custom_values=None):
+        if custom_values is None:
+            custom_values = {}
+
+            
+        
+        try:
+            from lxml import html
+            
+            xml_body = html.fromstring(msg_dict['body'])
+        
+            element = xml_body.xpath("//*[@itemprop='addressLocality']")
+            if  element:
+                custom_values['city'] =  element[0].text
+            
+            element = xml_body.xpath("//*[@itemprop='telephone']")
+            if  element:
+                custom_values['phone'] =  element[0].text
+
+            element = xml_body.xpath("//*[@itemprop='streetAddress']")
+            if  element:
+                custom_values['street'] =  element[0].text
+
+                
+        except:
+            pass
+            
+        res =super(crm_lead,self).message_new(  msg_dict, custom_values)
+        return res
 
     @api.multi
     def show_quotation(self): 
