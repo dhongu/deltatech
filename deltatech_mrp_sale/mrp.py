@@ -41,6 +41,7 @@ ITEM_CATEG = [('primary','Primary'),
               ('normal','Normal'),
               ('optional','Optional'),
               ('service','Service'),
+              ('labor', 'Labor'),
               ('opt_serv','Optional Service')]
 
 

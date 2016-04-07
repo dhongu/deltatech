@@ -38,7 +38,12 @@ _logger = logging.getLogger(__name__)
 # optional - elemente optionale
 # service - alte servicii prestate pentru lucrare 
 
-ITEM_CATEG = [('primary','Primary'),('normal','Normal'),('optional','Optional'),('service','Service'),('opt_serv','Optional Service')]
+ITEM_CATEG = [('primary','Primary'),
+              ('normal','Normal'),
+              ('optional','Optional'),
+              ('service','Service'),
+              ('labor', 'Labor'),
+              ('opt_serv','Optional Service')]
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
