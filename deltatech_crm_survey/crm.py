@@ -33,6 +33,7 @@ class crm_case_stage(models.Model):
     survey_id = fields.Many2one('survey.survey', string='Survey')
 
 
+
 class crm_case_categ(models.Model):
     _inherit = "crm.case.categ"  
     survey_id = fields.Many2one('survey.survey', string='Survey')
@@ -46,10 +47,22 @@ class crm_lead(models.Model):
 
     @api.multi
     def make_survey(self):
+        self.ensure_one()
         
+        template_id = self.stage_id.template_id.id      
+
+        ctx.update({
+            'default_model': 'crm.lead',
+            'default_res_id': self.id,
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+         
         action = {
              'domain': False,
-             'context': {},
+             'context': ctx,
              'view_type': 'form',
              'view_mode': 'form',
              'res_model': 'crm.new.survey',
@@ -61,6 +74,11 @@ class crm_lead(models.Model):
          }
         
         return   action
+
+
+
+
+
     
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

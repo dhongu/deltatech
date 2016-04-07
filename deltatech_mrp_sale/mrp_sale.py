@@ -68,6 +68,8 @@ class sale_order(models.Model):
      
     add_inst_day = fields.Integer(string="Additional installing days")
 
+
+    
     
     @api.multi
     @api.depends('article_ids.product_uom_qty')
@@ -78,6 +80,7 @@ class sale_order(models.Model):
                 if article.item_categ == 'primary':
                     order.qty_primary += article.product_uom_qty
                     order.primary_uom = article.product_uom
+            order.add_inst_day = order.qty_primary / 4
 
 
     @api.multi
@@ -303,7 +306,7 @@ class sale_mrp_article(models.Model):
     
     price_unit =  fields.Float(string='Unit Price', digits= dp.get_precision('Product Price'),compute='_compute_amount',  )
     resource_ids = fields.One2many('sale.mrp.resource',inverse_name='article_id', string="Resources", copy=True)
-    amount      = fields.Float( string='Subtotal', digits= dp.get_precision('Account'), compute='_compute_amount', store=True)   
+    amount      = fields.Float( string='Amount', digits= dp.get_precision('Account'), compute='_compute_amount', store=True)   
 
     #article_property_ids = fields.Many2many('mrp.property', string='Properties', compute='_compute_properties'  , inverse='_inverse_properties', readonly=False)
   

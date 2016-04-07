@@ -245,9 +245,11 @@
 			<field name="model">sale.mrp.resource</field>
 			<field name="arch" type="xml">
 				<graph type="pivot">
-					<field name="product_id" type="row" />
-					<field name="product_uom_qty" type="measure" />
+					<field name="order_id" type="row" />
+					<field name="purchase_amount" type="measure" />
 					<field name="amount" type="measure" />
+					<field name="margin" type="measure" />
+					<field name="currency_id" type="col" />
 				</graph>
 			</field>
 		</record>

@@ -15,14 +15,32 @@
 			</field>
 		</record>
 
+		<record id="crm_case_form_view_leads" model="ir.ui.view">
+			<field name="name">CRM - Leads Form</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
+			<field name="arch" type="xml">
+				<field name="stage_id" position="before">
+					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />
+				</field>
+				<page string="Extra Info" position="after">
+					<page string="Surveys">
+						<field name="survey_results" />
+					</page>
+				</page>
+			</field>
+		</record>
+
+
+
 		<record id="crm_case_form_view_oppor" model="ir.ui.view">
 			<field name="name">Opportunities</field>
 			<field name="model">crm.lead</field>
 			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
 			<field name="arch" type="xml">
-				<button name="case_mark_lost" position="after">
-					<button string="New survery"   class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />
-				</button>
+				<field name="stage_id" position="before">
+					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />
+				</field>
 				<page string="Lead" position="after">
 					<page string="Surveys">
 						<field name="survey_results" />
@@ -34,18 +52,18 @@
 
 
 
-        <record id="crm_case_categ-view" model="ir.ui.view">
-            <field name="name">crm.case.categ.form</field>
-            <field name="model">crm.case.categ</field>
-            <field name="inherit_id" ref="crm.crm_case_categ-view" />
-            <field name="arch" type="xml">
-                <form string="Case Category">
-                    <group>
-                        <field name="survey_id" />
-                    </group>
-                </form>
-            </field>
-        </record>
+		<record id="crm_case_categ-view" model="ir.ui.view">
+			<field name="name">crm.case.categ.form</field>
+			<field name="model">crm.case.categ</field>
+			<field name="inherit_id" ref="crm.crm_case_categ-view" />
+			<field name="arch" type="xml">
+				<form string="Case Category">
+					<group>
+						<field name="survey_id" />
+					</group>
+				</form>
+			</field>
+		</record>
 
 
 

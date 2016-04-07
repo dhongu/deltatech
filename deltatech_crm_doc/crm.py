@@ -29,7 +29,6 @@ import openerp.addons.decimal_precision as dp
 
 
     
-
 class crm_lead(models.Model):
     _inherit = "crm.lead"
     

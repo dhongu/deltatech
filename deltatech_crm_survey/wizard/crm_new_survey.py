@@ -27,14 +27,18 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 
+import urlparse
+
 class crm_new_survey(models.TransientModel):
     _name = 'crm.new.survey'
+    _inherit = 'mail.compose.message'
     _description = "CRM New Survey Result"
     
     survey_id = fields.Many2one('survey.survey', string='Survey', required=True)
     partner_id = fields.Many2one('res.partner',   string='Partner', required=True)
-    lead_id = fields.Many2one('res.partner',   string='Partner')
-    
+    lead_id = fields.Many2one('crm.lead',   string='Lead')
+    by_mail = fields.Boolean('Send Email')
+    #template_id = fields.Many2one('email.template', string='Template')
 
     @api.model
     def default_get(self, fields):      
@@ -50,10 +54,10 @@ class crm_new_survey(models.TransientModel):
             if lead.categ_ids:
                 defaults['survey_id'] = lead.categ_ids[0].survey_id.id
         return defaults
-    
+
     @api.multi
-    def do_new_survey(self):
-        self.ensure_one()
+    def make_survey(self):
+        
         domain = [('lead_id','=',self.lead_id.id),
                   ('partner_id','=',self.partner_id.id),
                   ('survey_id','=',self.survey_id.id)
@@ -64,16 +68,39 @@ class crm_new_survey(models.TransientModel):
             value = {'lead_id':self.lead_id.id,'partner_id':self.partner_id.id,'survey_id':self.survey_id.id}
             survey_result = self.env['survey.user_input'].create(value)
         
+        return survey_result
+    
+    @api.multi
+    def do_new_survey(self):
+        self.ensure_one()
+        survey_result = self.make_survey()
+        # {'type': 'ir.actions.act_window_close'}
         # si de aici se va deschide pagina pt introducerea de rezultate .....
         action = {
                     "type": "ir.actions.act_url",
                     "url": self.survey_id.public_url+'/'+survey_result.token,
-                    "target": "new",
+                    "target": "self",
                 }
         return action
                 #http://dorin-ubuntu14:8069/survey/start/sondaj-1-3/223e2aca-e40f-4a5e-aac4-a92b3ab74001
         
+    @api.multi
+    def send_mail(self):
+        if self.body.find("__URL__") < 0:
+                raise Warning( _("The content of the text don't contain '__URL__'. \
+                    __URL__ is automaticaly converted into the special url of the survey."))
+                
+        survey_result = self.make_survey()
+        #set url
+        url = self.survey_id.public_url
 
+        url = urlparse.urlparse(url).path[1:]  # dirty hack to avoid incorrect urls
 
+        url = url + '/' +survey_result.token
+
+        
+        self.body =  self.body.replace("__URL__", url)
+        res = super(crm_new_survey,self).send_mail()
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

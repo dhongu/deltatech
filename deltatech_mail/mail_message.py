@@ -97,14 +97,11 @@ class mail_notification(models.Model):
         context = context.copy() 
 
         if not 'mail_notify_noemail' in context:         
-            try:
-                mail_notify_noemail =  eval(self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", context=context))
-            except:
-                print "eroare evaluare mail.notify.noemail"   
-                  
+            mail_notify_noemail =  eval(self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", default="False", context=context))
+                 
             context['mail_notify_noemail'] = mail_notify_noemail
         
-        print 'mail_notify_noemail', context['mail_notify_noemail'], type(context['mail_notify_noemail'])
+        #print 'mail_notify_noemail', context['mail_notify_noemail'], type(context['mail_notify_noemail'])
             
         res = super(mail_notification,self)._notify( cr, uid,  message_id, partners_to_notify, context)
         ids = self.search(cr, SUPERUSER_ID, [('message_id', '=', message_id), ('partner_id', 'in', partners_to_notify)], context=context)
