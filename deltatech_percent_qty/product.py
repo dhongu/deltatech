@@ -38,9 +38,9 @@ class product_template(models.Model):
     def on_percent_product_list(self):
         if self.percent_product_list:
             if self.percent_not_in:
-                self.percent_domain = "['product_id','not in',%s]" % self.percent_product_list.ids
+                self.percent_domain = "[('product_id','not in',%s)]" % self.percent_product_list.ids
             else:
-                self.percent_domain = "['product_id','in',%s]" % self.percent_product_list.ids
+                self.percent_domain = "[('product_id','in',%s)]" % self.percent_product_list.ids
         
         
 
