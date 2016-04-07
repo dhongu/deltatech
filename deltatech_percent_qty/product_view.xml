@@ -9,8 +9,12 @@
 			 <field name="groups_id" eval="[ (4, ref('base.group_no_one'))]" />
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<field name="product_manager" position="after">					
-					<field name="percent_domain"/>
+				<field name="product_manager" position="after">	
+					 			
+					<field name="percent_domain" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
+					<field name="percent_not_in" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
+					<field name="percent_product_list" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
+					 
 				</field>								
 			</field>
 		</record>

@@ -29,8 +29,19 @@ class product_template(models.Model):
     _inherit = 'product.template'
 
     percent_domain = fields.Char(string='Domain for Percent', default="[]" )
+    percent_not_in = fields.Boolean('Not In')
+    percent_product_list = fields.Many2many('product.product') 
 
 
-
+    @api.one
+    @api.onchange('percent_product_list','percent_not_in')
+    def on_percent_product_list(self):
+        if self.percent_product_list:
+            if self.percent_not_in:
+                self.percent_domain = "['product_id','not in',%s]" % self.percent_product_list.ids
+            else:
+                self.percent_domain = "['product_id','in',%s]" % self.percent_product_list.ids
+        
+        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
