@@ -29,6 +29,21 @@ import openerp.addons.decimal_precision as dp
 
 import urlparse
 
+
+# pentru a preveni utilizarea unui template in care nu a fost inlocuit __URL__
+class mail_compose_message(models.TransientModel):
+    _inherit = 'mail.compose.message'
+
+    @api.multi
+    def send_mail(self):
+        if self.body.find("__URL__") > 0:
+                raise Warning( _("The content of the text contain '__URL__' "))
+
+        res = super(mail_compose_message,self).send_mail()
+        return res
+
+
+
 class crm_new_survey(models.TransientModel):
     _name = 'crm.new.survey'
     _inherit = 'mail.compose.message'
