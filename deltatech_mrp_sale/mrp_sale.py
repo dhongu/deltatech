@@ -109,6 +109,9 @@ class sale_order(models.Model):
 
     @api.multi
     def button_update(self):
+
+        
+
         
         self.ensure_one()
         self.order_line.write({'product_uom_qty':0.0})
@@ -158,13 +161,27 @@ class sale_order(models.Model):
                     if article.product_id == line.product_id:
                         article.write({'price_unit':line.price_unit,
                                        'amount':line.price_subtotal})
-
+        
+        article_to_update = self.env['sale.mrp.article']
         for resource in self.resource_ids:
             if resource.product_uom.name == '%':
                 for line in self.order_line:
                     if resource.product_id == line.product_id:
                         resource.write({'price_unit':line.price_unit,
-                                       'amount':line.price_subtotal})  
+                                       'amount':line.price_subtotal})
+                        
+                        # na ca acum trebuie sa actulizez si pretul articolului
+                        article_to_update |= resource.article_id
+        
+        for article in article_to_update:
+            amount = 0
+            for resource in article.resource_ids:
+                amount +=  resource.amount
+            if article.product_uom_qty:
+                price_unit = article.amount / article.product_uom_qty
+                
+            article.write({'price_unit':price_unit, 'amount':amount})                       
+                                          
         self.button_update_all()
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
