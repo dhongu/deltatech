@@ -104,6 +104,12 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['street'] =  element[0].text
 
+            element = xml_body.xpath("//*[@itemprop='maildomain']")
+            if  element:
+                medium = self.env['crm.tracking.medium'].search([('name','like',element[0].text)])
+                if medium:
+                    custom_values['medium_id'] =  medium.id
+                
                 
         except:
             pass

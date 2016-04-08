@@ -49,8 +49,9 @@ class crm_lead(models.Model):
     def make_survey(self):
         self.ensure_one()
         
-        template_id = self.stage_id.template_id.id      
-
+        template_id = self.stage_id.template_id.id
+    
+        # o fi mai bine daca modelul  este survey.survey?
         ctx.update({
             'default_model': 'crm.lead',
             'default_res_id': self.id,
