@@ -96,10 +96,13 @@ class mrp_bom(models.Model):
                         production_attr_values,
                         line.attribute_value_ids):
                     return True
-            elif not product or not self._check_product_suitable(
+            else:
+                if not product.attribute_value_ids:
+                    Warning(_('Product %s without attribute') % product.name )
+                if not product or not self._check_product_suitable(
                     product.attribute_value_ids.ids,
                     line.attribute_value_ids):
-                return True
+                    return True
         if not line.product_id:
             if not product and self.env.context.get('production'):
                 production = self.env.context['production']
