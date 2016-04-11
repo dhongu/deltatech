@@ -97,8 +97,9 @@ class mrp_bom(models.Model):
                         line.attribute_value_ids):
                     return True
             else:
-                if not product.attribute_value_ids:
-                    Warning(_('Product %s without attribute') % product.name )
+                if isinstance( product, int ):   # de fact cred ca e integer totdeauna
+                    product = self.env['product.product'].browse(product)  
+
                 if not product or not self._check_product_suitable(
                     product.attribute_value_ids.ids,
                     line.attribute_value_ids):
