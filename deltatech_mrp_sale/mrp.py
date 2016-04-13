@@ -62,6 +62,9 @@ class mrp_bom(models.Model):
     def _prepare_consume_line(self, bom_line, quantity, factor=1):
         res = super(mrp_bom, self)._prepare_consume_line(bom_line, quantity, factor)
         res['item_categ'] = bom_line.item_categ
+        # daca unitatea de masura este % atunci cantitatea trebuie sa ramana cea din BOM
+        if bom_line.product_uom.name == '%':
+            res['product_qty'] = bom_line.product_qty
         return res
 
 
@@ -117,13 +120,7 @@ class mrp_bom(models.Model):
         return False
 
 
-    # daca unitatea de masura este % atunci cantitatea trebuie sa ramana cea din BOM
-    @api.model
-    def _prepare_consume_line(self, bom_line, quantity, factor=1):
-        res = super(mrp_bom, self)._prepare_consume_line(bom_line, quantity, factor)
-        if bom_line.product_uom.name == '%':
-            res['product_qty'] = bom_line.product_qty
-        return res
+
         
  
     def _bom_find(self, cr, uid, product_tmpl_id=None, product_id=None, properties=None, context=None):
