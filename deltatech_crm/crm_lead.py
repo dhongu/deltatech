@@ -104,6 +104,21 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['street'] =  element[0].text
 
+            element = xml_body.xpath("//*[@itemprop='addressRegion']")
+            if  element:
+                region = self.env['res.country.state'].name_search(element[0].text)
+                if region:
+                    custom_values['state_id'] =  region.id
+
+            element = xml_body.xpath("//address//*[@itemprop='name']")
+            if  element:
+                custom_values['contact_name'] =  element[0].text
+
+            element = xml_body.xpath("//address//*[@itemprop='email']")
+            if  element:
+                custom_values['email_from'] =  element[0].text
+
+
             element = xml_body.xpath("//*[@itemprop='maildomain']")
             if  element:
                 medium = self.env['crm.tracking.medium'].search([('name','like',element[0].text)])
@@ -167,6 +182,8 @@ class crm_lead(models.Model):
                 })
         return True
 
+
+    #todo: de utilizat un tamplate pentru email
     def log_next_activity_done(self, cr, uid, ids, context=None, next_activity_name=False):
         to_clear_ids = []
         for lead in self.browse(cr, uid, ids, context=context):
