@@ -163,6 +163,7 @@ class sale_order(models.Model):
                                        'amount':line.price_subtotal})
         
         article_to_update = self.env['sale.mrp.article']
+        """
         for resource in self.resource_ids:
             if resource.product_uom.name == '%':
                 for line in self.order_line:
@@ -172,6 +173,21 @@ class sale_order(models.Model):
                         
                         # na ca acum trebuie sa actulizez si pretul articolului
                         article_to_update |= resource.article_id
+        """
+        # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
+        for resource in self.resource_ids:
+            if resource.product_uom.name == '%':
+                article_to_update |= resource.article_id
+                domain  = eval( resource.product_id.percent_domain )
+                domain.extend([('article_id','=',resource.article_id.id),('id','!=',resource.id)])
+                resource_lines = self.env['sale.mrp.resource'].search(domain)
+                total_amount = 0
+                for line in resource_lines:
+                    total_amount += line.amount
+                total_amount =  total_amount / 100 
+                
+                resource.write({'price_unit':total_amount,
+                                       'amount':total_amount * resource.product_uom_qty })
         
         for article in article_to_update:
             amount = 0
