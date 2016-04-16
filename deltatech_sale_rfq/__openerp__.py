@@ -18,31 +18,41 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+ 
 {
-    "name" : "Deltatech CRM Documentation",
+    "name" : "Deltatech Sale RFQ",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Gestionare documente legate de oportunitati
-
-   
+ - Gestioneaza cererile si stadiile de intocmire a unei oferte
+ - Din opotunitate se pote genera un RFQ
+ - Din RFQ se poate genera o Cotatie noua
+ - Din Cotatie se poate seta statusul de cotatie pregatita (status pe RFQ)
+ 
+  
+  
+Nu se va folosi modulul sale_crm
+  
     """,
     
-    'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm","document"],
-
-
+    
+   'category': 'Sales Management',
+    "depends" : ['deltatech',
+                 "sale","crm"
+                 ],
  
-    "data" : [  'crm_view.xml'],
+    "data" : [  
+               "security/security.xml","security/ir.model.access.csv",
+               "sale_rfq_view.xml",
+               "data.xml",
+               "sale_view.xml",
+               "crm_lead_view.xml"
+               ],
     
     "active": False,
     "installable": True,
 }
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+ 

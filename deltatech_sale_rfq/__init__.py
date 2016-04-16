@@ -18,31 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech CRM Documentation",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
-
-Functionalitati:
- - Gestionare documente legate de oportunitati
-
-   
-    """,
-    
-    'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm","document"],
-
 
  
-    "data" : [  'crm_view.xml'],
-    
-    "active": False,
-    "installable": True,
-}
+ 
 
+import sale_rfq
+import sale
+import crm_lead
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

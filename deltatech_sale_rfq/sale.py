@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,31 +18,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech CRM Documentation",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
-
-Functionalitati:
- - Gestionare documente legate de oportunitati
-
-   
-    """,
-    
-    'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm","document"],
 
 
+
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+import logging
+from openerp.osv.fields import related
  
-    "data" : [  'crm_view.xml'],
+_logger = logging.getLogger(__name__)
+
+
+
+class sale_order(models.Model):
+    _inherit = 'sale.order'
     
-    "active": False,
-    "installable": True,
-}
-
-
-
+    @api.multi
+    def action_quotation_is_ready(self):
+        rfq_ids = self.env['sale.rfq'].search([('order_id','=',self.id)])
+        if not rfq_ids:
+            raise Warning(_('RFQ not found'))
+        rfq_ids.quotation_ready()
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

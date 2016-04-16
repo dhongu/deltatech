@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-
+	<!--
 		<record id="crm_sale_case_form_view_oppor" model="ir.ui.view">
 			<field name="name">CRM - Opportunities - Quote Inherit</field>
 			<field name="model">crm.lead</field>
@@ -17,5 +17,6 @@
 				</data>
 			</field>
 		</record>
+	-->
 	</data>
 </openerp>
