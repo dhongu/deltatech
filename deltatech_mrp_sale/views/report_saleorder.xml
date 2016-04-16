@@ -778,6 +778,8 @@
 			          <t t-set="total_opt" t-value="0"/>
 			          <t t-set="total_service" t-value="0"/>
 			          <t t-set="total_opt_serv" t-value="0"/>
+			          <t t-set="total_labor_kit" t-value="0"/>
+			          <t t-set="total_labor_optional" t-value="0"/>
 			          <t t-foreach="o.article_ids" t-as="a">
 			            <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
 			              <t t-set="total_kit" t-value="total_kit + a.amount"/>
@@ -812,6 +814,11 @@
 			          <t t-foreach="o.article_ids" t-as="a">
 			            <t t-if="a.item_categ==&quot;normal&quot;">
 			              <t t-call="deltatech_mrp_sale.report_specification_article2"/>
+			              <t t-foreach="a.resource_ids" t-as="resource">
+			                <t t-if="resource.item_categ=='labor'">
+			            	  <t t-set="total_labor_kit" t-value="total_labor_kit + resource.amount"/>
+			            	</t>
+			              </t>
 			            </t>
 			          </t>
 			          <tr style="background-color:#A9E2F3;">
@@ -907,6 +914,22 @@
 			            </td>
 			            -->
 			          </tr>
+			          <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              LABOR - KIT
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_labor_kit,2)"/>
+			            </td>
+			          </tr>
+			          <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              MATERIALS - KIT
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_kit-total_labor_kit,2)"/>
+			            </td>
+			          </tr>
 			        </tbody>
 			      </table>
 			      <br/>
@@ -937,6 +960,11 @@
 			          <t t-foreach="o.article_ids" t-as="a">
 			            <t t-if="a.item_categ==&quot;optional&quot;">
 			              <t t-call="deltatech_mrp_sale.report_specification_article2"/>
+			              <t t-foreach="a.resource_ids" t-as="resource">
+			                <t t-if="resource.item_categ=='labor'">
+			                  <t t-set="total_labor_optional" t-value="total_labor_optional + resource.amount"/>
+			            	</t>
+			              </t>
 			            </t>
 			          </t>
 			          <tr style="background-color:#A9E2F3">
@@ -947,6 +975,22 @@
 			              <span t-esc="round(total_opt,2)"/>
 			              <span t-field="o.pricelist_id.currency_id.symbol"/>
 			            </th>
+			          </tr>
+			          <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              LABOR - OPTIONAL ITEMS
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_labor_optional,2)"/>
+			            </td>
+			          </tr>
+			           <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              MATERIALS - OPTIONAL ITEMS
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_opt-total_labor_optional,2)"/>
+			            </td>
 			          </tr>
 			          <tr style="height:20px;"></tr>
 			          <tr style="background-color:#cadb34">
@@ -994,6 +1038,22 @@
 			              <span t-field="o.pricelist_id.currency_id.symbol"/>
 			            </th>
 			            -->
+			          </tr>
+			          <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              LABOR
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_labor_kit + total_labor_optional,2)"/>
+			            </td>
+			          </tr>
+			          <tr style="background-color:#cadb34">
+			            <td colspan="5">
+			              MATERIALS
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
+			            </td>
 			          </tr>
 			          <tr>
 			            <td colspan="6"/>
@@ -1166,6 +1226,7 @@
 			    </div>
 			  </t>
 			</t>
+			
 		</template>
 
 
@@ -1197,7 +1258,7 @@
 			          <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">
 			            <span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
 			          </t>
-			          <t t-if="with_qty and qty_only">
+			          <t t-if="with_qty and qty_only and a.item_categ!='labor'">
 			            <!--<span t-field="a.product_uom_qty"/>-->
 			            <span t-esc="round(a.product_uom_qty,2)"/>
 			            <span groups="product.group_uom" t-field="a.product_uom"/>
@@ -1234,26 +1295,37 @@
 			        </td>
 			      </t>
 			    </tr>
+			    <t t-if="a.note">
+			        <tr>
+			            <td colspan="6">
+			                 <small style="font-style: normal;color:red;" t-field="a.note"/>
+			            </td>
+			        </tr>
+			    </t>
+			    <t t-if="a.product_id">
 			    <td colspan="6">
-			      <t t-if="a.product_id">
+			      
 			        <small t-field="a.product_id.description_sale"/>
-			      </t>
+			      
 			      <t t-if="not a.product_id">
 			        <small t-field="a.product_template.description_sale"/>
 			      </t>
 			    </td>
+			    </t>
 			    <t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
 			      <tr t-foreach="a.resource_ids" t-as="r">
-			        <t t-if="r.product_uom_qty &gt; 0.0">
+			        <t t-if="r.product_uom_qty &gt; 0.0 and r.item_categ!='labor'">
 			          <td style="width:25px;">
 			            <span/>
 			          </td>
 			          <td colspan="4">
 			            <em>
+			            <t t-if="r.item_categ!='labor'">
 			              <p style="margin:-5 -5 -5 -5;"><strong t-field="r.product_id.name"/></p>
 			              <div t-if="r.product_id.description_sale">
 			                <small style="font-style: normal;" t-field="r.product_id.description_sale"/>
 			              </div>
+			             </t>
 			            </em>
 			          </td>
 			          <td />
