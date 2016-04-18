@@ -34,6 +34,7 @@ class service_consumable(models.Model):
     _description = "Consumable List"
 
     name = fields.Char(string='Name', related='product_id.name')
+    type_id = fields.Many2one('service.equipment.type', string="Type", ondelete='restrict',)  
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )    
     item_ids =  fields.One2many('service.consumable.item', 'consumable_id', string='Consumable')
   

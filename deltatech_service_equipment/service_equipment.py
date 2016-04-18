@@ -76,7 +76,7 @@ class service_equipment_history(models.Model):
     equipment_id = fields.Many2one('service.equipment', string="Equipment",  ondelete='cascade')
 
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement')   
-    partner_id = fields.Many2one('res.partner', string='Owner',help='The owner of the equipment')
+    partner_id = fields.Many2one('res.partner', string='Customer',help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location', help='The working point where the equipment was located')
     emplacement = fields.Char(string='Emplacement', help='Detail of location of the equipment in working point')
 
@@ -109,7 +109,7 @@ class service_equipment(models.Model):
     equipment_history_ids = fields.One2many('service.equipment.history', 'equipment_id', string='Equipment History')
    
     # proprietarul  echipamentului
-    partner_id = fields.Many2one('res.partner', string='Owner', related='equipment_history_id.partner_id',
+    partner_id = fields.Many2one('res.partner', string='Customer', related='equipment_history_id.partner_id',
                                     readonly=True,help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location',  related='equipment_history_id.address_id',readonly=True,
                                  help='The address where the equipment is located')
@@ -138,11 +138,11 @@ class service_equipment(models.Model):
     manufacturer_id = fields.Many2one('res.partner', string='Manufacturer')
  
     image_qr_html = fields.Html(string="QR image", compute="_compute_image_qr_html")
-    type_id = fields.Many2one('service.equipment.type', string='Type')
+    type_id = fields.Many2one('service.equipment.type', required=True, string='Type')
 
     consumable_id =  fields.Many2one('service.consumable', string='Consumable List')    
     consumable_item_ids =  fields.Many2many('service.consumable.item', string='Consumables', compute="_compute_consumable_item_ids", readonly=True)
-    readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string="Readings Status", compute="_compute_readings_status" )
+    readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string="Readings Status", compute="_compute_readings_status", store=True )
     
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
@@ -224,6 +224,13 @@ class service_equipment(models.Model):
             if len(agreements) > 1:
                 msg = _("Equipment %s assigned to many agreements." )
                 self.post_message(msg)
+                
+            # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
+            if not agreements:
+                for line in agreement_line:
+                    if line.agreement_id.state == 'draft':
+                        agreements = agreements | line.agreement_id   
+                                   
             if len(agreements) > 0:
                 self.agreement_id =  agreements[0]
                 self.partner_id = agreements[0].partner_id
@@ -242,7 +249,10 @@ class service_equipment(models.Model):
             if self.partner_id: 
                 self.name += ', ' + self.partner_id.name  
         if self.product_id:
-            self.consumable_id =  self.env['service.consumable'].search([('product_id','=',self.product_id.id)])
+            consumable_id =  self.env['service.consumable'].search([('product_id','=',self.product_id.id)])
+            if not consumable_id:
+                consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)])
+            self.consumable_id    
 
 
     
@@ -297,6 +307,7 @@ class service_equipment(models.Model):
                    'default_picking_type_code':'outgoing',
                    'default_picking_type_id': self.env.ref('stock.picking_type_outgoing_not2binvoiced').id,
                    'default_partner_id':self.address_id.id}
+        
         if self.consumable_item_ids:
             
             picking = self.env['stock.picking'].with_context(context)
@@ -310,6 +321,7 @@ class service_equipment(models.Model):
                 value['date_expected'] = fields.Datetime.now()
                 value['product_id'] = item.product_id.id
                 context['default_move_lines'] += [(0,0,value)]
+                
         return {
             'name': _('Delivery for service'),
             'view_type': 'form',
@@ -328,13 +340,52 @@ class service_equipment(models.Model):
     def _check_ean_key(self):
         if not check_ean(self.ean_code):
             raise Warning(_('Error: Invalid EAN code'))
-        
+
+
+    @api.multi
+    def create_meters_button(self):
+        categs = self.env['service.meter.category']
+        for equi in self:
+            for template in equi.type_id.template_meter_ids:
+                categs |= template.meter_categ_id
+        for categ in categs:
+            equi.meter_ids.create({'equipment_id':equi.id,
+                                   'meter_categ_id':categ.id,
+                                   'uom_id':categ.uom_id.id})
+
+    @api.multi
+    def update_meter_status(self):
+        self._compute_readings_status()
+            
+
+
+class service_equipment_category(models.Model):
+    _name = 'service.equipment.category'
+    _description = "Service Equipment Category"     
+    name = fields.Char(string='Category', translate=True)  
 
 
 class service_equipment_type(models.Model):
     _name = 'service.equipment.type'
     _description = "Service Equipment Type"     
     name = fields.Char(string='Type', translate=True)  
+    categ_id = fields.Many2one('service.equipment.category', string="Category")
+    
+    template_meter_ids = fields.One2many('service.template.meter','type_id')
+    
+
+class service_equipment_template_meter(models.Model):
+    _name = 'service.template.meter'
+    _description = "Service Template Meter"    
+    
+    type_id = fields.Many2one('service.equipment.type', string="Type")
+    product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
+    meter_categ_id = fields.Many2one('service.meter.category', string="Meter category")
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
+    
+    
+    
+    
     #product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     
 

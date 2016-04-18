@@ -65,13 +65,13 @@ Functionalitati:
                'wizard/estimate_view.xml',
                'wizard/enter_readings_view.xml',
                'wizard/service_equi_operation_view.xml',
-               
+               'wizard/service_equi_agreement_view.xml',
 
                'service_meter_view.xml',
                'service_equipment_view.xml',
                'service_consumable_view.xml',
 
-               'demo.xml',
+               #'demo.xml',
                'service.meter.reading.csv'
                               
                 ],

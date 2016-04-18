@@ -56,7 +56,10 @@
 					    <button  name="%(action_service_equi_ebk)d" type="action"  string="Enable Backup"    states="installed"/>
 					    <button  name="%(action_service_equi_dbk)d" type="action"  string="Disable Backup" class="oe_highlight"  states="backuped"/>
 					    <button  name="%(action_service_equi_rem)d" type="action"  string="Remove"   state="installed" />
-
+						<button name="create_meters_button" type="object" string="Create Meters" 
+									attrs="{'invisible':['|',('meter_ids','!=',[])]}"/>
+						<button name="%(action_service_equi_agreement)d" type="action" string="Create Agreement"  state="installed"
+									attrs="{'invisible':['|',('agreement_id','!=',False)]}"/>
 						<field name="state" widget="statusbar" statusbar_visible="available,installed" statusbar_colors='{"backuped":"red"}' />
 					</header>
 					<sheet>
@@ -119,9 +122,8 @@
 							<group string="Meters">
 								<field name="meter_ids" nolabel="1" widget="one2many_list">
 									<tree string="Meters" editable="bottom">
-										
+										<field name="meter_categ_id" />
 										<field name="uom_id" />
-										
 										<field name="total_counter_value" />
 										<field name="estimated_value" />
 									</tree>
@@ -211,7 +213,52 @@
 
 
 
+<!-- 
+<record id="action_update_meter_status" model="ir.values" >
+        <field name="name">Update Meter Status</field>
+        <field name="model_id" eval="'service.equipment'"/>
+        <field name="model">service.equipment</field>
+        <field name="key">action</field>
+        <field name="key2">client_action_multi</field>
+        <field name="value" eval="'self.update_meter_status()'"/>
+</record>
 
+-->
+		<record id="action_update_meter_status" model="ir.actions.server">
+            <field name="name">Update Meter Status</field>
+            <field name="model_id" ref="model_service_equipment"/>
+            <field name="state">code</field>
+            <field name="code">action = self._compute_readings_status(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+        
+        <record id="more_item_update_meter_status" model="ir.values">
+            <field name="key2" eval="'client_action_multi'" />
+            <field name="model" eval="'service.equipment'" />
+            <field name="name">Update Meter Status</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_update_meter_status" />
+        </record>
+
+ 
+		<record id="view_service_equipment_type_form" model="ir.ui.view">
+			<field name="name">Services Equipment Type</field>
+			<field name="model">service.equipment.type</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+	 					<field name="name" />
+	 					<field name="categ_id" />
+ 					</group>
+ 					<field name="template_meter_ids" >
+ 						<tree editable="bottom">
+ 							<field name="product_id" />
+ 							<field name="meter_categ_id" />
+ 							<field name="currency_id" />
+ 							
+ 						</tree>
+ 					</field>
+				</form>
+			</field>
+		</record>
 
 		<record id="action_service_equipment_type" model="ir.actions.act_window">
 			<field name="name">Services Equipment Type</field>
@@ -222,6 +269,18 @@
 
 		<menuitem name="Equipment Type" id="menu_service_equipment_type"
 			action="action_service_equipment_type" parent="base.menu_service_config" sequence="200" />
+
+
+		<record id="action_service_equipment_category" model="ir.actions.act_window">
+			<field name="name">Services Equipment Category</field>
+			<field name="res_model">service.equipment.category</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Equipment Category" id="menu_service_equipment_category"
+			action="action_service_equipment_category" parent="base.menu_service_config" sequence="201" />
+
 
 	</data>
 </openerp>

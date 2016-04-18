@@ -13,7 +13,11 @@
 					</group>
 					<group string="Location" states="ins" >						
 						<field name="partner_id" />
-						<field name="address_id" context="{'default_parent_id':partner_id,'default_filter_parent_id':partner_id}"/>
+						<field name="address_id" 
+						
+						domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+						
+						context="{ 'search_default_parent_id':partner_id, 'default_parent_id':partner_id, 'default_filter_parent_id':partner_id}"/>
 						<field name="emplacement" />
 					</group>
 					<group string="Replace with" states="ebk" >	

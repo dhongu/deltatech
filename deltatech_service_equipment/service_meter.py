@@ -41,11 +41,23 @@ READING_TYPE_SELECTION = [
 # de deinit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
 
 
+# face legatura dintre categorie si unitatea de masura
+class service_meter_category(models.Model):
+    _name = 'service.meter.category'
+    _description = "Service Equipment Category"     
+    
+    name = fields.Char(string='Category') 
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure' , required=True ) 
+    bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure' , required=True ) 
+
 class service_meter(models.Model):
     _name = 'service.meter'
     _description = "Meter"
+    _rec_name = "display_name"
 
-    name = fields.Char(string='Name', related='uom_id.name')
+    name = fields.Char(string='Name')
+    display_name = fields.Char(compute='_compute_display_name')
+    
     type = fields.Selection([('counter','Counter'),('collector','Collector')], string='Type', default='counter')
     equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True,  ondelete='cascade' ) 
     meter_reading_ids = fields.One2many('service.meter.reading', 'meter_id', string='Meter Reading')
@@ -57,6 +69,7 @@ class service_meter(models.Model):
     total_counter_value = fields.Float(string='Total Counter Value', digits= dp.get_precision('Meter Value'),  compute='_compute_last_meter_reading' )
     estimated_value= fields.Float(string='Estimated Value', digits= dp.get_precision('Meter Value'), compute='_compute_estimated_value' ) 
     
+    meter_categ_id =  fields.Many2one('service.meter.category', string='Category' , required=True )
     uom_id = fields.Many2one('product.uom', string='Unit of Measure' ,required=True )
 
     value_a =  fields.Float()
@@ -67,6 +80,46 @@ class service_meter(models.Model):
         ('equipment_uom_uniq', 'unique(equipment_id,uom_id)', 'Two meter for one equipment with the same unit of measure? Impossible!')
     ]
 
+
+    @api.model
+    def create(self,   vals ):  
+        if ('name' not in vals) or (vals.get('name') in ('/', False)):
+            sequence = self.env.ref('deltatech_service_equipment.sequence_meter')
+            if sequence:
+                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+        return super(service_meter, self).create( vals )
+
+
+    # rutina pentru actualizare date curente    
+    def update_name(self):
+        sequence = self.env.ref('deltatech_service_equipment.sequence_meter')
+        if sequence:
+            meters = self.env['service.meter'].search([('name','=',False)])
+            for meter in meters:
+                meter.name = self.env['ir.sequence'].next_by_id(sequence.id)  
+
+    # rutina pentru actualizare date curente 
+    def update_categ(self):
+        meters = self.env['service.meter'].search([('meter_categ_id','=',False)])
+        for meter in meters:
+            categ = self.env['service.meter.category'].search([('uom_id','=',meter.uom_id.id)])
+            if categ:
+                meter.meter_categ_id =  categ.id  
+    
+    @api.one
+    @api.depends('name','uom_id.name')     
+    def _compute_display_name(self):
+        if self.name:
+            self.display_name = "%s [%s]" % (self.name , self.uom_id.name)
+        else:
+            self.display_name = self.uom_id.name
+
+   
+
+    @api.onchange('meter_categ_id')
+    def onchange_meter_categ_id(self):
+        if self.meter_categ_id:
+            self.uom_id = self.meter_categ_id.uom_id
 
 
     @api.one
@@ -122,7 +175,7 @@ class service_meter(models.Model):
             
             a,b =  linreg(x,y) 
             meter.write({'value_a':a, 'value_b':b})
-            _logger.info("Value A: %s, Value B: %s" % (str(a), str(b) ))
+            #_logger.info("Value A: %s, Value B: %s" % (str(a), str(b) ))
        
  
     @api.model

@@ -17,8 +17,9 @@
 			<field name="model">service.meter</field>
 			<field name="arch" type="xml">
 				<tree string="Meter">
-					<field name="equipment_id" />
 					<field name="name" />
+					<field name="equipment_id" />
+					<field name="meter_categ_id" />
 					<field name="total_counter_value" />
 					<field name="estimated_value" />
 				</tree>
@@ -35,6 +36,12 @@
 						<button name="recheck_value" type="object" string="Recheck Value " />
 					</header>
 					<sheet>
+						<div class="oe_title oe_left">
+							<h1>
+								<label string="Meter" />
+								<field name="name" class="oe_inline" />
+							</h1>
+						</div>
 						<div class="oe_right oe_button_box" name="buttons">
 							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa fa-tachometer" name="%(action_service_meter_reading)d"
 								context="{'search_default_equipment_id': equipment_id,
@@ -49,17 +56,18 @@
 								<field name="equipment_id" />
 								<field name="uom_id" />
 								<field name="type" />
+								<field name="meter_categ_id" />
 								<field name="start_value" />
 							</group>
 							<group>
 								<field name="last_meter_reading_id" />
 								<field name="total_counter_value" />
-								<field name="estimated_value" />							
+								<field name="estimated_value" />
 							</group>
 						</group>
-							<field name="meter_ids" attrs="{'invisible':[ ('type', '=', 'counter')]}" />
-							<field name="meter_reading_ids" readonly='1' attrs="{'invisible':[ ('type', '=', 'collector')]}" />
-						
+						<field name="meter_ids" attrs="{'invisible':[ ('type', '=', 'counter')]}" />
+						<field name="meter_reading_ids" readonly='1' attrs="{'invisible':[ ('type', '=', 'collector')]}" />
+
 					</sheet>
 				</form>
 			</field>
@@ -71,6 +79,7 @@
 			<field name="type">search</field>
 			<field name="arch" type="xml">
 				<search string="Search">
+					<field name="meter_categ_id" />
 					<field name="equipment_id" />
 					<newline />
 					<group expand="1" string="Group By...">
@@ -120,11 +129,9 @@
 					<sheet>
 						<group>
 							<group>
-								<field name='id' invisible='1'/>
-								<field name="equipment_id" attrs="{'readonly':[('id','!=',False)]}"/>
-								<field name="meter_id" 
-									attrs="{'readonly':[('id','!=',False)]}"
-									domain="[('equipment_id','=', equipment_id ),('type', '=', 'counter')]" />
+								<field name='id' invisible='1' />
+								<field name="equipment_id" attrs="{'readonly':[('id','!=',False)]}" />
+								<field name="meter_id" attrs="{'readonly':[('id','!=',False)]}" domain="[('equipment_id','=', equipment_id ),('type', '=', 'counter')]" />
 								<field name="date" />
 							</group>
 							<group>
@@ -162,6 +169,30 @@
 		</record>
 
 
+		<record id="view_service_meter_category_form" model="ir.ui.view">
+			<field name="name">Service meter category</field>
+			<field name="model">service.meter.category</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="name" />
+						<field name="uom_id" />
+						<field name="bill_uom_id" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="action_service_meter_category" model="ir.actions.act_window">
+			<field name="name">Services Meter Category</field>
+			<field name="res_model">service.meter.category</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Meter Category" id="menu_service_meter_category" action="action_service_meter_category" parent="base.menu_service_config"
+			sequence="201" />
 
 
 
