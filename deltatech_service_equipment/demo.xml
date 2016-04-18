@@ -39,6 +39,7 @@
             <field name="factor" eval="1.0"/>
         </record>
         
+        <!-- 
 		<record id="partner_service" model="res.partner">
 			<field name="name">Partner service</field>
 			<field name="is_company">True</field>
@@ -61,15 +62,16 @@
 			<field name="city">Comanesti</field>
 		</record>
 
-
-
-
+		 -->
+		 
+		 
 		<record id="equi_type_printer" model="service.equipment.type">
-			 <field name="name">Printer</field>
+			<field name="name">Printer</field>
 		</record>
 
 
-  
+	
+  		<!-- 
 		<record id="product_printer" model="product.product">
 			 <field name="name">Printer ABC</field>
 			 <field name="purchase_ok" eval="False"/>
@@ -132,7 +134,8 @@
 			<field name="product_id" ref="product_printer"/>	
 			<field name="serial_id" ref="product_printer_serial"/>				
 		</record>
- 
+ 	
+ 		 -->
 
   
     </data>

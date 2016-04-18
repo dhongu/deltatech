@@ -374,7 +374,7 @@ class service_equipment_type(models.Model):
     template_meter_ids = fields.One2many('service.template.meter','type_id')
     
 
-class service_equipment_template_meter(models.Model):
+class service_template_meter(models.Model):
     _name = 'service.template.meter'
     _description = "Service Template Meter"    
     

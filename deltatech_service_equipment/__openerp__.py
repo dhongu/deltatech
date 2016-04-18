@@ -71,8 +71,8 @@ Functionalitati:
                'service_equipment_view.xml',
                'service_consumable_view.xml',
 
-               #'demo.xml',
-               'service.meter.reading.csv'
+                'demo.xml',
+               #'service.meter.reading.csv'
                               
                 ],
     "active": False,
