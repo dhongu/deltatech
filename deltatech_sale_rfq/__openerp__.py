@@ -28,10 +28,11 @@
 
 Functionalitati:
  - Gestioneaza cererile si stadiile de intocmire a unei oferte
- - Din opotunitate se pote genera un RFQ
- - Din RFQ se poate genera o Cotatie noua
+ - Din oportunitate se pote genera un RFQ
+ - Devizierul din RFQ poate genera o Cotatie noua sau poate anexa o cotatie existenta
  - Din Cotatie se poate seta statusul de cotatie pregatita (status pe RFQ)
- 
+ - Dupa ce cotatia este preluata, prelucrata si trimisa la Client se seteaza de Solicitant stare Cotatie Trimisa
+ - daca cotatia nu este acceptata de client Solicitantul poate sa seteze starea de Ajustare Cotatie
   
   
 Nu se va folosi modulul sale_crm

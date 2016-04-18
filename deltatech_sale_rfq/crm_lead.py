@@ -46,7 +46,7 @@ class crm_lead(models.Model):
         rfq = self.env['sale.rfq'].search([('lead_id','=',self.id)])
 
         if not rfq:
-            rfq = self.env['sale.rfq'].create({'lead_id':self.id,'partner_id':self.partner_id.id})
+            rfq = self.env['sale.rfq'].create({'lead_id':self.id})
 
         action = {
                  'domain': str([('id', 'in', rfq.ids)]),

@@ -63,6 +63,7 @@
 								<field name="requester_id" />
 								<field name="lead_id" />
 								<field name="request_date" />
+								<field name="team_leader_id" />
 							</group>
 							<group>
 								<field name="designer_id" />
