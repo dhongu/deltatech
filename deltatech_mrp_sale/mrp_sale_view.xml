@@ -84,7 +84,7 @@
 								<field name="resource_ids" invisible='1' />
 								<field name="item_categ" />
 								<field name="price_unit" invisible='1' />
-								<field name="amount" invisible='1' sum="Amount" />
+								<field name="amount" invisible='0' sum="Amount" />
 								
 							</tree>
 							<form>
