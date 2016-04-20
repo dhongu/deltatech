@@ -150,7 +150,7 @@ class sale_order(models.Model):
             if line.product_uom_qty == 0:
                 line.unlink()
 
-        super(sale_order,self).button_update()
+        #super(sale_order,self).button_update()
         
         for article in self.article_ids:
             if article.product_uom.name == '%':
