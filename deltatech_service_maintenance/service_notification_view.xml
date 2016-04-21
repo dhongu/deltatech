@@ -14,6 +14,7 @@
 					<field name="type" />
 					<field name="category" />
 					<field name="equipment_id" />
+					<field name="partner_id" />
 					<field name="subject" />
 					<field name="user_id" />
 					<field name="contact_id" />
@@ -41,7 +42,7 @@
 						<button name="action_assing" type="object" string="Assign" class="oe_highlight" states="new" />
 						<button name="action_taking" type="object" string="Taking " states="new" />
 						<button name="action_start" type="object" string="Start" class="oe_highlight" states="assigned" />
-						<button name="action_cancel_assing" type="object" string="Assign Cancel" states="assigned" />
+						<button name="action_cancel_assing" type="object" string="Assign Cancel" states="assigned,progress" />
 						<button name="action_order" type="object" string="Service Order" states="progress" attrs="{'invisible': [('order_id','!=',False)]}" />
 						<button name="action_done" type="object" class="oe_highlight" string="Done" states="progress" />
 						<field name="state" widget="statusbar" />
@@ -112,6 +113,7 @@
 					<field name="color" />
 					<field name="name" />
 					<field name="date" />
+					<field name="partner_id" />
 					<field name="subject" />
 					<field name="state" />
 					<field name="description" />
@@ -189,6 +191,7 @@
 				<search string="Notification">
 					<field name="subject" />
 					<field name="user_id" />
+					<field name="partner_id" />
 					<field name="equipment_id" />
 					<separator />
 					<filter name="new" string="New" domain="[('state', '=', 'new')]" />
