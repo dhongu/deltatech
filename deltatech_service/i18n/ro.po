@@ -443,14 +443,7 @@ msgstr "Modificare preț"
 msgid "Change Invoice Date"
 msgstr "Modifică dată facturare"
 
-#. module: deltatech_service
-#: field:service.agreement.line,product_id:0
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
-#: field:service.consumption,product_id:0
-#: field:service.distribution,product_id:0
-#: field:service.price.change,product_id:0
-msgid "Product"
-msgstr "Serviciu"
+
 
 #. module: deltatech_service
 #: field:service.agreement.line,quantity:0

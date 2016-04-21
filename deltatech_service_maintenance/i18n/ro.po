@@ -1524,19 +1524,7 @@ msgstr "Printer ABC"
 msgid "Priority"
 msgstr "Prioritate"
 
-#. modules: deltatech_service_equipment, deltatech_service_maintenance, deltatech_service
-#: field:service.agreement.line,product_id:0
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
-#: field:service.consumption,product_id:0
-#: field:service.distribution,product_id:0
-#: field:service.price.change,product_id:0
-#: field:service.consumable,product_id:0
-#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
-#: field:service.efficiency.report,product_id:0
-#: field:service.equipment,product_id:0
-#: field:service.notification.item,product_id:0
-msgid "Product"
-msgstr "Serviciu"
+
 
 #. module: deltatech_service_equipment
 #: field:service.equipment,quant_id:0
