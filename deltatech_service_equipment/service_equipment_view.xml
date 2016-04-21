@@ -7,15 +7,28 @@
 			<field name="model">service.equipment.history</field>
 			<field name="arch" type="xml">
 				<tree string="Services Equipment History" create="false">
-					<field name="name" />
-					<field name="partner_id" />
-					<field name="address_id" />								
-					<field name="emplacement" />
 					<field name="equipment_id" />
-
+					<field name="partner_id" />
+					<field name="address_id" />
+					<field name="emplacement" />
+					<field name="from_date" />
 				</tree>
 			</field>
 		</record>
+
+		<record id="view_service_equipment_history_filter" model="ir.ui.view">
+			<field name="name">service.equipment.history.select</field>
+			<field name="model">service.equipment.history</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="equipment_id" />
+					<field name="partner_id" />
+					<field name="address_id" />
+				</search>
+			</field>
+		</record>
+
 
 		<record id="view_service_equipment_tree" model="ir.ui.view">
 			<field name="name">Services equipment</field>
@@ -24,26 +37,26 @@
 				<tree string="Services Equipment">
 					<field name="name" />
 					<field name="partner_id" />
-					<field name="address_id" />								
+					<field name="address_id" />
 					<field name="emplacement" />
 					<field name="product_id" />
 					<field name="serial_id" />
 					<field name="quant_id" />
 					<field name="start_date" />
 					<field name="agreement_type_id" />
-					<field name="readings_status" />	
-					<field name="message_unread" invisible="1"/>
+					<field name="readings_status" />
+					<field name="message_unread" invisible="1" />
 				</tree>
 			</field>
 		</record>
 
 
-        <record id="mt_equipment_change_status" model="mail.message.subtype">
-            <field name="name">Change status</field>
-            <field name="res_model">service.equipment</field>
-            <field name="default" eval="False"/>
-            <field name="description">Equipment change status</field>
-        </record>
+		<record id="mt_equipment_change_status" model="mail.message.subtype">
+			<field name="name">Change status</field>
+			<field name="res_model">service.equipment</field>
+			<field name="default" eval="False" />
+			<field name="description">Equipment change status</field>
+		</record>
 
 		<record id="view_service_equipment_form" model="ir.ui.view">
 			<field name="name">Service equipment</field>
@@ -51,15 +64,16 @@
 			<field name="arch" type="xml">
 				<form string="Service Equipment">
 					<header>
-					    <button name="new_piking_button" type="object" string="Delivery for service"/>
-					    <button  name="%(action_service_equi_ins)d" type="action"  string="Install" class="oe_highlight" states="available"/>
-					    <button  name="%(action_service_equi_ebk)d" type="action"  string="Enable Backup"    states="installed"/>
-					    <button  name="%(action_service_equi_dbk)d" type="action"  string="Disable Backup" class="oe_highlight"  states="backuped"/>
-					    <button  name="%(action_service_equi_rem)d" type="action"  string="Remove"   state="installed" />
-						<button name="create_meters_button" type="object" string="Create Meters" 
-									attrs="{'invisible':['|',('meter_ids','!=',[])]}"/>
-						<button name="%(action_service_equi_agreement)d" type="action" string="Create Agreement"  state="installed"
-									attrs="{'invisible':['|',('agreement_id','!=',False)]}"/>
+						<button name="new_piking_button" type="object" string="Delivery for service" />
+						<button name="%(action_service_equi_ins)d" type="action" string="Install" class="oe_highlight" states="available" />
+						<button name="%(action_service_equi_ebk)d" type="action" string="Enable Backup" states="installed" />
+						<button name="%(action_service_equi_dbk)d" type="action" string="Disable Backup" class="oe_highlight" states="backuped" />
+						<button name="%(action_service_equi_rem)d" type="action" string="Remove" state="installed" />
+						<button name="create_meters_button" type="object" string="Create Meters" attrs="{'invisible':['|',('meter_ids','!=',[])]}" />
+						<button name="%(action_service_equi_agreement)d" type="action" string="Add to Agreement" state="installed"
+							attrs="{'invisible':['|',('agreement_id','!=',False)]}" />
+						<button name="remove_from_agreement_button" type="object" string="Remove from Agreement" state="available"
+							attrs="{'invisible':['|',('agreement_id','==',False)]}" />
 						<field name="state" widget="statusbar" statusbar_visible="available,installed" statusbar_colors='{"backuped":"red"}' />
 					</header>
 					<sheet>
@@ -74,7 +88,7 @@
 								context="{'search_default_equipment_id': id,'default_equipment_id': id}">
 								<div>Meters</div>
 							</button>
-													
+
 							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa fa-tachometer" name="%(action_service_meter_reading)d"
 								context="{'search_default_equipment_id': id,'default_equipment_id': id}">
 								<div>Meter Readings</div>
@@ -86,42 +100,47 @@
 							<button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out" name="picking_button">
 								<div>Deliveries</div>
 							</button>
-														
 
-							
+
+
 						</div>
 						<group>
-							<group>
-								<field name="partner_id" />
-                          	    <field name="address_id"   context="{'search_default_customer':1, 'show_address': 1 }" 
-														  options="{'always_reload': True}" />								
-															/>		
-								<field name="emplacement" />
-								<field name="install_date" />
-								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" 
-														  options="{'always_reload': True}" />	
-								
-								<field name="agreement_id" />
-								<field name="agreement_type_id" />
-								<field name="user_id"/>						  
+							<group col="1">
+								<group string="Installed At">
+									<field name="partner_id" />
+									<field name="address_id" context="{'search_default_customer':1, 'show_address': 1 }" options="{'always_reload': True}" />
+									 
+									<field name="emplacement" />
+									<field name="install_date" />
+								</group>
+								<group string="Agreement">
+									<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" options="{'always_reload': True}" />
+
+									<field name="agreement_id" />
+									<field name="agreement_type_id" />
+									<field name="user_id" />
+								</group>
 							</group>
-							<group>
+							<group string="Tehnical Details">
 								<field name="type_id" />
 								<field name="product_id" />
 								<field name="serial_id" domain="[('product_id','=',product_id )]" context="{'default_product_id':product_id, 'product_id':product_id }" />
 								<field name="quant_id" domain="[('product_id','=',product_id )]" />
-								
+
 								<field name="ean_code" />
 								<field name="vendor_id" />
 								<field name="manufacturer_id" />
 								<field name="start_date" />
 							</group>
-							
+
+
+
 						</group>
 						<group>
 							<group string="Meters">
 								<field name="meter_ids" nolabel="1" widget="one2many_list">
 									<tree string="Meters" editable="bottom">
+										<field name="name" />
 										<field name="meter_categ_id" />
 										<field name="uom_id" />
 										<field name="total_counter_value" />
@@ -133,28 +152,27 @@
 
 						<group>
 							<group>
-								 
+								<field name="consumable_id" invisible="1" />
 								<field name="consumable_item_ids" widget="many2many_kanban" nolabel="1" colspan="2" context="{'equipment_id': id}">
 									<kanban>
 										<field name="product_id" />
 										<field name="shelf_life" />
 										<field name="colors" />
 										<templates>
-                        					<t t-name="kanban-box">
- 												<div class="oe_kanban_card">
-	 												<div class="oe_dropdown_toggle oe_dropdown_kanban">
-	 
+											<t t-name="kanban-box">
+												<div class="oe_kanban_card">
+													<div class="oe_dropdown_toggle oe_dropdown_kanban">
+
 													</div>
 													<div class="oe_kanban_content">
-														<field name="quantity" widget="gauge" style="width:150px; height: 110px;" 
-															 t-attf-options="{'levelcolors': #{record.colors.raw_value}, 'max_field': 'shelf_life'}">
+														<field name="quantity" widget="gauge" style="width:150px; height: 110px;" t-attf-options="{'levelcolors': #{record.colors.raw_value}, 'max_field': 'shelf_life'}">
 															<field name="product_id" />
 														</field>
 													</div>
-	 												<div class="oe_clear"></div>
- 												</div>
-                        					</t>
-                        				</templates>									
+													<div class="oe_clear"></div>
+												</div>
+											</t>
+										</templates>
 									</kanban>
 								</field>
 							</group>
@@ -181,7 +199,7 @@
 					<field name="agreement_type_id" />
 					<newline />
 					<group expand="1" string="Group By...">
-						<filter string="Location" name="partner" context="{'group_by':'partner_id'}" />
+						<filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
 					</group>
 				</search>
 			</field>
@@ -199,7 +217,8 @@
 			<field name="view_mode">tree</field>
 		</record>
 
-		<menuitem name="Equipment History" id="menu_service_equipment_history" action="action_service_equipment_history" parent="base.menu_service" sequence="400" />
+		<menuitem name="Equipment History" id="menu_service_equipment_history" action="action_service_equipment_history" parent="base.menu_service"
+			sequence="400" />
 
 
 		<record id="action_service_equipment" model="ir.actions.act_window">
@@ -213,49 +232,41 @@
 
 
 
-<!-- 
-<record id="action_update_meter_status" model="ir.values" >
-        <field name="name">Update Meter Status</field>
-        <field name="model_id" eval="'service.equipment'"/>
-        <field name="model">service.equipment</field>
-        <field name="key">action</field>
-        <field name="key2">client_action_multi</field>
-        <field name="value" eval="'self.update_meter_status()'"/>
-</record>
-
--->
+		<!-- <record id="action_update_meter_status" model="ir.values" > <field name="name">Update Meter Status</field> <field name="model_id" eval="'service.equipment'"/> 
+			<field name="model">service.equipment</field> <field name="key">action</field> <field name="key2">client_action_multi</field> <field name="value" eval="'self.update_meter_status()'"/> 
+			</record> -->
 		<record id="action_update_meter_status" model="ir.actions.server">
-            <field name="name">Update Meter Status</field>
-            <field name="model_id" ref="model_service_equipment"/>
-            <field name="state">code</field>
-            <field name="code">action = self._compute_readings_status(cr, uid, context.get('active_ids', []), context=context)</field>
-        </record>
-        
-        <record id="more_item_update_meter_status" model="ir.values">
-            <field name="key2" eval="'client_action_multi'" />
-            <field name="model" eval="'service.equipment'" />
-            <field name="name">Update Meter Status</field>
-            <field name="value" eval="'ir.actions.server,%d'%action_update_meter_status" />
-        </record>
+			<field name="name">Update Meter Status</field>
+			<field name="model_id" ref="model_service_equipment" />
+			<field name="state">code</field>
+			<field name="code">action = self._compute_readings_status(cr, uid, context.get('active_ids', []), context=context)</field>
+		</record>
 
- 
+		<record id="more_item_update_meter_status" model="ir.values">
+			<field name="key2" eval="'client_action_multi'" />
+			<field name="model" eval="'service.equipment'" />
+			<field name="name">Update Meter Status</field>
+			<field name="value" eval="'ir.actions.server,%d'%action_update_meter_status" />
+		</record>
+
+
 		<record id="view_service_equipment_type_form" model="ir.ui.view">
 			<field name="name">Services Equipment Type</field>
 			<field name="model">service.equipment.type</field>
 			<field name="arch" type="xml">
 				<form>
 					<group>
-	 					<field name="name" />
-	 					<field name="categ_id" />
- 					</group>
- 					<field name="template_meter_ids" >
- 						<tree editable="bottom">
- 							<field name="product_id" />
- 							<field name="meter_categ_id" />
- 							<field name="currency_id" />
- 							
- 						</tree>
- 					</field>
+						<field name="name" />
+						<field name="categ_id" />
+					</group>
+					<field name="template_meter_ids">
+						<tree editable="bottom">
+							<field name="product_id" />
+							<field name="meter_categ_id" />
+							<field name="currency_id" />
+
+						</tree>
+					</field>
 				</form>
 			</field>
 		</record>
@@ -267,8 +278,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Equipment Type" id="menu_service_equipment_type"
-			action="action_service_equipment_type" parent="base.menu_service_config" sequence="200" />
+		<menuitem name="Equipment Type" id="menu_service_equipment_type" action="action_service_equipment_type" parent="base.menu_service_config"
+	sequence="200" />
 
 
 		<record id="action_service_equipment_category" model="ir.actions.act_window">
@@ -278,8 +289,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Equipment Category" id="menu_service_equipment_category"
-			action="action_service_equipment_category" parent="base.menu_service_config" sequence="201" />
+		<menuitem name="Equipment Category" id="menu_service_equipment_category" action="action_service_equipment_category" parent="base.menu_service_config"
+			sequence="201" />
 
 
 	</data>

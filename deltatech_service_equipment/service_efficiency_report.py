@@ -113,10 +113,20 @@ class service_efficiency_report(models.Model):
 
         if uom_usage and equipment_id:   
             uom = self.env['product.uom'].browse(uom_usage)
-            meter = self.env['service.meter'].search([('equipment_id','=',equipment_id),('uom_id.category_id','=',uom.category_id.id)]) 
-            if meter:
-                usage = meter.get_counter_value(begin_date,end_date)
-                from_uom = meter.uom_id
+            meters = self.env['service.meter'].search([('equipment_id','=',equipment_id),('uom_id.category_id','=',uom.category_id.id)]) 
+            
+            if meters:
+                meter_find = meters[0]
+            else:
+                meter_find = False
+                
+            for meter in meters:
+                if meter.uom_id == uom:
+                    meter_find = meter
+                    
+            if meter_find:
+                usage = meter_find.get_counter_value(begin_date,end_date)
+                from_uom = meter_find.uom_id
                 to_uom = uom
                 usage = usage/from_uom.factor
                 usage = usage * to_uom.factor

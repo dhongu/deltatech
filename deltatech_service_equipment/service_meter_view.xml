@@ -65,7 +65,8 @@
 								<field name="estimated_value" />
 							</group>
 						</group>
-						<field name="meter_ids" attrs="{'invisible':[ ('type', '=', 'counter')]}" />
+						<field name="meter_ids" attrs="{'invisible':[ ('type', '=', 'counter')]}"  domain="[('equipment_id','=', equipment_id )]"/>
+
 						<field name="meter_reading_ids" readonly='1' attrs="{'invisible':[ ('type', '=', 'collector')]}" />
 
 					</sheet>
@@ -177,6 +178,7 @@
 					<group>
 						<field name="name" />
 						<field name="uom_id" />
+						<field name="type" />
 						<field name="bill_uom_id" />
 					</group>
 				</form>

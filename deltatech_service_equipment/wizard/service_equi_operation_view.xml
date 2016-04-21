@@ -10,6 +10,7 @@
 						<field name="state" />
 						<field name="date" />
 						<field name="equipment_id" />
+						<field name="stock_move" state="ins,rem"/>
 					</group>
 					<group string="Location" states="ins" >						
 						<field name="partner_id" />

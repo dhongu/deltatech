@@ -68,15 +68,15 @@ def check_ean(eancode):
 class service_equipment_history(models.Model):
     _name = 'service.equipment.history'
     _description = "Equipment History"
-    
+    _order = 'equipment_id, from_date DESC'
     
     name =  fields.Char(string='Name', related='equipment_id.name')
-    from_date = fields.Date(string="Installation Date",required=True)
+    from_date = fields.Date(string="Installation Date",required=True,index=True)
 
-    equipment_id = fields.Many2one('service.equipment', string="Equipment",  ondelete='cascade')
+    equipment_id = fields.Many2one('service.equipment', string="Equipment",  ondelete='cascade',index=True)
 
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement')   
-    partner_id = fields.Many2one('res.partner', string='Customer',help='The owner of the equipment')
+    partner_id = fields.Many2one('res.partner', string='Customer',help='The customer where the equipment is installed')
     address_id = fields.Many2one('res.partner', string='Location', help='The working point where the equipment was located')
     emplacement = fields.Char(string='Emplacement', help='Detail of location of the equipment in working point')
 
@@ -139,6 +139,7 @@ class service_equipment(models.Model):
  
     image_qr_html = fields.Html(string="QR image", compute="_compute_image_qr_html")
     type_id = fields.Many2one('service.equipment.type', required=True, string='Type')
+    categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id",string="Category")
 
     consumable_id =  fields.Many2one('service.consumable', string='Consumable List')    
     consumable_item_ids =  fields.Many2many('service.consumable.item', string='Consumables', compute="_compute_consumable_item_ids", readonly=True)
@@ -160,6 +161,14 @@ class service_equipment(models.Model):
         #    vals['equipment_history_ids'] = [(0,0,{'from_date':  '2000-01-01'})]
         return super(service_equipment, self).create( vals )
 
+    @api.multi
+    def write(self, vals):
+        if ('name' in vals) and (vals.get('name') in ('/', False)):
+            self.ensure_one()
+            sequence = self.env.ref('deltatech_service_equipment.sequence_equipment')
+            if sequence:
+                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+        return super(service_equipment, self).write( vals)
 
 
 
@@ -239,6 +248,7 @@ class service_equipment(models.Model):
     #def onchange_type_id(self):   
     #    self.product_id = self.type_id.product_id 
     
+    """
     @api.onchange('product_id','partner_id')
     def onchange_product_id(self):
         if self.name == '':
@@ -253,7 +263,17 @@ class service_equipment(models.Model):
             if not consumable_id:
                 consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)])
             self.consumable_id    
+    """
 
+    @api.onchange('type_id','product_id')
+    def onchange_type_id(self):
+        
+        consumable_id = False
+        if self.product_id:
+            consumable_id =  self.env['service.consumable'].search([('product_id','=',self.product_id.id)])
+        if not consumable_id:
+            consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)])
+        self.consumable_id = consumable_id
 
     
     @api.multi
@@ -358,11 +378,27 @@ class service_equipment(models.Model):
         self._compute_readings_status()
             
 
+    # o fi ok sa elimin echipmanetul din contract 
+    @api.multi
+    def remove_from_agreement_button(self):
+        self.ensure_one()
+        if self.agreement_id.state == 'draft':
+            lines = self.env['service.agreement.line'].search([('agreement_id','=',self.agreement_id.id),('equipment_id','=',self.id)])
+            lines.unlink()
+            if not self.agreement_id.agreement_line:
+                self.agreement_id.unlink()
+        else:
+            raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name,self.agreement_id.state))
+                
+        
 
 class service_equipment_category(models.Model):
     _name = 'service.equipment.category'
     _description = "Service Equipment Category"     
     name = fields.Char(string='Category', translate=True)  
+    
+    out_type_id = fields.Many2one('stock.picking.type', string='Out Type')
+    in_type_id = fields.Many2one('stock.picking.type', string='In Type')
 
 
 class service_equipment_type(models.Model):
@@ -374,6 +410,7 @@ class service_equipment_type(models.Model):
     template_meter_ids = fields.One2many('service.template.meter','type_id')
     
 
+# este utilizat pentru generare de pozitii noi in contract si pentru adugare contori noi
 class service_template_meter(models.Model):
     _name = 'service.template.meter'
     _description = "Service Template Meter"    
@@ -381,10 +418,13 @@ class service_template_meter(models.Model):
     type_id = fields.Many2one('service.equipment.type', string="Type")
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
     meter_categ_id = fields.Many2one('service.meter.category', string="Meter category")
+    bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure'  ) 
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
     
-    
-    
+    @api.one
+    @api.onchange('meter_categ_id')
+    def onchange_meter_categ_id(self):
+        self.bill_uom_id = self.meter_categ_id.bill_uom_id
     
     #product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     

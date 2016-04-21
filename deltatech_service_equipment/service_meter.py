@@ -49,6 +49,7 @@ class service_meter_category(models.Model):
     name = fields.Char(string='Category') 
     uom_id = fields.Many2one('product.uom', string='Unit of Measure' , required=True ) 
     bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure' , required=True ) 
+    type = fields.Selection([('counter','Counter'),('collector','Collector')], string='Type', default='counter')
 
 class service_meter(models.Model):
     _name = 'service.meter'
@@ -58,8 +59,8 @@ class service_meter(models.Model):
     name = fields.Char(string='Name')
     display_name = fields.Char(compute='_compute_display_name')
     
-    type = fields.Selection([('counter','Counter'),('collector','Collector')], string='Type', default='counter')
-    equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True,  ondelete='cascade' ) 
+    type = fields.Selection([('counter','Counter'),('collector','Collector')], string='Type', default='counter', related="meter_categ_id.type", readonly=True)
+    equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True,  ondelete='cascade', index=True) 
     meter_reading_ids = fields.One2many('service.meter.reading', 'meter_id', string='Meter Reading')
    
     meter_ids = fields.Many2many('service.meter', 'service_meter_collector_meter', 'meter_collector_id', 'meter_id', string='Meter',  domain=[('type', '=', 'counter')])
@@ -70,7 +71,7 @@ class service_meter(models.Model):
     estimated_value= fields.Float(string='Estimated Value', digits= dp.get_precision('Meter Value'), compute='_compute_estimated_value' ) 
     
     meter_categ_id =  fields.Many2one('service.meter.category', string='Category' , required=True )
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure' ,required=True )
+    uom_id = fields.Many2one('product.uom', string='Unit of Measure' ,required=True, index=True)
 
     value_a =  fields.Float()
     value_b =  fields.Float()

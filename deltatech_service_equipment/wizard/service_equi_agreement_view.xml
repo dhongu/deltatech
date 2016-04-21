@@ -9,7 +9,7 @@
 					<group>
 						<field name="equipment_id"/>
 						<field name="partner_id"/>
-						<field name="agreement_id" domain="[('partner_id','=',partner_id)]" />
+						<field name="agreement_id" domain="[('partner_id','=',partner_id)]" placeholder="Leave empty to create a new agreement"/>
 					</group>
 					<footer>
 						<button name="do_agreement" string="_Apply" type="object" class="oe_highlight" />

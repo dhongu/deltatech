@@ -32,11 +32,16 @@ class stock_picking(models.Model):
 
     
     equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')    
-    equipment_id = fields.Many2one('service.equipment', string='Equipment', related='equipment_history_id.equipment_id' ,store=True)
-    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',store=True)
+    equipment_id = fields.Many2one('service.equipment', string='Equipment' ,store=True) # , related='equipment_history_id.equipment_id'
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',store=True, readonly=True)
     
 
-
+    @api.onchange('equipment_id','date')
+    def onchange_equipment_id(self):
+        if self.equipment_id:
+            self.equipment_history_id = self.equipment_id.get_history_id(self.date)        
+        else: 
+            self.equipment_history_id = False 
 
 #todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite 
     

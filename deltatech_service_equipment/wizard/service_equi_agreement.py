@@ -65,16 +65,18 @@ class service_equi_agreement(models.TransientModel):
         #self.equipment_id.write({'agreement_id':self.agreement_id.id,
         #                         'partner_id':self.partner_id.id})
         for template in self.equipment_id.type_id.template_meter_ids:
+            values = {}
+            values['agreement_id'] = self.agreement_id.id
+            values['equipment_id'] = self.equipment_id.id
+            values['currency_id']  = template.currency_id.id
+            values['product_id']   = template.product_id.id
+             
             for meter in self.equipment_id.meter_ids:
                 if meter.meter_categ_id == template.meter_categ_id:
-                    values = {}
-                    values['agreement_id'] = self.agreement_id.id
-                    values['equipment_id'] = self.equipment_id.id
-                    values['currency_id']  = template.currency_id.id
-                    values['product_id']   = template.product_id.id
-                    values['product_id']   = template.product_id.id
+                    values['meter_id']   = meter.id
                     values['uom_id']     = template.meter_categ_id.bill_uom_id.id
-                    self.env['service.agreement.line'].create(values)
+                    
+            self.env['service.agreement.line'].create(values)
    
         action = { 
             'domain': "[('id','=',%s)]" % self.agreement_id.id,
