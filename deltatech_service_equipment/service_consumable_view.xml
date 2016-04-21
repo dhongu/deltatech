@@ -35,6 +35,7 @@
 										<field name="product_id"/>
 										<field name="colors"/>
 										<field name="shelf_life"/>
+										<field name="uom_shelf_life"/>
 										<field name="max_qty"/>
 									</tree>
 								</field>
