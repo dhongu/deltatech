@@ -45,11 +45,38 @@ ITEM_CATEG = [('primary','Primary'),
               ('opt_serv','Optional Service')]
 
 
+"""    
+class mrp_dummy_attribute(models.TransientModel):
+    _name = 'mrp.dummy.attribute'
+    _description = "Dummy Attributes" 
+    
+    product_attributes = fields.One2many( 'mrp.dummy.attribute.value', 'mrp_dummy_id', string='Attributes', copy=True )
+    product_attributes_values = fields.Many2many('product.attribute.value', compute='_get_attribute_values', readonly=True)
+
+    @api.one
+    @api.depends('product_attributes')
+    def _get_attribute_values(self):
+        attr_values = self.env['product.attribute.value']
+        for attr_line in self.product_attributes:
+            attr_values |= attr_line.value
+        self.product_attributes_values = attr_values.sorted()
+
+
+class mrp_dummy_attribute_value(models.TransientModel):
+    _name = 'mrp.dummy.attribute.value'
+    _order = 'sequence'
+ 
+    mrp_dummy_id  = fields.Many2one('mrp.dummy.attribute', string='Dummy Attributes', copy=False, ondelete='cascade')
+    attribute = fields.Many2one('product.attribute', string='Attribute')
+    value = fields.Many2one( 'product.attribute.value', string='Value')
+"""
+    
 
 class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
     article_list = fields.Boolean(string='Article List')
+    product_id = fields.Many2one(index=True)
 
     @api.model
     def _factor(self, factor, product_efficiency, product_rounding):
@@ -65,6 +92,7 @@ class mrp_bom(models.Model):
         # daca unitatea de masura este % atunci cantitatea trebuie sa ramana cea din BOM
         if bom_line.product_uom.name == '%':
             res['product_qty'] = bom_line.product_qty
+         
         return res
 
 
@@ -81,8 +109,12 @@ class mrp_bom(models.Model):
         return False    
 
 
+
+
+
     # metoda a fost redefinita pentru a selecta o linie daca exista cel putin un atribut
     def _skip_bom_line(self, line, product):
+        
         today = fields.Date.context_today(self)
         if (line.date_start and
                 line.date_start > today or
@@ -110,11 +142,8 @@ class mrp_bom(models.Model):
         if not line.product_id:
             if not product and self.env.context.get('production'):
                 production = self.env.context['production']
-                product_attributes = (
-                    line.product_template._get_product_attributes_inherit_dict(
-                        production.product_attributes))
-                comp_product = self.env['product.product']._product_find(
-                    line.product_template, product_attributes)
+                product_attributes = ( line.product_template._get_product_attributes_inherit_dict( production.product_attributes))
+                comp_product = self.env['product.product']._product_find( line.product_template, product_attributes)
                 if not comp_product:
                     return True
         return False
@@ -168,15 +197,44 @@ class mrp_bom(models.Model):
         return bom_empty_prop
 
 
+    # redefinesc metoda pentru ca trebuie sa tin cont si de variante si atribute
+    @api.multi
+    def button_set_standard_price(self):
+        for bom in self:
+            if bom.product_id:
+                bom.product_id.write({'standard_price':bom.calculate_price, 'bom_price':bom.calculate_price})
+                bom.product_id.product_tmpl_id.write({'standard_price':bom.calculate_price})
+            else:
+                bom.product_tmpl_id.write({'standard_price':bom.calculate_price})
+                for product in bom.product_tmpl_id.product_variant_ids:
+                    if  not product.product_attributes:
+                         product.product_attributes = product._get_product_attributes_values_dict() 
+                    items, work = bom.with_context(production=product)._bom_explode(product=None, factor=1)   ## in exploxie e problema
+                    #print 'Items:', items 
+                    amount = 0.0
+                    for item in items:
+                                      
+                        product_qty = item['product_qty']
+                        line_product = self.env['product.product'].browse(item['product_id'])
+                        #price = line_product.standard_price  or line_product.product_tmpl_id.standard_price
+                        price = line_product.bom_price
+                        print "Line:", line_product.name, price
+                        amount +=  price * product_qty
+                        
+                    price = amount / bom.product_qty + amount/bom.product_qty*bom.value_overhead
+                    print product.name, price
+                    product.write({'standard_price':price,'bom_price': price})
+
+
 
 
 class mrp_bom_line(models.Model):
     _inherit = 'mrp.bom.line'   
     
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
-
-    child_bom_id = fields.Many2one('mrp.bom',string="Child BOM", compute="_compute_child_bom")
-
+    child_bom_id = fields.Many2one('mrp.bom',string="Child BOM", compute="_compute_child_bom", store=True)
+    calculate_price = fields.Float(compute='_calculate_price') 
+    standard_price = fields.Float(compute='_calculate_standard_price')
 
     @api.multi
     @api.depends('product_template','product_id')
@@ -187,8 +245,8 @@ class mrp_bom_line(models.Model):
                                                    properties=bom_line.property_ids )
            bom_line.child_bom_id = self.env['mrp.bom'].browse( bom_id )
              
-
-
+    
+    # am redefini metoda pentru a utiliza campul product_template in loc de product_tmpl_id
     @api.multi
     @api.depends('product_template','product_id')
     def _calculate_standard_price(self): 
@@ -199,21 +257,44 @@ class mrp_bom_line(models.Model):
                 bom_line.standard_price = bom_line.product_template.standard_price 
             
 
-
+    # am redefini metoda pentru a utiliza campul product_template in loc de product_tmpl_id
     @api.multi
     @api.depends('product_template','product_id','child_bom_id')
     def _calculate_price(self):
-        for bom_line in self:            
+        for bom_line in self:    
+            if bom_line.product_id:
+                price = bom_line.product_id.bom_price or bom_line.product_id.standard_price
+            else:
+                if bom_line.product_template.product_variant_count == 0:
+                    # daca nu am varinate la produs atunci trebuie sa preiua pretul de la BOM sau de la template
+                    if bom_line.child_bom_id:
+                        price = bom_line.child_bom_id.calculate_price
+                    else:
+                        price = bom_line.product_template.standard_price
+                else:
+                    amount = 0.0
+                    for variant in bom_line.product_template.product_variant_ids:
+                        amount += variant.bom_price or bom_line.product_id.standard_price
+                    price =   amount  / bom_line.product_template.product_variant_count
+                    print bom_line.product_template.name, price
+            """
             if bom_line.child_bom_id:
                 price = bom_line.child_bom_id.calculate_price
             else:
                 if bom_line.product_id:
                     price = bom_line.product_id.standard_price
                 else:
-                   price = bom_line.product_template.standard_price  
-            
+                    if bom_line.product_template.product_variant_count <= 1:
+                        price = bom_line.product_template.standard_price
+                    else:
+                        amount = 0.0
+                        for variant in bom_line.product_template.product_variant_ids:
+                            amount += variant.standard_price
+                        price =   amount  / bom_line.product_template.product_variant_count
+                        print bom_line.product_template.name, price
+            """
             bom_line.calculate_price = price
-
+            
     
         
 

@@ -674,22 +674,29 @@ class sale_mrp_resource(models.Model):
            
             self.product_uom = self.product_id.uom_id
             order_id = self.article_id.order_id
-            """
+            
+            """ 
+            # e bine dar dureaza foarte mult sa faca explozia si calculul la fiecare produs in pare 
             bom_id = self.env['mrp.bom']._bom_find( product_id   = self.product_id.id )
             if bom_id:
                 bom = self.env['mrp.bom'].browse(bom_id)
                 price = bom.with_context(production=self.article_id).get_price(order_id.partner_id,order_id.pricelist_id)
             else:
                 price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]
-            """
-            price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
+            """ 
+            # am pus in context atricolul pentru ca se se reia de acolo atributele can de calculeaza pretul
+            # am pus dar fara efect ca se pierde pe drum contextul
+            # pretul se va caclula manual din BOM prin apasarea unui buton care va face calculul pentru ficare varianta de produs
+            price =  order_id.pricelist_id.with_context(production=self.article_id).price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
+            
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
             self.price_unit = price
             self.name = self.product_id.name
             
             
             from_currency = self.env.user.company_id.currency_id.with_context(date=order_id.date_order)
-            self.purchase_price  = from_currency.compute( self.product_id.standard_price,  order_id.pricelist_id.currency_id )
+            
+            self.purchase_price  = from_currency.compute( self.product_id.standard_price or self.product_id.product_tmpl_id.standard_price,  order_id.pricelist_id.currency_id )
             
              
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]

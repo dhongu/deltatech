@@ -30,17 +30,19 @@
 Functionalitati:
  - Calculeaza pretul pentru fiecare lista de materiale
  - La fiecare bom exista posibilitatea de a defini costuri indirecte
+ - In produs se memoreaza pretul caclulat in BOM
  
 Obs: depinde si de mrp_product_variants
  
     """,
     
     "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"base","mrp_hook"],
+    "depends" : ['deltatech',"base","mrp_hook","product_variants_no_automatic_creation"],
 
 
     "data" : [      
-                "mrp_view.xml"
+                "mrp_view.xml",
+                "product_view.xml"
                 
                 ],
     "active": False,

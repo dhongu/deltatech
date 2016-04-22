@@ -106,7 +106,8 @@ class mrp_production(models.Model):
 class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
 
-
+    # metoda este buna dar consumatoare de timp
+    """
     @api.model
     def get_price(self, partner, pricelist):  
         amount = 0
@@ -126,16 +127,16 @@ class mrp_bom(models.Model):
                                                                     to_uom_id = line_product.uom_id.id, 
                                                                     round = False)
                 
-                """
+                
                 item_bom_id = self.env['mrp.bom']._bom_find(product_id  = line['product_id'] )
                 if item_bom_id:
                     item_bom = self.env['mrp.bom'].browse(item_bom_id)
                     price = item_bom.get_price(partner,pricelist)
                 else:
                     price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
-                """
                 
-                price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
+                
+                #price =  pricelist.price_get( line['product_id'], line['product_qty'],  partner.id)[pricelist.id]
                 amount +=  price * product_qty 
                 print " Pret pentru ",  line_product.name, ' este ' , price, " conform listei ", pricelist.name
             else:
@@ -146,22 +147,48 @@ class mrp_bom(models.Model):
         price = amount / self.product_qty + amount/self.product_qty*self.value_overhead
         #print price
         return price
-             
+    """
 
+    """
+    @api.model
+    def _prepare_consume_line(self, bom_line, quantity, factor=1):
+        res = super(mrp_bom,self)._prepare_consume_line(bom_line, quantity, factor)
+        #res['calculate_price'] = bom_line.calculate_price
+        return res 
+    """     
+
+    # aici nu se tine cont de variante de configurare
 
     @api.multi
     @api.depends('value_overhead','bom_line_ids','value_overhead')
     def _calculate_price(self):
         for bom in self:
             amount = 0
-            for line in bom.bom_line_ids:
-
-                product_qty = self.env['product.uom']._compute_qty( from_uom_id = line.product_uom.id,  
-                                                                    qty = line.product_qty,
-                                                                    to_uom_id = line.product_id.uom_id.id, 
-                                                                    round = False)
+            
+            if 'production' in self.env.context: 
+                items, work = bom._bom_explode(product=None, factor=1)
                  
-                amount +=  line.calculate_price * product_qty  
+                for item in items:
+                    product_qty = item['product_qty']
+                    line_product = self.env['product.product'].browse(item['product_id'])
+                    # de facut conversia dintre unitate de masura din bom si cea din produs
+                    price = line_product.bom_price
+                    
+                    product_qty = self.env['product.uom']._compute_qty( from_uom_id = item['product_uom'],  
+                                                                        qty = item['product_qty'],
+                                                                        to_uom_id = line_product.uom_id.id, 
+                                                                        round = False)
+                    
+                    amount += price * product_qty
+                    print "Line: ", item['name'], price, product_qty
+            else:
+                for line in bom.bom_line_ids:                  
+                    product_qty = self.env['product.uom']._compute_qty( from_uom_id = line.product_uom.id,  
+                                                                        qty = line.product_qty,
+                                                                        to_uom_id = line.product_id.uom_id.id, 
+                                                                        round = False)
+                     
+                    amount +=  line.calculate_price * product_qty  
             price = amount / bom.product_qty + amount/bom.product_qty*bom.value_overhead
             bom.calculate_price = price
  
@@ -217,6 +244,10 @@ class mrp_bom(models.Model):
                 bom.product_id.write({'standard_price':bom.calculate_price})
             else:
                 bom.product_tmpl_id.write({'standard_price':bom.calculate_price})
+
+
+
+                
             
 
 
@@ -244,14 +275,14 @@ class mrp_bom_line(models.Model):
 
     @api.multi
     def _calculate_price(self):
-        for bom_line in self:            
+
             bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_id.product_tmpl_id.id,
                                                    product_id=bom_line.product_id.id, properties=bom_line.property_ids )
             if bom_id:
                 child_bom = self.env['mrp.bom'].browse( bom_id )
                 price = child_bom.calculate_price
             else:
-                price = bom_line.product_id.standard_price   or bom_line.product_tmpl_id.standard_price
+                price = bom_line.product_id.standard_price   or bom_line.product_id.product_tmpl_id.standard_price
             bom_line.calculate_price = price
 
     
@@ -260,7 +291,7 @@ class mrp_bom_line(models.Model):
     @api.depends('product_id')
     def _calculate_standard_price(self): 
         for bom_line in self:
-            bom_line.standard_price = bom_line.product_id.standard_price or bom_line.product_tmpl_id.standard_price
+            bom_line.standard_price = bom_line.product_id.standard_price or bom_line.product_id.product_tmpl_id.standard_price
  
                    
         

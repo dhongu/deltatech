@@ -54,18 +54,71 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
     
-    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price', compute='_calculate_bom_price')
+    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price')
     standard_price = fields.Float()
+    
+    
 
     @api.one
+    @api.onchange('product_attributes','bom_ids')
     def _calculate_bom_price(self ):
         bom_id = self.env['mrp.bom']._bom_find( product_id = self.id)
         if bom_id:
             bom = self.env['mrp.bom'].browse(bom_id)
-            self.bom_price = bom.calculate_price
+            # trebuie facut update si la lista de atribute daca aceasta lipseste
+            if  not self.product_attributes and self.attribute_value_ids:
+                self.product_attributes = self._get_product_attributes_values_dict() 
+            
+            self.bom_price = bom.with_context(production=self).calculate_price
+            #self.standard_price = self.bom_price 
         else:
             self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
         
+        print self.name, self.bom_price
+
+    @api.multi
+    def update_bom_price(self):
+        for product in self:
+            product._calculate_bom_price()
+
+    @api.multi
+    def button_update_bom_price(self):
+        for product in self:
+            bom_id = self.env['mrp.bom']._bom_find( product_id = product.id)
+            if bom_id:
+                bom = self.env['mrp.bom'].browse(bom_id)
+                for line in bom.bom_line_ids:  
+                    if line.product_id:
+                        line.product_id.update_bom_price()                
+                # trebuie facut update si la lista de atribute daca aceasta lipseste
+                if  not product.product_attributes and product.attribute_value_ids:
+                    product.product_attributes = product._get_product_attributes_values_dict() 
+                
+                product.bom_price = bom.with_context(production=product).calculate_price
+                 
+            else:
+                product.bom_price = product.standard_price or product.product_tmpl_id.standard_price
+                
+            
     
+    #am redefini metoda pentru a afisa toate bom-urile
+    def action_view_bom(self, cr, uid, ids, context=None):
+        tmpl_obj = self.pool.get("product.template")
+        products = set()
+        for product in self.browse(cr, uid, ids, context=context):
+            products.add(product.product_tmpl_id.id)
+        result = tmpl_obj._get_act_window_dict(cr, uid, 'mrp.product_open_bom', context=context)
+        # bom specific to this variant or global to template
+        domain = [
+            '|',
+                ('product_id', 'in', ids),
+                '&',
+                    #('product_id', '=', False),
+                    ('product_tmpl_id', 'in', list(products)),
+        ]
+        result['context'] = "{'default_product_id': active_id, 'search_default_product_id': active_id, 'default_product_tmpl_id': %s}" % (len(products) and products.pop() or 'False')
+        result['domain'] = str(domain)
+        return result
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
