@@ -74,7 +74,7 @@ class ProductProduct(models.Model):
         else:
             self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
         
-        print self.name, self.bom_price
+        #print self.name, self.bom_price
 
     @api.multi
     def update_bom_price(self):

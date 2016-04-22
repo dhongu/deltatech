@@ -180,7 +180,7 @@ class mrp_bom(models.Model):
                                                                         round = False)
                     
                     amount += price * product_qty
-                    print "Line: ", item['name'], price, product_qty
+                    #print "Line: ", item['name'], price, product_qty
             else:
                 for line in bom.bom_line_ids:                  
                     product_qty = self.env['product.uom']._compute_qty( from_uom_id = line.product_uom.id,  

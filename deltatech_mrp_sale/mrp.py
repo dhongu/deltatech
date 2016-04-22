@@ -222,7 +222,7 @@ class mrp_bom(models.Model):
                         amount +=  price * product_qty
                         
                     price = amount / bom.product_qty + amount/bom.product_qty*bom.value_overhead
-                    print product.name, price
+                    #print product.name, price
                     product.write({'standard_price':price,'bom_price': price})
 
 
@@ -276,7 +276,7 @@ class mrp_bom_line(models.Model):
                     for variant in bom_line.product_template.product_variant_ids:
                         amount += variant.bom_price or bom_line.product_id.standard_price
                     price =   amount  / bom_line.product_template.product_variant_count
-                    print bom_line.product_template.name, price
+                    #print bom_line.product_template.name, price
             """
             if bom_line.child_bom_id:
                 price = bom_line.child_bom_id.calculate_price
@@ -291,7 +291,7 @@ class mrp_bom_line(models.Model):
                         for variant in bom_line.product_template.product_variant_ids:
                             amount += variant.standard_price
                         price =   amount  / bom_line.product_template.product_variant_count
-                        print bom_line.product_template.name, price
+                        #print bom_line.product_template.name, price
             """
             bom_line.calculate_price = price
             
