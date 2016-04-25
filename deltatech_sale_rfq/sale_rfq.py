@@ -44,7 +44,8 @@ class sale_rfq(models.Model):
     lead_id = fields.Many2one('crm.lead', string='Opportunity',required=True, readonly=True, states={'draft': [('readonly', False)]},)
     partner_id = fields.Many2one('res.partner', string='Customer', related="lead_id.partner_id",  readonly=True, states={'draft': [('readonly', False)]} ,store=True )    # Clientul
     
-    team_leader_id = fields.Many2one('res.users', related="lead_id.section_id.user_id", string='Team Leader',track_visibility='always',store=True, readonly=True,)
+    team_leader_id = fields.Many2one('res.users', #related="lead_id.section_id.user_id", 
+                                     string='Team Leader',track_visibility='always', readonly=True, states={'draft': [('readonly', False)]})
     
     requester_id = fields.Many2one('res.users', string='Requester',
                                    required=True, default=lambda self: self.env.user.id,
@@ -75,6 +76,10 @@ class sale_rfq(models.Model):
                              string='Status', index=True, readonly=True, default='draft',
                              track_visibility='onchange', copy=False,)
 
+
+    @api.onchange('lead_id')
+    def onchange_lead_id(self):
+        self.team_leader_id = self.lead_id.section_id.user_id
 
     @api.model
     def create(self,   vals ):  
@@ -133,8 +138,7 @@ class sale_rfq(models.Model):
 
 
     def _message_get_auto_subscribe_fields(self, cr, uid, updated_fields, auto_follow_fields=None, context=None):
-        if auto_follow_fields is None:
-            auto_follow_fields = ['requester_id', 'designer_id','team_leader_id']
+        auto_follow_fields = ['requester_id', 'designer_id','team_leader_id']
         return super(sale_rfq, self)._message_get_auto_subscribe_fields(cr, uid, updated_fields, auto_follow_fields, context=context)
 
     
