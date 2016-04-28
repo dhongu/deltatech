@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name" : "Deltatech Mail Extension",
-    "version" : "1.0",
+    "version" : "2.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
@@ -30,21 +30,29 @@ Functionalitati:
  - parternerii sunt automat adaugati la urmaritori in documentele trimise
  - Setare documente ca citite
  - Setare documente ca necitite 
-Nota: pentru a seta simultan mai multe documente trebuie modificata metoda message_mark_as_unread din mail_thread:
-             (SELECT id from mail_message where res_id=any(%s) and model=%s limit 1)
-             (SELECT id from mail_message where res_id=any(%s) and model=%s)
+ - Se permite trimiterea de email doar la persoanele selectate
+ - Se poate ca sa nu fie adugati partenerii la lista de urmaritori dupa ce se trimite un email
+ 
+
  - Notificare la primire mesaj
  
  - Se configreaza iesirea de email in afara sistemului prin paramentrul mail.notify.noemail
  - Se marcheaza un document ca fiind citit daca aceste este deschis si parametrul mail.open.set.read este True
- 
+
+Nota: 
+ - pentru a seta simultan mai multe documente trebuie modificata metoda message_mark_as_unread din mail_thread
+             (SELECT id from mail_message where res_id=any(%s) and model=%s limit 1)
+             (SELECT id from mail_message where res_id=any(%s) and model=%s)
+ - este necesar modulul web_notification (https://bitbucket.org/anybox/web_notification)  
  
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"base","mail","web_notification"],
  
     "data" : ['mail_send_to_view.xml',
-              'views/deltatech_mail_assets.xml'],
+              'views/deltatech_mail_assets.xml',
+              'wizard/mail_compose_message_view.xml'],
+              
     "active": False,
     "installable": True,
 }

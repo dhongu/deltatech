@@ -26,15 +26,6 @@ from openerp.api import Environment
  
 
 
-class mail_compose_message(models.TransientModel):
-    _inherit = 'mail.compose.message'
-
-    def send_mail(self, cr, uid, ids, context=None):
-        """ Process the wizard content and proceed with sending the related
-            email(s), rendering any template patterns on the fly if needed. """
-        context = dict(context or {})
-        context['mail_notify_noemail'] = False
-        return super(mail_compose_message, self).send_mail(cr, uid, ids, context)
 
 class mail_message(models.Model):
     _inherit = 'mail.message' 
@@ -48,7 +39,17 @@ class mail_message(models.Model):
             if not open_set_read:
                 return
         return super(mail_message,self).set_message_read( cr, uid, msg_ids, read, create_missing, context)
-    
+
+
+    def _notify(self, cr, uid, newid, context=None, force_send=False, user_signature=True):
+        """ Add the related record followers to the destination partner_ids if is not a private message.
+            Call mail_notification.notify to manage the email sending
+        """
+        if context and context.get('only_selected',False):
+            message = self.browse(cr, SUPERUSER_ID, newid, context=context)
+            if message.subtype_id:
+                self.write(cr, SUPERUSER_ID, newid, {'subtype_id':False} , context=context)
+        return super(mail_message,self)._notify( cr, uid, newid, context, force_send, user_signature)
         
 class mail_notification(models.Model):
     _inherit = 'mail.notification'

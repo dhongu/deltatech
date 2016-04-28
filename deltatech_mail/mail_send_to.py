@@ -84,7 +84,7 @@ class mail_send_to(models.TransientModel):
                     'res_id': document.id,
                     'record_name': document.name_get()[0][1],
                     'email_from': self.env['mail.message']._get_default_from( ),
-                    'reply_to': self.env['mail.message']._get_default_from( ),
+                    #'reply_to': self.env['mail.message']._get_default_from( ),
                     'subject': wizard.subject or '',
                     'body': wizard.message or wizard.subject,
                      

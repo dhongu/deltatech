@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-06 09:24+0000\n"
-"PO-Revision-Date: 2015-09-06 09:24+0000\n"
+"POT-Creation-Date: 2016-04-28 09:31+0000\n"
+"PO-Revision-Date: 2016-04-28 09:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,22 +18,14 @@ msgstr ""
 #. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
 msgid "Add contacts to notify..."
-msgstr "Add contacts to notify..."
+msgstr "Adăugați contacte pentru a fi notificate..."
 
 #. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
 msgid "Cancel"
 msgstr "Anulează"
 
-#. module: deltatech_mail
-#: field:mail.send.to,create_uid:0
-msgid "Created by"
-msgstr "Created by"
 
-#. module: deltatech_mail
-#: field:mail.send.to,create_date:0
-msgid "Created on"
-msgstr "Created on"
 
 #. module: deltatech_mail
 #: field:mail.send.to,action_id:0
@@ -46,19 +38,23 @@ msgid "Domain"
 msgstr "Domain"
 
 #. module: deltatech_mail
-#: field:mail.send.to,id:0
-msgid "ID"
-msgstr "ID"
+#: model:ir.model,name:deltatech_mail.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Wizardul de compunere email-uri"
 
 #. module: deltatech_mail
-#: field:mail.send.to,write_uid:0
-msgid "Last Updated by"
-msgstr "Last Updated by"
+#: view:mail.compose.message:deltatech_mail.email_compose_message_wizard_form
+msgid "Followers of the document and"
+msgstr "Interesați de document și"
+
+
 
 #. module: deltatech_mail
-#: field:mail.send.to,write_date:0
-msgid "Last Updated on"
-msgstr "Last Updated on"
+#: help:mail.compose.message,mail_notify_noemail:0
+msgid "It will use internal Odoo mail without sending out email system"
+msgstr "Se va utiliza mesageria internă Odoo fără a trmite email înafara sistemului"
+
+
 
 #. module: deltatech_mail
 #: help:mail.send.to,partner_ids:0
@@ -91,10 +87,10 @@ msgid "Message"
 msgstr "Mesaj"
 
 #. module: deltatech_mail
-#: code:addons/deltatech_mail/mail_message.py:75
+#: code:addons/deltatech_mail/mail_message.py:88
 #, python-format
 msgid "New message in the document: %s"
-msgstr "New message in the document: %s"
+msgstr "Mesaj nou în documentul: %s"
 
 #. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_notification
@@ -102,9 +98,10 @@ msgid "Notifications"
 msgstr "Notificări"
 
 #. module: deltatech_mail
-#: help:mail.send.to,domain:0
-msgid "Optional domain for further data filtering"
-msgstr "Optional domain for further data filtering"
+#: field:mail.compose.message,mail_notify_noemail:0
+msgid "Only internal notification"
+msgstr "Numai notificări interne"
+
 
 #. module: deltatech_mail
 #: field:mail.send.to,partner_ids:0
@@ -126,9 +123,19 @@ msgid "Send documents"
 msgstr "Trimite documente"
 
 #. module: deltatech_mail
+#: field:mail.compose.message,only_selected:0
+msgid "Send only for selected users"
+msgstr "trimite numai la conctactele selectate"
+
+#. module: deltatech_mail
 #: field:mail.send.to,subject:0
 msgid "Subject"
 msgstr "Subiect"
+
+#. module: deltatech_mail
+#: field:mail.compose.message,auto_subscribe:0
+msgid "Subscribe Recipients"
+msgstr "Adaugă destinatari la urmăritori"
 
 #. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
