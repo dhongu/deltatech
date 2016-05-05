@@ -36,6 +36,10 @@ class website(models.Model):
     def sale_get_order(self, cr, uid, ids, force_create=False, code=None, update_pricelist=None, context=None):
         sale_order_obj = self.pool['sale.order']
         sale_order_id = request.session.get('sale_order_id')
+        if isinstance(sale_order_id, list):
+            sale_order_id = sale_order_id[0]
+            request.session['sale_order_id'] = sale_order_id
+                    
         if not sale_order_id:
              
             partner = self.pool['res.users'].browse(cr, SUPERUSER_ID, uid, context=context).partner_id
@@ -43,7 +47,10 @@ class website(models.Model):
             if partner:
                 domain = [('partner_id','=',partner.id), ('state','=','draft')]               
                 sale_order_id = sale_order_obj.search(cr, SUPERUSER_ID, domain, limit=1, context=context)
-                 
+                
+                if sale_order_id and isinstance(sale_order_id, list):
+                    sale_order_id = sale_order_id[0]
+                     
                 if sale_order_id:
                     request.session['sale_order_id'] = sale_order_id
             

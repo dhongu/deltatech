@@ -59,10 +59,10 @@ class export_datecs(models.TransientModel):
         out = False
         result = self.env['report'].get_html(records=invoice, report_name='deltatech_datecs_print.report_invoice')
         if result:
-            result = html2text.html2text(result)  #.decode('utf8','replace')   
+            result = html2text.html2text(result.decode('utf8','replace'))  
             result = result.replace(chr(13), '\n')
             result = result.replace('\n\n', '\r\n')
-            out = base64.encodestring(result)
+            out = base64.encodestring(result.encode('utf8'))
                 
         
         filename = 'BF_'+invoice.number
