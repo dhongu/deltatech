@@ -270,9 +270,9 @@ class service_equipment(models.Model):
         
         consumable_id = False
         if self.product_id:
-            consumable_id =  self.env['service.consumable'].search([('product_id','=',self.product_id.id)])
+            consumable_id =  self.env['service.consumable'].search([('product_id','=',self.product_id.id)],limit=1)
         if not consumable_id:
-            consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)])
+            consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)],limit=1)
         self.consumable_id = consumable_id
 
     

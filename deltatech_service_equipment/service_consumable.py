@@ -33,11 +33,20 @@ class service_consumable(models.Model):
     _name = 'service.consumable'
     _description = "Consumable List"
 
-    name = fields.Char(string='Name', related='product_id.name')
+    name = fields.Char(string='Name')
+    categ = fields.Selection([('type','Type'),('product', 'Product')])
     type_id = fields.Many2one('service.equipment.type', string="Type", ondelete='restrict',)  
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )    
     item_ids =  fields.One2many('service.consumable.item', 'consumable_id', string='Consumable')
-  
+
+    @api.one
+    @api.onchange('categ','type_id','product_id')
+    def onchange_categ(self):
+        if self.categ == 'type':
+            self.name = self.type_id.name
+        else:
+            self.name = self.product_id.name
+    
   
 class service_consumable_item(models.Model):
     _name = 'service.consumable.item'
