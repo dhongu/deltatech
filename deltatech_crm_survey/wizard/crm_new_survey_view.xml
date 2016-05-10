@@ -23,16 +23,16 @@
 					<group>
 						<field name="survey_id" options="{'no_create': True}" />
 						<field name="partner_id" options="{'no_create': True}" />
-						<field name="by_mail" />
+						<field name="mail_notify_noemail" string="Without email"/>
 					</group>
-					<div  attrs="{'invisible':[('by_mail','=',False)]}">
+					<div  attrs="{'invisible':[('mail_notify_noemail','=',True)]}">
                         <group>
 						<field name="subject" placeholder="Subject..." required="True"/>
 						</group>
                     	<field name="body"/>
                     	<field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
 					</div>
-					<footer attrs="{'invisible':[('by_mail','=',False)]}">
+					<footer attrs="{'invisible':[('mail_notify_noemail','=',True)]}">
 						<button string="Send" name="send_mail" type="object" class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
@@ -50,7 +50,7 @@
 						
 					</footer>
 
-					<footer attrs="{'invisible':[('by_mail','=',True)]}">
+					<footer attrs="{'invisible':[('mail_notify_noemail','=',False)]}">
 						<button name="do_new_survey" string="_Apply" type="object" class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />

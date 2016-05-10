@@ -44,6 +44,8 @@ class mail_compose_message(models.TransientModel):
 
 
 
+
+
 class crm_new_survey(models.TransientModel):
     _name = 'crm.new.survey'
     _inherit = 'mail.compose.message'
@@ -63,6 +65,10 @@ class crm_new_survey(models.TransientModel):
         lead = self.env['crm.lead'].browse(active_id) 
         defaults['lead_id'] = lead.id
         defaults['partner_id'] = lead.partner_id.id 
+        
+ 
+        defaults['mail_notify_noemail'] =  False
+              
         if lead.stage_id.survey_id:
             defaults['survey_id'] = lead.stage_id.survey_id.id
         else:

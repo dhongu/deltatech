@@ -34,7 +34,7 @@ Functionalitati:
     """,
     
     'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm","survey","deltatech_crm"],
+    "depends" : ['deltatech',"crm","survey","deltatech_crm","deltatech_mail"],
 
 
  
