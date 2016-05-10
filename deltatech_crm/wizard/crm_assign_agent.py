@@ -18,40 +18,33 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech CRM",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- - Adaugare campuri suplimentare: agent comercial
- - Preluare functionalitati din Odoo9 legate de activitati
-   
-    """,
-    
-    'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm" ],
 
 
  
-    "data" : [ 'crm_activity_view.xml',
-              'crm_lead_view.xml',
-              'security/ir.model.access.csv',
-              #'sale_crm_view.xml',
-              'crm_view.xml',
-              'data/crm_action_data.xml',
-              
-              'report/crm_activity_report_view.xml',
-              'wizard/crm_assign_agent_view.xml'
-              ],
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+
+
+
+class crm_assign_agent(models.TransientModel):
+    _name = 'crm.assign.agent'
+    _description = "CRM Assign agent"
     
-    "active": False,
-    "installable": True,
-}
+    user_id =  fields.Many2one('res.users', string='Salesperson')
 
-
+    @api.multi
+    def do_assign(self):
+        active_ids = self.env.context.get('active_ids', False)
+        
+        domain=[('type', '=', 'lead'),('user_id','=', False),('id','in', active_ids )] 
+        
+        leads = self.env['crm.lead'].search(domain)
+        lead.write({'user_id':self.user_id.id})
+        
+        return True
+        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
