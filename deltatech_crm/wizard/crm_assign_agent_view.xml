@@ -14,7 +14,7 @@
 
 
 					<footer>
-						<button name="do_assing" string="_Apply" type="object" class="oe_highlight" />
+						<button name="do_assign" string="_Apply" type="object" class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
 					</footer>

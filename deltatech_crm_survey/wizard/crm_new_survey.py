@@ -54,7 +54,7 @@ class crm_new_survey(models.TransientModel):
     survey_id = fields.Many2one('survey.survey', string='Survey', required=True)
     partner_id = fields.Many2one('res.partner',   string='Partner', required=True)
     lead_id = fields.Many2one('crm.lead',   string='Lead')
-    by_mail = fields.Boolean('Send Email')
+    #by_mail = fields.Boolean('Send Email')
     #template_id = fields.Many2one('email.template', string='Template')
 
     @api.model

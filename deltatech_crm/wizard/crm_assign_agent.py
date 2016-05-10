@@ -42,7 +42,8 @@ class crm_assign_agent(models.TransientModel):
         domain=[('type', '=', 'lead'),('user_id','=', False),('id','in', active_ids )] 
         
         leads = self.env['crm.lead'].search(domain)
-        lead.write({'user_id':self.user_id.id})
+        if leads:
+            leads.write({'user_id':self.user_id.id})
         
         return True
         
