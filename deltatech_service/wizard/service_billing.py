@@ -60,6 +60,9 @@ class service_billing(models.TransientModel):
         
         
         res = self.env['service.consumption'].search(domain)
+        for cons in res:
+            if cons.agreement_id.type_id.journal_id:
+                defaults['journal_id'] = cons.agreement_id.type_id.journal_id.id
         defaults['consumption_ids'] = [ (6,0,[rec.id for rec in res]) ]
         return defaults
         

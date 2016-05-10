@@ -100,7 +100,9 @@ class service_agreement_line(models.Model):
                 # se selecteaza citirile care nu sunt facturate
                 # se selecteaza citirile care sunt anterioare sfarsitului de perioada, e pozibil ca sa mai fie citiri in perioada anterioara nefacturate   
                 
-                readings =  meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and  r.date <= consumption.period_id.date_stop )
+                readings =  meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and  
+                                                                        r.date <= consumption.period_id.date_stop and
+                                                                        r.date > equipment.install_date     )  # sa fie dupa data de instalare
                 # se selecteaza citirile pentru intervalul in care echipamentul era instalat la client
                 
                 if readings:

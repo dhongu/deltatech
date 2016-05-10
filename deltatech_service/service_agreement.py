@@ -179,7 +179,8 @@ class service_agreement(models.Model):
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
     _description = "Service Agreement Type"     
-    name = fields.Char(string='Type', translate=True)  
+    name = fields.Char(string='Type', translate=True)
+    journal_id = fields.Many2one('account.journal', 'Journal', required=True)  
  
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'

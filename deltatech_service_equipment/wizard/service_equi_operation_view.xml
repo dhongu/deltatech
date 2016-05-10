@@ -13,8 +13,8 @@
 						<field name="stock_move" state="ins,rem"/>
 					</group>
 					<group string="Location" states="ins" >						
-						<field name="partner_id" />
-						<field name="address_id" 
+						<field name="partner_id" attrs="{'required':[('states', '=', 'ins')]}"/>
+						<field name="address_id" attrs="{'required':[('states', '=', 'ins')]}" 
 						
 						domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
 						

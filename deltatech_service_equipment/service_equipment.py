@@ -125,6 +125,7 @@ class service_equipment(models.Model):
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     serial_id = fields.Many2one('stock.production.lot', string='Serial Number', ondelete="restrict",   copy=False)
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict",  copy=False)
+    inventory_value = fields.Float(string="Inventory value")
     
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
@@ -275,13 +276,19 @@ class service_equipment(models.Model):
             consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)],limit=1)
         self.consumable_id = consumable_id
 
+    @api.onchange('quant_id')
+    def onchange_quant_id(self):
+        if self.quant_id:
+            self.inventory_value = self.quant_id.inventory_value
+
     
     @api.multi
     def invoice_button(self):
         invoices = self.env['account.invoice']
-        for meter_reading in self.meter_reading_ids:
-            if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
-                invoices = invoices | meter_reading.consumption_id.invoice_id
+        for meter in self.meter_ids:
+            for meter_reading in meter.meter_reading_ids:
+                if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
+                    invoices = invoices | meter_reading.consumption_id.invoice_id
         
         return {
             'domain': "[('id','in', ["+','.join(map(str,invoices.ids))+"])]",
