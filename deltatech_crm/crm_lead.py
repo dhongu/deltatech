@@ -157,17 +157,21 @@ class crm_lead(models.Model):
 
         return   action
 
-    def log_next_activity_1(self, cr, uid, ids, context=None):
-        return self.set_next_activity(cr, uid, ids, next_activity_name='activity_1_id', context=context)
+    @api.multi
+    def log_next_activity_1(self):
+        return self.set_next_activity( next_activity_name='activity_1_id')
 
-    def log_next_activity_2(self, cr, uid, ids, context=None):
-        return self.set_next_activity(cr, uid, ids, next_activity_name='activity_2_id', context=context)
+    @api.multi
+    def log_next_activity_2(self):
+        return self.set_next_activity( next_activity_name='activity_2_id')
 
-    def log_next_activity_3(self, cr, uid, ids, context=None):
-        return self.set_next_activity(cr, uid, ids, next_activity_name='activity_3_id', context=context)
+    @api.multi
+    def log_next_activity_3(self):
+        return self.set_next_activity( next_activity_name='activity_3_id')
 
-    def set_next_activity(self, cr, uid, ids, next_activity_name, context=None):
-        for lead in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def set_next_activity(self,  next_activity_name):
+        for lead in self:
             if not lead.last_activity_id:
                 continue
             next_activity = next_activity_name and getattr(lead.last_activity_id, next_activity_name, False) or False
@@ -187,6 +191,7 @@ class crm_lead(models.Model):
     def log_next_activity_done(self, cr, uid, ids, context=None, next_activity_name=False):
         to_clear_ids = []
         for lead in self.browse(cr, uid, ids, context=context):
+            
             if not lead.next_activity_id:
                 continue
             body_html = """<div><b>${object.next_activity_id.name}</b></div>
@@ -202,12 +207,13 @@ class crm_lead(models.Model):
             self.cancel_next_activity(cr, uid, to_clear_ids, context=context)
         return True
 
-    def cancel_next_activity(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids,  {
+    @api.multi
+    def cancel_next_activity(self):
+        return self.write( {
             'next_activity_id': False,
             'date_action': False,
             'title_action': False,
-        }, context=context)
+        })
 
     def onchange_next_activity_id(self, cr, uid, ids, next_activity_id, context=None):
         if not next_activity_id:
@@ -231,5 +237,20 @@ class crm_lead(models.Model):
             'last_activity_id': False,
         }}    
 
+    """
+    "" nu este ok ca in context nu am active_id
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False, submenu=False):
+        if view_type == 'form':
+            active_id = self.env.context.get('active_id',False)
+          
+            if active_id:
+                lead = self.env['crm.lead'].browse(active_id)
+                if lead.type == 'opportunity':
+                    view_id = self.env.ref('crm.crm_case_form_view_oppor').id
+        
+        res = super(crm_lead, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        return res
+    """
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
