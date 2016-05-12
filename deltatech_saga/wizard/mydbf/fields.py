@@ -120,6 +120,9 @@ class IntegerField(Field):
         return str(value).rjust(self.size, ' ')
 
 class DecimalField(IntegerField):
+
+    def __init__(self, **kwargs):
+        Field.__init__(self, **kwargs)
     
     def decodeField(self, value):
         return decimal.Decimal(value)

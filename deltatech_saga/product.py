@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,39 +17,26 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
-{
-    "name" : "Deltatech SAGA Interface",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- - Permite exportul de date din Odoo pentru a fi importate in Saga
- - Partenerii au doua referinte pentru codurile de client respectiv de furnizor din SAGA
- - categoriile de porduse au un camp nou pentru tipul de acticol din SAGA  
-  
-   
-    """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account","l10n_ro_invoice_report"],
-    "external_depends":['dbf'],
+
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+import math
 
  
-    "data" : [
-              'data.xml',
-              'res_partner_view.xml',
-              'product_view.xml',
-              'wizard/export_saga_view.xml'
-              ],
+
+class product_category(models.Model):
+    _inherit = "product.category" 
+
+    code_saga = fields.Char(string="Code SAGA", size=2)
     
-    "active": False,
-    "installable": True,
-}
 
 
 
+    
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
