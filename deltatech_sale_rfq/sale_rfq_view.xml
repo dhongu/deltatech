@@ -71,7 +71,11 @@
 								<field name="date_deadline" />
 								<field name="report_id" options="{'no_create': True, 'no_open': True}"/>
 							</group>
-
+							 
+								
+								<div class="oe_clear"/>
+                                <field name="note" class="oe_inline" placeholder="Internal note..."/>
+							 
 						</group>
 					</sheet>
 

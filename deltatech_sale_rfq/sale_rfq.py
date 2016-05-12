@@ -75,7 +75,7 @@ class sale_rfq(models.Model):
                               ('done','Done')],
                              string='Status', index=True, readonly=True, default='draft',
                              track_visibility='onchange', copy=False,)
-
+    note = fields.Text(string="Note")
 
     @api.onchange('lead_id')
     def onchange_lead_id(self):
