@@ -53,7 +53,7 @@ class sale_rfq(models.Model):
                                    states={'draft': [('readonly', False)]},
                                    track_visibility='always')  # Solicitant
     
-    request_date = fields.Date('Request Date', default=fields.Date.today(), readonly=True, states={'draft': [('readonly', False)]})
+    request_date = fields.Date('Request Date', default=lambda * a:fields.Date.today(), readonly=True, states={'draft': [('readonly', False)]})
     designer_id = fields.Many2one('res.users', string='Designer', 
                                   states={'draft': [('readonly', False)]},
                                   track_visibility='always')    # Devizier

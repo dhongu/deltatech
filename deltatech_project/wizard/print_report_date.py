@@ -36,7 +36,7 @@ class project_print_report_date(models.TransientModel):
     _description = "Project Print Report Date"
  
 
-    for_date = fields.Date(string="For Date",default=fields.Date.today())
+    for_date = fields.Date(string="For Date",default=lambda * a:fields.Date.today())
 
     @api.multi
     def do_print(self):  

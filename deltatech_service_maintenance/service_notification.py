@@ -51,7 +51,7 @@ class service_notification(models.Model):
 
 
     name = fields.Char(string='Reference', readonly=True, default='/')    
-    date = fields.Date(string='Date', default=fields.Date.today() , readonly=True, states={'new': [('readonly', False)]})
+    date = fields.Date(string='Date', default=lambda * a:fields.Date.today() , readonly=True, states={'new': [('readonly', False)]})
     
     state = fields.Selection([  ('new','New'), 
                                 ('assigned','Assigned'),
@@ -61,7 +61,7 @@ class service_notification(models.Model):
     equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'new': [('readonly', False)]})
  
-    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, required=True, states={'new': [('readonly', False)]})  #, related='equipment_history_id.partner_id', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True,  states={'new': [('readonly', False)]})  #, related='equipment_history_id.partner_id', readonly=True)
     address_id = fields.Many2one('res.partner', string='Location',readonly=True, states={'new': [('readonly', False)]})  #,  related='equipment_history_id.address_id', readonly=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)        

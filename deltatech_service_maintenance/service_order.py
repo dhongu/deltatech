@@ -36,7 +36,7 @@ class service_order(models.Model):
     _inherit = 'mail.thread' 
 
     name = fields.Char(string='Reference', readonly=True, default='/')    
-    date = fields.Date(string='Date', default=fields.Date.today(), readonly=True, states={'draft': [('readonly', False)]})
+    date = fields.Date(string='Date', default=lambda * a:fields.Date.today(), readonly=True, states={'draft': [('readonly', False)]})
 
     access_token = fields.Char(string='Security Token', required=True, copy=False,default=str(uuid.uuid4()))
     

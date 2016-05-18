@@ -54,7 +54,7 @@ class service_plan(models.Model):
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , required=True , readonly=True,  states={'draft': [('readonly', False)]})
     cycle_id = fields.Many2one('service.cycle', string='Cycle' ,required=True , readonly=True,  states={'draft': [('readonly', False)]})
     unit = fields.Selection(related='cycle_id.unit')
-    start_date = fields.Date(string='Start Date' ,default=fields.Date.today(), readonly=True,   states={'draft': [('readonly', False)]})
+    start_date = fields.Date(string='Start Date' ,default=lambda * a:fields.Date.today(), readonly=True,   states={'draft': [('readonly', False)]})
     
     start_counter = fields.Float(string='Start counter',   readonly=True, states={'draft':[('readonly',False)]}, help="The counter reading which the schedule should be started.")    
     

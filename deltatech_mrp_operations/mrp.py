@@ -42,7 +42,7 @@ class mrp_workcenter_operator(models.Model):
     
     workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center', required=True)
     partner_id = fields.Many2one('res.partner',string="Operator")
-    from_date = fields.Date(string="Form Date", default=fields.Date.today())
+    from_date = fields.Date(string="Form Date", default=lambda * a:fields.Date.today())
     to_date   = fields.Date(string="To Date", default='2999-12-31')
     
 

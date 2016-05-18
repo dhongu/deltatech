@@ -66,7 +66,7 @@ class service_agreement(models.Model):
    
     description = fields.Char(string='Description',   readonly=True, states={'draft': [('readonly', False)]}, copy=False)
     
-    date_agreement = fields.Date(string='Agreement Date', default=fields.Date.today(),
+    date_agreement = fields.Date(string='Agreement Date', default=lambda * a:fields.Date.today(),
         readonly=True, states={'draft': [('readonly', False)]},  copy=False)
 
 
