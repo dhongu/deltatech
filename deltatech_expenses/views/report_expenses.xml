@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<template id="report_deltatech_expenses_deduction">
+
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<br />
+							<h3>
+								<span>Decont cheltuieli:</span>
+								<span t-field="o.number" />
+							</h3>
+
+							<div>
+								<span>Subsemnatul</span>
+								<span t-field="o.employee_id" />
+								<t t-if="o.employee_id.function">
+									<span> având funcția de</span>
+									<span t-field="o.employee_id.function" />
+								</t>
+								anexez prezentului
+								<t t-esc="len(o.line_ids)" />
+								acte justificative specificative în borderoul
+								de mai jos pentru justificarea avansului primit la data de
+								<span t-field="o.date_expense" />
+								în baza ordinului de deplasare nr.
+								<span t-field="o.travel_order" />
+							</div>
+							<br />
+							<div>
+								Avans primit
+								<span t-field="o.advance" /> lei
+							</div>
+							<br />
+							<div>
+								Chelt. conf. borderou de mai jos <span t-field="o.amount" /> lei
+							</div>
+							<br />
+							<div>
+								Diferenţă de primit (de restituit) 
+								<span t-field="o.difference" /> lei
+							</div>
+							<div>
+								S-a depus cu chitanța nr._____________
+							</div>
+
+							<br />
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Document</strong>
+										</th>
+										<th>
+											<strong>Date</strong>
+										</th>
+										<th>
+											<strong>Suma</strong>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="o.line_ids" t-as="l">
+
+										<td>
+											<span t-field="l.reference" />
+											<span t-field="l.partner_id" />
+										</td>
+										<td>
+
+											<span t-field="l.date" />
+										</td>
+										<td>
+											<span t-field="l.amount" />
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+							<br />
+							<table class="table table-condensed">
+								<tr>
+									<td>
+										Semnătură titular
+									</td>
+									<td>
+										Se certifica îndeplinirea obiectivului delegației
+										<br/>
+										Șef compartiment
+									</td>
+									<td>
+										Șef contabil
+									</td>
+								</tr>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>
