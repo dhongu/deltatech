@@ -54,7 +54,7 @@ class ProductCategory(models.Model):
     def _get_products(self):
         product_obj = self.env["product.template"]
         for record in self:
-            print "determinare produse care sunt intr-o categorie"
+            #print "determinare produse care sunt intr-o categorie"
             start_time = time.time()
 
             product_ids = []
@@ -64,7 +64,7 @@ class ProductCategory(models.Model):
                 if record in product.public_categ_ids:
                     product_ids.append(product.id)
             record.product_ids = product_ids
-            print("--- %s seconds ---" % (time.time() - start_time))
+            #print("--- %s seconds ---" % (time.time() - start_time))
 
 
     @api.multi

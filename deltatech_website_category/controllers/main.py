@@ -66,6 +66,13 @@ class WebsiteSale(website_sale):
         
         return response
 
+
+    def _get_mandatory_billing_fields(self):   
+        mandatory_billing_fields = ["name", "phone"]     
+        return mandatory_billing_fields
  
+    def _get_mandatory_shipping_fields(self):
+        mandatory_shipping_fields = ["name", "phone", "street", "city"]
+        return self.mandatory_shipping_fields
 
 #openerp.addons.website_sale.controllers.main.website_sale = WebsiteSale

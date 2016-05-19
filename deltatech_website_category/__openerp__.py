@@ -28,7 +28,9 @@
     "description": """
 
 Functionalitati:
-
+    - afisare categorii prin expandare
+    - ordonare produse dupa diverse criterii
+    - afisare comanda ciorna 
  
     """,
     
