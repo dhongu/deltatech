@@ -659,9 +659,10 @@ class sale_mrp_resource(models.Model):
             
             from_currency =  order_id.pricelist_id.currency_id.with_context( date=order_id.date_order)
             purchase_price  = from_currency.compute( self.purchase_price, self.env.user.company_id.currency_id )
-            
-            self.product_id.write({'standard_price': purchase_price})
-            
+            try:
+                self.product_id.write({'standard_price': purchase_price})
+            except:
+                pass
             
             price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )  
