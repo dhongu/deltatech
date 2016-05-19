@@ -41,10 +41,11 @@ class website(models.Model):
             request.session['sale_order_id'] = sale_order_id
                     
         if not sale_order_id:
-             
-            partner = self.pool['res.users'].browse(cr, SUPERUSER_ID, uid, context=context).partner_id
+            
+            user =  self.pool['res.users'].browse(cr, SUPERUSER_ID, uid, context=context)
+            partner = user.partner_id
                      
-            if partner:
+            if user.active and partner: # trebuie sa fie un user activ nu userul pubic
                 domain = [('partner_id','=',partner.id), ('state','=','draft')]               
                 sale_order_id = sale_order_obj.search(cr, SUPERUSER_ID, domain, limit=1, context=context)
                 
