@@ -110,12 +110,12 @@ class stock_inventory_line(models.Model):
                 # se completeaza o line de inventar cu cantitate zero si cu vechiul pret
                 line_price = inventory_line.standard_price
                 inventory_line.write( {'standard_price': price, 'product_qty':0.0 } )
-                inventory_line.product_id.write({'standard_price':price} )
+                inventory_line.product_id.product_tmpl_id.write({'standard_price':price} )
                 move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
 
                 inventory_line.write( {'standard_price': line_price, 'product_qty':product_qty + inventory_line.theoretical_qty } )
                 
-            inventory_line.product_id.write( {'standard_price':inventory_line.standard_price}  ) # acutlizare pret in produs
+            inventory_line.product_id.product_tmpl_id.write( {'standard_price':inventory_line.standard_price}  ) # acutlizare pret in produs
             
         move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
         if   product_qty <> inventory_line.product_qty:

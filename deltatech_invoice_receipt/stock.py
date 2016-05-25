@@ -33,8 +33,30 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
- 
- 
+class stock_move(models.Model):
+    _inherit = 'stock.move' 
+
+    # metoda standard copiata si am comentat actualizarea pretului
+    def _store_average_cost_price(self, cr, uid, move, context=None):
+        ''' move is a browe record '''
+        product_obj = self.pool.get('product.product')
+        if any([q.qty <= 0 for q in move.quant_ids]) or move.product_qty == 0:
+            #if there is a negative quant, the standard price shouldn't be updated
+            return
+        #Note: here we can't store a quant.cost directly as we may have moved out 2 units (1 unit to 5€ and 1 unit to 7€) and in case of a product return of 1 unit, we can't know which of the 2 costs has to be used (5€ or 7€?). So at that time, thanks to the average valuation price we are storing we will svaluate it at 6€
+        average_valuation_price = 0.0
+        for q in move.quant_ids:
+            average_valuation_price += q.qty * q.cost
+        average_valuation_price = average_valuation_price / move.product_qty
+        # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
+        ctx = dict(context or {}, force_company=move.company_id.id)
+        #product_obj.write(cr, SUPERUSER_ID, [move.product_id.id], {'standard_price': average_valuation_price}, context=ctx)
+        product = product_obj.browse(cr, SUPERUSER_ID, [move.product_id.id] )
+        if average_valuation_price <> product.standard_price:
+            msg = _('Computed price must to be:  %s') %  str(average_valuation_price)
+            product_obj.message_post(cr, uid, [move.product_id.id], body=msg)
+        
+        self.write(cr, uid, [move.id], {'price_unit': average_valuation_price}, context=context) 
 
 class stock_picking(models.Model):
     _inherit = 'stock.picking'
