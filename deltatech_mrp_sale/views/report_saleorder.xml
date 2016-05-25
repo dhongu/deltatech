@@ -671,7 +671,7 @@
 			</t>
 		</template>
 
-
+<!-- Begin Document specification 2 -->
 		<template id="report_saleorder_document_specification2">
 			<t t-name="deltatech_mrp_sale.report_saleorder_document_specification2">
 			  <t t-call="report.external_layout">
@@ -1228,8 +1228,9 @@
 			</t>
 			
 		</template>
+<!-- End Document specification 2 -->
 
-
+<!-- Begin Specification article 2 -->
 		<template id="report_specification_article2">
 			<t t-name="deltatech_mrp_sale.report_specification_article2">
 			  <t t-if="a.product_uom_qty != 0.0">
@@ -1340,7 +1341,7 @@
 			  </t>
 			</t>
 		</template>
-
+<!-- End Specification article 2 -->
 
 		<template id="report_specification2">
 			<t t-call="report.html_container">
