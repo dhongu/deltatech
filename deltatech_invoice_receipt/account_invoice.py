@@ -74,7 +74,8 @@ class account_invoice(models.Model):
         return 
     
     @api.multi
-    def invoice_create_picking(self):  
+    def invoice_create_picking(self): 
+        self.ensure_one() 
         if  self.type != 'in_invoice':
             return
         if self.picking_ids:
@@ -99,7 +100,8 @@ class account_invoice(models.Model):
             if line.product_id.type == 'product':
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 price = from_currency.compute(price, self.env.user.company_id.currency_id )
-                line.product_id.standard_price = price # asta trbuie sa fie in functie de o bifa de prin configurare
+                #line.product_id.standard_price = price # asta trbuie sa fie in functie de o bifa de prin configurare
+                #line.product_tmpl_id.write({'standard_price':price})
                 move_value= {
                                'product_id':line.product_id.id,
                                'product_uom_qty':line.quantity,
@@ -128,11 +130,32 @@ class account_invoice(models.Model):
                 line.product_id.write(values)
                 msg = _('Supplier added from invoice %s') % self.get_link(self)
                 line.product_id.message_post(body=msg)
+        
+        self._update_product_price()
                 
+    
+    @api.multi
+    def _update_product_price(self):
+        self.ensure_one()
+        if  self.type != 'in_invoice':
+            return
+        date_eval = self.date_invoice or fields.Date.context_today(self) 
+        date_receipt = date_eval + ' ' + time.strftime(DEFAULT_SERVER_TIME_FORMAT)
+        from_currency = self.currency_id.with_context(date=date_eval)
+        
+        for line in self.invoice_line:
+            if line.product_id.type == 'product' and line.product_id.cost_method == 'real':
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                price = from_currency.compute(price, self.env.user.company_id.currency_id )
+                if price <> line.product_id.product_tmpl_id.standard_price:
+                    line.product_id.product_tmpl_id.write({'standard_price':price})
+                    msg = _('Price %s update from invoice %s') % (str(price), self.get_link(self))
+                    line.product_id.product_tmpl_id.message_post(body=msg)
         
                 
     @api.multi
-    def invoice_create_receipt(self):   
+    def invoice_create_receipt(self):
+        self.ensure_one()   
         for picking in  self.picking_ids:
             if picking.state in ['assigned']:
                 picking.do_transfer()
@@ -280,8 +303,8 @@ class account_invoice(models.Model):
                                     'invoice_line_id':line['invoice_line'].id,
                                     })
                 
-                if line['product_id'].cost_method == 'real' and  line['product_id'].standard_price <> line['price_unit']:
-                    line['product_id'].write({'standard_price':line['price_unit']})   # actualizare pret cu ultimul pret din factura!!
+                #if line['product_id'].cost_method == 'real' and  line['product_id'].standard_price <> line['price_unit']:
+                #    line['product_id'].product_tmpl_id.write({'standard_price':line['price_unit']})   # actualizare pret cu ultimul pret din factura!!
                     
                 link.move_id.purchase_line_id.write({'invoice_lines': [(4, line['invoice_line'].id)]})
                 purchase_ids = purchase_ids | link.move_id.purchase_line_id.order_id
@@ -329,6 +352,7 @@ class account_invoice(models.Model):
         if not self.origin:
             self.write({'origin':origin.strip()})
 
+        self._update_product_price()
 
     # nu mai este necear codul urmator deoarece schimbarea monediei se face in stock_picking.action_invoice_create
     """
