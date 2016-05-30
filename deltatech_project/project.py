@@ -30,7 +30,7 @@ class project_task_type(models.Model):
     _inherit = 'project.task.type'
 
     use_progress = fields.Boolean()
-    progress = fields.Float(string='Progress')
+    progress = fields.Float(string='Progress', copy=False)
 
 
 class project_project(models.Model):
@@ -44,7 +44,7 @@ class project_project(models.Model):
 
     child_count = fields.Integer(compute='_get_project_child_count',  string="Child Projects Count")
     progress_rate = fields.Float(string='Progress',   compute='_compute_progress_rate', store=False,   digits=(16,2) ) #,
-    project_progress = fields.Float(string='Progress'  )  
+    project_progress = fields.Float(string='Progress', copy=False  )  
 
     task_count = fields.Integer( compute='_task_count',  string="Tasks")
 
@@ -115,7 +115,7 @@ class project_project(models.Model):
                 progress_rate =  round(sum(progress) / len(progress), 2)
             else:
                 progress_rate = 0.0 
-            print "New progress_rate: %s for %s" % (progress_rate, self.name )
+            #print "New progress_rate: %s for %s" % (progress_rate, self.name )
             self.write({'project_progress':progress_rate})
                           
         return progress
