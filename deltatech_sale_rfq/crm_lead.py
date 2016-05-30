@@ -62,5 +62,20 @@ class crm_lead(models.Model):
             action['view_mode'] = 'tree,form'
         return   action
 
+    @api.model
+    def merge_dependences(self,   highest, opportunities ):
+        print highest, opportunities
+        res = super(crm_lead,self).merge_dependences(  highest, opportunities )
+        self._merge_opportunity_rfq(  highest, opportunities )
+        return res 
+
+    @api.model
+    def _merge_opportunity_rfq(self,   opportunity_id, opportunities ):
+        
+        for opportunity in opportunities:
+            rfq = self.env['sale.rfq'].search([('lead_id', '=', opportunity.id)])
+            if rfq:
+                rfq.write({'lead_id': opportunity_id})
+        return True
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
