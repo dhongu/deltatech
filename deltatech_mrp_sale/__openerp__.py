@@ -30,13 +30,15 @@
 Functionalitati:
  - Se permite intocmirea unei liste de produse in comanda de vanzare
  - In lista de produse se pot defini atribute
- - se face explozia listie initiale in a lista de componente
+ - se face explozia listei initiale in a lista de componente
  - se calculeaza pretul si marginea
  
  - se permite ca in lista de materiale sa existe cantitati negative (recuperari)
  
  - se permite editarea manuala a atibutelor unui produs
  - se pot defini valori implicite la atribute - preluate in comanda de vanzare
+ 
+ - se permite adaugarea unei margini pe fiecare pozitie 
 
     """,
     
@@ -48,6 +50,7 @@ Functionalitati:
 
 
     "data" : [  'wizard/take_bom_view.xml',
+                'wizard/sale_add_margin_view.xml',
                 'mrp_sale_view.xml',
                 'mrp_view.xml' ,
                 'product_view.xml',

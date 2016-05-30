@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright (c) 2008 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+
+
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+
+
+class sale_add_margin(models.TransientModel):
+    _name = 'sale.add.margin'
+    _description = "Add margin to sale order"
+   
+    margin = fields.Float(string='Margin', required=True)
+
+    
+    @api.multi
+    def do_add_margin(self):
+        active_ids = self.env.context.get('active_ids', False)
+        
+        orders = self.env['sale.order'].browse(active_ids)
+        
+        for order in orders:
+            for resource in order.resource_ids:
+                price =  resource.price_unit * ( 1.0 +  self.margin / 100.0)
+                amount = price * resource.product_uom_qty
+                margin = resource.product_uom_qty * price - resource.product_uom_qty*resource.purchase_price
+                resource.write({'price_unit':price,
+                                'amount':amount, 
+                                'margin':margin})
+        msg = _('Margin %s was added') % self.margin
+        order.message_post(body=msg)
+                 

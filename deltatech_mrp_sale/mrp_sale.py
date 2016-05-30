@@ -66,7 +66,7 @@ class sale_order(models.Model):
     
     #extrase de resurse
     resource_ids = fields.One2many('sale.mrp.resource','order_id',  string="Resources", copy=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )  
-    resource_item_ids = fields.One2many('sale.mrp.resource.item',inverse_name='order_id', string="All Products", copy=True)
+    resource_item_ids = fields.One2many('sale.mrp.resource.item', inverse_name='order_id', string="All Products", copy=True)
 
     attributes = fields.One2many( comodel_name='sale.mrp.order.attribute', inverse_name='order_id',
                                           string='Order attributes', copy=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]} )
