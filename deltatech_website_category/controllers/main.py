@@ -12,6 +12,16 @@ from openerp.addons.website_sale.controllers.main import QueryURL
 import time
     
 class WebsiteSale(website_sale):
+
+    def _get_search_order(self, post):
+        order_by = request.session.get('website_order_by', False)
+        if order_by:
+            res =  order_by
+        else:
+            res = 'website_published desc,%s' % post.get('order', 'website_sequence desc')
+        return res
+
+    
     @http.route(
         [
          '/shop',
@@ -51,8 +61,7 @@ class WebsiteSale(website_sale):
          
         request.context =  context   
         
-        response = super(WebsiteSale, self).shop(
-            page=page, category=category, search=search, **post)
+        response = super(WebsiteSale, self).shop( page=page, category=category, search=search, **post)
 
  
         

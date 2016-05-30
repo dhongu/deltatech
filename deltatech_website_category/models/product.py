@@ -29,6 +29,7 @@ from openerp import SUPERUSER_ID
 
 import time
 
+"""
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
     
@@ -40,7 +41,7 @@ class ProductTemplate(models.Model):
             order = context['website_order_by']
         res =  super(ProductTemplate,self).search( cr,  user, args, offset, limit, order, context, count)
         return res
-    
+"""    
     
 
 class ProductCategory(models.Model):
