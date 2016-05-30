@@ -47,6 +47,8 @@ class sale_rfq(models.Model):
     team_leader_id = fields.Many2one('res.users', #related="lead_id.section_id.user_id", 
                                      string='Team Leader',track_visibility='always', readonly=True, states={'draft': [('readonly', False)]})
     
+    salesperson_id = fields.Many2one('res.users', string='Salesperson',  related="lead_id.user_id" ) 
+    
     requester_id = fields.Many2one('res.users', string='Requester',
                                    required=True, default=lambda self: self.env.user.id,
                                    readonly=True, 
@@ -158,7 +160,7 @@ class sale_rfq(models.Model):
         vals = {
                     'origin': _('Opportunity: %s') % self.lead_id.name,
                     'section_id': self.lead_id.section_id and self.lead_id.section_id.id or False,
-                    
+                    'user_id': self.salesperson_id.id,
                     'partner_id': partner.id,
                     'pricelist_id': pricelist,
                     'partner_invoice_id': partner_addr['invoice'],
