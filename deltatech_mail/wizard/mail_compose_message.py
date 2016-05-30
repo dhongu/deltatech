@@ -66,7 +66,12 @@ class mail_compose_message(models.TransientModel):
     @api.model
     def default_get(self, fields):
         defaults = super(mail_compose_message, self).default_get(fields)
-        defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
+        # poate ar fi bine daca fac un tabel cu modelele la care trmiterea de emai sa se faca
+        res_model = defaults.get('model',False)
+        if res_model and res_model == 'mail.group':
+            defaults['mail_notify_noemail'] = False
+        else:
+            defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
         return defaults
     
     def send_mail(self, cr, uid, ids, context=None):

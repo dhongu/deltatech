@@ -15,130 +15,123 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
 msgid "Add contacts to notify..."
 msgstr "Adăugați contacte pentru a fi notificate..."
 
-#. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
 msgid "Cancel"
 msgstr "Anulează"
 
-
-
-#. module: deltatech_mail
 #: field:mail.send.to,action_id:0
+#. module: deltatech_mail
 msgid "Documents to send"
 msgstr "Documente de trimis"
 
-#. module: deltatech_mail
 #: field:mail.send.to,domain:0
+#. module: deltatech_mail
 msgid "Domain"
 msgstr "Domain"
 
-#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_compose_message
+#. module: deltatech_mail
 msgid "Email composition wizard"
 msgstr "Wizardul de compunere email-uri"
 
-#. module: deltatech_mail
 #: view:mail.compose.message:deltatech_mail.email_compose_message_wizard_form
+#. module: deltatech_mail
 msgid "Followers of the document and"
 msgstr "Interesați de document și"
 
-
-
-#. module: deltatech_mail
 #: help:mail.compose.message,mail_notify_noemail:0
+#. module: deltatech_mail
 msgid "It will use internal Odoo mail without sending out email system"
 msgstr "Se va utiliza mesageria internă Odoo fără a trmite email înafara sistemului"
 
-
-
-#. module: deltatech_mail
 #: help:mail.send.to,partner_ids:0
+#. module: deltatech_mail
 msgid "List of partners that will be added as follower of the current document."
 msgstr "List of partners that will be added as follower of the current document."
 
-#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_send_to
+#. module: deltatech_mail
 msgid "Mail Send To"
 msgstr "Mail Send To"
 
+#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:102
 #. module: deltatech_mail
 #. openerp-web
-#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:102
 #, python-format
 msgid "Make Read"
 msgstr "Marchează ca citit"
 
+#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:104
 #. module: deltatech_mail
 #. openerp-web
-#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:104
 #, python-format
 msgid "Make UnRead"
 msgstr "Marchează ca necitit"
 
-#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_message
 #: field:mail.send.to,message:0
+#. module: deltatech_mail
 msgid "Message"
 msgstr "Mesaj"
 
-#. module: deltatech_mail
 #: code:addons/deltatech_mail/mail_message.py:88
+#. module: deltatech_mail
 #, python-format
 msgid "New message in the document: %s"
 msgstr "Mesaj nou în documentul: %s"
 
-#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_notification
+#. module: deltatech_mail
 msgid "Notifications"
 msgstr "Notificări"
 
-#. module: deltatech_mail
 #: field:mail.compose.message,mail_notify_noemail:0
+#. module: deltatech_mail
 msgid "Only internal notification"
 msgstr "Numai notificări interne"
 
-
-#. module: deltatech_mail
 #: field:mail.send.to,partner_ids:0
+#. module: deltatech_mail
 msgid "Recipients"
 msgstr "Destinatari"
 
-#. module: deltatech_mail
-#. openerp-web
 #: code:addons/deltatech_mail/static/src/js/mail_send_to.js:100
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
+#. openerp-web
 #, python-format
 msgid "Send Mail"
 msgstr "Trimite Mail"
 
-#. module: deltatech_mail
 #: model:ir.actions.act_window,name:deltatech_mail.action_mail_send_to_step1
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
 msgid "Send documents"
 msgstr "Trimite documente"
 
-#. module: deltatech_mail
 #: field:mail.compose.message,only_selected:0
-msgid "Send only for selected users"
-msgstr "trimite numai la conctactele selectate"
-
 #. module: deltatech_mail
+msgid "Send only for selected users"
+msgstr "Trimite numai la contactele selectate"
+
 #: field:mail.send.to,subject:0
+#. module: deltatech_mail
 msgid "Subject"
 msgstr "Subiect"
 
-#. module: deltatech_mail
 #: field:mail.compose.message,auto_subscribe:0
+#. module: deltatech_mail
 msgid "Subscribe Recipients"
 msgstr "Adaugă destinatari la urmăritori"
 
-#. module: deltatech_mail
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
 msgid "or"
 msgstr "sau"
 

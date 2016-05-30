@@ -19,16 +19,26 @@
 #
 ##############################################################################
 
- 
- 
-import mail_message
-import mail_send_to
-import wizard
-import mail_group
+from openerp import models, fields, api, tools, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
+from openerp.api import Environment
 
 
+import socket
 
+class fetchmail_server(models.Model):
+    _inherit = 'fetchmail.server' 
 
-
+    
+    def fetch_mail(self, cr, uid, ids, context=None):
+        # aici trebuie sa citesc care este serverui de pe care se ruleaza si daca este egal cu cel 
+        hostname = socket.gethostname()
+        dbname  = self.pool.db.dbname
+        
+        res = super(fetchmail_server,self).fetch_mail(cr, uid, ids, context)
+        
+        return res
+        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

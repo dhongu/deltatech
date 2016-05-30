@@ -23,12 +23,16 @@ from openerp import models, fields, api, tools, _ , SUPERUSER_ID
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
+
  
 
 
 
 class mail_message(models.Model):
     _inherit = 'mail.message' 
+
+    
+
 
     # deschiderea unui document nu duce si la marcarea ca fiind citit
     @api.cr_uid_ids_context
@@ -49,6 +53,14 @@ class mail_message(models.Model):
             message = self.browse(cr, SUPERUSER_ID, newid, context=context)
             if message.subtype_id:
                 self.write(cr, SUPERUSER_ID, newid, {'subtype_id':False} , context=context)
+        if 'mail_notify_noemail' in context:
+            message = self.browse(cr, SUPERUSER_ID, newid, context=context)
+            if message.type == 'comment':
+                if context['mail_notify_noemail']: 
+                    self.write(cr, SUPERUSER_ID, newid, {'type':'notification'} , context=context)
+                else:
+                    self.write(cr, SUPERUSER_ID, newid, {'type':'email'} , context=context)
+                    
         return super(mail_message,self)._notify( cr, uid, newid, context, force_send, user_signature)
         
 class mail_notification(models.Model):
@@ -98,7 +110,7 @@ class mail_notification(models.Model):
         context = context.copy() 
 
         if not 'mail_notify_noemail' in context:         
-            mail_notify_noemail =  eval(self.pool['ir.config_parameter'].get_param(cr, uid, "mail.notify.noemail", default="False", context=context))
+            mail_notify_noemail =  eval(self.pool['ir.config_parameter'].get_param(cr, SUPERUSER_ID, "mail.notify.noemail", default="False", context=context))
                  
             context['mail_notify_noemail'] = mail_notify_noemail
         
