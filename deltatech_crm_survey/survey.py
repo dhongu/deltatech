@@ -34,6 +34,16 @@ class survey_user_input(models.Model):
     lead_id = fields.Many2one('crm.lead', string='Lead')
 
 
+    @api.multi
+    def write(self, vals):
+        if 'state' in vals:
+            if vals['state'] == 'done' and self.lead_id :
+                msg = _('Survey %s was done') % self.survey_id.title
+                self.lead_id.message_post(body=msg)
+
+        res = super(survey_user_input, self).write(vals) 
+
+        return res
  
 
 
