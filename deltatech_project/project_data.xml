@@ -12,5 +12,10 @@
             <field name="function">cron_update</field>
             <field name="args">()</field>
         </record>
+      
+      <record forcecreate="True" id="ir_project_config"  model="project.config">
+      	 <field name="use_equal_distribution_percentage">True</field>
+      </record>
+        
     </data>
 </openerp>

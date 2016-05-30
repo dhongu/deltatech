@@ -39,7 +39,8 @@ Features:
         "project_view.xml",  
         "project_data.xml",
         'wizard/recurrence_view.xml',
-        'wizard/task_set_progress_view.xml',     
+        'wizard/task_set_progress_view.xml', 
+        'res_config_view.xml'    
 
     ],
     "active": False,

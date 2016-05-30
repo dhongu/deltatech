@@ -43,7 +43,10 @@ class project_project(models.Model):
     parent_id = fields.Many2one('account.analytic.account')
 
     child_count = fields.Integer(compute='_get_project_child_count',  string="Child Projects Count")
-    progress_rate = fields.Float(string='Progress',   compute='_compute_progress_rate', store=False,   digits=(16,2) ) #,
+    
+    # camul standard progress_rate a fost redefinit pentru a caclula progresul cum vor muschii mei
+    progress_rate = fields.Float(string='Progress',   compute='_compute_progress_rate', store=False,   digits=(16,2) )
+    # campul project_progress a fost adaugat pentru a memora valoarea caclulata a progresului
     project_progress = fields.Float(string='Progress', copy=False  )  
 
     task_count = fields.Integer( compute='_task_count',  string="Tasks")
@@ -102,6 +105,12 @@ class project_project(models.Model):
     def get_tasks_progress(self, with_write=False):
         progress = []
         tasks_progres = 0.0
+        project_config_id = self.env['project.config'].search([],limit=1)
+        if project_config_id and project_config_id.use_equal_distribution_percentage:
+            if self.tasks:
+                project_progress = 100.0 / len(self.tasks)
+                self.tasks.write({'project_progress':project_progress})
+         
         for task in self.tasks:
             tasks_progres +=  task.progress * task.project_progress/100 
         if self.tasks:
@@ -124,32 +133,9 @@ class project_project(models.Model):
     @api.multi
     @api.depends('task_ids.progress')  
     def _compute_progress_rate(self):
-         
         for project in self:
             project.progress_rate = project.project_progress
-            """
-            progress = project.get_tasks_progress()
-            if progress:
-                project.progress_rate = sum(progress) / len(progress)
-            else:
-                project.progress_rate = 0.0
-            """         
  
-    # nu mai este folosita 
-    """
-    @api.multi
-    def update_progress(self):
-        for project in self:
-            progress = project.get_tasks_progress()
-            if progress:
-                progress_rate =  round(sum(progress) / len(progress), 2)
-            else:
-                progress_rate = 0.0
-            project.write({'progress_rate':progress_rate})
-            print project.name, progress_rate
-            if  project.project_parent_id:
-                project.project_parent_id.update_progress()         
-    """
     
     @api.model
     def default_get(self, fields):
@@ -172,6 +158,7 @@ class project_project(models.Model):
 class project_task(models.Model):
     _inherit = "project.task"
     
+    # capul a fost redefinit pentru a prelua valoarea 
     progress = fields.Float(string='Progress', compute='_get_progress',store=True)
     project_progress = fields.Float(string='Progress Project') # progresul cu care se afecteaza proiectul daca se indepineste obiectivul
     recurrence = fields.Boolean(string="Recurrence")
@@ -208,12 +195,7 @@ class project_task(models.Model):
                             task.current = False
             else:
                 task.current = True
-                """
-                if task.progress < 100:
-                    task.current = True
-                else:
-                    task.current = False
-                """
+ 
                        
 
     @api.multi
@@ -278,12 +260,7 @@ class project_task(models.Model):
                 if task.recurrence:
                     if task.next_recurrent_task:
                         task.next_recurrent_task.write(recurrence_values)
-        """
-        if vals.get('progress',False):
-            for task in self:
-                if task.project_id:
-                    task.project_id.update_progress()
-        """            
+             
         return res
 
     @api.multi
