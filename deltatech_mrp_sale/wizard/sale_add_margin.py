@@ -40,7 +40,13 @@ class sale_add_margin(models.TransientModel):
         
         orders = self.env['sale.order'].browse(active_ids)
         
+        
+        
+        
+        
         for order in orders:
+            order.button_update()  # pentru a calcula valoarea totala
+            amount_before_margin = order.amount_untaxed
             for resource in order.resource_ids:
                 price =  resource.price_unit * ( 1.0 +  self.margin / 100.0)
                 amount = price * resource.product_uom_qty
@@ -48,6 +54,12 @@ class sale_add_margin(models.TransientModel):
                 resource.write({'price_unit':price,
                                 'amount':amount, 
                                 'margin':margin})
-        msg = _('Margin %s was added') % self.margin
+                
+            order.button_update()  # pentru a calcula valoarea totala
+                     
+            msg = _('Margin %s was added. Before added margin amount was %s, after is %s') %   (self.margin, amount_before_margin, order.amount_untaxed)
+                                                     
+                                                     
+                                                     
         order.message_post(body=msg)
                  
