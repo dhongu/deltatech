@@ -711,7 +711,7 @@
 			        </div>
 			        <div class="col-xs-5 col-xs-offset-1">
 			          <strong>Collaborator:</strong>
-			          <p class="oe_editable" t-field="o.user_id.name"/>
+			          <p class="oe_editable" t-field="o.user_id.parent_id.name"/>
 			        </div>
 			      </div>
 			      <h4 style="margin-top:10px;font-weight:bold;">
@@ -735,7 +735,7 @@
 			        </div>
 			        <div class="col-xs-3">
 			          <strong>Salesperson:</strong>
-			          <p class="oe_editable" t-field="o.write_uid"/>
+			          <p class="oe_editable" t-field="o.user_id.name"/>
 			        </div>
 			        <div t-if="o.specification" class="col-xs-3">
 			          <strong>Surface house:</strong>
