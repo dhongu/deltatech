@@ -48,7 +48,12 @@
 									<tree editable="bottom" colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Purchase Expenses" >
 										<field name="date" string="Bill Date" on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
 										<field name="reference"/>
+									    <field name="tax_id"   
+												on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
+												widget="selection"  
+												domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"/>
 										<field name="amount" sum="Total Amount"/>
+										<field name="tax_amount" sum="Total Tax"/>
 										<field name="pay_now" invisible="1"/>
 										<field name="account_id" domain="[('type','=','other')]"  invisible="True"/>
 										<field name="number" invisible="1"/>
@@ -65,12 +70,9 @@
 										<field name="state"/>
 										<field name="company_id" widget="selection" groups="base.group_multi_company"/>
 										<field name="line_dr_ids" on_change="onchange_price(line_dr_ids, tax_id, partner_id)" context="{'journal_id':journal_id,'partner_id':partner_id}" invisible="1"/>
-										<field name="tax_id"  invisible="1"
-										on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
-										widget="selection" nolabel="1"
-										placeholder="Tax"
 
-										domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"/>
+
+										
 										<field name="currency_id" invisible="1"/>
 									</tree>
 

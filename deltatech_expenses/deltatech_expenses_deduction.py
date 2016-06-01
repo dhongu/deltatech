@@ -30,7 +30,7 @@ class deltatech_expenses_deduction(osv.osv):
     _name = 'deltatech.expenses.deduction'  
     _inherit = ['mail.thread']
     _description = 'Expenses Deduction'    
-
+    _order = "date_expense desc, id desc"
 
     def _amount(self, cr, uid, ids, field_name, arg, context=None):
         res= {}
@@ -156,7 +156,7 @@ class deltatech_expenses_deduction(osv.osv):
         move_pool = self.pool.get('account.move')
         move_line_pool = self.pool.get('account.move.line')
         seq_pool = self.pool.get('ir.sequence')
-        #poate ar fi bine cara  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
+        #poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
         for expenses in self.browse(cr, uid, ids, context=context):
             voucher_ids = []
             for voucher in expenses.line_ids:
@@ -193,6 +193,7 @@ class deltatech_expenses_deduction(osv.osv):
                                                            'journal_id':expenses.journal_id.id, 
                                                            'account_id':expenses.account_id.id, 
                                                            'type':'payment', 
+                                                           'date': voucher.date,
                                                            'partner_id': voucher.partner_id.id, 
                                                            'reference':voucher.reference,
                                                            'amount':voucher.amount,

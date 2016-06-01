@@ -21,7 +21,12 @@
 ##############################################################################
 
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv, orm 
+
+#from openerp import models, fields, api, _
+from openerp import models,  api, _
+from openerp.exceptions import except_orm, ValidationError, Warning, RedirectWarning
+import openerp.addons.decimal_precision as dp
 
 
 class account_voucher(osv.osv):
@@ -77,26 +82,48 @@ class account_voucher(osv.osv):
         'default_expense_account_id':_get_expense_account,
     }
  
-    
-    def create(self, cr, uid,  vals, context=None):   
+    @api.model
+    def create(self,    vals  ):   
         if not vals.get('line_dr_ids', False):
             if vals.get('type') == 'purchase':              
                 account_id = vals.get('default_expense_account_id',False)
-                vals['line_dr_ids'] = [[0,False,{'account_id': account_id, 'amount':vals.get('amount', 0)}]]
+                line_vals = {'account_id': account_id, 'amount':vals.get('amount', 0)}
+                if 'tax_id' in vals:
+                    tax = self.env['account.tax'].browse(vals['tax_id'])
+                    if tax:
+                        taxes = tax.compute_inv( taxes = tax, price_unit=vals.get('amount', 0), quantity = 1)
+                        
+                        line_vals['untax_amount'] = taxes[0]['price_unit']
+                        vals['tax_amount'] = taxes[0]['amount']
+                     
+                print   vals, line_vals 
+                vals['line_dr_ids'] = [[0,False,line_vals]]
                     
-        res =  super(account_voucher, self).create(cr, uid,  vals, context) 
+        res =  super(account_voucher, self).create(   vals ) 
         return res
 
-    def write(self, cr, uid, ids,  vals, context=None):
-        res = super(account_voucher, self).write(cr, uid, ids, vals, context)
+    @api.multi
+    def write(self,    vals ):
+        res = super(account_voucher, self).write(  vals )
         if 'amount' in vals:
-            for voucher in self.browse(cr, uid, ids, context=context):
+            for voucher in self:
                 if voucher.type == 'purchase':
                     if len(voucher.line_dr_ids)==1:
-                        self.pool.get('account.voucher.line').write(cr, uid, [voucher.line_dr_ids[0].id], {'amount':voucher.amount}, context)
-         
+                        voucher.line_dr_ids.write({'amount':voucher.amount})
+        """             
+        if 'tax_id' in vals:
+            for voucher in self:
+                if voucher.type == 'purchase':
+                    if len(voucher.line_dr_ids)==1:
+                        tax = self.env['account.tax'].browse(vals['tax_id'])
+                        
+                        taxes = tax.compute_all( voucher.line_dr_ids.amount, 1, force_excluded=True)
+                        print taxes
+                        voucher.line_dr_ids.write({'amount':taxes['total_included'], 'untax_amount':taxes['total']})
+        """                
         return res
-    
+
+ 
     
     def confirm_voucher(self, cr, uid, ids, context=None):
         
