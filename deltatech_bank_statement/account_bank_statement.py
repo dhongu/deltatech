@@ -37,7 +37,7 @@ class account_bank_statement_line(models.Model):
         if not st_line.ref:
             name = []
             for line in mv_line_dicts:
-                if 'counterpart_move_line_id' in line
+                if 'counterpart_move_line_id' in line:
                     name += [line['name']]
             ref = ','.join(name)
             self.write(cr, uid, id, {'ref':ref}, context)
