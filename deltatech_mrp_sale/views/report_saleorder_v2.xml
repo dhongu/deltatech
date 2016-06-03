@@ -549,113 +549,116 @@
 <!-- Begin Specification article 2 -->
 		<template id="report_specification_article2">
 			<t t-name="deltatech_mrp_sale.report_specification_article2">
-			  <t t-if="a.product_uom_qty != 0.0">
-			    <tr style="background-color:#A9E2F3">
-			      <td colspan="4">
-			        <h4 style="margin:0 0 0 0;">
-			          <strong t-field="a.name"/>
-			        </h4>
-			      </td>
-			      <t t-if="a.resource_ids and len(a.resource_ids)==1">
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_qty and qty_only==0">
-			            <!--<span t-field="a.product_uom_qty"/>-->
-			             <span t-esc="round(a.product_uom_qty,2)"/>
-			            <span groups="product.group_uom" t-field="a.product_uom"/>
-			          </t>
-			        </td>
-			        <!--
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_qty and with_price  and a.price_unit&gt;0">
-			            <span t-field="a.price_unit"/>
-			          </t>
-			        </td>
-			        -->
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">
-			            <span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
-			          </t>
-			          <t t-if="with_qty and qty_only and a.item_categ!='labor'">
-			            <!--<span t-field="a.product_uom_qty"/>-->
-			            <span t-esc="round(a.product_uom_qty,2)"/>
-			            <span groups="product.group_uom" t-field="a.product_uom"/>
-			          </t>
-			        </td>
-			      </t>
-			      <t t-if="a.resource_ids and len(a.resource_ids)!=1">
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_qty and qty_only==0">
-			            <!--<span t-field="a.product_uom_qty"/>-->
-			            <span t-esc="round(a.product_uom_qty,2)"/>
-			            <span groups="product.group_uom" t-field="a.product_uom"/>
-			          </t>
-			        </td>
-			        <!--
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_qty and with_price and a.price_unit&gt;0">
-			            <span t-field="a.price_unit"/>
-			          </t>
-			        </td>
-			        -->
-			        <td class="text-right" style="white-space: nowrap;">
-			          <t t-if="with_price and a.amount&gt;0">
-			            <strong t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
-			          </t>
-			          <t t-if="qty_only">
-			            <!--<span t-field="a.product_uom_qty"/>-->
-			            <span t-esc="round(a.product_uom_qty,2)"/>
-			            <span groups="product.group_uom" t-field="a.product_uom"/>
-			          </t>
-			          <t t-if="with_price and a.amount&lt;0">
-			            <span> </span>
-			          </t>
-			        </td>
-			      </t>
-			    </tr>
-			    <t t-if="a.note">
-			        <tr>
-			            <td colspan="6">
-			                 <small style="font-style: normal;color:red;" t-field="a.note"/>
-			            </td>
-			        </tr>
-			    </t>
-			    <t t-if="a.product_id">
-			    <td colspan="6">
-			      
-			        <small t-field="a.product_id.description_sale"/>
-			      
-			      <t t-if="not a.product_id">
-			        <small t-field="a.product_template.description_sale"/>
-			      </t>
-			    </td>
-			    </t>
-			    <t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
-			      <tr t-foreach="a.resource_ids" t-as="r">
-			        <t t-if="r.product_uom_qty &gt; 0.0 and r.item_categ!='labor'">
-			          <td style="width:25px;">
-			            <span/>
-			          </td>
-			          <td colspan="4">
-			            <em>
-			            <t t-if="r.item_categ!='labor'">
-			              <p style="margin:-5 -5 -5 -5;"><strong t-field="r.product_id.name"/></p>
-			              <div t-if="r.product_id.description_sale">
-			                <small style="font-style: normal;" t-field="r.product_id.description_sale"/>
-			              </div>
-			             </t>
-			            </em>
-			          </td>
-			          <td />
-			          <!--
-			          <td/>
-			          <td/>
-			          <td/>
-			          -->
-			        </t>
-			      </tr>
-			    </t>
-			  </t>
-			</t>
+  <t t-if="a.product_uom_qty != 0.0">
+    <!-- t if ammount<0-->
+    <t t-if="a.amount&gt;0.0">
+    <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
+      <td colspan="4" style="white-space: nowrap;">
+        <h4 style="margin:0 0 0 0;">
+          <strong t-field="a.name"/>
+        </h4>
+      </td>
+      <t t-if="a.resource_ids and len(a.resource_ids)==1">
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_qty and qty_only==0">
+            <!--<span t-field="a.product_uom_qty"/>-->
+             <span t-esc="round(a.product_uom_qty,2)"/>
+            <span groups="product.group_uom" t-field="a.product_uom"/>
+          </t>
+        </td>
+        <!--
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_qty and with_price  and a.price_unit&gt;0">
+            <span t-field="a.price_unit"/>
+          </t>
+        </td>
+        -->
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">
+            <span t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+          </t>
+          <t t-if="with_qty and qty_only">
+            <!--<span t-field="a.product_uom_qty"/>-->
+            <span t-esc="round(a.product_uom_qty,2)"/>
+            <span groups="product.group_uom" t-field="a.product_uom"/>
+          </t>
+        </td>
+      </t>
+      <t t-if="a.resource_ids and len(a.resource_ids)!=1">
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_qty and qty_only==0">
+            <!--<span t-field="a.product_uom_qty"/>-->
+            <span t-esc="round(a.product_uom_qty,2)"/>
+            <span groups="product.group_uom" t-field="a.product_uom"/>
+          </t>
+        </td>
+        <!--
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_qty and with_price and a.price_unit&gt;0">
+            <span t-field="a.price_unit"/>
+          </t>
+        </td>
+        -->
+        <td class="text-right" style="white-space: nowrap;">
+          <t t-if="with_price and a.amount&gt;0">
+            <strong t-field="a.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+          </t>
+          <t t-if="qty_only">
+            <!--<span t-field="a.product_uom_qty"/>-->
+            <span t-esc="round(a.product_uom_qty,2)"/>
+            <span groups="product.group_uom" t-field="a.product_uom"/>
+          </t>
+          <t t-if="with_price and a.amount&lt;0">
+            <span> </span>
+          </t>
+        </td>
+      </t>
+    </tr>
+    <t t-if="a.note">
+        <tr>
+            <td colspan="6">
+                 <small style="font-style: normal;color:red;" t-field="a.note"/>
+            </td>
+        </tr>
+    </t>
+    <t t-if="a.product_id">
+    <td colspan="6">
+      
+        <small t-field="a.product_id.description_sale"/>
+      
+      <t t-if="not a.product_id">
+        <small t-field="a.product_template.description_sale"/>
+      </t>
+    </td>
+    </t>
+    <t t-if="a.resource_ids and len(a.resource_ids)&gt;1">
+      <tr t-foreach="a.resource_ids" t-as="r">
+        <t t-if="r.product_uom_qty &gt; 0.0">
+          <td style="width:25px;">
+            <span/>
+          </td>
+          <td colspan="4">
+            <em>
+              <p style="margin:0px;"><strong t-field="r.product_id.name"/></p>
+              <div t-if="r.product_id.description_sale">
+                <small style="font-style: normal;" t-field="r.product_id.description_sale"/>
+              </div>
+            </em>
+          </td>
+          <td />
+          <!--
+          <td/>
+          <td/>
+          <td/>
+          -->
+        </t>
+      </tr>
+    </t>
+  </t>
+  <!-- End t if ammount<0-->
+  </t>
+</t>
+
 		</template>
 <!-- End Specification article 2 -->
 
