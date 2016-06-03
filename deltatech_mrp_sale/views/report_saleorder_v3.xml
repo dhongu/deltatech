@@ -208,12 +208,14 @@
               <td colspan="5">KIT MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_kit-total_labor_kit,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">MONTAGE KIT</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_kit,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
@@ -309,12 +311,14 @@
               <td colspan="5">MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_opt-total_labor_optional,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">MONTAGE</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_optional,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#A9E2F3">
@@ -333,12 +337,14 @@
               <td colspan="5">TOTAL MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">TOTAL MONTAGE</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_kit + total_labor_optional,2)"/>
+                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
