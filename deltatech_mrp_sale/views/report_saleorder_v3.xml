@@ -277,8 +277,8 @@
               <th colspan="2"/>
               <th/>
               <th/>
+              <th class="text-right"></th>
               <th class="text-right">Quantity</th>
-              <th class="text-right">Price</th>
             </tr>
           </thead>
           <tbody>
@@ -288,8 +288,8 @@
             <tr style="background-color:#cadb34">
               <td colspan="6">
                 <h4 style="margin: 0 0 0 0;font-weight:bold;">OPTIONAL SUPPLIES</h4>
-                <t t-set="qty_only" t-value="0"/>
-                <t t-set="with_price" t-value="1"/>
+                <t t-set="qty_only" t-value="1"/>
+                <t t-set="with_price" t-value="0"/>
                 <t t-set="with_qty" t-value="1"/>
               </td>
             </tr>
