@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 10:35+0000\n"
-"PO-Revision-Date: 2016-03-07 10:35+0000\n"
+"POT-Creation-Date: 2016-06-03 07:14+0000\n"
+"PO-Revision-Date: 2016-06-03 07:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,26 @@ msgid "Accommodation is customer choice"
 msgstr "L'hébergement est à votre choix;"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "Accommodation is customer choice If the site is 10 km away, plus it will calculate a value for fuel.&nbsp;"
+msgstr "Engin de levage avec chauffeur (pour le déchargement) à la charge du client;"
+
+#. module: deltatech_mrp_sale
+#: view:sale.add.margin:deltatech_mrp_sale.view_sale_add_margin_form
+msgid "Add Margin"
+msgstr "Add Margin"
+
+#. module: deltatech_mrp_sale
+#: model:ir.actions.act_window,name:deltatech_mrp_sale.action_sale_add_margin
+msgid "Add margin"
+msgstr "Add margin"
+
+#. module: deltatech_mrp_sale
+#: model:ir.model,name:deltatech_mrp_sale.model_sale_add_margin
+msgid "Add margin to sale order"
+msgstr "Add margin to sale order"
+
+#. module: deltatech_mrp_sale
 #: field:sale.order,add_inst_day:0
 msgid "Additional installing days"
 msgstr "Additional installing days"
@@ -44,6 +64,8 @@ msgid "All wood used is treated by immersion (no brush, no spraying) in special 
 msgstr "Tout le bois de structure est traité par immersion, dans des cuves spéciales avec des  produits homologués et certifiés;"
 
 #. module: deltatech_mrp_sale
+#: field:sale.mrp.article,amount:0
+#: field:sale.mrp.resource,amount:0
 #: view:sale.order:deltatech_mrp_sale.view_order_form
 msgid "Amount"
 msgstr "Amount"
@@ -52,11 +74,12 @@ msgstr "Amount"
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate\n"
-"							will not be counted."
-msgstr "Toute autre  information technico-commerciale communiquée le long de notre correspondance sur le&nbsp;  présent dossier qui n'apparait pas dans ce devis n'est pas prise en compte!"
+"										will not be counted."
+msgstr "Any other commercial and technical information communicated during our correspondence on this project and not included in this estimate\n"
+"										will not be counted."
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Any other request later after signing this estimate will be subject to recalculation and a tender attached to this estimate."
 msgstr "Toute autre demande ultérieure à la signature du présent  devis fera l'objet d'un chiffrage et d'une offre annexée au présent devis."
 
@@ -92,20 +115,18 @@ msgid "Attributes"
 msgstr "Attributes"
 
 #. module: deltatech_mrp_sale
-#: code:addons/deltatech_mrp_sale/mrp.py:364
-#: code:addons/deltatech_mrp_sale/mrp_sale.py:552
-#: code:addons/deltatech_mrp_sale/mrp_sale.py:698
+#: code:addons/deltatech_mrp_sale/mrp.py:328
+#: code:addons/deltatech_mrp_sale/mrp_sale.py:593
+#: code:addons/deltatech_mrp_sale/mrp_sale.py:759
 #, python-format
 msgid "BOM"
 msgstr "BOM"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Base Kit"
-msgstr "Base Kit"
+msgstr "KIT STRUCTURE"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_mrp_bom
@@ -118,11 +139,15 @@ msgid "Bill of Materials"
 msgstr "Bill of Materials"
 
 #. module: deltatech_mrp_sale
+#: view:sale.add.margin:deltatech_mrp_sale.view_sale_add_margin_form
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "Cancel"
 msgstr "Cancel"
 
- 
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "Casele Ecokit sunt realizate cu lemn uscat, tratat si rindeluit."
+msgstr "Casele Ecokit sunt realizate cu lemn uscat, tratat si rindeluit."
 
 #. module: deltatech_mrp_sale
 #: view:sale.mrp.resource:deltatech_mrp_sale.view_sale_mrp_resource_filter
@@ -135,12 +160,24 @@ msgid "Change"
 msgstr "Change"
 
 #. module: deltatech_mrp_sale
+#: field:mrp.bom.line,child_bom_id:0
+msgid "Child BOM"
+msgstr "Child BOM"
+
+#. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Client's signature :"
 msgstr "Signature du client:"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Collaborator:"
+msgstr "Collaborateur:"
+
+#. module: deltatech_mrp_sale
+#: field:sale.add.margin,create_uid:0
 #: field:sale.mrp.article,create_uid:0
 #: field:sale.mrp.article.attribute,create_uid:0
 #: field:sale.mrp.order.attribute,create_uid:0
@@ -151,6 +188,7 @@ msgid "Created by"
 msgstr "Created by"
 
 #. module: deltatech_mrp_sale
+#: field:sale.add.margin,create_date:0
 #: field:sale.mrp.article,create_date:0
 #: field:sale.mrp.article.attribute,create_date:0
 #: field:sale.mrp.order.attribute,create_date:0
@@ -159,6 +197,11 @@ msgstr "Created by"
 #: field:sale.mrp.take.bom,create_date:0
 msgid "Created on"
 msgstr "Created on"
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.resource,currency_id:0
+msgid "Currency"
+msgstr "Currency"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -170,7 +213,7 @@ msgstr "Customer signature"
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Customer:"
-msgstr "Customer:"
+msgstr "Client:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -186,8 +229,6 @@ msgstr "Default Value"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Description"
 msgstr "Description"
@@ -200,7 +241,10 @@ msgstr "Description"
 msgid "Determine the display order"
 msgstr "Determine the display order"
 
- 
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "Ecokit foloseste in proiectarea structurilor sale programme specializate –WOODENGINE , RoofCoon- TrussCon,"
+msgstr "Ecokit foloseste in proiectarea structurilor sale programme specializate –WOODENGINE , RoofCoon- TrussCon,"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
@@ -231,18 +275,30 @@ msgstr "Group By..."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
-msgid "Gypsum board or paneling interior (where the client wants to finish interior paneling) are provided but not installed.\n"
-"							Price above does not\n"
-"							include installation installing these items because of the difficulties that may arise during the works carried out in\n"
-"							collaboration with the\n"
-"							electrician and plumber.\n"
-"							However, if you can ensure timely two please consider a charge of 3 euro / sq m without VAT for fitting plasterboard\n"
-"							and painting without tape, and 4 €\n"
-"							/ sq m without VAT for mounting interior paneling."
-msgstr "*Le placo ou le lambris intérieur (au cas où le client souhaite une finition intérieure en lambris)  sont fournis mais ne sont pas posés. Le prix de pose annoncé plus haut ne comprend pas la&nbsp;  pose de ces éléments à cause des difficultés qu'il peut avoir pour la coordination avec&nbsp;  l'électricien et le plombier. Si quand bien même vous pouvez garantir l'intervention de ces 2&nbsp;  corps de métier en temps utile, prenez en compte un budget de 3 .15 euros/m² HT pour la pose&nbsp;  du placo hors bandes et peinture et 4.20 euros/m² HT pour la pose du lambris intérieur."
+msgid "Gypsum board or paneling interior (when this elements appears in the estimation) are installed only if the client electrician and the plumber make their work before."
+msgstr "Le placo ou le lambris intérieur (au cas où ces elements apparaissent dans le devis) sont fournis &nbsp; et ne sont &nbsp;posés que si le client garantit l’intervention de l’electricien et du plombier avant que notre equipe intervienne.&nbsp;"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Gypsum board or paneling interior (where the client wants to finish interior paneling) are provided but not installed.\n"
+"										Price above does not\n"
+"										include installation installing these items because of the difficulties that may arise during the works carried out in\n"
+"										collaboration with the\n"
+"										electrician and plumber.\n"
+"										However, if you can ensure timely two please consider a charge of 3 euro / sq m without VAT for fitting plasterboard\n"
+"										and painting without tape, and 4 €\n"
+"										/ sq m without VAT for mounting interior paneling."
+msgstr "Gypsum board or paneling interior (where the client wants to finish interior paneling) are provided but not installed.\n"
+"										Price above does not\n"
+"										include installation installing these items because of the difficulties that may arise during the works carried out in\n"
+"										collaboration with the\n"
+"										electrician and plumber.\n"
+"										However, if you can ensure timely two please consider a charge of 3 euro / sq m without VAT for fitting plasterboard\n"
+"										and painting without tape, and 4 €\n"
+"										/ sq m without VAT for mounting interior paneling."
+
+#. module: deltatech_mrp_sale
+#: field:sale.add.margin,id:0
 #: field:sale.mrp.article,id:0
 #: field:sale.mrp.article.attribute,id:0
 #: field:sale.mrp.order.attribute,id:0
@@ -253,21 +309,20 @@ msgid "ID"
 msgstr "ID"
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "If the site is 10 km away, plus it will calculate a value for fuel"
 msgstr "Si le chantier est plus loin de 10 km, une plus-value combustible sera calculée;"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Included"
+msgstr "Inclus"
+
+#. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,categ_id:0
 msgid "Internal Category"
 msgstr "Internal Category"
-
-#. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
-msgid "Intocmit:"
-msgstr "Intocmit:"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -288,6 +343,41 @@ msgid "Item Category"
 msgstr "Item Category"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "KIT"
+msgstr "KIT"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "KIT MATERIALS"
+msgstr "MATERIELS KIT"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "LABOR"
+msgstr "LABOR"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "LABOR - KIT"
+msgstr "LABOR - KIT"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "LABOR - OPTIONAL ITEMS"
+msgstr "LABOR - OPTIONAL ITEMS"
+
+#. module: deltatech_mrp_sale
+#: selection:mrp.bom.line,item_categ:0
+#: selection:sale.mrp.article,item_categ:0
+#: selection:sale.mrp.resource,item_categ:0
+#: selection:sale.order.line,item_categ:0
+msgid "Labor"
+msgstr "Labor"
+
+#. module: deltatech_mrp_sale
+#: field:sale.add.margin,write_uid:0
 #: field:sale.mrp.article,write_uid:0
 #: field:sale.mrp.article.attribute,write_uid:0
 #: field:sale.mrp.order.attribute,write_uid:0
@@ -298,6 +388,7 @@ msgid "Last Updated by"
 msgstr "Last Updated by"
 
 #. module: deltatech_mrp_sale
+#: field:sale.add.margin,write_date:0
 #: field:sale.mrp.article,write_date:0
 #: field:sale.mrp.article.attribute,write_date:0
 #: field:sale.mrp.order.attribute,write_date:0
@@ -306,6 +397,54 @@ msgstr "Last Updated by"
 #: field:sale.mrp.take.bom,write_date:0
 msgid "Last Updated on"
 msgstr "Last Updated on"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "MATERIALS"
+msgstr "MATERIELS"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "MATERIALS - KIT"
+msgstr "MATERIALS - KIT"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "MATERIALS - OPTIONAL ITEMS"
+msgstr "MATERIALS - OPTIONAL ITEMS"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "MONTAGE"
+msgstr "MONTAGE"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "MONTAGE KIT"
+msgstr "MONTAGE KIT"
+
+#. module: deltatech_mrp_sale
+#: field:sale.add.margin,margin:0
+#: field:sale.mrp.resource,margin:0
+msgid "Margin"
+msgstr "Margin"
+
+#. module: deltatech_mrp_sale
+#: code:addons/deltatech_mrp_sale/wizard/sale_add_margin.py:60
+#, python-format
+msgid "Margin %s was added. Before added margin amount was %s, after is %s"
+msgstr "Margin %s was added. Before added margin amount was %s, after is %s"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "NO VAT"
+msgstr "​PRIX HT"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,name:0
@@ -326,10 +465,21 @@ msgid "Normal"
 msgstr "Normal"
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: field:sale.mrp.article,note:0
+msgid "Note"
+msgstr "Note"
+
+#. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Number of days estimated for mounting the house (including gypsum board or paneling interior)"
 msgstr "Nombre de jours de pose estimé (y compris pose placo/lambris):"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "OPTIONAL SUPPLIES"
+msgstr "FOURNITURES OPTIONNELLES"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -341,11 +491,9 @@ msgstr "Optional"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Optional Items"
-msgstr "Optional Items"
+msgstr "FOURNITURES OPTIONNELLES"
 
 #. module: deltatech_mrp_sale
 #: selection:mrp.bom.line,item_categ:0
@@ -394,6 +542,18 @@ msgid "Our wood is dried in industrial dryers, electronically controlled, the hu
 msgstr "<p>Notre bois est séché en séchoirs industriels, l’humidité du bois utilisé est entre 14-<span style=\"line-height: 1.42857;\">16%;</span></p>"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "PRICE / M"
+msgstr "PRIX / M"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "PRICE / m"
+msgstr "PRIX / m"
+
+#. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
@@ -423,8 +583,6 @@ msgstr "Primary Quantity"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Primary Quantity:"
 msgstr "Primary Quantity:"
@@ -480,8 +638,19 @@ msgstr "Proiectele sunt relizate conform normelor de calcul EUROCODE 5."
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Project name"
+msgstr "Nom projet:"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Projects are done according to calculation rules EUROCODE 5."
 msgstr "L’étude  technique est réalisée conformément aux n ormes de calcul EUROCODE 5."
+
+#. module: deltatech_mrp_sale
+#: field:sale.mrp.resource,purchase_amount:0
+msgid "Purchase Amount"
+msgstr "Purchase Amount"
 
 #. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,purchase_price:0
@@ -504,9 +673,13 @@ msgid "Quotation Date:"
 msgstr "Date du devis:"
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Quotation ID:"
+msgstr "Code d’identification devis:"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "Quotation N°"
 msgstr "Devis N°"
 
@@ -598,8 +771,6 @@ msgstr "Sequence"
 #: selection:sale.mrp.resource,item_categ:0
 #: selection:sale.order.line,item_categ:0
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Service"
 msgstr "Service"
@@ -618,6 +789,14 @@ msgstr "Show"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Signing this document means accepting the offer commercial and technical commitment to the \n"
+"              responsibility. Any other request later after signing this estimate will be subject to \n"
+"              recalculation and a tender attached to this estimate."
+msgstr "La signature du présent document signifie l'acceptation de l'offre technico-commerciale et engage la responsabilité du client. Toute autre demande ultérieure à la signature du présent devis fera l'objet d'un chiffrage et d'une offre annexée au présent devis."
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Signing this document means accepting the offer commercial and technical commitment to the responsibility."
 msgstr "La signature du présent document signifie l'acceptation de l'offre technico-commerciale et  engage la responsabilité du client."
 
@@ -659,6 +838,11 @@ msgid "Specification V2"
 msgstr "Specification V2"
 
 #. module: deltatech_mrp_sale
+#: model:ir.actions.report.xml,name:deltatech_mrp_sale.action_report_specification3
+msgid "Specification V3"
+msgstr "Specification V3"
+
+#. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Specifications:"
@@ -667,14 +851,73 @@ msgstr "Précisions:"
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
-msgid "Studiu tehnic + Piese asamblare"
-msgstr "Studiu tehnic + Piese asamblare"
+msgid "Surface house:"
+msgstr "Surface de la maison (m²):"
 
 #. module: deltatech_mrp_sale
-#: field:sale.mrp.article,amount:0
-#: field:sale.mrp.resource,amount:0
-msgid "Subtotal"
-msgstr "Subtotal"
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL (TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES + MONTAGE + TRANSPORT)"
+msgstr "TOTAL (KIT STRUCTURE + FOURNITURES + MONTAGE + TRANSPORT)"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL GENERAL"
+msgstr "TOTAL GENERAL"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL MATERIALS"
+msgstr "TOTAL MATERIELS"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL MONTAGE"
+msgstr "TOTAL MONTAGE"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "TOTAL OPTIONAL SUPPLIES"
+msgstr "TOTAL FOURNITURES OPTIONELLES"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL STRUCTURE KIT"
+msgstr "TOTAL KIT STRUCTURE"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL STRUCTURE KIT + SUPPLIES"
+msgstr "TOTAL KIT STRUCTURE + FOURNITURES OPTIONNELLES"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL STRUCTURE KIT + SUPPLIES + MONTAGE + TRANSPORT"
+msgstr "TOTAL KIT STRUCTURE + FOURNITURES OPTIONNELLES + MONTAGE +TRANSPORT"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "TOTAL SUPPLIES"
+msgstr "TOTAL FOURNITURES OPTIONNELLES"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "TOTAL TIMBER FRAME STRUCTURE"
+msgstr "TOTAL KIT STRUCTURE"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+msgid "TOTAL TIMBER FRAME STRUCTURE + OPTIONAL SUPPLIES"
+msgstr "TOTAL KIT STRUCTURE + FOURNITURES OPTIONELLES"
 
 #. module: deltatech_mrp_sale
 #: model:ir.model,name:deltatech_mrp_sale.model_sale_mrp_take_bom
@@ -689,10 +932,14 @@ msgstr "Take List"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Taxes"
 msgstr "Taxes"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Tehnical execution project + Metallic assembly parts"
+msgstr "Etude tehnique + Pieces metallique de fixation"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
@@ -701,22 +948,40 @@ msgid "The EcoKit houses are made with dried wood, treated and planing wood."
 msgstr "Les maisons ECOKIT sont réalisées avec du bois séché, traité et raboté 4 faces."
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The cost meal / team / day: 50 Euro"
 msgstr "Coût de la restauration / équipe / jour: 50 euros;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "The cost meal / team / day: 50 Euro.&nbsp;"
+msgstr "L'hébergement est à votre choix;<br>Si le chantier est plus loin de 10 km, une plus-value combustible sera calculée;"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The cost of transporting team of workers from Romania round-trip is EUR 1,200"
 msgstr "Coût du transport Roumanie-France: 1200 euros;"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "The cost of transporting team of workers from Romania round-trip is EUR 1,200.&nbsp;"
+msgstr "Coût du transport Roumanie-France: 1200 euros; coût de la restauration / équipe / jour: 50 euros;"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "The fork lift truck (Manitou) with driver (for download) is the responsibility of the customer."
 msgstr "Engin de levage avec chauffeur (pour le déchargement) à la charge du client;"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "The fork lift truck (Manitou) with driver (for download) is the responsibility of the customer.&nbsp;"
+msgstr "Le déchargement des fournitures doit obligatoirement se faire sur chantier. Si cela n’est pas possible le transport des fournitures au chantier est à la charge du client."
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
@@ -737,10 +1002,19 @@ msgid "The wood used for the concrete base plate is autoclave treated"
 msgstr "Le bois des lisses basses est traité en autoclave (classe IV)."
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "This estimate is a contractual document for which EcoKit take responsibility."
 msgstr "Ce présent devis est un document contractuel et engage la responsabilité d'Ecokit."
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "This estimate is a contractual document for which EcoKit takes responsibility only if \n"
+"            the document is signed by the client. Any other commercial and technical information\n"
+"            communicated during our correspondence on this project and not included in this estimate \n"
+"            will not be counted."
+msgstr "Ce présent devis est un document contractuel et engage la responsabilité d'Ecokit uniquement s’il est signé par le client.. Toute autre information technico-commerciale communiquée le long de notre correspondance sur le présent dossier qui n'apparait pas dans ce devis n'est pas prise en compte!"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
@@ -762,61 +1036,54 @@ msgstr "This estimate is a contractual document we take responsibility for that.
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Total"
 msgstr "Total"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Total Kit"
 msgstr "Total Kit"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Total Kit + Optional"
 msgstr "Total Kit + Optional"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Total Kit + Optional + Service"
 msgstr "Total Kit + Optional + Service"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Total Optional Items"
-msgstr "Total Optional Items"
+msgstr "Total fournitures optionnelles"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 msgid "Total Without Taxes"
 msgstr "Total HT"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "Transport, accommodation, and meals for the team of workers is the responsibility of the customer"
 msgstr "L'équipe de pose est prise en charge par le client pour le transport, la restauration et  l'hébergement;"
 
 #. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Transport, accommodation, and meals for the team of workers is the responsibility of the customer.&nbsp;"
+msgstr "L'équipe de pose est prise en charge par le client pour le transport, la restauration et l'hébergement;&nbsp;"
+
+#. module: deltatech_mrp_sale
 #: field:sale.mrp.resource,price_unit:0
 #: field:sale.order,price_unit:0
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
 #: view:website:sale.report_saleorder_document
 msgid "Unit Price"
 msgstr "Prix unitaire"
@@ -843,8 +1110,8 @@ msgid "Value"
 msgstr "Value"
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 msgid "WOOD TREATMENT"
 msgstr "TRAITEMENT DU BOIS"
 
@@ -869,15 +1136,23 @@ msgid "What is not included in the estimate will not be delivered!"
 msgstr "Tout ce qui n'est pas marqué n'est pas livré!"
 
 #. module: deltatech_mrp_sale
-#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification3
+msgid "Wood treatment"
+msgstr "Traitement du bois"
+
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
 msgid "Your Reference:"
 msgstr "Votre Référence:"
 
- 
+#. module: deltatech_mrp_sale
+#: view:mrp.bom:deltatech_mrp_sale.mrp_bom_form_view
+msgid "[('product_tmpl_id','=',product_template)]"
+msgstr "[('product_tmpl_id','=',product_template)]"
 
 #. module: deltatech_mrp_sale
+#: view:sale.add.margin:deltatech_mrp_sale.view_sale_add_margin_form
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "_Apply"
 msgstr "_Apply"
@@ -889,9 +1164,13 @@ msgid "all metal parts and connectors used come from certified suppliers in Euro
 msgstr "toutes  les pièces métalliques et les connecteurs utilisés provenant des fournisseurs certifiés en&nbsp;  Europe."
 
 #. module: deltatech_mrp_sale
+#: view:sale.add.margin:deltatech_mrp_sale.view_sale_add_margin_form
 #: view:sale.mrp.take.bom:deltatech_mrp_sale.view_take_bom_form
 msgid "or"
 msgstr "or"
 
- 
+#. module: deltatech_mrp_sale
+#: view:website:deltatech_mrp_sale.report_saleorder_document_specification1
+msgid "toate piesele metalice si conectorii utilizati provenind de la furnizori certificati european."
+msgstr "toate piesele metalice si conectorii utilizati provenind de la furnizori certificati european."
 
