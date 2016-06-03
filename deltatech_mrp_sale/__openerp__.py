@@ -55,6 +55,9 @@ Functionalitati:
                 'mrp_view.xml' ,
                 'product_view.xml',
                 'views/report_saleorder.xml',
+                'views/report_saleorder_v1.xml',
+                'views/report_saleorder_v2.xml',
+                'views/report_saleorder_v3.xml',
                 'security/ir.model.access.csv',
              ],
     

@@ -109,6 +109,18 @@ class crm_lead(models.Model):
                 region = self.env['res.country.state'].name_search(element[0].text)
                 if region:
                     custom_values['state_id'] =  region.id
+                    custom_values['country_id'] =  region.country_id.id
+                else:
+                    custom_values['street'] += element[0].text
+        
+            element = xml_body.xpath("//*[@itemprop='addressCountry']")
+            if  element:
+                country = self.env['res.country'].name_search(element[0].text)
+                if country:
+                    custom_values['country_id'] =  country.id
+                else:
+                    if not custom_values['country_id']:
+                        custom_values['street'] += element[0].text
 
             element = xml_body.xpath("//address//*[@itemprop='name']")
             if  element:

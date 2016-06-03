@@ -849,7 +849,7 @@ msgstr "Deviz V2"
 #. module: deltatech_mrp_sale
 #: model:ir.actions.report.xml,name:deltatech_mrp_sale.action_report_specification3
 msgid "Specification V3"
-msgstr "V3 Cant/fara pret"
+msgstr "Deviz V3 Cant/fara pret"
 
 #. module: deltatech_mrp_sale
 #: view:website:deltatech_mrp_sale.report_saleorder_document_specification2
