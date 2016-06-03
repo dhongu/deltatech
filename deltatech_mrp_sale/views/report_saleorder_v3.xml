@@ -397,6 +397,7 @@
 			          </tr>
 			          -->
             <t t-set="with_qty" t-value="0"/>
+            <t t-set="with_price" t-value="1"/>
             <t t-foreach="o.article_ids" t-as="a">
               <t t-if="a.item_categ==&quot;service&quot;">
                 <t t-call="deltatech_mrp_sale.report_specification_article3"/>
