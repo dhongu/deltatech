@@ -268,7 +268,7 @@ class export_saga(models.TransientModel):
         return temp_file, result_html
 
     @api.model
-    def do_export_intrari(self, invoice_in_ids ):
+    def do_export_intrari(self, invoice_in_ids, voucher_in_ids ):
         result_html = ''
         """
  Intrări 
@@ -330,7 +330,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
             else:
                 tvai = 0 
                 
-            if invoice.fiscal_receipt:
+            if invoice.fiscal_receipt:   # daca este un bon fiscal atunci 
                 tip = 'B'
             else:
                 tip = '' 
@@ -355,11 +355,11 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
                    'TIP':       tip,
                    'TVAI':      tvai,
-                   'COD_ART':    line.product_id.default_code or '',
+                      
                    'DEN_ART':    self.unaccent(line.name[:60]),
-                   'UM':        line.uos_id.name[:5].split(' ')[0] or '',
+                   'UM':       '',
                    'CANTITATE':  line.quantity,
-                   'DEN_TIP':    self.unaccent(line.product_id.categ_id.name[:36]),
+                       
                    'TVA_ART':    tva_art,
                    'VALOARE':    line.price_subtotal,  #todo: daca pretul include tva valoarea cum o fi ?
                    'TVA':        line.price_taxes,
@@ -367,10 +367,71 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    'PRET_VANZ':  0,
                    'GRUPA':      '',
                 }
+                if line.uos_id:
+                    values['UM'] = line.uos_id.name[:5].split(' ')[0] 
+                
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
-                intrari_dbf.insert(values)        
+                else:
+                    values['COD_ART'] = line.product_id.default_code or '',
+                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
+                                  
+                intrari_dbf.insert(values)
+                
+
+        for voucher in voucher_in_ids:
+            
+                
+            if voucher.tax_id:   # daca este un bon fiscal atunci 
+                tip = 'C'     # facura simplificata
+            else:
+                tip = 'B'     # Bon de casa 
+
+            if voucher.tax_id:
+                tva_art = int(voucher.tax_id[0].amount * 100)
+            else:    
+                tva_art = 0
+                   
+            for line in voucher.line_ids:
+
+                
+                cont = line.account_id.code
+                while cont[-1] == '0':
+                    cont = cont[:-1]
+                    
+                values = {
+                   'NR_NIR':     10000+int(''.join([s for s in voucher.number if s.isdigit()])),
+                   'NR_INTRARE': voucher.reference or voucher.number ,
+                   'GESTIUNE'  : '',
+                   'DEN_GEST'  : '',
+                   'COD':        voucher.partner_id.ref_supplier or '',
+                   'DATA':       fields.Date.from_string(voucher.date),
+                   'SCADENT':    fields.Date.from_string(voucher.date),
+                   'TIP':       tip,
+                   'TVAI':      0,
+                      
+                   'DEN_ART':    '',
+                   'UM':         '',
+                   'CANTITATE':  1,
+                       
+                   'TVA_ART':    tva_art,
+                   'VALOARE':    line.untax_amount or line.amount,  #todo: daca pretul include tva valoarea cum o fi ?
+                   'TVA':        line.amount-line.untax_amount,
+                   'CONT':       cont,
+                   'PRET_VANZ':  0,
+                   'GRUPA':      '',
+                }
+                if not self.export_product:
+                    values['COD_ART'] = ''
+                    values['DEN_TIP'] = ''
+                else:
+                    values['COD_ART'] = line.product_id.default_code or '',
+                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
+                                  
+                intrari_dbf.insert(values)
+                
+                        
         return temp_file, result_html
 
     @api.model
@@ -451,7 +512,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                     
                 values = {
                    
-                   'NR_IESIRE': invoice.number ,
+                   'NR_IESIRE': invoice.number.replace('/', ' ') ,
                    'COD':        invoice.commercial_partner_id.ref_customer or '',
                    'DATA':       fields.Date.from_string(invoice.date_invoice),
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
@@ -461,9 +522,9 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                    'DEN_GEST'  : '',
                    'COD_ART':    line.product_id.default_code or '',
                    'DEN_ART':    self.unaccent(line.name[:60]),
-                   'UM':        line.uos_id.name[:5].split(' ')[0] or '',
+                   'UM':         '',
                    'CANTITATE':  line.quantity,
-                   'DEN_TIP':    self.unaccent(line.product_id.categ_id.name[:36]),
+                   'DEN_TIP':    '',
                    'TVA_ART':    tva_art,
                    'VALOARE':    line.price_subtotal,  #todo: daca pretul include tva valoarea cum o fi ?
                    'TVA':        line.price_taxes,
@@ -471,6 +532,11 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                    'PRET_VANZ':  0,
                    'GRUPA':      '',
                 }
+                if line.uos_id:
+                    values['UM'] = line.uos_id.name[:5].split(' ')[0] 
+                if line.product_id.categ_id:
+                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36]  )
+                
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
@@ -498,6 +564,10 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         invoice_in_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
                                                              ('state','in',['open','paid']),
                                                              ('type','in',['in_invoice','in_refund'])])
+
+        voucher_in_ids = self.env['account.voucher'].search([('period_id','=',self.period_id.id),
+                                                             ('state','in',['posted']),
+                                                             ('type','in',['purchase'])])
         
         if self.export_product:
             for invoice in invoice_in_ids:
@@ -506,6 +576,9 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
         for invoice in invoice_in_ids:
             partner_ids |=  invoice.commercial_partner_id
+
+        for voucher in voucher_in_ids:
+            partner_ids |=  voucher.partner_id
 
         invoice_out_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
                                                               ('state','in',['open','paid']),
@@ -527,6 +600,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
         result_html = ' <div>Au fost exportate:</div>' 
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
+        result_html += '<div>Bonuri fiscale: %s</div>' % str(len(voucher_in_ids))
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
         result_html += '<div>Parteneri %s</div>' % str(len(partner_ids))
@@ -560,7 +634,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             zip_archive.writestr(file_name,temp_file.getvalue())         
 
 
-        temp_file, messaje  = self.do_export_intrari(invoice_in_ids)
+        temp_file, messaje  = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
          
         result_html += messaje      
                         

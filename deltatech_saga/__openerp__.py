@@ -42,7 +42,8 @@ Functionalitati:
               'data.xml',
               'res_partner_view.xml',
               'product_view.xml',
-              'wizard/export_saga_view.xml'
+              'wizard/export_saga_view.xml',
+              #'wizard/import_saga_view.xml',
               ],
     
     "active": False,
