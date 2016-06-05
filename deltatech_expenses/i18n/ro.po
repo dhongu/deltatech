@@ -26,7 +26,14 @@ msgstr "Dată Cheltuială"
 
 
 #. module: deltatech_expenses
-#: field:deltatech.expenses.deduction,date_expense:0
+#: field:deltatech.expenses.deduction,date_advance:0
+#: field:expenses.deduction.from.account.voucher,date_advance:0
+msgid "Advance Date"
+msgstr "Dată avans"
+
+
+#. module: deltatech_expenses
+#: field:deltatech.expenses.deduction,travel_order:0
 #: field:expenses.deduction.from.account.voucher,travel_order:0
 msgid "Travel Order"
 msgstr "Ordin deplasare"
@@ -42,6 +49,14 @@ msgstr "Creare"
 #: field:deltatech.expenses.deduction,amount:0
 msgid "Total Amount"
 msgstr "Suma totală"
+
+
+#. module: deltatech_expenses
+#: view:account.voucher:0 view:deltatech.expenses.deduction:0
+#: field:deltatech.expenses.deduction,amount_vouchers:0
+msgid "Vouchers Amount"
+msgstr "Total chitante"
+
 
 #. module: deltatech_expenses
 #: view:expenses.deduction.from.account.voucher:0

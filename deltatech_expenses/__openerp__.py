@@ -28,14 +28,14 @@
     'complexity': "easy",
     'description': """Expenses Deduction & Disposition of Cashing
 
-Introducerea decontului de cheltuieli intr-un document distictce genereaza automat chitante de achizitie 
+Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie 
 Validarea documentrului duce la generarea notelor contabile de avans si inegistrarea platilor
 -
 		
     """,
     'author': 'Deltatech',
     'images': [''],
-    'depends': ['account','account_voucher','product','l10n_ro'],
+    'depends': ['account','account_voucher','product','l10n_ro','l10n_ro_account_voucher_cash'],
     'data' : ['account_voucher_view.xml',
                     'deltatech_expenses_deduction_view.xml',
                     'deltatech_expenses_deduction_report.xml',

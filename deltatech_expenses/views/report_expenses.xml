@@ -11,7 +11,8 @@
 							<br />
 							<h3>
 								<span>Decont cheltuieli:</span>
-								<span t-field="o.number" />
+								<span t-field="o.number" />/
+								<span t-field="o.date_expense" />
 							</h3>
 
 							<div>
@@ -31,21 +32,26 @@
 							</div>
 							<br />
 							<div>
-								Avans primit
+								Avans primit in data <span t-field="o.date_advance" />
 								<span t-field="o.advance" /> lei
 							</div>
 							<br />
 							<div>
 								Chelt. conf. borderou de mai jos <span t-field="o.amount" /> lei
 							</div>
+							<t t-if="o.total_diem">
+								<div>
+									Din care diurna <span t-field="o.days" /> * <span t-field="o.diem" /> = <span t-field="o.total_diem" /> lei
+								</div>
+							</t>
 							<br />
 							<div>
-								Diferenţă de primit (de restituit) 
+								Diferenţă  <span t-if="o.difference &gt; 0">de primit</span>
+								<span t-if="o.difference &lt; 0">de restituit</span>
+								 
 								<span t-field="o.difference" /> lei
 							</div>
-							<div>
-								S-a depus cu chitanța nr._____________
-							</div>
+							 
 
 							<br />
 							<table class="table table-condensed">
@@ -57,7 +63,7 @@
 										<th>
 											<strong>Date</strong>
 										</th>
-										<th>
+										<th class="text-right" >
 											<strong>Suma</strong>
 										</th>
 									</tr>
@@ -73,7 +79,7 @@
 
 											<span t-field="l.date" />
 										</td>
-										<td>
+										<td class="text-right" >
 											<span t-field="l.amount" />
 										</td>
 									</tr>
