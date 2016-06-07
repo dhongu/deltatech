@@ -194,9 +194,12 @@ class sale_rfq(models.Model):
                 
                 message = _("Quotation %s is ready") % ( self.get_link(rfq.order_id) )
                 rfq.message_post(body=message,attachments=attachments) 
+                rfq.lead_id.message_post(body=message,attachments=attachments) 
                 
                 message = _("RFQ %s is ready") % ( self.get_link(rfq) )
-                rfq.order_id.message_post(body=message)             
+                rfq.order_id.message_post(body=message) 
+                
+                            
             else:
                  Warning(_('Please enter report template'))
 
