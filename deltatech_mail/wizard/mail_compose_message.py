@@ -72,6 +72,15 @@ class mail_compose_message(models.TransientModel):
             defaults['mail_notify_noemail'] = False
         else:
             defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
+        # poate ca documentele anexate trbuie sa fie in functie de o configurare ??
+        res_id = defaults.get('res_id',False)   
+        if res_model and res_id:
+            attachment_ids = self.env['ir.attachment'].search([('res_model', '=',  res_model), 
+                                                               ('res_id', '=', res_id)])
+            defaults['attachment_ids'] =     [(6, False, attachment_ids.ids)]
+        if not defaults['body']:
+            defaults['body_html'] = self.env.user.signature
+            defaults['body'] = tools.html_sanitize(defaults['body_html']) 
         return defaults
     
     def send_mail(self, cr, uid, ids, context=None):

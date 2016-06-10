@@ -39,6 +39,9 @@ Functionalitati:
  - Se configreaza iesirea de email in afara sistemului prin paramentrul mail.notify.noemail
  - Se marcheaza un document ca fiind citit daca aceste este deschis si parametrul mail.open.set.read este True
 
+
+ - la compunera unui email  sistemul anexeaza automat toate documentele
+
 Nota: 
  - pentru a seta simultan mai multe documente trebuie modificata metoda message_mark_as_unread din mail_thread
              (SELECT id from mail_message where res_id=any(%s) and model=%s limit 1)
