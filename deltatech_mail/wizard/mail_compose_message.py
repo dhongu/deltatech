@@ -78,7 +78,7 @@ class mail_compose_message(models.TransientModel):
             attachment_ids = self.env['ir.attachment'].search([('res_model', '=',  res_model), 
                                                                ('res_id', '=', res_id)])
             defaults['attachment_ids'] =     [(6, False, attachment_ids.ids)]
-        if not defaults['body']:
+        if not defaults.get('body',False):
             defaults['body_html'] = self.env.user.signature
             defaults['body'] = tools.html_sanitize(defaults['body_html']) 
         return defaults
