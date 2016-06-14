@@ -117,34 +117,33 @@ class export_saga(models.TransientModel):
         temp_file = StringIO.StringIO()
         furnizori_dbf = base.DBF(temp_file, Furnizori)
         for partner in partner_ids:
-            if partner.supplier:
-                if not partner.ref_supplier:
-                    error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.name
-                    result_html += '<div>Eroare %s</div>' % error
-                    if not self.ignore_error:
-                        raise Warning(error)
+            if not partner.ref_supplier:
+                error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.name
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise Warning(error)
+            
+            if not partner.vat_subjected:
+                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
+                is_tva  = 0
+            else:
+                cod_fiscal = partner.vat
+                is_tva  = 1
                 
-                if not partner.vat_subjected:
-                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                    is_tva  = 0
-                else:
-                    cod_fiscal = partner.vat
-                    is_tva  = 1
-                    
-                values = {'COD':        partner.ref_supplier or '',
-                          'DENUMIRE' :  self.unaccent(partner.name[:48]),
-                          'COD_FISCAL' : cod_fiscal or '',
-                          'ANALITIC':    '', #partner.property_account_payable.code,
-                          'ZS':0,
-                          'ADRESA':      self.unaccent(partner.contact_address ),
-                          #'BANCA'
-                          'TARA':        partner.country_id.code or '',
-                          'TEL':         partner.phone or '',
-                          'EMAIL':       partner.email or '',
-                          'IS_TVA':      is_tva,
-                          }
-                
-                furnizori_dbf.insert(values)
+            values = {'COD':        partner.ref_supplier or '',
+                      'DENUMIRE' :  self.unaccent(partner.name[:48]),
+                      'COD_FISCAL' : cod_fiscal or '',
+                      'ANALITIC':    '', #partner.property_account_payable.code,
+                      'ZS':0,
+                      'ADRESA':      self.unaccent(partner.contact_address ),
+                      #'BANCA'
+                      'TARA':        partner.country_id.code or '',
+                      'TEL':         partner.phone or '',
+                      'EMAIL':       partner.email or '',
+                      'IS_TVA':      is_tva,
+                      }
+            
+            furnizori_dbf.insert(values)
           
         
         return temp_file, result_html
@@ -188,34 +187,33 @@ class export_saga(models.TransientModel):
         temp_file = StringIO.StringIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
         for partner in partner_ids:
-            if partner.customer:
 
-                if not partner.ref_customer:
-                    error = _("Partenerul %s nu are cod de client SAGA") % partner.name
-                    result_html += '<div>Eroare %s</div>' % error
-                    if not self.ignore_error:
-                        raise Warning(error)
-                    
-                if not partner.vat_subjected:
-                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                    is_tva  = 0
-                else:
-                    cod_fiscal = partner.vat
-                    is_tva  = 1
-                 
-                values = {'COD':         partner.ref_customer or '',
-                          'DENUMIRE' :   self.unaccent(partner.name[:48] ),
-                          'COD_FISCAL':  cod_fiscal or '',
-                          'REG_COM':     partner.nrc or '',
-                          'ANALITIC':    '', #partner.property_account_receivable.code,  # se va genera codul de catre SAGA
-                          'ZS':          0,
-                          'ADRESA':      self.unaccent(partner.contact_address[:48]),
-                          'TARA':        partner.country_id.code or '',
-                          'TEL':         partner.phone or '',
-                          'EMAIL':       partner.email or '',
-                          'IS_TVA':      is_tva,                          
-                          }
-                clienti_dbf.insert(values)        
+            if not partner.ref_customer:
+                error = _("Partenerul %s nu are cod de client SAGA") % partner.name
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise Warning(error)
+                
+            if not partner.vat_subjected:
+                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
+                is_tva  = 0
+            else:
+                cod_fiscal = partner.vat
+                is_tva  = 1
+             
+            values = {'COD':         partner.ref_customer or '',
+                      'DENUMIRE' :   self.unaccent(partner.name[:48] ),
+                      'COD_FISCAL':  cod_fiscal or '',
+                      'REG_COM':     partner.nrc or '',
+                      'ANALITIC':    '', #partner.property_account_receivable.code,  # se va genera codul de catre SAGA
+                      'ZS':          0,
+                      'ADRESA':      self.unaccent(partner.contact_address[:48]),
+                      'TARA':        partner.country_id.code or '',
+                      'TEL':         partner.phone or '',
+                      'EMAIL':       partner.email or '',
+                      'IS_TVA':      is_tva,                          
+                      }
+            clienti_dbf.insert(values)        
         
         return temp_file, result_html
 
@@ -559,7 +557,8 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         
         
             
-        partner_ids = self.env['res.partner']     
+        partner_in_ids = self.env['res.partner']  
+         
         product_ids = self.env['product.template']
         invoice_in_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
                                                              ('state','in',['open','paid']),
@@ -575,11 +574,13 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_in_ids:
-            partner_ids |=  invoice.commercial_partner_id
+            partner_in_ids |=  invoice.commercial_partner_id
 
         for voucher in voucher_in_ids:
-            partner_ids |=  voucher.partner_id
+            partner_in_ids |=  voucher.partner_id
 
+
+        partner_out_ids = self.env['res.partner']  
         invoice_out_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
                                                               ('state','in',['open','paid']),
                                                               ('type','in',['out_invoice','out_refund'])])
@@ -590,7 +591,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_out_ids:
-            partner_ids |=  invoice.commercial_partner_id 
+            partner_out_ids |=  invoice.commercial_partner_id 
 
 
         date_start = fields.Date.from_string(self.period_id.date_start)
@@ -603,10 +604,11 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         result_html += '<div>Bonuri fiscale: %s</div>' % str(len(voucher_in_ids))
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
-        result_html += '<div>Parteneri %s</div>' % str(len(partner_ids))
+        result_html += '<div>Furnizori %s</div>' % str(len(partner_in_ids))
+        result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
 
 
-        temp_file, messaje  = self.do_export_furnizori(partner_ids) 
+        temp_file, messaje  = self.do_export_furnizori(partner_in_ids) 
          
         result_html += messaje  
               
@@ -614,7 +616,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         zip_archive.writestr(file_name,temp_file.getvalue())
    
 
-        temp_file, messaje  = self.do_export_clienti(partner_ids) 
+        temp_file, messaje  = self.do_export_clienti(partner_out_ids) 
          
         result_html += messaje                  
         
