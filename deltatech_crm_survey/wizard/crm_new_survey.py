@@ -53,6 +53,11 @@ class crm_new_survey(models.TransientModel):
     
     survey_id = fields.Many2one('survey.survey', string='Survey', required=True)
     partner_id = fields.Many2one('res.partner',   string='Partner', required=True)
+    
+    partner_ids = fields.Many2many('res.partner', 'crm_new_survey_res_partner_rel',
+            'wizard_id', 'partner_id', string='Existing contacts')
+    
+    
     lead_id = fields.Many2one('crm.lead',   string='Lead')
     #by_mail = fields.Boolean('Send Email')
     #template_id = fields.Many2one('email.template', string='Template')
@@ -65,10 +70,11 @@ class crm_new_survey(models.TransientModel):
         lead = self.env['crm.lead'].browse(active_id) 
         defaults['lead_id'] = lead.id
         defaults['partner_id'] = lead.partner_id.id 
-        
+        if lead.partner_id:
+            defaults['partner_ids'] = [(6,False, [lead.partner_id.id ])]
  
         defaults['mail_notify_noemail'] =  False
-        defaults['mail_post_autofollow'] = True
+        defaults['mail_post_autofollow'] = False
               
         if lead.stage_id.survey_id:
             defaults['survey_id'] = lead.stage_id.survey_id.id
@@ -76,6 +82,11 @@ class crm_new_survey(models.TransientModel):
             if lead.categ_ids:
                 defaults['survey_id'] = lead.categ_ids[0].survey_id.id
         return defaults
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        if self.partner_id:
+            self.partner_ids |= self.partner_id
 
     @api.multi
     def make_survey(self):
@@ -120,7 +131,7 @@ class crm_new_survey(models.TransientModel):
 
         url = url + '/' +survey_result.token
 
-        
+         
         self.body =  self.body.replace("__URL__", url)
         res = super(crm_new_survey,self).send_mail()
         return res

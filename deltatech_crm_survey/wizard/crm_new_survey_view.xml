@@ -23,6 +23,7 @@
 					<group>
 						<field name="survey_id" options="{'no_create': True}" />
 						<field name="partner_id" options="{'no_create': True}" />
+						<field name="partner_ids" widget="many2many_tags_email"  options="{'no_create': True}" invisible="1"/>
 						<field name="mail_notify_noemail" string="Without email"/>
 					</group>
 					<div  attrs="{'invisible':[('mail_notify_noemail','=',True)]}">

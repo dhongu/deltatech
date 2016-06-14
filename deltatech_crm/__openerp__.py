@@ -32,7 +32,7 @@ Functionalitati:
     """,
     
     'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm" ],
+    "depends" : ['deltatech',"crm", "deltatech_mail"],
 
 
  
