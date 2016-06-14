@@ -68,6 +68,7 @@ class crm_new_survey(models.TransientModel):
         
  
         defaults['mail_notify_noemail'] =  False
+        defaults['mail_post_autofollow'] = True
               
         if lead.stage_id.survey_id:
             defaults['survey_id'] = lead.stage_id.survey_id.id

@@ -205,7 +205,7 @@ class export_saga(models.TransientModel):
                       'DENUMIRE' :   self.unaccent(partner.name[:48] ),
                       'COD_FISCAL':  cod_fiscal or '',
                       'REG_COM':     partner.nrc or '',
-                      'ANALITIC':    '', #partner.property_account_receivable.code,  # se va genera codul de catre SAGA
+                      'ANALITIC':    '4111.'+partner.ref_customer, #partner.property_account_receivable.code,  # se va genera codul de catre SAGA
                       'ZS':          0,
                       'ADRESA':      self.unaccent(partner.contact_address[:48]),
                       'TARA':        partner.country_id.code or '',
