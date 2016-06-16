@@ -130,10 +130,15 @@ class export_saga(models.TransientModel):
                 cod_fiscal = partner.vat
                 is_tva  = 1
                 
+            if partner.ref_supplier:
+                analitic = '401.'+partner.ref_supplier.zfill(5)
+            else:
+                analitic = ''
+                
             values = {'COD':        partner.ref_supplier or '',
                       'DENUMIRE' :  self.unaccent(partner.name[:48]),
                       'COD_FISCAL' : cod_fiscal or '',
-                      'ANALITIC':    '', #partner.property_account_payable.code,
+                      'ANALITIC':    analitic,
                       'ZS':0,
                       'ADRESA':      self.unaccent(partner.contact_address ),
                       #'BANCA'
@@ -200,12 +205,18 @@ class export_saga(models.TransientModel):
             else:
                 cod_fiscal = partner.vat
                 is_tva  = 1
+
+            if partner.ref_supplier:
+                analitic = '4111.'+partner.ref_customer.zfill(5)
+            else:
+                analitic = ''
+
              
-            values = {'COD':         partner.ref_customer or '',
+            values = {'COD':         partner.ref_customer.zfill(5) or '',
                       'DENUMIRE' :   self.unaccent(partner.name[:48] ),
                       'COD_FISCAL':  cod_fiscal or '',
                       'REG_COM':     partner.nrc or '',
-                      'ANALITIC':    '4111.'+partner.ref_customer, #partner.property_account_receivable.code,  # se va genera codul de catre SAGA
+                      'ANALITIC':    analitic,
                       'ZS':          0,
                       'ADRESA':      self.unaccent(partner.contact_address[:48]),
                       'TARA':        partner.country_id.code or '',
@@ -348,7 +359,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    'NR_INTRARE': invoice.supplier_invoice_number or invoice.number ,
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
-                   'COD':        invoice.commercial_partner_id.ref_supplier or '',
+                   'COD':        invoice.commercial_partner_id.ref_supplier.zfill(5) or '',
                    'DATA':       fields.Date.from_string(invoice.date_invoice),
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
                    'TIP':       tip,
@@ -511,7 +522,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                 values = {
                    
                    'NR_IESIRE': invoice.number.replace('/', ' ') ,
-                   'COD':        invoice.commercial_partner_id.ref_customer or '',
+                   'COD':        invoice.commercial_partner_id.ref_customer.zfill(5) or '',
                    'DATA':       fields.Date.from_string(invoice.date_invoice),
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
                    'TIP':       '',
