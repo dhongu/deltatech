@@ -33,7 +33,6 @@ class survey_user_input(models.Model):
     
     lead_id = fields.Many2one('crm.lead', string='Lead')
 
-
     @api.multi
     def write(self, vals):
         if 'state' in vals:
