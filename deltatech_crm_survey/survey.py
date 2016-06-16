@@ -37,9 +37,10 @@ class survey_user_input(models.Model):
     @api.multi
     def write(self, vals):
         if 'state' in vals:
-            if vals['state'] == 'done' and self.lead_id :
-                msg = _('Survey %s was done') % self.survey_id.title
-                self.lead_id.sudo().message_post(body=msg)
+            user_input = self.sudo()
+            if vals['state'] == 'done' and user_input.lead_id :
+                msg = _('Survey %s was done') % user_input.survey_id.title
+                user_input.lead_id.message_post(body=msg)
 
         res = super(survey_user_input, self).write(vals) 
 
