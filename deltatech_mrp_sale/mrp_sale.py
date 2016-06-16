@@ -114,8 +114,7 @@ class sale_order(models.Model):
         self.order_line.write({'product_uom_qty':0.0})
   
         for resource in self.resource_ids:
-            if resource.item_categ =='primary':
-                continue
+
             line_to_update = self.env['sale.order.line']
             for line in self.order_line:
                 if line.product_id.id == resource.product_id.id and line.item_categ == resource.item_categ and resource.product_uom.name != '%':
