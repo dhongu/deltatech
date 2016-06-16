@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-
+#todo: de adaugat in cum in view related la camul din identificatorul externastfel incat sa nu se permita editarea 
 
  
 

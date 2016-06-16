@@ -33,6 +33,9 @@ Functionalitati:
  - Ofera posibilitatea de a modifica lotul unei pozitii de stoc
  - Permite impartirea unei pozitii de stoc
  
+de facut:
+ - Posibilitate de unire a pozitiilor de stoc
+  
     """,
     
     

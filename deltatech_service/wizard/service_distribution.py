@@ -53,7 +53,7 @@ class service_distribution(models.TransientModel):
     def do_distribution(self):
         
         active_ids = self.env.context.get('active_ids', False)
-        print active_ids
+        #print active_ids
         if active_ids:
             domain=[('invoice_id', '=', False),('product_id','=', self.product_id.id),('id','in', active_ids )]   
         else:

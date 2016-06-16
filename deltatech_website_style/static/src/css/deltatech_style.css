@@ -1,19 +1,82 @@
 @CHARSET "UTF-8";
 
-.grow{
-  height: 100%;
+
+.hovereffect {
   width: 100%;
-  -webkit-transition: all 0.3s ease;
-     -moz-transition: all 0.3s ease;
-       -o-transition: all 0.3s ease;
-      -ms-transition: all 0.3s ease;
-          transition: all 0.3s ease;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: default;
+}
+
+.hovereffect .overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.hovereffect:hover .overlay {
+  background-color: rgba(170,170,170,0.4);
+}
+
+.hovereffect h2, .hovereffect img {
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.hovereffect img {
+  display: block;
+  position: relative;
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.hovereffect:hover img {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.hovereffect h2 {
+  text-transform: uppercase;
+ 
+  text-align: center;
+  position: relative;
+  font-size: 17px;
+  padding: 10px;
+ 
+}
+ 
+ 
+
+
+
+.grow{
+  width: 100%;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: default;
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
          
 }
 
 .grow:hover {
-  width: 105%;
-  height: 105%;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
 }
 
 
@@ -40,7 +103,8 @@
 	text-align: center;
 	overflow: hidden;
 	margin: 10px;
- 	height: 250px;
+ 	/* height: 250px;
+	*/
 
   border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -60,6 +124,8 @@
   -moz-box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
+
+/*
 @media (max-width: 768px) {
   .boxed {
     height: 250px;
@@ -78,7 +144,7 @@
     height: 150px;
   }
 }
-
+*/
 
 /* Ribbon for promotionso on products */
 .oe_product.oe_ribbon_new .ribbon-wrapper {

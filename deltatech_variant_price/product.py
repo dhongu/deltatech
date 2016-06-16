@@ -50,7 +50,7 @@ class product_product(models.Model):
 
     @api.multi
     def _get_product_lst_price(self):      
-        print "get price"
+        
         for product in self:
             price = product.list_price
             if not price:
