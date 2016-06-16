@@ -194,9 +194,10 @@ class crm_lead(models.Model):
 
 
     #todo: de utilizat un tamplate pentru email
-    def log_next_activity_done(self, cr, uid, ids, context=None, next_activity_name=False):
-        to_clear_ids = []
-        for lead in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def log_next_activity_done(self):
+        to_clear_ids = self.env['crm.lead']
+        for lead in self:
             
             if not lead.next_activity_id:
                 continue
@@ -204,13 +205,15 @@ class crm_lead(models.Model):
 %if object.title_action:
 <div>${object.title_action}</div>
 %endif"""
-            body_html = self.pool['email.template'].render_template(cr, uid, body_html, 'crm.lead', lead.id, context=context)
+            body_html = self.env['email.template'].render_template(body_html, 'crm.lead', lead.id)
             msg_id = lead.message_post(body_html, subtype_id=lead.next_activity_id.subtype_id.id)
-            to_clear_ids.append(lead.id)
-            self.write(cr, uid, [lead.id], {'last_activity_id': lead.next_activity_id.id}, context=context)
+            msg = self.env['mail.message'].browse(msg_id)
+            msg.write({'subtype_id':lead.next_activity_id.subtype_id.id})
+            to_clear_ids |= lead
+            lead.write({'last_activity_id': lead.next_activity_id.id})
 
         if to_clear_ids:
-            self.cancel_next_activity(cr, uid, to_clear_ids, context=context)
+            to_clear_ids.cancel_next_activity()
         return True
 
     @api.multi

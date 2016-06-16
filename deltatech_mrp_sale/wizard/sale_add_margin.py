@@ -54,6 +54,16 @@ class sale_add_margin(models.TransientModel):
                 resource.write({'price_unit':price,
                                 'amount':amount, 
                                 'margin':margin})
+
+            #recalculez valoarea din  articole
+            for article in order.article_ids:
+                amount = 0
+                for resource in article.resource_ids:
+                    amount +=  resource.amount
+                if article.product_uom_qty:
+                    price_unit = article.amount / article.product_uom_qty
+                    
+                article.write({'price_unit':price_unit, 'amount':amount})  
                 
             order.button_update()  # pentru a calcula valoarea totala
                      

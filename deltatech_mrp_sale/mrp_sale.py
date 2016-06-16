@@ -258,13 +258,21 @@ class sale_mrp_order_attribute(models.Model):
     
     @api.multi
     def change_all(self):
+        article_to_update = self.env['sale.mrp.article']
+        product_obj = self.env['product.product']
         for order_attribute in self:
             if order_attribute.order_id:
                 for article in order_attribute.order_id.article_ids:
                     for attr in article.product_attributes:
                         if attr.attribute == self.attribute:
                             attr.value = self.value
-
+                            article_to_update |= article
+        
+        for article in article_to_update:
+            article.product_id = product_obj._product_find(article.product_template,
+                                                           article.product_attributes) 
+            article.explode_bom()   
+            
 
 # mai adaug categoria de cost  unde o sa intre manopera de montare lambriu / gips 
 # la cantitatea se calculeaza dupa un filtru iar 
