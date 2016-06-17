@@ -206,7 +206,7 @@ class export_saga(models.TransientModel):
                 cod_fiscal = partner.vat
                 is_tva  = 1
 
-            if partner.ref_supplier:
+            if partner.ref_customer:
                 analitic = '4111.'+partner.ref_customer.zfill(5)
             else:
                 analitic = ''
