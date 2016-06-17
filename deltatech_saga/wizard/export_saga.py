@@ -122,12 +122,6 @@ class export_saga(models.TransientModel):
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
                     raise Warning(error)
-
-            if not partner.commercial_partner_id.ref_supplier:
-                error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.commercial_partner_id.name
-                result_html += '<div>Eroare %s</div>' % error
-                if not self.ignore_error:
-                    raise Warning(error)
             
             if not partner.vat_subjected:
                 cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
@@ -205,11 +199,7 @@ class export_saga(models.TransientModel):
                 if not self.ignore_error:
                     raise Warning(error)
 
-            if not partner.commercial_partner_id.ref_customer:
-                error = _("Partenerul %s nu are cod de client SAGA") % partner.commercial_partner_id.name
-                result_html += '<div>Eroare %s</div>' % error
-                if not self.ignore_error:
-                    raise Warning(error)
+
                 
             if not partner.vat_subjected:
                 cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
@@ -434,7 +424,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    'NR_INTRARE': voucher.reference or voucher.number ,
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
-                   'COD':        voucher.partner_id.ref_supplier or '',
+                   'COD':        voucher.partner_id.commercial_partner_id.ref_supplier or '',
                    'DATA':       fields.Date.from_string(voucher.date),
                    'SCADENT':    fields.Date.from_string(voucher.date),
                    'TIP':       tip,
