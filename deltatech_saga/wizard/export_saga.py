@@ -122,6 +122,12 @@ class export_saga(models.TransientModel):
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
                     raise Warning(error)
+
+            if not partner.commercial_partner_id.ref_supplier:
+                error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.commercial_partner_id.name
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise Warning(error)
             
             if not partner.vat_subjected:
                 cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
@@ -193,8 +199,14 @@ class export_saga(models.TransientModel):
         clienti_dbf = base.DBF(temp_file, Clienti)
         for partner in partner_ids:
 
-            if not partner.ref_customer:
+            if not partner.ref_customer :
                 error = _("Partenerul %s nu are cod de client SAGA") % partner.name
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise Warning(error)
+
+            if not partner.commercial_partner_id.ref_customer:
+                error = _("Partenerul %s nu are cod de client SAGA") % partner.commercial_partner_id.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
                     raise Warning(error)
@@ -588,7 +600,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             partner_in_ids |=  invoice.commercial_partner_id
 
         for voucher in voucher_in_ids:
-            partner_in_ids |=  voucher.partner_id
+            partner_in_ids |=  voucher.partner_id.commercial_partner_id
 
 
         partner_out_ids = self.env['res.partner']  
