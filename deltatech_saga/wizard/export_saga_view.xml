@@ -9,9 +9,10 @@
 				    <field name="state" invisible="1" />
                     <field name="name" invisible="1"/>
 					<group states="choose" string="Export">
-						<field name="period_id" />
+						<field name="period_id" domain="[('state', '=', 'draft')]"/>
 						<field name="ignore_error" />
 						<field name="export_product" />
+						
 					</group>
                     <div states="get">
                         <h2>Export Complete</h2>

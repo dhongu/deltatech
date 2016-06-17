@@ -365,6 +365,14 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                 cont = line.account_id.code
                 while cont[-1] == '0':
                     cont = cont[:-1]
+                
+                #inlocuire contrui de cheltuiala cu cele de stoc
+                if cont == '6028':
+                    cont = '3028'
+                elif cont == '6022':
+                    cont = '3022'
+                elif cont == '623':
+                    cont = '6231'
                     
                 values = {
                    'NR_NIR':     10000+int(''.join([s for s in invoice.number if s.isdigit()])),
