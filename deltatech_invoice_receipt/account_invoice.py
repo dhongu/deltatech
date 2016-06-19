@@ -420,7 +420,7 @@ class account_invoice_line(models.Model):
         res = super(account_invoice_line, self).unlink()
         return res
 
-        
+    # metoda se gaseste in in modulul deltatech_invoice si trebuie eliminata de aici    
     @api.multi
     # pretul din factura se determina in functie de cursul de schimb din data facturii  
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
