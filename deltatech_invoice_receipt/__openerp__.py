@@ -34,6 +34,8 @@ Functionalitati:
  - Pretul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
  - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie 
 
+ - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
+
 Antentie:
  - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
 
