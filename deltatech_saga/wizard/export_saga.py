@@ -419,6 +419,19 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                 while cont[-1] == '0':
                     cont = cont[:-1]
                     
+                #inlocuire contrui de cheltuiala cu cele de stoc
+                if cont == '6028':
+                    cont = '3028'
+                elif cont == '6022':
+                    cont = '3022'
+                elif cont == '623':
+                    cont = '6231'
+
+                if tva_art == 0:
+                    tva = 0
+                else:
+                    tva = line.amount-line.untax_amount
+                    
                 values = {
                    'NR_NIR':     10000+int(''.join([s for s in voucher.number if s.isdigit()])),
                    'NR_INTRARE': voucher.reference or voucher.number ,
@@ -433,10 +446,9 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    'DEN_ART':    '',
                    'UM':         '',
                    'CANTITATE':  1,
-                       
                    'TVA_ART':    tva_art,
                    'VALOARE':    line.untax_amount or line.amount,  #todo: daca pretul include tva valoarea cum o fi ?
-                   'TVA':        line.amount-line.untax_amount,
+                   'TVA':        tva,
                    'CONT':       cont,
                    'PRET_VANZ':  0,
                    'GRUPA':      '',
