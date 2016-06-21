@@ -39,8 +39,9 @@ class survey_user_input(models.Model):
             user_input = self.sudo()
             if vals['state'] == 'done' and user_input.lead_id :
                 msg = _('Survey %s was done') % user_input.survey_id.title
-                user_input.lead_id.message_post(body=msg)
-
+                message_id = user_input.lead_id.message_post(body=msg)
+                message = self.env['mail.message'].browse(message_id)
+                message.set_message_read( read=False )
         res = super(survey_user_input, self).write(vals) 
 
         return res

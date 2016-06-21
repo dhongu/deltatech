@@ -25,7 +25,15 @@
 				</field>
 				<page string="Extra Info" position="after">
 					<page string="Surveys">
-						<field name="survey_results" />
+						<field name="survey_results">
+							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">
+								<field name="survey_id" />
+								<field name="date_create" />
+								<field name="state" />
+								<field name="test_entry" invisible="True" />
+								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />
+							</tree>
+						</field>
 					</page>
 				</page>
 			</field>
@@ -43,7 +51,16 @@
 				</field>
 				<page string="Lead" position="after">
 					<page string="Surveys">
-						<field name="survey_results" />
+						<field name="survey_results">
+							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">
+								<field name="survey_id" />
+								<field name="date_create" />
+								<field name="state" />
+								<field name="test_entry" invisible="True" />
+								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />
+							</tree>
+
+						</field>
 					</page>
 				</page>
 			</field>
