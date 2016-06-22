@@ -68,9 +68,9 @@ class service_consumption(models.Model):
         ], string='Status', index=True,  default='draft', copy=False, readonly=True, states={'draft': [('readonly', False)]} )
  
     
-    agreement_id = fields.Many2one('service.agreement', string='Agreement', readonly=True, ondelete='restrict', copy=False )
+    agreement_id = fields.Many2one('service.agreement', string='Agreement', readonly=True, ondelete='restrict', copy=False, index=True )
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True, ondelete='restrict', copy=False )
-    invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False )
+    invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False,  index=True )
 
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True, copy=False )
 

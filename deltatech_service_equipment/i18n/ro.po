@@ -255,6 +255,13 @@ msgstr "Data trebuie să fie mai mare de %s"
 msgid "Deliveries"
 msgstr "Livrări"
 
+
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#. module: deltatech_service_equipment
+msgid "Revenues"
+msgstr "Venituri"
+
+
 #: code:addons/deltatech_service_equipment/service_equipment.py:312
 #: code:addons/deltatech_service_equipment/service_equipment.py:346
 #: view:service.equipment:deltatech_service_equipment.view_service_equipment_form

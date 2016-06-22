@@ -45,6 +45,9 @@
 					<field name="start_date" />
 					<field name="agreement_type_id" />
 					<field name="readings_status" />
+					<field name="total_revenues" sum="total" />
+					<field name="total_costs"    sum="total"/>
+					
 					<field name="message_unread" invisible="1" />
 				</tree>
 			</field>
@@ -94,11 +97,24 @@
 								<div>Meter Readings</div>
 							</button>
 							<button type="object" class="oe_stat_button" id="invoice_button" icon="fa-pencil-square-o" name="invoice_button" groups="account.group_account_invoice">
-								<div>Invoices</div>
+								<div>Invoiced</div>
+							</button>
+							
+
+							<button type="action" class="oe_stat_button" id="consumption_button" 
+								icon="fa-line-chart"
+								name="%(deltatech_service.action_service_consumption)d"
+								context="{'search_default_equipment_id': id,
+										 
+										  'search_default_done': 1,
+										 
+										  'default_partner_id': partner_id }"  >
+								<div><strong><field name="total_revenues" widget="monetary"/></strong><br/>Revenues</div>
 							</button>
 
-							<button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out" name="picking_button">
-								<div>Deliveries</div>
+							
+							<button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out"  name="picking_button">
+								<div><strong><field name="total_costs" widget="monetary"/></strong><br/>Costs</div>
 							</button>
 
 
@@ -205,7 +221,19 @@
 			</field>
 		</record>
 
-
+		<record id="view_service_equipment_graph" model="ir.ui.view">
+	        <field name="name">service.equipment.graph</field>
+			<field name="model">service.equipment</field>
+	        <field name="arch" type="xml">
+	            <graph string="picking_report for stock" type="pivot" >	
+	                	
+	                <field name="product_id" type="row"/>
+					<field name="readings_status" />
+					<field name="total_revenues" type="measure"/>
+					<field name="total_costs"    type="measure"/>
+	            </graph>
+	        </field>
+    	</record>
 
 
 
@@ -225,7 +253,7 @@
 			<field name="name">Equipments</field>
 			<field name="res_model">service.equipment</field>
 			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
+			<field name="view_mode">tree,form,graph</field>
 		</record>
 
 		<menuitem name="Equipment" id="menu_service_equipment" action="action_service_equipment" parent="base.menu_service" sequence="500" />
@@ -248,6 +276,21 @@
 			<field name="name">Update Meter Status</field>
 			<field name="value" eval="'ir.actions.server,%d'%action_update_meter_status" />
 		</record>
+
+		<record id="action_update_costs_and_revenues" model="ir.actions.server">
+			<field name="name">Update Costs And Revenues</field>
+			<field name="model_id" ref="model_service_equipment" />
+			<field name="state">code</field>
+			<field name="code">action = self.costs_and_revenues(cr, uid, context.get('active_ids', []), context=context)</field>
+		</record>
+
+		<record id="more_item_update_costs_and_revenues" model="ir.values">
+			<field name="key2" eval="'client_action_multi'" />
+			<field name="model" eval="'service.equipment'" />
+			<field name="name">Update Costs And Revenues</field>
+			<field name="value" eval="'ir.actions.server,%d'%action_update_costs_and_revenues" />
+		</record>
+
 
 
 		<record id="view_service_equipment_type_form" model="ir.ui.view">

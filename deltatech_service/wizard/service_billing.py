@@ -70,8 +70,10 @@ class service_billing(models.TransientModel):
     @api.multi
     def do_billing(self):
         pre_invoice = {}   # lista de facuri
+        agreements = self.env['service.agreement']
         for cons in self.consumption_ids:
             pre_invoice[cons.date_invoice] = {}
+            agreements |= cons.agreement_id
         for cons in self.consumption_ids:
             # convertire pret in moneda companeie
             
@@ -168,6 +170,8 @@ class service_billing(models.TransientModel):
                 invoice_id.button_compute(True)
                 pre_invoice[date_invoice][key]['cons'].write( {'invoice_id':invoice_id.id})
                 res.append(invoice_id.id)
+
+        agreements.compute_totals()
 
         action = self.env.ref('deltatech_service.action_service_invoice').read()[0]  
         action['domain'] = "[('id','in', ["+','.join(map(str,res))+"])]"

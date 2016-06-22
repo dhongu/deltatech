@@ -93,8 +93,20 @@
 										  'default_agreement_id': id,
 										  'default_partner_id': partner_id }"
 								groups="account.group_account_invoice">
-								<div>Invoices</div>
+								<div><strong><field name="total_invoiced" widget="monetary"/></strong><br/>Invoices</div>
 							</button>
+							
+							<button type="action" class="oe_stat_button" id="consumption_button" 
+								icon="fa-line-chart"
+								name="%(action_service_consumption)d"
+								context="{'search_default_agreement_id': id,
+										 
+										  'search_default_done': 1,
+										  'default_agreement_id': id,
+										  'default_partner_id': partner_id }"  >
+								<div><strong><field name="total_consumption" widget="monetary"/></strong><br/>Revenues</div>
+							</button>
+							
 						</div>
 						<group>
 							<group>

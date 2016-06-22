@@ -343,7 +343,10 @@ msgstr "Cantitate facturată"
 msgid "Invoices"
 msgstr "Facturi"
 
-
+#. module: deltatech_service
+#: view:service.agreement:deltatech_service.view_service_agreement_form
+msgid "Revenues"
+msgstr "Venituri"
 
 
 #. module: deltatech_service

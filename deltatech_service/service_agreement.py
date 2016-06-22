@@ -112,8 +112,29 @@ class service_agreement(models.Model):
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
 
 
-    #TODO: de legat acest contract la un cont analitic ...
+    total_invoiced = fields.Float(string="Total invoiced")
+    total_consumption = fields.Float(string="Total consumption")
+    
 
+    @api.multi
+    def compute_totals(self):
+        for agreement in self:
+            total_consumption = 0.0
+            total_invoiced = 0.0
+            consumptions = self.env['service.consumption'].search([('agreement_id','=',agreement.id)]) 
+            invoices = self.env['account.invoice']
+            for consumption in consumptions:
+                if consumption.state == 'done':
+                    total_consumption += consumption.currency_id.compute(consumption.price_unit*consumption.quantity, self.env.user.company_id.currency_id )
+                    invoices |= consumption.invoice_id
+            for invoice in invoices:
+                if invoice.state in ['open','paid']:
+                    total_invoiced += invoice.amount_untaxed
+            agreement.write({'total_invoiced':total_invoiced,
+                             'total_consumption':total_consumption})
+            
+
+    #TODO: de legat acest contract la un cont analitic ...
     @api.one
     def _compute_last_invoice_id(self):
         self.last_invoice_id = self.env['account.invoice'].search([('agreement_id','=',self.id),('state','in',['open','paid'])],
@@ -231,13 +252,37 @@ class account_invoice(models.Model):
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='invoice_line.agreement_line_id.agreement_id') 
 
 
+
+    @api.multi
+    def action_cancel(self):
+        res = super(account_invoice, self).action_cancel()
+        consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)])
+        if consumptions:
+            consumptions.write( {'state':'draft',
+                                 'invoice_id':False})
+            for consumption in consumptions:
+                consumption.agreement_id.compute_totals()  
+        return res 
+    
     @api.multi
     def unlink(self):
         consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)])
         if consumptions:
             consumptions.write( {'state':'draft'})
-
+            for consumption in consumptions:
+                consumption.agreement_id.compute_totals() 
         return super(account_invoice, self).unlink() 
+
+    @api.multi
+    def invoice_validate(self):
+        res = super(account_invoice, self).invoice_validate()
+        agreements = self.env['service.agreement']
+        for invoice in self:
+            for line in invoice.invoice_line:
+                agreements |= line.agreement_line_id.agreement_id
+        agreements.compute_totals()         
+        return res
+
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'

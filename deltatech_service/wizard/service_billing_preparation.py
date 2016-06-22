@@ -69,6 +69,7 @@ class service_billing_preparation(models.TransientModel):
                     }) 
                     consumption = self.env['service.consumption'].create(cons_value) 
                     res.extend( line.after_create_consumption(consumption) )
+        self.agreement_ids.compute_totals()
         return {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",
             'name': _('Service Consumption'),

@@ -127,6 +127,9 @@ class service_equipment(models.Model):
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict",  copy=False)
     inventory_value = fields.Float(string="Inventory value")
     
+    total_revenues = fields.Float(string="Total Revenues")  # se va calcula din suma consumurilor de servicii
+    total_costs = fields.Float(string="Total cost")  # se va calcula din suma avizelor
+    
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
 
@@ -145,6 +148,8 @@ class service_equipment(models.Model):
     consumable_id =  fields.Many2one('service.consumable', string='Consumable List')    
     consumable_item_ids =  fields.Many2many('service.consumable.item', string='Consumables', compute="_compute_consumable_item_ids", readonly=True)
     readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string="Readings Status", compute="_compute_readings_status", store=True )
+    
+    
     
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
@@ -183,7 +188,31 @@ class service_equipment(models.Model):
                                                                 ('from_date','<=',date)], order='from_date DESC', limit=1)
            
         return res 
-    
+
+
+    @api.multi
+    def costs_and_revenues(self):
+        for equi in self:
+            cost = 0.0
+            pickings = self.env['stock.picking'].search([('equipment_id','=',equi.id),('state','=','done')])
+            for picking in pickings:               
+                for move in move_lines:
+                    move_value = 0.0
+                    for quant in move.quant_ids:
+                        move_value += quant.cost*quant.qty
+                    if move.location_id.usage == 'internal':
+                        cost += move_value
+                    else:
+                        cost -= move_value
+            revenues = 0.0
+            consumptions = self.env['service.consumption'].search([('equipment_id','=',equi.id)]) 
+            for consumption in consumptions:
+                if consumption.state == 'done':
+                    revenues += consumption.currency_id.compute(consumption.price_unit*consumption.quantity, self.env.user.company_id.currency_id )
+                    
+
+            equi.write({'total_costs':cost,
+                        'total_revenues':revenues})            
     
     @api.multi
     def _compute_readings_status(self):

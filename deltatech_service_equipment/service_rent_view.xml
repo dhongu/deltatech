@@ -23,7 +23,17 @@
 		</record>
 
 
- 
+		<record id="view_service_consumption_filter" model="ir.ui.view">
+			<field name="name">service.consumption.select</field>
+			<field name="model">service.consumption</field>
+			<field name="inherit_id" ref="deltatech_service.view_service_consumption_filter" />
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<field name="product_id" position="before">
+					<field name="equipment_id" />
+				</field>	
+			</field>
+		</record> 
 
 
 
