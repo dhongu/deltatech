@@ -88,10 +88,11 @@ class crm_lead(models.Model):
         if custom_values is None:
             custom_values = {} 
         
+        print custom_values
         try:    
             xml_body = html.fromstring(msg_dict['body'])
         except Exception as e:
-            
+            print e
             return res
         
         try:  
@@ -99,6 +100,7 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['city'] =  element[0].text
         except Exception as e:
+            print e
             pass
         
         try:  
@@ -106,6 +108,7 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['phone'] =  element[0].text
         except Exception as e:
+            print e
             pass
         
         try:
@@ -113,6 +116,7 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['street'] =  element[0].text
         except Exception as e:
+            print e
             pass
         
         try:            
@@ -125,6 +129,7 @@ class crm_lead(models.Model):
                 else:
                     custom_values['street'] += element[0].text
         except Exception as e:
+            print e
             pass
         
         try:    
@@ -153,6 +158,7 @@ class crm_lead(models.Model):
             if  element:
                 custom_values['email_from'] =  element[0].text
         except Exception as e:
+            print e
             pass
         
         try:         
@@ -165,7 +171,7 @@ class crm_lead(models.Model):
             print e
             pass
         
-                      
+        print custom_values              
         return res
 
     @api.multi
