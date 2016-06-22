@@ -59,6 +59,8 @@
 					<field name="description" />
 					<field name="state" />
 					<field name="type_id" />
+					<field name="total_consumption" sum="consumption"/>
+					<field name="total_invoiced" sum="invoiced"/>
 					<field name="message_unread" invisible="1" />
 				</tree>
 			</field>
@@ -172,6 +174,24 @@
 
 		<menuitem name="Services Agreements" id="menu_service_agreement"
 			action="action_service_agreement" parent="base.menu_service_agr" sequence="100" />
+
+
+
+
+		<record id="action_update_revenues" model="ir.actions.server">
+			<field name="name">Update Revenues</field>
+			<field name="model_id" ref="model_service_agreement" />
+			<field name="state">code</field>
+			<field name="code">action = self.compute_totals(cr, uid, context.get('active_ids', []), context=context)</field>
+		</record>
+
+		<record id="more_item_update_revenues" model="ir.values">
+			<field name="key2" eval="'client_action_multi'" />
+			<field name="model" eval="'service.agreement'" />
+			<field name="name">Update Revenues</field>
+			<field name="value" eval="'ir.actions.server,%d'%action_update_revenues" />
+		</record>
+
 
 
 		<record id="action_service_agreement_type" model="ir.actions.act_window">
