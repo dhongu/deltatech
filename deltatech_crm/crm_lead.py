@@ -83,12 +83,12 @@ class crm_lead(models.Model):
     @api.model
     def message_new(self,  msg_dict, custom_values=None):
               
-        res = super(crm_lead,self).message_new(  msg_dict, custom_values)
+        
             
         if custom_values is None:
             custom_values = {} 
         
-        print custom_values
+        
         try:    
             xml_body = html.fromstring(msg_dict['body'])
         except Exception as e:
@@ -171,6 +171,8 @@ class crm_lead(models.Model):
             print e
             pass
         
+        print custom_values
+        res = super(crm_lead,self).message_new(  msg_dict, custom_values)
         print custom_values              
         return res
 
