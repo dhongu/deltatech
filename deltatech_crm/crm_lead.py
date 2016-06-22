@@ -90,28 +90,29 @@ class crm_lead(models.Model):
         
         try:    
             xml_body = html.fromstring(msg_dict['body'])
-        except:
+        except Exception as e:
+            
             return res
         
         try:  
             element = xml_body.xpath("//*[@itemprop='addressLocality']")
             if  element:
                 custom_values['city'] =  element[0].text
-        except:
+        except Exception as e:
             pass
         
         try:  
             element = xml_body.xpath("//*[@itemprop='telephone']")
             if  element:
                 custom_values['phone'] =  element[0].text
-        except:
+        except Exception as e:
             pass
         
         try:
             element = xml_body.xpath("//*[@itemprop='streetAddress']")
             if  element:
                 custom_values['street'] =  element[0].text
-        except:
+        except Exception as e:
             pass
         
         try:            
@@ -123,7 +124,7 @@ class crm_lead(models.Model):
                     custom_values['country_id'] =  region.country_id.id
                 else:
                     custom_values['street'] += element[0].text
-        except:
+        except Exception as e:
             pass
         
         try:    
@@ -135,21 +136,23 @@ class crm_lead(models.Model):
                 else:
                     if not custom_values['country_id']:
                         custom_values['street'] += element[0].text
-        except:
+        except Exception as e:
+            print e
             pass
         
         try:         
             element = xml_body.xpath("//address//*[@itemprop='name']")
             if  element:
                 custom_values['contact_name'] =  element[0].text
-        except:
+        except Exception as e:
+            print e
             pass
         
         try:         
             element = xml_body.xpath("//address//*[@itemprop='email']")
             if  element:
                 custom_values['email_from'] =  element[0].text
-        except:
+        except Exception as e:
             pass
         
         try:         
@@ -158,7 +161,8 @@ class crm_lead(models.Model):
                 medium = self.env['crm.tracking.medium'].search([('name','like',element[0].text)])
                 if medium:
                     custom_values['medium_id'] =  medium.id
-        except:
+        except Exception as e:
+            print e
             pass
         
                       
