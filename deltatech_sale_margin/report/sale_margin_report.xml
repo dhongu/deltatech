@@ -52,6 +52,8 @@
 					<field name="profit_val" sum="Profit"/>
 					<field name="commission_computed" sum="Commission Computed"/>
 					<field name="commission" sum="Commission"/>
+					<field name="indicator_supplement" avg="Supplement Indicator"/>
+					<field name="indicator_merchandise_profit" avg="Merchandise Profit Indicator"/>
 					<field name="company_id" invisible="1" groups="base.group_multi_company"/>
 					<field name="type" invisible="1"/>
 					<field name="state" invisible="1"/>
@@ -71,6 +73,8 @@
 	                <field name="sale_val" type="measure"/>
 	                <field name="stock_val" type="measure"/>
 	                <field name="profit_val" type="measure"/>
+	                <field name="indicator_supplement" avg="Supplement Indicator" type="measure"/>
+	                <field name="indicator_merchandise_profit" avg="Merchandise Profit Indicator" type="measure"/>
 	            </graph>
 	        </field>
     	</record>

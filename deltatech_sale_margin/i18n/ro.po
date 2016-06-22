@@ -64,6 +64,21 @@ msgstr "Comision"
 msgid "Commission Computed"
 msgstr "Comision calculat"
 
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,indicator_supplement:0
+msgid "Supplement Indicator"
+msgstr "Indicator adaos"
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,indicator_merchandise_profit:0
+msgid "Merchandise Profit Indicator"
+msgstr "Indicator marfa profit"
+
+
+
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 #: field:sale.margin.report,company_id:0

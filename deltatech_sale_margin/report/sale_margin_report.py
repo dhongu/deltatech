@@ -53,6 +53,10 @@ class sale_margin_report(models.Model):
         'company_id': fields.many2one('res.company','Company',readonly=True), 
         
         'period_id': fields.many2one('account.period', 'Period', readonly=True),
+        'indicator_supplement': fields.float("Supplement Indicator",   readonly=True, digits=(12,2), group_operator='avg'),
+        'indicator_merchandise_profit': fields.float("Merchandise Profit Indicator",   readonly=True, digits=(12,2), group_operator='avg'),
+        
+        
         
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
@@ -105,6 +109,35 @@ class sale_margin_report(models.Model):
                         THEN -( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
                         ELSE  ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
                     END) AS profit_val,   
+                    
+                    AVG(
+                    CASE
+                     WHEN (l.quantity * COALESCE( l.purchase_price, 0 ) ) = 0
+                      THEN 0
+                      ELSE 
+                        CASE
+                         WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                            THEN -100*( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
+                                       (l.quantity * COALESCE( l.purchase_price, 0 ) )
+                            ELSE  100*( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
+                                       (l.quantity * COALESCE( l.purchase_price, 0 ) )
+                        END
+                    END) AS indicator_supplement,  
+                    
+
+                    AVG(
+                    CASE
+                     WHEN ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) ) = 0
+                      THEN 0
+                      ELSE
+                        CASE
+                         WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                            THEN -100*( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
+                            ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) )
+                            ELSE  100*( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
+                            ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) )
+                        END
+                    END) AS indicator_merchandise_profit, 
                                           
                     SUM( CASE
                             WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
