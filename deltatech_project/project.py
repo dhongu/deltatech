@@ -36,6 +36,9 @@ class project_task_type(models.Model):
 class project_project(models.Model):
     _inherit = "project.project"
 
+    ref_po = fields.Char(string='PO')
+    ref_qty  = fields.Float(string='Quantity')
+    ref_customer  = fields.Char(string='Customer code')
 
     categ_id = fields.Many2one('project.category', string='Category')
     project_parent_id = fields.Many2one('project.project',  string='Parent Project') #compute='_get_project_parent_id', inverse="_set_project_parent_id", store=True,

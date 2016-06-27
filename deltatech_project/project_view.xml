@@ -30,7 +30,11 @@
 				</xpath>
 				<field name="partner_id" position="after">
 					<field name="project_parent_id" />
-					<field name="code" string="Code" />
+					<field name="code" string="Internal Code" />
+					<field name="ref_po"  />
+					<field name="ref_qty"  />
+					<field name="ref_customer" string="Customer code"  />
+					
 					<field name="progress_rate" widget="progressbar" />
 					<field name="categ_id" string="Category" />
 					<newline />

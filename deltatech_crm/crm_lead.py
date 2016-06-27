@@ -28,7 +28,9 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
-
+import logging
+_logger = logging.getLogger(__name__)
+from lxml import html
 
 
 class crm_lead(models.Model):
@@ -84,7 +86,7 @@ class crm_lead(models.Model):
     def message_new(self,  msg_dict, custom_values=None):
               
         
-            
+        _logger.info("Procesare taguri")    
         if custom_values is None:
             custom_values = {} 
         
@@ -92,32 +94,32 @@ class crm_lead(models.Model):
         try:    
             xml_body = html.fromstring(msg_dict['body'])
         except Exception as e:
-            print e
-            return res
+            _logger.warning(str(e))
+            
         
         try:  
             element = xml_body.xpath("//*[@itemprop='addressLocality']")
             if  element:
                 custom_values['city'] =  element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:  
             element = xml_body.xpath("//*[@itemprop='telephone']")
             if  element:
                 custom_values['phone'] =  element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:
             element = xml_body.xpath("//*[@itemprop='streetAddress']")
             if  element:
                 custom_values['street'] =  element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:            
             element = xml_body.xpath("//*[@itemprop='addressRegion']")
@@ -129,8 +131,8 @@ class crm_lead(models.Model):
                 else:
                     custom_values['street'] += element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:    
             element = xml_body.xpath("//*[@itemprop='addressCountry']")
@@ -142,24 +144,24 @@ class crm_lead(models.Model):
                     if not custom_values['country_id']:
                         custom_values['street'] += element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:         
             element = xml_body.xpath("//address//*[@itemprop='name']")
             if  element:
                 custom_values['contact_name'] =  element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:         
             element = xml_body.xpath("//address//*[@itemprop='email']")
             if  element:
                 custom_values['email_from'] =  element[0].text
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
         try:         
             element = xml_body.xpath("//*[@itemprop='maildomain']")
@@ -168,12 +170,12 @@ class crm_lead(models.Model):
                 if medium:
                     custom_values['medium_id'] =  medium.id
         except Exception as e:
-            print e
-            pass
+            _logger.warning(str(e))
+            
         
-        print custom_values
+         
         res = super(crm_lead,self).message_new(  msg_dict, custom_values)
-        print custom_values              
+                       
         return res
 
     @api.multi

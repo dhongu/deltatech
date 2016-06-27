@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record id="view_document_file_form" model="ir.ui.view">
+			<field name="name">ir.attachment</field>
+			<field name="model">ir.attachment</field>
+			<field name="priority" eval="1" />
+			<field name="inherit_id" ref="document.view_document_file_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//sheet" position="before">
+					<header>
+						<button name="set_draft" states="valid" string="Set Draft" type="object"/>
+						<button name="set_doc_number" states="draft" string="Set Number" type="object"/>
+						<button name="set_to_approved" states="draft" string="Ready to Approve" type="object"/>
+						<button name="approve" states="to_approved" string="Approve" type="object"/>
+						<button name="new_version" states="to_approved" string="Approve" type="object"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,to_approved,approved" statusbar_colors='{"obsoleted":"red","valid":"blue"}'/>
+					</header>
+
+				</xpath>
+
+
+
+				<field name="company_id" position="before">
+					<field name="categ_id" />
+					<field name="number" />
+					<field name="ref_turtle" />
+					<field name="reasons" />
+				</field>
+
+				<xpath expr="//group[@string='Attached To']" position="after">
+					<group string="Approved">
+						<field name="to_be_approved_by"  widget="many2many_tags"  />
+						<field name="approved_by"  widget="many2many_tags" />
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+
+	</data>
+</openerp>
