@@ -16,6 +16,9 @@
 				<xpath expr="//form//div/span[2]" position="replace">
 					<span attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('only_selected', '=', True)]}">Followers of the document and</span>
 				</xpath>
+				<field name="attachment_ids" position="replace">
+					<field name="attachment_ids" widget="many2many" string="Attach a file" domain="[('res_model','=',model),('res_id','=',res_id)]"/>
+				</field>
 			</field>
 		</record>
 	</data>
