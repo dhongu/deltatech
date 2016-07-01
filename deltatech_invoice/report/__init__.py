@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,25 +18,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Invoice",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
-
-Functionalitati:
- - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
- - Validare data factura sa fie mai mare decat data din ultima factura
-
-    """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account","l10n_ro_invoice_report"],
- 
-    "data" : ['account_invoice_view.xml',
-              'views/report_invoice.xml' ],
-    "active": False,
-    "installable": True,
-}
 
 
+
+import account_invoice
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

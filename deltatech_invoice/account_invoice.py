@@ -29,6 +29,8 @@ from datetime import datetime
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
+    # nr de facura se poate edita!!
+    internal_number = fields.Char(string='Invoice Number', readonly=False )
 
     base_rate = fields.Float( string='Rate', digits=(12, 4), readonly=True, default=0.0, store=False, compute="_compute_base_rate" ) 
     currency_rate = fields.Float( string='Currency Rate', digits=(12, 4), readonly=True, default=0.0 ) 
