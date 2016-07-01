@@ -372,13 +372,19 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     cont = '3022'
                 elif cont == '623':
                     cont = '6231'
+
+
+                if invoice.commercial_partner_id.ref_supplier:
+                    partner_code =   invoice.commercial_partner_id.ref_supplier.zfill(5)
+                else:
+                    partner_code = ''
                     
                 values = {
                    'NR_NIR':     10000+int(''.join([s for s in invoice.number if s.isdigit()])),
                    'NR_INTRARE': invoice.supplier_invoice_number or invoice.number ,
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
-                   'COD':        invoice.commercial_partner_id.ref_supplier.zfill(5) or '',
+                   'COD':        partner_code,
                    'DATA':       fields.Date.from_string(invoice.date_invoice),
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
                    'TIP':       tip,
@@ -441,12 +447,17 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                 else:
                     tva = line.amount-line.untax_amount
                     
+                if voucher.partner_id.commercial_partner_id.ref_supplier:
+                    partner_code =   voucher.partner_id.commercial_partner_id.ref_supplier.zfill(5)
+                else:
+                    partner_code = ''
+                    
                 values = {
                    'NR_NIR':     10000+int(''.join([s for s in voucher.number if s.isdigit()])),
                    'NR_INTRARE': voucher.reference or voucher.number ,
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
-                   'COD':        voucher.partner_id.commercial_partner_id.ref_supplier or '',
+                   'COD':        partner_code,
                    'DATA':       fields.Date.from_string(voucher.date),
                    'SCADENT':    fields.Date.from_string(voucher.date),
                    'TIP':       tip,
@@ -549,11 +560,16 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                 cont = line.account_id.code
                 while cont[-1] == '0':
                     cont = cont[:-1]    
+
+                if invoice.commercial_partner_id.ref_customer:
+                    partner_code =   invoice.commercial_partner_id.ref_customer.zfill(5)
+                else:
+                    partner_code = '' 
                     
                 values = {
                    
                    'NR_IESIRE': invoice.number.replace('/', ' ') ,
-                   'COD':        invoice.commercial_partner_id.ref_customer.zfill(5) or '',
+                   'COD':        partner_code,
                    'DATA':       fields.Date.from_string(invoice.date_invoice),
                    'SCADENT':    fields.Date.from_string(invoice.date_due),
                    'TIP':       '',
