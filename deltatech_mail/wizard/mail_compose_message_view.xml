@@ -17,7 +17,13 @@
 					<span attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('only_selected', '=', True)]}">Followers of the document and</span>
 				</xpath>
 				<field name="attachment_ids" position="replace">
-					<field name="attachment_ids" widget="many2many" string="Attach a file" domain="[('res_model','=',model),('res_id','=',res_id)]"/>
+					<group><field name="attachment_mode" /></group>
+					<field name="attachment_ids" widget="many2many_binary" attrs="{'invisible':[('attachment_mode', '==', True)]}"
+							string="Attach a file" 
+							domain="[('res_model','=',model),('res_id','=',res_id)]"/>
+					<field name="attachment_ids" widget="many2many"  attrs="{'invisible':[('attachment_mode', '==', False)]}"
+						string="Attach a file" 
+						domain="[('res_model','=',model),('res_id','=',res_id)]"/>
 				</field>
 			</field>
 		</record>

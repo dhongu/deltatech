@@ -33,6 +33,8 @@ class mail_compose_message(models.TransientModel):
     auto_subscribe = fields.Boolean(string="Subscribe Recipients", default=True)
     mail_notify_noemail = fields.Boolean(string="Only internal notification", help="It will use internal Odoo mail without sending out email system")
 
+    attachment_mode = fields.Boolean(string="List attachments")
+
     @api.one
     @api.onchange('only_selected')
     def onchange_only_selected(self):
