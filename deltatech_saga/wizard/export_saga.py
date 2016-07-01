@@ -134,8 +134,13 @@ class export_saga(models.TransientModel):
                 analitic = '401.'+partner.ref_supplier.zfill(5)
             else:
                 analitic = ''
+
+            if partner.ref_customer:
+                partner_code =   partner.ref_supplier.zfill(5)
+            else:
+                partner_code = ''
                 
-            values = {'COD':        partner.ref_supplier or '',
+            values = {'COD':        partner_code,
                       'DENUMIRE' :  self.unaccent(partner.name[:48]),
                       'COD_FISCAL' : cod_fiscal or '',
                       'ANALITIC':    analitic,
@@ -213,8 +218,12 @@ class export_saga(models.TransientModel):
             else:
                 analitic = ''
 
+            if partner.ref_customer:
+                partner_code =   partner.ref_customer.zfill(5)
+            else:
+                partner_code = ''
              
-            values = {'COD':         partner.ref_customer.zfill(5) or '',
+            values = {'COD':         partner_code,
                       'DENUMIRE' :   self.unaccent(partner.name[:48] ),
                       'COD_FISCAL':  cod_fiscal or '',
                       'REG_COM':     partner.nrc or '',
