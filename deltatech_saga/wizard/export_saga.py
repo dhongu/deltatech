@@ -135,7 +135,7 @@ class export_saga(models.TransientModel):
             else:
                 analitic = ''
 
-            if partner.ref_customer:
+            if partner.ref_supplier:
                 partner_code =   partner.ref_supplier.zfill(5)
             else:
                 partner_code = ''
