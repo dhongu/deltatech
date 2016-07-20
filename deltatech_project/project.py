@@ -218,11 +218,11 @@ class project_task(models.Model):
                     
                 if task.stage_id and  task.stage_id.use_progress:
                     task.progress = task.stage_id.progress
-                   
+                """   
                 if task.progress > 0.0:
                     if not task.work_ids:
                         raise Warning(_('Please fill work activity'))
-
+                """
             
             
 
