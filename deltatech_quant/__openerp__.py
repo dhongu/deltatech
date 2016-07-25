@@ -47,7 +47,8 @@ de facut:
     "data" : [  
                'stock_view.xml',
                'wizard/stock_quant_change_lot_view.xml',
-               'wizard/stock_quant_split_view.xml'
+               'wizard/stock_quant_split_view.xml',
+               'security/ir.model.access.csv'
                ],
     
     "active": False,

@@ -25,6 +25,13 @@ import openerp.addons.decimal_precision as dp
 from openerp.api import Environment
 
 
+class stock_quant_tag(models.Model):
+    _name = "stock.quant.tag"
+    _description = " Stock Quant Tag"
+    
+    name = fields.Char(string="Name")
+
+
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
@@ -43,12 +50,15 @@ class stock_quant(models.Model):
     _inherit = "stock.quant"   
     
     inventory_value = fields.Float(store=True)    
-    categ_id = fields.Many2one('product.category',string='Internal Category',related="product_id.categ_id", store=True)  
+    categ_id = fields.Many2one('product.category',string='Internal Category',related="product_id.categ_id", store=True, readonly=True)  
     customer_id = fields.Many2one('res.partner',string='Customer')
     supplier_id = fields.Many2one('res.partner',string='Supplier')
     origin =  fields.Char(string='Source Document')
     invoice_id =  fields.Many2one('account.invoice', string="Invoice")
 
+    note = fields.Char(string="Note")
+    tag_ids = fields.Many2many('stock.quant.tag', 'stock_quant_tags', 'quant_id','tag_id', string="Tags")
+    
     
     def _get_quant_name(self, cr, uid, ids, name, args, context=None):
         """ Forms complete name of location from parent location to child location.
