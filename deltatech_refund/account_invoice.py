@@ -119,7 +119,8 @@ class account_invoice(models.Model):
                 msg = _('Picking list %s was refunded by %s') % (self.get_link(picking),  self.get_link(new_picking))                 
                 invoice.message_post(body=msg)
         
-        
+    # poate ca nu trebuie sa se permita anularea nu modificarea starii din anulat in validat
+    """    
     @api.multi
     def action_cancel_draft(self):
         for invoice in self:
@@ -128,7 +129,7 @@ class account_invoice(models.Model):
                     raise Warning(_('Picking list %s was refunded') % picking.name)
             
         return super(account_invoice,self).action_cancel_draft()
-        
+     """   
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
