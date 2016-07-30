@@ -39,9 +39,10 @@ Functionalitati:
 
 
     "data" : [ 
-              'data.xml',      
+              'data.xml',    
+              "service_consumption_view.xml",  
               "service_agreement_view.xml",  
-              "service_consumption_view.xml",
+              
               "wizard/service_billing_preparation_view.xml",
               "wizard/service_billing_view.xml",
               "wizard/service_distribution_view.xml",
