@@ -40,6 +40,7 @@ class sale_margin_report(models.Model):
         'product_id': fields.many2one('product.product', 'Product', readonly=True),
         'product_uom': fields.many2one('product.uom', 'Unit of Measure', readonly=True),
         'product_uom_qty': fields.float('Quantity', readonly=True),
+        #'purchase_price': fields.float('Purchase price', readonly=True ),
         'sale_val': fields.float('Sale value', readonly=True, help="Sale value in company currency" ),
  
         'stock_val': fields.float("Stock value",  readonly=True, help="Stock value in company currency"),
@@ -85,6 +86,7 @@ class sale_margin_report(models.Model):
                     t.categ_id as categ_id,                    
                     l.product_id as product_id,
                     t.uom_id as product_uom,
+                    
 
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
@@ -152,7 +154,7 @@ class sale_margin_report(models.Model):
                     s.user_id as user_id,
                     s.period_id,
                     s.company_id as company_id,
-                    s.type, s.state 
+                    s.type, s.state  
         """
         return select_str
 
@@ -197,6 +199,7 @@ class sale_margin_report(models.Model):
     def init(self, cr):
         # self._table = sale_report
         tools.drop_view_if_exists(cr, self._table)
+                
         cr.execute("""CREATE or REPLACE VIEW %s as (
             %s
             FROM ( %s )
@@ -204,11 +207,18 @@ class sale_margin_report(models.Model):
             GROUP BY %s
             )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
+
+ 
     
     @api.multi
     def write(self, vals):
         invoice_line = self.env['account.invoice.line'].browse(self.id)
-        invoice_line.write({'commission':vals.get('commission',False)})
+        value = {'commission':vals.get('commission',False)}
+        if invoice_line.purchase_price == 0:
+            value['purchase_price'] = invoice_line.product_id.standard_price
+        #if 'purchase_price' in vals:
+        #    value['purchase_price'] = vals['purchase_price']
+        invoice_line.write(value)
         if 'user_id' in vals:
             invoice = self.env['account.invoice'].browse(self.invoice_id)
             invoice.write({'user_id':vals['user_id']})
