@@ -214,8 +214,9 @@ class sale_margin_report(models.Model):
     def write(self, vals):
         invoice_line = self.env['account.invoice.line'].browse(self.id)
         value = {'commission':vals.get('commission',False)}
-        if invoice_line.purchase_price == 0:
-            value['purchase_price'] = invoice_line.product_id.standard_price
+        if invoice_line.purchase_price == 0 and invoice_line.product_id:
+            if invoice_line.product_id.standard_price > 0:
+                value['purchase_price'] = invoice_line.product_id.standard_price
         #if 'purchase_price' in vals:
         #    value['purchase_price'] = vals['purchase_price']
         invoice_line.write(value)
