@@ -270,7 +270,9 @@ class sale_mrp_order_attribute(models.Model):
         for article in article_to_update:
             article.product_id = product_obj._product_find(article.product_template,
                                                            article.product_attributes) 
-            article.explode_bom()   
+            article.explode_bom()  
+            #article.resource_ids.change_product_id_and_write()
+                 
             
 
 # mai adaug categoria de cost  unde o sa intre manopera de montare lambriu / gips 
@@ -559,6 +561,10 @@ class sale_mrp_article(models.Model):
                     price_unit = self.env['product.uom']._compute_price(product.uom_id.id, price_unit, item['product_uom'] )
                 else:
                     price_unit = 0
+                
+                from_currency = self.env.user.company_id.currency_id.with_context(date=self.order_id.date_order)
+                purchase_price  = from_currency.compute( product.standard_price or product.product_tmpl_id.standard_price,  self.order_id.pricelist_id.currency_id )
+                
                         
                 value = {           'product_template':item['product_template'],
                                     'product_id': item['product_id'],
@@ -568,7 +574,8 @@ class sale_mrp_article(models.Model):
                                     'amount': price_unit * item['product_qty'],
                                     'state':'draft',
                                     'item_categ':item['item_categ'],
-                                    
+                                    'article_id':article.id,
+                                    'purchase_price':purchase_price,
                                     }
         
                 value['name'] = product.with_context(context=self.order_id.partner_id).name_get()[0][1]
@@ -581,8 +588,8 @@ class sale_mrp_article(models.Model):
         resource_ids =  self._convert_to_cache({'resource_ids': resources }, validate=False)
          
         self.update(resource_ids) 
-        for resource in self.resource_ids:
-            resource.onchange_product_id()
+        #for resource in self.resource_ids:
+        #    resource.onchange_product_id()
             
         #self.resource_ids = (resources)
         return resource_ids
@@ -704,12 +711,23 @@ class sale_mrp_resource(models.Model):
             
             from_currency = self.env.user.company_id.currency_id.with_context(date=order_id.date_order)
             
+            #print "Pret ", self.product_id.name , " = ", self.product_id.standard_price
+            
             self.purchase_price  = from_currency.compute( self.product_id.standard_price or self.product_id.product_tmpl_id.standard_price,  order_id.pricelist_id.currency_id )
             
              
             #result['name'] = self.pool.get('product.product').name_get(cr, uid, [product_obj.id], context=context_partner)[0][1]
             #if self.product_id.description_sale:
             #    self.name += '\n'+self.product_id.description_sale 
+
+    """
+    @api.multi
+    def change_product_id_and_write (self):
+        for resource in self:
+             resource.onchange_product_id()
+             resource.write({'purchase_price':resource.purchase_price})
+    """    
+
 
     @api.model
     def explode_product(self, product_id, product_uom_qty,  product_uom_id):
