@@ -34,10 +34,11 @@ Features:
  - Warning/Error on customer invoice if sale price is below the purchase price
  - New report for analysis profitability
  - Calcul comisione de vanzari
+ - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
 
     """,
     
-    "depends" : ['deltatech',"sale_margin",'account'],
+    "depends" : ['deltatech',"sale_margin",'account','l10n_ro_invoice_report'],
  
     "data" : ['security/sale_security.xml',
               'security/ir.model.access.csv',
@@ -45,7 +46,8 @@ Features:
               'account_invoice_view.xml',
               'report/sale_margin_report.xml',
               'commission_users_view.xml',
-              'wizard/commission_compute_view.xml'
+              'wizard/commission_compute_view.xml',
+              'wizard/update_purchase_price_view.xml'
 
               ],
               

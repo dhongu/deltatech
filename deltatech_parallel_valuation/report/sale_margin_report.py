@@ -34,8 +34,17 @@ class sale_margin_report(models.Model):
     parallel_profit= fields.Float(string="Parallel Profit", digits= dp.get_precision('Product Price'), readonly=True,
                                        help="Profit obtained at invoicing in parallel currency" )
 
+
     def _select(self):
         select_str = super(sale_margin_report,self)._select()
+        select_str = select_str +   """
+            ,  parallel_stock_value  ,   parallel_line_value , parallel_profit
+        """ 
+        return select_str   
+
+
+    def _sub_select(self):
+        select_str = super(sale_margin_report,self)._sub_select()
         select_str = select_str +   """
             , sum(parallel_stock_value) as parallel_stock_value 
             , sum(parallel_line_value) as parallel_line_value

@@ -26,6 +26,7 @@
 					<field name="company_id" invisible="1" groups="base.group_multi_company"/>
 					<field name="type" invisible="1"/>
 					<field name="state" invisible="1"/>
+
 				</tree>
 			</field>
 		</record>
@@ -57,6 +58,8 @@
 					<field name="company_id" invisible="1" groups="base.group_multi_company"/>
 					<field name="type" invisible="1"/>
 					<field name="state" invisible="1"/>
+					<field name="currency_id"  />
+					<field name="currency_rate"  />
 				</tree>
 			</field>
 		</record>
