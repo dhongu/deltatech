@@ -29,6 +29,8 @@ class commission_update_purchase_price(models.TransientModel):
     _name = 'commission.update.purchase.price'
     _description = "Update purchase price"
 
+    for_all = fields.Boolean(string="For all lines")
+    price_from_doc = fields.Boolean(string="Price from delivery",default=True)
     
     invoice_line_ids = fields.Many2many('sale.margin.report', 'commission_update_purchase_price_inv_rel', 'compute_id','invoice_line_id', 
                                         string='Account invoice line')    
@@ -53,17 +55,33 @@ class commission_update_purchase_price(models.TransientModel):
     @api.multi
     def do_compute(self):
         res = []
-        for line in self.invoice_line_ids:
+        if self.for_all:
+            lines = self.env['sale.margin.report'].search([])
+        else:
+            lines = self.invoice_line_ids
+            
+        for line in lines:
             invoice_line = self.env['account.invoice.line'].browse(line.id)
-           
-            if invoice_line.product_id:
-                if invoice_line.product_id.standard_price > 0:
-                    if invoice_line.invoice_id.type == 'out_invoice':
-                        value = {'purchase_price' : invoice_line.product_id.standard_price }
-                    else:
-                        value = {'purchase_price' : -invoice_line.product_id.standard_price }
-                    invoice_line.write(value)
-             
+            purchase_price = 0.0
+            if self.price_from_doc:
+                move = self.env['stock.move'].search([('invoice_line_id','=',line.id)], limit=1)
+                if move:
+                    qty = 0.0
+                    amount = 0.0
+                    for quant in move.quant_ids:
+                        amount =  amount + quant.inventory_value
+                        qty = qty + quant.qty
+                    if qty > 0:
+                        purchase_price =  amount / qty   
+         
+            else:
+                if invoice_line.product_id:                          
+                    if invoice_line.product_id.standard_price > 0:
+                        purchase_price = invoice_line.product_id.standard_price
+                         
+                        
+            if purchase_price:
+                invoice_line.write({'purchase_price' : purchase_price })
         return True
 
 

@@ -34,6 +34,8 @@ from datetime import datetime
 class sale_order_line(models.Model):
     _inherit = "sale.order.line"
 
+
+    # pretul de achizitie in moneda documentului
     purchase_price = fields.Float(string='Cost Price', digits = dp.get_precision('Product Price'), compute="_compute_purchase_price", store=True)
     
     
@@ -86,7 +88,7 @@ class sale_order_line(models.Model):
 
     @api.one
     @api.constrains('price_unit', 'purchase_price')
-    def _check_seats_limit(self):
+    def _check_sale_price(self):
         if not self.env['res.users'].has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
             if self.price_unit < self.purchase_price :
                 raise Warning(_('You can not sell below the purchase price.'))

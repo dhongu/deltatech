@@ -35,8 +35,8 @@ class stock_move(models.Model):
 
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
-        qty = 0
-        amount = 0
+        qty = 0.0
+        amount = 0.0
         for quant in move.quant_ids:
             amount =  amount + quant.inventory_value
             qty = qty + quant.qty

@@ -83,10 +83,24 @@ class sale_margin_report(models.Model):
         select_str = """
             SELECT 
                 id, date, invoice_id, categ_id, product_id, product_uom, product_uom_qty , 
-                sale_val / cr.rate as sale_val, stock_val / cr.rate as stock_val, profit_val / cr.rate as profit_val, 
-                indicator_supplement, 
-                indicator_profit, 
-                commission_computed,
+                sale_val / cr.rate as sale_val, 
+                stock_val  as stock_val, 
+                (sale_val  / cr.rate - stock_val ) as profit_val, 
+                
+                CASE
+                     WHEN (stock_val ) = 0
+                      THEN 0
+                      ELSE  100 * (sale_val  / cr.rate - stock_val ) / stock_val
+                END  AS indicator_supplement,  
+                
+                CASE
+                     WHEN (sale_val / cr.rate ) = 0
+                      THEN 0
+                      ELSE  100 * (sale_val  / cr.rate - stock_val ) / (sale_val / cr.rate ) 
+                END  AS indicator_profit,               
+ 
+                
+                sub.rate * (sale_val  / cr.rate - stock_val ) as commission_computed,
                 commission,  
                 partner_id, commercial_partner_id, user_id, period_id,  company_id,
                 type,  state ,  journal_id, 
@@ -124,48 +138,12 @@ class sale_margin_report(models.Model):
                         ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
                     END) AS stock_val,
 
-                    SUM(CASE
-                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                        THEN -( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
-                        ELSE  ( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))
-                    END) AS profit_val,   
+  
+                   
                     
-                    AVG(
-                    CASE
-                     WHEN (l.quantity * COALESCE( l.purchase_price, 0 ) ) = 0
-                      THEN 0
-                      ELSE 
-                        CASE
-                         WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                            THEN -100*( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
-                                       (l.quantity * COALESCE( l.purchase_price, 0 ) )
-                            ELSE  100*( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
-                                       (l.quantity * COALESCE( l.purchase_price, 0 ) )
-                        END
-                    END) AS indicator_supplement,  
-                    
-
-                    AVG(
-                    CASE
-                     WHEN ( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) ) = 0
-                      THEN 0
-                      ELSE
-                        CASE
-                         WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                            THEN -100*( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
-                            ( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) )
-                            ELSE  100*( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
-                            ( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) )
-                        END
-                    END) AS indicator_profit, 
-                                          
-                    SUM( CASE
-                            WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                            THEN -( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
-                            ELSE  ( (l.quantity * l.price_unit_without_taxes * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) ))*cu.rate
-                        END
-                    ) AS commission_computed,
+                                        
                     sum(l.commission) as commission,   
+                    cu.rate,
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
@@ -207,6 +185,7 @@ class sale_margin_report(models.Model):
                     s.partner_id,
                     s.commercial_partner_id,
                     s.user_id,
+                    cu.rate,
                     s.company_id,
                     s.period_id,
                     s.type,
@@ -221,7 +200,8 @@ class sale_margin_report(models.Model):
     def init(self, cr):
         # self._table = sale_report
         tools.drop_view_if_exists(cr, self._table)
-        # CREATE MATERIALIZED VIEW        
+        # CREATE MATERIALIZED VIEW      
+        # CREATE or REPLACE VIEW  
         sql =  """CREATE or REPLACE VIEW %s as (
             WITH currency_rate (currency_id, rate, date_start, date_end) AS (
                 SELECT r.currency_id, r.rate, r.name AS date_start,
