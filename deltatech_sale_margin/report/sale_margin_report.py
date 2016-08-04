@@ -55,9 +55,9 @@ class sale_margin_report(models.Model):
         
         'period_id': fields.many2one('account.period', 'Period', readonly=True),
         'indicator_supplement': fields.float("Supplement Indicator",   readonly=True, digits=(12,2), group_operator='avg'),
-        'indicator_merchandise_profit': fields.float("Merchandise Profit Indicator",   readonly=True, digits=(12,2), group_operator='avg'),
+        'indicator_profit': fields.float("Profit Indicator",   readonly=True, digits=(12,2), group_operator='avg'),
         
-        
+        'journal_id': fields.many2one('account.journal', 'Journal', readonly=True),
         
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
@@ -139,7 +139,7 @@ class sale_margin_report(models.Model):
                             ELSE  100*( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) - (l.quantity * COALESCE( l.purchase_price, 0 ) )) / 
                             ( (l.quantity * l.price_unit * (100.0-l.discount) / 100.0) )
                         END
-                    END) AS indicator_merchandise_profit, 
+                    END) AS indicator_profit, 
                                           
                     SUM( CASE
                             WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
@@ -154,7 +154,7 @@ class sale_margin_report(models.Model):
                     s.user_id as user_id,
                     s.period_id,
                     s.company_id as company_id,
-                    s.type, s.state  
+                    s.type, s.state , s.journal_id 
         """
         return select_str
 
@@ -190,7 +190,8 @@ class sale_margin_report(models.Model):
                     s.company_id,
                     s.period_id,
                     s.type,
-                    s.state
+                    s.state,
+                    s.journal_id
                     
         """
         return group_by_str
