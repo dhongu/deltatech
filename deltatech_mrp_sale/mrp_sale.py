@@ -22,7 +22,7 @@
 
 
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
@@ -647,6 +647,13 @@ class sale_mrp_resource(models.Model):
     purchase_amount = fields.Float(string='Purchase Amount', compute='_compute_margin', store=True)
     currency_id = fields.Many2one('res.currency',  related="order_id.pricelist_id.currency_id", store=True)
 
+
+    @api.one
+    @api.constrains('purchase_price', 'price_unit')
+    def _check_price(self):
+        if (self.price_unit < 1.1*self.purchase_price):
+            raise ValidationError(_("Sale price for %s must be higher with 10%% than the purchase price") % self.product_id.name)
+ 
 
     @api.one
     @api.depends('price_unit','purchase_price','product_uom_qty')
