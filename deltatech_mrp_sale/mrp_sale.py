@@ -651,8 +651,8 @@ class sale_mrp_resource(models.Model):
     @api.one
     @api.constrains('purchase_price', 'price_unit')
     def _check_price(self):
-        if (self.price_unit < 1.1*self.purchase_price):
-            raise ValidationError(_("Sale price for %s must be higher with 10%% than the purchase price") % self.product_id.name)
+        if (self.price_unit < self.purchase_price):
+            raise ValidationError(_("Sale price for %s must be higher than the purchase price") % self.product_id.name)
  
 
     @api.one
