@@ -30,16 +30,22 @@
 Functionalitati:
 
     - transferare packet intregral dintr-o locatie in alta
+    - generare automata de pachete in functie de catitatea maxima din masterul de produs
+    - editare greutate
+    
 
     """,
     
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock'],
+    "depends" : ['deltatech','stock', "sale","account"],
 
 
     "data" : [ 
                 'wizard/pack_transfer_view.xml',
+                'wizard/stock_transfer_details_view.xml',
                   'stock_view.xml', 
+                  'product_view.xml',
+                'views/report_invoice.xml'
              ],
     
     

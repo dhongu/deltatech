@@ -17,20 +17,36 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
+ 
+{
+    "name" : "Deltatech Sale Ref",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
+Functionalitati:
+ - Referinte client la fiecare linie de comanda
+  
+  
 
-
-import wizard
-import product
-import stock
-
-
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+  
+    """,
+    
+    
+   'category': 'Sales Management',
+    "depends" : ['deltatech',
+                 "sale","account"
+                 ],
+ 
+    "data" : [  
+               "sale_view.xml",
+               "account_invoice_view.xml"
+              
+               ],
+    
+    "active": False,
+    "installable": True,
+}
+ 

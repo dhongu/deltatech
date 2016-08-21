@@ -23,6 +23,8 @@
 
 import pack_transfer
 
+import stock_transfer_details
+
 
 
 

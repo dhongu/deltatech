@@ -17,18 +17,30 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
 
 
-import wizard
-import product
-import stock
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+import logging
 
 
+from openerp.addons.product import _common
+
+_logger = logging.getLogger(__name__)
 
 
+ 
+class product_template(models.Model):
+    _inherit = 'product.template'
+    
+    pack_items = fields.Integer(string="Items per package")
+    pack_weight = fields.Float('Package Gross Weight', digits=dp.get_precision('Stock Weight'), help="The gross weight per package in Kg.")
 
 
 

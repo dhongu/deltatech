@@ -17,20 +17,26 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
 
 
-import wizard
-import product
-import stock
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.tools import float_compare
+import openerp.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+import logging
+from openerp.osv.fields import related
+ 
+_logger = logging.getLogger(__name__)
 
 
 
-
-
-
-
-
+class sale_order_line(models.Model):
+    _inherit = 'sale.order.line'
+    
+    ref = fields.Char(string="Reference")
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
