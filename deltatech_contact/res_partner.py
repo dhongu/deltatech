@@ -100,7 +100,7 @@ class res_partner(models.Model):
     cnp = fields.Char(string='CNP', size=13)
     id_nr = fields.Char(string='ID Nr', size=12)
     id_issued_by = fields.Char(string='ID Issued by', size=20)
-    mean_transp = fields.Char(string='ID Issued by', size=12)
+    mean_transp = fields.Char(string='Mean Transport', size=12)
     is_department = fields.Boolean(string='Is department', compute='_compute_is_department')
 
 
