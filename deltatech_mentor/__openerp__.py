@@ -34,7 +34,7 @@ Documentatia Mentor de import  din alte aplicatii:
     """,
     
     "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base"],
+    "depends" : ['deltatech',"base","account"],
     "external_depends":['html2text'],
 
  

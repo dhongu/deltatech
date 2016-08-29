@@ -46,18 +46,21 @@ class export_mentor(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),   # choose period
                                ('get', 'get')],default='choose')        # get the file
 
-   
+  
+    item_details = fields.Boolean(string="Item Details")
+    code_article = fields.Char(string="Code Article")
+
     period_id = fields.Many2one('account.period', string='Period' , required=True )
     
     result = fields.Html(string="Result Export",readonly=True) 
+
+    journal_ids = fields.Many2many('account.journal', string='Journals')
 
 
     @api.multi
     def do_export(self):
 
-        
 
-   
         buff = StringIO.StringIO()
         
         files = []
@@ -67,24 +70,39 @@ class export_mentor(models.TransientModel):
         
         zip_archive.comment = 'Arhiva pentru Mentor'
         
-        
-            
+
         partner_ids = self.env['res.partner']     
         product_ids = self.env['product.template']
-        invoice_in_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),('type','in',['in_invoice','in_refund'])])
         
-        for invoice in invoice_in_ids:
-            for line in invoice.invoice_line:
-                product_ids |= line.product_id.product_tmpl_id
+        domain = [('period_id','=',self.period_id.id),
+                 ('state','in',['open','paid']),
+                 ('type','in',['in_invoice','in_refund'])]
+        if self.journal_ids:
+            domain += [('journal_id','in',self.journal_ids.ids)]        
+        invoice_in_ids = self.env['account.invoice'].search(domain)
+        
+        
+        if self.item_details:
+            for invoice in invoice_in_ids:
+                for line in invoice.invoice_line:
+                    product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_in_ids:
             partner_ids |=  invoice.commercial_partner_id
 
-        invoice_out_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),('type','in',['out_invoice','out_refund'])])
+        domain = [('period_id','=',self.period_id.id),
+                  ('state','in',['open','paid']),
+                  ('type','in',['out_invoice','out_refund'])]
         
-        for invoice in invoice_out_ids:
-            for line in invoice.invoice_line:
-                product_ids |= line.product_id.product_tmpl_id
+        if self.journal_ids:
+            domain += [('journal_id','in',self.journal_ids.ids)]
+        
+        invoice_out_ids = self.env['account.invoice'].search(domain)
+        
+        if self.item_details:
+            for invoice in invoice_out_ids:
+                for line in invoice.invoice_line:
+                    product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_out_ids:
             partner_ids |=  invoice.commercial_partner_id 
@@ -96,8 +114,11 @@ class export_mentor(models.TransientModel):
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
         result_html += '<div>Parteneri %s</div>' % str(len(partner_ids))
 
+        data = {'item_details':self.item_details,
+                'code_article':self.code_article}
+
         if  invoice_in_ids:         
-            result = self.env['report'].get_html(records=invoice_in_ids, report_name='deltatech_mentor.report_invoice')
+            result = self.env['report'].get_html(records=invoice_in_ids, report_name='deltatech_mentor.report_invoice', data=data)
             if result:
                 result = html2text.html2text(result).decode('utf8','replace')   
                 result = result.replace(chr(13), '\n')
@@ -106,7 +127,7 @@ class export_mentor(models.TransientModel):
             
 
         if  invoice_out_ids:         
-            result = self.env['report'].get_html(records=invoice_out_ids, report_name='deltatech_mentor.report_invoice')
+            result = self.env['report'].get_html(records=invoice_out_ids, report_name='deltatech_mentor.report_invoice', data=data)
             if result:
                 result = html2text.html2text(result.decode('utf8','replace'))   
                 result = result.replace(chr(13), '\n')
@@ -140,7 +161,7 @@ class export_mentor(models.TransientModel):
         out = base64.encodestring(buff.getvalue())
         buff.close()
         
-        filename = 'ExportOdoo' + self.period_id.name
+        filename = 'ExportOdooMentor' + self.period_id.name
         extension = 'zip'
         
         

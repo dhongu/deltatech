@@ -15,15 +15,29 @@
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="o">
         	<div>
-				<div>[ParteneriNoi_<span t-field="o.vat" />]</div>
+        		<t t-set="cod_fiscal" t-value="o.vat"/>
+        		<t t-if="not o.vat_subjected">
+        			
+        				<t t-set="cod_fiscal" t-value="o.vat_number"/>
+        			
+        		</t>
+        		<t t-if="not o.is_company">
+        			<t t-set="cod_fiscal" t-value="o.cnp"/>
+        		</t>
+        	
+				<div>[ParteneriNoi_<span t-esc="cod_fiscal" />]</div>
 				<div>Denumire=<span t-field="o.name" /></div>
-				<div>Tara=Romania</div>
-				<div>Localitate=</div>
-				<div>Judet=</div>
-				<div>Adresa=</div>
+				<t t-if="not o.is_company">
+        			<div>PersoanaFizica=Da</div>
+        		</t>
+				
+				<div>Tara=<span t-field="o.country_id.name" /></div>
+				<div>Localitate=<span t-field="o.city" /></div>
+				<div>Judet=<span t-field="o.state_id.code" /></div>
+				<div>Adresa=<span t-field="o.street" /></div>
 				<div>Sediu=</div>
-				<div>Telefon=</div>
-				<div>Email=</div>
+				<div>Telefon=<span t-field="o.phone" /></div>
+				<div>Email=<span t-field="o.email" /></div>
 			</div>
         </t>
     </t>	
