@@ -77,6 +77,10 @@ class mrp_bom(models.Model):
 
     article_list = fields.Boolean(string='Article List')
     product_id = fields.Many2one(index=True)
+    bom_line_ids = fields.One2many(track_visibility='always')
+
+     
+
 
     @api.model
     def _factor(self, factor, product_efficiency, product_rounding):
@@ -235,6 +239,7 @@ class mrp_bom_line(models.Model):
     child_bom_id = fields.Many2one('mrp.bom',string="Child BOM", compute="_compute_child_bom", store=True)
     calculate_price = fields.Float(compute='_calculate_price') 
     standard_price = fields.Float(compute='_calculate_standard_price')
+    
 
     @api.multi
     @api.depends('product_template','product_id')
@@ -342,5 +347,25 @@ class mrp_bom_line(models.Model):
                 if line.product_template.product_variant_count == 1:
                     for product in line.product_template.product_variant_ids:
                         line.write({'product_id':product.id})
+                        
+    
+    @api.multi
+    def write(self, vals):
+        if 'product_id' in vals or 'product_qty' in vals  or 'product_template' in vals :         
+            message = _("BOM was change:")
+            if 'product_template' in vals:
+                pt = self.env['product.template'].browse(vals['product_template'])
+                message += "Product: %s -> %s "  % (self.product_template, pt.name )
+            if 'product_id' in vals:
+                pp = self.env['product.product'].browse(vals['product_id'])
+                message += "Variant: %s -> %s "  % (self.product_id.name, pp.name )
+            
+            if 'product_qty' in vals:
+                message += "Qty: %s -> %s "  % (self.product_qty, vals['product_qty'] )
+                
+            self.bom_id.message_post(body=message)
+       
+            
+        return super(mrp_bom_line,self).write( vals)
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
