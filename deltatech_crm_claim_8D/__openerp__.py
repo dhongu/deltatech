@@ -28,6 +28,9 @@
 
 Functionalitati:
  -Raportare 8D
+  
+  https://en.wikipedia.org/wiki/Eight_Disciplines_Problem_Solving
+  
    
     """,
     
