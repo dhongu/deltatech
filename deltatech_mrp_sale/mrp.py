@@ -222,7 +222,7 @@ class mrp_bom(models.Model):
                         line_product = self.env['product.product'].browse(item['product_id'])
                         #price = line_product.standard_price  or line_product.product_tmpl_id.standard_price
                         price = line_product.bom_price
-                        print "Line:", line_product.name, price
+                        #print "Line:", line_product.name, price
                         amount +=  price * product_qty
                         
                     price = amount / bom.product_qty + amount/bom.product_qty*bom.value_overhead
