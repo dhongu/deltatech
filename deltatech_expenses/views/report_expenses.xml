@@ -14,7 +14,10 @@
 								<span t-field="o.number" />/
 								<span t-field="o.date_expense" />
 							</h3>
-
+                             <t t-set="nr_docs" t-value="len(o.line_ids)"/>
+                             <t t-if="o.days">
+                                <t t-set="nr_docs" t-value="nr_docs+1"/>
+                             </t>
 							<div>
 								<span>Subsemnatul</span>
 								<span t-field="o.employee_id" />
@@ -23,17 +26,24 @@
 									<span t-field="o.employee_id.function" />
 								</t>
 								anexez prezentului
-								<t t-esc="len(o.line_ids)" />
-								acte justificative specificative în borderoul
-								de mai jos pentru justificarea avansului primit la data de
+								<t  t-if="nr_docs!=1">
+								    <t t-esc="nr_docs"/>
+                                    acte justificative specificate
+                                </t>
+                                <t  t-if="nr_docs==1">
+    							    un act justificativ specificat
+                                </t>
+								 în borderoul de mai jos pentru justificarea avansului primit la data de
 								<span t-field="o.date_expense" />
-								în baza ordinului de deplasare nr.
-								<span t-field="o.travel_order" />
+								<t t-if="o.travel_order" >
+									în baza ordinului de deplasare nr.
+									<span t-field="o.travel_order" />
+								</t>
 							</div>
 							<br />
 							<div>
 								Avans primit in data <span t-field="o.date_advance" />
-								<span t-field="o.advance" /> lei
+								:<span t-field="o.advance" /> lei
 							</div>
 							<br />
 							<div>
@@ -83,7 +93,17 @@
 											<span t-field="l.amount" />
 										</td>
 									</tr>
-
+                                    <tr t-if="o.days">
+                                        <td>
+                                            <span t-field="o.travel_order"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date_advance"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_diem"/>
+                                        </td>
+                                    </tr>
 								</tbody>
 							</table>
 							<br />

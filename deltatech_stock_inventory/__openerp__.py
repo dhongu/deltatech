@@ -31,7 +31,7 @@
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech','deltatech_stock_date',"stock"],
  
-    "data" : ['stock_view.xml'],
+    "data" : ['stock_view.xml','views/report_stockinventory.xml'],
     "active": False,
     "installable": True,
 }

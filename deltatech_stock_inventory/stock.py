@@ -61,7 +61,9 @@ class stock_inventory(models.Model):
  
 class stock_inventory_line(models.Model):
     _inherit = "stock.inventory.line"
+    _order = "inventory_id, location_name, categ_id, product_code, product_name, prodlot_name"
 
+    categ_id = fields.Many2one('product.category',string="Category", related="product_id.categ_id",store=True)
     standard_price = fields.Float(string='Price')
 
     @api.one
