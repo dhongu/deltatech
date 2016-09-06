@@ -13,6 +13,7 @@
 					<field name="equipment_id" />
 					<field name='state' />
 					<field name='city'/>
+					<field name='user_id'/>
 					<field name="message_unread" invisible="1" />
 				</tree>
 			</field>
@@ -51,6 +52,7 @@
 								<field name="date" />
 								<field name="type_id" />
 								<field name="notification_id" />
+								<field name="user_id" />
 								<field name="plan_call_id" />
 							</group>
 							<group>
@@ -62,6 +64,7 @@
 								domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
 								context="{'search_default_customer':1, 'show_address': 1 }" options="{'always_reload': True}" />
 								<field name="agreement_id" />
+								<field name="equipment_history_id" invisible="1"/>
 							</group>
 							<group>
 								<field name="reason_id" />
@@ -78,7 +81,14 @@
 								</field>
 							</group>
 						</group>
-
+						<field name="item_ids">
+							<tree editable="bottom">
+								<field name="product_id" />
+								<field name="quantity" />
+								<field name="product_uom" />
+								<field name="note" />
+							</tree>
+						</field>
 					</sheet>
 					<div class="oe_chatter">
 						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />

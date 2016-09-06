@@ -257,6 +257,7 @@ class service_notification(models.Model):
                     'default_agreement_id':self.agreement_id.id,
                     'default_address_id':self.address_id.id,
                     'default_contact_id':self.contact_id.id,
+                    'default_user_id':self.user_id.id,
                    }
         
         if self.order_id:

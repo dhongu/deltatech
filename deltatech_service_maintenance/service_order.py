@@ -52,11 +52,11 @@ class service_order(models.Model):
 
 
 
-    equipment_history_id = fields.Many2one('service.equipment.history', required=True, string='Equipment history')         
+    equipment_history_id = fields.Many2one('service.equipment.history',  string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'draft': [('readonly', False)]})
  
-    partner_id = fields.Many2one('res.partner', string='Partner', related='equipment_history_id.partner_id', readonly=True)
-    address_id = fields.Many2one('res.partner', string='Location',   related='equipment_history_id.address_id', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, states={'draft': [('readonly', False)]}) # related='equipment_history_id.partner_id', readonly=True)
+    address_id = fields.Many2one('res.partner', string='Location', readonly=True, states={'draft': [('readonly', False)]}) #  related='equipment_history_id.address_id', readonly=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)     
 
@@ -65,7 +65,7 @@ class service_order(models.Model):
     
     city = fields.Char(string='City',related='address_id.city')  
    
-
+    user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'draft': [('readonly', False)]}  )
 
     # raportul poate sa fie legat de o sesizre
     notification_id = fields.Many2one('service.notification', string='Notification', readonly=True,  states={'draft': [('readonly', False)]}, domain=[('order_id','=',False)])
@@ -81,6 +81,9 @@ class service_order(models.Model):
     meter_reading_ids = fields.Many2many('service.meter.reading', 'service_order_meter_reading', 'order_id','meter_reading_id', string='Meter Readings',
                                             readonly=False,  
                                             states={'done': [('readonly', True)]} )
+ 
+    item_ids = fields.One2many('service.order.item', 'order_id', string='Order Lines',
+                                readonly=False, states={'done': [('readonly', True)]}, copy=True)  
     
     # semantura client !!    
     signature = fields.Binary(string="Signature", readonly=True)
@@ -104,13 +107,17 @@ class service_order(models.Model):
         return super(service_order, self).create( vals )
     
     
-
     @api.onchange('equipment_id','date')
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.equipment_history_id = self.equipment_id.get_history_id(self.date)
+            self.equipment_history_id = self.equipment_id.get_history_id(self.date)        
+            self.user_id =  self.equipment_id.user_id
+            self.partner_id =  self.equipment_history_id.partner_id
+            self.address_id = self.equipment_history_id.address_id
         else: 
-            self.equipment_history_id = False    
+            self.equipment_history_id = False  
+
+ 
 
 
     @api.onchange('notification_id')
@@ -183,6 +190,23 @@ class service_order(models.Model):
             "url": url,
             "target": "new",
             }
+
+class service_order_item(models.Model):
+    _name = 'service.order.item'
+    _description = "Notification Item"
+ 
+    order_id = fields.Many2one('service.order', string='Order', readonly=True )
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
+    product_uom = fields.Many2one('product.uom', string='Unit of Measure ' )
+    note = fields.Char(string='Note') 
+
+
+    @api.onchange('product_id')
+    def onchange_product_id(self): 
+        self.product_uom = self.product_id.uom_id
+
+
 
 class service_order_reason(models.Model):
     _name = 'service.order.reason'
