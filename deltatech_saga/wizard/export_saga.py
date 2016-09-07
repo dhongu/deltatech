@@ -211,9 +211,11 @@ class export_saga(models.TransientModel):
                 else:
                     cod_fiscal = partner.vat
                     is_tva  = 1
+                nrc = partner.nrc
             else:
                 is_tva  = 0
-                cod_fiscal = partner.cnp
+                cod_fiscal = partner.cnp or partner.nrc
+                nrc = ''
 
             if partner.ref_customer:
                 analitic = '4111.'+partner.ref_customer.zfill(5)
@@ -228,7 +230,7 @@ class export_saga(models.TransientModel):
             values = {'COD':         partner_code,
                       'DENUMIRE' :   self.unaccent(partner.name[:48] ),
                       'COD_FISCAL':  cod_fiscal or '',
-                      'REG_COM':     partner.nrc or '',
+                      'REG_COM':     nrc or '',
                       'ANALITIC':    analitic,
                       'ZS':          0,
                       'ADRESA':      self.unaccent(partner.contact_address[:48]),
