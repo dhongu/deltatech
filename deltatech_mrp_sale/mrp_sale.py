@@ -181,20 +181,35 @@ class sale_order(models.Model):
                 for line in resource_lines:
                     total_amount += line.amount
                 total_amount =  total_amount / 100 
+                price_unit =    self.pricelist_id.currency_id.round( total_amount ) 
                 
-                resource.write({'price_unit':total_amount,
-                                       'amount':total_amount * resource.product_uom_qty })
+                amount =    self.pricelist_id.currency_id.round( total_amount * resource.product_uom_qty) 
+                resource.write({'price_unit':price_unit, 'amount': amount})
         
         for article in article_to_update:
             amount = 0
+            price_unit = 0
             for resource in article.resource_ids:
                 amount +=  resource.amount
             if article.product_uom_qty:
                 price_unit = article.amount / article.product_uom_qty
-                
+            amount =    self.pricelist_id.currency_id.round( amount) 
+            price_unit =    self.pricelist_id.currency_id.round( price_unit) 
             article.write({'price_unit':price_unit, 'amount':amount})                       
                                           
         self.button_update_all()
+
+ 
+        val = val1 = 0.0
+        cur = self.pricelist_id.currency_id.id
+        for line in self.order_line:
+            val1 += line.price_subtotal
+            val += self._amount_line_tax( line )
+        amount_tax  = self.pricelist_id.currency_id.round( val)
+        amount_untaxed = self.pricelist_id.currency_id.round(val1)
+        amount_total  =  amount_tax + amount_untaxed 
+        self.write({'amount_tax':amount_tax,'amount_untaxed':amount_untaxed,'amount_total':amount_total})
+
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
     """
