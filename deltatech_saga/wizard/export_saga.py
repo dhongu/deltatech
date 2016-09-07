@@ -216,6 +216,10 @@ class export_saga(models.TransientModel):
                 is_tva  = 0
                 cod_fiscal = partner.cnp or partner.nrc
                 nrc = ''
+            
+            #poate e pusa gresit bifa ca este companie si de fapt e o persoana fizica   
+            if not cod_fiscal:
+                cod_fiscal = partner.cnp or partner.id_nr or partner.nrc
 
             if partner.ref_customer:
                 analitic = '4111.'+partner.ref_customer.zfill(5)
