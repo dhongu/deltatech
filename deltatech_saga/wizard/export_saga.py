@@ -204,14 +204,16 @@ class export_saga(models.TransientModel):
                 if not self.ignore_error:
                     raise Warning(error)
 
-
-                
-            if not partner.vat_subjected:
-                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                is_tva  = 0
+            if partner.is_company:
+                if not partner.vat_subjected:
+                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
+                    is_tva  = 0
+                else:
+                    cod_fiscal = partner.vat
+                    is_tva  = 1
             else:
-                cod_fiscal = partner.vat
-                is_tva  = 1
+                is_tva  = 0
+                cod_fiscal = partner.cnp
 
             if partner.ref_customer:
                 analitic = '4111.'+partner.ref_customer.zfill(5)
