@@ -167,13 +167,6 @@
 			<!--  aici se poate dezvolta un alt antet -->
 			<xpath expr="//div[@class='header']" position="replace">
 				<div class="header">
-					<!--div class="row" customize_show="True" >
-						<div class="col-xs-3">
-							<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
- 
-						</div>
-						<div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
-					</div-->
 					<div class="row zero_min_height">
 						<div class="col-xs-12">
 							<div style="border-bottom: 1px solid black;"/>
@@ -183,14 +176,37 @@
 					<table class="table table-condensed"  style="border-top: initial;">
 	    				<tr>
 	        				<td width="50%">
-		                		<div>
-									<strong t-if="o.type in ['out_invoice', 'out_refund']">Supplier</strong>
-									<strong t-if="o.type in ['in_invoice', 'in_refund']">Customer</strong>
+								<h2 t-field="res_company.partner_id.name"/>
+                                <span>Nr. ord. Reg. Com.:</span>
+                                <span t-field="res_company.partner_id.nrc" /><br />
+                                <span>C.U.I. :</span>
+                                <span t-field="res_company.partner_id.vat" /><br />
+                                <span>Sediul:</span>
+                                <span t-field="res_company.city" /><br />
+                                <span></span>
+                                <span t-field="res_company.street" /><br />
+                                <span>Judetul:</span>
+                                <span t-field="res_company.state_id" /><br />
+                                <span>Banca:</span>
+                                <span>RAIFFEISEN BANK ROMANIA</span><br />
+                                <div t-foreach="res_company.bank_ids" t-as="bank">
+                                    <span t-if="bank.currency_id.name == 'RON' ">
+                                        RON: <span t-field="bank.acc_number" />
+                                    </span>
+                                </div>
+                                <div t-foreach="res_company.bank_ids" t-as="bank">
+                                    <span t-if="bank.currency_id.name == 'EUR' ">
+                                        EUR: <span t-field="bank.acc_number" />
+                                    </span>
+                                </div>
+                                <div t-if="res_company.share_capital">
+    								<span>Capital Social </span>
+									<t t-esc="'{0:,.2f}'.format(int(res_company.share_capital))" /> RON
 								</div>
-								<strong t-field="res_company.partner_id.name"/>
+                                <span>Tel/Fax: </span>
+                                <span t-field="res_company.phone" /> <span t-field="res_company.fax" /><br />
 								<div>
-								    <strong>Address:</strong>
-									<address t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+								    <span>Cota TVA: 0.00%</span>
 								</div>
 		
 		 
