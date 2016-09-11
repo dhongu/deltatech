@@ -255,28 +255,7 @@
 	   					</tr>
 	    				<tr>
 							<td  style="border-top: initial;">
-		                  	    <div t-if="res_company.partner_id.vat">
-									<strong>CIF:</strong>
-									<span t-field="res_company.partner_id.vat"/>
-								</div>
-								<div t-if="res_company.partner_id.nrc">
-									<strong>NRC:</strong>
-									<span t-field="res_company.partner_id.nrc"/>
-								</div>
-								<div t-if="res_company.share_capital">
-									<strong>Share Capital:</strong>
-									<span t-field="res_company.share_capital"/>
-								</div>
-								<div t-if="'vat_on_payment' in res_company._columns">
-									<div t-if="res_company.vat_on_payment">
-										<span>Vat on payment</span>
-									</div>
-								</div>
-								<div>
-									<span t-foreach="o.tax_line" t-as="t">
-										<span t-field="t.name"/>
-									</span>
-								</div>		
+		                  	    		
 	    					</td>
 	    					<td style="border-top: initial;">
 		                        <t t-if="o.commercial_partner_id.is_company">
