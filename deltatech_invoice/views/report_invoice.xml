@@ -99,7 +99,7 @@
 					</table>
 				</div>
 			</xpath>
-			<t t-call="l10n_ro_invoice_report.header_invoice"/>
+			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
 
 
