@@ -124,6 +124,39 @@
 							</td>
 						</tr>
 					</table>
+					<table style="width: 100%">
+                        <tr>
+                            <td style="border:1px solid black; width: 60%;">
+                                <strong>
+                                    <span>COUNTRY OF ORIGIN: ROMANIA</span><br />
+                                    <span>SELLER'S BANK / COUNTER NR</span><br />
+                                    <div t-foreach="res_company.bank_ids" t-as="bank">
+                                        <span t-if="bank.acc_number">
+                        					<span t-field="bank.bank_name"/>
+                                            <br />
+                                            <span>CONT: </span>
+                        					<span t-field="bank.acc_number"/>
+                                            <span> / SWIFT:  </span>
+                            				<span t-field="bank.bank_bic"/>
+                                            <br />
+                      					</span>
+                                    </div>
+                                    <span>CURRENCY OF PAYMENT: EURO</span><br />
+                                </strong>
+                            </td>
+                            <td style="border:1px solid black; width: 40%;">
+                                <strong>
+                                    <span>CONSEGNEE / BUYER: </span>
+                                    <div>
+    						            <span t-field="o.partner_id"/>
+						            </div>
+                                    <span t-field="o.partner_id.street" /><br />
+                                    <span t-field="o.partner_id.zip" /> <span t-field="o.partner_id.city" /><br />
+                                    <span t-field="o.partner_id.country_id" /><br />
+                                </strong>
+                            </td>
+                        </tr>
+                    </table>
 				</div>
 			</xpath>
 			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
