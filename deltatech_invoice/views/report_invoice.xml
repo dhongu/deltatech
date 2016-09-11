@@ -273,12 +273,14 @@
 									<span t-field="o.commercial_partner_id.nrc"/>
 								</div>    	
 		                        </t>
+		                        <!-- 
 		                         <t t-if="not o.commercial_partner_id.is_company">
 		                         <div>
 		    						<strong>CNP:</strong>
 									<span t-field="o.commercial_partner_id.cnp"/>
 								</div>
 		                         </t>
+		                         -->
 	    					</td>
 	    				</tr>
 					</table>
