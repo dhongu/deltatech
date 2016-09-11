@@ -97,6 +97,31 @@
 					           		</div>
 					           </small>
 							</td>
+							<td style="width:30%">
+								<h4>
+					              <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">INVOICE NR. </span>
+					              <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+					              <span t-if="o.type == 'out_invoice' and o.state == 'draft'">INVOICE NR. </span>
+					              <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+					              <span t-if="o.type == 'out_refund'">Refund Invoice</span>
+					              <span t-if="o.type == 'in_refund'">Supplier Refund</span>
+					              <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+					              <t t-if="o.number">
+					                <span t-field="o.number"/>
+					              </t>
+					              <t t-if="not o.number">
+					                <span t-field="o.internal_number"/>
+					              </t>
+					              <div>
+					                <span>DATE: </span>
+					                <span t-field="o.date_invoice"/>
+					              </div>
+					              <div t-if="o.type == 'out_refund'">
+					                <span>Refunding invoice</span>
+					                <span t-field="o.origin"/>
+					              </div>
+					            </h4>
+							</td>
 						</tr>
 					</table>
 				</div>
