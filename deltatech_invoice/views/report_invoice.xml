@@ -60,6 +60,45 @@
 
 		<template id="header_invoice1"> 
 			<!--  aici se poate dezvolta un alt antet -->
+			<xpath expr="//div[@class='header']" position="replace">
+				<div class="header">
+					<table class="table table-condensed" style="border-top: initial;">
+						<tr>
+							<td style="width:50%">
+								<div>
+              						<strong t-if="o.type in ['out_invoice', 'out_refund']">SELLER:</strong>
+              					</div>
+              					<strong t-field="res_company.partner_id.name"/>
+              					<div>
+              						(<span t-field="res_company.state_id.code"/>)
+              						<span t-field="res_company.country_id"/>
+              					</div>
+              					<div t-if="res_company.partner_id.vat">
+              						<strong>C.U.I. :</strong>
+              						<span t-field="res_company.partner_id.vat"/>
+            					</div>
+            					<small>
+					            	<div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
+					                	<div t-if="bank.footer">
+					                  		<span t-if="bank.bank_name">
+					                    		<strong>Bank:</strong>
+					                    		<span t-field="bank.bank_name"/>
+					                  		</span>
+					                	</div>
+					                	<br/>
+					                	<div t-if="bank.footer">
+					                  		<span t-if="bank.acc_number">
+					                    		<strong>Account:</strong>
+					                    		<span t-field="bank.acc_number"/>
+					                  		</span>
+					                	</div>
+					           		</div>
+					           </small>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</xpath>
 			<t t-call="l10n_ro_invoice_report.header_invoice"/>
 		</template>
 
