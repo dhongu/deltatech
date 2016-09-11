@@ -165,7 +165,151 @@
 
 		<template id="header_invoice2"> 
 			<!--  aici se poate dezvolta un alt antet -->
-			<t t-call="l10n_ro_invoice_report.header_invoice"/>
+			<xpath expr="//div[@class='header']" position="replace">
+				<div class="header">
+					<!--div class="row" customize_show="True" >
+						<div class="col-xs-3">
+							<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+ 
+						</div>
+						<div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+					</div-->
+					<div class="row zero_min_height">
+						<div class="col-xs-12">
+							<div style="border-bottom: 1px solid black;"/>
+						</div>
+					</div>
+
+					<table class="table table-condensed"  style="border-top: initial;">
+	    				<tr>
+	        				<td width="50%">
+		                		<div>
+									<strong t-if="o.type in ['out_invoice', 'out_refund']">Supplier</strong>
+									<strong t-if="o.type in ['in_invoice', 'in_refund']">Customer</strong>
+								</div>
+								<strong t-field="res_company.partner_id.name"/>
+								<div>
+								    <strong>Address:</strong>
+									<address t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+								</div>
+		
+		 
+		                        <small>
+		                       	    <div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
+										<div t-if="bank.footer">
+											<span t-if="bank.bank_name">
+												<strong>Bank:</strong>
+												<span t-field="bank.bank_name"/>
+											</span>
+											<span t-if="bank.acc_number">
+												<strong>Account:</strong>
+												<span t-field="bank.acc_number"/>
+											</span>
+		 
+										</div>
+		
+									</div>
+		                        </small>
+	        				</td>
+	       					<td width="50%">
+		    					<div>
+									<strong t-if="o.type in ['out_invoice', 'out_refund']">Customer</strong>
+									<strong t-if="o.type in ['in_invoice', 'in_refund']">Supplier</strong>
+								</div>
+								<div>
+									<strong t-field="o.commercial_partner_id.name"/>
+								</div>
+								<div>
+									<strong>Address:</strong>
+									<address t-field="o.commercial_partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+								</div> 
+		                        <small>
+		                            <div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank">
+		    								<span t-if="bank.bank_name">
+		    									<strong>Bank:</strong>
+		    									<span t-field="bank.bank_name"/>
+		    								</span>
+		    								<span t-if="bank.acc_number">
+		    									<strong>Account:</strong>
+		    									<span t-field="bank.acc_number"/>
+		    								</span>
+		    						</div>
+		                        </small>
+	       					</td>
+	   					</tr>
+	    				<tr>
+							<td  style="border-top: initial;">
+		                  	    <div t-if="res_company.partner_id.vat">
+									<strong>CIF:</strong>
+									<span t-field="res_company.partner_id.vat"/>
+								</div>
+								<div t-if="res_company.partner_id.nrc">
+									<strong>NRC:</strong>
+									<span t-field="res_company.partner_id.nrc"/>
+								</div>
+								<div t-if="res_company.share_capital">
+									<strong>Share Capital:</strong>
+									<span t-field="res_company.share_capital"/>
+								</div>
+								<div t-if="'vat_on_payment' in res_company._columns">
+									<div t-if="res_company.vat_on_payment">
+										<span>Vat on payment</span>
+									</div>
+								</div>
+								<div>
+									<span t-foreach="o.tax_line" t-as="t">
+										<span t-field="t.name"/>
+									</span>
+								</div>		
+	    					</td>
+	    					<td style="border-top: initial;">
+		                        <t t-if="o.commercial_partner_id.is_company">
+		                        <div t-if="o.commercial_partner_id.vat">
+									<strong>CIF:</strong>
+									<span t-field="o.commercial_partner_id.vat"/>
+								</div>
+								<div t-if="o.commercial_partner_id.nrc">
+									<strong>NRC:</strong>
+									<span t-field="o.commercial_partner_id.nrc"/>
+								</div>    	
+		                        </t>
+		                         <t t-if="not o.commercial_partner_id.is_company">
+		                         <div>
+		    						<strong>CNP:</strong>
+									<span t-field="o.commercial_partner_id.cnp"/>
+								</div>
+		                         </t>
+	    					</td>
+	    				</tr>
+					</table>
+	                <h4 class="text-center">
+	                    <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
+	                    <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+	                    <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+	                    <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+	                    <span t-if="o.type == 'out_refund'">Refund Invoice</span>
+	                    <span t-if="o.type == 'in_refund'">Supplier Refund</span>
+	                    <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+	                    <t t-if="o.number">
+	                    	<span t-field="o.number"/>
+	                    </t>
+	                    <t t-if="not o.number">
+	                    	<span t-field="o.internal_number"/>
+	                    </t>                   
+	                    <span> / </span>
+	    				<span t-field="o.date_invoice" />
+	    				<div t-if="o.type == 'out_refund'">  
+	    					<span>Refunding invoice</span>
+	    					<span t-field="o.origin"/>
+	    				</div>
+	                </h4>
+	         		<div t-if="company.watermark_image"  class="mb32 col-md-12" >
+	            		<img t-att-src="'data:image/png;base64,%s' % company.watermark_image" 
+	                    style="width:100%;text-align:center;position:absolute;opacity:0.05"/>
+	    			</div>
+				</div>
+			</xpath>
+			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
 
 	<!-- 
