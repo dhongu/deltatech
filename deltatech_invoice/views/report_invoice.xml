@@ -185,7 +185,7 @@
 					<table class="table table-condensed" style="border-top: initial;">
 	    				<tr>
 	        				<td width="35%">
-								<h2 t-field="res_company.partner_id.name"/>
+								<h3 t-field="res_company.partner_id.name"/>
                                 <span>Nr. ord. Reg. Com.:</span>
                                 <span t-field="res_company.partner_id.nrc"/><br/>
                                 <span>C.U.I. :</span>
