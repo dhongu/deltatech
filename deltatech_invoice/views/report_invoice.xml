@@ -66,12 +66,16 @@
 				<div class="header">
 					<table class="table table-condensed" style="border-top: initial;">
 						<tr>
-							<td style="width:50%">
+							<td style="width:45%">
 								<div>
               						<strong t-if="o.type in ['out_invoice', 'out_refund']">SELLER:</strong>
               					</div>
               					<strong t-field="res_company.partner_id.name"/>
+                                <div>
+              						<span t-field="res_company.street"/>
+              					</div>
               					<div>
+                                    <span t-field="res_company.state_id"/>
               						(<span t-field="res_company.state_id.code"/>)
               						<span t-field="res_company.country_id"/>
               					</div>
@@ -97,7 +101,10 @@
 					           		</div>
 					           </small>
 							</td>
-							<td style="width:30%">
+                            <td style="width:10%;padding-top:-30px;">
+                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px"/>
+                            </td>
+							<td style="width:45%;text-align:right;">
 								<h4>
 					              <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">INVOICE NR. </span>
 					              <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
@@ -132,14 +139,16 @@
                                     <span>SELLER'S BANK / COUNTER NR</span><br />
                                     <div t-foreach="res_company.bank_ids" t-as="bank">
                                         <span t-if="bank.acc_number">
-                        					<span t-field="bank.bank_name"/>
-                                            <br />
-                                            <span>CONT: </span>
-                        					<span t-field="bank.acc_number"/>
-                                            <span> / SWIFT:  </span>
-                            				<span t-field="bank.bank_bic"/>
-                                            <br />
-                      					</span>
+                                            <span t-if="bank.currency_id.name == 'EUR' ">
+                            					<span t-field="bank.bank_name"/>
+                                                <br/>
+                                                <span>CONT: </span>
+                            					<span t-field="bank.acc_number"/>
+                                                <span> / SWIFT:  </span>
+                                				<span t-field="bank.bank_bic"/>
+                                                <br/>
+                          					</span>
+                                        </span>
                                     </div>
                                     <span>CURRENCY OF PAYMENT: EURO</span><br />
                                 </strong>
@@ -173,38 +182,38 @@
 						</div>
 					</div>
 
-					<table class="table table-condensed"  style="border-top: initial;">
+					<table class="table table-condensed" style="border-top: initial;">
 	    				<tr>
-	        				<td width="50%">
+	        				<td width="35%">
 								<h2 t-field="res_company.partner_id.name"/>
                                 <span>Nr. ord. Reg. Com.:</span>
-                                <span t-field="res_company.partner_id.nrc" /><br />
+                                <span t-field="res_company.partner_id.nrc"/><br/>
                                 <span>C.U.I. :</span>
-                                <span t-field="res_company.partner_id.vat" /><br />
+                                <span t-field="res_company.partner_id.vat"/><br/>
                                 <span>Sediul:</span>
-                                <span t-field="res_company.city" /><br />
-                                <span></span>
-                                <span t-field="res_company.street" /><br />
+                                <span t-field="res_company.city"/><br/>
+                                <span/>
+                                <span t-field="res_company.street"/><br/>
                                 <span>Judetul:</span>
-                                <span t-field="res_company.state_id" /><br />
+                                <span t-field="res_company.state_id"/><br/>
                                 <span>Banca:</span>
-                                <span>RAIFFEISEN BANK ROMANIA</span><br />
+                                <span>RAIFFEISEN BANK ROMANIA</span><br/>
                                 <div t-foreach="res_company.bank_ids" t-as="bank">
                                     <span t-if="bank.currency_id.name == 'RON' ">
-                                        RON: <span t-field="bank.acc_number" />
+                                        RON: <span t-field="bank.acc_number"/>
                                     </span>
                                 </div>
                                 <div t-foreach="res_company.bank_ids" t-as="bank">
                                     <span t-if="bank.currency_id.name == 'EUR' ">
-                                        EUR: <span t-field="bank.acc_number" />
+                                        EUR: <span t-field="bank.acc_number"/>
                                     </span>
                                 </div>
                                 <div t-if="res_company.share_capital">
     								<span>Capital Social </span>
-									<t t-esc="'{0:,.2f}'.format(int(res_company.share_capital))" /> RON
+									<t t-esc="'{0:,.2f}'.format(int(res_company.share_capital))"/> RON
 								</div>
                                 <span>Tel/Fax: </span>
-                                <span t-field="res_company.phone" /> <span t-field="res_company.fax" /><br />
+                                <span t-field="res_company.phone"/> <span t-field="res_company.fax"/><br/>
 								<div>
 								    <span>Cota TVA: 0.00%</span>
 								</div>
@@ -227,17 +236,47 @@
 									</div>
 		                        </small>
 	        				</td>
-	       					<td width="50%">
-		    					<div>
-									<strong t-if="o.type in ['out_invoice', 'out_refund']">Customer</strong>
-									<strong t-if="o.type in ['in_invoice', 'in_refund']">Supplier</strong>
-								</div>
+                            <td width="35%" style="vertical-align:bottom;text-align:center;">
+                                <h4 class="text-center">
+                                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px"/>
+                                    <h3 style="font-weight:bold;">FACTURA FISCALA</h3>
+                                    <br />
+                                    Nr. facturii: 
+                                    <t t-if="o.number">
+                                    	<span t-field="o.number"/>
+            	                    </t>
+            	                    <t t-if="not o.number">
+            	                    	<span t-field="o.internal_number"/>
+            	                    </t> 
+            	                    <br />
+                                    Data: 
+            	    				<span t-field="o.date_invoice"/>
+            	    				<div t-if="o.type == 'out_refund'">  
+            	    					<span>Refunding invoice</span>
+            	    					<span t-field="o.origin"/>
+            	    				</div>
+                                    <br />
+                                    1 EURO = <span t-esc="round(1/o.currency_id.rate_silent,4)" /> LEI
+            	                </h4>
+                            </td>
+	       					<td width="30%">
+                                <br />
+                                <br />
+                               <span>Seria/nr.: </span>
+                               <t t-if="o.number">
+                                        <span t-field="o.number"/>
+        	                    </t>
+        	                    <t t-if="not o.number">
+        	                    	<span t-field="o.internal_number"/>
+        	                    </t>
+                                <div>
+                                    Cumparator: <strong t-field="o.commercial_partner_id.name"/>
+                                </div>
 								<div>
-									<strong t-field="o.commercial_partner_id.name"/>
-								</div>
-								<div>
-									<strong>Address:</strong>
-									<address t-field="o.commercial_partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+									<span>Addresa:</span>
+                                    <span t-field="o.commercial_partner_id.street"></span>
+                                    <br />
+                                    <span t-field="o.commercial_partner_id.country_id"></span>
 								</div> 
 		                        <small>
 		                            <div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank">
@@ -251,16 +290,9 @@
 		    								</span>
 		    						</div>
 		                        </small>
-	       					</td>
-	   					</tr>
-	    				<tr>
-							<td  style="border-top: initial;">
-		                  	    		
-	    					</td>
-	    					<td style="border-top: initial;">
-		                        <t t-if="o.commercial_partner_id.is_company">
-		                        <div t-if="o.commercial_partner_id.vat">
-									<strong>CIF:</strong>
+                                <t t-if="o.commercial_partner_id.is_company">
+    	                        <div t-if="o.commercial_partner_id.vat">
+									<strong>IVA: </strong>
 									<span t-field="o.commercial_partner_id.vat"/>
 								</div>
 								<div t-if="o.commercial_partner_id.nrc">
@@ -268,6 +300,14 @@
 									<span t-field="o.commercial_partner_id.nrc"/>
 								</div>    	
 		                        </t>
+	       					</td>
+	   					</tr>
+	    				<tr>
+							<td style="border-top: initial;">
+		                  	    		
+	    					</td>
+	    					<td style="border-top: initial;">
+		                        
 		                        <!-- 
 		                         <t t-if="not o.commercial_partner_id.is_company">
 		                         <div>
@@ -279,30 +319,8 @@
 	    					</td>
 	    				</tr>
 					</table>
-	                <h4 class="text-center">
-	                    <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
-	                    <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
-	                    <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
-	                    <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-	                    <span t-if="o.type == 'out_refund'">Refund Invoice</span>
-	                    <span t-if="o.type == 'in_refund'">Supplier Refund</span>
-	                    <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-	                    <t t-if="o.number">
-	                    	<span t-field="o.number"/>
-	                    </t>
-	                    <t t-if="not o.number">
-	                    	<span t-field="o.internal_number"/>
-	                    </t>                   
-	                    <span> / </span>
-	    				<span t-field="o.date_invoice" />
-	    				<div t-if="o.type == 'out_refund'">  
-	    					<span>Refunding invoice</span>
-	    					<span t-field="o.origin"/>
-	    				</div>
-	                </h4>
-	         		<div t-if="company.watermark_image"  class="mb32 col-md-12" >
-	            		<img t-att-src="'data:image/png;base64,%s' % company.watermark_image" 
-	                    style="width:100%;text-align:center;position:absolute;opacity:0.05"/>
+	         		<div t-if="company.watermark_image" class="mb32 col-md-12">
+	            		<img t-att-src="'data:image/png;base64,%s' % company.watermark_image" style="width:100%;text-align:center;position:absolute;opacity:0.05"/>
 	    			</div>
 				</div>
 			</xpath>
