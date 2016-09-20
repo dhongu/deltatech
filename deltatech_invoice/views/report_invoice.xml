@@ -38,13 +38,18 @@
 		<!--  afisare in moneda in care este pretul EUR-->
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
-			<t t-call="account.report_invoice_document" />
+			<!-- <t t-call="account.report_invoice_document" /> -->
+				<t t-call="report.external_layout">
+        			<div class="page">
+						<t t-call="deltatech_invoice.header_invoice1"/>
+					</div>
+				</t>
 		</template>
 
 	    <!--  afisare in moneda de baza RON -->
 		<template id="report_invoice_document2">
 			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
-			<t t-call="account.report_invoice_document" />
+			<!-- <t t-call="account.report_invoice_document" /> -->
 		</template>
 
 		<template id="invoice_layout" inherit_id="l10n_ro_invoice_report.invoice_layout">
