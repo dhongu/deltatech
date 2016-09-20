@@ -39,7 +39,6 @@
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
-			
        			<div class="page">
 					<div class="header">
 					<table class="table table-condensed" style="border-top: initial;">
@@ -153,129 +152,6 @@
 			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
 		</template>
-<!-- 
-		<template id="invoice_layout" inherit_id="l10n_ro_invoice_report.invoice_layout">
-			<xpath expr="//t[@t-call='l10n_ro_invoice_report.header_invoice']" position="replace">
-			  <t t-if="currency_id == o.currency_id">
-				  <t t-call="deltatech_invoice.header_invoice1"/>
-			  </t>
-			  <t t-if="currency_id != o.currency_id">
-				  <t t-call="deltatech_invoice.header_invoice2"/>		
-			  </t>
-			</xpath>
-		</template>
- -->
-		<template id="header_invoice1"> 
-			<!--  aici se poate dezvolta un alt antet -->
-			<xpath expr="//div[@class='header']" position="replace">
-				<div class="header">
-					<table class="table table-condensed" style="border-top: initial;">
-						<tr>
-							<td style="width:45%">
-								<div>
-              						<strong t-if="o.type in ['out_invoice', 'out_refund']">SELLER:</strong>
-              					</div>
-              					<strong t-field="res_company.partner_id.name"/>
-                                <div>
-              						<span t-field="res_company.street"/>
-              					</div>
-              					<div>
-                                    <span t-field="res_company.state_id"/>
-              						(<span t-field="res_company.state_id.code"/>)
-              						<span t-field="res_company.country_id"/>
-              					</div>
-              					<div t-if="res_company.partner_id.vat">
-              						<strong>C.U.I. :</strong>
-              						<span t-field="res_company.partner_id.vat"/>
-            					</div>
-            					<small>
-					            	<div t-foreach="res_company.partner_id.bank_ids" t-as="bank">
-					                	<div t-if="bank.footer">
-					                  		<span t-if="bank.bank_name">
-					                    		<strong>Bank:</strong>
-					                    		<span t-field="bank.bank_name"/>
-					                  		</span>
-					                	</div>
-					                	<br/>
-					                	<div t-if="bank.footer">
-					                  		<span t-if="bank.acc_number">
-					                    		<strong>Account:</strong>
-					                    		<span t-field="bank.acc_number"/>
-					                  		</span>
-					                	</div>
-					           		</div>
-					           </small>
-							</td>
-                            <td style="width:10%;padding-top:-30px;">
-                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px"/>
-                            </td>
-							<td style="width:45%;text-align:right;">
-								<h4>
-					              <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">INVOICE NR. </span>
-					              <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
-					              <span t-if="o.type == 'out_invoice' and o.state == 'draft'">INVOICE NR. </span>
-					              <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-					              <span t-if="o.type == 'out_refund'">Refund Invoice</span>
-					              <span t-if="o.type == 'in_refund'">Supplier Refund</span>
-					              <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-					              <t t-if="o.number">
-					                <span t-field="o.number"/>
-					              </t>
-					              <t t-if="not o.number">
-					                <span t-field="o.internal_number"/>
-					              </t>
-					              <div>
-					                <span>DATE: </span>
-					                <span t-field="o.date_invoice"/>
-					              </div>
-					              <div t-if="o.type == 'out_refund'">
-					                <span>Refunding invoice</span>
-					                <span t-field="o.origin"/>
-					              </div>
-					            </h4>
-							</td>
-						</tr>
-					</table>
-					<table style="width: 100%">
-                        <tr>
-                            <td style="border:1px solid black; width: 60%;">
-                                <strong>
-                                    <span>COUNTRY OF ORIGIN: ROMANIA</span><br />
-                                    <span>SELLER'S BANK / COUNTER NR</span><br />
-                                    <div t-foreach="res_company.bank_ids" t-as="bank">
-                                        <span t-if="bank.acc_number">
-                                            <span t-if="bank.currency_id.name == 'EUR' ">
-                            					<span t-field="bank.bank_name"/>
-                                                <br/>
-                                                <span>CONT: </span>
-                            					<span t-field="bank.acc_number"/>
-                                                <span> / SWIFT:  </span>
-                                				<span t-field="bank.bank_bic"/>
-                                                <br/>
-                          					</span>
-                                        </span>
-                                    </div>
-                                    <span>CURRENCY OF PAYMENT: EURO</span><br />
-                                </strong>
-                            </td>
-                            <td style="border:1px solid black; width: 40%;">
-                                <strong>
-                                    <span>CONSEGNEE / BUYER: </span>
-                                    <div>
-    						            <span t-field="o.partner_id"/>
-						            </div>
-                                    <span t-field="o.partner_id.street" /><br />
-                                    <span t-field="o.partner_id.zip" /> <span t-field="o.partner_id.city" /><br />
-                                    <span t-field="o.partner_id.country_id" /><br />
-                                </strong>
-                            </td>
-                        </tr>
-                    </table>
-				</div>
-			</xpath>
-			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
-		</template>
-
 
 		<template id="header_invoice2"> 
 			<!--  aici se poate dezvolta un alt antet -->
