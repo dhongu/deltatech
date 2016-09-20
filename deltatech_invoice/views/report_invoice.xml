@@ -329,15 +329,13 @@
 			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
 		
-		<template id="report_invoice_document_body1"> 
+		<template id="report_invoice_document_body1" inherit_id="l10n_ro_invoice_report.invoice_layout"> 
 			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
-			<t t-call="deltatech_invoice.header_invoice1"/>
 			</xpath>
 		</template>
 		
-		<template id="report_invoice_document_body2">
+		<template id="report_invoice_document_body2" inherit_id="l10n_ro_invoice_report.invoice_layout">
 			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
-			<t t-call="deltatech_invoice.header_invoice2"/>
 			</xpath> 
 		</template>
 
