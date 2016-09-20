@@ -39,11 +39,9 @@
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
-				<t t-call="report.external_layout">
-        			<div class="page">
-						<t t-call="deltatech_invoice.header_invoice1"/>
-					</div>
-				</t>
+       			<div class="page">
+					<t t-call="deltatech_invoice.header_invoice1"/>
+				</div>
 		</template>
 
 	    <!--  afisare in moneda de baza RON -->
