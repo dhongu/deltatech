@@ -39,6 +39,7 @@
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
+			<t t-call="deltatech_invoice.header_invoice1"/>
        			<div class="page">
 					
 				</div>
@@ -54,7 +55,7 @@
 			<xpath expr="//t[@t-call='l10n_ro_invoice_report.header_invoice']" position="replace">
 			  <!-- <t t-if="currency_id == o.price_currency_id"> -->
 			  <t t-if="currency_id == o.currency_id">
-				  <t t-call="deltatech_invoice.header_invoice1"/>		
+				  <t t-call="deltatech_invoice.header_invoice1"/>
 			  </t>
 			  <!-- <t t-if="currency_id != o.price_currency_id"> -->
 			  <t t-if="currency_id != o.currency_id">
