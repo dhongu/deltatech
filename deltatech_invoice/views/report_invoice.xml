@@ -38,13 +38,15 @@
 		<!--  afisare in moneda in care este pretul EUR-->
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
-			<t t-call="account.report_invoice_document" />
+			<!-- <t t-call="account.report_invoice_document" /> -->
+			<t t-call="deltatech_invoice.report_invoice_document_body1" />
 		</template>
 
 	    <!--  afisare in moneda de baza RON -->
 		<template id="report_invoice_document2">
 			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
-			<t t-call="account.report_invoice_document" />
+			<!-- <t t-call="account.report_invoice_document" /> -->
+			<t t-call="deltatech_invoice.report_invoice_document_body2" />
 		</template>
 
 		<template id="invoice_layout" inherit_id="l10n_ro_invoice_report.invoice_layout">
@@ -326,7 +328,16 @@
 			</xpath>
 			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
-
+		
+		<template id="report_invoice_document_body1"> 
+			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+			</xpath>
+		</template>
+		
+		<template id="report_invoice_document_body2">
+			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+			</xpath> 
+		</template>
 
 	<!-- 
 		<template id="l10n_ro_report_invoice_document" inherit_id="l10n_ro_invoice_report.l10n_ro_report_invoice_document">
