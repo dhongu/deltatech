@@ -40,7 +40,6 @@
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
        			<div class="page">
-					<div class="header">
 					<table class="table table-condensed" style="border-top: initial;">
 						<tr>
 							<td style="width:45%">
@@ -143,7 +142,6 @@
                             </td>
                         </tr>
                     </table>
-				</div>
 				</div>
 		</template>
 
