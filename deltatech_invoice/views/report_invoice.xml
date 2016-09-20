@@ -49,20 +49,18 @@
 			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
 			<!-- <t t-call="account.report_invoice_document" /> -->
 		</template>
-
+<!-- 
 		<template id="invoice_layout" inherit_id="l10n_ro_invoice_report.invoice_layout">
 			<xpath expr="//t[@t-call='l10n_ro_invoice_report.header_invoice']" position="replace">
-			  <!-- <t t-if="currency_id == o.price_currency_id"> -->
 			  <t t-if="currency_id == o.currency_id">
 				  <t t-call="deltatech_invoice.header_invoice1"/>
 			  </t>
-			  <!-- <t t-if="currency_id != o.price_currency_id"> -->
 			  <t t-if="currency_id != o.currency_id">
 				  <t t-call="deltatech_invoice.header_invoice2"/>		
 			  </t>
 			</xpath>
 		</template>
-
+ -->
 		<template id="header_invoice1"> 
 			<!--  aici se poate dezvolta un alt antet -->
 			<xpath expr="//div[@class='header']" position="replace">
