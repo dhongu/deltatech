@@ -329,13 +329,19 @@
 			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
 		
-		<template id="report_invoice_document_body1" inherit_id="l10n_ro_invoice_report.invoice_layout"> 
+		<template id="report_invoice_document_body1"> 
 			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+				<div>
+					DUDU
+				</div>
 			</xpath>
 		</template>
 		
-		<template id="report_invoice_document_body2" inherit_id="l10n_ro_invoice_report.invoice_layout">
+		<template id="report_invoice_document_body2">
 			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+				<div>
+					DUDU
+				</div>
 			</xpath> 
 		</template>
 
