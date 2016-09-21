@@ -38,32 +38,9 @@
 		<!--  afisare in moneda in care este pretul EUR-->
 		<template id="report_invoice_document1">
 			<t t-set="currency_id" t-value="o.price_currency_id" />		 
-			<t t-call="account.report_invoice_document" />
-		</template>
-
-	    <!--  afisare in moneda de baza RON -->
-		<template id="report_invoice_document2">
-			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
-			<t t-call="account.report_invoice_document" />
-		</template>
-
-		<template id="invoice_layout" inherit_id="l10n_ro_invoice_report.invoice_layout">
-			<xpath expr="//t[@t-call='l10n_ro_invoice_report.header_invoice']" position="replace">
-			  <!-- <t t-if="currency_id == o.price_currency_id"> -->
-			  <t t-if="currency_id == o.currency_id">
-				  <t t-call="deltatech_invoice.header_invoice1"/>		
-			  </t>
-			  <!-- <t t-if="currency_id != o.price_currency_id"> -->
-			  <t t-if="currency_id != o.currency_id">
-				  <t t-call="deltatech_invoice.header_invoice2"/>		
-			  </t>
-			</xpath>
-		</template>
-
-		<template id="header_invoice1"> 
-			<!--  aici se poate dezvolta un alt antet -->
-			<xpath expr="//div[@class='header']" position="replace">
-				<div class="header">
+			<!-- <t t-call="account.report_invoice_document" /> -->
+       			<div class="page">
+       				<!-- Header -->
 					<table class="table table-condensed" style="border-top: initial;">
 						<tr>
 							<td style="width:45%">
@@ -166,11 +143,260 @@
                             </td>
                         </tr>
                     </table>
+                    <!-- End header -->
+                    
+                    <!-- Content -->
+                    
+                    <t t-set="nr_crt" t-value="1"/>
+					<t t-if="not currency_id">
+						<t t-set="currency_id" t-value="o.currency_id"/>
+					</t>	
+					<table class="table table-condensed  table-bordered">
+						<thead>
+							<tr>
+								<th>Ord</th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th class="text-right">Unit Price</th>
+								<th class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">Discount (%)</th>
+								<th class="text-right">Amount</th>
+								<th class="text-right">Taxes</th>
+							</tr>
+						</thead>
+						<tbody class="invoice_tbody">
+							<tr t-foreach="o.invoice_line" t-as="l">
+								<td>
+									<t t-esc="nr_crt"/>
+									<t t-set="nr_crt" t-value="nr_crt + 1"/>
+								</td>
+								<td>
+									<span t-field="l.name"/>
+								</td>
+								<td class="text-right">
+									<t t-set="quantity" t-value="l.quantity"/>
+									<t t-if="o.type == 'out_refund'">
+										<t t-set="quantity" t-value="-1*l.quantity"/> 
+									</t>
+									<span t-if="quantity" id="quantity" t-esc="formatLang(quantity)"/>								 
+									<span t-field="l.uos_id" groups="product.group_uom"/>
+								</td>
+								<td class="text-right">
+									<t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
+									<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
+									<span id="price_unit_without_taxes" t-esc="formatLang(price_unit_without_taxes)"/>	
+								</td>
+								<td class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">
+									<span t-field="l.discount"/>
+								</td>
+								<td class="text-right">
+									<t t-set="price_subtotal" t-value="l.price_subtotal"/>
+									<t t-if="o.type == 'out_refund'">
+										<t t-set="price_subtotal" t-value="-1*l.price_subtotal"/>
+									</t>
+ 									<t t-set="price_subtotal" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)"/>
+									<span id="price_subtotal" t-esc="formatLang(price_subtotal)"/>	
+								</td>
+								<td class="text-right">
+									<t t-set="price_taxes" t-value="l.price_taxes"/>
+									<t t-if="o.type == 'out_refund'">
+										<t t-set="price_taxes" t-value="-1*l.price_taxes"/>
+										 
+									</t>
+									<t t-set="price_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)"/>
+									<span id="price_taxes" t-esc="formatLang(price_taxes)"/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div style="page-break-inside: avoid !important;">
+						<div class="row">
+
+							<div class="col-xs-8" t-if="o.type == 'out_invoice' or o.type == 'out_refund' ">
+								<table class="table table-condensed">
+
+									<tr class="border-black">
+										<td>Elaborate:</td>
+										<td>Information for delivery:</td>
+									</tr>
+
+									<tr class="border-black">
+										<td>
+											<span>Name:</span>
+											<span t-field="o.user_id"/>
+										</td>
+										<td>
+											<div>
+												<span>Delegate:</span>
+												<span t-field="o.delegate_id"/>
+											</div>
+											<div>
+												<span>Mean Transport:</span>
+												<span t-field="o.mean_transp"/>
+											</div>
+											<div>
+												<span>Signature for receive</span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+
+							<div class="col-xs-4 pull-right">
+								<table class="table table-condensed">
+									<tr class="border-black">
+										<td>
+											<strong>Total Without Taxes</strong>
+										</td>
+										<td class="text-right">
+											 <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
+											 <t t-if="o.type == 'out_refund'">
+												<t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed"/>
+												
+											</t>
+										    <t t-set="amount_untaxeds" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_untaxeds,currency_id)"/> 
+ 											<span id="amount_untaxeds">
+ 												<span t-esc="formatLang(amount_untaxeds)"/> <span t-field="currency_id.symbol"/>
+ 											</span> 
+										</td>
+									</tr>
+									<tr>
+										<td>Taxes</td>
+										<td class="text-right">
+											<t t-set="amount_tax" t-value="o.amount_tax"/> 
+											<t t-if="o.type == 'out_refund'">
+												<t t-set="amount_tax" t-value="-1*o.amount_tax"/>
+											</t>
+		 									<t t-set="amount_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)"/> 		
+ 											<span id="amount_tax">
+ 												<span t-esc="formatLang(amount_tax)"/> <span t-field="currency_id.symbol"/>
+ 											</span>
+    
+										</td>
+									</tr>
+									<tr class="border-black">
+										<td>
+											<strong>Total</strong>
+										</td>
+										<td class="text-right">
+											<t t-set="amount_total" t-value="o.amount_total"/>
+											<t t-if="o.type == 'out_refund'">
+												<t t-set="amount_total" t-value="-1*o.amount_total"/>
+												
+											</t>
+                                            <t t-set="amount_total" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_total,currency_id)"/>
+ 											<span id="amount_total">
+ 											 <span t-esc="formatLang(amount_total)"/> <span t-field="currency_id.symbol"/>
+ 											</span>
+ 											
+	                                        <div t-if="currency_id!=res_company.currency_id">
+	                                            (
+	                                            <t t-if="o.type == 'out_refund'">
+	                                                <t t-set="amount_total" t-value="-1*o.move_id.amount"/>
+	                                            </t>  
+                                                <t t-set="amount_total" t-value="currency_id.with_context(date=o.date_invoice).compute(amount_total,res_company.currency_id)"/>
+	                                            <span id="amount_total_company_currency">
+     											    <span t-esc="formatLang(amount_total)"/> <span t-field="res_company.currency_id.symbol"/>
+ 											    </span>
+	                                            )                                                                                    
+	                                        </div> 	 											
+ 											
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+
+
+						<p t-if="o.comment">
+							<strong>Comment:</strong>
+							<span t-field="o.comment"/>
+						</p>
+
+						<small t-if="o.type == 'out_invoice' or o.type == 'out_refund'">
+							<div>Printing and numbering system of its own under Law 571/2003 on the Fiscal Code, with subsequent amendments and OMPF 2226/2006</div>
+
+							<t t-if="not res_company.stamp_image">
+								<div>Invoice circulate without signature and stamp according to the law 571/2003, rule 115, paragraph 6</div>
+							</t>
+							<img t-if="res_company.stamp_image" t-att-src="'data:image/png;base64,%s' % res_company.stamp_image" style="max-height: 150px; "/>
+						</small>
+
+						<div t-if="o.commercial_partner_id.info_for_invoice">
+							<span t-field="o.commercial_partner_id.info_for_invoice"/>
+						</div>
+
+						<div t-if="o.type == 'out_invoice' and o.payment_ids">
+							<br/>
+							<br/>
+							<div t-foreach="o.payment_ids" t-as="payment" style="border-top: 1px solid black;">
+
+								<t t-if="payment.credit != 0 and payment.journal_id.type == 'cash'">
+
+									<div>
+										<strong t-field="res_company.partner_id.name"/>
+									</div>
+									<div>
+										VAT:
+										<span t-field="res_company.partner_id.vat"/>
+									</div>
+									<div>
+										NRC:
+										<span t-field="res_company.partner_id.nrc"/>
+									</div>
+									<address t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: true, &quot;no_tag_br&quot;: true}"/>
+									<h4>
+										<span>Voucher:</span>
+										<span t-field="payment.ref"/>
+										<span>/</span>
+										<span t-field="payment.date"/>
+									</h4>
+									<div>
+										<span>I received from</span>
+										<strong t-field="o.partner_id.name"/>
+										<span t-if="o.partner_id.city">
+											from
+											<span t-field="o.partner_id.city"/>
+											<span t-field="o.partner_id.street"/>
+											<span t-field="o.partner_id.street2"/>
+										</span>
+										,
+										<span>amount</span>
+
+										<span t-field="payment.credit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+										(
+										<span t-esc="convert(payment.credit)"/>
+										)
+									</div>
+									<div>
+										Representing counter value of invoice
+										<span t-field="o.number"/>
+									</div>
+
+								</t>
+
+							</div>
+						</div>
+
+						<p t-if="o.payment_term.note">
+							<strong>Payment Term:</strong>
+							<span t-field="o.payment_term.note"/>
+						</p>
+						<p t-if="o.fiscal_position.note">
+							<strong>Fiscal Position Remark:</strong>
+							<span t-field="o.fiscal_position.note"/>
+						</p>
+					</div>
+                    
+                    <!-- End content -->
 				</div>
-			</xpath>
-			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
 
+	    <!--  afisare in moneda de baza RON -->
+		<template id="report_invoice_document2">
+			<t t-set="currency_id" t-value="o.company_id.currency_id" />		 
+			<!-- <t t-call="account.report_invoice_document" /> -->
+		</template>
 
 		<template id="header_invoice2"> 
 			<!--  aici se poate dezvolta un alt antet -->
@@ -326,6 +552,25 @@
 			</xpath>
 			<!-- <t t-call="l10n_ro_invoice_report.header_invoice"/> -->
 		</template>
+		
+		
+		<!-- 
+		<template id="report_invoice_document_body1"> 
+			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+				<div>
+					DUDU
+				</div>
+			</xpath>
+		</template>
+		
+		<template id="report_invoice_document_body2">
+			<xpath expr="//t[@t-call='report.external_layout']" position="replace">
+				<div>
+					DUDU
+				</div>
+			</xpath> 
+		</template>
+		 -->
 
 	<!-- 
 		<template id="l10n_ro_report_invoice_document" inherit_id="l10n_ro_invoice_report.l10n_ro_report_invoice_document">
