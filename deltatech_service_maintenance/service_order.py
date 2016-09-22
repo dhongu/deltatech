@@ -41,12 +41,15 @@ class service_order(models.Model):
     access_token = fields.Char(string='Security Token', required=True, copy=False,default=str(uuid.uuid4()))
     
     state = fields.Selection([  ('draft','Draft'), 
+                                ('acknowledge','Acknowledge'),
+                                ('on_way','On the way'),
                                 ('progress','In Progress'), 
                                 ('work_done','Work Done'),
                                 ('rejected','Rejected'),
                                 ('cancel','Cancel'),
-                                ('done','Done')], default='draft', string='Status')
+                                ('done','Completed')], default='draft', string='Status')
 
+    date_start_travel = fields.Datetime('Start Travel Date', readonly=True, copy=False)
     date_start = fields.Datetime('Start Date', readonly=True, copy=False)
     date_done = fields.Datetime('Done Date', readonly=True, copy=False) 
 
@@ -82,12 +85,17 @@ class service_order(models.Model):
                                             readonly=False,  
                                             states={'done': [('readonly', True)]} )
  
-    item_ids = fields.One2many('service.order.item', 'order_id', string='Order Lines',
+    component_ids = fields.One2many('service.order.component', 'order_id', string='Order Components',
+                                readonly=False, states={'done': [('readonly', True)]}, copy=True)  
+
+    operation_ids = fields.One2many('service.order.operation', 'order_id', string='Order Operations',
                                 readonly=False, states={'done': [('readonly', True)]}, copy=True)  
     
     # semantura client !!    
     signature = fields.Binary(string="Signature", readonly=True)
     
+    eta =  fields.Float(string="ETA")
+    dist_traveled = fields.Float(string="Distance traveled")
     ## am predat ??
     ## am primit ??
 
@@ -96,6 +104,8 @@ class service_order(models.Model):
     
 
     # alt obiect trebuie pentru procesul verbal de instalare / dezinstalare 
+
+    description = fields.Text('Notes', readonly=False, states={'done': [('readonly', True)]})
 
 
     @api.model
@@ -137,10 +147,27 @@ class service_order(models.Model):
     def action_rejected(self):
         self.write({'state':'rejected'})
 
+
+
+    @api.multi
+    def action_acknowledge(self):
+        self.write({'state':'acknowledge'})
+        
+    @api.multi
+    def action_start_on_way(self):
+        self.write({'state':'on_way',
+                    'date_start_travel':fields.Datetime.now()})
+
     @api.multi
     def action_start(self):
-        self.write({'state':'progress',
-                    'date_start':fields.Datetime.now()})
+        value = {'state':'progress',
+                 'date_start':fields.Datetime.now()} 
+        
+        self.write(value)
+        for order in self:
+            if not order.date_start_travel:
+                order.write({'date_start_travel':fields.Datetime.now()})
+
 
     @api.multi
     def action_work_again(self):
@@ -191,9 +218,9 @@ class service_order(models.Model):
             "target": "new",
             }
 
-class service_order_item(models.Model):
-    _name = 'service.order.item'
-    _description = "Notification Item"
+class service_order_component(models.Model):
+    _name = 'service.order.component'
+    _description = "Service Order Component"
  
     order_id = fields.Many2one('service.order', string='Order', readonly=True )
     product_id = fields.Many2one('product.product', string='Product')
@@ -207,12 +234,46 @@ class service_order_item(models.Model):
         self.product_uom = self.product_id.uom_id
 
 
+class service_order_operation(models.Model):
+    _name = 'service.order.operation'
+    _description = "Service Order Operation"
+ 
+    order_id = fields.Many2one('service.order', string='Order', readonly=True )
+    operation_id = fields.Many2one('service.operation', string='Operation') 
+    duration = fields.Float(string="Duration")
+
+
+    @api.onchange('operation_id')
+    def onchange_operation_id(self): 
+        self.duration = self.operation_id.duration
+
 
 class service_order_reason(models.Model):
     _name = 'service.order.reason'
     _description = "Service Order Reason"
+    
     name = fields.Char(string='Reason', translate=True) 
+    code = fields.Char(string="Code")
+    display_name = fields.Char(compute='_compute_display_name')
 
+    @api.multi
+    def name_get(self):
+        result = []
+
+        for record in self:
+            result.append((record.id, self.display_name))
+
+        return result
+
+
+    @api.one
+    @api.depends('name', 'code')     # this definition is recursive
+    def _compute_display_name(self):
+        if self.code:
+            self.display_name =  '[%s] %s' % (self.code,self.name)
+        else:
+            self.display_name = self.name
+        
 
 class service_operating_parameter(models.Model):
     _name = 'service.operating.parameter'
@@ -226,5 +287,31 @@ class service_order_type(models.Model):
     name = fields.Char(string='Type', translate=True) 
     category = fields.Selection([('cor','Corrective'),('pre','Preventive')])
 
+
+class service_operation(models.Model):
+    _name = 'service.operation'
+    _description = "Service Operation"     
+    
+    name = fields.Char(string='Operation')
+    code = fields.Char(string="Code") 
+    duration = fields.Float(string="Duration")
+    display_name = fields.Char(compute='_compute_display_name')
+
+    @api.multi
+    def name_get(self):
+        result = []
+
+        for record in self:
+            result.append((record.id, self.display_name))
+
+        return result
+
+    @api.one
+    @api.depends('name', 'code')     # this definition is recursive
+    def _compute_display_name(self):
+        if self.code:
+            self.display_name =  '[%s] %s' % (self.code,self.name)
+        else:
+            self.display_name = self.name
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
