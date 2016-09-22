@@ -90,10 +90,10 @@
 					              <span t-if="o.type == 'out_refund'">Refund Invoice</span>
 					              <span t-if="o.type == 'in_refund'">Supplier Refund</span>
 					              <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-					              <t t-if="o.number">
-					                <span t-field="o.number"/>
+					              <t t-if="o.number1">
+					                <span t-field="o.number1"/>
 					              </t>
-					              <t t-if="not o.number">
+					              <t t-if="not o.number1">
 					                <span t-field="o.internal_number"/>
 					              </t>
 					              <div>
@@ -154,25 +154,33 @@
 					<table class="table table-condensed  table-bordered">
 						<thead>
 							<tr>
-								<th>Ord</th>
-								<th>Description</th>
-								<th>Quantity</th>
-								<th class="text-right">Unit Price</th>
+								<th style="text-align:center;vertical-align:middle;">POS</th>
+                                <th style="text-align:center;vertical-align:middle;">ROW/RIGA</th>
+								<th style="text-align:center;vertical-align:middle;">DESCRIPTION</th>
+                                <th style="text-align:center;vertical-align:middle;">N/B/CL</th>
+								<th style="text-align:center;vertical-align:middle;">Quantity</th>
+								<th style="text-align:center;vertical-align:middle;">Unit Price<br />EURO</th>
 								<th class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">Discount (%)</th>
-								<th class="text-right">Amount</th>
-								<th class="text-right">Taxes</th>
+								<th style="text-align:center;vertical-align:middle;">Amount<br />EURO</th>
+								<!--<th class="text-right">Taxes</th>-->
 							</tr>
 						</thead>
 						<tbody class="invoice_tbody">
 							<tr t-foreach="o.invoice_line" t-as="l">
-								<td>
+								<td style="text-align:center">
 									<t t-esc="nr_crt"/>
 									<t t-set="nr_crt" t-value="nr_crt + 1"/>
+								</td>
+                                <td style="text-align:center">
+    								<span t-field="l.ref"/>
 								</td>
 								<td>
 									<span t-field="l.name"/>
 								</td>
-								<td class="text-right">
+                                <td style="text-align:center">
+    								<span>NR</span>
+								</td>
+								<td style="text-align:center">
 									<t t-set="quantity" t-value="l.quantity"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="quantity" t-value="-1*l.quantity"/> 
@@ -180,7 +188,8 @@
 									<span t-if="quantity" id="quantity" t-esc="formatLang(quantity)"/>								 
 									<span t-field="l.uos_id" groups="product.group_uom"/>
 								</td>
-								<td class="text-right">
+								<td style="text-align:center">
+                                    <span>&#8364;</span>
 									<t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
 									<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
 									<span id="price_unit_without_taxes" t-esc="formatLang(price_unit_without_taxes)"/>	
@@ -188,7 +197,8 @@
 								<td class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">
 									<span t-field="l.discount"/>
 								</td>
-								<td class="text-right">
+								<td style="text-align:center">
+                                    <span>&#8364;</span>
 									<t t-set="price_subtotal" t-value="l.price_subtotal"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="price_subtotal" t-value="-1*l.price_subtotal"/>
@@ -196,6 +206,7 @@
  									<t t-set="price_subtotal" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)"/>
 									<span id="price_subtotal" t-esc="formatLang(price_subtotal)"/>	
 								</td>
+                                <!--
 								<td class="text-right">
 									<t t-set="price_taxes" t-value="l.price_taxes"/>
 									<t t-if="o.type == 'out_refund'">
@@ -205,6 +216,7 @@
 									<t t-set="price_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)"/>
 									<span id="price_taxes" t-esc="formatLang(price_taxes)"/>
 								</td>
+                                -->
 							</tr>
 						</tbody>
 					</table>
