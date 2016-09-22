@@ -146,7 +146,7 @@
                     <!-- End header -->
                     
                     <!-- Content -->
-                    
+                    <t t-set="total_quantity" t-value="0"/>
                     <t t-set="nr_crt" t-value="1"/>
 					<t t-if="not currency_id">
 						<t t-set="currency_id" t-value="o.currency_id"/>
@@ -159,9 +159,9 @@
 								<th style="text-align:center;vertical-align:middle;">DESCRIPTION</th>
                                 <th style="text-align:center;vertical-align:middle;">N/B/CL</th>
 								<th style="text-align:center;vertical-align:middle;">Quantity</th>
-								<th style="text-align:center;vertical-align:middle;">Unit Price<br />EURO</th>
+								<th style="text-align:center;vertical-align:middle;">Unit Price<br/>EURO</th>
 								<th class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">Discount (%)</th>
-								<th style="text-align:center;vertical-align:middle;">Amount<br />EURO</th>
+								<th style="text-align:center;vertical-align:middle;">Amount<br/>EURO</th>
 								<!--<th class="text-right">Taxes</th>-->
 							</tr>
 						</thead>
@@ -182,6 +182,7 @@
 								</td>
 								<td style="text-align:center">
 									<t t-set="quantity" t-value="l.quantity"/>
+                                    <t t-set="total_quantity" t-value="total_quantity + l.quantity"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="quantity" t-value="-1*l.quantity"/> 
 									</t>
@@ -189,7 +190,7 @@
 									<span t-field="l.uos_id" groups="product.group_uom"/>
 								</td>
 								<td style="text-align:center">
-                                    <span>&#8364;</span>
+                                    <span>€</span>
 									<t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
 									<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
 									<span id="price_unit_without_taxes" t-esc="formatLang(price_unit_without_taxes)"/>	
@@ -198,7 +199,7 @@
 									<span t-field="l.discount"/>
 								</td>
 								<td style="text-align:center">
-                                    <span>&#8364;</span>
+                                    <span>€</span>
 									<t t-set="price_subtotal" t-value="l.price_subtotal"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="price_subtotal" t-value="-1*l.price_subtotal"/>
@@ -218,8 +219,75 @@
 								</td>
                                 -->
 							</tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Totale: </strong></td>
+                                <td></td>
+                                <td style="text-align:center">
+                                    <t t-esc="total_quantity" />
+                                </td>
+                                <td></td>
+                                <td style="text-align:center">
+                                    <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
+									 <t t-if="o.type == 'out_refund'">
+										<t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed"/>
+										
+									</t>
+								    <t t-set="amount_untaxeds" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_untaxeds,currency_id)"/> 
+ 									<span id="amount_untaxeds">
+ 										<span t-field="currency_id.symbol"/> <span t-esc="formatLang(amount_untaxeds)"/>
+ 									</span> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" colspan="3">
+                                    <span>PAGAMENTI: BB 90 gg dffm/ </span>
+                                    <span t-field="currency_id.symbol"/> 
+                                    <span t-esc="formatLang(amount_untaxeds)"/>
+                                    <span> il </span>
+                                    <span t-field="o.date_due" />
+                                    <br />
+                                    <span>PESO: LORDO KG.   / NETTO KG.   </span>
+                                    <br />
+                                    <span>V.D. 48211090</span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align: center; vertical-allign:middle;">
+                                    <h4>
+                                        TOTAL to PAY: <span t-esc="formatLang(amount_untaxeds)"/>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <p t-if="o.comment">
+    						            <strong>Transporto:</strong>
+						            	<span t-field="o.comment"/>
+						            </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="text-align: center; vertical-allign:middle;">
+                                    PLACE OF ISSUE: BACAU
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; vertical-allign:middle;">
+                                    NAME / SIGNATURE
+                                </td>
+                                <td colspan="4" style="text-align: center; vertical-allign:middle;">
+                                    Leonte Madalina Elena
+                                </td>
+                            </tr>
 						</tbody>
 					</table>
+                    <!--
 					<div style="page-break-inside: avoid !important;">
 						<div class="row">
 
@@ -400,6 +468,8 @@
 						</p>
 					</div>
                     
+                    
+                    -->
                     <!-- End content -->
 				</div>
 		</template>
