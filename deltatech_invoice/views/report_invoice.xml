@@ -22,6 +22,7 @@
 			<t t-if="False">
 					<t t-call="deltatech_invoice.report_invoice_document1"/>
 			</t>
+			<t t-call="l10n_ro_invoice_report.footer_invoice"/>
 		</template>
 
 		<template id="report_invoice_2">
