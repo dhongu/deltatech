@@ -22,6 +22,7 @@
 			<t t-if="False">
 					<t t-call="deltatech_invoice.report_invoice_document1"/>
 			</t>
+			<t t-call="l10n_ro_invoice_report.footer_invoice"/>
 		</template>
 
 		<template id="report_invoice_2">
@@ -90,10 +91,10 @@
 					              <span t-if="o.type == 'out_refund'">Refund Invoice</span>
 					              <span t-if="o.type == 'in_refund'">Supplier Refund</span>
 					              <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-					              <t t-if="o.number">
-					                <span t-field="o.number"/>
+					              <t t-if="o.number1">
+					                <span t-field="o.number1"/>
 					              </t>
-					              <t t-if="not o.number">
+					              <t t-if="not o.number1">
 					                <span t-field="o.internal_number"/>
 					              </t>
 					              <div>
@@ -146,7 +147,7 @@
                     <!-- End header -->
                     
                     <!-- Content -->
-                    
+                    <t t-set="total_quantity" t-value="0"/>
                     <t t-set="nr_crt" t-value="1"/>
 					<t t-if="not currency_id">
 						<t t-set="currency_id" t-value="o.currency_id"/>
@@ -154,33 +155,43 @@
 					<table class="table table-condensed  table-bordered">
 						<thead>
 							<tr>
-								<th>Ord</th>
-								<th>Description</th>
-								<th>Quantity</th>
-								<th class="text-right">Unit Price</th>
+								<th style="text-align:center;vertical-align:middle;">POS</th>
+                                <th style="text-align:center;vertical-align:middle;">ROW/RIGA</th>
+								<th style="text-align:center;vertical-align:middle;">DESCRIPTION</th>
+                                <th style="text-align:center;vertical-align:middle;">N/B/CL</th>
+								<th style="text-align:center;vertical-align:middle;">Quantity</th>
+								<th style="text-align:center;vertical-align:middle;">Unit Price<br/>EURO</th>
 								<th class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">Discount (%)</th>
-								<th class="text-right">Amount</th>
-								<th class="text-right">Taxes</th>
+								<th style="text-align:center;vertical-align:middle;">Amount<br/>EURO</th>
+								<!--<th class="text-right">Taxes</th>-->
 							</tr>
 						</thead>
 						<tbody class="invoice_tbody">
 							<tr t-foreach="o.invoice_line" t-as="l">
-								<td>
+								<td style="text-align:center">
 									<t t-esc="nr_crt"/>
 									<t t-set="nr_crt" t-value="nr_crt + 1"/>
+								</td>
+                                <td style="text-align:center">
+    								<span t-field="l.ref"/>
 								</td>
 								<td>
 									<span t-field="l.name"/>
 								</td>
-								<td class="text-right">
+                                <td style="text-align:center">
+    								<span>NR</span>
+								</td>
+								<td style="text-align:center">
 									<t t-set="quantity" t-value="l.quantity"/>
+                                    <t t-set="total_quantity" t-value="total_quantity + l.quantity"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="quantity" t-value="-1*l.quantity"/> 
 									</t>
 									<span t-if="quantity" id="quantity" t-esc="formatLang(quantity)"/>								 
 									<span t-field="l.uos_id" groups="product.group_uom"/>
 								</td>
-								<td class="text-right">
+								<td style="text-align:center">
+                                    <span>€</span>
 									<t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
 									<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
 									<span id="price_unit_without_taxes" t-esc="formatLang(price_unit_without_taxes)"/>	
@@ -188,7 +199,8 @@
 								<td class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">
 									<span t-field="l.discount"/>
 								</td>
-								<td class="text-right">
+								<td style="text-align:center">
+                                    <span>€</span>
 									<t t-set="price_subtotal" t-value="l.price_subtotal"/>
 									<t t-if="o.type == 'out_refund'">
 										<t t-set="price_subtotal" t-value="-1*l.price_subtotal"/>
@@ -196,6 +208,7 @@
  									<t t-set="price_subtotal" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)"/>
 									<span id="price_subtotal" t-esc="formatLang(price_subtotal)"/>	
 								</td>
+                                <!--
 								<td class="text-right">
 									<t t-set="price_taxes" t-value="l.price_taxes"/>
 									<t t-if="o.type == 'out_refund'">
@@ -205,9 +218,77 @@
 									<t t-set="price_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)"/>
 									<span id="price_taxes" t-esc="formatLang(price_taxes)"/>
 								</td>
+                                -->
 							</tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Totale: </strong></td>
+                                <td></td>
+                                <td style="text-align:center">
+                                    <t t-esc="total_quantity" />
+                                </td>
+                                <td></td>
+                                <td style="text-align:center">
+                                    <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
+									 <t t-if="o.type == 'out_refund'">
+										<t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed"/>
+										
+									</t>
+								    <t t-set="amount_untaxeds" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_untaxeds,currency_id)"/> 
+ 									<span id="amount_untaxeds">
+ 										<span t-field="currency_id.symbol"/> <span t-esc="formatLang(amount_untaxeds)"/>
+ 									</span> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" colspan="3">
+                                    <span>PAGAMENTI: BB 90 gg dffm/ </span>
+                                    <span t-field="currency_id.symbol"/> 
+                                    <span t-esc="formatLang(amount_untaxeds)"/>
+                                    <span> il </span>
+                                    <span t-field="o.date_due" />
+                                    <br />
+                                    <span>PESO: LORDO KG.   / NETTO KG.   </span>
+                                    <br />
+                                    <span>V.D. 48211090</span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" style="text-align: center; vertical-allign:middle;">
+                                    <h4>
+                                        TOTAL to PAY: <span t-esc="formatLang(amount_untaxeds)"/>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <p t-if="o.comment">
+    						            <strong>Transporto:</strong>
+						            	<span t-field="o.comment"/>
+						            </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7" style="text-align: center; vertical-allign:middle;">
+                                    PLACE OF ISSUE: BACAU
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: center; vertical-allign:middle;">
+                                    NAME / SIGNATURE
+                                </td>
+                                <td colspan="4" style="text-align: center; vertical-allign:middle;">
+                                    Leonte Madalina Elena
+                                </td>
+                            </tr>
 						</tbody>
 					</table>
+                    <!--
 					<div style="page-break-inside: avoid !important;">
 						<div class="row">
 
@@ -388,6 +469,8 @@
 						</p>
 					</div>
                     
+                    
+                    -->
                     <!-- End content -->
 				</div>
 		</template>
