@@ -19,7 +19,7 @@
 
 			<xpath expr="//table[2]/thead/tr" position="replace">
 				<tr>
-		
+
 					<th>
 						<strong>Product</strong>
 					</th>
@@ -45,7 +45,10 @@
 						<strong>Difference Quantity</strong>
 					</th>
 					<th class="text-right">
-						<strong>Difference Amount</strong>
+						<strong>Plus Amount</strong>
+					</th>
+					<th class="text-right">
+						<strong>Minus Amount</strong>
 					</th>
 				</tr>
 
@@ -55,20 +58,49 @@
 
 
 			<xpath expr="//table[2]/tr" position="replace">
+				<t t-set="total_plus" t-value="0" />
+				<t t-set="total_minus" t-value="0" />
+				<t t-set="total_amount" t-value="0" />
+				<t t-set="plus" t-value="0" />
+				<t t-set="minus" t-value="0" />
 
 				<t t-foreach="o.line_ids" t-as="line">
-					<tr t-if="categ_id!=line.categ_id.id">
+					<t t-if="categ_id!=line.categ_id.id">
+						<t t-if="plus or minus">
+							<tr>
+								<td>
+									<strong>Subtotal</strong>
+								</td>
+								<td />
+								<td />
+								<td class="text-right" />
+								<td class="text-right" />
+								<td />
+								<td class="text-right" />
+								<td class="text-right" />
+								<td class="text-right">
+									<strong t-esc="round(plus,2)" />
+								</td>
+								<td class="text-right">
+									<strong t-esc="round(minus,2)" />
+								</td>
+							</tr>
+							<tr />
 
-						<td colspan="6">
-							<strong>
-								<span t-field="line.categ_id" />
-							</strong>
+							<t t-set="plus" t-value="0" />
+							<t t-set="minus" t-value="0" />
+						</t>
+						<tr>
+							<td colspan="6">
+								<strong>
+									<span t-field="line.categ_id" />
+								</strong>
 
-						</td>
-
+							</td>
+						</tr>
 						<t t-set="categ_id" t-value="line.categ_id.id" />
-					</tr>
-					
+					</t>
+
 					<tr>
 
 						<td>
@@ -87,22 +119,93 @@
 							<span t-field="line.product_qty" />
 						</td>
 						<td>
-							<span t-field="line.product_uom_id" groups="product.group_uom"  />
+							<span t-field="line.product_uom_id" groups="product.group_uom" />
 						</td>
 						<td class="text-right">
-							 <span t-esc="round(line.product_qty*line.standard_price,2)"/>               
+							<span t-esc="round(line.product_qty*line.standard_price,2)" />
+
+							<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
 						</td>
-						
+
 						<td class="text-right">
-							 <span t-esc="round(line.product_qty-line.theoretical_qty)"/>               
+							<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+							<t t-if='dif!=0'>
+								<span t-esc="round(dif)" />
+							</t>
 						</td>
 						<td class="text-right">
-							 <span t-esc="round((line.product_qty-line.theoretical_qty)*line.standard_price,2)"/>               
+							<t t-if='dif&gt;0'>
+								<t t-set="plus" t-value="plus+dif*line.standard_price" />
+								<t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+								<span t-esc="round(dif*line.standard_price,2)" />
+							</t>
+
 						</td>
-						
+						<td class="text-right">
+							<t t-if='dif&lt;0'>
+								<t t-set="minus" t-value="minus-1*dif*line.standard_price" />
+								<t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+								<span t-esc="round(-1*dif*line.standard_price,2)" />
+							</t>
+
+						</td>
 					</tr>
-					
+
 				</t>
+				<tr>
+					<td>
+						<strong>Subtotal</strong>
+					</td>
+					<td />
+					<td />
+					<td class="text-right" />
+					<td class="text-right" />
+					<td />
+					<td class="text-right" />
+					<td class="text-right" />
+					<td class="text-right">
+						<strong t-esc="round(plus,2)" />
+					</td>
+					<td class="text-right">
+						<strong t-esc="round(minus,2)" />
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<strong>Total general</strong>
+					</td>
+					<td />
+					<td />
+					<td class="text-right" />
+					<td class="text-right" />
+					<td>
+						<div>
+							<strong>Before:</strong>
+
+						</div>
+						<div>
+							<strong>After:</strong>
+
+						</div>
+					</td>
+					<td class="text-right">
+						<div>
+							<strong t-esc="round(total_amount,2)" />
+						</div>
+						<div>
+							<strong t-esc="round(total_amount+total_plus-total_minus,2)" />
+						</div>
+
+					</td>
+					<td class="text-right" />
+					<td class="text-right">
+						<strong t-esc="round(total_plus,2)" />
+					</td>
+					<td class="text-right">
+						<strong t-esc="round(total_minus,2)" />
+					</td>
+				</tr>
 
 
 			</xpath>
