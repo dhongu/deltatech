@@ -420,8 +420,7 @@
                     </tbody>
                 </table>
 			</div>
-			<!-- End body -->
-			</div>		 
+			<!-- End body --> 
 			<!-- <t t-call="account.report_invoice_document" /> -->
 		</template>
 
