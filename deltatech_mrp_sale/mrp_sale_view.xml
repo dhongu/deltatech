@@ -53,11 +53,14 @@
 				<button name="invoice_cancel" position="after">
 					<span attrs="{'invisible': [('specification', '=', False)]}">
 						<button name="%(action_take_bom)d" string="Take List" type="action" states="draft" groups="base.group_user" />
-						
+						<button name="button_update_price" states="draft"
+                                        string="UpdatePrice" class="oe_edit_only"
+                                        type="object" help="Update price"/>
 					</span>
 				</button>
 
 				<field name="pricelist_id" position="after">
+					
 					<field name="specification" />
 					<group colspan="4" attrs="{'invisible': [('specification', '=', False)]}">
 						<label for="qty_primary" />

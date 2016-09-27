@@ -74,7 +74,33 @@ class sale_order(models.Model):
     add_inst_day = fields.Integer(string="Additional installing days")
 
 
-    
+    @api.multi
+    def onchange_pricelist_id(self,  pricelist_id, order_lines ):    
+        res = super(sale_order,self).onchange_pricelist_id(pricelist_id, order_lines)
+        if ('warning' in res):
+            res.pop("warning")
+            # si acum trebuie sa fac actualizarea de pret!
+
+    @api.multi
+    def button_update_price(self):
+        for order in self:
+            for resource in order.resource_ids:            
+                if resource.product_uom.name != '%':
+                    price =  order.pricelist_id.price_get( resource.product_id.id, resource.product_uom_qty or 1.0,  order.partner_id.id)[ order.pricelist_id.id]    
+                    price = self.env['product.uom']._compute_price(resource.product_id.uom_id.id, price, resource.product_uom.id )  
+                    
+                    from_currency = self.env.user.company_id.currency_id.with_context(date=order.date_order)
+                
+                    
+                
+                    purchase_price  = from_currency.compute( resource.product_id.standard_price or self.product_id.product_tmpl_id.standard_price, 
+                                                               order.pricelist_id.currency_id )
+                     
+                        
+                    amount = resource.product_uom_qty * resource.price_unit
+                    
+                    resource.write({'price_unit': price,'purchase_price':purchase_price,'amount':amount})
+            order.button_update()
     
     @api.multi
     @api.depends('article_ids.product_uom_qty')
@@ -667,7 +693,8 @@ class sale_mrp_resource(models.Model):
     @api.constrains('purchase_price', 'price_unit')
     def _check_price(self):
         if (self.price_unit < self.purchase_price):
-            raise ValidationError(_("Sale price for %s must be higher than the purchase price") % self.product_id.name)
+            raise ValidationError(_("Sale price (%s) for %s must be higher than the purchase price (%s)") % 
+                                  (self.price_unit, self.product_id.name, self.purchase_price))
  
 
     @api.one
