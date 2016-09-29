@@ -81,6 +81,7 @@ class sale_order(models.Model):
             res.pop("warning")
             # si acum trebuie sa fac actualizarea de pret!
 
+    #metoda se apeleaza pentru a redetermina preturile in oferta
     @api.multi
     def button_update_price(self):
         for order in self:
@@ -100,7 +101,12 @@ class sale_order(models.Model):
                     amount = resource.product_uom_qty * resource.price_unit
                     
                     resource.write({'price_unit': price,'purchase_price':purchase_price,'amount':amount})
-            order.button_update()
+            
+            order.update_resource_percent(update_article=False)
+            
+            order.article_ids.update_amount() 
+            
+            
     
     @api.multi
     @api.depends('article_ids.product_uom_qty')
@@ -132,6 +138,30 @@ class sale_order(models.Model):
             for resource in order.resource_ids:
                 if resource.product_uom_qty <> 0.0:
                     resource.explode_bom()    
+
+    @api.multi
+    def update_resource_percent(self, update_article=True):
+        for order in self:
+            # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
+            article_to_update = self.env['sale.mrp.article']
+            for resource in order.resource_ids:
+                if resource.product_uom.name == '%':
+                    article_to_update |= resource.article_id
+                    domain  = eval( resource.product_id.percent_domain )
+                    domain.extend([('article_id','=',resource.article_id.id),('id','!=',resource.id)])
+                    resource_lines = self.env['sale.mrp.resource'].search(domain)
+                    total_amount = 0
+                    for line in resource_lines:
+                        total_amount += line.amount
+                    total_amount =  total_amount / 100 
+                    price_unit =    self.pricelist_id.currency_id.round( total_amount ) 
+                    
+                    amount =    self.pricelist_id.currency_id.round( total_amount * resource.product_uom_qty) 
+                    resource.write({'price_unit':price_unit, 
+                                    'amount': amount})
+            if update_article:
+                article_to_update.update_amount()
+            
 
     @api.multi
     def button_update(self):
@@ -184,45 +214,11 @@ class sale_order(models.Model):
                         article.write({'price_unit':line.price_unit,
                                        'amount':line.price_subtotal})
         
-        article_to_update = self.env['sale.mrp.article']
-        """
-        for resource in self.resource_ids:
-            if resource.product_uom.name == '%':
-                for line in self.order_line:
-                    if resource.product_id == line.product_id:
-                        resource.write({'price_unit':line.price_unit,
-                                       'amount':line.price_subtotal})
-                        
-                        # na ca acum trebuie sa actulizez si pretul articolului
-                        article_to_update |= resource.article_id
-        """
-        # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
-        for resource in self.resource_ids:
-            if resource.product_uom.name == '%':
-                article_to_update |= resource.article_id
-                domain  = eval( resource.product_id.percent_domain )
-                domain.extend([('article_id','=',resource.article_id.id),('id','!=',resource.id)])
-                resource_lines = self.env['sale.mrp.resource'].search(domain)
-                total_amount = 0
-                for line in resource_lines:
-                    total_amount += line.amount
-                total_amount =  total_amount / 100 
-                price_unit =    self.pricelist_id.currency_id.round( total_amount ) 
-                
-                amount =    self.pricelist_id.currency_id.round( total_amount * resource.product_uom_qty) 
-                resource.write({'price_unit':price_unit, 'amount': amount})
         
-        for article in article_to_update:
-            amount = 0
-            price_unit = 0
-            for resource in article.resource_ids:
-                amount +=  resource.amount
-            if article.product_uom_qty:
-                price_unit = article.amount / article.product_uom_qty
-            amount =    self.pricelist_id.currency_id.round( amount) 
-            price_unit =    self.pricelist_id.currency_id.round( price_unit) 
-            article.write({'price_unit':price_unit, 'amount':amount})                       
-                                          
+        self.update_resource_percent(update_article=True)
+        
+ 
+                                                             
         self.button_update_all()
 
  
@@ -655,6 +651,19 @@ class sale_mrp_article(models.Model):
                'type': 'ir.actions.act_window'             
             }
 
+    @api.multi
+    def update_amount(self):
+        for article in self:
+            amount = 0
+            price_unit = 0
+            for resource in article.resource_ids:
+                amount +=  resource.amount
+            if article.product_uom_qty:
+                price_unit = article.amount / article.product_uom_qty
+            amount =    article.order_id.pricelist_id.currency_id.round( amount) 
+            price_unit =    article.order_id.pricelist_id.currency_id.round( price_unit) 
+            article.write({'price_unit':price_unit, 
+                           'amount':amount})  
       
 class sale_mrp_resource(models.Model):
     _name = 'sale.mrp.resource'
