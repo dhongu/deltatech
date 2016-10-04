@@ -32,7 +32,7 @@ class product_catalog(models.Model):
     code = fields.Char(string='Code', index=True )
     code_new = fields.Char(string='Code New', index=True )
     list_price = fields.Float(string='Sale Price', required=True, digits= dp.get_precision('Product Price') )     
-    categ_id = fields.Many2one('product.category', string='Internal Category', required=True, domain="[('type','=','normal')]" ,help="Select category for the current product")
+    categ_id = fields.Many2one('product.category', string='Internal Category', required=True, help="Select category for the current product")  #domain="[('type','=','normal')]" 
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
     purchase_delay = fields.Integer(string = "Purchase delay")
@@ -48,7 +48,11 @@ class product_catalog(models.Model):
         else:
             self.list_price_currency_id = self.env.user.company_id
         
-
+    @api.onchange('list_price')
+    def onchange_list_price(self):
+        if self.product_id:
+            self.product_id.write({'lst_price':self.list_price})
+        
 
     @api.multi
     def create_product(self):
@@ -105,6 +109,27 @@ class product_catalog(models.Model):
     _sql_constraints = [
         ('code_uniq', 'unique(code)', 'Code must be unique !'),
     ]  
+
+
+    def _extract_records(self, cr, uid, fields_, data, context=None, log=lambda a: None):
+        print "fields_, data:", fields_, data
+  
+        for record, extras in  super(product_catalog,self)._extract_records(cr, uid, fields_, data, context, log):
+            
+            if not '.id' in record and 'code' in record:
+                cat = self.search(cr,uid,[('code','=',record['code'])], limit = 1)
+                if cat:
+                    record['.id'] = str(cat[0])
+            print "record, extras", record, extras
+            yield record, extras
+    
+    @api.multi
+    def write(self, vals):
+        if 'list_price' in vals:
+            for catalog in self:
+                 if catalog.product_id:
+                        catalog.product_id.write({'lst_price':vals['list_price']}) 
+        return super(product_catalog,self).write(vals)
             
 
 class product_template(models.Model):
