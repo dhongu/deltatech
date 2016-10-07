@@ -1,5 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_crm_claim_action_user,access.crm.claim.action,model_crm_claim_action,base.group_sale_salesman,1,1,1,1
-access_crm_claim_action_manager,access.crm.claim.action.manager,model_crm_claim_action,base.group_sale_manager,1,1,1,1
-access_crm_claim_loc_detected_user,access.crm.claim.loc.detected,model_crm_claim_loc_detected,base.group_sale_salesman,1,1,1,1
-access_crm_claim_loc_detected_manager,access.crm.claim.loc.detected.manager,model_crm_claim_loc_detected,base.group_sale_manager,1,1,1,1
+access_crm_claim_action_user,access.crm.claim.action,model_crm_claim_action,sales_team.group_sale_salesman,1,1,1,1
+access_crm_claim_action_manager,access.crm.claim.action.manager,model_crm_claim_action,sales_team.group_sale_manager,1,1,1,1
+access_crm_claim_loc_detected_user,access.crm.claim.loc.detected,model_crm_claim_loc_detected,sales_team.group_sale_salesman,1,1,1,1
+access_crm_claim_loc_detected_manager,access.crm.claim.loc.detected.manager,model_crm_claim_loc_detected,sales_team.group_sale_manager,1,1,1,1

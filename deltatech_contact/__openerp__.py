@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name" : "Deltatech Contacts",
-    "version" : "2.0",
+    "version" : "3.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
@@ -36,7 +36,7 @@ Functionalitati:
 
 
  
-    "data" : ["res_partner_view.xml",
+    "data" : ['views/res_partner_view.xml',
               'security/partner_security.xml',
               'security/ir.model.access.csv'],
     

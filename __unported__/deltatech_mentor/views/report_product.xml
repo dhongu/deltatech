@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+         <report 
+            string="Export Produse pt Mentor" 
+            id="action_report_product_mentor" 
+            model="product.template" 
+            report_type="qweb-html"
+            name="deltatech_mentor.report_product_template"  
+            file="deltatech_mentor.report_product_template"  />
+
+ 
+   
+<template id="report_product_template">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+        	<div>
+        	<div>[<span>ArticoleNoi_</span><span t-field="o.default_code" />]</div>
+            <div><span>Denumire=</span><span t-field="o.name" /></div>
+ 			<div><span>Serviciu=</span>
+	 			<span t-if='o.type=="product"'>N</span>
+	 			<span t-if='o.type!="product"'>D</span>
+ 			</div>
+ 			<div><span>ContServiciu=</span>
+				<t t-if='o.type!="product"'>
+					<span t-field="o.categ_id.property_account_income_categ.code" />
+				</t>
+			</div>  
+			</div>
+        </t>
+    </t>	
+</template>
+</data>
+</openerp>
+
+
+

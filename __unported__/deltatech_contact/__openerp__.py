@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,32 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech",
-    "version" : "1.0",
+    "name" : "Deltatech Contacts",
+    "version" : "2.0",
     "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': ['views/deltatech_assets.xml'],
+    "website" : "",
+    "description": """
+
+Functionalitati:
+ - Adaugare campuri suplimentare in datele de contact: birthdate, CNP,  nr carte de identitate
+
+   
+    """,
+    
+    "category" : "Generic Modules/Base",
+    "depends" : ['deltatech',"base"],
+
+
+ 
+    "data" : ["res_partner_view.xml",
+              'security/partner_security.xml',
+              'security/ir.model.access.csv'],
+    
     "active": False,
     "installable": True,
-    'application': True,
-   
 }
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

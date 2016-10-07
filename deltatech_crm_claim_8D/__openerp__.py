@@ -38,7 +38,12 @@ Functionalitati:
    'category': 'Sales Management',
     "depends" : [
                  'deltatech','product',
-                 "crm_claim"
+<<<<<<< Updated upstream
+                 'deltatech_simple_crm_claim'
+                 #"crm_claim"
+=======
+                 "deltatech_simple_crm_claim"
+>>>>>>> Stashed changes
                  ],
  
     "data" : [  
@@ -47,7 +52,7 @@ Functionalitati:
                 'crm_claim_view.xml'              
                ],
     
-    "active": False,
+
     "installable": True,
 }
  
