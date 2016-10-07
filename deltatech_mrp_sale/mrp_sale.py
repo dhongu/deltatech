@@ -73,13 +73,14 @@ class sale_order(models.Model):
      
     add_inst_day = fields.Integer(string="Additional installing days")
 
-
+    """
     @api.multi
     def onchange_pricelist_id(self,  pricelist_id, order_lines ):    
         res = super(sale_order,self).onchange_pricelist_id(pricelist_id, order_lines)
         if ('warning' in res):
             res.pop("warning")
             # si acum trebuie sa fac actualizarea de pret!
+    """
 
     #metoda se apeleaza pentru a redetermina preturile in oferta
     @api.multi
