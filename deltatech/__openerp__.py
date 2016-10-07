@@ -25,7 +25,7 @@
     "category" : "Generic Modules",
     "depends" : [],
     "description": '',
-    "data" : [],
+    'data': ['views/deltatech_assets.xml'],
     "active": False,
     "installable": True,
     'application': True,
