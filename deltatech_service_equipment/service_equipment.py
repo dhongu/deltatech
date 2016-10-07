@@ -75,6 +75,8 @@ class service_equipment_history(models.Model):
 
     equipment_id = fields.Many2one('service.equipment', string="Equipment",  ondelete='cascade',index=True)
 
+
+    # cind se actulizeaza  agreement_id?
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement')   
     partner_id = fields.Many2one('res.partner', string='Customer',help='The customer where the equipment is installed')
     address_id = fields.Many2one('res.partner', string='Location', help='The working point where the equipment was located')
@@ -97,7 +99,7 @@ class service_equipment(models.Model):
                                ('backuped','Backuped')], default="available", string='Status',  copy=False)
 
     
-    agreement_id = fields.Many2one('service.agreement', string='Contract Service', compute="_compute_agreement_id")
+    agreement_id = fields.Many2one('service.agreement', string='Contract Service', compute="_compute_agreement_id", store=True, readonly=True, default=False)
     agreement_type_id = fields.Many2one('service.agreement.type', string='Agreement Type', related='agreement_id.type_id')       
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
     
@@ -262,7 +264,7 @@ class service_equipment(models.Model):
                     agreements = agreements | line.agreement_id  
             if len(agreements) > 1:
                 msg = _("Equipment %s assigned to many agreements." )
-                self.post_message(msg)
+                self.message_post(msg)
                 
             # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
             if not agreements:
@@ -414,7 +416,7 @@ class service_equipment(models.Model):
         self._compute_readings_status()
             
 
-    # o fi ok sa elimin echipmanetul din contract 
+    # o fi ok sa elimin echipmanetul din contract ?
     @api.multi
     def remove_from_agreement_button(self):
         self.ensure_one()

@@ -204,14 +204,22 @@ class export_saga(models.TransientModel):
                 if not self.ignore_error:
                     raise Warning(error)
 
-
-                
-            if not partner.vat_subjected:
-                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                is_tva  = 0
+            if partner.is_company:
+                if not partner.vat_subjected:
+                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
+                    is_tva  = 0
+                else:
+                    cod_fiscal = partner.vat
+                    is_tva  = 1
+                nrc = partner.nrc
             else:
-                cod_fiscal = partner.vat
-                is_tva  = 1
+                is_tva  = 0
+                cod_fiscal = partner.cnp or partner.nrc
+                nrc = ''
+            
+            #poate e pusa gresit bifa ca este companie si de fapt e o persoana fizica   
+            if not cod_fiscal:
+                cod_fiscal = partner.cnp or partner.id_nr or partner.nrc
 
             if partner.ref_customer:
                 analitic = '4111.'+partner.ref_customer.zfill(5)
@@ -226,7 +234,7 @@ class export_saga(models.TransientModel):
             values = {'COD':         partner_code,
                       'DENUMIRE' :   self.unaccent(partner.name[:48] ),
                       'COD_FISCAL':  cod_fiscal or '',
-                      'REG_COM':     partner.nrc or '',
+                      'REG_COM':     nrc or '',
                       'ANALITIC':    analitic,
                       'ZS':          0,
                       'ADRESA':      self.unaccent(partner.contact_address[:48]),

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2015 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,38 +17,10 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
- 
-{
-    "name" : "Deltatech Claim 8D",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- -Raportare 8D
-  
-  https://en.wikipedia.org/wiki/Eight_Disciplines_Problem_Solving
-  
-   
-    """,
-    
-    
-   'category': 'Sales Management',
-    "depends" : [
-                 'deltatech','product',
-                 'deltatech_simple_crm_claim'
-                 #"crm_claim"
-                 ],
- 
-    "data" : [  
-                'security/ir.model.access.csv',
-                'views/report8d.xml',
-                'crm_claim_view.xml'              
-               ],
-    
-    "active": False,
-    "installable": True,
-}
- 
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

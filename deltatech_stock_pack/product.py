@@ -39,7 +39,7 @@ _logger = logging.getLogger(__name__)
 class product_template(models.Model):
     _inherit = 'product.template'
     
-    pack_items = fields.Integer(string="Items per package")
+    pack_items = fields.Integer(string="Items per package",default=1)
     pack_weight = fields.Float('Package Gross Weight', digits=dp.get_precision('Stock Weight'), help="The gross weight per package in Kg.")
 
 

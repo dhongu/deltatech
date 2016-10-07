@@ -74,6 +74,36 @@ class service_agreement_line(models.Model):
             self.equipment_id = self.meter_id.equipment_id
             #self.uom_id = self.meter_id.uom_id                    
 
+
+    @api.model
+    def create(self,   vals ):         
+        if 'equipment_id'  in vals:
+            if vals['equipment_id']:
+                equipment =  self.env['service.equipment'].browse(vals['equipment_id'])
+                if equipment.agreement_id  and equipment.agreement_id.state == 'open':
+                    if equipment.agreement_id.id != vals['agreement_id']:
+                        raise Warning(_("Equipment %s assigned to many agreements." ) % equipment.name)
+                else:
+                    equipment.write({'agreement_id':vals['agreement_id']})
+        return super(service_agreement_line, self).create( vals )
+
+    @api.multi
+    def write(self, vals):
+        if 'equipment_id'  in vals:
+            if vals['equipment_id']:
+                for line in self:
+                    equipment =  self.env['service.equipment'].browse(vals['equipment_id'])
+                    if equipment.agreement_id and equipment.agreement_id.state == 'open':
+                        if equipment.agreement_id != line.agreement_id:
+                            raise Warning(_("Equipment %s assigned to many agreements." ) % equipment.name)
+                    else:
+                        equipment.write({'agreement_id':vals['agreement_id']})
+                        
+        return super(service_agreement_line, self).write( vals)
+
+
+
+
     @api.model
     def after_create_consumption(self, consumption, backup_equipment=False ):
         #readings = self.env['service.meter.reading']

@@ -41,22 +41,25 @@ class service_order(models.Model):
     access_token = fields.Char(string='Security Token', required=True, copy=False,default=str(uuid.uuid4()))
     
     state = fields.Selection([  ('draft','Draft'), 
+                                ('acknowledge','Acknowledge'),
+                                ('on_way','On the way'),
                                 ('progress','In Progress'), 
                                 ('work_done','Work Done'),
                                 ('rejected','Rejected'),
                                 ('cancel','Cancel'),
-                                ('done','Done')], default='draft', string='Status')
+                                ('done','Completed')], default='draft', string='Status')
 
+    date_start_travel = fields.Datetime('Start Travel Date', readonly=True, copy=False)
     date_start = fields.Datetime('Start Date', readonly=True, copy=False)
     date_done = fields.Datetime('Done Date', readonly=True, copy=False) 
 
 
 
-    equipment_history_id = fields.Many2one('service.equipment.history', required=True, string='Equipment history')         
+    equipment_history_id = fields.Many2one('service.equipment.history',  string='Equipment history')         
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True , readonly=True, states={'draft': [('readonly', False)]})
  
-    partner_id = fields.Many2one('res.partner', string='Partner', related='equipment_history_id.partner_id', readonly=True)
-    address_id = fields.Many2one('res.partner', string='Location',   related='equipment_history_id.address_id', readonly=True)
+    partner_id = fields.Many2one('res.partner', string='Partner', readonly=True, states={'draft': [('readonly', False)]}) # related='equipment_history_id.partner_id', readonly=True)
+    address_id = fields.Many2one('res.partner', string='Location', readonly=True, states={'draft': [('readonly', False)]}) #  related='equipment_history_id.address_id', readonly=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True)
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',readonly=True)     
 
@@ -65,7 +68,7 @@ class service_order(models.Model):
     
     city = fields.Char(string='City',related='address_id.city')  
    
-
+    user_id = fields.Many2one('res.users', string='Responsible', readonly=True, states={'draft': [('readonly', False)]}  )
 
     # raportul poate sa fie legat de o sesizre
     notification_id = fields.Many2one('service.notification', string='Notification', readonly=True,  states={'draft': [('readonly', False)]}, domain=[('order_id','=',False)])
@@ -81,10 +84,18 @@ class service_order(models.Model):
     meter_reading_ids = fields.Many2many('service.meter.reading', 'service_order_meter_reading', 'order_id','meter_reading_id', string='Meter Readings',
                                             readonly=False,  
                                             states={'done': [('readonly', True)]} )
+ 
+    component_ids = fields.One2many('service.order.component', 'order_id', string='Order Components',
+                                readonly=False, states={'done': [('readonly', True)]}, copy=True)  
+
+    operation_ids = fields.One2many('service.order.operation', 'order_id', string='Order Operations',
+                                readonly=False, states={'done': [('readonly', True)]}, copy=True)  
     
     # semantura client !!    
     signature = fields.Binary(string="Signature", readonly=True)
     
+    eta =  fields.Float(string="ETA")
+    dist_traveled = fields.Float(string="Distance traveled")
     ## am predat ??
     ## am primit ??
 
@@ -93,6 +104,8 @@ class service_order(models.Model):
     
 
     # alt obiect trebuie pentru procesul verbal de instalare / dezinstalare 
+
+    description = fields.Text('Notes', readonly=False, states={'done': [('readonly', True)]})
 
 
     @api.model
@@ -104,13 +117,17 @@ class service_order(models.Model):
         return super(service_order, self).create( vals )
     
     
-
     @api.onchange('equipment_id','date')
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.equipment_history_id = self.equipment_id.get_history_id(self.date)
+            self.equipment_history_id = self.equipment_id.get_history_id(self.date)        
+            self.user_id =  self.equipment_id.user_id
+            self.partner_id =  self.equipment_history_id.partner_id
+            self.address_id = self.equipment_history_id.address_id
         else: 
-            self.equipment_history_id = False    
+            self.equipment_history_id = False  
+
+ 
 
 
     @api.onchange('notification_id')
@@ -130,10 +147,27 @@ class service_order(models.Model):
     def action_rejected(self):
         self.write({'state':'rejected'})
 
+
+
+    @api.multi
+    def action_acknowledge(self):
+        self.write({'state':'acknowledge'})
+        
+    @api.multi
+    def action_start_on_way(self):
+        self.write({'state':'on_way',
+                    'date_start_travel':fields.Datetime.now()})
+
     @api.multi
     def action_start(self):
-        self.write({'state':'progress',
-                    'date_start':fields.Datetime.now()})
+        value = {'state':'progress',
+                 'date_start':fields.Datetime.now()} 
+        
+        self.write(value)
+        for order in self:
+            if not order.date_start_travel:
+                order.write({'date_start_travel':fields.Datetime.now()})
+
 
     @api.multi
     def action_work_again(self):
@@ -158,7 +192,8 @@ class service_order(models.Model):
         if self.plan_call_id:
             self.plan_call_id.write(  {'completion_date': self.date_done })
             self.plan_call_id.action_complete()
-
+        if self.notification_id:
+            self.notification_id.action_done()
 
     @api.multi
     def new_piking_button(self):
@@ -184,11 +219,62 @@ class service_order(models.Model):
             "target": "new",
             }
 
+class service_order_component(models.Model):
+    _name = 'service.order.component'
+    _description = "Service Order Component"
+ 
+    order_id = fields.Many2one('service.order', string='Order', readonly=True )
+    product_id = fields.Many2one('product.product', string='Product')
+    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
+    product_uom = fields.Many2one('product.uom', string='Unit of Measure ' )
+    note = fields.Char(string='Note') 
+
+
+    @api.onchange('product_id')
+    def onchange_product_id(self): 
+        self.product_uom = self.product_id.uom_id
+
+
+class service_order_operation(models.Model):
+    _name = 'service.order.operation'
+    _description = "Service Order Operation"
+ 
+    order_id = fields.Many2one('service.order', string='Order', readonly=True )
+    operation_id = fields.Many2one('service.operation', string='Operation') 
+    duration = fields.Float(string="Duration")
+
+
+    @api.onchange('operation_id')
+    def onchange_operation_id(self): 
+        self.duration = self.operation_id.duration
+
+
 class service_order_reason(models.Model):
     _name = 'service.order.reason'
     _description = "Service Order Reason"
+    
     name = fields.Char(string='Reason', translate=True) 
+    code = fields.Char(string="Code")
+    display_name = fields.Char(compute='_compute_display_name')
 
+    @api.multi
+    def name_get(self):
+        result = []
+
+        for record in self:
+            result.append((record.id, self.display_name))
+
+        return result
+
+
+    @api.one
+    @api.depends('name', 'code')     # this definition is recursive
+    def _compute_display_name(self):
+        if self.code:
+            self.display_name =  '[%s] %s' % (self.code,self.name)
+        else:
+            self.display_name = self.name
+        
 
 class service_operating_parameter(models.Model):
     _name = 'service.operating.parameter'
@@ -202,5 +288,31 @@ class service_order_type(models.Model):
     name = fields.Char(string='Type', translate=True) 
     category = fields.Selection([('cor','Corrective'),('pre','Preventive')])
 
+
+class service_operation(models.Model):
+    _name = 'service.operation'
+    _description = "Service Operation"     
+    
+    name = fields.Char(string='Operation')
+    code = fields.Char(string="Code") 
+    duration = fields.Float(string="Duration")
+    display_name = fields.Char(compute='_compute_display_name')
+
+    @api.multi
+    def name_get(self):
+        result = []
+
+        for record in self:
+            result.append((record.id, self.display_name))
+
+        return result
+
+    @api.one
+    @api.depends('name', 'code')     # this definition is recursive
+    def _compute_display_name(self):
+        if self.code:
+            self.display_name =  '[%s] %s' % (self.code,self.name)
+        else:
+            self.display_name = self.name
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

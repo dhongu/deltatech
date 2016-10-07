@@ -51,7 +51,7 @@ class service_notification(models.Model):
 
 
     name = fields.Char(string='Reference', readonly=True, default='/')    
-    date = fields.Date(string='Date', default=lambda * a:fields.Date.today() , readonly=True, states={'new': [('readonly', False)]})
+    date = fields.Datetime(string='Date', default=lambda * a:fields.Datetime.now() , readonly=True, states={'new': [('readonly', False)]})
     
     state = fields.Selection([  ('new','New'), 
                                 ('assigned','Assigned'),
@@ -257,6 +257,7 @@ class service_notification(models.Model):
                     'default_agreement_id':self.agreement_id.id,
                     'default_address_id':self.address_id.id,
                     'default_contact_id':self.contact_id.id,
+                    'default_user_id':self.user_id.id,
                    }
         
         if self.order_id:

@@ -74,7 +74,39 @@ class sale_order(models.Model):
     add_inst_day = fields.Integer(string="Additional installing days")
 
 
-    
+    @api.multi
+    def onchange_pricelist_id(self,  pricelist_id, order_lines ):    
+        res = super(sale_order,self).onchange_pricelist_id(pricelist_id, order_lines)
+        if ('warning' in res):
+            res.pop("warning")
+            # si acum trebuie sa fac actualizarea de pret!
+
+    #metoda se apeleaza pentru a redetermina preturile in oferta
+    @api.multi
+    def button_update_price(self):
+        for order in self:
+            for resource in order.resource_ids:            
+                if resource.product_uom.name != '%':
+                    price =  order.pricelist_id.price_get( resource.product_id.id, resource.product_uom_qty or 1.0,  order.partner_id.id)[ order.pricelist_id.id]    
+                    price = self.env['product.uom']._compute_price(resource.product_id.uom_id.id, price, resource.product_uom.id )  
+                    
+                    from_currency = self.env.user.company_id.currency_id.with_context(date=order.date_order)
+                
+                    
+                
+                    purchase_price  = from_currency.compute( resource.product_id.standard_price or self.product_id.product_tmpl_id.standard_price, 
+                                                               order.pricelist_id.currency_id )
+                     
+                        
+                    amount = resource.product_uom_qty * resource.price_unit
+                    
+                    resource.write({'price_unit': price,'purchase_price':purchase_price,'amount':amount})
+            
+            order.update_resource_percent(update_article=False)
+            
+            order.article_ids.update_amount() 
+            
+            
     
     @api.multi
     @api.depends('article_ids.product_uom_qty')
@@ -106,6 +138,30 @@ class sale_order(models.Model):
             for resource in order.resource_ids:
                 if resource.product_uom_qty <> 0.0:
                     resource.explode_bom()    
+
+    @api.multi
+    def update_resource_percent(self, update_article=True):
+        for order in self:
+            # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
+            article_to_update = self.env['sale.mrp.article']
+            for resource in order.resource_ids:
+                if resource.product_uom.name == '%':
+                    article_to_update |= resource.article_id
+                    domain  = eval( resource.product_id.percent_domain )
+                    domain.extend([('article_id','=',resource.article_id.id),('id','!=',resource.id)])
+                    resource_lines = self.env['sale.mrp.resource'].search(domain)
+                    total_amount = 0
+                    for line in resource_lines:
+                        total_amount += line.amount
+                    total_amount =  total_amount / 100 
+                    price_unit =    self.pricelist_id.currency_id.round( total_amount ) 
+                    
+                    amount =    self.pricelist_id.currency_id.round( total_amount * resource.product_uom_qty) 
+                    resource.write({'price_unit':price_unit, 
+                                    'amount': amount})
+            if update_article:
+                article_to_update.update_amount()
+            
 
     @api.multi
     def button_update(self):
@@ -158,43 +214,24 @@ class sale_order(models.Model):
                         article.write({'price_unit':line.price_unit,
                                        'amount':line.price_subtotal})
         
-        article_to_update = self.env['sale.mrp.article']
-        """
-        for resource in self.resource_ids:
-            if resource.product_uom.name == '%':
-                for line in self.order_line:
-                    if resource.product_id == line.product_id:
-                        resource.write({'price_unit':line.price_unit,
-                                       'amount':line.price_subtotal})
-                        
-                        # na ca acum trebuie sa actulizez si pretul articolului
-                        article_to_update |= resource.article_id
-        """
-        # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
-        for resource in self.resource_ids:
-            if resource.product_uom.name == '%':
-                article_to_update |= resource.article_id
-                domain  = eval( resource.product_id.percent_domain )
-                domain.extend([('article_id','=',resource.article_id.id),('id','!=',resource.id)])
-                resource_lines = self.env['sale.mrp.resource'].search(domain)
-                total_amount = 0
-                for line in resource_lines:
-                    total_amount += line.amount
-                total_amount =  total_amount / 100 
-                
-                resource.write({'price_unit':total_amount,
-                                       'amount':total_amount * resource.product_uom_qty })
         
-        for article in article_to_update:
-            amount = 0
-            for resource in article.resource_ids:
-                amount +=  resource.amount
-            if article.product_uom_qty:
-                price_unit = article.amount / article.product_uom_qty
-                
-            article.write({'price_unit':price_unit, 'amount':amount})                       
-                                          
+        self.update_resource_percent(update_article=True)
+        
+ 
+                                                             
         self.button_update_all()
+
+ 
+        val = val1 = 0.0
+        cur = self.pricelist_id.currency_id.id
+        for line in self.order_line:
+            val1 += line.price_subtotal
+            val += self._amount_line_tax( line )
+        amount_tax  = self.pricelist_id.currency_id.round( val)
+        amount_untaxed = self.pricelist_id.currency_id.round(val1)
+        amount_total  =  amount_tax + amount_untaxed 
+        self.write({'amount_tax':amount_tax,'amount_untaxed':amount_untaxed,'amount_total':amount_total})
+
 
     # actualizarea liniilor din comanda se face manula prin apasarea unui buton
     """
@@ -614,6 +651,19 @@ class sale_mrp_article(models.Model):
                'type': 'ir.actions.act_window'             
             }
 
+    @api.multi
+    def update_amount(self):
+        for article in self:
+            amount = 0
+            price_unit = 0
+            for resource in article.resource_ids:
+                amount +=  resource.amount
+            if article.product_uom_qty:
+                price_unit = article.amount / article.product_uom_qty
+            amount =    article.order_id.pricelist_id.currency_id.round( amount) 
+            price_unit =    article.order_id.pricelist_id.currency_id.round( price_unit) 
+            article.write({'price_unit':price_unit, 
+                           'amount':amount})  
       
 class sale_mrp_resource(models.Model):
     _name = 'sale.mrp.resource'
@@ -652,7 +702,8 @@ class sale_mrp_resource(models.Model):
     @api.constrains('purchase_price', 'price_unit')
     def _check_price(self):
         if (self.price_unit < self.purchase_price):
-            raise ValidationError(_("Sale price for %s must be higher than the purchase price") % self.product_id.name)
+            raise ValidationError(_("Sale price (%s) for %s must be higher than the purchase price (%s)") % 
+                                  (self.price_unit, self.product_id.name, self.purchase_price))
  
 
     @api.one
