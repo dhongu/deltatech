@@ -140,6 +140,10 @@
                                     <span t-field="o.partner_id.street" /><br />
                                     <span t-field="o.partner_id.zip" /> <span t-field="o.partner_id.city" /><br />
                                     <span t-field="o.partner_id.country_id" /><br />
+                                    <div t-if="o.commercial_partner_id.vat">
+    								    <strong>IVA: </strong>
+									    <span t-field="o.commercial_partner_id.vat"/>
+								    </div>
                                 </strong>
                             </td>
                         </tr>
@@ -283,7 +287,7 @@
                                     NAME / SIGNATURE
                                 </td>
                                 <td colspan="4" style="text-align: center; vertical-allign:middle;">
-                                    Leonte Madalina Elena
+                                    <span t-esc="user.name"></span>
                                 </td>
                             </tr>
 						</tbody>
@@ -414,7 +418,7 @@
                         </tr>
                         <tr>
                             <td colspan="7" style="text-align: center; vertical-allign:middle;">
-                                Leonte Madalina Elena     2850509046211
+                                <span t-esc="user.name"></span>     <span t-esc="user.partner_id.cnp"></span>
                             </td>
                         </tr>
                     </tbody>
