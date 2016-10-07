@@ -192,7 +192,8 @@ class service_order(models.Model):
         if self.plan_call_id:
             self.plan_call_id.write(  {'completion_date': self.date_done })
             self.plan_call_id.action_complete()
-
+        if self.notification_id:
+            self.notification_id.action_done()
 
     @api.multi
     def new_piking_button(self):
