@@ -48,11 +48,9 @@ Nu se utilizeaza impreuna cu modulul de CRM
         'crm_claim_data.xml',
         'res_partner_view.xml',
     ],
-<<<<<<< Updated upstream
-    'demo': ['crm_claim_demo.xml'],
-=======
+
     'demo': [],
->>>>>>> Stashed changes
+
     'test': [
         'test/process/claim.yml',
         'test/ui/claim_demo.yml'

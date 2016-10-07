@@ -8,31 +8,25 @@
         
         <record model="crm.case.categ" id="categ_claim1">
             <field name="name">Factual Claims</field>
-<<<<<<< Updated upstream
-            <field name="section_id" ref="sales_team.section_sales_department"/>
-=======
+
             <field name="section_id" ref="sales_team.team_sales_department"/>
->>>>>>> Stashed changes
+
             <field name="object_id" search="[('model','=','crm.claim')]" model="ir.model"/> 
         </record>
         
         <record model="crm.case.categ" id="categ_claim2">
             <field name="name">Value Claims</field>
-<<<<<<< Updated upstream
-            <field name="section_id" ref="sales_team.section_sales_department"/>
-=======
+
             <field name="section_id" ref="sales_team.team_sales_department"/>
->>>>>>> Stashed changes
+
             <field name="object_id" search="[('model','=','crm.claim')]" model="ir.model"/> 
         </record>
         
         <record model="crm.case.categ" id="categ_claim3">
             <field name="name">Policy Claims</field>
-<<<<<<< Updated upstream
-            <field name="section_id" ref="sales_team.section_sales_department"/>
-=======
+
             <field name="section_id" ref="sales_team.team_sales_department"/>
->>>>>>> Stashed changes
+
             <field name="object_id" search="[('model','=','crm.claim')]" model="ir.model"/> 
         </record>
     

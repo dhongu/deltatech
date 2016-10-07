@@ -19,25 +19,6 @@
 #
 ##############################################################################
 
-<<<<<<< Updated upstream
-import openerp
-from openerp.addons.crm import crm
-from openerp.osv import fields, osv
-from openerp import tools
-from openerp.tools.translate import _
-from openerp.tools import html2plaintext
-
-
-class crm_case_categ(osv.osv):
-    """ Category of Case """
-    _name = "crm.case.categ"
-    _description = "Category of Case"
-    _columns = {
-        'name': fields.char('Name', required=True, translate=True),
-        'section_id': fields.many2one('crm.case.section', 'Sales Team'),
-        'object_id': fields.many2one('ir.model', 'Object Name'),
-    }
-=======
 import odoo
 from odoo import models, fields, api, tools, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -57,7 +38,7 @@ class crm_case_categ(models.Model):
     object_id = fields.Many2one('ir.model', 'Object Name')
 
 
->>>>>>> Stashed changes
+
 
     def _find_object_id(self, cr, uid, context=None):
         """Finds id for case object"""
@@ -70,11 +51,9 @@ class crm_case_categ(models.Model):
     }
 
 
-<<<<<<< Updated upstream
-class crm_claim_stage(osv.osv):
-=======
+
 class crm_claim_stage(models.Model):
->>>>>>> Stashed changes
+
     """ Model for claim stages. This models the main stages of a claim
         management flow. Main CRM objects (leads, opportunities, project
         issues, ...) will now use only stages, instead of state and stages.
@@ -85,22 +64,7 @@ class crm_claim_stage(models.Model):
     _rec_name = 'name'
     _order = "sequence"
 
-<<<<<<< Updated upstream
-    _columns = {
-        'name': fields.char('Stage Name', required=True, translate=True),
-        'sequence': fields.integer('Sequence', help="Used to order stages. Lower is better."),
-        'section_ids':fields.many2many('crm.case.section', 'section_claim_stage_rel', 'stage_id', 'section_id', string='Sections',
-                        help="Link between stages and sales teams. When set, this limitate the current stage to the selected sales teams."),
-        'case_default': fields.boolean('Common to All Teams',
-                        help="If you check this field, this stage will be proposed by default on each sales team. It will not assign this stage to existing teams."),
-    }
 
-    _defaults = {
-        'sequence': lambda *args: 1,
-    }
-
-class crm_claim(osv.osv):
-=======
 
     name = fields.Char(string='Stage Name', required=True, translate=True)
     sequence = fields.Integer('Sequence', help="Used to order stages. Lower is better.", default=1)
@@ -112,7 +76,7 @@ class crm_claim(osv.osv):
 
 
 class crm_claim(models.Model):
->>>>>>> Stashed changes
+
     """ Crm claim
     """
     _name = "crm.claim"
@@ -131,11 +95,9 @@ class crm_claim(models.Model):
         if type(context.get('default_section_id')) in (int, long):
             return context.get('default_section_id')
         if isinstance(context.get('default_section_id'), basestring):
-<<<<<<< Updated upstream
-            section_ids = self.pool.get('crm.case.section').name_search(cr, uid, name=context['default_section_id'], context=context)
-=======
+
             section_ids = self.pool.get('crm.team').name_search(cr, uid, name=context['default_section_id'], context=context)
->>>>>>> Stashed changes
+
             if len(section_ids) == 1:
                 return int(section_ids[0][0])
         return None
@@ -143,58 +105,17 @@ class crm_claim(models.Model):
 
    
     def _get_default_section_id(self, cr, uid, context=None):
-<<<<<<< Updated upstream
-        
-=======
->>>>>>> Stashed changes
+
         return self._resolve_section_id_from_context(cr, uid, context=context) or False
   
     
     def _get_default_stage_id(self, cr, uid, context=None):
-<<<<<<< Updated upstream
-       
-=======
->>>>>>> Stashed changes
+
         section_id = self._get_default_section_id(cr, uid, context=context)
         return self.stage_find(cr, uid, [], section_id, [('sequence', '=', '1')], context=context)
   
     
-<<<<<<< Updated upstream
-    _columns = {
-        'id': fields.integer('ID', readonly=True),
-        'name': fields.char('Claim Subject', required=True),
-        'active': fields.boolean('Active'),
-        'action_next': fields.char('Next Action'),
-        'date_action_next': fields.datetime('Next Action Date'),
-        'description': fields.text('Description'),
-        'resolution': fields.text('Resolution'),
-        'create_date': fields.datetime('Creation Date' , readonly=True),
-        'write_date': fields.datetime('Update Date' , readonly=True),
-        'date_deadline': fields.date('Deadline'),
-        'date_closed': fields.datetime('Closed', readonly=True),
-        'date': fields.datetime('Claim Date', select=True),
-        'ref': fields.reference('Reference', selection=openerp.addons.base.res.res_request.referencable_models),
-        'categ_id': fields.many2one('crm.case.categ', 'Category', \
-                            domain="[('section_id','=',section_id),\
-                            ('object_id.model', '=', 'crm.claim')]"),
-        'priority': fields.selection([('0','Low'), ('1','Normal'), ('2','High')], 'Priority'),
-        'type_action': fields.selection([('correction','Corrective Action'),('prevention','Preventive Action')], 'Action Type'),
-        'user_id': fields.many2one('res.users', 'Responsible', track_visibility='always'),
-        'user_fault': fields.char('Trouble Responsible'),
-        'section_id': fields.many2one('crm.case.section', 'Sales Team', \
-                        select=True, help="Responsible sales team."\
-                                " Define Responsible user and Email account for"\
-                                " mail gateway."),
-        'company_id': fields.many2one('res.company', 'Company'),
-        'partner_id': fields.many2one('res.partner', 'Partner'),
-        'email_cc': fields.text('Watchers Emails', size=252, help="These email addresses will be added to the CC field of all inbound and outbound emails for this record before being sent. Separate multiple email addresses with a comma"),
-        'email_from': fields.char('Email', size=128, help="Destination email for email gateway."),
-        'partner_phone': fields.char('Phone'),
-        'stage_id': fields.many2one ('crm.claim.stage', 'Stage', track_visibility='onchange',
-                domain="['|', ('section_ids', '=', section_id), ('case_default', '=', True)]"),
-        'cause': fields.text('Root Cause'),
-    }
-=======
+
 
     id = fields.Integer('ID', readonly=True)
     name = fields.Char('Claim Subject', required=True)
@@ -229,7 +150,7 @@ class crm_claim(models.Model):
             domain="['|', ('section_ids', '=', section_id), ('case_default', '=', True)]")
     cause = fields.Text('Root Cause')
 
->>>>>>> Stashed changes
+
 
     _defaults = {
         'user_id': lambda s, cr, uid, c: uid,
@@ -271,23 +192,19 @@ class crm_claim(models.Model):
             return stage_ids[0]
         return False
 
-<<<<<<< Updated upstream
-    def onchange_partner_id(self, cr, uid, ids, partner_id, email=False, context=None):
-=======
+
 
     @api.multi
     def onchange_partner_id(self,   partner_id, email=False ):
->>>>>>> Stashed changes
+
         """This function returns value of partner address based on partner
            :param email: ignored
         """
         if not partner_id:
             return {'value': {'email_from': False, 'partner_phone': False}}
-<<<<<<< Updated upstream
-        address = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
-=======
+
         address = self.env['res.partner'].browse(  partner_id )
->>>>>>> Stashed changes
+
         return {'value': {'email_from': address.email, 'partner_phone': address.phone}}
 
     def create(self, cr, uid, vals, context=None):
@@ -329,20 +246,7 @@ class crm_claim(models.Model):
         defaults.update(custom_values)
         return super(crm_claim, self).message_new(cr, uid, msg, custom_values=defaults, context=context)
 
-<<<<<<< Updated upstream
-class res_partner(osv.osv):
-    _inherit = 'res.partner'
-    def _claim_count(self, cr, uid, ids, field_name, arg, context=None):
-        Claim = self.pool['crm.claim']
-        return {
-            partner_id: Claim.search_count(cr,uid, [('partner_id', '=', partner_id)], context=context)  
-            for partner_id in ids
-        }
 
-    _columns = {
-        'claim_count': fields.function(_claim_count, string='# Claims', type='integer'),
-    }
-=======
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
@@ -354,6 +258,6 @@ class res_partner(models.Model):
 
     claim_count = fields.Integer(compute="_claim_count", string='# Claims')
 
->>>>>>> Stashed changes
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

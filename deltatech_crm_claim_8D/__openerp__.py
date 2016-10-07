@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
- 
+
 {
-    "name" : "Deltatech Claim 8D",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Claim 8D",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -33,26 +33,20 @@ Functionalitati:
   
    
     """,
-    
-    
-   'category': 'Sales Management',
-    "depends" : [
-                 'deltatech','product',
-<<<<<<< Updated upstream
-                 'deltatech_simple_crm_claim'
-                 #"crm_claim"
-=======
-                 "deltatech_simple_crm_claim"
->>>>>>> Stashed changes
-                 ],
- 
-    "data" : [  
-                'security/ir.model.access.csv',
-                'views/report8d.xml',
-                'crm_claim_view.xml'              
-               ],
-    
 
-    "installable": True,
+    'category': 'Sales Management',
+    "depends": [
+        'deltatech',
+        'product',
+        "deltatech_simple_crm_claim"
+    ],
+
+    "data": [
+        'security/ir.model.access.csv',
+        'views/report8d.xml',
+        'crm_claim_view.xml'
+    ],
+
+    'installable': True,
+    'auto_install': False,
 }
- 

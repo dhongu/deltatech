@@ -4,11 +4,9 @@
 
         <menuitem id="menu_config_claim" name="Claim"
             groups="base.group_no_one"
-<<<<<<< Updated upstream
-            parent="base.menu_base_config" sequence="55"/>
-=======
+
             parent="sales_team.menu_sale_general_settings" sequence="55"/>
->>>>>>> Stashed changes
+
 
         <!-- Claims categories  -->
 

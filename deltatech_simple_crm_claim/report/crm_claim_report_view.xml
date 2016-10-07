@@ -85,11 +85,9 @@
         </record>
 
         <menuitem name="Claims Analysis" id="menu_report_crm_claim_tree"
-<<<<<<< Updated upstream
-            action="action_report_crm_claim" parent="base.next_id_64" sequence="15"/>
-=======
+
             action="action_report_crm_claim" parent="base.menu_aftersale" sequence="15"/>
->>>>>>> Stashed changes
+
 
     </data>
 </openerp>

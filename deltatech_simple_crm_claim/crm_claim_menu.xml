@@ -3,13 +3,10 @@
     <data>
 
         <menuitem id="base.menu_aftersale" name="After-Sale Services"
-<<<<<<< Updated upstream
-            groups="base.group_sale_salesman"
-            parent="base.menu_base_partner" sequence="2" />
-=======
+
 
             parent="sales_team.menu_base_partner" sequence="2" />
->>>>>>> Stashed changes
+
 
         <!-- Claims Menu -->
         <record model="ir.actions.act_window" id="crm_case_categ_claim0">
