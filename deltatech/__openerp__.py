@@ -26,7 +26,7 @@
     "depends" : [],
     "description": '',
     'data': [
-        #'views/deltatech_assets.xml'
+        'views/deltatech_assets.xml'
     ],
     "active": False,
     "installable": True,
