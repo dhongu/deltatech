@@ -18,19 +18,38 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
-    ],
-    "active": False,
-    "installable": True,
-    'application': True,
-   
-}
+
+
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
+class invoice(models.Model):
+    _inherit = 'account.invoice'
+    
+    
+    penalty = fields.Float(string='Penalty',  digits=dp.get_precision('Account'), compute='_compute_penalty' )
+
+
+    @api.one
+    @api.depends('payment_term','date_invoice','amount_untaxed')
+    def _compute_penalty(self):
+        self.penalty =  0.0
+        if self.date_due:
+            if self.payment_ids:
+                effective_date_due = min(payment.date for payment in self.payment_ids)
+            else:  
+                effective_date_due = fields.Date.today()
+            if self.date_due < effective_date_due:
+                days = (datetime.strptime(effective_date_due, '%Y-%m-%d') - datetime.strptime(self.date_due, '%Y-%m-%d') ).days
+                self.penalty = self.amount_untaxed * days * 0.01
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+
+
+

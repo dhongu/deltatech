@@ -1,27 +1,33 @@
-openerp.deltatech_web = function (instance) {
-	var _t = instance.web._t;
-	var QWeb = instance.web.qweb;
+odoo.define('deltatech.Sidebar', function (require) {
 
-	
+var core = require('web.core');
+var data = require('web.data');
+var formats = require('web.formats');
+var Widget = require('web.Widget');
+var Sidebar = require('web.Sidebar');
+var Dialog = require('web.Dialog');
+var QWeb = core.qweb;
+var _t = core._t;
 
-	
-	/* Extend the Sidebar to add Show Metadata link in the 'More' menu */
-	instance.web.Sidebar = instance.web.Sidebar.extend({
-		
+
+
+/* Extend the Sidebar to add Show Metadata link in the 'More' menu */
+Sidebar.include({
+
         start: function() {
             var self = this;
             this._super(this);
             
             self.add_items('other', [
                     {   label: _t('Metadata'),
-                        callback: self.on_click_metadata,
+                        callback: self.get_metadata,
                         classname: 'oe_share' },
                 ]);
           
         },
         
-        on_click_metadata: function(item) {
-            var view = this.getParent()
+        get_metadata: function() {
+            var view = this.getParent();
 
             var action = view.getParent().action;
             var context = action.context;
@@ -29,7 +35,7 @@ openerp.deltatech_web = function (instance) {
 	            var active_context = {
 	                active_model: action.res_model,
 	            };
-	            context = new instance.web.CompoundContext(context, active_context).eval();
+	            context = new data.CompoundContext(context, active_context).eval();
 	            delete context['active_id'];
 	            delete context['active_ids'];
 	            if (action.res_id){
@@ -37,30 +43,41 @@ openerp.deltatech_web = function (instance) {
 	                context['active_ids'] = [action.res_id];
 	            }
 	        }
-	        var dataset = new instance.web.DataSetSearch(this, action.res_model, context, action.domain);
+	        var dataset = new data.DataSetSearch(this, action.res_model, context, action.domain);
 	        if (action.res_id) {
 	            dataset.ids.push(action.res_id);
 	            dataset.index = 0;
 	        }
-	        this.dataset = dataset; 
+	        this.dataset = dataset;
 	        var self = this,
             	current_view = view; //this.views[this.active_view].controller;
 
             var ids = current_view.get_selected_ids();
-            if (ids.length === 1) {
-                this.dataset.call('get_metadata', [ids]).done(function(result) {
-                    var dialog = new instance.web.Dialog(this, {
-                        title: _.str.sprintf(_t("Metadata (%s)"), self.dataset.model),
-                        size: 'medium',
-                    }, QWeb.render('ViewManagerDebugViewLog', {
-                        perm : result[0],
-                        format : instance.web.format_value
-                    })).open();
-                });
+            var ds = dataset;
+            /*
+            var ds = this._view_manager.dataset;
+            if (!this._active_view.controller.get_selected_ids().length) {
+                console.warn(_t("No metadata available"));
+                return
             }
-            
-            
+            */
+            ds.call('get_metadata', [ids]).done(function(result) {
+                new Dialog(this, {
+                    title: _.str.sprintf(_t("Metadata (%s)"), ds.model),
+                    size: 'medium',
+                    $content: QWeb.render('WebClient.DebugViewLog', {
+                        perm : result[0],
+                        format : formats.format_value
+                    })
+                }).open();
+            });
         },
         
     });
-}
+
+
+
+
+});
+
+

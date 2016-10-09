@@ -17,20 +17,47 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
+
 {
-    "name" : "Deltatech",
+    "name" : "Deltatech Services",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
-    ],
+    "website" : "",
+    "description": """
+
+Functionalitati:
+ - Ofera posibilitatea de a defini contracte de servicii.
+ - Periodic in baza acestor contracte se genereaza facturi.
+
+ 
+    """,
+    
+    "category" : "Service Management",
+    "depends" : ["base", "product","account","deltatech_account"],
+
+
+    "data" : [ 
+              'data.xml',    
+              "service_consumption_view.xml",  
+              "service_agreement_view.xml",  
+              
+              "wizard/service_billing_preparation_view.xml",
+              "wizard/service_billing_view.xml",
+              "wizard/service_distribution_view.xml",
+              "wizard/service_price_change_view.xml",
+              "wizard/service_change_invoice_date_view.xml",
+              #"account_invoice_penalty_view.xml",
+              'security/service_security.xml',
+              'security/ir.model.access.csv',
+              
+                ],
+    'application': True,
     "active": False,
     "installable": True,
-    'application': True,
-   
 }
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

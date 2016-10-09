@@ -4,8 +4,8 @@
 
 		<template id="assets_backend" name="Deltatech assets backend" inherit_id="web.assets_backend">
 			<xpath expr="." position="inside">
-				<!-- <link rel='stylesheet' href='/deltatech/static/src/css/deltatech_web.css' /> -->
-				<!--  link rel='stylesheet' href='/deltatech_web/static/src/css/main.css' />  -->
+				<link rel='stylesheet' href='/deltatech/static/src/css/deltatech.css' />
+
 				<script type="text/javascript" src="/deltatech/static/src/js/extension.js"></script>
 			</xpath>
 		</template>

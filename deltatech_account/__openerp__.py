@@ -17,20 +17,35 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
+
 {
-    "name" : "Deltatech",
+    "name" : "Deltatech Account",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
+    "website" : "",
+    "description": """
+
+Functionalitati:
+ - Preluare functionalitati din 8.0
+
+ 
+    """,
+    
+    "category" : "Generic Modules/Other",
+    "depends" : ["deltatech", "account"],
+
+
+    "data" : [
+        'wizard/account_period_close_view.xml',
+        'views/account_view.xml',
     ],
+    'application': True,
     "active": False,
     "installable": True,
-    'application': True,
-   
 }
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -19,18 +19,32 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech",
-    "version" : "1.0",
+    "name" : "Deltatech Project  Extension",
+    "version" : "1.10",
     "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
+    
+    'category': 'Project Management',
+    
+    "depends" : ['deltatech',"project"],
+
+
+    "description": """
+Features:    
+ 
+ 
+""",
+    "data" : [
+        'views/report_project_do_today.xml',
+        'wizard/print_report_date_view.xml',
+        "project_view.xml",  
+        "project_data.xml",
+        'wizard/recurrence_view.xml',
+        'wizard/task_set_progress_view.xml', 
+        'res_config_view.xml'    
+
     ],
     "active": False,
     "installable": True,
-    'application': True,
    
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

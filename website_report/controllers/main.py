@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2014-Today OpenERP SA (<http://www.openerp.com>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,19 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
-    ],
-    "active": False,
-    "installable": True,
-    'application': True,
-   
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+from odoo.addons.website.controllers.main import Website
+from odoo.http import request, route
+
+
+class Website(Website):
+
+    @route()
+    def customize_template_get(self, key, full=False, bundles=False):
+        res = super(Website, self).customize_template_get(key=key, full=full, bundles=bundles)
+        if full:
+            for r in request.session.get('report_view_ids', []):
+                res += super(Website, self).customize_template_get(r.get('xml_id'), full=full, bundles=bundles)
+        return res
+
+

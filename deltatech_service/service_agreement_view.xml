@@ -1,9 +1,6 @@
 <?xml version="1.0" ?>
 <openerp>
 	<data>
-
- 
-			
         <record id="view_account_invoice_filter" model="ir.ui.view">
             <field name="name">account.invoice.select</field>
             <field name="model">account.invoice</field>
@@ -12,7 +9,7 @@
             	<filter name="unpaid" position="after">
             		<filter name="service" string="Services Agreements" domain="[('agreement_id','!=',False)]" />
             	</filter>
-            	 <field name="period_id" position="after">
+            	 <field name="date" position="after">
             	 	<field name="agreement_id" />
             	 </field>
             </field>
@@ -95,7 +92,11 @@
 										  'default_agreement_id': id,
 										  'default_partner_id': partner_id }"
 								groups="account.group_account_invoice">
-								<div><strong><field name="total_invoiced" widget="monetary"/></strong><br/>Invoices</div>
+								 <div class="o_form_field o_stat_info">
+									<span class="o_stat_value"><field string="Invoices" name="total_invoiced" widget="monetary"/></span>
+									<span class="o_stat_text">Invoiced</span>
+								 </div>
+
 							</button>
 							
 							<button type="action" class="oe_stat_button" id="consumption_button" 
@@ -106,7 +107,11 @@
 										  'search_default_done': 1,
 										  'default_agreement_id': id,
 										  'default_partner_id': partner_id }"  >
-								<div><strong><field name="total_consumption" widget="monetary"/></strong><br/>Revenues</div>
+                                <div class="o_form_field o_stat_info">
+									<span class="o_stat_value"><field string="Revenues" name="total_consumption" widget="monetary"/></span>
+									<span class="o_stat_text">Revenues</span>
+								 </div>
+
 							</button>
 							
 						</div>
@@ -182,7 +187,7 @@
 			<field name="name">Update Revenues</field>
 			<field name="model_id" ref="model_service_agreement" />
 			<field name="state">code</field>
-			<field name="code">action = self.compute_totals(cr, uid, context.get('active_ids', []))</field>
+			<field name="code">action = self.compute_totals(self.env.context.get('active_ids', []))</field>
 		</record>
 
 		<record id="more_item_update_revenues" model="ir.values">

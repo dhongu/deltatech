@@ -17,20 +17,15 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
-{
-    "name" : "Deltatech",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [],
-    "description": '',
-    'data': [
-        'views/deltatech_assets.xml'
-    ],
-    "active": False,
-    "installable": True,
-    'application': True,
-   
-}
+
+import service_billing
+import service_billing_preparation
+import service_distribution
+import service_price_change
+import service_change_invoice_date
+
+ 
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

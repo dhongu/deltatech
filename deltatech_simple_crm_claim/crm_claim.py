@@ -39,16 +39,19 @@ class crm_case_categ(models.Model):
 
 
 
-
-    def _find_object_id(self, cr, uid, context=None):
+    @api.model
+    def _find_object_id(self):
         """Finds id for case object"""
-        context = context or {}
+        context = self.env.context
         object_id = context.get('object_id', False)
-        ids = self.pool.get('ir.model').search(cr, uid, ['|', ('id', '=', object_id), ('model', '=', context.get('object_name', False))])
+        ids = self.env['ir.model'].search(['|', ('id', '=', object_id),
+                                                 ('model', '=', context.get('object_name', False))])
         return ids and ids[0] or False
+
     _defaults = {
         'object_id': _find_object_id
     }
+
 
 
 

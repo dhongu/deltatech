@@ -136,7 +136,7 @@
                                 <separator colspan="4" string="Claim/Action Description" groups="base.group_user"/>
                                 <field name="description" colspan="4" nolabel="1"/>
                             </page>
-                            <page string="Follow Up" groups="base.group_user">
+                            <page id="follow" string="Follow Up" groups="base.group_user">
                                 <group colspan="2" col="2">
                                     <separator colspan="2" string="Actions"/>
                                     <field name="date_action_next"/>

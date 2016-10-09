@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_service_billing_form" model="ir.ui.view">
+			<field name="name">Service Billing</field>
+			<field name="model">service.billing</field>
+			<field name="arch" type="xml">
+				<form string="Billing">
+
+					<group string="Billing">
+						<div class="oe_grey">
+							For the selected services will generate invoices
+						</div>
+					</group>
+					<group>
+						<field name="journal_id" domain="[('type','=','sale')]"/>
+						<field name="group_invoice" />
+						<field name="group_service" />
+					</group>
+					<group>
+						<field name="consumption_ids" nolabel="1" />
+					</group>
+					<footer>
+						<button name="do_billing" string="_Apply" type="object"
+							class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+
+
+		<act_window id="action_service_billing" name="Billing"
+			res_model="service.billing" src_model="service.consumption"
+			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+
+
+		<!-- menuitem name="Billing" id="menu_service_billing" action="action_service_billing"
+			parent="base.menu_service" sequence="103" / -->
+
+
+
+	</data>
+</openerp>

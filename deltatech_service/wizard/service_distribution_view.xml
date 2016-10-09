@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_service_distribution_form" model="ir.ui.view">
+			<field name="name">Service Distribution</field>
+			<field name="model">service.distribution</field>
+			<field name="arch" type="xml">
+				<form string="Distribution">
+
+					<group string="Distribution">
+						<div class="oe_grey">
+							Distribution services consumed quantities 
+						</div>
+					</group>
+					<group>
+						<group>
+							<field name="product_id" />
+							<field name="quantity" />
+							<field name="mode" />
+						</group>
+						<group>
+						</group>
+					</group>
+					<footer>
+						<button name="do_distribution" string="_Apply" type="object"
+							class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+
+
+		<act_window id="action_service_distribution" name="Distribution"
+			res_model="service.distribution" src_model="service.consumption"
+			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+
+<!-- 
+		<menuitem name="Distribution" id="menu_service_distribution"
+			action="action_service_distribution" parent="base.menu_sales" />
+ -->
+
+
+	</data>
+</openerp>
