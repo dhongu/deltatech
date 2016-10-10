@@ -17,6 +17,11 @@ from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 import time
 
+class AccountMove(models.Model):
+    _inherit = "account.move"
+
+    period_id = fields.Many2one('account.period')
+
 
 class AccountFiscalYear(models.Model):
     _name = "account.fiscalyear"
@@ -101,12 +106,12 @@ class AccountFiscalYear(models.Model):
         if context.get('company_id', False):
             company_id = context['company_id']
         else:
-            company_id = self.env.user.company_id .id
+            company_id = self.env.user.company_id.id
         args.append(('company_id', '=', company_id))
         ids = self.search( args)
         if not ids:
             if exception:
-                model, action_id = self.env['ir.model.data'].get_object_reference(  'deltatech_account', 'action_account_fiscalyear')
+                model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_account', 'action_account_fiscalyear')
                 msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
                 raise RedirectWarning(msg, action_id, _('Go to the configuration panel'))
             else:
@@ -213,10 +218,10 @@ class AccountPeriod(models.Model):
         mode = 'draft'
         for period in self:
             if period.fiscalyear_id.state == 'done':
-                raise osv.except_osv(_('Warning!'), _('You can not re-open a period which belongs to closed fiscal year'))
-        cr.execute('update account_journal_period set state=%s where period_id in %s', (mode, tuple(ids),))
-        cr.execute('update account_period set state=%s where id in %s', (mode, tuple(ids),))
-        self.invalidate_cache(cr, uid, context=context)
+                raise UserError( _('You can not re-open a period which belongs to closed fiscal year'))
+        self.env.cr.execute('update account_journal_period set state=%s where period_id in %s', (mode, tuple(self.ids),))
+        self.env.cr.execute('update account_period set state=%s where id in %s', (mode, tuple(self.ids),))
+        self.invalidate_cache()
         return True
 
 
@@ -236,7 +241,7 @@ class AccountPeriod(models.Model):
         if 'company_id' in vals:
             move_lines = self.env['account.move.line'].search([('period_id', 'in', self.ids)])
             if move_lines:
-                raise osv.except_osv(_('Warning!'), _('This journal already contains items for this period, therefore you cannot modify its company field.'))
+                raise UserError(_('This journal already contains items for this period, therefore you cannot modify its company field.'))
         return super(AccountPeriod, self).write( vals)
 
 

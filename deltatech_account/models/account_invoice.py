@@ -27,6 +27,23 @@ class AccountInvoice(models.Model):
                               default=False, copy=False,
                               help="Unique number of the invoice, computed automatically when the invoice is created.")
 
+    period_id = fields.Many2one('account.period', string='Force Period',
+        domain=[('state', '!=', 'done')], copy=False,
+        help="Keep empty to use the period of the validation(invoice) date.",
+        readonly=True, states={'draft': [('readonly', False)]})
+
+
+    @api.multi
+    def action_move_create(self):
+        res = super(AccountInvoice,self).action_move_create()
+        for inv in self:
+            if not inv.period_id:
+                period = inv.period_id
+                if not period:
+                    period = period.find(inv.date_invoice)[:1]
+                inv.write({'period':period.id})
+        return res
+
 
     @api.multi
     def action_number(self):

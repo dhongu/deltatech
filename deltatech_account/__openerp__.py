@@ -40,6 +40,7 @@ Functionalitati:
     "data" : [
         'wizard/account_period_close_view.xml',
         'views/account_view.xml',
+        'security/ir.model.access.csv'
     ],
     'application': True,
     "active": False,
