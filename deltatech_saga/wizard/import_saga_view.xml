@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_import_saga_form" model="ir.ui.view">
+			<field name="name">Import Saga</field>
+			<field name="model">import.saga</field>
+			<field name="arch" type="xml">
+				<form string="Import Saga">
+					<field name="state" invisible="1" />
+					<group states="choose" string="Import">
+						 
+						<field name="supplier_file" />
+						<field name="customer_file" />
+					</group>
+					
+					<div states="result">
+                        <h2>Import Complete</h2>
+                        <field name="result" />
+                    </div>	
+					<footer states="choose">
+						<button name="do_import" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="_Cancel" class="oe_link" special="cancel" />
+					</footer>				
+
+                    <footer states="result">
+                        <button string="OK" class="oe_highlight"  />
+                    </footer>	
+									
+				</form>
+			</field>
+		</record>
+
+		
+		<record id="action_import_saga" model="ir.actions.act_window">
+		  <field name="name">Import Saga</field> 
+		  <field name="res_model">import.saga</field>
+		  <field name="view_mode">form</field>
+		  <field name="target">new</field>	  
+		 </record>
+
+		<menuitem name="Import Saga" id="menu_import_saga"
+					action="action_import_saga" parent="account.menu_finance_entries" groups="account.group_account_manager"/>
+
+
+	</data>
+</openerp>

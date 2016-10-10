@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,28 +21,25 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Account",
+    "name" : "Deltatech Stock Date",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author" : "Deltatech",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Preluare functionalitati din 8.0
-
+- preluare data efectiva din trecut in documente 
  
     """,
     
     "category" : "Generic Modules/Other",
-    "depends" : ["deltatech", "account"],
+    "depends" : ["base", "stock"],
 
 
-    "data" : [
-        'wizard/account_period_close_view.xml',
-        'views/account_view.xml',
-        'security/ir.model.access.csv'
-    ],
-    'application': True,
+    "data" : [ 'wizard/stock_immediate_transfer_view.xml'
+              
+                ],
+    'application': False,
     "active": False,
     "installable": True,
 }

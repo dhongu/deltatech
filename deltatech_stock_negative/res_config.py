@@ -17,36 +17,33 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech Account",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
+from odoo import models, fields, api, tools, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
-Functionalitati:
- - Preluare functionalitati din 8.0
 
- 
-    """,
+class res_company(models.Model):
+    _inherit = 'res.company'
     
-    "category" : "Generic Modules/Other",
-    "depends" : ["deltatech", "account"],
+    no_negative_stock  = fields.Boolean(string='No negative stock', help='Allows you to prohibit negative stock quantities.')
+ 
+        
+class stock_config_settings(models.TransientModel):
+    _inherit = 'stock.config.settings'
+    
+    
+    no_negative_stock  = fields.Boolean(string='No negative stock', help='Allows you to prohibit negative stock quantities.')
 
-
-    "data" : [
-        'wizard/account_period_close_view.xml',
-        'views/account_view.xml',
-        'security/ir.model.access.csv'
-    ],
-    'application': True,
-    "active": False,
-    "installable": True,
-}
+    @api.multi
+    def set_default_no_negative_stock(self):
+        self.env['ir.values'].set_default( 'stock.config.settings', 'no_negative_stock', self.no_negative_stock)
+        self.env.user.company_ids.write({'no_negative_stock': self.no_negative_stock})
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+
+
 

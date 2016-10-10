@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+		<record id="invoice_supplier_form" model="ir.ui.view">
+			<field name="name">account.invoice.supplier.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+					<button name="action_invoice_draft" position="after">
+						<button name="action_cancel_pickings" states="cancel" string="Refund Pickings" type="object" groups="base.group_user"/>
+					</button> 	
+			</field>
+		</record>
+		
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>		
+            <field name="inherit_id" ref="account.invoice_form" />
+			<field name="arch" type="xml">
+					<button name="action_invoice_draft" position="after">
+						<button name="action_cancel_pickings" states="cancel" string="Refund Pickings" type="object" groups="base.group_user"/>
+					</button>
+			</field>
+		</record>	 
+
+
+        <record id="invoice_tree" model="ir.ui.view">
+            <field name="name">account.invoice.tree</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+
+				<tree position="attributes">
+					<attribute name="colors">blue:state == 'draft';black:state in ('proforma','proforma2','open');gray:state == 'cancel';silver:with_refund</attribute>
+					<attribute name="fonts">italic:with_refund</attribute>
+				</tree>            
+            
+				<field name="state" position="after">
+					<field name="with_refund" />
+				</field>
+            </field>
+       </record>
+      
+    </data>
+</openerp>

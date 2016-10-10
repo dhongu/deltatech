@@ -110,17 +110,7 @@ class account_voucher(osv.osv):
                 if voucher.type == 'purchase':
                     if len(voucher.line_dr_ids)==1:
                         voucher.line_dr_ids.write({'amount':voucher.amount})
-        """             
-        if 'tax_id' in vals:
-            for voucher in self:
-                if voucher.type == 'purchase':
-                    if len(voucher.line_dr_ids)==1:
-                        tax = self.env['account.tax'].browse(vals['tax_id'])
-                        
-                        taxes = tax.compute_all( voucher.line_dr_ids.amount, 1, force_excluded=True)
-                        print taxes
-                        voucher.line_dr_ids.write({'amount':taxes['total_included'], 'untax_amount':taxes['total']})
-        """                
+
         return res
 
  

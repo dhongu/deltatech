@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,36 +17,17 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech Account",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- - Preluare functionalitati din 8.0
 
- 
-    """,
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
+
+
+class res_company(models.Model):
+    _inherit = 'res.company'
     
-    "category" : "Generic Modules/Other",
-    "depends" : ["deltatech", "account"],
-
-
-    "data" : [
-        'wizard/account_period_close_view.xml',
-        'views/account_view.xml',
-        'security/ir.model.access.csv'
-    ],
-    'application': True,
-    "active": False,
-    "installable": True,
-}
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
+    invoice_picking_refund = fields.Boolean(string='Picking refund after cancel invoice')
+    

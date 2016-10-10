@@ -17,36 +17,22 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech Account",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
-
-Functionalitati:
- - Preluare functionalitati din 8.0
-
- 
-    """,
-    
-    "category" : "Generic Modules/Other",
-    "depends" : ["deltatech", "account"],
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import   Warning, RedirectWarning
 
 
-    "data" : [
-        'wizard/account_period_close_view.xml',
-        'views/account_view.xml',
-        'security/ir.model.access.csv'
-    ],
-    'application': True,
-    "active": False,
-    "installable": True,
-}
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+    dimensions = fields.Char(string='Dimensions' )
+    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
+    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

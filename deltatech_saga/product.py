@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,33 +20,23 @@
 #
 ##############################################################################
 
-{
-    "name" : "Deltatech Account",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
- - Preluare functionalitati din 8.0
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
+import math
 
  
-    """,
+
+class product_category(models.Model):
+    _inherit = "product.category" 
+
+    code_saga = fields.Char(string="Code SAGA", size=2)
     
-    "category" : "Generic Modules/Other",
-    "depends" : ["deltatech", "account"],
 
 
-    "data" : [
-        'wizard/account_period_close_view.xml',
-        'views/account_view.xml',
-        'security/ir.model.access.csv'
-    ],
-    'application': True,
-    "active": False,
-    "installable": True,
-}
 
-
+    
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
