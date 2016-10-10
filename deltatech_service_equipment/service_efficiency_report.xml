@@ -58,7 +58,7 @@
 					<field name="partner_id" />
 					<field name="picking_type_id" />
 					<field name="picking_type_code" />
-					<field name="invoice_state" />
+				<!--	<field name="invoice_state" /> -->
 					<field name="date"/>
 					
 					<filter string="This Year" name="year"  
@@ -130,7 +130,9 @@
 			<field name="act_window_id" ref="action_service_efficiency_report"/>
 		</record>
 
-		<menuitem name="Service Efficiency Analysis" action="action_service_efficiency_report" id="menu_service_efficiency_report_tree" parent="stock.next_id_61"/>
+		<menuitem name="Service Efficiency Analysis"
+				  action="action_service_efficiency_report"
+				  id="menu_service_efficiency_report_tree" parent="base.menu_service_report"/>
 	</data>
 </openerp>
 

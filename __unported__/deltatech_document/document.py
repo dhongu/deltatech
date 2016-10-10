@@ -79,7 +79,7 @@ class document_file(models.Model):
         if self.number or not self.categ_id:
             return
         if self.categ_id.sequence_id:
-            number = self.env['ir.sequence'].next_by_id(self.categ_id.sequence_id.id)
+            number = self.categ_id.sequence_id.next_by_id()
             self.write({'number':number})
 
 

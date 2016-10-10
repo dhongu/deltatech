@@ -2,10 +2,12 @@
 <openerp>
 
 	<data noupdate="1">
+		<!--
 		<record id="seq_type_required_order_resource" model="ir.sequence.type">
 			<field name="name">Required Products Orders</field>
 			<field name="code">required.order</field>
 		</record>
+		-->
 		<record id="seq_required_order_resource" model="ir.sequence">
 			<field name="name">Required Products Orders</field>
 			<field name="code">required.order</field>
@@ -141,7 +143,8 @@
 				}"/>
 		</record>
 
-		<menuitem name="Required Orders" id="menu_required_order" action="action_required_order" parent="stock.menu_stock_warehouse_mgmt" sequence="500" />
+		<menuitem name="Required Orders" id="menu_required_order" action="action_required_order"
+                  parent="stock.menu_stock_warehouse_mgmt" sequence="500" />
 
 
 	</data>

@@ -21,10 +21,10 @@
 ##############################################################################
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 import math
 from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
@@ -127,8 +127,8 @@ class service_equipment(models.Model):
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict",  copy=False)
     inventory_value = fields.Float(string="Inventory value")
     
-    total_revenues = fields.Float(string="Total Revenues")  # se va calcula din suma consumurilor de servicii
-    total_costs = fields.Float(string="Total cost")  # se va calcula din suma avizelor
+    total_revenues = fields.Float(string="Total Revenues", readonly=True)  # se va calcula din suma consumurilor de servicii
+    total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
     
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
@@ -162,7 +162,7 @@ class service_equipment(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence = self.env.ref('deltatech_service_equipment.sequence_equipment')
             if sequence:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+                vals['name'] = sequence.next_by_id()
         #if not vals.get('equipment_history_id',False):
         #    vals['equipment_history_ids'] = [(0,0,{'from_date':  '2000-01-01'})]
         return super(service_equipment, self).create( vals )
@@ -173,7 +173,7 @@ class service_equipment(models.Model):
             self.ensure_one()
             sequence = self.env.ref('deltatech_service_equipment.sequence_equipment')
             if sequence:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+                vals['name'] = sequence.next_by_id()
         return super(service_equipment, self).write( vals)
 
 
@@ -233,7 +233,7 @@ class service_equipment(models.Model):
                     break
         
 
-    @api.one
+
     @api.depends('name', 'address_id')     # this definition is recursive
     def _compute_display_name(self):
         if self.address_id:
@@ -241,18 +241,17 @@ class service_equipment(models.Model):
         else:
             self.display_name = self.name
     
-    @api.one
+
     def _compute_consumable_item_ids(self):
         self.consumable_item_ids = self.env['service.consumable.item'].search([('consumable_id','=',self.consumable_id.id)])
     
-    @api.one
+
     def _compute_image_qr_html(self):
         self.image_qr_html = "<img src='/report/barcode/?type=%s&value=%s&width=%s&height=%s'/>" %   ('QR', self.ean_code or '', 150, 150)
         
 
 
 
-    @api.one
     def _compute_agreement_id(self):
         if not isinstance(self.id, models.NewId):
             agreements = self.env['service.agreement']
@@ -390,9 +389,8 @@ class service_equipment(models.Model):
         }        
 
 
-    @api.one
+
     @api.constrains('ean_code')
-    @api.onchange('ean_code')
     def _check_ean_key(self):
         if not check_ean(self.ean_code):
             raise Warning(_('Error: Invalid EAN code'))
@@ -457,7 +455,7 @@ class service_template_meter(models.Model):
     bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure'  ) 
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
     
-    @api.one
+
     @api.onchange('meter_categ_id')
     def onchange_meter_categ_id(self):
         self.bill_uom_id = self.meter_categ_id.bill_uom_id

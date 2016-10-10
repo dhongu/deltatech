@@ -87,7 +87,7 @@ class service_meter(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence = self.env.ref('deltatech_service_equipment.sequence_meter')
             if sequence:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+                vals['name'] = sequence.next_by_id()
         return super(service_meter, self).create( vals )
 
 
@@ -97,7 +97,7 @@ class service_meter(models.Model):
         if sequence:
             meters = self.env['service.meter'].search([('name','=',False)])
             for meter in meters:
-                meter.name = self.env['ir.sequence'].next_by_id(sequence.id)  
+                meter.name = sequence.next_by_id()
 
     # rutina pentru actualizare date curente 
     def update_categ(self):

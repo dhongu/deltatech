@@ -100,7 +100,7 @@ class service_order(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence_order = self.env.ref('deltatech_service_maintenance.sequence_order')
             if sequence_order:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_order.id)         
+                vals['name'] = sequence_order.next_by_id()
         return super(service_order, self).create( vals )
     
     

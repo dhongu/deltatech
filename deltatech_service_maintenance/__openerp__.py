@@ -45,10 +45,10 @@ Functionalitati:
                  "deltatech",
                  "deltatech_service",
                  "deltatech_service_equipment",
-                 "deltatech_procurement",
+                 #"deltatech_procurement",
                  "deltatech_product_extension",
-                 "deltatech_stock_report",
-                 "web_notification",   #pentru afisare mesaje procese lansate in background
+                 #"deltatech_stock_report",
+                 #"web_notification",   #pentru afisare mesaje procese lansate in background
                  ],
 
 

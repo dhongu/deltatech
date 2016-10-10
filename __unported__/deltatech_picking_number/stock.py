@@ -38,7 +38,7 @@ class stock_picking(models.Model):
     def action_get_number(self):
         if not self.request_number:
             if self.picking_type_id.request_sequence_id:
-                request_number = self.env['ir.sequence'].next_by_id(self.picking_type_id.request_sequence_id.id)
+                request_number = self.picking_type_id.request_sequence_id.next_by_id()
                 if request_number:
                     self.write({'request_number':request_number,
                                 'name':request_number})

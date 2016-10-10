@@ -94,7 +94,9 @@ class service_notification(models.Model):
 
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
     sale_order_id = fields.Many2one('sale.order', string="Sale Order")  # legatua la comanda de vanzare
-    required_order_id = fields.Many2one('required.order', string="Required Products Order")
+
+    required_order_id = fields.Integer()
+    #required_order_id = fields.Many2one('required.order', string="Required Products Order")
     
     related_doc = fields.Boolean(_compute="_get_related_doc")
 
@@ -178,7 +180,7 @@ class service_notification(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence_notification = self.env.ref('deltatech_service_maintenance.sequence_notification')
             if sequence_notification:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_notification.id)                     
+                vals['name'] = sequence_notification.next_by_id()
         return super(service_notification, self).create( vals )
 
 

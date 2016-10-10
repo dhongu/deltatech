@@ -46,10 +46,10 @@ Functionalitati:
     "depends" : ["base","mail",
                  "deltatech",
                  "deltatech_service",
-                 "deltatech_procurement",
+               #  "deltatech_procurement",   # oare este necesar ???
                  "deltatech_product_extension",
                  "deltatech_stock_report",
-                 "web_notification",   #pentru afisare mesaje procese lansate in background
+               #   "web_notification",   #pentru afisare mesaje procese lansate in background
                  ],
 
 

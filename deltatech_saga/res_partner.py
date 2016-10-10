@@ -42,13 +42,13 @@ class res_partner(models.Model):
             if  vals.get('customer',False): 
                 sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
                 if sequence:
-                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+                    vals['ref_customer'] = sequence.next_by_id( )
 
         if ('ref_supplier' not in vals) or (vals.get('ref_supplier') in ('/', False)):
             if  vals.get('customer',False): 
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
                 if sequence:
-                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+                    vals['ref_customer'] = sequence.next_by_id( )
         return super(res_partner, self).create( vals )
 
 
@@ -59,14 +59,14 @@ class res_partner(models.Model):
             if self.customer:
                 sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
                 if sequence:
-                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+                    vals['ref_customer'] = sequence.next_by_id( )
                     
         if ('ref_supplier' in vals) and (vals.get('ref_supplier') in ('/', False)):
             self.ensure_one()
             if self.supplier:
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
                 if sequence:
-                    vals['ref_supplier'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+                    vals['ref_supplier'] = sequence.next_by_id( )
         
         return super(res_partner, self).write( vals)
     

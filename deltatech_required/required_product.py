@@ -21,11 +21,11 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 
 class required_order(models.Model):
@@ -35,8 +35,8 @@ class required_order(models.Model):
 
     _track = {
         'state': {
-            'deltatech_procurement.mt_order_confirmed': lambda self, cr, uid, obj, ctx=None: obj.state in ['progress'],
-            'deltatech_procurement.mt_order_done': lambda self, cr, uid, obj, ctx=None: obj.state in ['done']
+            'deltatech_required.mt_order_confirmed': lambda self, cr, uid, obj, ctx=None: obj.state in ['progress'],
+            'deltatech_required.mt_order_done': lambda self, cr, uid, obj, ctx=None: obj.state in ['done']
         },
     }
 
@@ -151,7 +151,7 @@ class required_order(models.Model):
             if is_done:
                 order.order_done()
             
-    @api.one
+
     @api.depends('required_line.procurement_id' )
     def _compute_procurement_count(self):           
         value = 0 
@@ -212,7 +212,7 @@ class required_order_line(models.Model):
                                      , compute='_compute_date_planned',store=True)
 
 
-    @api.one
+
     @api.depends('required_id.date','product_id')
     def _compute_date_planned(self ):
         supplierinfo = False

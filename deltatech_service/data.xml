@@ -7,7 +7,9 @@
 		<menuitem name="Service" id="base.menu_service" parent="base.menu_service_app"  sequence="100" />	
 		
 		<menuitem name="Agreement" id="base.menu_service_agr" parent="base.menu_service_app"  sequence="200" />
-		
+
+		<menuitem name="Reports" id="base.menu_service_report" parent="base.menu_service_app"  sequence="200" />
+
 		<menuitem name="Configuration" id="base.menu_service_config" parent="base.menu_service_app"   sequence="900" />		
 	
 	</data>

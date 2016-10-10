@@ -98,7 +98,7 @@ class service_plan(models.Model):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence_plan = self.env.ref('deltatech_service_maintenance.sequence_plan')
             if sequence_plan:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_plan.id)         
+                vals['name'] = sequence_plan.next_by_id()
         return super(service_plan, self).create( vals )
 
 

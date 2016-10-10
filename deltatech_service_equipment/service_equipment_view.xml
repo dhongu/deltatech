@@ -109,12 +109,19 @@
 										  'search_default_done': 1,
 										 
 										  'default_partner_id': partner_id }"  >
-								<div><strong><field name="total_revenues" widget="monetary"/></strong><br/>Revenues</div>
+
+								  <div class="o_form_field o_stat_info">
+									<span class="o_stat_value"><field string="Revenues" name="total_revenues" widget="monetary"/></span>
+									<span class="o_stat_text">Revenues</span>
+								 </div>
 							</button>
 
 							
 							<button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out"  name="picking_button">
-								<div><strong><field name="total_costs" widget="monetary"/></strong><br/>Costs</div>
+								<div class="o_form_field o_stat_info">
+									<span class="o_stat_value"><field string="Costs" name="total_costs" widget="monetary"/></span>
+									<span class="o_stat_text">Costs</span>
+								 </div>
 							</button>
 
 
