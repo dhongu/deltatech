@@ -9,15 +9,15 @@
 				<field name="origin" position="after">
 					<field name="sale_id" />
 					<field name="move_dest_id" />
-				</field>				
-				<page string="Extra Information" position="after">
+				</field>
+                <xpath expr="//notebook" position="inside">
 					<page string="Stock Move">
 						<field name="move_ids" />
 					</page>
 					<page string="Source">
 						<field name="proc_src_ids" />
 					</page>
-				</page>
+				</xpath>
 			</field>
 		</record>
 

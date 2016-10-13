@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+# Copyright (c) 2015 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,9 +18,31 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name": "Deltatech Required",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
+    "description": """
+ 
+Features:
 
-import models
-import report
+ - New object - Required product
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
+
+
+    """,
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech',
+                'stock',
+                'procurement',
+                ],
+
+    "data": [
+        'views/required_product_view.xml',
+
+        'security/ir.model.access.csv', ],
+    "active": False,
+    "installable": True,
+}

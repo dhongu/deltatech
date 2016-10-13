@@ -57,13 +57,14 @@ class account_invoice(models.Model):
                 invoice.with_refund = True
             else:
                 invoice.with_refund = False
- 
-    
-   
+
+
+
     @api.model
     def get_link(self, model ):
         for model_id, model_name in model.name_get():
-            link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name )
+            #link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name )
+            link = "<a href=# data-oe-model=%s data-oe-id=%d>%s</a>" % (model._name, model.id, model.name)
         return link
     
          

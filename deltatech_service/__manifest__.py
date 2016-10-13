@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,41 +17,47 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
+
 {
-    "name" : "Deltatech Refund",
+    "name" : "Deltatech Services",
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "website" : "",
     "description": """
 
-Functionalitati: 
- - Adaugate campuri in lista de ridicare pentru rambursare si pt documentul rambursat
- - La o rambursare se poate genera o noua rambursare in asteptare
- - Documentul de rambursare se poate inregistra in mod automat 
- - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
- - La stergerea unei facturi se va schimba si starea picking listului
- - dupa anularea unei facturi se poate actiona un buton pentru a rambursa operatiile de stoc
- - in lista de ridicari sunt afisate rambursarile cu gri si italic
+Functionalitati:
+ - Ofera posibilitatea de a defini contracte de servicii.
+ - Periodic in baza acestor contracte se genereaza facturi.
 
-    """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "base",
-                 "stock",
-                 "purchase",
-                 "sale",
-                 'account',
-                 'deltatech_stock_report'],
  
+    """,
+    
+    "category" : "Service Management",
+    "depends" : ["base", "product","account","deltatech_backwards"],
+
+
     "data" : [ 
-              'stock_return_picking_view.xml',
-              'stock_view.xml',
-              'account_invoice_view.xml',
-              'res_config_view.xml',
-              ],
+              'data/data.xml',
+              "views/service_consumption_view.xml",
+              "views/service_agreement_view.xml",
+              
+              "wizard/service_billing_preparation_view.xml",
+              "wizard/service_billing_view.xml",
+              "wizard/service_distribution_view.xml",
+              "wizard/service_price_change_view.xml",
+              "wizard/service_change_invoice_date_view.xml",
+              #"views/account_invoice_penalty_view.xml",
+              'security/service_security.xml',
+              'security/ir.model.access.csv',
+              
+                ],
+    'application': True,
     "active": False,
     "installable": True,
 }
 
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

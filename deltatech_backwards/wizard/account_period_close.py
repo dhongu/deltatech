@@ -21,6 +21,7 @@
 
 from odoo import api, fields, models, _
 from odoo.tools.translate import _
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
 class account_period_close(models.TransientModel):
     """
@@ -31,29 +32,25 @@ class account_period_close(models.TransientModel):
 
     sure = fields.Boolean('Check this box')
 
-
-    def data_save(self, cr, uid, ids, context=None):
+    @api.multi
+    def data_save(self):
         """
         This function close period
-        @param cr: the current row, from the database cursor,
-        @param uid: the current user’s ID for security checks,
-        @param ids: account period close’s ID or list of IDs
-         """
-        journal_period_pool = self.pool.get('account.journal.period')
-        period_pool = self.pool.get('account.period')
-        account_move_obj = self.pool.get('account.move')
+        """
+
+        account_move_obj = self.env['account.move']
 
         mode = 'done'
-        for form in self.read(cr, uid, ids, context=context):
+        for form in self.read:
             if form['sure']:
-                for id in context['active_ids']:
-                    account_move_ids = account_move_obj.search(cr, uid, [('period_id', '=', id), ('state', '=', "draft")], context=context)
+                for id in self.env.context['active_ids']:
+                    account_move_ids = account_move_obj.search([('period_id', '=', id), ('state', '=', "draft")] )
                     if account_move_ids:
-                        raise osv.except_osv(_('Invalid Action!'), _('In order to close a period, you must first post related journal entries.'))
+                        raise UserError(_('In order to close a period, you must first post related journal entries.'))
 
-                    cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
-                    cr.execute('update account_period set state=%s where id=%s', (mode, id))
-                    self.invalidate_cache(cr, uid, context=context)
+                    self.env.cr.execute('update account_journal_period set state=%s where period_id=%s', (mode, id))
+                    self.env.cr.execute('update account_period set state=%s where id=%s', (mode, id))
+                    self.invalidate_cache()
 
         return {'type': 'ir.actions.act_window_close'}
 

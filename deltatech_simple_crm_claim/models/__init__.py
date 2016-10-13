@@ -19,44 +19,8 @@
 #
 ##############################################################################
 
+import crm_claim
 
-{
-    'name': 'Deletatech Simple Claims Management',
-    'version': '1.0',
-    'category': 'Customer Relationship Management',
-    'description': """
-
-Manage Customer Claims.
-=======================
-This application allows you to track your customers/suppliers claims and grievances.
-
-It is fully integrated with the email gateway so that you can create
-automatically new claims based on incoming emails.
-
-Am eliminat dependenta de CRM
-Nu se utilizeaza impreuna cu modulul de CRM
-
-    """,
-    'author': 'OpenERP SA',
-    'website': 'https://www.odoo.com',
-    'depends': ['sales_team'],
-    'data': [
-        'crm_claim_view.xml',
-        'crm_claim_menu.xml',
-        'security/ir.model.access.csv',
-        'report/crm_claim_report_view.xml',
-        'crm_claim_data.xml',
-        'res_partner_view.xml',
-    ],
-
-    'demo': [],
-
-    'test': [
-        'test/process/claim.yml',
-        'test/ui/claim_demo.yml'
-    ],
-    'installable': True,
-    'auto_install': False,
-}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

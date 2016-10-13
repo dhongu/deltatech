@@ -21,7 +21,7 @@
 
 
 
-import required_product
+import models
 
 
 

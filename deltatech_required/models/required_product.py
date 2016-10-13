@@ -40,14 +40,10 @@ class required_order(models.Model):
     _description = "Required Products Order"
     _inherit = 'mail.thread'
 
-    _track = {
-        'state': {
-            'deltatech_required.mt_order_confirmed': lambda self, cr, uid, obj, ctx=None: obj.state in ['progress'],
-            'deltatech_required.mt_order_done': lambda self, cr, uid, obj, ctx=None: obj.state in ['done']
-        },
-    }
+
 
     name = fields.Char(string='Reference', index=True, readonly=True, states={'draft': [('readonly', False)]},
+                       default=lambda self:  self.env['ir.sequence'].next_by_code('required.order'),
                        copy=False)
     date = fields.Date(string='Date', required=True, readonly=True, states={'draft': [('readonly', False)]},
                        default=fields.Date.today())
@@ -186,6 +182,20 @@ class required_order(models.Model):
             action['views'] = [(res and res[1] or False, 'form')]
             action['res_id'] = procurement_ids and procurement_ids[0] or False
         return action
+
+
+
+
+    @api.multi
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if 'state' in init_values and self.state == 'progress':
+            return 'deltatech_required.mt_order_confirmed'
+        elif 'state' in init_values and self.state == 'done':
+            return 'deltatech_required.mt_order_done'
+        return super(required_order, self)._track_subtype(init_values)
+
+
 
 
 class required_order_line(models.Model):

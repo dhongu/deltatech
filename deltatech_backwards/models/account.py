@@ -183,13 +183,16 @@ class AccountPeriod(models.Model):
         (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.', ['date_stop'])
     ]
 
+    """
     @api.returns('self')
     def next(self, cr, uid, period, step, context=None):
         ids = self.search(cr, uid, [('date_start','>',period.date_start)])
         if len(ids)>=step:
             return ids[step-1]
         return False
+    """
 
+    """
     @api.returns('self')
     def find(self, cr, uid, dt=None, context=None):
         if context is None: context = {}
@@ -212,6 +215,7 @@ class AccountPeriod(models.Model):
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
             raise  RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
+    """
 
     @api.multi
     def action_draft(self):

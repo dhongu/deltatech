@@ -168,7 +168,8 @@ class stock_picking(models.Model):
         return self.do_enter_transfer_details(cr,uid,picking, context )
 
 
-    def do_print_picking(self, cr, uid, ids, context=None):
+    @api.multi
+    def do_print_picking(self):
         '''
             This function prints the picking list
             Trebuie tiparit  fiecare document pe formularul lui!
@@ -176,11 +177,10 @@ class stock_picking(models.Model):
             - Aviz de expeditie - cu/fara pret
             - Transter intre gestiuni
             - Intrare marfa in stoc ???
-        
+
         '''
-        
-        context = dict(context or {}, active_ids=ids)       
-        return self.pool.get("report").get_action(cr, uid, ids, 'stock.report_picking', context=context)
+        return super(stock_picking,self).do_print_picking()
+
 
 
 
@@ -247,22 +247,21 @@ class stock_move(models.Model):
                 procurement = self.env['procurement.order'].search([('move_dest_id','=',move.id)])
                 if procurement:
                     procurement.cancel() 
-                move.procure_method = 'make_to_stock'  
-                  
-    
+                move.procure_method = 'make_to_stock'
 
-    def action_assign(self, cr, uid, ids, context=None):
+    @api.multi
+    def action_assign(self):
         #self.do_make_to_stock(cr, uid, ids, context)
-        return super(stock_move, self).action_assign(cr, uid, ids, context)
+        return super(stock_move, self).action_assign()
 
 
-
-    def action_confirm(self, cr, uid, ids, context=None):
+    @api.multi
+    def action_confirm(self):
         """
         from https://github.com/aliomattux/make_to_order_check_availability/blob/master/models/stock.py
         """
         #self.do_make_to_stock(cr, uid, ids, context)
-        return super(stock_move, self).action_confirm(cr, uid, ids, context)
+        return super(stock_move, self).action_confirm()
 
     
     def _prepare_procurement_from_move(self, cr, uid, move, context=None):
@@ -293,7 +292,10 @@ class stock_move(models.Model):
        
         return procurement_id
     """
-    
+
+
+
+"""
 class stock_invoice_onshipping(models.TransientModel):
     _inherit = "stock.invoice.onshipping"
     
@@ -308,5 +310,6 @@ class stock_invoice_onshipping(models.TransientModel):
             if journal.user_id.id == self.env.user.id:
                 res['journal_id'] = journal.id        
         return res
+"""
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

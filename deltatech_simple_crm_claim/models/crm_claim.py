@@ -112,7 +112,7 @@ class crm_claim(models.Model):
     write_date = fields.Datetime('Update Date', readonly=True)
     date_deadline = fields.Date('Deadline')
     date_closed = fields.Datetime('Closed', readonly=True)
-    date = fields.Datetime('Claim Date', select=True,  default=fields.Datetime.now)
+    date = fields.Datetime('Claim Date', select=True, default=fields.Datetime.now)
     ref = fields.Reference(odoo.addons.base.res.res_request.referenceable_models, string='Reference')
     categ_id = fields.Many2one('crm.case.categ', 'Category', \
                                domain="[('section_id','=',section_id),   ('object_id.model', '=', 'crm.claim')]")
@@ -128,15 +128,13 @@ class crm_claim(models.Model):
     company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id)
     partner_id = fields.Many2one('res.partner', 'Partner')
     email_cc = fields.Text('Watchers Emails', size=252,
-                           help="These email addresses will be added to the CC field of all inbound and outbound emails for this record before being sent. Separate multiple email addresses with a comma"),
+                           help="These email addresses will be added to the CC field of all inbound and outbound emails for this record before being sent. Separate multiple email addresses with a comma")
     email_from = fields.Char('Email', size=128, help="Destination email for email gateway.")
     partner_phone = fields.Char('Phone')
     stage_id = fields.Many2one('crm.claim.stage', string='Stage', track_visibility='onchange',
                                default=lambda self: self._get_default_stage_id(),
                                domain="['|', ('section_ids', '=', section_id), ('case_default', '=', True)]")
     cause = fields.Text('Root Cause')
-
-
 
     @api.multi
     def stage_find(self, section_id, domain=[], order='sequence'):

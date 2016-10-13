@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,39 +21,25 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services",
+    "name" : "Deltatech Stock Date",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author" : "Deltatech",
     "website" : "",
     "description": """
 
 Functionalitati:
- - Ofera posibilitatea de a defini contracte de servicii.
- - Periodic in baza acestor contracte se genereaza facturi.
-
+- preluare data efectiva din trecut in documente 
  
     """,
     
-    "category" : "Service Management",
-    "depends" : ["base", "product","account","deltatech_backwards"],
+    "category" : "Generic Modules/Other",
+    "depends" : ["base", "stock"],
 
 
-    "data" : [ 
-              'data.xml',    
-              "service_consumption_view.xml",  
-              "service_agreement_view.xml",  
-              
-              "wizard/service_billing_preparation_view.xml",
-              "wizard/service_billing_view.xml",
-              "wizard/service_distribution_view.xml",
-              "wizard/service_price_change_view.xml",
-              "wizard/service_change_invoice_date_view.xml",
-              #"account_invoice_penalty_view.xml",
-              'security/service_security.xml',
-              'security/ir.model.access.csv',
+    "data" : [ 'wizard/stock_immediate_transfer_view.xml'
               
                 ],
-    'application': True,
+    'application': False,
     "active": False,
     "installable": True,
 }
