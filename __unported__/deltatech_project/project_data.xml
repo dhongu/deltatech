@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record forcecreate="True" id="ir_cron_check_task"
+            model="ir.cron">
+            <field name="name">Run Task Checker</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="model">project.task</field>
+            <field name="function">cron_update</field>
+            <field name="args">()</field>
+        </record>
+      
+      <record forcecreate="True" id="ir_project_config"  model="project.config">
+      	 <field name="use_equal_distribution_percentage">True</field>
+      </record>
+        
+    </data>
+</openerp>

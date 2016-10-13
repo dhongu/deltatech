@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_project_task_set_progress_form" model="ir.ui.view">
+			<field name="name">pproject.task.set.progress.form</field>
+			<field name="model">project.task.set.progress</field>
+			<field name="arch" type="xml">
+				<form string="Change Project Progress">
+					<group>
+						<field name="project_progress" />					   
+					</group>
+
+					<footer>
+						<button name="do_set_project_progress" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+	<act_window id="action_project_task_set_progress" name="Change Project Progress"
+			res_model="project.task.set.progress" src_model="project.task"
+			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+		
+		
+	</data>
+</openerp>

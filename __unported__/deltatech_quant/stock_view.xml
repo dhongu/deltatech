@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_stock_quant_tree" model="ir.ui.view">
+			<field name="name">stock.quant.tree</field>
+			<field name="model">stock.quant</field>
+			<field name="inherit_id" ref="stock.view_stock_quant_tree" />
+			<field name="arch" type="xml">
+				<field name="qty" position="after">
+					<field name="categ_id" />
+					<field name="supplier_id" />
+					<field name="customer_id" />
+					<field name="origin" />
+				 
+					<field name="tag_ids" widget="many2many_tags" />
+					 
+				</field>
+			</field>
+		</record>
+
+
+		<record id="view_stock_quant_form" model="ir.ui.view">
+			<field name="name">stock.quant.form</field>
+			<field name="model">stock.quant</field>
+			<field name="inherit_id" ref="stock.view_stock_quant_form" />
+			<field name="arch" type="xml">
+				<field name="qty" position="after">
+					<field name="categ_id" />
+					<field name="supplier_id" />
+					<field name="invoice_id" />
+					<field name="customer_id" />
+					<field name="origin" />
+					  
+					<field name="tag_ids" widget="many2many_tags" />
+					<field name="note" />
+					 
+				</field>
+			</field>
+		</record>
+
+		<record id="quant_search_view" model="ir.ui.view">
+			<field name="name">stock.quant.search</field>
+			<field name="model">stock.quant</field>
+			<field name="inherit_id" ref="stock.quant_search_view" />
+			<field name="arch" type="xml">
+				<field name="location_id" position="after">
+					<field name="supplier_id" />
+					<field name="customer_id" />
+				</field>
+
+				<filter name="productgroup" position="after">
+				    <filter name="categ" string='Catogory' context="{'group_by' : 'categ_id'}" />
+					<filter name="suppliergroup" string='Supplier' context="{'group_by' : 'supplier_id'}" />
+					<filter name="customergroup" string='Customer' context="{'group_by' : 'customer_id'}" />
+				</filter>
+			</field>
+		</record>
+
+      
+ 
+
+	</data>
+</openerp>
