@@ -7,7 +7,7 @@
             <field name="model">account.invoice</field>		
             <field name="inherit_id" ref="account.view_account_invoice_filter" />
 			<field name="arch" type="xml">
-				 <field name="period_id"  position="after">
+				 <field name="user_id"  position="after">
 				 	<field name="product_id" />
 				 </field>		
 			</field>

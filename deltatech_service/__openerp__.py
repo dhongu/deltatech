@@ -35,7 +35,7 @@ Functionalitati:
     """,
     
     "category" : "Service Management",
-    "depends" : ["base", "product","account","deltatech_account"],
+    "depends" : ["base", "product","account","deltatech_backwards"],
 
 
     "data" : [ 

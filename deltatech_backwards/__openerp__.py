@@ -17,14 +17,35 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-import project
-import wizard
-import report
+{
+    "name" : "Deltatech Backwards",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
-import project_config
-import res_config
+Functionalitati:
+ - Preluare functionalitati din 8.0
+
+ 
+    """,
+    
+    "category" : "Generic Modules/Other",
+    "depends" : ['deltatech',"account",'stock'],
+
+
+    "data" : [
+        'wizard/account_period_close_view.xml',
+        'views/account_view.xml',
+        'security/ir.model.access.csv'
+    ],
+    'application': False,
+    "active": False,
+    "installable": True,
+}
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

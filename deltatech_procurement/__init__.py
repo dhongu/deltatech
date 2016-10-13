@@ -22,7 +22,7 @@
 
 import purchase
 import procurement
-import required_product
+
 import stock
 import sale
 import product

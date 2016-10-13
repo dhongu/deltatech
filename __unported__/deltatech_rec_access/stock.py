@@ -28,13 +28,13 @@ class stock_warehouse(models.Model):
     _inherit = "stock.warehouse"
     
     user_id = fields.Many2one('res.users', string='Manager') 
-
+"""
  
 class stock_location(models.Model):
     _inherit = "stock.location"
     
     user_id = fields.Many2one('res.users', string='Manager') 
-"""
+
  
 class stock_picking(models.Model):
     _inherit = "stock.picking"

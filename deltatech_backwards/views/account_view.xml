@@ -101,7 +101,7 @@
             <field name="arch" type="xml">
                 <form string="Account Period">
                     <header>
-                        <button string="Close Period" name="%(deltatech_account.action_account_period_close)d" type="action"
+                        <button string="Close Period" name="%(deltatech_backwards.action_account_period_close)d" type="action"
                                 class="oe_highlight" states="draft"/>
                         <button name="action_draft" states="done" string="Re-Open Period" type="object"
                                 groups="account.group_account_manager"/>

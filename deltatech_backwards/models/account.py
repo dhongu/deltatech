@@ -111,7 +111,7 @@ class AccountFiscalYear(models.Model):
         ids = self.search( args)
         if not ids:
             if exception:
-                model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_account', 'action_account_fiscalyear')
+                model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards', 'action_account_fiscalyear')
                 msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
                 raise RedirectWarning(msg, action_id, _('Go to the configuration panel'))
             else:
@@ -256,9 +256,9 @@ class AccountPeriod(models.Model):
         period_date_stop = period_to.date_stop
         company2_id = period_to.company_id.id
         if company1_id != company2_id:
-            raise osv.except_osv(_('Error!'), _('You should choose the periods that belong to the same company.'))
+            raise UserError( _('You should choose the periods that belong to the same company.'))
         if period_date_start > period_date_stop:
-            raise osv.except_osv(_('Error!'), _('Start period should precede then end period.'))
+            raise UserError( _('Start period should precede then end period.'))
 
         # /!\ We do not include a criterion on the company_id field below, to allow producing consolidated reports
         # on multiple companies. It will only work when start/end periods are selected and no fiscal year is chosen.

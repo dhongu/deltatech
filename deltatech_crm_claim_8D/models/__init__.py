@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com
+# Copyright (c) 2016 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,11 +17,12 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
+ 
 
-import report
+import crm_claim
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

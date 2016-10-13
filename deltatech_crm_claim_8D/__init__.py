@@ -21,7 +21,7 @@
 
  
 
-import crm_claim
+import models
 
 
 
