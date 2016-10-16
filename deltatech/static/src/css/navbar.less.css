@@ -1,0 +1,53 @@
+
+.o_main_navbar {
+  position: relative;
+  box-shadow: none;
+}
+.o_main_navbar .oe_topbar_avatar {
+  height: 15px;
+}
+.o_main_navbar .o_menu_brand {
+  display: block;
+  float: left;
+  margin-right: 35px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 44px;
+}
+@media (max-width: 767px) {
+  .o_main_navbar .o_menu_brand {
+    float: none;
+    margin: 0;
+    border-bottom: 1px solid #68465f;
+    color: transparent;
+  }
+}
+.o_main_navbar .o_extra_menu_items > a {
+  width: 44px;
+  text-align: center;
+}
+.o_main_navbar .o_extra_menu_items.open > ul {
+  padding: 0;
+}
+.o_main_navbar .o_extra_menu_items.open > ul > li > a {
+  background-color: #875A7B;
+  color: white;
+  border-bottom: 1px solid #e2e2e0;
+}
+.o_main_navbar .o_extra_menu_items.open > ul > li > a.dropdown-toggle {
+  background-color: #ac82a0;
+  pointer-events: none;
+}
+.o_main_navbar .o_extra_menu_items.open > ul > li > ul {
+  position: static;
+  float: none;
+  display: block;
+  border: none;
+  box-shadow: none;
+  max-height: none;
+}

@@ -23,9 +23,7 @@ class AccountInvoice(models.Model):
     tax_line = fields.One2many('account.invoice.tax', related="tax_line_ids" )
 
 
-    internal_number = fields.Char(string='Invoice Number', readonly=True,
-                              default=False, copy=False,
-                              help="Unique number of the invoice, computed automatically when the invoice is created.")
+    internal_number = fields.Char(related='move_name')
 
     period_id = fields.Many2one('account.period', string='Force Period',
         domain=[('state', '!=', 'done')], copy=False,

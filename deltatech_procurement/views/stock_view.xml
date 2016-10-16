@@ -70,33 +70,35 @@
                             type="object" class="oe_highlight"
                             groups="base.group_user" attrs="{'invisible': ['|',('physical_transfer', '!=', 'none')]}"/>
                 </button>
-                <button name="rereserve_pick" position="attributes">
+                <button name="action_assign" position="attributes">
                     <attribute name="states">waiting,partially_available</attribute>
                 </button>
 
-                <button name="do_enter_transfer_details" position="replace">
-                    <button name="do_enter_transfer_details" states="assigned,partially_available" string="Transfer"
-                            groups="stock.group_stock_user" type="object"
-                            class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}"/>
-                    <button name="do_enter_receipt_details" states="assigned,partially_available" string="Receipt"
-                            groups="stock.group_stock_user" type="object"
-                            class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming')]}"/>
-                    <button name="do_enter_delivery_details" states="assigned,partially_available" string="Delivery"
-                            groups="stock.group_stock_user" type="object"
-                            class="oe_highlight" attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}"/>
+                <button name="do_new_transfer" position="replace">
+                    <button name="do_new_transfer" states="draft,partially_available,assigned" string="Validate"
+                            attrs="{'invisible': ['|', ('picking_type_code', '!=', 'internal')]}"
+                            groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="do_new_transfer" states="draft,partially_available,assigned" string="Receipt"
+                            attrs="{'invisible': ['|', ('picking_type_code', '!=', 'incoming')]}"
+                            groups="stock.group_stock_user" type="object" class="oe_highlight"/>
+                    <button name="do_new_transfer" states="draft,partially_available,assigned" string="Delivery"
+                            attrs="{'invisible': ['|', ('picking_type_code', '!=', 'outgoing')]}"
+                            groups="stock.group_stock_user" type="object" class="oe_highlight"/>
                 </button>
 
-                <button name="open_barcode_interface" position="after">
-                    <button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock"
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" string="Current Stock" name="view_current_stock"
                             type="object" groups="stock.group_stock_user"
                             icon="fa-building-o"/>
-                </button>
+                </div>
 
+                <!-- este deja invizibil in 10
                 <field name="partner_id" position="attributes">
                     <attribute name="attrs">{'invisible':[('picking_type_code', '=', 'internal')]}</attribute>
                 </field>
+                -->
 
-                <field name="date_done" position="after">
+                <field name="min_date" position="after">
                     <field name="physical_transfer" invisible="1"/>
                 </field>
 
@@ -171,24 +173,29 @@
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.view_move_picking_tree"/>
             <field name="arch" type="xml">
-                <tree string="Stock Moves" position="attributes">
+                <!-- In 10 este editabil
+                <xpath expr="//tree" position="attributes">
                     <attribute name="editable">bottom</attribute>
-                </tree>
+                </xpath>
+                -->
                 <field name="location_id" position="attributes">
                     <attribute name="invisible">0</attribute>
                 </field>
 
+                <!-- in 10 nu mai exista  onchange_product_id
                 <field name="product_id" position="replace">
                     <field name="product_id"
                            on_change="onchange_product_id(product_id,location_id,location_dest_id, parent.partner_id)"/>
                     <field name="name"/>
                 </field>
+                -->
+
+                <!-- Nu mai exista butonul in 10.0
 
                 <button string="Scrap Products" position="attributes">
                     <attribute name="groups">stock.group_stock_manager</attribute>
-                    =
                 </button>
-
+                -->
             </field>
         </record>
 

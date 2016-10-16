@@ -1,0 +1,26 @@
+
+.o_view_manager_content .oe_view_nocontent {
+  margin: 16px 16px;
+  padding: 15px 10px 10px 10px;
+  color: white;
+  background-color: #4f4f4f;
+  max-width: 500px;
+}
+.o_view_manager_content .oe_view_nocontent a {
+  color: #47dec0 !important;
+}
+.o_view_manager_content .oe_view_nocontent .oe_view_nocontent_create {
+  font-weight: bold;
+  position: relative;
+}
+.o_view_manager_content .oe_view_nocontent .oe_view_nocontent_create:before {
+  content: " ";
+  display: block;
+  border-bottom: 25px solid #4f4f4f;
+  border-top: none;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+}

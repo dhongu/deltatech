@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="purchase_order_form" model="ir.ui.view">
+            <field name="name">Purchase Order</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+
+                    <button class="oe_stat_button" string="Current Stock"
+                            name="view_current_stock"
+                            type="object"
+                            groups="stock.group_stock_user"
+                            icon="fa-building-o"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

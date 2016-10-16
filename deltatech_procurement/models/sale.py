@@ -86,58 +86,60 @@ class sale_order(models.Model):
                 self.invoiced = True
 
 
-    def view_procurement(self, cr, uid, ids, context=None):
+    @api.multi
+    def view_procurement(self):
         '''
         This function returns an action that display existing procurement of given purchase order ids.
         '''
-        if context is None:
-            context = {}
-        mod_obj = self.pool.get('ir.model.data')
-        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'procurement', 'procurement_action'))
-        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
 
-        procurement_ids = []
-        for order in self.browse(cr, uid, ids, context=context):
+        action = self.env.ref('procurement.procurement_action')
+        result = action.read()[0]
+
+        procurement_ids = self.env['procurement.order']
+        for order in self:
             for line in order.order_line:
-                procurement_ids += [procurement.id for procurement in line.procurement_ids]
+                procurement_ids |= line.procurement_ids
 
-        action['context'] = {}
+
+        result['context'] = {}
          
         if len(procurement_ids) > 1:
-            action['domain'] = "[('id','in',[" + ','.join(map(str, procurement_ids)) + "])]"
+            result['domain'] = "[('id','in',[" + ','.join(map(str, procurement_ids.ids)) + "])]"
         else:
-            res = mod_obj.get_object_reference(cr, uid, 'procurement', 'procurement_form_view')
-            action['views'] = [(res and res[1] or False, 'form')]
-            action['res_id'] = procurement_ids and procurement_ids[0] or False
-        return action      
-    
-    def view_to_be_delivered(self, cr, uid, ids, context=None):
+            res = self.env.ref('procurement.procurement_form_view')
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = procurement_ids.id
+        return result
+
+    @api.multi
+    def view_to_be_delivered(self):
         '''
         This function returns an action that display existing move  .
         '''
-        if context is None:
-            context = {}
-        mod_obj = self.pool.get('ir.model.data')
-        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'stock', 'action_move_form2'))
-        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
+
+        action = self.env.ref('stock.stock_move_action')
+        result = action.read()[0]
 
         move_ids = []
-        for order in self.browse(cr, uid, ids, context=context):
+
+        for order in self:
             for line in order.order_line:
                 for procurement in line.procurement_ids:
-                    move_ids += [move.id for move in procurement.move_ids if move.state in ['assigned','waiting','confirmed'] ]
+                    move_ids += [move.id for move in procurement.move_ids if
+                                 move.state in ['assigned', 'waiting', 'confirmed']]
 
-        action['context'] = {}
-         
+        result['context'] = {}
+
         if len(move_ids) >= 1:
-            action['domain'] = "[('id','in',[" + ','.join(map(str, move_ids)) + "])]"
+            result['domain'] = "[('id','in',[" + ','.join(map(str, move_ids)) + "])]"
         else:
-            res = mod_obj.get_object_reference(cr, uid, 'stock', 'action_move_form2')
-            action['views'] = [(res and res[1] or False, 'form')]
-            action['res_id'] = move_ids and move_ids[0] or False
-        return action 
- 
- 
+            res = self.env.ref('stock.view_move_picking_form')
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = move_ids and move_ids[0] or False
+        return result
+
+
+    """ Cod mutat in show_quant
     @api.multi
     def view_current_stock(self):
         action = self.env.ref('stock.product_open_quants').read()[0]  
@@ -149,30 +151,8 @@ class sale_order(models.Model):
         
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"            
         return action 
- 
     """
-    def view_current_stock(self, cr, uid, ids, context=None):
-        '''
-        This function returns an action that display existing stock  .
-        '''
-        if context is None:
-            context = {}
-        mod_obj = self.pool.get('ir.model.data')
-        dummy, action_id = tuple(mod_obj.get_object_reference(cr, uid, 'stock', 'product_open_quants'))
-        action = self.pool.get('ir.actions.act_window').read(cr, uid, action_id, context=context)
 
-        product_ids = []
-        for order in self.browse(cr, uid, ids, context=context):
-            product_ids += [line.product_id.id for line in order.order_line]
-        
-        action['context'] = {'search_default_internal_loc': 1, 
-                        #     'search_default_product_id': product_ids and product_ids[0] or Falses, 
-                             'search_default_locationgroup':1}
-        
-        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
-
-        return action 
-    """
     
     def action_ship_create(self, cr, uid, ids, context=None):
         """

@@ -18,21 +18,22 @@
 				</button>
 				-->
 
-				<xpath expr="//sheet/h1" position="before">
-					<div name="buttons" class="oe_right oe_button_box">
+				<xpath expr="//div[@name='button_box']" position="inside">
+
 
 						<button type="object" name="view_procurement" class="oe_stat_button" groups="stock.group_stock_user"
 						                 icon="fa-stack-overflow" attrs="{'invisible': [('procurement_count', '=', 0)]}">
 							<field name="procurement_count" widget="statinfo" string="Procurements"  />
 						</button>
 
-						<button class="oe_inline oe_stat_button" string="To Be Delivered" name="view_to_be_delivered" 
+						<button class="oe_stat_button" string="To Be Delivered" name="view_to_be_delivered"
 						                  type="object" groups="stock.group_stock_user" icon="fa-arrows-v" />
 
-
-						<button class="oe_inline oe_stat_button" string="Current Stock" name="view_current_stock" 
+						<!-- cod mutat in modulul show_quant
+						<button class="oe_stat_button" string="Current Stock" name="view_current_stock"
 						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />
-					</div>
+
+						-->
 				</xpath>
 				<xpath expr="//tree/field[@name='price_unit']" position="before">
 					<field name="qty_available" groups="stock.group_stock_user"/>

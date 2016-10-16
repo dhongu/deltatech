@@ -54,6 +54,7 @@ Features:
                  "purchase",
                  'procurement',
                  'deltatech_required',
+                 'deltatech_show_quant',
                  'deltatech_refund'],
  
     "data" : ['views/purchase_view.xml',
