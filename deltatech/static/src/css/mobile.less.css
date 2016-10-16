@@ -1,0 +1,4 @@
+
+.o_form_field_many2one input[type="text"]:disabled {
+  background-color: #FFF;
+}

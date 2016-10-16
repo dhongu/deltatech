@@ -1,0 +1,40 @@
+
+.o_searchview {
+  border-bottom: 1px solid #8f8f8f;
+}
+.o_searchview .o_searchview_facet {
+  border: 1px solid #8f8f8f;
+  background: #e2e2e0;
+  color: #8f8f8f;
+}
+@media (max-width: 767px) {
+  .o_searchview .o_searchview_facet {
+    -ms-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+  }
+}
+.o_searchview .o_searchview_facet .o_searchview_facet_label {
+  background-color: #875A7B;
+}
+.o_searchview .o_searchview_facet .o_facet_remove:hover {
+  color: #5c5c5c;
+}
+.o_searchview .o_searchview_input {
+  border: none;
+  outline: none;
+}
+.o_searchview .o_searchview_more {
+  position: absolute;
+  top: 4px;
+  left: auto;
+  bottom: auto;
+  right: 0;
+}
+.o_searchview .o_searchview_autocomplete li.o-selection-focus {
+  background-color: #eef0f0;
+}
+.o_search_options {
+  margin: auto 0;
+}

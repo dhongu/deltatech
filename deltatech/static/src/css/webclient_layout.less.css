@@ -1,0 +1,81 @@
+
+html {
+  height: 100%;
+}
+html .o_web_client {
+  height: 100%;
+  display: -ms-flexbox;
+  display: -moz-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-flow: column nowrap;
+  -moz-flex-flow: column nowrap;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap;
+}
+@media (max-width: 767px) {
+  html .o_web_client {
+    overflow: auto;
+  }
+}
+html .o_web_client.o_fullscreen .o_main_navbar {
+  display: none;
+}
+html .o_web_client .o_main_navbar {
+  -ms-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+html .o_web_client .o_control_panel {
+  -ms-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  flex: 0 0 auto;
+}
+html .o_web_client .o_content {
+  -ms-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  position: relative;
+}
+@media (min-width: 768px) {
+  html .o_web_client .o_content {
+    overflow: auto;
+    height: 100%;
+  }
+}
+@media (max-width: 767px) {
+  html .o_web_client .o_content {
+    overflow: visible;
+    height: auto;
+  }
+}
+html .o_web_client .o_content .o_view_manager_content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+}
+@media (max-width: 767px) {
+  html .o_web_client .o_content .o_view_manager_content {
+    position: static;
+    height: auto;
+  }
+}
+html .o_web_client .o_content .o_view_manager_content .o_view_manager_content {
+  position: static;
+  height: auto;
+}
+html .o_loading {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
