@@ -45,14 +45,14 @@ class stock_production_lot(models.Model):
 
 
     @api.multi
-    @api.depends('quant_ids')
+    @api.depends('quant_ids.qty','quant_ids.location_id')
     def _compute_stock_available(self):
         for lot in self:
             available = 0.0
             for quant in lot.quant_ids:
                 if quant.location_id.usage == 'internal':
                     available += quant.qty
-            if available > 0:
+            if available <> 0:
                 lot.active = True
             else:
                 lot.active = False

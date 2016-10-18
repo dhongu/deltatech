@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,34 +20,16 @@
 #
 ##############################################################################
 
-{
-    "name" : "Deltatech Stock Serial Number",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
-    
-Functionalitati:
-
-    - ascundere loturi utilizate
-    
-
-    """,
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock'],
 
 
-    "data" : [ 
-                  'stock_view.xml', 
 
-             ],
-    
-    
-    "active": False,
-    "installable": True,
-}
+import models
+
+
+
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
