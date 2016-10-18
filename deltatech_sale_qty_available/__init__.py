@@ -18,27 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Sale Qty Available",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
- 
-Features:
- 
- - Afisare campuri de cantitate disponibila in comanda de vanzare
+
+
+
+import models
  
 
 
-    """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "sale"],
- 
-    "data" : [ 'sale_view.xml' ],
-    "active": False,
-    "installable": True,
-}
 
 
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
