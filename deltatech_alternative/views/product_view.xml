@@ -34,7 +34,9 @@
 						<field name="purchase_delay"/>
 						<field name="sale_delay"/>
 						<field name="product_id"/>
+						<!--
 						<field name="list_price_currency_id" invisible="1"/>
+						-->
 					</group>
 				</form>
 			</field>
