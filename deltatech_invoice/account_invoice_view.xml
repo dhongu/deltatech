@@ -24,7 +24,7 @@
 							help="Update Currency Rate " />
 					</div>
 				</field>
-				<field name="invoice_line" position="attributes">
+				<field name="invoice_line_ids" position="attributes">
 					<attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or False, 'type': type, 'date':date_invoice}
 					</attribute>
 				</field>
@@ -53,7 +53,7 @@
 							help="Update Currency Rate " />
 					</div>
 				</field>
-				<field name="invoice_line" position="attributes">
+				<field name="invoice_line_ids" position="attributes">
 					<attribute name="context">{'partner_id': partner_id, 'type': type, 'date':date_invoice}</attribute>
 				</field>
 			</field>

@@ -21,22 +21,24 @@
 
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
 
 
-from openerp.addons.product import _common
+
 
 _logger = logging.getLogger(__name__)
 
 class stock_move(models.Model):
     _inherit = "stock.move"
 
+
+    # metoda nu mai exista in versiunea 10
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         packs = {}

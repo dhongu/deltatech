@@ -21,8 +21,8 @@
 
 
 import time
-from openerp.report import report_sxw
-from openerp.osv import osv
+from odoo.report import report_sxw
+from odoo.osv import osv
 
 
 
@@ -38,7 +38,7 @@ class report_invoice_print(report_sxw.rml_parse):
 
     def _with_discount(self,invoice):
         res = False
-        for line in invoice.invoice_line:
+        for line in invoice.invoice_line_ids:
             if line.discount <> 0.0:
                 res = True
         return  res

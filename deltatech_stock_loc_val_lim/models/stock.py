@@ -21,11 +21,11 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 
 
 class stock_location(models.Model):
@@ -47,9 +47,22 @@ class stock_quant(models.Model):
     _inherit = "stock.quant"
 
 
-    def quants_move(self, cr, uid, quants, move, location_to, location_from=False, lot_id=False, owner_id=False, src_package_id=False, dest_package_id=False, context=None):
+    @api.model
+    def quants_move(self, quants, move, location_to, location_from=False, lot_id=False, owner_id=False, src_package_id=False, dest_package_id=False, entire_pack=False):
         """Moves all given stock.quant in the given destination location.  Unreserve from current move.
+        :param quants: list of tuple(browse record(stock.quant) or None, quantity to move)
+        :param move: browse record (stock.move)
+        :param location_to: browse record (stock.location) depicting where the quants have to be moved
+        :param location_from: optional browse record (stock.location) explaining where the quant has to be taken
+                              (may differ from the move source location in case a removal strategy applied).
+                              This parameter is only used to pass to _quant_create_from_move if a negative quant must be created
+        :param lot_id: ID of the lot that must be set on the quants to move
+        :param owner_id: ID of the partner that must own the quants to move
+        :param src_package_id: ID of the package that contains the quants to move
+        :param dest_package_id: ID of the package that must be set on the moved quant
         """
+
+
         if location_to.usage == 'internal' and location_to.value_limit > 0: 
             new_value = location_to.actual_value  
             for quant, qty in quants:
@@ -57,8 +70,8 @@ class stock_quant(models.Model):
                     new_value += quant.inventory_value
             if new_value > location_to.value_limit:
                 raise Warning(_('Exceeding the limit value stock!'))              
-        super(stock_quant, self).quants_move(cr, uid, quants, move, location_to, location_from, lot_id, owner_id, src_package_id, dest_package_id, context)
-        return       
+        super(stock_quant, self).quants_move( quants, move, location_to, location_from, lot_id, owner_id, src_package_id, dest_package_id, entire_pack)
+
     
    
     

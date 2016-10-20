@@ -32,7 +32,7 @@ Functionalitati:
     "category" : "Generic Modules/Stock",
     "depends" : ['deltatech',"base","stock"],
  
-    "data" : [ 'stock_view.xml'],
+    "data" : [ 'views/stock_view.xml'],
     "active": False,
     "installable": True,
 }
