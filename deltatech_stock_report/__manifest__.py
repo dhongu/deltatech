@@ -32,7 +32,7 @@ Functionalitati:
     """,
 
     "category": "Generic Modules",
-    "depends": ["base", "stock","stock_account"],
+    "depends": ["base", "stock","stock_account","deltatech"],
 
 
     "data": [ 'security/ir.model.access.csv',

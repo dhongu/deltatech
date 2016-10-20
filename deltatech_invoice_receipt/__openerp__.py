@@ -42,7 +42,7 @@ Antentie:
 
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',
+    "depends" : ['deltatech','deltatech_backwards',
                  'deltatech_stock_date',
                  "base",
                  "stock",
@@ -50,7 +50,8 @@ Antentie:
                  "purchase",
                  'deltatech_refund',
                  #"deltatech_stock_reverse_transfer",
-                 "stock_picking_invoice_link"],
+                 #"stock_picking_invoice_link"
+                 ],
  
     "data" : [
                'account_invoice_view.xml'

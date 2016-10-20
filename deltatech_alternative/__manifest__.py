@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,29 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
-
 {
-    "name" : "Deltatech Stock Date",
+    "name" : "Deltatech Products Alternative",
     "version" : "1.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "author" : "Dorin Hongu",
+    "category" : "Generic Modules/Inventory Control",
+    "depends" : ['deltatech',"product",'stock'],
+
+
     "description": """
-
-Functionalitati:
-- preluare data efectiva din trecut in documente 
+Features:    
+ - New model: product_catelog
+ - A module that add alternative on the product form
+ - Camp nou in produs (used for) pentru a indica la ce poate fi folosit produsul
  
-    """,
-    
-    "category" : "Generic Modules/Other",
-    "depends" : ["base", "stock","deltatech"],
-
-
-    "data" : [ 'wizard/stock_immediate_transfer_view.xml'
-              
-                ],
-    'application': False,
+ 
+""",
+    "data" : [
+        "views/product_view.xml",
+        'security/ir.model.access.csv',
+    ],
     "active": False,
     "installable": True,
+   
 }
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

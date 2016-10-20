@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,33 +17,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech Stock Date",
-    "version" : "1.0",
-    "author" : "Deltatech",
-    "website" : "",
-    "description": """
-
-Functionalitati:
-- preluare data efectiva din trecut in documente 
- 
-    """,
-    
-    "category" : "Generic Modules/Other",
-    "depends" : ["base", "stock","deltatech"],
-
-
-    "data" : [ 'wizard/stock_immediate_transfer_view.xml'
-              
-                ],
-    'application': False,
-    "active": False,
-    "installable": True,
-}
-
+import models
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

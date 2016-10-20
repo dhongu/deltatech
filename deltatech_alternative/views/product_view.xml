@@ -67,7 +67,7 @@
 		</record>
 
 		<menuitem name="Product Catalog" id="menu_product_catalog"
-			action="action_product_catalog" parent="stock.menu_stock_product" sequence="102"/>
+			action="action_product_catalog" parent="stock.menu_stock_inventory_control" sequence="102"/>
 
 		<!-- Product Alternative_ -->
 		
@@ -91,7 +91,7 @@
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<field name="name" position="after">
-					<field name="seller_id" />
+					<!-- <field name="seller_id" /> -->
 					<field name="alternative_code" />
 				</field>
 			</field>

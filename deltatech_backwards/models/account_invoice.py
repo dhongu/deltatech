@@ -22,6 +22,7 @@ class AccountInvoice(models.Model):
     fiscal_position = fields.Many2one('account.fiscal.position', related='fiscal_position_id')
     tax_line = fields.One2many('account.invoice.tax', related="tax_line_ids" )
 
+    supplier_invoice_number=fields.Char(related="reference")
 
     internal_number = fields.Char(related='move_name')
 

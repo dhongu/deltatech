@@ -19,16 +19,42 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
 import time 
 from datetime import datetime
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
-    
+
+    picking_ids = fields.Many2many(
+        comodel_name='stock.picking',
+        string='Related Pickings',
+        readonly=True,
+        copy=False,
+        help="Related pickings",
+        compute="_compute_picking_ids"
+    )
+
+
+    @api.multi
+    def _compute_picking_ids(self):
+        for invoice in self:
+            picking_ids = self.env['stock.picking']
+            if invoice.type not in ['in_invoice', 'in_refund']:
+                for line in invoice.invoice_line_ids:
+                    for sale_line in line.sale_line_ids:
+                        picking_ids |= sale_line.order_id.picking_ids
+            else:
+                for line in invoice.invoice_line_ids:
+                    if line.purchase_id:
+                        picking_ids |= line.purchase_id.picking_ids
+            invoice.picking_ids = picking_ids
+
+
+
     """
     # camp pt a indica din ce factura se face stornarea
     origin_refund_invoice_id = fields.Many2one('account.invoice', string='Origin Invoice',   copy=False)
@@ -91,8 +117,10 @@ class account_invoice(models.Model):
         picking_value = {
                           'partner_id':self.partner_id.id,
                           'date':date_receipt,
+                            'location_id': self.env.ref('stock.stock_location_suppliers').id,
+                            'location_dest_id': self.env.ref('stock.stock_location_stock').id,
                           'picking_type_id':self.env.ref('stock.picking_type_in').id,
-                          'invoice_id':self.id,    
+                          #'invoice_id':self.id,
                           'origin':self.supplier_invoice_number,     
                          }
         picking = self.env['stock.picking'].create(picking_value)
@@ -109,8 +137,8 @@ class account_invoice(models.Model):
                                'name':line.name,
                                'location_id':self.env.ref('stock.stock_location_suppliers').id,
                                'location_dest_id':self.env.ref('stock.stock_location_stock').id,
-                               'invoice_state':'invoiced',
-                               'invoice_line_id':line.id, 
+                             #  'invoice_state':'invoiced',
+                             #  'invoice_line_id':line.id,
                                'picking_id':picking.id,
                                'price_unit': price,
                                'data':date_receipt,

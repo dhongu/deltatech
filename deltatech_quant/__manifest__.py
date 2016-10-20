@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Pozitii Stoc",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Pozitii Stoc",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -37,21 +37,22 @@ de facut:
  - Posibilitate de unire a pozitiilor de stoc
   
     """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"stock","account",
-                 #"stock_picking_invoice_link"
-                 ],
- 
-    "data" : [  
-               'views/stock_view.xml',
-               'wizard/stock_quant_change_lot_view.xml',
-               'wizard/stock_quant_split_view.xml',
-               'security/ir.model.access.csv'
-               ],
-    
-    "active": True,
+
+    "category": "Generic Modules/Stock",
+    "depends": [
+        'deltatech',
+        "stock",
+        "account",
+        # "stock_picking_invoice_link"
+    ],
+
+    "data": [
+        'views/stock_view.xml',
+        'wizard/stock_quant_change_lot_view.xml',
+        'wizard/stock_quant_split_view.xml',
+        'security/ir.model.access.csv'
+    ],
+
+    "active": False,
     "installable": True,
 }
- 
