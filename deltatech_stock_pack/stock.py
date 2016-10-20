@@ -55,7 +55,7 @@ class stock_move(models.Model):
         if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
             sale_line = move.procurement_id.sale_line_id 
             if sale_line.order_id.client_order_ref:
-                res['name'] +=  '\n' + _('Ord.') +  sale_line.order_id.client_order_ref + '/'+sale_line.order_id.date_order[10:] 
+                res['name'] +=  '\n' + _('Ord.') +  sale_line.order_id.client_order_ref + '/'+sale_line.order_id.date_order 
         return res
  
 class stock_package(models.Model):
