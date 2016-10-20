@@ -21,6 +21,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     period_id = fields.Many2one('account.period')
+    line_ids = fields.One2many('account.move.line', related='line_id')
 
 
 class AccountFiscalYear(models.Model):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,20 @@
 #
 ##############################################################################
 
-import time
-from odoo.report import report_sxw
 
-class expenses_deduction_report(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(expenses_deduction_report, self).__init__(cr, uid, name, context=context)
-        self.localcontext.update({
-            'time': time,
-        })
-        
-report_sxw.report_sxw(
-    'report.deltatech.expenses.deduction.print',
-    'deltatech.expenses.deduction',
-    'addons/deltatech_expenses/report/expenses_deduction_report.rml',
-    parser=expenses_deduction_report
-)
+
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
+
+
+class account_bank_statement_line(models.Model):
+    _inherit = "account.bank.statement.line"  
+     
+
+    expenses_deduction_id = fields.Many2one('deltatech.expenses.deduction')
+    
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

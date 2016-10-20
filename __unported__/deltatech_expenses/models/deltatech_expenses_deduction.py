@@ -23,11 +23,11 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 
 
 class deltatech_expenses_deduction(models.Model):
@@ -103,7 +103,7 @@ class deltatech_expenses_deduction(models.Model):
     account_diem_id  = fields.Many2one('account.account',string='Account', required=True, readonly=True, states={'draft':[('readonly',False)]}) 
     move_id = fields.Many2one('account.move', string='Account Entry',readonly=True )
     
-    move_ids = fields.One2many('account.move.line', related='move_id.line_id',  string='Journal Items', readonly=True)
+    move_ids = fields.One2many('account.move.line', related='move_id.line_ids',  string='Journal Items', readonly=True)
     
     diem = fields.Float(string='Diem', digits_compute=dp.get_precision('Account'),  readonly=True, states={'draft':[('readonly',False)]}, default=42.5  )
     days = fields.Integer(string='Days', readonly=True, states={'draft':[('readonly',False)]}  ) 
@@ -229,7 +229,7 @@ class deltatech_expenses_deduction(models.Model):
                     line_dr_ids = []
                     line_cr_ids = []
                     for line in voucher.move_ids: # de regula este o singura linie
-                        if line.state == 'valid' and line.account_id.type == 'payable' and not line.reconcile_id:
+                        if line.state == 'valid' and line.account_id.voucher_type == 'payable' and not line.reconcile_id:
                             amount_unreconciled = abs(line.amount_residual_currency)
                             rs = {
                                 'name':line.move_id.name,
@@ -422,7 +422,7 @@ class deltatech_expenses_deduction(models.Model):
             
             
         for expenses in self:
-            if expenses.journal_id.type == 'cash':
+            if expenses.journal_id.voucher_type == 'cash':
                 if expenses.advance:
                     statement  = get_statement(expenses.journal_id,expenses.date_advance)
                     args = {
