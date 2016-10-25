@@ -152,6 +152,12 @@
                     
                     <!-- Content -->
                     <t t-set="total_quantity" t-value="0"/>
+                    <t t-set="total_weight" t-value="0"/>
+	                <t t-foreach="o.picking_ids" t-as="picking">
+                    	<t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+                        	<t t-set="total_weight" t-value="total_weight + pack_operation.result_package_id.weight"/>
+                        </t>
+		            </t>
                     <t t-set="nr_crt" t-value="1"/>
 					<t t-if="not currency_id">
 						<t t-set="currency_id" t-value="o.currency_id"/>
@@ -180,7 +186,7 @@
     								<span t-field="l.ref"/>
 								</td>
 								<td>
-									<span t-field="l.name"/>
+									[<span t-field="l.product_id.default_code" />] <span t-field="l.name"/>
 								</td>
                                 <td style="text-align:center">
     								<span>NR</span>
@@ -198,7 +204,7 @@
                                     <span>€</span>
 									<t t-set="price_unit_without_taxes" t-value="l.price_unit_without_taxes"/>
 									<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)"/>
-									<span id="price_unit_without_taxes" t-esc="formatLang(price_unit_without_taxes)"/>	
+									<span id="price_unit_without_taxes" t-esc="price_unit_without_taxes"/>	
 								</td>
 								<td class="text-right" t-if="with_discount(o)" groups="sale.group_discount_per_so_line">
 									<span t-field="l.discount"/>
@@ -210,7 +216,7 @@
 										<t t-set="price_subtotal" t-value="-1*l.price_subtotal"/>
 									</t>
  									<t t-set="price_subtotal" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)"/>
-									<span id="price_subtotal" t-esc="formatLang(price_subtotal)"/>	
+									<span id="price_subtotal" t-esc="price_subtotal"/>	
 								</td>
                                 <!--
 								<td class="text-right">
@@ -247,15 +253,15 @@
                             </tr>
                             <tr>
                                 <td rowspan="2" colspan="3">
-                                    <span>PAGAMENTI: BB 90 gg dffm/ </span>
+                                    <span>PAGAMENTI: BB <span t-field="o.payment_term.note" /> gg dffm/ </span>
                                     <span t-field="currency_id.symbol"/> 
                                     <span t-esc="formatLang(amount_untaxeds)"/>
                                     <span> il </span>
                                     <span t-field="o.date_due" />
                                     <br />
-                                    <span>PESO: LORDO KG.   / NETTO KG.   </span>
+                                    <span>PESO: LORDO KG. <span t-field="o.weight" />  / NETTO KG. <t t-esc="total_weight"/>   </span>
                                     <br />
-                                    <span>V.D. 48211090</span>
+                                    <span t-field="o.cod_vamal"/>
                                 </td>
                                 <td></td>
                                 <td></td>
