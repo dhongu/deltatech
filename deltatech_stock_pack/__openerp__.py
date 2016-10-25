@@ -45,6 +45,7 @@ Functionalitati:
                 'wizard/stock_transfer_details_view.xml',
                   'stock_view.xml', 
                   'product_view.xml',
+                  'account_invoice_view.xml',
                 'views/report_invoice.xml'
              ],
     

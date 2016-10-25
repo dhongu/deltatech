@@ -17,21 +17,31 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
 
 
-import wizard
-import product
-import stock
-import account_invoice
+from openerp import models, fields, api, _
 
 
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class account_invoice(models.Model):
+    _inherit = "account.invoice"
+    
+    
+    package_ids = fields.Many2many('stock.quant.package', 'invoice_packages', 'invoice_id', 'package_id', compute='_compute_package_ids')
+    
+    
+    @api.model
+    def _compute_package_ids(self):
+        for invoice in self:
+            package_ids = self.env['stock.quant.package']
+            for picking in invoice.picking_ids:
+                for move in picking.move_lines:
+                    for quant in move.quant_ids:
+                        package_ids |= quant.package_id
+            invoice.package_ids = package_ids
+                
+                
+                
+                
+                

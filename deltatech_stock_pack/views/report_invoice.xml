@@ -45,20 +45,20 @@
 									</tr>
 								</thead>
 								<tbody>
-									<t t-foreach="o.picking_ids" t-as="picking">
-										<tr t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+									<t t-foreach="o.package_ids" t-as="package">
+										<tr t-foreach="package.quant_ids" t-as="quant">
 											<td>
-												<span t-field="pack_operation.result_package_id" />
+												<span t-field="package" />
 											</td>
 											<td>
-												<span t-field="pack_operation.product_id" />
+												<span t-field="quant.product_id" />
 											</td>
 											<td class="text-right">
-												<span t-field="pack_operation.product_qty" />
-												<span t-field="pack_operation.product_uom_id" groups="product.group_uom" />
+												<span t-field="quant.qty" />
+ 
 											</td>
 											<td class="text-right">
-												<span t-field="pack_operation.result_package_id.weight" />
+												<span t-field="package.weight" />
 											</td>
 										</tr>
 									</t>
