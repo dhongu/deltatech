@@ -41,13 +41,13 @@ class stock_transfer_details_items(models.TransientModel):
             if not packop.result_package_id and packop.product_id.pack_items :
                 if not newpack:
                     
-                    pack_no = int(packop.quantity / packop.product_id.pack_items)  
+                    pack_no =  packop.quantity // packop.product_id.pack_items  
                     newpack = self.pool['stock.quant.package'].create(self._cr, self._uid, {'location_id': packop.destinationloc_id.id if packop.destinationloc_id else False}, self._context)
                     packop.result_package_id = newpack
                     quantity = packop.quantity 
                     packop.weight =  quantity * packop.product_id.pack_weight / packop.product_id.pack_items
                     
-                if pack_no>1:
+                if (packop.quantity / packop.product_id.pack_items) > 1:
                     
                     packop.quantity = packop.product_id.pack_items
                     packop.weight = packop.product_id.pack_weight
