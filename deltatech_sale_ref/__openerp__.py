@@ -37,12 +37,14 @@ Functionalitati:
     
    'category': 'Sales Management',
     "depends" : ['deltatech',
-                 "sale","account"
+                 "sale","account",'stock'
                  ],
  
     "data" : [  
                "sale_view.xml",
-               "account_invoice_view.xml"
+               "account_invoice_view.xml",
+               "stock_transfer_details.xml",
+               "stock_view.xml"
               
                ],
     
