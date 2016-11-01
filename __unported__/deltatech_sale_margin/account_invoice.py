@@ -21,10 +21,10 @@
 
  
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
 import time 
 from datetime import datetime
 
@@ -38,20 +38,6 @@ class account_invoice_line(models.Model):
     commission =  fields.Float(string="Commission",default=0.0) 
     
 
-     
-    def price_unit_change(self, cr, uid, ids, price_unit, purchase_price, context=None):
-        res = {}
-        """
-        # se va face verificarea in _check_seats_limit
-        if price_unit < purchase_price and purchase_price > 0:
-                warning = {
-                       'title': _('Price Error!'),
-                       'message' : _('You can not sell below the purchase price.'),
-                    }
-                res['warning']  = warning
-        """
-        return res
-    
 
 
     @api.one

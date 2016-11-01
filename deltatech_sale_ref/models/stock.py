@@ -21,14 +21,10 @@
 
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
-from dateutil.relativedelta import relativedelta
-from datetime import datetime, date, timedelta
+from odoo import models, fields, api, _
+
 import logging
-from openerp.osv.fields import related
+
  
 _logger = logging.getLogger(__name__)
 
@@ -36,7 +32,7 @@ _logger = logging.getLogger(__name__)
 class stock_move(models.Model):
     _inherit = "stock.move"
 
-
+    #metoda asata nu cred ca mai este in 10
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:

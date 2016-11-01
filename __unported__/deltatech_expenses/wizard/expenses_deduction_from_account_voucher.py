@@ -20,11 +20,11 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from odoo import fields, models, api, _
 
 
 
-class expenses_deduction_from_account_voucher(osv.osv_memory):
+class expenses_deduction_from_account_voucher(models.TransientModel):
     _name = "expenses.deduction.from.account.voucher"
     _description = "Create Expenses Deduction"
 
@@ -37,16 +37,12 @@ class expenses_deduction_from_account_voucher(osv.osv_memory):
         return voucher and voucher.date
 
 
-    _columns = {
-        'date_expense': fields.date('Expense Date'),
-    }
 
-    _defaults = {
-        'date_expense':_get_date_expense,
-    }
-    
+    date_expense = fields.date('Expense Date', default=_get_date_expense)
 
-    def create_expenses_deduction(self, cr, uid, ids, context=None):
+
+    @api.multi
+    def create_expenses_deduction(self):
         # trebuie sa citesc datele si sa intru in moul de creare
         data_pool = self.pool.get('ir.model.data')
         voucher_pool = self.pool.get('account.voucher')

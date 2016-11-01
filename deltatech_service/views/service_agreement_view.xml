@@ -118,6 +118,7 @@
 						<group>
 							<group>
 								<field name="date_agreement" />
+								<field name="final_date" />
 								<field name="type_id" />
 								<field name="partner_id" />
 								<field name="description" />

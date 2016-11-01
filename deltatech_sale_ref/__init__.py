@@ -19,22 +19,10 @@
 #
 ##############################################################################
 
-
-
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
-from dateutil.relativedelta import relativedelta
-from datetime import datetime, date, timedelta
-import logging
-from openerp.osv.fields import related
  
-_logger = logging.getLogger(__name__)
 
-class account_invoice_line(models.Model):
-    _inherit = "account.invoice.line"
-    
-    ref = fields.Char(string="Reference")
-    
+import models
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

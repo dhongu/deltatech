@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp.osv import fields,osv
+from odoo.osv import fields,osv
 from openerp import tools
 import openerp.addons.decimal_precision as dp
-from openerp import models, api, _
+from odoo import models, api, _
 
 
 class sale_margin_report(models.Model):

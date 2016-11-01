@@ -31,24 +31,21 @@ from odoo.exceptions import UserError
 class account_voucher(models.Model):
     _inherit = 'account.voucher'
 
+
     @api.model
-    def _get_expense_account(self):
+    def _default_expense_account(self):
         account_pool = self.env['account.account']
-        try:
-            account = account_pool.search([('code', 'ilike', '623')], limit=1)  ## cheltuieli de protocol
-        except:
-            try:
-                account = account_pool.search([('user_type.report_type', '=', 'expense'),
+        account = account_pool.search([('code', 'ilike', '623')], limit=1)  ## cheltuieli de protocol
+        if not account:
+            account = account_pool.search([('user_type.report_type', '=', 'expense'),
                                                ('type', '!=', 'view')],  limit=1)
-            except:
-                account = False
         return account
 
     @api.multi
-    def _expense_account(self):
+    def _default_expense_account(self):
         res = {}
 
-        account = self._get_expense_account()
+        account = self._default_expense_account()
 
         for voucher in self.browse:
             if voucher.voucher_type == 'purchase':
@@ -77,14 +74,24 @@ class account_voucher(models.Model):
 
     partner_id = fields.Many2one('res.partner', defualt=lambda self: self._get_partner_id)
     expenses_deduction_id = fields.Many2one('deltatech.expenses.deduction', string='Expenses Deduction', required=False)
-    default_expense_account_id = fields.Many2one('account.account',
-                                                 compute="_expense_account", fnct_inv=_expense_account_inv,
-                                                 string='Default Expense Account', default=_get_expense_account)
+    expense_account_id = fields.Many2one('account.account',
+                                                 compute="_comute_expense_account",
+                                                 string='Default Expense Account')
+
+    @api.multi
+    def _comute_expense_account(self):
+        account_id =  self._default_expense_account()
+        for voucher in self:
+            if voucher.voucher_type == 'purchase':
+                if len(voucher.line_dr_ids) == 1:
+                    voucher.expense_account_id = voucher.line_dr_ids[0].account_id
+                else:
+                    voucher.expense_account_id = account_id
 
     @api.model
     def create(self, vals):
         if not vals.get('line_dr_ids', False):
-            if vals.get('type') == 'purchase':
+            if vals.get('voucher_type') == 'purchase':
                 account_id = vals.get('default_expense_account_id', False)
                 line_vals = {'account_id': account_id, 'amount': vals.get('amount', 0)}
                 if 'tax_id' in vals:
@@ -113,7 +120,7 @@ class account_voucher(models.Model):
         return res
 
     @api.multi
-    def confirm_voucher(self, cr, uid, ids, context=None):
+    def confirm_voucher(self):
 
         active_ids = context.get('active_ids', ids)
         ids = []

@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     period_id = fields.Many2one('account.period')
-    line_ids = fields.One2many('account.move.line', related='line_id')
+    #line_ids = fields.One2many('account.move.line', related='line_id')
 
 
 class AccountFiscalYear(models.Model):
@@ -193,26 +193,28 @@ class AccountPeriod(models.Model):
         return False
     """
 
-    """
+
+    @api.model
     @api.returns('self')
-    def find(self, cr, uid, dt=None, context=None):
-        if context is None: context = {}
+    def find(self,   dt=None ):
+
         if not dt:
-            dt = fields.date.context_today(self, cr, uid, context=context)
+            dt = fields.Date.context_today()
         args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
+        context = self.env.context
         if context.get('company_id', False):
             args.append(('company_id', '=', context['company_id']))
         else:
-            company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+            company_id = self.env.user.company_id.id
             args.append(('company_id', '=', company_id))
         result = []
         if context.get('account_period_prefer_normal', True):
             # look for non-special periods first, and fallback to all if no result is found
-            result = self.search(cr, uid, args + [('special', '=', False)], context=context)
+            result = self.search(  args + [('special', '=', False)] )
         if not result:
-            result = self.search(cr, uid, args, context=context)
+            result = self.search(  args )
         if not result:
-            model, action_id = self.pool['ir.model.data'].get_object_reference(cr, uid, 'account', 'action_account_period')
+            model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards', 'action_account_period')
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
             raise  RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
@@ -272,3 +274,5 @@ class AccountPeriod(models.Model):
         if period_from.special:
             return self.search(  [('date_start', '>=', period_date_start), ('date_stop', '<=', period_date_stop)])
         return self.search(  [('date_start', '>=', period_date_start), ('date_stop', '<=', period_date_stop), ('special', '=', False)])
+
+    """

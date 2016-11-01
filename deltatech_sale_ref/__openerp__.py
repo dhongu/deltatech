@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
- 
+
 {
-    "name" : "Deltatech Sale Ref",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Sale Ref",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -33,20 +33,20 @@ Functionalitati:
 
   
     """,
-    
-    
-   'category': 'Sales Management',
-    "depends" : ['deltatech',
-                 "sale","account"
-                 ],
- 
-    "data" : [  
-               "sale_view.xml",
-               "account_invoice_view.xml"
-              
-               ],
-    
+
+    'category': 'Sales Management',
+    "depends": ['deltatech',
+                "sale",
+                "account",
+                'stock'
+                ],
+
+    "data": [
+        "views/sale_view.xml",
+        "views/account_invoice_view.xml"
+
+    ],
+
     "active": False,
     "installable": True,
 }
- 

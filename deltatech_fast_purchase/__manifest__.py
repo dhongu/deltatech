@@ -18,25 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
-
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
-from dateutil.relativedelta import relativedelta
-from datetime import datetime, date, timedelta
-import logging
-from openerp.osv.fields import related
+{
+    "name" : "Deltatech Fast Purchase",
+    "version" : "1.0",
+    "author" : "Dorin Hongu",
+    'summary': 'Achizitie rapida',
+    "website" : "",
+    "description": """
  
-_logger = logging.getLogger(__name__)
+Features:
+
+ - Buton in comanda de aprovizionare pentru a face pasii de confirmare, receptie si facturare
+ 
 
 
+    """,
+    "category" : "Generic Modules/Stock",
+    "depends" : ['deltatech',"base","purchase"],
+ 
+    "data" : ['purchase_view.xml'],
+    "active": False,
+    "installable": True,
+}
 
-class sale_order_line(models.Model):
-    _inherit = 'sale.order.line'
-    
-    ref = fields.Char(string="Reference")
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

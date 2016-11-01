@@ -69,7 +69,7 @@ class service_agreement(models.Model):
     date_agreement = fields.Date(string='Agreement Date', default=lambda * a:fields.Date.today(),
         readonly=True, states={'draft': [('readonly', False)]},  copy=False)
 
-
+    final_date = fields.Date(string="Final Date", readonly=True, states={'draft': [('readonly', False)]}, copy=False)
 
     
     partner_id = fields.Many2one('res.partner', string='Partner', 
