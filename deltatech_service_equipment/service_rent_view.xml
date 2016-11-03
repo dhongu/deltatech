@@ -19,6 +19,9 @@
 					<field name="equipment_id" domain="[('address_id','child_of', parent.partner_id )]" options="{'no_create': True}"/>
 					<field name="meter_id" domain="[('equipment_id','=', equipment_id )]" options="{'no_create': True}"/>
 				</field>
+				<xpath expr="//field[@name='agreement_line']//field[@name='quantity']" position="attributes">
+					<attribute name="attrs">{'readonly': [('meter_id', '!=', False)]}</attribute>   
+				</xpath>
 			</field>
 		</record>
 
