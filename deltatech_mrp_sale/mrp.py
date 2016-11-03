@@ -78,7 +78,7 @@ class mrp_bom(models.Model):
     article_list = fields.Boolean(string='Article List')
     product_id = fields.Many2one(index=True)
     bom_line_ids = fields.One2many(track_visibility='always')
-
+    header_categ = fields.Selection(ITEM_CATEG, default='normal', string='Header Category')
      
 
 

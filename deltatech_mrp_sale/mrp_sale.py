@@ -426,7 +426,7 @@ class sale_mrp_article(models.Model):
     def onchange_bom(self):
         if self.bom_id:
             self.product_template = self.bom_id.product_tmpl_id
-            self.item_categ = 'normal'
+            self.item_categ = self.bom_id.header_categ
             if self.bom_id.product_id:
                 self.product_id = self.bom_id.product_id
         self.explode_bom()
