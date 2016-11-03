@@ -209,10 +209,12 @@
 			<field name="type">search</field>
 			<field name="arch" type="xml">
 				<search string="Search">
+					<field name="serial_id" />
 					<field name="partner_id" />
 					<field name="address_id" />
 					<field name="ean_code" />
 					<field name="agreement_type_id" />
+					<field name="contact_id"/>
 					<newline />
 					<group expand="1" string="Group By...">
 						<filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />

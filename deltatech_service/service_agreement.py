@@ -112,8 +112,8 @@ class service_agreement(models.Model):
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
 
 
-    total_invoiced = fields.Float(string="Total invoiced")
-    total_consumption = fields.Float(string="Total consumption")
+    total_invoiced = fields.Float(string="Total invoiced", readonly=True)
+    total_consumption = fields.Float(string="Total consumption", readonly=True)
     
 
     @api.multi
