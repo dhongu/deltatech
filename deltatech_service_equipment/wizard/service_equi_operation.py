@@ -42,7 +42,7 @@ class service_equi_operation(models.TransientModel):
     partner_id = fields.Many2one('res.partner', string='Customer',domain=[('is_company','=',True)])
     address_id = fields.Many2one('res.partner', string='Location') # sa fac un nou tip de partener? locatie ?
     emplacement = fields.Char(string='Emplacement')    
-    stock_move =  fields.Boolean(string="Stock Move")
+    stock_move =  fields.Boolean(string="Stock Move", help="Generate stock move using setting from equipment type")
 
     @api.model
     def default_get(self, fields):
@@ -107,7 +107,7 @@ class service_equi_operation(models.TransientModel):
             values['emplacement'] = False
         
         if self.state == 'ebk':
-            values['equipment_backup_id'] = equipment_backup_id.id
+            values['equipment_backup_id'] = self.equipment_backup_id.id
             
         new_hist = self.env['service.equipment.history'].create(values)
         
@@ -119,7 +119,7 @@ class service_equi_operation(models.TransientModel):
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'available'})      
         elif self.state == 'ebk':
             self.equipment_id.write({'equipment_history_id':new_hist.id,'state':'backuped'})   
-            values['equipment_id'] = equipment_backup_id.id
+            values['equipment_id'] = self.equipment_backup_id.id
             new_hist = self.env['service.equipment.history'].create(values)
             self.equipment_backup_id.write({'state':'installed','equipment_history_id':new_hist.id}) 
         elif self.state == 'dbk':
@@ -150,7 +150,7 @@ class service_equi_operation(models.TransientModel):
                 context = { 'default_picking_type_id': self.equipment_id.type_id.categ_id.out_type_id.id,
                             'default_partner_id':self.equipment_id.partner_id.id }
             
-            if self.state == 'rem' and self.equipment_id.type_id.categ_id.out_type_id:
+            if self.state == 'rem' and self.equipment_id.type_id.categ_id.in_type_id:
                 context = { 'default_picking_type_id': self.equipment_id.type_id.categ_id.in_type_id.id,
                             'default_partner_id':self.equipment_id.partner_id.id}            
             
