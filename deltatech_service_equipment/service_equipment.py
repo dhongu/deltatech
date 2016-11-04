@@ -129,8 +129,8 @@ class service_equipment(models.Model):
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict",  copy=False)
     inventory_value = fields.Float(string="Inventory value")
     
-    total_revenues = fields.Float(string="Total Revenues")  # se va calcula din suma consumurilor de servicii
-    total_costs = fields.Float(string="Total cost")  # se va calcula din suma avizelor
+    total_revenues = fields.Float(string="Total Revenues", readonly=True)  # se va calcula din suma consumurilor de servicii
+    total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
     
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
@@ -296,6 +296,12 @@ class service_equipment(models.Model):
                 consumable_id =  self.env['service.consumable'].search([('type_id','=',self.type_id.id)])
             self.consumable_id    
     """
+
+    @api.onchange('serial_id')
+    def onchange_serial_id(self):
+        self.product_id = self.serial_id.product_id
+        if self.serial_id.quant_ids:
+            self.quant_id = self.serial_id.quant_ids[0]
 
     @api.onchange('type_id','product_id')
     def onchange_type_id(self):

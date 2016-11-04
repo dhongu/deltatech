@@ -124,13 +124,15 @@
 							<group col="1">
 								<group string="Installed At">
 									<field name="partner_id" />
-									<field name="address_id" context="{'search_default_customer':1, 'show_address': 1 }" options="{'always_reload': True}" />
+									<field name="address_id" context="{'search_default_customer':1, 'show_address': 1 }" 
+														     options="{'always_reload': True}" />
 									 
 									<field name="emplacement" />
 									<field name="install_date" />
 								</group>
 								<group string="Agreement">
-									<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" options="{'always_reload': True}" />
+									<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}"
+									                         options="{'always_reload': True}" />
 
 									<field name="agreement_id" />
 									<field name="agreement_type_id" />
@@ -140,7 +142,9 @@
 							<group string="Tehnical Details">
 								<field name="type_id" />
 								<field name="product_id" />
-								<field name="serial_id" domain="[('product_id','=',product_id )]" context="{'default_product_id':product_id, 'product_id':product_id }" />
+								<field name="serial_id" domain="[('product_id','=',product_id)]" 
+													    context="{'default_product_id':product_id, 'product_id':product_id }" />
+													    
 								<field name="quant_id" domain="[('product_id','=',product_id )]" />
 								<field name="inventory_value" />
 								<field name="ean_code" />

@@ -35,7 +35,7 @@ Functionalitati:
     """,
     
     
-   'category': 'Sales Management',
+    'category': 'Sales Management',
     "depends" : [
                  'deltatech','product',
                  'deltatech_simple_crm_claim'
