@@ -30,10 +30,11 @@ from openerp.exceptions import except_orm, Warning, RedirectWarning
 class sale_order(models.Model):
     _inherit = 'sale.order'
     
-    sale_in_rates = fields.Boolean(string="Sale in Rates", compute="_compute_sale_in_rates")
+    sale_in_rates = fields.Boolean(string="Sale in Rates", compute="_compute_sale_in_rates",store=True)
 
 
     @api.multi
+    @api.depends('payment_term')
     def _compute_sale_in_rates(self):
         for sale in self:
             sale_in_rates = False
