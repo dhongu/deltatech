@@ -8,8 +8,10 @@
 			<field name="arch" type="xml">
  
 				<xpath expr="//field[@name='payment_term']" position="after">
-					 <button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
-                            type="action"  class="oe_highlight" groups="base.group_user"/>
+					<field name="sale_in_rates"/>
+					<button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
+                            type="action"  class="oe_edit_only" groups="base.group_user"/>
+                    <newline/>
 				</xpath>
 			</field>
 		</record>

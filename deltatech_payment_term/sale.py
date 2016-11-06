@@ -22,8 +22,27 @@
 
 
  
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
 
 
 
+class sale_order(models.Model):
+    _inherit = 'sale.order'
+    
+    sale_in_rates = fields.Boolean(string="Sale in Rates", compute="_compute_sale_in_rates")
+
+
+    @api.multi
+    def _compute_sale_in_rates(self):
+        for sale in self:
+            sale_in_rates = False
+            if sale.payment_term:
+                if len(sale.payment_term.line_ids) > 1:
+                    sale_in_rates = True
+             
+                
+            sale.sale_in_rates = sale_in_rates
+            
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -21,7 +21,7 @@
 
 
 
-import account
+import sale
 import wizard
 
 

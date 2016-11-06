@@ -37,8 +37,8 @@ Functionalitati:
 
 
  
-    "data" : [ 'wizard/payment_term_view.xml'
-               
+    "data" : [ 'wizard/payment_term_view.xml',
+               "sale_view.xml"  
               ],
     
     "active": False,
