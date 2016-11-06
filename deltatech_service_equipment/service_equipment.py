@@ -150,7 +150,11 @@ class service_equipment(models.Model):
     consumable_id =  fields.Many2one('service.consumable', string='Consumable List')    
     consumable_item_ids =  fields.Many2many('service.consumable.item', string='Consumables', compute="_compute_consumable_item_ids", readonly=True)
     readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string="Readings Status", compute="_compute_readings_status", store=True )
-    
+
+
+    reading_day = fields.Integer(string='Reading Day',  readonly=True,  states={'draft': [('readonly', False)]}, default=-1,
+                                        help="""Day of the month, set -1 for the last day of the month.
+                                     If it's positive, it gives the day of the month. Set 0 for net days .""")    
     
     
     _sql_constraints = [
@@ -217,20 +221,27 @@ class service_equipment(models.Model):
                         'total_revenues':revenues})            
     
     @api.multi
-    def _compute_readings_status(self):
-        from_date = date.today() + relativedelta(day=01, months=0, days=0)
-        to_date =  date.today() + relativedelta(day=01, months=1, days=-1)
-        from_date =  fields.Date.to_string(from_date) 
-        to_date =  fields.Date.to_string(to_date) 
-        
-        current_month  = [('date','>=', from_date  ),  ('date','<=',  to_date ) ] 
+    def _compute_readings_status(self):        
         for equi in self:
+            next_date =  date.today()    
+            if equi.reading_day < 0:
+                next_first_date = next_date + relativedelta(day=1,months=0)  
+                next_date = next_first_date + relativedelta(days=equi.reading_day )
+            if equi.reading_day > 0:
+                next_date += relativedelta(day=equi.reading_day , months=0) 
+            
+            if next_date > date.today():
+                next_date += relativedelta(months=-1)  
+            
+            next_date =  fields.Date.to_string(next_date)             
+            
+            
             equi.readings_status = 'done'
             for meter in equi.meter_ids:
                 if not meter.last_meter_reading_id:
                     equi.readings_status = 'unmade'
                     break
-                if not ( from_date  <= meter.last_meter_reading_id.date <= to_date ):
+                if not (meter.last_meter_reading_id.date >=next_date ):
                     equi.readings_status = 'unmade'
                     break
         
@@ -239,9 +250,11 @@ class service_equipment(models.Model):
     @api.depends('name', 'address_id')     # this definition is recursive
     def _compute_display_name(self):
         if self.address_id:
-            self.display_name = self.name + ' / ' + self.address_id.name
+            self.display_name = self.name + ' / ' + self.address_id.name 
         else:
             self.display_name = self.name
+        if self.serial_id:
+            self.display_name = self.display_name + ' / ' + self.serial_id.name
     
     @api.one
     def _compute_consumable_item_ids(self):

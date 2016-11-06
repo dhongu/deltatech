@@ -108,12 +108,53 @@ class service_agreement(models.Model):
     invoice_day = fields.Integer(string='Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]},
                                     help="""Day of the month, set -1 for the last day of the month.
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
+
+    prepare_invoice_day = fields.Integer(string='Prepare Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]}, default=-1,
+                                    help="""Day of the month, set -1 for the last day of the month.
+                                 If it's positive, it gives the day of the month. Set 0 for net days .""")
     
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
 
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
+
+    invoicing_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('progress','In progress'),('done','Done')], 
+                                            string="Invoicing Status", compute="_compute_invoicing_status", store=True )
+
+
+
+    @api.multi
+    def _compute_invoicing_status(self):
+        
+        for agreement in self:
+            next_date =  date.today()    
+            if agreement.prepare_invoice_day < 0:
+                next_first_date = next_date + relativedelta(day=1,months=0)  
+                next_date = next_first_date + relativedelta(days=agreement.prepare_invoice_day )
+            if agreement.prepare_invoice_day > 0:
+                next_date += relativedelta(day=agreement.prepare_invoice_day , months=0) 
+            
+            if next_date > date.today():
+                next_date += relativedelta(months=-1)  
+            
+            next_date =  fields.Date.to_string(next_date) 
+ 
+            invoicing_status = 'done'
+            
+            invoice = self.env['account.invoice'].search([('agreement_id','=',agreement.id)], order='date_invoice desc, id desc', limit=1)
+            if not invoice:
+                invoicing_status = 'unmade'
+            else:
+                if not ( invoice.date_invoice >= next_date ):
+                    invoicing_status = 'unmade'
+                else:
+                    if invoice.state  in ['draft']:
+                        invoicing_status = 'progress'
+            
+            agreement.write({'invoicing_status':invoicing_status})
+                        
+                    
     
 
     @api.multi
@@ -122,14 +163,15 @@ class service_agreement(models.Model):
             total_consumption = 0.0
             total_invoiced = 0.0
             consumptions = self.env['service.consumption'].search([('agreement_id','=',agreement.id)]) 
-            invoices = self.env['account.invoice']
+            invoices = self.env['account.invoice'].search([('agreement_id','=',agreement.id)]) 
             for consumption in consumptions:
                 if consumption.state == 'done':
                     total_consumption += consumption.currency_id.compute(consumption.price_unit*consumption.quantity, self.env.user.company_id.currency_id )
-                    invoices |= consumption.invoice_id
+                    #invoices |= consumption.invoice_id
             for invoice in invoices:
                 if invoice.state in ['open','paid']:
                     total_invoiced += invoice.amount_untaxed
+             
             agreement.write({'total_invoiced':total_invoiced,
                              'total_consumption':total_consumption})
             
