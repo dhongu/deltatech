@@ -23,7 +23,7 @@
     "version" : "1.0",
     "author" : "Dorin Hongu",
     "category" : "Generic Modules",
-    "depends" : [],
+    "depends" : ['web'],
     "description": '',
     'data': [
         'views/deltatech_assets.xml'
