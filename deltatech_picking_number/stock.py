@@ -22,11 +22,11 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 
 
 class stock_picking(models.Model):
