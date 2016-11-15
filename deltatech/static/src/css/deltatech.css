@@ -4,5 +4,7 @@
   max-width: 95%;
 
 }
-
+.o_form_view .o_group.o_inner_group > tbody > tr > td.o_td_label {
+    width: 30%;
+}
 
