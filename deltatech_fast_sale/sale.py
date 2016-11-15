@@ -40,6 +40,11 @@ class sale_order(models.Model):
             picking.action_assign()  # verifica disponibilitate
             if not all(move.state == 'assigned' for move in picking.move_lines):
                 raise Warning(_('Not all products are available.'))
+            for pack in picking.pack_operation_ids:
+                if pack.product_qty > 0 and pack.qty_done == 0:
+                    pack.write({'qty_done': pack.product_qty})
+                else:
+                    pack.unlink()
             picking.do_transfer()
 
         action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
