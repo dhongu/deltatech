@@ -11,7 +11,7 @@
 						<field name="name"   />
 						<field name="rate" />
 						<field name="advance" />
-						<field name="day2" />
+						<field name="days2" />
 					</group>
  
 					<footer>
