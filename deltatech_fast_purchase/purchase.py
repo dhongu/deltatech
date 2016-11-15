@@ -37,10 +37,10 @@ class PurchaseOrder(models.Model):
             self.button_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
-
-            if all(move.state == 'assigned' for move in picking.move_lines):
-                picking.action_assign()
-                picking.do_transfer()
+            if picking.state == 'assigned':
+                return picking.do_new_transfer()
+                #picking.action_assign()
+                #picking.do_transfer()
 
         action = self.action_view_invoice()
         #action_obj = self.env.ref('purchase.action_view_sale_advance_payment_inv')
