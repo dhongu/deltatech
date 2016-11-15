@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Stock Serial Number",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Stock Serial Number",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
@@ -33,21 +33,18 @@ Functionalitati:
     
 
     """,
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock'],
 
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', 'stock'],
 
-    "data" : [ 
-                  'views/stock_view.xml',
+    "data": [
+        'views/stock_view.xml',
 
-             ],
-    
-    
+    ],
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

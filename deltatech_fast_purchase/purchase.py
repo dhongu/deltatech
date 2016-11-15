@@ -38,9 +38,15 @@ class PurchaseOrder(models.Model):
 
         for picking in self.picking_ids:
             if picking.state == 'assigned':
-                return picking.do_new_transfer()
+                #return picking.do_new_transfer()
                 #picking.action_assign()
                 #picking.do_transfer()
+                for pack in picking.pack_operation_ids:
+                    if pack.product_qty > 0 and pack.qty_done == 0 :
+                        pack.write({'qty_done': pack.product_qty})
+                    else:
+                        pack.unlink()
+                picking.do_transfer()
 
         action = self.action_view_invoice()
         #action_obj = self.env.ref('purchase.action_view_sale_advance_payment_inv')
