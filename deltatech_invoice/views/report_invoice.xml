@@ -389,6 +389,11 @@
  									<span t-esc="formatLang(amount_untaxeds)"/>
  								</span> 
                             </td>
+                            <t t-if="o.partner_id.property_account_position.name != 'Regim Intra-Comunitar Bunuri'">
+                                <td>
+                                    <span t-field="o.amount_tax"/>
+                                </td>
+                            </t>
                         </tr>
                     </tbody>
                 </table>
@@ -406,6 +411,7 @@
                             </td>
                             <td style="width:18%;text-align:center;vertical-align:middle;height:80px;">Total:</td>
                             <td style="width:18%;text-align:center;vertical-align:middle;">
+                                <!--
                                 <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
     							 <t t-if="o.type == 'out_refund'">
 									<t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed"/>
@@ -415,6 +421,8 @@
  								<span id="amount_untaxeds">
  									<span t-esc="formatLang(amount_untaxeds)"/>
  								</span> 
+                            	-->
+                                <span t-esc="formatLang(amount_untaxeds+o.amount_tax)"/>
                             </td>
                         </tr>
                         <tr>
