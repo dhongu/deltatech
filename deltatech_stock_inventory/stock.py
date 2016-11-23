@@ -39,6 +39,22 @@ class stock_inventory(models.Model):
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
 
 
+    filterbyrack =fields.Char('Rack')
+
+    @api.model
+    def _get_inventory_lines(self, inventory):
+        lines = super(stock_inventory, self)._get_inventory_lines(inventory)
+        res = []
+        if inventory.filterbyrack:
+            
+            for line in lines:
+                if line['product_id']:
+                    product = self.env['product.product'].browse(line['product_id'])
+                    if product.loc_rack and inventory.filterbyrack in product.loc_rack :
+                        res.append(line)
+        else:
+            res = lines                
+        return res
 
     @api.multi    
     def prepare_inventory(self):

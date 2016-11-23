@@ -197,7 +197,7 @@
 					<strong>Theoretical Quantity</strong>
 				</th>
 				<th class="text-right">
-					<strong>Quantity</strong>
+					<strong>Real Quantity</strong>
 				</th>
 				<th>
 					<strong>Unit of measure</strong>
@@ -233,7 +233,9 @@
 					<span t-field="line.theoretical_qty" />
 				</td>
 				<td class="text-right">
-					<span t-field="line.product_qty" />
+					<t t-if="line.state == 'done'">	
+						<span t-field="line.product_qty" />
+					</t>
 				</td>
 				<td>
 					<span t-field="line.product_uom_id" groups="product.group_uom" />
