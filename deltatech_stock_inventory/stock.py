@@ -65,6 +65,10 @@ class stock_inventory_line(models.Model):
 
     categ_id = fields.Many2one('product.category',string="Category", related="product_id.categ_id",store=True)
     standard_price = fields.Float(string='Price')
+    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
+    loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
+    loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
+
 
     @api.one
     @api.onchange('theoretical_qty')

@@ -26,6 +26,8 @@
     "description": """
 
      Afisare coloana de pret de stoc la inventariere
+     Grupare pozitii dupa categorie
+     
  
     """,
     "category" : "Generic Modules/Other",

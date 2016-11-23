@@ -2,6 +2,111 @@
 <openerp>
 	<data>
 
+
+		<report string="Inventory Position" id="action_report_inventory_position" model="stock.inventory" report_type="qweb-pdf"
+			name="deltatech_stock_inventory.report_inventory_position" file="deltatech_stock_inventory.report_inventory_position" />
+
+		<template id="report_inventory_position">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<h2>
+								Stock Inventory by position
+							</h2>
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Inventory</strong>
+										</th>
+										<th>
+											<strong>Date</strong>
+										</th>
+										<th>
+											<strong>Location</strong>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<span t-field="o.name" />
+										</td>
+										<td>
+											<span t-field="o.date" />
+										</td>
+										<td>
+											<span t-field="o.location_id" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<table class="table table-condensed">
+								<thead>
+									<t t-call="deltatech_stock_inventory.report_inventory_header" />
+								</thead>
+								<t t-set="total_plus" t-value="0" />
+								<t t-set="total_minus" t-value="0" />
+								<t t-set="total_amount" t-value="0" />
+								<t t-set="loc_rack" t-value="False" />
+								<t t-set="loc_row" t-value="False" />
+								<t t-set="loc_case" t-value="False" />
+								<t t-set="plus" t-value="0" />
+								<t t-set="minus" t-value="0" />
+								<t t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))" t-as="line">
+
+										<t t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case ">
+						 
+											<tr>
+												<td colspan="6">
+													<strong>
+														<span>Rack:</span><span t-field="line.loc_rack" />
+														<t t-if="line.loc_row">
+															<span> Row:</span><span t-field="line.loc_row" />
+														</t>
+														
+														<t t-if="line.loc_case">
+															<span> Case:</span><span t-field="line.loc_case" />
+														</t>
+														
+													</strong>
+					
+												</td>
+											</tr>
+									 			<t t-set="loc_rack" t-value="line.loc_rack" />
+												<t t-set="loc_row" t-value="line.loc_row" />
+												<t t-set="loc_case" t-value="line.loc_case" />
+										</t>
+
+									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+
+									<t t-if='dif&gt;0'>
+										<t t-set="plus" t-value="plus+dif*line.standard_price" />
+										<t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+										
+									</t>
+							 
+									<t t-if='dif&lt;0'>
+										<t t-set="minus" t-value="minus-1*dif*line.standard_price" />
+										<t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+									
+									</t>
+									
+									<t t-call="deltatech_stock_inventory.report_inventory_line" />
+								</t>
+								<t t-call="deltatech_stock_inventory.report_inventory_total" />
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+
+
 		<report string="Inventory Diff" id="action_report_inventory_diff" model="stock.inventory" report_type="qweb-pdf"
 			name="deltatech_stock_inventory.report_inventory_diff" file="deltatech_stock_inventory.report_inventory_diff" />
 
@@ -230,8 +335,10 @@
 				<t t-set="total_amount" t-value="0" />
 				<t t-set="plus" t-value="0" />
 				<t t-set="minus" t-value="0" />
-
-				<t t-foreach="o.line_ids" t-as="line">
+				
+				<!--  t t-foreach="o.line_ids" t-as="line" -->
+				<t t-foreach="o.line_ids.sorted(key=lambda r: r.categ_id)" t-as="line">
+				
 					<t t-if="categ_id!=line.categ_id.id">
 						<t t-if="plus or minus">
 							<tr>
