@@ -50,7 +50,7 @@ class stock_inventory(models.Model):
             for line in lines:
                 if line['product_id']:
                     product = self.env['product.product'].browse(line['product_id'])
-                    if product.loc_rack and inventory.filterbyrack in product.loc_rack :
+                    if product.loc_rack and inventory.filterbyrack == product.loc_rack :
                         res.append(line)
         else:
             res = lines                
