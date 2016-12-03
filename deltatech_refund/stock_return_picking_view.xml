@@ -11,6 +11,8 @@
 				<field name="product_return_moves" position="after">
 					<field name="make_new_picking" />
  					<field name="do_transfer" />
+ 					<field name="transfer_date" />
+ 					<field name="reason" />
   					<field name="note" />
 				</field>  
 			</field>          
