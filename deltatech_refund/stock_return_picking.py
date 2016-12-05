@@ -39,7 +39,7 @@ class stock_return_picking(models.TransientModel):
     do_transfer = fields.Boolean(string="Do transfer", default=True,
                                             help="If is active, refund picking list will be transferred automatically")
 
-    transfer_date = fields.Date(string="Transfer Date", default=lambda * a:fields.Date.today())
+    transfer_date = fields.Datetime(string="Transfer Date", default=lambda * a:fields.Datetime.now())
     note = fields.Char(string='Note', readonly=True)
     reason = fields.Char(string='Reason')
     
@@ -113,6 +113,13 @@ class stock_return_picking(models.TransientModel):
                            'origin_refund_picking_id':pick.id})
         
         pick.write({'refund_picking_id':pick_return.id})
+        
+        """
+        modificarea datei se face in modulul stock_date
+        for move in pick_return.move_lines:
+            move.with_context(exact_date=True).write({'date':   self.transfer_date, 
+                        'date_expected':self.transfer_date })
+        """
         
         if self.make_new_picking: 
              

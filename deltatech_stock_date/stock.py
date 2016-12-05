@@ -52,9 +52,22 @@ class stock_quant(models.Model):
         quant = super(stock_quant, self)._quant_create(cr, uid, qty, move, lot_id=lot_id, owner_id=owner_id, src_package_id=src_package_id, dest_package_id=dest_package_id, force_location_from=force_location_from, force_location_to=force_location_to, context=context)
         self.write(cr, uid, [quant.id], {'in_date': move.date }, context=context)
         return quant    
-    
-          
-                   
+
+  
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+
+    @api.multi
+    def write(self,vals):
+        if 'date' in vals:
+            for pick in self:
+                for move in pick.move_lines:
+                            move.with_context(exact_date=True).write({'date':   vals['date'], 
+                                        'date_expected': vals['date'] })
+                            
+        return  super(stock_picking, self).write( vals)  
+ 
+
     
 class stock_move(models.Model):
     _inherit = 'stock.move'
@@ -62,23 +75,24 @@ class stock_move(models.Model):
 
     @api.multi
     def write(self,vals):   
-        date_fields = set(['date', 'date_expected'])
-        if date_fields.intersection(vals):
-            for move in self:
-                today = fields.Date.today()
-                if 'date' in vals:
-                    if move.date_expected[:10] < today and move.date_expected < vals['date']: 
-                        vals['date'] =  move.date_expected
-                    if move.date[:10] < today and move.date < vals['date']:
-                        vals['date'] =  move.date
-                    move.quant_ids.write({'in_date':vals['date']}) 
-                                         
-                if 'date_expected' in vals:
-                    move_date = vals.get('date',move.date)
-                    if move_date[:10] < today and move_date < vals['date_expected']:
-                        vals['date_expected'] =  move_date
+        if not self.env.context.get('exact_date',False):
+            date_fields = set(['date', 'date_expected'])
+            if date_fields.intersection(vals):
+                for move in self:
+                    today = fields.Date.today()
+                    if 'date' in vals:
+                        if move.date_expected[:10] < today and move.date_expected < vals['date']: 
+                            vals['date'] =  move.date_expected
+                        if move.date[:10] < today and move.date < vals['date']:
+                            vals['date'] =  move.date
+                        move.quant_ids.write({'in_date':vals['date']}) 
+                                             
+                    if 'date_expected' in vals:
+                        move_date = vals.get('date',move.date)
+                        if move_date[:10] < today and move_date < vals['date_expected']:
+                            vals['date_expected'] =  move_date
                            
-        return  super(stock_move, self).write( vals)     
+        return  super(stock_move, self).write(vals)     
 
  
  

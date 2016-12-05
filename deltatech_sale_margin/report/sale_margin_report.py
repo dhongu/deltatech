@@ -241,8 +241,9 @@ class sale_margin_report(models.Model):
         #    value['purchase_price'] = vals['purchase_price']
         invoice_line.write(value)
         if 'user_id' in vals:
-            invoice = self.env['account.invoice'].browse(self.invoice_id)
-            invoice.write({'user_id':vals['user_id']})
+            invoice_line.invoice_id.write({'user_id':vals['user_id']})
+            #invoice = self.env['account.invoice'].browse(self.invoice_id)
+            #invoice.write({'user_id':vals['user_id']})
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
