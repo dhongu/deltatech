@@ -35,13 +35,10 @@
 					<t t-call="deltatech_invoice.report_invoice_document2"/>
 			</t>
 		</template>
-
-		<!--  afisare in moneda in care este pretul (EUR)-->
-		<template id="report_invoice_document1">
-			<t t-set="currency_id" t-value="o.price_currency_id" />		 
-			<!-- <t t-call="account.report_invoice_document" /> -->
-       			<div class="page">
-       				<!-- Header -->
+		<template id="header_invoice1">
+			<xpath expr="//div[@class='header']" position="replace">
+				<div class="header">
+					<!-- Header -->
 					<table class="table table-condensed" style="border-top: initial;">
 						<tr>
 							<td style="width:45%">
@@ -149,6 +146,16 @@
                         </tr>
                     </table>
                     <!-- End header -->
+				</div>
+			</xpath>
+		</template>
+		<!--  afisare in moneda in care este pretul (EUR)-->
+		<template id="report_invoice_document1">
+			<t t-set="currency_id" t-value="o.price_currency_id" />		
+			<t t-call="deltatech_invoice.header_invoice1" /> 
+			<!-- <t t-call="account.report_invoice_document" /> -->
+       			<div class="page">
+       				
                     
                     <!-- Content -->
                     <t t-set="total_quantity" t-value="0"/>
