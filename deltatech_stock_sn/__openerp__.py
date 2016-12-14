@@ -29,7 +29,7 @@
     
 Functionalitati:
 
-    - ascundere loturi utilizate
+    - ascundere loturi utilizate in 
     
 
     """,

@@ -39,7 +39,10 @@ class stock_return_picking(models.TransientModel):
     do_transfer = fields.Boolean(string="Do transfer", default=True,
                                             help="If is active, refund picking list will be transferred automatically")
 
-    note = fields.Char(string='Note',readonly=True)
+    transfer_date = fields.Datetime(string="Transfer Date", default=lambda * a:fields.Datetime.now())
+    note = fields.Char(string='Note', readonly=True)
+    reason = fields.Char(string='Reason')
+    
     
     @api.model
     def default_get(self,  fields ):
@@ -53,7 +56,19 @@ class stock_return_picking(models.TransientModel):
         if pick.refund_picking_id:
             #raise Warning(_('This document was be already returned by %s') % pick.refund_picking_id.name)
             res['note'] =  _('This document was be already refunded by %s') % pick.refund_picking_id.name 
-        
+        for prod_ret in res.get('product_return_moves',[]):
+            move_id = prod_ret['move_id']
+            move = self.env['stock.move'].browse(move_id)
+            for quant in move.quant_ids:
+                if quant.lot_id:
+                    if not prod_ret.get('lot_id', False):
+                        prod_ret['lot_id'] = quant.lot_id.id
+                        prod_ret['quantity'] = quant.qty
+                    else:
+                        new_line = prod_ret.copy()
+                        new_line['lot_id'] = quant.lot_id.id
+                        new_line['quantity'] = quant.qty
+                        res['product_return_moves'].append(new_line)
         return res
 
     @api.model
@@ -92,10 +107,19 @@ class stock_return_picking(models.TransientModel):
         pick_return.message_post(body=msg)
 
         
-        pick_return.write({ 'origin': pick.origin,
-                            'origin_refund_picking_id':pick.id})
+        pick_return.write({'date': self.transfer_date, 
+                           'origin': pick.origin,
+                           'note': self.reason,
+                           'origin_refund_picking_id':pick.id})
         
         pick.write({'refund_picking_id':pick_return.id})
+        
+        """
+        modificarea datei se face in modulul stock_date
+        for move in pick_return.move_lines:
+            move.with_context(exact_date=True).write({'date':   self.transfer_date, 
+                        'date_expected':self.transfer_date })
+        """
         
         if self.make_new_picking: 
              

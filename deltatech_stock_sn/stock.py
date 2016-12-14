@@ -31,7 +31,21 @@ import logging
 
 
 
+class stock_location(models.Model):
+    _inherit = "stock.location"
 
+    hide_lot = fields.Boolean(string='Hide Lot', default=True)  # ascunde loturile ce se afla in aceasta locatie
+
+
+    @api.onchange('usage','hide_lot')
+    def onchange_hide_lot(self):
+        if self.usage == 'internal':
+            self.hide_lot = False
+        
+        # pentru poturile existente trebuie rulat 
+        quants = self.env['stock.qunat'].search([('location_id','=',self.id),('lot_id','!=',False)])
+    
+    
 
 class stock_production_lot(models.Model):
     _inherit = 'stock.production.lot'
@@ -45,14 +59,17 @@ class stock_production_lot(models.Model):
 
 
     @api.multi
-    @api.depends('quant_ids')
+    @api.depends('quant_ids.location_id')
     def _compute_stock_available(self):
         for lot in self:
             available = 0.0
+            show_lots = 0.0
             for quant in lot.quant_ids:
-                if quant.location_id.usage == 'internal':
-                    available += quant.qty
-            if available > 0:
+                if quant.location_id.usage == 'internal' or not quant.location_id.hide_lot:
+                    show_lots += quant.qty
+                    if quant.location_id.usage == 'internal':
+                        available += quant.qty
+            if show_lots > 0:
                 lot.active = True
             else:
                 lot.active = False

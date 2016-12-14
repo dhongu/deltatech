@@ -72,6 +72,7 @@ class service_agreement_line(models.Model):
     def onchange_meter_id(self):
         if self.meter_id:
             self.equipment_id = self.meter_id.equipment_id
+            self.quantity = 0.0
             #self.uom_id = self.meter_id.uom_id                    
 
 

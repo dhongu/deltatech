@@ -39,6 +39,22 @@ class stock_inventory(models.Model):
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
 
 
+    filterbyrack =fields.Char('Rack')
+
+    @api.model
+    def _get_inventory_lines(self, inventory):
+        lines = super(stock_inventory, self)._get_inventory_lines(inventory)
+        res = []
+        if inventory.filterbyrack:
+            
+            for line in lines:
+                if line['product_id']:
+                    product = self.env['product.product'].browse(line['product_id'])
+                    if product.loc_rack and inventory.filterbyrack == product.loc_rack :
+                        res.append(line)
+        else:
+            res = lines                
+        return res
 
     @api.multi    
     def prepare_inventory(self):
@@ -65,6 +81,10 @@ class stock_inventory_line(models.Model):
 
     categ_id = fields.Many2one('product.category',string="Category", related="product_id.categ_id",store=True)
     standard_price = fields.Float(string='Price')
+    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
+    loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
+    loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
+
 
     @api.one
     @api.onchange('theoretical_qty')

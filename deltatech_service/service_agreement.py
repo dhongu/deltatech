@@ -252,7 +252,7 @@ class service_agreement_line(models.Model):
 
     agreement_id = fields.Many2one('service.agreement', string='Contract Services' , ondelete='cascade')   
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
-    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
+    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
@@ -261,6 +261,8 @@ class service_agreement_line(models.Model):
   
     @api.onchange('product_id')
     def onchange_product_id(self):
+        
+        self.uom_id = self.product_id.uom_id
         price_unit = self.product_id.list_price
         
         price_type = self.env['product.price.type'].search([('field','=','list_price')]) 
