@@ -36,8 +36,9 @@ import openerp.addons.decimal_precision as dp
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
+    name = fields.Char(string='Name', default='/')
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
-
+    note = fields.Text(string='Note')
 
     filterbyrack =fields.Char('Rack')
 
@@ -61,7 +62,13 @@ class stock_inventory(models.Model):
         res = super(stock_inventory, self).prepare_inventory()
         for inventory in self:
             date = inventory.date
-            inventory.write({ 'date': date})
+            values = {'date': date} 
+            if inventory.name == '/':
+                sequence = self.env.ref('deltatech_stock_inventory.sequence_inventory_doc')
+                if sequence:
+                    values['name'] = self.env['ir.sequence'].next_by_id(sequence.id) 
+                    
+            inventory.write(values)
             for line in  inventory.line_ids:
                 line.write({'standard_price':line.get_price()})
         return res
