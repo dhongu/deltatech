@@ -56,28 +56,31 @@
 								<t t-set="minus" t-value="0" />
 								<t t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))" t-as="line">
 
-										<t t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case ">
-						 
-											<tr>
-												<td colspan="6">
-													<strong>
-														<span>Rack:</span><span t-field="line.loc_rack" />
-														<t t-if="line.loc_row">
-															<span> Row:</span><span t-field="line.loc_row" />
-														</t>
-														
-														<t t-if="line.loc_case">
-															<span> Case:</span><span t-field="line.loc_case" />
-														</t>
-														
-													</strong>
-					
-												</td>
-											</tr>
-									 			<t t-set="loc_rack" t-value="line.loc_rack" />
-												<t t-set="loc_row" t-value="line.loc_row" />
-												<t t-set="loc_case" t-value="line.loc_case" />
-										</t>
+									<t t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case ">
+
+										<tr>
+											<td colspan="6">
+												<strong>
+													<span>Rack:</span>
+													<span t-field="line.loc_rack" />
+													<t t-if="line.loc_row">
+														<span> Row:</span>
+														<span t-field="line.loc_row" />
+													</t>
+
+													<t t-if="line.loc_case">
+														<span> Case:</span>
+														<span t-field="line.loc_case" />
+													</t>
+
+												</strong>
+
+											</td>
+										</tr>
+										<t t-set="loc_rack" t-value="line.loc_rack" />
+										<t t-set="loc_row" t-value="line.loc_row" />
+										<t t-set="loc_case" t-value="line.loc_case" />
+									</t>
 
 									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
@@ -85,19 +88,22 @@
 									<t t-if='dif&gt;0'>
 										<t t-set="plus" t-value="plus+dif*line.standard_price" />
 										<t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
-										
+
 									</t>
-							 
+
 									<t t-if='dif&lt;0'>
 										<t t-set="minus" t-value="minus-1*dif*line.standard_price" />
 										<t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
-									
+
 									</t>
-									
+
 									<t t-call="deltatech_stock_inventory.report_inventory_line" />
 								</t>
 								<t t-call="deltatech_stock_inventory.report_inventory_total" />
 							</table>
+							<div>
+								<span t-field="o.note" />
+							</div>
 						</div>
 					</t>
 				</t>
@@ -175,6 +181,9 @@
 								</t>
 								<t t-call="deltatech_stock_inventory.report_inventory_total" />
 							</table>
+							<div>
+								<span t-field="o.note" />
+							</div>
 						</div>
 					</t>
 				</t>
@@ -233,7 +242,7 @@
 					<span t-field="line.theoretical_qty" />
 				</td>
 				<td class="text-right">
-					<t t-if="line.state == 'done'">	
+					<t t-if="line.state == 'done'">
 						<span t-field="line.product_qty" />
 					</t>
 				</td>
@@ -337,10 +346,10 @@
 				<t t-set="total_amount" t-value="0" />
 				<t t-set="plus" t-value="0" />
 				<t t-set="minus" t-value="0" />
-				
-				<!--  t t-foreach="o.line_ids" t-as="line" -->
+
+				<!-- t t-foreach="o.line_ids" t-as="line" -->
 				<t t-foreach="o.line_ids.sorted(key=lambda r: r.categ_id)" t-as="line">
-				
+
 					<t t-if="categ_id!=line.categ_id.id">
 						<t t-if="plus or minus">
 							<tr>
