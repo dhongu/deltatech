@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -36,18 +36,48 @@ import odoo.addons.decimal_precision as dp
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
-                           states={'draft': [('readonly', False)]})
+
+    name = fields.Char(string='Name', default='/')
+    date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    note = fields.Text(string='Note')
+
+    filterbyrack =fields.Char('Rack')
+
+
+
+    @api.model
+    def _get_inventory_lines(self, inventory):
+        lines = super(stock_inventory, self)._get_inventory_lines(inventory)
+        res = []
+        if inventory.filterbyrack:
+
+            for line in lines:
+                if line['product_id']:
+                    product = self.env['product.product'].browse(line['product_id'])
+                    if product.loc_rack and inventory.filterbyrack == product.loc_rack:
+                        res.append(line)
+        else:
+            res = lines
+        return res
+
 
     @api.multi
     def prepare_inventory(self):
         res = super(stock_inventory, self).prepare_inventory()
         for inventory in self:
             date = inventory.date
-            inventory.write({'date': date})
+            values = {'date': date}
+            if inventory.name == '/':
+                sequence = self.env.ref('deltatech_stock_inventory.sequence_inventory_doc')
+                if sequence:
+                    values['name'] = sequence.next_by_id()
+
+            inventory.write(values)
             for line in inventory.line_ids:
                 line.write({'standard_price': line.get_price()})
         return res
+
+
 
     @api.multi
     def action_done(self, ):
@@ -65,6 +95,11 @@ class stock_inventory_line(models.Model):
 
     categ_id = fields.Many2one('product.category', string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string='Price')
+    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
+    loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
+    loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
+
+
 
     @api.one
     @api.onchange('theoretical_qty')

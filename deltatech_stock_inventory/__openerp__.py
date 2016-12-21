@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,21 +19,24 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Stock Inventory",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Stock Inventory",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
      Afisare coloana de pret de stoc la inventariere
  
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech','deltatech_stock_date',"stock"],
- 
-    "data" : ['stock_view.xml','views/report_stockinventory.xml'],
+    "category": "Generic Modules/Other",
+    "depends": ['deltatech', 'deltatech_stock_date', "stock"],
+
+    "data": [
+        'data/data.xml',
+        'views/stock_view.xml',
+        'views/product_view.xml',
+        'views/report_stockinventory.xml'
+    ],
     "active": False,
     "installable": True,
 }
-
-
