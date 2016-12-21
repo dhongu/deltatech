@@ -101,7 +101,7 @@ class stock_inventory_line(models.Model):
 
 
 
-    @api.one
+
     @api.onchange('theoretical_qty')
     def onchange_theoretical_qty(self):
         self.standard_price = self.get_price()
