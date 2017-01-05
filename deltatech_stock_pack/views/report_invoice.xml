@@ -30,9 +30,6 @@
 								<thead>
 									<tr>
 										<th>
-											<strong>Package</strong>
-										</th>
-										<th>
 											<strong>Product</strong>
 										</th>
 										<th class="text-right">
@@ -47,9 +44,6 @@
 								<tbody>
 									<t t-foreach="o.package_ids" t-as="package">
 										<tr t-foreach="package.quant_ids" t-as="quant">
-											<td>
-												<span t-field="package" />
-											</td>
 											<td>
 												<span t-field="quant.product_id" />
 											</td>
