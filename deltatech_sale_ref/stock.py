@@ -53,8 +53,34 @@ class stock_move(models.Model):
         if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
             sale_line = move.procurement_id.sale_line_id 
             res['ref'] = sale_line.ref
-            
+         
         return res
+ 
+
+    @api.multi
+    def _picking_assign(self, procurement_group, location_from, location_to):
+        res = super(stock_move, self)._picking_assign( procurement_group, location_from, location_to)
+        
+        move_group_by_date = {}
+        picking = self[0].picking_id
+        for move in self:
+            key = move.date[:10]
+            move_group_by_date.setdefault(key, {'moves':self.env['stock.move'],'picking':False})
+            
+            move_group_by_date[key]['moves'] |=  move
+            if picking:
+                move_group_by_date[key]['picking'] = picking
+            picking = False
+       
+        for key in move_group_by_date:
+            moves = move_group_by_date[key]['moves']
+            picking = move_group_by_date[key]['picking']
+            if not picking:
+                values = self._prepare_picking_assign(moves[0])
+                picking = self.env["stock.picking"].create(values)
+                moves.write({'picking_id': picking.id})
+
+        
 
 class stock_quant(models.Model):
     _inherit = "stock.quant"
@@ -68,9 +94,10 @@ class stock_picking(models.Model):
 
 
     """
-     de dedefinit _prepare_pack_ops si  do_prepare_partial
+     de redefinit _prepare_pack_ops si  do_prepare_partial
      
     """
+ 
     # metoda redefiniat pentru a nu mai uni produsele care sunt din miscari diferite
     @api.cr_uid_ids_context
     def do_prepare_partial(self, cr, uid, picking_ids, context=None):
@@ -84,6 +111,9 @@ class stock_picking(models.Model):
         existing_package_ids = pack_operation_obj.search(cr, uid, [('picking_id', 'in', picking_ids)], context=context)
         if existing_package_ids:
             pack_operation_obj.unlink(cr, uid, existing_package_ids, context)
+        
+        self.back_order_for_multi_prod(cr, uid, picking_ids, context=context)
+            
         for picking in self.browse(cr, uid, picking_ids, context=context):
             
             picking_quants = []
@@ -110,5 +140,24 @@ class stock_picking(models.Model):
         self.do_recompute_remaining_quantities(cr, uid, picking_ids, context=context)
         self.write(cr, uid, picking_ids, {'recompute_pack_op': False}, context=context)
 
+
+    @api.multi
+    def back_order_for_multi_prod(self):
+        """ Creare comanda restanta pentru produsele care se repeta"""
+        for picking in self:
+             cont = True
+             sec_picking = False
+             while cont:
+                cont = False
+                for move1 in picking.move_lines:
+                    for move2 in picking.move_lines:
+                        if move1.id <> move2.id and move1.product_id.id == move2.product_id.id:
+                            cont = True
+                            if not sec_picking:
+                                sec_picking = picking.copy({'backorder_id':picking.id,'move_lines':False})
+                            move1.write({'picking_id':sec_picking.id})
+                            
+                
+    
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

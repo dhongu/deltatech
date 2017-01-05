@@ -32,11 +32,36 @@ from openerp.osv.fields import related
  
 _logger = logging.getLogger(__name__)
 
+class sale_order(models.Model):
+    _inherit = 'sale.order'
+
+    @api.model
+    def _prepare_order_line_procurement(self,  order, line, group_id=False ):
+        res = super(sale_order,self)._prepare_order_line_procurement(order, line, group_id)
+        if line.delivery_date:
+            res['date_planned'] = line.delivery_date
+        return res
+
+    @api.model
+    def _get_date_planned(self,   order, line, start_date):
+        res = super(sale_order,self)._get_date_planned(order, line, start_date)
+        if line.delivery_date:
+            res = line.delivery_date
+        return res
 
 
+    @api.multi
+    def action_button_confirm(self):
+        res = super(sale_order,self).action_button_confirm()
+        
+            
+        return res
+               
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line'
     
     ref = fields.Char(string="Reference")
+    delivery_date = fields.Date(string="Delivery Date") 
+    
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
