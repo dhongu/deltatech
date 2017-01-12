@@ -373,7 +373,9 @@
 							</td>
                             <t t-if="o.partner_id.property_account_position.name != 'Regim Intra-Comunitar Bunuri'">
                                 <td>
-                                    <span t-field="l.price_taxes"/>
+                                    <t t-set="price_taxes" t-value="l.price_taxes"/>
+                                    <t t-set="price_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)"/>
+                                    <span id="price_taxes" t-esc="formatLang(price_taxes)"/>
                                 </td>
                             </t>
                         </tr>
@@ -398,7 +400,9 @@
                             </td>
                             <t t-if="o.partner_id.property_account_position.name != 'Regim Intra-Comunitar Bunuri'">
                                 <td>
-                                    <span t-field="o.amount_tax"/>
+                                    <t t-set="amount_tax" t-value="o.amount_tax"/>
+                                    <t t-set="amount_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)"/> 
+                                    <span t-esc="formatLang(amount_tax)"/>
                                 </td>
                             </t>
                         </tr>
@@ -418,18 +422,17 @@
                             </td>
                             <td style="width:18%;text-align:center;vertical-align:middle;height:80px;">Total:</td>
                             <td style="width:18%;text-align:center;vertical-align:middle;">
-                                <!--
-                                <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
+                               <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
+                               <t t-set="amount_tax" t-value="o.amount_tax"/>
     							 <t t-if="o.type == 'out_refund'">
 									<t t-set="amount_untaxeds" t-value="-1*o.amount_untaxed"/>
 									
 								</t>
 							    <t t-set="amount_untaxeds" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_untaxeds,currency_id)"/> 
- 								<span id="amount_untaxeds">
- 									<span t-esc="formatLang(amount_untaxeds)"/>
+                                <t t-set="amount_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)"/> 
+ 								<span id="amount_total">
+ 									<span t-esc="formatLang(amount_untaxeds+amount_tax)"/>
  								</span> 
-                            	-->
-                                <span t-esc="formatLang(amount_untaxeds+o.amount_tax)"/>
                             </td>
                         </tr>
                         <tr>
