@@ -47,10 +47,10 @@ class product_template(models.Model):
 
 
     @api.multi
-    @api.depends('list_price_base','standard_price','list_price','percent_bronze','percent_silver','percent_gold')
+    @api.depends('list_price_base','standard_price','list_price','percent_bronze','percent_silver','percent_gold','taxes_id')
     def _compute_price(self): 
         for product in self:
-            print "Calcul pret"
+           
             tax_inc = False
             
             taxe = product.taxes_id.sudo()
@@ -82,7 +82,7 @@ class product_template(models.Model):
                 taxes = taxe.compute_all( product.list_price_gold, 1, force_excluded=True)
                 product.list_price_gold =  taxes['total_included']   
                          
-            print product.list_price_bronze, product.list_price_silver, product.list_price_gold
+            #print product.list_price_bronze, product.list_price_silver, product.list_price_gold
     
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
