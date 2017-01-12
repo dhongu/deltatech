@@ -18,17 +18,29 @@
 				<t t-foreach="docs" t-as="o">
 					<t t-call="report.external_layout">
 						<div class="page">
-							<h2>
+							<h2 style="text-align:center;">
+                                    <span>D.D.T. n. </span>
+                                    <span t-field="o.nr_packing_list"/>
+                            </h2>
+							<h2 style="text-align:center;">
 								<span>Package list for invoice</span>
 								:
-								<span t-field="o.name" />
+								<span t-field="o.number1"/>
 							</h2>
-
+							<t t-set="total_weight" t-value="0"/>
+			                <t t-foreach="o.picking_ids" t-as="picking">
+		                    	<t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+		                        	<t t-set="total_weight" t-value="total_weight + pack_operation.result_package_id.weight"/>
+		                        </t>
+				            </t>
 							<br />
 							<br />
 							<table class="table table-condensed">
 								<thead>
 									<tr>
+										<th>
+											<strong>NR SCAT</strong>
+										</th>
 										<th>
 											<strong>Product</strong>
 										</th>
@@ -41,9 +53,15 @@
 
 									</tr>
 								</thead>
+								<t t-set="nr_crt" t-value="1"/>
 								<tbody>
 									<t t-foreach="o.package_ids" t-as="package">
 										<tr t-foreach="package.quant_ids" t-as="quant">
+											
+											<td>
+												<t t-esc="nr_crt"/>
+												<t t-set="nr_crt" t-value="nr_crt + 1"/>
+											</td>
 											<td>
 												<span t-field="quant.product_id" />
 											</td>
@@ -56,6 +74,26 @@
 											</td>
 										</tr>
 									</t>
+								</tbody>
+							</table>
+							<div>
+								<span style="font-weight:bold;">PESO NETTO = </span>
+								<span style="font-weight:bold;"><t t-esc="total_weight"/></span>
+								<span style="font-weight:bold;">KG / PESO LORDO = </span>
+								<span style="font-weight:bold;"><span t-field="o.weight" /></span>
+								<span style="font-weight:bold;"> KG</span>
+							</div>
+							<table style="width:100%">
+								<tbody>
+									<tr>
+										<td width="50%">
+											<span>DATE:</span>
+											<span t-field="o.date_invoice"/> 
+										</td>
+										<td width="50%">
+											<span>STAMP</span>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
