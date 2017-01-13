@@ -24,6 +24,8 @@
 
 
 import stock
+import stock_pack_operation
+import product
 
 
 

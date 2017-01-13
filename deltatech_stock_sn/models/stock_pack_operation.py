@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+# Copyright (c) 2017 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,36 +17,29 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name": "Deltatech Stock Serial Number",
-    "version": "2.0",
-    "author": "Dorin Hongu",
-    "website": "",
-    "description": """
-    
-Functionalitati:
-
-    - ascundere loturi utilizate
-    - denerare certificat de garantie
-
-    """,
-
-    "category": "Generic Modules/Stock",
-    "depends": ['deltatech', 'stock','l10n_ro_stock_picking_report'],
-
-    "data": [
-        'views/stock_view.xml',
-        'views/stock_picking_report_view.xml',
-        'views/product_view.xml'
-
-    ],
-
-    "active": False,
-    "installable": True,
-}
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
+from dateutil.relativedelta import relativedelta
+from datetime import datetime, date, timedelta
+import logging
+
+
+class PackOperationLot(models.Model):
+    _inherit = "stock.pack.operation.lot"
+
+    @api.model
+    def create(self, vals):
+        if vals.get('lot_name', False) == '/':
+            vals['lot_name'] = self.env['ir.sequence'].next_by_code('stock.lot.serial')
+        return super(PackOperationLot, self).create(vals)
+
+
+
+
+        # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

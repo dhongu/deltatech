@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,36 +17,9 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name": "Deltatech Stock Serial Number",
-    "version": "2.0",
-    "author": "Dorin Hongu",
-    "website": "",
-    "description": """
-    
-Functionalitati:
 
-    - ascundere loturi utilizate
-    - denerare certificat de garantie
-
-    """,
-
-    "category": "Generic Modules/Stock",
-    "depends": ['deltatech', 'stock','l10n_ro_stock_picking_report'],
-
-    "data": [
-        'views/stock_view.xml',
-        'views/stock_picking_report_view.xml',
-        'views/product_view.xml'
-
-    ],
-
-    "active": False,
-    "installable": True,
-}
-
+import picking
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
