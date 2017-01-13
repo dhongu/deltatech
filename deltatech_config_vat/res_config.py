@@ -40,6 +40,7 @@ class account_config_settings(models.TransientModel):
                         'taxes_id':[(6,0,[config.default_sale_tax.id])],
                         'supplier_taxes_id':[(6,0,[config.default_purchase_tax.id])]
                         })
+        products.recompute()
         # de recalculat totalul din comenzile de vanzare
         # comenzi de vanzare deschise
         order_lines = self.env['sale.order.line'].search([('invoiced','=',False),('state','not in',['done','cancel'])])
