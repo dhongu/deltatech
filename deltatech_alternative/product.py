@@ -147,7 +147,7 @@ class product_template(models.Model):
     def _compute_alternative_code(self):
         codes = []
         for cod in self.alternative_ids:
-            if cod.name:
+            if cod.name and not cod.hide:
                 codes += [cod.name]
         #codes = self.alternative_ids.mapped('name')
           
@@ -239,7 +239,7 @@ class product_alternative(models.Model):
     name = fields.Char(string='Code', index=True )
     sequence = fields.Integer(string='sequence'  )
     product_tmpl_id = fields.Many2one('product.template', string='Product Template', ondelete='cascade')
-       
+    hide = fields.Boolean(string='Hide')   
 
     _defaults = {
         'sequence': lambda *a: 10,
