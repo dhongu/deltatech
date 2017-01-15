@@ -23,6 +23,7 @@ from openerp.osv import fields,osv
 from openerp import tools
 from openerp import models
  
+MAGIC_COLUMNS = ['id', 'create_uid', 'create_date', 'write_uid', 'write_date']
 
 class ir_model_fields(osv.osv):
     _inherit = 'ir.model.fields'
