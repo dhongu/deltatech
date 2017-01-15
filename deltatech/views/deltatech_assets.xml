@@ -37,7 +37,7 @@
             <link rel="stylesheet" href="/web_enterprise/static/src/less/web.assets_backend/keyboard.less.css" type="text/css"/>
 
             -->
-                <link rel='stylesheet' href='/deltatech/static/src/css/deltatech.css' />
+                <link rel='stylesheet' href='/deltatech/static/src/css/deltatech.less' />
 				<script type="text/javascript" src="/deltatech/static/src/js/extension.js"></script>
 			</xpath>
 		</template>
