@@ -36,6 +36,16 @@ class account_invoice(models.Model):
 
 
     @api.multi
+    def view_rate(self):
+
+        action = self.env.ref('deltatech_payment_term.action_account_moves_sale').read()[0]  
+       
+
+        action['domain'] = "[('invoice','=',"+str(self.id)+" )]" 
+          
+        return action          
+
+    @api.multi
     @api.depends('payment_term')
     def _compute_in_rates(self):
         for invoice in self:
