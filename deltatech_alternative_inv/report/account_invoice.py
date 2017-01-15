@@ -23,18 +23,25 @@
 import time
 from openerp.report import report_sxw
 from openerp.osv import osv
+#from openerp.addons.l10n_ro_invoice_report.report.amount_to_text_ro  import *
+
+from openerp.addons.l10n_ro_invoice_report.report.account_invoice import report_invoice_print
 
 
-
+"""
 class report_invoice_print(report_sxw.rml_parse):
 
     def __init__(self, cr, uid, name, context):
         super(report_invoice_print, self).__init__( cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
+            'convert': self._convert,
             'with_discount':self._with_discount,
         })
-
+        
+    def _convert(self, amount):
+        amt_ro = amount_to_text_ro(amount)
+        return amt_ro
 
     def _with_discount(self,invoice):
         res = False
@@ -42,6 +49,7 @@ class report_invoice_print(report_sxw.rml_parse):
             if line.discount <> 0.0:
                 res = True
         return  res
+"""
 
 class report_invoice_alt(osv.AbstractModel):
     _name = 'report.deltatech_alternative_inv.report_invoice_alt'
