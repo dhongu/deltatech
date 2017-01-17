@@ -29,6 +29,22 @@ import time
 from datetime import datetime
 
 
+# campurile astea sunt sin deltatech_payment_term
+class account_invoice(models.Model):
+    _inherit = "account.invoice"
+    
+    in_rates = fields.Boolean(string="In Rates", compute="_compute_in_rates", store=True)
+
+    @api.multi
+    @api.depends('payment_term')
+    def _compute_in_rates(self):
+        for invoice in self:
+            in_rates = False
+            if invoice.payment_term:
+                if len(invoice.payment_term.line_ids) > 1:
+                    in_rates = True
+
+            invoice.in_rates = in_rates
 
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"

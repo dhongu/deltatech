@@ -60,7 +60,7 @@ class sale_margin_report(models.Model):
         'journal_id': fields.many2one('account.journal', 'Journal', readonly=True),
         'currency_id': fields.many2one('res.currency', 'Currency', readonly=True),
         'currency_rate': fields.float('Currency Rate', readonly=True),
-        
+        'in_rates': fields.boolean('In Rates',readonly=True),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -103,6 +103,7 @@ class sale_margin_report(models.Model):
                 sub.rate * (sale_val  / cr.rate - stock_val ) as commission_computed,
                 commission,  
                 partner_id, commercial_partner_id, user_id, period_id,  company_id,
+                in_rates,
                 type,  state ,  journal_id, 
                 cr.rate as currency_rate,
                  sub.currency_id 
@@ -150,6 +151,7 @@ class sale_margin_report(models.Model):
                     s.user_id as user_id,
                     s.period_id,
                     s.company_id as company_id,
+                    s.in_rates,
                     s.type, s.state , s.journal_id, s.currency_id 
         """
         return select_str
@@ -187,6 +189,7 @@ class sale_margin_report(models.Model):
                     s.user_id,
                     cu.rate,
                     s.company_id,
+                    s.in_rates,
                     s.period_id,
                     s.type,
                     s.state,
