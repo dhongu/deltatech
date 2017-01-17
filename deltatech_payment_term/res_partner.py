@@ -18,37 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Payment Term Rate Wizard",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
-
-  
-   
-    """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account","sale"],
-   
 
 
  
-    "data" : [ 'wizard/payment_term_view.xml',
-               "sale_view.xml",
-               "account_view.xml",
-               "account_invoice_view.xml",
-               "res_partner_view.xml"
-              ],
+from openerp import models, fields, api, _
+from openerp.exceptions import except_orm, Warning, RedirectWarning
+
+ 
+ 
+
+
+class res_partner(models.Model):
+    _inherit = "res.partner"
     
-    "active": False,
-    "installable": True,
-}
-
-
+ 
+    @api.multi
+    def view_rate(self):
+        action = self.env.ref('deltatech_payment_term.action_account_moves_sale').read()[0]         
+        action['domain'] = "[('partner_id','=',"+str(self.id)+" )]"        
+        return action          
+ 
+            
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
