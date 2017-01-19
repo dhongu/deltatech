@@ -30,7 +30,7 @@ import odoo.addons.decimal_precision as dp
 try:
     import html2text
 except:
-    from odoo.addons.email_template import html2text
+    from odoo.addons.mail.models import html2text
 
 
 class account_invoice_export_bf(models.TransientModel):
