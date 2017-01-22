@@ -37,7 +37,7 @@
                                     </group>
                                     <group string="Dates">
                                         <field name="date" readonly="True"/>
-                                        <field name="date_maturity" readonly="True"/>
+                                        <field name="date_maturity" />
                                         <field name="date_created" readonly="True"/>
                                     </group>
  

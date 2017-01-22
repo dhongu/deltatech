@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2015 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,37 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Payment Term Rate Wizard",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
-    "description": """
 
-Functionalitati:
-
-  
-   
-    """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account","sale", 'deltatech_account'],
-   
-
-
- 
-    "data" : [ 'wizard/payment_term_view.xml',
-               "sale_view.xml",
-               "account_view.xml",
-               "account_invoice_view.xml",
-               "res_partner_view.xml"
-              ],
-    
-    "active": False,
-    "installable": True,
-}
-
-
+import account
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
