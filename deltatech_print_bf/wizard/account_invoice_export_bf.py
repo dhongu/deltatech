@@ -41,6 +41,15 @@ class account_invoice_export_bf(models.TransientModel):
     data_file = fields.Binary(string='File', readonly=True)
     text_data = fields.Text(string="Text", readonly=True)
     invoice_id = fields.Many2one('account.invoice')
+    
+    def chunks(s,n=18):
+        i = 0
+        chunk = []
+        for start in range(0, len(s), n):
+            chunk.append(s[start:start+n])
+            i+=1
+        return chunk
+
 
     @api.model
     def default_get(self, fields):
@@ -71,7 +80,9 @@ class account_invoice_export_bf(models.TransientModel):
                                                                   partner=line.invoice_id.partner_id)
                 price = taxes['total_included']
 
-                prod_name = line.name.replace('\n', ' ')[:18]
+                # prod_name = line.name.replace('\n', ' ')[:18]
+                prod_name_array = chunks(line.name.replace('\n', ' '))
+                prod_name = prod_name_array[0]
                 prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
                 if not prod_code:
                     buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
