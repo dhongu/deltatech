@@ -42,6 +42,7 @@ class account_invoice_export_bf(models.TransientModel):
     text_data = fields.Text(string="Text", readonly=True)
     invoice_id = fields.Many2one('account.invoice')
     
+    # split string in 18-chars array
     def chunks(s,n=18):
         i = 0
         chunk = []
@@ -83,16 +84,22 @@ class account_invoice_export_bf(models.TransientModel):
                 # prod_name = line.name.replace('\n', ' ')[:18]
                 prod_name_array = chunks(line.name.replace('\n', ' '))
                 prod_name = prod_name_array[0]
-                prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
-                if not prod_code:
-                    buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
-                                                      str(price * 100.0),
-                                                      str(line.quantity * 100000.0)))
-                else:
-                    buf.write('2;%s\r\n' % prod_name)
-                    buf.write('1;%s;1;1;%s;%s\r\n' % (prod_code,
-                                                      str(price * 100.0),
-                                                      str(line.quantity * 100000.0)))
+#                 prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
+#                 if not prod_code:
+#                     buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
+#                                                       str(price * 100.0),
+#                                                       str(line.quantity * 100000.0)))
+#                 else:
+#                     buf.write('2;%s\r\n' % prod_name)
+#                     buf.write('1;%s;1;1;%s;%s\r\n' % (prod_code,
+#                                                       str(price * 100.0),
+#                                                       str(line.quantity * 100000.0)))
+                buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
+                                                       str(price * 100.0),
+                                                       str(line.quantity * 100000.0)))
+                if(len(prod_name_array)) > 1:
+                    for extra_lines in prod_name_array[1:len(prod_name_array)]:
+                        buf.write('2;%s\r\n' % extra_lines)
 
             for payment in invoice_id.payment_ids:
                 if payment.payment_method_code == 'manual':
