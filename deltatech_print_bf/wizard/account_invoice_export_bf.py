@@ -81,8 +81,8 @@ class account_invoice_export_bf(models.TransientModel):
                                                                   partner=line.invoice_id.partner_id)
                 price = taxes['total_included']
 
-                # prod_name = line.name.replace('\n', ' ')[:18]
-                prod_name_array = chunks(line.name.replace('\n', ' '))
+                prod_name = line.name.replace('\n', ' ')
+                prod_name_array = chunks(prod_name)
                 prod_name = prod_name_array[0]
 #                 prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
 #                 if not prod_code:
