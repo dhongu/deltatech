@@ -42,6 +42,8 @@ class account_invoice_export_bf(models.TransientModel):
     text_data = fields.Text(string="Text", readonly=True)
     invoice_id = fields.Many2one('account.invoice')
     
+    @api.model
+    
     # split string in 18-chars array
     def chunks(s,n=18):
         i = 0
@@ -50,9 +52,7 @@ class account_invoice_export_bf(models.TransientModel):
             chunk.append(s[start:start+n])
             i+=1
         return chunk
-
-
-    @api.model
+    
     def default_get(self, fields):
         defaults = super(account_invoice_export_bf, self).default_get(fields)
 
