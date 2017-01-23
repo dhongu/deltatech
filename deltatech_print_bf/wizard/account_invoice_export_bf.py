@@ -43,16 +43,6 @@ class account_invoice_export_bf(models.TransientModel):
     invoice_id = fields.Many2one('account.invoice')
     
     @api.model
-    
-    # split string in 18-chars array
-    def chunks(s,n=18):
-        i = 0
-        chunk = []
-        for start in range(0, len(s), n):
-            chunk.append(s[start:start+n])
-            i+=1
-        return chunk
-    
     def default_get(self, fields):
         defaults = super(account_invoice_export_bf, self).default_get(fields)
 
@@ -82,7 +72,12 @@ class account_invoice_export_bf(models.TransientModel):
                 price = taxes['total_included']
 
                 prod_name = line.name.replace('\n', ' ')
-                prod_name_array = chunks(prod_name)
+                
+                # split name in 18-chars array
+                prod_name_array = []
+                for start in range(0,len(prod_name),18):
+                    prod_name_array.append(nums[start:start+18])
+                
                 prod_name = prod_name_array[0]
 #                 prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
 #                 if not prod_code:
