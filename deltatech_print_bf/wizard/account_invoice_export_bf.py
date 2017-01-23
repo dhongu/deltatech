@@ -76,7 +76,7 @@ class account_invoice_export_bf(models.TransientModel):
                 # split name in 18-chars array
                 prod_name_array = []
                 for start in range(0,len(prod_name),18):
-                    prod_name_array.append(nums[start:start+18])
+                    prod_name_array.append(prod_name[start:start+18])
                 
                 prod_name = prod_name_array[0]
 #                 prod_code = line.product_id.default_code and line.product_id.default_code[:18] or ''
