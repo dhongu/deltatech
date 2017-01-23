@@ -71,8 +71,8 @@ class account_invoice_export_bf(models.TransientModel):
                                                                   partner=line.invoice_id.partner_id)
                 price = taxes['total_included']
 
-                prod_name = line.name.replace('\n', ' ')
-                
+                #prod_name = line.name.replace('\n', ' ')
+                prod_name = line.product_id.replace('\n', ' ')
                 # split name in 18-chars array
                 prod_name_array = []
                 for start in range(0,len(prod_name),18):
