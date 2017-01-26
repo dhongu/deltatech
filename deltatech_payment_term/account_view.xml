@@ -123,6 +123,8 @@
 					<field name="move_id" string="Number (Move)" />
 					<field name="account_id" />
 					<field name="partner_id" />
+					<field name="name" />
+					<field name="ref" />
 					<field name="journal_id" context="{'journal_name':self}" widget="selection" />
 					<field name="period_id" context="{'period_id':self}" widget="selection" />
 					<group expand="0" string="Group By">

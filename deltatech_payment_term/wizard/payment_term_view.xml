@@ -6,7 +6,7 @@
 			<field name="model">account.payment.term.rate.wizard</field>
 			<field name="arch" type="xml">
 				<form string="Payment Term Rate Wizard">
-
+					
 					<group>
 						<field name="name"   />
 						<field name="rate" />
