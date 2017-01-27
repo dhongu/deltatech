@@ -97,7 +97,8 @@ class account_invoice_export_bf(models.TransientModel):
                         buf.write('2;%s\r\n' % extra_lines)
 
             for payment in invoice_id.payment_ids:
-                if payment.payment_method_code == 'manual':
+                #if payment.payment_method_code == 'manual':
+                if payment.journal_id.type == 'cash':
                     buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
                 else:
                     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
