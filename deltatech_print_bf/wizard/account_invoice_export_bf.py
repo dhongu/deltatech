@@ -90,25 +90,25 @@ class account_invoice_export_bf(models.TransientModel):
 #                                                       str(price * 100.0),
 #                                                       str(line.quantity * 100000.0)))
                 buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
-                                                       str(price * 100.0),
-                                                       str(line.quantity * 100000.0)))
+                                                       str(int(price * 100.0)),
+                                                       str(int(line.quantity * 100000.0)))
                 if(len(prod_name_array)) > 1:
                     for extra_lines in prod_name_array[1:len(prod_name_array)]:
                         buf.write('2;%s\r\n' % extra_lines)
 
             for payment in invoice_id.payment_ids:
                 if payment.payment_method_code == 'manual':
-                    buf.write('5;%s;1;1;0\r\n' % str(payment.amount * 100.0))
+                    buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
                 else:
-                    buf.write('5;%s;3;1;0\r\n' % str(payment.amount * 100.0))
+                    buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
 
             defaults['text_data'] = buf.getvalue()
             out = base64.encodestring(buf.getvalue())
 
-        filename = 'BF_' + invoice_id.number
+        filename = 'ONLINE_' + invoice_id.number
         filename = "".join(i for i in filename if i not in "\/:*?<>|")
 
-        extension = 'inp'
+        extension = 'TXT'
 
         defaults['name'] = "%s.%s" % (filename, extension)
         defaults['data_file'] = out
