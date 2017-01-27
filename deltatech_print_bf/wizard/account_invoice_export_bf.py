@@ -91,7 +91,7 @@ class account_invoice_export_bf(models.TransientModel):
 #                                                       str(line.quantity * 100000.0)))
                 buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
                                                        str(int(price * 100.0)),
-                                                       str(int(line.quantity * 100000.0)))
+                                                       str(int(line.quantity * 100000.0))))
                 if(len(prod_name_array)) > 1:
                     for extra_lines in prod_name_array[1:len(prod_name_array)]:
                         buf.write('2;%s\r\n' % extra_lines)
