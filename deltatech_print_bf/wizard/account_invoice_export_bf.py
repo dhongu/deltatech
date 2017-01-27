@@ -108,7 +108,7 @@ class account_invoice_export_bf(models.TransientModel):
         filename = 'ONLINE_' + invoice_id.number
         filename = "".join(i for i in filename if i not in "\/:*?<>|")
 
-        extension = 'TXT'
+        extension = 'INP'
 
         defaults['name'] = "%s.%s" % (filename, extension)
         defaults['data_file'] = out
