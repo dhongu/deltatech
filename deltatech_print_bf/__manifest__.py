@@ -33,7 +33,7 @@ Functionalitati:
     """,
     
     'category': 'Generic Modules',
-    "depends" : ['deltatech',"account"],
+    "depends" : ['deltatech',"account","web"],
 
 
  
