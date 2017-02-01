@@ -32,4 +32,4 @@ class account_journal(models.Model):
 class account_invoice(models.Model):
     _inherit = "account.invoice"
     
-    name = fields.Char(readonly=False)
+    name = fields.Char(readonly=False, states={'draft': [('readonly', False)]})
