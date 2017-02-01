@@ -28,3 +28,8 @@ class account_journal(models.Model):
     _inherit = "account.journal"
     
     active =  fields.Boolean(string="Active", default=True)
+    
+class account_invoice(models.Model):
+    _inherit = "account.invoice"
+    
+    name = fields.Char(readonly=False)
