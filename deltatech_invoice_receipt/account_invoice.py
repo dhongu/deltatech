@@ -330,8 +330,10 @@ class account_invoice(models.Model):
         for line in new_picking_line:
             if line['picking'].state == 'assigned': 
                 if stock_picking_payable_account_id:
-                    line['picking'].write({'notice': True})                 
-                line['picking'].do_transfer()
+                    line['picking'].write({'notice': True})   
+                
+                              
+                line['picking'].with_context(price_unit = line['price_unit']).do_transfer()
                 line['picking'].write({'date':date_receipt, 
                                        'date_done': date_receipt,  
                                        'invoice_state':'invoiced',
@@ -343,6 +345,7 @@ class account_invoice(models.Model):
                 self.message_post(body=msg)
                 for move in line['picking'].move_lines:
                     move.write({'date':date_receipt ,
+                                #'price_unit': line['price_unit'],     # pretul este cel in factura!
                                 'date_expected': date_receipt})
                     move.quant_ids.write({'in_date': date_receipt})
                         
