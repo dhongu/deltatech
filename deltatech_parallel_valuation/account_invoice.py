@@ -60,6 +60,7 @@ class account_invoice(models.Model):
     name = fields.Char(string='Reference/Description', index=True,
         readonly=True, states={'draft': [('readonly', False)],
                                'proforma':[('readonly', False)],
+                               'open':[('readonly', False)],
                                'proforma2':[('readonly', False)]})    
     
 
