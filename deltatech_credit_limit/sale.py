@@ -14,7 +14,8 @@ class sale_order(models.Model):
     @api.one
     def check_limit(self):
 
-
+        if not self.partner_id.credit_limit:
+            return True
         # We sum from all the sale orders that are aproved, the sale order
         # lines that are not yet invoiced
         
@@ -51,5 +52,5 @@ class sale_order(models.Model):
             
             msg = 'Depasire limita de credit cu %s' % str(abs(available_credit))
             raise Warning(_(msg))
-            return False
+            
         return True
