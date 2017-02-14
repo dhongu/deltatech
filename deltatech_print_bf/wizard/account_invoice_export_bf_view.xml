@@ -32,7 +32,7 @@
             <field name="inherit_id" ref="account.invoice_form" />
             <field name="arch" type="xml">
             	 <field name="state" position="before">
-            	 	 <button name="print_bf" states="open,paid" string="Print Bon Fiscal"
+            	 	 <button name="print_bf" states="open,paid" string="Print Bon Fiscal" groups="base.group_user"
 							 type="object" />
             	 </field>
             </field>

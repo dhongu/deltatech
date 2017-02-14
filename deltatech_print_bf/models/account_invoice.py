@@ -32,6 +32,7 @@ class account_invoice(models.Model):
     _inherit = "account.invoice"
 
 
+
     @api.multi
     def print_bf(self):
          wizard = self.env['account.invoice.export.bf'].with_context({'active_id':self.id}).create({})

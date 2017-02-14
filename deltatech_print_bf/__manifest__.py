@@ -28,16 +28,21 @@
 
 Functionalitati:
  - Generare fisier pentru program de tiparit Bon Fiscal
+ - definire client generic pentru care se fac in mod automat Bonuri fiscale
 
+De pregatit:
+ - Trebuie definit un jurnal de vanzari pentru Bonru Fiscale cu codul BF
    
     """,
     
     'category': 'Generic Modules',
-    "depends" : ['deltatech',"account","web"],
+    "depends" : ['deltatech',"account","web",'sale'],
 
 
  
-    "data" : [ 'wizard/account_invoice_export_bf_view.xml' ],
+    "data" : [ 'wizard/account_invoice_export_bf_view.xml',
+               'wizard/sale_make_invoice_advance_views.xml',
+               'data/data.xml'],
     
     "active": False,
     "installable": True,
