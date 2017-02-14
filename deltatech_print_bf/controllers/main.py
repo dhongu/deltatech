@@ -35,7 +35,8 @@ class Binary(http.Controller):
 
 
     @http.route(['/web/binary/download_document'], type='http', auth="public")
-    def download_document(self, xmlid=None, model='ir.attachment', id=None, field='datas', filename=None, filename_field='datas_fname', unique=None, mimetype=None, download=None, data=None, token=None):
+    def download_document(self, xmlid=None, model='ir.attachment', id=None, field='datas', filename=None,
+                          filename_field='datas_fname', unique=None, mimetype=None, download=None, data=None, token=None, debug=None):
         status, headers, content = binary_content(xmlid=xmlid, model=model, id=id, field=field, unique=unique, filename=filename, filename_field=filename_field, download=download, mimetype=mimetype)
         if status == 304:
             response = werkzeug.wrappers.Response(status=status, headers=headers)

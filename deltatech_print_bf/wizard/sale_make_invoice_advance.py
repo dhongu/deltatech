@@ -21,6 +21,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
         if self._context.get('default_journal_id', False):
             return self.env['account.journal'].browse(self._context.get('default_journal_id'))
 
+        if not self._context.get('active_ids'):
+            return False
+
+
         company_id = self._context.get('company_id', self.env.user.company_id.id)
 
 
