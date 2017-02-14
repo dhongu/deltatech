@@ -21,8 +21,8 @@
 {
     "name" : "Deltatech Fast Sale",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
  
 Features:
