@@ -21,8 +21,8 @@
 {
     "name" : "Deltatech Contacts",
     "version" : "3.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:

@@ -98,7 +98,7 @@ class res_partner(models.Model):
  
  
     _defaults = {'user_id': lambda self, cr, uid, context: uid} 
-    _constraints = [(check_cnp, _("CNP invaid"), ["cnp"]), ]
+    _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
     @api.multi
     def name_get(self):
@@ -110,9 +110,9 @@ class res_partner(models.Model):
             if record.parent_id and not record.is_company and record.type != 'contact': 
                     name = "%s, %s" % (record.parent_name, name)
             if context.get('show_address_only'):
-                name = self._display_address(  without_company=True)
+                name = record._display_address(  without_company=True)
             if context.get('show_address'):
-                name = name + "\n" + self._display_address( without_company=True )
+                name = name + "\n" + record._display_address( without_company=True )
             if context.get('show_email') and record.email:
                 name = "%s <%s>" % (name, record.email)
             if context.get('show_phone') and record.phone:    
