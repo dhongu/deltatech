@@ -21,7 +21,7 @@
 			<field name="inherit_id" ref="deltatech_account.invoice_supplier_form" />
 			<field name="arch" type="xml">
 				<div name="buttons" position="inside">
-					<button class="oe_inline oe_stat_button" string="Stock" name="view_stock" type="object" groups="stock.group_stock_user" icon="fa-building-o" />
+					<button class="oe_inline oe_stat_button" string="Pozitii de stoc" name="view_stock" type="object" groups="stock.group_stock_user" icon="fa-building-o" />
 				</div>
 			</field>
 		</record>
@@ -57,7 +57,7 @@
 			<field name="inherit_id" ref="deltatech_account.invoice_form" />
 			<field name="arch" type="xml">
 				<div name="buttons" position="inside">
-					<button class="oe_inline oe_stat_button" string="Stock" name="view_stock" type="object" groups="stock.group_stock_user" icon="fa-building-o" />
+					<button class="oe_inline oe_stat_button" string="Pozitii de stoc" name="view_stock" type="object" groups="stock.group_stock_user" icon="fa-building-o" />
 				</div>
 			</field>
 		</record>
@@ -67,13 +67,6 @@
 			<field name="model">account.invoice</field>
 			<field name="inherit_id" ref="account.invoice_form" />
 			<field name="arch" type="xml">
-				<!-- 
-				<field name="type" position="before">
-					<div name="buttons" class="oe_right oe_button_box">
-						<button class="oe_inline oe_stat_button" string="Stock" name="view_stock" type="object" groups="stock.group_stock_user" icon="fa-building-o" />
-					</div>
-				</field>
-				 -->
 				<field name="invoice_line" position="attributes">
 					<attribute name="context">{'partner_id': partner_id, 'type': type, 'date':date_invoice}</attribute>
 				</field>
