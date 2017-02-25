@@ -138,6 +138,10 @@ class stock_inventory_line(models.Model):
         return res
     """
 
+
+    #TODO: de gasit noua metoda
+
+    """
     @api.model
     def _resolve_inventory_line(self, inventory_line):
 
@@ -167,5 +171,13 @@ class stock_inventory_line(models.Model):
             move.action_done()
 
         return move_id
+    """
+
+    def _generate_moves(self):
+        for inventory_line in self:
+            if inventory_line.product_id.cost_method == 'real':
+                inventory_line.product_id.product_tmpl_id.write( {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+        moves = super(stock_inventory_line,self)._generate_moves()
+        return moves
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
