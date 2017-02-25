@@ -26,10 +26,11 @@
     "description": """
 
      Afisare coloana de pret de stoc la inventariere
+     Afisare valoare de vanzare in rapotul de pozitii de stoc (evaluare inventar) si stoc la data
  
     """,
     "category": "Generic Modules/Other",
-    "depends": ['deltatech', 'deltatech_stock_date', "stock"],
+    "depends": ['deltatech', 'deltatech_stock_date', "stock_account"],
 
     "data": [
         'data/data.xml',

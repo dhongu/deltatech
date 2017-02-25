@@ -33,6 +33,9 @@ from odoo import SUPERUSER_ID, api
 import odoo.addons.decimal_precision as dp
 
 
+#TODO: de adauvat pretul si in wizardul ce permite modificarea stocului
+
+
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
@@ -179,5 +182,50 @@ class stock_inventory_line(models.Model):
                 inventory_line.product_id.product_tmpl_id.write( {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
         moves = super(stock_inventory_line,self)._generate_moves()
         return moves
+
+class StockHistory(models.Model):
+    _inherit = 'stock.history'
+
+    sale_value = fields.Float('Sale Value', compute='_compute_sale_value', readonly=True)
+
+    @api.one
+    def _compute_sale_value(self):
+        self.sale_value = self.quantity * self.product_id.list_price
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        res = super(StockHistory, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        if 'sale_value' in fields:
+            for line in res:
+                if '__domain' in line:
+                    lines = self.search(line['__domain'])
+                    sale_value = 0.0
+                    for line2 in lines:
+                        sale_value += line2.sale_value
+                    line['sale_value'] = sale_value
+        return res
+
+
+class Quant(models.Model):
+    _inherit = "stock.quant"
+
+    sale_value = fields.Float('Sale Value', compute='_compute_sale_value', readonly=True)
+
+    @api.one
+    def _compute_sale_value(self):
+        self.sale_value = self.qty * self.product_id.list_price
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        res = super(Quant, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        if 'sale_value' in fields:
+            for line in res:
+                if '__domain' in line:
+                    lines = self.search(line['__domain'])
+                    sale_value = 0.0
+                    for line2 in lines:
+                        sale_value += line2.sale_value
+                    line['sale_value'] = sale_value
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
