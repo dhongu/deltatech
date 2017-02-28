@@ -70,6 +70,10 @@ class account_invoice_export_bf(models.TransientModel):
                                                                   product=line.product_id,
                                                                   partner=line.invoice_id.partner_id)
                 price = taxes['total_included']
+                if price < 0.0:
+                    raise Warning(_('Price can not be negative '))
+                if line.quantity < 0.0:
+                    raise Warning(_('Quantity can not be negative '))
 
                 #prod_name = line.name.replace('\n', ' ')
                 prod_name = line.product_id.name.replace('\n', ' ')
