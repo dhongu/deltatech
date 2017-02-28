@@ -23,8 +23,8 @@
 {
     "name" : "Deltatech Backwards",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
