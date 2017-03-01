@@ -133,7 +133,8 @@ class service_meter(models.Model):
                 total_counter_value = self.last_meter_reading_id.counter_value                 
         else:
             for meter in self.meter_ids:
-                total_counter_value += meter.meter_reading_ids[0].counter_value
+                if meter.meter_reading_ids:
+                    total_counter_value += meter.meter_reading_ids[0].counter_value
         
                 
         self.total_counter_value = total_counter_value

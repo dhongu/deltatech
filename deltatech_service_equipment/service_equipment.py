@@ -310,6 +310,15 @@ class service_equipment(models.Model):
             self.consumable_id    
     """
 
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        if self.product_id:
+            domain = [('product_id', '=', self.product_id.id )]
+        else:
+            domain = []
+        return {'domain': {'serial_id': domain} }
+
+    
     @api.onchange('serial_id')
     def onchange_serial_id(self):
         self.product_id = self.serial_id.product_id

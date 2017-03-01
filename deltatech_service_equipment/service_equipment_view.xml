@@ -150,7 +150,9 @@
 							<group string="Tehnical Details">
 								<field name="type_id" />
 								<field name="product_id" />
-								<field name="serial_id" domain="[('product_id','=',product_id)]" context="{'default_product_id':product_id, 'product_id':product_id }" />
+								<field name="serial_id" domain="[('product_id','=',product_id)]" 
+														context="{'default_product_id':product_id,
+														          'product_id':product_id }" />
 
 								<field name="quant_id" domain="[('product_id','=',product_id )]" />
 								<field name="inventory_value" />
@@ -349,6 +351,28 @@
 		<menuitem name="Equipment Category" id="menu_service_equipment_category" action="action_service_equipment_category" parent="base.menu_service_config"
 			sequence="201" />
 
+<!--
+		<record id="action_picking_tree_consume" model="ir.actions.act_window">
+			<field name="name">Consume Voucher</field>
+			<field name="res_model">stock.picking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="domain"></field>
+			<field name="context"
+				eval="{
+				'contact_display': 'partner_address',
+				'search_default_my': 1,	
+				'default_picking_type_code':'internal',
+				'default_picking_type_id':        ref('stock.picking_type_consume'),
+				'search_default_picking_type_id': ref('stock.picking_type_consume'),
+				}" />
+
+			<field name="search_view_id" ref="stock.view_picking_internal_search" />
+		</record>
+
+		<menuitem id="menu_picking_tree_consume" action="action_picking_tree_consume" parent="stock.menu_stock_warehouse_mgmt" sequence="101" />
+-->
 
 	</data>
 </openerp>
