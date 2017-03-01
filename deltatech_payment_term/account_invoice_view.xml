@@ -9,7 +9,7 @@
 			<field name="arch" type="xml">
 				<div name="buttons" position="inside">
 
-					<button class="oe_inline oe_stat_button" string="Rate" name="view_rate" type="object" icon="fa fa-money" />
+					<button class="oe_inline oe_stat_button" string="Scadente deschise" name="view_rate" type="object" icon="fa fa-money" />
 				</div>
 			</field>
 		</record>
