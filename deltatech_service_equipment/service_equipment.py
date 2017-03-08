@@ -95,7 +95,7 @@ class service_equipment(models.Model):
     _inherit = 'mail.thread'
    
 
-    state = fields.Selection([ ('available','Available'),('installed','Installed'), 
+    state = fields.Selection([ ('available','Available'),('installed','Installed'), ('inactive', 'Inactive'),
                                ('backuped','Backuped')], default="available", string='Status',  copy=False)
 
     
@@ -118,6 +118,8 @@ class service_equipment(models.Model):
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement',readonly=True,
                               help='Detail of location of the equipment in working point')
     install_date = fields.Date(string='Installation Date', related='equipment_history_id.from_date',readonly=True)
+    equipment_backup_id = fields.Many2one('service.equipment', string="Backup Equipment", related='equipment_history_id.equipment_backup_id',readonly=True)   
+    
     
     contact_id = fields.Many2one('res.partner', string='Contact Person',  track_visibility='onchange', domain=[('type','=','contact'),('is_company','=',False)])    
 
@@ -127,10 +129,10 @@ class service_equipment(models.Model):
     product_id = fields.Many2one('product.product', string='Product', ondelete='restrict', domain=[('type', '=', 'product')] )
     serial_id = fields.Many2one('stock.production.lot', string='Serial Number', ondelete="restrict",   copy=False)
     quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict",  copy=False)
-    inventory_value = fields.Float(string="Inventory value")
+    inventory_value = fields.Float(string="Inventory value", related="quant_id.inventory_value") # se determina din Quant
     
     total_revenues = fields.Float(string="Total Revenues", readonly=True)  # se va calcula din suma consumurilor de servicii
-    total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
+    total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
     
     note =  fields.Text(String='Notes') 
     start_date = fields.Date(string='Start Date') 
@@ -152,7 +154,7 @@ class service_equipment(models.Model):
     readings_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('done','Done')], string="Readings Status", compute="_compute_readings_status", store=True )
 
 
-    reading_day = fields.Integer(string='Reading Day',  readonly=True,  states={'draft': [('readonly', False)]}, default=-1,
+    reading_day = fields.Integer(string='Reading Day',  default=-1,
                                         help="""Day of the month, set -1 for the last day of the month.
                                      If it's positive, it gives the day of the month. Set 0 for net days .""")    
     
@@ -202,7 +204,7 @@ class service_equipment(models.Model):
             cost = 0.0
             pickings = self.env['stock.picking'].search([('equipment_id','=',equi.id),('state','=','done')])
             for picking in pickings:               
-                for move in move_lines:
+                for move in picking.move_lines:
                     move_value = 0.0
                     for quant in move.quant_ids:
                         move_value += quant.cost*quant.qty

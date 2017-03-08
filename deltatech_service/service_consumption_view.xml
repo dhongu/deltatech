@@ -16,7 +16,7 @@
 					<field name="uom_id" groups="product.group_uom"/>
 					<field name="price_unit" />
 					<field name="currency_id" />
-					<field name="state" invisible="1" />
+					<field name="state"   />
 					<field name="agreement_id" />
 				</tree>
 			</field>
