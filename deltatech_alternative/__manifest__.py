@@ -21,7 +21,8 @@
 {
     "name" : "Deltatech Products Alternative",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "category" : "Generic Modules/Inventory Control",
     "depends" : ['deltatech',"product",'stock'],
 
