@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_service_equi_from_qunat_form" model="ir.ui.view">
+            <field name="name">Equipment From Quants</field>
+            <field name="model">service.equi.from.qunat</field>
+            <field name="arch" type="xml">
+                <form string="Equipment From Quants">
+
+                    <group string="Service Billing Preparation">
+                        <div class="oe_grey">
+                            For the selected quants will generate equipments
+                        </div>
+                    </group>
+                    <group>
+                        <field name="type_id"/>
+                    </group>
+                    <group>
+                        <field name="quant_ids" options="{'no_create': True}" nolabel="1">
+                          <tree>
+								<field name="product_id" />
+								<field name="qty" />
+								<field name="lot_id" />
+                                <field name="location_id" />
+							</tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="do_create_equi" string="_Apply" type="object"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_service_equi_from_qunat" name="Create Equipment"
+                    res_model="service.equi.from.qunat" src_model="stock.quant"
+                    view_mode="form" multi="True" target="new" key2="client_action_multi"/>
+
+
+    </data>
+</openerp>

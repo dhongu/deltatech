@@ -34,4 +34,6 @@ access_service_order_manager,access_service_order,model_service_order,base.group
 access_service_order_type_manager,access_service_order_type,model_service_order_type,base.group_service_manager,1,1,1,1
 
 
-
+access_service_order_component,access_service_order_component,model_service_order_component,,1,0,0,0
+access_service_order_operation,access_service_order_operation,model_service_order_operation,,1,0,0,0
+access_service_operation,access_service_operation,model_service_operation,,1,0,0,0
