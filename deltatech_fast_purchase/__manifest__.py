@@ -21,9 +21,10 @@
 {
     "name" : "Deltatech Fast Purchase",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     'summary': 'Achizitie rapida',
-    "website" : "",
+
     "description": """
  
 Features:
