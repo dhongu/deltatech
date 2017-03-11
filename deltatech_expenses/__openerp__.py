@@ -24,6 +24,8 @@
 {
     'name': 'Deltatech Expenses Deduction & Disposition of Cashing',
     'version': '1.0',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "category": 'Accounting & Finance',
     'complexity': "easy",
     'description': """Expenses Deduction & Disposition of Cashing
@@ -33,8 +35,7 @@ Validarea documentrului duce la generarea notelor contabile de avans si inegistr
 -
 		
     """,
-    "author" : "Dorin Hongu",
-    "website": "www.terrabit.ro",
+
 
     'images': [''],
     'depends': ['account','account_voucher','product','l10n_ro','l10n_ro_account_voucher_cash'],

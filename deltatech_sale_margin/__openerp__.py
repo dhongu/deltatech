@@ -22,7 +22,7 @@
     "name" : "Deltatech Sale Margin",
     "version" : "1.0",
     "category" : "Sales Management",
-    "author" : "Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
  

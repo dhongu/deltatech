@@ -23,7 +23,7 @@
 {
     "name" : "Deltatech Web Style",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website" : "",
     "description": """
 

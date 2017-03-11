@@ -23,7 +23,7 @@
 {
     "name" : "Deltatech Variant Price",
     "version" : "2.0",
-    "author" : "Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website" : "www.terrabit.ro",
     "description": """
     

@@ -34,7 +34,7 @@ It is fully integrated with the email gateway so that you can create
 automatically new claims based on incoming emails.
 
 Am eliminat dependenta de CRM
-Nu se utilizeaza impreuna cu modulul de CRM
+Atentie: Nu se utilizeaza impreuna cu modulul de CRM
 
     """,
     'author': 'OpenERP SA',

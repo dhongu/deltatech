@@ -23,7 +23,7 @@
 {
     "name": "Deltatech MRP BOM Cost",
     "version": "2.0",
-    "author": "Deltatech",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
     

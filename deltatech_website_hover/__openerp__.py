@@ -23,7 +23,7 @@
 {
     "name" : "Deltatech Website Hover Effect Ideas",
     "version" : "1.0",
-    "author" : "Deltatech",
+    "author": "Terrabit, Dorin Hongu",
     "website" : "www.terrabit.ro",
     "description": """
 

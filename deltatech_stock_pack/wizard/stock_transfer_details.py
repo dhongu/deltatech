@@ -47,7 +47,7 @@ class stock_transfer_details_items(models.TransientModel):
                     quantity = packop.quantity 
                     packop.weight =  quantity * packop.product_id.pack_weight / packop.product_id.pack_items
                     
-                if (packop.quantity / packop.product_id.pack_items) > 1:
+                if (packop.quantity / packop.product_id.pack_items) >= 1:
                     
                     packop.quantity = packop.product_id.pack_items
                     packop.weight = packop.product_id.pack_weight
@@ -66,8 +66,9 @@ class stock_transfer_details_items(models.TransientModel):
                                 new_id = packop.copy({'quantity':quantity, 'packop_id':False,
                                                       'weight': quantity * packop.product_id.pack_weight / packop.product_id.pack_items ,
                                                       'result_package_id':newpack}, context=self.env.context)
-                           
-                        
                     
+                    return self.transfer_id.wizard_view()
+                           
+                          
         return super(stock_transfer_details_items, self).put_in_pack()
  
