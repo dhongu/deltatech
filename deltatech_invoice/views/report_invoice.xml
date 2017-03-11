@@ -15,9 +15,14 @@
 
 		<template id="report_invoice_1">
 			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+            		<t t-call="deltatech_invoice.report_invoice_document1" t-lang="o.partner_id.lang"/>
+				</t>
+				<!--
 				<t t-foreach="doc_ids" t-as="doc_id">
 					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_invoice.report_invoice_document1')" />
 				</t>
+				-->
 			</t>
 		</template>
 

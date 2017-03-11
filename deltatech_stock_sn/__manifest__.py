@@ -24,13 +24,14 @@
     "name": "Deltatech Stock Serial Number",
     "version": "2.0",
     "author": "Dorin Hongu",
-    "website": "",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:
 
     - ascundere loturi utilizate
-    - denerare certificat de garantie
+    - generare nr de lot la receptie daca se utilizeaza semnul /
+    - generare certificat de garantie
 
     """,
 

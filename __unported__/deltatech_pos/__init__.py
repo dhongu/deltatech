@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,18 +19,9 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   Warning, RedirectWarning
 
 
-
-class product_template(models.Model):
-    _inherit = 'product.template'
-
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
+ 
 
 
 

@@ -50,8 +50,8 @@ class stock_picking_report(models.Model):
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
 
-    location_id = fields.Many2one('stock.location', 'Location', readonly=True, select=True)
-    location_dest_id = fields.Many2one('stock.location', 'Location Destination', readonly=True, select=True)
+    location_id = fields.Many2one('stock.location', 'Location', readonly=True, index=True)
+    location_dest_id = fields.Many2one('stock.location', 'Location Destination', readonly=True, index=True)
 
     product_qty = fields.Float('Quantity', digits_=dp.get_precision('Product UoM'), readonly=True)
     price = fields.Float('Price Unit', digits=dp.get_precision('Account'), readonly=True, group_operator="avg")

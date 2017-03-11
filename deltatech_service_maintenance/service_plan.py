@@ -221,7 +221,7 @@ class service_plan_call(models.Model):
     _order = "plan_id, plan_date"   
 
     name = fields.Char(string="Name", compute="_compute_name")
-    sequence = fields.Integer(string='Sequence', readonly=True, select=True, help="Gives the sequence order when displaying a list of plan call.")
+    sequence = fields.Integer(string='Sequence', readonly=True, index=True, help="Gives the sequence order when displaying a list of plan call.")
     state =  fields.Selection([
             ('draft','Draft'),    # statusul in care se calculeza data planificata si data de apel
             ('called','Called'),  # statusul in care sistemul a generat un apel si asteapata confirmare
@@ -235,11 +235,11 @@ class service_plan_call(models.Model):
     order_id  = fields.Many2one('service.order', string='Order',readonly=True, )
     
 
-    call_date =  fields.Date(string='Call Date',required=True,  readonly=True, select=True,
+    call_date =  fields.Date(string='Call Date',required=True,  readonly=True, index=True,
                              help="Date on which the system creates an order") 
-    plan_date = fields.Date(string='Planned Date',required=True,  readonly=True, select=True,
+    plan_date = fields.Date(string='Planned Date',required=True,  readonly=True, index=True,
                             help="Planned date describes the time at which an order is to be executed.")
-    plan_counter  = fields.Float(string='Planned Counter',required=True,  readonly=True, select=True,
+    plan_counter  = fields.Float(string='Planned Counter',required=True,  readonly=True, index=True,
                                  help="Planned counter describes the value of counter at which an order is to be executed.")
     completion_date = fields.Date(string='Completion Date',   readonly=True, states={'called':[('readonly',False)]}, 
                                   help="Date on which the maintenance date was completed") 

@@ -34,7 +34,7 @@ Features:
  
 """,
     "data" : [
-        "product_view.xml",
+        "views/product_view.xml",
     ],
     "active": False,
     "installable": True,

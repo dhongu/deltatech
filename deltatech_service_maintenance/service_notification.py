@@ -83,7 +83,7 @@ class service_notification(models.Model):
     date_done = fields.Datetime('Done Date', readonly=True, copy=False)
     
     
-    priority =  fields.Selection(AVAILABLE_PRIORITIES, string='Priority', select=True, readonly=True, states={'new': [('readonly', False)]})  
+    priority =  fields.Selection(AVAILABLE_PRIORITIES, string='Priority', index=True, readonly=True, states={'new': [('readonly', False)]})
     color =  fields.Integer(string='Color Index', default=0)  
     order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )    
 

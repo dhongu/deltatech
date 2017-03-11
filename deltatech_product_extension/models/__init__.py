@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,26 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : "Deltatech Invoice Number",
-    "version" : "1.0",
-    "author": "Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
 
-Functionalitati:
- - Validare data factura sa fie mai mare decat data din ultima factura
- - Posibilitatea de a modifica numarul unei facturi
+import product
 
-
-    """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account"],
- 
-    "data" : ['security/sale_security.xml',
-              'wizard/account_invoice_change_number_view.xml' ],
-    "active": False,
-    "installable": True,
-}
-
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

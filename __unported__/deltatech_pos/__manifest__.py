@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,25 +19,30 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Invoice Number",
+    "name" : "Deltatech Print Invoice to ECR",
     "version" : "1.0",
-    "author": "Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "author" : "Dorin Hongu",
+    'summary':'Generare fisier pentu casa de marcat',
+    "website" : "www.terrabit.ro",
     "description": """
 
 Functionalitati:
- - Validare data factura sa fie mai mare decat data din ultima factura
- - Posibilitatea de a modifica numarul unei facturi
-
-
+ - Generare fisier pentru program de tiparit Bon Fiscal din POS
+   
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account"],
+    
+    'category': 'Generic Modules',
+    "depends" : ['deltatech','point_of_sale'],
+
+
  
-    "data" : ['security/sale_security.xml',
-              'wizard/account_invoice_change_number_view.xml' ],
+    "data" : [ 'views/assets.xml'],
+    
     "active": False,
     "installable": True,
 }
 
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -34,7 +34,9 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Base",
-    "depends" : ['deltatech','deltatech_backwards',"base","account","l10n_ro_invoice_report"],
+    "depends" : ['deltatech','deltatech_backwards',"base","account"
+                    ,"l10n_ro_invoice_report"
+                 ],
     "external_depends":['dbf'],
 
  

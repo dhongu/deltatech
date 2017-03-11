@@ -91,7 +91,7 @@ class res_partner(models.Model):
     is_department = fields.Boolean(string='Is department', compute='_compute_is_department')
     birthdate = fields.Date(string="Birthdate")
 
-    _defaults = {'user_id': lambda self, cr, uid, context: uid}
+    _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
     @api.multi
