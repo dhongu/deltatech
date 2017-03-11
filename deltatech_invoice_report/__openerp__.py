@@ -26,7 +26,7 @@
     "description": """
 
 Functionalitati: 
- - Adaugare in raportul de analiza facturi a campurilor: judet, produs si nr de factura
+ -Adaugare in raportul de analiza facturi a campurilor: judet, nr de factura si furnizor
 
 
     """,
