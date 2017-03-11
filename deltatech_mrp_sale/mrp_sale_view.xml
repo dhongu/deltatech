@@ -25,6 +25,14 @@
             report_type="qweb-pdf"
             name="deltatech_mrp_sale.report_specification3" 
             file="deltatech_mrp_sale.report_specification3"    />	 
+            
+          <report 
+            string="Grupate" 
+            id="action_report_group" 
+            model="sale.order" 
+            report_type="qweb-pdf"
+            name="deltatech_mrp_sale.report_group" 
+            file="deltatech_mrp_sale.report_group"    />
 
 
 		<record id="action_sale_mrp_resource" model="ir.actions.act_window">

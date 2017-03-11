@@ -39,6 +39,9 @@ Functionalitati:
  - se pot defini valori implicite la atribute - preluate in comanda de vanzare
  
  - se permite adaugarea unei margini pe fiecare pozitie 
+ - rapoarte:
+     - 3 variante export
+     - raport grupat pe other_category
 
     """,
     
@@ -58,6 +61,7 @@ Functionalitati:
                 'views/report_saleorder_v1.xml',
                 'views/report_saleorder_v2.xml',
                 'views/report_saleorder_v3.xml',
+                'views/report_saleorder_group.xml',
                 'security/ir.model.access.csv',
              ],
     
