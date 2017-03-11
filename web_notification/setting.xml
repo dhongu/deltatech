@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_web_notification_setting_form" model="ir.ui.view">
+            <field name="name">web.notification.setting.form</field>
+            <field name="model">web.notification.setting</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Notification" version="7.0">
+                    <header>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <sheet>
+                        <label for="user"/>
+                        <field name="user"/>
+                        <field name="makecheck"/>
+                        <group string="Send a notification" col="4">
+                            <field name="title"
+                                attrs="{'required': [('makecheck', '!=', 'none')]}"/>
+                            <field name="mode"/>
+                            <field name="message" colspan="4"
+                                attrs="{'required': [('makecheck', '!=', 'none')]}"/>
+                        </group>
+                        <group
+                            attrs="{'invisible': [('makecheck', '!=', 'simple')]}">
+                            <button string="Send" type="object" name="button_check_notification"/>
+                        </group>
+                        <group cols="4"
+                            attrs="{'invisible': [('makecheck', '!=', 'withdelay')]}">
+                            <field name="delay"/>
+                            <button string="Send" type="object" name="button_check_notification_delay"/>
+                        </group>
+                        <group cols="4"
+                            attrs="{'invisible': [('makecheck', '!=', 'cron')]}">
+                            <field name="dt"/>
+                            <button string="Send" type="object" name="button_check_notification_cron"/>
+                        </group>
+                        <newline/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="act_open_web_notification_setting_view">
+            <field name="name">Notification</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">web.notification.setting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_web_notification_setting_form"/>
+        </record>
+        <menuitem id="menu_web_notification_setting"
+            parent="base.menu_config"
+            sequence="20"
+            action="act_open_web_notification_setting_view"/>
+    </data>
+</openerp>
