@@ -33,7 +33,9 @@ Validarea documentrului duce la generarea notelor contabile de avans si inegistr
 -
 		
     """,
-    'author': 'Deltatech',
+    "author" : "Dorin Hongu",
+    "website": "www.terrabit.ro",
+
     'images': [''],
     'depends': ['account','account_voucher','product','l10n_ro','l10n_ro_account_voucher_cash'],
     'data' : ['account_voucher_view.xml',

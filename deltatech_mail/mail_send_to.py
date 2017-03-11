@@ -36,7 +36,8 @@ class mail_send_to(models.TransientModel):
     domain = fields.Char(string='Domain', help="Optional domain for further data filtering")
     
     partner_ids = fields.Many2many('res.partner', 'send_mail_to_partener_rel', 'send_mail_id','partner_id', 
-                                      string='Recipients',help="List of partners that will be added as follower of the current document." )
+                                      string='Recipients',
+                                      help="List of partners that will be added as follower of the current document." )
     
     subject = fields.Char(string='Subject')
     message = fields.Html(string='Message')

@@ -18,12 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
- 
+
 {
-    "name" : "Deltatech Sale RFQ",
-    "version" : "1.0",
+    "name": "Deltatech Sale RFQ",
+    "version": "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -38,22 +38,20 @@ Functionalitati:
 Nu se va folosi modulul sale_crm
   
     """,
-    
-    
-   'category': 'Sales Management',
-    "depends" : ['deltatech',
-                 "sale","crm"
-                 ],
- 
-    "data" : [  
-               "security/security.xml","security/ir.model.access.csv",
-               "sale_rfq_view.xml",
-               "data.xml",
-               "sale_view.xml",
-               "crm_lead_view.xml"
-               ],
-    
+
+    'category': 'Sales Management',
+    "depends": ['deltatech',
+                "sale", "crm"
+                ],
+
+    "data": [
+        "security/security.xml", "security/ir.model.access.csv",
+        "sale_rfq_view.xml",
+        "data.xml",
+        "sale_view.xml",
+        "crm_lead_view.xml"
+    ],
+
     "active": False,
     "installable": True,
 }
- 

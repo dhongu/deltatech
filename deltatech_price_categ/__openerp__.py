@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Price: Bronze Silver Gold",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Price: Bronze Silver Gold",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -34,15 +34,13 @@ Functionalitati:
  
 
     """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"product"],
- 
-    "data" : [ 'product_view.xml',
-               ],
-    
+
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', "product"],
+
+    "data": ['product_view.xml',
+             ],
+
     "active": False,
     "installable": True,
 }
- 

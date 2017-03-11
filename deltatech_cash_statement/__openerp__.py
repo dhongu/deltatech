@@ -22,6 +22,7 @@
     "name" : "Deltatech Cash Statement Extension",
     "version" : "1.0",
     "author" : "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "website" : "",
     "description": """
 

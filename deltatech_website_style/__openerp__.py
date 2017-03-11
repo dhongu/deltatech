@@ -24,7 +24,7 @@
     "name" : "Deltatech Website Style",
     "version" : "1.0",
     "author" : "Deltatech",
-    "website" : "",
+    "website" : "www.terrabit.ro",
     "description": """
 
 Functionalitati:

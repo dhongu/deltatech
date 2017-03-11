@@ -24,7 +24,7 @@
     "name" : "Deltatech MRP Sale",
     "version" : "2.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:

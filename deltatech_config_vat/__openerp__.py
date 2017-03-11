@@ -22,7 +22,8 @@
     "name" : "Deltatech Config VAT",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
+
     "description": """
 
 Functionalitati:

@@ -18,37 +18,35 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
- 
+
 {
-    "name" : "Deltatech Claim 8D",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Claim 8D",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
- -Raportare 8D
+ - Raportare 8D
   
   https://en.wikipedia.org/wiki/Eight_Disciplines_Problem_Solving
   
    
     """,
-    
-    
+
     'category': 'Sales Management',
-    "depends" : [
-                 'deltatech','product',
-                 'deltatech_simple_crm_claim'
-                 #"crm_claim"
-                 ],
- 
-    "data" : [  
-                'security/ir.model.access.csv',
-                'views/report8d.xml',
-                'crm_claim_view.xml'              
-               ],
-    
+    "depends": [
+        'deltatech', 'product',
+        'deltatech_simple_crm_claim'
+        # "crm_claim"
+    ],
+
+    "data": [
+        'security/ir.model.access.csv',
+        'views/report8d.xml',
+        'crm_claim_view.xml'
+    ],
+
     "active": False,
     "installable": True,
 }
- 

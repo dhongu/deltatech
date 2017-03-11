@@ -698,7 +698,7 @@ class sale_mrp_resource(models.Model):
     purchase_amount = fields.Float(string='Purchase Amount', compute='_compute_margin', store=True)
     currency_id = fields.Many2one('res.currency',  related="order_id.pricelist_id.currency_id", store=True)
 
-    other_categ_id = fields.Many2one('product.category',string='Other Category',related='product_id.other_categ_id')
+    other_categ_id = fields.Many2one('product.category',string='Other Category',related='product_id.other_categ_id', store=True)
 
     @api.one
     @api.constrains('purchase_price', 'price_unit')
@@ -862,5 +862,5 @@ class sale_mrp_resource_item(models.Model):
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits =dp.get_precision('Product Unit of Measure'))
     product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
  
- 
+    other_categ_id = fields.Many2one('product.category',string='Other Category',related='product_id.other_categ_id', store=True)
     

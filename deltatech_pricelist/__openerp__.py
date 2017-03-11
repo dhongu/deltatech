@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Price List",
-    "version" : "1.0",
+    "name": "Deltatech Price List",
+    "version": "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -31,15 +31,13 @@ Functionalitati:
  - Camp nou pt cod lista de preturi
 
     """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"product"],
- 
-    "data" : [ 'pricelist_view.xml',
-               ],
-    
+
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', "product"],
+
+    "data": ['pricelist_view.xml',
+             ],
+
     "active": False,
     "installable": True,
 }
- 
