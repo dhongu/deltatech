@@ -24,7 +24,7 @@
     "name" : "Deltatech Website Hover Effect Ideas",
     "version" : "1.0",
     "author" : "Deltatech",
-    "website" : "",
+    "website" : "www.terrabit.ro",
     "description": """
 
 Based on 

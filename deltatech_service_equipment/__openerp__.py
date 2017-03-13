@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services Equipment",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Services Equipment",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -35,50 +35,50 @@ Functionalitati:
 - facturare in baza citirilor
 - caclul estimare citiri
 - intoducere automat la sfarsit de perioada a valorilor estimate
+- generare echipamnte din pozitii de stoc
 
 - gestionare consumabile pentru un echipament
 
 - raport calcul eficienta echipamente
  
     """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","mail",
-                 "deltatech",
-                 "deltatech_service",
-                 "deltatech_procurement",
-                 "deltatech_product_extension",
-                 "deltatech_stock_report",
-                 "web_notification",   #pentru afisare mesaje procese lansate in background
-                 ],
 
-
-    "data" : [ 'data.xml',
-              
-               'service_rent_view.xml',
-
-               'service_efficiency_report.xml',
-               'stock_view.xml',
-               'security/service_security.xml',
-               'security/ir.model.access.csv',
-               
-               'wizard/estimate_view.xml',
-               'wizard/enter_readings_view.xml',
-               'wizard/service_equi_operation_view.xml',
-               'wizard/service_equi_agreement_view.xml',
-
-               'service_meter_view.xml',
-               'service_equipment_view.xml',
-               'service_consumable_view.xml',
-
-                'demo.xml',
-               #'service.meter.reading.csv'
-                              
+    "category": "Generic Modules",
+    "depends": ["base", "mail",
+                "deltatech",
+                "deltatech_service",
+                "deltatech_procurement",
+                "deltatech_product_extension",
+                "deltatech_stock_report",
+                "web_notification",  # pentru afisare mesaje procese lansate in background
                 ],
+
+    "data": ['data.xml',
+
+             'service_rent_view.xml',
+
+             'service_efficiency_report.xml',
+             'stock_view.xml',
+             'security/service_security.xml',
+             'security/ir.model.access.csv',
+
+             'wizard/estimate_view.xml',
+             'wizard/enter_readings_view.xml',
+             'wizard/service_equi_operation_view.xml',
+             'wizard/service_equi_agreement_view.xml',
+             'wizard/new_equi_from_quant_view.xml',
+
+             'service_meter_view.xml',
+             'service_equipment_view.xml',
+             'service_consumable_view.xml',
+
+             'demo.xml',
+             # 'service.meter.reading.csv'
+
+             ],
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

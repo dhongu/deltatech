@@ -21,10 +21,12 @@
 {
     "name" : "Deltatech",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author" : "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "category" : "Generic Modules",
     "depends" : [],
-    "description": '',
+    "description": 'Nu face nimic, este un modul generic'
+                   '',
     "data" : [],
     "active": False,
     "installable": True,

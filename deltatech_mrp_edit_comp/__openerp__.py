@@ -23,8 +23,8 @@
 {
     "name" : "Deltatech MRP Edit Components",
     "version" : "2.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "author" : "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:

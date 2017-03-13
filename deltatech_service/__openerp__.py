@@ -24,7 +24,7 @@
     "name" : "Deltatech Services",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:

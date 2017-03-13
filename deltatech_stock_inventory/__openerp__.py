@@ -22,7 +22,7 @@
     "name" : "Deltatech Stock Inventory",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
 
      Afisare coloana de pret de stoc la inventariere

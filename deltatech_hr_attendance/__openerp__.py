@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Prezenta",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Prezenta",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -31,15 +31,13 @@ Functionalitati:
  
 
     """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"hr_attendance"],
- 
-    "data" : [  
-               ],
-    
+
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', "hr_attendance"],
+
+    "data": [
+    ],
+
     "active": False,
     "installable": True,
 }
- 

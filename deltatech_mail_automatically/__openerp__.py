@@ -19,28 +19,28 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Automatically Mail",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules",
-    "depends" : [
-                 'mail',
-                 'deltatech',
-                 'stock',
-                 'account',
-                 ],
-                 
-                 
+    "name": "Deltatech Automatically Mail",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "category": "Generic Modules",
+    "depends": [
+        'mail',
+        'deltatech',
+        'stock',
+        'account',
+    ],
+
     "description": """
 Functionalitati:
  - se timit automat liste de ridicare la o lista de destinatari
 """,
-    "data" : [
-              'mail_automatically_view.xml',
-              'security/ir.model.access.csv',
-               ],
+    "data": [
+        'mail_automatically_view.xml',
+        'security/ir.model.access.csv',
+    ],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -22,7 +22,7 @@
     "name" : "Deltatech Products Extension",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    
+    "website": "www.terrabit.ro",
     'category': 'Sales Management',
     
     "depends" : ['deltatech',"product"],

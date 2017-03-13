@@ -53,8 +53,6 @@ class sale_order(models.Model):
     @api.multi
     def action_button_confirm(self):
         res = super(sale_order,self).action_button_confirm()
-        
-            
         return res
                
 class sale_order_line(models.Model):

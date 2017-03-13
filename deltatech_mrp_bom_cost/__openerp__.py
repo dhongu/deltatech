@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech MRP BOM Cost",
-    "version" : "2.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "name": "Deltatech MRP BOM Cost",
+    "version": "2.0",
+    "author": "Deltatech",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:
@@ -35,20 +35,18 @@ Functionalitati:
 Obs: depinde si de mrp_product_variants
  
     """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"base","mrp_hook","product_variants_no_automatic_creation"],
 
+    "category": "Generic Modules/Production",
+    "depends": ['deltatech', "base", "mrp_hook", "product_variants_no_automatic_creation"],
 
-    "data" : [      
-                "mrp_view.xml",
-                "product_view.xml"
-                
-                ],
+    "data": [
+        "mrp_view.xml",
+        "product_view.xml"
+
+    ],
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

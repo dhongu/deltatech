@@ -83,9 +83,13 @@ class purchase_order(models.Model):
             if invoice.state =='paid' and not (invoice.origin_refund_invoice_id or  invoice.refund_invoice_id):
                 self.invoiced = True
 
-
-
-
+    """
+    @api.multi
+    def write(self, vals):
+        print vals
+        return super(purchase_order,self).write( vals)
+    """
+    
     def view_procurement(self, cr, uid, ids, context=None):
         '''
         This function returns an action that display existing procurement of given purchase order ids.

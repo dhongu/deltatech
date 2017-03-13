@@ -19,12 +19,12 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Products Alternative On Invoice",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules/Inventory Control",
-    "depends" : ['deltatech',"deltatech_alternative","l10n_ro_invoice_report"],
-
+    "name": "Deltatech Products Alternative On Invoice",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "category": "Generic Modules/Inventory Control",
+    "depends": ['deltatech', "deltatech_alternative", "l10n_ro_invoice_report"],
 
     "description": """
 Features:    
@@ -32,12 +32,12 @@ Features:
  
  
 """,
-    "data" : [
-        "views/report_invoice.xml" ,    
+    "data": [
+        "views/report_invoice.xml",
 
     ],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

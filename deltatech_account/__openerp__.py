@@ -22,6 +22,7 @@
     "name" : "Deltatech Account",
     "version" : "1.0",
     "author" : "Dorin Hongu",
+    "website" : "www.terrabit.ro",
     "category" : "Generic Modules",
     "depends" : ['account'],
     "description": '',

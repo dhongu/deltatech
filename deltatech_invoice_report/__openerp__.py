@@ -22,11 +22,11 @@
     "name" : "Deltatech Invoice Report",
     "version" : "1.0",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati: 
- - Adaugare in raportul de analiza facturi a campurilor: judet, produs si nr de factura
+ -Adaugare in raportul de analiza facturi a campurilor: judet, nr de factura si furnizor
 
 
     """,

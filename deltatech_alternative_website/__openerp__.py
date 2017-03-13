@@ -21,10 +21,11 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Website alternative code",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Website alternative code",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "www.terrabit.ro",
+
     "description": """
 
 Functionalitati:
@@ -32,19 +33,15 @@ Functionalitati:
     - afisare igagini produse in magazinul virtual cu watermark
 
     """,
-    
-    "category" : "Website",
-    "depends" : ['deltatech',"website_sale","deltatech_alternative",'l10n_ro_invoice_report'],
 
-   'data':['product_view.xml','views/templates.xml'],
+    "category": "Website",
+    "depends": ['deltatech', "website_sale", "deltatech_alternative", 'l10n_ro_invoice_report'],
 
- 
-    
-    
+    'data': ['product_view.xml', 'views/templates.xml'],
+
     "installable": True,
     'auto_install': False,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

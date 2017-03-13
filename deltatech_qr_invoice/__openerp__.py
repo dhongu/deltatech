@@ -23,7 +23,7 @@
     "version" : "1.0",
     "category" : "Sales Management",
     "author" : "Dorin Hongu",
-    "website" : "",
+    "website": "www.terrabit.ro",
     "description": """
  
 Features:

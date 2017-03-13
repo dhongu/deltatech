@@ -22,6 +22,7 @@
     "name" : "Deltatech Account Followup",
     "version" : "1.0",
     "author" : "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "category" : "Generic Modules",
     "depends" : ['account_followup','warning'],
     "description": '',

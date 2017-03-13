@@ -23,8 +23,8 @@
 {
     "name" : "Deltatech Stock Date",
     "version" : "1.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "author" : "Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
