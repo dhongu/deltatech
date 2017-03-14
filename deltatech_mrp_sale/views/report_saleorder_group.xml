@@ -72,6 +72,46 @@
         </table>
         <br />
         <br />
+        <p style="font-weight: bold;">Montaj KIT</p>
+		<t t-set="kit_m_value" t-value="0"/>
+        <t t-set="kit_m_purchase" t-value="0"/>
+        <table style="border: 1px solid gray;padding: 15px;width:90%">
+        	<tr>
+        		<th style="border-bottom: 1px solid black;">Produs</th>
+        		<th style="border-bottom: 1px solid black;">Cantitate</th>
+                <th style="border-bottom: 1px solid black;">Pret achizitie (EUR)</th>
+                <th style="border-bottom: 1px solid black;">Val. achizitie (EUR)</th>
+                <th style="border-bottom: 1px solid black;">Pret vanzare (EUR)</th>
+                <th style="border-bottom: 1px solid black;">Valoare (EUR)</th>
+        		<th style="border-bottom: 1px solid black;">Categorie</th>
+        	</tr>
+	        <t t-foreach="o.resource_ids" t-as="a">
+	        	<t t-if="a.other_categ_id.name == 'MONTAJ KIT'">
+	        		<tr>
+	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+	        			<td style="border-bottom: 1px solid #ddd;"><span t-field="a.product_uom_qty"/></td>
+                        <td style="border-bottom: 1px solid #ddd;"><span t-field="a.purchase_price"/></td>
+                        <td style="border-bottom: 1px solid #ddd;"><span t-field="a.purchase_amount"/></td>
+                        <td style="border-bottom: 1px solid #ddd;"><span t-field="a.price_unit"/></td>
+                        <td style="border-bottom: 1px solid #ddd;"><span t-field="a.amount"/></td>
+	        			<td style="border-bottom: 1px solid #ddd;"><span t-field="a.other_categ_id"/></td>
+	        		</tr>
+                    <t t-set="kit_m_value" t-value="kit_m_value+a.amount"/>
+                    <t t-set="kit_m_purchase" t-value="kit_m_purchase+a.purchase_amount"/>
+	        	</t>
+	        </t>
+            <tr>
+                <td></td>   
+                <td></td>
+                <td></td>
+                <td><strong t-esc="kit_m_purchase" /></td>
+                <td></td>
+                <td><strong t-esc="kit_m_value" /></td>
+                <td>Marja montaj kit: <strong t-esc="kit_m_value-kit_m_purchase" /></td>
+	        </tr>
+        </table>
+        <br />
+        <br />
         <p style="font-weight: bold;">IZOLATII</p>
         <t t-set="iz_value" t-value="0"/>
         <t t-set="iz_purchase" t-value="0"/>
@@ -187,7 +227,7 @@
                 <td><strong t-esc="other_purchase" /></td>
                 <td></td>
                 <td><strong t-esc="other_value" /></td>
-                <td>Marja folii: <strong t-esc="other_value-other_purchase" /></td>
+                <td>Marja altele: <strong t-esc="other_value-other_purchase" /></td>
 	        </tr>
         </table>
         
