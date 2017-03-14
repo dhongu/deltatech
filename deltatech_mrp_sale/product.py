@@ -37,7 +37,7 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    other_categ_id = fields.Many2one('product.category',string='Other Category', store=True)
+    other_categ_id = fields.Many2one('product.category',string='Other Category')
  
 class ProductProduct(models.Model):
     _inherit = 'product.product'
