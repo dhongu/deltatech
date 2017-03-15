@@ -40,7 +40,7 @@ de facut:
 
     "category": "Generic Modules/Stock",
     "depends": ['deltatech', "stock", "account",
-                # "stock_picking_invoice_link"
+                # "stock_picking_invoice_link"  # pentru a avea invoice_id in pickinglist
                 ],
 
     "data": [
