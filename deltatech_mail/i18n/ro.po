@@ -1,137 +1,312 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_mail
-#
+# * deltatech_mail
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-28 09:31+0000\n"
-"PO-Revision-Date: 2016-04-28 09:31+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 17:00+0000\n"
+"PO-Revision-Date: 2017-03-11 17:00+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: view:mail.send.to:deltatech_mail.mail_send_to_form
 #. module: deltatech_mail
+#: help:mail.group,alias_defaults:0
+msgid ""
+"A Python dictionary that will be evaluated to provide default values when "
+"creating new records for this alias."
+msgstr ""
+
+#. module: deltatech_mail
+#: view:mail.send.to:deltatech_mail.mail_send_to_form
 msgid "Add contacts to notify..."
 msgstr "Adăugați contacte pentru a fi notificate..."
 
-#: view:mail.send.to:deltatech_mail.mail_send_to_form
 #. module: deltatech_mail
+#: field:mail.group,alias_contact:0
+msgid "Alias Contact Security"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_name:0
+msgid "Alias Name"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_domain:0
+msgid "Alias domain"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_model_id:0
+msgid "Aliased Model"
+msgstr "Aliased Model"
+
+#. module: deltatech_mail
+#: view:mail.compose.message:deltatech_mail.email_compose_message_wizard_form
+msgid "Attach a file"
+msgstr "Atașează un fișier"
+
+#. module: deltatech_mail
+#: view:mail.send.to:deltatech_mail.mail_send_to_form
 msgid "Cancel"
 msgstr "Anulează"
 
-#: field:mail.send.to,action_id:0
 #. module: deltatech_mail
+#: field:mail.send.to,create_uid:0
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_mail
+#: field:mail.send.to,create_date:0
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_mail
+#: field:mail.group,alias_defaults:0
+msgid "Default Values"
+msgstr ""
+
+#. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_group
+msgid "Discussion group"
+msgstr "Grup de discuții"
+
+#. module: deltatech_mail
+#: field:mail.compose.message,display_name:0 field:mail.group,display_name:0
+#: field:mail.notification,display_name:0 field:mail.send.to,display_name:0
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_mail
+#: field:mail.send.to,action_id:0
 msgid "Documents to send"
 msgstr "Documente de trimis"
 
+#. module: deltatech_mail
 #: field:mail.send.to,domain:0
-#. module: deltatech_mail
 msgid "Domain"
-msgstr "Domain"
+msgstr ""
 
+#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_compose_message
-#. module: deltatech_mail
 msgid "Email composition wizard"
-msgstr "Wizardul de compunere email-uri"
+msgstr "Asistentul de compunere email-uri"
 
-#: view:mail.compose.message:deltatech_mail.email_compose_message_wizard_form
 #. module: deltatech_mail
+#: view:mail.compose.message:deltatech_mail.email_compose_message_wizard_form
 msgid "Followers of the document and"
 msgstr "Interesați de document și"
 
+#. module: deltatech_mail
+#: field:mail.send.to,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mail
+#: help:mail.group,alias_parent_thread_id:0
+msgid ""
+"ID of the parent record holding the alias (example: project holding the task"
+" creation alias)"
+msgstr ""
+
+#. module: deltatech_mail
 #: help:mail.compose.message,mail_notify_noemail:0
-#. module: deltatech_mail
 msgid "It will use internal Odoo mail without sending out email system"
-msgstr "Se va utiliza mesageria internă Odoo fără a trmite email înafara sistemului"
+msgstr ""
+"Se va utiliza mesageria internă Odoo fără a trmite email înafara sistemului"
 
+#. module: deltatech_mail
+#: field:mail.compose.message,__last_update:0 field:mail.group,__last_update:0
+#: field:mail.notification,__last_update:0 field:mail.send.to,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.send.to,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_mail
+#: field:mail.send.to,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_mail
+#: field:mail.compose.message,attachment_mode:0
+msgid "List attachments"
+msgstr ""
+
+#. module: deltatech_mail
 #: help:mail.send.to,partner_ids:0
-#. module: deltatech_mail
-msgid "List of partners that will be added as follower of the current document."
-msgstr "List of partners that will be added as follower of the current document."
+msgid ""
+"List of partners that will be added as follower of the current document."
+msgstr ""
 
+#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_send_to
-#. module: deltatech_mail
 msgid "Mail Send To"
-msgstr "Mail Send To"
+msgstr ""
 
-#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:102
 #. module: deltatech_mail
 #. openerp-web
+#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:102
 #, python-format
 msgid "Make Read"
 msgstr "Marchează ca citit"
 
-#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:104
 #. module: deltatech_mail
 #. openerp-web
+#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:104
 #, python-format
 msgid "Make UnRead"
 msgstr "Marchează ca necitit"
 
+#. module: deltatech_mail
 #: model:ir.model,name:deltatech_mail.model_mail_message
 #: field:mail.send.to,message:0
-#. module: deltatech_mail
 msgid "Message"
 msgstr "Mesaj"
 
-#: code:addons/deltatech_mail/mail_message.py:88
 #. module: deltatech_mail
+#: code:addons/deltatech_mail/mail_message.py:100
 #, python-format
 msgid "New message in the document: %s"
 msgstr "Mesaj nou în documentul: %s"
 
-#: model:ir.model,name:deltatech_mail.model_mail_notification
 #. module: deltatech_mail
+#: model:ir.model,name:deltatech_mail.model_mail_notification
 msgid "Notifications"
 msgstr "Notificări"
 
-#: field:mail.compose.message,mail_notify_noemail:0
 #. module: deltatech_mail
+#: field:mail.compose.message,mail_notify_noemail:0
 msgid "Only internal notification"
 msgstr "Numai notificări interne"
 
-#: field:mail.send.to,partner_ids:0
 #. module: deltatech_mail
+#: help:mail.group,alias_force_thread_id:0
+msgid ""
+"Optional ID of a thread (record) to which all incoming messages will be "
+"attached, even if they did not reply to it. If set, this will disable the "
+"creation of new records completely."
+msgstr ""
+
+#. module: deltatech_mail
+#: help:mail.send.to,domain:0
+msgid "Optional domain for further data filtering"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_user_id:0
+msgid "Owner"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_parent_model_id:0
+msgid "Parent Model"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.group,alias_parent_thread_id:0
+msgid "Parent Record Thread ID"
+msgstr ""
+
+#. module: deltatech_mail
+#: help:mail.group,alias_parent_model_id:0
+msgid ""
+"Parent model holding the alias. The model holding the alias reference\n"
+"is not necessarily the model given by alias_model_id\n"
+"(example: project (parent_model) and task (model))"
+msgstr ""
+"Parent model holding the alias. The model holding the alias reference\n"
+"is not necessarily the model given by alias_model_id\n"
+"(example: project (parent_model) and task (model))"
+
+#. module: deltatech_mail
+#: help:mail.group,alias_contact:0
+msgid ""
+"Policy to post a message on the document using the mailgateway.\n"
+"- everyone: everyone can post\n"
+"- partners: only authenticated partners\n"
+"- followers: only followers of the related document\n"
+msgstr ""
+
+#. module: deltatech_mail
+#: field:mail.send.to,partner_ids:0
 msgid "Recipients"
 msgstr "Destinatari"
 
-#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:100
-#: view:mail.send.to:deltatech_mail.mail_send_to_form
+#. module: deltatech_mail
+#: field:mail.group,alias_force_thread_id:0
+msgid "Record Thread ID"
+msgstr ""
+
 #. module: deltatech_mail
 #. openerp-web
+#: code:addons/deltatech_mail/static/src/js/mail_send_to.js:100
+#: view:mail.send.to:deltatech_mail.mail_send_to_form
 #, python-format
 msgid "Send Mail"
-msgstr "Trimite Mail"
+msgstr "Trimite Mesaj Intern"
 
+#. module: deltatech_mail
 #: model:ir.actions.act_window,name:deltatech_mail.action_mail_send_to_step1
 #: view:mail.send.to:deltatech_mail.mail_send_to_form
-#. module: deltatech_mail
 msgid "Send documents"
 msgstr "Trimite documente"
 
-#: field:mail.compose.message,only_selected:0
 #. module: deltatech_mail
+#: field:mail.compose.message,only_selected:0
 msgid "Send only for selected users"
 msgstr "Trimite numai la contactele selectate"
 
-#: field:mail.send.to,subject:0
 #. module: deltatech_mail
+#: field:mail.send.to,subject:0
 msgid "Subject"
 msgstr "Subiect"
 
-#: field:mail.compose.message,auto_subscribe:0
 #. module: deltatech_mail
+#: field:mail.compose.message,auto_subscribe:0
 msgid "Subscribe Recipients"
 msgstr "Adaugă destinatari la urmăritori"
 
-#: view:mail.send.to:deltatech_mail.mail_send_to_form
 #. module: deltatech_mail
+#: help:mail.group,alias_model_id:0
+msgid ""
+"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
+" email that does not reply to an existing record will cause the creation of "
+"a new record of this model (e.g. a Project Task)"
+msgstr ""
+"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
+" email that does not reply to an existing record will cause the creation of "
+"a new record of this model (e.g. a Project Task)"
+
+#. module: deltatech_mail
+#: help:mail.group,alias_name:0
+msgid ""
+"The name of the email alias, e.g. 'jobs' if you want to catch emails for "
+"<jobs@example.odoo.com>"
+msgstr ""
+
+#. module: deltatech_mail
+#: help:mail.group,alias_user_id:0
+msgid ""
+"The owner of records created upon receiving emails on this alias. If this "
+"field is not set the system will attempt to find the right owner based on "
+"the sender (From) address, or will use the Administrator account if no "
+"system user is found for that address."
+msgstr ""
+
+#. module: deltatech_mail
+#: view:mail.send.to:deltatech_mail.mail_send_to_form
 msgid "or"
 msgstr "sau"
-

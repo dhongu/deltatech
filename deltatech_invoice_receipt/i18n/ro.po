@@ -1,24 +1,32 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_invoice_receipt
-#
+# * deltatech_invoice_receipt
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-22 05:02+0000\n"
-"PO-Revision-Date: 2017-01-22 05:02+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 16:58+0000\n"
+"PO-Revision-Date: 2017-03-11 16:58+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #. module: deltatech_invoice_receipt
 #: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open."
-msgstr "Sunteți sigur că doriți recepția produselor fără comandă de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
+msgid ""
+"Are you sure you want to receive products without purchase order?  If these "
+"products exist items in a purchase order they will stay open."
+msgstr ""
+"Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă "
+"pentru aceste produsele există poziții în comenzi de aprovizionare atunci "
+"ele vor râmâne deschise."
 
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/stock.py:56
@@ -38,6 +46,18 @@ msgid "Delivery not found!"
 msgstr "Livrare negăsită!"
 
 #. module: deltatech_invoice_receipt
+#: field:account.invoice,display_name:0
+#: field:account.invoice.line,display_name:0
+#: field:stock.pack.operation,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: deltatech_invoice_receipt
+#: field:account.invoice,move_lines:0
+msgid "Entry Lines"
+msgstr "Entry Lines"
+
+#. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_inventory
 msgid "Inventory"
 msgstr "Inventar"
@@ -51,6 +71,13 @@ msgstr "Factura"
 #: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice_line
 msgid "Invoice Line"
 msgstr "Linie factură"
+
+#. module: deltatech_invoice_receipt
+#: field:account.invoice,__last_update:0
+#: field:account.invoice.line,__last_update:0
+#: field:stock.pack.operation,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
 
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:73
@@ -68,7 +95,8 @@ msgstr "Nu există comenzi de achiziție pentru acest furnizor"
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:284
 #, python-format
 msgid "No purchase orders line from product %s in quantity of %s "
-msgstr "Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
+msgstr ""
+"Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
 
 #. module: deltatech_invoice_receipt
 #: field:account.invoice,origin_refund_invoice_id:0
@@ -81,12 +109,17 @@ msgid "Packing Operation"
 msgstr "Operație ambalare"
 
 #. module: deltatech_invoice_receipt
+#: field:account.invoice,payment_ids:0
+msgid "Payments"
+msgstr "Payments"
+
+#. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_picking
 msgid "Picking List"
 msgstr "Listă ridicare"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:341
+#: code:addons/deltatech_invoice_receipt/account_invoice.py:343
 #, python-format
 msgid "Picking list %s was receipted"
 msgstr "Documentul de intrare %s a fost recepționat."
@@ -103,11 +136,6 @@ msgstr "Recepția %s fără referință la comandă de achiziție a fost realiza
 #, python-format
 msgid "Picking not found!"
 msgstr "Operație de stoc negasită!"
-
-#. module: deltatech_invoice_receipt
-#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Pozitii de stoc"
-msgstr "Pozitii de stoc"
 
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:152
@@ -129,6 +157,12 @@ msgstr "Recepție fără comandă de achiziție"
 #: field:account.invoice,refund_invoice_id:0
 msgid "Refund Invoice"
 msgstr "Factură rembursare"
+
+#. module: deltatech_invoice_receipt
+#: view:account.invoice:deltatech_invoice_receipt.invoice_form1
+#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form1
+msgid "Stock"
+msgstr "Stoc"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_move
@@ -158,8 +192,3 @@ msgstr "A fost făcută recepția pentru comenzile de achiziție:"
 #, python-format
 msgid "Was entered invoice %s"
 msgstr "A fost introdusă factura %s"
-
- 
-
-
-

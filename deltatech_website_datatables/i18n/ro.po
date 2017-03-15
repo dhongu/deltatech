@@ -1,123 +1,15 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_website_datatables
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-14 04:17+0000\n"
-"PO-Revision-Date: 2015-09-14 04:17+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 17:19+0000\n"
+"PO-Revision-Date: 2017-03-11 17:19+0000\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:15
-#, python-format
-msgid "(filtered from _MAX_ total entries)"
-msgstr "(filtrate dintr-un total de _MAX_ înregistrări)"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:30
-#, python-format
-msgid ": activate to sort column ascending"
-msgstr ": activate to sort column ascending"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:31
-#, python-format
-msgid ": activate to sort column descending"
-msgstr ": activate to sort column descending"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:24
-#, python-format
-msgid "First"
-msgstr "Prima"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:25
-#, python-format
-msgid "Last"
-msgstr "Ultima
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:19
-#, python-format
-msgid "Loading..."
-msgstr "Încarcă..."
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:26
-#, python-format
-msgid "Next"
-msgstr "Următoarea"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:12
-#, python-format
-msgid "No data available in table"
-msgstr "Nu sunt date în tabel"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:22
-#, python-format
-msgid "No matching records found"
-msgstr "Nu am găsit nimic - ne pare rău"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:27
-#, python-format
-msgid "Previous"
-msgstr "Precedenta"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:20
-#, python-format
-msgid "Processing..."
-msgstr "Procesare..."
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:21
-#, python-format
-msgid "Search:"
-msgstr "Caută:"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:18
-#, python-format
-msgid "Show _MENU_ entries"
-msgstr "Afișează _MENU_ înregistrări"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:14
-#, python-format
-msgid "Showing 0 to 0 of 0 entries"
-msgstr "Afișate de la 0 la 0 din 0 înregistrări"
-
-#. module: deltatech_website_datatables
-#. openerp-web
-#: code:addons/deltatech_website_datatables/static/src/js/website.js:13
-#, python-format
-msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "Afișate de la _START_ la _END_ din _TOTAL_ înregistrări"
-
-
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"

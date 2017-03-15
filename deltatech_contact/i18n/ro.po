@@ -1,39 +1,27 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_contact
-#
+# * deltatech_contact
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0-20131210-002425\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creațion-Date: 2013-12-11 19:17+0000\n"
-"PO-Revision-Date: 2013-12-11 19:17+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 16:53+0000\n"
+"PO-Revision-Date: 2017-03-11 16:53+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
 #. module: deltatech_contact
-#: constraint:res.partner:0
-msgid "CNP invaid"
-msgstr "CNP invaid"
-
-#. module: deltatech_contact
-#: view:res.partner:0
-msgid "SPCLEP .."
-msgstr "SPCLEP .."
-
-#. module: deltatech_contact
-#: model:ir.model,name:deltatech_contact.model_res_partner
-msgid "Partner"
-msgstr "Partener"
-
-#. module: deltatech_contact
-#: field:res.partner,id_issued_by:0
-msgid "ID Issued by"
-msgstr "Eliberat de"
+#: view:res.partner:deltatech_contact.deltatech_res_partner_form_view
+msgid "AB123456"
+msgstr "AB123456"
 
 #. module: deltatech_contact
 #: field:res.partner,cnp:0
@@ -41,39 +29,20 @@ msgid "CNP"
 msgstr "CNP"
 
 #. module: deltatech_contact
-#: field:res.company,share_capital:0
-msgid "Share Capital"
-msgstr "Capital Social"
+#: code:addons/deltatech_contact/res_partner.py:110 constraint:res.partner:0
+#, python-format
+msgid "CNP invaid"
+msgstr "CNP invaid"
 
 #. module: deltatech_contact
-#: model:ir.model,name:deltatech_contact.model_res_company
-msgid "Companies"
-msgstr "Companii"
+#: model:res.groups,name:deltatech_contact.group_external_employee
+msgid "External Employee"
+msgstr "Angajat extern"
 
 #. module: deltatech_contact
-#: view:res.partner:0
-msgid "ex. RO1234567"
-msgstr "ex. RO1234567"
-
-#. module: deltatech_contact
-#: view:res.partner:0
-msgid "AB123456"
-msgstr "AB123456"
-
-#. module: deltatech_contact
-#: field:res.partner,mean_transp:0
-msgid "Mean transport"
-msgstr "Mijloc transport"
-
-#. module: deltatech_contact
-#: view:res.partner:0
-msgid "Check VAT Validity"
-msgstr "Check VAT Validity"
-
-#. module: deltatech_contact
-#: constraint:res.partner:0
-msgid "Invalid TIN!"
-msgstr "CUI invalid!"
+#: field:res.partner,id_issued_by:0
+msgid "ID Issued by"
+msgstr "Eliberat de"
 
 #. module: deltatech_contact
 #: field:res.partner,id_nr:0
@@ -81,7 +50,31 @@ msgid "ID Nr"
 msgstr "Carte identitate"
 
 #. module: deltatech_contact
-#: view:res.partner:0
-msgid "Get data from Mfinante"
-msgstr "Preia de la Mfinante"
+#: field:res.partner,is_department:0
+msgid "Is department"
+msgstr "Este departement"
 
+#. module: deltatech_contact
+#: field:res.partner,__last_update:0
+msgid "Last Modified on"
+msgstr "Ultima modificare în"
+
+#. module: deltatech_contact
+#: field:res.partner,mean_transp:0
+msgid "Mean transport"
+msgstr "Mijloc transport"
+
+#. module: deltatech_contact
+#: model:ir.model,name:deltatech_contact.model_res_partner
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_contact
+#: view:res.partner:deltatech_contact.deltatech_res_partner_form_view
+msgid "SPCLEP .."
+msgstr "SPCLEP .."
+
+#. module: deltatech_contact
+#: view:res.partner:deltatech_contact.deltatech_res_partner_form_view
+msgid "e.g. Sales Director"
+msgstr "ex. Director vânzari"

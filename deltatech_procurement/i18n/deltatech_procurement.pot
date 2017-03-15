@@ -1,0 +1,768 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_procurement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:06+0000\n"
+"PO-Revision-Date: 2017-03-11 17:06+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:132
+#, python-format
+msgid "Acquisition should be done in the past at %s"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:procurement.order.change.status:deltatech_procurement.view_procurement_order_change_status_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Cancel Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,flag_cancel:0
+msgid "Cancel procurement"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,flag_cancel_no_check:0
+msgid "Cancel procurement without check"
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Canceled"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_procurement_order_change_status
+#: view:procurement.order.change.status:deltatech_procurement.view_procurement_order_change_status_wizard
+msgid "Change status"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,flag_check:0
+msgid "Check procurement"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Check status"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,comment:0
+msgid "Comment"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_procurement_order_change_status
+msgid "Compute all schedulers"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Confirm"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Confirm Physical Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Confirmed"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_consume
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_consume
+msgid "Consume Voucher"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,create_uid:0
+#: field:required.order,create_uid:0
+#: field:required.order.line,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,create_date:0
+#: field:required.order,create_date:0
+#: field:required.order.line,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:purchase.order:deltatech_procurement.purchase_order_form
+#: view:sale.order:deltatech_procurement.view_order_form
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Current Stock"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order.line,qty_available:0
+#: help:sale.order.line,qty_available:0
+msgid "Current quantity of products.\n"
+"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
+"stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,date:0
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Date From"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Date To"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Delivery"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "Delivery Note..."
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:sale.order,deliveriy_note:0
+msgid "Delivery note"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Direct Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order,display_name:0
+#: field:procurement.order.change.status,display_name:0
+#: field:purchase.order,display_name:0
+#: field:required.order,display_name:0
+#: field:required.order.line,display_name:0
+#: field:sale.order,display_name:0
+#: field:sale.order.line,display_name:0
+#: field:stock.move,display_name:0
+#: field:stock.picking,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+#: selection:stock.picking,physical_transfer:0
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:required.order,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:procurement.order:deltatech_procurement.procurement_form_view
+msgid "Extra Information"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order.line,virtual_available:0
+#: help:sale.order.line,virtual_available:0
+msgid "Forecast quantity (computed as Quantity On Hand - Outgoing + Incoming)\n"
+"In a context with a single Stock Location, this includes goods stored in this location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Group By..."
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,id:0
+#: field:required.order,id:0
+#: field:required.order.line,id:0
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Incoming"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Internal"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:96
+#, python-format
+msgid "Internal stock transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Invoice Not Applicable"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:129
+#, python-format
+msgid "It is necessary quantity %s and in stock is %s."
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:123
+#, python-format
+msgid "It is required Physical Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_last_post:0
+msgid "Last Message Date"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order,__last_update:0
+#: field:procurement.order.change.status,__last_update:0
+#: field:purchase.order,__last_update:0
+#: field:required.order,__last_update:0
+#: field:required.order.line,__last_update:0
+#: field:sale.order,__last_update:0
+#: field:sale.order.line,__last_update:0
+#: field:stock.move,__last_update:0
+#: field:stock.picking,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,write_uid:0
+#: field:required.order,write_uid:0
+#: field:required.order.line,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,write_date:0
+#: field:required.order,write_date:0
+#: field:required.order.line,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Lines"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Location"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/product.py:39
+#, python-format
+msgid "No defined a supplier of this product"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:112
+#, python-format
+msgid "Not all products are available. "
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:stock.picking,physical_transfer:0
+msgid "Not required"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order.line,note:0
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_form
+#: view:stock.move:deltatech_procurement.view_move_picking_form
+msgid "Original Moves"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Outgoing"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:117
+#, python-format
+msgid "Physical transfer was made"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_stock_picking
+msgid "Picking List"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:76
+#, python-format
+msgid "Please confirm transfer from %s to %s"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "Previous Month"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_procurement_order
+msgid "Procurement"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,group_id:0
+msgid "Procurement Group"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,location_id:0
+msgid "Procurement Location"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order.line,procurement_id:0
+msgid "Procurement Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:purchase.order:deltatech_procurement.purchase_order_form
+#: field:purchase.order,procurement_count:0
+#: view:required.order:deltatech_procurement.view_required_order_form
+#: field:required.order,procurement_count:0
+#: view:sale.order:deltatech_procurement.view_order_form
+#: field:sale.order,procurement_count:0
+msgid "Procurements"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+#: field:required.order,product_id:0
+#: field:required.order.line,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:78
+#, python-format
+msgid "Purchase order was deleted"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order.line,product_qty:0
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:93
+#, python-format
+msgid "Quantity %s is available from %s .\n"
+""
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:143
+#, python-format
+msgid "Quantity %s of product %s has bring to order.\n"
+""
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order.line,virtual_available:0
+#: field:sale.order.line,virtual_available:0
+msgid "Quantity Available"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order.line,qty_available:0
+#: field:sale.order.line,qty_available:0
+msgid "Quantity On Hand"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "Receipt"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,name:0
+msgid "Reference"
+msgstr ""
+
+#. module: deltatech_procurement
+#: selection:stock.picking,physical_transfer:0
+msgid "Required"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/procurement.py:70
+#, python-format
+msgid "Required %s, but the Minimum order quantity is %s"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,required_line:0
+msgid "Required Lines"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Required Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_required_order
+#: model:ir.ui.menu,name:deltatech_procurement.menu_required_order
+msgid "Required Orders"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_required_order
+#: model:mail.message.subtype,name:deltatech_procurement.mt_order_confirmed
+#: model:mail.message.subtype,name:deltatech_procurement.mt_order_done
+#: view:required.order:deltatech_procurement.view_required_order_form
+#: field:required.order.line,required_id:0
+msgid "Required Products Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:mail.message.subtype,description:deltatech_procurement.mt_order_confirmed
+msgid "Required Products Order Confirmed"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:mail.message.subtype,description:deltatech_procurement.mt_order_done
+msgid "Required Products Order Done"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_required_order_line
+msgid "Required Products Order Line"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_tree
+msgid "Required Products Orders"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:150
+#, python-format
+msgid "Rereserve stock"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:261
+#, python-format
+msgid "Role not found for product %s!"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,route_id:0
+msgid "Route"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order.change.status,flag_run:0
+msgid "Run procurement"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order,sale_id:0
+msgid "Sale Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,date_planned:0
+#: field:required.order.line,date_planned:0
+msgid "Scheduled Date"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "Scrap Products"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_filter
+msgid "Search"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:required.order:deltatech_procurement.view_required_order_form
+msgid "Share a message..."
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_tree
+msgid "Show"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:procurement.order:deltatech_procurement.procurement_form_view
+msgid "Source"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:procurement.order,proc_src_ids:0
+msgid "Source Procurement"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,state:0
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:stock.picking,physical_transfer:0
+msgid "Status Physical Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_incoming
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_incoming
+msgid "Stock Incoming"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_internal
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_internal
+msgid "Stock Internal Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.model,name:deltatech_procurement.model_stock_move
+#: view:procurement.order:deltatech_procurement.procurement_form_view
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "Stock Moves"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing
+msgid "Stock Outgoing"
+msgstr ""
+
+#. module: deltatech_procurement
+#: model:ir.actions.act_window,name:deltatech_procurement.action_picking_tree_outgoing_not2binvoiced
+#: model:ir.ui.menu,name:deltatech_procurement.menu_picking_tree_outgoing_not2binvoiced
+msgid "Stock Outgoing not billable"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_summary:0
+msgid "Summary"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "This Month"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "This Year"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_form
+msgid "To Be Delivered"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:purchase.order:deltatech_procurement.purchase_order_form
+msgid "To Be Received"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+#: view:stock.picking:deltatech_procurement.view_picking_internal_search
+msgid "To Do Physical Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:sale.order:deltatech_procurement.view_order_tree
+msgid "Total untaxed"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/stock.py:93
+#: view:stock.picking:deltatech_procurement.view_picking_form
+#, python-format
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:product.template,used_for:0
+msgid "Used For"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:required.order,warehouse_id:0
+msgid "Warehouse"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:required.order,warehouse_id:0
+msgid "Warehouse to consider for the route selection"
+msgstr ""
+
+#. module: deltatech_procurement
+#: field:purchase.order,website_message_ids:0
+#: field:required.order,website_message_ids:0
+#: field:sale.order,website_message_ids:0
+msgid "Website Messages"
+msgstr ""
+
+#. module: deltatech_procurement
+#: help:purchase.order,website_message_ids:0
+#: help:required.order,website_message_ids:0
+#: help:sale.order,website_message_ids:0
+msgid "Website communication history"
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:133
+#, python-format
+msgid "You cannot cancel a order with procurement not canceled "
+msgstr ""
+
+#. module: deltatech_procurement
+#: code:addons/deltatech_procurement/required_product.py:140
+#, python-format
+msgid "You cannot delete a order which is not draft or cancelled. "
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.invoice.onshipping:deltatech_procurement.view_stock_invoice_onshipping
+msgid "account.group_account_manager"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "bottom"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:procurement.order.change.status:deltatech_procurement.view_procurement_order_change_status_wizard
+msgid "or"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.move:deltatech_procurement.view_move_picking_tree
+msgid "stock.group_stock_manager"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "waiting,partially_available"
+msgstr ""
+
+#. module: deltatech_procurement
+#: view:stock.picking:deltatech_procurement.view_picking_form
+msgid "{'invisible':[('picking_type_code', '=', 'internal')]}"
+msgstr ""
+

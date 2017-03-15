@@ -1,0 +1,200 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_stock_inventory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:15+0000\n"
+"PO-Revision-Date: 2017-03-11 17:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_total
+msgid "After:"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_total
+msgid "Before:"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory.line,loc_case:0
+msgid "Case"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Case:"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory.line,categ_id:0
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_diff
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_diff
+msgid "Diferente Inventariere stoc"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Difference Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory,display_name:0
+#: field:stock.inventory.line,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_diff
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Inventory"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.report.xml,name:deltatech_stock_inventory.action_report_inventory_diff
+msgid "Inventory Diff"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_line
+msgid "Inventory Line"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.report.xml,name:deltatech_stock_inventory.action_report_inventory_position
+msgid "Inventory Position"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory,__last_update:0
+#: field:stock.inventory.line,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_diff
+#: view:website:deltatech_stock_inventory.report_inventory_position
+#: view:website:stock.report_inventory
+msgid "Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Minus Amount"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory,note:0
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Package"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Plus Amount"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory.line,standard_price:0
+msgid "Price"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Production Lot"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory,filterbyrack:0
+#: field:stock.inventory.line,loc_rack:0
+msgid "Rack"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Rack:"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Real Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: field:stock.inventory.line,loc_row:0
+msgid "Row"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Row:"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: help:stock.inventory.line,categ_id:0
+msgid "Select category for the current product"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_position
+msgid "Stock Inventory by position"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:stock.report_inventory
+msgid "Subtotal"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Theoretical Quantity"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_total
+msgid "Total general"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_header
+msgid "Unit of measure"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: view:website:deltatech_stock_inventory.report_inventory_diff
+msgid "Valorile sunt in RON fara TVA"
+msgstr ""
+

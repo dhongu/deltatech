@@ -1,51 +1,55 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* deltatech_stock_negative
-#
+# * deltatech_stock_loc_val_lim
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-06 12:51+0000\n"
-"PO-Revision-Date: 2015-03-06 17:19+0200\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 17:15+0000\n"
+"PO-Revision-Date: 2017-03-11 17:15+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Content-Transfer-Encoding: \n"
 "Language: ro\n"
-"X-Generator: Poedit 1.7.4\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#. module: deltatech_stock_negative
-#: help:res.company,no_negative_stock:0
-#: help:stock.config.settings,no_negative_stock:0
-msgid "Allows you to prohibit negative stock quantities."
-msgstr "Da posibilitatea de a interzice lucrul cu stocuri negative"
+#. module: deltatech_stock_loc_val_lim
+#: field:stock.location,actual_value:0
+msgid "Actual Value"
+msgstr "Actual Value"
 
-#. module: deltatech_stock_negative
-#: model:ir.model,name:deltatech_stock_negative.model_res_company
-msgid "Companies"
-msgstr "Companii"
+#. module: deltatech_stock_loc_val_lim
+#: field:stock.location,display_name:0 field:stock.quant,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
 
-#. module: deltatech_stock_negative
-#: field:res.company,no_negative_stock:0
-#: field:stock.config.settings,no_negative_stock:0
-msgid "No negative stock"
-msgstr "Fară stoc negativ"
-
-#. module: deltatech_stock_negative
-#: model:ir.model,name:deltatech_stock_negative.model_stock_quant
-msgid "Quants"
-msgstr "Quant-uri"
-
-#. module: deltatech_stock_negative
-#: view:res.company:deltatech_stock_negative.stock_negative_inherited_company_view
-msgid "Warehouse"
-msgstr "Depozit"
-
-#. module: deltatech_stock_negative
-#: code:addons/deltatech_stock_negative/stock.py:40
+#. module: deltatech_stock_loc_val_lim
+#: code:addons/deltatech_stock_loc_val_lim/stock.py:59
 #, python-format
-msgid "You have chosen to avoid negative stock.                         %s pieces of %s are remaining in location %s  but you want to transfer                          %s pieces. Please adjust your quantities or                         correct your stock with an inventory adjustment."
-msgstr "Ați ales să evitați stocurile negative.   %s din %s există în locația %s dar dvs vreți să transferați %s. Ajustați cantitățile sau corectați stocul cu o ajustare de inventar."
+msgid "Exceeding the limit value stock!"
+msgstr "Exceeding the limit value stock!"
+
+#. module: deltatech_stock_loc_val_lim
+#: model:ir.model,name:deltatech_stock_loc_val_lim.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_stock_loc_val_lim
+#: field:stock.location,__last_update:0 field:stock.quant,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: deltatech_stock_loc_val_lim
+#: model:ir.model,name:deltatech_stock_loc_val_lim.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
+
+#. module: deltatech_stock_loc_val_lim
+#: field:stock.location,value_limit:0
+msgid "Value Limit"
+msgstr "Value Limit"

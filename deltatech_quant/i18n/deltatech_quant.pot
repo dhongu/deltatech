@@ -1,0 +1,170 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_quant
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:08+0000\n"
+"PO-Revision-Date: 2017-03-11 17:08+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_tag
+msgid " Stock Quant Tag"
+msgstr ""
+
+#. module: deltatech_quant
+#: view:stock.quant.change.lot:deltatech_quant.view_stock_quant_change_lot_form
+#: view:stock.quant.split:deltatech_quant.view_stock_quant_split_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,name:deltatech_quant.action_stock_quant_change_lot
+#: view:stock.quant.change.lot:deltatech_quant.view_stock_quant_change_lot_form
+msgid "Change Lot / Serial Number"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,create_uid:0
+#: field:stock.quant.split,create_uid:0
+#: field:stock.quant.tag,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,create_date:0
+#: field:stock.quant.split,create_date:0
+#: field:stock.quant.tag,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_quant
+#: view:stock.quant:deltatech_quant.quant_search_view
+msgid "Customer"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,display_name:0
+#: field:stock.quant.split,display_name:0
+#: field:stock.quant.tag,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,id:0
+#: field:stock.quant.split,id:0
+#: field:stock.quant.tag,id:0
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant,invoice_id:0
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,__last_update:0
+#: field:stock.quant.split,__last_update:0
+#: field:stock.quant.tag,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,write_uid:0
+#: field:stock.quant.split,write_uid:0
+#: field:stock.quant.tag,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,write_date:0
+#: field:stock.quant.split,write_date:0
+#: field:stock.quant.tag,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,lot_id:0
+msgid "Lot/Serial Number"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.tag,name:0
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant,note:0
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.split,parts:0
+msgid "Parts"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_picking
+msgid "Picking List"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant.change.lot,product_id:0
+msgid "Product id"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant
+msgid "Quants"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,name:deltatech_quant.action_stock_quant_split
+msgid "Split"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_change_lot
+msgid "Stock Quant Change Lot"
+msgstr ""
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_split
+msgid "Stock Quant Split"
+msgstr ""
+
+#. module: deltatech_quant
+#: view:stock.quant:deltatech_quant.quant_search_view
+msgid "Supplier"
+msgstr ""
+
+#. module: deltatech_quant
+#: field:stock.quant,tag_ids:0
+msgid "Tags"
+msgstr ""
+
+#. module: deltatech_quant
+#: view:stock.quant.change.lot:deltatech_quant.view_stock_quant_change_lot_form
+#: view:stock.quant.split:deltatech_quant.view_stock_quant_split_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_quant
+#: view:stock.quant.change.lot:deltatech_quant.view_stock_quant_change_lot_form
+#: view:stock.quant.split:deltatech_quant.view_stock_quant_split_form
+msgid "or"
+msgstr ""
+
