@@ -35,7 +35,7 @@ This module allows odoo to print with Datecs ECR  in the point of sale and other
 that would need such functionality.
 
 """,
-    'author': 'Dorin Hongu',
+    "author": "Terrabit, Dorin Hongu",
     'depends': ['hw_proxy'],
     'external_dependencies': {
         'python' : ['usb.core','serial','qrcode'],

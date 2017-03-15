@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * deltatech_gamification
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 16:57+0000\n"
+"PO-Revision-Date: 2017-03-11 16:57+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_gamification
+#: model:ir.model,name:deltatech_gamification.model_gamification_challenge_line
+msgid "Gamification generic goal for challenge"
+msgstr "Obiectiv generic pentru provocare"
+
+#. module: deltatech_gamification
+#: model:ir.model,name:deltatech_gamification.model_gamification_goal_definition
+msgid "Gamification goal definition"
+msgstr "Definiție obiectiv competiție"
+
+#. module: deltatech_gamification
+#: model:ir.model,name:deltatech_gamification.model_gamification_goal
+msgid "Gamification goal instance"
+msgstr "Gamification goal instance"
+
+#. module: deltatech_gamification
+#: field:gamification.goal.definition,inverse_value:0
+msgid "Inverse value"
+msgstr "Inverse value"
+
+#. module: deltatech_gamification
+#: model:ir.model,name:deltatech_gamification.model_res_users
+msgid "Users"
+msgstr "Utilizatori"

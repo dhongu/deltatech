@@ -21,7 +21,7 @@
 {
     "name" : "Deltatech Access at Records",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "category" : "Generic Modules",
     "depends" : ['deltatech',"product",'stock','sale','l10n_ro_stock_picking_report'],

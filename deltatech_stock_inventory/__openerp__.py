@@ -21,7 +21,7 @@
 {
     "name" : "Deltatech Stock Inventory",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 

@@ -1,28 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * deltatech_service
-# 
-# Translators:
-# Dorin Hongu <dhongu@gmail.com>, 2017
+#	* deltatech_service
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-09 04:42+0000\n"
-"PO-Revision-Date: 2017-03-09 04:42+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
-"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"POT-Creation-Date: 2017-03-11 17:11+0000\n"
+"PO-Revision-Date: 2017-03-11 17:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"Plural-Forms: \n"
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/wizard/service_billing.py:154
 #, python-format
 msgid "%s from %s \n"
+""
 msgstr "%s din %s \n"
+""
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/wizard/service_billing.py:152
@@ -115,7 +114,8 @@ msgstr "Contracte servicii"
 #: field:service.billing,create_uid:0
 #: field:service.billing.preparation,create_uid:0
 #: field:service.change.invoice.date,create_uid:0
-#: field:service.consumption,create_uid:0 field:service.cycle,create_uid:0
+#: field:service.consumption,create_uid:0
+#: field:service.cycle,create_uid:0
 #: field:service.distribution,create_uid:0
 #: field:service.price.change,create_uid:0
 msgid "Created by"
@@ -128,7 +128,8 @@ msgstr "Creat de"
 #: field:service.billing,create_date:0
 #: field:service.billing.preparation,create_date:0
 #: field:service.change.invoice.date,create_date:0
-#: field:service.consumption,create_date:0 field:service.cycle,create_date:0
+#: field:service.consumption,create_date:0
+#: field:service.cycle,create_date:0
 #: field:service.distribution,create_date:0
 #: field:service.price.change,create_date:0
 msgid "Created on"
@@ -152,7 +153,7 @@ msgstr "Ciclu"
 #. module: deltatech_service
 #: help:service.agreement,message_last_post:0
 msgid "Date of the last message posted on the record."
-msgstr ""
+msgstr "Date of the last message posted on the record."
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -162,11 +163,9 @@ msgstr "Zile"
 #. module: deltatech_service
 #: help:service.agreement,invoice_day:0
 #: help:service.agreement,prepare_invoice_day:0
-msgid ""
-"Day of the month, set -1 for the last day of the month.\n"
+msgid "Day of the month, set -1 for the last day of the month.\n"
 "                                 If it's positive, it gives the day of the month. Set 0 for net days ."
-msgstr ""
-"Ziua din lună, setați -1 pentru ultima zi din lună.\n"
+msgstr "Ziua din lună, setați -1 pentru ultima zi din lună.\n"
 "                                 Dacă este pozitivă va returna ziua din lună. Setați 0 pentu a nu influența."
 
 #. module: deltatech_service
@@ -185,7 +184,8 @@ msgstr "Detaliu"
 #: field:service.billing,display_name:0
 #: field:service.billing.preparation,display_name:0
 #: field:service.change.invoice.date,display_name:0
-#: field:service.consumption,display_name:0 field:service.cycle,display_name:0
+#: field:service.consumption,display_name:0
+#: field:service.cycle,display_name:0
 #: field:service.distribution,display_name:0
 #: field:service.price.change,display_name:0
 msgid "Display Name"
@@ -235,7 +235,7 @@ msgstr "Fix"
 #. module: deltatech_service
 #: field:service.agreement,message_follower_ids:0
 msgid "Followers"
-msgstr ""
+msgstr "Followers"
 
 #. module: deltatech_service
 #: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
@@ -250,7 +250,7 @@ msgstr "Pentru serviciile selectare se vor genera facturi"
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
 msgid "From counter"
-msgstr ""
+msgstr "From counter"
 
 #. module: deltatech_service
 #: view:service.agreement:deltatech_service.view_service_agreement_filter
@@ -281,17 +281,19 @@ msgstr "Guprare facturi"
 
 #. module: deltatech_service
 #: help:service.agreement,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 
 #. module: deltatech_service
-#: field:service.agreement,id:0 field:service.agreement.line,id:0
-#: field:service.agreement.type,id:0 field:service.billing,id:0
+#: field:service.agreement,id:0
+#: field:service.agreement.line,id:0
+#: field:service.agreement.type,id:0
+#: field:service.billing,id:0
 #: field:service.billing.preparation,id:0
-#: field:service.change.invoice.date,id:0 field:service.consumption,id:0
-#: field:service.cycle,id:0 field:service.distribution,id:0
+#: field:service.change.invoice.date,id:0
+#: field:service.consumption,id:0
+#: field:service.cycle,id:0
+#: field:service.distribution,id:0
 #: field:service.price.change,id:0
 msgid "ID"
 msgstr "ID"
@@ -299,7 +301,7 @@ msgstr "ID"
 #. module: deltatech_service
 #: help:service.agreement,message_unread:0
 msgid "If checked new messages require your attention."
-msgstr ""
+msgstr "If checked new messages require your attention."
 
 #. module: deltatech_service
 #: selection:service.agreement,state:0
@@ -360,12 +362,12 @@ msgstr "Facturi"
 #. module: deltatech_service
 #: field:service.agreement,invoicing_status:0
 msgid "Invoicing Status"
-msgstr ""
+msgstr "Invoicing Status"
 
 #. module: deltatech_service
 #: field:service.agreement,message_is_follower:0
 msgid "Is a Follower"
-msgstr ""
+msgstr "Is a Follower"
 
 #. module: deltatech_service
 #: field:service.agreement.type,journal_id:0
@@ -381,7 +383,7 @@ msgstr "Ultima factură"
 #. module: deltatech_service
 #: field:service.agreement,message_last_post:0
 msgid "Last Message Date"
-msgstr ""
+msgstr "Last Message Date"
 
 #. module: deltatech_service
 #: field:service.agreement,__last_update:0
@@ -400,14 +402,16 @@ msgstr "Last Modified on"
 #. module: deltatech_service
 #: field:service.agreement,write_uid:0
 #: field:service.agreement.line,write_uid:0
-#: field:service.agreement.type,write_uid:0 field:service.billing,write_uid:0
+#: field:service.agreement.type,write_uid:0
+#: field:service.billing,write_uid:0
 #: field:service.billing.preparation,write_uid:0
 #: field:service.change.invoice.date,write_uid:0
-#: field:service.consumption,write_uid:0 field:service.cycle,write_uid:0
+#: field:service.consumption,write_uid:0
+#: field:service.cycle,write_uid:0
 #: field:service.distribution,write_uid:0
 #: field:service.price.change,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Last Updated by"
 
 #. module: deltatech_service
 #: field:service.agreement,write_date:0
@@ -416,11 +420,12 @@ msgstr ""
 #: field:service.billing,write_date:0
 #: field:service.billing.preparation,write_date:0
 #: field:service.change.invoice.date,write_date:0
-#: field:service.consumption,write_date:0 field:service.cycle,write_date:0
+#: field:service.consumption,write_date:0
+#: field:service.cycle,write_date:0
 #: field:service.distribution,write_date:0
 #: field:service.price.change,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Last Updated on"
 
 #. module: deltatech_service
 #: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
@@ -493,7 +498,8 @@ msgstr "Nedefinit"
 
 #. module: deltatech_service
 #: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: field:service.agreement,partner_id:0 field:service.consumption,partner_id:0
+#: field:service.agreement,partner_id:0
+#: field:service.consumption,partner_id:0
 msgid "Partner"
 msgstr "Partener"
 
@@ -530,7 +536,8 @@ msgstr "Serviciu"
 
 #. module: deltatech_service
 #: field:service.agreement.line,quantity:0
-#: field:service.consumption,quantity:0 field:service.distribution,quantity:0
+#: field:service.consumption,quantity:0
+#: field:service.distribution,quantity:0
 msgid "Quantity"
 msgstr "Cantitate"
 
@@ -545,7 +552,8 @@ msgid "Quarterly"
 msgstr "Trimestrial"
 
 #. module: deltatech_service
-#: field:service.agreement,name:0 field:service.consumption,name:0
+#: field:service.agreement,name:0
+#: field:service.consumption,name:0
 msgid "Reference"
 msgstr "Referință"
 
@@ -680,7 +688,8 @@ msgid "Share a message..."
 msgstr "Share a message..."
 
 #. module: deltatech_service
-#: field:service.agreement,state:0 field:service.consumption,state:0
+#: field:service.agreement,state:0
+#: field:service.consumption,state:0
 msgid "Status"
 msgstr "Status"
 
@@ -734,7 +743,8 @@ msgstr "Total invoiced"
 
 #. module: deltatech_service
 #: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: field:service.agreement,type_id:0 field:service.agreement.type,name:0
+#: field:service.agreement,type_id:0
+#: field:service.agreement.type,name:0
 msgid "Type"
 msgstr "Tip"
 
@@ -751,7 +761,8 @@ msgid "Unit Price"
 msgstr "Preț unitar"
 
 #. module: deltatech_service
-#: field:service.agreement.line,uom_id:0 field:service.consumption,uom_id:0
+#: field:service.agreement.line,uom_id:0
+#: field:service.consumption,uom_id:0
 msgid "Unit of Measure"
 msgstr "Unitate de măsură"
 
@@ -788,12 +799,12 @@ msgstr "Valoare"
 #. module: deltatech_service
 #: field:service.agreement,website_message_ids:0
 msgid "Website Messages"
-msgstr ""
+msgstr "Website Messages"
 
 #. module: deltatech_service
 #: help:service.agreement,website_message_ids:0
 msgid "Website communication history"
-msgstr ""
+msgstr "Website communication history"
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -859,3 +870,4 @@ msgstr "invoiced"
 #: view:service.price.change:deltatech_service.view_service_price_change_form
 msgid "or"
 msgstr "sau"
+

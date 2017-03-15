@@ -52,7 +52,7 @@ class service_billing(models.TransientModel):
       
         
         active_ids = self.env.context.get('active_ids', False)
-        print active_ids
+         
         if active_ids:
             domain=[('state','=','draft'),('id','in', active_ids )]   
         else:

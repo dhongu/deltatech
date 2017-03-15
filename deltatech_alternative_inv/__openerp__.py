@@ -21,7 +21,7 @@
 {
     "name": "Deltatech Products Alternative On Invoice",
     "version": "1.0",
-    "author": "Dorin Hongu",
+    "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "category": "Generic Modules/Inventory Control",
     "depends": ['deltatech', "deltatech_alternative", "l10n_ro_invoice_report"],

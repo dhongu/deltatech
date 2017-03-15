@@ -1,0 +1,38 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_fast_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 16:56+0000\n"
+"PO-Revision-Date: 2017-03-11 16:56+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_fast_sale
+#: view:sale.order:deltatech_fast_sale.view_order_form
+msgid "Confirm, Deliver and Invoice"
+msgstr ""
+
+#. module: deltatech_fast_sale
+#: view:sale.order:deltatech_fast_sale.view_order_form
+msgid "Deliver and Invoice"
+msgstr ""
+
+#. module: deltatech_fast_sale
+#: code:addons/deltatech_fast_sale/sale.py:43
+#, python-format
+msgid "Not all products are available."
+msgstr ""
+
+#. module: deltatech_fast_sale
+#: model:ir.model,name:deltatech_fast_sale.model_sale_order
+msgid "Sales Order"
+msgstr ""
+

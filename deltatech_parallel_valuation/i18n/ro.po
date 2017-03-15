@@ -1,19 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_parallel_valuation
-#
+# * deltatech_parallel_valuation
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-17 19:15+0000\n"
-"PO-Revision-Date: 2015-07-17 19:15+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"POT-Creation-Date: 2017-03-11 17:04+0000\n"
+"PO-Revision-Date: 2017-03-11 17:04+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_parallel_valuation
+#: field:stock.quant,acc_move_line_ids:0
+msgid "Account move lines"
+msgstr "Account move lines"
 
 #. module: deltatech_parallel_valuation
 #: model:ir.model,name:deltatech_parallel_valuation.model_res_company
@@ -21,9 +29,36 @@ msgid "Companies"
 msgstr "Companii"
 
 #. module: deltatech_parallel_valuation
+#: field:product.template,cost_price_currency_id:0
+msgid "Currency Cost Price "
+msgstr "Currency Cost Price "
+
+#. module: deltatech_parallel_valuation
+#: field:product.template,list_price_currency_id:0
+msgid "Currency List Price"
+msgstr "Currency List Price"
+
+#. module: deltatech_parallel_valuation
 #: field:account.invoice,currency_rate:0
 msgid "Currency Rate"
 msgstr "Curs valutar"
+
+#. module: deltatech_parallel_valuation
+#: help:product.template,cost_price_currency_id:0
+msgid "Currency for cost price."
+msgstr "Currency for cost price."
+
+#. module: deltatech_parallel_valuation
+#: help:product.template,list_price_currency_id:0
+msgid "Currency for list price."
+msgstr "Currency for list price."
+
+#. module: deltatech_parallel_valuation
+#: field:account.config.settings,display_name:0
+#: field:account.invoice.report,display_name:0
+#: field:stock.history,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
 
 #. module: deltatech_parallel_valuation
 #: view:website:account.report_invoice_document
@@ -32,6 +67,7 @@ msgstr "Curs valutar: 1"
 
 #. module: deltatech_parallel_valuation
 #: model:ir.model,name:deltatech_parallel_valuation.model_account_invoice
+#: field:sale.margin.report,invoice_id:0
 msgid "Invoice"
 msgstr "Factura"
 
@@ -46,9 +82,22 @@ msgid "Invoices Statistics"
 msgstr "Statistici Facturi"
 
 #. module: deltatech_parallel_valuation
+#: field:account.config.settings,__last_update:0
+#: field:account.invoice.report,__last_update:0
+#: field:stock.history,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: deltatech_parallel_valuation
+#: field:account.invoice.line,price_normal_taxes:0
+msgid "Normal Taxes"
+msgstr "Normal Taxes"
+
+#. module: deltatech_parallel_valuation
+#: field:stock.history,parallel_inventory_value:0
 #: field:stock.quant,parallel_inventory_value:0
 msgid "Parallel Inventory Value"
-msgstr "Valoare inventar (EUR)"
+msgstr "Valoare stoc EURO fara TVA"
 
 #. module: deltatech_parallel_valuation
 #: field:account.invoice.line,parallel_line_value:0
@@ -70,19 +119,26 @@ msgid "Parallel Stock Value"
 msgstr "Valoare stoc (EUR)"
 
 #. module: deltatech_parallel_valuation
+#: field:account.config.settings,parallel_currency_id:0
 #: field:res.company,parallel_currency_id:0
 msgid "Parallel company currency"
 msgstr "Modenda paralelă a companie"
 
 #. module: deltatech_parallel_valuation
+#: help:account.config.settings,parallel_currency_id:0
 #: help:res.company,parallel_currency_id:0
 msgid "Parallel currency of the company."
 msgstr "Modenda paralelă a companiei."
 
 #. module: deltatech_parallel_valuation
+#: field:res.company,property_stock_picking_custody_account_id:0
+msgid "Picking Account Custody"
+msgstr "Picking Account Custody"
+
+#. module: deltatech_parallel_valuation
 #: model:ir.model,name:deltatech_parallel_valuation.model_product_template
 msgid "Product Template"
-msgstr "Șablon Produs"
+msgstr "Sablon Produs"
 
 #. module: deltatech_parallel_valuation
 #: help:sale.margin.report,parallel_profit:0
@@ -105,9 +161,23 @@ msgid "Sale value in parallel currency evaluated at invoicing"
 msgstr "Valoare vânzări în moneda paralelă (EUR) evaluată la facturare"
 
 #. module: deltatech_parallel_valuation
+#: field:stock.quant,stock_account_ids:0
+msgid "Stock Account"
+msgstr "Stock Account"
+
+#. module: deltatech_parallel_valuation
 #: help:sale.margin.report,parallel_stock_value:0
 msgid "Stock value in parallel currency evaluated at purchasing"
 msgstr "Valoare stoc în moneda paralelă (EUR) evaluată la achiziție"
+
+#. module: deltatech_parallel_valuation
+#: help:res.company,property_stock_picking_custody_account_id:0
+msgid ""
+"This account will be used as the extra trial balance payable account for the"
+" current partner on stock picking received in custody."
+msgstr ""
+"This account will be used as the extra trial balance payable account for the"
+" current partner on stock picking received in custody."
 
 #. module: deltatech_parallel_valuation
 #: view:stock.history:deltatech_parallel_valuation.view_stock_history_report_tree
@@ -117,8 +187,31 @@ msgstr "Valoare totală (EUR)"
 
 #. module: deltatech_parallel_valuation
 #: view:stock.quant:deltatech_parallel_valuation.view_stock_quant_tree
+msgid "Total Value"
+msgstr "Total Value"
+
+#. module: deltatech_parallel_valuation
+#: view:stock.quant:deltatech_parallel_valuation.view_stock_quant_tree
 msgid "Unit Price"
 msgstr "Preț unitar"
 
+#. module: deltatech_parallel_valuation
+#: view:product.template:deltatech_parallel_valuation.product_template_form_view
+msgid "monetary"
+msgstr ""
 
+#. module: deltatech_parallel_valuation
+#: view:product.template:deltatech_parallel_valuation.product_template_form_view
+#: view:stock.quant:deltatech_parallel_valuation.view_stock_quant_tree
+msgid "stock.group_stock_manager"
+msgstr ""
 
+#. module: deltatech_parallel_valuation
+#: view:product.template:deltatech_parallel_valuation.product_template_form_view
+msgid "{'currency_field': 'cost_price_currency_id'}"
+msgstr ""
+
+#. module: deltatech_parallel_valuation
+#: view:product.template:deltatech_parallel_valuation.product_template_form_view
+msgid "{'currency_field': 'list_price_currency_id'}"
+msgstr ""

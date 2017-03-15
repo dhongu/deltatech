@@ -18,11 +18,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
- 
+
 {
-    "name" : "Deltatech Sale Ref",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
+    "name": "Deltatech Sale Ref",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
@@ -33,22 +33,20 @@ Functionalitati:
 
   
     """,
-    
-    
-   'category': 'Sales Management',
-    "depends" : ['deltatech',
-                 "sale","account",'stock','sale_stock'
-                 ],
- 
-    "data" : [  
-               "sale_view.xml",
-               "account_invoice_view.xml",
-               "stock_transfer_details.xml",
-               "stock_view.xml"
-              
-               ],
-    
+
+    'category': 'Sales Management',
+    "depends": ['deltatech',
+                "sale", "account", 'stock', 'sale_stock'
+                ],
+
+    "data": [
+        "sale_view.xml",
+        "account_invoice_view.xml",
+        "stock_transfer_details.xml",
+        "stock_view.xml"
+
+    ],
+
     "active": False,
     "installable": True,
 }
- 

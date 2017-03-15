@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-versiunea 8.0
-=======
-            versiunea master
->>>>>>> master

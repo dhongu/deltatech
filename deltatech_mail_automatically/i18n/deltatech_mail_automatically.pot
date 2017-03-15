@@ -1,0 +1,120 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_mail_automatically
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:00+0000\n"
+"PO-Revision-Date: 2017-03-11 17:00+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mail_automatically
+#: selection:mail.automatically,type:0
+msgid "Account Invoice"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: view:mail.automatically:deltatech_mail_automatically.view_mail_automatically_form
+#: view:mail.automatically:deltatech_mail_automatically.view_mail_automatically_tree
+msgid "Add contacts to notify..."
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: model:ir.actions.act_window,name:deltatech_mail_automatically.action_mail_automatically
+#: model:ir.model,name:deltatech_mail_automatically.model_mail_automatically
+#: model:ir.ui.menu,name:deltatech_mail_automatically.menu_mail_automatically
+msgid "Automatically Mail"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,id:0
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: model:ir.model,name:deltatech_mail_automatically.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: help:mail.automatically,partner_ids:0
+msgid "List of partners that will be added as follower of the current document."
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,message:0
+msgid "Message"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: model:ir.model,name:deltatech_mail_automatically.model_stock_picking
+msgid "Picking List"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,picking_type_id:0
+msgid "Picking Type"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,partner_ids:0
+msgid "Recipients"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: selection:mail.automatically,type:0
+msgid "Stock Picking"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,subject:0
+msgid "Subject"
+msgstr ""
+
+#. module: deltatech_mail_automatically
+#: field:mail.automatically,type:0
+msgid "Type"
+msgstr ""
+

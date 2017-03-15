@@ -1,0 +1,125 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * deltatech_rec_access
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:09+0000\n"
+"PO-Revision-Date: 2017-03-11 17:09+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_rec_access
+#: field:res.users,info_for_invoice:0
+msgid "Additional info for invoice"
+msgstr "Additional info for invoice"
+
+#. module: deltatech_rec_access
+#: model:res.groups,name:deltatech_rec_access.group_sale_order_no_confirm
+msgid "Confirm sale order not allowed"
+msgstr "Confirm sale order not allowed"
+
+#. module: deltatech_rec_access
+#: field:res.users,property_delivery_carrier:0
+msgid "Delivery Method"
+msgstr "Delivery Method"
+
+#. module: deltatech_rec_access
+#: field:stock.warehouse,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: deltatech_rec_access
+#: field:res.users,vat_dispaly:0
+msgid "Display VAT"
+msgstr "Display VAT"
+
+#. module: deltatech_rec_access
+#: model:ir.model,name:deltatech_rec_access.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_rec_access
+#: field:stock.warehouse,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: deltatech_rec_access
+#: field:stock.location,user_id:0
+msgid "Manager"
+msgstr "Manager"
+
+#. module: deltatech_rec_access
+#: model:ir.model,name:deltatech_rec_access.model_stock_picking
+msgid "Picking List"
+msgstr "Listă ridicare"
+
+#. module: deltatech_rec_access
+#: view:res.users:deltatech_rec_access.view_users_form
+msgid "Revoke rights"
+msgstr "Revoke rights"
+
+#. module: deltatech_rec_access
+#: model:ir.model,name:deltatech_rec_access.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_rec_access
+#: model:res.groups,comment:deltatech_rec_access.group_stock_no_transfer
+msgid ""
+"Se permite transferul doar din locatia proprie in locatiile de productie si "
+"clienti"
+msgstr ""
+"Se permite transferul doar din locatia proprie in locatiile de productie si "
+"clienti"
+
+#. module: deltatech_rec_access
+#: model:res.groups,name:deltatech_rec_access.group_stock_no_transfer
+msgid "Stock transfer not allowed"
+msgstr "Stock transfer not allowed"
+
+#. module: deltatech_rec_access
+#: help:res.users,property_delivery_carrier:0
+msgid "This delivery method will be used when invoicing from picking."
+msgstr "This delivery method will be used when invoicing from picking."
+
+#. module: deltatech_rec_access
+#: model:ir.model,name:deltatech_rec_access.model_res_users
+msgid "Users"
+msgstr "Utilizatori"
+
+#. module: deltatech_rec_access
+#: model:ir.model,name:deltatech_rec_access.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_rec_access
+#: code:addons/deltatech_rec_access/sale.py:39
+#, python-format
+msgid "You can not have authorization to confirm sale order."
+msgstr "You can not have authorization to confirm sale order."
+
+#. module: deltatech_rec_access
+#: code:addons/deltatech_rec_access/stock.py:50
+#, python-format
+msgid "You can not have authorization transfer stock from this location."
+msgstr "You can not have authorization transfer stock from this location."
+
+#. module: deltatech_rec_access
+#: code:addons/deltatech_rec_access/stock.py:52
+#, python-format
+msgid ""
+"You can not have authorization transfer stock to this location.\n"
+"The destination location selected is not a client or production location"
+msgstr ""
+"You can not have authorization transfer stock to this location.\n"
+"The destination location selected is not a client or production location"

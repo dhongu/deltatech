@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * deltatech_stock_sn
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:17+0000\n"
+"PO-Revision-Date: 2017-03-11 17:17+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_stock_sn
+#: field:stock.production.lot,active:0
+msgid "Active"
+msgstr "Active"
+
+#. module: deltatech_stock_sn
+#: field:stock.production.lot,stock_available:0
+msgid "Available"
+msgstr "Available"
+
+#. module: deltatech_stock_sn
+#: help:stock.production.lot,active:0
+msgid ""
+"By unchecking the active field, you may hide an Lot Number without deleting "
+"it."
+msgstr ""
+"By unchecking the active field, you may hide an Lot Number without deleting "
+"it."
+
+#. module: deltatech_stock_sn
+#: help:stock.production.lot,stock_available:0
+msgid ""
+"Current quantity of products with this Serial Number available in company "
+"warehouses"
+msgstr ""
+"Current quantity of products with this Serial Number available in company "
+"warehouses"
+
+#. module: deltatech_stock_sn
+#: field:stock.production.lot,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: deltatech_stock_sn
+#: field:stock.location,hide_lot:0
+msgid "Hide Lot"
+msgstr "Hide Lot"
+
+#. module: deltatech_stock_sn
+#: model:ir.model,name:deltatech_stock_sn.model_stock_location
+msgid "Inventory Locations"
+msgstr "Locații inventar"
+
+#. module: deltatech_stock_sn
+#: field:stock.production.lot,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: deltatech_stock_sn
+#: model:ir.model,name:deltatech_stock_sn.model_stock_production_lot
+msgid "Lot/Serial"
+msgstr "Lot/Serial"

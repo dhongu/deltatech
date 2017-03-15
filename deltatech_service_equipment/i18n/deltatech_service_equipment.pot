@@ -1,0 +1,1423 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_service_equipment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:12+0000\n"
+"PO-Revision-Date: 2017-03-11 17:12+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_service_equipment
+#: field:service.equipment.history,active:0
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Add to Agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_agreement
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,agreement_type_id:0
+msgid "Agreement Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: sql_constraint:service.consumption:0
+msgid "Agreement line in period already exist!"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_tree
+#: field:service.efficiency.report,amount:0
+msgid "Amount"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,state:0
+msgid "Available"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_rent.py:163
+#, python-format
+msgid "Backup"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.operation,equipment_backup_id:0
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#: field:service.equipment,equipment_backup_id:0
+#: field:service.equipment.history,equipment_backup_id:0
+msgid "Backup Equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,state:0
+msgid "Backuped"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.category,bill_uom_id:0
+#: field:service.template.meter,bill_uom_id:0
+msgid "Billing Unit of Measure"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:product.uom,name:deltatech_service_equipment.uom_page_black
+msgid "Black Page"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+#: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+#: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,categ:0
+msgid "Categ"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,categ_id:0
+#: field:service.equipment,categ_id:0
+#: field:service.equipment.category,name:0
+#: field:service.equipment.type,categ_id:0
+#: field:service.meter,meter_categ_id:0
+#: field:service.meter.category,name:0
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:mail.message.subtype,name:deltatech_service_equipment.mt_equipment_change_status
+msgid "Change status"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.meter.category,type:0
+msgid "Collector"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:product.uom,name:deltatech_service_equipment.uom_page_color
+msgid "Color Page"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,commercial_partner_id:0
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.meter:deltatech_service_equipment.view_service_meter_form
+msgid "Compute Estimated"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,item_ids:0
+#: field:service.consumable.item,product_id:0
+msgid "Consumable"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_consumable_item
+msgid "Consumable Item"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_consumable
+#: field:service.consumable.item,consumable_id:0
+#: field:service.equipment,consumable_id:0
+msgid "Consumable List"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_consumable
+#: view:service.consumable:deltatech_service_equipment.view_service_consumable_form
+#: view:service.consumable:deltatech_service_equipment.view_service_consumable_tree
+#: field:service.equipment,consumable_item_ids:0
+msgid "Consumables"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading,consumption_id:0
+msgid "Consumption"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,contact_id:0
+msgid "Contact Person"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.agreement,agreement_id:0
+#: field:service.equipment,agreement_id:0
+msgid "Contract Service"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,agreement_id:0
+msgid "Contract Services"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Costs"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.meter.category,type:0
+msgid "Counter"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.enter.reading.item,counter_value:0
+#: field:service.meter.reading,counter_value:0
+msgid "Counter Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_from_qunat
+msgid "Create Equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Create Meters"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,create_uid:0
+#: field:service.consumable.item,create_uid:0
+#: field:service.enter.reading,create_uid:0
+#: field:service.enter.reading.item,create_uid:0
+#: field:service.equi.agreement,create_uid:0
+#: field:service.equi.from.qunat,create_uid:0
+#: field:service.equi.operation,create_uid:0
+#: field:service.equipment,create_uid:0
+#: field:service.equipment.category,create_uid:0
+#: field:service.equipment.history,create_uid:0
+#: field:service.equipment.type,create_uid:0
+#: field:service.meter,create_uid:0
+#: field:service.meter.category,create_uid:0
+#: field:service.meter.reading,create_uid:0
+#: field:service.meter.reading.estimate,create_uid:0
+#: field:service.template.meter,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,create_date:0
+#: field:service.consumable.item,create_date:0
+#: field:service.enter.reading,create_date:0
+#: field:service.enter.reading.item,create_date:0
+#: field:service.equi.agreement,create_date:0
+#: field:service.equi.from.qunat,create_date:0
+#: field:service.equi.operation,create_date:0
+#: field:service.equipment,create_date:0
+#: field:service.equipment.category,create_date:0
+#: field:service.equipment.history,create_date:0
+#: field:service.equipment.type,create_date:0
+#: field:service.meter,create_date:0
+#: field:service.meter.category,create_date:0
+#: field:service.meter.reading,create_date:0
+#: field:service.meter.reading.estimate,create_date:0
+#: field:service.template.meter,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.template.meter,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.agreement,partner_id:0
+#: field:service.equi.operation,partner_id:0
+#: field:service.equipment,partner_id:0
+#: field:service.equipment.history,partner_id:0
+msgid "Customer"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,date:0
+#: field:service.enter.reading,date:0
+#: field:service.equi.operation,date:0
+#: field:service.meter.reading,date:0
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:95
+#, python-format
+msgid "Date must be greater than %s"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,reading_day:0
+msgid "Day of the month, set -1 for the last day of the month.\n"
+"                                     If it's positive, it gives the day of the month. Set 0 for net days ."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_equipment.py:373
+#: code:addons/deltatech_service_equipment/service_equipment.py:407
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#, python-format
+msgid "Delivery for service"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,emplacement:0
+#: help:service.equipment.history,emplacement:0
+msgid "Detail of location of the equipment in working point"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading,difference:0
+msgid "Difference"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_dbk
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Disable Backup"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equi.operation,state:0
+msgid "Disable backup"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,display_name:0
+#: field:service.consumable.item,display_name:0
+#: field:service.efficiency.report,display_name:0
+#: field:service.enter.reading,display_name:0
+#: field:service.enter.reading.item,display_name:0
+#: field:service.equi.agreement,display_name:0
+#: field:service.equi.from.qunat,display_name:0
+#: field:service.equi.operation,display_name:0
+#: field:service.equipment.category,display_name:0
+#: field:service.equipment.history,display_name:0
+#: field:service.equipment.type,display_name:0
+#: field:service.meter.category,display_name:0
+#: field:service.meter.reading,display_name:0
+#: field:service.meter.reading.estimate,display_name:0
+#: field:service.template.meter,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,display_name:0
+#: field:service.meter,display_name:0
+msgid "Display name"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,readings_status:0
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,ean_code:0
+msgid "EAN Code"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: sql_constraint:service.equipment:0
+msgid "EAN Code already exist!"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.operation,emplacement:0
+#: field:service.equipment,emplacement:0
+#: field:service.equipment.history,emplacement:0
+msgid "Emplacement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_ebk
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Enable Backup"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equi.operation,state:0
+msgid "Enable backup"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_enter_reading_item
+msgid "Enter Meter Reading Item"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_enter_reading
+#: model:ir.model,name:deltatech_service_equipment.model_service_enter_reading
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "Enter Meter Readings"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.enter.reading.item,enter_reading_id:0
+#: field:service.equi.operation,enter_reading_id:0
+msgid "Enter Reading"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_equipment
+#: field:service.agreement.line,equipment_id:0
+#: field:service.consumption,equipment_id:0
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,equipment_id:0
+#: field:service.enter.reading.item,equipment_id:0
+#: field:service.equi.agreement,equipment_id:0
+#: field:service.equi.operation,equipment_id:0
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#: field:service.equipment.history,equipment_id:0
+#: view:service.meter:deltatech_service_equipment.view_service_meter_filter
+#: field:service.meter,equipment_id:0
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_filter
+#: field:service.meter.reading,equipment_id:0
+#: field:stock.picking,equipment_id:0
+msgid "Equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_equipment.py:279
+#: code:addons/deltatech_service_equipment/service_rent.py:86
+#: code:addons/deltatech_service_equipment/service_rent.py:99
+#, python-format
+msgid "Equipment %s assigned to many agreements."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_equipment_category
+msgid "Equipment Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equi_from_qunat
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+msgid "Equipment From Quants"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equipment_history
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_equipment_history
+#: field:service.equipment,equipment_history_ids:0
+msgid "Equipment History"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:171
+#, python-format
+msgid "Equipment Transfer"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_equipment_type
+msgid "Equipment Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,equipment_history_id:0
+msgid "Equipment actual location"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:mail.message.subtype,description:deltatech_service_equipment.mt_equipment_change_status
+msgid "Equipment change status"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading,equipment_history_id:0
+#: field:stock.picking,equipment_history_id:0
+msgid "Equipment history"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/new_equi_from_quant.py:69
+#, python-format
+msgid "Equipmente"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment
+#: view:service.agreement:deltatech_service_equipment.view_service_agreement_form
+msgid "Equipments"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment_history
+msgid "Equipments History"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_equipment.py:422
+#, python-format
+msgid "Error: Invalid EAN code"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading,estimated:0
+msgid "Estimated"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,estimated_value:0
+msgid "Estimated Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/estimate.py:96
+#, python-format
+msgid "Estimation"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/estimate.py:95
+#, python-format
+msgid "Estimation executed in background was terminated"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "Extended Filters..."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "For the selected meters please enter readings"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
+msgid "For the selected meters will generate estimate readings"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+msgid "For the selected quants will generate equipments"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equi.operation,stock_move:0
+msgid "Generate stock move using setting from equipment type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_filter
+#: view:service.meter:deltatech_service_equipment.view_service_meter_filter
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_filter
+msgid "Group By..."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable.item,colors:0
+msgid "HTML Colors Index"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,id:0
+#: field:service.consumable.item,id:0
+#: field:service.efficiency.report,id:0
+#: field:service.enter.reading,id:0
+#: field:service.enter.reading.item,id:0
+#: field:service.equi.agreement,id:0
+#: field:service.equi.from.qunat,id:0
+#: field:service.equi.operation,id:0
+#: field:service.equipment,id:0
+#: field:service.equipment.category,id:0
+#: field:service.equipment.history,id:0
+#: field:service.equipment.type,id:0
+#: field:service.meter,id:0
+#: field:service.meter.category,id:0
+#: field:service.meter.reading,id:0
+#: field:service.meter.reading.estimate,id:0
+#: field:service.template.meter,id:0
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment.category,in_type_id:0
+msgid "In Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,state:0
+msgid "Inactive"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Install"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_ins
+#: selection:service.equi.operation,state:0
+msgid "Installation"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,install_date:0
+#: field:service.equipment.history,from_date:0
+msgid "Installation Date"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,state:0
+msgid "Installed"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Installed At"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,inventory_value:0
+msgid "Inventory value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,invoice_state:0
+msgid "Invoice Control"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.efficiency.report,invoice_state:0
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Invoiced"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.enter.reading,items:0
+#: field:service.equi.operation,items:0
+msgid "Items"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:product.uom,name:deltatech_service_equipment.uom_kpage
+msgid "KPage"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_last_post:0
+msgid "Last Message Date"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,last_meter_reading_id:0
+msgid "Last Meter Reading"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,__last_update:0
+#: field:service.consumable.item,__last_update:0
+#: field:service.efficiency.report,__last_update:0
+#: field:service.enter.reading,__last_update:0
+#: field:service.enter.reading.item,__last_update:0
+#: field:service.equi.agreement,__last_update:0
+#: field:service.equi.from.qunat,__last_update:0
+#: field:service.equi.operation,__last_update:0
+#: field:service.equipment,__last_update:0
+#: field:service.equipment.category,__last_update:0
+#: field:service.equipment.history,__last_update:0
+#: field:service.equipment.type,__last_update:0
+#: field:service.meter,__last_update:0
+#: field:service.meter.category,__last_update:0
+#: field:service.meter.reading,__last_update:0
+#: field:service.meter.reading.estimate,__last_update:0
+#: field:service.template.meter,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,write_uid:0
+#: field:service.consumable.item,write_uid:0
+#: field:service.enter.reading,write_uid:0
+#: field:service.enter.reading.item,write_uid:0
+#: field:service.equi.agreement,write_uid:0
+#: field:service.equi.from.qunat,write_uid:0
+#: field:service.equi.operation,write_uid:0
+#: field:service.equipment,write_uid:0
+#: field:service.equipment.category,write_uid:0
+#: field:service.equipment.history,write_uid:0
+#: field:service.equipment.type,write_uid:0
+#: field:service.meter,write_uid:0
+#: field:service.meter.category,write_uid:0
+#: field:service.meter.reading,write_uid:0
+#: field:service.meter.reading.estimate,write_uid:0
+#: field:service.template.meter,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,write_date:0
+#: field:service.consumable.item,write_date:0
+#: field:service.enter.reading,write_date:0
+#: field:service.enter.reading.item,write_date:0
+#: field:service.equi.agreement,write_date:0
+#: field:service.equi.from.qunat,write_date:0
+#: field:service.equi.operation,write_date:0
+#: field:service.equipment,write_date:0
+#: field:service.equipment.category,write_date:0
+#: field:service.equipment.history,write_date:0
+#: field:service.equipment.type,write_date:0
+#: field:service.meter,write_date:0
+#: field:service.meter.category,write_date:0
+#: field:service.meter.reading,write_date:0
+#: field:service.meter.reading.estimate,write_date:0
+#: field:service.template.meter,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
+msgid "Leave empty to create a new agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,location_id:0
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+#: field:service.equi.operation,address_id:0
+#: field:service.equipment,address_id:0
+#: field:service.equipment.history,address_id:0
+msgid "Location"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,location_dest_id:0
+msgid "Location Destination"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,manufacturer_id:0
+msgid "Manufacturer"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.consumable.item,max_qty:0
+msgid "Maximum Quantity allowed"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter
+#: model:ir.model,name:deltatech_service_equipment.model_service_meter
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_meter
+#: field:service.agreement.line,meter_id:0
+#: field:service.enter.reading.item,meter_id:0
+#: view:service.meter:deltatech_service_equipment.view_service_meter_form
+#: view:service.meter:deltatech_service_equipment.view_service_meter_tree
+#: field:service.meter,meter_ids:0
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_filter
+#: field:service.meter.reading,meter_id:0
+msgid "Meter"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_meter_category
+msgid "Meter Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_reading
+#: model:ir.model,name:deltatech_service_equipment.model_service_meter_reading
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_meter_reading
+#: field:service.meter,meter_reading_ids:0
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_form
+msgid "Meter Reading"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_reading_estimate
+#: model:ir.model,name:deltatech_service_equipment.model_service_meter_reading_estimate
+#: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
+msgid "Meter Reading Estimate"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#: view:service.meter:deltatech_service_equipment.view_service_meter_form
+msgid "Meter Readings"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.template.meter,meter_categ_id:0
+msgid "Meter category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+#: field:service.equipment,meter_ids:0
+#: field:service.meter.reading.estimate,meter_ids:0
+msgid "Meters"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "Month"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,readings_status:0
+msgid "N/A"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable,name:0
+#: field:service.consumable.item,name:0
+#: field:service.equipment,name:0
+#: field:service.equipment.history,name:0
+#: field:service.meter,name:0
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.efficiency.report,invoice_state:0
+msgid "Not Applicable"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.enter.reading,note:0
+#: field:service.equi.operation,note:0
+#: field:service.equipment,note:0
+#: field:service.meter.reading,note:0
+msgid "Note"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_rent.py:167
+#, python-format
+msgid "Old index: %s, New index:%s"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+#: field:service.equi.operation,state:0
+msgid "Operation"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment.category,out_type_id:0
+msgid "Out Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:product.uom,name:deltatech_service_equipment.uom_page
+#: model:product.uom.categ,name:deltatech_service_equipment.uom_categ_page
+msgid "Page"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,partner_id:0
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_filter
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading.estimate,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,picking_id:0
+msgid "Picking"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_stock_picking
+msgid "Picking List"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,picking_type_id:0
+msgid "Picking Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,picking_type_code:0
+msgid "Picking Type Code"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "Picking type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/service_equi_agreement.py:52
+#: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:59
+#, python-format
+msgid "Please select equipment."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter.reading,previous_counter_value:0
+msgid "Previous Counter Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "Previous Month"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,price:0
+msgid "Price Unit"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:service.equipment.type,name:deltatech_service_equipment.equi_type_printer
+msgid "Printer"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.consumable,categ:0
+#: field:service.consumable,product_id:0
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: field:service.efficiency.report,product_id:0
+#: field:service.equipment,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,image_qr_html:0
+msgid "QR image"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,quant_id:0
+msgid "Quant"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable.item,quantity:0
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_tree
+#: field:service.efficiency.report,product_qty:0
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable.item,max_qty:0
+msgid "Quantity Max"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.from.qunat,quant_ids:0
+msgid "Quants"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.enter.reading,read_by:0
+#: field:service.equi.operation,read_by:0
+#: field:service.meter.reading,read_by:0
+msgid "Read by"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,reading_day:0
+msgid "Reading Day"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+msgid "Readings"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,readings_status:0
+msgid "Readings Status"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.meter:deltatech_service_equipment.view_service_meter_form
+msgid "Recheck Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_rem
+#: selection:service.equi.operation,state:0
+msgid "Removal"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Remove"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Remove from Agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+msgid "Replace with"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_rep
+msgid "Replacement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,user_id:0
+msgid "Responsible"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Revenues"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:product.uom,name:deltatech_service_equipment.uom_page_scanned
+msgid "Scanned Page"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_filter
+#: view:service.equipment.history:deltatech_service_equipment.view_service_equipment_history_filter
+#: view:service.meter:deltatech_service_equipment.view_service_meter_filter
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_filter
+msgid "Search"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,serial_id:0
+msgid "Serial Number"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.template.meter,product_id:0
+msgid "Service"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/service_equi_agreement.py:83
+#: model:ir.model,name:deltatech_service_equipment.model_service_agreement
+#: field:service.equipment.history,agreement_id:0
+#: field:stock.picking,agreement_id:0
+#, python-format
+msgid "Service Agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_agreement_line
+msgid "Service Agreement Line"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+msgid "Service Billing Preparation"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_efficiency_report_tree
+msgid "Service Efficiency Analysis"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_efficiency_report
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_tree
+msgid "Service Efficiency Report"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Service Equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equi_agreement
+msgid "Service Equipment Agreement"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equipment_category
+#: model:ir.model,name:deltatech_service_equipment.model_service_meter_category
+msgid "Service Equipment Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equi_operation
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+msgid "Service Equipment Operation"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_equipment_type
+msgid "Service Equipment Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_template_meter
+msgid "Service Template Meter"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_consumption
+msgid "Service consumption"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_consumable
+msgid "Services Consumable"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_rent.py:49
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_tree
+#, python-format
+msgid "Services Equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment_category
+msgid "Services Equipment Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment.history:deltatech_service_equipment.view_service_equipment_history_tree
+msgid "Services Equipment History"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment_type
+msgid "Services Equipment Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_equipment.py:353
+#, python-format
+msgid "Services Invoices"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_category
+msgid "Services Meter Category"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.meter.reading:deltatech_service_equipment.view_service_meter_reading_tree
+msgid "Services equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Share a message..."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable.item,shelf_life:0
+#: field:service.efficiency.report,shelf_life:0
+msgid "Shelf Life"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.consumable.item,uom_shelf_life:0
+msgid "Shelf Life UoM"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,start_date:0
+msgid "Start Date"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,start_value:0
+msgid "Start Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,state:0
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Stock"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equi.operation,stock_move:0
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_service_efficiency_report
+msgid "Stock picking report"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_summary:0
+msgid "Summary"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_form
+msgid "Tehnical Details"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment.type,template_meter_ids:0
+msgid "Template meter ids"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,address_id:0
+msgid "The address where the equipment is located"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/service_equipment.py:450
+#, python-format
+msgid "The agreement %s is in state %s"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment.history,partner_id:0
+msgid "The customer where the equipment is installed"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,partner_id:0
+msgid "The owner of the equipment"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment.history,address_id:0
+msgid "The working point where the equipment was located"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "This Month"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_filter
+msgid "This Year"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,help:deltatech_service_equipment.action_service_efficiency_report
+msgid "This reporting allows you to analysis equipment efficiency."
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.efficiency.report,invoice_state:0
+msgid "To Be Invoiced"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,total_costs:0
+msgid "Total Cost"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,total_counter_value:0
+msgid "Total Counter Value"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,total_revenues:0
+msgid "Total Revenues"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: sql_constraint:service.meter:0
+msgid "Two meter for one equipment with the same unit of measure? Impossible!"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.consumable,categ:0
+#: field:service.consumable,type_id:0
+#: field:service.equi.from.qunat,type_id:0
+#: field:service.equipment,type_id:0
+#: field:service.equipment.type,name:0
+#: field:service.meter,type:0
+#: field:service.meter.category,type:0
+#: field:service.template.meter,type_id:0
+msgid "Type"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,product_uom:0
+#: field:service.meter,uom_id:0
+#: field:service.meter.category,uom_id:0
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,uom_usage:0
+msgid "Unit of Measure Usage"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.consumable.item,uom_shelf_life:0
+msgid "Unit of Measure for Shelf Life"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.efficiency.report,uom_usage:0
+msgid "Unit of Measure for Usage"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: selection:service.equipment,readings_status:0
+msgid "Unmade"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.server,name:deltatech_service_equipment.action_update_costs_and_revenues
+msgid "Update Costs And Revenues"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.server,name:deltatech_service_equipment.action_update_meter_status
+msgid "Update Meter Status"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.efficiency.report,usage:0
+msgid "Usage"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,value_a:0
+msgid "Value a"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.meter,value_b:0
+msgid "Value b"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,vendor_id:0
+msgid "Vendor"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,website_message_ids:0
+msgid "Website Messages"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: help:service.equipment,website_message_ids:0
+msgid "Website communication history"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+#: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+#: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+#: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
+#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
+#: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
+msgid "or"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.efficiency.report:deltatech_service_equipment.view_service_efficiency_report_graph
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_graph
+msgid "picking_report for stock"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.equipment:deltatech_service_equipment.view_service_equipment_tree
+msgid "total"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: view:service.agreement:deltatech_service_equipment.view_service_agreement_form
+msgid "{'readonly': [('meter_id', '!=', False)]}"
+msgstr ""
+

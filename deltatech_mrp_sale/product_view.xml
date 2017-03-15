@@ -27,8 +27,9 @@
 			<field name="inherit_id" ref="account.product_template_form_view" />
 			<field name="arch" type="xml">
 				 <group name="properties" position="before">
-					   <label for="other_categ_id" string="Other Category"/>
-                       <div><field name="other_categ_id" colspan="3" nolabel="1"/></div>
+					   <group>
+					   		<field name="other_categ_id" />
+					   </group>
 				 </group>
 				 
 						

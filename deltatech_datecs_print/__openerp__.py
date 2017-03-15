@@ -21,8 +21,8 @@
 {
     "name" : "Deltatech Print Invoice to Datecs ECR",
     "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "author" : "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
