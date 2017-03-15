@@ -23,8 +23,8 @@
 {
     "name" : "Deltatech Stock Pack",
     "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "author" : "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:

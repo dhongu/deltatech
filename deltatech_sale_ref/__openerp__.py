@@ -22,8 +22,8 @@
 {
     "name": "Deltatech Sale Ref",
     "version": "1.0",
-    "author": "Dorin Hongu",
-    "website": "",
+    "author" : "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
