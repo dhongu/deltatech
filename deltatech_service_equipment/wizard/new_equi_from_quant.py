@@ -27,16 +27,16 @@ from openerp.api import Environment
 import threading
 
 
-class service_equi_from_qunat(models.TransientModel):
-    _name = 'service.equi.from.qunat'
+class service_equi_from_quant(models.TransientModel):
+    _name = 'service.equi.from.quant'
     _description = "Equipment From Quants"
 
     type_id = fields.Many2one('service.equipment.type', required=True, string='Type')
-    quant_ids = fields.Many2many('stock.quant', 'service_equi_from_qunats', 'wizard_id', 'qunat_id', string='Quants')
+    quant_ids = fields.Many2many('stock.quant', 'service_equi_from_quants', 'wizard_id', 'quant_id', string='Quants')
 
     @api.model
     def default_get(self, fields):
-        defaults = super(service_equi_from_qunat, self).default_get(fields)
+        defaults = super(service_equi_from_quant, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <record id="view_service_equi_from_qunat_form" model="ir.ui.view">
+        <record id="view_service_equi_from_quant_form" model="ir.ui.view">
             <field name="name">Equipment From Quants</field>
-            <field name="model">service.equi.from.qunat</field>
+            <field name="model">service.equi.from.quant</field>
             <field name="arch" type="xml">
                 <form string="Equipment From Quants">
 
@@ -36,8 +36,8 @@
         </record>
 
 
-        <act_window id="action_service_equi_from_qunat" name="Create Equipment"
-                    res_model="service.equi.from.qunat" src_model="stock.quant"
+        <act_window id="action_service_equi_from_quant" name="Create Equipment"
+                    res_model="service.equi.from.quant" src_model="stock.quant"
                     view_mode="form" multi="True" target="new" key2="client_action_multi"/>
 
 

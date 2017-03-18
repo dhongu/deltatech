@@ -85,7 +85,7 @@ msgstr "Black Page"
 #. module: deltatech_service_equipment
 #: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
 #: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 #: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
 #: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
 msgid "Cancel"
@@ -203,7 +203,7 @@ msgid "Counter Value"
 msgstr "Valoare contor"
 
 #. module: deltatech_service_equipment
-#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_from_qunat
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_from_quant
 msgid "Create Equipment"
 msgstr "Create Equipment"
 
@@ -218,7 +218,7 @@ msgstr "Creare contori"
 #: field:service.enter.reading,create_uid:0
 #: field:service.enter.reading.item,create_uid:0
 #: field:service.equi.agreement,create_uid:0
-#: field:service.equi.from.qunat,create_uid:0
+#: field:service.equi.from.quant,create_uid:0
 #: field:service.equi.operation,create_uid:0
 #: field:service.equipment,create_uid:0
 #: field:service.equipment.category,create_uid:0
@@ -238,7 +238,7 @@ msgstr "Creat de"
 #: field:service.enter.reading,create_date:0
 #: field:service.enter.reading.item,create_date:0
 #: field:service.equi.agreement,create_date:0
-#: field:service.equi.from.qunat,create_date:0
+#: field:service.equi.from.quant,create_date:0
 #: field:service.equi.operation,create_date:0
 #: field:service.equipment,create_date:0
 #: field:service.equipment.category,create_date:0
@@ -329,7 +329,7 @@ msgstr "Dezactivare rezervă"
 #: field:service.enter.reading,display_name:0
 #: field:service.enter.reading.item,display_name:0
 #: field:service.equi.agreement,display_name:0
-#: field:service.equi.from.qunat,display_name:0
+#: field:service.equi.from.quant,display_name:0
 #: field:service.equi.operation,display_name:0
 #: field:service.equipment.category,display_name:0
 #: field:service.equipment.history,display_name:0
@@ -432,8 +432,8 @@ msgid "Equipment Category"
 msgstr "Categorie Equipment"
 
 #. module: deltatech_service_equipment
-#: model:ir.model,name:deltatech_service_equipment.model_service_equi_from_qunat
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: model:ir.model,name:deltatech_service_equipment.model_service_equi_from_quant
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 msgid "Equipment From Quants"
 msgstr "Equipment From Quants"
 
@@ -537,7 +537,7 @@ msgid "For the selected meters will generate estimate readings"
 msgstr "Pentru contorii selectați se vor genera citiri estimate"
 
 #. module: deltatech_service_equipment
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 msgid "For the selected quants will generate equipments"
 msgstr "For the selected quants will generate equipments"
 
@@ -571,7 +571,7 @@ msgstr "Holds the Chatter summary (number of messages, ...). This summary is dir
 #: field:service.enter.reading,id:0
 #: field:service.enter.reading.item,id:0
 #: field:service.equi.agreement,id:0
-#: field:service.equi.from.qunat,id:0
+#: field:service.equi.from.quant,id:0
 #: field:service.equi.operation,id:0
 #: field:service.equipment,id:0
 #: field:service.equipment.category,id:0
@@ -677,7 +677,7 @@ msgstr "Ultima citire"
 #: field:service.enter.reading,__last_update:0
 #: field:service.enter.reading.item,__last_update:0
 #: field:service.equi.agreement,__last_update:0
-#: field:service.equi.from.qunat,__last_update:0
+#: field:service.equi.from.quant,__last_update:0
 #: field:service.equi.operation,__last_update:0
 #: field:service.equipment,__last_update:0
 #: field:service.equipment.category,__last_update:0
@@ -697,7 +697,7 @@ msgstr "Last Modified on"
 #: field:service.enter.reading,write_uid:0
 #: field:service.enter.reading.item,write_uid:0
 #: field:service.equi.agreement,write_uid:0
-#: field:service.equi.from.qunat,write_uid:0
+#: field:service.equi.from.quant,write_uid:0
 #: field:service.equi.operation,write_uid:0
 #: field:service.equipment,write_uid:0
 #: field:service.equipment.category,write_uid:0
@@ -717,7 +717,7 @@ msgstr "Last Updated by"
 #: field:service.enter.reading,write_date:0
 #: field:service.enter.reading.item,write_date:0
 #: field:service.equi.agreement,write_date:0
-#: field:service.equi.from.qunat,write_date:0
+#: field:service.equi.from.quant,write_date:0
 #: field:service.equi.operation,write_date:0
 #: field:service.equipment,write_date:0
 #: field:service.equipment.category,write_date:0
@@ -976,7 +976,7 @@ msgid "Quantity Max"
 msgstr "Cantitate maximă"
 
 #. module: deltatech_service_equipment
-#: field:service.equi.from.qunat,quant_ids:0
+#: field:service.equi.from.quant,quant_ids:0
 msgid "Quants"
 msgstr "Quants"
 
@@ -1082,7 +1082,7 @@ msgid "Service Agreement Line"
 msgstr "Linie contract"
 
 #. module: deltatech_service_equipment
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 msgid "Service Billing Preparation"
 msgstr "Service Billing Preparation"
 
@@ -1307,7 +1307,7 @@ msgstr "Două contoare cu aceeași unitate de măsură pentru un echipament? Imp
 #. module: deltatech_service_equipment
 #: selection:service.consumable,categ:0
 #: field:service.consumable,type_id:0
-#: field:service.equi.from.qunat,type_id:0
+#: field:service.equi.from.quant,type_id:0
 #: field:service.equipment,type_id:0
 #: field:service.equipment.type,name:0
 #: field:service.meter,type:0
@@ -1391,7 +1391,7 @@ msgstr "Website communication history"
 #. module: deltatech_service_equipment
 #: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
 #: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 #: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
 #: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
 msgid "_Apply"
@@ -1400,7 +1400,7 @@ msgstr "_Aplică"
 #. module: deltatech_service_equipment
 #: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
 #: view:service.equi.agreement:deltatech_service_equipment.view_service_equi_agreement_form
-#: view:service.equi.from.qunat:deltatech_service_equipment.view_service_equi_from_qunat_form
+#: view:service.equi.from.quant:deltatech_service_equipment.view_service_equi_from_quant_form
 #: view:service.equi.operation:deltatech_service_equipment.view_service_equi_operation_form
 #: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
 msgid "or"
