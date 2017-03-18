@@ -34,6 +34,7 @@ class followup_line(models.Model):
 class account_followup_print(models.TransientModel):
     _inherit = 'account_followup.print'
 
+    """
     @api.model
     def process_partners_new(self, partner_ids, data):
         for partner in self.env('account_followup.stat.by.partner').browse(partner_ids):
@@ -44,10 +45,16 @@ class account_followup_print(models.TransientModel):
                           'sale_warn_msg': partner.max_followup_id.block_message}
                 partner.write(values)
         return
+    """
 
     def process_partners(self, cr, uid, partner_ids, data, context=None):
-        self.process_partners_new(cr, uid, partner_ids, data, context)
+        partner_obj = self.pool.get('res.partner')
+        for partner in self.pool.get('account_followup.stat.by.partner').browse(cr, uid, partner_ids, context):
+            if partner.max_followup_id.block_partner:
+                values = {'invoice_warn': 'block',
+                          'invoice_warn_msg': partner.max_followup_id.block_message,
+                          'sale_warn': 'block',
+                          'sale_warn_msg': partner.max_followup_id.block_message}
+                partner_obj.write(cr, uid, [partner.partner_id.id], values)
         res = super(account_followup_print, self).process_partners(cr, uid, partner_ids, data, context)
         return res
-
-
