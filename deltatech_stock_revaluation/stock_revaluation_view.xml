@@ -21,7 +21,7 @@
 			<field name="arch" type="xml">
 				<form string="Stock Revaluation">
 					<header invisible="context.get('from_quants',False)" >
-						<button state="draft" name="do_revaluation" string="Confirm" type="object" class="oe_highlight" />
+						<button state="draft" name="do_revaluation" states="draft"  string="Confirm" type="object" class="oe_highlight" />
 						<field name="state" widget="statusbar" statusbar_visible="draft,posted" />
 					</header>
 					<sheet>
