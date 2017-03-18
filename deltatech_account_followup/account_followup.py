@@ -21,28 +21,33 @@
 
 from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+from openerp.exceptions import Warning, RedirectWarning
 
 
 class followup_line(models.Model):
     _inherit = 'account_followup.followup.line'
-    
-    block_partner =  fields.Boolean(string="Block partner", default=False)
+
+    block_partner = fields.Boolean(string="Block partner", default=False)
     block_message = fields.Text(string="Block partner message")
+
 
 class account_followup_print(models.TransientModel):
     _inherit = 'account_followup.print'
-    
+
     @api.model
-    def process_partners(self,   partner_ids, data ): 
-        for partner in self.env('account_followup.stat.by.partner').browse(  partner_ids ):
+    def process_partners_new(self, partner_ids, data):
+        for partner in self.env('account_followup.stat.by.partner').browse(partner_ids):
             if partner.max_followup_id.block_partner:
-                values = {'invoice_warn':'block',
-                          'invoice_warn_msg':partner.max_followup_id.block_message,
-                          'sale_warn':'block',
-                          'sale_warn_msg':partner.max_followup_id.block_message}
+                values = {'invoice_warn': 'block',
+                          'invoice_warn_msg': partner.max_followup_id.block_message,
+                          'sale_warn': 'block',
+                          'sale_warn_msg': partner.max_followup_id.block_message}
                 partner.write(values)
-                
-        res = super(account_followup_print,self).process_partners( partner_ids, data )
+        return
+
+    def process_partners(self, cr, uid, partner_ids, data, context=None):
+        self.process_partners_new(cr, uid, partner_ids, data, context)
+        res = super(account_followup_print, self).process_partners(cr, uid, partner_ids, data, context)
         return res
-    
+
+
