@@ -28,13 +28,13 @@ from dateutil.relativedelta import relativedelta
 import werkzeug.urls
 from werkzeug.exceptions import NotFound
 
-from openerp import http
-from openerp import tools
-from openerp.http import request
-from openerp.tools.translate import _
-from openerp.addons.website.models.website import slug
+from odoo import http
+from odoo import tools
+from odoo.http import request
+from odoo.tools.translate import _
+from odoo.addons.website.models.website import slug
 
-from openerp import SUPERUSER_ID
+from odoo import SUPERUSER_ID
 
 
 class website_service(http.Controller):

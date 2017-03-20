@@ -37,7 +37,7 @@ import unicodedata
 try: 
     import html2text
 except:
-    from openerp.addons.email_template import html2text
+    from odoo.addons.email_template import html2text
     
 
 class import_saga(models.TransientModel):

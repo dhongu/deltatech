@@ -29,13 +29,15 @@
     'description': """
 
 Expenses Deduction & Disposition of Cashing
+-------------------------------------------
 
-Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie 
-Validarea documentrului duce la generarea notelor contabile de avans si inegistrarea platilor
+- Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie
+- Validarea documentrului duce la generarea notelor contabile de avans si inegistrarea platilor
 -
 		
     """,
-    'author': 'Deltatech',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     'images': [''],
     'depends': [
         'account',
@@ -46,7 +48,7 @@ Validarea documentrului duce la generarea notelor contabile de avans si inegistr
     ],
     'data': [
         #'views/account_voucher_view.xml',
-        #'views/deltatech_expenses_deduction_view.xml',
+        'views/deltatech_expenses_deduction_view.xml',
         #'views/deltatech_expenses_deduction_report.xml',
         #'wizard/expenses_deduction_from_account_voucher_view.xml',
         #"data/product_data.xml",

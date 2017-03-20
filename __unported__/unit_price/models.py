@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from openerp.osv import fields, osv
-from openerp.tools.float_utils import float_compare, float_round
-import openerp.addons.decimal_precision as dp
+from odoo.osv import fields, osv
+from odoo.tools.float_utils import float_compare, float_round
+import odoo.addons.decimal_precision as dp
 class stock_quant(osv.osv):
     _inherit = "stock.quant"
     def _calc_unit_value(self, cr, uid, ids, name, attr, context=None):

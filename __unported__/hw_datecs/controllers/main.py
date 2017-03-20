@@ -6,12 +6,12 @@ import os
 import os.path
 import io
 import base64
-import openerp
+import odoo
 import time
 import random
 import math
 import md5
-import openerp.addons.hw_proxy.controllers.main as hw_proxy
+import odoo.addons.hw_proxy.controllers.main as hw_proxy
 import pickle
 import re
 import subprocess
@@ -34,9 +34,9 @@ except ImportError:
 
 from PIL import Image
 
-from openerp import http
-from openerp.http import request
-from openerp.tools.translate import _
+from odoo import http
+from odoo.http import request
+from odoo.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 

@@ -19,12 +19,12 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api,  SUPERUSER_ID
-from openerp.tools.translate import _
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+from odoo import models, fields, api,  SUPERUSER_ID
+from odoo.tools.translate import _
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 
 
-import openerp.addons.decimal_precision as dp 
+import odoo.addons.decimal_precision as dp 
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"

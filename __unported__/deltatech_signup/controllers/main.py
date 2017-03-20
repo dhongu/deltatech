@@ -1,13 +1,13 @@
 import logging
 import werkzeug
 
-import openerp
-from openerp.addons.auth_signup.res_users import SignupError
-from openerp.addons.web.controllers.main import ensure_db
-from openerp.addons.auth_signup.controllers.main import AuthSignupHome
-from openerp import http
-from openerp.http import request
-from openerp.tools.translate import _
+import odoo
+from odoo.addons.auth_signup.res_users import SignupError
+from odoo.addons.web.controllers.main import ensure_db
+from odoo.addons.auth_signup.controllers.main import AuthSignupHome
+from odoo import http
+from odoo.http import request
+from odoo.tools.translate import _
 
 
 _logger = logging.getLogger(__name__)

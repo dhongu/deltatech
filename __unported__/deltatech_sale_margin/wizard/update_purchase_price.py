@@ -21,9 +21,9 @@
 
  
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 class commission_update_purchase_price(models.TransientModel):
     _name = 'commission.update.purchase.price'

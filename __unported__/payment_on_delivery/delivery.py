@@ -21,9 +21,9 @@
 ##############################################################################
 
  
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
 
 
 class delivery_carrier(models.Model):

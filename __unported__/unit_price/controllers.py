@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from openerp import http
+from odoo import http
 
 # class TerraUnitprice(http.Controller):
 #     @http.route('/terra_unitprice/terra_unitprice/', auth='public')

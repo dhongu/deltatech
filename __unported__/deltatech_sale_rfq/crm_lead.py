@@ -21,14 +21,14 @@
 
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
-from openerp.osv.fields import related
+from odoo.osv.fields import related
  
 _logger = logging.getLogger(__name__)
 

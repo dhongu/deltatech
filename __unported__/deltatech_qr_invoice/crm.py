@@ -20,9 +20,9 @@
 ##############################################################################
 
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import   Warning, RedirectWarning
  
 
 class account_invoice(models.Model):

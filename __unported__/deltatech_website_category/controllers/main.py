@@ -4,11 +4,11 @@
 ##############################################################################
 
 
-import openerp
-from openerp import http
-from openerp.http import request
-from openerp.addons.website_sale.controllers.main import website_sale
-from openerp.addons.website_sale.controllers.main import QueryURL
+import odoo
+from odoo import http
+from odoo.http import request
+from odoo.addons.website_sale.controllers.main import website_sale
+from odoo.addons.website_sale.controllers.main import QueryURL
 import time
     
 class WebsiteSale(website_sale):

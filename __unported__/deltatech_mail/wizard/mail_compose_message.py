@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, tools, _ , SUPERUSER_ID
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.api import Environment
+from odoo import models, fields, api, tools, _ , SUPERUSER_ID
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
+from odoo.api import Environment
  
 
 
@@ -35,7 +35,7 @@ class mail_compose_message(models.TransientModel):
 
     attachment_mode = fields.Boolean(string="List attachments")
 
-    @api.one
+
     @api.onchange('only_selected')
     def onchange_only_selected(self):
         if self.only_selected and not self.partner_ids:

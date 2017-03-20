@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.api import Environment
+from odoo import models, fields, api, tools, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
+from odoo.api import Environment
 
  
 

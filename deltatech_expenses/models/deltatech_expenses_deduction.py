@@ -1,26 +1,4 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-##############################################################################
-
-
 
 
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -37,20 +15,34 @@ class deltatech_expenses_deduction(models.Model):
     _order = "date_expense desc, id desc"
     _rec_name = "number"
 
-    def _get_journal(self, cr, uid, context=None):
-        if context is None: context = {}
-        journal_pool = self.pool.get('account.journal')
-        res = journal_pool.search(cr, uid, [('type', '=', 'cash')], limit=1)
-        return res and res[0] or False
+    @api.model
+    def _default_currency(self):
+        journal = self._default_journal()
+        return journal.currency_id or journal.company_id.currency_id or self.env.user.company_id.currency_id
+
+
 
     @api.model
-    def _get_account_diem(self):
+    def _default_journal(self):
+        if self._context.get('default_journal_id', False):
+            return self.env['account.journal'].browse(self._context.get('default_journal_id'))
+
+        company_id = self._context.get('company_id', self.env.user.company_id.id)
+        domain = [
+            ('type', '=', 'cash'),
+            ('company_id', '=', company_id),
+        ]
+        return self.env['account.journal'].search(domain, limit=1)
+
+
+    @api.model
+    def _default_account_diem(self):
         account_pool = self.env['account.account']
         try:
             account_id = account_pool.search([('code', 'ilike', '625')], limit=1)  ## Cheltuieli cu deplasari
         except:
             try:
-                account_id = account_pool.search([('user_type.report_type', '=', 'expense'),
+                account_id = account_pool.search([('user_type_id.report_type', '=', 'expense'),
                                                   ('type', '!=', 'view')], limit=1)
             except:
                 account_id = False
@@ -67,67 +59,60 @@ class deltatech_expenses_deduction(models.Model):
 
     number = fields.Char(string='Number', size=32, readonly=True, )
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done'), ('cancel', 'Cancelled'), ],
-                             string='Status', select=True, readonly=True, track_visibility='onchange', default='draft',
+                             string='Status', index=True, readonly=True, track_visibility='onchange', default='draft',
                              help=' * The \'Draft\' status is used when a user is encoding a new and unconfirmed expenses deduction. \
             \n* The \'Done\' status is set automatically when the expenses deduction is confirm.  \
             \n* The \'Cancelled\' status is used when user cancel expenses deduction.')
     date_expense = fields.Date(string='Expense Date', readonly=True, states={'draft': [('readonly', False)]},
-                               select=True)
+                               index=True)
     date_advance = fields.Date(string='Advance Date', readonly=True, states={'draft': [('readonly', False)]}, )
     travel_order = fields.Char(string='Travel Order', readonly=True, states={'draft': [('readonly', False)]})
 
-    company_id = fields.Many2one('res.company', string='Company', required=True)
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env['res.company']._company_default_get('account.account'))
     employee_id = fields.Many2one('res.partner', string="Employee", required=True, readonly=True,
                                   states={'draft': [('readonly', False)]}, domain=[('is_company', '=', False)])
 
     #        'expenses_line_ids':fields.one2many('deltatech.expenses.deduction.line','expenses_deduction_id','Vouchers'),
+
     line_ids = fields.One2many('account.voucher', 'expenses_deduction_id', string='Vouchers',
                                domain=[('voucher_type', '=', 'purchase')], context={'default_voucher_type': 'purchase'},
                                readonly=True, states={'draft': [('readonly', False)]})
+
+
     payment_ids = fields.One2many('account.payment', 'expenses_deduction_id', string='Payments',
                                   domain=[('payment_type', '=', 'outbound')], context={'default_type': 'outbound'}, readonly=True)
+
     note = fields.Text(string='Note')
     amount = fields.Float(string='Total Amount', digits=dp.get_precision('Account'), compute="_compute_amount")
     amount_vouchers = fields.Float(string='Vouchers Amount', digits=dp.get_precision('Account'),
                                    compute="_compute_amount")
-    advance = fields.Float(string='Advance', digits=dp.get_precision('Account'), readonly=True,
+    advance = fields.Monetary(string='Advance', digits=dp.get_precision('Account'), readonly=True,
                            states={'draft': [('readonly', False)]})
-    difference = fields.Float(string='Difference', digits=dp.get_precision('Account'), compute="_compute_amount")
 
-    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, required=True,
+    difference = fields.Monetary(string='Difference', digits=dp.get_precision('Account'), compute="_compute_amount")
+
+    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, required=True, default=_default_currency,
                                   compute="_compute_currency")
 
     journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
-                                 states={'draft': [('readonly', False)]})
+                                 states={'draft': [('readonly', False)]}, default=_default_journal)
     journal_payment_id = fields.Many2one('account.journal', string='Journal payment',
                                          required=True)  # readonly=True, states={'draft':[('readonly',False)]}),
     # 'account_id':fields.many2one('account.account','Account', required=True, readonly=True, states={'draft':[('readonly',False)]}),
     account_diem_id = fields.Many2one('account.account', string='Account', required=True, readonly=True,
-                                      states={'draft': [('readonly', False)]})
+                                      states={'draft': [('readonly', False)]}, default=_default_account_diem)
     move_id = fields.Many2one('account.move', string='Account Entry', readonly=True)
 
     move_ids = fields.One2many('account.move.line', related='move_id.line_ids', string='Journal Items', readonly=True)
 
-    diem = fields.Float(string='Diem', digits_compute=dp.get_precision('Account'), readonly=True,
+    diem = fields.Float(string='Diem', digits=dp.get_precision('Account'), readonly=True,
                         states={'draft': [('readonly', False)]}, default=42.5)
     days = fields.Integer(string='Days', readonly=True, states={'draft': [('readonly', False)]})
 
     total_diem = fields.Float(string='Total Diem', digits=dp.get_precision('Account'), compute="_compute_amount")
 
-    _defaults = {
-        'company_id': lambda self, cr, uid, c: self.pool.get('res.company')._company_default_get(cr, uid,
-                                                                                                 'account.invoice',
-                                                                                                 context=c),
-        # 'date_advance': fields.date.context_today,
-        # 'date_expense': fields.date.context_today,
-        # 'state': 'draft',
-        'journal_id': _get_journal,
-        'account_diem_id': _get_account_diem,
-        # 'employee_id': lambda cr, uid, id, c={}: id,
-        'currency_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid,
-                                                                                  context=c).company_id.currency_id.id,
-        # 'diem': 42.5,
-    }
+
 
     """
     def default_get(self, cr, uid, fields_list, context=None):
@@ -144,7 +129,7 @@ class deltatech_expenses_deduction(models.Model):
         return values   
     """
 
-    @api.one
+
     @api.onchange('date_advance')
     def onchange_date_advance(self):
         if self.date_advance > self.date_expense:
@@ -216,21 +201,22 @@ class deltatech_expenses_deduction(models.Model):
 
     @api.multi
     def validate_expenses(self):
-        voucher_pool = self.pool.get('account.voucher')
-        move_pool = self.pool.get('account.move')
-        move_line_pool = self.pool.get('account.move.line')
-        seq_pool = self.pool.get('ir.sequence')
-        payment_id = False
+        voucher_pool = self.env['account.voucher']
+        move_pool = self.env['account.move']
+        move_line_pool = self.env['account.move.line']
+        seq_pool = self.env['ir.sequence']
+        payment_voucher = False
         # poate ar fi bine daca  bonurile fiscale de la acelasi furnizor sa fie unuite intr-o singura chitanta.
         for expenses in self:
-            voucher_ids = []
+            vouchers = self.env['account.voucher']
             for voucher in expenses.line_ids:
                 if voucher.state == 'draft':
-                    voucher_ids.append(voucher.id)
-            voucher_pool.proforma_voucher(cr, uid, voucher_ids, context=context)
+                    vouchers |= voucher
+
+            vouchers.proforma_voucher()
             for voucher in expenses.line_ids:
                 if not voucher.paid:
-                    partner_id = self.pool.get('res.partner')._find_accounting_partner(voucher.partner_id).id
+                    partner_id = self.env['res.partner']._find_accounting_partner(voucher.partner_id).id
                     line_dr_ids = []
                     line_cr_ids = []
                     for line in voucher.move_ids:  # de regula este o singura linie
@@ -254,7 +240,15 @@ class deltatech_expenses_deduction(models.Model):
                             else:
                                 line_dr_ids.append([0, False, rs])
 
-                    payment_id = voucher_pool.create(cr, uid, {
+                    context = {'default_type': 'payment',
+                               'type': 'payment',
+                               'default_partner_id': partner_id,
+                               'default_partner_id': voucher.partner_id.id,
+                               'default_amount': voucher.amount,
+                               'partner_id': voucher.partner_id.id,
+                               'default_reference': voucher.reference}
+
+                    payment_voucher = voucher_pool.with_context(context).create( {
                         'journal_id': expenses.journal_payment_id.id,
                         'account_id': expenses.journal_payment_id.default_credit_account_id.id,
                         'type': 'payment',
@@ -267,19 +261,13 @@ class deltatech_expenses_deduction(models.Model):
                         'line_cr_ids': line_cr_ids,
                         'expenses_deduction_id': expenses.id
                     },
-                                                     context={'default_type': 'payment',
-                                                              'type': 'payment',
-                                                              'default_partner_id': partner_id,
-                                                              'default_partner_id': voucher.partner_id.id,
-                                                              'default_amount': voucher.amount,
-                                                              'partner_id': voucher.partner_id.id,
-                                                              'default_reference': voucher.reference})
+                                                     )
+                    payment_voucher.proforma_voucher()
 
-                    voucher_pool.proforma_voucher(cr, uid, payment_id, context=context)
 
             # TODO: de adaugat platile ca refeninta de decont
             if not expenses.number:
-                name = seq_pool.next_by_id(cr, uid, expenses.journal_id.sequence_id.id, context=context)
+                name = expenses.journal_id.sequence_id.next_by_id()
             else:
                 name = expenses.number
             # Create the account move record.
@@ -386,19 +374,19 @@ class deltatech_expenses_deduction(models.Model):
 
 
                 # si e corect ca un element sa contina note contabile cu date diferite ????
-            move_id = move_pool.create(cr, uid, {
+            move = move_pool.create( {
                 'name': name or '/',
                 'journal_id': expenses.journal_id.id,
                 'date': expenses.date_expense,
                 'ref': name or '',
                 'line_id': line_ids,
-            }, context=context)
-            name = move_pool.browse(cr, uid, move_id, context=context).name
-            if payment_id:
-                voucher_pool.write(cr, uid, [payment_id], {'state': 'posted'})
-            self.write(cr, uid, [expenses.id], {'state': 'done', 'move_id': move_id, 'number': name})
+            })
+            name = move.name
+            if payment_voucher:
+                payment_voucher.write({'state': 'posted'})
+            self.write(  {'state': 'done', 'move_id': move.id, 'number': name})
 
-        self.write_to_statement_line(cr, uid, ids, context)
+        self.write_to_statement_line( )
         return True
 
     @api.multi
@@ -420,7 +408,7 @@ class deltatech_expenses_deduction(models.Model):
                 statement = statement[0]
 
             if statement.state != 'open':
-                raise osv.except_osv(_('Error!'), _(
+                raise Warning( _(
                     'The cash statement of journal %s from date is not in open state, please open it \n'
                     'to create the line in  it "%s".') % (journal_id.name, date))
             return statement

@@ -29,9 +29,9 @@ from mydbf import base, fields as dbf_fields
 
 import os
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 import unicodedata
 
 try: 

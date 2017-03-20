@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from openerp import SUPERUSER_ID
-from openerp.osv import fields, osv
+from odoo import SUPERUSER_ID
+from odoo.osv import fields, osv
 
 
 class service_config_settings(models.TransientModel):

@@ -22,10 +22,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp import models, fields, api
+from odoo import models, fields, api
 from datetime import datetime
 import time
-from openerp import SUPERUSER_ID
+from odoo import SUPERUSER_ID
 
 import time
 

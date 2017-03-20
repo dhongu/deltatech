@@ -22,10 +22,10 @@
  
  
  
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -77,7 +77,7 @@ class mrp_production_start(models.TransientModel):
 
     @api.multi
     def do_start(self):
-        from openerp import workflow
+        from odoo import workflow
         
         for production in self.production_ids:
             if production.state == 'draft':

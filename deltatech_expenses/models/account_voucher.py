@@ -1,24 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-##############################################################################
+
 
 
 
@@ -37,7 +18,7 @@ class account_voucher(models.Model):
         account_pool = self.env['account.account']
         account = account_pool.search([('code', 'ilike', '623')], limit=1)  ## cheltuieli de protocol
         if not account:
-            account = account_pool.search([('user_type.report_type', '=', 'expense'),
+            account = account_pool.search([('user_type_id.report_type', '=', 'expense'),
                                                ('type', '!=', 'view')],  limit=1)
         return account
 
@@ -52,7 +33,7 @@ class account_voucher(models.Model):
                 if len(voucher.line_dr_ids) == 1:
                     res[voucher.id] = voucher.line_dr_ids[0].account_id.id
                 else:
-                    res[voucher.id] = account_id
+                    res[voucher.id] = account.id
             else:
                 res[voucher.id] = False
         return res
@@ -121,16 +102,16 @@ class account_voucher(models.Model):
 
     @api.multi
     def confirm_voucher(self):
+        vouchers = self.env['account.voucher']
+        active_ids = self.env.context.get('active_ids', self.ids)
 
-        active_ids = context.get('active_ids', ids)
-        ids = []
-        for voucher in self.browse(cr, uid, active_ids, context=context):
+        for voucher in self.browse(active_ids):
             if voucher.state == 'draft':
-                ids.append(voucher.id)
-        if len(ids) > 0:
-            self.action_move_line_create(cr, uid, ids, context=context)
+                vouchers |= voucher
+        vouchers.action_move_line_create()
         return True
 
+    #Todo: de rescris
     def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, amount, currency_id, ttype, date, context=None):
         res = super(account_voucher, self).onchange_partner_id(cr, uid, ids, partner_id, journal_id, amount,
                                                                currency_id, ttype, date, context)

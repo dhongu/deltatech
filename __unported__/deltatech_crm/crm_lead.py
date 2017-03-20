@@ -21,11 +21,11 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp import models, fields, api, _, tools
-from openerp.tools.translate import _
-from openerp import SUPERUSER_ID, api
-import openerp.addons.decimal_precision as dp
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _, tools
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging

@@ -25,15 +25,15 @@ import StringIO
 
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
 
 
 try: 
     import html2text
 except:
-    from openerp.addons.email_template import html2text
+    from odoo.addons.email_template import html2text
     
 
 class export_mentor(models.TransientModel):

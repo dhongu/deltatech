@@ -29,7 +29,7 @@ from exceptions import *
 try: 
     import html2text
 except:
-    from openerp.addons.email_template import html2text
+    from odoo.addons.email_template import html2text
 
 import os.path  
 

@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, tools, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, tools, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 
 class res_company(models.Model):

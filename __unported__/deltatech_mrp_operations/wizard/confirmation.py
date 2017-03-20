@@ -22,10 +22,10 @@
  
  
  
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
@@ -51,7 +51,7 @@ class mrp_production_conf(models.TransientModel):
         self.operation_ids = self.production_id.workcenter_lines
     """    
  
-    @api.one
+
     @api.onchange('scanned_barcode')
     def onchange_scanned_barcode(self):
         scanned_barcode = self.scanned_barcode

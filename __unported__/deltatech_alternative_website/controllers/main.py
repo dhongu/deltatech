@@ -22,10 +22,10 @@
 
 
 
-import openerp
-from openerp import http
-from openerp.http import request
-import openerp.addons.website_sale.controllers.main
+import odoo
+from odoo import http
+from odoo.http import request
+import odoo.addons.website_sale.controllers.main
 
 """
 class website_sale(openerp.addons.website_sale.controllers.main.website_sale):

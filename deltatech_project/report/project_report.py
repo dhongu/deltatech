@@ -23,8 +23,8 @@
 import time
 import datetime
 
-from openerp.report import report_sxw
-from openerp.osv import osv
+from odoo.report import report_sxw
+from odoo.osv import osv
 
 
 

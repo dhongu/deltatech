@@ -3,8 +3,8 @@ import logging
 import pprint
 import werkzeug
 
-from openerp import http, SUPERUSER_ID
-from openerp.http import request
+from odoo import http, SUPERUSER_ID
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 

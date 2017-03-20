@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-from openerp.osv import fields,osv
-from openerp import tools
-from openerp import models
+from odoo.osv import fields,osv
+from odoo import tools
+from odoo import models
  
 
 class ir_model_fields(osv.osv):

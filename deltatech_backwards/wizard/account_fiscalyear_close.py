@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
+from odoo import fields, osv
+from odoo.tools.translate import _
 
 class account_fiscalyear_close(osv.osv_memory):
     """
@@ -133,7 +133,7 @@ class account_fiscalyear_close(osv.osv_memory):
         cr.execute('''
             SELECT a.id
             FROM account_account a
-            LEFT JOIN account_account_type t ON (a.user_type = t.id)
+            LEFT JOIN account_account_type t ON (a.user_type_id = t.id)
             WHERE a.active
               AND a.type not in ('view', 'consolidation')
               AND a.company_id = %s
@@ -184,7 +184,7 @@ class account_fiscalyear_close(osv.osv_memory):
         cr.execute('''
             SELECT a.id
             FROM account_account a
-            LEFT JOIN account_account_type t ON (a.user_type = t.id)
+            LEFT JOIN account_account_type t ON (a.user_type_id= t.id)
             WHERE a.active
               AND a.type not in ('view', 'consolidation')
               AND a.company_id = %s
@@ -213,7 +213,7 @@ class account_fiscalyear_close(osv.osv_memory):
         cr.execute('''
             SELECT a.id
             FROM account_account a
-            LEFT JOIN account_account_type t ON (a.user_type = t.id)
+            LEFT JOIN account_account_type t ON (a.user_type_id = t.id)
             WHERE a.active
               AND a.type not in ('view', 'consolidation')
               AND a.company_id = %s

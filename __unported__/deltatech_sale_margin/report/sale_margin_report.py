@@ -20,8 +20,8 @@
 ##############################################################################
 
 from odoo.osv import fields,osv
-from openerp import tools
-import openerp.addons.decimal_precision as dp
+from odoo import tools
+import odoo.addons.decimal_precision as dp
 from odoo import models, api, _
 
 

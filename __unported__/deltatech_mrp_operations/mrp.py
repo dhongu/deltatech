@@ -19,10 +19,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-import openerp.addons.decimal_precision as dp
-from openerp.tools import float_is_zero
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+import odoo.addons.decimal_precision as dp
+from odoo.tools import float_is_zero
 import logging
 
 _logger = logging.getLogger(__name__)

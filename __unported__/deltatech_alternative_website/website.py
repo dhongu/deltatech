@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-from openerp import SUPERUSER_ID
-from openerp.addons.web.http import request
-from openerp.tools.translate import _
+from odoo import models, fields, api, _
+from odoo import SUPERUSER_ID
+from odoo.addons.web.http import request
+from odoo.tools.translate import _
 from sys import maxint
  
 

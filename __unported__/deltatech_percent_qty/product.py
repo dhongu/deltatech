@@ -19,9 +19,9 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import   Warning, RedirectWarning
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+from odoo.exceptions import   Warning, RedirectWarning
 
 
 
@@ -33,7 +33,7 @@ class product_template(models.Model):
     percent_product_list = fields.Many2many('product.product') 
 
 
-    @api.one
+
     @api.onchange('percent_product_list','percent_not_in')
     def on_percent_product_list(self):
         if self.percent_product_list:

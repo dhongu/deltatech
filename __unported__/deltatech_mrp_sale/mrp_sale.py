@@ -21,14 +21,14 @@
 
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm, Warning, RedirectWarning, ValidationError
+from odoo.tools import float_compare
+import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
-from openerp.osv.fields import related
+from odoo.osv.fields import related
  
 _logger = logging.getLogger(__name__)
 
@@ -383,7 +383,7 @@ class sale_mrp_article(models.Model):
             if article.product_uom_qty:
                 article.price_unit = article.amount / article.product_uom_qty
     
-    @api.one
+
     @api.onchange('bom_id')
     def onchange_bom(self):
         if self.bom_id:
@@ -394,7 +394,7 @@ class sale_mrp_article(models.Model):
         self.explode_bom()
 
 
-    @api.one
+
     @api.onchange('qty_formula')
     def change_qty_formula(self):   
         if self.qty_formula and self.qty_formula[0]=='=':         
@@ -427,7 +427,7 @@ class sale_mrp_article(models.Model):
             
         return attributes
 
-    @api.one
+
     @api.onchange('product_template')
     def onchange_product_template(self):
         self.ensure_one()
@@ -452,7 +452,6 @@ class sale_mrp_article(models.Model):
 
 
 
-    @api.one
     @api.onchange('product_attributes')
     def onchange_product_attributes(self):
         product_obj = self.env['product.product']
@@ -481,7 +480,7 @@ class sale_mrp_article(models.Model):
                         print "Atribute", a.attribute.name, a.value.name, a.order_id.id
         """
         
-    @api.one
+
     @api.onchange('product_id' )
     def onchange_product_id(self):
 
