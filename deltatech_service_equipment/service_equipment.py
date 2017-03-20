@@ -153,7 +153,7 @@ class service_equipment(models.Model):
     type_id = fields.Many2one('service.equipment.type', required=True, string='Type')
     categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
 
-    consumable_id = fields.Many2one('service.consumable', string='Consumable List')
+    # consumable_id = fields.Many2one('service.consumable', string='Consumable List')
     consumable_item_ids = fields.Many2many('service.consumable.item', string='Consumables',
                                            compute="_compute_consumable_item_ids", readonly=True)
     readings_status = fields.Selection([('', 'N/A'), ('unmade', 'Unmade'), ('done', 'Done')], string="Readings Status",
@@ -260,7 +260,7 @@ class service_equipment(models.Model):
     @api.one
     def _compute_consumable_item_ids(self):
         self.consumable_item_ids = self.env['service.consumable.item'].search(
-            [('consumable_id', '=', self.consumable_id.id)])
+            [('type_id', '=', self.type_id.id)])
 
     @api.one
     def _compute_image_qr_html(self):
@@ -324,6 +324,7 @@ class service_equipment(models.Model):
         if self.serial_id.quant_ids:
             self.quant_id = self.serial_id.quant_ids[0]
 
+    """"
     @api.onchange('type_id', 'product_id')
     def onchange_type_id(self):
         consumable_id = False
@@ -333,7 +334,7 @@ class service_equipment(models.Model):
             consumable_id = self.env['service.consumable'].search([('type_id', '=', self.type_id.id)], limit=1)
         self.consumable_id = consumable_id
         #sunt definite contoare ?
-
+    """
 
     @api.onchange('quant_id')
     def onchange_quant_id(self):
@@ -425,7 +426,7 @@ class service_equipment(models.Model):
     def create_meters_button(self):
         for equi in self:
             categs = self.env['service.meter.category']
-            for template in equi.type_id.template_meter_ids:
+            for template in equi.categ_id.template_meter_ids:
                 categs |= template.meter_categ_id
             for categ in categs:
                 equi.meter_ids.create({'equipment_id': equi.id,
@@ -458,6 +459,8 @@ class service_equipment_category(models.Model):
     out_type_id = fields.Many2one('stock.picking.type', string='Out Type')
     in_type_id = fields.Many2one('stock.picking.type', string='In Type')
 
+    template_meter_ids = fields.One2many('service.template.meter', 'categ_id')
+
 
 class service_equipment_type(models.Model):
     _name = 'service.equipment.type'
@@ -465,7 +468,11 @@ class service_equipment_type(models.Model):
     name = fields.Char(string='Type', translate=True)
     categ_id = fields.Many2one('service.equipment.category', string="Category")
 
-    template_meter_ids = fields.One2many('service.template.meter', 'type_id')
+    # template_meter_ids = fields.One2many('service.template.meter', 'type_id')
+
+    # consumable_id = fields.Many2one('service.consumable', string='Consumable List')
+    consumable_item_ids = fields.One2many('service.consumable.item', 'type_id', string='Consumable')
+
 
 
 # este utilizat pentru generare de pozitii noi in contract si pentru adugare contori noi
@@ -474,6 +481,7 @@ class service_template_meter(models.Model):
     _description = "Service Template Meter"
 
     type_id = fields.Many2one('service.equipment.type', string="Type")
+    categ_id = fields.Many2one('service.equipment.category', string="Category")
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null',
                                  domain=[('type', '=', 'service')])
     meter_categ_id = fields.Many2one('service.meter.category', string="Meter category")
@@ -481,7 +489,7 @@ class service_template_meter(models.Model):
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,
                                   domain=[('name', 'in', ['RON', 'EUR'])])
 
-    @api.one
+
     @api.onchange('meter_categ_id')
     def onchange_meter_categ_id(self):
         self.bill_uom_id = self.meter_categ_id.bill_uom_id

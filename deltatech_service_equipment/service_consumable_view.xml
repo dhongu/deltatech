@@ -30,8 +30,8 @@
 								<field name="name" invidible="1"/> 	
 								<field name="categ"/> 
 								<field name="product_id"  attrs="{'invisible':[('categ', '==', 'type')]}"/>
-								<field name="type_id"     attrs="{'invisible':[('categ', '!=', 'type')]}"/>  
-								<field name="item_ids" >
+								<field name="type_id"     attrs="{'invisible':[('categ', '!=', 'type')]}"/>
+                                <field name="item_ids" context="{'default_type_id':type_id}">
 									<tree editable="bottom">
 										<field name="product_id"/>
 										<field name="colors"/>
