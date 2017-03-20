@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Sale Margin",
-    "version" : "1.0",
-    "category" : "Sales Management",
+    "name": "Deltatech Sale Margin",
+    "version": "1.0",
+    "category": "Sales Management",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -37,22 +37,23 @@ Features:
  - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
 
     """,
-    
-    "depends" : ['deltatech',"sale_margin",'account','l10n_ro_invoice_report'],
- 
-    "data" : ['security/sale_security.xml',
-              'security/ir.model.access.csv',
-              'sale_margin_view.xml',
-              'account_invoice_view.xml',
-              'report/sale_margin_report.xml',
-              'commission_users_view.xml',
-              'wizard/commission_compute_view.xml',
-              'wizard/update_purchase_price_view.xml'
 
-              ],
-              
+    "depends": ['deltatech', "sale_margin", 'account',
+                'l10n_ro_invoice_report',
+                'l10n_ro_stock_picking_report'],
+
+    "data": ['security/sale_security.xml',
+             'security/ir.model.access.csv',
+             'sale_margin_view.xml',
+             'account_invoice_view.xml',
+             'report/sale_margin_report.xml',
+             'commission_users_view.xml',
+             'wizard/commission_compute_view.xml',
+             'wizard/update_purchase_price_view.xml',
+             'views/invoice_report.xml'
+
+             ],
+
     "active": False,
     "installable": True,
 }
-
-

@@ -48,7 +48,6 @@ class account_invoice(models.Model):
 
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
- 
 
     purchase_price = fields.Float(string='Cost Price', digits= dp.get_precision('Product Price'))  # valoare stocului in moneda companiei
     commission =  fields.Float(string="Commission",default=0.0) 

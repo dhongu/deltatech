@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report string="NIR cu pret de vanzare" id="action_report_invoice_nir"
+                model="account.invoice" report_type="qweb-pdf"
+                name="deltatech_sale_margin.report_invoice_nir"
+                file="deltatech_sale_margin.report_invoice_nir"/>
+
+
+        <template id="report_invoice_nir">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_sale_margin.report_invoice_document_nir')"/>
+                </t>
+            </t>
+            <t t-if="False">
+                <t t-call="deltatech_sale_margin.report_invoice_document_nir"/>
+            </t>
+        </template>
+
+
+        <template id="report_invoice_document_nir">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <!--
+							<t t-call="l10n_ro_stock_picking_report.report_address" />
+							-->
+                            <h3>
+                                <span>Reception:</span>
+
+                                <span t-field="o.number"/>
+
+                            </h3>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Origin</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Date</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span t-field="o.origin"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="formatLang(o.date_invoice, date=True)"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <br/>
+                            <table class="table table-condensed table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Product</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Quantity</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Price</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Amount</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Taxes</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Amount with taxes</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Sale price</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Margin</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Sale Amount</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <t t-foreach="o.invoice_line" t-as="l">
+                                        <tr t-if="l.product_id.type == 'product'">
+                                            <t t-set="line" t-value="get_line(l)"/>
+                                            <td>
+                                                <span t-field="l.product_id"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="l.quantity"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['price'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['amount'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['tax'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['amount_tax'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['sale_price'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['margin'])"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="formatLang(line['amount_sale'])"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+
+                                </tbody>
+                            </table>
+                            <!--
+							<t t-call="l10n_ro_stock_picking_report.report_totals" />
+							<t t-call="l10n_ro_stock_picking_report.report_reception_sign" />
+
+							<div t-if="o.note">
+								<span t-field="o.note" />
+							</div>
+							-->
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</openerp>
