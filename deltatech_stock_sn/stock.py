@@ -43,7 +43,7 @@ class stock_location(models.Model):
             self.hide_lot = False
         
         # pentru poturile existente trebuie rulat 
-        quants = self.env['stock.qunat'].search([('location_id','=',self.id),('lot_id','!=',False)])
+        quants = self.env['stock.quant'].search([('location_id', '=', self.id), ('lot_id', '!=', False)])
     
     
 

@@ -128,21 +128,21 @@ deltatech_document
 --------------------------------
 - nr document automat dat de sistem, din categoria documentului
 - campuri noi:
-	- Description
-	- Turtle reference
-	- tipuri document Procedure, Template, Work Instruction
-	- Departament
-	- Reasons
-	- Issued by: automat numele celui care creaza doc, numai administratorul poate avea acces de editare (asta daca vrea sa emite un doc in numele altei persoane)
-	- Inform: in acest camp sa se poata selecta mai multi utilizatori care vor fi informati de noul document, revizie sau alte modificari.
-	- Approved by : sa se poat selecta cel putin 1 utilizator care trebuie sa aprobe
+    - Description
+    - Turtle reference
+    - tipuri document Procedure, Template, Work Instruction
+    - Departament
+    - Reasons
+    - Issued by: automat numele celui care creaza doc, numai administratorul poate avea acces de editare (asta daca vrea sa emite un doc in numele altei persoane)
+    - Inform: in acest camp sa se poata selecta mai multi utilizatori care vor fi informati de noul document, revizie sau alte modificari.
+    - Approved by : sa se poat selecta cel putin 1 utilizator care trebuie sa aprobe
 - Documentul se inregistreaza in arhiva numai dupa ce a fost aprobat
 - Documentele in stand by le pot vedea doar emitentii si cei care trebuie sa-l aprobe
 
 
 
 deltatech_expenses
-==================
+--------------------------------
 - gestionarea decontului de cheltuieli
 - Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie 
 - Validarea documentului duce la generarea notelor contabile de avans si inegistrarea platilor
@@ -200,6 +200,7 @@ deltatech_invoice_receipt
  - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie 
  - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
  - buton in factura pentru afisarea stocului pentru produsele din factura
+
 Antentie:
  - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite! Ia doar unul!
  
