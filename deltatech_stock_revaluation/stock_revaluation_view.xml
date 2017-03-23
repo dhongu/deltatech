@@ -93,6 +93,16 @@
 
 
 		<menuitem action="action_stock_revaluation" id="menu_stock_revaluation" parent="stock.menu_stock_inventory_control" groups="stock_account.group_inventory_valuation" />
+		
+		<report
+			id="stock_revaluation"
+            model="stock.revaluation"
+            string="Stock revaluation"
+            report_type="qweb-pdf"
+            name="deltatech_stock_revaluation.report_stock_revaluation"
+            attachment_use="False"
+            file="deltatech_stock_revaluation.report_stock_revaluation"
+		/>
 
 	</data>
 </openerp>
