@@ -23,7 +23,7 @@ from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
-
+"""
 class IrMailServer(models.Model):
     _inherit = "ir.mail_server"
 
@@ -31,30 +31,58 @@ class IrMailServer(models.Model):
                     attachments=None, message_id=None, references=None, object_id=False, subtype='plain', headers=None,
                     body_alternative=None, subtype_alternative='plain'):
 
-        get_param = self.env['ir.config_parameter'].sudo().get_param
-        always_mail_to = get_param('mail.always.only.to', default=False)
-        if always_mail_to:
-            email_cc = []
-            email_to = [always_mail_to]
+        if not self.env.context.get('ignore_always_only_to', False):
+            get_param = self.env['ir.config_parameter'].sudo().get_param
+            always_mail_to = get_param('mail.always.only.to', default=False)
+            if always_mail_to:
+                email_cc = []
+                email_to = [always_mail_to]
 
         msg = super(IrMailServer, self).build_email(email_from, email_to, subject, body, email_cc, email_bcc, reply_to,
                                                     attachments, message_id, references, object_id, subtype, headers,
                                                     body_alternative, subtype_alternative)
         return msg
 
+
     @api.model
     def send_email(self, message, mail_server_id=None, smtp_server=None, smtp_port=None,
                    smtp_user=None, smtp_password=None, smtp_encryption=None, smtp_debug=False):
 
-        get_param = self.env['ir.config_parameter'].sudo().get_param
-        always_mail_to = get_param('mail.always.only.to', default=False)
-        if always_mail_to:
-            message['Cc'] = False
-            message['To'] = always_mail_to
+        if not self.env.context.get('ignore_always_only_to',False):
+            get_param = self.env['ir.config_parameter'].sudo().get_param
+            always_mail_to = get_param('mail.always.only.to', default=False)
+            if always_mail_to:
+                message['To'] = always_mail_to
+                if message['Cc']:
+                    message['Cc'] = None
 
         message_id = super(IrMailServer, self).send_email(message, mail_server_id, smtp_server, smtp_port,
                                                           smtp_user, smtp_password, smtp_encryption, smtp_debug)
         return message_id
+
+"""
+
+
+
+
+
+
+class MailMail(models.Model):
+    """ Model holding RFC2822 email messages to send. This model also provides
+        facilities to queue and send new email messages.  """
+    _inherit = 'mail.mail'
+
+
+    @api.model
+    def create(self, values):
+        get_param = self.env['ir.config_parameter'].sudo().get_param
+        always_mail_to = get_param('mail.always.only.to', default=False)
+        if not self.env.context.get('ignore_always_only_to', False):
+            if always_mail_to:
+                values.update({'email_to': always_mail_to,
+                               'recipient_ids': [(5, False, False)]})
+        return super(MailMail, self).create(values)
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
