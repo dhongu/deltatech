@@ -46,9 +46,24 @@ class sale_margin_report(models.Model):
     def _sub_select(self):
         select_str = super(sale_margin_report,self)._sub_select()
         select_str = select_str +   """
-            , sum(parallel_stock_value) as parallel_stock_value 
-            , sum(parallel_line_value) as parallel_line_value
-            , sum(parallel_line_value-parallel_stock_value) as parallel_profit
+            sum(
+                CASE
+                    WHEN ((s.type)::text = ANY (ARRAY[('out_refund'::character varying)::text, ('in_invoice'::character varying)::text]))
+                    THEN (- l.parallel_stock_value)
+                    ELSE l.parallel_stock_value
+                END) AS parallel_stock_value,
+            sum(
+                CASE
+                    WHEN ((s.type)::text = ANY (ARRAY[('out_refund'::character varying)::text, ('in_invoice'::character varying)::text]))
+                    THEN (- l.parallel_line_value)
+                    ELSE l.parallel_line_value
+                END) AS parallel_line_value,
+            sum(
+                CASE
+                    WHEN ((s.type)::text = ANY (ARRAY[('out_refund'::character varying)::text, ('in_invoice'::character varying)::text]))
+                    THEN (((-1))::numeric * (l.parallel_line_value - l.parallel_stock_value))
+                    ELSE (l.parallel_line_value - l.parallel_stock_value)
+                END) AS parallel_profit
         """ 
  
         return select_str   
