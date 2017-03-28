@@ -44,6 +44,7 @@ Functionalitati:
                   'data/stock_revaluation_data.xml',
                   'security/stock_revaluation_security.xml',
                   'security/ir.model.access.csv',
+                  'views/deltatech_stock_revaluation.xml',
                   
              ],
     

@@ -1,27 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * deltatech_stock_revaluation
-# 
-# Translators:
-# Dorin Hongu <dhongu@gmail.com>, 2017
+# 	* deltatech_stock_revaluation
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 17:17+0000\n"
-"PO-Revision-Date: 2017-03-11 17:17+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
-"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"POT-Creation-Date: 2017-03-23 06:39+0000\n"
+"PO-Revision-Date: 2017-03-23 08:40+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
 "Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: deltatech_stock_revaluation
 #: view:stock.revaluation:deltatech_stock_revaluation.view_stock_revaluation_form
 msgid "(update)"
-msgstr "(update)"
+msgstr "(actualizeaza)"
 
 #. module: deltatech_stock_revaluation
 #: view:stock.revaluation:deltatech_stock_revaluation.view_stock_revaluation_form
@@ -41,7 +40,7 @@ msgstr "Company"
 #. module: deltatech_stock_revaluation
 #: view:stock.revaluation:deltatech_stock_revaluation.view_stock_revaluation_form
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Valideaza"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,create_uid:0
@@ -56,14 +55,9 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: deltatech_stock_revaluation
-#: field:stock.revaluation,currency_id:0
-msgid "Currency"
-msgstr "Currency"
-
-#. module: deltatech_stock_revaluation
 #: field:stock.revaluation,date:0
 msgid "Date"
-msgstr "Date"
+msgstr "Data"
 
 #. module: deltatech_stock_revaluation
 #: help:stock.revaluation,message_last_post:0
@@ -71,15 +65,9 @@ msgid "Date of the last message posted on the record."
 msgstr "Date of the last message posted on the record."
 
 #. module: deltatech_stock_revaluation
-#: field:stock.revaluation,display_name:0
-#: field:stock.revaluation.line,display_name:0
-msgid "Display Name"
-msgstr "Display Name"
-
-#. module: deltatech_stock_revaluation
 #: selection:stock.revaluation,state:0
 msgid "Draft"
-msgstr "Draft"
+msgstr "Ciorna"
 
 #. module: deltatech_stock_revaluation
 #: help:stock.revaluation.line,new_value:0
@@ -94,16 +82,12 @@ msgstr "Followers"
 #. module: deltatech_stock_revaluation
 #: selection:stock.revaluation,type:0
 msgid "Growth"
-msgstr "Growth"
+msgstr "Crestere  valoare"
 
 #. module: deltatech_stock_revaluation
 #: help:stock.revaluation,message_summary:0
-msgid ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
-msgstr ""
-"Holds the Chatter summary (number of messages, ...). This summary is "
-"directly in html format in order to be inserted in kanban views."
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,id:0 field:stock.revaluation.line,id:0
@@ -114,6 +98,11 @@ msgstr "ID"
 #: help:stock.revaluation,message_unread:0
 msgid "If checked new messages require your attention."
 msgstr "If checked new messages require your attention."
+
+#. module: deltatech_stock_revaluation
+#: field:stock.quant,init_value:0
+msgid "Initial value"
+msgstr "Initial value"
 
 #. module: deltatech_stock_revaluation
 #: model:ir.model,name:deltatech_stock_revaluation.model_stock_revaluation_line
@@ -131,14 +120,7 @@ msgid "Last Message Date"
 msgstr "Last Message Date"
 
 #. module: deltatech_stock_revaluation
-#: field:stock.revaluation,__last_update:0
-#: field:stock.revaluation.line,__last_update:0
-msgid "Last Modified on"
-msgstr "Last Modified on"
-
-#. module: deltatech_stock_revaluation
-#: field:stock.revaluation,write_uid:0
-#: field:stock.revaluation.line,write_uid:0
+#: field:stock.revaluation,write_uid:0 field:stock.revaluation.line,write_uid:0
 msgid "Last Updated by"
 msgstr "Last Updated by"
 
@@ -151,7 +133,7 @@ msgstr "Last Updated on"
 #. module: deltatech_stock_revaluation
 #: view:stock.revaluation:deltatech_stock_revaluation.view_stock_revaluation_form
 msgid "Lines"
-msgstr "Lines"
+msgstr "Linii"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,message_ids:0
@@ -166,42 +148,37 @@ msgstr "Messages and communication history"
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,new_amount_total:0
 msgid "New Amount Total"
-msgstr "New Amount Total"
+msgstr "Valoare totala actuala"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation.line,new_value:0
 msgid "New Value"
-msgstr "New Value"
+msgstr "Valoarea actuala "
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,old_amount_total:0
 msgid "Old Amount Total"
-msgstr "Old Amount Total"
+msgstr "Valoare totala precedenta"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,percent:0
 msgid "Percent"
-msgstr "Percent"
+msgstr "Procent"
 
 #. module: deltatech_stock_revaluation
 #: selection:stock.revaluation,state:0
 msgid "Posted"
-msgstr "Posted"
+msgstr "Validata"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation.line,old_value:0
 msgid "Previous value"
-msgstr "Previous value"
-
-#. module: deltatech_stock_revaluation
-#: field:stock.revaluation.line,product_id:0
-msgid "Product"
-msgstr "Product"
+msgstr "Valoare anterioara"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation.line,quant_id:0
 msgid "Quant"
-msgstr "Quant"
+msgstr "Pozitie de stoc"
 
 #. module: deltatech_stock_revaluation
 #: model:ir.model,name:deltatech_stock_revaluation.model_stock_quant
@@ -211,12 +188,12 @@ msgstr "Poziții de stoc"
 #. module: deltatech_stock_revaluation
 #: selection:stock.revaluation,type:0
 msgid "Reduction"
-msgstr "Reduction"
+msgstr "Reducere valoare"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,name:0
 msgid "Reference"
-msgstr "Reference"
+msgstr "Referinta"
 
 #. module: deltatech_stock_revaluation
 #: help:stock.revaluation,name:0
@@ -226,7 +203,7 @@ msgstr "Reference for the journal entry"
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation.line,revaluation_id:0
 msgid "Revaluation"
-msgstr "Revaluation"
+msgstr "Amortizare"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,line_ids:0
@@ -254,8 +231,8 @@ msgid "Status"
 msgstr "Status"
 
 #. module: deltatech_stock_revaluation
-#: code:addons/deltatech_stock_revaluation/stock_revaluation.py:147
-#: code:addons/deltatech_stock_revaluation/stock_revaluation.py:176
+#: code:addons/deltatech_stock_revaluation/stock_revaluation.py:145
+#: code:addons/deltatech_stock_revaluation/stock_revaluation.py:174
 #: model:ir.actions.act_window,name:deltatech_stock_revaluation.action_stock_revaluation
 #: model:ir.actions.act_window,name:deltatech_stock_revaluation.action_stock_revaluation_from_quants
 #: model:ir.model,name:deltatech_stock_revaluation.model_stock_revaluation
@@ -263,7 +240,7 @@ msgstr "Status"
 #: view:stock.revaluation:deltatech_stock_revaluation.view_stock_revaluation_form
 #, python-format
 msgid "Stock Revaluation"
-msgstr "Stock Revaluation"
+msgstr "Amortizari echipamente"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,message_summary:0
@@ -273,7 +250,7 @@ msgstr "Summary"
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,type:0
 msgid "Type"
-msgstr "Type"
+msgstr "Tip"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,message_unread:0
@@ -283,7 +260,7 @@ msgstr "Unread Messages"
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation.line,init_value:0
 msgid "Value from receipt"
-msgstr "Value from receipt"
+msgstr "Valoare initiala"
 
 #. module: deltatech_stock_revaluation
 #: field:stock.revaluation,website_message_ids:0
