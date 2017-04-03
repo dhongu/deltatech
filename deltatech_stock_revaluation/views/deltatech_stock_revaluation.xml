@@ -1,41 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--Stock Reevaluation Report -->
 <openerp>
-	<data>
-		<template id="stock_revaluation_document">
-		    <t t-call="report.external_layout">
-		        <div class="page">
-		        <style type="text/css">
-		        	tbody.default td {
-		        		border: 1px solid gray;
-		        		text-align: right;
-		        		font-size: 75%;
-		        	}
-		        	tbody.bold td {
-		        		border: 1px solid gray;
-		        		text-align: right;
-		        		font-size: 75%;
-		        		font-weight:bold;
-		        		background-color:#BBBBBB;
-		        	}
-		        	thead.default th{
-		        		border: 1px solid gray;
-		        		background-color:#BBBBBB;
-		        		font-size: 75%;
-		        	}
-		        </style>
-		            <div class="row">
-		                <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3>
-		            </div>
-		            <div class="row">
-		                <h3 style="text-align:center;font-weight:bold;"><span t-field="o.name" /></h3>
-		            </div>
+    <data>
+        <template id="stock_revaluation_document">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <style type="text/css">
+                        tbody.default td {
+                        border: 1px solid gray;
+                        text-align: right;
+                        font-size: 75%;
+                        }
+                        tbody.bold td {
+                        border: 1px solid gray;
+                        text-align: right;
+                        font-size: 75%;
+                        font-weight:bold;
+                        background-color:#BBBBBB;
+                        }
+                        thead.default th{
+                        border: 1px solid gray;
+                        background-color:#BBBBBB;
+                        font-size: 75%;
+                        }
+                    </style>
+                    <div class="row">
+                        <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3>
+                    </div>
+                    <div class="row">
+                        <h3 style="text-align:center;font-weight:bold;">
+                            <span t-field="o.name"/>
+                        </h3>
+                    </div>
                     <div class="row">
                         <p>Data: <span t-field="o.date" /></p>
                     </div>
                     <table width="100%">
                         <thead class="default">
                             <tr>
-                            	<th>Nr.<br/>crt.</th>
+                                <th>Nr.<br/>crt.
+                                </th>
                                 <th>Mijloc Fix</th>
                                 <th>UM</th>
                                 <th>Simbol clasa<br />mijloc fix</th>
@@ -56,117 +60,139 @@
                             </tr>
                         </thead>
                         <tbody class="default">
-                        	<t t-set="count" t-value="1" />
-                        	<t t-set="crt_year" t-value="int(o.date[0:4])" />
-                        	<t t-set="crt_month" t-value="int(o.date[5:7])" />
-                        	<t t-set="qty_reval" t-value="0" />
-                        	<t t-set="init_value" t-value="0" />
-                        	<t t-set="prev_reval" t-value="0" />
-                        	<t t-set="current_reval" t-value="0" />
-                        	<t t-set="remaining_reval" t-value="0" />
-                        	<t t-set="total_reval" t-value="0" />
-                        	<tr t-foreach="o.line_ids" t-as="l">
-                        		<!-- Set initial values for calculated fields -->
-                        		<t t-set="crt_reval" t-value="l.old_value-l.new_value" />
-                        		<t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))" />
-                        		<t t-set="years_ago" t-value="int(months_passed/12)" />
-                        		<t t-set="months_ago" t-value="months_passed%12" />
-                        		<t t-set="original_month" t-value="(crt_month-months_ago+12)%12" />
-                        		<td>
-                        			<t t-esc="count" />
-                        		</td>
-                        		<td style="text-align: left;">
-                        			<span t-field="l.quant_id.product_id" />
-                        		</td>
-                        		<td>
-                        			<span>Buc</span>
-                        		</td>
-                        		<td>
-                        			<span>214</span>
-                        		</td>
-                        		<td>
-                        			<t t-esc="count" />
-                        		</td>
-                        		<td>
-                        			<span>21.03</span>
-                        		</td>
-                        		<td>
-                        			<span><span t-field="l.quant_id.qty" /></span>
-                        		</td>
-                        		<t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
-                        		<td>
-                        			<span t-esc="(l.init_value)/(l.quant_id.qty)" />
-                        		</td>
-                        		<td>
-                        			<span t-field="l.init_value" />
-                        		</td>
-                        		<t t-set="init_value" t-value="init_value+l.init_value" />
-                        		<td>
-                        			<span t-field="l.old_value" />
-                        		</td>
-                        		<t t-set="prev_reval" t-value="prev_reval+l.old_value" />
-                        		<td>
-                        			<span t-esc="crt_reval" />
-                        		</td>
-                        		<t t-set="current_reval" t-value="current_reval+crt_reval" />
-                        		<td>
-                        			<span t-field="l.new_value" />
-                        		</td>
-                        		<t t-set="remaining_reval" t-value="remaining_reval+l.new_value" />
-                        		<td>
-                        			<span>100</span>
-                        		</td>
-                        		<td>
-                        			<span><span t-esc="crt_year-years_ago" /><span>/</span><span t-esc="original_month" /></span>
-                        		</td>
-                        		<td>
-                        			<span>AL(liniar)</span>
-                        		</td>
-                        		<td>
-                        			<span>5</span>
-                        		</td>
-                        		<td>
-                        			<span><t t-esc="60-(months_passed+1)" /></span>
-                        		</td>
-                        		<td>
-                        			<span t-esc="l.init_value-l.new_value" />
-                        		</td>
-                        		<t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
-                        		<t t-set="count" t-value="count+1" />
-                        	</tr>
+                            <t t-set="count" t-value="1"/>
+                            <t t-set="crt_year" t-value="int(o.date[0:4])"/>
+                            <t t-set="crt_month" t-value="int(o.date[5:7])"/>
+                            <t t-set="qty_reval" t-value="0"/>
+                            <t t-set="init_value" t-value="0"/>
+                            <t t-set="prev_reval" t-value="0"/>
+                            <t t-set="current_reval" t-value="0"/>
+                            <t t-set="remaining_reval" t-value="0"/>
+                            <t t-set="total_reval" t-value="0"/>
+                            <tr t-foreach="o.line_ids" t-as="l">
+                                <!-- Set initial values for calculated fields -->
+                                <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
+                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
+                                <t t-set="years_ago" t-value="int(months_passed/12)"/>
+                                <t t-set="months_ago" t-value="months_passed%12"/>
+                                <t t-set="original_month" t-value="(crt_month-months_ago+12)%12"/>
+                                <td>
+                                    <t t-esc="count"/>
+                                </td>
+                                <td style="text-align: left;">
+                                    <span t-field="l.quant_id.product_id"/>
+                                </td>
+                                <td>
+                                    <span>Buc</span>
+                                </td>
+                                <td>
+                                    <span>214</span>
+                                </td>
+                                <td>
+                                    <t t-esc="count"/>
+                                </td>
+                                <td>
+                                    <span>21.03</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <span t-field="l.quant_id.qty"/>
+                                    </span>
+                                </td>
+                                <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty"/>
+                                <td>
+                                    <span t-esc="(l.init_value)/(l.quant_id.qty)"/>
+                                </td>
+                                <td>
+                                    <span t-field="l.init_value"/>
+                                </td>
+                                <t t-set="init_value" t-value="init_value+l.init_value"/>
+                                <td>
+                                    <span t-field="l.old_value"/>
+                                </td>
+                                <t t-set="prev_reval" t-value="prev_reval+l.old_value"/>
+                                <td>
+                                    <span t-esc="crt_reval"/>
+                                </td>
+                                <t t-set="current_reval" t-value="current_reval+crt_reval"/>
+                                <td>
+                                    <span t-field="l.new_value"/>
+                                </td>
+                                <t t-set="remaining_reval" t-value="remaining_reval+l.new_value"/>
+                                <td>
+                                    <span>100</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <span t-esc="crt_year-years_ago"/>
+                                        <span>/</span>
+                                        <span t-esc="original_month"/>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>AL(liniar)</span>
+                                </td>
+                                <td>
+                                    <span>5</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <t t-esc="60-(months_passed+1)"/>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span t-esc="l.init_value-l.new_value"/>
+                                </td>
+                                <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value"/>
+                                <t t-set="count" t-value="count+1"/>
+                            </tr>
                         </tbody>
                         <tbody class="bold">
-                        	<tr>
-                        		<td colspan="2"><span>Total MIJLOACE FIXE</span></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td><span t-esc="qty_reval" /></td>
-                        		<td></td>
-                        		<td><span t-esc="init_value" /></td>
-                        		<td><span t-esc="prev_reval" /></td>
-                        		<td><span t-esc="current_reval" /></td>
-                        		<td><span t-esc="remaining_reval" /></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td></td>
-                        		<td><span t-esc="total_reval" /></td>
-                        	</tr>
+                            <tr>
+                                <td colspan="2">
+                                    <span>Total MIJLOACE FIXE</span>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span t-esc="qty_reval"/>
+                                </td>
+                                <td></td>
+                                <td>
+                                    <span t-esc="init_value"/>
+                                </td>
+                                <td>
+                                    <span t-esc="prev_reval"/>
+                                </td>
+                                <td>
+                                    <span t-esc="current_reval"/>
+                                </td>
+                                <td>
+                                    <span t-esc="remaining_reval"/>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <span t-esc="total_reval"/>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-		        </div>
-		    </t>
-		</template>
-	 
-		<template id="report_stock_revaluation">
-		    <t t-call="report.html_container">
-		        <t t-foreach="doc_ids" t-as="doc_id">
-		            <t t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document')"/>
-		        </t>
-		    </t>
-		</template>
-	</data>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_stock_revaluation">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document')"/>
+                </t>
+            </t>
+        </template>
+    </data>
 </openerp>

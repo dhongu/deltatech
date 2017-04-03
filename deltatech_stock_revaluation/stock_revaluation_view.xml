@@ -93,8 +93,31 @@
 
 
 		<menuitem action="action_stock_revaluation" id="menu_stock_revaluation" parent="stock.menu_stock_inventory_control" groups="stock_account.group_inventory_valuation" />
-		
-		<report
+
+
+        <record id="view_stock_revaluation_line_tree" model="ir.ui.view">
+            <field name="name">Inventory Revaluation Line</field>
+            <field name="model">stock.revaluation.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="quant_id"/>
+                    <field name="product_id"/>
+                    <field name="init_value"/>
+                    <field name="old_value"/>
+                    <field name="new_value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_revaluation_line" model="ir.actions.act_window">
+            <field name="name">Inventory Revaluation Line</field>
+            <field name="res_model">stock.revaluation.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <report
 			id="stock_revaluation"
             model="stock.revaluation"
             string="Stock revaluation"

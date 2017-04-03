@@ -34,12 +34,14 @@ import logging
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
-    init_value = fields.Float(string='Initial value')  
+    init_value = fields.Float(string='Initial value')
+    first_revaluation = fields.Date(string='First Revaluation')
 
-
-
-    
-
+    @api.multi
+    def view_revaluation(self):
+        action = self.env.ref('deltatech_stock_revaluation.action_stock_revaluation_line').read()[0]
+        action['domain'] = "[('quant_id','in',[" + ','.join(map(str, self.ids)) + "])]"
+        return action
     
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
