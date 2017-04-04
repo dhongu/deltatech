@@ -211,6 +211,9 @@ class stock_revaluation_line(models.Model):
                              digits=dp.get_precision('Product Price'),
                              copy=False)
 
+    date = fields.Date('Date', related='revaluation_id.date')
+
+
     @api.onchange('quant_id')
     def onchange_quant_id(self):
         quant = self.quant_id
