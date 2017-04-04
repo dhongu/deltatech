@@ -74,7 +74,7 @@
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
                                 <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
                                 <t t-if="crt_reval_int==0" >
-	                                <t t-set="months_passed" t-value="49"/>
+	                                <t t-set="months_passed" t-value="47"/>
                                 </t>
                                 <t t-if="crt_reval_int!=0" >
 	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
