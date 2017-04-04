@@ -19,38 +19,33 @@
 #
 ##############################################################################
 
-from datetime import date, datetime
-from dateutil import relativedelta
-
-import time
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import float_compare, float_is_zero
-from odoo import models, fields, api, _
+from odoo import api
+from odoo import models, fields
+from odoo.exceptions import UserError
 from odoo.tools.translate import _
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
-from odoo import SUPERUSER_ID, api
-
-import odoo.addons.decimal_precision as dp
 
 
-#TODO: de adauvat pretul si in wizardul ce permite modificarea stocului
+# TODO: de adaugat pretul si in wizardul ce permite modificarea stocului
 
 
-class stock_inventory(models.Model):
+class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
-
     name = fields.Char(string='Name', default='/')
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
+                           states={'draft': [('readonly', False)]})
     note = fields.Text(string='Note')
+    filterbyrack = fields.Char('Rack')
 
-    filterbyrack =fields.Char('Rack')
-
-
+    @api.multi
+    def unlink(self):
+        if any(inventory.state not in ('draft', 'cancel') for inventory in self):
+            raise UserError(_('You can only delete draft inventory.'))
+        return super(StockInventory, self).unlink()
 
     @api.model
     def _get_inventory_lines(self, inventory):
-        lines = super(stock_inventory, self)._get_inventory_lines(inventory)
+        lines = super(StockInventory, self)._get_inventory_lines(inventory)
         res = []
         if inventory.filterbyrack:
 
@@ -63,10 +58,9 @@ class stock_inventory(models.Model):
             res = lines
         return res
 
-
     @api.multi
     def prepare_inventory(self):
-        res = super(stock_inventory, self).prepare_inventory()
+        res = super(StockInventory, self).prepare_inventory()
         for inventory in self:
             date = inventory.date
             values = {'date': date}
@@ -80,11 +74,9 @@ class stock_inventory(models.Model):
                 line.write({'standard_price': line.get_price()})
         return res
 
-
-
     @api.multi
     def action_done(self, ):
-        super(stock_inventory, self).action_done()
+        super(StockInventory, self).action_done()
         for inv in self:
             for move in inv.move_ids:
                 if move.date_expected != inv.date or move.date != inv.date:
@@ -92,18 +84,15 @@ class stock_inventory(models.Model):
         return True
 
 
-class stock_inventory_line(models.Model):
+class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"
     _order = "inventory_id, location_name, categ_id, product_code, product_name, prodlot_name"
 
     categ_id = fields.Many2one('product.category', string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string='Price')
-    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
-    loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
-    loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
-
-
-
+    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack", store=True)
+    loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
+    loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
 
     @api.onchange('theoretical_qty')
     def onchange_theoretical_qty(self):
@@ -141,8 +130,7 @@ class stock_inventory_line(models.Model):
         return res
     """
 
-
-    #TODO: de gasit noua metoda
+    # TODO: de gasit noua metoda
 
     """
     @api.model
@@ -157,7 +145,7 @@ class stock_inventory_line(models.Model):
                 line_price = inventory_line.standard_price
                 inventory_line.write({'standard_price': price, 'product_qty': 0.0})
                 inventory_line.product_id.product_tmpl_id.write({'standard_price': price})
-                move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
+                move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
 
                 inventory_line.write(
                     {'standard_price': line_price,
@@ -166,7 +154,7 @@ class stock_inventory_line(models.Model):
             inventory_line.product_id.product_tmpl_id.write(
                 {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
 
-        move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
+        move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
         if product_qty <> inventory_line.product_qty:
             inventory_line.write({'product_qty': product_qty})
         if move_id:
@@ -179,9 +167,11 @@ class stock_inventory_line(models.Model):
     def _generate_moves(self):
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'real':
-                inventory_line.product_id.product_tmpl_id.write( {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
-        moves = super(stock_inventory_line,self)._generate_moves()
+                inventory_line.product_id.product_tmpl_id.write(
+                    {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+        moves = super(StockInventoryLine, self)._generate_moves()
         return moves
+
 
 class StockHistory(models.Model):
     _inherit = 'stock.history'
@@ -194,7 +184,8 @@ class StockHistory(models.Model):
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        res = super(StockHistory, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        res = super(StockHistory, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
+                                                   lazy=lazy)
         if 'sale_value' in fields:
             for line in res:
                 if '__domain' in line:
@@ -217,7 +208,8 @@ class Quant(models.Model):
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-        res = super(Quant, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+        res = super(Quant, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
+                                            lazy=lazy)
         if 'sale_value' in fields:
             for line in res:
                 if '__domain' in line:
