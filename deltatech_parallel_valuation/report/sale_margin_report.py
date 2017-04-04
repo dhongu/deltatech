@@ -45,7 +45,7 @@ class sale_margin_report(models.Model):
 
     def _sub_select(self):
         select_str = super(sale_margin_report,self)._sub_select()
-        select_str = select_str +   """
+        select_str = select_str + """,
             sum(
                 CASE
                     WHEN ((s.type)::text = ANY (ARRAY[('out_refund'::character varying)::text, ('in_invoice'::character varying)::text]))

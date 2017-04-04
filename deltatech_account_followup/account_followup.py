@@ -34,19 +34,6 @@ class followup_line(models.Model):
 class account_followup_print(models.TransientModel):
     _inherit = 'account_followup.print'
 
-    """
-    @api.model
-    def process_partners_new(self, partner_ids, data):
-        for partner in self.env('account_followup.stat.by.partner').browse(partner_ids):
-            if partner.max_followup_id.block_partner:
-                values = {'invoice_warn': 'block',
-                          'invoice_warn_msg': partner.max_followup_id.block_message,
-                          'sale_warn': 'block',
-                          'sale_warn_msg': partner.max_followup_id.block_message}
-                partner.write(values)
-        return
-    """
-
     def process_partners(self, cr, uid, partner_ids, data, context=None):
         partner_obj = self.pool.get('res.partner')
         for partner in self.pool.get('account_followup.stat.by.partner').browse(cr, uid, partner_ids, context):
@@ -58,3 +45,41 @@ class account_followup_print(models.TransientModel):
                 partner_obj.write(cr, uid, [partner.partner_id.id], values)
         res = super(account_followup_print, self).process_partners(cr, uid, partner_ids, data, context)
         return res
+
+
+class res_partner(models.Model):
+    _inherit = "res.partner"
+
+    latest_followup_date = fields.Date(compute='_compute_latest')
+    latest_followup_level_id = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
+    latest_followup_level_id_without_lit = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
+    clemency_days = fields.Integer(string="Clemency Days")
+
+    @api.multi
+    def _compute_latest(self):
+        print " Trece pe aici"
+        company = self.env.user.company_id
+        for partner in self:
+            amls = partner.unreconciled_aml_ids
+            latest_date = False
+            latest_level = False
+            latest_days = False
+            latest_level_without_lit = False
+            latest_days_without_lit = False
+
+            for aml in amls:
+                delay_days = aml.followup_line_id.delay + partner.clemency_days
+                if (aml.company_id == company):
+                    if (aml.followup_line_id != False) and (not latest_days or latest_days < delay_days):
+                        latest_days = delay_days
+                        latest_level = aml.followup_line_id.id
+                    if (not latest_date or latest_date < aml.followup_date):
+                        latest_date = aml.followup_date
+                    if (aml.blocked == False) and (aml.followup_line_id != False and (
+                                not latest_days_without_lit or latest_days_without_lit < delay_days)):
+                        latest_days_without_lit = delay_days
+                        latest_level_without_lit = aml.followup_line_id.id
+
+            partner.latest_followup_date = latest_date
+            partner.latest_followup_level_id = latest_level,
+            partner.latest_followup_level_id_without_lit = latest_level_without_lit
