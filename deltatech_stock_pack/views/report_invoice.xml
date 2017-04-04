@@ -55,25 +55,25 @@
 								</thead>
 								<t t-set="nr_crt" t-value="1"/>
 								<tbody>
-									<t t-foreach="o.package_ids" t-as="package">
-										<tr t-foreach="package.quant_ids" t-as="quant">
-											
-											<td>
-												<t t-esc="nr_crt"/>
-												<t t-set="nr_crt" t-value="nr_crt + 1"/>
-											</td>
-											<td>
-												<span t-field="quant.product_id" />
-											</td>
-											<td class="text-right">
-												<span t-field="quant.qty" />
- 
-											</td>
-											<td class="text-right">
-												<span t-field="package.weight" />
-											</td>
-										</tr>
-									</t>
+									<tr t-foreach="o.package_ids" t-as="package">
+										<td>
+											<t t-esc="nr_crt"/>
+											<t t-set="nr_crt" t-value="nr_crt + 1"/>
+										</td>
+										<td>
+											<t t-foreach="package.quant_ids" t-as="quant">
+												<span t-field="quant.product_id" /><br />
+											</t>
+										</td>
+										<td>
+											<t t-foreach="package.quant_ids" t-as="quant">
+												<span t-field="quant.qty" /><br />
+											</t>
+										</td>
+										<td class="text-right">
+											<span t-field="package.weight" />
+										</td>
+									</tr>
 								</tbody>
 							</table>
 							<div>

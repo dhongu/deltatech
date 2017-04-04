@@ -46,11 +46,11 @@
                                 <th>Nr.<br />inv.</th>
                                 <th>Cont</th>
                                 <th>Cant</th>
-                                <th>Pret</th>
-                                <th>Valoare</th>
-                                <th>Amortizare<br/>precedenta</th>
+                                <th>Pret<br />initial</th>
+                                <th>Valoare<br />initiala</th>
+                                <th>Valoare dupa<br/> amort. precedenta</th>
                                 <th>Amortizare<br />curenta</th>
-                                <th>Valoare<br />ramasa</th>
+                                <th>Valoare ramasa de amortizat<br /></th>
                                 <th>Grad<br />utilizare(%)</th>
                                 <th>An/luna<br />prima rata</th>
                                 <th>Tip<br />amortiz.</th>
@@ -72,10 +72,18 @@
                             <tr t-foreach="o.line_ids" t-as="l">
                                 <!-- Set initial values for calculated fields -->
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
-                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
-                                <t t-set="years_ago" t-value="int(months_passed/12)"/>
+                                <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
+                                <t t-if="crt_reval_int==0" >
+	                                <t t-set="months_passed" t-value="47"/>
+                                </t>
+                                <t t-if="crt_reval_int!=0" >
+	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
+                                </t>
+                                <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
+                                <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
                                 <t t-set="months_ago" t-value="months_passed%12"/>
                                 <t t-set="original_month" t-value="(crt_month-months_ago+12)%12"/>
+                                 -->
                                 <td>
                                     <t t-esc="count"/>
                                 </td>
@@ -123,21 +131,17 @@
                                     <span>100</span>
                                 </td>
                                 <td>
-                                    <span>
-                                        <span t-esc="crt_year-years_ago"/>
-                                        <span>/</span>
-                                        <span t-esc="original_month"/>
-                                    </span>
+                                    <span t-esc="l.quant_id.first_revaluation[0:7]" />
                                 </td>
                                 <td>
                                     <span>AL(liniar)</span>
                                 </td>
                                 <td>
-                                    <span>5</span>
+                                    <span>4</span>
                                 </td>
                                 <td>
                                     <span>
-                                        <t t-esc="60-(months_passed+1)"/>
+                                        <t t-esc="48-(months_passed+1)"/>
                                     </span>
                                 </td>
                                 <td>
