@@ -134,9 +134,12 @@ class stock_revaluation(models.Model):
             new_cost = new_value / quant.qty
             old_amount_total += quant.inventory_value
             new_amount_total += new_value
-            line.write({'init_value': init_value,
-                        'old_value': quant.inventory_value,
-                        'new_value': new_value})
+            values = {'init_value': init_value,
+                      'old_value': quant.inventory_value,
+                      'new_value': new_value}
+            if init_value == quant.inventory_value:
+                values['first_revaluation'] = self.date
+            line.write(values)
         self.write({'old_amount_total': old_amount_total, 'new_amount_total': new_amount_total})
 
         if self.env.context.get('from_quants', False):
@@ -158,6 +161,7 @@ class stock_revaluation(models.Model):
             if not quant.init_value:
                 init_value = quant.inventory_value
                 value['init_value'] = init_value
+                value['first_revaluation'] = self.date
             else:
                 init_value = quant.init_value
             ajust = init_value * self.percent / 100.0
@@ -182,7 +186,7 @@ class stock_revaluation(models.Model):
 
 class stock_revaluation_line(models.Model):
     _name = 'stock.revaluation.line'
-    _description = 'Inventory revaluation Line'
+    _description = 'Inventory Revaluation Line'
 
     revaluation_id = fields.Many2one('stock.revaluation',
                                      'Revaluation', required=True,

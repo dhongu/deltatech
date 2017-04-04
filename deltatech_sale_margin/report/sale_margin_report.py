@@ -139,10 +139,7 @@ class sale_margin_report(models.Model):
                         ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
                     END) AS stock_val,
 
-  
-                   
-                    
-                                        
+
                     sum(l.commission) as commission,   
                     cu.rate,
                                                                                                   
