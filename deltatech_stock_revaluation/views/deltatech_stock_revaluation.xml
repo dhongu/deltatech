@@ -123,11 +123,7 @@
                                     <span>100</span>
                                 </td>
                                 <td>
-                                    <span>
-                                        <span t-esc="crt_year-years_ago"/>
-                                        <span>/</span>
-                                        <span t-esc="original_month"/>
-                                    </span>
+                                    <span t-esc="l.quant_id.first_revaluation[0:7]" />
                                 </td>
                                 <td>
                                     <span>AL(liniar)</span>
