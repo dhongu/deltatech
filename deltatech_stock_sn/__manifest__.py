@@ -22,7 +22,7 @@
 
 {
     "name": "Deltatech Stock Serial Number",
-    "version": "2.0",
+    'version': '10.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -36,11 +36,12 @@ Functionalitati:
     """,
 
     "category": "Generic Modules/Stock",
-    "depends": ['deltatech', 'stock','l10n_ro_stock_picking_report'],
+    "depends": ['deltatech', 'stock', 'account', 'l10n_ro_stock_picking_report'],
 
     "data": [
         'views/stock_view.xml',
         'views/stock_picking_report_view.xml',
+        'views/account_invoice_report_view.xml',
         'views/product_view.xml'
 
     ],

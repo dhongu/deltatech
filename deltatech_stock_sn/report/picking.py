@@ -20,6 +20,8 @@
 ##############################################################################
 
 
+
+
 import time
 from odoo.report import report_sxw
 from odoo.osv import osv
@@ -47,6 +49,10 @@ class report_delivery(osv.AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'deltatech_stock_sn.report_warranty'
     _wrapped_report_class = picking_delivery
+
+
+
+
 """
 
 import time
