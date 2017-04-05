@@ -100,6 +100,8 @@
             <field name="model">stock.revaluation.line</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="revaluation_id"/>
+                    <field name="date"/>
                     <field name="quant_id"/>
                     <field name="product_id"/>
                     <field name="init_value"/>
