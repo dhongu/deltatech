@@ -137,7 +137,7 @@
         </template>
 
         <report
-                string="Warranty certificate"
+                string="Cerificat de garantie"
                 id="action_report_invoice_warranty"
                 model="account.invoice"
                 report_type="qweb-pdf"
