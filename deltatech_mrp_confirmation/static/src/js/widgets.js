@@ -1,6 +1,6 @@
 function openerp_mrp_widgets(instance){
 
-    var module = instance.deltatech_mrp_operations;
+    var module = instance.deltatech_mrp_confirmation;
     var _t     = instance.web._t;
     var QWeb   = instance.web.qweb;
 
@@ -25,7 +25,7 @@ function openerp_mrp_widgets(instance){
     	
     });
  
-    openerp.web.client_actions.add('mrp.menu', 'instance.deltatech_mrp_operations.ProductionMenuWidget');
+    openerp.web.client_actions.add('mrp.menu', 'instance.deltatech_mrp_confirmation.ProductionMenuWidget');
 
     module.ProductionMainWidget = module.MobileWidget.extend({
         template: 'ProductionMainWidget',
@@ -152,7 +152,7 @@ function openerp_mrp_widgets(instance){
         },
     });
     
-    openerp.web.client_actions.add('mrp.ui', 'instance.deltatech_mrp_operations.ProductionMainWidget');
+    openerp.web.client_actions.add('mrp.ui', 'instance.deltatech_mrp_confirmation.ProductionMainWidget');
 
     module.BarcodeScanner = instance.web.Class.extend({
         connect: function(callback){
@@ -192,7 +192,7 @@ function openerp_mrp_widgets(instance){
 
 }
 
-openerp.deltatech_mrp_operations = function(openerp) {
-    openerp.deltatech_mrp_operations = openerp.deltatech_mrp_operations || {};
+openerp.deltatech_mrp_confirmation = function(openerp) {
+    openerp.deltatech_mrp_confirmation = openerp.deltatech_mrp_confirmation || {};
     openerp_mrp_widgets(openerp);
 }

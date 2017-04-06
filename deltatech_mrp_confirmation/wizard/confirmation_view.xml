@@ -9,24 +9,19 @@
 					<group string="Production Order Confirmation">
 
 						<field name="scanned_barcode" widget="barcode_scanner" barcode_type="ean13" barcode_field="scanned_barcode"/>
-						<field name="production_id" />
-						<field name="partner_id" invisible="1" />
-						<field name="operation_id"  invisible="1" />
+						<field name="production_id"   />
+						<field name="partner_id"    />
+						<field name="code"  />
+						<field name="product_id"/>
+						<field name="qty_producing"  />
+						<field name="operation_id"   />
 						<field name="error_message" />
 					</group>
 
 					<field name="operation_ids" widget="many2many" options="{ 'no_create': True}">
 						<tree>
-						    <field name="sequence"/>
                             <field name="name"/>
-							<field name="partner_id" />
-							<field name="hour" widget="float_time"/>
 			                <field name="state"/>
-			                <button name="button_draft" string="Set Draft" states="cancel" icon="gtk-convert"/>
-			                <button name="button_start_working" string="Start" states="draft" icon="gtk-media-play"/>
-			                <button name="button_resume" string="Resume" states="pause" icon="gtk-media-pause"/>
-			                <button name="button_pause" string="Pending" states="startworking" icon="gtk-media-pause"/>
-			                <button name="button_done" string="Finished" states="startworking" icon="terp-check"/>							
 						</tree>
 					</field>
 					<footer>

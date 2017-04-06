@@ -13,4 +13,4 @@ class BarcodeController(http.Controller):
         if not request.session.uid:
             return http.local_redirect('/web/login?redirect=/barcode_mrp/web')
 
-        return request.render('deltatech_mrp_operations.barcode_mrp_index')
+        return request.render('deltatech_mrp_confirmation.barcode_mrp_index')

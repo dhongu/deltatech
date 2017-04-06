@@ -21,38 +21,40 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech MRP Operations",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech MRP Confirmation",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:
  - adaugare operatori la centre de lucru
+ - adaugare cod la operatie
+ - confirmare operatii prin scanare cod de bare
  
- 
+
     """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : [ 
-                 'deltatech', 'mrp_operations'],
 
+    "category": "Generic Modules/Production",
+    "depends": ['deltatech', 'mrp'],
 
-    "data" : [
-              'mrp_view.xml',
-              'mrp_operations_view.xml',
-              'views/mrp.xml',
-              'wizard/start_production_view.xml',
-              'wizard/confirmation_view.xml'
-              
-             ],
-    
-    #'qweb': ['static/src/xml/mrp.xml'],   
-    
+    "data": [
+        'views/web_asset_backend_template.xml',
+        'views/mrp_confirmation_view.xml',
+        'views/mrp_workcenter_view.xml',
+        'views/mrp_workorder_view.xml',
+        'views/mrp_routing_view.xml',
+        'views/mrp.xml',
+         'wizard/start_production_view.xml',
+        'wizard/confirmation_view.xml',
+        'security/ir.model.access.csv'
+    ],
+    'qweb': [
+        "static/src/xml/mrp.xml",
+    ],
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
