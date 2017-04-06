@@ -2,32 +2,119 @@
 <openerp>
     <data>
         <template id="report_invoice_warranty">
-
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
-
-                    <t t-foreach="o.move_lines" t-as="move">
-                        <t t-foreach="move.lot_ids" t-as="lot">
-                            <t t-call="report.external_layout">
-
-                                <div class="page">
-                                    <t t-call="l10n_ro_stock_picking_report.report_address"/>
-
-                                    <h3>
-                                        <span>Certificat de Garantie si Calitate</span>
-
-
+					<t t-foreach="o.invoice_line_ids" t-as="line">
+							<t t-set="categ" t-value="warranty_text(line.product_id)"/>
+							<t t-set="categ_id" t-value="categ['categ']"/>
+							<t t-if="categ_id.warranty_header"> <!-- if categ warranty header -->
+								<t t-call="report.external_layout">
+								<div class="page">
+										<div class="header">
+						                    <div class="row" customize_show="True">
+						                        <div class="col-xs-3" style="height:45px;">
+						                            <!-- <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/> -->
+						                        </div>
+						                        <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+						                    </div>
+						                    <div class="row zero_min_height">
+						                        <div class="col-xs-12">
+						                            <div style="border-bottom: 1px solid black;"/>
+						                        </div>
+						                    </div>
+						
+						                    <table class="table table-condensed" style="border-top: initial;">
+						                        <tr>
+						                            <td width="35%">
+						                                <div>
+						                                    <strong t-if="o.type in ['out_invoice', 'out_refund']">Furnizor</strong>
+						                                    <strong t-if="o.type in ['in_invoice', 'in_refund']">Client</strong>
+						                                </div>
+						                                <strong t-field="res_company.partner_id.name"/>
+						                                <div>
+						                                    <strong>Adresa:</strong>
+						                                    <address t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;,&quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+						                                </div>
+						                            </td>
+						                            <td width="30%" height="100%" style="vertical-align:middle;text-align:center;">
+						                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 150px;vertical-align:middle;margin-left:auto;margin-right:auto;"/>
+						                            </td>
+						                            <td width="35%">
+						                                <div>
+						                                    <strong t-if="o.type in ['out_invoice', 'out_refund']">Client</strong>
+						                                    <strong t-if="o.type in ['in_invoice', 'in_refund']">furnizor</strong>
+						                                </div>
+						                                <div>
+						                                    <strong t-field="o.commercial_partner_id.name"/>
+						                                </div>
+						                                <div>
+						                                    <strong>Adresa:</strong>
+						                                    <address t-field="o.commercial_partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: false, &quot;no_tag_br&quot;: true}"/>
+						                                </div>
+						                                <small>
+						                                    <div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank">
+						                                        <span t-if="bank.bank_name">
+						                                            <strong>Banca:</strong>
+						                                            <span t-field="bank.bank_name"/>
+						                                        </span>
+						                                        <br/>
+						                                        <span t-if="bank.acc_number">
+						                                            <strong>Cont:</strong>
+						                                            <span t-field="bank.acc_number"/>
+						                                        </span>
+						                                    </div>
+						                                </small>
+						
+						                            </td>
+						                        </tr>
+						                        <tr>
+						                            <td style="border-top: initial;">
+						                                <div t-if="res_company.partner_id.vat">
+						                                    <strong>CIF:</strong>
+						                                    <span t-field="res_company.partner_id.vat"/>
+						                                </div>
+						                                <div t-if="res_company.partner_id.nrc">
+						                                    <strong>Nr. Reg. Com:</strong>
+						                                    <span t-field="res_company.partner_id.nrc"/>
+						                                </div>
+						                                <div t-if="res_company.share_capital">
+						                                    <strong>Capital social:</strong>
+						                                    <span t-field="res_company.share_capital"/>
+						                                </div>
+						                                <div t-if="'vat_on_payment' in res_company._fields">
+						                                    <div t-if="res_company.vat_on_payment">
+						                                        <span>Vat on payment</span>
+						                                    </div>
+						                                </div>
+						                            </td>
+						                            <td style="border:0px;"></td>
+						                            <td style="border-top: initial;">
+						                                <div t-if="o.commercial_partner_id.vat">
+						                                    <strong>CIF:</strong>
+						                                    <span t-field="o.commercial_partner_id.vat"/>
+						                                </div>
+						                                <div t-if="o.commercial_partner_id.nrc">
+						                                    <strong>Nr. Reg. Com:</strong>
+						                                    <span t-field="o.commercial_partner_id.nrc"/>
+						                                </div>
+						                            </td>
+						                        </tr>
+						                    </table>
+						
+						
+						                    
+						                    <div t-if="company.watermark_image" class="mb32 col-md-12">
+						
+						
+						                        <img t-att-src="'data:image/png;base64,%s' % company.watermark_image" style="width:100%;text-align:center;position:absolute;opacity:0.05"/>
+						                    </div>
+						                </div>
+									<h3>
+                                    	<span>Certificat de Garantie si Calitate</span>
                                     </h3>
-                                    <t t-set="categ" t-value="warranty_text(move.product_id)"/>
-                                    <t t-set="categ_id" t-value="categ['categ']"/>
                                     <div t-field="categ_id.warranty_header"/>
-
-
-                                    <strong>Product:</strong>
-                                    <span t-field="move.product_id"/>
-                                    <strong>Seria:</strong>
-                                    <span t-field="lot.name"/>
-
+                                    <strong>Produs:</strong>
+                                    <span t-field="line.name"/>
                                     <p>Semnatura si stampila :
                                         <br/>
                                         <br/>
@@ -35,21 +122,22 @@
                                         <br/>
                                         <br/>
                                     </p>
+                                    <p>
+	                                    Cumparator: <strong t-field="o.commercial_partner_id.name"/>              
+	                                    Localitate: <strong t-field="o.commercial_partner_id.city"/> 
+                                    </p>
                                     <div t-field="categ_id.warranty_detail"/>
-
-
                                     <div class="oe_structure"/>
-                                </div>
-
-                            </t>
-                        </t>
-                    </t>
-                </t>
+								</div>
+							</t>
+						</t>
+					</t>
+            	</t>
             </t>
         </template>
 
         <report
-                string="Warranty certificate"
+                string="Cerificat de garantie"
                 id="action_report_invoice_warranty"
                 model="account.invoice"
                 report_type="qweb-pdf"
