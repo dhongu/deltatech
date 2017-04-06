@@ -2,32 +2,21 @@
 <openerp>
     <data>
         <template id="report_invoice_warranty">
-
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
-
-                    <t t-foreach="o.move_lines" t-as="move">
-                        <t t-foreach="move.lot_ids" t-as="lot">
-                            <t t-call="report.external_layout">
-
-                                <div class="page">
-                                    <t t-call="l10n_ro_stock_picking_report.report_address"/>
-
-                                    <h3>
-                                        <span>Certificat de Garantie si Calitate</span>
-
-
+					<t t-foreach="o.invoice_line_ids" t-as "line">
+						<t t-call="report.external_layout">
+							<t t-set="categ" t-value="warranty_text(line.product_id)"/>
+							<t t-set="categ_id" t-value="categ['categ']"/>
+							<t t-if="categ_id.warranty_header!=''"> <!-- if not categ warranty header -->
+								<div class="page">
+									<t t-call="l10n_ro_stock_picking_report.report_address"/>
+									<h3>
+                                    	<span>Certificat de Garantie si Calitate</span>
                                     </h3>
-                                    <t t-set="categ" t-value="warranty_text(move.product_id)"/>
-                                    <t t-set="categ_id" t-value="categ['categ']"/>
                                     <div t-field="categ_id.warranty_header"/>
-
-
-                                    <strong>Product:</strong>
-                                    <span t-field="move.product_id"/>
-                                    <strong>Seria:</strong>
-                                    <span t-field="lot.name"/>
-
+                                    <strong>Produs:</strong>
+                                    <span t-field="line.name"/>
                                     <p>Semnatura si stampila :
                                         <br/>
                                         <br/>
@@ -36,15 +25,12 @@
                                         <br/>
                                     </p>
                                     <div t-field="categ_id.warranty_detail"/>
-
-
                                     <div class="oe_structure"/>
-                                </div>
-
-                            </t>
-                        </t>
-                    </t>
-                </t>
+								</div>
+							</t>
+						</t>
+					</t>
+            	</t>
             </t>
         </template>
 
