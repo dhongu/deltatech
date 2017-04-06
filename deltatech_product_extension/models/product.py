@@ -19,18 +19,25 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   Warning, RedirectWarning
-from odoo.osv import expression
+
+from odoo import models, fields
 
 
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    dimensions = fields.Char(string='Dimensions' )
-    shelf_life = fields.Float(string='Shelf Life',  digits =dp.get_precision('Product UoM') )
-    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measure for Shelf Life",  group_operator="avg")
+    dimensions = fields.Char(string='Dimensions')
+    shelf_life = fields.Float(string='Shelf Life', digits=dp.get_precision('Product UoM'))
+    uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life',
+                                     help="Unit of Measure for Shelf Life", group_operator="avg")
+
+    manufacturer = fields.Many2one('res.partner', string='Manufacturer', domain=[('is_manufacturer', '=', True)])
+
+
+"""
+# nu este neceara merge cu %
+
 
 class ProductProduct(models.Model):
     _inherit = 'product.product'
@@ -43,21 +50,21 @@ class ProductProduct(models.Model):
         for a in words:
             if a == '':
                 words.remove('')
-        if len(words)>1:
+        if len(words) > 1:
             if not args:
                 args = []
             domain = args
             for word in words:
                 domain = expression.AND([[('name', 'ilike', word)], domain])
 
-            products = self.search(domain,  limit=limit)
+            products = self.search(domain, limit=limit)
             res = products.name_get()
 
         else:
             res = super(ProductProduct, self).name_search(name, args=args, operator=operator, limit=limit)
 
         return res
-
+"""
 
 
 

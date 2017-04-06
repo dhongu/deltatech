@@ -19,26 +19,27 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Products Extension",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Products Extension",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    
-    'category': 'Sales Management',
-    
-    "depends" : ['deltatech',"product"],
 
+    'category': 'Sales',
+
+    "depends": ['deltatech', "product", "account"],
 
     "description": """
 Features:    
- - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life    
+ - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life
+ - Adaugare tip partener de tip producator
  
 """,
-    "data" : [
+    "data": [
         "views/product_view.xml",
+        'views/res_partner_view.xml'
     ],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
