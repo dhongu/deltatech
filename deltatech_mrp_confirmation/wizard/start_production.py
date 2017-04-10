@@ -69,15 +69,10 @@ class mrp_production_start(models.TransientModel):
 
     @api.multi
     def do_start(self):
-        from odoo import workflow
-
         for production in self.production_ids:
-            if production.state == 'draft':
-                production.signal_workflow('button_confirm')
             if production.state == 'confirmed':
-                production.action_assign()
-            if production.state == 'ready':
-                production.signal_workflow('button_produce')
+                production.button_plan()
+
 
         action = self.env.ref('mrp.mrp_production_action').read()[0]
         action['domain'] = "[('id','in', [" + ','.join(map(str, self.production_ids.ids)) + "])]"

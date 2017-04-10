@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+
+
+        <xpath expr="//div[@t-if='o.workorder_ids']" position="replace">
+            <div t-if="o.workorder_ids">
+                <strong>Work Orders</strong>
+                <table class="table table-condensed">
+                    <tr>
+                        <td class="text-center">
+                            <strong>Name</strong>
+                        </td>
+                        <td class="text-center">
+                            <strong>WorkCenter</strong>
+                        </td>
+                        <td>
+                            <strong>Worker</strong>
+                        </td>
+                        <td class="text-center">
+                            <strong>No. Of Minutes</strong>
+                        </td>
+                    </tr>
+                    <t t-foreach="o.workorder_ids" t-as="line2">
+                        <tr>
+                            <td class="text-center">
+                                <span t-field="line2.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="line2.workcenter_id.name"/>
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', line2.code, 200, 60)"   />
+                            </td>
+                            <td></td>
+                            <td class="text-center">
+                                <span t-field="line2.duration_expected"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+
+                            <td class="text-center" style="height:60px">
+                               <!--
+                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', '', 200, 60)" />
+                               -->
+                            </td>
+                            <td></td>
+                        </tr>
+                    </t>
+                </table>
+            </div>
+        </xpath>
+
+
+    </template>
+</odoo>

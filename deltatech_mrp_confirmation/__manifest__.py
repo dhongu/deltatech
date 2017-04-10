@@ -39,18 +39,18 @@ Functionalitati:
     "depends": ['deltatech', 'mrp'],
 
     "data": [
-        'views/web_asset_backend_template.xml',
+
         'views/mrp_confirmation_view.xml',
         'views/mrp_workcenter_view.xml',
         'views/mrp_workorder_view.xml',
         'views/mrp_routing_view.xml',
-        'views/mrp.xml',
-         'wizard/start_production_view.xml',
+        'views/mrp_production_templates.xml',
+        'wizard/start_production_view.xml',
         'wizard/confirmation_view.xml',
         'security/ir.model.access.csv'
     ],
     'qweb': [
-        "static/src/xml/mrp.xml",
+
     ],
     "active": False,
     "installable": True,

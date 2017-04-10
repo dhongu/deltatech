@@ -21,119 +21,200 @@
 
 
 
-
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import float_compare
-import odoo.addons.decimal_precision as dp
-from datetime import datetime, date, timedelta
-from dateutil.relativedelta import relativedelta
 
 
 class mrp_production_conf(models.TransientModel):
     _name = 'mrp.production.conf'
     _description = "Production Confirmation"
+    _inherit = ['barcodes.barcode_events_mixin']
 
-    scanned_barcode = fields.Char(string="Scanned Bar code")
-    production_id = fields.Many2one('mrp.production', string='Production Order')
+    date = fields.Date(string="Execution date", default=fields.Date.today)
+
+    production_id = fields.Many2one('mrp.production', string='Production Order',
+                                    domain=[('state', 'in', ['planned', 'progress'])])
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
-    partner_id = fields.Many2one('res.partner', string="Operator")
+    worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
+
     code = fields.Char('Operation Code')
-    operation_id = fields.Many2one('mrp.workorder')
+    operation_id = fields.Many2one('mrp.workorder', string="Operation")
 
     qty_production = fields.Float('Original Production Quantity', readonly=True, related='production_id.product_qty')
     qty_produced = fields.Float('Quantity', readonly=True, related='operation_id.qty_produced')
     qty_producing = fields.Float('Currently Produced Quantity', related='operation_id.qty_producing')
 
-    operation_ids = fields.Many2many('mrp.workorder', relation="mrp_production_conf_operation_rel", string="Operations",
-                                     compute="_get_operation_ids")
+    operation_ids = fields.Many2many('mrp.workorder', string="Operations", readonly=True)
 
-    error_message = fields.Char(string="Message", readonly=True)
+    error_message = fields.Char(string="Error Message", readonly=True)
+    success_message = fields.Html(string="Success Message", readonly=True)
 
-    """
-    @api.onchange('production_id', 'partner_id', 'operation_id')
+    @api.onchange('production_id', 'code')
     def onchange_production_id(self):
-        if not self.production_id:
-            return
-        if self.operation_id:
-            operation_ids = self._convert_to_cache({'operation_ids': [[6, 0, [self.operation_id.id]]]}, validate=False)
-            self.operation_id = False
-            self.production_id = self.production_id
-        else:
-            operation_ids = self._convert_to_cache({'operation_ids': [[6, 0, self.production_id.workorder_ids.ids]]},
-                                                   validate=False)
-        self.update(operation_ids)
-    """
 
-    @api.depends('production_id', 'partner_id', 'code')
-    def _get_operation_ids(self):
-        operation_ids = self.env['mrp.workorder']
+        operation_domain = [('state', 'not in', ['done', 'cancel'])]
         if self.production_id:
-            for workorder in self.production_id.workorder_ids:
-                if self.code:
-                    if self.code == workorder.code:
-                        operation_ids |= workorder
-                else:
-                    operation_ids |= workorder
-        else:
-            if self.code:
-                operation_ids = self.env['mrp.workorder'].search([('code', '=', self.code),
-                                                                  ('state', 'not in', ['done', 'cancel'])])
+            operation_domain += [('production_id', '=', self.production_id.id)]
+
+        if self.code:
+            operation_domain += [('code', '=', self.code)]
+
+        operation_ids = self.env['mrp.workorder'].search(operation_domain)
+
+        if operation_ids:
+            # daca operatia selectata nu este in lista de operatii a comenzii atunci trebuire reselectata
+            if self.operation_id and self.operation_id.id not in operation_ids.ids:
+                self.operation_id = False
+
+            """
+            # daca pana in acest punct nu am aveut o operatie sau nu am determinat una atunci o aleg pe prima
+            if not self.operation_id and operation_ids:
+                self.operation_id = operation_ids[0]
+            """
+
         self.operation_ids = operation_ids
 
-    @api.onchange('scanned_barcode')
-    def onchange_scanned_barcode(self):
-        scanned_barcode = self.scanned_barcode
-        self.scanned_barcode = ''
-        if not scanned_barcode:
-            return
-        return self.barcode_scan(scanned_barcode)
+        return {
+            'domain': {'operation_id': [('id', 'in', operation_ids.ids)]}
+        }
 
-    @api.model
-    def barcode_scan(self, barcode):
+    @api.onchange('operation_id')
+    def onchange_operation_id(self):
+        if self.operation_id and self.operation_id.workcenter_id.partial_conf:
+            self.qty_producing = 1.0
+        self.code = self.operation_id.code
+        workers = self.get_workers(self.operation_id)
+        if self.worker_id and self.worker_id not in workers:
+            self.worker_id = False
+        if len(workers) == 1:
+            self.worker_id = workers[0]
+        if workers:
+            worker_domain = [('id', 'in', workers.ids)]
+        else:
+            worker_domain = [('is_company', '=', False)]
+        return {
+            'domain': {'worker_id': worker_domain}
+        }
 
-        scanned_barcode = barcode
+    @api.onchange('worker_id')
+    def onchange_worker_id(self):
+        if self.worker_id and self.operation_id:
+            if self.worker_id not in self.get_workers(self.operation_id):
+                self.error_message = _('Operator %s not assigned to work center %s') % (
+                    self.worker_id.name, self.operation_id.workcenter_id.name)
+                self.worker_id = False
 
-        domain = [('name', '=', scanned_barcode), ('state', 'in', ['in_production'])]
-        production = self.env['mrp.production'].search(domain)
-        if production:
-            self.production_id = production
-            self.partner_id = False
-            self.error_message = ''
-            return
+    def get_workers(self, operation_id):
+        workers = self.env['res.partner']
+        for worker in operation_id.workcenter_id.worker_ids:
+            if worker.from_date <= fields.Date.today() <= worker.to_date:
+                workers |= worker.worker_id
+        return workers
 
-        if self.production_id:
-            domain = [('ref', '=', scanned_barcode)]
-            partner = self.env['res.partner'].search(domain)
-            if partner and len(partner) == 1:
-                self.partner_id = partner
-                self.error_message = _('Operator %s was found') % self.partner_id.name
-                start_next = False
-                for operation in self.production_id.workcenter_lines:
-                    if start_next:
-                        start_next = False
-                        operation.signal_workflow('button_start_working')
-                        break
-                    if operation.state == 'startworking':
-                        self.operation_id = operation.id
-                        for operator in operation.workcenter_id.operator_ids:
-                            if operator.from_date <= fields.Date.today() <= operator.to_date:
-                                if operator.partner_id == self.partner_id:
-                                    operation.write({'partner_id': self.partner_id.id})
-                                    self.error_message = _('Operation %s was made by %s') % (
-                                        operation.name, partner.name)
-                                    operation.signal_workflow('button_done')
-                                    start_next = True
+    def on_barcode_scanned(self, barcode):
+        self.error_message = False
+        if not self.success_message:
+            self.success_message = ''
+        #self.success_message = False
 
-        if not self.production_id:
-            self.error_message = _('Order %s not found') % scanned_barcode
-        elif not self.partner_id:
-            self.error_message = _('Operator %s not found') % scanned_barcode
+        production = self.production_id
+        operation = self.operation_id
+        code = self.code
+        worker = self.worker_id
+        confirm_message = ''
 
-        if self.error_message:
-            return {'warning': self.error_message}
+        nomenclature = self.env['barcode.nomenclature'].search([], limit=1)
+        if nomenclature:
+            scann = nomenclature.parse_barcode(barcode)
+            if scann['type'] == 'mrp_order':
+                domain = [('name', '=', scann['code']), ('state', 'in', ['planned', 'progress'])]
+                production = self.env['mrp.production'].search(domain)
+                if not production:
+                    self.error_message = _('Production Order %s not found') % barcode
+                else:
+                    self.success_message += _('Production Order %s was scanned.<br/>') % production.name
+                # a fost rescanata comadna
+                if production == self.production_id:
+                    if self.operation_id and self.operation_id.workcenter_id.partial_conf:
+                        self.qty_producing += 1
+                        return
+
+            if scann['type'] == 'mrp_operation':
+                if scann['code'] == self.code:
+                    if self.operation_id and self.operation_id.workcenter_id.partial_conf:
+                        self.qty_producing += 1
+                        return
+
+                code = scann['code']
+
+                if production:
+                    operation_domain = [('production_id', '=', production.id),
+                                        ('code', '=', code),
+                                        ('state', 'not in', ['done', 'cancel'])]
+                else:
+                    operation_domain = [('code', '=', code), ('state', 'not in', ['done', 'cancel'])]
+
+                operation = self.env['mrp.workorder'].search(operation_domain, limit=1)
+                if not operation:
+                    self.error_message = _('Operation with code %s not found') % code
+                    code = False
+                else:
+                    self.success_message += _('Operation  %s was scanned<br/>') % operation.name
+
+            if scann['type'] == 'mrp_worker':
+                domain = [('ref', '=', scann['code'])]
+                partner = self.env['res.partner'].search(domain, limit=1)
+                if not partner:
+                    self.error_message = _('Worker %s not found') % barcode
+                else:
+                    self.success_message += _('Worker %s was scanned<br/>') % partner.name
+
+        if self.production_id and self.operation_id and self.worker_id:
+            if production != self.production_id or self.operation_id != operation or self.worker_id != worker:
+                self.success_message += _('Confirm saved for operation %s<br/>') % self.operation_id.name
+
+                self.confirm(operation=self.operation_id, worker=self.worker_id, qty_producing=self.qty_producing)
+
+        self.production_id = production
+        self.code = code
+        self.operation_id = operation
+        self.worker_id = worker
+
+        if self.production_id and self.operation_id and self.worker_id:
+            self.success_message = _('System is ready for confirmation order %s operation %s with %s<br/>') % (
+                production.name, operation.name, worker.name)
+
+
 
         return
+
+    @api.model
+    def confirm(self, operation, worker, qty_producing):
+
+        if operation.state in ['pending', 'ready']:
+            operation.button_start()
+
+        operation.qty_producing = qty_producing  # de ce nu merge la onchange ????
+        # Update workorder quantity produced
+        # operation.qty_produced += qty_producing
+
+
+        time_ids = operation.time_ids.filtered(lambda x: (x.user_id.id == self.env.user.id) and
+                                                         (not x.date_end) and (
+                                                             x.loss_type in ('productive', 'performance')))
+        if time_ids:
+            time_ids.write({'worker_id': worker.id, 'qty_produced': qty_producing})
+
+        operation.record_production()
+        operation.end_previous()
+        if operation.state == 'progress':  # daca nu a fost finalizata comanda
+            operation.button_start()
+        if operation.production_id.check_to_done:
+            operation.production_id.button_mark_done()
+
+        operation.write({'qty_producing': operation.qty_producing,
+                         'qty_produced': operation.qty_produced})
+
+
 
     @api.model
     def default_get(self, fields):
@@ -145,10 +226,21 @@ class mrp_production_conf(models.TransientModel):
         return defaults
 
     @api.multi
-    def do_confim(self):
+    def do_confirm(self):
+        if self.production_id and self.operation_id and self.worker_id:
+            self.confirm(operation=self.operation_id, worker=self.worker_id, qty_producing=self.qty_producing)
+        action = self.env.ref('deltatech_mrp_confirmation.action_mrp_production_conf').read()[0]
+        # action['context'] = {'default_production_id':self.production_id.id,
+        #                     'default_code': self.code}
+        self.write({'production_id': self.production_id.id})
         return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
+            'type': 'ir.actions.act_window',
+            'res_model': 'mrp.production.conf',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
         }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

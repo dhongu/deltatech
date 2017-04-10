@@ -6,11 +6,15 @@
             <field name="model">mrp.workcenter</field>
             <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='capacity']" position="before">
+                    <field name="partial_conf"/>
+                </xpath>
+
                 <xpath expr="//notebook" position="inside">
-                    <page string="Operators">
-                        <field name="operator_ids" widget="one2many_list">
+                    <page string="Workers">
+                        <field name="worker_ids" widget="one2many_list">
                             <tree editable="bottom">
-                                <field name="partner_id"/>
+                                <field name="worker_id"/>
                                 <field name="from_date"/>
                                 <field name="to_date"/>
                             </tree>
