@@ -36,7 +36,7 @@ Functionalitati:
     """,
 
     "category": "Generic Modules/Production",
-    "depends": ['deltatech', 'mrp'],
+    "depends": [  'mrp'],
 
     "data": [
 
@@ -47,10 +47,11 @@ Functionalitati:
         'views/mrp_production_templates.xml',
         'wizard/start_production_view.xml',
         'wizard/confirmation_view.xml',
-        'security/ir.model.access.csv'
+        'security/ir.model.access.csv',
+        'views/web_asset_backend_template.xml',
     ],
     'qweb': [
-
+        "static/src/xml/mrp.xml",
     ],
     "active": False,
     "installable": True,

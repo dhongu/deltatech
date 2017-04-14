@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template  xml:space="preserve">
+
+
+    <t t-name="MrpConfirmationBarcodeMode">
+
+        <div class="modal fade" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&amp;times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Enter manual barcode</h4>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="barcode" class="control-label">Barcode</label>
+                            <input class="form-control" id="barcode" placeholder="bar code"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary o_mrp_confirmation_barcode_button_search">Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="o_mrp_confirmation_barcode_mode_container">
+            <div class="o_mrp_confirmation_barcode_mode">
+                <h1>Production Order Confirmation</h1>
+
+                <h2>Scan barcode</h2>
+
+                <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal" data-target="#barcodeModal">
+                    Enter bar code
+                </button>
+
+                <div class="o_mrp_confirmation_barcode_item"/>
+
+            </div>
+
+        </div>
+    </t>
+
+    <t t-name="MrpConfirmationBarcodeItem">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <h2>
+                    <span>Production Order:</span>
+                    <t t-esc="conf.production_id[1]"/>
+                </h2>
+                <h2>
+                    <span>Worker:</span>
+                    <t t-esc="conf.worker_id[1]"/>
+                </h2>
+                <h2>
+                    <span>Operation code:</span>
+                    <t t-if="conf.code">
+                        <t t-esc="conf.code"/>
+                    </t>
+                </h2>
+                <h2>
+                    <span>Operation:</span>
+                    <t t-esc="conf.operation_id[1]"/>
+                </h2>
+                <h2>
+                    <span>Product:</span>
+                    <t t-esc="conf.product_id[1]"/>
+                    <span class="badge">
+                        <t t-esc="conf.qty_producing"/>
+                    </span>
+                </h2>
+            </div>
+
+
+        </div>
+        <t t-if="conf.error_message">
+            <div class="alert alert-danger alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.error_message"/>
+            </div>
+        </t>
+
+        <t t-if="conf.info_message">
+            <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.info_message"/>
+            </div>
+        </t>
+
+        <t t-if="conf.success_message">
+            <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.success_message"/>
+            </div>
+        </t>
+
+
+    </t>
+
+</template>

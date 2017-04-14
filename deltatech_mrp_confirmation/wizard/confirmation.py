@@ -46,7 +46,8 @@ class mrp_production_conf(models.TransientModel):
     operation_ids = fields.Many2many('mrp.workorder', string="Operations", readonly=True)
 
     error_message = fields.Char(string="Error Message", readonly=True)
-    success_message = fields.Html(string="Success Message", readonly=True)
+    success_message = fields.Char(string="Success Message", readonly=True)
+    info_message = fields.Char(string="Info Message", readonly=True)
 
     @api.onchange('production_id', 'code')
     def onchange_production_id(self):
@@ -99,7 +100,7 @@ class mrp_production_conf(models.TransientModel):
     def onchange_worker_id(self):
         if self.worker_id and self.operation_id:
             if self.worker_id not in self.get_workers(self.operation_id):
-                self.error_message = _('Operator %s not assigned to work center %s') % (
+                self.error_message = _('Worker %s not assigned to work center %s') % (
                     self.worker_id.name, self.operation_id.workcenter_id.name)
                 self.worker_id = False
 
@@ -110,10 +111,23 @@ class mrp_production_conf(models.TransientModel):
                 workers |= worker.worker_id
         return workers
 
+
+    def search_scanned(self, barcode):
+        self.on_barcode_scanned(barcode)
+        action = {}
+        if self.error_message:
+            action = {
+                'warning': {'title': "Warning", 'message': self.error_message},
+            }
+        return action
+
+
+
     def on_barcode_scanned(self, barcode):
         self.error_message = False
-        if not self.success_message:
-            self.success_message = ''
+        self.success_message = False
+        self.info_message = False
+
         #self.success_message = False
 
         production = self.production_id
@@ -125,23 +139,30 @@ class mrp_production_conf(models.TransientModel):
         nomenclature = self.env['barcode.nomenclature'].search([], limit=1)
         if nomenclature:
             scann = nomenclature.parse_barcode(barcode)
+
+            if scann['type'] == 'error':
+                self.error_message = _('Invalid bar code %s') % barcode
+                return
+
             if scann['type'] == 'mrp_order':
                 domain = [('name', '=', scann['code']), ('state', 'in', ['planned', 'progress'])]
                 production = self.env['mrp.production'].search(domain)
                 if not production:
                     self.error_message = _('Production Order %s not found') % barcode
                 else:
-                    self.success_message += _('Production Order %s was scanned.<br/>') % production.name
+                    self.info_message = _('Production Order %s was scanned.') % production.name
                 # a fost rescanata comadna
                 if production == self.production_id:
                     if self.operation_id and self.operation_id.workcenter_id.partial_conf:
                         self.qty_producing += 1
+                        self.info_message = _('Incremented quantity')
                         return
 
             if scann['type'] == 'mrp_operation':
                 if scann['code'] == self.code:
                     if self.operation_id and self.operation_id.workcenter_id.partial_conf:
                         self.qty_producing += 1
+                        self.info_message = _('Incremented quantity')
                         return
 
                 code = scann['code']
@@ -158,19 +179,23 @@ class mrp_production_conf(models.TransientModel):
                     self.error_message = _('Operation with code %s not found') % code
                     code = False
                 else:
-                    self.success_message += _('Operation  %s was scanned<br/>') % operation.name
+                    self.info_message = _('Operation %s was scanned') % operation.name
 
             if scann['type'] == 'mrp_worker':
                 domain = [('ref', '=', scann['code'])]
-                partner = self.env['res.partner'].search(domain, limit=1)
-                if not partner:
+                worker = self.env['res.partner'].search(domain, limit=1)
+                if not worker:
                     self.error_message = _('Worker %s not found') % barcode
                 else:
-                    self.success_message += _('Worker %s was scanned<br/>') % partner.name
+                    self.info_message = _('Worker %s was scanned') % worker.name
+                    if worker not in  self.get_workers(operation):
+                        self.error_message = _('Worker %s not assigned to work center %s') % (
+                            worker.name, operation.workcenter_id.name)
+
 
         if self.production_id and self.operation_id and self.worker_id:
             if production != self.production_id or self.operation_id != operation or self.worker_id != worker:
-                self.success_message += _('Confirm saved for operation %s<br/>') % self.operation_id.name
+                self.success_message = _('Confirm saved for operation %s') % self.operation_id.name
 
                 self.confirm(operation=self.operation_id, worker=self.worker_id, qty_producing=self.qty_producing)
 
@@ -180,7 +205,7 @@ class mrp_production_conf(models.TransientModel):
         self.worker_id = worker
 
         if self.production_id and self.operation_id and self.worker_id:
-            self.success_message = _('System is ready for confirmation order %s operation %s with %s<br/>') % (
+            self.info_message = _('System is ready for confirmation order %s operation %s with %s') % (
                 production.name, operation.name, worker.name)
 
 

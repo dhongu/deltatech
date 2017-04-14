@@ -24,11 +24,18 @@
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="error_message" style="height: 50px;"/>
                     </div>
+                     <div class="alert alert-info alert-dismissible text-left" role="alert"
+                         attrs="{'invisible': [('info_message', '=', False)]}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="info_message" style="height: 50px;"/>
+                    </div>
                     <div class="alert alert-success alert-dismissible text-left" role="alert"
                          attrs="{'invisible': [('success_message', '=', False)]}">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="success_message" style="height: 50px;"/>
                     </div>
+
+
 
                     <footer>
 
