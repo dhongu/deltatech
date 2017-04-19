@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name": "Deltatech MRP Cost",
+    "name": "MRP Cost",
     "version": "2.0",
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -29,22 +29,22 @@
     
 Functionalitati:
  - Calculeaza pretul de productie ca fiind pretul real al componentelor
- - Simplificare lista de materiale
+
 
     """,
 
-    "category": "Generic Modules/Production",
+    "category": "Manufacturing",
     "depends": [
-        'deltatech',
-        "base",
+
         "mrp", "stock",
         "sale",
         "product",
-        # "l10n_ro_stock_account"
+
     ],
 
     "data": [
-        "mrp_view.xml"
+        "views/mrp_view.xml",
+
 
     ],
     "active": False,
