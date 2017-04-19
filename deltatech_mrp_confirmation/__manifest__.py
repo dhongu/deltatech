@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name": "Deltatech MRP Confirmation",
+    "name": "MRP Confirmation",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -35,18 +35,20 @@ Functionalitati:
 
     """,
 
-    "category": "Generic Modules/Production",
-    "depends": [  'mrp'],
+    "category": "Manufacturing",
+    "depends": ['mrp'],
 
     "data": [
 
         'views/mrp_confirmation_view.xml',
+
         'views/mrp_workcenter_view.xml',
         'views/mrp_workorder_view.xml',
         'views/mrp_routing_view.xml',
         'views/mrp_production_templates.xml',
         'wizard/start_production_view.xml',
         'wizard/confirmation_view.xml',
+        'views/mrp_production_view.xml',
         'security/ir.model.access.csv',
         'views/web_asset_backend_template.xml',
     ],

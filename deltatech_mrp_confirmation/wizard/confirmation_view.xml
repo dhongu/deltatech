@@ -9,22 +9,33 @@
                     <group string="Production Order Confirmation">
 
                         <field name="_barcode_scanned" widget="barcode_handler"/>
-                        <field name="date"/>
                         <field name="production_id"/>
+                        <field name="workorder_id"/>
                         <field name="worker_id"/>
-
-                        <field name="operation_id"/>
-                        <field name="code"/>
+                        <!--
+                        <field name="code" invisible="1"/>
+                        -->
+                    </group>
+                    <group string="Producing">
                         <field name="product_id"/>
                         <field name="qty_producing"/>
 
+                    </group>
+                    <group string="Time">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <label for="duration"/>
+                        <div>
+                            <field name="duration" widget="float_time" class="oe_inline"/>
+                            minutes
+                        </div>
                     </group>
                     <div class="alert alert-danger alert-dismissible text-left" role="alert"
                          attrs="{'invisible': [('error_message', '=', False)]}">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="error_message" style="height: 50px;"/>
                     </div>
-                     <div class="alert alert-info alert-dismissible text-left" role="alert"
+                    <div class="alert alert-info alert-dismissible text-left" role="alert"
                          attrs="{'invisible': [('info_message', '=', False)]}">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="info_message" style="height: 50px;"/>
@@ -34,7 +45,6 @@
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
                         <field name="success_message" style="height: 50px;"/>
                     </div>
-
 
 
                     <footer>

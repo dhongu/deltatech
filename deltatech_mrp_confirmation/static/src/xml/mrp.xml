@@ -60,12 +60,7 @@
                     <span>Worker:</span>
                     <t t-esc="conf.worker_id[1]"/>
                 </h2>
-                <h2>
-                    <span>Operation code:</span>
-                    <t t-if="conf.code">
-                        <t t-esc="conf.code"/>
-                    </t>
-                </h2>
+
                 <h2>
                     <span>Operation:</span>
                     <t t-esc="conf.operation_id[1]"/>
@@ -73,9 +68,18 @@
                 <h2>
                     <span>Product:</span>
                     <t t-esc="conf.product_id[1]"/>
-                    <span class="badge">
-                        <t t-esc="conf.qty_producing"/>
-                    </span>
+
+                    <div class="css_quantity input-group oe_website_spinner" contenteditable="false">
+                        <a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+                            <i class="fa fa-minus"></i>
+                        </a>
+                        <input type="text" class="form-control quantity" data-min="1" name="add_qty" value="1">
+                            <t t-esc="conf.qty_producing"/>
+                        </input>
+                        <a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
                 </h2>
             </div>
 

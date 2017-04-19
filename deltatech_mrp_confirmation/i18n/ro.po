@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-14 06:14+0000\n"
-"PO-Revision-Date: 2017-04-14 06:14+0000\n"
+"POT-Creation-Date: 2017-04-19 03:28+0000\n"
+"PO-Revision-Date: 2017-04-19 03:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,9 @@ msgstr ""
 #. module: deltatech_mrp_confirmation
 #. openerp-web
 #: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:12
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:86
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:93
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:100
+#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:90
+#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:97
+#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:104
 #, python-format
 msgid "&times;"
 msgstr "&times;"
@@ -49,6 +49,11 @@ msgstr "<strong>Centru lucru</strong>"
 #: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.report_mrporder
 msgid "<strong>Worker</strong>"
 msgstr "<strong>Muncitor</strong>"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_workcenter_costs_hour_account_id
+msgid "Analytic Account"
+msgstr "Cont analitic"
 
 #. module: deltatech_mrp_confirmation
 #. openerp-web
@@ -86,10 +91,37 @@ msgid "Confirm"
 msgstr "Confirmă"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:198
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_workcenter_confirm_real_time
+msgid "Confirm Real Time"
+msgstr "Confirmare timp real"
+
+#. module: deltatech_mrp_confirmation
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:229
 #, python-format
 msgid "Confirm saved for operation %s"
 msgstr "Confirmare salvată pentru operația %s"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.mrp_production_form_view
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.mrp_workcenter_view
+msgid "Confirmation"
+msgstr "Confirmare"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.actions.client,name:deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode
+#: model:ir.ui.menu,name:deltatech_mrp_confirmation.menu_mrp_confirmation_barcode_mode
+msgid "Confirmation Barcode"
+msgstr "Confirmare Barcode"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_workcenter_costs_hour
+msgid "Cost per hour"
+msgstr "Cost pe oră"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.mrp_workcenter_view
+msgid "Costing Information"
+msgstr "Informații costuri"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_create_uid
@@ -118,6 +150,16 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_duration
+msgid "Duration"
+msgstr "Durată"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_date_end
+msgid "End Date"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_mrp_confirmation
 #. openerp-web
 #: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:40
 #, python-format
@@ -137,9 +179,9 @@ msgid "Error Message"
 msgstr "Mesaj de eroare"
 
 #. module: deltatech_mrp_confirmation
-#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_date
-msgid "Execution date"
-msgstr "Dată execuție"
+#: model:ir.model.fields,help:deltatech_mrp_confirmation.field_mrp_workcenter_costs_hour_account_id
+msgid "Fill this only if you want automatic analytic accounting entries on production orders."
+msgstr "Fill this only if you want automatic analytic accounting entries on production orders."
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_workcenter_worker_from_date
@@ -159,14 +201,19 @@ msgid "Inchide"
 msgstr "Închide"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:158
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:165
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:190
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:197
 #, python-format
 msgid "Incremented quantity"
 msgstr "Cantitate incrementată"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:144
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_info_message
+msgid "Info Message"
+msgstr "Mesaj info"
+
+#. module: deltatech_mrp_confirmation
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:176
 #, python-format
 msgid "Invalid bar code %s"
 msgstr "Code de bare invalid %s"
@@ -193,45 +240,23 @@ msgid "Last Updated on"
 msgstr "Ultima actualizare în"
 
 #. module: deltatech_mrp_confirmation
-#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_operation_id
-msgid "Operation"
-msgstr "Operație"
-
-#. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:182
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:214
 #, python-format
 msgid "Operation %s was scanned"
 msgstr "Operația %s a fost scanată"
 
 #. module: deltatech_mrp_confirmation
-#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_code
-msgid "Operation Code"
-msgstr "Cod operație"
-
-#. module: deltatech_mrp_confirmation
-#. openerp-web
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:64
-#, python-format
-msgid "Operation code:"
-msgstr "Cod operație:"
-
-#. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:179
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:211
 #, python-format
 msgid "Operation with code %s not found"
 msgstr "Nu a fost gasită operația cu codul %s"
 
 #. module: deltatech_mrp_confirmation
 #. openerp-web
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:70
+#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:65
 #, python-format
 msgid "Operation:"
 msgstr "Operația:"
-
-#. module: deltatech_mrp_confirmation
-#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_operation_ids
-msgid "Operations"
-msgstr "Operații"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_qty_production
@@ -249,13 +274,18 @@ msgid "Possible worker ids"
 msgstr "Muncitori posibili"
 
 #. module: deltatech_mrp_confirmation
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_conf_form
+msgid "Producing"
+msgstr "Producing"
+
+#. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_product_id
 msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_mrp_confirmation
 #. openerp-web
-#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:74
+#: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:69
 #, python-format
 msgid "Product:"
 msgstr "Produs:"
@@ -282,13 +312,13 @@ msgid "Production Order"
 msgstr "Comanda de Producție"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:151
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:183
 #, python-format
 msgid "Production Order %s not found"
 msgstr "Comanda de producție %s nu a fostă găsită"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:153
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:185
 #, python-format
 msgid "Production Order %s was scanned."
 msgstr "Comanda de producția %s a fost scanată."
@@ -336,7 +366,17 @@ msgstr "Caută"
 #. module: deltatech_mrp_confirmation
 #: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_start_form
 msgid "Select Production Order"
-msgstr "selecați comanda de producție"
+msgstr "Selecați comanda de producție"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,help:deltatech_mrp_confirmation.field_mrp_workcenter_costs_hour
+msgid "Specify cost of work center per hour."
+msgstr "Specifică costul centrului de lucru pe oră."
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_date_start
+msgid "Start Date"
+msgstr "Dată început"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.actions.act_window,name:deltatech_mrp_confirmation.action_mrp_production_start
@@ -352,7 +392,7 @@ msgid "Success Message"
 msgstr "Mesaj succes"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:208
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:239
 #, python-format
 msgid "System is ready for confirmation order %s operation %s with %s"
 msgstr "Sistemul este gata să confirme la comanda %s execuția operației %s de către %s"
@@ -361,6 +401,11 @@ msgstr "Sistemul este gata să confirme la comanda %s execuția operației %s de
 #: model:ir.model.fields,help:deltatech_mrp_confirmation.field_mrp_production_conf_qty_produced
 msgid "The number of products already handled by this work order"
 msgstr "The number of products already handled by this work order"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_conf_form
+msgid "Time"
+msgstr "Time"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_workcenter_worker_to_date
@@ -403,20 +448,20 @@ msgid "Worker"
 msgstr "Muncitor"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:103
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:192
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:138
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:224
 #, python-format
 msgid "Worker %s not assigned to work center %s"
-msgstr "Muncitorul %s nu este alicat la centrul de lucru"
+msgstr "Muncitorul %s nu este alocat la centrul de lucru %s"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:188
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:220
 #, python-format
 msgid "Worker %s not found"
 msgstr "Muncitorul %s nu a fost găsit"
 
 #. module: deltatech_mrp_confirmation
-#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:190
+#: code:addons/deltatech_mrp_confirmation/wizard/confirmation.py:222
 #, python-format
 msgid "Worker %s was scanned"
 msgstr "Muncitorul %s a fost scanat"
@@ -435,6 +480,16 @@ msgid "Workers"
 msgstr "Muncitori"
 
 #. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_workorder_id
+msgid "Workorder"
+msgstr "Comandă lucru"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_workorder_ids
+msgid "Workorders"
+msgstr "Comenzi de lucru"
+
+#. module: deltatech_mrp_confirmation
 #: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_start_form
 msgid "_Apply"
 msgstr "_Aplică"
@@ -450,6 +505,11 @@ msgstr "bar code"
 #: model:ir.model,name:deltatech_mrp_confirmation.model_barcode_rule
 msgid "barcode.rule"
 msgstr "barcode.rule"
+
+#. module: deltatech_mrp_confirmation
+#: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_conf_form
+msgid "minutes"
+msgstr "minute"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.ui.view,arch_db:deltatech_mrp_confirmation.view_mrp_production_start_form

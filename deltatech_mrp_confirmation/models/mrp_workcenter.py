@@ -7,7 +7,11 @@ class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
 
     partial_conf = fields.Boolean(string='Partial confirmation', defalut=False)
+    confirm_real_time = fields.Boolean(string="Confirm Real Time", default=True)
     worker_ids = fields.One2many('mrp.workcenter.worker', 'workcenter_id', string='Workers')
+    costs_hour = fields.Float(string='Cost per hour', help="Specify cost of work center per hour.")
+    costs_hour_account_id = fields.Many2one('account.analytic.account', string="Analytic Account",
+                                            help="Fill this only if you want automatic analytic accounting entries on production orders.")
 
 
 class MrpWorkcenterWorkers(models.Model):
