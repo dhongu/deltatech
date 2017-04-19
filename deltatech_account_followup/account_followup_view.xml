@@ -24,6 +24,7 @@
 
 
         <!--Inherited view -->
+        <!--
         <record id="view_partner_inherit_followup_form" model="ir.ui.view">
             <field name="name">res.partner.followup.form.inherit</field>
             <field name="model">res.partner</field>
@@ -35,6 +36,6 @@
             </field>
 
         </record>
-
+        -->
     </data>
 </openerp>

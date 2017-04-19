@@ -20,6 +20,7 @@
 ##############################################################################
 
 from openerp import models, fields, api, _
+
 import openerp.addons.decimal_precision as dp
 from openerp.exceptions import Warning, RedirectWarning
 
@@ -34,16 +35,17 @@ class followup_line(models.Model):
 class account_followup_print(models.TransientModel):
     _inherit = 'account_followup.print'
 
-    def process_partners(self, cr, uid, partner_ids, data, context=None):
-        partner_obj = self.pool.get('res.partner')
-        for partner in self.pool.get('account_followup.stat.by.partner').browse(cr, uid, partner_ids, context):
-            if partner.max_followup_id.block_partner:
+    @api.model
+    def process_partners(self, partner_ids, data):
+        partner_obj = self.env['res.partner']
+        for followup_partner in self.env['account_followup.stat.by.partner'].browse(partner_ids):
+            if followup_partner.max_followup_id.block_partner:
                 values = {'invoice_warn': 'block',
-                          'invoice_warn_msg': partner.max_followup_id.block_message,
+                          'invoice_warn_msg': followup_partner.max_followup_id.block_message,
                           'sale_warn': 'block',
-                          'sale_warn_msg': partner.max_followup_id.block_message}
-                partner_obj.write(cr, uid, [partner.partner_id.id], values)
-        res = super(account_followup_print, self).process_partners(cr, uid, partner_ids, data, context)
+                          'sale_warn_msg': followup_partner.max_followup_id.block_message}
+                followup_partner.partner_id.write(values)
+        res = super(account_followup_print, self).process_partners(partner_ids, data)
         return res
 
 
@@ -53,11 +55,11 @@ class res_partner(models.Model):
     latest_followup_date = fields.Date(compute='_compute_latest')
     latest_followup_level_id = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
     latest_followup_level_id_without_lit = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
-    clemency_days = fields.Integer(string="Clemency Days")
+    # clemency_days = fields.Integer(string="Clemency Days")
 
+    """"
     @api.multi
     def _compute_latest(self):
-        print " Trece pe aici"
         company = self.env.user.company_id
         for partner in self:
             amls = partner.unreconciled_aml_ids
@@ -83,3 +85,4 @@ class res_partner(models.Model):
             partner.latest_followup_date = latest_date
             partner.latest_followup_level_id = latest_level,
             partner.latest_followup_level_id_without_lit = latest_level_without_lit
+    """
