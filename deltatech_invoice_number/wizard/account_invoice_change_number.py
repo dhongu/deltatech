@@ -19,11 +19,10 @@
 #
 ##############################################################################
 
- 
 
-from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
+
+from odoo import models, fields, api
+
 
 class account_invoice_change_number(models.TransientModel):
     _name = 'account.invoice.change.number'
@@ -32,24 +31,25 @@ class account_invoice_change_number(models.TransientModel):
     internal_number = fields.Char(string='Invoice Number')
 
     @api.model
-    def default_get(self, fields): 
-        defaults = super(account_invoice_change_number, self).default_get(fields)         
+    def default_get(self, fields):
+        defaults = super(account_invoice_change_number, self).default_get(fields)
         active_id = self.env.context.get('active_id', False)
         if active_id:
             invoice = self.env['account.invoice'].browse(active_id)
-            defaults['internal_number'] = invoice.internal_number
+            defaults['internal_number'] = invoice.move_name
+
         return defaults
-    
-    
+
     @api.multi
     def do_change_number(self):
         active_id = self.env.context.get('active_id', False)
         if active_id:
             invoice = self.env['account.invoice'].browse(active_id)
-            invoice.write({'number':self.internal_number,
-                           'internal_number':self.internal_number })
+            values = {'move_name': self.internal_number}
+            if invoice.number:
+                values['number'] = self.internal_number
+            invoice.write(values)
             if invoice.state == 'open':
                 invoice.action_number()
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

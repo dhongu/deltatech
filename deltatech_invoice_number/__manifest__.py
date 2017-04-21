@@ -19,25 +19,25 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Invoice Number",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Invoice Number",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
  - Validare data factura sa fie mai mare decat data din ultima factura
  - Posibilitatea de a modifica numarul unei facturi
+ - posibilitatea de a numerota o factura char daca aceasta nu este validata. Dupa numerotare nu se mai poate modifca data
 
 
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account"],
- 
-    "data" : ['security/sale_security.xml',
-              'wizard/account_invoice_change_number_view.xml' ],
+    "category": "Accounting",
+    "depends": ["account"],
+
+    "data": ['security/sale_security.xml',
+             'views/account_invoice_view.xml',
+             'wizard/account_invoice_change_number_view.xml'],
     "active": False,
     "installable": True,
 }
-
-

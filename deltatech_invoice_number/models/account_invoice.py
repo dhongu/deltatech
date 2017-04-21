@@ -19,26 +19,50 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_TIME_FORMAT
-import time
 from datetime import datetime
 
+from odoo import models, fields, api, _
+from odoo.exceptions import RedirectWarning, UserError, ValidationError
+from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
-class account_invoice(models.Model):
+
+class AccountInvoice(models.Model):
     _inherit = "account.invoice"
+
+
 
     @api.onchange('journal_id')
     def _onchange_journal_id(self):
-        res = super(account_invoice, self)._onchange_journal_id()
+        res = super(AccountInvoice, self)._onchange_journal_id()
         msg = self.check_data(journal_id=self.journal_id.id, date_invoice=self.date_invoice)
         if msg != '':
             res['warning'] = {'title': _('Warning'), 'message': msg}
         return res
 
     @api.multi
+    def action_get_number(self):
+        for invoice in self:
+            if invoice.move_name:
+                raise UserError(_('The invoice is already numbered.'))
+            if not invoice.date_invoice:
+                raise UserError(_('The invoice has no date.'))
+            msg = self.check_data()
+            if msg != '':
+                raise UserError(msg)
+            journal = invoice.journal_id
+            if journal.sequence_id:
+                # If invoice is actually refund and journal has a refund_sequence then use that one or use the regular one
+                sequence = journal.sequence_id
+                if invoice and invoice.type in ['out_refund', 'in_refund'] and journal.refund_sequence:
+                    if not journal.refund_sequence_id:
+                        raise UserError(_('Please define a sequence for the refunds'))
+                    sequence = journal.refund_sequence_id
+
+                new_name = sequence.with_context(ir_sequence_date=invoice.date_invoice).next_by_id()
+            else:
+                raise UserError(_('Please define a sequence on the journal.'))
+            invoice.write({'move_name':new_name})
+
     @api.multi
     def check_data(self, journal_id=None, date_invoice=None):
 
@@ -67,8 +91,8 @@ class account_invoice(models.Model):
     def action_move_create(self):
         msg = self.check_data()
         if msg != '':
-            raise Warning(msg)
-        super(account_invoice, self).action_move_create()
+            raise UserError(msg)
+        super(AccountInvoice, self).action_move_create()
         return True
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
