@@ -29,6 +29,7 @@
     
 Functionalitati:
  - Calculeaza pretul de productie ca fiind pretul real al componentelor
+ - Asigneaza un picking pentru materialele consumate
 
 
     """,
@@ -44,8 +45,7 @@ Functionalitati:
 
     "data": [
         "views/mrp_view.xml",
-
-
+        "data/mrp_data.xml"
     ],
     "active": False,
     "installable": True,
