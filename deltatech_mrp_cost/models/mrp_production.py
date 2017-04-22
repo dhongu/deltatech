@@ -69,7 +69,7 @@ class MrpProduction(models.Model):
         super(MrpProduction, self)._cal_price(consumed_moves)
         self.ensure_one()
         production = self
-        production.assign_picking()
+        production.assign_picking()  # pentru situatia in care au mai aparut materiale pe comanda
         if production.product_id.cost_method == 'real' and production.product_id.standard_price != production.calculate_price:
             # oare aici am campul calculate_price actualizat dupa miscarile de stoc efectuate?
             production.product_id.write({'standard_price': production.calculate_price})
@@ -95,9 +95,7 @@ class MrpProduction(models.Model):
                 else:
                     picking = move.picking_id
             if move_list:
-                picking_type = self.env.ref('stock.picking_type_consume', raise_if_not_found=False)
-                if not picking_type:
-                    picking_type = self.env.ref('stock.picking_type_internal', raise_if_not_found=False)
+                picking_type = self.env.ref('stock.picking_type_consume', raise_if_not_found=True)
 
                 if picking_type:
                     if not picking:
@@ -109,4 +107,22 @@ class MrpProduction(models.Model):
                     move_list.write({'picking_id': picking.id})
                     # picking.get_account_move_lines()  # din localizare
 
+            move_list = self.env['stock.move']
+            picking = False
+            for move in production.move_finished_ids:
+                if not move.picking_id:
+                    move_list += move
+                else:
+                    picking = move.picking_id
+            if move_list:
+                picking_type = self.env.ref('stock.picking_type_receipt_production', raise_if_not_found=True)
+
+                if picking_type:
+                    if not picking:
+                        picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
+                                                                    'date': production.date_planned_start,
+                                                                    'location_id':picking_type.default_location_src_id.id,
+                                                                    'location_dest_id':picking_type.default_location_dest_id.id,
+                                                                    'origin': production.name})
+                    move_list.write({'picking_id': picking.id})
         return

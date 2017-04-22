@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-
         <record id="mrp_production_form_view" model="ir.ui.view">
             <field name="name">deltatech.mrp.production.form</field>
             <field name="model">mrp.production</field>
@@ -14,12 +13,6 @@
                 </field>
             </field>
         </record>
-
-
-
-
-
     </data>
-
 
 </openerp>

@@ -36,7 +36,6 @@ Functionalitati:
 
     "category": "Manufacturing",
     "depends": [
-
         "mrp", "stock",
         "sale",
         "product",
