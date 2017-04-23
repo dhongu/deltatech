@@ -159,7 +159,7 @@ class sale_margin_report(models.Model):
     def _from(self):
         from_str = """
                     account_invoice s
-                    left join account_invoice_line l on (s.id=l.invoice_id)
+                    left join account_invoice_line_ids l on (s.id=l.invoice_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.uos_id)

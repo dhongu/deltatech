@@ -75,10 +75,10 @@
 					<div>Discount=</div>
 	 				
 	 				<t t-if="item_details">
-	 					<div>TotalArticole=<t t-esc="len(o.invoice_line)"/></div>	 
+	 					<div>TotalArticole=<t t-esc="len(o.invoice_line_ids)"/></div>
 		 				<div>[Items_<t t-esc="index"/>]</div>
 		 				<t t-set="nr_crt" t-value="1" />
-		 				<t t-foreach="o.invoice_line" t-as="l">
+		 				<t t-foreach="o.invoice_line_ids" t-as="l">
 							<div>Item_<t t-esc="nr_crt"/>=
 								<span t-field="l.product_id.default_code" />;Buc;
 								<span t-field="l.quantity" />;

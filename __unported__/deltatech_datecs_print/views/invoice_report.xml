@@ -16,7 +16,7 @@
 		<template id="report_invoice_datecs">
 
 
-			<t t-foreach="o.invoice_line" t-as="line">
+			<t t-foreach="o.invoice_line_ids" t-as="line">
 
 				<t t-set='line_value' t-value='"P,1,______,_,__;"+line.product_id.name+";;;;;"' />
 				<div t-esc='line_value' />

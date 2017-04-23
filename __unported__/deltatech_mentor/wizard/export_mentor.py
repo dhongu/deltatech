@@ -84,7 +84,7 @@ class export_mentor(models.TransientModel):
         
         if self.item_details:
             for invoice in invoice_in_ids:
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_in_ids:
@@ -101,7 +101,7 @@ class export_mentor(models.TransientModel):
         
         if self.item_details:
             for invoice in invoice_out_ids:
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_out_ids:
