@@ -18,23 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Deltatech Invoice",
-    "version": "1.0",
-    "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
 
-Functionalitati:
- - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
- - Validare data factura sa fie mai mare decat data din ultima factura
+import account_invoice
+import sale
 
-    """,
-    "category": "Generic Modules/Other",
-    "depends": ['deltatech', "account", "l10n_ro_invoice_report"],
 
-    "data": ['account_invoice_view.xml',
-             'views/report_invoice.xml'],
-    "active": False,
-    "installable": True,
-}
+
+
+
+
+
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

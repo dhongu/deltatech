@@ -18,15 +18,15 @@ msgstr ""
 
 
 
-#. module: deltatech_invoice
-#: code:addons/deltatech_invoice/account_invoice.py:70
+#. module: deltatech_invoice_currency
+#: code:addons/deltatech_invoice_currency/account_invoice.py:70
 #, python-format
 msgid "Post the invoice with a greater date than %s"
 msgstr "Postați factura cu o dată mai mare de %s"
 
-#. module: deltatech_invoice
-#: code:addons/deltatech_invoice/account_invoice.py:40
-#: code:addons/deltatech_invoice/account_invoice.py:48
+#. module: deltatech_invoice_currency
+#: code:addons/deltatech_invoice_currency/account_invoice.py:40
+#: code:addons/deltatech_invoice_currency/account_invoice.py:48
 #, python-format
 msgid "Warning"
 msgstr "Avertizare"

@@ -18,16 +18,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name": "Invoice Currency",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "description": """
 
-import account_invoice
-import report
+Functionalitati:
+----------------
+
+ - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
 
 
+    """,
+    "category": "Accounting",
+    "depends": ["account", "l10n_ro_invoice_report", 'sale'],
 
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    "data": ['views/account_invoice_view.xml',
+             'views/report_invoice.xml'],
+    "active": False,
+    "installable": True,
+}
