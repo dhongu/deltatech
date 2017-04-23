@@ -79,6 +79,8 @@ class account_invoice(models.Model):
 
         partner = self.partner_id
         if partner:
+            price_currency_id = self.currency_id
+
             if self.type in ['out_invoice', 'out_refund'] and partner.property_product_pricelist:
                 price_currency_id = partner.property_product_pricelist.currency_id
             if self.type in ['in_invoice', 'in_refund'] and partner.property_purchase_currency_id:
