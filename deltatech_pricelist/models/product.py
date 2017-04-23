@@ -19,35 +19,28 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.api import Environment
-
- 
-
-class product_pricelist_item(models.Model):
-    _inherit = "product.pricelist.item"  
-
- 
-    @api.one
-    @api.depends('base','price_discount', 'price_surcharge' )
-    def _compute_text_price(self):
-        # todo: de convertit in format local
-        value = (1 + self.price_discount) 
-        
-        self.price_text = self._price_field_get()[self.base-1][1] +' * '+str(value)
-        if self.price_surcharge:      
-            self.price_text +=  str(self.price_surcharge)
- 
-    
-    price_text = fields.Char(string="Text Price",  readonly=True, compute='_compute_text_price' )    
-    
-    
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from odoo.exceptions import   Warning, RedirectWarning
 
 
 
 
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
 
+
+    @api.multi
+    def price_compute(self, price_type, uom=False, currency=False, company=False):
+
+        if not currency and self._context.get('currency'):
+            currency = self.env['res.currency'].browse(self._context['currency'])
+
+        templates = self.with_context(currency=False)
+        prices = super(ProductProduct, templates).price_compute(price_type, uom, currency=False,  company=company)
+        if price_type in ['list_price', 'list_price']:  # pretul pubilc poate fi in euro !
+            for template in self:
+
+                prices[template.id] = template.price_currency_id.compute(prices[template.id], currency or template.currency_id, round=False)
+
+        return prices
