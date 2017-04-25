@@ -64,7 +64,7 @@ class service_equi_agreement(models.TransientModel):
             
         #self.equipment_id.write({'agreement_id':self.agreement_id.id,
         #                         'partner_id':self.partner_id.id})
-        for template in self.equipment_id.type_id.template_meter_ids:
+        for template in self.equipment_id.type_id.categ_id.template_meter_ids:
             values = {}
             values['agreement_id'] = self.agreement_id.id
             values['equipment_id'] = self.equipment_id.id
