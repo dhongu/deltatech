@@ -34,7 +34,7 @@ Functionalitati:
     """,
 
     "category": "Warehouse",
-    "depends": ['procurement'],
+    "depends": ['procurement','sale_stock'],
 
     "data": [
 

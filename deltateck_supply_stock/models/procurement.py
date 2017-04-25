@@ -23,7 +23,8 @@ class ProcurementOrder(models.Model):
                                             ('location_id', '=', location.id)])
                 procurements.run()
                 for procurement in procurements:
-                    qty = qty - procurement.product_qty
+                    if not procurement.production_id:           # se scade daca nu este facuta o comadna de productie
+                        qty = qty - procurement.product_qty
                 if qty > 0:
                     # mum sa determin care este data la care sunt necesare produsele?
 
@@ -37,6 +38,7 @@ class ProcurementOrder(models.Model):
                                          ('location_id', '=', location.id)], limit=1, order='date_expected')
                     date_planned = move.date_expected or fields.Datetime.now(),
                     date_planned = max(fields.Datetime.now(), date_planned )
+
                     procurement = self.create({
                         'name': 'SUP: %s' % (self.env.user.login),
                         'date_planned': date_planned,
