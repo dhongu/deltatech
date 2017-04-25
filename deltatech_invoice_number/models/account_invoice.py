@@ -95,4 +95,4 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self).action_move_create()
         return True
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

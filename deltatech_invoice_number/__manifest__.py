@@ -19,16 +19,18 @@
 #
 ##############################################################################
 {
-    "name": "Deltatech Invoice Number",
+    "name": "Invoice Number",
     'version': '10.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
+----------------
+
  - Validare data factura sa fie mai mare decat data din ultima factura
- - Posibilitatea de a modifica numarul unei facturi
- - posibilitatea de a numerota o factura char daca aceasta nu este validata. Dupa numerotare nu se mai poate modifca data
+ - Posibilitatea de a modifica numarul unei facturi pentru un anumit grup de utilizatori
+ - posibilitatea de a numerota o factura chiar daca aceasta nu este validata. Dupa numerotare nu se mai poate modifca data
 
 
     """,
