@@ -32,8 +32,8 @@ import openerp.addons.decimal_precision as dp
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
-    
-    physical_transfer = fields.Selection([('none','Not required'),('req','Required'),('done','Done')], string="Status Physical Transfer", default='none')
+    physical_transfer = fields.Selection([('none', 'Not required'), ('req', 'Required'), ('done', 'Done')],
+                                         string="Status Physical Transfer", default='none', copy=False)
 
     """
     @api.model
