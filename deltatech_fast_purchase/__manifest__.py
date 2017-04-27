@@ -19,27 +19,25 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Fast Purchase",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Fast Purchase",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     'summary': 'Achizitie rapida',
 
     "description": """
  
 Features:
-
+---------
  - Buton in comanda de aprovizionare pentru a face pasii de confirmare, receptie si facturare
- 
+ - Buton in repetie pentru a introduce direct factura
 
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","purchase"],
- 
-    "data" : ['purchase_view.xml'],
+    "category": "Generic Modules/Stock",
+    "depends": ["base", "purchase","stock"],
+
+    "data": ['purchase_view.xml','stock_view.xml'],
     "active": False,
     "installable": True,
 }
-
-
