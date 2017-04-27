@@ -34,16 +34,17 @@ import logging
 class stock_location(models.Model):
     _inherit = "stock.location"
 
-    hide_lot = fields.Boolean(string='Hide Lot', default=True)  # ascunde loturile ce se afla in aceasta locatie
+    hide_lot = fields.Boolean(string='Hide Lot', default=True,
+                              help="Serial numbers / lots from this location isn't dispaly in search if hide lot is true. ")  # ascunde loturile ce se afla in aceasta locatie
 
 
     @api.onchange('usage','hide_lot')
     def onchange_hide_lot(self):
         if self.usage == 'internal':
             self.hide_lot = False
-        
-        # pentru poturile existente trebuie rulat 
-        quants = self.env['stock.quant'].search([('location_id', '=', self.id), ('lot_id', '!=', False)])
+
+            # pentru loturile existente trebuie rulat
+            # quants = self.env['stock.quant'].search([('location_id', '=', self.id), ('lot_id', '!=', False)])
     
     
 
