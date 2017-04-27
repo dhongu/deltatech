@@ -340,6 +340,11 @@ class service_equipment(models.Model):
     def onchange_quant_id(self):
         if self.quant_id:
             self.inventory_value = self.quant_id.inventory_value
+            try:
+                self.vendor_id = self.quant_id.supplier_id
+            except:
+                pass
+
 
     @api.multi
     def invoice_button(self):

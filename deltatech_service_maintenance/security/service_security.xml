@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 <data noupdate="0">
- 
 
+	<record id="base.group_use_service_plan" model="res.groups">
+		<field name="name">Access to maintenance plan</field>
+		<field name="category_id" ref="base.module_category_hidden"/>
+	</record>
 
 		<record id="service_notification_personal_rule" model="ir.rule">
 			<field name="name">Personal Service Notification</field>

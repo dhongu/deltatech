@@ -42,7 +42,7 @@ Functionalitati:
     
     "category" : "Generic Modules",
     "depends" : ["base","mail",
-                 "deltatech",
+
                  "deltatech_service",
                  "deltatech_service_equipment",
                  "deltatech_procurement",
@@ -51,17 +51,19 @@ Functionalitati:
                  "web_notification",   #pentru afisare mesaje procese lansate in background
                  ],
 
+    "data": [
 
-    "data" : [ 'data.xml',
+        'security/service_security.xml',
+        'data.xml',
 
+        'service_config_view.xml',
                'service_notification_view.xml',
                'service_order_view.xml',
                'service_plan_view.xml',
 
                'service_equipment_view.xml',
-               
-               'security/service_security.xml',
-               'security/ir.model.access.csv',
+
+        'security/ir.model.access.csv',
                
                'wizard/rescheduling_view.xml',
 

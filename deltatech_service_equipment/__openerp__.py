@@ -45,7 +45,7 @@ Functionalitati:
 
     "category": "Generic Modules",
     "depends": ["base", "mail",
-                "deltatech",
+
                 "deltatech_service",
                 "deltatech_procurement",
                 "deltatech_product_extension",
@@ -54,7 +54,7 @@ Functionalitati:
                 ],
 
     "data": ['data.xml',
-
+             'service_config_view.xml',
              'service_rent_view.xml',
 
              'service_efficiency_report.xml',

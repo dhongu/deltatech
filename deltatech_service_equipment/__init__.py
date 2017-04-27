@@ -21,6 +21,8 @@
 ##############################################################################
 
 
+import service_config
+
 import service_rent
  
 import stock

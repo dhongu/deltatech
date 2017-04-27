@@ -21,8 +21,8 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services",
-    "version" : "1.0",
+    "name": "Deltatech Services",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -33,31 +33,29 @@ Functionalitati:
 
  
     """,
-    
-    "category" : "Service Management",
-    "depends" : ["base", "product","account"],
 
+    "category": "Service Management",
+    "depends": ["base", "product", "account"],
 
-    "data" : [ 
-              'data.xml',    
-              "service_consumption_view.xml",  
-              "service_agreement_view.xml",  
-              
-              "wizard/service_billing_preparation_view.xml",
-              "wizard/service_billing_view.xml",
-              "wizard/service_distribution_view.xml",
-              "wizard/service_price_change_view.xml",
-              "wizard/service_change_invoice_date_view.xml",
-              #"account_invoice_penalty_view.xml",
-              'security/service_security.xml',
-              'security/ir.model.access.csv',
-              
-                ],
+    "data": [
+        'data.xml',
+        'service_config_view.xml',
+        "service_consumption_view.xml",
+        "service_agreement_view.xml",
+
+        "wizard/service_billing_preparation_view.xml",
+        "wizard/service_billing_view.xml",
+        "wizard/service_distribution_view.xml",
+        "wizard/service_price_change_view.xml",
+        "wizard/service_change_invoice_date_view.xml",
+        # "account_invoice_penalty_view.xml",
+        'security/service_security.xml',
+        'security/ir.model.access.csv',
+
+    ],
     'application': True,
     "active": False,
     "installable": True,
 }
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 

@@ -145,7 +145,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Plan Calls" id="menu_service_plan_call" action="action_service_plan_call" parent="base.menu_service_planing" />
+		<menuitem name="Plan Calls" id="menu_service_plan_call"
+				  action="action_service_plan_call" parent="base.menu_service_planing"/>
 
 
 

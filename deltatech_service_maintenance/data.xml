@@ -4,7 +4,9 @@
 	<data>
 
 
-		<menuitem name="Planing" id="base.menu_service_planing" parent="base.menu_service_app" sequence="200" />
+		<menuitem name="Planing" id="base.menu_service_planing"
+				  groups="base.group_use_service_plan"
+				  parent="base.menu_service_app" sequence="200"/>
 
 
 	</data>

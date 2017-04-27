@@ -29,8 +29,8 @@
 		</record>
 	</data>
 
-	<data noupdate="1">
-
+	<data>
+		<menuitem name="Equipment" id="base.menu_service_config_equi" parent="base.menu_service_config"/>
 	</data>
 
 

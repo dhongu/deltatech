@@ -288,7 +288,7 @@
         </record>
 
         <menuitem name="Equipment History" id="menu_service_equipment_history" action="action_service_equipment_history"
-                  parent="base.menu_service"
+                  parent="base.menu_service" groups="base.group_service_equipment_advanced"
                   sequence="400"/>
 
 
@@ -368,8 +368,9 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+
         <menuitem name="Equipment Type" id="menu_service_equipment_type" action="action_service_equipment_type"
-                  parent="base.menu_service_config"
+                  parent="base.menu_service_config_equi"
                   sequence="200"/>
 
         <record id="view_service_equipment_categ_form" model="ir.ui.view">
@@ -404,7 +405,7 @@
         </record>
 
         <menuitem name="Equipment Category" id="menu_service_equipment_category"
-                  action="action_service_equipment_category" parent="base.menu_service_config"
+                  action="action_service_equipment_category" parent="base.menu_service_config_equi"
                   sequence="201"/>
 
         <!-- <record id="action_picking_tree_consume" model="ir.actions.act_window"> <field name="name">Consume Voucher</field> <field name="res_model">stock.picking</field>

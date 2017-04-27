@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>
+        <record id="view_service_configuration" model="ir.ui.view">
+            <field name="name">service settings</field>
+            <field name="model">service.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configure Service" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <group id="module" string="Modules">
+                        <div>
+                            <div>
+                                <field name="module_deltatech_service_equipment" class="oe_inline"/>
+                                <label for="module_deltatech_service_equipment"/>
+                            </div>
+                            <div>
+                                <field name="module_deltatech_service_maintenance" class="oe_inline"/>
+                                <label for="module_deltatech_service_maintenance"/>
+                            </div>
+                        </div>
+                    </group>
+                    <group id="access" string="Access">
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_service_configuration" model="ir.actions.act_window">
+            <field name="name">Configure service</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">service.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="menu_service_config" name="Service General Settings" parent="base.menu_service_config"
+                  sequence="0" action="action_service_configuration"/>
+
+
+    </data>
+
+
+</openerp>

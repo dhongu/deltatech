@@ -21,7 +21,7 @@
 ##############################################################################
 
 
- 
+import service_config
 import service_notification
 import service_order
 import service_plan

@@ -24,6 +24,9 @@
 import wizard
 import service_consumption
 import service_agreement
+import service_config
+
+
 #import account_invoice_penalty
 
 

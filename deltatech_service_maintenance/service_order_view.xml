@@ -139,7 +139,9 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Order Type" id="menu_service_order_type" action="action_service_order_type" parent="base.menu_service_config" />
+		<menuitem name="Order" id="base.menu_service_config_order" parent="base.menu_service_config"/>
+		<menuitem name="Order Type" id="menu_service_order_type" action="action_service_order_type"
+				  parent="base.menu_service_config_order"/>
 
 
 		<record id="action_service_order_reason" model="ir.actions.act_window">
@@ -149,7 +151,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Reasons" id="menu_service_order_reason" action="action_service_order_reason" parent="base.menu_service_config" />
+		<menuitem name="Reasons" id="menu_service_order_reason" action="action_service_order_reason"
+				  parent="base.menu_service_config_order"/>
 
 
 		<record id="view_service_operation_tree" model="ir.ui.view">
@@ -187,7 +190,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Operation" id="menu_service_operation" action="action_service_operation" parent="base.menu_service_config" />
+		<menuitem name="Operation" id="menu_service_operation" action="action_service_operation"
+				  parent="base.menu_service_config_order"/>
 
 		<record id="action_service_operating_parameter" model="ir.actions.act_window">
 			<field name="name">Service Operating Parameter</field>
@@ -196,7 +200,9 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Operating Parameter" id="menu_service_operating_parameter" action="action_service_operating_parameter" parent="base.menu_service_config" />
+		<menuitem name="Operating Parameter" id="menu_service_operating_parameter"
+				  action="action_service_operating_parameter"
+				  parent="base.menu_service_config_order"/>
 
 
 	</data>
