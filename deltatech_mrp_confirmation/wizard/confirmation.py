@@ -20,23 +20,23 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
-from datetime import datetime, date, timedelta
+
 
 class mrp_production_conf(models.TransientModel):
     _name = 'mrp.production.conf'
     _description = "Production Confirmation"
     _inherit = ['barcodes.barcode_events_mixin']
 
-    date_start = fields.Datetime('Start Date',   required=True)
+    date_start = fields.Datetime('Start Date', required=True)
     date_end = fields.Datetime('End Date', required=True, default=fields.Datetime.now)
-    duration = fields.Float('Duration',  store=True) #compute='_compute_duration',
+    duration = fields.Float('Duration', store=True)  # compute='_compute_duration',
 
     production_id = fields.Many2one('mrp.production', string='Production Order',
                                     domain=[('state', 'in', ['planned', 'progress'])])
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
     worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
 
-    #code = fields.Char('Operation Code')
+    # code = fields.Char('Operation Code')
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
@@ -49,7 +49,6 @@ class mrp_production_conf(models.TransientModel):
     error_message = fields.Char(string="Error Message", readonly=True)
     success_message = fields.Char(string="Success Message", readonly=True)
     info_message = fields.Char(string="Info Message", readonly=True)
-
 
     """
     @api.depends('workorder_id', 'qty_producing','date_end','date_start')
@@ -88,7 +87,7 @@ class mrp_production_conf(models.TransientModel):
         if self.production_id:
             workorder_domain += [('production_id', '=', self.production_id.id)]
 
-        #if self.code:
+        # if self.code:
         #    workorder_domain += [('code', '=', self.code)]
 
         workorder_ids = self.env['mrp.workorder'].search(workorder_domain)
@@ -114,11 +113,11 @@ class mrp_production_conf(models.TransientModel):
     def onchange_workorder_id(self):
         if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
             self.qty_producing = 1.0
-        #self.code = self.workorder_id.code
+        # self.code = self.workorder_id.code
         self.date_start = self.workorder_id.date_planned_start or self.production_id.date_planned_start or fields.Datetime.now()
-        self.date_end   = self.workorder_id.date_planned_finished or self.production_id.date_planned_finished  or fields.Datetime.now()
-        self.duration =  self.workorder_id.duration_expected or 0.0
-        workers = self.get_workers(self.workorder_id)
+        self.date_end = self.workorder_id.date_planned_finished or self.production_id.date_planned_finished or fields.Datetime.now()
+        self.duration = self.workorder_id.duration_expected or 0.0
+        workers = self.get_workers(self.workorder_id, self.worker_id)
         if self.worker_id and self.worker_id not in workers:
             self.worker_id = False
         if len(workers) == 1:
@@ -134,13 +133,15 @@ class mrp_production_conf(models.TransientModel):
     @api.onchange('worker_id')
     def onchange_worker_id(self):
         if self.worker_id and self.workorder_id:
-            if self.worker_id not in self.get_workers(self.workorder_id):
+            if self.worker_id not in self.get_workers(self.workorder_id, self.worker_id):
                 self.error_message = _('Worker %s not assigned to work center %s') % (
                     self.worker_id.name, self.workorder_id.workcenter_id.name)
                 self.worker_id = False
 
-    def get_workers(self, workorder_id):
+    def get_workers(self, workorder_id, worker=False):
         workers = self.env['res.partner']
+        if not workorder_id.workcenter_id.worker_ids:
+            return worker
         for worker in workorder_id.workcenter_id.worker_ids:
             if worker.from_date <= fields.Date.today() <= worker.to_date:
                 workers |= worker.worker_id
@@ -164,7 +165,7 @@ class mrp_production_conf(models.TransientModel):
 
         production = self.production_id
         workorder = self.workorder_id
-        #code = self.code
+        # code = self.code
         worker = self.worker_id
         confirm_message = ''
 
@@ -220,7 +221,7 @@ class mrp_production_conf(models.TransientModel):
                     self.error_message = _('Worker %s not found') % barcode
                 else:
                     self.info_message = _('Worker %s was scanned') % worker.name
-                    if worker not in self.get_workers(workorder):
+                    if worker not in self.get_workers(workorder, worker):
                         self.error_message = _('Worker %s not assigned to work center %s') % (
                             worker.name, workorder.workcenter_id.name)
 
@@ -228,10 +229,10 @@ class mrp_production_conf(models.TransientModel):
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker:
                 self.success_message = _('Confirm saved for operation %s') % self.workorder_id.name
 
-                self.confirm() #workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
+                self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
 
         self.production_id = production
-        #self.code = code
+        # self.code = code
         self.workorder_id = workorder
         self.worker_id = worker
 
@@ -242,7 +243,7 @@ class mrp_production_conf(models.TransientModel):
         return
 
     @api.model
-    def confirm(self): #, workorder, worker, qty_producing):
+    def confirm(self):  # , workorder, worker, qty_producing):
 
         workorder = self.workorder_id
         worker = self.worker_id
@@ -257,10 +258,9 @@ class mrp_production_conf(models.TransientModel):
                                                          (not x.date_end) and (
                                                              x.loss_type in ('productive', 'performance')))
         if time_ids:
-
-            time_values = {  'worker_id': worker.id,
+            time_values = {'worker_id': worker.id,
                            'qty_produced': qty_producing,
-                           'duration':self.duration,
+                           'duration': self.duration,
                            'date_start': self.date_start,
                            'date_end': self.date_end,
                            }
@@ -287,9 +287,13 @@ class mrp_production_conf(models.TransientModel):
 
         if workorder.state == 'done' and self.workorder_id.next_work_order_id:
             self.workorder_id = self.workorder_id.next_work_order_id
-            self.date_start = self.workorder_id.date_planned_start
-            self.date_end = self.workorder_id.date_planned_finished
+            self.date_start = self.workorder_id.date_planned_start or fields.Datetime.now()
+            self.date_end = self.workorder_id.date_planned_finished or fields.Datetime.now()
             self.duration = self.workorder_id.duration_expected or 0.0
+            return True
+
+        if self.workorder_id.next_work_order_id:
+            return False
 
     @api.model
     def default_get(self, fields):
@@ -302,8 +306,9 @@ class mrp_production_conf(models.TransientModel):
 
     @api.multi
     def do_confirm(self):
+        next = True
         if self.production_id and self.workorder_id and self.worker_id:
-            self.confirm() #workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
+            next = self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
         action = self.env.ref('deltatech_mrp_confirmation.action_mrp_production_conf').read()[0]
         # action['context'] = {'default_production_id':self.production_id.id,
         #                     'default_code': self.code}
@@ -311,14 +316,15 @@ class mrp_production_conf(models.TransientModel):
         if self.workorder_id.state == 'done':  # daca a fost facuta operatia nu mai trebuie afisata
             values['workorder_id'] = self.workorder_id.next_work_order_id.id
         self.write(values)
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'mrp.production.conf',
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_id': self.id,
-            'views': [(False, 'form')],
-            'target': 'new',
-        }
+        if next:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'mrp.production.conf',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_id': self.id,
+                'views': [(False, 'form')],
+                'target': 'new',
+            }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
