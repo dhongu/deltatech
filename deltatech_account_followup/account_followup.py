@@ -37,13 +37,16 @@ class account_followup_print(models.TransientModel):
 
     @api.model
     def process_partners(self, partner_ids, data):
-        partner_obj = self.env['res.partner']
+
         for followup_partner in self.env['account_followup.stat.by.partner'].browse(partner_ids):
             if followup_partner.max_followup_id.block_partner:
                 values = {'invoice_warn': 'block',
                           'invoice_warn_msg': followup_partner.max_followup_id.block_message,
                           'sale_warn': 'block',
-                          'sale_warn_msg': followup_partner.max_followup_id.block_message}
+                          'sale_warn_msg': followup_partner.max_followup_id.block_message,
+                          'picking_warn': 'block',
+                          'picking_warn_msg': followup_partner.max_followup_id.block_message
+                          }
                 followup_partner.partner_id.write(values)
         res = super(account_followup_print, self).process_partners(partner_ids, data)
         return res
