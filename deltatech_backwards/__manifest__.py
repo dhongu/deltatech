@@ -21,23 +21,23 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Backwards",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Backwards",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
  - Preluare functionalitati din 8.0
+    - perioada fiscale
 
  
     """,
-    
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account",'stock'],
 
+    "category": "Generic Modules/Other",
+    "depends": ["account", 'stock', 'account_voucher'],
 
-    "data" : [
+    "data": [
         'wizard/account_period_close_view.xml',
         'views/account_view.xml',
         'security/ir.model.access.csv'
@@ -49,4 +49,3 @@ Functionalitati:
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

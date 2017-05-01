@@ -19,45 +19,35 @@
 #
 ##############################################################################
 
-import base64
-import zipfile
 import StringIO
-
-
+import base64
+import unicodedata
+import zipfile
 
 from mydbf import base, fields as dbf_fields
-
-import os
-
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
-import unicodedata
+from odoo.exceptions import Warning
 
-try: 
+try:
     import html2text
 except:
     from odoo.addons.mail.models import html2text
-    
+
 
 class export_saga(models.TransientModel):
     _name = 'export.saga'
     _description = "Export Saga"
 
-    
-    name  = fields.Char(string='File Name', readonly=True) 
-    data_file =  fields.Binary(string='File', readonly=True) 
-    state = fields.Selection([('choose', 'choose'),   # choose period
-                               ('get', 'get')],default='choose')        # get the file
+    name = fields.Char(string='File Name', readonly=True)
+    data_file = fields.Binary(string='File', readonly=True)
+    state = fields.Selection([('choose', 'choose'),  # choose period
+                              ('get', 'get')], default='choose')  # get the file
 
-   
-    period_id = fields.Many2one('account.period', string='Period' , required=True )
+    period_id = fields.Many2one('account.period', string='Period', required=True)
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
-    
-    
-    result = fields.Html(string="Result Export",readonly=True) 
 
+    result = fields.Html(string="Result Export", readonly=True)
 
     def unaccent(self, text):
         """
@@ -84,7 +74,7 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_furnizori(self, partner_ids):
- 
+
         """
         Furnizori 
         Nr. crt. Nume câmp Tip Mărime câmp Descriere 
@@ -102,18 +92,18 @@ class export_saga(models.TransientModel):
         """
         result_html = ''
         Furnizori = {
-             'COD' :        dbf_fields.CharField(max_length=5),  #Cod furnizor 
-             'DENUMIRE' :   dbf_fields.CharField(max_length=48), #Denumire furnizor 
-             'COD_FISCAL':  dbf_fields.CharField(max_length=13), #Cod Fiscal, furnizor  
-             'ANALITIC':    dbf_fields.CharField(max_length=16), #Cont analitic 
-             'ZS':          dbf_fields.IntegerField(size=3),     #Numeric 3 Zile Scadenţă (optional) 
-             'ADRESA':      dbf_fields.CharField(max_length=48),  #Adresa (optional) 
-              # 'BANCA':       dbf_fields.CharField(max_length=48),  #Banca (optional)  
-             'TARA':         dbf_fields.CharField(max_length=2),  #Codul de tara (RO) 
-             'TEL':         dbf_fields.CharField(max_length=20),  #Numar telefon (optional) 
-             'EMAIL':       dbf_fields.CharField(max_length=100),  #Email (optional) 
-             'IS_TVA':      dbf_fields.IntegerField(size=1),     #Numeric 1 1, dacă este platitor de TVA 
-             }
+            'COD': dbf_fields.CharField(max_length=5),  # Cod furnizor
+            'DENUMIRE': dbf_fields.CharField(max_length=48),  # Denumire furnizor
+            'COD_FISCAL': dbf_fields.CharField(max_length=13),  # Cod Fiscal, furnizor
+            'ANALITIC': dbf_fields.CharField(max_length=16),  # Cont analitic
+            'ZS': dbf_fields.IntegerField(size=3),  # Numeric 3 Zile Scadenţă (optional)
+            'ADRESA': dbf_fields.CharField(max_length=48),  # Adresa (optional)
+            # 'BANCA':       dbf_fields.CharField(max_length=48),  #Banca (optional)
+            'TARA': dbf_fields.CharField(max_length=2),  # Codul de tara (RO)
+            'TEL': dbf_fields.CharField(max_length=20),  # Numar telefon (optional)
+            'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
+            'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
+        }
         temp_file = StringIO.StringIO()
         furnizori_dbf = base.DBF(temp_file, Furnizori)
         for partner in partner_ids:
@@ -122,40 +112,41 @@ class export_saga(models.TransientModel):
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
                     raise Warning(error)
-            
+
             if not partner.vat_subjected:
-                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                is_tva  = 0
+                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
+                is_tva = 0
             else:
                 cod_fiscal = partner.vat
-                is_tva  = 1
-                
+                is_tva = 1
+
             if partner.ref_supplier:
-                analitic = '401.'+partner.ref_supplier.zfill(5)
+                analitic = '401.' + partner.ref_supplier.zfill(5)
             else:
                 analitic = ''
 
             if partner.ref_supplier:
-                partner_code =   partner.ref_supplier.zfill(5)
+                partner_code = partner.ref_supplier.zfill(5)
             else:
                 partner_code = ''
-                
-            values = {'COD':        partner_code,
-                      'DENUMIRE' :  self.unaccent(partner.name[:48]),
-                      'COD_FISCAL' : cod_fiscal or '',
-                      'ANALITIC':    analitic,
-                      'ZS':0,
-                      'ADRESA':      self.unaccent(partner.contact_address ),
-                      #'BANCA'
-                      'TARA':        partner.country_id.code or '',
-                      'TEL':         partner.phone or '',
-                      'EMAIL':       partner.email or '',
-                      'IS_TVA':      is_tva,
+
+            values = {'COD': partner_code,
+                      'DENUMIRE':  partner.name[:48],
+                      'COD_FISCAL': cod_fiscal or '',
+                      'ANALITIC': analitic,
+                      'ZS': 0,
+                      'ADRESA':  partner.contact_address,
+                      # 'BANCA'
+                      'TARA': partner.country_id.code or '',
+                      'TEL': partner.phone or '',
+                      'EMAIL': partner.email or '',
+                      'IS_TVA': is_tva,
                       }
-            
+            for key in values:
+                if isinstance(values[key], unicode):
+                    values[key] = self.unaccent(values[key])
             furnizori_dbf.insert(values)
-          
-        
+
         return temp_file, result_html
 
     @api.model
@@ -182,61 +173,62 @@ class export_saga(models.TransientModel):
         """
         result_html = ''
         Clienti = {
-             'COD' :        dbf_fields.CharField(max_length=5),  #Cod  
-             'DENUMIRE' :   dbf_fields.CharField(max_length=48), #Denumire  
-             'COD_FISCAL':  dbf_fields.CharField(max_length=13), #Cod Fiscal,   
-             'REG_COM':     dbf_fields.CharField(max_length=16), #Nr.înregistrare la Registrul Comerţului 
-             'ANALITIC':    dbf_fields.CharField(max_length=16), #Cont analitic 
-             'ZS':          dbf_fields.IntegerField(size=3),     #Numeric 3 Zile Scadenţă (optional) 
-             'ADRESA':      dbf_fields.CharField(max_length=48),  #Adresa (optional) 
-             'TARA':        dbf_fields.CharField(max_length=2),  #Codul de tara (RO) 
-             'TEL':         dbf_fields.CharField(max_length=20),  #Numar telefon (optional) 
-             'EMAIL':       dbf_fields.CharField(max_length=100),  #Email (optional) 
-             'IS_TVA':      dbf_fields.IntegerField(size=1),     #Numeric 1 1, dacă este platitor de TVA 
-             }
+            'COD': dbf_fields.CharField(max_length=5),  # Cod
+            'DENUMIRE': dbf_fields.CharField(max_length=48),  # Denumire
+            'COD_FISCAL': dbf_fields.CharField(max_length=13),  # Cod Fiscal,
+            'REG_COM': dbf_fields.CharField(max_length=16),  # Nr.înregistrare la Registrul Comerţului
+            'ANALITIC': dbf_fields.CharField(max_length=16),  # Cont analitic
+            'ZS': dbf_fields.IntegerField(size=3),  # Numeric 3 Zile Scadenţă (optional)
+            'ADRESA': dbf_fields.CharField(max_length=48),  # Adresa (optional)
+            'TARA': dbf_fields.CharField(max_length=2),  # Codul de tara (RO)
+            'TEL': dbf_fields.CharField(max_length=20),  # Numar telefon (optional)
+            'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
+            'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
+        }
         temp_file = StringIO.StringIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
         for partner in partner_ids:
 
-            if not partner.ref_customer :
+            if not partner.ref_customer:
                 error = _("Partenerul %s nu are cod de client SAGA") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
                     raise Warning(error)
 
-
-                
             if not partner.vat_subjected:
-                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
-                is_tva  = 0
+                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
+                is_tva = 0
             else:
                 cod_fiscal = partner.vat
-                is_tva  = 1
+                is_tva = 1
 
             if partner.ref_customer:
-                analitic = '4111.'+partner.ref_customer.zfill(5)
+                analitic = '4111.' + partner.ref_customer.zfill(5)
             else:
                 analitic = ''
 
             if partner.ref_customer:
-                partner_code =   partner.ref_customer.zfill(5)
+                partner_code = partner.ref_customer.zfill(5)
             else:
                 partner_code = ''
-             
-            values = {'COD':         partner_code,
-                      'DENUMIRE' :   self.unaccent(partner.name[:48] ),
-                      'COD_FISCAL':  cod_fiscal or '',
-                      'REG_COM':     partner.nrc or '',
-                      'ANALITIC':    analitic,
-                      'ZS':          0,
-                      'ADRESA':      self.unaccent(partner.contact_address[:48]),
-                      'TARA':        partner.country_id.code or '',
-                      'TEL':         partner.phone or '',
-                      'EMAIL':       partner.email or '',
-                      'IS_TVA':      is_tva,                          
+
+            values = {'COD': partner_code,
+                      'DENUMIRE': partner.name[:48],
+                      'COD_FISCAL': cod_fiscal or '',
+                      'REG_COM': partner.nrc or '',
+                      'ANALITIC': analitic,
+                      'ZS': 0,
+                      'ADRESA': partner.contact_address[:48],
+                      'TARA': partner.country_id.code or '',
+                      'TEL': partner.phone or '',
+                      'EMAIL': partner.email or '',
+                      'IS_TVA': is_tva,
                       }
-            clienti_dbf.insert(values)        
-        
+            for key in values:
+                if isinstance(values[key], unicode):
+                    values[key] = self.unaccent(values[key])
+            clienti_dbf.insert(values)
+
         return temp_file, result_html
 
     @api.model
@@ -258,37 +250,36 @@ class export_saga(models.TransientModel):
         11. GRUPA Character 16 Grupa de articol (optional) 
         """
         Articole = {
-             'COD' :        dbf_fields.CharField(max_length=16),  #Cod articol  
-             'DENUMIRE' :   dbf_fields.CharField(max_length=60), #Denumire articol  
-             'UM' :         dbf_fields.CharField(max_length=5), #Unitate de masura  
-             'TIP'      :   dbf_fields.CharField(max_length=2),   #Cod tip  
-             'DEN_TIP'  :   dbf_fields.CharField(max_length=36),   #Denumire tip  
-             'TVA':         dbf_fields.DecimalField(size=5, deci=2), # TVA 
-             }
+            'COD': dbf_fields.CharField(max_length=16),  # Cod articol
+            'DENUMIRE': dbf_fields.CharField(max_length=60),  # Denumire articol
+            'UM': dbf_fields.CharField(max_length=5),  # Unitate de masura
+            'TIP': dbf_fields.CharField(max_length=2),  # Cod tip
+            'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumire tip
+            'TVA': dbf_fields.DecimalField(size=5, deci=2),  # TVA
+        }
         temp_file = StringIO.StringIO()
         articole_dbf = base.DBF(temp_file, Articole)
         for product in product_ids:
             if product.taxes_id:
                 tva = int(product.taxes_id[0].amount * 100)
-            else:    
+            else:
                 tva = 0
-             
+
             values = {
-                      'COD':        product.default_code or '',
-                      'DENUMIRE' :  self.unaccent(product.name[:60]),
-                      'UM':         product.uom_id.name[:5].split(' ')[0],
-                      
-                      'TIP':        product.categ_id.code_saga or '',
-                      'DEN_TIP':    self.unaccent(product.categ_id.name[:36]),    
-                      'TVA':        tva,
-                      }
+                'COD': product.default_code or '',
+                'DENUMIRE': product.name[:60],
+                'UM': product.uom_id.name[:5].split(' ')[0],
+
+                'TIP': product.categ_id.code_saga or '',
+                'DEN_TIP': product.categ_id.name[:36],
+                'TVA': tva,
+            }
             articole_dbf.insert(values)
 
-        
         return temp_file, result_html
 
     @api.model
-    def do_export_intrari(self, invoice_in_ids, voucher_in_ids ):
+    def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
         result_html = ''
         """
  Intrări 
@@ -314,58 +305,63 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
 19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional) 
 20. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
         """
-        
+
         Intrari = {
-                   'NR_NIR':        dbf_fields.IntegerField(size=7),      # Număr NIR 
-                   'NR_INTRARE':    dbf_fields.CharField(max_length=16),  # Numărul documentului de intrare 
-                   'GESTIUNE':      dbf_fields.CharField(max_length=4),   # Cod gestiune (optional) 
-                   'DEN_GEST':      dbf_fields.CharField(max_length=36),  # Denumirea gestiunii (optional) 
-                   'COD':           dbf_fields.CharField(max_length=5),   # Cod furnizor 
-                   'DATA':          dbf_fields.DateField(),               # Data documentului de intrare (a facturii) 
-                   'SCADENT':       dbf_fields.DateField(),               # Data scadenţei 
-                   'TIP':           dbf_fields.CharField(max_length=1),   # "A" - pentru aviz, "T" - taxare inversă... 
-                   'TVAI':          dbf_fields.IntegerField(size=1),      # 1 pentru TVA la incasare 
-                   'COD_ART':       dbf_fields.CharField(max_length=16),  # Cod articol (optional) 
-                   'DEN_ART':       dbf_fields.CharField(max_length=60),  # Denumire articol 
-                   'UM':            dbf_fields.CharField(max_length=5),  # Unitatea de măsură pt.articol (optional) 
-                   'CANTITATE':     dbf_fields.DecimalField(size=14, deci=3), # Cantitate
-                   'DEN_TIP':       dbf_fields.CharField(max_length=36),      # Denumirea tipului de articol (optional) 
-                   'TVA_ART':       dbf_fields.IntegerField(size=2),          #Procentul de TVA 
-                   'VALOARE':       dbf_fields.DecimalField(size=15, deci=2), # Valoarea totală, fără TVA 
-                   'TVA':           dbf_fields.DecimalField(size=15, deci=2), # TVA total 
-                   'CONT':          dbf_fields.CharField(size=20),          #Contul corespondent
-                   'PRET_VANZ':     dbf_fields.DecimalField(size=15, deci=2), # TVA total 
-                   'GRUPA':         dbf_fields.CharField(max_length=16),      #Cod de grupa de articol contabil (optional) 
-                   
-                   }
-        
+            'NR_NIR': dbf_fields.IntegerField(size=7),  # Număr NIR
+            'NR_INTRARE': dbf_fields.CharField(max_length=16),  # Numărul documentului de intrare
+            'GESTIUNE': dbf_fields.CharField(max_length=4),  # Cod gestiune (optional)
+            'DEN_GEST': dbf_fields.CharField(max_length=36),  # Denumirea gestiunii (optional)
+            'COD': dbf_fields.CharField(max_length=5),  # Cod furnizor
+            'DATA': dbf_fields.DateField(),  # Data documentului de intrare (a facturii)
+            'SCADENT': dbf_fields.DateField(),  # Data scadenţei
+            'TIP': dbf_fields.CharField(max_length=1),  # "A" - pentru aviz, "T" - taxare inversă...
+            'TVAI': dbf_fields.IntegerField(size=1),  # 1 pentru TVA la incasare
+            'COD_ART': dbf_fields.CharField(max_length=16),  # Cod articol (optional)
+            'DEN_ART': dbf_fields.CharField(max_length=60),  # Denumire articol
+            'UM': dbf_fields.CharField(max_length=5),  # Unitatea de măsură pt.articol (optional)
+            'CANTITATE': dbf_fields.DecimalField(size=14, deci=3),  # Cantitate
+            'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumirea tipului de articol (optional)
+            'TVA_ART': dbf_fields.IntegerField(size=2),  # Procentul de TVA
+            'VALOARE': dbf_fields.DecimalField(size=15, deci=2),  # Valoarea totală, fără TVA
+            'TVA': dbf_fields.DecimalField(size=15, deci=2),  # TVA total
+            'CONT': dbf_fields.CharField(size=20),  # Contul corespondent
+            'PRET_VANZ': dbf_fields.DecimalField(size=15, deci=2),  # TVA total
+            'GRUPA': dbf_fields.CharField(max_length=16),  # Cod de grupa de articol contabil (optional)
+
+        }
+
         temp_file = StringIO.StringIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
-       
-        #todo: de convertit toate preturirile in RON 
-        
+
+        # todo: de convertit toate preturirile in RON
+
         for invoice in invoice_in_ids:
+
+            tvai = 0
+            """
+            #todo: de scos din poxitia fiscala
             if invoice.vat_on_payment:
                 tvai = 1
-            else:
-                tvai = 0 
-                
-            if invoice.fiscal_receipt:   # daca este un bon fiscal atunci 
+            """
+
+            tip = ''
+            """
+            #todo: de unde mai e si asta?
+            if invoice.fiscal_receipt:  # daca este un bon fiscal atunci
                 tip = 'B'
-            else:
-                tip = '' 
-                   
-            for line in invoice.invoice_line:
+            """
+
+            for line in invoice.invoice_line_ids:
                 if line.invoice_line_tax_id:
                     tva_art = int(line.invoice_line_tax_id[0].amount * 100)
-                else:    
+                else:
                     tva_art = 0
-                
+
                 cont = line.account_id.code
                 while cont[-1] == '0':
                     cont = cont[:-1]
-                
-                #inlocuire contrui de cheltuiala cu cele de stoc
+
+                # inlocuire contrui de cheltuiala cu cele de stoc
                 if cont == '6028':
                     cont = '3028'
                 elif cont == '6022':
@@ -373,68 +369,67 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                 elif cont == '623':
                     cont = '6231'
 
-
                 if invoice.commercial_partner_id.ref_supplier:
-                    partner_code =   invoice.commercial_partner_id.ref_supplier.zfill(5)
+                    partner_code = invoice.commercial_partner_id.ref_supplier.zfill(5)
                 else:
                     partner_code = ''
-                    
+
                 values = {
-                   'NR_NIR':     10000+int(''.join([s for s in invoice.number if s.isdigit()])),
-                   'NR_INTRARE': invoice.supplier_invoice_number or invoice.number ,
-                   'GESTIUNE'  : '',
-                   'DEN_GEST'  : '',
-                   'COD':        partner_code,
-                   'DATA':       fields.Date.from_string(invoice.date_invoice),
-                   'SCADENT':    fields.Date.from_string(invoice.date_due),
-                   'TIP':       tip,
-                   'TVAI':      tvai,
-                      
-                   'DEN_ART':    self.unaccent(line.name[:60]),
-                   'UM':       '',
-                   'CANTITATE':  line.quantity,
-                       
-                   'TVA_ART':    tva_art,
-                   'VALOARE':    line.price_subtotal,  #todo: daca pretul include tva valoarea cum o fi ?
-                   'TVA':        line.price_taxes,
-                   'CONT':       cont,
-                   'PRET_VANZ':  0,
-                   'GRUPA':      '',
+                    'NR_NIR': 10000 + int(''.join([s for s in invoice.number if s.isdigit()])),
+                    'NR_INTRARE': invoice.supplier_invoice_number or invoice.number,
+                    'GESTIUNE': '',
+                    'DEN_GEST': '',
+                    'COD': partner_code,
+                    'DATA': fields.Date.from_string(invoice.date_invoice),
+                    'SCADENT': fields.Date.from_string(invoice.date_due),
+                    'TIP': tip,
+                    'TVAI': tvai,
+
+                    'DEN_ART': line.name[:60],
+                    'UM': '',
+                    'CANTITATE': line.quantity,
+
+                    'TVA_ART': tva_art,
+                    'VALOARE': line.price_subtotal,  # todo: daca pretul include tva valoarea cum o fi ?
+                    'TVA': line.price_taxes,
+                    'CONT': cont,
+                    'PRET_VANZ': 0,
+                    'GRUPA': '',
                 }
-                if line.uos_id:
-                    values['UM'] = line.uos_id.name[:5].split(' ')[0] 
-                
+                if line.uom_id:
+                    values['UM'] = line.uom_id.name[:5].split(' ')[0]
+
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code or '',
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
-                                  
+                    values['DEN_TIP'] =  line.product_id.categ_id.name[:36]
+
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
                 intrari_dbf.insert(values)
-                
 
         for voucher in voucher_in_ids:
-            
-                
-            if voucher.tax_id:   # daca este un bon fiscal atunci 
-                tip = 'C'     # facura simplificata
+
+            if voucher.tax_ids:  # daca este un bon fiscal atunci
+                tip = 'C'  # facura simplificata
             else:
-                tip = 'B'     # Bon de casa 
+                tip = 'B'  # Bon de casa
 
             if voucher.tax_id:
-                tva_art = int(voucher.tax_id[0].amount * 100)
-            else:    
+                tva_art = int(voucher.tax_ids[0].amount * 100)
+            else:
                 tva_art = 0
-                   
+
             for line in voucher.line_ids:
 
-                
                 cont = line.account_id.code
                 while cont[-1] == '0':
                     cont = cont[:-1]
-                    
-                #inlocuire contrui de cheltuiala cu cele de stoc
+
+                # inlocuire contrui de cheltuiala cu cele de stoc
                 if cont == '6028':
                     cont = '3028'
                 elif cont == '6022':
@@ -445,48 +440,50 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                 if tva_art == 0:
                     tva = 0
                 else:
-                    tva = line.amount-line.untax_amount
-                    
+                    tva = line.amount - line.untax_amount
+
                 if voucher.partner_id.commercial_partner_id.ref_supplier:
-                    partner_code =   voucher.partner_id.commercial_partner_id.ref_supplier.zfill(5)
+                    partner_code = voucher.partner_id.commercial_partner_id.ref_supplier.zfill(5)
                 else:
                     partner_code = ''
-                    
+
                 values = {
-                   'NR_NIR':     10000+int(''.join([s for s in voucher.number if s.isdigit()])),
-                   'NR_INTRARE': voucher.reference or voucher.number ,
-                   'GESTIUNE'  : '',
-                   'DEN_GEST'  : '',
-                   'COD':        partner_code,
-                   'DATA':       fields.Date.from_string(voucher.date),
-                   'SCADENT':    fields.Date.from_string(voucher.date),
-                   'TIP':       tip,
-                   'TVAI':      0,
-                      
-                   'DEN_ART':    '',
-                   'UM':         '',
-                   'CANTITATE':  1,
-                   'TVA_ART':    tva_art,
-                   'VALOARE':    line.untax_amount or line.amount,  #todo: daca pretul include tva valoarea cum o fi ?
-                   'TVA':        tva,
-                   'CONT':       cont,
-                   'PRET_VANZ':  0,
-                   'GRUPA':      '',
+                    'NR_NIR': 10000 + int(''.join([s for s in voucher.number if s.isdigit()])),
+                    'NR_INTRARE': voucher.reference or voucher.number,
+                    'GESTIUNE': '',
+                    'DEN_GEST': '',
+                    'COD': partner_code,
+                    'DATA': fields.Date.from_string(voucher.date),
+                    'SCADENT': fields.Date.from_string(voucher.date),
+                    'TIP': tip,
+                    'TVAI': 0,
+
+                    'DEN_ART': '',
+                    'UM': '',
+                    'CANTITATE': 1,
+                    'TVA_ART': tva_art,
+                    'VALOARE': line.untax_amount or line.amount,  # todo: daca pretul include tva valoarea cum o fi ?
+                    'TVA': tva,
+                    'CONT': cont,
+                    'PRET_VANZ': 0,
+                    'GRUPA': '',
                 }
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code or '',
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
-                                  
+                    values['DEN_TIP'] = line.product_id.categ_id.name[:36]
+
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
                 intrari_dbf.insert(values)
-                
-                        
+
         return temp_file, result_html
 
     @api.model
-    def do_export_iesiri(self, invoice_out_ids ):
+    def do_export_iesiri(self, invoice_out_ids):
         result_html = ''
         """
 Ieşiri 
@@ -518,146 +515,152 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
     """
         Iesiri = {
-                   
-                   'NR_IESIRE':    dbf_fields.CharField(max_length=16),  # Numărul documentului de ieşire, bon 
-                   'COD':           dbf_fields.CharField(max_length=5),   # Cod client 
-                   'DATA':          dbf_fields.DateField(),               # Data documentului de ieşire
-                   'SCADENT':       dbf_fields.DateField(),               # Data scadenţei 
-                   'TIP':           dbf_fields.CharField(max_length=1),   # "A" - pentru aviz, "T" - taxare inversă... 
-                   'TVAI':          dbf_fields.IntegerField(size=1),      # 1 pentru TVA la incasare                    
-                   'GESTIUNE':      dbf_fields.CharField(max_length=4),   # Cod gestiune (optional) 
-                   'DEN_GEST':      dbf_fields.CharField(max_length=36),  # Denumirea gestiunii (optional) 
-                   'COD_ART':       dbf_fields.CharField(max_length=16),  # Cod articol (optional) 
-                   'DEN_ART':       dbf_fields.CharField(max_length=60),  # Denumire articol 
-                   'UM':            dbf_fields.CharField(max_length=5),  # Unitatea de măsură pt.articol (optional) 
-                   'CANTITATE':     dbf_fields.DecimalField(size=14, deci=3), # Cantitate
-                   'DEN_TIP':       dbf_fields.CharField(max_length=36),      # Denumirea tipului de articol (optional) 
-                   'TVA_ART':       dbf_fields.IntegerField(size=2),          #Procentul de TVA 
-                   'VALOARE':       dbf_fields.DecimalField(size=15, deci=2), # Valoarea totală, fără TVA 
-                   'TVA':           dbf_fields.DecimalField(size=15, deci=2), # TVA total 
-                   'CONT':          dbf_fields.CharField(size=20),          #Contul corespondent
-                   'PRET_VANZ':     dbf_fields.DecimalField(size=15, deci=2), # TVA total 
-                   'GRUPA':         dbf_fields.CharField(max_length=16),      #Cod de grupa de articol contabil (optional) 
-                   
-                   }
-        
+
+            'NR_IESIRE': dbf_fields.CharField(max_length=16),  # Numărul documentului de ieşire, bon
+            'COD': dbf_fields.CharField(max_length=5),  # Cod client
+            'DATA': dbf_fields.DateField(),  # Data documentului de ieşire
+            'SCADENT': dbf_fields.DateField(),  # Data scadenţei
+            'TIP': dbf_fields.CharField(max_length=1),  # "A" - pentru aviz, "T" - taxare inversă...
+            'TVAI': dbf_fields.IntegerField(size=1),  # 1 pentru TVA la incasare
+            'GESTIUNE': dbf_fields.CharField(max_length=4),  # Cod gestiune (optional)
+            'DEN_GEST': dbf_fields.CharField(max_length=36),  # Denumirea gestiunii (optional)
+            'COD_ART': dbf_fields.CharField(max_length=16),  # Cod articol (optional)
+            'DEN_ART': dbf_fields.CharField(max_length=60),  # Denumire articol
+            'UM': dbf_fields.CharField(max_length=5),  # Unitatea de măsură pt.articol (optional)
+            'CANTITATE': dbf_fields.DecimalField(size=14, deci=3),  # Cantitate
+            'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumirea tipului de articol (optional)
+            'TVA_ART': dbf_fields.IntegerField(size=2),  # Procentul de TVA
+            'VALOARE': dbf_fields.DecimalField(size=15, deci=2),  # Valoarea totală, fără TVA
+            'TVA': dbf_fields.DecimalField(size=15, deci=2),  # TVA total
+            'CONT': dbf_fields.CharField(size=20),  # Contul corespondent
+            'PRET_VANZ': dbf_fields.DecimalField(size=15, deci=2),  # TVA total
+            'GRUPA': dbf_fields.CharField(max_length=16),  # Cod de grupa de articol contabil (optional)
+
+        }
+
         temp_file = StringIO.StringIO()
         iesiri_dbf = base.DBF(temp_file, Iesiri)
-       
-        #todo: de convertit toate preturirile in RON 
-        
+
+        # todo: de convertit toate preturirile in RON
+
         for invoice in invoice_out_ids:
+            tvai = 0
+            """
+            #todo: de scos din poxitia fiscala
             if invoice.vat_on_payment:
                 tvai = 1
-            else:
-                tvai = 0 
-            for line in invoice.invoice_line:
+
+            """
+            for line in invoice.invoice_line_ids:
                 if line.invoice_line_tax_id:
                     tva_art = int(line.invoice_line_tax_id[0].amount * 100)
-                else:    
+                else:
                     tva_art = 0
-                
+
                 cont = line.account_id.code
                 while cont[-1] == '0':
-                    cont = cont[:-1]    
+                    cont = cont[:-1]
 
                 if invoice.commercial_partner_id.ref_customer:
-                    partner_code =   invoice.commercial_partner_id.ref_customer.zfill(5)
+                    partner_code = invoice.commercial_partner_id.ref_customer.zfill(5)
                 else:
-                    partner_code = '' 
-                    
+                    partner_code = ''
+
                 values = {
-                   
-                   'NR_IESIRE': invoice.number.replace('/', ' ') ,
-                   'COD':        partner_code,
-                   'DATA':       fields.Date.from_string(invoice.date_invoice),
-                   'SCADENT':    fields.Date.from_string(invoice.date_due),
-                   'TIP':       '',
-                   'TVAI':      tvai,
-                   'GESTIUNE'  : '',
-                   'DEN_GEST'  : '',
-                   'COD_ART':    line.product_id.default_code or '',
-                   'DEN_ART':    self.unaccent(line.name[:60]),
-                   'UM':         '',
-                   'CANTITATE':  line.quantity,
-                   'DEN_TIP':    '',
-                   'TVA_ART':    tva_art,
-                   'VALOARE':    line.price_subtotal,  #todo: daca pretul include tva valoarea cum o fi ?
-                   'TVA':        line.price_taxes,
-                   'CONT':       cont,
-                   'PRET_VANZ':  0,
-                   'GRUPA':      '',
+
+                    'NR_IESIRE': invoice.number.replace('/', ' '),
+                    'COD': partner_code,
+                    'DATA': fields.Date.from_string(invoice.date_invoice),
+                    'SCADENT': fields.Date.from_string(invoice.date_due),
+                    'TIP': '',
+                    'TVAI': tvai,
+                    'GESTIUNE': '',
+                    'DEN_GEST': '',
+                    'COD_ART': line.product_id.default_code or '',
+                    'DEN_ART':  line.name[:60],
+                    'UM': '',
+                    'CANTITATE': line.quantity,
+                    'DEN_TIP': '',
+                    'TVA_ART': tva_art,
+                    'VALOARE': line.price_subtotal,  # todo: daca pretul include tva valoarea cum o fi ?
+                    'TVA': line.price_taxes,
+                    'CONT': cont,
+                    'PRET_VANZ': 0,
+                    'GRUPA': '',
                 }
-                if line.uos_id:
-                    values['UM'] = line.uos_id.name[:5].split(' ')[0] 
+                if line.uom_id:
+                    values['UM'] = line.uom_id.name[:5].split(' ')[0]
                 if line.product_id.categ_id:
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36]  )
-                
+                    values['DEN_TIP'] =  line.product_id.categ_id.name[:36]
+
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
-                iesiri_dbf.insert(values)        
+
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
+                iesiri_dbf.insert(values)
         return temp_file, result_html
-    
+
     @api.multi
     def do_export(self):
 
-   
         buff = StringIO.StringIO()
-        
-        
+
         files = []
-         
+
         # This is my zip file
         zip_archive = zipfile.ZipFile(buff, mode='w')
-        
-        zip_archive.comment = 'Arhiva pentru Saga'
-        
-        
-            
-        partner_in_ids = self.env['res.partner']  
-         
-        product_ids = self.env['product.template']
-        invoice_in_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
-                                                             ('state','in',['open','paid']),
-                                                             ('type','in',['in_invoice','in_refund'])])
 
-        voucher_in_ids = self.env['account.voucher'].search([('period_id','=',self.period_id.id),
-                                                             ('state','in',['posted']),
-                                                             ('type','in',['purchase'])])
-        
+        zip_archive.comment = 'Arhiva pentru Saga'
+
+        partner_in_ids = self.env['res.partner']
+
+        product_ids = self.env['product.template']
+
+        invoice_in_ids = self.env['account.invoice'].search([('period_id', '=', False)])
+        for invoice in invoice_in_ids:
+            period = self.env["account.period"].find(invoice.date)[:1]
+            if period:
+                invoice.write({'period_id': period.id})
+
+        invoice_in_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
+                                                             ('state', 'in', ['open', 'paid']),
+                                                             ('type', 'in', ['in_invoice', 'in_refund'])])
+
+        voucher_in_ids = self.env['account.voucher'].search([('period_id', '=', self.period_id.id),
+                                                             ('state', 'in', ['posted']),
+                                                             ('voucher_type', 'in', ['purchase'])])
+
         if self.export_product:
             for invoice in invoice_in_ids:
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_in_ids:
-            partner_in_ids |=  invoice.commercial_partner_id
+            partner_in_ids |= invoice.commercial_partner_id
 
         for voucher in voucher_in_ids:
-            partner_in_ids |=  voucher.partner_id.commercial_partner_id
+            partner_in_ids |= voucher.partner_id.commercial_partner_id
 
+        partner_out_ids = self.env['res.partner']
+        invoice_out_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
+                                                              ('state', 'in', ['open', 'paid']),
+                                                              ('type', 'in', ['out_invoice', 'out_refund'])])
 
-        partner_out_ids = self.env['res.partner']  
-        invoice_out_ids = self.env['account.invoice'].search([('period_id','=',self.period_id.id),
-                                                              ('state','in',['open','paid']),
-                                                              ('type','in',['out_invoice','out_refund'])])
-        
         if self.export_product:
             for invoice in invoice_out_ids:
-                for line in invoice.invoice_line:
+                for line in invoice.invoice_line_ids:
                     product_ids |= line.product_id.product_tmpl_id
 
         for invoice in invoice_out_ids:
-            partner_out_ids |=  invoice.commercial_partner_id 
-
+            partner_out_ids |= invoice.commercial_partner_id
 
         date_start = fields.Date.from_string(self.period_id.date_start)
         date_stop = fields.Date.from_string(self.period_id.date_stop)
 
- 
-
-        result_html = ' <div>Au fost exportate:</div>' 
+        result_html = ' <div>Au fost exportate:</div>'
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
         result_html += '<div>Bonuri fiscale: %s</div>' % str(len(voucher_in_ids))
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
@@ -665,65 +668,55 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         result_html += '<div>Furnizori %s</div>' % str(len(partner_in_ids))
         result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
 
+        temp_file, messaje = self.do_export_furnizori(partner_in_ids)
 
-        temp_file, messaje  = self.do_export_furnizori(partner_in_ids) 
-         
-        result_html += messaje  
-              
-        file_name = 'Furnizori_'+date_start.strftime("%d-%m-%Y")+'_'+date_stop.strftime("%d-%m-%Y")+'.dbf'   
-        zip_archive.writestr(file_name,temp_file.getvalue())
-   
+        result_html += messaje
 
-        temp_file, messaje  = self.do_export_clienti(partner_out_ids) 
-         
-        result_html += messaje                  
-        
-              
-        file_name = 'Clienti_'+date_start.strftime("%d-%m-%Y")+'_'+date_stop.strftime("%d-%m-%Y")+'.dbf'   
-        zip_archive.writestr(file_name,temp_file.getvalue())   
+        file_name = 'Furnizori_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+        zip_archive.writestr(file_name, temp_file.getvalue())
 
+        temp_file, messaje = self.do_export_clienti(partner_out_ids)
 
-  
+        result_html += messaje
+
+        file_name = 'Clienti_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+        zip_archive.writestr(file_name, temp_file.getvalue())
 
         if self.export_product:
-            temp_file, messaje  = self.do_export_articole(product_ids) 
-             
-            result_html += messaje          
-                            
-            file_name = 'Articole_'+date_start.strftime("%d-%m-%Y")+'_'+date_stop.strftime("%d-%m-%Y")+'.dbf'   
-            zip_archive.writestr(file_name,temp_file.getvalue())         
+            temp_file, messaje = self.do_export_articole(product_ids)
 
+            result_html += messaje
 
-        temp_file, messaje  = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
-         
-        result_html += messaje      
-                        
-        file_name = 'IN_'+date_start.strftime("%d-%m-%Y")+'_'+date_stop.strftime("%d-%m-%Y")+'.dbf'   
-        zip_archive.writestr(file_name,temp_file.getvalue())  
+            file_name = 'Articole_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+            zip_archive.writestr(file_name, temp_file.getvalue())
 
-        temp_file, messaje  = self.do_export_iesiri(invoice_out_ids)
-         
-        result_html += messaje 
-                        
-        file_name = 'IE_'+date_start.strftime("%d-%m-%Y")+'_'+date_stop.strftime("%d-%m-%Y")+'.dbf'   
-        zip_archive.writestr(file_name,temp_file.getvalue())  
+        temp_file, messaje = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
 
-        
+        result_html += messaje
+
+        file_name = 'IN_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+        zip_archive.writestr(file_name, temp_file.getvalue())
+
+        temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
+
+        result_html += messaje
+
+        file_name = 'IE_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+        zip_archive.writestr(file_name, temp_file.getvalue())
+
         zip_archive.close()
         out = base64.encodestring(buff.getvalue())
         buff.close()
-        
+
         filename = 'ExportOdoo' + self.period_id.name
         extension = 'zip'
-       
+
         name = "%s.%s" % (filename, extension)
-        self.write({ 'state': 'get', 
-                     'data_file': out, 
-                     'name': name,
-                     'result':result_html })
-        
-        
-        
+        self.write({'state': 'get',
+                    'data_file': out,
+                    'name': name,
+                    'result': result_html})
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'export.saga',
@@ -733,8 +726,5 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             'views': [(False, 'form')],
             'target': 'new',
         }
-        
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
