@@ -42,4 +42,7 @@ class StockPicking(models.Model):
                 res = self.env.ref('account.invoice_supplier_form', False)
                 result['views'] = [(res and res.id or False, 'form')]
                 result['res_id'] = self.purchase_id.invoice_ids.id
+            if not self.purchase_id.invoice_ids:
+                #result['target'] = 'new'
+                result['views'] = [[False, "form"]]
             return result

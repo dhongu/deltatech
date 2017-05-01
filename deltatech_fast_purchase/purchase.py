@@ -51,7 +51,9 @@ class PurchaseOrder(models.Model):
         action = self.action_view_invoice()
         #action_obj = self.env.ref('purchase.action_view_sale_advance_payment_inv')
         #action = action_obj.read()[0]
-
+        if not self.invoice_ids:
+            # result['target'] = 'new'
+            action['views'] = [[False, "form"]]
         return action
 
 
