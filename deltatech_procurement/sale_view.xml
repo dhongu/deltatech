@@ -34,10 +34,12 @@
 						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />
 					</div>
 				</xpath>
-				<xpath expr="//tree/field[@name='price_unit']" position="before">
-					<field name="qty_available" groups="stock.group_stock_user"/>
-					<field name="virtual_available" groups="stock.group_stock_user"/>
-				</xpath>
+                <!--
+                <xpath expr="//tree/field[@name='price_unit']" position="before">
+                    <field name="qty_available" groups="stock.group_stock_user"/>
+                    <field name="virtual_available" groups="stock.group_stock_user"/>
+                </xpath>
+                -->
 				<field name="note" position="after" >
 					<field name="deliveriy_note" class="oe_inline" placeholder="Delivery Note..." groups="stock.group_stock_user"/>
 				</field>

@@ -11,8 +11,11 @@
 
 
 				<xpath expr="//tree/field[@name='price_unit']" position="before">
-					<field name="qty_available" />
-					<field name="virtual_available" />
+					<!--
+					<field name="qty_available" groups="stock.group_stock_user"/>
+					<field name="virtual_available" groups="stock.group_stock_user"/>
+					-->
+					<field name="qty_available_text" groups="stock.group_stock_user"/>
 				</xpath>
 			</field>
 		</record>

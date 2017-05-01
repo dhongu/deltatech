@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Sale Qty Available",
-    "version" : "1.0",
+    "name": "Deltatech Sale Qty Available",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -32,13 +32,10 @@ Features:
 
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "sale"],
- 
-    "data" : [ 'sale_view.xml' ],
+    "category": "Generic Modules/Stock",
+    "depends": ['sale', "sale_stock"],
+
+    "data": ['sale_view.xml'],
     "active": False,
     "installable": True,
 }
-
-
