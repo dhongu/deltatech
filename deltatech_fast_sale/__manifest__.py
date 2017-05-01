@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Fast Sale",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Fast Sale",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
  
@@ -32,12 +32,10 @@ Features:
 
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","sale"],
- 
-    "data" : ['sale_view.xml'],
+    "category": "Generic Modules/Stock",
+    "depends": ["base", "sale", 'stock','sale_stock'],
+
+    "data": ['sale_view.xml', 'stock_view.xml'],
     "active": False,
     "installable": True,
 }
-
-
