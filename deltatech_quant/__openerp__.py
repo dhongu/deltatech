@@ -32,6 +32,7 @@ Functionalitati:
  - Coloana cu numarul facturii de achiztiei 
  - Ofera posibilitatea de a modifica lotul unei pozitii de stoc
  - Permite impartirea unei pozitii de stoc
+ - deschidere picking din miscarea de stoc
  
 de facut:
  - Posibilitate de unire a pozitiilor de stoc

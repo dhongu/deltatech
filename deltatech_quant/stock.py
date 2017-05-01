@@ -108,4 +108,31 @@ class stock_move(models.Model):
         self.update_quant_partner()
         return res
 
+    @api.multi
+    def show_picking(self):
+        self.ensure_one()
+        if self.picking_id:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'stock.picking',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_id': self.picking_id.id,
+            }
+
+    @api.multi
+    def show_invoice(self):
+        self.ensure_one()
+        if self.picking_id:
+            if self.picking_id.invoice_id:
+                return {
+                    'type': 'ir.actions.act_window',
+                    'res_model': 'account.invoice',
+                    'view_type': 'form',
+                    'view_mode': 'form',
+                    'res_id': self.picking_id.invoice_id.id,
+                }
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
