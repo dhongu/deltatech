@@ -52,6 +52,7 @@ class account_followup_print(models.TransientModel):
         return res
 
 
+""""
 class res_partner(models.Model):
     _inherit = "res.partner"
 
@@ -60,7 +61,7 @@ class res_partner(models.Model):
     latest_followup_level_id_without_lit = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
     # clemency_days = fields.Integer(string="Clemency Days")
 
-    """"
+
     @api.multi
     def _compute_latest(self):
         company = self.env.user.company_id
@@ -88,4 +89,4 @@ class res_partner(models.Model):
             partner.latest_followup_date = latest_date
             partner.latest_followup_level_id = latest_level,
             partner.latest_followup_level_id_without_lit = latest_level_without_lit
-    """
+"""
