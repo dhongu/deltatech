@@ -15,15 +15,13 @@ class MrpWorkorder(models.Model):
 
     code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
 
-
     barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
 
 
     def _compute_barcode_image(self):
         for workorder in self:
-            if workorder.product_id.barcode:
-                barcode_image = self.env['report'].barcode('Code128', workorder.code,
-                                                           width=600, height=200,  humanreadable=1)
+            if workorder.code:
+                barcode_image = self.env['report'].barcode('Code128', workorder.code, width=600, height=200,  humanreadable=0)
 
                 image_stream = StringIO.StringIO(barcode_image)
                 img = Image.open(image_stream)
