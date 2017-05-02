@@ -6,50 +6,26 @@
         <xpath expr="//div[@t-if='o.workorder_ids']" position="replace">
             <div t-if="o.workorder_ids">
                 <strong>Work Orders</strong>
-                <table class="table table-condensed">
+                <table class="bordered" style="width:100%;">
                     <tr>
-                        <td class="text-center">
-                            <strong>Name</strong>
-                        </td>
-                        <td class="text-center">
-                            <strong>WorkCenter</strong>
-                        </td>
-                        <td>
-                            <strong>Worker</strong>
-                        </td>
-                        <td class="text-center">
-                            <strong>No. Of Minutes</strong>
+                        <td colspan="2" style="width:16%;text-align:center;" t-foreach="o.workorder_ids" t-as="wkorder">
+                            <span style="font-weight:bold;" t-field="wkorder.code" />
+                            <br />
+                            <span style="font-size:10px;" t-field="wkorder.name" />
                         </td>
                     </tr>
-                    <t t-foreach="o.workorder_ids" t-as="line2">
-                        <tr>
-                            <td class="text-center">
-                                <span t-field="line2.name"/>
+                    <tr>
+                        <t t-foreach="o.workorder_ids" t-as="wkorder">
+                            <td>
+                                <img style="width:60px; height:200px;" t-att-src="'data:image/png;base64,%s' % wkorder.barcode_image" />
                             </td>
-                            <td class="text-center">
-                                <span t-field="line2.workcenter_id.name"/>
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', line2.code, 200, 60)"   />
-                            </td>
-                            <td></td>
-                            <td class="text-center">
-                                <span t-field="line2.duration_expected"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-
-                            <td class="text-center" style="height:60px">
-                               <!--
-                               <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', '', 200, 60)" />
-                               -->
-                            </td>
-                            <td></td>
-                        </tr>
-                    </t>
+                            <td style="width:9%;height:250px;"></td>
+                        </t>
+                    </tr>
                 </table>
             </div>
         </xpath>
+
 
 
     </template>
