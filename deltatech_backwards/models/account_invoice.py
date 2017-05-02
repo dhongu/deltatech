@@ -2,48 +2,38 @@
 
 
 
-from odoo import api, fields, models, _
-from odoo.tools import float_is_zero, float_compare
-from odoo.tools.misc import formatLang
-
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-
-import odoo.addons.decimal_precision as dp
-
-
+from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-
     invoice_line = fields.One2many('account.invoice.line', related="invoice_line_ids")
     payment_term = fields.Many2one('account.payment.term', related='payment_term_id')
     fiscal_position = fields.Many2one('account.fiscal.position', related='fiscal_position_id')
-    tax_line = fields.One2many('account.invoice.tax', related="tax_line_ids" )
+    tax_line = fields.One2many('account.invoice.tax', related="tax_line_ids")
 
-    supplier_invoice_number=fields.Char(related="reference")
+    supplier_invoice_number = fields.Char(related="reference")
 
     internal_number = fields.Char(related='move_name')
 
     period_id = fields.Many2one('account.period', string='Force Period',
-        domain=[('state', '!=', 'done')], copy=False,
-        help="Keep empty to use the period of the validation(invoice) date.",
-        readonly=True, states={'draft': [('readonly', False)]})
-
+                                domain=[('state', '!=', 'done')], copy=False,
+                                help="Keep empty to use the period of the validation(invoice) date.",
+                                readonly=True, states={'draft': [('readonly', False)]})
 
     @api.multi
     def action_move_create(self):
-        res = super(AccountInvoice,self).action_move_create()
+        res = super(AccountInvoice, self).action_move_create()
         for inv in self:
             if not inv.period_id:
-                period = inv.period_id
+                period = self.period_id
                 if not period:
-                    period = period.find(inv.date_invoice)[:1]
-                inv.write({'period':period.id})
+                    period = self.env["account.period"].find(inv.date)[:1]
+                inv.write({'period_id': period.id})
         return res
 
-
+    '''
     @api.multi
     def action_number(self):
         # TODO: not correct fix but required a fresh values before reading it.
@@ -74,6 +64,7 @@ class AccountInvoice(models.Model):
             self.invalidate_cache()
 
         return True
+    '''
 
 
 class AccountInvoiceLine(models.Model):

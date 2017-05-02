@@ -22,6 +22,7 @@
 
 
 import sale
+import stock
 
 
 

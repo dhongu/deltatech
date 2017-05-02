@@ -2,61 +2,53 @@
 
 
 
-from odoo import api, fields, models, _
-from odoo.osv import  expression
-from odoo.tools import float_is_zero, float_compare
-from odoo.tools.misc import formatLang
-
-from odoo.exceptions import UserError, RedirectWarning, ValidationError
-
-import odoo.addons.decimal_precision as dp
-
-
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
-from operator import itemgetter
-import time
+
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, RedirectWarning
+from odoo.osv import expression
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
     period_id = fields.Many2one('account.period')
-    #line_ids = fields.One2many('account.move.line', related='line_id')
+    # line_ids = fields.One2many('account.move.line', related='line_id')
 
 
 class AccountFiscalYear(models.Model):
     _name = "account.fiscalyear"
     _description = "Fiscal Year"
 
-    name =fields.Char('Fiscal Year', required=True)
+    name = fields.Char('Fiscal Year', required=True)
     code = fields.Char('Code', size=6, required=True)
     company_id = fields.Many2one('res.company', 'Company', required=True)
     company_id = fields.Many2one('res.company', string='Company', change_default=True,
-        required=True,
-        default=lambda self: self.env.user.company_id )
+                                 required=True,
+                                 default=lambda self: self.env.user.company_id)
     date_start = fields.Date('Start Date', required=True)
     date_stop = fields.Date('End Date', required=True)
     period_ids = fields.One2many('account.period', 'fiscalyear_id', 'Periods')
-    state = fields.Selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True, copy=False,default='draft')
+    state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], 'Status', readonly=True, copy=False,
+                             default='draft')
     end_journal_period_id = fields.Many2one(
-         'account.journal.period', 'End of Year Entries Journal',
-         readonly=True, copy=False)
-
+        'account.journal.period', 'End of Year Entries Journal',
+        readonly=True, copy=False)
 
     _order = "date_start, id"
 
-
-    @api.constrains('date_stop','date_stop')
+    @api.constrains('date_stop', 'date_stop')
     def _check_duration(self):
         obj_fy = self
         if obj_fy.date_stop < obj_fy.date_start:
             raise UserError('Error!\nThe start date of a fiscal year must precede its end date.')
         return True
 
-
     @api.multi
     def create_period3(self):
-        return self.create_periods( 3)
+        return self.create_periods(3)
 
     @api.multi
     def create_period(self):
@@ -67,14 +59,14 @@ class AccountFiscalYear(models.Model):
         period_obj = self.env['account.period']
         for fy in self:
             ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
-            period_obj.create(  {
-                    'name':  "%s %s" % (_('Opening Period'), ds.strftime('%Y')),
-                    'code': ds.strftime('00/%Y'),
-                    'date_start': ds,
-                    'date_stop': ds,
-                    'special': True,
-                    'fiscalyear_id': fy.id,
-                })
+            period_obj.create({
+                'name': "%s %s" % (_('Opening Period'), ds.strftime('%Y')),
+                'code': ds.strftime('00/%Y'),
+                'date_start': ds,
+                'date_stop': ds,
+                'special': True,
+                'fiscalyear_id': fy.id,
+            })
             while ds.strftime('%Y-%m-%d') < fy.date_stop:
 
                 de = ds + relativedelta(months=interval, days=-1)
@@ -82,7 +74,7 @@ class AccountFiscalYear(models.Model):
                 if de.strftime('%Y-%m-%d') > fy.date_stop:
                     de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
 
-                period_obj.create(  {
+                period_obj.create({
                     'name': ds.strftime('%m/%Y'),
                     'code': ds.strftime('%m/%Y'),
                     'date_start': ds.strftime('%Y-%m-%d'),
@@ -93,32 +85,32 @@ class AccountFiscalYear(models.Model):
         return True
 
     @api.model
-    def find(self,   dt=None, exception=True):
-        res = self.finds(  dt, exception )
+    def find(self, dt=None, exception=True):
+        res = self.finds(dt, exception)
         return res and res[0] or False
 
     @api.model
-    def finds(self,   dt=None, exception=True):
+    def finds(self, dt=None, exception=True):
 
         if not dt:
             dt = fields.Date.context_today(self)
-        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
+        args = [('date_start', '<=', dt), ('date_stop', '>=', dt)]
         context = self.env.context
         if context.get('company_id', False):
             company_id = context['company_id']
         else:
             company_id = self.env.user.company_id.id
         args.append(('company_id', '=', company_id))
-        ids = self.search( args)
+        ids = self.search(args)
         if not ids:
             if exception:
-                model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards', 'action_account_fiscalyear')
-                msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
+                model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards',
+                                                                                  'action_account_fiscalyear')
+                msg = _( 'There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
                 raise RedirectWarning(msg, action_id, _('Go to the configuration panel'))
             else:
                 return []
         return ids
-
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -132,22 +124,22 @@ class AccountFiscalYear(models.Model):
         return res.name_get()
 
 
-
-
 class AccountPeriod(models.Model):
     _name = "account.period"
     _description = "Account period"
 
     name = fields.Char('Period Name', required=True)
     code = fields.Char('Code', size=12)
-    special = fields.Boolean('Opening/Closing Period',help="These periods can overlap.")
-    date_start = fields.Date('Start of Period', required=True, states={'done':[('readonly',True)]})
-    date_stop = fields.Date('End of Period', required=True, states={'done':[('readonly',True)]})
-    fiscalyear_id = fields.Many2one('account.fiscalyear', 'Fiscal Year', required=True, states={'done':[('readonly',True)]}, index=True)
-    state = fields.Selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True, copy=False,default="draft",
-                                  help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.')
-    company_id= fields.Many2one('res.company', related='fiscalyear_id.company_id',   string='Company', store=True, readonly=True)
-
+    special = fields.Boolean('Opening/Closing Period', help="These periods can overlap.")
+    date_start = fields.Date('Start of Period', required=True, states={'done': [('readonly', True)]})
+    date_stop = fields.Date('End of Period', required=True, states={'done': [('readonly', True)]})
+    fiscalyear_id = fields.Many2one('account.fiscalyear', 'Fiscal Year', required=True,
+                                    states={'done': [('readonly', True)]}, index=True)
+    state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], 'Status', readonly=True, copy=False,
+                             default="draft",
+                             help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.')
+    company_id = fields.Many2one('res.company', related='fiscalyear_id.company_id', string='Company', store=True,
+                                 readonly=True)
 
     _order = "date_start, special desc"
     _sql_constraints = [
@@ -168,20 +160,23 @@ class AccountPeriod(models.Model):
                 continue
 
             if obj_period.fiscalyear_id.date_stop < obj_period.date_stop or \
-               obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
-               obj_period.fiscalyear_id.date_start > obj_period.date_start or \
-               obj_period.fiscalyear_id.date_start > obj_period.date_stop:
+                            obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
+                            obj_period.fiscalyear_id.date_start > obj_period.date_start or \
+                            obj_period.fiscalyear_id.date_start > obj_period.date_stop:
                 return False
 
-            pids = self.search(  [('date_stop','>=',obj_period.date_start),('date_start','<=',obj_period.date_stop),('special','=',False),('id','<>',obj_period.id)])
+            pids = self.search([('date_stop', '>=', obj_period.date_start), ('date_start', '<=', obj_period.date_stop),
+                                ('special', '=', False), ('id', '<>', obj_period.id)])
             for period in pids:
-                if period.fiscalyear_id.company_id.id==obj_period.fiscalyear_id.company_id.id:
+                if period.fiscalyear_id.company_id.id == obj_period.fiscalyear_id.company_id.id:
                     return False
         return True
 
     _constraints = [
         (_check_duration, 'Error!\nThe duration of the Period(s) is/are invalid.', ['date_stop']),
-        (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.', ['date_stop'])
+        (_check_year_limit,
+         'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the fiscal year.',
+         ['date_stop'])
     ]
 
     """
@@ -193,14 +188,13 @@ class AccountPeriod(models.Model):
         return False
     """
 
-
     @api.model
     @api.returns('self')
-    def find(self,   dt=None ):
+    def find(self, dt=None):
 
         if not dt:
             dt = fields.Date.context_today()
-        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
+        args = [('date_start', '<=', dt), ('date_stop', '>=', dt)]
         context = self.env.context
         if context.get('company_id', False):
             args.append(('company_id', '=', context['company_id']))
@@ -210,14 +204,16 @@ class AccountPeriod(models.Model):
         result = []
         if context.get('account_period_prefer_normal', True):
             # look for non-special periods first, and fallback to all if no result is found
-            result = self.search(  args + [('special', '=', False)] )
+            result = self.search(args + [('special', '=', False)])
         if not result:
-            result = self.search(  args )
+            result = self.search(args)
         if not result:
-            model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards', 'action_account_period')
+            model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards',
+                                                                              'action_account_period')
             msg = _('There is no period defined for this date: %s.\nPlease go to Configuration/Periods.') % dt
-            raise  RedirectWarning(msg, action_id, _('Go to the configuration panel'))
+            raise RedirectWarning(msg, action_id, _('Go to the configuration panel'))
         return result
+
     """
 
     @api.multi
