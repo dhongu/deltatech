@@ -40,10 +40,11 @@ class sale_order(models.Model):
 
     @api.multi
     def button_update(self):
+        cod_percent = self.env.ref('product.product_uom_percent').name
         for order in self:
             # exista pozitii cu unitatea de masura %
             for line in order.order_line:
-                if line.product_uom.name == '%':
+                if line.product_uom.name == cod_percent:
                     line.calc_price_percent()                   
           
                 
