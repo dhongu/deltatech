@@ -44,9 +44,10 @@ actualizarea se face manual prin apasarea butonului
     "depends": ['deltatech', "product", "sale"],
 
     "data": [
+        'data.xml',
         'product_view.xml',
         'sale_view.xml',
-        'data.xml',
+
     ],
 
     "active": False,

@@ -145,10 +145,14 @@ class sale_order(models.Model):
             # daca am unitatea de masura procent in resursa atunci valoarea se caluleaza din celelelta pozitii ale articolului
             article_to_update = self.env['sale.mrp.article']
             for resource in order.resource_ids:
-                if resource.product_uom.name == '%':
+                if '%' in resource.product_uom.name:
                     article_to_update |= resource.article_id
                     domain = eval(resource.product_id.percent_domain)
-                    domain.extend([('article_id', '=', resource.article_id.id), ('id', '!=', resource.id)])
+                    if resource.product_uom.name == '%':
+                        domain.extend([('article_id', '=', resource.article_id.id), ('id', '!=', resource.id)])
+                    if resource.product_uom.name == '%%':
+                        domain.extend([('order_id', '=', resource.order_id.id), ('id', '!=', resource.id)])
+                        update_article = False
                     resource_lines = self.env['sale.mrp.resource'].search(domain)
                     total_amount = 0
                     for line in resource_lines:
@@ -204,10 +208,10 @@ class sale_order(models.Model):
             if line.product_uom_qty == 0:
                 line.unlink()
 
-        super(sale_order, self).button_update()
+        # super(sale_order, self).button_update()
 
         for article in self.article_ids:
-            if article.product_uom.name == '%':
+            if '%' in article.product_uom.name:
                 for line in self.order_line:
                     if article.product_id == line.product_id:
                         article.write({'price_unit': line.price_unit,
