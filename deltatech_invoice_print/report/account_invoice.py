@@ -44,12 +44,12 @@ class ReportInvoicePrint(models.AbstractModel):
 class ReportInvoicePrint1(models.AbstractModel):
     _name = 'report.deltatech_invoice_print.report_invoice_1'
     _inherit = 'report.deltatech_invoice_print.report_invoice'
-    _template = 'deltatech_invoice.report_invoice_1'
+    _template = 'deltatech_invoice_print.report_invoice_1'
 
 
 class ReportInvoicePrint2(models.AbstractModel):
     _name = 'report.deltatech_invoice_print.report_invoice_2'
     _inherit = 'report.deltatech_invoice_print.report_invoice'
-    _template = 'deltatech_invoice.report_invoice_2'
+    _template = 'deltatech_invoice_print.report_invoice_2'
 
 

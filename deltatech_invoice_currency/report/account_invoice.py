@@ -21,40 +21,38 @@
 
 
 import time
-from odoo.report import report_sxw
-from odoo.osv import osv
 
+from odoo.osv import osv
+from odoo.report import report_sxw
 
 
 class report_invoice_print(report_sxw.rml_parse):
-
     def __init__(self, cr, uid, name, context):
-        super(report_invoice_print, self).__init__( cr, uid, name, context=context)
+        super(report_invoice_print, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
-            'with_discount':self._with_discount,
+            'with_discount': self._with_discount,
         })
 
-
-    def _with_discount(self,invoice):
+    def _with_discount(self, invoice):
         res = False
         for line in invoice.invoice_line_ids:
             if line.discount != 0.0:
                 res = True
-        return  res
+        return res
+
 
 class report_invoice_1(osv.AbstractModel):
     _name = 'report.deltatech_invoice.report_invoice_1'
     _inherit = 'report.abstract_report'
-    _template = 'deltatech_invoice.report_invoice_1'
+    _template = 'deltatech_invoice_currency.report_invoice_1'
     _wrapped_report_class = report_invoice_print
+
 
 class report_invoice_2(osv.AbstractModel):
     _name = 'report.deltatech_invoice.report_invoice_2'
     _inherit = 'report.abstract_report'
-    _template = 'deltatech_invoice.report_invoice_2'
+    _template = 'deltatech_invoice_currency.report_invoice_2'
     _wrapped_report_class = report_invoice_print
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
