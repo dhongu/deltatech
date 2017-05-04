@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<report string="Invoice v1" id="action_report_invoice_1"
+		model="account.invoice" report_type="qweb-pdf" 
+		name="deltatech_invoice_print.report_invoice_1"
+			file="deltatech_invoice_print.report_invoice_1" />
+
+		<report string="Invoice v2" id="action_report_invoice_2"
+		model="account.invoice" report_type="qweb-pdf"
+		 name="deltatech_invoice_print.report_invoice_2"
+			file="deltatech_invoice_print.report_invoice_2" />
+
+
+
+		<template id="report_invoice_1">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+            		<t t-call="deltatech_invoice_print.report_invoice_document1" t-lang="o.partner_id.lang"/>
+				</t>
+
+			</t>
+		</template>
+
+		<template id="report_invoice_2">
+			<t t-call="report.html_container">
+				<t t-foreach="doc_ids" t-as="doc_id">
+					 <t t-call="deltatech_invoice_print.report_invoice_document2" t-lang="doc.partner_id.lang"/>
+				</t>
+			</t>
+		</template>
+
+		<!-- grupare dupa soblon produs -->
+		<template id="report_invoice_document1">
+			<t t-call="account.report_invoice_document" />
+		</template>
+
+	    <!-- grupare dupa descrierea din factura -->
+		<template id="report_invoice_document2">
+			<t t-call="account.report_invoice_document" />
+		</template>
+
+
+
+
+
+
+	</data>
+</openerp>
