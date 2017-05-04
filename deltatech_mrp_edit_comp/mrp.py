@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2015 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,34 +17,25 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
-{
-    "name" : "Deltatech MRP Edit Components",
-    "version" : "2.0",
-    "author" : "Deltatech",
-    "website" : "",
-    "description": """
-    
-Functionalitati:
- - Editare componente de consumat
- 
- 
-    """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ['deltatech',"mrp",],
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import models, fields, api, _
+from odoo.tools.translate import _
+from odoo import SUPERUSER_ID, api
+import odoo.addons.decimal_precision as dp
 
 
-    "data" : [      
-                "mrp_view.xml"
-                
-                ],
-    "active": False,
-    "installable": True,
-}
+class mrp_production(models.Model):
+    _inherit = 'mrp.production'
+
+    @api.onchange('move_raw_ids')
+    def onchange_move_raw_product_id(self):
+        for raw in self.move_raw_ids:
+            raw.location_dest_id = raw.product_id.property_stock_production
+            if raw.state == 'draft':
+                raw.action_confirm()
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,32 +17,32 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo import models, fields, api, _
-from odoo.tools.translate import _
-from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
-
-
-class mrp_production(models.Model):
-    _inherit = 'mrp.production'
-
-    move_lines = fields.One2many( readonly=False, states={'done': [('readonly', True)]}  ) 
+{
+    "name": "Deltatech MRP Edit Components",
+    "version": "3.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "description": """
+    
+Functionalitati:
+ - Editare componente de consumat
  
+ 
+    """,
 
+    "category": "Manufacturing",
+    "depends": ["mrp", ],
 
+    "data": [
+        "mrp_view.xml"
 
+    ],
+    "active": False,
+    "installable": True,
+}
 
-    @api.multi
-    def write(self,  vals ):
-        res = super(mrp_production, self).write(  vals )
-        for move in self.move_lines:
-            if move.state == 'draft':
-                # se de facut o copie a miscarii si trecuta miscarea la la productie la productie 
-                move.action_confirm()        
-        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
