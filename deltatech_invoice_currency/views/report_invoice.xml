@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-		<report string="Invoice price Currency" id="action_report_invoice_1" 
+		<report string="Invoice price currency" id="action_report_invoice_1"
 		model="account.invoice" report_type="qweb-pdf" 
-		name="deltatech_invoice.report_invoice_1"
-			file="deltatech_invoice.report_invoice_1" />
+		name="deltatech_invoice_currency.report_invoice_1"
+			file="deltatech_invoice_currency.report_invoice_1" />
 
 		<report string="Invoice company currency" id="action_report_invoice_2" 
 		model="account.invoice" report_type="qweb-pdf"
-		 name="deltatech_invoice.report_invoice_2"
-			file="deltatech_invoice.report_invoice_2" />
+		 name="deltatech_invoice_currency.report_invoice_2"
+			file="deltatech_invoice_currency.report_invoice_2" />
 
 
 
 		<template id="report_invoice_1">
 			<t t-call="report.html_container">
 				<t t-foreach="docs" t-as="o">
-            		<t t-call="deltatech_invoice.report_invoice_document1" t-lang="o.partner_id.lang"/>
+            		<t t-call="deltatech_invoice_currency.report_invoice_document1" t-lang="o.partner_id.lang"/>
 				</t>
-				<!--
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_invoice.report_invoice_document1')" />
-				</t>
-				-->
+
 			</t>
 		</template>
 
 		<template id="report_invoice_2">
 			<t t-call="report.html_container">
 				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'company_id.partner_id.lang', 'deltatech_invoice.report_invoice_document2')" />
+					<t t-call="deltatech_invoice_currency.report_invoice_document2" t-lang="o.partner_id.lang"/>
+
 				</t>
 			</t>
 		</template>

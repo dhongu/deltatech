@@ -39,7 +39,7 @@ class report_invoice_print(report_sxw.rml_parse):
     def _with_discount(self,invoice):
         res = False
         for line in invoice.invoice_line_ids:
-            if line.discount <> 0.0:
+            if line.discount != 0.0:
                 res = True
         return  res
 
