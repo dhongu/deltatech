@@ -10,9 +10,18 @@ class ProcurementOrder(models.Model):
     @api.model
     def run_scheduler(self, use_new_cursor=False, company_id=False):
 
+        products = self.env['product.product'].search([('type', '=', 'product')])
+        self.supply(products)
+
+        if use_new_cursor:
+            self.env.cr.commit()
+        return super(ProcurementOrder, self).run_scheduler(use_new_cursor, company_id)
+
+
+    def supply(self, products):
+
         warehouse = self.env['stock.warehouse'].search([], limit=1)
         location = warehouse.lot_stock_id
-        products = self.env['product.product'].search([('type', '=', 'product')])
 
         for product in products:
             if product.virtual_available < 0:
@@ -26,7 +35,7 @@ class ProcurementOrder(models.Model):
                     if not procurement.production_id:           # se scade daca nu este facuta o comadna de productie
                         qty = qty - procurement.product_qty
                 if qty > 0:
-                    # mum sa determin care este data la care sunt necesare produsele?
+                    # cmum sa determin care este data la care sunt necesare produsele?
 
                     msg = _("Today %s the stock quantity is %s and forecast incoming is %s and outgoing is %s") % (
                         fields.Date.today(), str(product.qty_available),
@@ -50,5 +59,3 @@ class ProcurementOrder(models.Model):
                         'company_id': warehouse.company_id.id})
 
                     procurement.message_post(body=msg)
-
-        return super(ProcurementOrder, self).run_scheduler(use_new_cursor, company_id)

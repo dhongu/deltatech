@@ -23,7 +23,7 @@
 {
     "name": "Supplay Stock",
     'version': '10.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
     
@@ -34,10 +34,9 @@ Functionalitati:
     """,
 
     "category": "Warehouse",
-    "depends": ['procurement','sale_stock'],
+    "depends": ['procurement', 'sale_stock', 'mrp'],
 
     "data": [
-
 
     ],
 
