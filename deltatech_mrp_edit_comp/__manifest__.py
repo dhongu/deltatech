@@ -37,7 +37,7 @@ Functionalitati:
     "depends": ["mrp", ],
 
     "data": [
-        "mrp_view.xml"
+        "views/mrp_view.xml"
 
     ],
     "active": False,

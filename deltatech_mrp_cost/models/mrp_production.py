@@ -41,7 +41,7 @@ class MrpProduction(models.Model):
         planned_cost = True
         for move in production.move_raw_ids:
             if move.quantity_done > 0:
-                planned_cost = False  # nu ao fost facute miscari de stoc
+                planned_cost = False  # nu au fost facute miscari de stoc
 
         if planned_cost:
             for move in production.move_raw_ids:
@@ -69,11 +69,18 @@ class MrpProduction(models.Model):
         super(MrpProduction, self)._cal_price(consumed_moves)
         self.ensure_one()
         production = self
-        production.assign_picking()  # pentru situatia in care au mai aparut materiale pe comanda
         if production.product_id.cost_method == 'real' and production.product_id.standard_price != production.calculate_price:
             # oare aici am campul calculate_price actualizat dupa miscarile de stoc efectuate?
-            production.product_id.write({'standard_price': production.calculate_price})
+            price_unit = production.calculate_price
+            production.product_id.write({'standard_price': price_unit})
+            production.move_finished_ids.write({'price_unit': price_unit})
         return True
+
+
+    @api.multi
+    def post_inventory(self):
+        self.assign_picking()
+        return super(MrpProduction, self).post_inventory()
 
     @api.multi
     def _generate_moves(self):
@@ -87,6 +94,7 @@ class MrpProduction(models.Model):
         Totate produsele consumate se vor reuni intr-un picking list (Bon de consum)
         """
         for production in self:
+            # bon de consum
             move_list = self.env['stock.move']
             picking = False
             for move in production.move_raw_ids:
@@ -101,12 +109,14 @@ class MrpProduction(models.Model):
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
                                                                     'date': production.date_planned_start,
-                                                                    'location_id':picking_type.default_location_src_id.id,
-                                                                    'location_dest_id':picking_type.default_location_dest_id.id,
+                                                                    'location_id': picking_type.default_location_src_id.id,
+                                                                    'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
+                    picking.recheck_availability()
                     # picking.get_account_move_lines()  # din localizare
 
+            # nota de predare
             move_list = self.env['stock.move']
             picking = False
             for move in production.move_finished_ids:
@@ -121,8 +131,9 @@ class MrpProduction(models.Model):
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
                                                                     'date': production.date_planned_start,
-                                                                    'location_id':picking_type.default_location_src_id.id,
-                                                                    'location_dest_id':picking_type.default_location_dest_id.id,
+                                                                    'location_id': picking_type.default_location_src_id.id,
+                                                                    'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
+                    picking.recheck_availability()
         return

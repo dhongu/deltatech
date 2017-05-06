@@ -19,23 +19,33 @@
 #
 ##############################################################################
 
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo import models, fields, api, _
-from odoo.tools.translate import _
-from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
+from odoo import api
+from odoo import models
 
 
 class mrp_production(models.Model):
     _inherit = 'mrp.production'
 
+    @api.multi
+    def action_assign(self):
+
+        for production in self:
+            new_move = production.move_raw_ids.filtered(lambda x: x.state == 'draft')
+            for move in new_move:
+                move.write({'location_dest_id': move.product_id.property_stock_production.id,
+                            'unit_factor': 1.0,
+                            'state': 'confirmed'})
+            new_move.action_assign()
+        super(mrp_production, self).action_assign()
+        return True
+
+    """
     @api.onchange('move_raw_ids')
     def onchange_move_raw_product_id(self):
         for raw in self.move_raw_ids:
             raw.location_dest_id = raw.product_id.property_stock_production
             if raw.state == 'draft':
-                raw.action_confirm()
-
-
-
-
+                raw.state = 'confirmed'
+            if not raw.unit_factor:
+                raw.unit_factor = 1.0
+    """
