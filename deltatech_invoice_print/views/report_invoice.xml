@@ -24,7 +24,7 @@
 
 		<template id="report_invoice_2">
 			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="o">
+				<t t-foreach="docs" t-as="o">
 					 <t t-call="deltatech_invoice_print.report_invoice_document2" t-lang="o.partner_id.lang"/>
 				</t>
 			</t>
