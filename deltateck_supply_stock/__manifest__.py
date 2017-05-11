@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name": "Supplay Stock",
+    "name": "Supply Stock",
     'version': '10.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -37,7 +37,7 @@ Functionalitati:
     "depends": ['procurement', 'sale_stock', 'mrp'],
 
     "data": [
-
+        'wizard/procurement_compute_products_views.xml'
     ],
 
     "active": False,

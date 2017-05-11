@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, registry, _
+from odoo.tools import float_is_zero
 
 
 class ProcurementOrder(models.Model):
@@ -9,53 +10,62 @@ class ProcurementOrder(models.Model):
 
     @api.model
     def run_scheduler(self, use_new_cursor=False, company_id=False):
-
         products = self.env['product.product'].search([('type', '=', 'product')])
-        self.supply(products)
-
-        if use_new_cursor:
-            self.env.cr.commit()
+        self.supply(products, use_new_cursor, company_id)
         return super(ProcurementOrder, self).run_scheduler(use_new_cursor, company_id)
 
+    def supply(self, products, use_new_cursor=False, company_id=False):
+        try:
+            if use_new_cursor:
+                cr = registry(self._cr.dbname).cursor()
+                self = self.with_env(self.env(cr=cr))  # TDE FIXME
 
-    def supply(self, products):
+            warehouse = self.env['stock.warehouse'].search([], limit=1)
+            location = warehouse.lot_stock_id
+            procurements = self.env["procurement.order"]
+            for product in products:
+                if product.virtual_available < 0:
+                    qty = -1 * product.virtual_available
+                    # cite aprovizionari sunt in exceptie ?
+                    procurements = self.search([('product_id', '=', product.id),
+                                                ('state', 'in', ['exception', 'running']),
+                                                ('location_id', '=', location.id)])
+                    procurements.run()
+                    for procurement in procurements:
+                        if not procurement.production_id:  # se scade daca nu este facuta o comadna de productie
+                            qty = qty - procurement.product_qty
+                    if not float_is_zero(qty, precision_digits=2):
+                        # cmum sa determin care este data la care sunt necesare produsele?
 
-        warehouse = self.env['stock.warehouse'].search([], limit=1)
-        location = warehouse.lot_stock_id
+                        msg = _("Today %s the stock quantity is %s and forecast incoming is %s and outgoing is %s") % (
+                            fields.Date.today(), str(product.qty_available),
+                            str(product.incoming_qty), str(product.outgoing_qty)
+                        )
+                        move = self.env['stock.move'].search( [('product_id', '=', product.id),
+                             ('state', 'in', ['waiting', 'confirmed']),
+                             ('location_id', '=', location.id)], limit=1, order='date_expected')
+                        date_planned = move.date_expected or fields.Datetime.now(),
+                        date_planned = max(fields.Datetime.now(), date_planned)
 
-        for product in products:
-            if product.virtual_available < 0:
-                qty = -1 * product.virtual_available
-                # cite aprovizionari sunt in exceptie ?
-                procurements = self.search([('product_id', '=', product.id),
-                                            ('state', 'in', ['exception', 'running']),
-                                            ('location_id', '=', location.id)])
-                procurements.run()
-                for procurement in procurements:
-                    if not procurement.production_id:           # se scade daca nu este facuta o comadna de productie
-                        qty = qty - procurement.product_qty
-                if qty > 0:
-                    # cmum sa determin care este data la care sunt necesare produsele?
+                        procurement = self.create({
+                            'name': 'SUP: %s' % (self.env.user.login),
+                            'date_planned': date_planned,
+                            'product_id': product.id,
+                            'product_qty': qty,
+                            'product_uom': product.uom_id.id,
+                            'warehouse_id': warehouse.id,
+                            'location_id': location.id,
+                            'company_id': warehouse.company_id.id})
 
-                    msg = _("Today %s the stock quantity is %s and forecast incoming is %s and outgoing is %s") % (
-                        fields.Date.today(), str(product.qty_available),
-                        str(product.incoming_qty), str(product.outgoing_qty)
-                    )
-                    move = self.env['stock.move'].search(
-                                        [('product_id', '=', product.id),
-                                         ('state', 'in', ['waiting', 'confirmed']),
-                                         ('location_id', '=', location.id)], limit=1, order='date_expected')
-                    date_planned = move.date_expected or fields.Datetime.now(),
-                    date_planned = max(fields.Datetime.now(), date_planned )
+                        procurement.message_post(body=msg)
+                        procurements |= procurement
 
-                    procurement = self.create({
-                        'name': 'SUP: %s' % (self.env.user.login),
-                        'date_planned': date_planned,
-                        'product_id': product.id,
-                        'product_qty': qty,
-                        'product_uom': product.uom_id.id,
-                        'warehouse_id': warehouse.id,
-                        'location_id': location.id,
-                        'company_id': warehouse.company_id.id})
-
-                    procurement.message_post(body=msg)
+            if procurements and use_new_cursor:
+                self.env.cr.commit()
+        finally:
+            if use_new_cursor:
+                try:
+                    self.env.cr.close()
+                except Exception:
+                    pass
+        return {}

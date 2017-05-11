@@ -3,8 +3,7 @@
 
 
 
-import models
-import wizard
+import procurement_compute_products
 
 
 
