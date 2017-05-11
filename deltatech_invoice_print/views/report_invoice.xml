@@ -437,7 +437,6 @@
 
 	    <!-- grupare dupa descrierea din factura -->
 		<template id="report_invoice_document2">
-			<t t-call="account.report_invoice_document" />
 			<xpath expr="//div[@class='page']" position="replace">
 				<div class="page">
 	                    <div class="row" customize_show="True">
@@ -621,7 +620,7 @@
 		                    			</t>
 		                    		</t>
 		                    		<td><t t-esc="nr_crt_group"/></td>
-		                    		<td><span t-field="group.name" /><span t-field="group.description_sale" /></td>
+		                    		<td><span t-esc="group" /></td>
 		                    		<t t-if="o.type == 'out_refund'">
 		                    			<t t-set="group_qty" t-value="-1*group_qty" />
 		                    		</t>
