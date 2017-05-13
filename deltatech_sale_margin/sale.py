@@ -37,7 +37,7 @@ class sale_order_line(models.Model):
 
     # pretul de achizitie in moneda documentului
     purchase_price = fields.Float(string='Cost Price', digits = dp.get_precision('Product Price'), compute="_compute_purchase_price", store=True)
-    
+    date_order = fields.Datetime(related='order_id.date_order', store=True)
     
     @api.one
     @api.depends('product_id')

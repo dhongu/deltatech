@@ -35,6 +35,8 @@ Features:
  - New report for analysis profitability
  - Calcul comisione de vanzari
  - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
+ - data din comanda de vanzare este preluata si la nivel de linie
+
 
     """,
 
