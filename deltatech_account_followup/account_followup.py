@@ -45,48 +45,7 @@ class account_followup_print(models.TransientModel):
                           'sale_warn': 'block',
                           'sale_warn_msg': followup_partner.max_followup_id.block_message,
                           'picking_warn': 'block',
-                          'picking_warn_msg': followup_partner.max_followup_id.block_message
-                          }
+                          'picking_warn_msg': followup_partner.max_followup_id.block_message}
                 followup_partner.partner_id.write(values)
         res = super(account_followup_print, self).process_partners(partner_ids, data)
         return res
-
-
-""""
-class res_partner(models.Model):
-    _inherit = "res.partner"
-
-    latest_followup_date = fields.Date(compute='_compute_latest')
-    latest_followup_level_id = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
-    latest_followup_level_id_without_lit = fields.Many2one('account_followup.followup.line', compute='_compute_latest')
-    # clemency_days = fields.Integer(string="Clemency Days")
-
-
-    @api.multi
-    def _compute_latest(self):
-        company = self.env.user.company_id
-        for partner in self:
-            amls = partner.unreconciled_aml_ids
-            latest_date = False
-            latest_level = False
-            latest_days = False
-            latest_level_without_lit = False
-            latest_days_without_lit = False
-
-            for aml in amls:
-                delay_days = aml.followup_line_id.delay + partner.clemency_days
-                if (aml.company_id == company):
-                    if (aml.followup_line_id != False) and (not latest_days or latest_days < delay_days):
-                        latest_days = delay_days
-                        latest_level = aml.followup_line_id.id
-                    if (not latest_date or latest_date < aml.followup_date):
-                        latest_date = aml.followup_date
-                    if (aml.blocked == False) and (aml.followup_line_id != False and (
-                                not latest_days_without_lit or latest_days_without_lit < delay_days)):
-                        latest_days_without_lit = delay_days
-                        latest_level_without_lit = aml.followup_line_id.id
-
-            partner.latest_followup_date = latest_date
-            partner.latest_followup_level_id = latest_level,
-            partner.latest_followup_level_id_without_lit = latest_level_without_lit
-"""
