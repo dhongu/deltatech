@@ -20,33 +20,19 @@
 ##############################################################################
 
  
-
-from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
-import time 
-from datetime import datetime
-
+import commission_users
+import sale
+import account_invoice
+#import stock
+import report
+import wizard
 
 
-class stock_move(models.Model):
-    _inherit = "stock.move"
 
-    def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
-        res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
-        qty = 0.0
-        amount = 0.0
-        for quant in move.quant_ids:
-            amount =  amount + quant.inventory_value
-            qty = qty + quant.qty
-        if qty > 0:
-            purchase_price =  amount / qty   
-            res['purchase_price'] = purchase_price
-        return res
 
- 
- 
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

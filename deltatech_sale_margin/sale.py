@@ -88,6 +88,8 @@ class sale_order_line(models.Model):
             if self.price_unit < self.purchase_price:
                 raise Warning(_('You can not sell below the purchase price.'))
 
+
+    """ nu mai cred ca e nevoie in 10 de ea
     @api.multi
     def write(self, values):
         if 'product_id' in values and 'price_unit' not in values:
@@ -111,5 +113,5 @@ class sale_order_line(models.Model):
             values['price_unit'] = order.price_unit
 
         return super(sale_order_line, self).write(values)
+    """
 
-    # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

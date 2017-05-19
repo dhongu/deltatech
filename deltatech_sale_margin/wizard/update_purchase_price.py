@@ -19,38 +19,35 @@
 #
 ##############################################################################
 
- 
 
-from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
+
+from odoo import models, fields, api
+
 
 class commission_update_purchase_price(models.TransientModel):
     _name = 'commission.update.purchase.price'
     _description = "Update purchase price"
 
     for_all = fields.Boolean(string="For all lines")
-    price_from_doc = fields.Boolean(string="Price from delivery",default=True)
-    
-    invoice_line_ids = fields.Many2many('sale.margin.report', 'commission_update_purchase_price_inv_rel', 'compute_id','invoice_line_id', 
-                                        string='Account invoice line')    
+    price_from_doc = fields.Boolean(string="Price from delivery", default=True)
 
+    invoice_line_ids = fields.Many2many('sale.margin.report', 'commission_update_purchase_price_inv_rel', 'compute_id',
+                                        'invoice_line_id',
+                                        string='Account invoice line')
 
-   
     @api.model
-    def default_get(self, fields):      
+    def default_get(self, fields):
         defaults = super(commission_update_purchase_price, self).default_get(fields)
-          
+
         active_ids = self.env.context.get('active_ids', False)
-        
+
         if active_ids:
-            domain=[('id','in', active_ids )]   
+            domain = [('id', 'in', active_ids)]
         else:
-            domain=[('state', '=', 'paid'),('commission','=',0.0)]
+            domain = [('state', '=', 'paid'), ('commission', '=', 0.0)]
         res = self.env['sale.margin.report'].search(domain)
-        defaults['invoice_line_ids'] = [ (6,0,[rec.id for rec in res]) ]
-        return defaults   
-     
+        defaults['invoice_line_ids'] = [(6, 0, [rec.id for rec in res])]
+        return defaults
 
     @api.multi
     def do_compute(self):
@@ -59,30 +56,32 @@ class commission_update_purchase_price(models.TransientModel):
             lines = self.env['sale.margin.report'].search([])
         else:
             lines = self.invoice_line_ids
-            
+
         for line in lines:
             invoice_line = self.env['account.invoice.line'].browse(line.id)
             purchase_price = 0.0
+            pickings = self.env['stock.picking']
             if self.price_from_doc:
-                move = self.env['stock.move'].search([('invoice_line_id','=',line.id)], limit=1)
-                if move:
-                    qty = 0.0
-                    amount = 0.0
-                    for quant in move.quant_ids:
-                        amount =  amount + quant.inventory_value
-                        qty = qty + quant.qty
-                    if qty > 0:
-                        purchase_price =  amount / qty   
-         
+                for sale_line in invoice_line.sale_line_ids:
+                    pickings |= sale_line.order_id.picking_ids
+
+            moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids),
+                                                   ('product_id', '=', invoice_line.product_id.id)])
+
+            qty = 0.0
+            amount = 0.0
+            for move in moves:
+                for quant in move.quant_ids:
+                    amount = amount + quant.inventory_value
+                    qty = qty + quant.qty
+                if qty > 0:
+                    purchase_price = amount / qty
+
             else:
-                if invoice_line.product_id:                          
+                if invoice_line.product_id:
                     if invoice_line.product_id.standard_price > 0:
                         purchase_price = invoice_line.product_id.standard_price
-                         
-                        
+
             if purchase_price:
-                invoice_line.write({'purchase_price' : purchase_price })
+                invoice_line.write({'purchase_price': purchase_price})
         return True
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

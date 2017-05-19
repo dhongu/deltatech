@@ -35,7 +35,7 @@
 
 
 		<menuitem name="Compute Commission" id="menu_commission_compute"
-					action="action_commission_compute" parent="menu_commission" groups="base.group_sale_manager"/>
+					action="action_commission_compute" parent="menu_commission" groups="sales_team.group_sale_manager"/>
 				
 	
 	</data>
