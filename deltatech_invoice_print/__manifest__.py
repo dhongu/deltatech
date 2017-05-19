@@ -29,7 +29,8 @@ Functionalitati:
 ----------------
 
  - Tiparirea grupata a produselor in factura
-
+     - grupare dupa template produs - la descriere completeaza cu numele produsului + descrierea pentru vanzari
+     - grupare dupa descriere - la descriere completeaza descrierea comuna
 
     """,
     "category": "Accounting",
