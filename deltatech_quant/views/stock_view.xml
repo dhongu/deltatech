@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
+
+		<!--
 		<record id="view_stock_quant_tree" model="ir.ui.view">
 			<field name="name">stock.quant.tree</field>
 			<field name="model">stock.quant</field>
@@ -9,15 +11,18 @@
 				<field name="qty" position="after">
 					<field name="categ_id" />
 					<field name="supplier_id" />
+					<field name="input_amount" sum="Input Amount" />
 					<field name="customer_id" />
+					<field name="output_amount" sum="Output Amount" />
+
 					<field name="origin" />
-				 
+
 					<field name="tag_ids" widget="many2many_tags" />
-					 
+
 				</field>
 			</field>
 		</record>
-
+		-->
 
 		<record id="view_stock_quant_form" model="ir.ui.view">
 			<field name="name">stock.quant.form</field>
@@ -27,10 +32,16 @@
 				<field name="qty" position="after">
 					<field name="categ_id" />
 					<field name="supplier_id" />
+					<field name="input_amount"  />
+					<field name="input_price" />
+					<field name="input_date" />
+					<field name="origin" />
 					<field name="invoice_id" />
 					<field name="customer_id" />
-					<field name="origin" />
-					  
+					<field name="output_amount"/>
+					<field name="output_price" />
+					<field name="output_date" />
+
 					<field name="tag_ids" widget="many2many_tags" />
 					<field name="note" />
 					 

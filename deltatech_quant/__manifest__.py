@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,13 @@
 {
     "name": "Deltatech Pozitii Stoc",
     "version": "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
+----------------
+
  - Afisare coloana de categorie produs in lista de pozitii de stoc
  - Adaugare client pentru pozitiile de stoc livrate care un partener
  - Adaugare furnizor pentru pozitiile de stoc achizitionate
@@ -40,14 +42,16 @@ de facut:
 
     "category": "Generic Modules/Stock",
     "depends": [
-        'deltatech',
+
         "stock",
         "account",
+        "deltatech_product_extension",
         # "stock_picking_invoice_link"
     ],
 
     "data": [
         'views/stock_view.xml',
+        'views/stock_profit_view.xml',
         'wizard/stock_quant_change_lot_view.xml',
         'wizard/stock_quant_split_view.xml',
         'security/ir.model.access.csv'
