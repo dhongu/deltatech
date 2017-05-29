@@ -44,6 +44,7 @@ de facut:
     "depends": [
 
         "stock",
+        "point_of_sale",
         "account",
         "deltatech_product_extension",
         # "stock_picking_invoice_link"

@@ -96,7 +96,7 @@
             <field name="view_id" ref="view_stock_profit_report_tree"/>
             <field name="search_view_id" ref="view_stock_profit_report_filter"/>
             <field name="help">This report performs analysis on your stock.</field>
-            <field name="context">{'search_default_product':1,'group_by_no_leaf':1 }</field>
+            <field name="context">{ }</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="action_stock_profit_report_graph">
