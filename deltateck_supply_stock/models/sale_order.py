@@ -23,7 +23,7 @@ class SaleOrder(models.Model):
                         if not line.product_id.seller_ids:
                             raise UserError(_('Product %s without vendor')  % line.product_id.name)
 
-        return super(SaleOrderLine, self).action_confirm()
+        return super(SaleOrder, self).action_confirm()
 
 
 class SaleOrderLine(models.Model):
