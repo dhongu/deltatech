@@ -81,6 +81,11 @@ class stock_quant(models.Model):
             quant._compute_output_amount()
 
     @api.multi
+    def update_all_input_output(self):
+        quants = self.search([])
+        quants.update_input_output()
+
+    @api.multi
     @api.depends('input_price')
     def _compute_input_amount(self):
         for quant in self:

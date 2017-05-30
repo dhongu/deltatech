@@ -84,7 +84,7 @@ class StockProfitReport(models.Model):
 
     def _where(self):
         where_str = """
-            sl.usage = ( 'internal' or sl.usage = 'customer' )
+            sl.usage =  'internal' or sl.usage = 'customer'
         """
         return where_str
 
