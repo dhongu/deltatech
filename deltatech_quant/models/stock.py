@@ -110,7 +110,7 @@ class stock_move(models.Model):
                     price_invoice = move.price_unit
                     sale_line = move.procurement_id.sale_line_id
                     if sale_line:
-                        price_invoice = sale_line.price_subtotal
+                        price_invoice = sale_line.price_subtotal / sale_line.product_uom_qty
                         price_invoice = sale_line.order_id.company_id.currency_id._get_conversion_rate(
                             sale_line.order_id.currency_id, move.company_id.currency_id) * price_invoice
                     else:
@@ -119,7 +119,7 @@ class stock_move(models.Model):
                         if pos_order:
                             for line in pos_order.lines:
                                 if line.product_id == move.product_id:
-                                    price_invoice = line.price_subtotal
+                                    price_invoice = line.price_subtotal / line.qty
                     value['output_price'] = price_invoice
 
                 if move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal':
@@ -127,6 +127,12 @@ class stock_move(models.Model):
                         value['supplier_id'] = move.picking_id.partner_id.id
                     value['input_date'] = move.picking_id.date_done
                     value['input_price'] = move.price_unit
+
+                if move.location_id.usage == 'inventory' and move.location_dest_id.usage == 'internal':
+                    value['input_date'] = move.picking_id.date_done
+                    value['input_price'] = move.price_unit
+                    if not move.price_unit and move.product_id.seller_ids:
+                        value['input_price'] = move.product_id.seller_ids[0].price
 
                 if value:
                     move.quant_ids.write(value)

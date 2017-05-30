@@ -15,9 +15,13 @@ class StockProfitReport(models.Model):
 
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
 
+    input_qty = fields.Float(string='Input Quantity', readonly=True)
     input_date = fields.Date(string='Input date', readonly=True)
-    output_date = fields.Date(string='Output date', readonly=True)
     input_amount = fields.Float(string="Input Amount", readonly=True)
+
+    output_qty = fields.Float(string='Output Quantity', readonly=True)
+    output_date = fields.Date(string='Output date', readonly=True)
+
     output_amount = fields.Float(string="Output Amount", readonly=True)
 
     customer_id = fields.Many2one('res.partner', string='Customer', readonly=True)
@@ -28,7 +32,9 @@ class StockProfitReport(models.Model):
 
     def _select(self):
         select_str = """
-            id, product_id,  categ_id, product_qty, location_id, input_date, output_date, input_amount, output_amount,
+            id, product_id,  categ_id, product_qty, location_id,
+             input_qty, input_date, input_amount,
+             output_qty, output_date,  output_amount,
              customer_id, supplier_id, manufacturer, profit
         """
         return select_str
@@ -37,7 +43,21 @@ class StockProfitReport(models.Model):
         select_str = """
         max(sq.id) as id,
         sq.product_id,  pt.categ_id, sq.location_id, sq.input_date, sq.output_date,
-        sum(sq.qty) as product_qty,
+
+        SUM( sq.qty ) as product_qty,
+
+        SUM(CASE
+            WHEN sq.input_date is not null
+                THEN sq.qty
+                ELSE 0
+            END) AS input_qty,
+
+        SUM(CASE
+            WHEN sl.usage = 'customer'
+                THEN sq.qty
+                ELSE 0
+            END) AS output_qty,
+
         sum(sq.input_amount) as input_amount,
         sum(sq.output_amount) as output_amount,
         sq.customer_id,
@@ -64,7 +84,7 @@ class StockProfitReport(models.Model):
 
     def _where(self):
         where_str = """
-            sl.usage = 'internal' or sl.usage = 'customer'
+            sl.usage = ( 'internal' or sl.usage = 'customer' )
         """
         return where_str
 
