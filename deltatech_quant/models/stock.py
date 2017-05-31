@@ -86,13 +86,13 @@ class stock_quant(models.Model):
         quants.update_input_output()
 
     @api.multi
-    @api.depends('input_price')
+    @api.depends('input_price', 'qty')
     def _compute_input_amount(self):
         for quant in self:
             quant.input_amount = quant.input_price * quant.qty
 
     @api.multi
-    @api.depends('output_price')
+    @api.depends('output_price', 'qty')
     def _compute_output_amount(self):
         for quant in self:
             quant.output_amount = quant.output_price * quant.qty
