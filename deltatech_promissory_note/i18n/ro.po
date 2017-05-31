@@ -1,0 +1,204 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_promissory_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-31 19:06+0000\n"
+"PO-Revision-Date: 2017-05-31 19:06+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,agreement:0
+msgid "Agreement"
+msgstr "Contract"
+
+#. module: deltatech_promissory_note
+#: help:promissory.note,agreement:0
+msgid "Agrement with date and number of rate. Ex:  CTR. 422 S / 30.05.2017  12 RATE"
+msgstr "Contract cu data si numar de rate. Ex:  CTR. 422 S / 30.05.2017  12 RATE"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,amount:0
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,acc_beneficiary:0
+msgid "Bank Account Beneficiary"
+msgstr "Cont bancă beneficiar"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,acc_issuer:0
+msgid "Bank Account Issuer"
+msgstr "Cont bancă emitent"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: field:promissory.note,beneficiary_id:0
+msgid "Beneficiary"
+msgstr "Beneficiar"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: selection:promissory.note,state:0
+msgid "Cashed"
+msgstr "Încasat"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: field:promissory.note,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: selection:promissory.note,type:0
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "Date Due"
+msgstr "Data scadenței"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,display_name:0
+msgid "Display Name"
+msgstr "Display Name"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,date_due:0
+msgid "Due Date"
+msgstr "Data scadenței"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "Group By..."
+msgstr "Group By..."
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,invoice_id:0
+msgid "Invoice"
+msgstr "Factura aferentă"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: field:promissory.note,issuer_id:0
+msgid "Issuer"
+msgstr "Emitent"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,__last_update:0
+msgid "Last Modified on"
+msgstr "Last Modified on"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "Next Month"
+msgstr "Luna următoare"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: selection:promissory.note,state:0
+msgid "Not Cashed"
+msgstr "Neîncasat"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "Previous Month"
+msgstr "Luna anterioară"
+
+#. module: deltatech_promissory_note
+#: model:ir.actions.report.xml,name:deltatech_promissory_note.action_report_promissory_note
+#: model:ir.model,name:deltatech_promissory_note.model_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_form
+msgid "Promissory Note"
+msgstr "Bilet la ordin"
+
+#. module: deltatech_promissory_note
+#: model:ir.actions.act_window,name:deltatech_promissory_note.action_promissory_note
+#: model:ir.ui.menu,name:deltatech_promissory_note.menu_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_tree
+msgid "Promissory Notes"
+msgstr "Bilete la ordin"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,name:0
+msgid "Series and number"
+msgstr "Serie și număr"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_form
+msgid "Set Cashed"
+msgstr "Setează încasat"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_form
+msgid "Set Not Cashed"
+msgstr "Setează neîncasat"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,state:0
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+msgid "This Month"
+msgstr "Luna aceasta"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: field:promissory.note,type:0
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
+#: selection:promissory.note,type:0
+msgid "Vendor"
+msgstr "Furnizor"
+
+#. module: deltatech_promissory_note
+#: view:promissory.note:deltatech_promissory_note.view_promissory_note_tree
+msgid "amount"
+msgstr "valoare"
+

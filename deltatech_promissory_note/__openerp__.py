@@ -34,7 +34,9 @@ Functionalitati:
     "depends": ["account", ],
 
     "data": ['views/promissory_note_view.xml',
-             'views/promissory_note_report.xml'],
+             'views/promissory_note_report.xml',
+             'security/ir.model.access.csv',
+             ],
 
     "active": False,
     "installable": True,

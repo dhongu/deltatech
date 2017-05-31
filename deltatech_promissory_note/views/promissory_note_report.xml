@@ -11,6 +11,14 @@
                 name="deltatech_promissory_note.report_promissory_note"
                 file="deltatech_promissory_note.report_promissory_note"/>
 
+        <report
+                string="Promissory Note Content"
+                id="action_report_promissory_note_content"
+                model="promissory.note"
+                report_type="qweb-pdf"
+                name="deltatech_promissory_note.report_promissory_note_content"
+                file="deltatech_promissory_note.report_promissory_note_content"/>
+
 
         <template id="report_promissory_note">
 
@@ -18,10 +26,67 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="report.external_layout">
                         <div class="page">
+                            <img src='/deltatech_promissory_note/static/src/img/BCR.png'/>
+                            <h3>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</h3>
+                        </div>
+
+                        <div>
+                            <ol>
+                                <li>
+                                    Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
+                                    decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in
+                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca
+                                    platitorului in T-1 in data prezentarii la plata
+                                </li>
+                                <li>
+                                    Campul va fi completat de banca beneficiarului la primirea ID si va fi confirmat
+                                    prin aplicarea semnaturii si stampilei functionarului bancar
+                                </li>
+                                <li>
+                                    Data remiterii pe circuit intrabancar catre Centrul de Procesare a ID este data
+                                    receptiei, daca ID au fost depuse in unitati pana la ora 13:00 si daca sunt
+                                    indeplinite toate conditiile de forma, continut si mandat (semnatura) ale
+                                    borderoului si ID
+                                </li>
+                                <li>
+                                    ID va fi incasat/refuzat in 11 zile lucratoare de la data receptiei daca a fost
+                                    depus pana la ora 13:00. In cazul in care sunt prezentate ID la termene ce determina
+                                    pierderea dreptului de protest si regres clientul este responsabil si imputerniceste
+                                    banca sa transmita spre incasare ID luand la cunostinta si acceptand acest risc
+                                </li>
+                                <li>
+                                    Anexez documentele justificative stabilite in conformitate cu prevederile Circularei
+                                    BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de
+                                    debit de tipul cecului, cambiei si biletului la ordin in format vechi
+                                </li>
+                                <li>Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
+                                    incasare cu acest borderou
+                                </li>
+                                <li>
+                                    Instructez BCR sa procedeze conform prevederilor legale si informatiilor mentionate
+                                    la punctele 1, 2, 3, 4, 5, 6 din prezentul borderou.
+                                </li>
+                            </ol>
                         </div>
                     </t>
                 </t>
             </t>
         </template>
+
+
+        <template id="report_promissory_note_content">
+
+            <t t-call="report.html_container">
+
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="o">
+                        </t>
+                    </div>
+                </t>
+
+            </t>
+        </template>
+
     </data>
 </openerp>
