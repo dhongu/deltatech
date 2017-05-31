@@ -1,0 +1,134 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+
+        <record id="view_promissory_note_tree" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="arch" type="xml">
+                <tree string="Promissory Notes">
+                    <field name="issuer_id"/>
+                    <field name="beneficiary_id"/>
+
+                    <field name="agreement"/>
+                    <field name="date_due"/>
+
+                    <field name="amount" sum="amount"/>
+                    <field name="currency_id"/>
+
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_promissory_note_form" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="arch" type="xml">
+                <form string="Promissory Note">
+                    <header>
+                        <button name="action_cashed" states="not_cashed" type="object" class="oe_highlight"
+                                string="Set Cashed"/>
+                        <button name="action_not_cashed" states="cashed" type="object" class="oe_highlight"
+                                string="Set Not Cashed"/>
+                        <field name="state" widget="statusbar" statusbar_visible="not_cashed,cashed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                                <label string="Promissory Note"/>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                            <div class="oe_right oe_button_box" name="buttons">
+
+                            </div>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="type"/>
+                                <field name="agreement"/>
+                                <field name="date_due"/>
+                            </group>
+                            <group>
+                                <field name="issuer_id"/>
+                                <field name="beneficiary_id"/>
+                            </group>
+                            <group>
+                                <field name="acc_issuer"/>
+                                <field name="acc_beneficiary"/>
+                            </group>
+                            <group>
+                                <field name="amount"/>
+                                <field name="currency_id"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        Filtre :
+
+
+        <record id="view_promissory_note_filter" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name"/>
+                    <field name="agreement"/>
+                    <field name="issuer_id"/>
+                    <field name="beneficiary_id"/>
+                    <separator/>
+                    <filter name="vendor" string="Vendor" domain="[('type','=','vendor')]"/>
+                    <filter name="customer" string="Customer" domain="[('type','=','customer')]"/>
+                    <filter string="This Month" name="month"
+                            domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								     ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+
+                    <filter string="Previous Month" name="prev_month"
+                            domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+
+                    <filter string="Next Month" name="prev_month"
+                            domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=1, days=0)).strftime('%%Y-%%m-%%d')),
+							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+
+                    <filter name="not_cashed" string="Not Cashed" domain="[('state','=','not_cashed')]"/>
+                    <filter name="cashed" string="Cashed" domain="[('state','=','cashed')]"/>
+
+                    <group expand="1" string="Group By...">
+
+                        <filter string="Type" name="type" context="{'group_by':'type'}"/>
+                        <filter string="Issuer" context="{'group_by':'issuer_id'}"/>
+                        <filter string="Beneficiary" context="{'group_by':'beneficiary_id'}"/>
+                        <filter string="Currency" name="currency_id" context="{'group_by':'currency_id'}"/>
+                        <filter string="Date Due" name="date_due" context="{'group_by':'date_due:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_promissory_note" model="ir.actions.act_window">
+            <field name="name">Promissory Notes</field>
+            <field name="res_model">promissory.note</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ 'search_default_not_cashed': 1}</field>
+        </record>
+
+        <menuitem name="Promissory Notes" id="menu_promissory_note" action="action_promissory_note"
+                  parent="account.menu_finance_bank_and_cash" sequence="100"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <report
+                string="Promissory Note"
+                id="action_report_promissory_note"
+                model="promissory.note"
+                report_type="qweb-pdf"
+                name="deltatech_promissory_note.report_promissory_note"
+                file="deltatech_promissory_note.report_promissory_note"/>
+
+
+        <template id="report_promissory_note">
+
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>
