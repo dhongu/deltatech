@@ -5,6 +5,11 @@
   margin: 0 auto;
 }
 
+.openerp .oe_form div.oe_chatter {
+max-width: 95%;
+}
+
+
 .openerp .oe_highlight {
   color: white;
   background: #DC5F59;
