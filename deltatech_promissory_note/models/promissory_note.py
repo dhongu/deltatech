@@ -42,6 +42,8 @@ class promissory_note(models.Model):
     acc_beneficiary = fields.Char('Bank Account Beneficiary', size=64, readonly=True,
                                   states={'not_cashed': [('readonly', False)]}, required=True)
 
+    note = fields.Text(string='Note')
+
     @api.onchange('type')
     def onchange_type(self):
         if self.type == 'customer':

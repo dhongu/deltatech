@@ -65,14 +65,11 @@
                                 <field name="currency_id"/>
                             </group>
                         </group>
-
+                        <field name="note"/>
                     </sheet>
                 </form>
             </field>
         </record>
-
-
-        Filtre :
 
 
         <record id="view_promissory_note_filter" model="ir.ui.view">
