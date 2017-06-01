@@ -73,24 +73,24 @@ class stock_picking(models.Model):
         #this = self.with_context(inv_type=type)  # foarte important pt a determina corect moneda
         
         #self = this
-        
+
         journal = self.env['account.journal'].browse(journal_id)
         obj_invoices = self.env['account.invoice'].browse(invoices)
-        
+
         to_currency = journal.currency or self.env.user.company_id.currency_id
 
- 
         for obj_inv in obj_invoices:
             if to_currency == obj_inv.currency_id:
                 continue
             from_currency = obj_inv.currency_id.with_context(date=obj_inv.date_invoice)
- 
-            for line in obj_inv.invoice_line:
-                new_price = from_currency.compute(line.price_unit, to_currency )
-                line.write(  {'price_unit': new_price})
-                
+            if type in ['out_invoice', 'in_invoice']:
+                for line in obj_inv.invoice_line:
+                    new_price = from_currency.compute(line.price_unit, to_currency)
+                    line.write({'price_unit': new_price})
+
             obj_inv.write(  {'currency_id': to_currency.id} )
             obj_inv.button_compute()
+
         return invoices
 
 
