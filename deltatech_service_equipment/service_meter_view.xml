@@ -10,6 +10,7 @@
         </record>
 
         <menuitem name="Meter Reading" id="menu_service_meter_reading" action="action_service_meter_reading"
+                  groups="base.group_service_equipment_advanced"
                   parent="base.menu_service" sequence="502"/>
 
 

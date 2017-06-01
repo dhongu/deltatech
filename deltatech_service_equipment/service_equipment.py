@@ -94,6 +94,7 @@ class service_equipment(models.Model):
     _name = 'service.equipment'
     _description = "Equipment"
     _inherit = 'mail.thread'
+    _order = "id desc"
 
     state = fields.Selection([('available', 'Available'), ('installed', 'Installed'), ('inactive', 'Inactive'),
                               ('backuped', 'Backuped')], default="available", string='Status', copy=False)

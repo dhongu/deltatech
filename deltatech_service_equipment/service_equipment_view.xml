@@ -38,16 +38,17 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="address_id"/>
-                    <field name="emplacement"/>
-                    <field name="product_id"/>
+                    <field name="emplacement" invisible="1"/>
+                    <field name="product_id" invisible="1"/>
                     <field name="serial_id"/>
-                    <field name="quant_id"/>
-                    <field name="start_date"/>
+                    <field name="quant_id" invisible="1"/>
+                    <field name="start_date" invisible="1"/>
                     <field name="agreement_type_id"/>
-                    <field name="readings_status"/>
+                    <field name="install_date"/>
                     <field name="total_revenues" sum="total"/>
                     <field name="total_costs" sum="total"/>
                     <field name="inventory_value" sum="total"/>
+                    <field name="readings_status"/>
                     <field name="message_unread" invisible="1"/>
                 </tree>
             </field>
@@ -253,7 +254,9 @@
                 <search string="Search">
                     <field name="serial_id"/>
                     <field name="partner_id"/>
-                    <field name="address_id"/>
+                    <field name="product_id"/>
+
+
                     <field name="ean_code"/>
                     <field name="agreement_type_id"/>
                     <field name="contact_id"/>
