@@ -255,7 +255,7 @@
                     <field name="serial_id"/>
                     <field name="partner_id"/>
                     <field name="product_id"/>
-
+                    <field name="note"/>
 
                     <field name="ean_code"/>
                     <field name="agreement_type_id"/>
