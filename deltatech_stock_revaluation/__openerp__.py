@@ -35,7 +35,7 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock'],
+    "depends": ['stock'],
 
 
     "data" : [ 

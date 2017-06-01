@@ -64,11 +64,8 @@ Functionalitati:
                'service_equipment_view.xml',
 
         'security/ir.model.access.csv',
-               
-               'wizard/rescheduling_view.xml',
 
-                            
-                ],
+    ],
     "active": False,
     "installable": True,
 }
