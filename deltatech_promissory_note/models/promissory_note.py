@@ -33,6 +33,11 @@ class promissory_note(models.Model):
 
     amount = fields.Float(string='Amount', digits=dp.get_precision('Account'), readonly=True,
                           states={'not_cashed': [('readonly', False)]}, required=True)
+
+    cashed_amount = fields.Float(string='Cashed Amount', digits=dp.get_precision('Account'))
+    cashed_date = fields.Date(string="Cashed Date")
+
+
     currency_id = fields.Many2one('res.currency', string="Currency", required=True, readonly=True,
                                   states={'not_cashed': [('readonly', False)]},
                                   domain=[('name', 'in', ['RON', 'EUR'])])

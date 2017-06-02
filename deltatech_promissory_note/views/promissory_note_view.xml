@@ -16,7 +16,8 @@
 
                     <field name="amount" sum="amount"/>
                     <field name="currency_id"/>
-
+                    <field name="cashed_date"/>
+                    <field name="cashed_amount" sum="cashed_amount"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -53,6 +54,15 @@
                                 <field name="date_due"/>
                             </group>
                             <group>
+                                <field name="amount"/>
+                                <field name="currency_id"/>
+
+                            </group>
+                            <group>
+                                <field name="cashed_amount"/>
+                                <field name="cashed_date"/>
+                            </group>
+                            <group>
                                 <field name="issuer_id"/>
                                 <field name="beneficiary_id"/>
                             </group>
@@ -60,10 +70,7 @@
                                 <field name="acc_issuer"/>
                                 <field name="acc_beneficiary"/>
                             </group>
-                            <group>
-                                <field name="amount"/>
-                                <field name="currency_id"/>
-                            </group>
+
                         </group>
                         <field name="note"/>
                     </sheet>

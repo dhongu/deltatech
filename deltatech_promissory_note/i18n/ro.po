@@ -69,6 +69,18 @@ msgid "Currency"
 msgstr "Moneda"
 
 #. module: deltatech_promissory_note
+#: field:promissory.note,cashed_amount:0
+msgid "Cashed Amount"
+msgstr "Suma încasată"
+
+#. module: deltatech_promissory_note
+#: field:promissory.note,cashed_date:0
+msgid "Cashed Date"
+msgstr "Dată încasare"
+
+
+
+#. module: deltatech_promissory_note
 #: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
 #: selection:promissory.note,type:0
 msgid "Customer"
