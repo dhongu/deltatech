@@ -8,6 +8,7 @@
             <field name="model">promissory.note</field>
             <field name="arch" type="xml">
                 <tree string="Promissory Notes">
+                    <field name="name"/>
                     <field name="issuer_id"/>
                     <field name="beneficiary_id"/>
 
@@ -56,7 +57,7 @@
                             <group>
                                 <field name="amount"/>
                                 <field name="currency_id"/>
-
+                                <field name="invoice_id"/>
                             </group>
                             <group>
                                 <field name="cashed_amount"/>
@@ -92,19 +93,19 @@
                     <separator/>
                     <filter name="vendor" string="Vendor" domain="[('type','=','vendor')]"/>
                     <filter name="customer" string="Customer" domain="[('type','=','customer')]"/>
-                    <filter string="This Month" name="month"
-                            domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								     ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+
 
                     <filter string="Previous Month" name="prev_month"
                             domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
 							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
-
+                    <filter string="This Month" name="month"
+                            domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								     ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
                     <filter string="Next Month" name="prev_month"
                             domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=1, days=0)).strftime('%%Y-%%m-%%d')),
-							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=2, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
 
                     <filter name="not_cashed" string="Not Cashed" domain="[('state','=','not_cashed')]"/>
@@ -115,6 +116,7 @@
                         <filter string="Type" name="type" context="{'group_by':'type'}"/>
                         <filter string="Issuer" context="{'group_by':'issuer_id'}"/>
                         <filter string="Beneficiary" context="{'group_by':'beneficiary_id'}"/>
+                        <filter string="Agreement" context="{'group_by':'agreement'}"/>
                         <filter string="Currency" name="currency_id" context="{'group_by':'currency_id'}"/>
                         <filter string="Date Due" name="date_due" context="{'group_by':'date_due:month'}"/>
                     </group>
