@@ -24,13 +24,136 @@
 
             <t t-call="report.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="report.external_layout">
-                        <div class="page">
-                            <img src='/deltatech_promissory_note/static/src/img/BCR.png'/>
-                            <h3>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</h3>
+                    <div class="page">
+                        <style type="text/css">
+                            tbody.default td {
+                            border: 1px solid black;
+                            text-align: center;
+                            vertical-align:middle;
+                            font-size: 100%;
+                            font-weight:bold;
+                            }
+                            tbody.bold td {
+                            border: 1px solid gray;
+                            text-align: right;
+                            font-size: 75%;
+                            font-weight:bold;
+                            background-color:#BBBBBB;
+                            }
+                            thead.default th{
+                            border: 1px solid gray;
+                            background-color:#BBBBBB;
+                            font-size: 75%;
+                            }
+                        </style>
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:10%;">
+                                    <img src="/deltatech_promissory_note/static/src/img/BCR.png" style="width:70px;"/>
+                                </td>
+                                <td style="width:80%;text-align:center;">
+                                    <span>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</span>
+                                </td>
+                                <td style="width:10%;">
+                                    <span>Anexa nr. 3</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:15px;width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Beneficiar</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN Beneficiar</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca beneficiarului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span>ROMSYSTEMS S.R.L.</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_beneficiary" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_beneficiary" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="float:left;width:45%;margin-bottom:20px;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;">
+                                            <span>Seria si numar ID</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100%;line-height: 2.95;">
+                                            <span t-field="o.name" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
-                        <div>
+                        <div style="float:right;width:45%;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;" colspan="2">
+                                            <span>Suma</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span>VALUTA<sup>1</sup></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span t-field="o.currency_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.amount" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <table style="width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Platitor</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN platitor</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca platitorului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span t-field="o.issuer_id" />
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_issuer" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_issuer" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="font-size: 80%;margin-top:15px;">
                             <ol>
                                 <li>
                                     Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
@@ -68,7 +191,30 @@
                                 </li>
                             </ol>
                         </div>
-                    </t>
+                        <div id="container" style="height:110px;">
+                        <p style="font-weight:bold;">SEMNATURA POSESOR</p>
+                        <div style="float:left;width:48%;margin-bottom:13px;">
+                            <table style="width:100%;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;height:80px;border: 2px solid black;">
+                                            
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="float:right;width:48%;">
+                            <p style="font-weight:bold;font-size:90%;">Data receptiei<sup>2</sup>........................</p>
+                            <p style="font-weight:bold;font-size:90%;">Data remiterii pe circuit a ID = Data receptiei<sup>3</sup>........................</p>
+                            <p style="font-weight:bold;font-size:90%;">Data receptiei in Centrul de Procesare<sup>4</sup>........................</p>
+                        </div>
+                        </div>
+                        <br />
+                        <div>
+                            <p>*Prezentul BORDEROU va fi completat in 4 exemplare</p>
+                        </div>
+                    </div>
                 </t>
             </t>
         </template>

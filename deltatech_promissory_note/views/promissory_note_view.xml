@@ -71,7 +71,10 @@
                                 <field name="acc_issuer"/>
                                 <field name="acc_beneficiary"/>
                             </group>
-
+                            <group>
+	                            <field name="bank_issuer"/>
+                                <field name="bank_beneficiary"/>
+                            </group>
                         </group>
                         <field name="note"/>
                     </sheet>
