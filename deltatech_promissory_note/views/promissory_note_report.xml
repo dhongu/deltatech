@@ -4,7 +4,7 @@
 
 
         <report
-                string="Promissory Note"
+                string="Promissory Note Bill"
                 id="action_report_promissory_note"
                 model="promissory.note"
                 report_type="qweb-pdf"
@@ -412,35 +412,41 @@
 	                    <p style="font-weight:bold;">BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI , <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>: </p>
 	                    <table style="width:100%;">
 	                        <tbody class="default">
-	                            <tr>
-	                                <td>
-	                                    <span>SERIE SI NR. BO</span>
-	                                </td>
-	                                <td>
-	                                    <span>SUMA RON</span>
-	                                </td>
-	                                <td>
-	                                    <span>EMITENT</span>
-	                                </td>
-	                                <td>
-	                                    <span>DATA SCADENTEI</span>
-	                                </td>
-	                            </tr>
-	                            <tr t-foreach="docs" t-as="o">
-	                                <td>
-	                                    <span t-field="o.name" />
-	                                </td>
-	                                <td>
-	                                    <span t-field="o.amount" />
-	                                </td>
-	                                <td>
-	                                    <span t-field="o.issuer_id" />
-	                                </td>
-	                                <td>
-	                                    <span t-field="o.date_due" />
-	                                </td>
-	                            </tr>
-	                        </tbody>
+                            <tr>
+                                <td>
+                                    <span>SERIE SI NR. BO</span>
+                                </td>
+                                <td>
+                                    <span>SUMA</span>
+                                </td>
+                                <td>
+                                    <span>VALUTA</span>
+                                </td>
+                                <td>
+                                    <span>EMITENT</span>
+                                </td>
+                                <td>
+                                    <span>DATA SCADENTEI</span>
+                                </td>
+                            </tr>
+                            <tr t-foreach="docs" t-as="o">
+                                <td>
+                                    <span t-field="o.name" />
+                                </td>
+                                <td>
+                                    <span t-field="o.amount" />
+                                </td>
+                                <td>
+                                    <span t-field="o.currency_id" />
+                                </td>
+                                <td>
+                                    <span t-field="o.issuer_id" />
+                                </td>
+                                <td>
+                                    <span t-field="o.date_due" />
+                                </td>
+                            </tr>
+                        </tbody>
 	                    </table>
 	                    <br />
 	                    <table style="width:100%;">
