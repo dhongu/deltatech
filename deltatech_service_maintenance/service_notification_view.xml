@@ -7,7 +7,7 @@
 			<field name="model">service.notification</field>
 			<field name="arch" type="xml">
 				<tree string="Services notification" fonts="bold:message_unread==True"
-					colors="grey:state in ('cancel','done'); green:state=='assigned'; blue:state=='progress'; red:state=='new'">
+					colors="grey:state in ('cancel','done'); green:state=='assigned'; blue:state=='progress'; red:state=='new'" default_order='date DESC'>
 
 					<field name="name" />
 					<field name="date" />
