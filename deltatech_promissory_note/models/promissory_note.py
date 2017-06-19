@@ -90,3 +90,9 @@ class promissory_note(models.Model):
     @api.multi
     def action_not_cashed(self):
         self.write({'state': 'not_cashed'})
+    
+    @api.one
+    @api.constrains('amount')
+    def _check_values(self):
+        if self.amount <= 0.0:
+            raise Warning(_('Campul <Valoare> trebuie sa fie mai mare decat 0!'))
