@@ -26,8 +26,6 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 
 
-
-
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
