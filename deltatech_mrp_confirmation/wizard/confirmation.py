@@ -27,7 +27,7 @@ class mrp_production_conf(models.TransientModel):
     _description = "Production Confirmation"
     _inherit = ['barcodes.barcode_events_mixin']
 
-    date_start = fields.Datetime('Start Date', required=True)
+    date_start = fields.Datetime('Start Date', required=True, default=fields.Datetime.now)
     date_end = fields.Datetime('End Date', required=True, default=fields.Datetime.now)
     duration = fields.Float('Duration', store=True)  # compute='_compute_duration',
 

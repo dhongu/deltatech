@@ -28,6 +28,7 @@
     "description": """
     
 Functionalitati:
+----------------
  - adaugare operatori la centre de lucru
  - adaugare cod la operatie
  - confirmare operatii prin scanare cod de bare
