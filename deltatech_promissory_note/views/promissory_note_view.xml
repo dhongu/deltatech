@@ -15,10 +15,10 @@
                     <field name="agreement"/>
                     <field name="date_due"/>
 
-                    <field name="amount" sum="amount"/>
+                    <field name="amount" sum="amount" string="Valoare cu TVA"/>
                     <field name="currency_id"/>
                     <field name="cashed_date"/>
-                    <field name="cashed_amount" sum="cashed_amount"/>
+                    <field name="cashed_amount" sum="cashed_amount" string="Suma incasata RON cu TVA"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -71,7 +71,10 @@
                                 <field name="acc_issuer"/>
                                 <field name="acc_beneficiary"/>
                             </group>
-
+                            <group>
+	                            <field name="bank_issuer"/>
+                                <field name="bank_beneficiary"/>
+                            </group>
                         </group>
                         <field name="note"/>
                     </sheet>

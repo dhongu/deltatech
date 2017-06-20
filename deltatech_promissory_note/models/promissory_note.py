@@ -31,7 +31,7 @@ class promissory_note(models.Model):
 
     invoice_id = fields.Many2one('account.invoice', string="Invoice")
 
-    amount = fields.Float(string='Amount', digits=dp.get_precision('Account'), readonly=True,
+    amount = fields.Float(string='Amount', digits=dp.get_precision('Account'), default="", readonly=True,
                           states={'not_cashed': [('readonly', False)]}, required=True)
 
     cashed_amount = fields.Float(string='Cashed Amount', digits=dp.get_precision('Account'))
@@ -45,6 +45,11 @@ class promissory_note(models.Model):
     acc_issuer = fields.Char('Bank Account Issuer', size=64, readonly=True,
                              states={'not_cashed': [('readonly', False)]}, required=True)
     acc_beneficiary = fields.Char('Bank Account Beneficiary', size=64, readonly=True,
+                                  states={'not_cashed': [('readonly', False)]}, required=True)
+    
+    bank_issuer = fields.Char('Bank Issuer', size=64, readonly=True,
+                             states={'not_cashed': [('readonly', False)]}, required=True)
+    bank_beneficiary = fields.Char('Bank Beneficiary', size=64, readonly=True,
                                   states={'not_cashed': [('readonly', False)]}, required=True)
 
     note = fields.Text(string='Note')
@@ -85,3 +90,9 @@ class promissory_note(models.Model):
     @api.multi
     def action_not_cashed(self):
         self.write({'state': 'not_cashed'})
+    
+    @api.one
+    @api.constrains('amount')
+    def _check_values(self):
+        if self.amount <= 0.0:
+            raise Warning(_('Campul <Valoare> trebuie sa fie mai mare decat 0!'))
