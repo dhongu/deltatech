@@ -57,7 +57,6 @@ class MrpWorkcenterProductivity(models.Model):
                 workers |= worker.worker_id
         self.possible_worker_ids = workers
 
-
     @api.multi
     def action_start_working(self):
         super(MrpWorkcenterProductivity, self).action_start_working()

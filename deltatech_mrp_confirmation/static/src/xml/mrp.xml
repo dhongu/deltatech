@@ -54,21 +54,30 @@
             <div class="panel-body">
                 <h2>
                     <span>Production Order:</span>
-                    <t t-esc="conf.production_id[1]"/>
+                    <t t-if="conf.production_id">
+                        <t t-esc="conf.production_id[1]"/>
+                    </t>
                 </h2>
                 <h2>
                     <span>Worker:</span>
-                    <t t-esc="conf.worker_id[1]"/>
+                    <t t-if="conf.worker_id">
+                        <t t-esc="conf.worker_id[1]"/>
+                    </t>
                 </h2>
 
                 <h2>
                     <span>Operation:</span>
-                    <t t-esc="conf.operation_id[1]"/>
+                    <t t-if="conf.workorder_id">
+                        <t t-esc="conf.workorder_id[1]"/>
+                    </t>
                 </h2>
-                <h2>
+                <t>
                     <span>Product:</span>
-                    <t t-esc="conf.product_id[1]"/>
-
+                    <t t-if="conf.product_id"/>
+                        <t t-esc="conf.product_id"/>
+                        <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-value="conf.qty_producing"/>
+                    </t>
+                    <!--
                     <div class="css_quantity input-group oe_website_spinner" contenteditable="false">
                         <a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
                             <i class="fa fa-minus"></i>
@@ -80,6 +89,7 @@
                             <i class="fa fa-plus"></i>
                         </a>
                     </div>
+                    -->
                 </h2>
             </div>
 
