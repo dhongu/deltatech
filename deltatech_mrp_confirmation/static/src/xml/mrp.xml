@@ -75,7 +75,8 @@
                     <span>Product:</span>
                     <t t-if="conf.product_id"/>
                         <t t-esc="conf.product_id"/>
-                        <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-value="conf.qty_producing"/>
+                        <t t-esc="conf.qty_producing"/>
+                        <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
                     </t>
                     <!--
                     <div class="css_quantity input-group oe_website_spinner" contenteditable="false">
