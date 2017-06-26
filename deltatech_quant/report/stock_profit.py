@@ -30,11 +30,13 @@ class StockProfitReport(models.Model):
 
     profit = fields.Float(string="Profit", readonly=True)
 
+    sale_value = fields.Float('Sale Value',  readonly=True)
+
     def _select(self):
         select_str = """
             id, product_id,  categ_id, product_qty, location_id,
              input_qty, input_date, input_amount,
-             output_qty, output_date,  output_amount,
+             output_qty, output_date,  output_amount, sale_value,
              customer_id, supplier_id, manufacturer, profit
         """
         return select_str
@@ -60,6 +62,7 @@ class StockProfitReport(models.Model):
 
         sum(sq.input_amount) as input_amount,
         sum(sq.output_amount) as output_amount,
+        sum(sq.qty * pt.list_price) as sale_value,
         sq.customer_id,
         sq.supplier_id,
         pt.manufacturer,

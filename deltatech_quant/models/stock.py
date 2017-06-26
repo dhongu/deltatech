@@ -24,7 +24,7 @@ from odoo import models, fields, api
 
 class stock_quant_tag(models.Model):
     _name = "stock.quant.tag"
-    _description = " Stock Quant Tag"
+    _description = "Stock Quant Tag"
 
     name = fields.Char(string="Name")
 
