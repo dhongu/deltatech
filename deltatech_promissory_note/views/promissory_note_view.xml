@@ -96,7 +96,7 @@
                     <separator/>
                     <filter name="vendor" string="Vendor" domain="[('type','=','vendor')]"/>
                     <filter name="customer" string="Customer" domain="[('type','=','customer')]"/>
-
+					<separator/>
 
                     <filter string="Previous Month" name="prev_month"
                             domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
@@ -110,7 +110,7 @@
                             domain="[('date_due','&gt;=', (context_today() + relativedelta(day=01, months=1, days=0)).strftime('%%Y-%%m-%%d')),
 							    	 ('date_due','&lt;=', (context_today() + relativedelta(day=01, months=2, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
-
+					<separator/>
                     <filter name="not_cashed" string="Not Cashed" domain="[('state','=','not_cashed')]"/>
                     <filter name="cashed" string="Cashed" domain="[('state','=','cashed')]"/>
 
