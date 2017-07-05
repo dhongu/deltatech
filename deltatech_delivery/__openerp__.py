@@ -26,7 +26,7 @@
     "description": """
  
 Features:
- - Carrier can be mandatory at picking validation 
+ - Carrier can be mandatory at picking validation. Option can be set in picking type
  - Verificare la validarea unui picking list
  
 
