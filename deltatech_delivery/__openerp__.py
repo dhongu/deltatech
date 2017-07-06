@@ -19,14 +19,14 @@
 #
 ##############################################################################
 {
-    "name": "Deltatech Delivery",
+    "name": "Deltatech Delivery Carrier",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
  
 Features:
-
+ - Carrier can be mandatory at picking validation. Option can be set in picking type
  - Verificare la validarea unui picking list
  
 

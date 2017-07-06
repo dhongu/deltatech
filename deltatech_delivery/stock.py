@@ -21,7 +21,7 @@ class stock_picking(models.Model):
     @api.cr_uid_ids_context
     def do_transfer(self, cr, uid, picking_ids, context=None):
         self.check_carrier(cr, uid, picking_ids, context)
-        return super(stock_picking, self).do_enter_transfer_details(cr, uid, picking_ids, context)
+        return super(stock_picking, self).do_transfer(cr, uid, picking_ids, context)
 
     @api.multi
     def check_carrier(self):
