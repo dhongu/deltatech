@@ -28,6 +28,11 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 import openerp
 from psycopg2 import OperationalError
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
 
 class procurement_order(models.Model):
     _inherit = 'procurement.order' 
@@ -41,7 +46,7 @@ class procurement_order(models.Model):
         self.proc_src_ids = self.search([('move_dest_id', 'in', [x.id for x in self.move_ids])])
         
 
-    """
+
     def run(self, cr, uid, ids, autocommit=False, context=None):
         res = super(procurement_order, self).run(cr, uid, ids, autocommit, context)
         self.message_stock(cr, uid, ids, context)
@@ -56,7 +61,7 @@ class procurement_order(models.Model):
                 msg = _("When running was available quantity %s in location %s") % (str(disp['qty_available']), procurement.location_id.name)
                 self.message_post( body= msg)            
         return
-    """
+
 
  
 
@@ -162,17 +167,23 @@ class procurement_order(models.Model):
     def _product_virtual_get(self, order_point):
         ''' trebuie sa scad toate comenzile de aprovizionare deschise'''  
         qty = super(procurement_order,self)._product_virtual_get(order_point)
-        
+        _logger.info("Rulare regula %s stoc minim pentru %s" % (order_point.name, order_point.product_id.name))
+
+
         domain = [('product_id','=',order_point.product_id.id),
                   ('state','=','running'),
                   ('location_id','=',order_point.location_id.id)]
         
         procurement_ids = self.env['procurement.order'].search(domain)
-        print procurement_ids
+        proc_qty = 0.0
         for procurement in procurement_ids:
             if procurement.rule_id.action == 'buy':
-                qty += procurement.product_qty
-         
+                if not procurement.purchase_id or procurement.purchase_id.state == 'draft':
+                    proc_qty += procurement.product_qty
+
+        _logger.info("Virtual qty:%s + %s" % (str(qty), str(proc_qty)))
+        qty += proc_qty
+
         return qty
 
 
