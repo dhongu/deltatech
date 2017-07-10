@@ -1,41 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+    <data>
 
-		<template id="products_qty_available" inherit_id="website_sale.products_item" active="False" customize_show="True" name="Product Available">
-			<xpath expr="//div[@class='product_price']" position="before">
-				<t t-if="website.user_id != user_id">
-					<t t-if="product.is_qty_available=='stock' ">
-						<div class="label alert-success" contenteditable="false">In stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='provider' ">
-						<div class="label alert-warning" contenteditable="false">In provider stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='order' ">
-						<div class="label alert-danger" contenteditable="false">At order</div>
-					</t>
-				</t>
-			</xpath>
-		</template>
-
-
-		<template id="product_detail_qty_available" inherit_id="website_sale.product" active="False" customize_show="True" name="Product Available">
-
-			<xpath expr="//span[@itemprop='url']" position="before">
-				<t t-if="website.user_id != user_id">
-					<t t-if="product.is_qty_available=='stock' ">
-						<div class="label alert-success" contenteditable="false">In stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='provider' ">
-						<div class="label alert-warning" contenteditable="false">In provider stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='order' ">
-						<div class="label alert-danger" contenteditable="false">At order</div>
-					</t>
-				</t>
-			</xpath>
-		</template>
+        <template id="products_qty_available" inherit_id="website_sale.products_item" active="False"
+                  customize_show="True" name="Product Available">
+            <xpath expr="//div[@class='product_price']" position="before">
+                <t t-if="website.user_id != user_id">
+                    <t t-if="product.is_qty_available=='stock' ">
+                        <div class="label alert-success" contenteditable="false">In stock</div>
+                    </t>
+                    <t t-if="product.is_qty_available=='provider' ">
+                        <div class="label alert-warning" contenteditable="false">In provider stock</div>
+                    </t>
+                    <t t-if="product.is_qty_available=='order' ">
+                        <div class="label alert-danger" contenteditable="false">At order</div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
 
 
-	</data>
+        <template id="product_detail_qty_available" inherit_id="website_sale.product" active="False"
+                  customize_show="True" name="Product Available">
+
+            <xpath expr="//span[@itemprop='url']" position="before">
+                <t t-if="website.user_id != user_id">
+                    <t t-if="product.is_qty_available=='stock' ">
+                        <div class="label alert-success" contenteditable="false">In stock</div>
+                    </t>
+                    <t t-if="product.is_qty_available=='provider' ">
+                        <div class="label alert-warning" contenteditable="false">In provider stock</div>
+                    </t>
+                    <t t-if="product.is_qty_available=='order' ">
+                        <div class="label alert-danger" contenteditable="false">At order</div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+
+        <template id="product_search">
+            <form action="/stock/products" method="get" t-att-class="search_class">
+                <div class="input-group">
+                    <input type="text" name="search" class="search-query form-control" placeholder="Search..."
+                           t-att-value="search"/>
+                    <span class="input-group-btn">
+                        <a class="btn btn-default a-submit">
+                            <i class="fa fa-search"/>
+                        </a>
+                    </span>
+                </div>
+            </form>
+        </template>
+
+
+        <template id="products" name="Products">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="oe_structure"/>
+                    <div class="container">
+
+                        <div class="row" style="width: 100%;">
+                            <t t-call="deltatech_website_sale.product_search">
+                                <t t-set="search_class">pagination form-inline col-md-3</t>
+                            </t>
+                            <t t-call="website.pager"/>
+                        </div>
+                        <div class="row mt32 mb32">
+                            <div class="col-md-9" id="middle_column">
+                                <div class="text-center text-muted" t-if="not product_ids">
+                                    <h1>No products found</h1>
+                                </div>
+                                <t t-if="product_ids">
+                                    <ul class="media-list">
+                                        <li t-foreach="product_ids" t-as="product">
+                                            <div>
+
+                                                <img itemprop="image" class="img img-responsive"
+                                                     t-att-src="website.image_url(product, 'image', None if product_image_big else '300x300')"
+                                                     t-att-alt="product.name"/>
+
+
+                                                <a itemprop="url" t-attf-href="/stock/product/#{slug(product)}">
+                                                    <h1 t-field="product.name"></h1>
+                                                </a>
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </t>
+                            </div>
+                            <div class="col-md-3 oe_structure" id="right_column">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="product" name="Product">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="oe_structure"/>
+                    <div class="container">
+
+                        <div class="row" style="width: 100%;">
+                            <t t-call="deltatech_website_sale.product_search">
+                                <t t-set="search_class">pagination form-inline col-md-3</t>
+                            </t>
+
+                        </div>
+                        <div class="row mt32 mb32">
+                            <span itemprop="image" t-field="product.image"
+                                  t-field-options='{"widget": "image",  "alt-field": "name"}'/>
+                            <h1 t-field="product.name"></h1>
+                            <div>
+                                <span>Raft:</span>
+                                <span t-field="product.loc_rack"></span>
+                            </div>
+                            <div>
+                                <span>Rand:</span>
+                                <span t-field="product.loc_row"></span>
+                            </div>
+                            <div>
+                                <span>Cutie:</span>
+                                <span t-field="product.loc_case"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+    </data>
 </openerp>
