@@ -67,27 +67,24 @@
                             <t t-call="website.pager"/>
                         </div>
                         <div class="row mt32 mb32">
-                            <div class="col-md-9" id="middle_column">
+                            <div class="col-md-12" id="middle_column">
                                 <div class="text-center text-muted" t-if="not product_ids">
                                     <h1>No products found</h1>
                                 </div>
-                                <t t-if="product_ids">
-                                    <ul class="media-list">
-                                        <li t-foreach="product_ids" t-as="product">
-                                            <div>
-
-                                                <img itemprop="image" class="img img-responsive"
-                                                     t-att-src="website.image_url(product, 'image', None if product_image_big else '300x300')"
-                                                     t-att-alt="product.name"/>
-
-
-                                                <a itemprop="url" t-attf-href="/stock/product/#{slug(product)}">
-                                                    <h1 t-field="product.name"></h1>
+                                <t t-foreach="product_ids" t-as="product">
+                                    <div class='col-md-2 thumbnail'
+                                         style='width: 170px; height:130px; float:left; display:inline; margin-right: 10px; overflow:hidden;'>
+                                        <div class='mt16 text-center'>
+                                            <span t-field="product.image_small"
+                                                  t-field-options='{"widget": "image", "class": "img-rounded shadow" }'/>
+                                            <h5>
+                                                <a t-attf-href="/stock/product/#{ slug(product) }"
+                                                   style="display: block">
+                                                    <span t-field='product.name' style="display: block"/>
                                                 </a>
-
-                                            </div>
-                                        </li>
-                                    </ul>
+                                            </h5>
+                                        </div>
+                                    </div>
                                 </t>
                             </div>
                             <div class="col-md-3 oe_structure" id="right_column">
