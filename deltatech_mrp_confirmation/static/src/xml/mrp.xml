@@ -73,7 +73,7 @@
                 </h2>
                 <t>
                     <span>Product:</span>
-                    <t t-if="conf.product_id"/>
+                    <t t-if="conf.product_id">
                         <t t-esc="conf.product_id"/>
                         <t t-esc="conf.qty_producing"/>
                         <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
@@ -91,10 +91,17 @@
                         </a>
                     </div>
                     -->
+                </t>
             </div>
 
 
+
+
         </div>
+        <button class="fa fa-chevron-down btn-primary btn-lg o_mrp_confirmation_barcode_button_save" >
+                    Save
+        </button>
+
         <t t-if="conf.error_message">
             <div class="alert alert-danger alert-dismissible text-left" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>

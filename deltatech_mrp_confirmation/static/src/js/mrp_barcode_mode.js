@@ -20,6 +20,10 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
         modal.modal('hide');
         return this.on_barcode_scanned(this.barcode);
         },
+
+        "click .o_mrp_confirmation_barcode_button_save":function() {
+            return this.on_barcode_scanned('#save');
+        }
     },
 
     init: function (parent, action) {
@@ -62,10 +66,13 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
            .then(function (conf){
                 self.$(".o_mrp_confirmation_barcode_item").html(QWeb.render("MrpConfirmationBarcodeItem", {conf: conf[0]}));
            });
-
+        this.return_to_main_menu = setTimeout( function() {
+         self.on_barcode_scanned('#save');
+         self.do_action('deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode', {clear_breadcrumbs: true});
+         }, 25000);
     },
 
-    on_barcode_scanned: function(barcode) {
+    on_barcode_scanned: function(barcode, display=true ) {
         var self = this;
         self.conf_wizard.call("search_scanned",  [self.conf_wizard_id, barcode] )
             .then(function(result) {
@@ -73,9 +80,10 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
                     self.do_action(result.action);
                 } else if (result.warning) {
                     self.do_warn(_('Warning'),result.warning.message);
-
                 }
-                self.display_data();
+                if (display) {
+                    self.display_data();
+                }
             });
 
     }

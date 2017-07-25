@@ -169,64 +169,65 @@ class mrp_production_conf(models.TransientModel):
         worker = self.worker_id
         confirm_message = ''
 
-        nomenclature = self.env['barcode.nomenclature'].search([], limit=1)
-        if nomenclature:
-            scann = nomenclature.parse_barcode(barcode)
+        if barcode != '#save':
+            nomenclature = self.env['barcode.nomenclature'].search([], limit=1)
+            if nomenclature:
+                scann = nomenclature.parse_barcode(barcode)
 
-            if scann['type'] == 'error':
-                self.error_message = _('Invalid bar code %s') % barcode
-                return
+                if scann['type'] == 'error':
+                    self.error_message = _('Invalid bar code %s') % barcode
+                    return
 
-            if scann['type'] == 'mrp_order':
-                domain = [('name', '=', scann['code']), ('state', 'in', ['planned', 'progress'])]
-                production = self.env['mrp.production'].search(domain)
-                if not production:
-                    self.error_message = _('Production Order %s not found') % barcode
-                else:
-                    self.info_message = _('Production Order %s was scanned.') % production.name
-                # a fost rescanata comadna
-                if production == self.production_id:
-                    if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
-                        self.qty_producing += 1
-                        self.info_message = _('Incremented quantity')
-                        return
+                if scann['type'] == 'mrp_order':
+                    domain = [('name', '=', scann['code']), ('state', 'in', ['planned', 'progress'])]
+                    production = self.env['mrp.production'].search(domain)
+                    if not production:
+                        self.error_message = _('Production Order %s not found') % barcode
+                    else:
+                        self.info_message = _('Production Order %s was scanned.') % production.name
+                    # a fost rescanata comadna
+                    if production == self.production_id:
+                        if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
+                            self.qty_producing += 1
+                            self.info_message = _('Incremented quantity')
+                            return
 
-            if scann['type'] == 'mrp_operation':
-                if scann['code'] == self.workorder_id.code:
-                    if self.workorder_id.workcenter_id.partial_conf:
-                        self.qty_producing += 1
-                        self.info_message = _('Incremented quantity')
-                        return
+                if scann['type'] == 'mrp_operation':
+                    if scann['code'] == self.workorder_id.code:
+                        if self.workorder_id.workcenter_id.partial_conf:
+                            self.qty_producing += 1
+                            self.info_message = _('Incremented quantity')
+                            return
 
-                code = scann['code']
+                    code = scann['code']
 
-                if production:
-                    workorder_domain = [('production_id', '=', production.id),
-                                        ('code', '=', code),
-                                        ('state', 'not in', ['done', 'cancel'])]
-                else:
-                    workorder_domain = [('code', '=', code), ('state', 'not in', ['done', 'cancel'])]
+                    if production:
+                        workorder_domain = [('production_id', '=', production.id),
+                                            ('code', '=', code),
+                                            ('state', 'not in', ['done', 'cancel'])]
+                    else:
+                        workorder_domain = [('code', '=', code), ('state', 'not in', ['done', 'cancel'])]
 
-                workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
-                if not workorder:
-                    self.error_message = _('Operation with code %s not found') % code
-                    workorder = False
-                else:
-                    self.info_message = _('Operation %s was scanned') % workorder.name
+                    workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
+                    if not workorder:
+                        self.error_message = _('Operation with code %s not found') % code
+                        workorder = False
+                    else:
+                        self.info_message = _('Operation %s was scanned') % workorder.name
 
-            if scann['type'] == 'mrp_worker':
-                domain = [('ref', '=', scann['code'])]
-                worker = self.env['res.partner'].search(domain, limit=1)
-                if not worker:
-                    self.error_message = _('Worker %s not found') % barcode
-                else:
-                    self.info_message = _('Worker %s was scanned') % worker.name
-                    if worker not in self.get_workers(workorder, worker):
-                        self.error_message = _('Worker %s not assigned to work center %s') % (
-                            worker.name, workorder.workcenter_id.name)
+                if scann['type'] == 'mrp_worker':
+                    domain = [('ref', '=', scann['code'])]
+                    worker = self.env['res.partner'].search(domain, limit=1)
+                    if not worker:
+                        self.error_message = _('Worker %s not found') % barcode
+                    else:
+                        self.info_message = _('Worker %s was scanned') % worker.name
+                        if worker not in self.get_workers(workorder, worker):
+                            self.error_message = _('Worker %s not assigned to work center %s') % (
+                                worker.name, workorder.workcenter_id.name)
 
         if self.production_id and self.workorder_id and self.worker_id:
-            if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker:
+            if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
                 self.success_message = _('Confirm saved for operation %s') % self.workorder_id.name
 
                 self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
@@ -326,4 +327,3 @@ class mrp_production_conf(models.TransientModel):
                 'views': [(False, 'form')],
                 'target': 'new',
             }
-
