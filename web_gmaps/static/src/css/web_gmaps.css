@@ -1,0 +1,17 @@
+
+
+.map_overlay {
+    position: absolute;
+        display: none;
+        background: white;
+    opacity: 0.9;
+        border: 2px solid black;
+        z-index: 3000;
+        padding: 5px 0;
+}
+
+
+/* Button style */
+.openerp .oe_view_manager .oe_view_manager_switch .oe_vm_switch_gmaps:after {
+    content: "2";
+}
