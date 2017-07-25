@@ -29,7 +29,7 @@
     
 Functionalitati:
  - Calculeaza pretul de productie ca fiind pretul real al componentelor
- - Asigneaza un picking pentru materialele consumate
+ - Asigneaza un picking pentru materialele consumate si unul pentru cele receptionate
 
 
     """,

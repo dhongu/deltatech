@@ -7,6 +7,10 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
+                 <div   name="button_box" position="inside">
+                     <button class="oe_stat_button"  string="Picking"
+                             name="action_see_picking" type="object" icon="fa-arrows-v"  />
+                 </div>
                 <field name="availability" position="after">
                     <field name="amount"/>
                     <field name="calculate_price"/>

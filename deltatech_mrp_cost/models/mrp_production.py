@@ -76,7 +76,6 @@ class MrpProduction(models.Model):
             production.move_finished_ids.write({'price_unit': price_unit})
         return True
 
-
     @api.multi
     def post_inventory(self):
         self.assign_picking()
@@ -91,7 +90,8 @@ class MrpProduction(models.Model):
     @api.multi
     def assign_picking(self):
         """
-        Totate produsele consumate se vor reuni intr-un picking list (Bon de consum)
+        Toate produsele consumate se vor reuni intr-un picking list (Bon de consum)
+        toate produsele receptionate (de regula un singur produs) se vor reuni intr-un picking list (Nota de predare)
         """
         for production in self:
             # bon de consum
@@ -115,6 +115,9 @@ class MrpProduction(models.Model):
                     move_list.write({'picking_id': picking.id})
                     picking.recheck_availability()
                     # picking.get_account_move_lines()  # din localizare
+            #for move in production.move_raw_ids:
+                #if not move.quantity_done_store:
+                    #move.quantity_done_store = move.product_qty
 
             # nota de predare
             move_list = self.env['stock.move']
@@ -137,3 +140,30 @@ class MrpProduction(models.Model):
                     move_list.write({'picking_id': picking.id})
                     picking.recheck_availability()
         return
+
+    @api.multi
+    def action_see_picking(self):
+        pickings = self.env['stock.picking']
+        for move in self.move_raw_ids:
+            pickings |= move.picking_id
+        for move in self.move_finished_ids:
+            pickings |= move.picking_id
+
+        action = self.env.ref('stock.action_picking_tree_all').read()[0]
+        if pickings:
+            action['domain'] = "[('id','in'," + str(pickings.ids) + " )]"
+        return action
+
+
+    """
+    @api.multi
+    def post_inventory(self):
+        super(MrpProduction,self).post_inventory()
+        for order in self:
+            if order.move_raw_ids:
+                picking = order.move_raw_ids[0].picking_id
+                for op in picking.pack_operation_ids:
+                    if not op.qty_done:
+                        op.qty_done = op.product_qty
+
+    """

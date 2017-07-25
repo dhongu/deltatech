@@ -2,3 +2,5 @@
 
 
 import mrp_production
+import stock_picking
+import stock_move
