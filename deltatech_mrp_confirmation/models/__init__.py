@@ -6,3 +6,4 @@ import mrp_routing
 import mrp_workorder
 import barcode_rule
 import stock
+import mrp_production

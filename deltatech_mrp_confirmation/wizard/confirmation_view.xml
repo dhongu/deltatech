@@ -13,13 +13,17 @@
                         <field name="workorder_id"/>
                         <field name="worker_id"/>
                         <!--
+                         <field name="has_tracking" invisible="1"/>
+
+                        <field name="lot_id" attrs="{'invisible': [('has_tracking', 'not in', ['lot','serial'])]}"/>
+                        -->
+                        <!--
                         <field name="code" invisible="1"/>
                         -->
                     </group>
                     <group string="Producing">
                         <field name="product_id"/>
                         <field name="qty_producing"/>
-
                     </group>
                     <group string="Time">
                         <field name="date_start"/>
@@ -50,7 +54,7 @@
                     <footer>
 
                         <button name="do_confirm" type="object" string="Confirm" class="oe_highlight"/>
-                        <button string="Inchide" special="cancel" class="oe_highlight"/>
+                        <button string="Close" special="cancel" class="oe_highlight"/>
                     </footer>
                 </form>
             </field>

@@ -69,11 +69,15 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
         this.return_to_main_menu = setTimeout( function() {
          self.on_barcode_scanned('#save');
          self.do_action('deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode', {clear_breadcrumbs: true});
+         clearTimeout(self.return_to_main_menu);
          }, 25000);
     },
 
     on_barcode_scanned: function(barcode, display=true ) {
         var self = this;
+        if (this.return_to_main_menu) {  // in case of multiple scans in the greeting message view, delete the timer, a new one will be created.
+            clearTimeout(this.return_to_main_menu);
+        }
         self.conf_wizard.call("search_scanned",  [self.conf_wizard_id, barcode] )
             .then(function(result) {
                 if (result.action) {
@@ -86,7 +90,12 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
                 }
             });
 
-    }
+    },
+
+    destroy: function () {
+        clearTimeout(this.return_to_main_menu);
+        this._super.apply(this, arguments);
+    },
 });
 
 core.action_registry.add('mrp_confirmation_barcode_mode', MrpBarcodeMode);

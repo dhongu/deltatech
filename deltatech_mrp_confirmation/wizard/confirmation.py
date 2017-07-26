@@ -36,6 +36,9 @@ class mrp_production_conf(models.TransientModel):
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
     worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
 
+    has_tracking = fields.Selection(related='product_id.tracking', string='Product with Tracking')
+    lot_id = fields.Many2one('stock.production.lot',string="Lot / Serial Number")
+
     # code = fields.Char('Operation Code')
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
@@ -167,6 +170,7 @@ class mrp_production_conf(models.TransientModel):
         workorder = self.workorder_id
         # code = self.code
         worker = self.worker_id
+        lot = self.lot_id
         confirm_message = ''
 
         if barcode != '#save':
@@ -177,6 +181,18 @@ class mrp_production_conf(models.TransientModel):
                 if scann['type'] == 'error':
                     self.error_message = _('Invalid bar code %s') % barcode
                     return
+                if scann['type'] == 'lot':
+                    domain = [('name', '=', scann['code'])]
+                    lot = self.env['stock.production.lot'].search(domain)
+                    if not lot:
+                        self.error_message = _('Lot %s not found') % barcode
+                    else:
+                        self.info_message = _('Lot %s was scanned.') % production.name
+                    if lot:
+                        domain = [('lot_produced_id', '=', lot.id)]
+                        move_lot = self.env['stock.move.lots'].search(domain)
+                        if move_lot:
+                            production = move_lot.production_id
 
                 if scann['type'] == 'mrp_order':
                     domain = [('name', '=', scann['code']), ('state', 'in', ['planned', 'progress'])]
