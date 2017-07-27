@@ -3,8 +3,8 @@
     <data>
         <template id="assets_backend" name="im assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-             	<link rel='stylesheet' href='/web_gmaps/static/src/css/web_gmaps.css'/>   
-                <script type="text/javascript" src="/web_gmaps/static/src/js/web_gmaps.js"></script>
+             	<link rel='stylesheet' href='/web_google_maps/static/src/css/web_gmaps.css'/>
+                <script type="text/javascript" src="/web_google_maps/static/src/js/web_gmaps.js"></script>
                  
              </xpath>
         </template>

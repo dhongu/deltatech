@@ -1,11 +1,11 @@
 var map ;
 
-openerp.web_gmaps = function (instance) {
+openerp.web_google_maps = function (instance) {
 
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
     
-    instance.web_gmaps.gmap_marker = instance.web.form.FormWidget.extend({
+    instance.web_google_maps.gmap_marker = instance.web.form.FormWidget.extend({
         template: "gmap_marker",
         init: function (view, code) {
             this._super(view, code);
@@ -79,10 +79,10 @@ openerp.web_gmaps = function (instance) {
  
  });
 
- instance.web.form.custom_widgets.add('gmap_marker', 'instance.web_gmaps.gmap_marker');
+ instance.web.form.custom_widgets.add('gmap_marker', 'instance.web_google_maps.gmap_marker');
 
  
- instance.web_gmaps.gmap_route = instance.web.form.FormWidget.extend({
+ instance.web_google_maps.gmap_route = instance.web.form.FormWidget.extend({
         template: "gmap_route",
 
         init: function (view, code) {
@@ -219,15 +219,15 @@ openerp.web_gmaps = function (instance) {
 
 
  });
- instance.web.form.custom_widgets.add('gmap_route', 'instance.web_gmaps.gmap_route');
+ instance.web.form.custom_widgets.add('gmap_route', 'instance.web_google_maps.gmap_route');
 
  
  
 	 
-instance.web.views.add('gmaps', 'instance.web_gmaps.gmaps');
+instance.web.views.add('gmaps', 'instance.web_google_maps.gmaps');
  
  
-instance.web_gmaps.gmaps = instance.web.View.extend({
+instance.web_google_maps.gmaps = instance.web.View.extend({
 
      template: 'gmaps',
 
