@@ -21,13 +21,13 @@
 
 from odoo import api
 from odoo import models, fields
-from openid import store
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    sale_order_id = fields.Many2one('sale.order', compute="_compute_sale_order", string="Sale Order", store = True)
+    sale_order_id = fields.Many2one('sale.order', compute="_compute_sale_order", string="Sale Order", store=True)
+    sale_order_line_id = fields.Many2one('sale.order.line', compute="_compute_sale_order", string="Sale Order Line", store=True)
 
     @api.multi
     def _compute_sale_order(self):
@@ -38,3 +38,4 @@ class MrpProduction(models.Model):
                     for procurement in prod_procurement.group_id.procurement_ids:
                         if procurement.sale_line_id:
                             production.sale_order_id = procurement.sale_line_id.order_id
+                            production.sale_order_line_id = procurement.sale_line_id.id
