@@ -27,6 +27,7 @@ class pars():
     _depou = {}
     _placi = {}
     _depozit = []
+    _aux  = []
     _html = object
     _header = []
     _liste = {}
@@ -36,8 +37,19 @@ class pars():
         self._placi = {}
         self._depozit = []
         self._header = []
+        self._aux = []
         self._html = BeautifulSoup(data, "lxml")
         self.headere()
+
+
+
+    def prod_name(self):
+        h2 = self._html.find_all('h2')
+        name = False
+        for k in h2:
+            if re.search(r'Produs', k.text):
+                name = k.text[8:]
+        return name
 
     def headere(self):
         h = self._html.find('thead').find_all('th')
@@ -66,12 +78,12 @@ class pars():
             lista[h] = self.tabel(t[1][it], it)
             it += 1
         materiale = {}
+        materiale['Depozit'] = []
+        materiale['Aux'] = []
         for k, v in lista.iteritems():
             if re.search(r'PLACI', k):
                 materiale[k] = v
             else:
-                if 'Depozit' not in materiale:
-                    materiale['Depozit'] = []
                 for d in v.iteritems():
                     dd = []
                     for smd in d[1]:
@@ -80,8 +92,13 @@ class pars():
                             sd[1] = "%s_%s" % (sd[1], self.lungimeProfile(sd)) if self.lungimeProfile(sd) else sd[1]
                         dd.append(tuple(sd))
                     materiale["Depozit"] += dd
+
+                    if re.search(r'ACCESORII', k):
+                        materiale['Aux'] += dd
+
         self._placi = materiale['PLACI']
         self._depozit = materiale['Depozit']
+        self._aux = materiale['Aux']
         self._liste = lista
         # print materiale
         # print lista
@@ -398,18 +415,22 @@ class diagrama():
 
 def extract(bon, diag):
     # base64
-    bc = base64.standard_b64decode(bon)
-    dg = base64.standard_b64decode(diag)
-    b = pars(bc)
+    #bc = base64.standard_b64decode(bon)
+    #dg = base64.standard_b64decode(diag)
+    b = pars(bon)
     d = diagrama()
     d.placi(b._placi)
     d.loadcoduri(b._depozit)
-    d.init(dg)
+    d.init(diag)
     return {
+        'name': b.prod_name(),
         'placi': b._placi,
+        'aux':b._aux,
+        'pachete':d._pachete,
         'depozit': b._depozit,
         'route': d._rute,
         'canturi': d._cant,
+        'echivalente':d._echivalente,
         'calc': d.calc(),
         'optimik': d._cumul,
     }
@@ -418,19 +439,10 @@ def extract(bon, diag):
 def loadData():
     bc = open('./bc/BC.htm', 'r').read()
     dg = open('./bc/DC.htm', "r").read()
-    b = pars(bc)
-    d = diagrama()
-    d.placi(b._placi)
-    d.loadcoduri(b._depozit)
-    d.init(dg)
-    return {
-        'placi': b._placi,
-        'depozit': b._depozit,
-        'route': d._rute,
-        'canturi': d._cant,
-        'calc': d.calc(),
-        'optimik': d._cumul,
-    }
+    return extract(bc,dg)
 
+if __name__ == '__main__':
+    res = loadData()
+    print res
 
 

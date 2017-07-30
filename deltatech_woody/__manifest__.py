@@ -14,10 +14,11 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": ['mrp'],
+    "depends": ['product','mrp'],
 
     "data": [
-        'wizard/woody_wizard_view.xml'
+        'wizard/woody_wizard_view.xml',
+        'data/data.xml'
     ],
 
     "active": False,

@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="product.product_attribute_dimension" model="product.attribute">
+            <field name="name">Dimension</field>
+            <field name="create_variant">False</field>
+        </record>
+        <record id="product.product_attribute_color" model="product.attribute">
+            <field name="name">Color</field>
+            <field name="create_variant">False</field>
+        </record>
+        <record id="product.product_attribute_cant" model="product.attribute">
+            <field name="name">Cant</field>
+            <field name="create_variant">False</field>
+        </record>
+    </data>
+</odoo>
