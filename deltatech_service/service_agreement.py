@@ -247,9 +247,11 @@ class service_agreement_type(models.Model):
  
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'
-    _description = "Service Agreement Line"  
+    _description = "Service Agreement Line"
+    _order = "agreement_id,sequence,id"
 
-
+    sequence = fields.Integer(string='Sequence', default=10,
+                              help="Gives the sequence of this line when displaying the agreement.")
     agreement_id = fields.Many2one('service.agreement', string='Contract Services' , ondelete='cascade')   
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
     quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
