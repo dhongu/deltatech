@@ -95,6 +95,7 @@ class service_equipment(models.Model):
     _description = "Equipment"
     _inherit = 'mail.thread'
     _order = "id desc"
+    _rec_name = "display_name"
 
     state = fields.Selection([('available', 'Available'), ('installed', 'Installed'), ('inactive', 'Inactive'),
                               ('backuped', 'Backuped')], default="available", string='Status', copy=False)
@@ -249,7 +250,7 @@ class service_equipment(models.Model):
                     break
 
     @api.one
-    @api.depends('name', 'address_id')  # this definition is recursive
+    @api.depends('name', 'address_id', 'serial_id')
     def _compute_display_name(self):
         if self.address_id:
             self.display_name = self.name + ' / ' + self.address_id.name
@@ -257,6 +258,11 @@ class service_equipment(models.Model):
             self.display_name = self.name
         if self.serial_id:
             self.display_name = self.display_name + ' / ' + self.serial_id.name
+
+    @api.multi
+    def name_get(self):
+        res = super(service_equipment, self).name_get()
+        return res
 
     @api.one
     def _compute_consumable_item_ids(self):
