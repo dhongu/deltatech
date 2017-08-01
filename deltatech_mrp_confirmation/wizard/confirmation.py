@@ -21,6 +21,9 @@
 
 from odoo import models, fields, api, _
 
+# worker_module = 'res.partner'
+worker_module = 'hr.employee'
+
 
 class mrp_production_conf(models.TransientModel):
     _name = 'mrp.production.conf'
@@ -34,10 +37,11 @@ class mrp_production_conf(models.TransientModel):
     production_id = fields.Many2one('mrp.production', string='Production Order',
                                     domain=[('state', 'in', ['planned', 'progress'])])
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
-    worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
+    # worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
+    worker_id = fields.Many2one(worker_module, string="Worker")
 
     has_tracking = fields.Selection(related='product_id.tracking', string='Product with Tracking')
-    lot_id = fields.Many2one('stock.production.lot',string="Lot / Serial Number")
+    lot_id = fields.Many2one('stock.production.lot', string="Lot / Serial Number")
 
     # code = fields.Char('Operation Code')
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
@@ -128,7 +132,10 @@ class mrp_production_conf(models.TransientModel):
         if workers:
             worker_domain = [('id', 'in', workers.ids)]
         else:
-            worker_domain = [('is_company', '=', False)]
+            if worker_module == 'res.partner':
+                worker_domain = [('is_company', '=', False)]
+            else:
+                worker_domain = []
         return {
             'domain': {'worker_id': worker_domain}
         }
@@ -142,7 +149,7 @@ class mrp_production_conf(models.TransientModel):
                 self.worker_id = False
 
     def get_workers(self, workorder_id, worker=False):
-        workers = self.env['res.partner']
+        workers = self.env[worker_module]
         if not workorder_id.workcenter_id.worker_ids:
             return worker
         for worker in workorder_id.workcenter_id.worker_ids:
@@ -232,8 +239,12 @@ class mrp_production_conf(models.TransientModel):
                         self.info_message = _('Operation %s was scanned') % workorder.name
 
                 if scann['type'] == 'mrp_worker':
-                    domain = [('ref', '=', scann['code'])]
-                    worker = self.env['res.partner'].search(domain, limit=1)
+                    if worker_module == 'res.partner':
+                        domain = [('ref', '=', scann['code'])]
+                    if worker_module == 'hr.employee':
+                        domain = [('barcode', '=', scann['code'])]
+
+                    worker = self.env[worker_module].search(domain, limit=1)
                     if not worker:
                         self.error_message = _('Worker %s not found') % barcode
                     else:

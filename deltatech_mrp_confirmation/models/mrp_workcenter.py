@@ -2,6 +2,9 @@
 
 from odoo import models, fields, api, _
 
+#worker_module = 'res.partner'
+worker_module = 'hr.employee'
+
 
 class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
@@ -20,7 +23,8 @@ class MrpWorkcenterWorkers(models.Model):
     _order = "to_date DESC"
 
     workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center', required=True)
-    worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company','=',False)])
+    #worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company','=',False)])
+    worker_id = fields.Many2one(worker_module, string="Worker")
     from_date = fields.Date(string="Form Date", default=lambda *a: fields.Date.today())
     to_date = fields.Date(string="To Date", default='2999-12-31')
 

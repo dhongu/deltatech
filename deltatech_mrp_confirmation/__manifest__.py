@@ -37,7 +37,7 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": ['mrp'],
+    "depends": ['mrp', 'hr_attendance'],
 
     "data": [
 

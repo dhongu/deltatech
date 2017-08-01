@@ -10,6 +10,10 @@ import base64
 
 from PIL import Image
 
+
+#worker_module = 'res.partner'
+worker_module = 'hr.employee'
+
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
@@ -44,14 +48,16 @@ class MrpWorkorder(models.Model):
 class MrpWorkcenterProductivity(models.Model):
     _inherit = "mrp.workcenter.productivity"
 
-    worker_id = fields.Many2one('res.partner', string="Worker", domain="[('id', 'in', possible_worker_ids[0][2])]")
-    possible_worker_ids = fields.Many2many('res.partner', compute='_get_possible_worker_ids', readonly=True)
+    worker_id = fields.Many2one(worker_module, string="Worker", domain="[('id', 'in', possible_worker_ids[0][2])]")
+    possible_worker_ids = fields.Many2many(worker_module, compute='_get_possible_worker_ids', readonly=True)
+
 
     qty_produced = fields.Float('Quantity', readonly=True)
 
     @api.one
     def _get_possible_worker_ids(self):
-        workers = self.env['res.partner']
+        workers = self.env[worker_module]
+
         for worker in self.workcenter_id.worker_ids:
             if worker.from_date <= fields.Date.today() <= worker.to_date:
                 workers |= worker.worker_id
