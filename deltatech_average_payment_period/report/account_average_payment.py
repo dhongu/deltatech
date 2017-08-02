@@ -20,6 +20,8 @@ class account_average_payment_report(models.Model):
     period_id = fields.Many2one('account.period', string="Period", readonly=True)
     journal_id = fields.Many2one('account.journal', string='Journal', readonly=True)
     move_id = fields.Many2one('account.move', string='Account Move', readonly=True)
+    ref = fields.Char('Reference', readonly=True)
+    # invoice_id = fields.Many2one('account.invoice',string="Invoice",readonly=True)
     account_id = fields.Many2one('account.account', string="Account", readonly=True)
     debit = fields.Float('Debit', readonly=True)
     credit = fields.Float('Credit', readonly=True)
@@ -75,6 +77,8 @@ class account_average_payment_report(models.Model):
             l.move_id,
             l.debit as debit,
             l.credit as credit,
+            am.ref as ref,
+
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as pondere,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
             coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance
