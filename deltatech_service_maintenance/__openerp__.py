@@ -21,8 +21,8 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services Maintenance",
-    "version" : "1.0",
+    "name": "Deltatech Services Maintenance",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -39,17 +39,17 @@ Functionalitati:
 
  
     """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","mail",
 
-                 "deltatech_service",
-                 "deltatech_service_equipment",
-                 "deltatech_procurement",
-                 "deltatech_product_extension",
-                 "deltatech_stock_report",
-                 "web_notification",   #pentru afisare mesaje procese lansate in background
-                 ],
+    "category": "Generic Modules",
+    "depends": ["base", "mail",
+
+                "deltatech_service",
+                "deltatech_service_equipment",
+                "deltatech_procurement",
+                "deltatech_product_extension",
+                "deltatech_stock_report",
+                "web_notification",  # pentru afisare mesaje procese lansate in background
+                ],
 
     "data": [
 
@@ -57,12 +57,12 @@ Functionalitati:
         'data.xml',
 
         'service_config_view.xml',
-               'service_notification_view.xml',
-               'service_order_view.xml',
-               'service_plan_view.xml',
+        'service_notification_view.xml',
+        'service_order_view.xml',
+        'service_plan_view.xml',
 
-               'service_equipment_view.xml',
-
+        'service_equipment_view.xml',
+        'stock_view.xml',
         'security/ir.model.access.csv',
 
     ],
@@ -72,4 +72,3 @@ Functionalitati:
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

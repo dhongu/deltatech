@@ -30,12 +30,16 @@ import openerp.addons.decimal_precision as dp
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
+    notification_id = fields.Many2one('service.notification', string='Notification', readonly=True)
     
     @api.model
     @api.returns('self', lambda value:value.id)
     def create(self, vals):
-        picking = super(stock_picking, self).create(vals)
         notification_id = self.env.context.get('notification_id',False)
+        if notification_id:
+            vals['notification_id'] = notification_id
+        picking = super(stock_picking, self).create(vals)
+
         if notification_id:
             notification =  self.env['service.notification'].browse(notification_id)
             notification.write({'piking_id': picking.id})

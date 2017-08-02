@@ -255,10 +255,11 @@ class service_notification(models.Model):
                     'default_equipment_id':self.equipment_id.id,
                     'default_partner_id':self.partner_id.id,
                     'default_agreement_id':self.agreement_id.id,
+                    'default_client_order_ref': self.name,
                     'default_address_id':self.address_id.id,
                     'default_contact_id':self.contact_id.id,
                     'default_user_id':self.user_id.id,
-                   }
+                    }
         
         if self.order_id:
             domain =  "[('id','=', "+str(self.order_id.id)+")]" 
@@ -317,6 +318,7 @@ class service_notification(models.Model):
     def new_delivery_button(self):         
         context = {'default_equipment_id': self.equipment_id.id,
                    'default_agreement_id': self.agreement_id.id,
+                   'default_origin': self.name,
                    'default_picking_type_code':'outgoing',
                    'default_picking_type_id': self.env.ref('stock.picking_type_outgoing_not2binvoiced').id,
                    'default_partner_id':self.address_id.id or self.partner_id.id}
