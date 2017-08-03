@@ -216,12 +216,14 @@ class mrp_production_conf(models.TransientModel):
                             return
 
                 if scann['type'] == 'mrp_operation':
+                    # nu trebuie facuta incrementarea de cantitate daca se rescanreaza codul operatiei
+                    """
                     if scann['code'] == self.workorder_id.code:
                         if self.workorder_id.workcenter_id.partial_conf:
                             self.qty_producing += 1
                             self.info_message = _('Incremented quantity')
                             return
-
+                    """
                     code = scann['code']
 
                     if production:
@@ -252,6 +254,10 @@ class mrp_production_conf(models.TransientModel):
                         if worker not in self.get_workers(workorder, worker):
                             self.error_message = _('Worker %s not assigned to work center %s') % (
                                 worker.name, workorder.workcenter_id.name)
+
+        if self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
+            self.qty_producing = 1.0
+            workorder.qty_producing = 1.0
 
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':

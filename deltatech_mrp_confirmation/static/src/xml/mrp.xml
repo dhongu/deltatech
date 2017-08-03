@@ -68,14 +68,19 @@
                 <h2>
                     <span>Operation:</span>
                     <t t-if="conf.workorder_id">
-                        <t t-esc="conf.workorder_id[1]"/>
+                        <t class="o_mrp_confirmation_workorder" t-esc="conf.workorder_id[1]"/>
+                        <div>
+                            <span>Quantity Produced:</span>
+                             <t t-esc="conf.qty_produced"/> /
+                             <t t-esc="conf.qty_production"/>
+                        </div>
                     </t>
                 </h2>
                 <t>
                     <span>Product:</span>
                     <t t-if="conf.product_id">
                         <t t-esc="conf.product_id"/>
-                        <t t-esc="conf.qty_producing"/>
+
                         <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
                     </t>
                     <!--
@@ -98,9 +103,6 @@
 
 
         </div>
-        <button class="fa fa-chevron-down btn-primary btn-lg o_mrp_confirmation_barcode_button_save" >
-                    Save
-        </button>
 
         <t t-if="conf.error_message">
             <div class="alert alert-danger alert-dismissible text-left" role="alert">
@@ -122,6 +124,29 @@
                 <t t-esc="conf.success_message"/>
             </div>
         </t>
+
+        <t t-if="conf.qty_producing==conf.qty_production">
+             <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+
+                 <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                <span>Cantitate procesata in totalitate</span>
+            </div>
+        </t>
+
+        <t t-if="conf.qty_producing!=conf.qty_production and conf.qty_producing!=0">
+             <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                 <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+                <span>Mai sunt produse de procesat</span>
+            </div>
+        </t>
+
+        <button class="fa fa-floppy-o btn-primary btn-lg o_mrp_confirmation_barcode_button_save" >
+                    Save
+        </button>
+
+
 
 
     </t>

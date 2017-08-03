@@ -23,7 +23,12 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
 
         "click .o_mrp_confirmation_barcode_button_save":function() {
             return this.on_barcode_scanned('#save');
-        }
+        },
+        /*
+        'change .o_mrp_confirmation_workorder':function() {
+            conf_wizard.call("onchange_workorder_id")
+        },
+        */
     },
 
     init: function (parent, action) {
@@ -70,7 +75,7 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
          self.on_barcode_scanned('#save');
          self.do_action('deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode', {clear_breadcrumbs: true});
          clearTimeout(self.return_to_main_menu);
-         }, 25000);
+         }, 50000);
     },
 
     on_barcode_scanned: function(barcode, display=true ) {
