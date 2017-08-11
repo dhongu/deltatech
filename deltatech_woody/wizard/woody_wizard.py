@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import base64
 
 import bc
@@ -52,6 +54,17 @@ class woody_wizard(models.TransientModel):
 
     @api.multi
     def do_import(self):
+
+        attribute_value = self.env['product.attribute.value']
+        attr_set = ('dimension', 'color', 'height', 'texture','cant')
+
+        attribute = {}
+
+        for att in attr_set:
+            attribute[att] = self.env.ref('product.product_attribute_' + att)
+            if not attribute['dimension']:
+                raise Warning(_('Nu gasesc atributul %s'), att)
+
         file_bc = base64.b64decode(self.file_bc)
         file_dc = base64.b64decode(self.file_dc)
 
@@ -63,27 +76,31 @@ class woody_wizard(models.TransientModel):
             'product_id': self.product_id.id,
         })
 
-
         if woody_data['name']:
             self.product_tmpl_id.write({'name': woody_data['name']})
+
+        finish_product_code = self.product_id.default_code or self.product_tmpl_id.default_code
+
+        if not finish_product_code:
+            finish_product_code = self.env['ir.sequence'].next_by_code('product.sequence_finish_product')
+            self.product_tmpl_id.write({'default_code': finish_product_code})
 
         # adaugare produse
         for v in woody_data['depozit']:
             self.get_product(v)
 
-
-        i = 10
         # materie prima placi
         for cod, v in woody_data['placi'].iteritems():
             for item in v:
                 self.get_product(item)
 
+        i = 10
         for cod, v in woody_data['pachete'].iteritems():
             for item in v:
-                v_size = " (%s x %s)" % (str(item[3]), str(item[4]))
-                routing_code = item[1]
+                v_size = " (%s x %s)" % (str(item['x']), str(item['y']))
+                routing_code = item['routing']
 
-                v_cant = item[0]
+                v_cant = item['qty']
                 # determinare fisa tehnolgica
                 routing_id = self.env['mrp.routing'].search([('name', '=', routing_code)])
                 if not routing_id:
@@ -91,32 +108,33 @@ class woody_wizard(models.TransientModel):
                     routing_id = self.env['mrp.routing'].create({'name': routing_code})
 
                 # determinare materie prima pentru semifabricate
-                if item[2] in woody_data['echivalente']:
-                    raw_code = woody_data['echivalente'][item[2]]
+                if item['raw_product'] in woody_data['echivalente']:
+                    raw_code = woody_data['echivalente'][item['raw_product']]
                     raw_product = self.env['product.product'].search([('default_code', '=', raw_code)])
                 else:
                     raise Warning(_('Nu gasesc materia prima pentru codul %s') % raw_code)
 
                 # poate e mai bine ca sa fac codificarea in functie de codul produsului finit la care sa adaug
-                v_code = raw_code + ' ' + routing_code + v_size
-
+                # v_code = raw_code + ' ' + routing_code + v_size
+                v_code = finish_product_code + '-' + item['code']
                 # mai exista un semifabricat definit la fel ?
                 product = self.env['product.product'].search([('default_code', '=', v_code)])
 
                 if not product:
                     uom = self.env.ref('product.product_uom_unit')
-                    attribute_dimension = self.env.ref('product.product_attribute_dimension')
-                    val_size = "%s x %s" % (str(item[3]), str(item[4]))
-                    att_dim_val = self.env['product.attribute.value'].search(
-                        [('name', '=', val_size),
-                         ('attribute_id', '=', attribute_dimension.id)])
-                    if not att_dim_val:
-                        att_dim_val = self.env['product.attribute.value'].create({
-                            'attribute_id': attribute_dimension.id,
-                            'name': val_size
-                        })
+
+                    att_val = {}
+                    for att in attr_set:
+                        att_val[att] = attribute_value.search([('name', '=', item[att]),
+                                                               ('attribute_id', '=', attribute[att].id)])
+                        if not att_val[att]:
+                            att_val[att] = attribute_value.create({'name': item[att],
+                                                                   'attribute_id': attribute[att].id})
+
+                    val_size = "%s x %s" % (str(item['x']), str(item['y']))
+
                     value = {
-                        'name': raw_product.name,
+                        'name': self.product_tmpl_id.name + ' ' + item['code'],
                         'type': 'product',
                         'uom_id': uom.id,
                         'default_code': v_code,
@@ -129,12 +147,22 @@ class woody_wizard(models.TransientModel):
                     if product:
                         value['product_tmpl_id'] = product.product_tmpl_id.id
                     else:
-                        value['attribute_line_ids'] = [(0, 0, {'attribute_id': attribute_dimension.id})]
+                        value['attribute_line_ids'] = []
+                        for att in attr_set:
+                            value['attribute_line_ids'] += [(0, 0, {'attribute_id': attribute[att].id})]
 
                     product = self.env['product.product'].create(value)
-                    product.attribute_line_ids.write({'value_ids': [(4, att_dim_val.id, False)]})
-                    att_dim_val.write({'product_ids': [(4, product.id, False)]})
+                    for line in product.attribute_line_ids:
+                        for att in attr_set:
+                            if line.attribute_id == attribute[att]:
+                                line.write({'value_ids': [(4, att_val[att].id, False)]})
 
+                    for att in attr_set:
+                        att_val[att].write({'product_ids': [(4, product.id, False)]})
+                    # product.attribute_line_ids.write({'value_ids': [(4, att_dim_val.id, False)]})
+                    # product.attribute_line_ids.write({'value_ids': [(4, att_color_val.id, False)]})
+                    # att_dim_val.write({'product_ids': [(4, product.id, False)]})
+                    # att_color_val.write({'product_ids': [(4, product.id, False)]})
                     new_product = True
                 else:
                     new_product = False
@@ -155,7 +183,7 @@ class woody_wizard(models.TransientModel):
                         'product_id': product.id,
                         'routing_id': routing_id.id
                     })
-                    v_row_cant = float(item[3]) * float(item[4]) / (1000 * 1000)
+                    v_row_cant = float(item['x']) * float(item['y']) / (1000 * 1000)
                     self.env['mrp.bom.line'].create({
                         'bom_id': sub_bom.id,
                         'product_id': raw_product.id,
@@ -164,9 +192,9 @@ class woody_wizard(models.TransientModel):
                     })
 
                     # adaugare canturi
-                    if item[5] and item[5][1]:
+                    if item['canturi'] and item['canturi'][1]:
                         cant_poz = 0
-                        for cant in item[5][1]:
+                        for cant in item['canturi'][1]:
                             if cant:
                                 cant_code = woody_data['echivalente'][cant[1]]
                                 cant_product = self.env['product.product'].search([('default_code', '=', cant_code)])
@@ -174,9 +202,9 @@ class woody_wizard(models.TransientModel):
                                     raise Warning(_('Nu gasesc materia prima pentru codul %s') % cant_code)
 
                                 if cant_poz == 0 or cant_poz == 2:
-                                    v_cant_qty = item[3]
+                                    v_cant_qty = float(item['x']) + 10.0  # la care se mai aduaga 10 cm
                                 else:
-                                    v_cant_qty = item[4]
+                                    v_cant_qty = float(item['y']) + 10.0  # la care se mai aduaga 10 cm
 
                                 self.env['mrp.bom.line'].create({
                                     'bom_id': sub_bom.id,
@@ -186,11 +214,11 @@ class woody_wizard(models.TransientModel):
                                 })
                             cant_poz += 1
 
-
         # adaugare produse auxiliare
         for v in woody_data['aux']:
             product, uom = self.get_product(v)
             v_name, v_code, v_uom, v_cant, v_price, v_amount = v
+
 
             self.env['mrp.bom.line'].create({
                 'sequence': i,
@@ -200,7 +228,6 @@ class woody_wizard(models.TransientModel):
                 'product_qty': v_cant
             })
             i += 10
-
 
     @api.model
     def get_product(self, item):

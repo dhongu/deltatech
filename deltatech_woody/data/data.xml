@@ -12,5 +12,34 @@
             <field name="name">Cant</field>
             <field name="create_variant">False</field>
         </record>
+        <record id="product.product_attribute_height" model="product.attribute">
+            <field name="name">Height</field>
+            <field name="create_variant">False</field>
+        </record>
+        <record id="product.product_attribute_texture" model="product.attribute">
+            <field name="name">Texture</field>
+            <field name="create_variant">False</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+
+        <record id="product.sequence_finish_product" model="ir.sequence">
+            <field name="name">Finish product</field>
+            <field name="code">product.sequence_finish_product</field>
+            <field name="prefix">FP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="product.sequence_half_finish_product" model="ir.sequence">
+            <field name="name">Half finish product</field>
+            <field name="code">product.sequence_half_finish_product</field>
+            <field name="prefix">FP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
     </data>
 </odoo>
