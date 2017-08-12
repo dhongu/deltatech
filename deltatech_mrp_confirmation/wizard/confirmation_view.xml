@@ -22,8 +22,20 @@
                         -->
                     </group>
                     <group string="Producing">
-                        <field name="product_id"/>
-                        <field name="qty_producing"/>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="qty_producing"/>
+                        </group>
+
+                        <group>
+                            <label for="qty_produced" string="Quantity Produced"/>
+                            <div class="o_row">
+                                <field name="qty_produced"/>
+                                /
+                                <field name="qty_production"/>
+                            </div>
+                        </group>
+
                     </group>
                     <group string="Time">
                         <field name="date_start"/>

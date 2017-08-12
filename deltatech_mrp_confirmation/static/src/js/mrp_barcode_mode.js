@@ -24,11 +24,19 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
         "click .o_mrp_confirmation_barcode_button_save":function() {
             return this.on_barcode_scanned('#save');
         },
-        /*
-        'change .o_mrp_confirmation_workorder':function() {
-            conf_wizard.call("onchange_workorder_id")
+
+        "click .o_mrp_confirmation_barcode_button_close":function() {
+            this.do_action('deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode', {clear_breadcrumbs: true});
         },
-        */
+
+        'change .quantity':function(oEvent) {
+            var qty_producing = parseFloat($('.quantity')[0].value)
+            if (( qty_producing + this.conf.qty_produced ) > this.conf.qty_production ) {
+                qty_producing = this.conf.qty_production - this.conf.qty_produced
+                $('.quantity')[0].value = qty_producing
+            }
+        },
+
     },
 
     init: function (parent, action) {
@@ -64,11 +72,13 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
     display_data: function(){
         var self = this;
         self.session = Session;
-        var conf_wizard = new Model('mrp.production.conf');
-        conf_wizard.query()  //['production_id','worker_id','operation_id','code']
+        //var conf_wizard = new Model('mrp.production.conf');
+
+        self.conf_wizard.query()  //['production_id','worker_id','operation_id','code']
             .filter([['id', '=', self.conf_wizard_id]])
            .all()
            .then(function (conf){
+                self.conf = conf[0];
                 self.$(".o_mrp_confirmation_barcode_item").html(QWeb.render("MrpConfirmationBarcodeItem", {conf: conf[0]}));
            });
         this.return_to_main_menu = setTimeout( function() {

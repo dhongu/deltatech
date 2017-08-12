@@ -148,6 +148,11 @@ class mrp_production_conf(models.TransientModel):
                     self.worker_id.name, self.workorder_id.workcenter_id.name)
                 self.worker_id = False
 
+    @api.onchange('qty_producing')
+    def onchange_qty_producing(self):
+        if ( self.qty_producing + self.qty_produced ) > self.qty_production:
+            self.qty_producing = self.qty_production - self.qty_produced
+
     def get_workers(self, workorder_id, worker=False):
         workers = self.env[worker_module]
         if not workorder_id.workcenter_id.worker_ids:
@@ -213,6 +218,10 @@ class mrp_production_conf(models.TransientModel):
                         if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
                             self.qty_producing += 1
                             self.info_message = _('Incremented quantity')
+                            if (self.qty_producing + self.qty_produced) > self.qty_production:
+                                self.qty_producing = self.qty_production - self.qty_produced
+                                self.info_message = ''
+                                self.error_message = _('It is not possible to increase the quantity')
                             return
 
                 if scann['type'] == 'mrp_operation':
@@ -254,6 +263,9 @@ class mrp_production_conf(models.TransientModel):
                         if worker not in self.get_workers(workorder, worker):
                             self.error_message = _('Worker %s not assigned to work center %s') % (
                                 worker.name, workorder.workcenter_id.name)
+
+
+
 
         if self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
             self.qty_producing = 1.0

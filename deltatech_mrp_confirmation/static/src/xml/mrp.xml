@@ -63,6 +63,7 @@
                     <t t-if="conf.worker_id">
                         <t t-esc="conf.worker_id[1]"/>
                     </t>
+
                 </h2>
 
                 <h2>
@@ -76,10 +77,10 @@
                         </div>
                     </t>
                 </h2>
-                <t>
+                <h3>
                     <span>Product:</span>
                     <t t-if="conf.product_id">
-                        <t t-esc="conf.product_id"/>
+                        <t t-esc="conf.product_id.display_name"/>
 
                         <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
                     </t>
@@ -96,7 +97,8 @@
                         </a>
                     </div>
                     -->
-                </t>
+
+                </h3>
             </div>
 
 
@@ -125,30 +127,35 @@
             </div>
         </t>
 
-        <t t-if="conf.qty_producing==conf.qty_production">
+        <t t-if="conf.qty_producing==conf.qty_production and conf.qty_producing!=0">
              <div class="alert alert-success alert-dismissible text-left" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
 
                  <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                <span>Cantitate procesata in totalitate</span>
+                <span>Quantity processed totally</span>
             </div>
         </t>
 
-        <t t-if="conf.qty_producing!=conf.qty_production and conf.qty_producing!=0">
+
+        <t t-if="conf.qty_producing &lt; conf.qty_production">
              <div class="alert alert-info alert-dismissible text-left" role="alert">
                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
                  <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-                <span>Mai sunt produse de procesat</span>
+                <span>There are still products to process</span>
             </div>
         </t>
 
-        <button class="fa fa-floppy-o btn-primary btn-lg o_mrp_confirmation_barcode_button_save" >
-                    Save
-        </button>
+         <t t-if="conf.production_id and conf.worker_id and conf.workorder_id">
+            <button class="fa fa-floppy-o btn-primary btn-lg o_mrp_confirmation_barcode_button_save" >
+                Save
+            </button>
+        </t>
 
-
-
-
+        <t t-if="!(conf.production_id and conf.worker_id and conf.workorder_id)">
+            <button class="fa fa-times btn-primary btn-lg o_mrp_confirmation_barcode_button_close" >
+                Close
+            </button>
+        </t>
     </t>
 
 </template>
