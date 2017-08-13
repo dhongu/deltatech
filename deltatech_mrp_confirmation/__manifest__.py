@@ -47,11 +47,13 @@ Functionalitati:
         'views/mrp_workorder_view.xml',
         'views/mrp_routing_view.xml',
         'views/mrp_production_templates.xml',
+        'views/mrp_rework_view.xml',
         'wizard/start_production_view.xml',
         'wizard/confirmation_view.xml',
         'views/mrp_production_view.xml',
         'security/ir.model.access.csv',
         'views/web_asset_backend_template.xml',
+        'data/data.xml',
     ],
     'qweb': [
         "static/src/xml/mrp.xml",

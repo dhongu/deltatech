@@ -7,3 +7,4 @@ import mrp_workorder
 import barcode_rule
 import stock
 import mrp_production
+import mrp_rework

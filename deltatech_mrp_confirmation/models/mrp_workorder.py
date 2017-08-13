@@ -18,8 +18,8 @@ class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
     code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
-
     barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
+    qty_rework = fields.Float('Rework Quantity', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
 
 
     def _compute_barcode_image(self):

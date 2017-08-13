@@ -12,6 +12,10 @@
                 <xpath expr="//field[@name='product_id']" position="before">
                     <field name="code"/>
                 </xpath>
+
+                <xpath expr="//field[@name='is_produced']" position="before">
+                    <field name="qty_rework"/>
+                </xpath>
                 <xpath expr="//tree/field[@name='user_id']" position="replace">
                     <field name="worker_id" options="{'no_create': True}"/>
                     <field name="qty_produced" />

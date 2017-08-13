@@ -48,6 +48,7 @@ class mrp_production_conf(models.TransientModel):
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
     qty_production = fields.Float('Original Production Quantity', readonly=True, related='production_id.product_qty')
+
     qty_produced = fields.Float('Quantity', readonly=True, related='workorder_id.qty_produced')
     qty_producing = fields.Float('Currently Produced Quantity', related='workorder_id.qty_producing')
 
