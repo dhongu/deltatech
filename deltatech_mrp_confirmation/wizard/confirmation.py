@@ -282,10 +282,9 @@ class mrp_production_conf(models.TransientModel):
 
 
 
-        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
-            if workorder.state != 'done':
-                self.qty_producing = 1.0
-                workorder.qty_producing = 1.0
+        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf and  workorder.qty_produced < workorder.qty_production:
+            self.qty_producing = 1.0
+            workorder.qty_producing = 1.0
 
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
