@@ -282,9 +282,13 @@ class mrp_production_conf(models.TransientModel):
 
 
 
-        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf and  workorder.qty_produced < workorder.qty_production:
-            self.qty_producing = 1.0
-            workorder.qty_producing = 1.0
+        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
+            if workorder.qty_produced < workorder.qty_production:
+                self.qty_producing = 1.0
+                workorder.qty_producing = 1.0
+            else:
+                self.qty_producing = 0.0
+                workorder.qty_producing = 0.0
 
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
@@ -314,6 +318,12 @@ class mrp_production_conf(models.TransientModel):
             workorder.button_start()
 
         workorder.qty_producing = qty_producing  # de ce nu merge la onchange ????
+
+        if (self.qty_producing + self.qty_produced) > self.qty_production:
+            raise Warning( _('It is not possible to increase the quantity'))
+
+
+
 
         time_ids = workorder.time_ids.filtered(lambda x: (x.user_id.id == self.env.user.id) and
                                                          (not x.date_end) and (
