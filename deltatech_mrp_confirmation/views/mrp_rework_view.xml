@@ -11,6 +11,7 @@
                     <field name="date"/>
                     <field name="production_id"/>
                     <field name="state"/>
+                    <field name="message_unread" invisible="1"/>
                     <field name="qty_rework"/>
                 </tree>
             </field>
