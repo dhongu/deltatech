@@ -268,7 +268,7 @@ class mrp_production_conf(models.TransientModel):
 
 
 
-        if self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
+        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
             self.qty_producing = 1.0
             workorder.qty_producing = 1.0
 
