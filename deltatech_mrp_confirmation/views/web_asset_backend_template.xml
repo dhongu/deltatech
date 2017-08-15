@@ -5,6 +5,10 @@
 
             <script type="text/javascript" src="/deltatech_mrp_confirmation/static/src/js/mrp_barcode_mode.js"></script>
             <link rel="stylesheet" href="/deltatech_mrp_confirmation/static/src/less/mrp.less"/>
+
+            <script type="text/javascript" src="/deltatech_mrp_confirmation/static/src/js/jqbtk.js"></script>
+            <link rel="stylesheet" href="/deltatech_mrp_confirmation/static/src/less/jqbtk.less"/>
+
         </xpath>
     </template>
 </odoo>

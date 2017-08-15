@@ -4,6 +4,8 @@
 
     <t t-name="MrpConfirmationBarcodeMode">
 
+
+
         <div class="modal fade" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -82,7 +84,8 @@
                     <t t-if="conf.product_id">
                         <t t-esc="conf.product_id.display_name"/>
 
-                        <input type="text" class="form-control quantity" data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
+                        <input type="number" class="form-control keyboard keyboard-numpad quantity"
+                               data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
                     </t>
                     <!--
                     <div class="css_quantity input-group oe_website_spinner" contenteditable="false">
