@@ -227,7 +227,7 @@ class mrp_production_conf(models.TransientModel):
                     if self.code and not workorder:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', self.code),
-                                            ('state', 'not in', ['done', 'cancel'])]
+                                            ('state', 'not in', [  'cancel'])]
 
                         workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
                         if not workorder:
@@ -251,7 +251,7 @@ class mrp_production_conf(models.TransientModel):
                     if production:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', code),
-                                            ('state', 'not in', ['done', 'cancel'])]
+                                            ('state', 'not in', [ 'cancel'])]
                         workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
                         if not workorder:
                             self.error_message = _('Operation with code %s not found') % code
@@ -283,8 +283,9 @@ class mrp_production_conf(models.TransientModel):
 
 
         if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
-            self.qty_producing = 1.0
-            workorder.qty_producing = 1.0
+            if workorder.state != 'done':
+                self.qty_producing = 1.0
+                workorder.qty_producing = 1.0
 
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
