@@ -78,6 +78,9 @@
                              <t t-esc="conf.qty_production"/>
                         </div>
                     </t>
+                    <t t-if="!conf.workorder_id && conf.code">
+                        <t class="o_mrp_confirmation_workorder" t-esc="conf.code"/>
+                    </t>
                 </h2>
                 <h3>
                     <span>Product:</span>
