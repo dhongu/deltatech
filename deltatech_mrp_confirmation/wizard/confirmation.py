@@ -43,7 +43,7 @@ class mrp_production_conf(models.TransientModel):
     has_tracking = fields.Selection(related='product_id.tracking', string='Product with Tracking')
     lot_id = fields.Many2one('stock.production.lot', string="Lot / Serial Number")
 
-    # code = fields.Char('Operation Code')
+    code = fields.Char('Operation Code')
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
@@ -224,6 +224,16 @@ class mrp_production_conf(models.TransientModel):
                                 self.info_message = ''
                                 self.error_message = _('It is not possible to increase the quantity')
                             return
+                    if self.code and not workorder:
+                        workorder_domain = [('production_id', '=', production.id),
+                                            ('code', '=', self.code),
+                                            ('state', 'not in', ['done', 'cancel'])]
+
+                        workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
+                        if not workorder:
+                            self.error_message = _('Operation with code %s not found') % self.code
+                            workorder = False
+
 
                 if scann['type'] == 'mrp_operation':
                     # nu trebuie facuta incrementarea de cantitate daca se rescanreaza codul operatiei
@@ -235,20 +245,24 @@ class mrp_production_conf(models.TransientModel):
                             return
                     """
                     code = scann['code']
+                    self.code = scann['code']
+
 
                     if production:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', code),
                                             ('state', 'not in', ['done', 'cancel'])]
+                        workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
+                        if not workorder:
+                            self.error_message = _('Operation with code %s not found') % code
+                            workorder = False
+                        else:
+                            self.info_message = _('Operation %s was scanned') % workorder.name
                     else:
-                        workorder_domain = [('code', '=', code), ('state', 'not in', ['done', 'cancel'])]
+                        self.info_message = _('Operation %s was scanned') % code
 
-                    workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
-                    if not workorder:
-                        self.error_message = _('Operation with code %s not found') % code
-                        workorder = False
-                    else:
-                        self.info_message = _('Operation %s was scanned') % workorder.name
+
+
 
                 if scann['type'] == 'mrp_worker':
                     if worker_module == 'res.partner':
