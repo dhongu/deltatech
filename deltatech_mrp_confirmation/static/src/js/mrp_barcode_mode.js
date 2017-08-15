@@ -22,7 +22,7 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
         },
 
         "click .o_mrp_confirmation_barcode_button_save":function() {
-            return this.on_barcode_scanned('#save');
+            this.on_barcode_scanned('#save');
             clearTimeout(self.return_to_main_menu);
             self.do_action('deltatech_mrp_confirmation.mrp_confirmation_action_barcode_mode', {clear_breadcrumbs: true});
         },
