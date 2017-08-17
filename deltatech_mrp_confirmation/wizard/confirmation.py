@@ -293,15 +293,15 @@ class mrp_production_conf(models.TransientModel):
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
                 self.success_message = _('Confirm saved for operation %s') % self.workorder_id.name
-
-                self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
+                if self.qty_producing > 0:
+                    self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
 
         self.production_id = production
         # self.code = code
         self.workorder_id = workorder
         self.worker_id = worker
 
-        if self.production_id and self.workorder_id and self.worker_id:
+        if self.production_id and self.workorder_id and self.worker_id and self.qty_producing > 0:
             self.info_message = _('System is ready for confirmation order %s operation %s with %s') % (
                 production.name, workorder.name, worker.name)
 
