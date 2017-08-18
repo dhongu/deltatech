@@ -1,6 +1,6 @@
 var map ;
 
-openerp.web_google_maps = function (instance) {
+openerp.web_widget_google_maps = function (instance) {
 
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
@@ -79,7 +79,7 @@ openerp.web_google_maps = function (instance) {
  
  });
 
- instance.web.form.custom_widgets.add('gmap_marker', 'instance.web_google_maps.gmap_marker');
+ instance.web.form.custom_widgets.add('gmap_marker', 'instance.web_widget_google_maps.gmap_marker');
 
  
  instance.web_google_maps.gmap_route = instance.web.form.FormWidget.extend({
@@ -219,12 +219,12 @@ openerp.web_google_maps = function (instance) {
 
 
  });
- instance.web.form.custom_widgets.add('gmap_route', 'instance.web_google_maps.gmap_route');
+ instance.web.form.custom_widgets.add('gmap_route', 'instance.web_widget_google_maps.gmap_route');
 
  
  
 	 
-instance.web.views.add('gmaps', 'instance.web_google_maps.gmaps');
+instance.web.views.add('gmaps', 'instance.web_widget_google_maps.gmaps');
  
  
 instance.web_google_maps.gmaps = instance.web.View.extend({
@@ -351,8 +351,3 @@ instance.web_google_maps.gmaps = instance.web.View.extend({
 
 
 
-
-
-
-
-// vim:et fdc=0 fdl=0:
