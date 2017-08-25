@@ -22,6 +22,23 @@
         </record>
     </data>
 
+
+    <data>
+        <record id="product.product_category_raw" model="product.category">
+            <field name="name">Raw product</field>
+        </record>
+        <record id="product.product_category_half" model="product.category">
+            <field name="name">Half finish product</field>
+        </record>
+        <record id="product.product_category_aux" model="product.category">
+            <field name="name">Auxiliary product</field>
+        </record>
+        <record id="product.product_category_finish" model="product.category">
+            <field name="name">Finish product</field>
+        </record>
+    </data>
+
+
     <data noupdate="1">
 
         <record id="product.sequence_finish_product" model="ir.sequence">

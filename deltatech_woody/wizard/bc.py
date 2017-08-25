@@ -42,6 +42,7 @@ class pars():
         self._placi = {}
         self._depozit = []
         self.depozit = []
+        self.materiale = {}
         self._header = []
         self._aux = []
         self._html = BeautifulSoup(data, "lxml")
@@ -81,11 +82,10 @@ class pars():
             h = re.sub('(\s|:|"+)', '', cap.text)
             lista[h] = self.tabel(t[1][it], it)
             it += 1
-        materiale = {}
-        materiale['Depozit'] = []
-        materiale['Aux'] = []
-        products = {}
-        products['Depozit'] = []
+        materiale = {'Depozit': [],
+                     'Aux': [],
+                     'Canturi': []}
+        products = {'Depozit': []}
 
         for k, v in lista.iteritems():
 
@@ -108,11 +108,14 @@ class pars():
 
                     if re.search(r'ACCESORII', k):
                         materiale['Aux'] += dd
+                    if re.search(r'CANTURI', k):
+                        materiale['Canturi'] += dd
 
         self._placi = materiale['PLACI']
         self._depozit = materiale['Depozit']
         self.depozit = products["Depozit"]
-        self._aux = materiale['Aux']
+
+        self.materiale = materiale
         self._liste = lista
 
         # print materiale
@@ -258,10 +261,10 @@ class diagrama():
         canturi = self.border(stil, continer)
         ap = (t[1], t[3], t[4], x, y, canturi)
 
-        cant  = "(%s,%s,%s,%s)" % (  canturi[0][1] and '|' or '',
-                                     canturi[0][2] and '¯' or '',
-                                     canturi[0][3] and '_' or '',
-                                     canturi[0][0] and '|' or '')
+        cant = "(%s,%s,%s,%s)" % (canturi[0][1] and '|' or '',
+                                  canturi[0][2] and '¯' or '',
+                                  canturi[0][3] and '_' or '',
+                                  canturi[0][0] and '|' or '')
 
         ap_dic = {'qty': t[1], 'routing': t[3], 'raw_product': t[4], 'x': x, 'y': y,
                   'code': t[2], 'color': t[5], 'height': t[6],
@@ -471,7 +474,7 @@ def extract(bon, diag):
     return {
         'name': b.prod_name(),
         'placi': b._placi,
-        'aux': b._aux,
+        'materiale': b.materiale,
         'pachete': d.pachete,
         'depozit': b._depozit,
         'products': b.depozit,
