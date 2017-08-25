@@ -63,6 +63,7 @@ Functionalitati:
 
         'service_equipment_view.xml',
         'stock_view.xml',
+        'sale_view.xml',
         'security/ir.model.access.csv',
 
     ],

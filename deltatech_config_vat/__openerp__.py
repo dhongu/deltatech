@@ -31,8 +31,8 @@ Functionalitati:
 
    
     """,
-    
-    "category" : "Generic Modules/Base",
+
+    'category': 'Accounting & Finance',
     "depends" : ['deltatech',"account",'sale','purchase'],
 
 

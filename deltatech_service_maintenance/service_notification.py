@@ -436,7 +436,7 @@ class service_notification(models.Model):
                 value['product_uom_qty'] = item.quantity
                 value['state'] = 'draft'
                 context['default_order_line'] += [(0,0,value)]
-                context['notification_id'] = self.id
+        context['notification_id'] = self.id
         return {
             'name': _('Sale Order for Notification'),
             'view_type': 'form',

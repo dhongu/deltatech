@@ -23,7 +23,7 @@
     "version" : "1.0",
     "author" : "Terrabit, Dorin Hongu",
     "website" : "www.terrabit.ro",
-    "category" : "Generic Modules",
+    'category': 'Accounting & Finance',
     "depends" : ['account'],
     "description": '',
     "data" : ['account_view.xml','account_invoice_view.xml'],

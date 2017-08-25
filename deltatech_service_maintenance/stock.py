@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -31,7 +31,7 @@ class stock_picking(models.Model):
     _inherit = "stock.picking"
 
     notification_id = fields.Many2one('service.notification', string='Notification', readonly=True)
-    
+
     @api.model
     @api.returns('self', lambda value:value.id)
     def create(self, vals):
@@ -44,11 +44,39 @@ class stock_picking(models.Model):
             notification =  self.env['service.notification'].browse(notification_id)
             notification.write({'piking_id': picking.id})
         return picking
-        
-    
+
+    @api.multi
+    def new_notification(self):
+        self.ensure_one()
+        context = {
+            'default_partner_id': self.partner_id.id}
+
+        if self.move_lines:
+
+            context['default_item_ids'] = []
+
+            for item in self.move_lines:
+                value = {}
+                value['product_id'] = item.product_id.id
+                value['quantity'] = item.product_uom_qty
+                context['default_item_ids'] += [(0, 0, value)]
+
+        context['sale_order_id'] = self.id
+        return {
+            'name': _('Notification'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'service.notification',
+            'view_id': False,
+            'views': [[False, 'form']],
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
 
 
 
-#todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite 
-    
+
+
+        # todo:  raport cu piesele consumate pe fiecare echipament / contract - raportat cu numarul de pagini tiparite
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
