@@ -12,7 +12,7 @@
 
 				<button id="invoice_button" position="after">
 					<button type="object" class="oe_stat_button" id="service_equipment" icon="fa-cogs" name="service_equipment" groups="account.group_account_invoice">
-						<div>Equipments</div>
+						<field string="Equipments" name="equipment_count" widget="statinfo"/>
 					</button>
 				</button>
 				<field name="product_id" position="after">

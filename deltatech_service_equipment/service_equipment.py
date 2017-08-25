@@ -102,7 +102,7 @@ class service_equipment(models.Model):
 
     agreement_id = fields.Many2one('service.agreement', string='Contract Service', compute="_compute_agreement_id",
                                    store=True, readonly=True, default=False)
-    agreement_type_id = fields.Many2one('service.agreement.type', string='Agreement Type',
+    agreement_type_id = fields.Many2one('service.agreement.type', string='Agreement Type', store=True,
                                         related='agreement_id.type_id')
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
 
@@ -113,6 +113,7 @@ class service_equipment(models.Model):
 
     # proprietarul  echipamentului
     partner_id = fields.Many2one('res.partner', string='Customer', related='equipment_history_id.partner_id',
+                                 store=True,
                                  readonly=True, help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location', related='equipment_history_id.address_id',
                                  readonly=True,
