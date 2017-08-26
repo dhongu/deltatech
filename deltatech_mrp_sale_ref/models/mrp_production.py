@@ -26,16 +26,20 @@ from odoo import models, fields
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
-    sale_order_id = fields.Many2one('sale.order', compute="_compute_sale_order", string="Sale Order", store=True)
-    sale_order_line_id = fields.Many2one('sale.order.line', compute="_compute_sale_order", string="Sale Order Line", store=True)
+    sale_order_id = fields.Many2one('sale.order', string="Sale Order",
+                                    compute="_compute_sale_order", store=True)
+    sale_order_line_id = fields.Many2one('sale.order.line', string="Sale Order Line",
+                                         compute="_compute_sale_order", store=True)
 
     @api.multi
+    @api.depends('procurement_ids')
     def _compute_sale_order(self):
         mto_route = self.env.ref('stock.route_warehouse0_mto')
         for production in self:
             if mto_route.id in production.product_id.route_ids.ids:
                 for prod_procurement in production.procurement_ids:
-                    for procurement in prod_procurement.group_id.procurement_ids:
+                    if prod_procurement.move_dest_id:
+                        procurement = prod_procurement.move_dest_id.procurement_id
                         if procurement.sale_line_id:
                             production.sale_order_id = procurement.sale_line_id.order_id
                             production.sale_order_line_id = procurement.sale_line_id.id

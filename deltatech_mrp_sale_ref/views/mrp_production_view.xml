@@ -9,6 +9,7 @@
 
                 <field name="origin" position="after">
                     <field name="sale_order_id"/>
+                    <field name="sale_order_line_id"/>
                 </field>
 
             </field>
