@@ -26,21 +26,12 @@ def isInt(v):
 
 
 class pars():
-    '''
-    _depou = {}
-    _placi = {}
-    _depozit = []
-    depozit = []
-    _aux = []
-    _html = object
-    _header = []
-    _liste = {}
-    '''
+
 
     def __init__(self, data):
         self._depou = {}
         self._placi = {}
-        self._depozit = []
+
         self.depozit = []
         self.materiale = {}
         self._header = []
@@ -80,40 +71,59 @@ class pars():
         it = 0
         for cap in t[0]:
             h = re.sub('(\s|:|"+)', '', cap.text)
+            if h == 'ACCESORII':
+                h = 'Aux'
+            if h == 'CANTURI':
+                h = 'Canturi'
+            if h == 'PLACI':
+                h = 'Placi'
             lista[h] = self.tabel(t[1][it], it)
             it += 1
-        materiale = {'Depozit': [],
+        materiale = {'Placi':{},
+                     'Depozit': [],
                      'Aux': [],
                      'Canturi': []}
-        products = {'Depozit': []}
+        products =  {'Placi':[],'Aux':[],'Canturi':[]}
 
+        materiale['Placi'] = lista['Placi']
+        keys = ('name', 'code', 'uom', 'qty', 'price', 'amount')
+        for k, v in lista.iteritems():
+            for i, d in v.iteritems():
+                products[k] += [dict(zip(keys,vals)) for  vals in d]
+        """
         for k, v in lista.iteritems():
 
-            if re.search(r'PLACI', k):
+            if k == 'Placi':
                 materiale[k] = v
                 # v_name, v_code, v_uom, v_qty, v_price, v_amount = v
                 # products[k] = {'name': v_name, 'code': v_code, 'qty': v_qty, 'price': v_price, 'amount': v_amount}
             else:
-                for d in v.iteritems():
+                for i, d in v.iteritems():
                     dd = []
-                    for smd in d[1]:
+                    for smd in d:
                         sd = list(smd)
+                        value = dict(zip(('name', 'code', 'uom', 'qty', 'price', 'amount'), sd))
+                        #v_name, v_code, v_uom, v_qty, v_price, v_amount = sd
+                        #value = [{'name': v_name, 'code': v_code, 'uom': v_uom,
+                        #          'qty': v_qty, 'price': v_price, 'amount': v_amount}]
+
                         if len(sd[1]) == 7:  # daca lungimea codului este 7
                             sd[1] = "%s_%s" % (sd[1], self.lungimeProfile(sd)) if self.lungimeProfile(sd) else sd[1]
+                            value['uom'] = str(self.lungimeProfile(sd)) + ' mm'
+                            value['profil'] = True
+                        else:
+                            value['profil'] = False
+
+                        products["Depozit"][k] += [value]
                         dd.append(tuple(sd))
-                        v_name, v_code, v_uom, v_qty, v_price, v_amount = sd
-                        products["Depozit"] += [{'name': v_name, 'code': v_code, 'qty': v_qty,
-                                                 'price': v_price, 'amount': v_amount}]
+
                     materiale["Depozit"] += dd
+                    materiale[k] += dd
+        """
 
-                    if re.search(r'ACCESORII', k):
-                        materiale['Aux'] += dd
-                    if re.search(r'CANTURI', k):
-                        materiale['Canturi'] += dd
+        self._placi = materiale['Placi']
 
-        self._placi = materiale['PLACI']
-        self._depozit = materiale['Depozit']
-        self.depozit = products["Depozit"]
+        self.depozit = products
 
         self.materiale = materiale
         self._liste = lista
@@ -151,7 +161,7 @@ class pars():
                             liste[t].append(valori)
                         else:
                             raise except_orm(_('Product Code NULL or not set'),
-                                             _('Product code is [%s] for %s\nnot set') % (valori[1], valori[0]))
+                                             _('Product code is [%s] for %s not set') % (valori[1], valori[0]))
         return liste
 
 
@@ -275,19 +285,14 @@ class diagrama():
         self._pachete[ruta].append(ap)
         self.pachete[ruta].append(ap_dic)
 
-    """
-    def loadcoduri(self, seturi):
-        for x in seturi:
-            if 'proba' in x[0].lower():
-                continue
-            self._echivalente[x[0]] = x[1]
-    """
+
 
     def LoadCoduri(self, seturi):
-        for x in seturi:
-            if 'proba' in x['name'].lower():
-                continue
-            self._echivalente[x['name']] = x['code']
+        for key, vals in seturi.iteritems():
+            for x in vals:
+                if 'proba' in x['name'].lower():
+                    continue
+                self._echivalente[x['name']] = x['code']
 
     def placi(self, placi):
         for k, x in placi.iteritems():
@@ -468,7 +473,7 @@ def extract(bon, diag):
     b = pars(bon)
     d = diagrama()
     d.placi(b._placi)
-    # d.loadcoduri(b._depozit)
+
     d.LoadCoduri(b.depozit)
     d.init(diag)
     return {
@@ -476,7 +481,7 @@ def extract(bon, diag):
         'placi': b._placi,
         'materiale': b.materiale,
         'pachete': d.pachete,
-        'depozit': b._depozit,
+
         'products': b.depozit,
         'route': d._rute,
         'canturi': d._cant,

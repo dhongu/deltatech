@@ -1,9 +1,15 @@
 <odoo>
     <data>
+
         <record id="product.product_attribute_dimension" model="product.attribute">
             <field name="name">Dimension</field>
             <field name="create_variant">False</field>
         </record>
+                <record id="product.product_attribute_height" model="product.attribute">
+            <field name="name">Height</field>
+            <field name="create_variant">False</field>
+        </record>
+
         <record id="product.product_attribute_color" model="product.attribute">
             <field name="name">Color</field>
             <field name="create_variant">False</field>
@@ -12,10 +18,7 @@
             <field name="name">Cant</field>
             <field name="create_variant">False</field>
         </record>
-        <record id="product.product_attribute_height" model="product.attribute">
-            <field name="name">Height</field>
-            <field name="create_variant">False</field>
-        </record>
+
         <record id="product.product_attribute_texture" model="product.attribute">
             <field name="name">Texture</field>
             <field name="create_variant">False</field>
@@ -38,6 +41,25 @@
         </record>
     </data>
 
+
+    <data>
+        <record id="product.uom_categ_surface" model="product.uom.categ">
+            <field name="name">Surface</field>
+        </record>
+        <record id="product.product_uom_square_meter" model="product.uom">
+            <field name="category_id" ref="product.uom_categ_surface"/>
+            <field name="name">m2</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+
+        <record id="product.product_uom_mm" model="product.uom">
+            <field name="category_id" ref="product.uom_categ_length"/>
+            <field name="name">mm</field>
+            <field name="factor" eval="1000"/>
+            <field name="uom_type">smaller</field>
+        </record>
+    </data>
 
     <data noupdate="1">
 

@@ -14,7 +14,7 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": ['product','mrp'],
+    "depends": ['product','mrp','product_dimension','deltatech_optimik'],
 
     "data": [
         'wizard/woody_wizard_view.xml',
