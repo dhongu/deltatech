@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_mrp_optimik_form" model="ir.ui.view">
+            <field name="name">mrp.optimik.export.form</field>
+            <field name="model">mrp.optimik.export</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <field name="state" invisible="1"/>
+                    <field name="name" invisible="1"/>
+
+                    <field name="line_ids">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="is_ok" invisible="1"/>
+                            <field name="raw_product"/>
+                            <field name="length"/>
+                            <field name="width"/>
+
+                            <field name="strip_left"/>
+                            <field name="strip_top"/>
+                            <field name="strip_bottom"/>
+                            <field name="strip_right"/>
+                        </tree>
+                    </field>
+
+                    <footer states="choose">
+                        <button name="do_export" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+
+                    <footer states="get">
+                        <field name="data_file" readonly="1" filename="name"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mrp_optimik" name="Export Optimik"
+                    res_model="mrp.optimik.export" src_model="product.product"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <act_window id="action_mrp_optimik" name="Export Optimik"
+                    res_model="mrp.optimik.export" src_model="product.template"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+    </data>
+</openerp>
