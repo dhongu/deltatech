@@ -32,7 +32,8 @@
                             <div class="o_row">
                                 <field name="qty_produced"/>
                                 /
-                                <field name="qty_production"/>
+                                <field name="qty_ready_prod"/>
+
                             </div>
                         </group>
 

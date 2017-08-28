@@ -75,6 +75,8 @@
                         <div>
                             <span>Quantity Produced:</span>
                              <t t-esc="conf.qty_produced"/> /
+                            <t t-esc="conf.qty_ready_prod"/>
+                           <span>Total:</span>
                              <t t-esc="conf.qty_production"/>
                         </div>
                     </t>

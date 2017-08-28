@@ -32,8 +32,8 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
 
         'change .quantity':function(oEvent) {
             var qty_producing = parseFloat($('.quantity')[0].value)
-            if (( qty_producing + this.conf.qty_produced ) > this.conf.qty_production ) {
-                qty_producing = this.conf.qty_production - this.conf.qty_produced
+            if (( qty_producing + this.conf.qty_produced ) > this.conf.qty_ready_prod ) {
+                qty_producing = this.conf.qty_ready_prod - this.conf.qty_produced
                 $('.quantity')[0].value = qty_producing
             }
         },

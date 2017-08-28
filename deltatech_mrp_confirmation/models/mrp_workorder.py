@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+
 try:
     import cStringIO as StringIO
 except ImportError:
@@ -10,9 +11,9 @@ import base64
 
 from PIL import Image
 
-
-#worker_module = 'res.partner'
+# worker_module = 'res.partner'
 worker_module = 'hr.employee'
+
 
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
@@ -20,12 +21,26 @@ class MrpWorkorder(models.Model):
     code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
     barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
     qty_rework = fields.Float('Rework Quantity', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
+    qty_ready_prod = fields.Float('Quantity Ready for Production', compute="_compute_prev_work_order")
+    prev_work_order_id = fields.Many2one('mrp.workorder', "Previous Work Order", compute="_compute_prev_work_order")
+
+    @api.depends('state')
+    def _compute_prev_work_order(self):
+        for work_order in self:
+            prev_work_order = self.search([('next_work_order_id', '=', work_order.id)], limit=1)
+            work_order.prev_work_order_id = prev_work_order
+            product_qty = work_order.production_id.product_qty
+            if prev_work_order:
+                work_order.qty_ready_prod = prev_work_order.qty_produced - prev_work_order.qty_rework
+            else:
+                work_order.qty_ready_prod = product_qty
 
 
     def _compute_barcode_image(self):
         for workorder in self:
             if workorder.code:
-                barcode_image = self.env['report'].barcode('Code128', workorder.code, width=600, height=200,  humanreadable=0)
+                barcode_image = self.env['report'].barcode('Code128', workorder.code, width=600, height=200,
+                                                           humanreadable=0)
 
                 image_stream = StringIO.StringIO(barcode_image)
                 img = Image.open(image_stream)
@@ -50,7 +65,6 @@ class MrpWorkcenterProductivity(models.Model):
 
     worker_id = fields.Many2one(worker_module, string="Worker", domain="[('id', 'in', possible_worker_ids[0][2])]")
     possible_worker_ids = fields.Many2many(worker_module, compute='_get_possible_worker_ids', readonly=True)
-
 
     qty_produced = fields.Float('Quantity', readonly=True)
 

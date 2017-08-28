@@ -47,7 +47,11 @@ class mrp_production_conf(models.TransientModel):
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
-    qty_production = fields.Float('Original Production Quantity', readonly=True, related='production_id.product_qty')
+    qty_production = fields.Float('Original Production Quantity', readonly=True,
+                                  related = 'production_id.product_qty' )
+
+    qty_ready_prod = fields.Float('Quantity Ready for Production', readonly=True,
+                                  related = 'workorder_id.qty_ready_prod' )
 
     qty_produced = fields.Float('Quantity', readonly=True, related='workorder_id.qty_produced')
     qty_producing = fields.Float('Currently Produced Quantity', related='workorder_id.qty_producing')
@@ -57,6 +61,9 @@ class mrp_production_conf(models.TransientModel):
     error_message = fields.Char(string="Error Message", readonly=True)
     success_message = fields.Char(string="Success Message", readonly=True)
     info_message = fields.Char(string="Info Message", readonly=True)
+
+
+
 
     """
     @api.depends('workorder_id', 'qty_producing','date_end','date_start')
@@ -151,8 +158,8 @@ class mrp_production_conf(models.TransientModel):
 
     @api.onchange('qty_producing')
     def onchange_qty_producing(self):
-        if ( self.qty_producing + self.qty_produced ) > self.qty_production:
-            self.qty_producing = self.qty_production - self.qty_produced
+        if ( self.qty_producing + self.qty_produced ) > self.qty_ready_prod:
+            self.qty_producing = self.qty_ready_prod - self.qty_produced
 
     def get_workers(self, workorder_id, worker=False):
         workers = self.env[worker_module]
@@ -219,8 +226,8 @@ class mrp_production_conf(models.TransientModel):
                         if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
                             self.qty_producing += 1
                             self.info_message = _('Incremented quantity')
-                            if (self.qty_producing + self.qty_produced) > self.qty_production:
-                                self.qty_producing = self.qty_production - self.qty_produced
+                            if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
+                                self.qty_producing = self.qty_ready_prod - self.qty_produced
                                 self.info_message = ''
                                 self.error_message = _('It is not possible to increase the quantity')
                             return
@@ -283,7 +290,7 @@ class mrp_production_conf(models.TransientModel):
 
 
         if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
-            if workorder.qty_produced < workorder.qty_production:
+            if workorder.qty_produced < workorder.qty_ready_prod:
                 self.qty_producing = 1.0
                 workorder.qty_producing = 1.0
             else:
@@ -319,7 +326,7 @@ class mrp_production_conf(models.TransientModel):
 
         workorder.qty_producing = qty_producing  # de ce nu merge la onchange ????
 
-        if (self.qty_producing + self.qty_produced) > self.qty_production:
+        if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
             raise Warning( _('It is not possible to increase the quantity'))
 
 
