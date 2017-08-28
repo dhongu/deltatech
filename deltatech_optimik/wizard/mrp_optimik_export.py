@@ -32,14 +32,16 @@ class MrpOptimikExport(models.TransientModel):
 
         if model == 'product.product':
             products = self.env['product.product'].browse(active_ids)
+
         for product in products:
-            line_ids.append([0, 0, {'product_id': product.id, 'quantity': 1}])
+            product_list[product.id] = {'product_id': product.id, 'quantity': 1}
 
         # are sens pt o comanda de vanzare ?
         if model == 'sale.order':
             sale_orders = self.env['sale.order'].browse(active_ids)
             for sale_order in sale_orders:
                 for line in sale_order.order_line:
+                    products |= line.product_id
                     if line.product_id.id not in product_list:
                         product_list[line.product_id.id] = {'product_id': line.product_id.id,
                                                             'quantity': line.product_uom_qty}
@@ -57,8 +59,28 @@ class MrpOptimikExport(models.TransientModel):
                     else:
                         product_list[line.product_id.id]['quantity'] += move.product_uom_qty
 
-        for item in product_list:
-            line_ids.append([0, 0, product_list[item]])
+        for product in products:
+            values = product_list[product.id]
+            values['length'] = product.length
+            values['width'] = product.width
+            bom = self.env['mrp.bom']._bom_find(product=product)
+            if bom:
+                for line in bom.bom_line_ids:
+                    if line.item_categ in ['cut', 'cut_fiber']:
+                        values['is_ok'] = True  # Am gasit ceva de taiat!
+                        values['raw_product'] = line.product_id.id
+                        if line.item_categ == 'cut_fiber':
+                            values['fiber'] = True
+                    if line.item_categ == 'top':
+                        values['strip_top'] = line.product_id.id
+                    if line.item_categ == 'left':
+                        values['strip_left'] = line.product_id.id
+                    if line.item_categ == 'right':
+                        values['strip_right'] = line.product_id.id
+                    if line.item_categ == 'bottom':
+                        values['strip_bottom'] = line.product_id.id
+
+            line_ids.append([0, 0, values])
 
         res['line_ids'] = line_ids
 
@@ -77,6 +99,7 @@ class MrpOptimikExportLine(models.TransientModel):
     width = fields.Float(related='product_id.width', readonly=True)
 
     raw_product = fields.Many2one('product.product', compute="_compute_is_ok")
+    fiber = fields.Boolean()
     strip_top = fields.Many2one('product.product', compute="_compute_is_ok")
     strip_left = fields.Many2one('product.product', compute="_compute_is_ok")
     strip_right = fields.Many2one('product.product', compute="_compute_is_ok")
@@ -93,6 +116,8 @@ class MrpOptimikExportLine(models.TransientModel):
                     if line.item_categ in ['cut', 'cut_fiber']:
                         self.is_ok = True  # Am gasit ceva de taiat!
                         self.raw_product = line.product_id
+                        if line.item_categ == 'cut_fiber':
+                            self.fiber = True
                     if line.item_categ == 'top':
                         self.strip_top = line.product_id
                     if line.item_categ == 'left':

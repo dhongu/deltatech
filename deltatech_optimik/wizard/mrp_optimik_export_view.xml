@@ -15,10 +15,11 @@
                             <field name="product_id"/>
                             <field name="quantity"/>
                             <field name="is_ok" invisible="1"/>
+
                             <field name="raw_product"/>
                             <field name="length"/>
                             <field name="width"/>
-
+                            <field name="fiber"/>
                             <field name="strip_left"/>
                             <field name="strip_top"/>
                             <field name="strip_bottom"/>
@@ -47,6 +48,10 @@
 
         <act_window id="action_mrp_optimik" name="Export Optimik"
                     res_model="mrp.optimik.export" src_model="product.template"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <act_window id="action_mrp_optimik" name="Export Optimik"
+                    res_model="mrp.optimik.export" src_model="mrp.production"
                     view_mode="form" multi="False" target="new" key2="client_action_multi"/>
     </data>
 </openerp>
