@@ -37,8 +37,8 @@
 							</group>
 							<group>
 								<field name="value_type"/>
-								<field name="percent" attrs="{'invisible':[('value_type','=','value')]"/>
-								<field name="value" attrs="{'invisible':[('value_type','=','percent')]"/>
+                                <field name="percent" attrs="{'invisible':[('value_type','=','value')]}"/>
+                                <field name="value" attrs="{'invisible':[('value_type','=','percent')]}"/>
 							</group>
 						</group>
 						<notebook>
