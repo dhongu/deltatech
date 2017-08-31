@@ -56,6 +56,8 @@ class stock_revaluation(models.Model):
                        required=True,
                        states={'draft': [('readonly', False)]},
                        default=fields.Date.today)
+    value_type = fields.Selection([('percent', "Percent"), ('velue', 'Value')], default='percent', string="Value Type")
+
     type = fields.Selection([('reduction', 'Reduction'), ('growth', 'Growth')], default='reduction', string="Type",
                             readonly=True,
                             required=True,
@@ -64,6 +66,11 @@ class stock_revaluation(models.Model):
                            readonly=True,
                            required=True,
                            states={'draft': [('readonly', False)]})
+
+    value = fields.Float(string='Value',
+                         readonly=True,
+                         required=True,
+                         states={'draft': [('readonly', False)]})
 
     line_ids = fields.One2many('stock.revaluation.line',
                                'revaluation_id',
@@ -123,11 +130,14 @@ class stock_revaluation(models.Model):
         for line in self.line_ids:
             quant = line.quant_id
 
-            if not quant.init_value:
-                init_value = quant.inventory_value
+            if self.value_type == 'percent':
+                if not quant.init_value:
+                    init_value = quant.inventory_value
+                else:
+                    init_value = quant.init_value
+                ajust = init_value * self.percent / 100.0
             else:
-                init_value = quant.init_value
-            ajust = init_value * self.percent / 100.0
+                ajust = self.value
             if self.type == 'reduction':
                 ajust = -1 * ajust
             new_value = quant.inventory_value + ajust
@@ -164,7 +174,10 @@ class stock_revaluation(models.Model):
                 value['first_revaluation'] = self.date
             else:
                 init_value = quant.init_value
-            ajust = init_value * self.percent / 100.0
+            if self.value_type == 'percent':
+                ajust = init_value * self.percent / 100.0
+            else:
+                ajust = self.value
             if self.type == 'reduction':
                 ajust = -1 * ajust
             new_value = quant.inventory_value + ajust

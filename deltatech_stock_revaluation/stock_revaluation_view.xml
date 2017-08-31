@@ -10,6 +10,7 @@
 					<field name="name" />
 					<field name="date" />
 					<field name="state" />
+					<field name="value_type"/>
 				</tree>
 			</field>
 		</record>
@@ -33,9 +34,11 @@
 							<group>
 								<field name="date" />
 								<field name="type" />
-								<field name="percent" />
 							</group>
 							<group>
+								<field name="value_type"/>
+								<field name="percent" attrs="{'invisible':[('value_type','=','value')]"/>
+								<field name="value" attrs="{'invisible':[('value_type','=','percent')]"/>
 							</group>
 						</group>
 						<notebook>
