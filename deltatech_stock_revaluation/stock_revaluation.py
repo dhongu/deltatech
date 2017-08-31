@@ -225,6 +225,7 @@ class stock_revaluation_line(models.Model):
                              copy=False)
 
     date = fields.Date('Date', related='revaluation_id.date')
+    mentor_rates = fields.Integer()
 
 
     @api.onchange('quant_id')

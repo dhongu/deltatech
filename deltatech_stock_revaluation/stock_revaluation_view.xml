@@ -50,6 +50,7 @@
 										<field name="init_value" />
 										<field name="old_value" />
 										<field name="new_value" />
+										<field name="mentor_rates"/>
 									</tree>
 								</field>
 
@@ -110,6 +111,7 @@
                     <field name="init_value"/>
                     <field name="old_value"/>
                     <field name="new_value"/>
+                    <field name="mentor_rates"/>
                 </tree>
             </field>
         </record>
