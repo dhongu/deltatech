@@ -18,7 +18,13 @@ worker_module = 'hr.employee'
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
+
+
     code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
+    procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
+                                              related='production_id.procurement_group_id')
+
+
     barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
     qty_rework = fields.Float('Rework Quantity', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
     qty_ready_prod = fields.Float('Quantity Ready for Production', compute="_compute_prev_work_order")

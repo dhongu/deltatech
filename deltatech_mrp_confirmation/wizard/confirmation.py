@@ -36,6 +36,10 @@ class mrp_production_conf(models.TransientModel):
 
     production_id = fields.Many2one('mrp.production', string='Production Order',
                                     domain=[('state', 'in', ['planned', 'progress'])])
+
+    procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
+                                              related='production_id.procurement_group_id')
+
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
     # worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
     worker_id = fields.Many2one(worker_module, string="Worker")
