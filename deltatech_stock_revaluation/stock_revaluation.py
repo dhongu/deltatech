@@ -25,6 +25,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
+from duplicity.tempdir import default
 
 
 class stock_revaluation(models.Model):
@@ -90,6 +91,7 @@ class stock_revaluation(models.Model):
 
     old_amount_total = fields.Float(string="Old Amount Total", readonly=True, )
     new_amount_total = fields.Float(string="New Amount Total", readonly=True, )
+    account_symbol = fields.Char(string="Cont", default='21.03')
 
     @api.model
     def default_get(self, fields):
