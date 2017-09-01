@@ -131,15 +131,16 @@ class stock_revaluation(models.Model):
         new_amount_total = 0.0
         for line in self.line_ids:
             quant = line.quant_id
+            if not quant.init_value:
+                init_value = quant.inventory_value
+            else:
+                init_value = quant.init_value
 
             if self.value_type == 'percent':
-                if not quant.init_value:
-                    init_value = quant.inventory_value
-                else:
-                    init_value = quant.init_value
                 ajust = init_value * self.percent / 100.0
             else:
                 ajust = self.value
+
             if self.type == 'reduction':
                 ajust = -1 * ajust
             new_value = quant.inventory_value + ajust
