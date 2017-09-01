@@ -74,7 +74,7 @@
                                 <th>Valoare ramasa de amortizat<br /></th>
                                 <th>Grad<br />utilizare(%)</th>
                                 <th>An/luna<br />prima rata</th>
-                                <th>Rate<br/> amort. in<br/>Mentor</th>
+                                <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
                                 <th>Tip<br />amortiz.</th>
                                 <th>Durata<br />norm.(ani)</th>
                                 <th>Durata<br />ramasa.(luni)</th>
@@ -155,6 +155,7 @@
                                 <td>
                                     <span t-esc="l.quant_id.first_revaluation[0:7]" />
                                 </td>
+                                <!-- 
                                 <td>
 	                                <t t-if="l.mentor_rates">
 	                                    <span t-field="l.mentor_rates"/>
@@ -163,6 +164,7 @@
 	                                    <span>0</span>
                                     </t>
                                 </td>
+                                 -->
                                 <td>
                                     <span>AL(liniar)</span>
                                 </td>
