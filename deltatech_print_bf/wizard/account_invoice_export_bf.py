@@ -114,7 +114,11 @@ class account_invoice_export_bf(models.TransientModel):
             for payment in invoice_id.payment_ids:
                 #if payment.payment_method_code == 'manual':
                 if payment.journal_id.type == 'cash':
-                    buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
+                    if payment.journal_id.code == 'VOUC':
+                        buf.write('5;%s;5;1;0\r\n' % str(int(payment.amount * 100.0)))
+                        buf.write('2;Voucher:%s\r\n' % payment.communication)
+                    else:
+                        buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
                 else:
                     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
 
