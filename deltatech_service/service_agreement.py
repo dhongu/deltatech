@@ -279,8 +279,8 @@ class service_agreement_line(models.Model):
     @api.model
     def get_value_for_consumption(self):
           cons_value = {
-                      'product_id':  self.product_id.id,    
-                      'quantity:':   self.quantity, 
+              'product_id': self.product_id.id,
+              'quantity': self.quantity,
                       'price_unit':  self.price_unit,
                       'currency_id': self.currency_id.id
                 }

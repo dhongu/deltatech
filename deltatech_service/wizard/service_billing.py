@@ -179,9 +179,9 @@ class service_billing(models.TransientModel):
                 if line.agreement_line_id.quantity < 0:  # o pozitie in contract care se opera gratuit
                     qty = 0;
                     for sec_line in invoice.invoice_line:
-                        if sec_line.id != line.id and line.porduct_id == sec_line.product_id and line.uos_id == sec_line.uos_id:
+                        if sec_line.id != line.id and line.product_id == sec_line.product_id and line.uos_id == sec_line.uos_id:
                             qty += sec_line.quantity
-                    if qty > 0 and (qty + line.agreement_line_id.quantity) < 0:
+                    if (qty + line.agreement_line_id.quantity) < 0:
                         line.write({'quantity': -1 * qty})
 
 
