@@ -62,9 +62,7 @@ class service_consumption(models.Model):
                                   ) 
     
     state = fields.Selection([
-            ('draft','Without invoice'),
-            ("none", "Not Applicable"),
-            ('done','With invoice'),
+        ('draft', 'Without invoice'), ("none", "Not Applicable"), ('done', 'With invoice'),
         ], string='Status', index=True,  default='draft', copy=False, readonly=True, states={'draft': [('readonly', False)]} )
  
     

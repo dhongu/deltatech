@@ -147,6 +147,8 @@ class service_billing(models.TransientModel):
         if not pre_invoice:
             raise Warning (_('No condition for create a new invoice') )
         res = []
+
+        invoices = self.env['account.invoice']
         for date_invoice in pre_invoice:
             for key in pre_invoice[date_invoice]:
                 comment = _('According to agreement ')
@@ -167,9 +169,21 @@ class service_billing(models.TransientModel):
                     #'agreement_id':pre_invoice[key]['agreement_id'],
                 }
                 invoice_id = self.env['account.invoice'].create(invoice_value)
+                invoices |= invoice_id
                 invoice_id.button_compute(True)
                 pre_invoice[date_invoice][key]['cons'].write( {'invoice_id':invoice_id.id})
                 res.append(invoice_id.id)
+
+        for invoice in invoices:
+            for line in invoice.invoice_line:
+                if line.agreement_line_id.quantity < 0:  # o pozitie in contract care se opera gratuit
+                    qty = 0;
+                    for sec_line in invoice.invoice_line:
+                        if sec_line.id != line.id and line.porduct_id == sec_line.product_id and line.uos_id == sec_line.uos_id:
+                            qty += sec_line.quantity
+                    if qty > 0 and (qty + line.agreement_line_id.quantity) < 0:
+                        line.write({'quantity': -1 * qty})
+
 
         agreements.compute_totals()
 
