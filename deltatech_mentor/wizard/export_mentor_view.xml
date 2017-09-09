@@ -44,7 +44,8 @@
 		 </record>
 
 		<menuitem name="Export Mentor" id="menu_export_mentor"
-					action="action_export_mentor" parent="account.menu_finance_periodical_processing" groups="account.group_account_manager"/>
+					action="action_export_mentor"  parent="account.menu_finance_entries"
+                  groups="account.group_account_manager"/>
 
 
 	</data>

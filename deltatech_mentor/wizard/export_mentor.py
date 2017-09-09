@@ -22,7 +22,7 @@
 import base64
 import zipfile
 import StringIO
-
+import ConfigParser
 
 
 from odoo import models, fields, api, _

@@ -34,16 +34,19 @@ Documentatia Mentor de import  din alte aplicatii:
     """,
     
     "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account"],
-    "external_depends":['html2text'],
+    "depends" : ['deltatech',"base","account",'deltatech_backwards'],
 
+    'external_dependencies': {
+        'python': ['html2text'],
+    },
  
     "data" : [
               'views/report_product.xml',
               'views/report_invoice.xml',
               'views/report_partner.xml',
               'views/report_picking.xml',
-              'wizard/export_mentor_view.xml'
+              'wizard/export_mentor_view.xml',
+              'wizard/import_mentor_view.xml'
               ],
     
     "active": False,
