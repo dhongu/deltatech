@@ -43,7 +43,7 @@ class export_saga(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('get', 'get')], default='choose')  # get the file
 
-    period_id = fields.Many2one('account.period', string='Period', required=True)
+    period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
@@ -233,7 +233,7 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_articole(self, product_ids):
-        result_html = ''
+
         """
         Articole 
         Nr. crt. Nume câmp Tip Mărime câmp Descriere 
@@ -249,6 +249,7 @@ class export_saga(models.TransientModel):
         10. CANT_MIN Numeric 14,3 Stoc minim (optional) 
         11. GRUPA Character 16 Grupa de articol (optional) 
         """
+        result_html = ''
         Articole = {
             'COD': dbf_fields.CharField(max_length=16),  # Cod articol
             'DENUMIRE': dbf_fields.CharField(max_length=60),  # Denumire articol
@@ -280,31 +281,32 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
+        """
+         Intrări
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere
+        1. NR_NIR Numeric 7 Număr NIR
+        2. NR_INTRARE Character 16 Numărul documentului de intrare
+        3. GESTIUNE Character 4 Cod gestiune (optional)
+        4. DEN_GEST Character 36 Denumirea gestiunii (optional)
+        5. COD Character 5 Cod furnizor
+        6. DATA Date - Data documentului de intrare (a facturii)
+        7. SCADENT Date - Data scadenţei
+        8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă...
+        9. TVAI Numeric 1 1 pentru TVA la incasare
+        10. COD_ART Character 16 Cod articol (optional)
+        11. DEN_ART Character 60 Denumire articol
+        12. UM Character 5 Unitatea de măsură pt.articol (optional)
+        13. CANTITATE Numeric 14,3 Cantitate
+        14. DEN_TIP Character 36 Denumirea tipului de articol (optional)
+        15. TVA_ART Numeric 2 Procentul de TVA
+        16. VALOARE Numeric 15,2 Valoarea totală, fără TVA
+        17. TVA Numeric 15,2 TVA total
+        18. CONT Character 20 Contul corespondent
+        19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional)
+        20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
+        """
         result_html = ''
-        """
- Intrări 
-Nr. crt. Nume câmp Tip Mărime câmp Descriere 
-1. NR_NIR Numeric 7 Număr NIR 
-2. NR_INTRARE Character 16 Numărul documentului de intrare 
-3. GESTIUNE Character 4 Cod gestiune (optional) 
-4. DEN_GEST Character 36 Denumirea gestiunii (optional) 
-5. COD Character 5 Cod furnizor 
-6. DATA Date - Data documentului de intrare (a facturii) 
-7. SCADENT Date - Data scadenţei 
-8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă... 
-9. TVAI Numeric 1 1 pentru TVA la incasare 
-10. COD_ART Character 16 Cod articol (optional) 
-11. DEN_ART Character 60 Denumire articol 
-12. UM Character 5 Unitatea de măsură pt.articol (optional) 
-13. CANTITATE Numeric 14,3 Cantitate 
-14. DEN_TIP Character 36 Denumirea tipului de articol (optional) 
-15. TVA_ART Numeric 2 Procentul de TVA 
-16. VALOARE Numeric 15,2 Valoarea totală, fără TVA 
-17. TVA Numeric 15,2 TVA total 
-18. CONT Character 20 Contul corespondent 
-19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional) 
-20. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
-        """
+
 
         Intrari = {
             'NR_NIR': dbf_fields.IntegerField(size=7),  # Număr NIR
