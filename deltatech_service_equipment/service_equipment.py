@@ -165,6 +165,7 @@ class service_equipment(models.Model):
     reading_day = fields.Integer(string='Reading Day', default=-1,
                                  help="""Day of the month, set -1 for the last day of the month.
                                      If it's positive, it gives the day of the month. Set 0 for net days .""")
+    last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
 
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
@@ -243,9 +244,12 @@ class service_equipment(models.Model):
 
             equi.readings_status = 'done'
             for meter in equi.meter_ids:
+
                 if not meter.last_meter_reading_id:
                     equi.readings_status = 'unmade'
                     break
+                else:
+                    equi.last_reading = meter.last_meter_reading_id.date
                 if not (meter.last_meter_reading_id.date >= next_date):
                     equi.readings_status = 'unmade'
                     break

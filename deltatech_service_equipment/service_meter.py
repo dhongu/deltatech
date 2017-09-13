@@ -242,8 +242,14 @@ class service_meter_reading(models.Model):
     
     meter_id = fields.Many2one('service.meter', string='Meter',required=True, ondelete='cascade',  domain=[('type', '=', 'counter')]) 
     
-    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')   
-    equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True, ondelete='restrict' ) 
+    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')
+    equipment_id = fields.Many2one('service.equipment', string='Equipment', required=True, ondelete='restrict')
+    partner_id = fields.Many2one('res.partner', string='Customer', related='equipment_history_id.partner_id',
+                                 store=True,
+                                 readonly=True, help='The owner of the equipment')
+    address_id = fields.Many2one('res.partner', string='Location', related='equipment_history_id.address_id',
+                                 readonly=True,
+                                 help='The address where the equipment is located')
 
     
     date = fields.Date(string='Date', index=True, required=True, default = fields.Date.today()  ) 
@@ -274,18 +280,23 @@ class service_meter_reading(models.Model):
                 self.previous_counter_value = previous.counter_value
                 self.difference = self.counter_value - self.previous_counter_value
                 #self.invalidate_cache() # asta e solutia ?
-            
+
  
             
     @api.one
     @api.depends('counter_value','previous_counter_value')
     def _compute_difference(self):
         self.difference = self.counter_value - self.previous_counter_value
+
         next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
                                                          ('date','>',self.date)],limit=1, order='date, id')
         if next and next.previous_counter_value <>  self.counter_value:
             next.write({'previous_counter_value': self.counter_value,
                         'difference' : (next.counter_value - self.counter_value)})
+
+        if self.difference <= 0:
+            raise Warning(
+                _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
             #next._compute_difference()      
 
  
@@ -313,22 +324,26 @@ class service_meter_reading(models.Model):
     def create(self, vals):
         if not vals.get('equipment_history_id',False):
             equipment = self.env['service.equipment'].browse(vals['equipment_id'])
-            history_id = equipment.get_history_id(vals['date']) 
-            print history_id
+            history_id = equipment.get_history_id(vals['date'])
+            equipment.write({'last_reading': vals['date']})
             if history_id:
                 vals['equipment_history_id'] =  history_id.id
-                 
-        res = super(service_meter_reading,self).create(vals)
+
+        readings = super(service_meter_reading, self).create(vals)
+
         #self.meter_id.calc_forcast_coef()
-        return res
+        return readings
 
     @api.multi
     def write(self, vals):
+        if self.difference <= 0:
+            raise Warning(_('The counter value must be greater than %s') % self.previous_counter_value)
         res = super(service_meter_reading,self).write(vals)
         if  vals.get('date',False):
             for reading in self:
                 reading.meter_id.recheck_value()
                 reading.meter_id.calc_forcast_coef()
+                reading.equipment_id.write({'last_reading': self.date})
         return 
 
 

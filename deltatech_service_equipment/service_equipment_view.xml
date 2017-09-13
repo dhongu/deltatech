@@ -49,6 +49,7 @@
                     <field name="total_costs" sum="total"/>
                     <field name="inventory_value" sum="total"/>
                     <field name="readings_status"/>
+                    <field name="last_reading"/>
                     <field name="message_unread" invisible="1"/>
                 </tree>
             </field>
@@ -193,6 +194,7 @@
                             <page id='meters' string="Meters">
                                 <group>
                                     <field name="reading_day"/>
+                                    <field name="last_reading"/>
                                 </group>
                                 <field name="meter_ids" nolabel="1" widget="one2many_list">
                                     <tree string="Meters" editable="bottom">
@@ -261,6 +263,10 @@
                     <field name="agreement_type_id"/>
                     <field name="contact_id"/>
                     <newline/>
+                    <filter string="Whitout reading in this month" name="month"
+                            domain="['|',('last_reading','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('last_reading','&gt;', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"/>
+
                     <group expand="1" string="Group By...">
                         <filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/>
                         <filter string="Agreement" name="agreement" context="{'group_by':'agreement_id'}"/>

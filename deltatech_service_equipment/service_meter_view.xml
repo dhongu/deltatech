@@ -21,6 +21,7 @@
                 <tree string="Meter">
                     <field name="name"/>
                     <field name="equipment_id"/>
+
                     <field name="meter_categ_id"/>
                     <field name="total_counter_value"/>
                     <field name="estimated_value"/>
@@ -87,9 +88,11 @@
                 <search string="Search">
                     <field name="meter_categ_id"/>
                     <field name="equipment_id"/>
+
                     <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Equipment" name="equipment" context="{'group_by':'equipment_id'}"/>
+
                     </group>
                 </search>
             </field>
@@ -112,6 +115,8 @@
             <field name="model">service.meter.reading</field>
             <field name="arch" type="xml">
                 <tree string="Services equipment">
+                    <field name="partner_id" invisible="context.get('default_equipment_id', False)"/>
+                    <field name="address_id" invisible="context.get('default_equipment_id', False)"/>
                     <field name="equipment_id" invisible="context.get('default_equipment_id', False)"/>
                     <field name="meter_id"/>
                     <field name="date"/>
@@ -162,11 +167,13 @@
                 <search string="Search">
                     <field name="equipment_id"/>
                     <field name="meter_id"/>
-
+                    <field name="partner_id"/>
+                    <field name="address_id"/>
                     <newline/>
                     <group expand="1" string="Group By...">
                         <filter string="Equipment" name="equipment" context="{'group_by':'equipment_id'}"/>
                         <filter string="Meter" name="meter" context="{'group_by':'meter_id'}"/>
+                        <filter string="Customer" name="partner" context="{'group_by':'partner_id'}"/>
                     </group>
                 </search>
             </field>
