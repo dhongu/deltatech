@@ -56,7 +56,8 @@ class service_cycle(models.Model):
 class service_agreement(models.Model):
     _name = 'service.agreement'
     _description = "Service Agreement"
-    _inherit = 'mail.thread'
+
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     @api.model
     def _default_currency(self):
@@ -105,6 +106,10 @@ class service_agreement(models.Model):
 
     last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id"  )
 
+    last_invoice_date = fields.Date(string='Last Invoice Date', compute="_compute_last_invoice_id",
+                                    store=True,
+                                    readonly=True, default="2000-01-01")
+
     invoice_day = fields.Integer(string='Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]},
                                     help="""Day of the month, set -1 for the last day of the month.
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
@@ -112,8 +117,8 @@ class service_agreement(models.Model):
     prepare_invoice_day = fields.Integer(string='Prepare Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]}, default=-1,
                                     help="""Day of the month, set -1 for the last day of the month.
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
-    
-    next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
+
+    next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id", store=True)
 
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
@@ -122,12 +127,17 @@ class service_agreement(models.Model):
     invoicing_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('progress','In progress'),('done','Done')], 
                                             string="Invoicing Status", compute="_compute_invoicing_status", store=True )
 
-
+    @api.model
+    def _needaction_domain_get(self):
+        return [('invoicing_status', '!=', 'done')]
 
     @api.multi
     def _compute_invoicing_status(self):
-        
-        for agreement in self:
+        agreements = self
+        if not agreements:
+            agreements = self.search([('state', '=', 'open')])
+
+        for agreement in agreements:
             next_date =  date.today()    
             if agreement.prepare_invoice_day < 0:
                 next_first_date = next_date + relativedelta(day=1,months=0)  
@@ -151,9 +161,9 @@ class service_agreement(models.Model):
                 else:
                     if invoice.state  in ['draft']:
                         invoicing_status = 'progress'
-            
-            agreement.write({'invoicing_status':invoicing_status})
-                        
+
+            agreement.write({'invoicing_status': invoicing_status, })
+            agreement._compute_last_invoice_id()
                     
     
 
@@ -184,6 +194,7 @@ class service_agreement(models.Model):
         
         if self.last_invoice_id:
             date_invoice =  self.last_invoice_id.date_invoice
+            self.last_invoice_date = self.last_invoice_id.date_invoice
         else:
             date_invoice = self.date_agreement
             
@@ -232,13 +243,46 @@ class service_agreement(models.Model):
         for item in self:
             if item.state not in ('draft'):
                 raise Warning(_('You cannot delete a service agreement which is not draft.'))
-        return super(service_agreement, self).unlink() 
+        return super(service_agreement, self).unlink()
+
+    @api.model
+    def get_link(self, model):
+        for model_id, model_name in model.name_get():
+            link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name)
+        return link
+
+    @api.model
+    def send_mail_todo_today(self):
+
+        data1 = (date.today() + relativedelta(days=-2)).strftime('%Y-%m-%d')
+        data2 = (date.today() + relativedelta(days=2)).strftime('%Y-%m-%d')
+        agreements = self.search([('state', '=', 'open'),
+                                  ('next_date_invoice', '>=', data1),
+                                  ('next_date_invoice', '<=', data2)
+                                  ])
+
+        for agreement in agreements:
+            follower = agreement.message_follower_ids
+            msg = _('Please make invoice for agreement %s') % agreement.name
+            print follower
+            message = self.env['mail.message'].with_context({'default_starred': True}).create({
+                'model': 'service.agreement',
+                'res_id': agreement.id,
+                'record_name': agreement.name_get()[0][1],
+                'email_from': self.env['mail.message']._get_default_from(),
+                'reply_to': self.env['mail.message']._get_default_from(),
+
+                'subject': _('To invoice'),
+                'body': msg,
+
+                'message_id': self.env['mail.message']._get_message_id({'no_auto_thread': True}),
+                'partner_ids': [(4, id) for id in follower.ids],
+                # 'notified_partner_ids': [(4, id) for id in new_follower_ids]
+            })
 
 
- 
-        
-    
-# CAT, CATG CATPG
+
+            # CAT, CATG CATPG
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
     _description = "Service Agreement Type"     
