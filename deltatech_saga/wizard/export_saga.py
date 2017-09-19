@@ -365,7 +365,11 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                    
             for line in invoice.invoice_line:
                 if line.invoice_line_tax_id:
-                    tva_art = int(line.invoice_line_tax_id[0].amount * 100)
+                    tva_art = line.invoice_line_tax_id[0].amount
+                    if tva_art < 1:
+                        tva_art = int(line.invoice_line_tax_id[0].amount * 100)
+                    else:
+                        tva_art = 0
                 else:    
                     tva_art = 0
                 
