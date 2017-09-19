@@ -294,7 +294,7 @@ class service_meter_reading(models.Model):
             next.write({'previous_counter_value': self.counter_value,
                         'difference' : (next.counter_value - self.counter_value)})
 
-        if self.difference <= 0:
+        if self.difference <= 0 and self.previous_counter_value > 0:
             raise Warning(
                 _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
             #next._compute_difference()      

@@ -166,6 +166,7 @@ class service_equipment(models.Model):
                                  help="""Day of the month, set -1 for the last day of the month.
                                      If it's positive, it gives the day of the month. Set 0 for net days .""")
     last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
+    next_reading = fields.Date('Next reading date', readonly=True, default="2000-01-01")
 
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
@@ -230,29 +231,37 @@ class service_equipment(models.Model):
     @api.multi
     def _compute_readings_status(self):
         for equi in self:
-            next_date = date.today()
+            if equi.last_reading:
+                next_date = max(date.today(), fields.Date.from_string(equi.last_reading))
+            else:
+                next_date = date.today()
+
             if equi.reading_day < 0:
                 next_first_date = next_date + relativedelta(day=1, months=0)
                 next_date = next_first_date + relativedelta(days=equi.reading_day)
             if equi.reading_day > 0:
                 next_date += relativedelta(day=equi.reading_day, months=0)
 
-            if next_date > date.today():
-                next_date += relativedelta(months=-1)
+            # if next_date > date.today():
+            #    next_date += relativedelta(months=-1)
 
-            next_date = fields.Date.to_string(next_date)
+            next_reading_date = fields.Date.to_string(next_date)
 
             equi.readings_status = 'done'
             for meter in equi.meter_ids:
-
                 if not meter.last_meter_reading_id:
                     equi.readings_status = 'unmade'
                     break
                 else:
                     equi.last_reading = meter.last_meter_reading_id.date
-                if not (meter.last_meter_reading_id.date >= next_date):
+                if not (meter.last_meter_reading_id.date >= next_reading_date):
                     equi.readings_status = 'unmade'
                     break
+
+            if next_reading_date < equi.last_reading:
+                next_date += relativedelta(months=1)
+            equi.next_reading = fields.Date.to_string(next_date)
+
 
     @api.one
     @api.depends('name', 'address_id', 'serial_id')
@@ -466,6 +475,36 @@ class service_equipment(models.Model):
                 self.agreement_id.unlink()
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
+
+    @api.model
+    def send_mail_todo_today(self):
+        self._compute_readings_status()
+        data1 = (date.today() + relativedelta(days=-2)).strftime('%Y-%m-%d')
+        data2 = (date.today() + relativedelta(days=2)).strftime('%Y-%m-%d')
+        equis = self.search([('readings_status', '=', 'unmade'),
+                             ('next_reading', '>=', data1),
+                             ('next_reading', '<=', data2)
+                             ])
+
+        for equi in equis:
+            follower = equis.message_follower_ids
+            msg = _('Please make reading for equipament %s') % equis.name
+            print follower
+            message = self.env['mail.message'].with_context({'default_starred': True}).create({
+                'model': 'service.equipment',
+                'res_id': equi.id,
+                'record_name': equi.name_get()[0][1],
+                'email_from': self.env['mail.message']._get_default_from(),
+                'reply_to': self.env['mail.message']._get_default_from(),
+
+                'subject': _('To reading'),
+                'body': msg,
+
+                'message_id': self.env['mail.message']._get_message_id({'no_auto_thread': True}),
+                'partner_ids': [(4, id) for id in follower.ids],
+                # 'notified_partner_ids': [(4, id) for id in new_follower_ids]
+            })
+
 
 
 class service_equipment_category(models.Model):

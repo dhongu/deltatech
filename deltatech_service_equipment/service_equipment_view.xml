@@ -195,6 +195,8 @@
                                 <group>
                                     <field name="reading_day"/>
                                     <field name="last_reading"/>
+                                    <field name="next_reading"/>
+                                    <field name="readings_status"/>
                                 </group>
                                 <field name="meter_ids" nolabel="1" widget="one2many_list">
                                     <tree string="Meters" editable="bottom">
@@ -428,5 +430,26 @@
             ref('stock.picking_type_consume'), 'search_default_picking_type_id': ref('stock.picking_type_consume'), }" /> <field name="search_view_id" ref="stock.view_picking_internal_search"
             /> </record> <menuitem id="menu_picking_tree_consume" action="action_picking_tree_consume" parent="stock.menu_stock_warehouse_mgmt" sequence="101" /> -->
 
+
+    </data>
+
+    <data noupdate="1">
+        <record id="ir_cron_update_reading_status" model="ir.cron">
+            <field name="name">Update reading status</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="model">service.equipment</field>
+            <field name="function">_compute_readings_status</field>
+        </record>
+
+        <record id="ir_cron_send_mail_to_reading" model="ir.cron">
+            <field name="name">Reminder to make readings</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="model">service.equipment</field>
+            <field name="function">send_mail_todo_today</field>
+        </record>
     </data>
 </openerp>

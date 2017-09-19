@@ -36,6 +36,7 @@ class service_enter_reading(models.TransientModel):
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
     note =  fields.Text(String='Notes')
     items = fields.One2many('service.enter.reading.item','enter_reading_id')
+    estimated = fields.Boolean(string='Estimated')
 
     @api.model
     def default_get(self, fields):
@@ -79,7 +80,8 @@ class service_enter_reading(models.TransientModel):
                                                           'date':enter_reading.date,
                                                           'read_by':enter_reading.read_by.id,
                                                           'note':enter_reading.note,
-                                                          'counter_value':item.counter_value})
+                                                          'counter_value': item.counter_value,
+                                                          'estimated': enter_reading.estimated})
         
     
 class service_enter_reading_item(models.TransientModel):

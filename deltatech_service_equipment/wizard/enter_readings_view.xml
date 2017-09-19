@@ -14,7 +14,8 @@
 					</group>
 					<group>
 						<field name="date" />
-						<field name="read_by" />						
+                        <field name="read_by"/>
+                        <field name="estimated"/>
 						<field name="items"  >
 							<tree editable="bootom" create="0" delete="0">
 								<field name="equipment_id"/>
