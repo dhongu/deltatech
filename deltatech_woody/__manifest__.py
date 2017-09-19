@@ -10,6 +10,7 @@
 Functionalitati:
 
     - import fisiere din Woody
+    - in produs, Actions->Importa din Woody BOM si Chart of debiting
 
     """,
 
