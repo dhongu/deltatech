@@ -109,12 +109,22 @@ class account_invoice_export_bf(models.TransientModel):
                 negative_price = negative_price*100
                 negative_price_string = str(int(negative_price))
                 buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
-            
+
+            for payment in invoice_id.payment_ids:
+                #if payment.payment_method_code == 'manual':
+                if payment.journal_id.type == 'cash':
+                    if payment.journal_id.code == 'VOUC':
+                        buf.write('2;Voucher:%s\r\n' % payment.communication)
+
+
             # print payments
             for payment in invoice_id.payment_ids:
                 #if payment.payment_method_code == 'manual':
                 if payment.journal_id.type == 'cash':
-                    buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
+                    if payment.journal_id.code == 'VOUC':
+                        buf.write('5;%s;5;1;0\r\n' % str(int(payment.amount * 100.0)))
+                    else:
+                        buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
                 else:
                     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,40 +17,32 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
+
 {
-    "name" : "Deltatech Mentor Interface",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "MRP Optimik",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     "description": """
-
+    
 Functionalitati:
- - Permite exportul de date din Odoo pentru a fi importate in Mentor
-   
-Documentatia Mentor de import  din alte aplicatii:
- http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
-   
-    """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account"],
-    "external_depends":['html2text'],
+----------------
 
- 
-    "data" : [
-              'views/report_product.xml',
-              'views/report_invoice.xml',
-              'views/report_partner.xml',
-              'views/report_picking.xml',
-              'wizard/export_mentor_view.xml'
-              ],
-    
+    """,
+
+    "category": "Manufacturing",
+    "depends": ["mrp","product_dimension"],
+
+    "data": [
+        "wizard/mrp_optimik_export_view.xml",
+        "views/mrp_bom_view.xml",
+        "data/data.xml"
+    ],
     "active": False,
     "installable": True,
 }
 
 
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

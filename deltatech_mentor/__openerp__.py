@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -18,14 +18,42 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name" : "Deltatech Mentor Interface",
+    "version" : "2.0",
+    "author" : "Dorin Hongu",
+    "website" : "",
+    "description": """
 
+Functionalitati:
+ - Permite exportul de date din Odoo pentru a fi importate in Mentor
+   
+Documentatia Mentor de import  din alte aplicatii:
+ http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
+   
+    """,
+    
+    "category" : "Generic Modules/Base",
+    "depends" : ['deltatech',"base","account",'deltatech_backwards'],
 
-
-
-import export_mentor
+    'external_dependencies': {
+        'python': ['html2text'],
+    },
  
-
+    "data" : [
+              'views/report_product.xml',
+              'views/report_invoice.xml',
+              'views/report_partner.xml',
+              'views/report_picking.xml',
+              'wizard/export_mentor_view.xml',
+              'wizard/import_mentor_view.xml'
+              ],
+    
+    "active": False,
+    "installable": True,
+}
 
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -36,6 +36,10 @@ class mrp_production_conf(models.TransientModel):
 
     production_id = fields.Many2one('mrp.production', string='Production Order',
                                     domain=[('state', 'in', ['planned', 'progress'])])
+
+    procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
+                                              related='production_id.procurement_group_id')
+
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
     # worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
     worker_id = fields.Many2one(worker_module, string="Worker")
@@ -43,11 +47,16 @@ class mrp_production_conf(models.TransientModel):
     has_tracking = fields.Selection(related='product_id.tracking', string='Product with Tracking')
     lot_id = fields.Many2one('stock.production.lot', string="Lot / Serial Number")
 
-    # code = fields.Char('Operation Code')
+    code = fields.Char('Operation Code')
     workorder_id = fields.Many2one('mrp.workorder', string="Workorder",
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
-    qty_production = fields.Float('Original Production Quantity', readonly=True, related='production_id.product_qty')
+    qty_production = fields.Float('Original Production Quantity', readonly=True,
+                                  related = 'production_id.product_qty' )
+
+    qty_ready_prod = fields.Float('Quantity Ready for Production', readonly=True,
+                                  related = 'workorder_id.qty_ready_prod' )
+
     qty_produced = fields.Float('Quantity', readonly=True, related='workorder_id.qty_produced')
     qty_producing = fields.Float('Currently Produced Quantity', related='workorder_id.qty_producing')
 
@@ -56,6 +65,9 @@ class mrp_production_conf(models.TransientModel):
     error_message = fields.Char(string="Error Message", readonly=True)
     success_message = fields.Char(string="Success Message", readonly=True)
     info_message = fields.Char(string="Info Message", readonly=True)
+
+
+
 
     """
     @api.depends('workorder_id', 'qty_producing','date_end','date_start')
@@ -148,6 +160,11 @@ class mrp_production_conf(models.TransientModel):
                     self.worker_id.name, self.workorder_id.workcenter_id.name)
                 self.worker_id = False
 
+    @api.onchange('qty_producing')
+    def onchange_qty_producing(self):
+        if ( self.qty_producing + self.qty_produced ) > self.qty_ready_prod:
+            self.qty_producing = self.qty_ready_prod - self.qty_produced
+
     def get_workers(self, workorder_id, worker=False):
         workers = self.env[worker_module]
         if not workorder_id.workcenter_id.worker_ids:
@@ -213,30 +230,50 @@ class mrp_production_conf(models.TransientModel):
                         if self.workorder_id and self.workorder_id.workcenter_id.partial_conf:
                             self.qty_producing += 1
                             self.info_message = _('Incremented quantity')
+                            if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
+                                self.qty_producing = self.qty_ready_prod - self.qty_produced
+                                self.info_message = ''
+                                self.error_message = _('It is not possible to increase the quantity')
                             return
+                    if self.code and not workorder:
+                        workorder_domain = [('production_id', '=', production.id),
+                                            ('code', '=', self.code),
+                                            ('state', 'not in', [  'cancel'])]
+
+                        workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
+                        if not workorder:
+                            self.error_message = _('Operation with code %s not found') % self.code
+                            workorder = False
+
 
                 if scann['type'] == 'mrp_operation':
+                    # nu trebuie facuta incrementarea de cantitate daca se rescanreaza codul operatiei
+                    """
                     if scann['code'] == self.workorder_id.code:
                         if self.workorder_id.workcenter_id.partial_conf:
                             self.qty_producing += 1
                             self.info_message = _('Incremented quantity')
                             return
-
+                    """
                     code = scann['code']
+                    self.code = scann['code']
+
 
                     if production:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', code),
-                                            ('state', 'not in', ['done', 'cancel'])]
+                                            ('state', 'not in', [ 'cancel'])]
+                        workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
+                        if not workorder:
+                            self.error_message = _('Operation with code %s not found') % code
+                            workorder = False
+                        else:
+                            self.info_message = _('Operation %s was scanned') % workorder.name
                     else:
-                        workorder_domain = [('code', '=', code), ('state', 'not in', ['done', 'cancel'])]
+                        self.info_message = _('Operation %s was scanned') % code
 
-                    workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
-                    if not workorder:
-                        self.error_message = _('Operation with code %s not found') % code
-                        workorder = False
-                    else:
-                        self.info_message = _('Operation %s was scanned') % workorder.name
+
+
 
                 if scann['type'] == 'mrp_worker':
                     if worker_module == 'res.partner':
@@ -253,18 +290,29 @@ class mrp_production_conf(models.TransientModel):
                             self.error_message = _('Worker %s not assigned to work center %s') % (
                                 worker.name, workorder.workcenter_id.name)
 
+
+
+
+        if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_conf:
+            if workorder.qty_produced < workorder.qty_ready_prod:
+                self.qty_producing = 1.0
+                workorder.qty_producing = 1.0
+            else:
+                self.qty_producing = 0.0
+                workorder.qty_producing = 0.0
+
         if self.production_id and self.workorder_id and self.worker_id:
             if production != self.production_id or self.workorder_id != workorder or self.worker_id != worker or barcode == '#save':
                 self.success_message = _('Confirm saved for operation %s') % self.workorder_id.name
-
-                self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
+                if self.qty_producing > 0:
+                    self.confirm()  # workorder=self.workorder_id, worker=self.worker_id, qty_producing=self.qty_producing)
 
         self.production_id = production
         # self.code = code
         self.workorder_id = workorder
         self.worker_id = worker
 
-        if self.production_id and self.workorder_id and self.worker_id:
+        if self.production_id and self.workorder_id and self.worker_id and self.qty_producing > 0:
             self.info_message = _('System is ready for confirmation order %s operation %s with %s') % (
                 production.name, workorder.name, worker.name)
 
@@ -281,6 +329,12 @@ class mrp_production_conf(models.TransientModel):
             workorder.button_start()
 
         workorder.qty_producing = qty_producing  # de ce nu merge la onchange ????
+
+        if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
+            raise Warning( _('It is not possible to increase the quantity'))
+
+
+
 
         time_ids = workorder.time_ids.filtered(lambda x: (x.user_id.id == self.env.user.id) and
                                                          (not x.date_end) and (

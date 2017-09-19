@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_mrp_rework_tree" model="ir.ui.view">
+            <field name="name">rework</field>
+            <field name="model">mrp.rework</field>
+            <field name="arch" type="xml">
+                <tree string="rework" fonts="bold:message_unread==True" colors="grey:state in ('draft')">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="production_id"/>
+                    <field name="state"/>
+                    <field name="message_unread" invisible="1"/>
+                    <field name="qty_rework"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_rework_form" model="ir.ui.view">
+            <field name="name">rework</field>
+            <field name="model">mrp.rework</field>
+            <field name="arch" type="xml">
+                <form string="Rework">
+                    <header>
+                        <button name="action_posted" states="draft" type="object"
+                                class="oe_highlight" string="Post"/>
+                        <button name="action_draft" states="posted" type="object"
+                                class="oe_highlight" string="Draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                                <label string="Rework"/>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="production_id"/>
+                                <field name="date"/>
+                                 <field name="qty_rework"/>
+                            </group>
+                        </group>
+                        <field name="order_ids" options="{'no_create': True}">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="workcenter_id" widget="selection"/>
+                                <field name="qty_production"/>
+                                <field name="qty_produced"/>
+                                <field name="qty_rework"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"   groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mrp_rework" model="ir.actions.act_window">
+			<field name="name">Rework</field>
+			<field name="res_model">mrp.rework</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Rework" id="menu_mrp_rework" groups="mrp.group_mrp_manager"
+			action="action_mrp_rework" parent="mrp.menu_mrp_manufacturing" sequence="100" />
+
+
+    </data>
+</odoo>

@@ -37,7 +37,7 @@ Functionalitati:
     "depends" : ['deltatech','deltatech_backwards',"base","account"
                     ,"l10n_ro_invoice_report"
                  ],
-    "external_depends":['dbf'],
+
 
  
     "data" : [
@@ -45,7 +45,7 @@ Functionalitati:
               'res_partner_view.xml',
               'product_view.xml',
               'wizard/export_saga_view.xml',
-              #'wizard/import_saga_view.xml',
+              'wizard/import_saga_view.xml',
               ],
     
     "active": False,
