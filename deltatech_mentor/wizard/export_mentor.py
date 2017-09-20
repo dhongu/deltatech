@@ -30,10 +30,8 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 import odoo.addons.decimal_precision as dp
 
 
-try: 
-    import html2text
-except:
-    from odoo.addons.email_template import html2text
+import html2text
+
     
 
 class export_mentor(models.TransientModel):
