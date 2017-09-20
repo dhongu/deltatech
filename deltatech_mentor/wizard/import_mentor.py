@@ -49,7 +49,7 @@ class import_mentor(models.TransientModel):
         self.env['mail.message'].create({
             'model': 'mail.channel',
             'message_type': 'notification',
-            'subject': 'Import Mentor lansat in backround',
+            'body': 'Import Mentor lansat in backround',
             'res_id': channel.id,
             'subtype_id': ref.id
         })
