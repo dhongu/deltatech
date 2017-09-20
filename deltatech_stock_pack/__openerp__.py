@@ -22,7 +22,7 @@
 
 {
     "name" : "Deltatech Stock Pack",
-    "version" : "2.0",
+    'version': '10.0.1.2.0',
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -37,7 +37,7 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock', "sale","account"],
+    "depends" : [ 'stock', "sale","account"],
 
 
     "data" : [ 

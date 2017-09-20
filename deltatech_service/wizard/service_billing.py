@@ -166,7 +166,7 @@ class service_billing(models.TransientModel):
                     #'account_id': pre_invoice[date_invoice][key]['account_id'],
                     'type': 'out_invoice',
                     'state': 'draft',
-                    'invoice_line': [(0, 0, x) for x in pre_invoice[date_invoice][key]['lines']],
+                    'invoice_line_ids': [(0, 0, x) for x in pre_invoice[date_invoice][key]['lines']],
                     'comment':comment,
                     #'agreement_id':pre_invoice[key]['agreement_id'],
                 }

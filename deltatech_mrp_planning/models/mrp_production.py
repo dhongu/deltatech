@@ -37,12 +37,14 @@ class MrpProduction(models.Model):
     def button_plan(self):
         res = super(MrpProduction, self).button_plan()
         tz_name = self._context.get('tz') or self.env.user.tz
+        #todo: de facut planificarea inapoi!
         for production in self:
             planned_date = fields.Datetime.from_string(self.date_planned_start)  # la data asta trbuie sa inceapa
             production_values = {'date_planned_start_wo': False,
                                  'date_planned_finished_wo': False}
             values = {}
-            for workorder in production.workorder_ids:
+            workorders = production.workorder_ids  #.sorted(key=id, reverse=True)
+            for workorder in workorders:
 
                 date_start = planned_date
                 date_end = date_start + timedelta(minutes=workorder.duration_expected)

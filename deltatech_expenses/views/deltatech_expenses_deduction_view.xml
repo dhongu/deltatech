@@ -28,12 +28,12 @@
                                 <field name="employee_id" domain="[('is_company','=',False)]"/>
                             </group>
                         </group>
-                            <group col="4">
-                                <field name="date_advance"/>
-                                <field name="advance"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <field name="date_expense"/>
-                                <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
+                        <group col="4">
+                            <field name="date_advance"/>
+                            <field name="advance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="date_expense"/>
+                            <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
 
 
                         <group>
@@ -50,48 +50,39 @@
 
                         <notebook>
                             <page string="Description">
-
-                                <field name="line_ids"
-                                       context="{  'date':date_expense,'company_id':company_id,'currency_id': currency_id, 'default_type': 'purchase', 'type': 'purchase'}"
-                                       options='{"reload_on_button": true}'>
-                                    <tree editable="bottom"
-                                          colors="blue:state == 'draft';gray:state == 'cancel'"
+                                <field name="expenses_line_ids">
+                                    <tree editable="bottom" colors="blue:state == 'draft';gray:state == 'cancel'"
                                           string="Purchase Expenses">
-                                        <field name="date" string="Bill Date"/>
-                                        <field name="reference"/>
+                                        <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="tax_ids" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]"
+                                               context="{'default_type_tax_use': 'purchase'}"/>
 
                                         <field name="amount" sum="Total Amount"/>
                                         <field name="tax_amount" sum="Total Tax"/>
-                                        <field name="pay_now" invisible="1"/>
-                                        <field name="account_id" domain="[('type','=','other')]" invisible="True"/>
-                                        <field name="number" invisible="1"/>
                                         <field name="partner_id" domain="[('supplier','=',True)]" string="Supplier"
-
                                                context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
-                                        <field name="journal_id" invisible="1"
-                                               domain="[('type','in',['purchase','purchase_refund'])]"
-                                               widget="selection"
-
-                                               groups="account.group_account_user"/>
-
-                                        <field name="voucher_type" invisible="context.get('visible', True)"/>
-                                        <field name="expense_account_id" widget="selection"
-                                               domain="[('user_type_id.report_type','=','expense'), ('type','!=','view')]"
-                                               groups="account.group_account_user"/>
-
-
+                                        <field name="expense_account_id"   groups="account.group_account_user"/>
                                         <field name="state"/>
-                                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-                                        <field name="line_ids"
-
-                                               context="{'journal_id':journal_id,'partner_id':partner_id}"
-                                               invisible="1"/>
-
-
-                                        <field name="currency_id" invisible="1"/>
+                                         <field name="currency_id" invisible="1"/>
                                     </tree>
+                                    <form>
+                                       <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="tax_ids" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]"
+                                               context="{'default_type_tax_use': 'purchase'}"/>
 
+                                        <field name="amount" sum="Total Amount"/>
+                                        <field name="tax_amount" sum="Total Tax"/>
+                                        <field name="partner_id" domain="[('supplier','=',True)]" string="Supplier"
+                                               context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
+                                        <field name="expense_account_id"   groups="account.group_account_user"/>
+                                        <field name="state"/>
+                                         <field name="currency_id" invisible="1"/>
+                                    </form>
                                 </field>
+
+
                                 <group>
                                     <div>
                                         <separator string="Notes"/>

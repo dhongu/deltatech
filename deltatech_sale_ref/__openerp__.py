@@ -35,7 +35,7 @@ Functionalitati:
     """,
 
     'category': 'Sales Management',
-    "depends": ['deltatech',
+    "depends": [
                 "sale",
                 "account",
                 'stock'

@@ -30,7 +30,7 @@ Functionalitati:
 
 
     """,
-    "category" : "Generic Modules/Other",
+    "category" : "Accounting",
     "depends" : ['account'],
  
     "data" : ['report/invoice_report_view.xml'],

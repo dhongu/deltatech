@@ -30,10 +30,13 @@ class mrp_production(models.Model):
     def action_assign(self):
 
         for production in self:
+            dummy_id = 1 # self.env.ref('mrp.mrp_dummy_bom_line').id or 1
+
             new_move = production.move_raw_ids.filtered(lambda x: x.state == 'draft')
             for move in new_move:
                 move.write({'location_dest_id': move.product_id.property_stock_production.id,
                             'unit_factor': 1.0,
+                            'bom_line_id': dummy_id,
                             'state': 'confirmed'})
             new_move.action_assign()
         super(mrp_production, self).action_assign()

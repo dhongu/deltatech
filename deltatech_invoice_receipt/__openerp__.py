@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name" : "Deltatech Invoice Receipt",
-    "version" : "1.0",
+    'version': '10.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -41,8 +41,8 @@ Antentie:
 
 
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech','deltatech_backwards',
+    "category" : "Accounting",
+    "depends" : ['deltatech_backwards',
                  'deltatech_stock_date',
                  "base",
                  "stock",

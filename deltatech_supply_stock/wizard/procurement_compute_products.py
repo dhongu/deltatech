@@ -23,13 +23,30 @@ class ProcurementComputeProducts(models.TransientModel):
         active_model = self.env.context.get('active_model', False)
         active_ids = self.env.context.get('active_ids', False)
 
-        if active_model == 'product.product':
-            domain = [('id', 'in', active_ids)]
-        if active_model == 'product.template':
-            domain = [('product_tmpl_id', 'in', active_ids)]
 
-        res = self.env['product.product'].search(domain)
-        defaults['product_ids'] = [(6, 0, [rec.id for rec in res])]
+
+        products = self.env['product.product']
+        if active_model == 'product.template':
+            product_tmpl = self.env['product.template'].browse(active_ids)
+            for tmpl in product_tmpl:
+                products |= tmpl.product_variant_ids
+
+        if active_model == 'product.product':
+            products = self.env['product.product'].browse(active_ids)
+
+        if active_model == 'sale.order':
+            sale_orders = self.env['sale.order'].browse(active_ids)
+            for sale_order in sale_orders:
+                for line in sale_order.order_line:
+                    products |= line.product_id
+
+        if active_model == 'mrp.production':
+            productions = self.env['mrp.production'].browse(active_ids)
+            for production in productions:
+                for move in production.move_raw_ids:
+                    products |= move.product_id
+
+        defaults['product_ids'] = [(6, 0, products.ids)]
         return defaults
 
 

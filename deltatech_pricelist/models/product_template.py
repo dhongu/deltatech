@@ -43,7 +43,8 @@ class ProductTemplate(models.Model):
         if price_type in ['list_price', 'list_price']:  # pretul pubilc poate fi in euro !
             for template in self:
 
-                prices[template.id] = template.price_currency_id.compute(prices[template.id], currency or template.currency_id, round=False)
+                prices[template.id] = template.price_currency_id.compute(prices[template.id],
+                                                                         currency or template.currency_id, round=False)
 
 
         return prices

@@ -262,7 +262,7 @@ msgstr "Lot %s a fost scantat."
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_conf_lot_id
 msgid "Lot / Serial Number"
-msgstr "Lot / Serial Number"
+msgstr "Lot / Număr serial"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model,name:deltatech_mrp_confirmation.model_mrp_production
@@ -505,7 +505,7 @@ msgstr "Salvează"
 #: code:addons/deltatech_mrp_confirmation/static/src/xml/mrp.xml:47
 #, python-format
 msgid "Scan barcode"
-msgstr "Scan barcode"
+msgstr "Scanați un cod de bare"
 
 #. module: deltatech_mrp_confirmation
 #: model:ir.model.fields,field_description:deltatech_mrp_confirmation.field_mrp_production_start_scanned_barcode

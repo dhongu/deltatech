@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,50 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
+
 {
-    "name": "Deltatech Product Filter",
-    'version': '10.0.1.0.0',
+    "name": "MRP Confirmation",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
-
+    
 Functionalitati:
- - Cautare factura dupa produs
-
+----------------
+ - adaugare operatori la centre de lucru
+ - adaugare cod la operatie
+ - confirmare operatii prin scanare cod de bare
+ 
 
     """,
-    "category": "Accounting",
-    "depends": ['deltatech', "account"],
 
-    "data": ['account_invoice_view.xml'],
+    "category": "Manufacturing",
+    "depends": ['mrp', 'hr_attendance'],
+
+    "data": [
+
+        'views/mrp_confirmation_view.xml',
+
+        'views/mrp_workcenter_view.xml',
+        'views/mrp_workorder_view.xml',
+        'views/mrp_routing_view.xml',
+        'views/mrp_production_templates.xml',
+        'views/mrp_rework_view.xml',
+        'wizard/start_production_view.xml',
+        'wizard/confirmation_view.xml',
+        'views/mrp_production_view.xml',
+        'security/ir.model.access.csv',
+        'views/web_asset_backend_template.xml',
+        'data/data.xml',
+    ],
+    'qweb': [
+        "static/src/xml/mrp.xml",
+    ],
     "active": False,
     "installable": True,
 }
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

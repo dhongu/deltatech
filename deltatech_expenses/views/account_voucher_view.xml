@@ -11,41 +11,29 @@
                     <field name="date" string="Bill Date"/>
                     <field name="reference"/>
                     <field name="amount" sum="Total Amount"/>
-
                     <field name="pay_now" invisible="1"/>
-                    <field name="account_id" domain="[('type','=','other')]" invisible="True"/>
-
+                    <field name="account_id" domain="[('internal_type','=','other')]" invisible="True"/>
                     <field name="number" invisible="1"/>
                     <field name="partner_id" domain="[('supplier','=',True)]" string="Supplier"
                            context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"/>
-
                     <field name="journal_id" invisible="1"
                            domain="[('type','in',['purchase','purchase_refund'])]"
                            widget="selection"
-
                            groups="account.group_account_user"/>
-
                     <field name="period_id" invisible="context.get('visible', True)"/>
-                    <field name="type" invisible="context.get('visible', True)"/>
-                    <field name="default_expense_account_id"
-                           widget="selection" domain="[('user_type_id.report_type','=','expense'), ('type','!=','view')]"
+                    <field name="voucher_type" invisible="context.get('visible', True)"/>
+                    <field name="expense_account_id"
+                           widget="selection"
+                           domain="[('user_type_id.name','=','expense'), ('internal_type','!=','view')]"
                            groups="account.group_account_user"/>
 
-                    <field name="audit" invisible="1"/>
                     <field name="state"/>
                     <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-
-
-                    <field name="line_dr_ids"
+                    <field name="line_ids"
                            context="{'journal_id':journal_id,'partner_id':partner_id}" invisible="1"/>
-
-
-                    <field name="tax_id" invisible="1"
-
-
+                    <field name="tax_ids" invisible="1"
                            widget="selection" nolabel="1"
                            placeholder="Tax"
-
                            domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"/>
                     <field name="currency_id" invisible="1"/>
                 </tree>
@@ -57,9 +45,10 @@
             <field name="name">Purchase Expenses</field>
             <field name="res_model">account.voucher</field>
             <field name="view_type">form</field>
-            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']), ('type','=','purchase')]
+            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']),
+                ('voucher_type','=','purchase')]
             </field>
-            <field name="context">{'default_type': 'purchase', 'type': 'purchase'}</field>
+            <field name="context">{'default_voucher_type': 'purchase', 'voucher_type': 'purchase'}</field>
             <field name="view_id" eval="False"/>
             <field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor"/>
             <field name="target">current</field>
@@ -108,7 +97,7 @@
             <field name="act_window_id" ref="deltatech_action_purchase_receipt"/>
         </record>
 
-        <menuitem id="deltatech_menu_purchase_receipt" icon="STOCK_JUSTIFY_FILL"
+        <menuitem id="deltatech_menu_purchase_receipt"
                   action="deltatech_action_purchase_receipt" parent="account.menu_finance_payables" sequence="10"/>
 
     </data>

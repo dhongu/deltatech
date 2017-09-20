@@ -75,7 +75,7 @@
 							class="oe_highlight" string="Set In Progress" />
 						<button name="contract_draft" states="closed" type="object"
 							class="oe_highlight" string="Set Draft" />
-						<field name="state" widget="statusbar" statusbar_visible="draft,open,closed" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,quote" />
 					</header>
 					<sheet>
 						<div class="oe_title oe_left">
