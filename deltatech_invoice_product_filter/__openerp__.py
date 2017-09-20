@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Product Filter",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Product Filter",
+    'version': '10.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
@@ -30,12 +30,10 @@ Functionalitati:
 
 
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account"],
- 
-    "data" : ['account_invoice_view.xml'],
+    "category": "Accounting",
+    "depends": ['deltatech', "account"],
+
+    "data": ['account_invoice_view.xml'],
     "active": False,
     "installable": True,
 }
-
-
