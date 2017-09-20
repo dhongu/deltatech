@@ -30,7 +30,7 @@ Functionalitati:
 
 
     """,
-    "category" : "Generic Modules/Other",
+    "category" : "Accounting",
     "depends" : ['deltatech',"account" ],
  
     "data" : ['views/account_invoice_view.xml' ],
