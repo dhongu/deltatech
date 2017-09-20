@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Contacts",
-    "version" : "3.0",
+    "name": "Deltatech Contacts",
+    'version': '10.0.1.3.0',
     "author": "Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -30,16 +30,14 @@ Functionalitati:
 
    
     """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base"],
 
+    "category": "Generic Modules/Base",
+    "depends": ["base"],
 
- 
-    "data" : ['views/res_partner_view.xml',
-              'security/partner_security.xml',
-              'security/ir.model.access.csv'],
-    
+    "data": ['views/res_partner_view.xml',
+             'security/partner_security.xml',
+             'security/ir.model.access.csv'],
+
     "active": False,
     "installable": True,
 }
@@ -47,4 +45,3 @@ Functionalitati:
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
