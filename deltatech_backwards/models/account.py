@@ -33,8 +33,7 @@ class AccountFiscalYear(models.Model):
     period_ids = fields.One2many('account.period', 'fiscalyear_id', 'Periods')
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], 'Status', readonly=True, copy=False,
                              default='draft')
-    end_journal_period_id = fields.Many2one(
-        'account.journal.period', 'End of Year Entries Journal',
+    end_journal_period_id = fields.Many2one(  'account.journal.period', 'End of Year Entries Journal',
         readonly=True, copy=False)
 
     _order = "date_start, id"
