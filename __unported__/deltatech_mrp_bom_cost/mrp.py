@@ -275,7 +275,7 @@ class mrp_bom_line(models.Model):
 
     @api.multi
     def _calculate_price(self):
-
+        for bom_line in self:
             bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_id.product_tmpl_id.id,
                                                    product_id=bom_line.product_id.id, properties=bom_line.property_ids )
             if bom_id:
@@ -296,6 +296,5 @@ class mrp_bom_line(models.Model):
                    
         
         
-        
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
 
