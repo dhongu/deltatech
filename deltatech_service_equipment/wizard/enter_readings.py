@@ -36,7 +36,7 @@ class service_enter_reading(models.TransientModel):
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
     note =  fields.Text(String='Notes')
     items = fields.One2many('service.enter.reading.item','enter_reading_id')
-    estimated = fields.Boolean(string='Estimated')
+
 
     @api.model
     def default_get(self, fields):
@@ -81,7 +81,7 @@ class service_enter_reading(models.TransientModel):
                                                           'read_by':enter_reading.read_by.id,
                                                           'note':enter_reading.note,
                                                           'counter_value': item.counter_value,
-                                                          'estimated': enter_reading.estimated})
+                                                          'estimated': item.estimated})
         
     
 class service_enter_reading_item(models.TransientModel):
@@ -92,5 +92,4 @@ class service_enter_reading_item(models.TransientModel):
     meter_id = fields.Many2one('service.meter', string='Meter',  readonly=True ) 
     equipment_id = fields.Many2one('service.equipment', string="Equipment", readonly=True)
     counter_value = fields.Float(string='Counter Value', digits= dp.get_precision('Meter Value'), required=True)
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:    
+    estimated = fields.Boolean(string='Estimated')
