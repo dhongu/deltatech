@@ -22,7 +22,7 @@
 
 
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 import math
@@ -294,12 +294,17 @@ class service_meter_reading(models.Model):
             next.write({'previous_counter_value': self.counter_value,
                         'difference' : (next.counter_value - self.counter_value)})
 
-        if self.difference <= 0 and self.previous_counter_value > 0:
-            raise Warning(
-                _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
-            #next._compute_difference()      
+            # if self.difference <= 0 and self.previous_counter_value > 0:
+            #    raise Warning(
+            #        _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
 
- 
+    @api.constrains('difference')
+    def _check_difference(self):
+        for record in self:
+            if self.difference <= 0 and self.previous_counter_value > 0:
+                raise ValidationError(
+                    _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
+
             
     @api.onchange('equipment_id','date')
     def onchange_equipment_id(self):
@@ -336,8 +341,9 @@ class service_meter_reading(models.Model):
 
     @api.multi
     def write(self, vals):
-        if self.difference <= 0:
-            raise Warning(_('The counter value must be greater than %s') % self.previous_counter_value)
+        # for reading in self:
+        #    if reading.difference <= 0 and reading.previous_counter_value > 0:
+        #        raise Warning(_('The counter value must be greater than %s') % reading.previous_counter_value)
         res = super(service_meter_reading,self).write(vals)
         if  vals.get('date',False):
             for reading in self:
@@ -369,14 +375,3 @@ class service_meter_reading(models.Model):
   
  
         return res
- 
-
-
-
-    
-    
-    
-    
-    
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
