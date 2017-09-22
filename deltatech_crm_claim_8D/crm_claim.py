@@ -36,7 +36,8 @@ class crm_claim(models.Model):
     
     
     product_id = fields.Many2one('product.product', string="Product")
-    quantity = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1)  
+    quantity = fields.Float(string='Quantity rejected', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1)
+    quantity_claimed = fields.Float(string='Quantity claimed', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1)
     value = fields.Float(string='Amount', digits=dp.get_precision('Account'), store=True, readonly=True, compute='_compute_value') 
     
     user_ids = fields.Many2many('res.users', 'crm_claim_team_rel', 'claim_id', 'user_id', string='Team')

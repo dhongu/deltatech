@@ -30,6 +30,7 @@
 					<group colspan="2" col="6">
 						<field name="product_id" />
 						<field name="quantity" />
+						<field name="quantity_claimed" />
 						<field name="value" />
 					</group>
 				</xpath>

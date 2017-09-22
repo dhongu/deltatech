@@ -9,7 +9,7 @@
 					<t t-call="report.external_layout">
 						<div class="page">
 								<h3>
-									<span t-field="o.name"></span>
+									<span t-field="o.name"/>
 								</h3>
 								<div class="row mt32">
 									<div class="col-xs-4">
@@ -26,22 +26,32 @@
 									</div>
 								</div>	
 								<div class="row mb32">	
-									<div class="col-xs-4">
+									<div class="col-xs-2">
 										<strong>Product:</strong>
 										<p t-field="o.product_id.name"/>
 									</div>
 
-									<div class="col-xs-4">
-										<strong>Quantity:</strong>
+									<div class="col-xs-2">
+										<strong>Quantity rejected:</strong>
 										<p t-field="o.quantity"/>
 									</div>
-									<div class="col-xs-4">
+									<div class="col-xs-2">
+										<strong>Quantity claimed:</strong>
+										<p t-field="o.quantity_claimed"/>
+									</div>
+									<div class="col-xs-2">
+										<strong>Percent:</strong>
+										<t t-set="percent" t-value="round((o.quantity/o.quantity_claimed)*100,2)" />
+										<t t-esc="percent" />%
+										<p />
+									</div>
+									<div class="col-xs-2">
 										<strong>Code:</strong>
 										<p t-field="o.product_id.default_code"/>
 									</div>
 								</div>
-                                <div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>1. Team:</span>
 								</h4>
@@ -53,16 +63,16 @@
 										</div>
 									</t>
 								</div>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>2. Problem description:</span>
 								</h4>
 								<p t-field="o.description"/>
-                                <br />
-							    <div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+							    <div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>3. Containment actions:</span>
 								</h4>
@@ -100,16 +110,16 @@
 										</tr>
 									</tbody>
 								</table>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>4. Root causes:</span>
 								</h4>
 								<p t-field="o.cause"/>
-                                <br />
-							    <div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+							    <div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>5. Permanent Corrective actions:</span>
 								</h4>
@@ -147,9 +157,9 @@
 										</tr>
 									</tbody>
 								</table>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>6. Effectiveness verification:</span>
 								</h4>
@@ -187,9 +197,9 @@
 										</tr>
 									</tbody>
 								</table>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<h4>
 									<span>7. Preventive actions:</span>
 								</h4>
@@ -227,16 +237,16 @@
 										</tr>
 									</tbody>
 								</table>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div> 
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/> 
+                                <br/>
 								<h4>
 									<span>8. Comments:</span>
 								</h4>
 								<p t-field="o.comments"/>
-                                <br />
-								<div style="border-bottom: 1px solid black;"></div>
-                                <br />
+                                <br/>
+								<div style="border-bottom: 1px solid black;"/>
+                                <br/>
 								<div class="row mt32 mb32" id="informations">
 									<div class="col-xs-6">
 										<strong>Closing Date:</strong>
