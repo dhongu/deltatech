@@ -22,7 +22,7 @@
 
 
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
@@ -204,7 +204,13 @@ class stock_picking(models.Model):
         
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
 
-        return action  
+        return action
+
+    @api.one
+    @api.constrains('location_id', 'location_dest_id')
+    def _check_location(self):
+        if self.location_id == self.location_dest_id:
+            raise ValidationError("Locations must be different")
 
 
 class stock_move(models.Model):

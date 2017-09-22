@@ -34,7 +34,11 @@ Functionalitati:
     'category': 'Accounting & Finance',
     "depends": ['account'],
 
-    "data": ['account_view.xml', 'report/account_average_payment_view.xml'],
+    "data": [
+        'account_view.xml',
+        'report/account_average_payment_view.xml'
+        'security/ir.model.access.csv'
+    ],
 
     "active": False,
     "installable": True,
