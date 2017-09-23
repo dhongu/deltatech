@@ -38,7 +38,9 @@ class res_partner(models.Model):
         for contact in self:
             if not contact.cnp:
                 return True
-            cnp = contact.cnp
+            cnp = contact.cnp.strip()
+            if not cnp:
+                return True
             if (len(cnp) != 13):
                 return False
             key = '279146358279';
@@ -85,6 +87,7 @@ class res_partner(models.Model):
             self.is_department = True
 
     cnp = fields.Char(string='CNP', size=13)
+
     id_nr = fields.Char(string='ID Nr', size=12)
     id_issued_by = fields.Char(string='ID Issued by', size=20)
     mean_transp = fields.Char(string='Mean Transport', size=12)
