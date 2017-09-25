@@ -38,7 +38,7 @@ class crm_claim(models.Model):
     product_id = fields.Many2one('product.product', string="Product")
     quantity = fields.Float(string='Quantity rejected', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1)
     quantity_claimed = fields.Float(string='Quantity claimed', digits=dp.get_precision('Product Unit of Measure'), required=True, default=1)
-    value = fields.Float(string='Amount', digits=dp.get_precision('Account'), store=True, readonly=True, compute='_compute_value') 
+    value = fields.Float(string='Amount', digits=dp.get_precision('Account'), store=True, compute='_compute_value') 
     
     user_ids = fields.Many2many('res.users', 'crm_claim_team_rel', 'claim_id', 'user_id', string='Team')
     
@@ -59,12 +59,24 @@ class crm_claim(models.Model):
     # am incercat sa redefinesc cumpurile originale dar nu am mers
     date_action_next_comp = fields.Date(string="Next Action Date", compute="_compute_action_next", store=False)
     action_next_comp = fields.Char(string="Next Action", compute="_compute_action_next", store=False)
+    
+    # costs fields
+    costs_management = fields.Float(string='Cost of complaints management', digits=dp.get_precision('Account'), store=True)
+    costs_selection = fields.Float(string='Selection costs', digits=dp.get_precision('Account'), store=True)
+    costs_logistic = fields.Float(string='Logistic costs', digits=dp.get_precision('Account'), store=True)
+    costs_other = fields.Float(string='Other costs', digits=dp.get_precision('Account'), store=True)
+    costs_total = fields.Float(string='Total costs', digits=dp.get_precision('Account'), store=True, readonly=True, compute='_compute_costs')
 
 
     @api.one
     @api.depends('product_id', 'quantity')
     def _compute_value(self):
         self.value = self.quantity * self.product_id.lst_price
+        
+    @api.one
+    @api.depends('costs_management', 'costs_selection', 'costs_logistic', 'costs_other')
+    def _compute_costs(self):
+        self.costs_total = self.costs_management + self.costs_selection + self.costs_logistic + self.costs_other
 
 
     @api.multi
