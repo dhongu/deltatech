@@ -98,7 +98,7 @@ class woody_wizard(models.TransientModel):
 
         # materie prima placi
         for prod in woody_data['products']['Placi']:
-            self.get_product(prod, self.env.ref('product.product_category_row'), uom_square_meter)
+            self.get_product(prod, self.env.ref('product.product_category_raw'), uom_square_meter)
 
         half = 1
         i = 10
