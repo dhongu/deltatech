@@ -211,9 +211,9 @@ class woody_wizard(models.TransientModel):
                                 raise Warning(_('Nu gasesc materia prima pentru codul %s') % cant_code)
 
                             if cant_poz == 0 or cant_poz == 2:
-                                v_cant_qty = float(item['x']) + 10.0  # la care se mai aduaga 10 cm
+                                v_cant_qty = float(item['y']) + 100.0  # la care se mai aduaga 10 cm
                             else:
-                                v_cant_qty = float(item['y']) + 10.0  # la care se mai aduaga 10 cm
+                                v_cant_qty = float(item['x']) + 100.0  # la care se mai aduaga 10 cm
 
 
                             item_categ = cant_ord[cant_poz]
