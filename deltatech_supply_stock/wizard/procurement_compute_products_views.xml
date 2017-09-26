@@ -37,7 +37,7 @@
             view_mode="form" multi="False" target="new" key2="client_action_multi"/>
 
          <act_window id="action_compute_mrp_schedulers" name="Run Schedulers"
-            res_model="procurement.compute.products" src_model="mrp.order"
+            res_model="procurement.compute.products" src_model="mrp.production"
             view_mode="form" multi="False" target="new" key2="client_action_multi"/>
 
     </data>
