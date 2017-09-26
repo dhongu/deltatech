@@ -15,6 +15,7 @@
 				<xpath expr="//field[@name='action_next']" position="replace">
 
 					<field name="action_next_comp" />
+					<field name="costs_total" sum="Total costs" />
 				</xpath>
 			</field>
 		</record>
@@ -30,7 +31,15 @@
 					<group colspan="2" col="6">
 						<field name="product_id" />
 						<field name="quantity" />
+						<field name="quantity_claimed" />
 						<field name="value" />
+					</group>
+					<group colspan="2" col="6">
+						<field name="costs_management" />
+						<field name="costs_selection" />
+						<field name="costs_logistic" />
+						<field name="costs_other" />
+						<field name="costs_total" />
 					</group>
 				</xpath>
 
