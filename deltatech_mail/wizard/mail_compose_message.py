@@ -68,9 +68,9 @@ class mail_compose_message(models.TransientModel):
     @api.model
     def default_get(self, fields):
         defaults = super(mail_compose_message, self).default_get(fields)
-        # poate ar fi bine daca fac un tabel cu modelele la care trmiterea de emai sa se faca
+        # poate ar fi bine daca fac un tabel cu modelele la care trimiterea de emai sa se faca
         res_model = defaults.get('model',False)
-        if res_model and res_model == 'mail.group':
+        if res_model and res_model in ['mail.group', 'crm.lead']:
             defaults['mail_notify_noemail'] = False
         else:
             defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
@@ -96,11 +96,3 @@ class mail_compose_message(models.TransientModel):
             context['mail_notify_noemail'] = wizard.mail_notify_noemail
             
         return super(mail_compose_message, self).send_mail(cr, uid, ids, context)
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
-
-
-
