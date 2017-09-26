@@ -34,8 +34,11 @@ class res_partner(models.Model):
 
     @api.multi
     def check_cnp(self):
-
+        # la import in fisiere sa nu mai faca validarea
+        if 'install_mode' in self.env.context:
+            return True
         for contact in self:
+
             if not contact.cnp:
                 return True
             cnp = contact.cnp.strip()
@@ -104,24 +107,25 @@ class res_partner(models.Model):
         res = []
         for record in self:
             name = record.name
-            if record.parent_id and not record.is_company and record.type != 'contact':
-                name = "%s, %s" % (record.parent_name, name)
-            if context.get('show_address_only'):
-                name = record._display_address(without_company=True)
-            if context.get('show_address'):
-                name = name + "\n" + record._display_address(without_company=True)
-            if context.get('show_email') and record.email:
-                name = "%s <%s>" % (name, record.email)
-            if context.get('show_phone') and record.phone:
-                name = "%s\n<%s>" % (name, record.phone)
-            if context.get('show_category') and record.category_id:
-                cat = []
-                for category in record.category_id:
-                    cat.append(category.name)
-                name = name + "\n[" + ','.join(cat) + "]"
-            name = name.replace('\n\n', '\n')
-            name = name.replace('\n\n', '\n')
-            res.append((record.id, name))
+            if name:
+                if record.parent_id and not record.is_company and record.type != 'contact':
+                    name = "%s, %s" % (record.parent_name, name)
+                if context.get('show_address_only'):
+                    name = record._display_address(without_company=True)
+                if context.get('show_address'):
+                    name = name + "\n" + record._display_address(without_company=True)
+                if context.get('show_email') and record.email:
+                    name = "%s <%s>" % (name, record.email)
+                if context.get('show_phone') and record.phone:
+                    name = "%s\n<%s>" % (name, record.phone)
+                if context.get('show_category') and record.category_id:
+                    cat = []
+                    for category in record.category_id:
+                        cat.append(category.name)
+                    name = name + "\n[" + ','.join(cat) + "]"
+                name = name.replace('\n\n', '\n')
+                name = name.replace('\n\n', '\n')
+                res.append((record.id, name))
         return res
 
     @api.model
@@ -134,4 +138,12 @@ class res_partner(models.Model):
         res = super(res_partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
-    # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    @api.model
+    def create(self, vals):
+        if 'cnp' in vals:
+            if not self.check_cnp():
+                vals['cnp'] = ''
+        return super(res_partner, self).create(vals)
+
+
+
