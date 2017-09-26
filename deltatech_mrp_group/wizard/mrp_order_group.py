@@ -9,6 +9,7 @@ class MrpOrderGroup(models.TransientModel):
     _description = "MRP Production Order Group"
 
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
+    date_planned = fields.Date(related="group_id.date_planned")
     production_ids = fields.Many2many('mrp.production', string='Production Order')
 
     @api.model

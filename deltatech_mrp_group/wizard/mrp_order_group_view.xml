@@ -9,6 +9,7 @@
                     <group string="Group Production Order">
                         <group>
                             <field name="group_id"/>
+                            <field name="date_planned"/>
                         </group>
 
                     </group>
