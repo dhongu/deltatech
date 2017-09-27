@@ -132,7 +132,7 @@ class woody_wizard(models.TransientModel):
                         if not att_val[att]:
                             att_val[att] = attribute_value.create({'name': item[att],
                                                                    'attribute_id': attribute[att].id})
-                value = {'name': self.product_tmpl_id.name + ' ' + item['code'],
+                value = {'name': '%s %s x %s' % (item['code'] , item['x'] , item['y']),
                          'type': 'product',
                          'uom_id': uom_unit.id,
                          'default_code': v_code,
@@ -191,10 +191,13 @@ class woody_wizard(models.TransientModel):
                             'product_uom_id': uom.id,
                             'product_qty': 1}
 
-                if item['texture']=='Da':
+
+                if item['texture'].lower() == 'da':
                     bom_line['item_categ'] = 'cut_fiber'
                 else:
                     bom_line['item_categ'] = 'cut'
+
+
 
                 self.env['mrp.bom.line'].create(bom_line)
 
@@ -210,7 +213,7 @@ class woody_wizard(models.TransientModel):
                             if not cant_product:
                                 raise Warning(_('Nu gasesc materia prima pentru codul %s') % cant_code)
 
-                            if cant_poz == 0 or cant_poz == 2:
+                            if cant_poz == 0 or cant_poz == 1:
                                 v_cant_qty = float(item['y']) + 100.0  # la care se mai aduaga 10 cm
                             else:
                                 v_cant_qty = float(item['x']) + 100.0  # la care se mai aduaga 10 cm
