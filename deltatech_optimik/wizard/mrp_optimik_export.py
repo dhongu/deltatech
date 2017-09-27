@@ -61,10 +61,10 @@ class MrpOptimikExport(models.TransientModel):
                 for move in production.move_raw_ids:
                     products |= move.product_id
                     if move.product_id.id not in product_list:
-                        product_list[line.product_id.id] = {'product_id': move.product_id.id,
+                        product_list[move.product_id.id] = {'product_id': move.product_id.id,
                                                             'quantity': move.product_uom_qty}
                     else:
-                        product_list[line.product_id.id]['quantity'] += move.product_uom_qty
+                        product_list[move.product_id.id]['quantity'] += move.product_uom_qty
 
         for product in products:
             values = product_list[product.id]
