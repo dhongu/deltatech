@@ -40,6 +40,13 @@ class stock_revaluation(models.Model):
                        states={'draft': [('readonly', False)]},
                        copy=False,
                        default='/')
+    title = fields.Char('Title',
+                       help="Title for the report",
+                       readonly=False,
+                       required=True,
+                       states={'draft': [('readonly', False)]},
+                       copy=False,
+                       default='PLAN AMORTIZARE ')
 
     state = fields.Selection(selection=[('draft', 'Draft'),
                                         ('posted', 'Posted'),

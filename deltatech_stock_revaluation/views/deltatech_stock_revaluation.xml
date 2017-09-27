@@ -16,6 +16,7 @@
                         font-size: 75%;
                         font-weight:bold;
                         background-color:#BBBBBB;
+                        text-align: center;
                         }
                         thead.default th{
                         border: 1px solid gray;
@@ -46,7 +47,8 @@
 			        </div>
 			        <!-- END HEADER -->
                     <div class="row">
-                        <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3>
+                        <!-- <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3> -->
+                        <h3 style="text-align:center;font-weight:bold;"><span t-field="o.title" /></h3>
                     </div>
                     <div class="row">
                         <h3 style="text-align:center;font-weight:bold;">
@@ -63,7 +65,7 @@
                                 </th>
                                 <th>Mijloc Fix</th>
                                 <th>UM</th>
-                                <th>Simbol clasa<br />mijloc fix</th>
+                                <!-- <th>Simbol clasa<br />mijloc fix</th> -->
                                 <th>Nr.<br />inv.</th>
                                 <th>Cont</th>
                                 <th>Cant</th>
@@ -115,9 +117,11 @@
                                 <td>
                                     <span>Buc</span>
                                 </td>
+                                <!-- 
                                 <td>
                                     <span>214</span>
                                 </td>
+                                 -->
                                 <td>
                                     <t t-esc="count"/>
                                 </td>
@@ -188,7 +192,7 @@
                                 <td colspan="2">
                                     <span>Total MIJLOACE FIXE</span>
                                 </td>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -197,25 +201,24 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <span t-esc="init_value"/>
+                                    <span t-esc="'{0:,.2f}'.format(init_value)" />
                                 </td>
                                 <td>
-                                    <span t-esc="prev_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(prev_reval)"/>
                                 </td>
                                 <td>
-                                    <span t-esc="current_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(current_reval)"/>
                                 </td>
                                 <td>
-                                    <span t-esc="remaining_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(remaining_reval)"/>
                                 </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                                 <td>
-                                    <span t-esc="total_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(total_reval)"/>
                                 </td>
                             </tr>
                         </tbody>
@@ -237,6 +240,7 @@
                         font-size: 75%;
                         font-weight:bold;
                         background-color:#BBBBBB;
+                        text-align: center;
                         }
                         thead.default th{
                         border: 1px solid gray;
@@ -267,7 +271,7 @@
 			        </div>
 			        <!-- END HEADER -->
                     <div class="row">
-                        <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE MIJLOACE TRANSPORT</h3>
+                        <h3 style="text-align:center;font-weight:bold;"><span t-field="o.title" /></h3>
                     </div>
                     <div class="row">
                         <h3 style="text-align:center;font-weight:bold;">
@@ -284,7 +288,7 @@
                                 </th>
                                 <th>Mijloc transport</th>
                                 <th>UM</th>
-                                <th>Simbol clasa<br />mijloc transport</th>
+                                <!-- <th>Simbol clasa<br />mijloc transport</th> -->
                                 <th>Nr.<br />inv.</th>
                                 <th>Cont</th>
                                 <th>Cant</th>
@@ -295,7 +299,7 @@
                                 <th>Valoare ramasa de amortizat<br /></th>
                                 <th>Grad<br />utilizare(%)</th>
                                 <th>An/luna<br />prima rata</th>
-                                <th>Rate<br/> amort. in<br/>Mentor</th>
+                                <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
                                 <th>Tip<br />amortiz.</th>
                                 <th>Durata<br />norm.(ani)</th>
                                 <th>Durata<br />ramasa.(luni)</th>
@@ -317,7 +321,7 @@
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
                                 <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
                                 <t t-if="crt_reval_int==0" >
-	                                <t t-set="months_passed" t-value="47"/>
+	                                <t t-set="months_passed" t-value="59"/>
                                 </t>
                                 <t t-if="crt_reval_int!=0" >
 	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
@@ -336,9 +340,11 @@
                                 <td>
                                     <span>Buc</span>
                                 </td>
+                                <!-- 
                                 <td>
                                     <span>214</span>
                                 </td>
+                                 -->
                                 <td>
                                     <t t-esc="count"/>
                                 </td>
@@ -376,6 +382,7 @@
                                 <td>
                                     <span t-esc="l.quant_id.first_revaluation[0:7]" />
                                 </td>
+                                <!-- 
                                 <td>
 	                                <t t-if="l.mentor_rates">
 	                                    <span t-field="l.mentor_rates"/>
@@ -384,15 +391,16 @@
 	                                    <span>0</span>
                                     </t>
                                 </td>
+                                 -->
                                 <td>
                                     <span>AL(liniar)</span>
                                 </td>
                                 <td>
-                                    <span>4</span>
+                                    <span>5</span>
                                 </td>
                                 <td>
                                     <span>
-                                        <t t-esc="48-(months_passed+1)"/>
+                                        <t t-esc="60-(months_passed+1)"/>
                                     </span>
                                 </td>
                                 <td>
@@ -407,7 +415,7 @@
                                 <td colspan="2">
                                     <span>Total MIJLOACE FIXE</span>
                                 </td>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -416,25 +424,24 @@
                                 </td>
                                 <td></td>
                                 <td>
-                                    <span t-esc="init_value"/>
+                                    <span t-esc="'{0:,.2f}'.format(init_value)" />
                                 </td>
                                 <td>
-                                    <span t-esc="prev_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(prev_reval)"/>
                                 </td>
                                 <td>
-                                    <span t-esc="current_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(current_reval)"/>
                                 </td>
                                 <td>
-                                    <span t-esc="remaining_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(remaining_reval)"/>
                                 </td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td></td>
                                 <td>
-                                    <span t-esc="total_reval"/>
+                                    <span t-esc="'{0:,.2f}'.format(total_reval)"/>
                                 </td>
                             </tr>
                         </tbody>
