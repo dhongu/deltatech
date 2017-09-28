@@ -101,8 +101,11 @@
 						<group colspan="2" col="2">
 							<separator colspan="2" string="Comments" />
 							<field name="comments" />
+							<field name="is_same_user" invisible="1" />
 						</group>
-						<group colspan="2" col="2" groups="base.group_no_one">
+						
+						<!-- <group colspan="2" col="2" context="{'userid': user.id}" attrs="{'invisible':[('user_id','!=','')]}"> -->
+						<group colspan="2" col="2" attrs="{'invisible':[('is_same_user','!=',True)]}">
 							<separator colspan="2" string="Dates" />
 							<group>
 								<field name="create_date" />
