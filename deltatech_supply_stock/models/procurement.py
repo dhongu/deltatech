@@ -35,7 +35,7 @@ class ProcurementOrder(models.Model):
                         if not procurement.production_id:  # se scade daca nu este facuta o comadna de productie
                             qty = qty - procurement.product_qty
                     if not float_is_zero(qty, precision_digits=2):
-                        # cmum sa determin care este data la care sunt necesare produsele?
+                        # Cum sa determin care este data la care sunt necesare produsele?
 
                         msg = _("Today %s the stock quantity is %s and forecast incoming is %s and outgoing is %s") % (
                             fields.Date.today(), str(product.qty_available),
@@ -55,6 +55,7 @@ class ProcurementOrder(models.Model):
                             'product_uom': product.uom_id.id,
                             'warehouse_id': warehouse.id,
                             'location_id': location.id,
+                            'group_id': move.group_id.id,
                             'company_id': warehouse.company_id.id})
 
                         procurement.message_post(body=msg)
