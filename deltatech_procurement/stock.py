@@ -215,7 +215,13 @@ class stock_picking(models.Model):
 
 class stock_move(models.Model):
     _inherit = 'stock.move'
-    
+
+    @api.one
+    @api.constrains('location_id', 'location_dest_id')
+    def _check_location(self):
+        if self.location_id == self.location_dest_id:
+            raise ValidationError("Locations must be different")
+
     @api.model
     def default_get(self, fields):
         defaults = super(stock_move, self).default_get(fields)  
