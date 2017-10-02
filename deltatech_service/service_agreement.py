@@ -339,7 +339,7 @@ class service_agreement_line(models.Model):
 # e posibil ca o factura sa contina mai multe contracte 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
-    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='invoice_line.agreement_line_id.agreement_id') 
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='invoice_line.agreement_line_id.agreement_id', store = True) 
 
 
 

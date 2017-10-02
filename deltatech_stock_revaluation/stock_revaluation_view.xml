@@ -27,6 +27,10 @@
 					</header>
 					<sheet>
 						<h1>
+							<label for="title" />
+							<field class="oe_inline" name="title" style="min-width: 600px;"/>
+						</h1>
+						<h1>
 							<label for="name" />
 							<field class="oe_inline" name="name" />
 						</h1>
