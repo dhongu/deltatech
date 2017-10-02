@@ -228,6 +228,12 @@ class service_equipment(models.Model):
             equi.write({'total_costs': cost,
                         'total_revenues': revenues})
 
+    @api.model
+    def compute_readings_status(self):
+        equi = self.search([])
+        equi._compute_readings_status()
+
+
     @api.multi
     def _compute_readings_status(self):
         for equi in self:
@@ -483,8 +489,7 @@ class service_equipment(models.Model):
         data2 = (date.today() + relativedelta(days=2)).strftime('%Y-%m-%d')
         equis = self.search([('readings_status', '=', 'unmade'),
                              ('next_reading', '>=', data1),
-                             ('next_reading', '<=', data2)
-                             ])
+                             ('next_reading', '<=', data2)])
 
         for equi in equis:
             follower = equis.message_follower_ids

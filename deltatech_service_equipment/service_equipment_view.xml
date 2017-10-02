@@ -440,7 +440,8 @@
             <field name="interval_number">1</field>
             <field name="numbercall">-1</field>
             <field name="model">service.equipment</field>
-            <field name="function">_compute_readings_status</field>
+            <field name="function" eval="'compute_readings_status'"/>
+            <field name="args" eval="'()'"/>
         </record>
 
         <record id="ir_cron_send_mail_to_reading" model="ir.cron">
@@ -449,7 +450,8 @@
             <field name="interval_number">1</field>
             <field name="numbercall">-1</field>
             <field name="model">service.equipment</field>
-            <field name="function">send_mail_todo_today</field>
+            <field name="function" eval="'send_mail_todo_today'"/>
+            <field name="args" eval="'()'"/>
         </record>
     </data>
 </openerp>
