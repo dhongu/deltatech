@@ -32,19 +32,22 @@ import math
 class service_agreement(models.Model):
     _inherit = 'service.agreement'
 
-    equipment_count = fields.Integer(compute="_compute_equipment_count")
+    equipment_count = fields.Float(compute="_compute_equipment_count")
 
     @api.multi
     @api.depends('agreement_line')
     def _compute_equipment_count(self):
+        value = 0.0
         for agreement in self:
             equipments = self.env['service.equipment']
-
+            
             for item in self.agreement_line:
                 if item.equipment_id:
-                    equipments |= item.equipment_id
-
-            self.equipment_count = len(equipments)
+                    if item.equipment_id not in equipments:
+                        equipments |= item.equipment_id
+                        value += item.equipment_id.inventory_value
+            #self.equipment_count = len(equipments)
+            self.equipment_count = round(value,2)
 
 
 
