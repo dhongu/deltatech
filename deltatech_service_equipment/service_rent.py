@@ -33,6 +33,8 @@ class service_agreement(models.Model):
     _inherit = 'service.agreement'
 
     equipment_count = fields.Integer(compute="_compute_equipment_count")
+    equipment_inv_value = fields.Float(compute="_compute_equipment_inv_value")
+    equipment_init_value = fields.Float(compute="_compute_equipment_init_value")
 
     @api.multi
     @api.depends('agreement_line')
@@ -46,6 +48,36 @@ class service_agreement(models.Model):
 
             self.equipment_count = len(equipments)
 
+    @api.multi
+    @api.depends('agreement_line')
+    def _compute_equipment_inv_value(self):
+        value = 0.0
+        for agreement in self:
+            equipments = self.env['service.equipment']
+
+            for item in self.agreement_line:
+                if item.equipment_id:
+                    if item.equipment_id not in equipments:
+                        equipments |= item.equipment_id
+                        value += item.equipment_id.inventory_value
+
+            self.equipment_inv_value = round(value,2)
+
+    @api.multi
+    @api.depends('agreement_line')
+    def _compute_equipment_init_value(self):
+        value = 0.0
+        for agreement in self:
+            equipments = self.env['service.equipment']
+
+            for item in self.agreement_line:
+                if item.equipment_id:
+                    if item.equipment_id not in equipments:
+                        if item.equipment_id.quant_id:
+                            equipments |= item.equipment_id
+                            value += item.equipment_id.quant_id.init_value
+
+            self.equipment_init_value = round(value,2)
 
 
     @api.multi
