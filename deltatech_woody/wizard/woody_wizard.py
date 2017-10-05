@@ -80,6 +80,9 @@ class woody_wizard(models.TransientModel):
         })
 
         self.product_tmpl_id.write({'name': woody_data['name'],
+                                    'sale_ok':True,
+                                    'type':'product',
+                                    'route_ids': [(4, route_manufacture.id, False)],
                                     'categ_id': self.env.ref('product.product_category_finish').id})
 
         finish_product_code = self.product_id.default_code or self.product_tmpl_id.default_code
@@ -247,6 +250,8 @@ class woody_wizard(models.TransientModel):
     def get_product(self, item, categ_id, uom=None):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
 
+
+
         if not uom:
             if item['uom'] == 'buc' or item['uom'] == 'buc.':
                 uom = self.env.ref('product.product_uom_unit')
@@ -257,6 +262,8 @@ class woody_wizard(models.TransientModel):
 
         product = self.env['product.product'].search([('default_code', '=', item['code'])])
         if not product:
+            route_warehouse0_buy = self.env.ref('purchase.route_warehouse0_buy')
+
             product = self.env['product.product'].create({
                 'name': item['name'].replace('_', ' '),
                 'type': 'product',
@@ -265,10 +272,11 @@ class woody_wizard(models.TransientModel):
                 'uom_id': uom.id,
                 'uom_po_id': uom.id,
                 'sale_ok': False,
-                'purchase_ok': False,
+                'purchase_ok': True,
+                'route_ids': [(4, route_warehouse0_buy.id, False)],
                 'categ_id': categ_id.id
             })
         if product.uom_id.category_id != uom.category_id:
-            raise Warning(_('Unitatea de masura %s nu se poate utiliza la produsul %s') % (uom.name, product.name))
+            raise Warning(_('Unit %s can not be used for product %s') % (uom.name, product.name))
         item['product_id'] = product
         return item
