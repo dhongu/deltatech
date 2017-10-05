@@ -43,6 +43,7 @@
                     <field name="serial_id"/>
                     <field name="quant_id" invisible="1"/>
                     <field name="start_date" invisible="1"/>
+                    <field name="agreement_id"/>
                     <field name="agreement_type_id"/>
                     <field name="install_date"/>
                     <field name="total_revenues" sum="total"/>
