@@ -6,6 +6,7 @@ import csv
 from cStringIO import StringIO
 import base64
 
+
 class MrpOptimikExport(models.TransientModel):
     _name = 'mrp.optimik.export'
     _description = "MRP Optimik"
@@ -15,7 +16,7 @@ class MrpOptimikExport(models.TransientModel):
                               ('get_file', 'Get File')], default='choose')  # get the file
 
     separator = fields.Char(default='|', size=1)
-    no_labels = fields.Boolean(string="Without Label")
+    no_labels = fields.Boolean(string="Without Label", default=True)
 
     line_ids = fields.One2many("mrp.optimik.select.line", 'optimik_id', string='Select lines')
     line_export_ids = fields.One2many("mrp.optimik.export.line", 'optimik_id', string='Export lines')
@@ -95,19 +96,39 @@ class MrpOptimikExport(models.TransientModel):
 
     @api.multi
     def do_export(self):
-        lines = self.env['mrp.optimik.select.line'].read_group(
-            domain=[('optimik_id', '=', self.id), ('is_ok', '=', True)],
-            fields=['raw_product', 'fiber', 'length', 'width', 'quantity'],
-            groupby=['raw_product', 'fiber', 'length', 'width'], lazy=False)
+        strip_top = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+        strip_left = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+        strip_right = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+        strip_bottom = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+
+        if self.no_labels:
+            lines = self.env['mrp.optimik.select.line'].read_group(
+                domain=[('optimik_id', '=', self.id), ('is_ok', '=', True)],
+                fields=['raw_product', 'fiber', 'length', 'width', 'quantity'],
+                groupby=['raw_product', 'fiber', 'length', 'width'], lazy=False)
+        else:
+            lines = self.env['mrp.optimik.select.line'].read_group(
+                domain=[('optimik_id', '=', self.id), ('is_ok', '=', True)],
+                fields=['raw_product', 'fiber', 'length', 'width', 'quantity',
+                        'strip_top', 'strip_left', 'strip_right', 'strip_bottom'],
+                groupby=['raw_product', 'fiber', 'length', 'width',
+                         'strip_top', 'strip_left', 'strip_right', 'strip_bottom'], lazy=False)
 
         for line in lines:
-            vals = {'optimik_id': self.id,
-                    'raw_product': line['raw_product'][0],
-                    'quantity': line['quantity'],
-                    'length': line['length'],
-                    'width': line['width'],
-                    'fiber': line['fiber']
-                    }
+            vals = {
+                'optimik_id': self.id,
+                'raw_product': line['raw_product'][0],
+                'quantity': line['quantity'],
+                'length': line['length'],
+                'width': line['width'],
+                'fiber': line['fiber']
+            }
+            if not self.no_labels:
+                vals['strip_top'] = line['strip_top'] and line['strip_top'][0]
+                vals['strip_left'] = line['strip_left'] and line['strip_left'][0]
+                vals['strip_right'] = line['strip_right'] and line['strip_right'][0]
+                vals['strip_bottom'] = line['strip_bottom'] and line['strip_bottom'][0]
+
             self.env["mrp.optimik.export.line"].create(vals)
 
         self.write({'state': 'prepare'})
@@ -124,7 +145,7 @@ class MrpOptimikExport(models.TransientModel):
     @api.multi
     def do_make_file(self):
         fp = StringIO()
-        writer = csv.writer(fp, quoting=csv.QUOTE_NONE, delimiter=self.separator.encode('ascii','ignore'))
+        writer = csv.writer(fp, quoting=csv.QUOTE_NONE, delimiter=self.separator.encode('ascii', 'ignore'))
 
         # D | cod material | nr buc | lungime | latime. | Fibra | nume piesa | Client | cant fata | Cant stanga | cant spate | cant dreapta
 
@@ -150,19 +171,25 @@ class MrpOptimikExport(models.TransientModel):
 
             row.append('')  # nume piesa
             row.append('')  # client
-            row.append('')  # cant fata
-            row.append('')  # cant stanga
-            row.append('')  # cant spate
-            row.append('')  # cant dreapta
+            if self.no_labels:
+                row.append('')  # cant fata
+                row.append('')  # cant stanga
+                row.append('')  # cant spate
+                row.append('')  # cant dreapta
+            else:
+                row.append(line.strip_top.name or '')  # cant fata
+                row.append(line.strip_left.name or '')  # cant stanga
+                row.append(line.strip_bottom.name or '')  # cant spate
+                row.append(line.strip_right.name or '')  # cant dreapta
 
             writer.writerow(row)
 
         fp.seek(0)
-        data_file =  base64.encodestring(fp.read())
+        data_file = base64.encodestring(fp.read())
         fp.close()
 
         self.write({'state': 'get_file',
-                    'data_file':data_file})
+                    'data_file': data_file})
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'mrp.optimik.export',
@@ -228,3 +255,8 @@ class MrpOptimikExportLine(models.TransientModel):
     length = fields.Float()
     width = fields.Float()
     fiber = fields.Boolean()
+
+    strip_top = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+    strip_left = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+    strip_right = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+    strip_bottom = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)

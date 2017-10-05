@@ -9,17 +9,16 @@
                     <field name="state" invisible="1"/>
                     <group>
                         <field name="name" invisible="1"/>
-                        <field name="separator"  />
-                        <field name="no_labels"  />
+                        <field name="separator"/>
+                        <field name="no_labels"/>
                     </group>
 
 
-
-                    <field name="line_ids">
+                    <field name="line_ids" states="choose">
                         <tree editable="bottom">
                             <field name="product_id"/>
                             <field name="quantity"/>
-                            <field name="is_ok" />
+                            <field name="is_ok"/>
 
                             <field name="raw_product"/>
                             <field name="length"/>
@@ -32,16 +31,19 @@
                         </tree>
                     </field>
 
-                    <field name="line_export_ids">
+                    <field name="line_export_ids" states="prepare">
                         <tree editable="bottom">
 
-
                             <field name="raw_product"/>
-                             <field name="quantity"/>
+                            <field name="quantity"/>
                             <field name="length"/>
                             <field name="width"/>
                             <field name="fiber"/>
 
+                            <field name="strip_left"/>
+                            <field name="strip_top"/>
+                            <field name="strip_bottom"/>
+                            <field name="strip_right"/>
                         </tree>
                     </field>
 
