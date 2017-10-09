@@ -40,7 +40,7 @@ class SaleOrderGroup(models.TransientModel):
             return
 
         if not self.group_id:
-            self.group_id.self.env["procurement.group"].create({})
+            self.group_id = self.env["procurement.group"].create({})
 
         # trebuie sa caut toate aceste grupuri si sa le schimb?
         group_ids = self.env['procurement.group']

@@ -38,6 +38,7 @@ Functionalitati:
     "data": [
         "views/mrp_production_view.xml",
         "views/sale_view.xml",
+        "views/procurement_views.xml",
         "wizard/mrp_order_group_view.xml",
         "wizard/sale_order_group_view.xml",
         "data/data.xml"
