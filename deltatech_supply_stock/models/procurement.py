@@ -32,8 +32,8 @@ class ProcurementOrder(models.Model):
                                                 ('location_id', '=', location.id)])
                     procurements.run()
                     for procurement in procurements:
-                        if not procurement.production_id:  # se scade daca nu este facuta o comadna de productie
-                            qty = qty - procurement.product_qty
+                        # if not procurement.production_id:  # se scade daca nu este facuta o comadna de productie
+                        qty = qty - procurement.product_qty
                     if not float_is_zero(qty, precision_digits=2):
                         # Cum sa determin care este data la care sunt necesare produsele?
 
