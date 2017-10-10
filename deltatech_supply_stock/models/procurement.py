@@ -26,7 +26,7 @@ class ProcurementOrder(models.Model):
             for product in products:
                 if product.virtual_available < 0:
                     qty = -1 * product.virtual_available
-                    # cite aprovizionari sunt in exceptie ?
+                    # cate aprovizionari sunt in exceptie ?
                     procurements = self.search([('product_id', '=', product.id),
                                                 ('state', 'in', ['exception', 'running']),
                                                 ('location_id', '=', location.id)])
@@ -34,6 +34,7 @@ class ProcurementOrder(models.Model):
                     for procurement in procurements:
                         # if not procurement.production_id:  # se scade daca nu este facuta o comadna de productie
                         qty = qty - procurement.product_qty
+
                     if not float_is_zero(qty, precision_digits=2):
                         # Cum sa determin care este data la care sunt necesare produsele?
 
@@ -41,9 +42,10 @@ class ProcurementOrder(models.Model):
                             fields.Date.today(), str(product.qty_available),
                             str(product.incoming_qty), str(product.outgoing_qty)
                         )
-                        move = self.env['stock.move'].search( [('product_id', '=', product.id),
-                             ('state', 'in', ['waiting', 'confirmed']),
-                             ('location_id', '=', location.id)], limit=1, order='date_expected')
+                        move = self.env['stock.move'].search([('product_id', '=', product.id),
+                                                              ('state', 'in', ['waiting', 'confirmed']),
+                                                              ('location_id', '=', location.id)], limit=1,
+                                                             order='date_expected')
                         date_planned = move.date_expected or fields.Datetime.now(),
                         date_planned = max(fields.Datetime.now(), date_planned)
 

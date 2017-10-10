@@ -12,8 +12,16 @@
                     <p>
                         Compute procurements in the background for products:
                     </p>
-                    <field name="product_ids"/>
+                    <group>
+                        <field name="group_id"/>
+                    </group>
 
+                    <field name="item_ids">
+                        <tree editable="bootom">
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                        </tree>
+                    </field>
                     <footer>
                         <button name="procure_calculation" string="Run Schedulers" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />
