@@ -60,7 +60,7 @@ class woody_wizard(models.TransientModel):
         uom_unit = self.env.ref('product.product_uom_unit')
         uom_square_meter = self.env.ref('product.product_uom_square_meter')
 
-        with_attr  = False
+        with_attr = False
         attr_set = ('dimension', 'color', 'height', 'texture', 'cant')  # de renuntat la atributele de dimensiune
 
         attribute = {}
@@ -80,8 +80,8 @@ class woody_wizard(models.TransientModel):
         })
 
         self.product_tmpl_id.write({'name': woody_data['name'],
-                                    'sale_ok':True,
-                                    'type':'product',
+                                    'sale_ok': True,
+                                    'type': 'product',
                                     'route_ids': [(4, route_manufacture.id, False)],
                                     'categ_id': self.env.ref('product.product_category_finish').id})
 
@@ -135,7 +135,7 @@ class woody_wizard(models.TransientModel):
                         if not att_val[att]:
                             att_val[att] = attribute_value.create({'name': item[att],
                                                                    'attribute_id': attribute[att].id})
-                value = {'name': '%s %s x %s' % (item['code'] , item['x'] , item['y']),
+                value = {'name': '%s %s x %s' % (item['code'], item['x'], item['y']),
                          'type': 'product',
                          'uom_id': uom_unit.id,
                          'default_code': v_code,
@@ -194,18 +194,14 @@ class woody_wizard(models.TransientModel):
                             'product_uom_id': uom.id,
                             'product_qty': 1}
 
-
                 if item['texture'].lower() == 'da':
                     bom_line['item_categ'] = 'cut_fiber'
                 else:
                     bom_line['item_categ'] = 'cut'
 
-
-
                 self.env['mrp.bom.line'].create(bom_line)
 
-
-                cant_ord = ('right','left','top','bottom')
+                cant_ord = ('right', 'left', 'top', 'bottom')
                 # adaugare canturi
                 if item['canturi'] and item['canturi'][1]:
                     cant_poz = 0
@@ -221,12 +217,12 @@ class woody_wizard(models.TransientModel):
                             else:
                                 v_cant_qty = float(item['x']) + 100.0  # la care se mai aduaga 10 cm
 
-
+                            v_cant_qty = v_cant_qty / 1000.0  # transformare cant in metri
                             item_categ = cant_ord[cant_poz]
 
                             self.env['mrp.bom.line'].create({
                                 'bom_id': sub_bom.id,
-                                'item_categ':item_categ,
+                                'item_categ': item_categ,
                                 'product_id': cant_product.id,
                                 'product_uom_id': cant_product.uom_id.id,
                                 'product_qty': v_cant_qty
