@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>	<data>	        <record id="view_account_invoice_filter" model="ir.ui.view">            <field name="name">account.invoice.select</field>            <field name="model">account.invoice</field>		            <field name="inherit_id" ref="account.view_account_invoice_filter" />			<field name="arch" type="xml">				 <field name="user_id"  position="after">				 	<field name="product_id" />				 </field>					</field>		</record>								</data></openerp>            
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.invoice.select</field>
+            <field name="model">account.invoice</field>		
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+			<field name="arch" type="xml">
+				 <field name="user_id"  position="after">
+				 	<field name="product_id" />
+				 </field>		
+			</field>
+		</record>		
+			
+		
+	</data>
+</openerp>
+            
