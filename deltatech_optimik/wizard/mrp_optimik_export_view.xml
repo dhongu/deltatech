@@ -1,83 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
-        <record id="view_mrp_optimik_form" model="ir.ui.view">
-            <field name="name">mrp.optimik.export.form</field>
-            <field name="model">mrp.optimik.export</field>
-            <field name="arch" type="xml">
-                <form>
-                    <field name="state" invisible="1"/>
-                    <group>
-                        <field name="name" invisible="1"/>
-                        <field name="separator"/>
-                        <field name="no_labels"/>
-                    </group>
-
-
-                    <field name="line_ids" states="choose">
-                        <tree editable="bottom">
-                            <field name="product_id"/>
-                            <field name="quantity"/>
-                            <field name="is_ok"/>
-
-                            <field name="raw_product"/>
-                            <field name="length"/>
-                            <field name="width"/>
-                            <field name="fiber"/>
-                            <field name="strip_left"/>
-                            <field name="strip_top"/>
-                            <field name="strip_bottom"/>
-                            <field name="strip_right"/>
-                        </tree>
-                    </field>
-
-                    <field name="line_export_ids" states="prepare">
-                        <tree editable="bottom">
-
-                            <field name="raw_product"/>
-                            <field name="quantity"/>
-                            <field name="length"/>
-                            <field name="width"/>
-                            <field name="fiber"/>
-
-                            <field name="strip_left"/>
-                            <field name="strip_top"/>
-                            <field name="strip_bottom"/>
-                            <field name="strip_right"/>
-                        </tree>
-                    </field>
-
-                    <footer states="choose">
-                        <button name="do_export" string="_Group" type="object" class="oe_highlight"/>
-                        or
-                        <button string="_Cancel" class="oe_link" special="cancel"/>
-                    </footer>
-
-                    <footer states="prepare">
-                        <button name="do_make_file" string="_Make File" type="object" class="oe_highlight"/>
-                        or
-                        <button string="_Cancel" class="oe_link" special="cancel"/>
-                    </footer>
-
-                    <footer states="get_file">
-                        <field name="data_file" readonly="1" filename="name"/>
-                        or
-                        <button string="_Cancel" class="oe_link" special="cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
-
-        <act_window id="action_mrp_optimik" name="Export Optimik"
-                    res_model="mrp.optimik.export" src_model="product.product"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
-
-        <act_window id="action_mrp_optimik" name="Export Optimik"
-                    res_model="mrp.optimik.export" src_model="product.template"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
-
-        <act_window id="action_mrp_optimik" name="Export Optimik"
-                    res_model="mrp.optimik.export" src_model="mrp.production"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
-    </data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>    <data>        <record id="view_mrp_optimik_form" model="ir.ui.view">            <field name="name">mrp.optimik.export.form</field>            <field name="model">mrp.optimik.export</field>            <field name="arch" type="xml">                <form>                    <field name="state" invisible="1"/>                    <group>                        <field name="name" invisible="1"/>                        <field name="separator"/>                        <field name="no_labels"/>                    </group>                    <field name="line_ids" states="choose">                        <tree editable="bottom">                            <field name="product_id"/>                            <field name="quantity"/>                            <field name="is_ok"/>                            <field name="raw_product"/>                            <field name="length"/>                            <field name="width"/>                            <field name="fiber"/>                            <field name="strip_left"/>                            <field name="strip_top"/>                            <field name="strip_bottom"/>                            <field name="strip_right"/>                        </tree>                    </field>                    <field name="line_export_ids" states="prepare">                        <tree editable="bottom">                            <field name="raw_product"/>                            <field name="quantity"/>                            <field name="length"/>                            <field name="width"/>                            <field name="fiber"/>                            <field name="strip_left"/>                            <field name="strip_top"/>                            <field name="strip_bottom"/>                            <field name="strip_right"/>                        </tree>                    </field>                    <footer states="choose">                        <button name="do_export" string="_Group" type="object" class="oe_highlight"/>                        or                        <button string="_Cancel" class="oe_link" special="cancel"/>                    </footer>                    <footer states="prepare">                        <button name="do_make_file" string="_Make File" type="object" class="oe_highlight"/>                        or                        <button string="_Cancel" class="oe_link" special="cancel"/>                    </footer>                    <footer states="get_file">                        <field name="data_file" readonly="1" filename="name"/>                        or                        <button string="_Cancel" class="oe_link" special="cancel"/>                    </footer>                </form>            </field>        </record>        <act_window id="action_mrp_optimik" name="Export Optimik"                    res_model="mrp.optimik.export" src_model="product.product"                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>        <act_window id="action_mrp_optimik" name="Export Optimik"                    res_model="mrp.optimik.export" src_model="product.template"                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>        <act_window id="action_mrp_optimik" name="Export Optimik"                    res_model="mrp.optimik.export" src_model="mrp.production"                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>    </data></openerp>

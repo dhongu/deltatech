@@ -1,36 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-		<record id="view_stock_quant_change_lot_form" model="ir.ui.view">
-			<field name="name">Stock Quant Change Lot</field>
-			<field name="model">stock.quant.change.lot</field>
-			<field name="arch" type="xml">
-				<form string="Change Lot / Serial Number">
-					<group>
-						<field name="product_id" />
-						<field name="lot_id" domain="[('product_id','=?', product_id)]" context="{'product_id': product_id}"/>
-					</group>
-					<footer>
-						<button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-					</footer>
-				</form>
-			</field>
-		</record>
-
-
-
-		<act_window id="action_stock_quant_change_lot" 
-			name="Change Lot / Serial Number" 
-			res_model="stock.quant.change.lot" 
-			src_model="stock.quant"
-			view_mode="form" 
-		
-			target="new" />
-
-
-
-
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<record id="view_stock_quant_change_lot_form" model="ir.ui.view">			<field name="name">Stock Quant Change Lot</field>			<field name="model">stock.quant.change.lot</field>			<field name="arch" type="xml">				<form string="Change Lot / Serial Number">					<group>						<field name="product_id" />						<field name="lot_id" domain="[('product_id','=?', product_id)]" context="{'product_id': product_id}"/>					</group>					<footer>						<button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />						or						<button string="Cancel" class="oe_link" special="cancel" />					</footer>				</form>			</field>		</record>		<act_window id="action_stock_quant_change_lot" 			name="Change Lot / Serial Number" 			res_model="stock.quant.change.lot" 			src_model="stock.quant"			view_mode="form" 					target="new" />	</data></openerp>

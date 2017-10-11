@@ -1,25 +1,1 @@
-<?xml version="1.0" ?>
-<openerp>
-	<data>
-
-		<record id="view_product_form_alternative" model="ir.ui.view">
-			<field name="name">product.template.percent_domain.form</field>
-			<field name="model">product.template</field>
-			<field name="inherit_id" ref="product.product_template_form_view" />
-			 <field name="groups_id" eval="[ (4, ref('base.group_no_one'))]" />
-			<field name="type">form</field>
-			<field name="arch" type="xml">
-				<field name="product_manager" position="after">	
-					 			
-					<field name="percent_domain" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
-					<field name="percent_not_in" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
-					<field name="percent_product_list" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>
-					 
-				</field>								
-			</field>
-		</record>
-
-
-	</data>
-</openerp>
-
+<?xml version="1.0" ?><openerp>	<data>		<record id="view_product_form_alternative" model="ir.ui.view">			<field name="name">product.template.percent_domain.form</field>			<field name="model">product.template</field>			<field name="inherit_id" ref="product.product_template_form_view" />			 <field name="groups_id" eval="[ (4, ref('base.group_no_one'))]" />			<field name="type">form</field>			<field name="arch" type="xml">				<field name="product_manager" position="after">						 								<field name="percent_domain" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>					<field name="percent_not_in" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>					<field name="percent_product_list" attrs="{'invisible':[('uom_id','!=',%(product.product_uom_percent)d)]}"/>					 				</field>											</field>		</record>	</data></openerp>

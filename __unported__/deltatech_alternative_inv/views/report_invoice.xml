@@ -1,35 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-		<report string="Invoice with Alternative Code" id="action_report_invoice_alternative" model="account.invoice" report_type="qweb-pdf"
-			name="deltatech_alternative_inv.report_invoice_alt" file="deltatech_alternative_inv.report_invoice_alt" />
-
-
-		<template id="report_invoice" inherit_id="account.report_invoice">
-			<xpath expr="/t" position="inside">
-				<t t-set="with_echiv" t-value="0" />
-			</xpath>
-		</template>
-
-		<template id="report_invoice_alt">
-			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_alternative_inv.report_invoice_document')" />
-				</t>
-			</t>
-		</template>
-
-		<template id="report_invoice_document">
-			<t t-set="with_echiv" t-value="1" />
-			<t t-call="account.report_invoice_document"/>
-		</template> 
-
-		<template id="l10n_ro_report_invoice_document" inherit_id="l10n_ro_invoice_report.l10n_ro_report_invoice_document">
-			<xpath expr="//span[@t-field='l.name']" position="after">
-				<t t-if="with_echiv">
-					<div t-field="l.product_id.alternative_code" />
-				</t>
-			</xpath>
-		</template>
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<report string="Invoice with Alternative Code" id="action_report_invoice_alternative" model="account.invoice" report_type="qweb-pdf"			name="deltatech_alternative_inv.report_invoice_alt" file="deltatech_alternative_inv.report_invoice_alt" />		<template id="report_invoice" inherit_id="account.report_invoice">			<xpath expr="/t" position="inside">				<t t-set="with_echiv" t-value="0" />			</xpath>		</template>		<template id="report_invoice_alt">			<t t-call="report.html_container">				<t t-foreach="doc_ids" t-as="doc_id">					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_alternative_inv.report_invoice_document')" />				</t>			</t>		</template>		<template id="report_invoice_document">			<t t-set="with_echiv" t-value="1" />			<t t-call="account.report_invoice_document"/>		</template> 		<template id="l10n_ro_report_invoice_document" inherit_id="l10n_ro_invoice_report.l10n_ro_report_invoice_document">			<xpath expr="//span[@t-field='l.name']" position="after">				<t t-if="with_echiv">					<div t-field="l.product_id.alternative_code" />				</t>			</xpath>		</template>	</data></openerp>

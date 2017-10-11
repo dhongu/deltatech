@@ -1,88 +1,1 @@
-<?xml version="1.0"?>
-<openerp>
-	<data>
-
-		<record id="crm_case_stage_form" model="ir.ui.view">
-			<field name="name">crm.case.stage.form</field>
-			<field name="model">crm.case.stage</field>
-			<field name="inherit_id" ref="crm.crm_case_stage_form" />
-			<field name="arch" type="xml">
-				<data>
-					<field name="probability" position="after">
-						<field name="survey_id" />
-					</field>
-				</data>
-			</field>
-		</record>
-
-		<record id="crm_case_form_view_leads" model="ir.ui.view">
-			<field name="name">CRM - Leads Form</field>
-			<field name="model">crm.lead</field>
-			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />
-			<field name="arch" type="xml">
-				<field name="stage_id" position="before">
-					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />
-				</field>
-				<page string="Extra Info" position="after">
-					<page string="Surveys">
-						<field name="survey_results">
-							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">
-								<field name="survey_id" />
-								<field name="date_create" />
-								<field name="state" />
-								<field name="test_entry" invisible="True" />
-								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />
-							</tree>
-						</field>
-					</page>
-				</page>
-			</field>
-		</record>
-
-
-
-		<record id="crm_case_form_view_oppor" model="ir.ui.view">
-			<field name="name">Opportunities</field>
-			<field name="model">crm.lead</field>
-			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
-			<field name="arch" type="xml">
-				<field name="stage_id" position="before">
-					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />
-				</field>
-				<page string="Lead" position="after">
-					<page string="Surveys">
-						<field name="survey_results">
-							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">
-								<field name="survey_id" />
-								<field name="date_create" />
-								<field name="state" />
-								<field name="test_entry" invisible="True" />
-								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />
-							</tree>
-
-						</field>
-					</page>
-				</page>
-			</field>
-
-		</record>
-
-
-
-		<record id="crm_case_categ-view" model="ir.ui.view">
-			<field name="name">crm.case.categ.form</field>
-			<field name="model">crm.case.categ</field>
-			<field name="inherit_id" ref="crm.crm_case_categ-view" />
-			<field name="arch" type="xml">
-				<form string="Case Category">
-					<group>
-						<field name="survey_id" />
-					</group>
-				</form>
-			</field>
-		</record>
-
-
-
-	</data>
-</openerp>
+<?xml version="1.0"?><openerp>	<data>		<record id="crm_case_stage_form" model="ir.ui.view">			<field name="name">crm.case.stage.form</field>			<field name="model">crm.case.stage</field>			<field name="inherit_id" ref="crm.crm_case_stage_form" />			<field name="arch" type="xml">				<data>					<field name="probability" position="after">						<field name="survey_id" />					</field>				</data>			</field>		</record>		<record id="crm_case_form_view_leads" model="ir.ui.view">			<field name="name">CRM - Leads Form</field>			<field name="model">crm.lead</field>			<field name="inherit_id" ref="crm.crm_case_form_view_leads" />			<field name="arch" type="xml">				<field name="stage_id" position="before">					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />				</field>				<page string="Extra Info" position="after">					<page string="Surveys">						<field name="survey_results">							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">								<field name="survey_id" />								<field name="date_create" />								<field name="state" />								<field name="test_entry" invisible="True" />								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />							</tree>						</field>					</page>				</page>			</field>		</record>		<record id="crm_case_form_view_oppor" model="ir.ui.view">			<field name="name">Opportunities</field>			<field name="model">crm.lead</field>			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />			<field name="arch" type="xml">				<field name="stage_id" position="before">					<button string="New survery" class="oe_highlight" name="%(action_crm_new_survey)d" type="action" />				</field>				<page string="Lead" position="after">					<page string="Surveys">						<field name="survey_results">							<tree string="Survey User inputs" colors="lightgrey:test_entry == True" create="false">								<field name="survey_id" />								<field name="date_create" />								<field name="state" />								<field name="test_entry" invisible="True" />								<button name="action_view_answers" states="done" string="Print These Answers" type="object" class="oe_highlight" />							</tree>						</field>					</page>				</page>			</field>		</record>		<record id="crm_case_categ-view" model="ir.ui.view">			<field name="name">crm.case.categ.form</field>			<field name="model">crm.case.categ</field>			<field name="inherit_id" ref="crm.crm_case_categ-view" />			<field name="arch" type="xml">				<form string="Case Category">					<group>						<field name="survey_id" />					</group>				</form>			</field>		</record>	</data></openerp>

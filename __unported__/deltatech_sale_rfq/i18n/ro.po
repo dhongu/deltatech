@@ -1,286 +1,1 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-#	* deltatech_sale_rfq
-#
-msgid ""
-msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 11:53+0000\n"
-"PO-Revision-Date: 2016-04-25 11:53+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Abort Quotation"
-msgstr "Abandon"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Adjust Quotation"
-msgstr "Ajustare"
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "Adjusting"
-msgstr "Revizuire"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:122
-#, python-format
-msgid "Attachments"
-msgstr "Atașamente"
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "Canceled"
-msgstr "Anulată"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Create Quotation"
-msgstr "Creare ofertă"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,create_uid:0
-msgid "Created by"
-msgstr "Created by"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,create_date:0
-msgid "Created on"
-msgstr "Created on"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,partner_id:0
-msgid "Customer"
-msgstr "Client"
-
-#. module: deltatech_sale_rfq
-#: help:sale.rfq,message_last_post:0
-msgid "Date of the last message posted on the record."
-msgstr "Date of the last message posted on the record."
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,date_deadline:0
-msgid "Deadline"
-msgstr "Termen limită"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,designer_id:0
-msgid "Designer"
-msgstr "Proiectat/devizier"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Documents"
-msgstr "Documente"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-#: selection:sale.rfq,state:0
-msgid "Done"
-msgstr "Efectuat"
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "Draft"
-msgstr "Ciornă"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,message_follower_ids:0
-msgid "Followers"
-msgstr "Followers"
-
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,id:0
-msgid "ID"
-msgstr "ID"
-
-
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "In Progress"
-msgstr "În Progres"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:152
-#, python-format
-msgid "Insufficient Data!"
-msgstr "Date insuficiente!"
-
-
-
-
-
-#. module: deltatech_sale_rfq
-#: model:ir.model,name:deltatech_sale_rfq.model_crm_lead
-msgid "Lead/Opportunity"
-msgstr "Pista/Oportunitate"
-
-
-
-
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,name:0
-msgid "Name"
-msgstr "Nume"
-
-
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,lead_id:0
-msgid "Opportunity"
-msgstr "Oportunitate"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:170
-#, python-format
-msgid "Opportunity %s has been <b>converted</b> to the quotation <em>%s</em>."
-msgstr "Oportunitatea %s a fost <b>convertită</b> în oferta<em>%s</em>."
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:155
-#, python-format
-msgid "Opportunity: %s"
-msgstr "Oportunitate: %s"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:195
-#, python-format
-msgid "Please enter report template"
-msgstr "Selectați vă rog un șablon"
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "Prepared"
-msgstr "Pregătită"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,order_id:0
-msgid "Quotation"
-msgstr "Oferta"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:189
-#, python-format
-msgid "Quotation %s is ready"
-msgstr "Oferta %s este gata"
-
-#. module: deltatech_sale_rfq
-#: selection:sale.rfq,state:0
-msgid "Quotation Sent"
-msgstr "Oferta este trimisă"
-
-#. module: deltatech_sale_rfq
-#: view:sale.order:deltatech_sale_rfq.view_order_form
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Quotation is Ready"
-msgstr "Oferta este gata"
-
-#. module: deltatech_sale_rfq
-#: view:crm.lead:deltatech_sale_rfq.crm_case_form_view_oppor
-msgid "RFQ"
-msgstr "RFQ"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:192
-#, python-format
-msgid "RFQ %s is ready"
-msgstr "RFQ %s is ready"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale.py:44
-#, python-format
-msgid "RFQ not found"
-msgstr "RFQ negărită"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,report_id:0
-msgid "Report"
-msgstr "Raport"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,request_date:0
-msgid "Request Date"
-msgstr "Dată cerere"
-
-#. module: deltatech_sale_rfq
-#: model:ir.actions.act_window,name:deltatech_sale_rfq.action_sale_rfq
-#: model:ir.ui.menu,name:deltatech_sale_rfq.menu_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Request For Quotation"
-msgstr "Cerere de ofertă"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_tree
-msgid "Request For Sale Quotation"
-msgstr "Request For Sale Quotation"
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/crm_lead.py:58
-#, python-format
-msgid "Request for Quotation"
-msgstr "Cerere de ofertă"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,requester_id:0
-msgid "Requester"
-msgstr "Solicitant"
-
-#. module: deltatech_sale_rfq
-#: model:ir.model,name:deltatech_sale_rfq.model_sale_rfq
-msgid "Sale Request For Quotation"
-msgstr "Sale Request For Quotation"
-
-#. module: deltatech_sale_rfq
-#: model:ir.model,name:deltatech_sale_rfq.model_sale_order
-msgid "Sales Order"
-msgstr "Comandă de vânzare"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_filter
-msgid "Search"
-msgstr "Search"
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Send Quotation"
-msgstr "Trmite oferta"
-
-
-
-#. module: deltatech_sale_rfq
-#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form
-msgid "Start Task"
-msgstr "Start sarcină"
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,state:0
-msgid "Status"
-msgstr "Stare"
-
-
-
-#. module: deltatech_sale_rfq
-#: field:sale.rfq,team_leader_id:0
-msgid "Team Leader"
-msgstr "Șef echipă"
-
-
-
-#. module: deltatech_sale_rfq
-#: code:addons/deltatech_sale_rfq/sale_rfq.py:92
-#, python-format
-msgid "You cannot delete a RFQ which is not draft."
-msgstr "Nu puteți ștere o RFQ care nu e în starea de ciornă."
-
+# Translation of Odoo Server.# This file contains the translation of the following modules:#	* deltatech_sale_rfq#msgid ""msgstr """Project-Id-Version: Odoo Server 8.0\n""Report-Msgid-Bugs-To: \n""POT-Creation-Date: 2016-04-25 11:53+0000\n""PO-Revision-Date: 2016-04-25 11:53+0000\n""Last-Translator: <>\n""Language-Team: \n""MIME-Version: 1.0\n""Content-Type: text/plain; charset=UTF-8\n""Content-Transfer-Encoding: \n""Plural-Forms: \n"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Abort Quotation"msgstr "Abandon"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Adjust Quotation"msgstr "Ajustare"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "Adjusting"msgstr "Revizuire"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:122#, python-formatmsgid "Attachments"msgstr "Atașamente"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "Canceled"msgstr "Anulată"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Create Quotation"msgstr "Creare ofertă"#. module: deltatech_sale_rfq#: field:sale.rfq,create_uid:0msgid "Created by"msgstr "Created by"#. module: deltatech_sale_rfq#: field:sale.rfq,create_date:0msgid "Created on"msgstr "Created on"#. module: deltatech_sale_rfq#: field:sale.rfq,partner_id:0msgid "Customer"msgstr "Client"#. module: deltatech_sale_rfq#: help:sale.rfq,message_last_post:0msgid "Date of the last message posted on the record."msgstr "Date of the last message posted on the record."#. module: deltatech_sale_rfq#: field:sale.rfq,date_deadline:0msgid "Deadline"msgstr "Termen limită"#. module: deltatech_sale_rfq#: field:sale.rfq,designer_id:0msgid "Designer"msgstr "Proiectat/devizier"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Documents"msgstr "Documente"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form#: selection:sale.rfq,state:0msgid "Done"msgstr "Efectuat"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "Draft"msgstr "Ciornă"#. module: deltatech_sale_rfq#: field:sale.rfq,message_follower_ids:0msgid "Followers"msgstr "Followers"#. module: deltatech_sale_rfq#: field:sale.rfq,id:0msgid "ID"msgstr "ID"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "In Progress"msgstr "În Progres"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:152#, python-formatmsgid "Insufficient Data!"msgstr "Date insuficiente!"#. module: deltatech_sale_rfq#: model:ir.model,name:deltatech_sale_rfq.model_crm_leadmsgid "Lead/Opportunity"msgstr "Pista/Oportunitate"#. module: deltatech_sale_rfq#: field:sale.rfq,name:0msgid "Name"msgstr "Nume"#. module: deltatech_sale_rfq#: field:sale.rfq,lead_id:0msgid "Opportunity"msgstr "Oportunitate"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:170#, python-formatmsgid "Opportunity %s has been <b>converted</b> to the quotation <em>%s</em>."msgstr "Oportunitatea %s a fost <b>convertită</b> în oferta<em>%s</em>."#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:155#, python-formatmsgid "Opportunity: %s"msgstr "Oportunitate: %s"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:195#, python-formatmsgid "Please enter report template"msgstr "Selectați vă rog un șablon"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "Prepared"msgstr "Pregătită"#. module: deltatech_sale_rfq#: field:sale.rfq,order_id:0msgid "Quotation"msgstr "Oferta"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:189#, python-formatmsgid "Quotation %s is ready"msgstr "Oferta %s este gata"#. module: deltatech_sale_rfq#: selection:sale.rfq,state:0msgid "Quotation Sent"msgstr "Oferta este trimisă"#. module: deltatech_sale_rfq#: view:sale.order:deltatech_sale_rfq.view_order_form#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Quotation is Ready"msgstr "Oferta este gata"#. module: deltatech_sale_rfq#: view:crm.lead:deltatech_sale_rfq.crm_case_form_view_oppormsgid "RFQ"msgstr "RFQ"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:192#, python-formatmsgid "RFQ %s is ready"msgstr "RFQ %s is ready"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale.py:44#, python-formatmsgid "RFQ not found"msgstr "RFQ negărită"#. module: deltatech_sale_rfq#: field:sale.rfq,report_id:0msgid "Report"msgstr "Raport"#. module: deltatech_sale_rfq#: field:sale.rfq,request_date:0msgid "Request Date"msgstr "Dată cerere"#. module: deltatech_sale_rfq#: model:ir.actions.act_window,name:deltatech_sale_rfq.action_sale_rfq#: model:ir.ui.menu,name:deltatech_sale_rfq.menu_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Request For Quotation"msgstr "Cerere de ofertă"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_form#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_treemsgid "Request For Sale Quotation"msgstr "Request For Sale Quotation"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/crm_lead.py:58#, python-formatmsgid "Request for Quotation"msgstr "Cerere de ofertă"#. module: deltatech_sale_rfq#: field:sale.rfq,requester_id:0msgid "Requester"msgstr "Solicitant"#. module: deltatech_sale_rfq#: model:ir.model,name:deltatech_sale_rfq.model_sale_rfqmsgid "Sale Request For Quotation"msgstr "Sale Request For Quotation"#. module: deltatech_sale_rfq#: model:ir.model,name:deltatech_sale_rfq.model_sale_ordermsgid "Sales Order"msgstr "Comandă de vânzare"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_filtermsgid "Search"msgstr "Search"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Send Quotation"msgstr "Trmite oferta"#. module: deltatech_sale_rfq#: view:sale.rfq:deltatech_sale_rfq.view_sale_rfq_formmsgid "Start Task"msgstr "Start sarcină"#. module: deltatech_sale_rfq#: field:sale.rfq,state:0msgid "Status"msgstr "Stare"#. module: deltatech_sale_rfq#: field:sale.rfq,team_leader_id:0msgid "Team Leader"msgstr "Șef echipă"#. module: deltatech_sale_rfq#: code:addons/deltatech_sale_rfq/sale_rfq.py:92#, python-formatmsgid "You cannot delete a RFQ which is not draft."msgstr "Nu puteți ștere o RFQ care nu e în starea de ciornă."

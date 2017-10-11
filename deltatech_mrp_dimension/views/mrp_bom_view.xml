@@ -1,24 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
-        <record id="mrp_bom_form_view" model="ir.ui.view">
-            <field name="name">deltatech.mrp.bom.form</field>
-            <field name="model">mrp.bom</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
-            <field name="arch" type="xml">
-                <xpath expr="/form/sheet"  position="before">
-                    <header>
-                        <button type="object" name="action_create_surface_uom" string="Create UoM" class="oe_link"/>
-                    </header>
-                </xpath>
-                <xpath expr="//field[@name='routing_id']" position="after">
-                    <field name="length"/>
-                    <field name="width"/>
-                </xpath>
-
-            </field>
-        </record>
-
-    </data>
-</odoo>
+<?xml version="1.0" encoding="utf-8"?><odoo>    <data>        <record id="mrp_bom_form_view" model="ir.ui.view">            <field name="name">deltatech.mrp.bom.form</field>            <field name="model">mrp.bom</field>            <field name="type">form</field>            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>            <field name="arch" type="xml">                <xpath expr="/form/sheet"  position="before">                    <header>                        <button type="object" name="action_create_surface_uom" string="Create UoM" class="oe_link"/>                    </header>                </xpath>                <xpath expr="//field[@name='routing_id']" position="after">                    <field name="length"/>                    <field name="width"/>                </xpath>            </field>        </record>    </data></odoo>

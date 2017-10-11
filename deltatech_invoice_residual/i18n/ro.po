@@ -1,24 +1,1 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# * deltatech_invoice_residual
-# 
-# Translators:
-# Dorin Hongu <dhongu@gmail.com>, 2017
-msgid ""
-msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-11 16:59+0000\n"
-"PO-Revision-Date: 2017-03-11 16:59+0000\n"
-"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
-"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Language: ro\n"
-"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
-
-#. module: deltatech_invoice_residual
-#: model:ir.model,name:deltatech_invoice_residual.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+# Translation of Odoo Server.# This file contains the translation of the following modules:# * deltatech_invoice_residual# # Translators:# Dorin Hongu <dhongu@gmail.com>, 2017msgid ""msgstr """Project-Id-Version: Odoo Server 8.0\n""Report-Msgid-Bugs-To: \n""POT-Creation-Date: 2017-03-11 16:59+0000\n""PO-Revision-Date: 2017-03-11 16:59+0000\n""Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n""Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n""MIME-Version: 1.0\n""Content-Type: text/plain; charset=UTF-8\n""Content-Transfer-Encoding: \n""Language: ro\n""Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"#. module: deltatech_invoice_residual#: model:ir.model,name:deltatech_invoice_residual.model_account_invoicemsgid "Invoice"msgstr "Factura"

@@ -1,141 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-
-		<record id="view_stock_picking_report_tree" model="ir.ui.view">
-			<field name="name">stock.picking.report.tree</field>
-			<field name="model">stock.picking.report</field>
-			<field name="type">tree</field>
-			<field name="arch" type="xml">
-							
-				<tree string="Picking Report" create="0" delete="0">
-					<field name="date" invisible="1"/>
-
-					<field name="location_id" invisible="1" />
-					<field name="location_dest_id" invisible="1" /> 
-					<field name="categ_id" invisible="1"/>
-					<field name="picking_type_id"  />
-					<field name="commercial_partner_id"  />
-					<field name="partner_id"  />
-					<field name="product_id"  />
- 					
-					<field name="product_qty" sum='Quantity '/>
-					<field name="amount" sum='Amount'/>					
-					
-					<field name="company_id" groups="base.group_multi_company" invisible="1"/>
-				</tree>
-			</field>
-		</record>
-		
-		<record id="view_stock_picking_report_graph" model="ir.ui.view">
-	        <field name="name">stock.picking.report.graph</field>
-			<field name="model">stock.picking.report</field>
-	        <field name="arch" type="xml">
-	            <graph string="picking_report for stock" type="pivot" >	
-	                <field name="picking_type_id" type="row"/>
-	                <field name="commercial_partner_id" type="row"/>	
-	              <!--   <field name="product_id" type="row"/>	  -->
-	                <field name="product_qty" type="measure"/>
-	                <field name="amount" type="measure"/>
-	            </graph>
-	        </field>
-    	</record>
-		
-		<record id="view_stock_picking_report_filter" model="ir.ui.view">
-			<field name="name">stock.picking.report.select</field>
-			<field name="model">stock.picking.report</field>
-			<field name="type">search</field>
-			<field name="arch" type="xml">
-				<search string="Search">
-					<field name="location_id" />
-					<field name="categ_id" />
-					<field name="product_id" />
-					<field name="commercial_partner_id" />
-					<field name="partner_id" />
-					<field name="picking_type_id" />
-					<field name="picking_type_code" />
-					<!-- <field name="invoice_state" />  -->
-					<field name="date"/>
-					
-					<filter string="This Year" name="year"  
-						domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-						  />					
-
-					<filter string="This Month" name="month"  
-						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-						  />		
-
-					<filter string="Previous Month" name="prev_month"  
-						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-						  />					
-					
-					<separator/>
-					<!--
-					<filter string="Invoice Not Applicable" name="not2binvoiced" domain="[('invoice_state', '=', 'none')]" />
-					-->
-					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />
-					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />
-					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />
-
-					
-					<group expand="0" string="Extended Filters..." >
-						<field name="company_id" groups="base.group_multi_company"/>
-						
-					</group>
-					<newline/>
-					<group expand="1" string="Group By...">
-
-
-						
-						<filter string="Picking type" name="picking_type_id" icon="terp-accessories-archiver" context="{'group_by':'picking_type_id'}" />
-						<filter string="Invoice Control" name="invoice_state" icon="terp-accessories-archiver" context="{'group_by':'invoice_state'}" />
-						<filter string="Partner" name="partner" icon="terp-accessories-archiver" context="{'group_by':'partner_id'}" />
-						<filter string="Commercial Entity" name="commercial_partner_id" icon="terp-accessories-archiver" context="{'group_by':'commercial_partner_id'}" />
-						<filter string="Category"  icon="terp-accessories-archiver" context="{'group_by':'categ_id'}" />
-						<filter string="Product" name="product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}" />
-						
-						<filter string="Location"  icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_id'}"/>
-						<filter string="Location Destination"  icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_dest_id'}"/>
-																		
-						<filter string="Date" icon="terp-go-month" context="{'group_by':'date'}"/>
-						<separator orientation="vertical"/>
-						<filter string="Company" icon="terp-go-home" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>
-						<separator orientation="vertical" groups="base.group_multi_company"/>
-					
-					</group>
-				</search>
-			</field>
-		</record>
-
-		<record id="action_stock_picking_report" model="ir.actions.act_window">
-			<field name="name">Picking Report</field>
-			<field name="res_model">stock.picking.report</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">graph,tree</field>
-			<field name="view_id" ref="view_stock_picking_report_tree"/>
-			<field name="search_view_id" ref="view_stock_picking_report_filter"/>
-			<field name="help">This reporting allows you to analysis stock pickings.</field>
-			<field name="context">{'search_default_location': 1,'search_default_category': 1}</field>
-		</record>
-		
-		<record model="ir.actions.act_window.view" id="action_stock_picking_report_graph">
-			<field name="sequence" eval="1"/>
-			<field name="view_mode">graph</field>
-			<field name="view_id" ref="view_stock_picking_report_graph"/>
-			<field name="act_window_id" ref="action_stock_picking_report"/>
-		</record>
-
-		<record model="ir.actions.act_window.view" id="action_stock_picking_report_tree">
-			<field name="sequence" eval="2"/>
-			<field name="view_mode">tree</field>
-			<field name="view_id" ref="view_stock_picking_report_tree"/>
-			<field name="act_window_id" ref="action_stock_picking_report"/>
-		</record>
-
-		<menuitem name="Picking Analysis" action="action_stock_picking_report"
-				  id="menu_stock_picking_report_tree" parent="stock.menu_warehouse_report"/>
-	</data>
-</openerp>
-
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<record id="view_stock_picking_report_tree" model="ir.ui.view">			<field name="name">stock.picking.report.tree</field>			<field name="model">stock.picking.report</field>			<field name="type">tree</field>			<field name="arch" type="xml">											<tree string="Picking Report" create="0" delete="0">					<field name="date" invisible="1"/>					<field name="location_id" invisible="1" />					<field name="location_dest_id" invisible="1" /> 					<field name="categ_id" invisible="1"/>					<field name="picking_type_id"  />					<field name="commercial_partner_id"  />					<field name="partner_id"  />					<field name="product_id"  /> 										<field name="product_qty" sum='Quantity '/>					<field name="amount" sum='Amount'/>															<field name="company_id" groups="base.group_multi_company" invisible="1"/>				</tree>			</field>		</record>				<record id="view_stock_picking_report_graph" model="ir.ui.view">	        <field name="name">stock.picking.report.graph</field>			<field name="model">stock.picking.report</field>	        <field name="arch" type="xml">	            <graph string="picking_report for stock" type="pivot" >		                <field name="picking_type_id" type="row"/>	                <field name="commercial_partner_id" type="row"/>		              <!--   <field name="product_id" type="row"/>	  -->	                <field name="product_qty" type="measure"/>	                <field name="amount" type="measure"/>	            </graph>	        </field>    	</record>				<record id="view_stock_picking_report_filter" model="ir.ui.view">			<field name="name">stock.picking.report.select</field>			<field name="model">stock.picking.report</field>			<field name="type">search</field>			<field name="arch" type="xml">				<search string="Search">					<field name="location_id" />					<field name="categ_id" />					<field name="product_id" />					<field name="commercial_partner_id" />					<field name="partner_id" />					<field name="picking_type_id" />					<field name="picking_type_code" />					<!-- <field name="invoice_state" />  -->					<field name="date"/>										<filter string="This Year" name="year"  						domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"						  />										<filter string="This Month" name="month"  						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"						  />							<filter string="Previous Month" name="prev_month"  						domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"						  />															<separator/>					<!--					<filter string="Invoice Not Applicable" name="not2binvoiced" domain="[('invoice_state', '=', 'none')]" />					-->					<filter name="picking_type_incoming" string="Incoming" domain="[('picking_type_id.code','=','incoming')]" />					<filter name="picking_type_internal" string="Internal" domain="[('picking_type_id.code','=','internal')]" />					<filter name="picking_type_outgoing" string="Outgoing" domain="[('picking_type_id.code','=','outgoing')]" />										<group expand="0" string="Extended Filters..." >						<field name="company_id" groups="base.group_multi_company"/>											</group>					<newline/>					<group expand="1" string="Group By...">												<filter string="Picking type" name="picking_type_id" icon="terp-accessories-archiver" context="{'group_by':'picking_type_id'}" />						<filter string="Invoice Control" name="invoice_state" icon="terp-accessories-archiver" context="{'group_by':'invoice_state'}" />						<filter string="Partner" name="partner" icon="terp-accessories-archiver" context="{'group_by':'partner_id'}" />						<filter string="Commercial Entity" name="commercial_partner_id" icon="terp-accessories-archiver" context="{'group_by':'commercial_partner_id'}" />						<filter string="Category"  icon="terp-accessories-archiver" context="{'group_by':'categ_id'}" />						<filter string="Product" name="product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}" />												<filter string="Location"  icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_id'}"/>						<filter string="Location Destination"  icon="terp-gtk-jump-to-rtl" context="{'group_by':'location_dest_id'}"/>																								<filter string="Date" icon="terp-go-month" context="{'group_by':'date'}"/>						<separator orientation="vertical"/>						<filter string="Company" icon="terp-go-home" context="{'group_by':'company_id'}" groups="base.group_multi_company"/>						<separator orientation="vertical" groups="base.group_multi_company"/>										</group>				</search>			</field>		</record>		<record id="action_stock_picking_report" model="ir.actions.act_window">			<field name="name">Picking Report</field>			<field name="res_model">stock.picking.report</field>			<field name="view_type">form</field>			<field name="view_mode">graph,tree</field>			<field name="view_id" ref="view_stock_picking_report_tree"/>			<field name="search_view_id" ref="view_stock_picking_report_filter"/>			<field name="help">This reporting allows you to analysis stock pickings.</field>			<field name="context">{'search_default_location': 1,'search_default_category': 1}</field>		</record>				<record model="ir.actions.act_window.view" id="action_stock_picking_report_graph">			<field name="sequence" eval="1"/>			<field name="view_mode">graph</field>			<field name="view_id" ref="view_stock_picking_report_graph"/>			<field name="act_window_id" ref="action_stock_picking_report"/>		</record>		<record model="ir.actions.act_window.view" id="action_stock_picking_report_tree">			<field name="sequence" eval="2"/>			<field name="view_mode">tree</field>			<field name="view_id" ref="view_stock_picking_report_tree"/>			<field name="act_window_id" ref="action_stock_picking_report"/>		</record>		<menuitem name="Picking Analysis" action="action_stock_picking_report"				  id="menu_stock_picking_report_tree" parent="stock.menu_warehouse_report"/>	</data></openerp>

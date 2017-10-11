@@ -1,41 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-
-		<template id="products_qty_available" inherit_id="website_sale.products_item" active="False" customize_show="True" name="Product Available">
-			<xpath expr="//div[@class='product_price']" position="before">
-				<t t-if="website.user_id != user_id">
-					<t t-if="product.is_qty_available=='stock' ">
-						<div class="label alert-success" contenteditable="false">In stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='provider' ">
-						<div class="label alert-warning" contenteditable="false">In provider stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='order' ">
-						<div class="label alert-danger" contenteditable="false">At order</div>
-					</t>
-				</t>
-			</xpath>
-		</template>
-
-
-		<template id="product_detail_qty_available" inherit_id="website_sale.product" active="False" customize_show="True" name="Product Available">
-
-			<xpath expr="//span[@itemprop='url']" position="before">
-				<t t-if="website.user_id != user_id">
-					<t t-if="product.is_qty_available=='stock' ">
-						<div class="label alert-success" contenteditable="false">In stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='provider' ">
-						<div class="label alert-warning" contenteditable="false">In provider stock</div>
-					</t>
-					<t t-if="product.is_qty_available=='order' ">
-						<div class="label alert-danger" contenteditable="false">At order</div>
-					</t>
-				</t>
-			</xpath>
-		</template>
-
-
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<template id="products_qty_available" inherit_id="website_sale.products_item" active="False" customize_show="True" name="Product Available">			<xpath expr="//div[@class='product_price']" position="before">				<t t-if="website.user_id != user_id">					<t t-if="product.is_qty_available=='stock' ">						<div class="label alert-success" contenteditable="false">In stock</div>					</t>					<t t-if="product.is_qty_available=='provider' ">						<div class="label alert-warning" contenteditable="false">In provider stock</div>					</t>					<t t-if="product.is_qty_available=='order' ">						<div class="label alert-danger" contenteditable="false">At order</div>					</t>				</t>			</xpath>		</template>		<template id="product_detail_qty_available" inherit_id="website_sale.product" active="False" customize_show="True" name="Product Available">			<xpath expr="//span[@itemprop='url']" position="before">				<t t-if="website.user_id != user_id">					<t t-if="product.is_qty_available=='stock' ">						<div class="label alert-success" contenteditable="false">In stock</div>					</t>					<t t-if="product.is_qty_available=='provider' ">						<div class="label alert-warning" contenteditable="false">In provider stock</div>					</t>					<t t-if="product.is_qty_available=='order' ">						<div class="label alert-danger" contenteditable="false">At order</div>					</t>				</t>			</xpath>		</template>	</data></openerp>

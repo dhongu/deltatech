@@ -1,152 +1,1 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-#	* deltatech_refund
-#
-msgid ""
-msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-12 17:56+0000\n"
-"PO-Revision-Date: 2015-08-12 17:56+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:110
-#, python-format
-msgid "%s was generated to transfer products from %s they have been refunded by %s "
-msgstr "%s a fost generat pentru transferul produselor din %s ce au fost rambursate de %s "
-
-#. module: deltatech_refund
-#: field:stock.return.picking,do_transfer:0
-msgid "Do transfer"
-msgstr "Execută transferul"
-
-#. module: deltatech_refund
-#: help:stock.return.picking,do_transfer:0
-msgid "If is active, refund picking list will be transferred automatically"
-msgstr "Dacă este activ, documentul de rambursare va fi transferat automat"
-
-#. module: deltatech_refund
-#: model:ir.model,name:deltatech_refund.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/account_invoice.py:50
-#, python-format
-msgid "Invoice %s was refunded by %s"
-msgstr "Factura %s a fost stornata de %s"
-
-#. module: deltatech_refund
-#: model:ir.model,name:deltatech_refund.model_account_invoice_refund
-msgid "Invoice Refund"
-msgstr "Retur Factura"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:130
-#, python-format
-msgid "It was not generated a new picking list for transfer products from %s they have been refunded by %s "
-msgstr "Nu a fost generat un nou document pentru transferul produselor din %s ce au fost rambursate de %s "
-
-#. module: deltatech_refund
-#: field:stock.return.picking,note:0
-msgid "Note"
-msgstr "Note"
-
-#. module: deltatech_refund
-#: field:res.company,invoice_picking_refund:0
-#: field:account.config.settings,invoice_picking_refund:0
-msgid "Picking refund after cancel invoice"
-msgstr "Rabursare transfer după anulare factură"
-
-#. module: deltatech_refund
-#: field:stock.picking,origin_refund_picking_id:0
-msgid "Origin Picking"
-msgstr "Ridicare inițială"
-
-#. module: deltatech_refund
-#: model:ir.model,name:deltatech_refund.model_stock_picking
-msgid "Picking List"
-msgstr "Listă ridicare"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/account_invoice.py:93
-#: code:addons/deltatech_refund/account_invoice_refund.py:81
-#, python-format
-msgid "Picking list %s was refunded by %s"
-msgstr "Operația de stoc %s a fost rambursată de %s"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:90
-#, python-format
-msgid "Picking list %s was refunded by %s "
-msgstr "Operația de stoc %s a fost rambursată de %s "
-
-#. module: deltatech_refund
-#: help:stock.picking,with_refund:0
-msgid "Picking list with refund or is an refund"
-msgstr "Operație de stoc de rambursare sau cu rambursare"
-
-
-#. module: deltatech_refund
-#: help:account.invoice,with_refund:0
-msgid "Invoice with refund or is an refund"
-msgstr "Factură de raburs sau rambursare"
-
-#. module: deltatech_refund
-#: field:stock.picking,refund_picking_id:0
-msgid "Refund Picking"
-msgstr "Rambursare Livrare"
-
-#. module: deltatech_refund
-#: view:account.invoice:deltatech_refund.invoice_form
-#: view:account.invoice:deltatech_refund.invoice_supplier_form
-msgid "Refund Pickings"
-msgstr "Rambursare Livrări"
-
-#. module: deltatech_refund
-#: model:ir.model,name:deltatech_refund.model_stock_return_picking
-msgid "Return Picking"
-msgstr "Retur Ridicare"
-
-#. module: deltatech_refund
-#: view:stock.picking:deltatech_refund.view_picking_form
-msgid "Reverse Transfer"
-msgstr "Rambursați transferul"
-
-#. module: deltatech_refund
-#: model:ir.model,name:deltatech_refund.model_stock_move
-msgid "Stock Move"
-msgstr "Mișcare stoc"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:52
-#, python-format
-msgid "This document is a refund for %s"
-msgstr "Acest document este o rambursare pentru  %s"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:55
-#, python-format
-msgid "This document was be already refunded by %s"
-msgstr "Acest document a fost deja rambursat de  %s"
-
-#. module: deltatech_refund
-#: code:addons/deltatech_refund/stock_return_picking.py:81
-#, python-format
-msgid "Unable to prepare a new picking list with all quantity "
-msgstr "Nu se poate pregăti o nouă listă de ridicare cu toate cantitățile.  Posibil ca stocul să fi fost transferat între timp"
-
-#. module: deltatech_refund
-#: field:stock.picking,with_refund:0
-#: field:account.invoice,with_refund:0
-msgid "With refund"
-msgstr "Cu rambursare"
-
-
-
+# Translation of Odoo Server.# This file contains the translation of the following modules:#	* deltatech_refund#msgid ""msgstr """Project-Id-Version: Odoo Server 8.0\n""Report-Msgid-Bugs-To: \n""POT-Creation-Date: 2015-08-12 17:56+0000\n""PO-Revision-Date: 2015-08-12 17:56+0000\n""Last-Translator: <>\n""Language-Team: \n""MIME-Version: 1.0\n""Content-Type: text/plain; charset=UTF-8\n""Content-Transfer-Encoding: \n""Plural-Forms: \n"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:110#, python-formatmsgid "%s was generated to transfer products from %s they have been refunded by %s "msgstr "%s a fost generat pentru transferul produselor din %s ce au fost rambursate de %s "#. module: deltatech_refund#: field:stock.return.picking,do_transfer:0msgid "Do transfer"msgstr "Execută transferul"#. module: deltatech_refund#: help:stock.return.picking,do_transfer:0msgid "If is active, refund picking list will be transferred automatically"msgstr "Dacă este activ, documentul de rambursare va fi transferat automat"#. module: deltatech_refund#: model:ir.model,name:deltatech_refund.model_account_invoicemsgid "Invoice"msgstr "Factura"#. module: deltatech_refund#: code:addons/deltatech_refund/account_invoice.py:50#, python-formatmsgid "Invoice %s was refunded by %s"msgstr "Factura %s a fost stornata de %s"#. module: deltatech_refund#: model:ir.model,name:deltatech_refund.model_account_invoice_refundmsgid "Invoice Refund"msgstr "Retur Factura"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:130#, python-formatmsgid "It was not generated a new picking list for transfer products from %s they have been refunded by %s "msgstr "Nu a fost generat un nou document pentru transferul produselor din %s ce au fost rambursate de %s "#. module: deltatech_refund#: field:stock.return.picking,note:0msgid "Note"msgstr "Note"#. module: deltatech_refund#: field:res.company,invoice_picking_refund:0#: field:account.config.settings,invoice_picking_refund:0msgid "Picking refund after cancel invoice"msgstr "Rabursare transfer după anulare factură"#. module: deltatech_refund#: field:stock.picking,origin_refund_picking_id:0msgid "Origin Picking"msgstr "Ridicare inițială"#. module: deltatech_refund#: model:ir.model,name:deltatech_refund.model_stock_pickingmsgid "Picking List"msgstr "Listă ridicare"#. module: deltatech_refund#: code:addons/deltatech_refund/account_invoice.py:93#: code:addons/deltatech_refund/account_invoice_refund.py:81#, python-formatmsgid "Picking list %s was refunded by %s"msgstr "Operația de stoc %s a fost rambursată de %s"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:90#, python-formatmsgid "Picking list %s was refunded by %s "msgstr "Operația de stoc %s a fost rambursată de %s "#. module: deltatech_refund#: help:stock.picking,with_refund:0msgid "Picking list with refund or is an refund"msgstr "Operație de stoc de rambursare sau cu rambursare"#. module: deltatech_refund#: help:account.invoice,with_refund:0msgid "Invoice with refund or is an refund"msgstr "Factură de raburs sau rambursare"#. module: deltatech_refund#: field:stock.picking,refund_picking_id:0msgid "Refund Picking"msgstr "Rambursare Livrare"#. module: deltatech_refund#: view:account.invoice:deltatech_refund.invoice_form#: view:account.invoice:deltatech_refund.invoice_supplier_formmsgid "Refund Pickings"msgstr "Rambursare Livrări"#. module: deltatech_refund#: model:ir.model,name:deltatech_refund.model_stock_return_pickingmsgid "Return Picking"msgstr "Retur Ridicare"#. module: deltatech_refund#: view:stock.picking:deltatech_refund.view_picking_formmsgid "Reverse Transfer"msgstr "Rambursați transferul"#. module: deltatech_refund#: model:ir.model,name:deltatech_refund.model_stock_movemsgid "Stock Move"msgstr "Mișcare stoc"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:52#, python-formatmsgid "This document is a refund for %s"msgstr "Acest document este o rambursare pentru  %s"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:55#, python-formatmsgid "This document was be already refunded by %s"msgstr "Acest document a fost deja rambursat de  %s"#. module: deltatech_refund#: code:addons/deltatech_refund/stock_return_picking.py:81#, python-formatmsgid "Unable to prepare a new picking list with all quantity "msgstr "Nu se poate pregăti o nouă listă de ridicare cu toate cantitățile.  Posibil ca stocul să fi fost transferat între timp"#. module: deltatech_refund#: field:stock.picking,with_refund:0#: field:account.invoice,with_refund:0msgid "With refund"msgstr "Cu rambursare"

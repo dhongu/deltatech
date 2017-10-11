@@ -1,16 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-	        <record id="acquirer_form" model="ir.ui.view">
-            <field name="name">payment.acquirer.form</field>
-            <field name="model">payment.acquirer</field>
-            <field name="inherit_id" ref="payment.acquirer_form" />
-            <field name="arch" type="xml">
-				<field name="provider" position="after">
-					<field name="partner_id" />
-					<field name="account_debit" />
-				</field>
-			</field>
-		</record>
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>	        <record id="acquirer_form" model="ir.ui.view">            <field name="name">payment.acquirer.form</field>            <field name="model">payment.acquirer</field>            <field name="inherit_id" ref="payment.acquirer_form" />            <field name="arch" type="xml">				<field name="provider" position="after">					<field name="partner_id" />					<field name="account_debit" />				</field>			</field>		</record>	</data></openerp>

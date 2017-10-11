@@ -1,69 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-		<record id="view_crm_new_survey_form" model="ir.ui.view">
-			<field name="name">CRM New Survey</field>
-			<field name="model">crm.new.survey</field>
-			<field name="arch" type="xml">
-				<form string="CRM New Survey">
-			
-					<group string="Create a New Survey Result">
-                        <!-- truly invisible fields for control and options -->
-                        <field name="composition_mode" invisible="1"/>
-                        <field name="model" invisible="1"/>
-                        <field name="res_id" invisible="1"/>
-                        <field name="is_log" invisible="1"/>
-                        <field name="parent_id" invisible="1"/>
-                        <field name="mail_server_id" invisible="1"/>						
-					
-						<div class="oe_grey">
-							Enter survey results for partner
-						</div>
-					</group>
-					<group>
-						<field name="survey_id" options="{'no_create': True}" />
-						<field name="partner_id" options="{'no_create': True}" />
-						<field name="partner_ids" widget="many2many_tags_email"  options="{'no_create': True}" invisible="1"/>
-						<field name="mail_notify_noemail" string="Without email"/>
-					</group>
-					<div  attrs="{'invisible':[('mail_notify_noemail','=',True)]}">
-                        <group>
-						<field name="subject" placeholder="Subject..." required="True"/>
-						</group>
-                    	<field name="body"/>
-                    	<field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>
-					</div>
-					<footer attrs="{'invisible':[('mail_notify_noemail','=',True)]}">
-						<button string="Send" name="send_mail" type="object" class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-						
-						<group class="oe_right oe_form" col="1">
-                        <div>Use template
-                            <!--FIX: To avoid css issue of many2one field in footer temporary used oe_form (BUG:1152464)-->
-                            <field name="template_id" nolabel="1" class="oe_inline" options="{'no_create': True}" 
-                            on_change="onchange_template_id(template_id, composition_mode, model, res_id, context)" 
-                            domain="[('model_id.model','=',model)]" 
-                            context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}"/>
-                        </div>
-                        <button icon="/email_template/static/src/img/email_template_save.png" type="object" name="save_as_template" string="Save as new template" class="oe_link" help="Save as a new template"/>
-                    </group>
-						
-					</footer>
-
-					<footer attrs="{'invisible':[('mail_notify_noemail','=',False)]}">
-						<button name="do_new_survey" string="_Apply" type="object" class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-					</footer>
-
-				</form>
-			</field>
-		</record>
-
-
-		<act_window id="action_crm_new_survey" name="New Survey" res_model="crm.new.survey" src_model="crm.lead" view_mode="form" target="new" />
-
-
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<record id="view_crm_new_survey_form" model="ir.ui.view">			<field name="name">CRM New Survey</field>			<field name="model">crm.new.survey</field>			<field name="arch" type="xml">				<form string="CRM New Survey">								<group string="Create a New Survey Result">                        <!-- truly invisible fields for control and options -->                        <field name="composition_mode" invisible="1"/>                        <field name="model" invisible="1"/>                        <field name="res_id" invisible="1"/>                        <field name="is_log" invisible="1"/>                        <field name="parent_id" invisible="1"/>                        <field name="mail_server_id" invisible="1"/>																	<div class="oe_grey">							Enter survey results for partner						</div>					</group>					<group>						<field name="survey_id" options="{'no_create': True}" />						<field name="partner_id" options="{'no_create': True}" />						<field name="partner_ids" widget="many2many_tags_email"  options="{'no_create': True}" invisible="1"/>						<field name="mail_notify_noemail" string="Without email"/>					</group>					<div  attrs="{'invisible':[('mail_notify_noemail','=',True)]}">                        <group>						<field name="subject" placeholder="Subject..." required="True"/>						</group>                    	<field name="body"/>                    	<field name="attachment_ids" widget="many2many_binary" string="Attach a file"/>					</div>					<footer attrs="{'invisible':[('mail_notify_noemail','=',True)]}">						<button string="Send" name="send_mail" type="object" class="oe_highlight" />						or						<button string="Cancel" class="oe_link" special="cancel" />												<group class="oe_right oe_form" col="1">                        <div>Use template                            <!--FIX: To avoid css issue of many2one field in footer temporary used oe_form (BUG:1152464)-->                            <field name="template_id" nolabel="1" class="oe_inline" options="{'no_create': True}"                             on_change="onchange_template_id(template_id, composition_mode, model, res_id, context)"                             domain="[('model_id.model','=',model)]"                             context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}"/>                        </div>                        <button icon="/email_template/static/src/img/email_template_save.png" type="object" name="save_as_template" string="Save as new template" class="oe_link" help="Save as a new template"/>                    </group>											</footer>					<footer attrs="{'invisible':[('mail_notify_noemail','=',False)]}">						<button name="do_new_survey" string="_Apply" type="object" class="oe_highlight" />						or						<button string="Cancel" class="oe_link" special="cancel" />					</footer>				</form>			</field>		</record>		<act_window id="action_crm_new_survey" name="New Survey" res_model="crm.new.survey" src_model="crm.lead" view_mode="form" target="new" />	</data></openerp>

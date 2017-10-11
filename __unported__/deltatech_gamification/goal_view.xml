@@ -1,18 +1,1 @@
-<?xml version="1.0" ?>
-<openerp>
-	<data>
-
-        <record id="goal_definition_form_view" model="ir.ui.view">
-            <field name="name">Goal Definitions Form</field>
-            <field name="model">gamification.goal.definition</field>
-            <field name="inherit_id" ref="gamification.goal_definition_form_view"/>
-            <field name="arch" type="xml">
-           		<field name="condition" position="before">
-           			<field name="inverse_value"/>
-           		</field>
-    		</field>
-    </record>        
-            
-	</data>
-</openerp>
-
+<?xml version="1.0" ?><openerp>	<data>        <record id="goal_definition_form_view" model="ir.ui.view">            <field name="name">Goal Definitions Form</field>            <field name="model">gamification.goal.definition</field>            <field name="inherit_id" ref="gamification.goal_definition_form_view"/>            <field name="arch" type="xml">           		<field name="condition" position="before">           			<field name="inverse_value"/>           		</field>    		</field>    </record>                    	</data></openerp>

@@ -1,25 +1,1 @@
-<?xml version="1.0"?>
-<openerp>
-	<data>
-
-
-
- 
-		<record id="product_template_form_view" model="ir.ui.view">
-			<field name="name">product.template.common.form</field>
-			<field name="model">product.template</field>
-			<field name="inherit_id" ref="product.product_template_form_view" />
-			<field name="arch" type="xml">
-				<field name="weight_net" position="after">
-					<field name="pack_items" />
-					<field name="pack_weight" />
-				</field>
-			</field>
-		</record>
-
- 
- 
-
-
-	</data>
-</openerp>
+<?xml version="1.0"?><openerp>	<data> 		<record id="product_template_form_view" model="ir.ui.view">			<field name="name">product.template.common.form</field>			<field name="model">product.template</field>			<field name="inherit_id" ref="product.product_template_form_view" />			<field name="arch" type="xml">				<field name="weight_net" position="after">					<field name="pack_items" />					<field name="pack_weight" />				</field>			</field>		</record>  	</data></openerp>

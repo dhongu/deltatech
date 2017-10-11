@@ -1,123 +1,1 @@
-<?xml version="1.0" ?>
-<openerp>
-	<data>
-
-		<record id="view_sale_rfq_tree" model="ir.ui.view">
-			<field name="name">sale.rfq.tree</field>
-			<field name="model">sale.rfq</field>
-			<field name="arch" type="xml">
-				<tree string="Request For Sale Quotation">
-					<field name="state" />
-					<field name="partner_id" />
-					<field name="requester_id" />
-					<field name="designer_id" />
-					<field name="lead_id" />
-					<field name="order_id" />
-					<field name="date_deadline" />
-				</tree>
-			</field>
-		</record>
-
-
-		<record id="view_sale_rfq_form" model="ir.ui.view">
-			<field name="name">sale.rfq.form</field>
-			<field name="model">sale.rfq</field>
-			<field name="arch" type="xml">
-				<form string="Request For Sale Quotation">
-					<header>
-						<button name="quotation_start" type="object" states="draft,adjusting" string="Start Task" class="oe_highlight" groups="base.group_sale_create_quotation" />
-						<button name="new_quotation" type="object" states="draft,in_progress" string="Create Quotation" class="oe_highlight" groups="base.group_sale_create_quotation"
-							attrs="{'invisible':['|',('order_id','!=',False)]}" />
-
-						<button name="quotation_ready" type="object" states="draft,,in_progress,adjusting" string="Quotation is Ready" class="oe_highlight"
-							groups="base.group_sale_create_quotation" attrs="{'invisible':['|','|',('order_id','=',False),('report_id','=',False)]}" />
-
-						<button name="quotation_send" type="object" states="prepared" string="Send Quotation" class="oe_highlight" />
-
-
-
-						<button name="quotation_done" type="object" states="sent" string="Done" class="oe_highlight" />
-						<button name="quotation_adjust" type="object" states="sent" string="Adjust Quotation" />
-						<button name="quotation_cancel" type="object" states="sent" string="Abort Quotation" />
-
-						<field name="state" widget="statusbar" statusbar_visible="draft,in_progress,prepared,sent,done" statusbar_colors='{"adjusting":"blue"}' />
-					</header>
-					<sheet>
-						<div class="oe_title oe_left">
-							<h1>
-								<label string="Request For Quotation" />
-								<field name="name" class="oe_inline" readonly="1" />
-							</h1>
-						</div>
-						<div class="oe_right oe_button_box" name="buttons">
-							<button class="oe_inline oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
-								<field string="Documents" name="doc_count" widget="statinfo" />
-							</button>
-						</div>
-						<group>
-							<group>
-								<field name="partner_id" />
-							</group>
-							<group>
-							</group>
-							<group>
-								<field name="requester_id" />
-								<field name="lead_id" />
-								<field name="request_date" />
-								<field name="team_leader_id" readonly="1" />
-								<field name="salesperson_id" />
-							</group>
-							<group>
-								<field name="designer_id" />
-								<field name="order_id" />
-								<field name="date_deadline" />
-								<field name="report_id" options="{'no_create': True, 'no_open': True}" />
-							</group>
-
-							<group>
-								<field name="note" nolabel="1" placeholder="Internal note..." />
-							</group>
-						</group>
-					</sheet>
-
-					<div class="oe_chatter">
-						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
-						<field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
-					</div>
-				</form>
-			</field>
-		</record>
-
-
-		<record id="view_sale_rfq_filter" model="ir.ui.view">
-			<field name="name">sale.rfq.select</field>
-			<field name="model">sale.rfq</field>
-			<field name="type">search</field>
-			<field name="arch" type="xml">
-				<search string="Search">
-					<field name="partner_id" />
-					<field name="requester_id" />
-					<field name="designer_id" />
-					<field name="lead_id" />
-					<field name="order_id" />
-
-				</search>
-			</field>
-		</record>
-
-
-		<record id="action_sale_rfq" model="ir.actions.act_window">
-			<field name="name">Request For Quotation</field>
-			<field name="res_model">sale.rfq</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
-
-		<menuitem name="Request For Quotation" id="menu_sale_rfq" action="action_sale_rfq" parent="base.menu_sales" groups="base.group_sale_rfq"
-			sequence="4" />
-
-	</data>
-</openerp>
-		
-		
-		
+<?xml version="1.0" ?><openerp>	<data>		<record id="view_sale_rfq_tree" model="ir.ui.view">			<field name="name">sale.rfq.tree</field>			<field name="model">sale.rfq</field>			<field name="arch" type="xml">				<tree string="Request For Sale Quotation">					<field name="state" />					<field name="partner_id" />					<field name="requester_id" />					<field name="designer_id" />					<field name="lead_id" />					<field name="order_id" />					<field name="date_deadline" />				</tree>			</field>		</record>		<record id="view_sale_rfq_form" model="ir.ui.view">			<field name="name">sale.rfq.form</field>			<field name="model">sale.rfq</field>			<field name="arch" type="xml">				<form string="Request For Sale Quotation">					<header>						<button name="quotation_start" type="object" states="draft,adjusting" string="Start Task" class="oe_highlight" groups="base.group_sale_create_quotation" />						<button name="new_quotation" type="object" states="draft,in_progress" string="Create Quotation" class="oe_highlight" groups="base.group_sale_create_quotation"							attrs="{'invisible':['|',('order_id','!=',False)]}" />						<button name="quotation_ready" type="object" states="draft,,in_progress,adjusting" string="Quotation is Ready" class="oe_highlight"							groups="base.group_sale_create_quotation" attrs="{'invisible':['|','|',('order_id','=',False),('report_id','=',False)]}" />						<button name="quotation_send" type="object" states="prepared" string="Send Quotation" class="oe_highlight" />						<button name="quotation_done" type="object" states="sent" string="Done" class="oe_highlight" />						<button name="quotation_adjust" type="object" states="sent" string="Adjust Quotation" />						<button name="quotation_cancel" type="object" states="sent" string="Abort Quotation" />						<field name="state" widget="statusbar" statusbar_visible="draft,in_progress,prepared,sent,done" statusbar_colors='{"adjusting":"blue"}' />					</header>					<sheet>						<div class="oe_title oe_left">							<h1>								<label string="Request For Quotation" />								<field name="name" class="oe_inline" readonly="1" />							</h1>						</div>						<div class="oe_right oe_button_box" name="buttons">							<button class="oe_inline oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">								<field string="Documents" name="doc_count" widget="statinfo" />							</button>						</div>						<group>							<group>								<field name="partner_id" />							</group>							<group>							</group>							<group>								<field name="requester_id" />								<field name="lead_id" />								<field name="request_date" />								<field name="team_leader_id" readonly="1" />								<field name="salesperson_id" />							</group>							<group>								<field name="designer_id" />								<field name="order_id" />								<field name="date_deadline" />								<field name="report_id" options="{'no_create': True, 'no_open': True}" />							</group>							<group>								<field name="note" nolabel="1" placeholder="Internal note..." />							</group>						</group>					</sheet>					<div class="oe_chatter">						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />						<field name="message_ids" widget="mail_thread" placeholder="Share a message..." />					</div>				</form>			</field>		</record>		<record id="view_sale_rfq_filter" model="ir.ui.view">			<field name="name">sale.rfq.select</field>			<field name="model">sale.rfq</field>			<field name="type">search</field>			<field name="arch" type="xml">				<search string="Search">					<field name="partner_id" />					<field name="requester_id" />					<field name="designer_id" />					<field name="lead_id" />					<field name="order_id" />				</search>			</field>		</record>		<record id="action_sale_rfq" model="ir.actions.act_window">			<field name="name">Request For Quotation</field>			<field name="res_model">sale.rfq</field>			<field name="view_type">form</field>			<field name="view_mode">tree,form</field>		</record>		<menuitem name="Request For Quotation" id="menu_sale_rfq" action="action_sale_rfq" parent="base.menu_sales" groups="base.group_sale_rfq"			sequence="4" />	</data></openerp>						

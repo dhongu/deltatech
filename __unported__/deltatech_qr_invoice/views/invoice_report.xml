@@ -1,25 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-		<template id="report_invoice_document_qr" inherit_id="account.report_invoice_document">
-
-			<xpath expr="//p[@t-if='o.fiscal_position.note']" position="after">
-				<t t-if='o.campaign_id'>
-					<center>
-						<t t-if='o.campaign_id.text_qr'>
-							<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %   ('QR', o.campaign_id.text_qr, 200, 200)" />
-						</t>
-						<t t-if='o.campaign_id.short_text_qr'>
-							<span t-field="o.campaign_id.short_text_qr" />
-						</t>
-					</center>
-				</t>
-
-			</xpath>
-
-		</template>
-
-
-
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<template id="report_invoice_document_qr" inherit_id="account.report_invoice_document">			<xpath expr="//p[@t-if='o.fiscal_position.note']" position="after">				<t t-if='o.campaign_id'>					<center>						<t t-if='o.campaign_id.text_qr'>							<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %   ('QR', o.campaign_id.text_qr, 200, 200)" />						</t>						<t t-if='o.campaign_id.short_text_qr'>							<span t-field="o.campaign_id.short_text_qr" />						</t>					</center>				</t>			</xpath>		</template>	</data></openerp>

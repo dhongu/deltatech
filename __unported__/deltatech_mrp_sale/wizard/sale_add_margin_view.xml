@@ -1,37 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-	<data>
-		<record id="view_sale_add_margin_form" model="ir.ui.view">
-			<field name="name">Add Margin</field>
-			<field name="model">sale.add.margin</field>
-			<field name="arch" type="xml">
-				<form string="Add Margin">
-
-					<group>
-						<group>
-							<field name="margin" />
-						</group>
-						<group>
-						</group>
-					</group>
-					<footer>
-						<button name="do_add_margin" string="_Apply" type="object" class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-					</footer>
-				</form>
-			</field>
-		</record>
-
-
-
-
-		<act_window id="action_sale_add_margin" name="Add margin"
-			res_model="sale.add.margin" src_model="sale.order"
-			view_mode="form" multi="False" target="new" key2="client_action_multi" />
-
- 
-
-
-	</data>
-</openerp>
+<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<record id="view_sale_add_margin_form" model="ir.ui.view">			<field name="name">Add Margin</field>			<field name="model">sale.add.margin</field>			<field name="arch" type="xml">				<form string="Add Margin">					<group>						<group>							<field name="margin" />						</group>						<group>						</group>					</group>					<footer>						<button name="do_add_margin" string="_Apply" type="object" class="oe_highlight" />						or						<button string="Cancel" class="oe_link" special="cancel" />					</footer>				</form>			</field>		</record>		<act_window id="action_sale_add_margin" name="Add margin"			res_model="sale.add.margin" src_model="sale.order"			view_mode="form" multi="False" target="new" key2="client_action_multi" /> 	</data></openerp>

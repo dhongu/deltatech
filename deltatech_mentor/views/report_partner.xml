@@ -1,49 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<openerp>
-<data>
-         <report 
-            string="Export Parteneri pt Mentor" 
-            id="action_report_res_partner_mentor" 
-            model="res.partner" 
-            report_type="qweb-html"
-            name="deltatech_mentor.report_res_partner"  
-            file="deltatech_mentor.report_res_partner"  />
-
- 
-   
-<template id="report_res_partner">
-    <t t-call="report.html_container">
-        <t t-foreach="docs" t-as="o">
-        	<div>
-        		<t t-set="cod_fiscal" t-value="o.vat"/>
-        		<t t-if="not o.vat_subjected">
-        			
-        				<t t-set="cod_fiscal" t-value="o.vat_number"/>
-        			
-        		</t>
-        		<t t-if="not o.is_company">
-        			<t t-set="cod_fiscal" t-value="o.cnp"/>
-        		</t>
-        	
-				<div>[ParteneriNoi_<span t-esc="cod_fiscal" />]</div>
-				<div>Denumire=<span t-field="o.name" /></div>
-				<t t-if="not o.is_company">
-        			<div>PersoanaFizica=Da</div>
-        		</t>
-				
-				<div>Tara=<span t-field="o.country_id.name" /></div>
-				<div>Localitate=<span t-field="o.city" /></div>
-				<div>Judet=<span t-field="o.state_id.code" /></div>
-				<div>Adresa=<span t-field="o.street" /></div>
-				<div>Sediu=</div>
-				<div>Telefon=<span t-field="o.phone" /></div>
-				<div>Email=<span t-field="o.email" /></div>
-			</div>
-        </t>
-    </t>	
-</template>
-</data>
-</openerp>
-
-
-
+<?xml version="1.0" encoding="utf-8"?><openerp><data>         <report             string="Export Parteneri pt Mentor"             id="action_report_res_partner_mentor"             model="res.partner"             report_type="qweb-html"            name="deltatech_mentor.report_res_partner"              file="deltatech_mentor.report_res_partner"  />    <template id="report_res_partner">    <t t-call="report.html_container">        <t t-foreach="docs" t-as="o">        	<div>        		<t t-set="cod_fiscal" t-value="o.vat"/>        		<t t-if="not o.vat_subjected">        			        				<t t-set="cod_fiscal" t-value="o.vat_number"/>        			        		</t>        		<t t-if="not o.is_company">        			<t t-set="cod_fiscal" t-value="o.cnp"/>        		</t>        					<div>[ParteneriNoi_<span t-esc="cod_fiscal" />]</div>				<div>Denumire=<span t-field="o.name" /></div>				<t t-if="not o.is_company">        			<div>PersoanaFizica=Da</div>        		</t>								<div>Tara=<span t-field="o.country_id.name" /></div>				<div>Localitate=<span t-field="o.city" /></div>				<div>Judet=<span t-field="o.state_id.code" /></div>				<div>Adresa=<span t-field="o.street" /></div>				<div>Sediu=</div>				<div>Telefon=<span t-field="o.phone" /></div>				<div>Email=<span t-field="o.email" /></div>			</div>        </t>    </t>	</template></data></openerp>

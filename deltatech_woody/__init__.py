@@ -1,2 +1,1 @@
-# -*- coding: utf-8 -*-
-import wizard
+# -*- coding: utf-8 -*-import wizard
