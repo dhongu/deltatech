@@ -1,1 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?><odoo>    <record id="view_picking_wave_form" model="ir.ui.view">        <field name="name">picking.wave.form</field>        <field name="model">stock.picking.wave</field>        <field name="inherit_id" ref="stock_picking_wave.view_picking_wave_form"/>        <field name="arch" type="xml">            <button name="confirm_picking" position="before">                <button name="button_plan" states="draft" string="Plan" type="object" class="oe_highlight"/>            </button>            <xpath expr="//group" position="after">                <group>                    <field name="carrier_id"/>                    <field name="mean_transp"/>                    <field name="date_expected"/>                </group>            </xpath>            <xpath expr="//tree" position="replace">                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and min_date &lt; current_date" string="Picking list">                    <field name="name"/>                    <field name="backorder_id"/>                    <field name="origin"/>                    <field name="min_date"/>                    <field name="volume" sum="volume"/>                    <field name="weight" sum="weight"/>                    <field name="city"/>                    <field name="state_id"/>                    <field name="state"/>                </tree>             </xpath>            <field name="picking_ids" position="after">                <separator string="Stock Moves"/>                <field name="move_ids" options="{'reload_on_button': True}" mode="tree,kanban"                       context="{                                 'form_view_ref':'stock.view_move_picking_form',                                 'tree_view_ref':'stock.view_move_picking_tree' }">                    <tree>                        <field name="product_id"/>                        <field name="availability"/>                        <field name="product_uom_qty"/>                        <field name="product_uom" options="{'no_open': True, 'no_create': True}"/>                        <field name="location_dest_id"/>                        <field name="state"/>                    </tree>                </field>            </field>        </field>    </record>    <record id="view_picking_internal_search" model="ir.ui.view" >        <field name="name">stock.picking.wave.inherit.search</field>        <field name="model">stock.picking</field>        <field name="inherit_id" ref="stock.view_picking_internal_search"/>        <field name="arch" type="xml">            <xpath expr="//filter[@name='picking_type']" position="after">                <filter string="City" domain="[]" context="{'group_by':'city'}"/>                <filter string="State" domain="[]" context="{'group_by':'state_id'}"/>            </xpath>            <xpath expr="//field[@name='picking_type_id']" position="after">                    <field name="city"/>                    <field name="state_id"/>            </xpath>        </field>    </record>    <record id="vpicktree" model="ir.ui.view">        <field name="name">stock.picking.tree</field>        <field name="model">stock.picking</field>        <field name="inherit_id" ref="stock.vpicktree"/>        <field name="arch" type="xml">            <field name="origin" position="after">                <field name="volume" sum="volume"/>                <field name="weight" sum="weight"/>                <field name="city"/>                <field name="state_id"/>            </field>        </field>    </record></odoo>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_picking_wave_form" model="ir.ui.view">
+        <field name="name">picking.wave.form</field>
+        <field name="model">stock.picking.wave</field>
+        <field name="inherit_id" ref="stock_picking_wave.view_picking_wave_form"/>
+        <field name="arch" type="xml">
+            <button name="confirm_picking" position="before">
+                <button name="button_plan" states="draft" string="Plan" type="object" class="oe_highlight"/>
+            </button>
+            <xpath expr="//group" position="after">
+                <group>
+                    <field name="carrier_id"/>
+                    <field name="mean_transp"/>
+                    <field name="date_expected"/>
+                </group>
+            </xpath>
+            <xpath expr="//tree" position="replace">
+                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and min_date &lt; current_date" string="Picking list">
+                    <field name="name"/>
+                    <field name="backorder_id"/>
+                    <field name="origin"/>
+                    <field name="min_date"/>
+                    <field name="volume" sum="volume"/>
+                    <field name="weight" sum="weight"/>
+                    <field name="city"/>
+                    <field name="state_id"/>
+                    <field name="state"/>
+                </tree>
+             </xpath>
+            <field name="picking_ids" position="after">
+                <separator string="Stock Moves"/>
+
+                <field name="move_ids" options="{'reload_on_button': True}" mode="tree,kanban"
+                       context="{
+                                 'form_view_ref':'stock.view_move_picking_form',
+                                 'tree_view_ref':'stock.view_move_picking_tree' }">
+
+                    <tree>
+                        <field name="product_id"/>
+                        <field name="availability"/>
+                        <field name="product_uom_qty"/>
+                        <field name="product_uom" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="location_dest_id"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="view_picking_internal_search" model="ir.ui.view" >
+        <field name="name">stock.picking.wave.inherit.search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='picking_type']" position="after">
+                <filter string="City" domain="[]" context="{'group_by':'city'}"/>
+                <filter string="State" domain="[]" context="{'group_by':'state_id'}"/>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="city"/>
+                    <field name="state_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vpicktree" model="ir.ui.view">
+        <field name="name">stock.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="volume" sum="volume"/>
+                <field name="weight" sum="weight"/>
+                <field name="city"/>
+                <field name="state_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

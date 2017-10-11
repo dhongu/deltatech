@@ -1,1 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<record id="view_stock_history_report_tree" model="ir.ui.view">        <field name="name">Stock Value At Date</field>        <field name="model">stock.history</field>			<field name="inherit_id" ref="stock_account.view_stock_history_report_tree" />			<field name="arch" type="xml">				 <field name="inventory_value" position="after">				 	<field name="parallel_inventory_value" sum="Total Parallel Value" groups="stock.group_stock_manager"/>				 	<field name="price_unit_on_quant" avg="Average price" groups="stock.group_stock_manager"/>				</field>			</field>		</record>	</data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_stock_history_report_tree" model="ir.ui.view">
+        <field name="name">Stock Value At Date</field>
+        <field name="model">stock.history</field>
+			<field name="inherit_id" ref="stock_account.view_stock_history_report_tree" />
+			<field name="arch" type="xml">
+				 <field name="inventory_value" position="after">
+				 	<field name="parallel_inventory_value" sum="Total Parallel Value" groups="stock.group_stock_manager"/>
+				 	<field name="price_unit_on_quant" avg="Average price" groups="stock.group_stock_manager"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>

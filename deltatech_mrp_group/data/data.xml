@@ -1,1 +1,18 @@
-<odoo>    <data noupdate="1">        <record id="mrp.consolidation" model="ir.sequence">            <field name="name">Consolidation</field>            <field name="code">mrp.consolidation</field>            <field name="prefix"></field>            <field name="padding">5</field>            <field name="number_next">1</field>            <field name="number_increment">1</field>        </record>    </data></odoo>
+<odoo>
+
+
+
+    <data noupdate="1">
+
+        <record id="mrp.consolidation" model="ir.sequence">
+            <field name="name">Consolidation</field>
+            <field name="code">mrp.consolidation</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+    </data>
+</odoo>

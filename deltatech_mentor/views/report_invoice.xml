@@ -1,1 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><openerp><data>         <report             string="Export Facturi pt Mentor"             id="action_report_invoice_mentor"             model="account.invoice"             report_type="qweb-html"            name="deltatech_mentor.report_invoice"              file="deltatech_mentor.report_invoice"  />                         <template id="report_invoice">    <t t-call="report.html_container">	    <div>			<div>[InfoPachet]</div> 			<t t-set="invoice_date" t-value="docs[0].date_invoice"></t>			<div>AnLucru=<span t-esc="invoice_date[:4]"></span></div>			<div>LunaLucru=<span t-esc="invoice_date[5:7]"></span></div>			<t t-set="invoice_type" t-value="docs[0].type"></t>						<t t-if='invoice_type=="out_invoice"'>				<div>TipDocument=FACTURA IESIRE</div>			</t>			<t t-if='invoice_type=="in_invoice"'>				<div>TipDocument=FACTURA INTRARE</div>			</t>		 			<t t-log="docs"></t>			<t t-set="TotalFacturi" t-value="len(docs)"/>			<div><span>TotalFacturi=</span>            <span t-esc="TotalFacturi"/></div>		</div>   				<t t-if="not code_article">			<t t-set="code_article" t-value="'code_article'"/>		</t>        <t t-set='index' t-value='1'/>        <t t-foreach="docs" t-as="o">           <t t-if="o.state in ['open','paid']">                <t t-set="cod_fiscal" t-value="o.commercial_partner_id.vat"/>        		<t t-if="not o.commercial_partner_id.vat_subjected">        			        				<t t-set="cod_fiscal" t-value="o.commercial_partner_id.vat_number"/>        			        		</t>        		<t t-if="not o.commercial_partner_id.is_company">        			<t t-set="cod_fiscal" t-value="o.commercial_partner_id.cnp"/>        		</t>        		         		<t t-set="NrDoc" t-value="int(''.join([s for s in o.number.split('/')[-1] if s.isdigit()])) "/>        			        	<div>	    			<div>[Factura_<t t-esc="index"/>]</div>	    				    				    								<div>NrDoc=<span t-esc="NrDoc" /></div>					<div>Data=<span t-field="o.date_invoice" /></div>					<div>NrNir=</div>					<div>CodFurnizor=<t t-esc="cod_fiscal"/></div>					<t t-if="o.vat_on_payment">						<div>TVAINCASARE=1</div>					</t>					 					<div>PRORATA=</div>						<div>Moneda=<span t-field="o.currency_id.name" /></div>					<div>Curs=</div>											<div>Scadenta=</div>					<div>Majorari=</div>					<div>Observatii=</div>											<div>Discount=</div>	 					 				<t t-if="item_details">	 					<div>TotalArticole=<t t-esc="len(o.invoice_line_ids)"/></div>		 				<div>[Items_<t t-esc="index"/>]</div>		 				<t t-set="nr_crt" t-value="1" />		 				<t t-foreach="o.invoice_line_ids" t-as="l">							<div>Item_<t t-esc="nr_crt"/>=								<span t-field="l.product_id.default_code" />;Buc;								<span t-field="l.quantity" />;								<span t-field="l.price_unit_without_taxes" />; ;								<span t-field="l.discount" />;;							</div>							<div>Item_<t t-esc="nr_crt"/>TVA=								<span t-field="l.price_taxes" />							</div>		 								<t t-set="nr_crt" t-value="nr_crt + 1" />						</t>					</t>					<t t-if="not item_details">						<div>TotalArticole=1</div>	 						<div>[Items_1]</div>						<div>Item_1=								<t t-esc="code_article"/>;Buc;1;								<span t-field="o.amount_untaxed" />; ; ;;							</div>							<div>Item_1TVA=								<span t-field="o.amount_tax" />							</div>					</t>				</div>               <t t-set='index' t-value='index + 1'/>        </t>        </t>    </t>		</template></data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+         <report 
+            string="Export Facturi pt Mentor" 
+            id="action_report_invoice_mentor" 
+            model="account.invoice" 
+            report_type="qweb-html"
+            name="deltatech_mentor.report_invoice"  
+            file="deltatech_mentor.report_invoice"  />
+
+ 
+            
+            
+<template id="report_invoice">
+    <t t-call="report.html_container">
+	    <div>
+			<div>[InfoPachet]</div> 
+			<t t-set="invoice_date" t-value="docs[0].date_invoice"></t>
+			<div>AnLucru=<span t-esc="invoice_date[:4]"></span></div>
+			<div>LunaLucru=<span t-esc="invoice_date[5:7]"></span></div>
+			<t t-set="invoice_type" t-value="docs[0].type"></t>
+			
+			<t t-if='invoice_type=="out_invoice"'>
+				<div>TipDocument=FACTURA IESIRE</div>
+			</t>
+			<t t-if='invoice_type=="in_invoice"'>
+				<div>TipDocument=FACTURA INTRARE</div>
+			</t>
+		 
+			<t t-log="docs"></t>
+			<t t-set="TotalFacturi" t-value="len(docs)"/>
+			<div><span>TotalFacturi=</span>
+            <span t-esc="TotalFacturi"/></div>
+		</div>   
+		
+		<t t-if="not code_article">
+			<t t-set="code_article" t-value="'code_article'"/>
+		</t>
+        <t t-set='index' t-value='1'/>
+        <t t-foreach="docs" t-as="o">
+           <t t-if="o.state in ['open','paid']">
+                <t t-set="cod_fiscal" t-value="o.commercial_partner_id.vat"/>
+        		<t t-if="not o.commercial_partner_id.vat_subjected">
+        			
+        				<t t-set="cod_fiscal" t-value="o.commercial_partner_id.vat_number"/>
+        			
+        		</t>
+        		<t t-if="not o.commercial_partner_id.is_company">
+        			<t t-set="cod_fiscal" t-value="o.commercial_partner_id.cnp"/>
+        		</t>
+        		 
+        		<t t-set="NrDoc" t-value="int(''.join([s for s in o.number.split('/')[-1] if s.isdigit()])) "/>
+        		
+	        	<div>
+	    			<div>[Factura_<t t-esc="index"/>]</div>
+	    			
+	    			
+	    			
+					<div>NrDoc=<span t-esc="NrDoc" /></div>
+					<div>Data=<span t-field="o.date_invoice" /></div>
+					<div>NrNir=</div>
+					<div>CodFurnizor=<t t-esc="cod_fiscal"/></div>
+					<t t-if="o.vat_on_payment">
+						<div>TVAINCASARE=1</div>
+					</t>
+					 
+					<div>PRORATA=</div>	
+					<div>Moneda=<span t-field="o.currency_id.name" /></div>
+					<div>Curs=</div>						
+					<div>Scadenta=</div>
+					<div>Majorari=</div>
+					<div>Observatii=</div>	
+					
+					<div>Discount=</div>
+	 				
+	 				<t t-if="item_details">
+	 					<div>TotalArticole=<t t-esc="len(o.invoice_line_ids)"/></div>
+		 				<div>[Items_<t t-esc="index"/>]</div>
+		 				<t t-set="nr_crt" t-value="1" />
+		 				<t t-foreach="o.invoice_line_ids" t-as="l">
+							<div>Item_<t t-esc="nr_crt"/>=
+								<span t-field="l.product_id.default_code" />;Buc;
+								<span t-field="l.quantity" />;
+								<span t-field="l.price_unit_without_taxes" />; ;
+								<span t-field="l.discount" />;;
+							</div>
+							<div>Item_<t t-esc="nr_crt"/>TVA=
+								<span t-field="l.price_taxes" />
+							</div>
+		 	
+							<t t-set="nr_crt" t-value="nr_crt + 1" />
+						</t>
+					</t>
+					<t t-if="not item_details">
+						<div>TotalArticole=1</div>	 
+						<div>[Items_1]</div>
+						<div>Item_1=
+								<t t-esc="code_article"/>;Buc;1;
+								<span t-field="o.amount_untaxed" />; ; ;;
+							</div>
+							<div>Item_1TVA=
+								<span t-field="o.amount_tax" />
+							</div>
+					</t>
+				</div>  
+             <t t-set='index' t-value='index + 1'/>
+        </t>
+        </t>
+    </t>		
+</template>
+</data>
+</openerp>
+
+
+

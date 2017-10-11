@@ -1,1 +1,10 @@
-# -*- coding: utf-8 -*-import productimport product_template
+# -*- coding: utf-8 -*-
+
+
+import product
+import product_template
+
+
+
+
+

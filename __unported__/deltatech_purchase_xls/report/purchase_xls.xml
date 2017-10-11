@@ -1,1 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>  <data><!--      <record id="action_purchase_order_xls" model="ir.actions.report.xml">      <field name="name">Export Excel Purchase Order</field>      <field name="model">purchase.order</field>      <field name="type">ir.actions.report.xml</field>      <field name="report_name">purchase.order.xls</field>      <field name="report_type">xls</field>      <field name="auto" eval="False"/>           </record>          <record model="ir.values" id="action_purchase_order_values">      <field name="name">Export Excel Purchase Order</field>      <field name="key2">client_action_multi</field>      <field name="value" eval="'ir.actions.report.xml,' +str(ref('action_purchase_order_xls'))" />      <field name="model">purchase.order</field>    </record>       -->         <report             string="Export Excel Purchase Order"             id="action_purchase_order_xls"             model="purchase.order"             report_type="xls"            name="purchase.order.xls"         />        </data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+<!--  
+    <record id="action_purchase_order_xls" model="ir.actions.report.xml">
+      <field name="name">Export Excel Purchase Order</field>
+      <field name="model">purchase.order</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="report_name">purchase.order.xls</field>
+      <field name="report_type">xls</field>
+      <field name="auto" eval="False"/>
+       
+    </record>
+    
+      <record model="ir.values" id="action_purchase_order_values">
+      <field name="name">Export Excel Purchase Order</field>
+      <field name="key2">client_action_multi</field>
+      <field name="value" eval="'ir.actions.report.xml,' +str(ref('action_purchase_order_xls'))" />
+      <field name="model">purchase.order</field>
+    </record>   
+    
+-->
+         <report 
+            string="Export Excel Purchase Order" 
+            id="action_purchase_order_xls" 
+            model="purchase.order" 
+            report_type="xls"
+            name="purchase.order.xls" 
+        />
+
+
+  
+    
+  </data>
+</openerp>

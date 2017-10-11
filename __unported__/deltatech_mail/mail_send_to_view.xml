@@ -1,1 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>    <data>        <!-- wizard view -->        <record id="mail_send_to_form" model="ir.ui.view" >            <field name="name">Add Followers</field>            <field name="model">mail.send.to</field>            <field name="arch" type="xml">                <form string="Send Mail">                    <group>                        <field name="partner_ids" widget="many2many_tags_email"                                placeholder="Add contacts to notify..."                                context="{'force_email':True, 'show_email':True}"/>                        <field name="subject"/>                        <field name="message"/>                    </group>                    <footer>                        <button string="Send documents"                            name="do_send" type="object" class="oe_highlight"  />                        or                        <button string="Cancel" class="oe_link" special="cancel" />                        </footer>                </form>            </field>        </record>        <record id="action_mail_send_to_step1" model="ir.actions.act_window">            <field name="name">Send documents</field>            <field name="type">ir.actions.act_window</field>            <field name="res_model">mail.send.to</field>            <field name="view_type">form</field>            <field name="view_mode">form</field>            <field name="view_id" ref="mail_send_to_form"/>            <field name="target">new</field>            <field name="context">False</field>        </record>                    </data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+        <!-- wizard view -->
+        <record id="mail_send_to_form" model="ir.ui.view" >
+            <field name="name">Add Followers</field>
+            <field name="model">mail.send.to</field>
+            <field name="arch" type="xml">
+                <form string="Send Mail">
+                    <group>
+                        <field name="partner_ids" widget="many2many_tags_email"
+                                placeholder="Add contacts to notify..."
+                                context="{'force_email':True, 'show_email':True}"/>
+                        <field name="subject"/>
+                        <field name="message"/>
+                    </group>
+                    <footer>
+                        <button string="Send documents"
+                            name="do_send" type="object" class="oe_highlight"  />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />    
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mail_send_to_step1" model="ir.actions.act_window">
+            <field name="name">Send documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.send.to</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mail_send_to_form"/>
+            <field name="target">new</field>
+            <field name="context">False</field>
+        </record>
+        
+        
+    </data>
+</openerp>

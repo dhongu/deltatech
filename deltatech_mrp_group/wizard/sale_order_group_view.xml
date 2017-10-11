@@ -1,1 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>    <data>        <record id="view_sale_order_group_form" model="ir.ui.view">            <field name="name">sale.order.group.form</field>            <field name="model">sale.order.group</field>            <field name="arch" type="xml">                <form>                    <group string="Group Sale Order">                        <group>                            <field name="group_id"/>                            <field name="date_planned"/>                        </group>                    </group>                    <field name="sale_order_ids"/>                    <footer>                        <button name="do_group" string="_Apply" type="object" class="oe_highlight"/>                        or                        <button string="Cancel" class="oe_link" special="cancel"/>                    </footer>                </form>            </field>        </record>        <act_window id="action_sale_order_group" name="Group Sale Order"                    res_model="sale.order.group" src_model="sale.order"                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>    </data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sale_order_group_form" model="ir.ui.view">
+            <field name="name">sale.order.group.form</field>
+            <field name="model">sale.order.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Group Sale Order">
+                        <group>
+                            <field name="group_id"/>
+                            <field name="date_planned"/>
+                        </group>
+                    </group>
+
+                    <field name="sale_order_ids"/>
+                    <footer>
+                        <button name="do_group" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_sale_order_group" name="Group Sale Order"
+                    res_model="sale.order.group" src_model="sale.order"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+
+    </data>
+</openerp>

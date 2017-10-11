@@ -1,1 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>    <data>                  <record id="view_picking_form_notice" model="ir.ui.view">            <field name="name">stock.picking.form.notice</field>            <field name="model">stock.picking</field>            <field name="inherit_id" ref="l10n_ro_stock_account.view_picking_form_notice"/>            <field name="arch" type="xml">                <field name="notice" position="replace">					<field name="notice" invisible="1"/>                </field>            </field>        </record>                                    </data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+ 
+         
+        <record id="view_picking_form_notice" model="ir.ui.view">
+            <field name="name">stock.picking.form.notice</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="l10n_ro_stock_account.view_picking_form_notice"/>
+            <field name="arch" type="xml">
+                <field name="notice" position="replace">
+					<field name="notice" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
+
+                
+                
+    </data>
+</openerp>

@@ -1,1 +1,7 @@
-.openerp .oe_mail .oe_msg.oe_msg_notification{    background: #9E9E9E;}.openerp .oe_mail .oe_msg.oe_msg_email{    background: hsla(4, 90%, 58%, 0.37);}
+.openerp .oe_mail .oe_msg.oe_msg_notification{
+    background: #9E9E9E;
+}
+
+.openerp .oe_mail .oe_msg.oe_msg_email{
+    background: hsla(4, 90%, 58%, 0.37);
+}

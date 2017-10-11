@@ -1,1 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?><openerp>	<data>		<report string="Package list" id="action_report_package" model="account.invoice" report_type="qweb-pdf" name="deltatech_stock_pack.report_package"			file="deltatech_stock_pack.report_package" />		<template id="report_package">			<t t-call="report.html_container">				<t t-foreach="doc_ids" t-as="doc_id">					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_document')" />				</t>			</t>		</template>		<template id="report_package_document">			<t t-call="report.html_container">				<t t-foreach="docs" t-as="o">					<t t-call="report.external_layout">						<div class="page">							<h2>								<span>Package list for invoice</span>								:								<span t-field="o.name" />							</h2>							<br />							<br />							<table class="table table-condensed">								<thead>									<tr>										<th>											<strong>Package</strong>										</th>										<th>											<strong>Product</strong>										</th>										<th class="text-right">											<strong>Quantity</strong>										</th>										<th class="text-right">											<strong>Gross Weight</strong>										</th>									</tr>								</thead>								<tbody>									<t t-foreach="o.picking_ids" t-as="picking">										<tr t-foreach="picking.pack_operation_ids" t-as="pack_operation">											<td>												<span t-field="pack_operation.result_package_id" />											</td>											<td>												<span t-field="pack_operation.product_id" />											</td>											<td class="text-right">												<span t-field="pack_operation.product_qty" />												<span t-field="pack_operation.product_uom_id" groups="product.group_uom" />											</td>											<td class="text-right">												<span t-field="pack_operation.result_package_id.weight" />											</td>										</tr>									</t>								</tbody>							</table>						</div>					</t>				</t>			</t>		</template>	</data></openerp>
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<report string="Package list" id="action_report_package" model="account.invoice" report_type="qweb-pdf" name="deltatech_stock_pack.report_package"
+			file="deltatech_stock_pack.report_package" />
+
+
+		<template id="report_package">
+			<t t-call="report.html_container">
+				<t t-foreach="doc_ids" t-as="doc_id">
+					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_document')" />
+				</t>
+			</t>
+		</template>
+
+		<template id="report_package_document">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<h2>
+								<span>Package list for invoice</span>
+								:
+								<span t-field="o.name" />
+							</h2>
+
+							<br />
+							<br />
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Package</strong>
+										</th>
+										<th>
+											<strong>Product</strong>
+										</th>
+										<th class="text-right">
+											<strong>Quantity</strong>
+										</th>
+										<th class="text-right">
+											<strong>Gross Weight</strong>
+										</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<t t-foreach="o.picking_ids" t-as="picking">
+										<tr t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+											<td>
+												<span t-field="pack_operation.result_package_id" />
+											</td>
+											<td>
+												<span t-field="pack_operation.product_id" />
+											</td>
+											<td class="text-right">
+												<span t-field="pack_operation.product_qty" />
+												<span t-field="pack_operation.product_uom_id" groups="product.group_uom" />
+											</td>
+											<td class="text-right">
+												<span t-field="pack_operation.result_package_id.weight" />
+											</td>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+	</data>
+</openerp>

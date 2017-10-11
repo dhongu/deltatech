@@ -1,1 +1,22 @@
-<?xml version="1.0"?><openerp>	<data>	<!--		<record id="crm_sale_case_form_view_oppor" model="ir.ui.view">			<field name="name">CRM - Opportunities - Quote Inherit</field>			<field name="model">crm.lead</field>			<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />			<field name="arch" type="xml">				<data>					<button string="Create Quotation" position="replace">						<button attrs="{'invisible': [('ref', '!=', False)]}" string="Create Quotation" name="%(sale_crm.action_crm_make_sale)d" type="action" />					</button>					<button string="Convert to Quotation" position="replace">						<button attrs="{'invisible': [('ref', '==', False)]}" string="Show Quotation" name="show_quotation" type="object" />					</button>				</data>			</field>		</record>	-->	</data></openerp>
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	<!--
+		<record id="crm_sale_case_form_view_oppor" model="ir.ui.view">
+			<field name="name">CRM - Opportunities - Quote Inherit</field>
+			<field name="model">crm.lead</field>
+			<field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor" />
+			<field name="arch" type="xml">
+				<data>
+					<button string="Create Quotation" position="replace">
+						<button attrs="{'invisible': [('ref', '!=', False)]}" string="Create Quotation" name="%(sale_crm.action_crm_make_sale)d" type="action" />
+					</button>
+					<button string="Convert to Quotation" position="replace">
+						<button attrs="{'invisible': [('ref', '==', False)]}" string="Show Quotation" name="show_quotation" type="object" />
+					</button>
+				</data>
+			</field>
+		</record>
+	-->
+	</data>
+</openerp>

@@ -1,1 +1,2 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlinkaccess_terra_unitprice_terra_unitprice,terra_unitprice.terra_unitprice,model_terra_unitprice_terra_unitprice,,1,0,0,0
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_terra_unitprice_terra_unitprice,terra_unitprice.terra_unitprice,model_terra_unitprice_terra_unitprice,,1,0,0,0

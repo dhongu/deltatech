@@ -1,1 +1,3 @@
-# -*- coding: utf-8 -*-import main
+# -*- coding: utf-8 -*-
+
+import main
