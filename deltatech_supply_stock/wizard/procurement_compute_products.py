@@ -46,9 +46,9 @@ class ProcurementComputeProducts(models.TransientModel):
                 for move in production.move_raw_ids:
                     products |= move.product_id
                     if move.product_id.id in qty:
-                        qty[move.product_id.id] += move.product_uom_qty
+                        qty[move.product_id.id] += move.product_qty
                     else:
-                        qty[move.product_id.id] = move.product_uom_qty
+                        qty[move.product_id.id] = move.product_qty
 
         if active_model == 'sale.order':
             sale_orders = self.env['sale.order'].browse(active_ids)
@@ -56,10 +56,11 @@ class ProcurementComputeProducts(models.TransientModel):
                 defaults['group_id'] = sale_order.procurement_group_id.id
                 for line in sale_order.order_line:
                     products |= line.product_id
+                    product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
                     if line.product_id.id in qty:
-                        qty[line.product_id.id] += line.product_uom_qty
+                        qty[line.product_id.id] += product_qty
                     else:
-                        qty[line.product_id.id] = line.product_uom_qty
+                        qty[line.product_id.id] = product_qty
 
         if 'group_id' in defaults:
             procurements = self.env["procurement.order"].search([('product_id', 'in', products.ids),
@@ -116,7 +117,6 @@ class ProcurementComputeProducts(models.TransientModel):
             self._cr.close()
             return {}
 
-
     @api.multi
     def individual_procurement(self):
         self.ensure_one()
@@ -141,7 +141,6 @@ class ProcurementComputeProducts(models.TransientModel):
                     'group_id': self.group_id.id,
                     'company_id': warehouse.company_id.id})
                 new_procurement.run()
-
 
     @api.multi
     def procure_calculation(self):
