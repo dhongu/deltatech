@@ -42,7 +42,7 @@ msgstr "CNP invalid"
 #. module: deltatech_contact
 #: model:res.groups,name:deltatech_contact.group_external_employee
 msgid "External Employee"
-msgstr "External Employee"
+msgstr "Angajat extern"
 
 #. module: deltatech_contact
 #: model:ir.model.fields,field_description:deltatech_contact.field_res_partner_id_issued_by

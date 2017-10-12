@@ -26,5 +26,5 @@ class MrpBom(models.Model):
                 factor = bom.product_tmpl_id.surface
                 uom = self.env['product.uom'].create({'name': dimension,
                                                       'category_id': uom_square_meter.category_id.id,
-                                                      'uom_type': 'smaller',
-                                                      'factor': factor})
+                                                      'uom_type': 'bigger',
+                                                      'factor': 1/factor})

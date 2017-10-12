@@ -186,8 +186,8 @@ class woody_wizard(models.TransientModel):
                 if not uom:
                     uom = self.env['product.uom'].create({'name': item['dimension'],
                                                           'category_id': uom_square_meter.category_id.id,
-                                                          'uom_type': 'smaller',
-                                                          'factor': v_row_cant})
+                                                          'uom_type': 'bigger',
+                                                          'factor': 1/v_row_cant})
 
                 bom_line = {'bom_id': sub_bom.id,
                             'product_id': raw_product.id,
