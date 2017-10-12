@@ -65,6 +65,10 @@ class res_partner(models.Model):
     def cnp_change(self):
         if self.cnp:
             self.birthdate = time.strftime("%Y-%m-%d", time.strptime(self.cnp[1:7], "%y%m%d"))
+            if self.cnp[0] in ['1','5']:
+                self.gender = 'male'
+            else:
+                self.gender = 'female'
 
     @api.onchange('birthdate')
     def birthdate_change(self):
@@ -97,7 +101,13 @@ class res_partner(models.Model):
     is_department = fields.Boolean(string='Is department', compute='_compute_is_department')
     birthdate = fields.Date(string="Birthdate")
 
-    _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
+    gender = fields.Selection([('male', 'Male'),
+                               ('female', 'Female'),
+                               ('other', 'Other'),
+                               ])
+
+
+    #_defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
     @api.multi

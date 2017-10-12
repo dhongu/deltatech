@@ -30,16 +30,17 @@
                                    attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
                             <field name="birthdate"
                                    attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
+                             <field name='gender'
+                                    attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
                         </group>
-                        <group>
 
-                            <field name="mean_transp"
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',False)]}"/>
-
-                        </group>
                     </group>
 
 
+                </xpath>
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="mean_transp"
+                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',False)]}"/>
                 </xpath>
 
                 <xpath expr="//kanban//field[@name='is_company']" position="after">
