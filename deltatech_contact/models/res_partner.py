@@ -64,7 +64,13 @@ class res_partner(models.Model):
     @api.onchange('cnp')
     def cnp_change(self):
         if self.cnp:
-            self.birthdate = time.strftime("%Y-%m-%d", time.strptime(self.cnp[1:7], "%y%m%d"))
+            birthdate = self.cnp[1:7]
+            #Year 2000 (Y2K) issues
+            if self.cnp[0] in ['1','2']:
+                birthdate = '19' + birthdate
+            else:
+                birthdate = '20' + birthdate
+            self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
             if self.cnp[0] in ['1','5']:
                 self.gender = 'male'
             else:
@@ -72,7 +78,7 @@ class res_partner(models.Model):
 
     @api.onchange('birthdate')
     def birthdate_change(self):
-        if self.cnp:
+        if self.cnp and self.birthdate:
             cnp = self.cnp
             cnp = cnp[0] + time.strftime("%y%m%d", time.strptime(self.birthdate, "%Y-%m-%d")) + cnp[7:12]
             key = '279146358279';
