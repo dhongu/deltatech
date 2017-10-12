@@ -135,7 +135,7 @@ class woody_wizard(models.TransientModel):
                         if not att_val[att]:
                             att_val[att] = attribute_value.create({'name': item[att],
                                                                    'attribute_id': attribute[att].id})
-                value = {'name': '%s %s x %s' % (item['code'], item['x'], item['y']),
+                value = {'name': '%s' % (item['code']),
                          'type': 'product',
                          'uom_id': uom_unit.id,
                          'default_code': v_code,
