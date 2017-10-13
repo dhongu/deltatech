@@ -59,11 +59,11 @@ class pars():
         self._depou['cap'] = [t.text for t in cap]
         return self.parse((cap, tabel))
 
-    def lungimeProfile(self, item):
-        if ')' not in item[0].split('(')[-1]:
+    def lungimeProfile(self, name):
+        if ')' not in name.split(', (')[-1]:
             return None
-        mm = item[0].split('(')[-1].split(')')[0]
-        flNr = int(math.floor(float(mm)))
+        mm = name.split(', (')[-1].split(')')[0]
+        flNr = int(math.floor(float(mm)))  # este in mm si este ok sa fac trunchere de zecimale
         return flNr
 
     def parse(self, t):
@@ -123,6 +123,18 @@ class pars():
 
         self._placi = materiale['Placi']
 
+        for product in products['Aux']:
+            print product
+            profil = self.lungimeProfile(product['name'])
+            if profil:
+                product['name'] = product['name'].split(', (')[0]
+                product['profil'] = True
+                product['uom'] = str(profil) + ' mm'
+            else:
+                product['profil'] = False
+
+
+
         self.depozit = products
 
         self.materiale = materiale
@@ -156,7 +168,7 @@ class pars():
                 if not t:
                     t = gr[com].find('b').text
                 if len(valori) > 2:
-                    if float(valori[3]) > 0 and float(valori[4]) > 0 and 'proba' not in valori[0].lower():
+                    if 'proba' not in valori[0].lower(): # and  float(valori[3]) > 0 and float(valori[4]) > 0
                         if len(valori[1]) > 0:
                             liste[t].append(valori)
                         else:

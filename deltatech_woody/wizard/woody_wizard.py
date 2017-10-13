@@ -246,7 +246,16 @@ class woody_wizard(models.TransientModel):
     def get_product(self, item, categ_id, uom=None):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
 
-
+        if 'profil' in item and item['profil']:
+            uom_categ_length = self.env.ref['product.uom_categ_length']
+            uom = self.env['product.uom'].search([('name', '=', item['uom']),
+                                                  ('category_id', '=', uom_categ_length.id)], limit=1)
+            if not uom:
+                factor = float(item['uom'].replace(" mm",''))
+                uom = self.env['product.uom'].create({'name': item['uom'],
+                                                          'category_id': uom_categ_length.id,
+                                                          'uom_type': 'smaller',
+                                                          'factor': factor})
 
         if not uom:
             if item['uom'] == 'buc' or item['uom'] == 'buc.':
