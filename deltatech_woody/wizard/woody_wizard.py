@@ -93,16 +93,19 @@ class woody_wizard(models.TransientModel):
             self.product_tmpl_id.write({'default_code': finish_product_code})
 
         # adaugare produse auxiliare
+        category_aux = self.env.ref('product.product_category_aux')
         for prod in woody_data['products']['Aux']:
-            self.get_product(prod, self.env.ref('product.product_category_aux'))
+            self.get_product(prod, category_aux )
 
         # adaugare produse canturi
+        category_raw = self.env.ref('product.product_category_strip')
         for prod in woody_data['products']['Canturi']:
-            self.get_product(prod, self.env.ref('product.product_category_raw'))
+            self.get_product(prod, category_raw)
 
         # materie prima placi
+        category_raw = self.env.ref('product.product_category_raw')
         for prod in woody_data['products']['Placi']:
-            self.get_product(prod, self.env.ref('product.product_category_raw'), uom_square_meter)
+            self.get_product(prod, category_raw, uom_square_meter)
 
         half = 1
         i = 10
@@ -248,6 +251,7 @@ class woody_wizard(models.TransientModel):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
         bom_uom = False
         if 'profil' in item and item['profil']:
+            categ_id = self.env.ref('product.product_category_profile')
             uom_categ_length = self.env.ref('product.uom_categ_length')
             uom = self.env['product.uom'].search([('name', '=', item['uom']),
                                                   ('category_id', '=', uom_categ_length.id)], limit=1)
@@ -271,7 +275,7 @@ class woody_wizard(models.TransientModel):
         if not product:
             route_warehouse0_buy = self.env.ref('purchase.route_warehouse0_buy')
 
-            product = self.env['product.product'].create({
+            vals = {
                 'name': item['name'].replace('_', ' '),
                 'type': 'product',
                 'default_code': item['code'],
@@ -282,7 +286,11 @@ class woody_wizard(models.TransientModel):
                 'purchase_ok': True,
                 'route_ids': [(6, False, [route_warehouse0_buy.id])],
                 'categ_id': categ_id.id
-            })
+            }
+            if 'profil' in item and item['profil']:
+                vals['categ_id'] = self.env.ref('product.product_category_profile').id
+
+            product = self.env['product.product'].create(vals)
         if product.uom_id.category_id != uom.category_id:
             raise Warning(_('Unit %s can not be used for product %s') % (uom.name, product.name))
         item['product_id'] = product

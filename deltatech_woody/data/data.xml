@@ -39,6 +39,13 @@
         <record id="product.product_category_finish" model="product.category">
             <field name="name">Finish product</field>
         </record>
+        <record id="product.product_category_strip" model="product.category">
+            <field name="name">Strip</field>
+        </record>
+        <record id="product.product_category_profile" model="product.category">
+            <field name="name">Profile</field>
+        </record>
+
     </data>
 
 
@@ -51,7 +58,6 @@
             <field name="name">m2</field>
             <field name="factor" eval="1.0"/>
         </record>
-
 
 
         <record id="product.product_uom_mm" model="product.uom">
