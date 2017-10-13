@@ -124,7 +124,7 @@ class pars():
         self._placi = materiale['Placi']
 
         for product in products['Aux']:
-            print product
+
             profil = self.lungimeProfile(product['name'])
             if profil:
                 product['name'] = product['name'].split(', (')[0]

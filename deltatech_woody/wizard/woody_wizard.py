@@ -81,8 +81,9 @@ class woody_wizard(models.TransientModel):
 
         self.product_tmpl_id.write({'name': woody_data['name'],
                                     'sale_ok': True,
+                                    'purchase_ok': False,
                                     'type': 'product',
-                                    'route_ids': [(4, route_manufacture.id, False)],
+                                    'route_ids': [(6, False, [route_manufacture.id])],
                                     'categ_id': self.env.ref('product.product_category_finish').id})
 
         finish_product_code = self.product_id.default_code or self.product_tmpl_id.default_code
@@ -146,7 +147,7 @@ class woody_wizard(models.TransientModel):
                          'width': item['y'],
                          'height': item['height'],
                          'categ_id': self.env.ref('product.product_category_half').id,
-                         'route_ids': [(4, route_manufacture.id, False)]}
+                         'route_ids': [(6,False,[ route_manufacture.id])]}
 
                 if with_attr:
                     for att in attr_set:
@@ -237,7 +238,7 @@ class woody_wizard(models.TransientModel):
                 'sequence': i,
                 'bom_id': bom.id,
                 'product_id': prod['product_id'].id,
-                'product_uom_id': prod['product_id'].uom_id.id,
+                'product_uom_id': prod['uom_id'].id,
                 'product_qty': prod['qty']
             })
             i += 10
@@ -245,17 +246,18 @@ class woody_wizard(models.TransientModel):
     @api.model
     def get_product(self, item, categ_id, uom=None):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
-
+        bom_uom = False
         if 'profil' in item and item['profil']:
-            uom_categ_length = self.env.ref['product.uom_categ_length']
+            uom_categ_length = self.env.ref('product.uom_categ_length')
             uom = self.env['product.uom'].search([('name', '=', item['uom']),
                                                   ('category_id', '=', uom_categ_length.id)], limit=1)
             if not uom:
-                factor = float(item['uom'].replace(" mm",''))
-                uom = self.env['product.uom'].create({'name': item['uom'],
+                factor = 1000 / float(item['uom'].replace(" mm",''))
+                bom_uom = self.env['product.uom'].create({'name': item['uom'],
                                                           'category_id': uom_categ_length.id,
                                                           'uom_type': 'smaller',
                                                           'factor': factor})
+            uom = self.env.ref('product.product_uom_mm') # stocul se tine totusi in mm
 
         if not uom:
             if item['uom'] == 'buc' or item['uom'] == 'buc.':
@@ -278,10 +280,14 @@ class woody_wizard(models.TransientModel):
                 'uom_po_id': uom.id,
                 'sale_ok': False,
                 'purchase_ok': True,
-                'route_ids': [(4, route_warehouse0_buy.id, False)],
+                'route_ids': [(6, False, [route_warehouse0_buy.id])],
                 'categ_id': categ_id.id
             })
         if product.uom_id.category_id != uom.category_id:
             raise Warning(_('Unit %s can not be used for product %s') % (uom.name, product.name))
         item['product_id'] = product
+        if bom_uom:
+            item['uom_id'] = bom_uom
+        else:
+            item['uom_id'] = uom
         return item
