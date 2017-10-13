@@ -129,11 +129,12 @@ class ProcurementComputeProducts(models.TransientModel):
                                                                    limit=1, order='date_planned')
                 date_planned = procurement.date_planned
                 origin = procurement.origin
+                qty = item.qty + item.qty*item.product_id.scrap # se adauga si pierderea
                 new_procurement = self.env["procurement.order"].create({
                     'name': 'SUP: %s' % (self.env.user.login),
                     'date_planned': date_planned,
                     'product_id': item.product_id.id,
-                    'product_qty': item.qty,
+                    'product_qty': qty,
                     'product_uom': item.product_id.uom_id.id,
                     'warehouse_id': warehouse.id,
                     'location_id': location.id,

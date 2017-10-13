@@ -23,6 +23,7 @@
 import procurement
 import sale_order
 import mrp_production
+import product_template
 
 
 
