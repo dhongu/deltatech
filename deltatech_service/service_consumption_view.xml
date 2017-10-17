@@ -79,6 +79,10 @@
 							context="{'group_by':'period_id'}" />
 						<filter string="Product" name="product" icon="terp-accessories-archiver"
 							context="{'group_by':'product_id'}" />
+						<filter string="Partner" name="product" icon="terp-accessories-archiver"
+							context="{'group_by':'partner_id'}" />
+						<filter string="Agreement" name="product" icon="terp-accessories-archiver"
+							context="{'group_by':'agreement_id'}" />
 					</group>
 				</search>
 			</field>
