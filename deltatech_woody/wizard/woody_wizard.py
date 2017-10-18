@@ -253,9 +253,9 @@ class woody_wizard(models.TransientModel):
         if 'profil' in item and item['profil']:
             categ_id = self.env.ref('product.product_category_profile')
             uom_categ_length = self.env.ref('product.uom_categ_length')
-            uom = self.env['product.uom'].search([('name', '=', item['uom']),
+            bom_uom = self.env['product.uom'].search([('name', '=', item['uom']),
                                                   ('category_id', '=', uom_categ_length.id)], limit=1)
-            if not uom:
+            if not bom_uom:
                 factor = 1000 / float(item['uom'].replace(" mm",''))
                 bom_uom = self.env['product.uom'].create({'name': item['uom'],
                                                           'category_id': uom_categ_length.id,
