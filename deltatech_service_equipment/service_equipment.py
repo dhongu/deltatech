@@ -503,7 +503,7 @@ class service_equipment(models.Model):
 
         for equi in equis:
             follower = equi.message_follower_ids
-            msg = _('Please make reading for equipament %s') % equis.name
+            msg = _('Please make reading for equipament %s') % equi.name
             print follower
             message = self.env['mail.message'].with_context({'default_starred': True}).create({
                 'model': 'service.equipment',
