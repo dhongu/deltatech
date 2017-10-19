@@ -215,7 +215,7 @@ msgstr "Produse auxiliare"
 #. module: product
 #: model:product.category,name:product.product_category_finish
 msgid "Finish product"
-msgstr "Produse filite"
+msgstr "Produse finite"
 
 #. module: product
 #: model:product.category,name:product.product_category_strip

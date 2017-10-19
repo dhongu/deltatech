@@ -504,8 +504,8 @@ def extract(bon, diag):
 
 
 def loadData():
-    bc = open('./bc/BC.htm', 'r').read()
-    dg = open('./bc/DC.htm', "r").read()
+    bc = open('./bc/bc.htm', 'r').read()
+    dg = open('./bc/dc.htm', "r").read()
     return extract(bc, dg)
 
 

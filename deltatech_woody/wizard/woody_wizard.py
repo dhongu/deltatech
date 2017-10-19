@@ -26,12 +26,10 @@ class woody_wizard(models.TransientModel):
     file_dc = fields.Binary(string="File Chart of Debiting")
     filename_dc = fields.Char('File Name Chart of Debiting', required=True)
 
-    product_tmpl_id = fields.Many2one(
-        'product.template', 'Product',
-        domain="[('type', 'in', ['product', 'consu'])]", required=True)
-    product_id = fields.Many2one(
-        'product.product', 'Product Variant',
-        domain="['&', ('product_tmpl_id', '=', product_tmpl_id), ('type', 'in', ['product', 'consu'])]")
+    product_tmpl_id = fields.Many2one('product.template', 'Product',
+                                      domain="[('type', 'in', ['product', 'consu'])]", required=True)
+    product_id = fields.Many2one('product.product', 'Product Variant',
+                                 domain="['&', ('product_tmpl_id', '=', product_tmpl_id), ('type', 'in', ['product', 'consu'])]")
 
     @api.model
     def default_get(self, fields):
@@ -59,6 +57,9 @@ class woody_wizard(models.TransientModel):
         route_manufacture = self.env.ref('mrp.route_warehouse0_manufacture')
         uom_unit = self.env.ref('product.product_uom_unit')
         uom_square_meter = self.env.ref('product.product_uom_square_meter')
+        uom_meter = self.env.ref('product.product_uom_meter')
+        category_blat = self.env.ref('product.product_category_blat')
+
 
         with_attr = False
         attr_set = ('dimension', 'color', 'height', 'texture', 'cant')  # de renuntat la atributele de dimensiune
@@ -95,7 +96,7 @@ class woody_wizard(models.TransientModel):
         # adaugare produse auxiliare
         category_aux = self.env.ref('product.product_category_aux')
         for prod in woody_data['products']['Aux']:
-            self.get_product(prod, category_aux )
+            self.get_product(prod, category_aux)
 
         # adaugare produse canturi
         category_raw = self.env.ref('product.product_category_strip')
@@ -105,7 +106,7 @@ class woody_wizard(models.TransientModel):
         # materie prima placi
         category_raw = self.env.ref('product.product_category_raw')
         for prod in woody_data['products']['Placi']:
-            self.get_product(prod, category_raw, uom_square_meter)
+            self.get_product(prod, category_raw, placi=True)
 
         half = 1
         i = 10
@@ -114,16 +115,19 @@ class woody_wizard(models.TransientModel):
 
                 routing_code = item['routing']
 
-                routing_id = self.env['mrp.routing'].search([('name', '=', routing_code)])
+                routing_id = self.env['mrp.routing'].search([('name', '=', routing_code)], limit=1)
                 if not routing_id:
                     routing_id = self.env['mrp.routing'].create({'name': routing_code})
 
                 # determinare materie prima pentru semifabricate
                 if item['raw_product'] in woody_data['echivalente']:
                     raw_code = woody_data['echivalente'][item['raw_product']]
-                    raw_product = self.env['product.product'].search([('default_code', '=', raw_code)])
+                    raw_product = self.env['product.product'].search([('default_code', '=', raw_code)], limit=1)
                 else:
                     raise Warning(_('Nu gasesc materia prima pentru codul %s') % raw_code)
+
+                if raw_product.categ_id == category_blat: # daca este vorba de un blat
+                    continue
 
                 # poate e mai bine ca sa fac codificarea in functie de codul produsului finit la care sa adaug
                 # v_code = raw_code + ' ' + routing_code + v_size
@@ -135,7 +139,7 @@ class woody_wizard(models.TransientModel):
                     att_val = {}
                     for att in attr_set:
                         att_val[att] = attribute_value.search([('name', '=', item[att]),
-                                                               ('attribute_id', '=', attribute[att].id)])
+                                                               ('attribute_id', '=', attribute[att].id)], limit=1)
                         if not att_val[att]:
                             att_val[att] = attribute_value.create({'name': item[att],
                                                                    'attribute_id': attribute[att].id})
@@ -150,7 +154,7 @@ class woody_wizard(models.TransientModel):
                          'width': item['y'],
                          'height': item['height'],
                          'categ_id': self.env.ref('product.product_category_half').id,
-                         'route_ids': [(6,False,[ route_manufacture.id])]}
+                         'route_ids': [(6, False, [route_manufacture.id])]}
 
                 if with_attr:
                     for att in attr_set:
@@ -191,7 +195,7 @@ class woody_wizard(models.TransientModel):
                     uom = self.env['product.uom'].create({'name': item['dimension'],
                                                           'category_id': uom_square_meter.category_id.id,
                                                           'uom_type': 'bigger',
-                                                          'factor': 1/v_row_cant})
+                                                          'factor': 1 / v_row_cant})
 
                 bom_line = {'bom_id': sub_bom.id,
                             'product_id': raw_product.id,
@@ -233,6 +237,17 @@ class woody_wizard(models.TransientModel):
                             })
                         cant_poz += 1
 
+
+        for prod in woody_data['products']['Placi']:
+            if prod['product_id'].categ_id == category_blat:
+                self.env['mrp.bom.line'].create({
+                    'sequence': i,
+                    'bom_id': bom.id,
+                    'product_id': prod['product_id'].id,
+                    'product_uom_id': prod['uom_id'].id,
+                    'product_qty': prod['qty']
+                })
+                i += 10
         # adaugare produse auxiliare
         for prod in woody_data['products']['Aux']:
             # prod = self.get_product(prod, self.env.ref('product.product_category_aux'))
@@ -247,31 +262,44 @@ class woody_wizard(models.TransientModel):
             i += 10
 
     @api.model
-    def get_product(self, item, categ_id, uom=None):
+    def get_product(self, item, categ_id,  placi=False):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
         bom_uom = False
+        price = item['price']
+
         if 'profil' in item and item['profil']:
             categ_id = self.env.ref('product.product_category_profile')
             uom_categ_length = self.env.ref('product.uom_categ_length')
             bom_uom = self.env['product.uom'].search([('name', '=', item['uom']),
-                                                  ('category_id', '=', uom_categ_length.id)], limit=1)
+                                                      ('category_id', '=', uom_categ_length.id)], limit=1)
+            dim = float(item['uom'].replace(" mm", ''))
             if not bom_uom:
-                factor = 1000 / float(item['uom'].replace(" mm",''))
+                factor = 1000 / dim
                 bom_uom = self.env['product.uom'].create({'name': item['uom'],
                                                           'category_id': uom_categ_length.id,
                                                           'uom_type': 'smaller',
                                                           'factor': factor})
-            uom = self.env.ref('product.product_uom_mm') # stocul se tine totusi in mm
+            price = 1000 * item['price'] / dim
+            uom = self.env.ref('product.product_uom_meter')  # ('product.product_uom_mm') # stocul se tine totusi in mm
+
+        if item['uom'] == 'buc' or item['uom'] == 'buc.':
+            uom = self.env.ref('product.product_uom_unit')
+
+        if item['uom'] == 'metru patrat' or item['uom'] == 'm2' or item['uom'] == 'mp':
+            uom = self.env.ref('product.product_uom_square_meter')
+
+        if item['uom'] == 'rm' or item['uom'] == 'm':
+            uom = self.env.ref('product.product_uom_meter')
+            if placi:  # placile masurate in m sunt de fapt baturi
+                categ_id = self.env.ref('product.product_category_blat')
+
 
         if not uom:
-            if item['uom'] == 'buc' or item['uom'] == 'buc.':
-                uom = self.env.ref('product.product_uom_unit')
-            else:
-                uom = self.env['product.uom'].search([('name', '=', item['uom'])])
-            if not uom:
-                raise Warning(_('Please create UOM %s') % item['uom'])
+            uom = self.env['product.uom'].search([('name', '=', item['uom'])], limit=1)
+        if not uom:
+            raise Warning(_('Please create UOM %s') % item['uom'])
 
-        product = self.env['product.product'].search([('default_code', '=', item['code'])])
+        product = self.env['product.product'].search([('default_code', '=', item['code'])], limit=1)
         if not product:
             route_warehouse0_buy = self.env.ref('purchase.route_warehouse0_buy')
 
@@ -279,7 +307,8 @@ class woody_wizard(models.TransientModel):
                 'name': item['name'].replace('_', ' '),
                 'type': 'product',
                 'default_code': item['code'],
-                'list_price': item['price'],
+                'list_price': price,
+                'standard_price': price,
                 'uom_id': uom.id,
                 'uom_po_id': uom.id,
                 'sale_ok': False,

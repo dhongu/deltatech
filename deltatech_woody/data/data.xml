@@ -45,6 +45,12 @@
         <record id="product.product_category_profile" model="product.category">
             <field name="name">Profile</field>
         </record>
+        <!-- blat = worktop ?? -->
+        <record id="product.product_category_blat" model="product.category">
+            <field name="name">Blat</field>
+        </record>
+
+
 
     </data>
 
