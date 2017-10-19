@@ -41,7 +41,7 @@ Functionalitati:
     """,
 
     "category": "Generic Modules",
-    "depends": ["base", "mail",
+    "depends": ["base", "mail", "stock",
 
                 "deltatech_service",
                 "deltatech_service_equipment",

@@ -298,7 +298,8 @@ class service_equipment(models.Model):
     def _compute_agreement_id(self):
         if not isinstance(self.id, models.NewId):
             agreements = self.env['service.agreement']
-            agreement_line = self.env['service.agreement.line'].search([('equipment_id', '=', self.id)])
+            agreement_line = self.env['service.agreement.line'].search([('equipment_id', '=', self.id),
+                                                                        ('active', '=', True)])
             for line in agreement_line:
                 if line.agreement_id.state == 'open':
                     agreements = agreements | line.agreement_id
@@ -476,9 +477,18 @@ class service_equipment(models.Model):
         if self.agreement_id.state == 'draft':
             lines = self.env['service.agreement.line'].search(
                 [('agreement_id', '=', self.agreement_id.id), ('equipment_id', '=', self.id)])
-            lines.unlink()
+
+            cons = self.env['service.consumption'].search([('agreement_line_id', 'in', lines.ids)], limit=1)
+            if not cons:
+                lines.unlink()
+            else:
+                # dalca nu se pot sterge atunci le fac inactive
+                lines.write({'active': False})
+
             if not self.agreement_id.agreement_line:
                 self.agreement_id.unlink()
+            else:
+                self.agreement_id = False
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
 

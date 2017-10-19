@@ -302,8 +302,8 @@ class service_agreement_line(models.Model):
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
-    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
-    
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])
+    active = fields.Boolean(default=True)  # pentru a ascunde liniile din contract care nu
   
     @api.onchange('product_id')
     def onchange_product_id(self):
