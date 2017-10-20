@@ -126,8 +126,10 @@ class woody_wizard(models.TransientModel):
                 else:
                     raise Warning(_('Nu gasesc materia prima pentru codul %s') % raw_code)
 
+                """
                 if raw_product.categ_id == category_blat: # daca este vorba de un blat
                     continue
+                """
 
                 # poate e mai bine ca sa fac codificarea in functie de codul produsului finit la care sa adaug
                 # v_code = raw_code + ' ' + routing_code + v_size
@@ -187,16 +189,24 @@ class woody_wizard(models.TransientModel):
                     'routing_id': routing_id.id
                 })
 
-                v_row_cant = float(item['x']) * float(item['y']) / (1000 * 1000)
+                v_row_cant = float(item['x']) * float(item['y']) / (1000.0 * 1000.0)
 
-                uom = self.env['product.uom'].search([('name', '=', item['dimension']),
-                                                      ('category_id', '=', uom_square_meter.category_id.id)], limit=1)
-                if not uom:
-                    uom = self.env['product.uom'].create({'name': item['dimension'],
-                                                          'category_id': uom_square_meter.category_id.id,
-                                                          'uom_type': 'bigger',
-                                                          'factor': 1 / v_row_cant})
-
+                if raw_product.categ_id != category_blat:
+                    uom = self.env['product.uom'].search([('name', '=', item['dimension']),
+                                                          ('category_id', '=', uom_square_meter.category_id.id)], limit=1)
+                    if not uom:
+                        uom = self.env['product.uom'].create({'name': item['dimension'],
+                                                              'category_id': uom_square_meter.category_id.id,
+                                                              'uom_type': 'bigger', 'factor': 1 / v_row_cant})
+                else:
+                    uom_text = '%s mm' % item['x']
+                    v_row_cant = float(item['x']) / 1000.0
+                    uom = self.env['product.uom'].search([('name', '=', uom_text),
+                                                          ('category_id', '=', uom_meter.category_id.id)], limit=1)
+                    if not uom:
+                        uom = self.env['product.uom'].create({'name': uom_text,
+                                                              'category_id': uom_meter.category_id.id,
+                                                              'uom_type': 'bigger', 'factor': 1 / v_row_cant})
                 bom_line = {'bom_id': sub_bom.id,
                             'product_id': raw_product.id,
                             'product_uom_id': uom.id,
@@ -237,7 +247,7 @@ class woody_wizard(models.TransientModel):
                             })
                         cant_poz += 1
 
-
+        """
         for prod in woody_data['products']['Placi']:
             if prod['product_id'].categ_id == category_blat:
                 self.env['mrp.bom.line'].create({
@@ -248,6 +258,7 @@ class woody_wizard(models.TransientModel):
                     'product_qty': prod['qty']
                 })
                 i += 10
+        """
         # adaugare produse auxiliare
         for prod in woody_data['products']['Aux']:
             # prod = self.get_product(prod, self.env.ref('product.product_category_aux'))
@@ -279,7 +290,7 @@ class woody_wizard(models.TransientModel):
                                                           'category_id': uom_categ_length.id,
                                                           'uom_type': 'smaller',
                                                           'factor': factor})
-            price = 1000 * item['price'] / dim
+            price = 1000 * float(item['price']) / dim
             uom = self.env.ref('product.product_uom_meter')  # ('product.product_uom_mm') # stocul se tine totusi in mm
 
         if item['uom'] == 'buc' or item['uom'] == 'buc.':

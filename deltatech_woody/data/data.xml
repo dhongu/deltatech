@@ -93,5 +93,6 @@
             <field name="number_increment">1</field>
         </record>
 
+
     </data>
 </odoo>
