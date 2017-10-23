@@ -276,6 +276,7 @@ class woody_wizard(models.TransientModel):
     def get_product(self, item, categ_id,  placi=False):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
         bom_uom = False
+        uom = False
         price = item['price']
 
         if 'profil' in item and item['profil']:
