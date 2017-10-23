@@ -16,6 +16,7 @@ class ProcurementComputeProducts(models.TransientModel):
     item_ids = fields.One2many('procurement.compute.products.item', 'compute_id')
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
     background = fields.Boolean('Run in background', default=True)
+    warehouse = fields.Many2one('stock.warehouse')
 
     @api.model
     def default_get(self, fields):
@@ -23,8 +24,7 @@ class ProcurementComputeProducts(models.TransientModel):
         active_model = self.env.context.get('active_model', False)
         active_ids = self.env.context.get('active_ids', False)
 
-        warehouse = self.env['stock.warehouse'].search([], limit=1)
-        location = warehouse.lot_stock_id
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
 
         qty = {}
         products = self.env['product.product']
@@ -54,6 +54,8 @@ class ProcurementComputeProducts(models.TransientModel):
             sale_orders = self.env['sale.order'].browse(active_ids)
             for sale_order in sale_orders:
                 defaults['group_id'] = sale_order.procurement_group_id.id
+                warehouse = sale_order.warehouse_id
+                defaults['warehouse'] = warehouse.id
                 for line in sale_order.order_line:
                     products |= line.product_id
                     product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
@@ -62,18 +64,25 @@ class ProcurementComputeProducts(models.TransientModel):
                     else:
                         qty[line.product_id.id] = product_qty
 
+        location = warehouse.lot_stock_id
         if 'group_id' in defaults:
+
             procurements = self.env["procurement.order"].search([('product_id', 'in', products.ids),
                                                                  ('state', 'in', ['exception', 'running']),
                                                                  ('group_id', '=', defaults['group_id']),
                                                                  ('location_id', '=', location.id)])
             procurements.run()
-        for procurement in procurements:
-            qty[procurement.product_id.id] = qty[procurement.product_id.id] - procurement.product_qty
+            for procurement in procurements:
+                qty[procurement.product_id.id] = qty[procurement.product_id.id] - procurement.product_qty
 
         for product in products:
-            qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
+            product = product.with_context({'location': location.ids})
+            if 'group_id' in defaults:
+                qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
+            else:
+                qty[product.id] = -1 * product.virtual_available
 
+        defaults['warehouse'] = warehouse.id
         defaults['item_ids'] = []
         for product in products:
             defaults['item_ids'].append((0, 0, {'product_id': product.id, 'qty': qty[product.id]}))
@@ -120,8 +129,9 @@ class ProcurementComputeProducts(models.TransientModel):
     @api.multi
     def individual_procurement(self):
         self.ensure_one()
-        warehouse = self.env['stock.warehouse'].search([], limit=1)
-        location = warehouse.lot_stock_id
+
+        productions = self.env['mrp.production']
+        location = self.warehouse.lot_stock_id
 
         for item in self.item_ids:
             if item.qty > 0:
@@ -129,19 +139,29 @@ class ProcurementComputeProducts(models.TransientModel):
                                                                    limit=1, order='date_planned')
                 date_planned = procurement.date_planned
                 origin = procurement.origin
-                qty = item.qty + item.qty*item.product_id.scrap # se adauga si pierderea
+                qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
                 new_procurement = self.env["procurement.order"].create({
                     'name': 'SUP: %s' % (self.env.user.login),
                     'date_planned': date_planned,
                     'product_id': item.product_id.id,
                     'product_qty': qty,
                     'product_uom': item.product_id.uom_id.id,
-                    'warehouse_id': warehouse.id,
+                    'warehouse_id': self.warehouse.id,
                     'location_id': location.id,
                     'origin': origin,
                     'group_id': self.group_id.id,
-                    'company_id': warehouse.company_id.id})
+                    'company_id': self.warehouse.company_id.id})
                 new_procurement.run()
+                if new_procurement.production_id:
+                    productions |= new_procurement.production_id
+
+
+        if productions:
+
+            new_context = {'active_ids':productions.ids, 'active_model':'mrp.production'}
+            new_wizard = self.with_context(new_context).create({'background':self.background})
+            new_wizard.procure_calculation()
+
 
     @api.multi
     def procure_calculation(self):
