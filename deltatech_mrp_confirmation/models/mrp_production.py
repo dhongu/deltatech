@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 
-from odoo import api
-from odoo import models
+from odoo import api, fields,models
 from odoo.tools import float_compare
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
+
+
 
     @api.multi
     def button_plan(self):
@@ -15,6 +16,8 @@ class MrpProduction(models.Model):
         for production in self:
             production.generate_finished_lot_ids()
         return res
+
+
 
     def generate_finished_lot_ids(self):
         """ Generate stock move lots """

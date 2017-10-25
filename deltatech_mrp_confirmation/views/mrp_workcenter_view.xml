@@ -10,6 +10,7 @@
                     <group string="Confirmation">
                         <field name="partial_conf"/>
                         <field name="confirm_real_time"/>
+                        <field name="start_without_stock"/>
                     </group>
                     <group string="Costing Information">
                         <field name="costs_hour"/>

@@ -10,6 +10,7 @@ class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
 
     partial_conf = fields.Boolean(string='Partial confirmation', defalut=False)
+    start_without_stock = fields.Boolean(string='Start without stock', defalut=True)
     confirm_real_time = fields.Boolean(string="Confirm Real Time", default=True)
     worker_ids = fields.One2many('mrp.workcenter.worker', 'workcenter_id', string='Workers')
     costs_hour = fields.Float(string='Cost per hour', help="Specify cost of work center per hour.")

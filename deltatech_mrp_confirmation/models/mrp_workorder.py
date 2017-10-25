@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 try:
     import cStringIO as StringIO
@@ -65,6 +66,17 @@ class MrpWorkorder(models.Model):
                 barcode_image = image_stream.getvalue().encode('base64')
                 workorder.barcode_image = barcode_image
 
+    @api.multi
+    def record_production(self):
+        if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
+            raise ValidationError(_('It is not possible to produce more that %s') % self.qty_ready_prod)
+        return super(MrpWorkorder, self).record_production()
+
+    @api.multi
+    def button_start(self):
+        if  self.production_availability != 'assigned' and not self.workcenter_id.start_without_stock:
+            raise ValidationError(_('It is not possible to start work without materials'))
+        return super(MrpWorkorder, self).button_start()
 
 class MrpWorkcenterProductivity(models.Model):
     _inherit = "mrp.workcenter.productivity"
