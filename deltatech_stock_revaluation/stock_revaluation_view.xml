@@ -141,11 +141,21 @@
 		<report
 			id="stock_revaluation2"
             model="stock.revaluation"
-            string="Stock revaluation - auto"
+            string="Stock revaluation - 60 luni"
             report_type="qweb-pdf"
             name="deltatech_stock_revaluation.report_stock_revaluation2"
             attachment_use="False"
             file="deltatech_stock_revaluation.report_stock_revaluation2"
+		/>
+		
+		<report
+			id="stock_revaluation3"
+            model="stock.revaluation"
+            string="Stock revaluation - 72 luni"
+            report_type="qweb-pdf"
+            name="deltatech_stock_revaluation.report_stock_revaluation3"
+            attachment_use="False"
+            file="deltatech_stock_revaluation.report_stock_revaluation3"
 		/>
 
 	</data>
