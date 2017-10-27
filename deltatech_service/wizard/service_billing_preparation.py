@@ -57,7 +57,9 @@ class service_billing_preparation(models.TransientModel):
     def do_billing_preparation(self):
         res = []
         for agreement in self.agreement_ids:
-            for line in agreement.agreement_line:
+            lines = self.env['service.agreement.line'].with_context({'active_test': False}).search(
+                [('agreement_id', '=', agreement.id)])
+            for line in lines:  # agreement.agreement_line:
                 cons_value = line.get_value_for_consumption()
                 if cons_value:
                     cons_value.update({

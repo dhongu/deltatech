@@ -65,6 +65,7 @@ class service_equi_agreement(models.TransientModel):
             values = {}
             values['agreement_id'] = self.agreement_id.id
             values['equipment_id'] = self.equipment_id.id
+            values['equipment_history_id'] = self.equipment_id.equipment_history_id.id
             values['currency_id'] = template.currency_id.id
             values['product_id'] = template.product_id.id
             values['lock_edit'] = True

@@ -478,13 +478,15 @@ class service_equipment(models.Model):
             lines = self.env['service.agreement.line'].search(
                 [('agreement_id', '=', self.agreement_id.id), ('equipment_id', '=', self.id)])
 
+            """"
             cons = self.env['service.consumption'].search([('agreement_line_id', 'in', lines.ids)], limit=1)
             if not cons:
                 lines.unlink()
             else:
                 # dalca nu se pot sterge atunci le fac inactive
-                lines.write({'active': False})
 
+            """
+            lines.write({'active': False})
             if not self.agreement_id.agreement_line:
                 self.agreement_id.unlink()
             else:

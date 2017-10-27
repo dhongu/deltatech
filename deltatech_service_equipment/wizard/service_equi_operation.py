@@ -89,7 +89,9 @@ class service_equi_operation(models.TransientModel):
 
     @api.multi    
     def do_operation(self):
-        
+
+        old_hist = self.equipment_id.equipment_history_id
+
         if self.equipment_id.equipment_history_id:
             if self.date < self.equipment_id.equipment_history_id.from_date:
                 raise Warning(_('Date must be greater than %s') % self.equipment_id.equipment_history_id.from_date)
@@ -131,12 +133,15 @@ class service_equi_operation(models.TransientModel):
                     'emplacement':False,                                                               
                     }  
             new_hist = self.env['service.equipment.history'].create(values)
-            self.equipment_backup_id.write({'state':'available','equipment_history_id':new_hist.id})    
-            
+            self.equipment_backup_id.write({'state':'available','equipment_history_id':new_hist.id})
+
         for item in self.items:
+
+            hist = old_hist.id
+
             self.env['service.meter.reading'].create({'meter_id':item.meter_id.id,
                                                       'equipment_id':item.meter_id.equipment_id.id,
-                                                      'equipment_history_id':new_hist.id,
+                                                      'equipment_history_id': hist,
                                                       'date':self.date,
                                                       'read_by':self.read_by.id,
                                                       'note':self.note,

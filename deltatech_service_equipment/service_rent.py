@@ -100,12 +100,22 @@ class service_agreement(models.Model):
             'res_model': 'service.equipment',
             'view_id': False,
             'type': 'ir.actions.act_window'
-        }        
-   
+        }
+
+    @api.multi
+    def update_hist(self):
+        for agreement in self:
+            for line in agreement.agreement_line:
+                if line.equipment_id:
+                    line.write({'equipment_history_id': line.equipment_id.equipment_history_id.id})
+
+
 class service_agreement_line(models.Model):
     _inherit = 'service.agreement.line'  
     
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True)
+    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history',
+                                           copy=False)  # id de istoric la care a fost instalat echipamentul
     meter_id = fields.Many2one('service.meter', string='Meter')
 
     lock_edit = fields.Boolean()
@@ -116,7 +126,8 @@ class service_agreement_line(models.Model):
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.meter_id = self.equipment_id.meter_ids[0]
- 
+            self.equipment_history_id = self.equipment_id.equipment_history_id
+
  
     @api.onchange('meter_id')
     def onchange_meter_id(self):
@@ -176,14 +187,14 @@ class service_agreement_line(models.Model):
             else:
                 equipment = self.equipment_id
 
-          
+            install_date = self.equipment_history_id.from_date
             if meter:
                 # se selecteaza citirile care nu sunt facturate
                 # se selecteaza citirile care sunt anterioare sfarsitului de perioada, e pozibil ca sa mai fie citiri in perioada anterioara nefacturate   
                 
                 readings =  meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and  
                                                                         r.date <= consumption.period_id.date_stop and
-                                                                        r.date > equipment.install_date     )  # sa fie dupa data de instalare
+                                                                       r.date >= install_date)  # sa fie dupa data de instalare
                 # se selecteaza citirile pentru intervalul in care echipamentul era instalat la client
                 
                 if readings:
@@ -191,13 +202,15 @@ class service_agreement_line(models.Model):
                     start_date = min( readings[-1].date, consumption.period_id.date_start)
                 else:
                     end_date =  consumption.period_id.date_start 
-                    start_date =  consumption.period_id.date_stop                         
-                
+                    start_date =  consumption.period_id.date_stop
+
+                print start_date, end_date, readings
+                # de ce mai determin citirile cand : pentru a scoate citirile care au facuta cand echipamentul era dezinstalat sau backup
                 domain = [('id','in',readings.ids ),('equipment_history_id.address_id','child_of',self.agreement_id.partner_id.id)]
                 
                 readings = self.env['service.meter.reading'].search(domain)
                 quantity = 0
-               
+                print start_date, end_date, readings
                 for reading in readings:   
                     from_uom = reading.meter_id.uom_id
                     to_uom =  consumption.agreement_line_id.uom_id
