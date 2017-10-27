@@ -9,6 +9,7 @@
 					<group>
 						<field name="product_tmpl_id" />
 						<field name="product_id" />
+						<field name="without_half_product"/>
 					</group>
 					<group>
 						<field name="file_bc" filename="filename_bc"  />

@@ -18,8 +18,9 @@ class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
+    #daca specifica ca este boba de un cant atunci trebuie sa specific la ce material (pozitie din lista)se aplica acel cant
 
-
+    """
     @api.one
     @api.constrains('item_categ')
     def _check_item_categ(self):
@@ -27,3 +28,4 @@ class MrpBomLine(models.Model):
             for item in self.bom_id.bom_line_ids:
                 if item.id != self.id and self.item_categ == item.item_categ:
                     raise ValidationError("There can be two positions with the %s category" % item.item_categ)
+    """

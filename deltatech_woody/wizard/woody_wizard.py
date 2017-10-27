@@ -23,6 +23,7 @@ class woody_wizard(models.TransientModel):
 
     file_bc = fields.Binary(string="File BOM")
     filename_bc = fields.Char('File Name BOM', required=True)
+    without_half_product = fields.Boolean(string="Without Half Product")
     file_dc = fields.Binary(string="File Chart of Debiting")
     filename_dc = fields.Char('File Name Chart of Debiting', required=True)
 
@@ -110,6 +111,8 @@ class woody_wizard(models.TransientModel):
 
         half = 1
         i = 10
+
+
         for cod, v in woody_data['pachete'].iteritems():
             for item in v:
 
@@ -134,60 +137,63 @@ class woody_wizard(models.TransientModel):
                 # poate e mai bine ca sa fac codificarea in functie de codul produsului finit la care sa adaug
                 # v_code = raw_code + ' ' + routing_code + v_size
                 # v_code = finish_product_code + '-' + item['code']
-                v_code = finish_product_code + '/' + str(half).zfill(2)
-                half += 1
+                if not self.without_half_product:
+                    v_code = finish_product_code + '/' + str(half).zfill(2)
+                    half += 1
 
-                if with_attr:
-                    att_val = {}
-                    for att in attr_set:
-                        att_val[att] = attribute_value.search([('name', '=', item[att]),
-                                                               ('attribute_id', '=', attribute[att].id)], limit=1)
-                        if not att_val[att]:
-                            att_val[att] = attribute_value.create({'name': item[att],
-                                                                   'attribute_id': attribute[att].id})
-                value = {'name': '%s' % (item['code']),
-                         'type': 'product',
-                         'uom_id': uom_unit.id,
-                         'default_code': v_code,
-                         'sale_ok': False,
-                         'purchase_ok': False,
-                         'attribute_line_ids': [],
-                         'length': item['x'],
-                         'width': item['y'],
-                         'height': item['height'],
-                         'categ_id': self.env.ref('product.product_category_half').id,
-                         'route_ids': [(6, False, [route_manufacture.id])]}
-
-                if with_attr:
-                    for att in attr_set:
-                        value['attribute_line_ids'] += [(0, 0, {'attribute_id': attribute[att].id})]
-
-                product = self.env['product.product'].create(value)
-                if with_attr:
-                    for line in product.attribute_line_ids:
+                    if with_attr:
+                        att_val = {}
                         for att in attr_set:
-                            if line.attribute_id == attribute[att]:
-                                line.write({'value_ids': [(4, att_val[att].id, False)]})
+                            att_val[att] = attribute_value.search([('name', '=', item[att]),
+                                                                   ('attribute_id', '=', attribute[att].id)], limit=1)
+                            if not att_val[att]:
+                                att_val[att] = attribute_value.create({'name': item[att],
+                                                                       'attribute_id': attribute[att].id})
+                    value = {'name': '%s' % (item['code']),
+                             'type': 'product',
+                             'uom_id': uom_unit.id,
+                             'default_code': v_code,
+                             'sale_ok': False,
+                             'purchase_ok': False,
+                             'attribute_line_ids': [],
+                             'length': item['x'],
+                             'width': item['y'],
+                             'height': item['height'],
+                             'categ_id': self.env.ref('product.product_category_half').id,
+                             'route_ids': [(6, False, [route_manufacture.id])]}
 
-                    for att in attr_set:
-                        att_val[att].write({'product_ids': [(4, product.id, False)]})
+                    if with_attr:
+                        for att in attr_set:
+                            value['attribute_line_ids'] += [(0, 0, {'attribute_id': attribute[att].id})]
 
-                self.env['mrp.bom.line'].create({
-                    'sequence': i,
-                    'bom_id': bom.id,
-                    'product_id': product.id,
-                    'product_uom_id': product.uom_id.id,
-                    'product_qty': item['qty']
-                })
+                    product = self.env['product.product'].create(value)
+                    if with_attr:
+                        for line in product.attribute_line_ids:
+                            for att in attr_set:
+                                if line.attribute_id == attribute[att]:
+                                    line.write({'value_ids': [(4, att_val[att].id, False)]})
 
-                i += 10
+                        for att in attr_set:
+                            att_val[att].write({'product_ids': [(4, product.id, False)]})
 
-                sub_bom = self.env['mrp.bom'].create({
-                    'type': 'normal',
-                    'product_tmpl_id': product.product_tmpl_id.id,
-                    'product_id': product.id,
-                    'routing_id': routing_id.id
-                })
+                    self.env['mrp.bom.line'].create({
+                        'sequence': i,
+                        'bom_id': bom.id,
+                        'product_id': product.id,
+                        'product_uom_id': product.uom_id.id,
+                        'product_qty': item['qty']
+                    })
+
+                    i += 10
+
+                    sub_bom = self.env['mrp.bom'].create({
+                        'type': 'normal',
+                        'product_tmpl_id': product.product_tmpl_id.id,
+                        'product_id': product.id,
+                        'routing_id': routing_id.id
+                    })
+                else:
+                    sub_bom = bom
 
                 v_row_cant = float(item['x']) * float(item['y']) / (1000.0 * 1000.0)
 
@@ -247,18 +253,7 @@ class woody_wizard(models.TransientModel):
                             })
                         cant_poz += 1
 
-        """
-        for prod in woody_data['products']['Placi']:
-            if prod['product_id'].categ_id == category_blat:
-                self.env['mrp.bom.line'].create({
-                    'sequence': i,
-                    'bom_id': bom.id,
-                    'product_id': prod['product_id'].id,
-                    'product_uom_id': prod['uom_id'].id,
-                    'product_qty': prod['qty']
-                })
-                i += 10
-        """
+
         # adaugare produse auxiliare
         for prod in woody_data['products']['Aux']:
             # prod = self.get_product(prod, self.env.ref('product.product_category_aux'))

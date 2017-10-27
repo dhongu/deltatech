@@ -96,10 +96,6 @@ class MrpOptimikExport(models.TransientModel):
 
     @api.multi
     def do_export(self):
-        strip_top = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
-        strip_left = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
-        strip_right = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
-        strip_bottom = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
 
         if self.no_labels:
             lines = self.env['mrp.optimik.select.line'].read_group(
