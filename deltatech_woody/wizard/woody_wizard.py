@@ -281,7 +281,7 @@ class woody_wizard(models.TransientModel):
                                                       ('category_id', '=', uom_categ_length.id)], limit=1)
             dim = float(item['uom'].replace(" mm", ''))
             if not bom_uom:
-                factor = 1000 / dim
+                factor = 1000.0 / dim
                 bom_uom = self.env['product.uom'].create({'name': item['uom'],
                                                           'category_id': uom_categ_length.id,
                                                           'uom_type': 'smaller',

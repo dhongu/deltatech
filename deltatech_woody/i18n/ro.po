@@ -65,6 +65,12 @@ msgstr "File BOM"
 msgid "File Chart of Debiting"
 msgstr "Fișier diagramă de căntuire"
 
+
+#. module: deltatech_woody
+#: model:ir.model.fields,field_description:deltatech_woody.field_woody_wizard_without_half_product
+msgid "Without Half Product"
+msgstr "Fără semifabricate"
+
 #. module: deltatech_woody
 #: model:ir.model.fields,field_description:deltatech_woody.field_woody_wizard_filename_bc
 msgid "File Name BOM"

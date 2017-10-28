@@ -30,11 +30,11 @@
 
 
 
-		<act_window id="action_woody_import" name="Importa din Woody"
+		<act_window id="action_woody_import_template" name="Importa din Woody"
 			res_model="woody.wizard" src_model="product.template"
 			view_mode="form" multi="False" target="new" key2="client_action_multi" />
 
-		<act_window id="action_woody_import" name="Importa din Woody"
+		<act_window id="action_woody_import_product" name="Importa din Woody"
 			res_model="woody.wizard" src_model="product.product"
 			view_mode="form" multi="False" target="new" key2="client_action_multi" />
 

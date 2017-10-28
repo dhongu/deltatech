@@ -19,6 +19,7 @@ Functionalitati:
 
     "data": [
         'wizard/woody_wizard_view.xml',
+        'views/product_view.xml',
         'data/data.xml'
     ],
 
