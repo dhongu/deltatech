@@ -187,14 +187,18 @@ class service_agreement_line(models.Model):
             else:
                 equipment = self.equipment_id
 
-            install_date = self.equipment_history_id.from_date
+            de_la_data = self.equipment_history_id.from_date
+            readings = meter.meter_reading_ids.filtered(lambda r: r.consumption_id)
+            if readings:
+                de_la_data = max([readings[0].date, de_la_data])
+
             if meter:
                 # se selecteaza citirile care nu sunt facturate
                 # se selecteaza citirile care sunt anterioare sfarsitului de perioada, e pozibil ca sa mai fie citiri in perioada anterioara nefacturate   
                 
                 readings =  meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and  
                                                                         r.date <= consumption.period_id.date_stop and
-                                                                       r.date >= install_date)  # sa fie dupa data de instalare
+                                                                       r.date >= de_la_data)  # sa fie dupa data de instalare si dupa ultima citire facturata
                 # se selecteaza citirile pentru intervalul in care echipamentul era instalat la client
                 
                 if readings:
