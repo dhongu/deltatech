@@ -9,7 +9,12 @@ import base64
 
 class MrpOptimikExport(models.TransientModel):
     _name = 'mrp.optimik.export'
-    _description = "MRP Optimik"
+    _description = "MRP Optimik Export"
+
+
+    name = fields.Char()
+    date = fields.Date()
+    description = fields.Char()
 
     state = fields.Selection([('choose', 'choose'),  # choose product
                               ('prepare', 'Prepare'),
@@ -21,7 +26,7 @@ class MrpOptimikExport(models.TransientModel):
     line_ids = fields.One2many("mrp.optimik.select.line", 'optimik_id', string='Select lines')
     line_export_ids = fields.One2many("mrp.optimik.export.line", 'optimik_id', string='Export lines')
 
-    name = fields.Char(string='File Name', default="Oprimik.csv")
+    file_name = fields.Char(string='File Name', default="Oprimik.txt")
     data_file = fields.Binary(string='File', readonly=True)
 
     @api.model
@@ -30,6 +35,7 @@ class MrpOptimikExport(models.TransientModel):
         active_ids = self.env.context.get('active_ids', [])
         model = self.env.context.get('active_model', False)
 
+        uom_categ_surface = self.env.ref('product.uom_categ_surface')
         line_ids = []
         product_list = {}
         products = self.env['product.product']
@@ -49,46 +55,49 @@ class MrpOptimikExport(models.TransientModel):
             sale_orders = self.env['sale.order'].browse(active_ids)
             for sale_order in sale_orders:
                 for line in sale_order.order_line:
-                    products |= line.product_id
-                    if line.product_id.id not in product_list:
-                        product_list[line.product_id.id] = {'product_id': line.product_id.id,
-                                                            'quantity': line.product_uom_qty}
-                    else:
-                        product_list[line.product_id.id]['quantity'] += line.product_uom_qty
+
+                        products |= line.product_id
+                        if line.product_id.id not in product_list:
+                            product_list[line.product_id.id] = {'product_id': line.product_id.id,
+                                                                'quantity': line.product_uom_qty}
+                        else:
+                            product_list[line.product_id.id]['quantity'] += line.product_uom_qty
 
         if model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:
                 for move in production.move_raw_ids:
-                    products |= move.product_id
-                    if move.product_id.id not in product_list:
-                        product_list[move.product_id.id] = {'product_id': move.product_id.id,
-                                                            'quantity': move.product_uom_qty}
-                    else:
-                        product_list[move.product_id.id]['quantity'] += move.product_uom_qty
+
+                        products |= move.product_id
+                        if move.product_id.id not in product_list:
+                            product_list[move.product_id.id] = {'product_id': move.product_id.id,
+                                                                'quantity': move.product_uom_qty}
+                        else:
+                            product_list[move.product_id.id]['quantity'] += move.product_uom_qty
 
         for product in products:
-            values = product_list[product.id]
-            values['length'] = product.length
-            values['width'] = product.width
-            bom = self.env['mrp.bom']._bom_find(product=product)
-            if bom:
-                for line in bom.bom_line_ids:
-                    if line.item_categ in ['cut', 'cut_fiber']:
-                        values['is_ok'] = True  # Am gasit ceva de taiat!
-                        values['raw_product'] = line.product_id.id
-                        if line.item_categ == 'cut_fiber':
-                            values['fiber'] = True
-                    if line.item_categ == 'top':
-                        values['strip_top'] = line.product_id.id
-                    if line.item_categ == 'left':
-                        values['strip_left'] = line.product_id.id
-                    if line.item_categ == 'right':
-                        values['strip_right'] = line.product_id.id
-                    if line.item_categ == 'bottom':
-                        values['strip_bottom'] = line.product_id.id
 
-            line_ids.append([0, 0, values])
+                values = product_list[product.id]
+                values['length'] = product.length
+                values['width'] = product.width
+                bom = self.env['mrp.bom']._bom_find(product=product)
+                if bom:
+                    for line in bom.bom_line_ids:
+                        if line.item_categ in ['cut', 'cut_fiber']:
+                            values['is_ok'] = True  # Am gasit ceva de taiat!
+                            values['raw_product'] = line.product_id.id
+                            if line.item_categ == 'cut_fiber':
+                                values['fiber'] = True
+                        if line.item_categ == 'top':
+                            values['strip_top'] = line.product_id.id
+                        if line.item_categ == 'left':
+                            values['strip_left'] = line.product_id.id
+                        if line.item_categ == 'right':
+                            values['strip_right'] = line.product_id.id
+                        if line.item_categ == 'bottom':
+                            values['strip_bottom'] = line.product_id.id
+
+                line_ids.append([0, 0, values])
 
         res['line_ids'] = line_ids
 
@@ -144,12 +153,39 @@ class MrpOptimikExport(models.TransientModel):
         writer = csv.writer(fp, quoting=csv.QUOTE_NONE, delimiter=self.separator.encode('ascii', 'ignore'))
 
         # D | cod material | nr buc | lungime | latime. | Fibra | nume piesa | Client | cant fata | Cant stanga | cant spate | cant dreapta
+        """
+        Boards:
+        Code = D | Mark of material | Quantity | Length | Width | = (Do not rotate – maintain the orientation) X (Any
+        orientation) | Description | Set | Strip material mark
+        
+        Material:
+        Code = M | Mark | Description | Minimum cut-off | Kerf | = (Oriented blister grain)
+        X (Without the blister grain) | Minimum cut-off dimensions | Minimum length of large format sizes | Price
+        Format:
+        Code = F | Length | Width | + (to be used in the design) | | Mark
+        Receipt/issue:
+        Code = P | Date | Description | - (Issue) + (Receipt) | Quantity
+        
+        
+        Job:
+        Code = Z | Mark | Description | Date 
+        
+        Alte piese:
+        Code = I | Mark | Description | Quantity | Set 
+        
+        Scrap:
+        Code = X | Quantity
+        
+        Bucati care ramin 
+        Code = O | Mark | Length | Width | Quantity
+        
 
+        """
 
         fields = ['D', 'cod material', 'nr buc', 'lungime', 'latime', 'Fibra',
                   'nume piesa', 'client', 'cant fata', 'cant stanga', 'cant spate', 'cant dreapta']
 
-        writer.writerow([name.encode('utf-8') for name in fields])
+        # writer.writerow([name.encode('utf-8') for name in fields])
 
         for line in self.line_export_ids:
             row = []
@@ -244,7 +280,7 @@ class MrpOptimikSelectLine(models.TransientModel):
 class MrpOptimikExportLine(models.TransientModel):
     _name = "mrp.optimik.export.line"
 
-    optimik_id = fields.Many2one('mrp.optimik.export', string="Product Label")
+    optimik_id = fields.Many2one('mrp.optimik.export', string="Optimik")
     raw_product = fields.Many2one('product.product')
 
     quantity = fields.Integer(string="Qty", default=1)

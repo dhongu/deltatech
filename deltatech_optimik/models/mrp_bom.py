@@ -18,7 +18,8 @@ class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
 
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
-    #daca specifica ca este boba de un cant atunci trebuie sa specific la ce material (pozitie din lista)se aplica acel cant
+    #daca specifica ca este linie de un cant atunci trebuie sa specific la ce material (pozitie din lista) se aplica acel cant
+    # sa se tine cont de ordonarea pozitiilor din lista ?
 
     """
     @api.one

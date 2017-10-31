@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="view_mrp_optimik_import_form" model="ir.ui.view">
+            <field name="name">mrp.optimik.import.form</field>
+            <field name="model">mrp.optimik.import</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="state" invisible="1"/>
+                    <group states="choose">
+
+                        <field name="separator"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="data_file" filename="file_name"/>
+                    </group>
+
+                    <field name="line_import_ids" states="prepare">
+                        <tree editable="bottom">
+                            <field name="product_id"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                        </tree>
+                    </field>
+
+                    <footer states="choose">
+                        <button name="do_import" string="_Import" type="object" class="oe_highlight"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+
+                    <footer states="prepare">
+                        <button name="do_transfer" string="Transfer" type="object" class="oe_highlight"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mrp_optimik_import_product" name="Import Optimik"
+                    res_model="mrp.optimik.import" src_model="product.product"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <act_window id="action_mrp_optimik_import_template" name="Import Optimik"
+                    res_model="mrp.optimik.import" src_model="product.template"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <act_window id="action_mrp_optimik_import_production" name="Import Optimik"
+                    res_model="mrp.optimik.import" src_model="mrp.production"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+    </data>
+</odoo>
