@@ -9,15 +9,19 @@
                 <form>
                     <field name="state" invisible="1"/>
                     <group states="choose">
-
                         <field name="separator"/>
                         <field name="file_name" invisible="1"/>
                         <field name="data_file" filename="file_name"/>
                     </group>
 
+                    <group states="prepare">
+                        <field name="product_id"/>
+                    </group>
+
                     <field name="line_import_ids" states="prepare">
                         <tree editable="bottom">
-                            <field name="product_id"/>
+                            <field name="length"/>
+                            <field name="width"/>
                             <field name="quantity"/>
                             <field name="uom_id"/>
                         </tree>
@@ -39,16 +43,13 @@
             </field>
         </record>
 
-        <act_window id="action_mrp_optimik_import_product" name="Import Optimik"
-                    res_model="mrp.optimik.import" src_model="product.product"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
-
-        <act_window id="action_mrp_optimik_import_template" name="Import Optimik"
-                    res_model="mrp.optimik.import" src_model="product.template"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
 
         <act_window id="action_mrp_optimik_import_production" name="Import Optimik"
                     res_model="mrp.optimik.import" src_model="mrp.production"
                     view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <menuitem name="Import Optimik" id="menu_mrp_optimik_import"
+                  action="action_mrp_optimik_import_production" parent="mrp.menu_mrp_manufacturing" sequence="101"/>
+
     </data>
 </odoo>

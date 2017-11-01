@@ -40,7 +40,7 @@ class MrpOptimikImport(models.TransientModel):
     separator = fields.Char(default='|', size=1)
     file_name = fields.Char(string='File Name', default="Oprimik.txt")
     data_file = fields.Binary(string='File', readonly=False)
-
+    product_id = fields.Many2one('product.product', readonly=False)
     state = fields.Selection([('choose', 'choose'),  # choose file
                               ('prepare', 'Prepare')], default='choose')
 
@@ -82,7 +82,7 @@ class MrpOptimikImport(models.TransientModel):
                 Width = float(row[3].replace(',', '.'))
                 Quantity = float(row[4].replace(',', '.'))
 
-                self.add_line(product, Length, Width, -1 * Quantity)
+                self.add_line(Length, Width, -1 * Quantity)
 
             if row[0] == 'D':
                 """
@@ -93,7 +93,7 @@ class MrpOptimikImport(models.TransientModel):
                 Width = float(row[2].replace(',', '.'))
                 Quantity = float(row[5].replace(',', '.'))
 
-                self.add_line(product, Length, Width, Quantity)
+                self.add_line(Length, Width, Quantity)
 
             if row[0] == 'O':
                 """
@@ -104,7 +104,7 @@ class MrpOptimikImport(models.TransientModel):
                 Width = float(row[3].replace(',', '.'))
                 Quantity = float(row[4].replace(',', '.'))
 
-                self.add_line(product, Length, Width, Quantity)
+                self.add_line(Length, Width, Quantity)
 
             if row[0] == 'X':
                 """
@@ -114,7 +114,7 @@ class MrpOptimikImport(models.TransientModel):
         # de generat doua documente de miscare de stoc 1 de consum si un doc de receptie
 
 
-        self.write({'state': 'prepare'})
+        self.write({'state': 'prepare', 'product_id': product.id})
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'mrp.optimik.import',
@@ -125,11 +125,13 @@ class MrpOptimikImport(models.TransientModel):
             'target': 'new',
         }
 
-    def add_line(self, product, Length, Width, Quantity):
-
+    def add_line(self, length, width, quantity):
         uom_square_meter = self.env.ref('product.product_uom_square_meter')
-        dimension = "%s x %s" % (Length, Width)
-        factor = float(Length) * float(Width) / (1000.0 * 1000.0)
+
+        dimension = "%s x %s" % (length.is_integer() and int(length) or length,
+                                 width.is_integer() and int(width) or width)
+
+        factor = float(length) * float(width) / (1000.0 * 1000.0)
         uom = self.env['product.uom'].search([('name', '=', dimension),
                                               ('category_id', '=', uom_square_meter.category_id.id)], limit=1)
 
@@ -140,8 +142,9 @@ class MrpOptimikImport(models.TransientModel):
 
         self.env["mrp.optimik.import.line"].create({
             'optimik_id': self.id,
-            'product_id': product.id,
-            'quantity': Quantity,
+            'length': length,
+            'width': width,
+            'quantity': quantity,
             'uom_id': uom.id
         })
 
@@ -149,6 +152,7 @@ class MrpOptimikImport(models.TransientModel):
     def do_transfer(self):
         warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
 
+        #todo: de facut sa depinda de companie
         picking_type_consume = self.env.ref('stock.picking_type_consume')
         picking_type_receipt_production = self.env.ref('stock.picking_type_receipt_production')
 
@@ -161,20 +165,50 @@ class MrpOptimikImport(models.TransientModel):
             {'picking_type_id': picking_type_consume.id})
 
         for line in self.line_import_ids:
-
             if line.quantity > 0:
                 picking = picking_in
                 quantity = line.quantity
+
             else:
                 picking = picking_out
                 quantity = -1 * line.quantity
 
+            self.add_picking_line(picking=picking, product=self.product_id, quantity=quantity, uom=line.uom_id)
+
+
+
+        return {
+            'domain': [('id', 'in', [picking_in.id, picking_out.id])],
+            'name': _('Placi incarcate din Optimik'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'stock.picking',
+            'view_id': False,
+            'context': {},
+            'type': 'ir.actions.act_window'
+        }
+
+
+    def add_picking_line(self, picking, product, quantity, uom):
+        move = self.env['stock.move'].search([('picking_id', '=', picking.id),
+                                              ('product_id', '=', product.id),
+                                              ('product_uom', '=', uom.id)])
+        if move:
+            qty = move.product_uom_qty + quantity
+            move.write({'product_uom_qty': qty})
+            link = self.env['stock.move.operation.link'].search([('move_id', '=', move.id)])
+            link.operation_id.write({
+                'product_qty': qty,
+                'ordered_qty': qty,
+                'qty_done': qty,
+            })
+        else:
             values = {
                 'state': 'assigned',
-                'product_id': line.product_id.id,
-                'product_uom': line.uom_id.id,
+                'product_id': product.id,
+                'product_uom': uom.id,
                 'product_uom_qty': quantity,
-                'name': line.product_id.name,
+                'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
                 'location_dest_id': picking.picking_type_id.default_location_dest_id.id
@@ -185,8 +219,8 @@ class MrpOptimikImport(models.TransientModel):
             values = {
                 'state': 'assigned',
                 'picking_id': picking.id,
-                'product_id': line.product_id.id,
-                'product_uom_id': line.uom_id.id,
+                'product_id': product.id,
+                'product_uom_id': uom.id,
                 'product_qty': quantity,
                 'ordered_qty': quantity,
                 'qty_done': quantity,
@@ -202,23 +236,11 @@ class MrpOptimikImport(models.TransientModel):
                 'move_id': move.id
             })
 
-        return {
-            'domain': [('id', 'in', [picking_in.id, picking_out.id])],
-            'name': _('Pickings'),
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'res_model': 'stock.picking',
-            'view_id': False,
-            'context': {},
-            'type': 'ir.actions.act_window'
-        }
-
-
 class MrpOptimikImportLine(models.TransientModel):
     _name = "mrp.optimik.import.line"
 
     optimik_id = fields.Many2one('mrp.optimik.import', string="Optimik")
-    product_id = fields.Many2one('product.product')
-
     quantity = fields.Float(string="Qty")
     uom_id = fields.Many2one('product.uom', 'Unit of Measure')
+    length = fields.Float()
+    width = fields.Float()
