@@ -131,6 +131,10 @@ class service_agreement(models.Model):
     def _needaction_domain_get(self):
         return [('invoicing_status', '!=', 'done')]
 
+    @api.model
+    def compute_invoicing_status(self):
+        self._compute_invoicing_status()
+
     @api.multi
     def _compute_invoicing_status(self):
         agreements = self

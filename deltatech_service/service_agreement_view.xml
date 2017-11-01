@@ -253,7 +253,7 @@
             <field name="interval_number">1</field>
             <field name="numbercall">-1</field>
             <field name="model">service.agreement</field>
-            <field name="function">_compute_invoicing_status</field>
+            <field name="function">compute_invoicing_status</field>
             <field name="args" eval="'()'"/>
         </record>
 

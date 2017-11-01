@@ -180,8 +180,17 @@ class service_equipment(models.Model):
             if sequence:
                 vals['name'] = self.env['ir.sequence'].next_by_id(sequence.id)
                 # if not vals.get('equipment_history_id',False):
+
+        equipment = super(service_equipment, self).create(vals)
+
+        values = {
+            'equipment_id': equipment.id,
+            'from_date': '2000-01-01',
+        }
+        new_hist = self.env['service.equipment.history'].create(values)
+        equipment.write({'equipment_history_id': new_hist.id})
         # vals['equipment_history_ids'] = [(0,0,{'from_date':  '2000-01-01'})]
-        return super(service_equipment, self).create(vals)
+        return equipment
 
     @api.multi
     def write(self, vals):
