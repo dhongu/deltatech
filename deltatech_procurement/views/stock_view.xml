@@ -3,7 +3,7 @@
 
 
     <data noupdate="1">
-        <record id="seq_picking_consume" model="ir.sequence">
+        <record id="stock.seq_picking_consume" model="ir.sequence">
             <field name="name">Sequence Consume</field>
             <field name="code">stock.picking</field>
             <field name="prefix">CONS/</field>
@@ -24,7 +24,7 @@
         <record id="stock.picking_type_consume" model="stock.picking.type">
             <field name="name">Consume</field>
             <field name="code">internal</field>
-            <field name="sequence_id" ref="seq_picking_consume"/>
+            <field name="sequence_id" ref="stock.seq_picking_consume"/>
             <field name="default_location_src_id" ref="stock.stock_location_stock"/>
             <field name="default_location_dest_id" ref="stock.location_production"/>
         </record>

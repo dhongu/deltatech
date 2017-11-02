@@ -21,10 +21,10 @@ class woody_wizard(models.TransientModel):
     _name = 'woody.wizard'
     _description = "Woody Wizard"
 
-    file_bc = fields.Binary(string="File BOM")
+    file_bc = fields.Binary(string="File BOM",readonly=False)
     filename_bc = fields.Char('File Name BOM', required=True)
     without_half_product = fields.Boolean(string="Without Half Product")
-    file_dc = fields.Binary(string="File Chart of Debiting")
+    file_dc = fields.Binary(string="File Chart of Debiting",readonly=False)
     filename_dc = fields.Char('File Name Chart of Debiting', required=True)
 
     product_tmpl_id = fields.Many2one('product.template', 'Product',

@@ -66,14 +66,22 @@ class MrpOptimikExport(models.TransientModel):
         if model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:
+                """
+                for move in production.move_finished_ids:
+                    products |= move.product_id
+                    if move.product_id.id not in product_list:
+                        product_list[move.product_id.id] = {'product_id': move.product_id.id,
+                                                            'quantity': move.product_uom_qty}
+                    else:
+                        product_list[move.product_id.id]['quantity'] += move.product_uom_qty
+                """
                 for move in production.move_raw_ids:
-
-                        products |= move.product_id
-                        if move.product_id.id not in product_list:
-                            product_list[move.product_id.id] = {'product_id': move.product_id.id,
-                                                                'quantity': move.product_uom_qty}
-                        else:
-                            product_list[move.product_id.id]['quantity'] += move.product_uom_qty
+                    products |= move.product_id
+                    if move.product_id.id not in product_list:
+                        product_list[move.product_id.id] = {'product_id': move.product_id.id,
+                                                            'quantity': move.product_uom_qty}
+                    else:
+                        product_list[move.product_id.id]['quantity'] += move.product_uom_qty
 
         for product in products:
 
@@ -153,34 +161,7 @@ class MrpOptimikExport(models.TransientModel):
         writer = csv.writer(fp, quoting=csv.QUOTE_NONE, delimiter=self.separator.encode('ascii', 'ignore'))
 
         # D | cod material | nr buc | lungime | latime. | Fibra | nume piesa | Client | cant fata | Cant stanga | cant spate | cant dreapta
-        """
-        Boards:
-        Code = D | Mark of material | Quantity | Length | Width | = (Do not rotate – maintain the orientation) X (Any
-        orientation) | Description | Set | Strip material mark
-        
-        Material:
-        Code = M | Mark | Description | Minimum cut-off | Kerf | = (Oriented blister grain)
-        X (Without the blister grain) | Minimum cut-off dimensions | Minimum length of large format sizes | Price
-        Format:
-        Code = F | Length | Width | + (to be used in the design) | | Mark
-        Receipt/issue:
-        Code = P | Date | Description | - (Issue) + (Receipt) | Quantity
-        
-        
-        Job:
-        Code = Z | Mark | Description | Date 
-        
-        Alte piese:
-        Code = I | Mark | Description | Quantity | Set 
-        
-        Scrap:
-        Code = X | Quantity
-        
-        Bucati care ramin 
-        Code = O | Mark | Length | Width | Quantity
-        
 
-        """
 
         fields = ['D', 'cod material', 'nr buc', 'lungime', 'latime', 'Fibra',
                   'nume piesa', 'client', 'cant fata', 'cant stanga', 'cant spate', 'cant dreapta']

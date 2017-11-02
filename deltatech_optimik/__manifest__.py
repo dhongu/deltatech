@@ -29,6 +29,33 @@
     
 Functionalitati:
 ----------------
+Formate:
+
+        Boards:
+        Code = D | Mark of material | Quantity | Length | Width | = (Do not rotate – maintain the orientation) X (Any
+        orientation) | Description | Set | Strip material mark
+        
+        Material:
+        Code = M | Mark | Description | Minimum cut-off | Kerf | = (Oriented blister grain)
+        X (Without the blister grain) | Minimum cut-off dimensions | Minimum length of large format sizes | Price
+        Format:
+        Code = F | Length | Width | + (to be used in the design) | | Mark
+        Receipt/issue:
+        Code = P | Date | Description | - (Issue) + (Receipt) | Quantity
+        
+        
+        Job:
+        Code = Z | Mark | Description | Date 
+        
+        Alte piese:
+        Code = I | Mark | Description | Quantity | Set 
+        
+        Scrap:
+        Code = X | Quantity
+        
+        Bucati care ramin 
+        Code = O | Mark | Length | Width | Quantity
+        
 
     """,
 
