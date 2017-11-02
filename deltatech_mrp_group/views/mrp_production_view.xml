@@ -37,6 +37,18 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="mrp_production_workcenter_tree_view_inherit">
+            <field name="name">mrp.production.work.order.tree</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='production_id']" position="before">
+                    <field name="procurement_group_id"/>
+                </xpath>
+
+            </field>
+
+        </record>
 
 
     </data>

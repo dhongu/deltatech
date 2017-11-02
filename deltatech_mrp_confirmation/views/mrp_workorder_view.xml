@@ -49,7 +49,11 @@
                 <xpath expr="//field[@name='name']" position="before">
                     <field name="code"/>
                 </xpath>
+                <xpath expr="//field[@name='qty_production']" position="before">
+                    <field name="qty_produced"/>
+                </xpath>
             </field>
+
         </record>
 
         <record id="workcenter_line_kanban" model="ir.ui.view">
