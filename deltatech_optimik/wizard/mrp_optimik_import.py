@@ -37,17 +37,20 @@ class MrpOptimikImport(models.TransientModel):
     _name = 'mrp.optimik.import'
     _description = "MRP Optimik Import"
 
-    separator = fields.Char(default='|', size=1)
-    file_name = fields.Char(string='File Name', default="Oprimik.txt")
+    separator = fields.Char(default=';', size=1)
+    file_name = fields.Char(string='File Name')
     data_file = fields.Binary(string='File', readonly=False)
     product_id = fields.Many2one('product.product', readonly=False)
     state = fields.Selection([('choose', 'choose'),  # choose file
                               ('prepare', 'Prepare')], default='choose')
 
+#2,1.17
+#2.36
+
     line_import_ids = fields.One2many("mrp.optimik.import.line", 'optimik_id', string='Export lines')
 
     @api.multi
-    def do_import(self):
+    def do_import217(self):
         optimik_file = base64.decodestring(self.data_file)
         fp = StringIO.StringIO(optimik_file)
 
@@ -124,6 +127,85 @@ class MrpOptimikImport(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
+
+    @api.multi
+    def do_import(self):
+        optimik_file = base64.decodestring(self.data_file)
+        fp = StringIO.StringIO(optimik_file)
+
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
+
+        reader = csv.reader(fp, quoting=csv.QUOTE_NONE, delimiter=self.separator.encode('ascii', 'ignore'))
+        for row in reader:
+
+            if not row:
+                continue
+
+            if row[0] == 'M':
+                """
+                Material:
+                Code = M | Mark | Description  
+                
+                """
+
+            if row[0] == 'A':
+                """
+                Format: Code = A ; Cod ; Length ; Width ; Quantity
+                A;27628;1665.5;1515.1;1
+                """
+                product = self.env['product.product'].search([('default_code', '=', row[1])], limit=1)
+                if not product:
+                    raise Warning(_('Nu exista produsul %s') % row[1])
+
+                Length = float(row[2].replace(',', '.'))
+                Width = float(row[3].replace(',', '.'))
+                Quantity = float(row[4].replace(',', '.'))
+
+                self.add_line(Length, Width, -1 * Quantity)
+
+            if row[0] == 'B':
+                """
+                Code = B ; Length ; Width ; ; ; Quantity  
+                B;1099;528.5;Ciulcu - dormit;e30`CAp;1
+                """
+
+                Length = float(row[1].replace(',', '.'))
+                Width = float(row[2].replace(',', '.'))
+                Quantity = float(row[5].replace(',', '.'))
+
+                self.add_line(Length, Width, Quantity)
+
+            if row[0] == 'C':
+                """
+                Code = C ; Mark ; Length ; Width ; Quantity   
+                C;27628;2093;333.8;1
+                """
+                Length = float(row[2].replace(',', '.'))
+                Width = float(row[3].replace(',', '.'))
+                Quantity = float(row[4].replace(',', '.'))
+
+                self.add_line(Length, Width, Quantity)
+
+            if row[0] == 'D':
+                """
+                Scrap
+                """
+
+        # de generat doua documente de miscare de stoc 1 de consum si un doc de receptie
+
+
+        self.write({'state': 'prepare', 'product_id': product.id})
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'mrp.optimik.import',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
+
+
 
     def add_line(self, length, width, quantity):
         uom_square_meter = self.env.ref('product.product_uom_square_meter')
