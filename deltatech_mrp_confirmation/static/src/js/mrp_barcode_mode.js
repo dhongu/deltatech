@@ -115,7 +115,10 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
     },
 
 
-    on_barcode_scanned: function(barcode, display=true ) {
+    on_barcode_scanned: function(barcode, display ) {
+        if (display === undefined) {
+            display = true;
+        }
         var self = this;
         if (this.return_to_main_menu) {  // in case of multiple scans in the greeting message view, delete the timer, a new one will be created.
             clearTimeout(this.return_to_main_menu);
