@@ -39,6 +39,44 @@ class MrpOptimikExport(models.TransientModel):
         line_ids = []
         product_list = {}
         products = self.env['product.product']
+
+        raw_product = False
+        lines = self.env["mrp.optimik.select.line"]
+        if model == 'mrp.production':
+            productions = self.env['mrp.production'].browse(active_ids)
+            for production in productions:
+                moves = production.move_raw_ids.sorted(key=lambda r: r.bom_line_id.sequence)
+                for move in moves:
+                    print move.bom_line_id.sequence
+                    if move.bom_line_id.item_categ in ['cut', 'cut_fiber']:
+                        raw_product = move.product_id
+                        if ' x ' in  move.product_uom.name:
+                            length, width = move.product_uom.name.split('x')
+                            line = self.env["mrp.optimik.select.line"].create({
+                                'product_id': production.product_id.id,
+                                'raw_product':raw_product.id,
+                                'quantity': move.product_uom_qty,
+                                'uom_id': move.product_uom.id,
+                                'length': length,
+                                'width': width,
+                                'fiber': (move.bom_line_id.item_categ == 'cut_fiber')
+                            })
+                            lines |= line
+                    # sper ca liniile sa fie in ordinea din BOM !!!!???
+                    if line:
+                        if move.bom_line_id.item_categ == 'top':
+                            line.write({'strip_top': move.product_id.id})
+                        if move.bom_line_id.item_categ == 'left':
+                            line.write({'strip_left': move.product_id.id})
+                        if move.bom_line_id.item_categ == 'right':
+                            line.write({'strip_right': move.product_id.id})
+                        if move.bom_line_id.item_categ == 'bottom':
+                            line.write({'strip_bottom': move.product_id.id})
+
+        if lines:
+            line_ids.append([6, 0, lines.ids])
+
+        """
         if model == 'product.template':
             product_tmpl = self.env['product.template'].browse(active_ids)
             for tmpl in product_tmpl:
@@ -62,19 +100,10 @@ class MrpOptimikExport(models.TransientModel):
                                                                 'quantity': line.product_uom_qty}
                         else:
                             product_list[line.product_id.id]['quantity'] += line.product_uom_qty
-
+         
         if model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:
-                """
-                for move in production.move_finished_ids:
-                    products |= move.product_id
-                    if move.product_id.id not in product_list:
-                        product_list[move.product_id.id] = {'product_id': move.product_id.id,
-                                                            'quantity': move.product_uom_qty}
-                    else:
-                        product_list[move.product_id.id]['quantity'] += move.product_uom_qty
-                """
                 for move in production.move_raw_ids:
                     products |= move.product_id
                     if move.product_id.id not in product_list:
@@ -82,7 +111,7 @@ class MrpOptimikExport(models.TransientModel):
                                                             'quantity': move.product_uom_qty}
                     else:
                         product_list[move.product_id.id]['quantity'] += move.product_uom_qty
-
+        
         for product in products:
 
                 values = product_list[product.id]
@@ -106,22 +135,31 @@ class MrpOptimikExport(models.TransientModel):
                             values['strip_bottom'] = line.product_id.id
 
                 line_ids.append([0, 0, values])
-
+        """
         res['line_ids'] = line_ids
 
         return res
+
+
+
+
+
 
     @api.multi
     def do_export(self):
 
         if self.no_labels:
             lines = self.env['mrp.optimik.select.line'].read_group(
-                domain=[('optimik_id', '=', self.id), ('is_ok', '=', True)],
+                domain=[('optimik_id', '=', self.id),
+                        #('is_ok', '=', True)
+                        ],
                 fields=['raw_product', 'fiber', 'length', 'width', 'quantity'],
                 groupby=['raw_product', 'fiber', 'length', 'width'], lazy=False)
         else:
             lines = self.env['mrp.optimik.select.line'].read_group(
-                domain=[('optimik_id', '=', self.id), ('is_ok', '=', True)],
+                domain=[('optimik_id', '=', self.id),
+                        #('is_ok', '=', True)
+                         ],
                 fields=['raw_product', 'fiber', 'length', 'width', 'quantity',
                         'strip_top', 'strip_left', 'strip_right', 'strip_bottom'],
                 groupby=['raw_product', 'fiber', 'length', 'width',
@@ -220,7 +258,7 @@ class MrpOptimikSelectLine(models.TransientModel):
     optimik_id = fields.Many2one('mrp.optimik.export', string="Product Label")
     product_id = fields.Many2one("product.product", string="Product")
     quantity = fields.Integer(string="Qty", default=1, group_operator='sum')
-    is_ok = fields.Boolean()
+#    is_ok = fields.Boolean()
 
     length = fields.Float()  # related='product_id.length', readonly=True, store=True)
     width = fields.Float()  # related='product_id.width', readonly=True, store=True)
@@ -231,6 +269,10 @@ class MrpOptimikSelectLine(models.TransientModel):
     strip_left = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
     strip_right = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
     strip_bottom = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
+    uom_id = fields.Many2one('product.uom', 'Unit of Measure', domain="[('category_id','=', uom_categ_id)]")
+    uom_categ_id = fields.Many2one('product.uom.categ', related='raw_product.uom_id.category_id')
+
+
 
     @api.onchange('product_id')
     def _compute_is_ok(self):

@@ -60,12 +60,13 @@ Formate:
     """,
 
     "category": "Manufacturing",
-    "depends": ["mrp","product_dimension","stock"],
+    "depends": ["mrp", "product_dimension", "stock"],
 
     "data": [
         "wizard/mrp_optimik_export_view.xml",
         "wizard/mrp_optimik_import_view.xml",
         "views/mrp_bom_view.xml",
+       # "views/product_view.xml",
         "data/data.xml"
     ],
     "active": False,

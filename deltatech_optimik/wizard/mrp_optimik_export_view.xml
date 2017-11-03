@@ -19,10 +19,11 @@
                     <field name="line_ids" states="choose">
                         <tree editable="bottom">
                             <field name="product_id"/>
-                            <field name="quantity"/>
-                            <field name="is_ok"/>
-
                             <field name="raw_product"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="uom_categ_id" invisible="1"/>
+
                             <field name="length"/>
                             <field name="width"/>
                             <field name="fiber"/>
@@ -71,6 +72,7 @@
             </field>
         </record>
 
+        <!--
         <act_window id="action_mrp_optimik_export_product" name="Export Optimik"
                     res_model="mrp.optimik.export" src_model="product.product"
                     view_mode="form" multi="False" target="new" key2="client_action_multi"/>
@@ -78,6 +80,7 @@
         <act_window id="action_mrp_optimik_export_template" name="Export Optimik"
                     res_model="mrp.optimik.export" src_model="product.template"
                     view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+        -->
 
         <act_window id="action_mrp_optimik_export_production" name="Export Optimik"
                     res_model="mrp.optimik.export" src_model="mrp.production"

@@ -114,7 +114,7 @@ class woody_wizard(models.TransientModel):
             self.get_product(prod, category_raw, placi=True)
 
         half = 1
-        i = 10
+        i = 0
         _logger.debug("Produsele din fisier au fost create")
 
         for cod, v in woody_data['pachete'].iteritems():
@@ -217,10 +217,15 @@ class woody_wizard(models.TransientModel):
                         uom = self.env['product.uom'].create({'name': uom_text,
                                                               'category_id': uom_meter.category_id.id,
                                                               'uom_type': 'bigger', 'factor': 1 / v_row_cant})
-                bom_line = {'bom_id': sub_bom.id,
+                i += 10
+                bom_line = {
+                    'sequence': i,
+                    'bom_id': sub_bom.id,
                             'product_id': raw_product.id,
                             'product_uom_id': uom.id,
                             'product_qty': 1}
+                if self.without_half_product:
+                    bom_line['name'] = item['code']
 
                 if item['texture'].lower() == 'da':
                     bom_line['item_categ'] = 'cut_fiber'
@@ -247,21 +252,25 @@ class woody_wizard(models.TransientModel):
 
                             v_cant_qty = v_cant_qty / 1000.0  # transformare cant in metri
                             item_categ = cant_ord[cant_poz]
-
-                            self.env['mrp.bom.line'].create({
+                            i += 10
+                            if self.without_half_product:
+                                bom_line['name'] = item['code']
+                            bom_line = {
+                                'sequence': i,
                                 'bom_id': sub_bom.id,
                                 'item_categ': item_categ,
                                 'product_id': cant_product.id,
                                 'product_uom_id': cant_product.uom_id.id,
                                 'product_qty': v_cant_qty
-                            })
+                            }
+                            self.env['mrp.bom.line'].create(bom_line)
                         cant_poz += 1
 
 
         # adaugare produse auxiliare
         for prod in woody_data['products']['Aux']:
             # prod = self.get_product(prod, self.env.ref('product.product_category_aux'))
-
+            i += 10
             self.env['mrp.bom.line'].create({
                 'sequence': i,
                 'bom_id': bom.id,
@@ -269,7 +278,7 @@ class woody_wizard(models.TransientModel):
                 'product_uom_id': prod['uom_id'].id,
                 'product_qty': prod['qty']
             })
-            i += 10
+
 
     @api.model
     def get_product(self, item, categ_id,  placi=False):
