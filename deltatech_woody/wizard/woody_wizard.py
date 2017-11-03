@@ -6,6 +6,9 @@ import bc
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 
+import logging
+_logger = logging.getLogger(__name__)
+
 try:
     import xlrd
 
@@ -77,6 +80,7 @@ class woody_wizard(models.TransientModel):
 
         woody_data = bc.extract(file_bc, file_dc)
 
+        _logger.debug("Date extrase din fisiere")
         bom = self.env['mrp.bom'].create({
             'type': 'normal', 'product_tmpl_id': self.product_tmpl_id.id, 'product_id': self.product_id.id,
         })
@@ -111,7 +115,7 @@ class woody_wizard(models.TransientModel):
 
         half = 1
         i = 10
-
+        _logger.debug("Produsele din fisier au fost create")
 
         for cod, v in woody_data['pachete'].iteritems():
             for item in v:
@@ -230,7 +234,7 @@ class woody_wizard(models.TransientModel):
                 if item['canturi'] and item['canturi'][1]:
                     cant_poz = 0
                     for cant in item['canturi'][1]:
-                        if cant:
+                        if cant and cant[1] in  woody_data['echivalente']:
                             cant_code = woody_data['echivalente'][cant[1]]
                             cant_product = self.env['product.product'].search([('default_code', '=', cant_code)])
                             if not cant_product:

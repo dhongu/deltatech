@@ -63,7 +63,9 @@ class pars():
         if ')' not in name.split(', (')[-1]:
             return None
         mm = name.split(', (')[-1].split(')')[0]
-        flNr = int(math.floor(float(mm)))  # este in mm si este ok sa fac trunchere de zecimale
+        flNr = None
+        if isFloat(mm):
+            flNr = int(math.floor(float(mm)))  # este in mm si este ok sa fac trunchere de zecimale
         return flNr
 
     def parse(self, t):
