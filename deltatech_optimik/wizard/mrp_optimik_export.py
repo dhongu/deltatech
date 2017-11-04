@@ -42,12 +42,13 @@ class MrpOptimikExport(models.TransientModel):
 
         raw_product = False
         lines = self.env["mrp.optimik.select.line"]
+
         if model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:
+                line = False
                 moves = production.move_raw_ids.sorted(key=lambda r: r.bom_line_id.sequence)
                 for move in moves:
-                    print move.bom_line_id.sequence
                     if move.bom_line_id.item_categ in ['cut', 'cut_fiber']:
                         raw_product = move.product_id
                         if ' x ' in  move.product_uom.name:
