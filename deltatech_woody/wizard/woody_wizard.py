@@ -279,7 +279,7 @@ class woody_wizard(models.TransientModel):
             uom_categ_length = self.env.ref('product.uom_categ_length')
 
             dim = float(item['uom'].replace(" mm", ''))
-            bom_uom = self.env['product.uom'].search_length(item['x'])
+            bom_uom = self.env['product.uom'].search_length(dim)
 
             price = 1000 * float(item['price']) / dim
             uom = self.env.ref('product.product_uom_meter')  # ('product.product_uom_mm') # stocul se tine totusi in mm
