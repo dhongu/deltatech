@@ -208,19 +208,8 @@ class MrpOptimikImport(models.TransientModel):
 
 
     def add_line(self, length, width, quantity):
-        uom_square_meter = self.env.ref('product.product_uom_square_meter')
 
-        dimension = "%s x %s" % (length.is_integer() and int(length) or length,
-                                 width.is_integer() and int(width) or width)
-
-        factor = float(length) * float(width) / (1000.0 * 1000.0)
-        uom = self.env['product.uom'].search([('name', '=', dimension),
-                                              ('category_id', '=', uom_square_meter.category_id.id)], limit=1)
-
-        if not uom:
-            uom = self.env['product.uom'].create({'name': dimension,
-                                                  'category_id': uom_square_meter.category_id.id,
-                                                  'uom_type': 'bigger', 'factor': 1 / factor})
+        uom = self.env['product.uom'].search_surface(length,  width)
 
         self.env["mrp.optimik.import.line"].create({
             'optimik_id': self.id,

@@ -55,7 +55,7 @@
     </data>
 
 
-    <data>
+    <!--data>
         <record id="product.uom_categ_surface" model="product.uom.categ">
             <field name="name">Surface</field>
         </record>
@@ -72,7 +72,7 @@
             <field name="factor" eval="1000"/>
             <field name="uom_type">smaller</field>
         </record>
-    </data>
+    </data -->
 
     <data noupdate="1">
 

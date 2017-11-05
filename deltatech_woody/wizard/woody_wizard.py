@@ -7,6 +7,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 
 import logging
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -24,10 +25,10 @@ class woody_wizard(models.TransientModel):
     _name = 'woody.wizard'
     _description = "Woody Wizard"
 
-    file_bc = fields.Binary(string="File BOM",readonly=False)
+    file_bc = fields.Binary(string="File BOM", readonly=False)
     filename_bc = fields.Char('File Name BOM', required=True)
     without_half_product = fields.Boolean(string="Without Half Product")
-    file_dc = fields.Binary(string="File Chart of Debiting",readonly=False)
+    file_dc = fields.Binary(string="File Chart of Debiting", readonly=False)
     filename_dc = fields.Char('File Name Chart of Debiting', required=True)
 
     product_tmpl_id = fields.Many2one('product.template', 'Product',
@@ -63,7 +64,6 @@ class woody_wizard(models.TransientModel):
         uom_square_meter = self.env.ref('product.product_uom_square_meter')
         uom_meter = self.env.ref('product.product_uom_meter')
         category_blat = self.env.ref('product.product_category_blat')
-
 
         with_attr = False
         attr_set = ('dimension', 'color', 'height', 'texture', 'cant')  # de renuntat la atributele de dimensiune
@@ -199,31 +199,20 @@ class woody_wizard(models.TransientModel):
                 else:
                     sub_bom = bom
 
-                v_row_cant = float(item['x']) * float(item['y']) / (1000.0 * 1000.0)
-
                 if raw_product.categ_id != category_blat:
-                    uom = self.env['product.uom'].search([('name', '=', item['dimension']),
-                                                          ('category_id', '=', uom_square_meter.category_id.id)], limit=1)
-                    if not uom:
-                        uom = self.env['product.uom'].create({'name': item['dimension'],
-                                                              'category_id': uom_square_meter.category_id.id,
-                                                              'uom_type': 'bigger', 'factor': 1 / v_row_cant})
+                    uom = self.env['product.uom'].search_surface(item['x'], item['y'])
                 else:
-                    uom_text = '%s mm' % item['x']
-                    v_row_cant = float(item['x']) / 1000.0
-                    uom = self.env['product.uom'].search([('name', '=', uom_text),
-                                                          ('category_id', '=', uom_meter.category_id.id)], limit=1)
-                    if not uom:
-                        uom = self.env['product.uom'].create({'name': uom_text,
-                                                              'category_id': uom_meter.category_id.id,
-                                                              'uom_type': 'bigger', 'factor': 1 / v_row_cant})
+                    uom = self.env['product.uom'].search_length(item['x'])
+
                 i += 10
                 bom_line = {
                     'sequence': i,
                     'bom_id': sub_bom.id,
-                            'product_id': raw_product.id,
-                            'product_uom_id': uom.id,
-                            'product_qty': 1}
+                    'product_id': raw_product.id,
+                    'product_uom_id': uom.id,
+                    'product_qty': 1  # de ce 1? pentru ca de fapt cantitatea este in unitatea de masura
+                }
+
                 if self.without_half_product:
                     bom_line['name'] = item['code']
 
@@ -239,7 +228,7 @@ class woody_wizard(models.TransientModel):
                 if item['canturi'] and item['canturi'][1]:
                     cant_poz = 0
                     for cant in item['canturi'][1]:
-                        if cant and cant[1] in  woody_data['echivalente']:
+                        if cant and cant[1] in woody_data['echivalente']:
                             cant_code = woody_data['echivalente'][cant[1]]
                             cant_product = self.env['product.product'].search([('default_code', '=', cant_code)])
                             if not cant_product:
@@ -266,7 +255,6 @@ class woody_wizard(models.TransientModel):
                             self.env['mrp.bom.line'].create(bom_line)
                         cant_poz += 1
 
-
         # adaugare produse auxiliare
         for prod in woody_data['products']['Aux']:
             # prod = self.get_product(prod, self.env.ref('product.product_category_aux'))
@@ -279,9 +267,8 @@ class woody_wizard(models.TransientModel):
                 'product_qty': prod['qty']
             })
 
-
     @api.model
-    def get_product(self, item, categ_id,  placi=False):
+    def get_product(self, item, categ_id, placi=False):
         # v_name, v_code, v_uom, v_cant, v_price, v_amount = item
         bom_uom = False
         uom = False
@@ -290,19 +277,14 @@ class woody_wizard(models.TransientModel):
         if 'profil' in item and item['profil']:
             categ_id = self.env.ref('product.product_category_profile')
             uom_categ_length = self.env.ref('product.uom_categ_length')
-            bom_uom = self.env['product.uom'].search([('name', '=', item['uom']),
-                                                      ('category_id', '=', uom_categ_length.id)], limit=1)
+
             dim = float(item['uom'].replace(" mm", ''))
-            if not bom_uom:
-                factor = 1000.0 / dim
-                bom_uom = self.env['product.uom'].create({'name': item['uom'],
-                                                          'category_id': uom_categ_length.id,
-                                                          'uom_type': 'smaller',
-                                                          'factor': factor})
+            bom_uom = self.env['product.uom'].search_length(item['x'])
+
             price = 1000 * float(item['price']) / dim
             uom = self.env.ref('product.product_uom_meter')  # ('product.product_uom_mm') # stocul se tine totusi in mm
 
-        if item['uom'] == 'buc' or item['uom'] == 'buc.':
+        if item['uom'].lower() == 'buc' or item['uom'].lower() == 'buc.':
             uom = self.env.ref('product.product_uom_unit')
 
         if item['uom'] == 'metru patrat' or item['uom'] == 'm2' or item['uom'] == 'mp':
@@ -312,7 +294,6 @@ class woody_wizard(models.TransientModel):
             uom = self.env.ref('product.product_uom_meter')
             if placi:  # placile masurate in m sunt de fapt baturi
                 categ_id = self.env.ref('product.product_category_blat')
-
 
         if not uom:
             uom = self.env['product.uom'].search([('name', '=', item['uom'])], limit=1)
