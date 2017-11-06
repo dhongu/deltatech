@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <record id="view_property_nomenclature_tree" model="ir.ui.view">
+            <field name="name">Nomenclature</field>
+            <field name="model">property.nomenclature</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="cod"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_property_nomenclature_form" model="ir.ui.view">
+            <field name="name">Nomenclature</field>
+            <field name="model">property.nomenclature</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="cod"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="categ"/>
+                            <field name="parent_id"/>
+                        </group>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_property_acquisition" model="ir.actions.act_window">
+            <field name="name">Acquisition</field>
+            <field name="res_model">property.acquisition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_property_nomenclature_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_property_nomenclature_form')})]"/>
+        </record>
+
+        <menuitem name="Acquisition" id="menu_property_acquisition"
+                  action="action_property_acquisition" parent="base.menu_property_config"  sequence="101"/>
+
+        <record id="action_property_building_purpose" model="ir.actions.act_window">
+            <field name="name">Building Purpose</field>
+            <field name="res_model">property.building.purpose</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_property_nomenclature_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_property_nomenclature_form')})]"/>
+        </record>
+
+        <menuitem name="Building Purpose" id="menu_property_building_purpose"
+                  action="action_property_building_purpose" parent="base.menu_property_config"  sequence="102"/>
+
+        <record id="action_property_region" model="ir.actions.act_window">
+            <field name="name">Region</field>
+            <field name="res_model">property.region</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_property_nomenclature_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_property_nomenclature_form')})]"/>
+        </record>
+
+        <menuitem name="Region" id="menu_property_region"
+                  action="action_property_region" parent="base.menu_property_config"  sequence="103"/>
+
+
+
+        <record id="action_property_room_usage" model="ir.actions.act_window">
+            <field name="name">Room Usage</field>
+            <field name="res_model">property.room.usage</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_property_nomenclature_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_property_nomenclature_form')})]"/>
+        </record>
+
+        <menuitem name="Room Usage" id="menu_property_room_usage"
+                  action="action_property_room_usage" parent="base.menu_property_config"  sequence="301"/>
+
+    </data>
+</odoo>

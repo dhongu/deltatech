@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_property_room_tree" model="ir.ui.view">
+            <field name="name">Rooms</field>
+            <field name="model">property.room</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="building_id"/>
+                    <field name="usage"/>
+                    <field name="surface" sum="surface"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_property_room_form" model="ir.ui.view">
+            <field name="name">Room</field>
+            <field name="model">property.room</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                                <field name="name" placeholder="Room Number"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Identification">
+                                <field name="building_id"/>
+                                <field name="level"/>
+                            </group>
+                            <group string="Dimension">
+                                <div class="o_row">
+                                    <field name="surface"/><span>m²</span>
+                                </div>
+                               <div class="o_row">
+                                    <field name="height"/><span>m</span>
+                                </div>
+                                <div class="o_row">
+                                    <field name="perimeter"/><span>m</span>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="General">
+                                <group>
+                                <group>
+                                    <field name="floor_type"/>
+                                    <field name="usage"/>
+                                    <field name="rented_room"/>
+                                </group>
+                                <group>
+                                    <field name="tenant_id" attrs="{'invisible': [('rented_room', '=', False)]}"/>
+                                </group>
+                                </group>
+                            </page>
+                            <page string="Surfaces">
+                                <group>
+                                    <field name="surface_disinsection"/>
+                                    <field name="surface_cleaning_floor"/>
+                                    <field name="surface_cleaning_doors"/>
+                                    <field name="surface_cleaning_windows"/>
+                                </group>
+                                <group>
+
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_property_room_filter" model="ir.ui.view">
+            <field name="name">Rooms</field>
+            <field name="model">property.room</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+
+
+                    <field name="building_id"/>
+                    <field name="usage"/>
+
+                    <separator/>
+                     <filter name="groupby_usage" context="{'group_by' : 'usage'}" string="Usage"/>
+
+                </search>
+            </field>
+        </record>
+
+
+
+        <record id="action_property_room" model="ir.actions.act_window">
+            <field name="name">Rooms</field>
+            <field name="res_model">property.room</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <menuitem name="Rooms" id="menu_property_room"
+                  action="action_property_room" parent="base.menu_property_info"/>
+    </data>
+</odoo>

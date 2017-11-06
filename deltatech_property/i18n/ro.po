@@ -1,0 +1,1223 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_property
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-06 17:43+0000\n"
+"PO-Revision-Date: 2017-11-06 17:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "10"
+msgstr "10"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "11"
+msgstr "11"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "12"
+msgstr "12"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "13"
+msgstr "13"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "14"
+msgstr "14"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "15"
+msgstr "15"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "16"
+msgstr "16"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "17"
+msgstr "17"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "18"
+msgstr "18"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "19"
+msgstr "19"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "20"
+msgstr "20"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "21"
+msgstr "21"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "22"
+msgstr "22"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "23"
+msgstr "23"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "24"
+msgstr "24"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "25"
+msgstr "25"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "26"
+msgstr "26"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "27"
+msgstr "27"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "28"
+msgstr "28"
+
+#. module: deltatech_property
+#: selection:property.room,level:0
+msgid "29"
+msgstr "29"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Access ways"
+msgstr "Căi de acces"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_acquisition
+#: model:ir.ui.menu,name:deltatech_property.menu_property_acquisition
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Acquisition"
+msgstr "Achiziție"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_date_acquisition
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_date_acquisition
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_date_acquisition
+msgid "Acquisition Date"
+msgstr "Dată achiziție"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_doc_acquisition
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_doc_acquisition
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_doc_acquisition
+msgid "Acquisition Document"
+msgstr "Document achiziție"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_acquisition_mode_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_acquisition_mode_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_acquisition_mode_id
+msgid "Acquisition Mode"
+msgstr "Mod achiziție"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_active
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_active
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_active
+msgid "Active"
+msgstr "Activ(a)"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_administrator_id
+msgid "Administrator"
+msgstr "Administrator"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Adress"
+msgstr "Adresa"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Air conditioning equipment"
+msgstr "Echipament aer condiționat"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Archive"
+msgstr "Arhivă"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_disinsection
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_surface_disinsection
+msgid "Area of disinsection"
+msgstr "Suprafața de dezinsecție"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_asset_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_asset_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_asset_number
+msgid "Asset Number"
+msgstr "Mijloc Fix"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_building
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_building_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_building_id
+msgid "Building"
+msgstr "Clădire"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_building_purpose
+#: model:ir.ui.menu,name:deltatech_property.menu_property_building_purpose
+msgid "Building Purpose"
+msgstr "Destinația clădirii"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_building
+#: model:ir.ui.menu,name:deltatech_property.menu_property_building
+msgid "Buildings"
+msgstr "Clădiri"
+
+#. module: deltatech_property
+#: selection:property.room,floor_type:0
+msgid "Carpet"
+msgstr "Covor, mochetă"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_carte
+msgid "Carte funciară"
+msgstr "Carte funciară"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_categ
+msgid "Categ"
+msgstr "Categ"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_id_3356
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_id_3300
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_categ
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_categ
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_city
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_city
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_city
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "City"
+msgstr "Localitate"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_class_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_class_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_class_number
+msgid "Class"
+msgstr "Clasa"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_class_code
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_class_code
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_class_code
+msgid "Classification code"
+msgstr "Cod de clasificare"
+
+#. module: deltatech_property
+#: code:addons/deltatech_property/models/property_room.py:69
+#, python-format
+msgid "Cleaning surface most by lower that surface area"
+msgstr "Suprafața de curățat trebuie să fie mică decât cea a camerei"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Cloakroom"
+msgstr "Vestiar"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_cod
+msgid "Cod"
+msgstr "Cod"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_cod
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_cod
+msgid "Cod rand"
+msgstr "Cod rand"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_common
+msgid "Common surface"
+msgstr "Suprafață comună"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_company_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_company_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_property
+#: selection:property.building,type_prop:0
+#: selection:property.land,type_prop:0
+#: selection:property.property,type_prop:0
+msgid "Concession"
+msgstr "Concesiune"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_cost_center_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_cost_center_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_cost_center_id
+msgid "Cost Center"
+msgstr "Centrul de cost"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_country_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_country_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_country_id
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Country"
+msgstr "Țară"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_create_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_create_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_data_pif
+msgid "Data PIF"
+msgstr "Data PIF"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Deflector"
+msgstr "Deflector"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+msgid "Dimension"
+msgstr "Dimensiuni"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Documente"
+msgstr "Documente"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_ext
+msgid "External surface cleaned"
+msgstr "Suprafața exterioară de curățată"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Extinguishers"
+msgstr "Stingătoare"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: selection:property.land,location_type:0
+msgid "Extravilan"
+msgstr "Extravilan"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_features
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_features_ids
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_categ
+msgid "Features"
+msgstr "Dotări"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_flameproof
+msgid "Flameproof surface"
+msgstr "Suprafață de ignifugat"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_floor_type
+msgid "Floor type"
+msgstr "Tip podea"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Garage"
+msgstr "Garaj"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+msgid "General"
+msgstr "General"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Grounding socket "
+msgstr "Priză de împământare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_height
+msgid "Height"
+msgstr "Înălțime"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Hydrants"
+msgstr "Hidranți"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "IT endowments (Ranks, Hall Servers)"
+msgstr "Dotări IT (Ranck-uri, Sala Servere)"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+msgid "Identification"
+msgstr "Identificare"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: selection:property.land,location_type:0
+msgid "Intravilan"
+msgstr "Intravilan"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Kitchens"
+msgstr "Oficii + bucătării"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Laboratory"
+msgstr "Laborator (Atelier)"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_land
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_land_id
+msgid "Land"
+msgstr "Teren"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_land
+#: model:ir.ui.menu,name:deltatech_property.menu_property_land
+msgid "Lands"
+msgstr "Terenuri"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room___last_update
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_write_uid
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_write_date
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_last_maintenance
+msgid "Last maintenance"
+msgstr "Utima întreținere"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_level
+msgid "Level"
+msgstr "Nivel"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Lightning discharger"
+msgstr "Paratrăsnet"
+
+#. module: deltatech_property
+#: selection:property.room,floor_type:0
+msgid "Linoleum"
+msgstr "Gesie, linoleu"
+
+#. module: deltatech_property
+#: selection:property.building,type_prop:0
+#: selection:property.land,type_prop:0
+#: selection:property.property,type_prop:0
+msgid "Loan"
+msgstr "Comodat"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Lobby"
+msgstr "Hol"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_location_type
+msgid "Location type"
+msgstr "Tip locație"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Logistics warehouse"
+msgstr "Depozit logistic"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Medical kits"
+msgstr "Truse medicale"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Meeting room"
+msgstr "Sală ședință"
+
+#. module: deltatech_property
+#: selection:property.room,technical_condition:0
+msgid "Missing"
+msgstr "Lipsă"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_display_name
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_name
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_nomenclature
+msgid "Nomenclature"
+msgstr "Nomencator"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_note
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_note
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_note
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Note"
+msgstr "Note"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_bloc_fizic
+msgid "Nr bloc fizic"
+msgstr "Nr bloc fizic"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_features_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_name
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_doc_count
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_doc_count
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_doc_count
+msgid "Number of documents"
+msgstr "Număr de documente"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+msgid "Office"
+msgstr "Birou"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_order_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_order_number
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_order_number
+msgid "Order Number"
+msgstr "Număr comandă"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Organization"
+msgstr "Organizație"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_owner_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_owner_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_owner_id
+msgid "Owner"
+msgstr "Proprietar"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_parcela
+msgid "Parcela cadastrală"
+msgstr "Parcela cadastrală"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_acquisition_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_categ_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_cost_center_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_categ_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_nomenclature_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_region_parent_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_parent_id
+msgid "Parent"
+msgstr "Părinte"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_parent_id
+msgid "Parent id"
+msgstr "ID Părinte"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_res_partner
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_property
+#: selection:property.building,type_prop:0
+#: selection:property.land,type_prop:0
+#: selection:property.property,type_prop:0
+msgid "Patrimony"
+msgstr "Patrimoniu"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_perimeter
+msgid "Perimeter"
+msgstr "Perimetru"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_property
+msgid "Property"
+msgstr "Proprietate"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_acquisition
+msgid "Property Acquisition"
+msgstr "Achiziție proprietate"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_building_categ
+msgid "Property Building Category"
+msgstr "Property Building Category"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_cost_center
+msgid "Property Cost Center"
+msgstr "Property Cost Center"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_land_categ
+msgid "Property Land Category"
+msgstr "Property Land Category"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_region
+msgid "Property Region"
+msgstr "Property Region"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_room_usage
+msgid "Property Room Usage"
+msgstr "Property Room Usage"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_type_prop
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_type_prop
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_type_prop
+msgid "Property Type"
+msgstr "Tip proprietate"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_building_purpose
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_parent_id_3339
+msgid "Purpose building"
+msgstr "Destinația clădirii"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_purpose_id_3315
+msgid "Purpose building for"
+msgstr "Destinația clărierii pentru"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_region
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_region_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_region_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_region_id
+#: model:ir.ui.menu,name:deltatech_property.menu_property_region
+msgid "Region"
+msgstr "Reginea"
+
+#. module: deltatech_property
+#: selection:property.building,type_prop:0
+#: selection:property.land,type_prop:0
+#: selection:property.property,type_prop:0
+msgid "Rent"
+msgstr "Închirat"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_rented_room
+msgid "Rented room"
+msgstr "Încăpere închiriată"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_roof_structure
+msgid "Roof Structure"
+msgstr "Structură acoperiș"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_room
+msgid "Room"
+msgstr "Încăpere"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+msgid "Room Number"
+msgstr "Număr cameră"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_room_usage
+#: model:ir.ui.menu,name:deltatech_property.menu_property_room_usage
+msgid "Room Usage"
+msgstr "Utilizare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage
+msgid "Room usage"
+msgstr "Utilizare încăpere"
+
+#. module: deltatech_property
+#: model:ir.actions.act_window,name:deltatech_property.action_property_room
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_room_ids
+#: model:ir.ui.menu,name:deltatech_property.menu_property_room
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+msgid "Rooms"
+msgstr "Camere"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Sanitary group"
+msgstr "Grup sanitar"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_sector
+msgid "Sector cadastral"
+msgstr "Sector cadastral"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Share a message..."
+msgstr "Share a message..."
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Signage"
+msgstr "Semnalistică"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Staircase"
+msgstr "Casa scarii"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_state_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_state_id
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_state_id
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "State"
+msgstr "Judeţ"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_street
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_street
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_street
+msgid "Street"
+msgstr "Stradă"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "Street..."
+msgstr "Strada..."
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_street2
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_street2
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_street2
+msgid "Street2"
+msgstr "Strada2"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+msgid "Structure"
+msgstr "Structură"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_surface
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_surface
+msgid "Surface"
+msgstr "Suprafața"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_it_endowments
+msgid "Surface IT endowments"
+msgstr "Surface IT endowments"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_access
+msgid "Surface access"
+msgstr "Suprafață acces"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_archive
+msgid "Surface archive"
+msgstr "Suprafață arhive"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_surface
+msgid "Surface area"
+msgstr "Suprafața"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_built
+msgid "Surface built"
+msgstr "Suprafață construită"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_adm
+msgid "Surface cleaned administratively"
+msgstr "Suprafață curățată administrativ"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_ind
+msgid "Surface cleaned industrial"
+msgstr "Suprafață curățată industrial"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaning_carpet
+msgid "Surface cleaning Carpet"
+msgstr "Suprafață curățat mochetă, covoare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaning_linoleum
+msgid "Surface cleaning Linoleum"
+msgstr "Suprafață curățat gresie-linoleu"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaning_wood
+msgid "Surface cleaning Wood"
+msgstr "Suprafață curățat podea"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaning_doors
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_surface_cleaning_doors
+msgid "Surface cleaning doors"
+msgstr "Suprafață curățat uși"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_surface_cleaning_floor
+msgid "Surface cleaning floor"
+msgstr "Suprafață curățat podea"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaning_windows
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_surface_cleaning_windows
+msgid "Surface cleaning window"
+msgstr "Suprafață curățat geamuri"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cloakroom
+msgid "Surface cloakroom"
+msgstr "Suprafață vestiare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_derating_ext
+msgid "Surface derating external"
+msgstr "Suprafață externă deratizare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_derating_int
+msgid "Surface derating internal"
+msgstr "Suprafață internă deratizare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_garage
+msgid "Surface garage"
+msgstr "Suprafață garaje"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_kitchens
+msgid "Surface kitchens"
+msgstr "Suprafață bucătării"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_laboratory
+msgid "Surface laboratory"
+msgstr "Suprafață laboratoare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_lobby
+msgid "Surface lobby"
+msgstr "Suprafață holuri"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_log_warehouse
+msgid "Surface logistic warehouse"
+msgstr "Suprafață depozit logistic"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_meeting
+msgid "Surface meeting"
+msgstr "Suprafață sala sedință"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_office
+msgid "Surface office"
+msgstr "Suprafață biruori"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_premises
+msgid "Surface premises"
+msgstr "Suprafață încaperi tehnice"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_sanitary
+msgid "Surface sanitary"
+msgstr "Suprafață grupuri sanitare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_staircase
+msgid "Surface staircase"
+msgstr "Suprafață scări"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_terraces
+msgid "Surface terraces"
+msgstr "Suprafață terase"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_unfolded
+msgid "Surface unfolded"
+msgstr "Suprafață desfășurată"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_warehouse
+msgid "Surface warehouse"
+msgstr "Suprafață magazii"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+msgid "Surfaces"
+msgstr "Suprafețe"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_tarla
+msgid "Tarla"
+msgstr "Tarla"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_technical_condition
+msgid "Technical condition"
+msgstr "Starea tehnică"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Technical premises (thermal, air conditioning, post-transformer)"
+msgstr "Încăperi tehnice (centrale termice, aer condiționat, post trafo))"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_room_tenant_id
+msgid "Tenant"
+msgstr "Chiriaș"
+
+#. module: deltatech_property
+#: model:ir.model.fields,help:deltatech_property.field_property_building_surface_common
+msgid "The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc"
+msgstr "The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc"
+
+#. module: deltatech_property
+#: model:ir.model.fields,help:deltatech_property.field_property_room_usage
+msgid "The purpose of using the room"
+msgstr "The purpose of using the room"
+
+#. module: deltatech_property
+#: model:ir.model,name:deltatech_property.model_property_titlu_prop
+msgid "Titlu Proprietate"
+msgstr "Titlu Proprietate"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_cleaned_tot
+msgid "Total surface cleaned"
+msgstr "Suprafață totală curățat"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_derating
+msgid "Total surface derating"
+msgstr "Suprafață totală deratizat"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_utr
+msgid "UTR"
+msgstr "UTR"
+
+#. module: deltatech_property
+#: selection:property.room,technical_condition:0
+msgid "Unsatisfactory"
+msgstr "nesatisfăcător"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
+msgid "Usage"
+msgstr "Utilizare"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_surface_useful
+msgid "Useful surface"
+msgstr "Suprafață utilă"
+
+#. module: deltatech_property
+#: selection:property.room,usage:0
+#: selection:property.room.usage,categ:0
+msgid "Warehouse"
+msgstr "Magazie"
+
+#. module: deltatech_property
+#: selection:property.features,categ:0
+msgid "Water dispensers"
+msgstr "Dozatoare apa"
+
+#. module: deltatech_property
+#: selection:property.room,floor_type:0
+msgid "Wood"
+msgstr "Parchet"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+msgid "ZIP"
+msgstr "Cod poștal"
+
+#. module: deltatech_property
+#: model:ir.model.fields,field_description:deltatech_property.field_property_building_zip
+#: model:ir.model.fields,field_description:deltatech_property.field_property_land_zip
+#: model:ir.model.fields,field_description:deltatech_property.field_property_property_zip
+msgid "Zip"
+msgstr "Cod postal"
+
+#. module: deltatech_property
+#: selection:property.room,technical_condition:0
+msgid "good"
+msgstr "bună"
+
+#. module: deltatech_property
+#: selection:property.room.usage,categ:0
+msgid "office"
+msgstr "office"
+
+#. module: deltatech_property
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_tree
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_tree
+#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_tree
+msgid "surface"
+msgstr "surface"
+
+#. module: deltatech_property
+#: selection:property.building,roof_structure:0
+msgid "terrace structure, bituminous membrane cover"
+msgstr "structura tip terasa, invelitoare membrane bitumonoase"
+
+#. module: deltatech_property
+#: selection:property.room,technical_condition:0
+msgid "very good"
+msgstr "foarte bună"
+
+#. module: deltatech_property
+#: selection:property.building,roof_structure:0
+msgid "wood roofing structure, tile roofing"
+msgstr "structura sarpanta lemn, invelitoare tigla"
+
+#. module: deltatech_property
+#: selection:property.building,roof_structure:0
+msgid "wood structure, roofing asbestos cement"
+msgstr "structura sarpanta lemn, invelitoare placi de azbociment"
+
+#. module: deltatech_property
+#: selection:property.building,roof_structure:0
+msgid "wood structure, sheet metal cover"
+msgstr "structura sarpanta lemn, invelitoare tabla"
+
+#. module: deltatech_property
+#: model:ir.model.fields,help:deltatech_property.field_property_building_surface_useful
+msgid "∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh "
+msgstr "∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh "
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <menuitem name="Property" id="base.menu_property_app" sequence="25"/>
+        <menuitem name="Property" id="base.menu_property" parent="base.menu_property_app" sequence="10"/>
+        <menuitem name="Information" id="base.menu_property_info" parent="base.menu_property_app" sequence="20"/>
+        <menuitem name="Reports" id="base.menu_property_reports" parent="base.menu_property_app" sequence="50"/>
+        <menuitem name="Configurations" id="base.menu_property_config" parent="base.menu_property_app" sequence="900"/>
+    </data>
+</odoo>

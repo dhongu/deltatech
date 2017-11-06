@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+        <record id="product.uom_categ_surface" model="product.uom.categ">
+            <field name="name">Surface</field>
+        </record>
+
+        <record id="product.product_uom_square_meter" model="product.uom">
+            <field name="category_id" ref="product.uom_categ_surface"/>
+            <field name="name">m²</field>
+            <field name="factor" eval="1.0"/>
+             <field name="rounding" eval="0.00010"/>
+        </record>
+
+
+        <record id="product.product_uom_mm" model="product.uom">
+            <field name="category_id" ref="product.uom_categ_length"/>
+            <field name="name">mm</field>
+            <field name="factor" eval="1000"/>
+            <field name="uom_type">smaller</field>
+            <field name="rounding" eval="1"/>
+        </record>
+        -->
+
+    </data>
+</odoo>
