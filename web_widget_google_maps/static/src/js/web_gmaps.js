@@ -1,37 +1,53 @@
-var map ;
-
 openerp.web_widget_google_maps = function (instance) {
 
     var QWeb = instance.web.qweb;
     var _t = instance.web._t;
+    var map ;
     
-    instance.web_google_maps.gmap_marker = instance.web.form.FormWidget.extend({
+ instance.web_widget_google_maps.gmap_marker = instance.web.form.FormWidget.extend({
         template: "gmap_marker",
+
+
+
+
         init: function (view, code) {
             this._super(view, code);
             this.field_lat = code.attrs.lat;
-            this.field_lng = code.attrs.lng;       
+            this.field_lng = code.attrs.lng;
+            this.shown = $.Deferred();
         },
           
         start: function() {
+
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
                 $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');        	 
             }
             else {
-           	 this.on_ready();
-            } 
+                setTimeout(function () { self.on_ready(); }, 1000);
+
+                //window.ginit = this.on_ready;
+                //$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
+            }
            var self = this;
            self.on("change:effective_readonly", self, function() {
                self.marker.setDraggable(self.get("effective_readonly") ? false : true);
            });
+
+           //this.shown.done(this.proxy('on_ready'));
+           return this._super();
+
         },
+
+
 
         on_ready: function(){
             var lat = this.field_manager.get_field_value(this.field_lat);
             var lng = this.field_manager.get_field_value(this.field_lng);  
 
             var myLatlng = new google.maps.LatLng(lat, lng);
+            var bounds  = new google.maps.LatLngBounds();
+
             var mapOptions = {
                 zoom: 8,
                 center: myLatlng
@@ -57,7 +73,15 @@ openerp.web_widget_google_maps = function (instance) {
                
             
             this.field_manager.on("field_changed:"+this.field_lat, this, this.display_result);
-            this.field_manager.on("field_changed:"+this.field_lng, this, this.display_result);        	
+            this.field_manager.on("field_changed:"+this.field_lng, this, this.display_result);
+
+
+
+            //bounds.extend(myLatlng);
+            //map.fitBounds(bounds);       # auto-zoom
+            //map.panToBounds(bounds);     # auto-center
+
+            google.maps.event.trigger( map, 'resize')
         },
 
         update_latlng: function(lat, lng ){
@@ -72,7 +96,9 @@ openerp.web_widget_google_maps = function (instance) {
             var lng = this.field_manager.get_field_value(this.field_lng);  
             var myLatlng = new google.maps.LatLng(lat, lng);
             map.setCenter(myLatlng);  
-            this.marker.setPosition(myLatlng); 
+            this.marker.setPosition(myLatlng);
+            google.maps.event.trigger( map, 'resize')
+
         },
         
 
@@ -82,7 +108,7 @@ openerp.web_widget_google_maps = function (instance) {
  instance.web.form.custom_widgets.add('gmap_marker', 'instance.web_widget_google_maps.gmap_marker');
 
  
- instance.web_google_maps.gmap_route = instance.web.form.FormWidget.extend({
+ instance.web_widget_google_maps.gmap_route = instance.web.form.FormWidget.extend({
         template: "gmap_route",
 
         init: function (view, code) {
@@ -98,12 +124,13 @@ openerp.web_widget_google_maps = function (instance) {
         },       
         
         start: function () {
+            var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
                 $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
             }
             else {
-           	 this.on_ready();
+           	 setTimeout(function () { self.on_ready(); }, 1000);
             }
 
         },
@@ -152,7 +179,8 @@ openerp.web_widget_google_maps = function (instance) {
                 
               });
            
-           this.display_result(); 
+           this.display_result();
+
            this.updating = false;            	
         },
 
@@ -183,7 +211,8 @@ openerp.web_widget_google_maps = function (instance) {
                       self.computeTotal(response);
                   }
                 }
-            });            
+            });
+             google.maps.event.trigger( map, 'resize')
         },
         
         
@@ -227,7 +256,7 @@ openerp.web_widget_google_maps = function (instance) {
 instance.web.views.add('gmaps', 'instance.web_widget_google_maps.gmaps');
  
  
-instance.web_google_maps.gmaps = instance.web.View.extend({
+instance.web_widget_google_maps.gmaps = instance.web.View.extend({
 
      template: 'gmaps',
 
@@ -262,7 +291,7 @@ instance.web_google_maps.gmaps = instance.web.View.extend({
              $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
          }
          else {
-        	 this.on_ready();
+        	 setTimeout(function () { self.on_ready(); }, 1000);
          }
      },
 
@@ -287,7 +316,8 @@ instance.web_google_maps.gmaps = instance.web.View.extend({
          var self = this;
          self.dataset.read_slice(_.keys(self.fields_view.fields)).then(function(data){
              _(data).each(self.do_load_record); 
-         }); 
+         });
+          google.maps.event.trigger( map, 'resize')
      },
      
      
