@@ -122,6 +122,16 @@ class woody_wizard(models.TransientModel):
 
                 routing_code = item['routing']
 
+                surplus = 0.0
+                dublat = False
+                if '#' in routing_code:
+                    op1,op2 = routing_code.split('#')
+                    if op1 in ['UC','DUC','DD','UT','DUT','DUS']:
+                        surplus = 10.0
+                    if op1 in ['DUC','DD', 'DUT','DUS']:
+                        dublat = True
+
+
                 routing_id = self.env['mrp.routing'].search([('name', '=', routing_code)], limit=1)
                 if not routing_id:
                     routing_id = self.env['mrp.routing'].create({'name': routing_code})
@@ -200,7 +210,9 @@ class woody_wizard(models.TransientModel):
                     sub_bom = bom
 
                 if raw_product.categ_id != category_blat:
-                    uom = self.env['product.uom'].search_surface(item['x'], item['y'])
+                    length = float(item['x']) + surplus
+                    width = float(item['y']) + surplus
+                    uom = self.env['product.uom'].search_surface(length, width)
                 else:
                     uom = self.env['product.uom'].search_length(item['x'])
 
@@ -212,6 +224,8 @@ class woody_wizard(models.TransientModel):
                     'product_uom_id': uom.id,
                     'product_qty': 1  # de ce 1? pentru ca de fapt cantitatea este in unitatea de masura
                 }
+                if dublat:
+                    bom_line['product_qty'] = 2
 
                 if self.without_half_product:
                     bom_line['name'] = item['code']
