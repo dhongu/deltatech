@@ -11,11 +11,10 @@ class MrpOptimikExport(models.TransientModel):
     _name = 'mrp.optimik.export'
     _description = "MRP Optimik Export"
 
-
     name = fields.Char()
     date = fields.Date()
     description = fields.Char()
-
+    file_type = fields.Selection([('csv','csv'),('txt','txt')], default='txt')
     state = fields.Selection([('choose', 'choose'),  # choose product
                               ('prepare', 'Prepare'),
                               ('get_file', 'Get File')], default='choose')  # get the file
@@ -26,8 +25,12 @@ class MrpOptimikExport(models.TransientModel):
     line_ids = fields.One2many("mrp.optimik.select.line", 'optimik_id', string='Select lines')
     line_export_ids = fields.One2many("mrp.optimik.export.line", 'optimik_id', string='Export lines')
 
-    file_name = fields.Char(string='File Name', default="Oprimik.txt")
+    file_name = fields.Char(string='File Name', default="Optimik.txt", compute="_compute_file_name")
     data_file = fields.Binary(string='File', readonly=True)
+
+    @api.depends('file_type')
+    def _compute_file_name(self):
+        self.file_name = 'Optimik_%s_.%s' % ( fields.Date.today(), self.file_type)
 
     @api.model
     def default_get(self, fields):
@@ -51,17 +54,23 @@ class MrpOptimikExport(models.TransientModel):
                 for move in moves:
                     if move.bom_line_id.item_categ in ['cut', 'cut_fiber']:
                         raw_product = move.product_id
-                        if ' x ' in  move.product_uom.name:
+                        if ' x ' in move.product_uom.name:
                             length, width = move.product_uom.name.split('x')
-                            line = self.env["mrp.optimik.select.line"].create({
+                            values = {
                                 'product_id': production.product_id.id,
-                                'raw_product':raw_product.id,
+                                'raw_product': raw_product.id,
                                 'quantity': move.product_uom_qty,
                                 'uom_id': move.product_uom.id,
                                 'length': length,
                                 'width': width,
-                                'fiber': (move.bom_line_id.item_categ == 'cut_fiber')
-                            })
+                                'fiber': (move.bom_line_id.item_categ == 'cut_fiber'),
+                                'description': move.bom_line_id.name,
+                                'set': production.procurement_group_id.name
+                            }
+                            if move.bom_line_id.name == raw_product.name:
+                                values['description'] = production.product_id.name
+
+                            line = self.env["mrp.optimik.select.line"].create(values)
                             lines |= line
                     # sper ca liniile sa fie in ordinea din BOM !!!!???
                     if line:
@@ -141,29 +150,20 @@ class MrpOptimikExport(models.TransientModel):
 
         return res
 
-
-
-
-
-
     @api.multi
     def do_export(self):
 
         if self.no_labels:
             lines = self.env['mrp.optimik.select.line'].read_group(
-                domain=[('optimik_id', '=', self.id),
-                        #('is_ok', '=', True)
-                        ],
-                fields=['raw_product', 'fiber', 'length', 'width', 'quantity'],
-                groupby=['raw_product', 'fiber', 'length', 'width'], lazy=False)
+                domain=[('optimik_id', '=', self.id)],
+                fields=['raw_product', 'fiber', 'description', 'set', 'length', 'width', 'quantity'],
+                groupby=['raw_product', 'fiber', 'description', 'set', 'length', 'width'], lazy=False)
         else:
             lines = self.env['mrp.optimik.select.line'].read_group(
-                domain=[('optimik_id', '=', self.id),
-                        #('is_ok', '=', True)
-                         ],
-                fields=['raw_product', 'fiber', 'length', 'width', 'quantity',
+                domain=[('optimik_id', '=', self.id)],
+                fields=['raw_product', 'fiber', 'description', 'set', 'length', 'width', 'quantity',
                         'strip_top', 'strip_left', 'strip_right', 'strip_bottom'],
-                groupby=['raw_product', 'fiber', 'length', 'width',
+                groupby=['raw_product', 'fiber', 'description', 'set', 'length', 'width',
                          'strip_top', 'strip_left', 'strip_right', 'strip_bottom'], lazy=False)
 
         for line in lines:
@@ -180,6 +180,8 @@ class MrpOptimikExport(models.TransientModel):
                 vals['strip_left'] = line['strip_left'] and line['strip_left'][0]
                 vals['strip_right'] = line['strip_right'] and line['strip_right'][0]
                 vals['strip_bottom'] = line['strip_bottom'] and line['strip_bottom'][0]
+                vals['description'] = line['description']
+                vals['set'] = line['set']
 
             self.env["mrp.optimik.export.line"].create(vals)
 
@@ -221,8 +223,8 @@ class MrpOptimikExport(models.TransientModel):
             else:
                 row.append('X')
 
-            row.append('')  # nume piesa
-            row.append('')  # client
+            row.append(line.description)  # nume piesa
+            row.append(line.set)  # client
             if self.no_labels:
                 row.append('')  # cant fata
                 row.append('')  # cant stanga
@@ -259,11 +261,13 @@ class MrpOptimikSelectLine(models.TransientModel):
     optimik_id = fields.Many2one('mrp.optimik.export', string="Product Label")
     product_id = fields.Many2one("product.product", string="Product")
     quantity = fields.Integer(string="Qty", default=1, group_operator='sum')
-#    is_ok = fields.Boolean()
+    #    is_ok = fields.Boolean()
 
     length = fields.Float()  # related='product_id.length', readonly=True, store=True)
     width = fields.Float()  # related='product_id.width', readonly=True, store=True)
 
+    description = fields.Char(string="Description")
+    set = fields.Char(string="Set")
     raw_product = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
     fiber = fields.Boolean()
     strip_top = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
@@ -272,8 +276,6 @@ class MrpOptimikSelectLine(models.TransientModel):
     strip_bottom = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
     uom_id = fields.Many2one('product.uom', 'Unit of Measure', domain="[('category_id','=', uom_categ_id)]")
     uom_categ_id = fields.Many2one('product.uom.categ', related='raw_product.uom_id.category_id')
-
-
 
     @api.onchange('product_id')
     def _compute_is_ok(self):
@@ -311,6 +313,9 @@ class MrpOptimikExportLine(models.TransientModel):
     length = fields.Float()
     width = fields.Float()
     fiber = fields.Boolean()
+
+    description = fields.Char(string="Description")
+    set = fields.Char(string="Set")
 
     strip_top = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)
     strip_left = fields.Many2one('product.product')  # , compute="_compute_is_ok", store=True)

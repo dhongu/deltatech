@@ -7,12 +7,16 @@
             <field name="arch" type="xml">
                 <form>
                     <field name="state" invisible="1"/>
-                    <group>
-                        <field name="name"/>
-                        <field name="separator"/>
-                        <field name="date"/>
-                        <field name="description"/>
-                        <field name="no_labels"/>
+                    <group states="choose">
+                        <group>
+                            <field name="name"/>
+                            <field name="separator"/>
+                            <field name="no_labels"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="description"/>
+                        </group>
                     </group>
 
 
@@ -27,22 +31,8 @@
                             <field name="length"/>
                             <field name="width"/>
                             <field name="fiber"/>
-                            <field name="strip_left"/>
-                            <field name="strip_top"/>
-                            <field name="strip_bottom"/>
-                            <field name="strip_right"/>
-                        </tree>
-                    </field>
-
-                    <field name="line_export_ids" states="prepare">
-                        <tree editable="bottom">
-
-                            <field name="raw_product"/>
-                            <field name="quantity"/>
-                            <field name="length"/>
-                            <field name="width"/>
-                            <field name="fiber"/>
-
+                            <field name="description"/>
+                            <field name="set"/>
                             <field name="strip_left"/>
                             <field name="strip_top"/>
                             <field name="strip_bottom"/>
@@ -56,14 +46,38 @@
                         <button string="_Cancel" class="oe_link" special="cancel"/>
                     </footer>
 
+                    <field name="line_export_ids" states="prepare">
+                        <tree editable="bottom">
+
+                            <field name="raw_product"/>
+                            <field name="quantity"/>
+                            <field name="length"/>
+                            <field name="width"/>
+                            <field name="fiber"/>
+                            <field name="description"/>
+                            <field name="set"/>
+                            <field name="strip_left"/>
+                            <field name="strip_top"/>
+                            <field name="strip_bottom"/>
+                            <field name="strip_right"/>
+                        </tree>
+                    </field>
+
+
+
                     <footer states="prepare">
                         <button name="do_make_file" string="_Make File" type="object" class="oe_highlight"/>
                         or
                         <button string="_Cancel" class="oe_link" special="cancel"/>
                     </footer>
-
+                    <group states="get_file">
+                        <group>
+                             <field name="file_type"/>
+                             <field name="file_name" />
+                        </group>
+                    </group>
                     <footer states="get_file">
-                        <field name="file_name" invisible="1"/>
+
                         <field name="data_file" readonly="1" filename="file_name"/>
                         or
                         <button string="_Cancel" class="oe_link" special="cancel"/>
