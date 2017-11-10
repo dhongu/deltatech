@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models, registry, _
 from odoo.tools import float_is_zero
-
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
 class ProcurementOrder(models.Model):
     _inherit = "procurement.order"
@@ -13,6 +13,9 @@ class ProcurementOrder(models.Model):
         products = self.env['product.product'].search([('type', '=', 'product')])
         self.supply(products, use_new_cursor, company_id)
         return super(ProcurementOrder, self).run_scheduler(use_new_cursor, company_id)
+
+
+
 
     def supply(self, products, use_new_cursor=False, company_id=False):
         try:

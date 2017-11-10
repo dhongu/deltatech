@@ -123,6 +123,10 @@ class ProcurementComputeProducts(models.TransientModel):
                 for company in self.env.user.company_ids:
                     Procurement.supply(products, use_new_cursor=self._cr.dbname, company_id=company.id)
             # close the new cursor
+
+            self.env['procurement.order']._procure_orderpoint_confirm(
+                use_new_cursor=new_cr.dbname,
+                company_id=self.env.user.company_id.id)
             self._cr.close()
             return {}
 
@@ -137,7 +141,7 @@ class ProcurementComputeProducts(models.TransientModel):
             if item.qty > 0:
                 procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
                                                                    limit=1, order='date_planned')
-                date_planned = procurement.date_planned
+                date_planned = procurement.date_planned or fields.Date.today()
                 origin = procurement.origin
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
                 new_procurement = self.env["procurement.order"].create({
@@ -167,9 +171,11 @@ class ProcurementComputeProducts(models.TransientModel):
     def procure_calculation(self):
         if self.group_id and not self.background:
             self.individual_procurement()
+
         else:
             threaded_calculation = threading.Thread(target=self._procure_calculation_products, args=())
             threaded_calculation.start()
+
         return {'type': 'ir.actions.act_window_close'}
 
 
