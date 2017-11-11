@@ -5,6 +5,7 @@ import logging
 import threading
 
 from odoo import api, fields, models, tools, registry
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
 _logger = logging.getLogger(__name__)
 
@@ -17,6 +18,7 @@ class ProcurementComputeProducts(models.TransientModel):
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
     background = fields.Boolean('Run in background', default=True)
     warehouse = fields.Many2one('stock.warehouse')
+    #stock_min_max = fields.Boolean()
 
     @api.model
     def default_get(self, fields):
@@ -85,7 +87,8 @@ class ProcurementComputeProducts(models.TransientModel):
         defaults['warehouse'] = warehouse.id
         defaults['item_ids'] = []
         for product in products:
-            defaults['item_ids'].append((0, 0, {'product_id': product.id, 'qty': qty[product.id]}))
+            if qty[product.id] > 0:
+                defaults['item_ids'].append((0, 0, {'product_id': product.id, 'qty': qty[product.id]}))
 
         return defaults
 
@@ -123,10 +126,11 @@ class ProcurementComputeProducts(models.TransientModel):
                 for company in self.env.user.company_ids:
                     Procurement.supply(products, use_new_cursor=self._cr.dbname, company_id=company.id)
             # close the new cursor
-
+            """
             self.env['procurement.order']._procure_orderpoint_confirm(
                 use_new_cursor=new_cr.dbname,
                 company_id=self.env.user.company_id.id)
+            """
             self._cr.close()
             return {}
 
@@ -136,7 +140,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
         productions = self.env['mrp.production']
         location = self.warehouse.lot_stock_id
-
+        OrderPoint = self.env['stock.warehouse.orderpoint']
         for item in self.item_ids:
             if item.qty > 0:
                 procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
@@ -144,8 +148,26 @@ class ProcurementComputeProducts(models.TransientModel):
                 date_planned = procurement.date_planned or fields.Date.today()
                 origin = procurement.origin
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
+                orderpoint = OrderPoint.search([('product_id','=',item.product_id.id),
+                                              ('location_id','=',location.id)])
+                name = 'SUP: %s ' % (self.env.user.login)
+                if orderpoint:
+                    name = name + orderpoint.name
+                    qty += max(orderpoint.product_min_qty, orderpoint.product_max_qty)
+                    remainder = orderpoint.qty_multiple > 0 and qty % orderpoint.qty_multiple or 0.0
+
+                    if float_compare(remainder, 0.0, precision_rounding=orderpoint.product_uom.rounding) > 0:
+                        qty += orderpoint.qty_multiple - remainder
+
+                    if float_compare(qty, 0.0, precision_rounding=orderpoint.product_uom.rounding) < 0:
+                        continue
+
+                    qty = float_round(qty, precision_rounding=orderpoint.product_uom.rounding)
+
+                    date_planned = orderpoint._get_date_planned(fields.Date.from_string( date_planned))
+
                 new_procurement = self.env["procurement.order"].create({
-                    'name': 'SUP: %s' % (self.env.user.login),
+                    'name': name,
                     'date_planned': date_planned,
                     'product_id': item.product_id.id,
                     'product_qty': qty,
@@ -159,12 +181,16 @@ class ProcurementComputeProducts(models.TransientModel):
                 if new_procurement.production_id:
                     productions |= new_procurement.production_id
 
+        active_model = self.env.context.get('active_model', False)
 
-        if productions:
+        if productions and active_model=='mrp.production':
 
             new_context = {'active_ids':productions.ids, 'active_model':'mrp.production'}
-            new_wizard = self.with_context(new_context).create({'background':self.background})
-            new_wizard.procure_calculation()
+            new_wizard = self.with_context(new_context).create({'background':self.background,
+                                                                'group_id':self.group_id.id})
+            new_wizard.individual_procurement()
+
+
 
 
     @api.multi
@@ -175,7 +201,6 @@ class ProcurementComputeProducts(models.TransientModel):
         else:
             threaded_calculation = threading.Thread(target=self._procure_calculation_products, args=())
             threaded_calculation.start()
-
         return {'type': 'ir.actions.act_window_close'}
 
 

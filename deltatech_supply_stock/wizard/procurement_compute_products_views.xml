@@ -15,6 +15,7 @@
                     <group>
                         <field name="group_id"/>
                         <field name="background"/>
+
                     </group>
 
                     <field name="item_ids">
