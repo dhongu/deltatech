@@ -4,6 +4,7 @@
 
 
 import procurement_compute_products
+import mrp_check_availability
 
 
 

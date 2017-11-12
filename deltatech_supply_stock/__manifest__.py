@@ -37,7 +37,8 @@ Functionalitati:
     "depends": ['procurement', 'sale_stock', 'mrp'],
 
     "data": [
-        'wizard/procurement_compute_products_views.xml',
+        'wizard/procurement_compute_products_view.xml',
+        'wizard/mrp_check_availability_view.xml',
         'views/template_product_view.xml'
     ],
 

@@ -150,7 +150,7 @@ class ProcurementComputeProducts(models.TransientModel):
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
                 orderpoint = OrderPoint.search([('product_id','=',item.product_id.id),
                                               ('location_id','=',location.id)])
-                name = 'SUP: %s ' % (self.env.user.login)
+                name = 'SUP: %s ' % (procurement.origin)
                 if orderpoint:
                     name = name + orderpoint.name
                     qty += max(orderpoint.product_min_qty, orderpoint.product_max_qty)
