@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="view_mrp_mark_done_wizard" model="ir.ui.view">
+            <field name="name">Mark as Done</field>
+            <field name="model">mrp.mark.done</field>
+            <field name="arch" type="xml">
+                <form>
+                    <p>
+                       Mark as Done
+                    </p>
+                    <footer>
+                        <button name="do_mark_done" string="Mark as Done" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+         <act_window id="action_mrp_mark_done" name="Mark as Done"
+            res_model="mrp.mark.done" src_model="mrp.production"
+            view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+    </data>
+</odoo>

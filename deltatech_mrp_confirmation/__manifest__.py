@@ -50,6 +50,7 @@ Functionalitati:
         'views/mrp_rework_view.xml',
         'wizard/start_production_view.xml',
         'wizard/confirmation_view.xml',
+        'wizard/mrp_mark_done_view.xml',
         'views/mrp_production_view.xml',
         'security/ir.model.access.csv',
         'views/web_asset_backend_template.xml',
