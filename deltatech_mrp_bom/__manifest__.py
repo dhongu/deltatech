@@ -29,7 +29,7 @@
     
 Functionalitati:
 ----------------
- -
+ - adaugare nume la fiecare componenta din ldm
  
 
     """,
