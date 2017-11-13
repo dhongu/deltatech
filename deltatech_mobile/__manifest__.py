@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name": "MRP Confirmation",
+    "name": "Mobile",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -29,34 +29,19 @@
     
 Functionalitati:
 ----------------
- - adaugare operatori la centre de lucru
- - adaugare cod la operatie
- - confirmare operatii prin scanare cod de bare
- 
+
 
     """,
 
-    "category": "Manufacturing",
-    "depends": ['mrp', 'hr_attendance'],
+    "category": "",
+    "depends": [],
 
     "data": [
 
-        'views/mrp_confirmation_view.xml',
 
-        'views/mrp_workcenter_view.xml',
-        'views/mrp_workorder_view.xml',
-        'views/mrp_routing_view.xml',
-        'views/mrp_production_templates.xml',
-        'views/mrp_rework_view.xml',
-        'wizard/start_production_view.xml',
-        'wizard/confirmation_view.xml',
-        'views/mrp_production_view.xml',
-        'security/ir.model.access.csv',
-        'views/web_asset_backend_template.xml',
-        'data/data.xml',
     ],
     'qweb': [
-        "static/src/xml/mrp.xml",
+
     ],
     "active": False,
     "installable": True,
