@@ -117,7 +117,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
             if self.group_id:
                 self.individual_procurement()
-                self.env.cr.commit()
+                self._cr.commit()
             else:
                 products = self.env['product.product']
                 for item in self.item_ids:

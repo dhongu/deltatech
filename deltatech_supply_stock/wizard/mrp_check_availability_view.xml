@@ -11,6 +11,10 @@
                     <p>
                        Check Availability
                     </p>
+                    <group>
+                        <field name="background"/>
+                    </group>
+
                     <footer>
                         <button name="do_check_availability" string="Check Availability" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />

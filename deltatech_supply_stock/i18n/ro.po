@@ -1,0 +1,200 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_supply_stock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-12 09:19+0000\n"
+"PO-Revision-Date: 2017-11-12 09:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,help:deltatech_supply_stock.field_delivery_carrier_scrap
+#: model:ir.model.fields,help:deltatech_supply_stock.field_product_product_scrap
+#: model:ir.model.fields,help:deltatech_supply_stock.field_product_template_scrap
+msgid "A factor of 0.1 means a loss of 10% during the consumption."
+msgstr "A factor of 0.1 means a loss of 10% during the consumption."
+
+#. module: deltatech_supply_stock
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_supply_stock
+#: model:ir.actions.act_window,name:deltatech_supply_stock.action_mrp_check_availability
+#: model:ir.model,name:deltatech_supply_stock.model_mrp_check_availability
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
+msgid "Check Availability"
+msgstr "Verifică disponibilitatea"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_compute_id
+msgid "Compute id"
+msgstr "Compute id"
+
+#. module: deltatech_supply_stock
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+msgid "Compute procurements"
+msgstr "Caclul aprovizionare"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_procurement_compute_products
+msgid "Compute schedulers"
+msgstr "Rulează planificarea"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_procurement_compute_products_item
+msgid "Compute schedulers Item"
+msgstr "Compute schedulers Item"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_create_uid
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_create_uid
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_create_date
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_create_date
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_display_name
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_id
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_ids
+msgid "Item ids"
+msgstr "Item ids"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability___last_update
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_write_uid
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_write_uid
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_mrp_check_availability_write_date
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_write_date
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Comandă producție"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_procurement_order
+msgid "Procurement"
+msgstr "Aprovizionare"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_group_id
+msgid "Procurement Group"
+msgstr "Grup de aprovizionare"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_supply_stock
+#: code:addons/deltatech_supply_stock/models/sale_order.py:20
+#, python-format
+msgid "Product %s without BOM"
+msgstr "Produs %s fără LdM"
+
+#. module: deltatech_supply_stock
+#: code:addons/deltatech_supply_stock/models/sale_order.py:24
+#, python-format
+msgid "Product %s without vendor"
+msgstr "Produs %s fără furnizor"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_item_qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_supply_stock
+#: model:ir.actions.act_window,name:deltatech_supply_stock.action_compute_mrp_schedulers
+#: model:ir.actions.act_window,name:deltatech_supply_stock.action_compute_sale_schedulers
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+msgid "Run Schedulers"
+msgstr "Rulează planificarea"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_background
+msgid "Run in background"
+msgstr "În fundal"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_supply_stock
+#: model:ir.model,name:deltatech_supply_stock.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_supply_stock
+#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+msgid "Scheduler Parameters"
+msgstr "Parametri programare"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_delivery_carrier_scrap
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_product_product_scrap
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_product_template_scrap
+msgid "Scrap"
+msgstr "Rebut"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_delivery_carrier_surface
+msgid "Surface"
+msgstr "Suprafață"
+
+#. module: deltatech_supply_stock
+#: code:addons/deltatech_supply_stock/models/procurement.py:44
+#, python-format
+msgid "Today %s the stock quantity is %s and forecast incoming is %s and outgoing is %s"
+msgstr "Astăzi %s stocul este de %s și estimat de %s din care ieșiri de %s"
+
+#. module: deltatech_supply_stock
+#: model:ir.model.fields,field_description:deltatech_supply_stock.field_procurement_compute_products_warehouse
+msgid "Warehouse"
+msgstr "Depozit"
+
