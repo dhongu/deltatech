@@ -75,3 +75,13 @@ class ProcurementOrder(models.Model):
                 except Exception:
                     pass
         return {}
+
+
+
+    # sa tina cont de cantitatea minima de aprovizionat
+    @api.multi
+    def _prepare_purchase_order_line(self, po, supplier):
+        values  = super(ProcurementOrder, self)._prepare_purchase_order_line(po, supplier)
+        min_qty = self.product_uom._compute_quantity(supplier.min_qty, self.product_id.uom_po_id)
+        values['product_qty'] = max(values['product_qty'],min_qty)
+        return values

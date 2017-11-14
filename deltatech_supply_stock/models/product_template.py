@@ -9,3 +9,5 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     scrap = fields.Float(string="Scrap", help="A factor of 0.1 means a loss of 10% during the consumption.")
+
+
