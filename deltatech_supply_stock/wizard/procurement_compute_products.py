@@ -154,7 +154,7 @@ class ProcurementComputeProducts(models.TransientModel):
                 if item.product_id.scrap:
                     msg = ('Necesar %s + scrap %s = %s.') % (item.qty, item.qty * item.product_id.scrap, qty)
                 else:
-                    msg = msg = ('Necesar %s ') % (qty)
+                    msg =  ('Necesar %s ') % (qty)
                 name = 'SUP: %s ' % (procurement.origin)
                 if orderpoint:
                     name = name + orderpoint.name
@@ -183,7 +183,7 @@ class ProcurementComputeProducts(models.TransientModel):
                     'group_id': self.group_id.id,
                     'company_id': self.warehouse.company_id.id})
                 new_procurement.run()
-                procurement.message_post(body=msg)
+                new_procurement.message_post(body=msg)
             if new_procurement.production_id:
                 productions |= new_procurement.production_id
 
