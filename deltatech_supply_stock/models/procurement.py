@@ -5,6 +5,7 @@ from odoo import api, fields, models, registry, _
 from odoo.tools import float_is_zero
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
+
 class ProcurementOrder(models.Model):
     _inherit = "procurement.order"
 
@@ -13,9 +14,6 @@ class ProcurementOrder(models.Model):
         products = self.env['product.product'].search([('type', '=', 'product')])
         self.supply(products, use_new_cursor, company_id)
         return super(ProcurementOrder, self).run_scheduler(use_new_cursor, company_id)
-
-
-
 
     def supply(self, products, use_new_cursor=False, company_id=False):
         try:
@@ -76,12 +74,13 @@ class ProcurementOrder(models.Model):
                     pass
         return {}
 
-
-
     # sa tina cont de cantitatea minima de aprovizionat
     @api.multi
     def _prepare_purchase_order_line(self, po, supplier):
-        values  = super(ProcurementOrder, self)._prepare_purchase_order_line(po, supplier)
+        values = super(ProcurementOrder, self)._prepare_purchase_order_line(po, supplier)
         min_qty = self.product_uom._compute_quantity(supplier.min_qty, self.product_id.uom_po_id)
-        values['product_qty'] = max(values['product_qty'],min_qty)
+        if values['product_qty'] < min_qty:
+            msg = 'Cantitatea %s este mai mica decat cea impusa de furnizor %s' % (values['product_qty'], min_qty)
+            self.message_post(body=msg)
+            values['product_qty'] = max(values['product_qty'], min_qty)
         return values

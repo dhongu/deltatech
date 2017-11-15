@@ -18,7 +18,8 @@ class ProcurementComputeProducts(models.TransientModel):
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
     background = fields.Boolean('Run in background', default=True)
     warehouse = fields.Many2one('stock.warehouse')
-    #stock_min_max = fields.Boolean()
+
+    # stock_min_max = fields.Boolean()
 
     @api.model
     def default_get(self, fields):
@@ -148,8 +149,12 @@ class ProcurementComputeProducts(models.TransientModel):
                 date_planned = procurement.date_planned or fields.Date.today()
                 origin = procurement.origin
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
-                orderpoint = OrderPoint.search([('product_id','=',item.product_id.id),
-                                              ('location_id','=',location.id)])
+                orderpoint = OrderPoint.search([('product_id', '=', item.product_id.id),
+                                                ('location_id', '=', location.id)])
+                if item.product_id.scrap:
+                    msg = ('Necesar %s + scrap %s = %s.') % (item.qty, item.qty * item.product_id.scrap, qty)
+                else:
+                    msg = msg = ('Necesar %s ') % (qty)
                 name = 'SUP: %s ' % (procurement.origin)
                 if orderpoint:
                     name = name + orderpoint.name
@@ -164,7 +169,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
                     qty = float_round(qty, precision_rounding=orderpoint.product_uom.rounding)
 
-                    date_planned = orderpoint._get_date_planned(fields.Date.from_string( date_planned))
+                    date_planned = orderpoint._get_date_planned(fields.Date.from_string(date_planned))
 
                 new_procurement = self.env["procurement.order"].create({
                     'name': name,
@@ -178,20 +183,17 @@ class ProcurementComputeProducts(models.TransientModel):
                     'group_id': self.group_id.id,
                     'company_id': self.warehouse.company_id.id})
                 new_procurement.run()
-                if new_procurement.production_id:
-                    productions |= new_procurement.production_id
+                procurement.message_post(body=msg)
+            if new_procurement.production_id:
+                productions |= new_procurement.production_id
 
         active_model = self.env.context.get('active_model', False)
 
-        if productions and active_model=='mrp.production':
-
-            new_context = {'active_ids':productions.ids, 'active_model':'mrp.production'}
-            new_wizard = self.with_context(new_context).create({'background':self.background,
-                                                                'group_id':self.group_id.id})
+        if productions and active_model == 'mrp.production':
+            new_context = {'active_ids': productions.ids, 'active_model': 'mrp.production'}
+            new_wizard = self.with_context(new_context).create({'background': self.background,
+                                                                'group_id': self.group_id.id})
             new_wizard.individual_procurement()
-
-
-
 
     @api.multi
     def procure_calculation(self):
