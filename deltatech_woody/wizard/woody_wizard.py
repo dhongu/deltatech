@@ -125,12 +125,11 @@ class woody_wizard(models.TransientModel):
                 surplus = 0.0
                 dublat = False
                 if '#' in routing_code:
-                    op1,op2 = routing_code.split('#')
-                    if op1 in ['UC','DUC','DD','UT','DUT','DUS']:
+                    op1, op2 = routing_code.split('#')
+                    if op1 in ['UC', 'DUC', 'DD', 'UT', 'DUT', 'DUS']:
                         surplus = 10.0
-                    if op1 in ['DUC','DD', 'DUT','DUS']:
+                    if op1 in ['DUC', 'DD', 'DUT', 'DUS']:
                         dublat = True
-
 
                 routing_id = self.env['mrp.routing'].search([('name', '=', routing_code)], limit=1)
                 if not routing_id:
@@ -302,7 +301,7 @@ class woody_wizard(models.TransientModel):
             uom = self.env.ref('product.product_uom_unit')
 
         if item['uom'] == 'metru patrat' or item['uom'] == 'm2' or item['uom'] == 'mp':
-            uom = self.env.ref('product.product_uom_square_meter')
+            uom = self.env.ref('product.product_uom_square_millimeter')
 
         if item['uom'] == 'rm' or item['uom'] == 'm':
             uom = self.env.ref('product.product_uom_meter')
