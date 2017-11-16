@@ -156,7 +156,7 @@ class MrpOptimikExport(models.TransientModel):
         if self.no_labels:
             lines = self.env['mrp.optimik.select.line'].read_group(
                 domain=[('optimik_id', '=', self.id)],
-                fields=['raw_product', 'fiber',  'length', 'width', 'quantity'],
+                fields=['raw_product', 'fiber', 'description', 'set', 'length', 'width', 'quantity'],
                 groupby=['raw_product', 'fiber',  'length', 'width'], lazy=False)
         else:
             lines = self.env['mrp.optimik.select.line'].read_group(
