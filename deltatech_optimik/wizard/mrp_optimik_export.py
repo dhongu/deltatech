@@ -174,16 +174,16 @@ class MrpOptimikExport(models.TransientModel):
                 'length': line['length'],
                 'width': line['width'],
                 'fiber': line['fiber'],
-                'description': line['description'],
-                'set':line['set']
+                'description': '',
+                'set':''
             }
             if not self.no_labels:
                 vals['strip_top'] = line['strip_top'] and line['strip_top'][0]
                 vals['strip_left'] = line['strip_left'] and line['strip_left'][0]
                 vals['strip_right'] = line['strip_right'] and line['strip_right'][0]
                 vals['strip_bottom'] = line['strip_bottom'] and line['strip_bottom'][0]
-                vals['description'] = '' # line['description'] or ''
-                vals['set'] = '' #'#line['set'] or ''
+                vals['description'] = line['description'] or ''
+                vals['set'] = line['set'] or ''
 
             self.env["mrp.optimik.export.line"].create(vals)
 
