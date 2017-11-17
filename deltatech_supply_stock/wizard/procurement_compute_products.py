@@ -6,6 +6,8 @@ import threading
 
 from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
+import odoo.addons.decimal_precision as dp
+
 
 _logger = logging.getLogger(__name__)
 
@@ -40,7 +42,7 @@ class ProcurementComputeProducts(models.TransientModel):
             products = self.env['product.product'].browse(active_ids)
 
         for product in products:
-            qty[product.id] = -1 * product.virtual_available
+            qty[product.id] = -1.0 * product.virtual_available
 
         if active_model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
@@ -212,4 +214,4 @@ class ProcurementComputeProductsItem(models.TransientModel):
 
     compute_id = fields.Many2one('procurement.compute.products')
     product_id = fields.Many2one('product.product', string="Product")
-    qty = fields.Float(string='Quantity')
+    qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
