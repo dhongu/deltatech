@@ -21,6 +21,8 @@ class ProcurementComputeProducts(models.TransientModel):
     background = fields.Boolean('Run in background', default=True)
     warehouse = fields.Many2one('stock.warehouse')
 
+    make_prod = fields.Boolean(string = 'Make production order', default=True)
+    make_proc = fields.Boolean(string= "Make purchase order", default=True)
     # stock_min_max = fields.Boolean()
 
     @api.model
@@ -140,12 +142,19 @@ class ProcurementComputeProducts(models.TransientModel):
     @api.multi
     def individual_procurement(self):
         self.ensure_one()
+        route_buy = self.env.ref('purchase.route_warehouse0_buy')
+        route_manufacture = self.env.ref('mrp.route_warehouse0_manufacture')
 
         productions = self.env['mrp.production']
         location = self.warehouse.lot_stock_id
         OrderPoint = self.env['stock.warehouse.orderpoint']
         for item in self.item_ids:
             if item.qty > 0:
+                if route_buy.id in item.product_id.route_ids.ids and not self.make_proc:
+                    continue
+                if route_manufacture.id in item.product_id.route_ids.ids and not self.make_prod:
+                    continue
+
                 procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
                                                                    limit=1, order='date_planned')
                 date_planned = procurement.date_planned or fields.Date.today()

@@ -15,7 +15,8 @@
                     <group>
                         <field name="group_id"/>
                         <field name="background"/>
-
+                        <field name="make_prod"/>
+                        <field name="make_proc"/>
                     </group>
 
                     <field name="item_ids">
@@ -26,7 +27,7 @@
                     </field>
                     <footer>
                         <button name="procure_calculation" string="Run Schedulers" type="object" class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel" />
+                        <button string="Cancel" class="btn-default" special="cancel"/>
                     </footer>
                 </form>
             </field>
@@ -44,12 +45,12 @@
         -->
 
         <act_window id="action_compute_sale_schedulers" name="Run Schedulers"
-            res_model="procurement.compute.products" src_model="sale.order"
-            view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+                    res_model="procurement.compute.products" src_model="sale.order"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
 
-         <act_window id="action_compute_mrp_schedulers" name="Run Schedulers"
-            res_model="procurement.compute.products" src_model="mrp.production"
-            view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+        <act_window id="action_compute_mrp_schedulers" name="Run Schedulers"
+                    res_model="procurement.compute.products" src_model="mrp.production"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
 
     </data>
 </odoo>

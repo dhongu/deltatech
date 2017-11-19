@@ -78,11 +78,11 @@ class ProcurementOrder(models.Model):
     @api.multi
     def _prepare_purchase_order_line(self, po, supplier):
         values = super(ProcurementOrder, self)._prepare_purchase_order_line(po, supplier)
-        min_qty = self.product_uom._compute_quantity(supplier.min_qty, self.product_id.uom_po_id)
-        if values['product_qty'] < min_qty:
+        #min_qty = self.product_uom._compute_quantity(supplier.min_qty, self.product_id.uom_po_id)
+        if values['product_qty'] < supplier.min_qty:
             msg = 'Cantitatea %s este mai mica decat %s impusa de furnizorul %s' % (values['product_qty'],
-                                                                                    min_qty,
-                                                                                    supplier.name)
+                                                                                    supplier.min_qty,
+                                                                                    supplier.name.name)
             self.message_post(body=msg)
-            values['product_qty'] = min_qty
+            values['product_qty'] = supplier.min_qty
         return values
