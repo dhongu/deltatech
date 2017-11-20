@@ -155,10 +155,11 @@ class service_billing(models.TransientModel):
                 for  agreement in pre_invoice[date_invoice][key]['agreement_ids']:
                     comment += _('%s from %s \n') % (agreement.name or '____', agreement.date_agreement or '____')
                 
-                
+                partner_id = self.env['res.partner'].search([('id', '=', pre_invoice[date_invoice][key]['partner_id'] )])
                 invoice_value = { 
                     #'name': _('Invoice'),
                     'partner_id': pre_invoice[date_invoice][key]['partner_id'],
+                    'payment_term': partner_id.property_payment_term.id,
                     'journal_id': self.journal_id.id,
                     'date_invoice':date_invoice,
                     'account_id': pre_invoice[date_invoice][key]['account_id'], 
