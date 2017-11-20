@@ -135,7 +135,8 @@
 								<field name="invoicing_status" />
 							</group>
 						</group>
-						<field name="notes"/>
+						<label for="notes" string="Note"/>
+						<field name="notes" string="Note" style="width:800px;background-color:#ff9999;"/>
 						<field name="agreement_line" context="{'default_currency_id':currency_id}">
                             <tree string="Agreement Lines" editable="bottom"
                                   colors=" red:price_unit==1; red:price_unit==0;">
