@@ -122,7 +122,7 @@
 								<field name="final_date" />
 								<field name="type_id" />
 								<field name="partner_id" />
-								<field name="description" />
+								<field name="description" style="background-color:#d2ff4d;font-weight:bold" />
 								<field name="currency_id" options="{'no_create': True}" />
 							</group>
 							<group>
@@ -135,6 +135,7 @@
 								<field name="invoicing_status" />
 							</group>
 						</group>
+						<field name="notes"/>
 						<field name="agreement_line" context="{'default_currency_id':currency_id}">
                             <tree string="Agreement Lines" editable="bottom"
                                   colors=" red:price_unit==1; red:price_unit==0;">

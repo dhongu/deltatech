@@ -126,6 +126,7 @@ class service_agreement(models.Model):
 
     invoicing_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('progress','In progress'),('done','Done')], 
                                             string="Invoicing Status", compute="_compute_invoicing_status", store=True )
+    notes = fields.Text(string='Notes')
 
     @api.model
     def _needaction_domain_get(self):
