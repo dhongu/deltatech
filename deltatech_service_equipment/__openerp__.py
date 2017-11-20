@@ -73,6 +73,7 @@ Functionalitati:
              #  'service_consumable_view.xml',
 
              'demo.xml',
+             'views/deltatech_equipment_counters.xml',
              # 'service.meter.reading.csv'
 
              ],

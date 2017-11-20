@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Stock Reevaluation Report -->
+<openerp>
+    <data>
+        <template id="equipment_counters_document">
+                <style type="text/css">
+                    tbody.default td {
+                    border: 1px solid gray;
+                    text-align: center;
+                    font-size: 75%;
+                    }
+                    tbody.bold td {
+                    border: 1px solid gray;
+                    text-align: right;
+                    font-size: 75%;
+                    font-weight:bold;
+                    background-color:#BBBBBB;
+                    text-align: center;
+                    }
+                    thead.default th{
+                    border: 1px solid gray;
+                    background-color:#BBBBBB;
+                    font-size: 75%;
+                    }
+                </style>
+                <div class="page">
+                    <span style="font-weight:bold;font-size:16px;">Echipament: <span t-field="o.name"/></span>
+                    <span style="font-weight:bold;font-size:16px;">seria <span t-field="o.serial_id"/></span>
+                    <br/>
+                    <t t-if="o.address_id">
+                        <span style="font-weight:bold;font-size:16px;">Instalat la: <span t-field="o.address_id"/></span>
+                    </t>
+                    <t t-if="not o.address_id">
+                        <span style="font-weight:bold;font-size:16px;">Instalat la: (neinstalat)</span>
+                    </t>
+                    <br/>
+                    <t t-set="readings" t-value="o.get_readings()"/>
+                    <table>
+                        <thead class="default">
+                            <th>Data</th>
+                            <th>Contor</th>
+                            <th>Instalat la</th>
+                            <th>Contract</th>
+                            <th>Valoare precedenta</th>
+                            <th>Valoare citire</th>
+                            <th>Diferenta</th>
+                        </thead>
+                        <tbody class="default">
+                            <tr t-foreach="readings.sorted(key=lambda r: r.date)" t-as="reading">
+                                <td><span t-field="reading.date"/></td>
+                                <td><span t-field="reading.meter_id"/></td>
+                                <td><span t-field="reading.address_id"/></td>
+                                <td><span t-field="reading.equipment_history_id.agreement_id"/></td>
+                                <td><span t-field="reading.previous_counter_value"/></td>
+                                <td><span t-field="reading.counter_value"/></td>
+                                <td><span t-field="reading.difference"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </template>
+
+
+        <template id="report_equipment_counters">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_service_equipment.equipment_counters_document')"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

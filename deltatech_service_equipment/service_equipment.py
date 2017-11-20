@@ -531,6 +531,10 @@ class service_equipment(models.Model):
                 # 'notified_partner_ids': [(4, id) for id in new_follower_ids]
             })
 
+    @api.multi
+    def get_readings(self):
+        readings = self.env['service.meter.reading'].search([('equipment_id','=',self.id)])
+        return readings
 
 
 class service_equipment_category(models.Model):
