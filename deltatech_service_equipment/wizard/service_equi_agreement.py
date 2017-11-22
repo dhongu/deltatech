@@ -59,6 +59,8 @@ class service_equi_agreement(models.TransientModel):
             values['cycle_id'] = cycle.id
             self.agreement_id = self.env['service.agreement'].create(values)
 
+        self.equipment_id.equipment_history_id.write({'agreement_id': self.agreement_id.id})
+
         # self.equipment_id.write({'agreement_id':self.agreement_id.id,
         #                         'partner_id':self.partner_id.id})
         for template in self.equipment_id.type_id.categ_id.template_meter_ids:
