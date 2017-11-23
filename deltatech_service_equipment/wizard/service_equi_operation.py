@@ -100,13 +100,15 @@ class service_equi_operation(models.TransientModel):
                     'from_date': self.date,
                     'partner_id':self.partner_id.id,
                     'address_id':self.address_id.id,
-                    'emplacement':self.emplacement,                                                               
+                    'agreement_id': self.equipment_id.agreement_id.id,
+                    'emplacement':self.emplacement,
                     }   
         
         if self.state in ('rem','dbk'):
             values['partner_id'] = False
             values['address_id'] = False
             values['emplacement'] = False
+            values['agreement_id'] = False
         
         if self.state == 'ebk':
             values['equipment_backup_id'] = self.equipment_backup_id.id
