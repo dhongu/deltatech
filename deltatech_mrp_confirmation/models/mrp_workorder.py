@@ -70,7 +70,13 @@ class MrpWorkorder(models.Model):
     def record_production(self):
         if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
             raise ValidationError(_('It is not possible to produce more that %s') % self.qty_ready_prod)
-        return super(MrpWorkorder, self).record_production()
+        res = super(MrpWorkorder, self).record_production()
+
+        # se verifica daca se poate inchide comanda
+        if self.production_id.check_to_done:
+            self.production_id.button_mark_done()
+
+        return res
 
     @api.multi
     def button_start(self):

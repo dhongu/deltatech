@@ -361,8 +361,7 @@ class mrp_production_conf(models.TransientModel):
         workorder.end_previous()
         if workorder.state == 'progress':  # daca nu a fost finalizata comanda
             workorder.button_start()
-        if workorder.production_id.check_to_done:
-            workorder.production_id.button_mark_done()
+
 
         workorder.write({'qty_producing': workorder.qty_producing,
                          'qty_produced': workorder.qty_produced})
