@@ -18,16 +18,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name" : "Deltatech Picking Number",
+    "version" : "1.0",
+    "author" : "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "description": """
+ 
+Features:
+ - Numerotare liste de ridicare la cerere 
 
 
+    """,
+     'category': 'Warehouse',
+    "depends" : ["stock"],
+ 
+    "data" : [ 'views/stock_view.xml' ],
+    "active": False,
+    "installable": True,
+}
 
-import models
 
-
-
-
-
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
