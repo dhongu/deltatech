@@ -22,7 +22,7 @@ class ProcurementComputeProducts(models.TransientModel):
     warehouse = fields.Many2one('stock.warehouse')
 
     make_prod = fields.Boolean(string = 'Make production order', default=True)
-    make_proc = fields.Boolean(string= "Make purchase order", default=True)
+    make_purch = fields.Boolean(string= "Make purchase order", default=False)
     # stock_min_max = fields.Boolean()
 
     @api.model
@@ -150,7 +150,7 @@ class ProcurementComputeProducts(models.TransientModel):
         OrderPoint = self.env['stock.warehouse.orderpoint']
         for item in self.item_ids:
             if item.qty > 0:
-                if route_buy.id in item.product_id.route_ids.ids and not self.make_proc:
+                if route_buy.id in item.product_id.route_ids.ids and not self.make_purch:
                     continue
                 if route_manufacture.id in item.product_id.route_ids.ids and not self.make_prod:
                     continue
@@ -200,9 +200,13 @@ class ProcurementComputeProducts(models.TransientModel):
 
         active_model = self.env.context.get('active_model', False)
 
+
+
         if productions and active_model == 'mrp.production':
             new_context = {'active_ids': productions.ids, 'active_model': 'mrp.production'}
             new_wizard = self.with_context(new_context).create({'background': self.background,
+                                                                'make_prod':self.make_prod,
+                                                                'make_purch':self.make_purch,
                                                                 'group_id': self.group_id.id})
             new_wizard.individual_procurement()
 

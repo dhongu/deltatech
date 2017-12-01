@@ -16,7 +16,7 @@
                         <field name="group_id"/>
                         <field name="background"/>
                         <field name="make_prod"/>
-                        <field name="make_proc"/>
+                        <field name="make_purch"/>
                     </group>
 
                     <field name="item_ids">
