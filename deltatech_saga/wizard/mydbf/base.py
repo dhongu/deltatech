@@ -173,8 +173,9 @@ class DBF(object):
                     fieldinfo = struct.unpack(self.fields_fmt, db.read(32))
                     name, type, size, deci = fieldinfo
                     name = name.partition('\0')[0]
-                    self.fields[name] = fields.guessField(type, size, deci)
-                    self.record_fmt += '%ds' % size
+                    if type in ['C','L','N','D']:
+                        self.fields[name] = fields.guessField(type, size, deci)
+                        self.record_fmt += '%ds' % size
 
             else:
                 # if we have no header and no fieldspecs, we can't help it ...
