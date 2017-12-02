@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Invoice Receipt",
+    "name": "Deltatech Invoice Receipt",
     'version': '10.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
@@ -41,23 +41,22 @@ Antentie:
 
 
     """,
-    "category" : "Accounting",
-    "depends" : ['deltatech_backwards',
-                 'deltatech_stock_date',
-                 "base",
-                 "stock",
-                 "account",
-                 "purchase",
-                 'deltatech_refund',
-                 #"deltatech_stock_reverse_transfer",
-                 #"stock_picking_invoice_link"
-                 ],
- 
-    "data" : [
-               'account_invoice_view.xml'
-               ],
+    "category": "Accounting",
+    "depends": [
+        'deltatech_backwards',
+        'deltatech_stock_date',
+        "base",
+        "stock",
+        "account",
+        "purchase",
+        'deltatech_refund',
+        # "deltatech_stock_reverse_transfer",
+        # "stock_picking_invoice_link"
+    ],
+
+    "data": [
+        'account_invoice_view.xml'
+    ],
     "active": False,
     "installable": True,
 }
-
-
