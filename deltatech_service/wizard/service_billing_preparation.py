@@ -50,6 +50,9 @@ class service_billing_preparation(models.TransientModel):
             domain=[('state', '=', 'open')]
         res = self.env['service.agreement'].search(domain)
         defaults['agreement_ids'] = [ (6,0,[rec.id for rec in res]) ]
+
+        period = self.env['account.period'].find()
+        defaults['period_id'] = period.id
         return defaults
         
 
@@ -80,7 +83,8 @@ class service_billing_preparation(models.TransientModel):
             'view_mode': 'tree,form',
             'res_model': 'service.consumption',
             'view_id': False,
-            'type': 'ir.actions.act_window'
+            'type': 'ir.actions.act_window',
+            'consumption_ids': res
         }
         
 

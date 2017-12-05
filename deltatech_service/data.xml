@@ -46,8 +46,39 @@
 			<field name="unit">year</field>
 		</record>
 	</data>
-	
-	
+
+    <data>
+        <record id="ir_cron_update_invoice_status" model="ir.cron">
+            <field name="name">Update service invoice status</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="model">service.agreement</field>
+            <field name="function">compute_invoicing_status</field>
+            <field name="args" eval="'()'"/>
+        </record>
+
+        <record id="ir_cron_send_mail_to_invoice" model="ir.cron">
+            <field name="name">Reminder to make service invoice</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="model">service.agreement</field>
+            <field name="function">send_mail_todo_today</field>
+            <field name="args" eval="'()'"/>
+        </record>
+
+
+        <record id="ir_cron_billing_automation" model="ir.cron">
+            <field name="name">Billing automation</field>
+            <field name="interval_type">days</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+            <field name="model">service.agreement</field>
+            <field name="function">make_billing_automation</field>
+            <field name="args" eval="'()'"/>
+        </record>
+    </data>
 	
 </openerp>
         

@@ -28,29 +28,27 @@ import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 
+
 class service_cycle(models.Model):
     _name = 'service.cycle'
     _description = "Cycle"
 
-    name = fields.Char(string='Cycle', translate=True)  
+    name = fields.Char(string='Cycle', translate=True)
     value = fields.Integer(string='Value')
-    unit  = fields.Selection([('day','Day'), ('week','Week'), ('month','Month'), ('year','Year')],
-                               string= 'Unit Of Measure',    help="Unit of Measure for Cycle.")
-
+    unit = fields.Selection([('day', 'Day'), ('week', 'Week'), ('month', 'Month'), ('year', 'Year')],
+                            string='Unit Of Measure', help="Unit of Measure for Cycle.")
 
     @api.model
     def get_cyle(self):
         self.ensure_one()
         if self.unit == 'day':
-            return  timedelta(days=self.value)
+            return timedelta(days=self.value)
         if self.unit == 'week':
-            return  timedelta(weeks=self.value)             
+            return timedelta(weeks=self.value)
         if self.unit == 'month':
-            return  relativedelta(months=+self.value) #monthdelta(self.value)  
+            return relativedelta(months=+self.value)  # monthdelta(self.value)
         if self.unit == 'year':
-            return  relativedelta(years=+self.value)
-
-
+            return relativedelta(years=+self.value)
 
 
 class service_agreement(models.Model):
@@ -62,70 +60,78 @@ class service_agreement(models.Model):
     @api.model
     def _default_currency(self):
         return self.env.user.company_id.currency_id
-    
-    name = fields.Char(string='Reference', index=True, default='/', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
-   
-    description = fields.Char(string='Description',   readonly=True, states={'draft': [('readonly', False)]}, copy=False)
-    
-    date_agreement = fields.Date(string='Agreement Date', default=lambda * a:fields.Date.today(),
-        readonly=True, states={'draft': [('readonly', False)]},  copy=False)
 
+    name = fields.Char(string='Reference', index=True, default='/', readonly=True,
+                       states={'draft': [('readonly', False)]}, copy=False)
 
-    final_date  = fields.Date(string="Final Date", readonly=True, states={'draft': [('readonly', False)]},  copy=False)
-    
-    partner_id = fields.Many2one('res.partner', string='Partner', 
-        required=True, readonly=True, states={'draft': [('readonly', False)]})
-    
+    description = fields.Char(string='Description', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
+
+    date_agreement = fields.Date(string='Agreement Date', default=lambda *a: fields.Date.today(),
+                                 readonly=True, states={'draft': [('readonly', False)]}, copy=False)
+
+    final_date = fields.Date(string="Final Date", readonly=True, states={'draft': [('readonly', False)]}, copy=False)
+
+    partner_id = fields.Many2one('res.partner', string='Partner',
+                                 required=True, readonly=True, states={'draft': [('readonly', False)]})
+
     agreement_line = fields.One2many('service.agreement.line', 'agreement_id', string='Agreement Lines',
-       readonly=True, states={'draft': [('readonly', False)]}, copy=True)  
+                                     readonly=True, states={'draft': [('readonly', False)]}, copy=True)
 
     state = fields.Selection([
-            ('draft','Draft'),
-            ('open','In Progress'),
-            ('closed','Terminated'),
-        ], string='Status', index=True, readonly=True, default='draft',   copy=False )    
+        ('draft', 'Draft'),
+        ('open', 'In Progress'),
+        ('closed', 'Terminated'),
+    ], string='Status', index=True, readonly=True, default='draft', copy=False)
 
-    type_id = fields.Many2one('service.agreement.type', string='Type', readonly=True, states={'draft': [('readonly', False)]})
+    type_id = fields.Many2one('service.agreement.type', string='Type', readonly=True,
+                              states={'draft': [('readonly', False)]})
 
     # interval de facturare
-    
+
     # interval revizii
-    
+
     # valoare contract ???
 
     display_name = fields.Char(compute='_compute_display_name')
-    
-    invoice_mode = fields.Selection([('none','Not defined'), ('service','Group by service'),('detail','Detail')], 
-                                        string="Invoice Mode",   default='none' , readonly=True, states={'draft': [('readonly', False)]})
+
+    invoice_mode = fields.Selection([('none', 'Not defined'), ('service', 'Group by service'), ('detail', 'Detail')],
+                                    string="Invoice Mode", default='none', readonly=True,
+                                    states={'draft': [('readonly', False)]})
 
     currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency,
-                                  domain=[('name', 'in', ['RON','EUR'])], readonly=True, states={'draft': [('readonly', False)]})
+                                  domain=[('name', 'in', ['RON', 'EUR'])], readonly=True,
+                                  states={'draft': [('readonly', False)]})
 
+    cycle_id = fields.Many2one('service.cycle', string='Billing Cycle', required=True, readonly=True,
+                               states={'draft': [('readonly', False)]})
 
-    cycle_id = fields.Many2one('service.cycle', string='Billing Cycle' , required=True, readonly=True,  states={'draft': [('readonly', False)]})
-
-    last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id"  )
+    last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id")
 
     last_invoice_date = fields.Date(string='Last Invoice Date', compute="_compute_last_invoice_id",
                                     store=True,
                                     readonly=True, default="2000-01-01")
 
-    invoice_day = fields.Integer(string='Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]},
-                                    help="""Day of the month, set -1 for the last day of the month.
+    invoice_day = fields.Integer(string='Invoice Day', readonly=True, states={'draft': [('readonly', False)]},
+                                 help="""Day of the month, set -1 for the last day of the month.
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
 
-    prepare_invoice_day = fields.Integer(string='Prepare Invoice Day',  readonly=True,  states={'draft': [('readonly', False)]}, default=-1,
-                                    help="""Day of the month, set -1 for the last day of the month.
+    prepare_invoice_day = fields.Integer(string='Prepare Invoice Day', readonly=True,
+                                         states={'draft': [('readonly', False)]}, default=-1,
+                                         help="""Day of the month, set -1 for the last day of the month.
                                  If it's positive, it gives the day of the month. Set 0 for net days .""")
 
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id", store=True)
 
-
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
 
-    invoicing_status = fields.Selection( [('','N/A'),('unmade','Unmade'),('progress','In progress'),('done','Done')], 
-                                            string="Invoicing Status", compute="_compute_invoicing_status", store=True )
+    invoicing_status = fields.Selection(
+        [('', 'N/A'), ('unmade', 'Unmade'), ('progress', 'In progress'), ('done', 'Done')],
+        string="Invoicing Status", compute="_compute_invoicing_status", store=True)
+
+    billing_automation = fields.Selection([('auto', 'Auto'), ('manual', 'Manual')],
+                                          string="Billing automation", default='manual')
+
     notes = fields.Text(string='Notes')
 
     @api.model
@@ -143,93 +149,91 @@ class service_agreement(models.Model):
             agreements = self.search([('state', '=', 'open')])
 
         for agreement in agreements:
-            next_date =  date.today()    
+            next_date = date.today()
             if agreement.prepare_invoice_day < 0:
-                next_first_date = next_date + relativedelta(day=1,months=0)  
-                next_date = next_first_date + relativedelta(days=agreement.prepare_invoice_day )
+                next_first_date = next_date + relativedelta(day=1, months=0)
+                next_date = next_first_date + relativedelta(days=agreement.prepare_invoice_day)
             if agreement.prepare_invoice_day > 0:
-                next_date += relativedelta(day=agreement.prepare_invoice_day , months=0) 
-            
+                next_date += relativedelta(day=agreement.prepare_invoice_day, months=0)
+
             if next_date > date.today():
-                next_date += relativedelta(months=-1)  
-            
-            next_date =  fields.Date.to_string(next_date) 
- 
+                next_date += relativedelta(months=-1)
+
+            next_date = fields.Date.to_string(next_date)
+
             invoicing_status = 'done'
-            
-            invoice = self.env['account.invoice'].search([('agreement_id','=',agreement.id)], order='date_invoice desc, id desc', limit=1)
+
+            invoice = self.env['account.invoice'].search([('agreement_id', '=', agreement.id)],
+                                                         order='date_invoice desc, id desc', limit=1)
             if not invoice:
                 invoicing_status = 'unmade'
             else:
-                if not ( invoice.date_invoice >= next_date ):
+                if not (invoice.date_invoice >= next_date):
                     invoicing_status = 'unmade'
                 else:
-                    if invoice.state  in ['draft']:
+                    if invoice.state in ['draft']:
                         invoicing_status = 'progress'
 
             agreement.write({'invoicing_status': invoicing_status, })
             agreement._compute_last_invoice_id()
-                    
-    
 
     @api.multi
     def compute_totals(self):
         for agreement in self:
             total_consumption = 0.0
             total_invoiced = 0.0
-            consumptions = self.env['service.consumption'].search([('agreement_id','=',agreement.id)]) 
-            invoices = self.env['account.invoice'].search([('agreement_id','=',agreement.id)]) 
+            consumptions = self.env['service.consumption'].search([('agreement_id', '=', agreement.id)])
+            invoices = self.env['account.invoice'].search([('agreement_id', '=', agreement.id)])
             for consumption in consumptions:
                 if consumption.state == 'done':
-                    total_consumption += consumption.currency_id.compute(consumption.price_unit*consumption.quantity, self.env.user.company_id.currency_id )
-                    #invoices |= consumption.invoice_id
+                    total_consumption += consumption.currency_id.compute(consumption.price_unit * consumption.quantity,
+                                                                         self.env.user.company_id.currency_id)
+                    # invoices |= consumption.invoice_id
             for invoice in invoices:
-                if invoice.state in ['open','paid']:
+                if invoice.state in ['open', 'paid']:
                     total_invoiced += invoice.amount_untaxed
-             
-            agreement.write({'total_invoiced':total_invoiced,
-                             'total_consumption':total_consumption})
-            
 
-    #TODO: de legat acest contract la un cont analitic ...
+            agreement.write({'total_invoiced': total_invoiced,
+                             'total_consumption': total_consumption})
+
+    # TODO: de legat acest contract la un cont analitic ...
     @api.one
     def _compute_last_invoice_id(self):
-        self.last_invoice_id = self.env['account.invoice'].search([('agreement_id','=',self.id),('state','in',['open','paid'])],
-                                                                   order='date_invoice desc, id desc', limit=1)
-        
+        self.last_invoice_id = self.env['account.invoice'].search(
+            [('agreement_id', '=', self.id), ('state', 'in', ['open', 'paid'])],
+            order='date_invoice desc, id desc', limit=1)
+
         if self.last_invoice_id:
-            date_invoice =  self.last_invoice_id.date_invoice
+            date_invoice = self.last_invoice_id.date_invoice
             self.last_invoice_date = self.last_invoice_id.date_invoice
         else:
             date_invoice = self.date_agreement
-            
-        if date_invoice and self.cycle_id: 
-            next_date =  fields.Date.from_string(date_invoice) + self.cycle_id.get_cyle()    
+
+        if date_invoice and self.cycle_id:
+            next_date = fields.Date.from_string(date_invoice) + self.cycle_id.get_cyle()
             if self.invoice_day < 0:
-                next_first_date = next_date + relativedelta(day=1,months=1) #Getting 1st of next month
-                next_date = next_first_date + relativedelta(days=self.invoice_day )
+                next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
+                next_date = next_first_date + relativedelta(days=self.invoice_day)
             if self.invoice_day > 0:
-                next_date += relativedelta(day=self.invoice_day , months=0)           
-            
+                next_date += relativedelta(day=self.invoice_day, months=0)
+
             self.next_date_invoice = fields.Date.to_string(next_date)
-        
-        
+
     @api.one
     @api.depends('name', 'date_agreement')
     def _compute_display_name(self):
         if self.date_agreement:
-            self.display_name =  self.name + ' / '+ self.date_agreement
+            self.display_name = self.name + ' / ' + self.date_agreement
         else:
-            self.display_name =  self.name
-
+            self.display_name = self.name
 
     @api.model
-    def create(self,   vals ):  
+    def create(self, vals):
         if ('name' not in vals) or (vals.get('name') in ('/', False)):
             sequence_agreement = self.env.ref('deltatech_service.sequence_agreement')
             if sequence_agreement:
-                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_agreement.id)         
-        return super(service_agreement, self).create( vals )    
+                vals['name'] = self.env['ir.sequence'].next_by_id(sequence_agreement.id)
+        return super(service_agreement, self).create(vals)
 
     @api.multi
     def contract_close(self):
@@ -237,11 +241,11 @@ class service_agreement(models.Model):
 
     @api.multi
     def contract_open(self):
-        return self.write( {'state': 'open'})
+        return self.write({'state': 'open'})
 
     @api.multi
     def contract_draft(self):
-        return self.write( {'state': 'draft'})    
+        return self.write({'state': 'draft'})
 
     @api.multi
     def unlink(self):
@@ -285,15 +289,31 @@ class service_agreement(models.Model):
                 # 'notified_partner_ids': [(4, id) for id in new_follower_ids]
             })
 
+    @api.model
+    def make_billing_automation(self):
+        print "Faturare automata"
+        agreements = self.search([('billing_automation', '=', 'auto')])
+        period = self.env['account.period'].find()
+        consumptions = self.env['service.consumption'].search(
+            [('period_id', '=', period.id), ('agreement_id', 'in', agreements.ids)])
+        for consumption in consumptions:
+            agreements = agreements - consumption.agreement_id
+        if agreements:
+            wizard_preparation = self.env['service.billing.preparation'].with_context(active_ids=agreements.ids).create(
+                {})
+            res = wizard_preparation.do_billing_preparation()
+            if res:
+                wizard_billing = self.env['service.billing'].with_context(active_ids=res['consumption_ids']).create({})
+                wizard_billing.do_billing()
 
 
-            # CAT, CATG CATPG
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
-    _description = "Service Agreement Type"     
+    _description = "Service Agreement Type"
     name = fields.Char(string='Type', translate=True)
-    journal_id = fields.Many2one('account.journal', 'Journal', required=True)  
- 
+    journal_id = fields.Many2one('account.journal', 'Journal', required=True)
+
+
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'
     _description = "Service Agreement Line"
@@ -301,73 +321,72 @@ class service_agreement_line(models.Model):
 
     sequence = fields.Integer(string='Sequence', default=10,
                               help="Gives the sequence of this line when displaying the agreement.")
-    agreement_id = fields.Many2one('service.agreement', string='Contract Services' , ondelete='cascade')   
-    product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
-    quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'), default=1)
-    quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
+    agreement_id = fields.Many2one('service.agreement', string='Contract Services', ondelete='cascade')
+    product_id = fields.Many2one('product.product', string='Service', ondelete='set null',
+                                 domain=[('type', '=', 'service')])
+    quantity = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'), default=1)
+    quantity_free = fields.Float(string='Quantity Free', digits=dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
-    price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
-    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])
+    price_unit = fields.Float(string='Unit Price', required=True, digits=dp.get_precision('Service Price'), default=1)
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,
+                                  domain=[('name', 'in', ['RON', 'EUR'])])
     active = fields.Boolean(default=True)  # pentru a ascunde liniile din contract care nu
-  
+
     @api.onchange('product_id')
     def onchange_product_id(self):
-        
+
         self.uom_id = self.product_id.uom_id
         price_unit = self.product_id.list_price
-        
-        price_type = self.env['product.price.type'].search([('field','=','list_price')]) 
+
+        price_type = self.env['product.price.type'].search([('field', '=', 'list_price')])
         if price_type:
             list_price_currency_id = price_type.currency_id
         else:
             list_price_currency_id = self.env.user.company_id.currency_id
-            
-        self.price_unit = list_price_currency_id.compute(price_unit, self.currency_id )
-    
+
+        self.price_unit = list_price_currency_id.compute(price_unit, self.currency_id)
 
     @api.model
     def get_value_for_consumption(self):
-          cons_value = {
-              'product_id': self.product_id.id,
-              'quantity': self.quantity,
-                      'price_unit':  self.price_unit,
-                      'currency_id': self.currency_id.id
-                }
-          return  cons_value
+        cons_value = {
+            'product_id': self.product_id.id,
+            'quantity': self.quantity,
+            'price_unit': self.price_unit,
+            'currency_id': self.currency_id.id
+        }
+        return cons_value
 
     @api.model
     def after_create_consumption(self, consumption):
         return [consumption.id]
 
-    
-    
+
 # e posibil ca o factura sa contina mai multe contracte 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
-    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='invoice_line.agreement_line_id.agreement_id', store = True) 
-
-
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement',
+                                   related='invoice_line.agreement_line_id.agreement_id', store=True)
 
     @api.multi
     def action_cancel(self):
         res = super(account_invoice, self).action_cancel()
-        consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)])
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
         if consumptions:
-            consumptions.write( {'state':'draft',
-                                 #'invoice_id':False  totusi sa pastrez id poate se revalideaza factura
-                                 })
+            consumptions.write({'state': 'draft',
+                                # 'invoice_id':False  totusi sa pastrez id poate se revalideaza factura
+                                })
             for consumption in consumptions:
-                consumption.agreement_id.compute_totals()  
-        return res 
-    
+                consumption.agreement_id.compute_totals()
+        return res
+
     @api.multi
     def unlink(self):
-        consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)])
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
         if consumptions:
-            consumptions.write( {'state':'draft'})
+            consumptions.write({'state': 'draft'})
             for consumption in consumptions:
-                consumption.agreement_id.compute_totals() 
-        return super(account_invoice, self).unlink() 
+                consumption.agreement_id.compute_totals()
+        return super(account_invoice, self).unlink()
 
     @api.multi
     def invoice_validate(self):
@@ -376,15 +395,13 @@ class account_invoice(models.Model):
         for invoice in self:
             for line in invoice.invoice_line:
                 agreements |= line.agreement_line_id.agreement_id
-        agreements.compute_totals()  
-        consumptions = self.env['service.consumption'].search([('invoice_id','in',self.ids)]) 
+        agreements.compute_totals()
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
         if consumptions:
-            consumptions.write( {'state':'done'})
+            consumptions.write({'state': 'done'})
         return res
 
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'
-    agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line' )     
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 
+    agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line')
