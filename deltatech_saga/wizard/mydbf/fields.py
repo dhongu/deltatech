@@ -163,4 +163,5 @@ type_to_fields = {
 }
 
 def guessField(type, size, deci=0):
+
     return type_to_fields[type, bool(deci)](size=size, deci=deci)

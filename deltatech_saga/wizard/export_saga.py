@@ -1,23 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2017 Deltatech
+# See README.rst file on addons root folder for license details
 
 import StringIO
 import base64
@@ -43,10 +26,13 @@ class export_saga(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('get', 'get')], default='choose')  # get the file
 
-    period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
+    #period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
+    date_from = fields.Date(string='Start Date')
+    date_to = fields.Date(string='End Date')
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
+    use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori")
     result = fields.Html(string="Result Export", readonly=True)
 
     def unaccent(self, text):
@@ -121,7 +107,11 @@ class export_saga(models.TransientModel):
                 is_tva = 1
 
             if partner.ref_supplier:
-                analitic = '401.' + partner.ref_supplier.zfill(5)
+
+                if self.use_analitic:
+                    analitic = '401.' + partner.ref_supplier.zfill(5)
+                else:
+                    analitic = '401'
             else:
                 analitic = ''
 
@@ -203,7 +193,10 @@ class export_saga(models.TransientModel):
                 is_tva = 1
 
             if partner.ref_customer:
-                analitic = '4111.' + partner.ref_customer.zfill(5)
+                if self.use_analitic:
+                    analitic = '4111.' + partner.ref_customer.zfill(5)
+                else:
+                    analitic = '4111'
             else:
                 analitic = ''
 
@@ -335,7 +328,7 @@ class export_saga(models.TransientModel):
         temp_file = StringIO.StringIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
 
-        # todo: de convertit toate preturirile in RON
+        # todo: de convertit toate preturile in RON
 
         for invoice in invoice_in_ids:
 
@@ -432,6 +425,7 @@ class export_saga(models.TransientModel):
                     cont = cont[:-1]
 
                 # inlocuire contrui de cheltuiala cu cele de stoc
+                # astea trebuie puse intr-un meniu de configurare
                 if cont == '6028':
                     cont = '3028'
                 elif cont == '6022':
@@ -488,34 +482,34 @@ class export_saga(models.TransientModel):
     def do_export_iesiri(self, invoice_out_ids):
         result_html = ''
         """
-Ieşiri 
-Nr. crt. Nume câmp Tip Mărime câmp Descriere 
-1. NR_IESIRE Character 16 Numărul documentului de ieşire, bon 
-2. COD Character 5 Cod client 
-3. DATA Date - Data documentului de ieşire 
-4. SCADENT Date - Data scadenţei 
-5. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă... 
-6. TVAI Numeric 1 1 pentru TVA la incasare 
-7. GESTIUNE Character 4 Cod gestiune (optional) 
-8. DEN_GEST Character 36 Denumirea gestiunii (optional) 
-9. COD_ART Character 16 Cod articol 
-10. DEN_ART Character 60 Denumire articol 
-11. UM Character 5 Unitatea de măsură pt.articol 
-12. CANTITATE Numeric 14,3 Cantitate 
-13. DEN_TIP Character 36 Denumirea tipului de articol (optional) 
-14. TVA_ART Numeric 2 Procentul de TVA 
-15. VALOARE Numeric 15,2 Valoarea totală, fără TVA 
-16. TVA Numeric 15,2 TVA total 
-17. CONT Character 20 Contul corespondent 
-18. PRET_VANZ Numeric 15,2 Preţul de vânzare 
-19. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
+        Ieşiri 
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere 
+        1. NR_IESIRE Character 16 Numărul documentului de ieşire, bon 
+        2. COD Character 5 Cod client 
+        3. DATA Date - Data documentului de ieşire 
+        4. SCADENT Date - Data scadenţei 
+        5. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă... 
+        6. TVAI Numeric 1 1 pentru TVA la incasare 
+        7. GESTIUNE Character 4 Cod gestiune (optional) 
+        8. DEN_GEST Character 36 Denumirea gestiunii (optional) 
+        9. COD_ART Character 16 Cod articol 
+        10. DEN_ART Character 60 Denumire articol 
+        11. UM Character 5 Unitatea de măsură pt.articol 
+        12. CANTITATE Numeric 14,3 Cantitate 
+        13. DEN_TIP Character 36 Denumirea tipului de articol (optional) 
+        14. TVA_ART Numeric 2 Procentul de TVA 
+        15. VALOARE Numeric 15,2 Valoarea totală, fără TVA 
+        16. TVA Numeric 15,2 TVA total 
+        17. CONT Character 20 Contul corespondent 
+        18. PRET_VANZ Numeric 15,2 Preţul de vânzare 
+        19. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
+        
+        
+        
+        Numele fişierului trebuie să fie în formatul următor: IE_<data-inceput>_<data-sfarsit>.dbf.
+        Fişierul va conţine câte o înregistrare pentru fiecare articol din factură. 
 
-
-
-Numele fişierului trebuie să fie în formatul următor: IE_<data-inceput>_<data-sfarsit>.dbf.
-Fişierul va conţine câte o înregistrare pentru fiecare articol din factură. 
-
-    """
+        """
         Iesiri = {
 
             'NR_IESIRE': dbf_fields.CharField(max_length=16),  # Numărul documentului de ieşire, bon
@@ -621,17 +615,21 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
         product_ids = self.env['product.template']
 
+        '''
         invoice_in_ids = self.env['account.invoice'].search([('period_id', '=', False)])
         for invoice in invoice_in_ids:
             period = self.env["account.period"].find(invoice.date)[:1]
             if period:
                 invoice.write({'period_id': period.id})
+        '''
 
-        invoice_in_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
+        invoice_in_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
+                                                             ('date', '<=', self.date_to),
                                                              ('state', 'in', ['open', 'paid']),
                                                              ('type', 'in', ['in_invoice', 'in_refund'])])
 
-        voucher_in_ids = self.env['account.voucher'].search([('period_id', '=', self.period_id.id),
+        voucher_in_ids = self.env['account.voucher'].search([('date', '>=', self.date_from),
+                                                             ('date', '<=', self.date_to),
                                                              ('state', 'in', ['posted']),
                                                              ('voucher_type', 'in', ['purchase'])])
 
@@ -647,7 +645,8 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             partner_in_ids |= voucher.partner_id.commercial_partner_id
 
         partner_out_ids = self.env['res.partner']
-        invoice_out_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
+        invoice_out_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
+                                                             ('date', '<=', self.date_to),
                                                               ('state', 'in', ['open', 'paid']),
                                                               ('type', 'in', ['out_invoice', 'out_refund'])])
 
@@ -659,8 +658,8 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         for invoice in invoice_out_ids:
             partner_out_ids |= invoice.commercial_partner_id
 
-        date_start = fields.Date.from_string(self.period_id.date_start)
-        date_stop = fields.Date.from_string(self.period_id.date_stop)
+        date_start = fields.Date.from_string(self.date_from)
+        date_stop = fields.Date.from_string(self.date_to)
 
         result_html = ' <div>Au fost exportate:</div>'
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
@@ -710,7 +709,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         out = base64.encodestring(buff.getvalue())
         buff.close()
 
-        filename = 'ExportOdoo' + self.period_id.name
+        filename = 'ExportOdoo_%s_%s' % ( self.date_from , self.date_to )
         extension = 'zip'
 
         name = "%s.%s" % (filename, extension)
@@ -729,4 +728,3 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             'target': 'new',
         }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
