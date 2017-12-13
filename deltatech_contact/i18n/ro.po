@@ -74,3 +74,18 @@ msgstr "SPCLEP .."
 msgid "e.g. Sales Director"
 msgstr "ex. director vânzări"
 
+#. module: deltatech_contact
+#: selection:res.partner,gender:0
+msgid "Male"
+msgstr "Masculin"
+
+#. module: deltatech_contact
+#: model:ir.model.fields,field_description:deltatech_contact.field_res_partner_gender
+#: model:ir.model.fields,field_description:deltatech_contact.field_res_users_gender
+msgid "Gender"
+msgstr "Gen"
+
+#. module: deltatech_contact
+#: selection:res.partner,gender:0
+msgid "Female"
+msgstr "Feminin"
