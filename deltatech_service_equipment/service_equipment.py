@@ -496,10 +496,7 @@ class service_equipment(models.Model):
 
             """
             lines.write({'active': False})
-            if not self.agreement_id.agreement_line:
-                self.agreement_id.unlink()
-            else:
-                self.agreement_id = False
+            self.agreement_id = False
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
 
