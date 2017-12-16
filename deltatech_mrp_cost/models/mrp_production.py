@@ -41,8 +41,8 @@ class MrpProduction(models.Model):
                 else:
                     qty = move.product_qty + move.product_qty * move.product_id.scrap
                     amount += move.product_id.standard_price * qty
-            calculate_price = amount / production.product_qty
-            amount = 0.0  # pretul poate fi caclulat dar valoarea productie va fi la final
+            product_qty = production.product_qty
+
         else:
             for move in production.move_raw_ids:
                 for quant in move.quant_ids:
@@ -53,31 +53,25 @@ class MrpProduction(models.Model):
                 product_qty += move.product_uom_qty
             if product_qty == 0.0:
                 product_qty = production.product_qty
-            calculate_price = amount / product_qty
-
-        production.calculate_price = calculate_price
-        production.amount = amount
 
         # adaugare manopera:
 
         if production.routing_id:
-            amount = 0.0
             for operation in production.routing_id.operation_ids:
-                time_cycle = operation.get_time_cycle(quantity=production.product_qty, product=production.product_id)
+                time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
 
-                cycle_number = math.ceil( production.product_qty / operation.workcenter_id.capacity)
+                cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
                 duration_expected = (operation.workcenter_id.time_start +
                                      operation.workcenter_id.time_stop +
                                      cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
 
                 amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
 
-            calculate_price = amount / production.product_qty
-            production.calculate_price += calculate_price
-            if not  planned_cost:
-                production.amount += amount
+        calculate_price = amount / product_qty
+        production.calculate_price = calculate_price
 
-
+        if not planned_cost:
+            production.amount = amount
 
     def _cal_price(self, consumed_moves):
         super(MrpProduction, self)._cal_price(consumed_moves)

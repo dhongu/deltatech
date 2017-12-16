@@ -14,5 +14,6 @@ class MrpRoutingWorkcenter(models.Model):
 
     @api.multi
     def get_time_cycle(self, quantity, product ):
+        'returneaza timpul per unitate'
         self.ensure_one()
         return self.time_cycle
