@@ -1,28 +1,16 @@
-# -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+ # -*- coding: utf-8 -*-
+# ©  2015-2017 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
 
 import odoo.addons.decimal_precision as dp
 
 from odoo import api
 from odoo import models, fields
+import math
+
 
 
 class MrpProduction(models.Model):
@@ -45,9 +33,14 @@ class MrpProduction(models.Model):
 
         if planned_cost:
             for move in production.move_raw_ids:
-                for quant in move.reserved_quant_ids:
-                    if quant.qty > 0:
-                        amount += quant.cost * quant.qty  # se face calculul dupa quanturile planificate
+                if move.reserved_quant_ids:
+                    for quant in move.reserved_quant_ids:
+                        if quant.qty > 0:
+                            qty = quant.qty + quant.qty * quant.product_id.scrap
+                            amount += quant.cost *  qty  # se face calculul dupa quanturile planificate
+                else:
+                    qty = move.product_qty + move.product_qty * move.product_id.scrap
+                    amount += move.product_id.standard_price * qty
             calculate_price = amount / production.product_qty
             amount = 0.0  # pretul poate fi caclulat dar valoarea productie va fi la final
         else:
@@ -64,6 +57,27 @@ class MrpProduction(models.Model):
 
         production.calculate_price = calculate_price
         production.amount = amount
+
+        # adaugare manopera:
+
+        if production.routing_id:
+            amount = 0.0
+            for operation in production.routing_id.operation_ids:
+                time_cycle = operation.get_time_cycle(quantity=production.product_qty, product=production.product_id)
+
+                cycle_number = math.ceil( production.product_qty / operation.workcenter_id.capacity)
+                duration_expected = (operation.workcenter_id.time_start +
+                                     operation.workcenter_id.time_stop +
+                                     cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
+
+                amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
+
+            calculate_price = amount / production.product_qty
+            production.calculate_price += calculate_price
+            if not  planned_cost:
+                production.amount += amount
+
+
 
     def _cal_price(self, consumed_moves):
         super(MrpProduction, self)._cal_price(consumed_moves)

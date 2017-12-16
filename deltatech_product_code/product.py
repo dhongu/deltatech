@@ -55,4 +55,4 @@ class product_product(models.Model):
                 default_code = self.categ_id.sequence_id.next_by_id()
                 self.write({'default_code': default_code})
 
-                # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
