@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
+        <!--
         <record id="stock.seq_picking_consume" model="ir.sequence">
             <field name="name">Sequence Consume</field>
             <field name="code">stock.picking</field>
@@ -35,6 +36,6 @@
             <field name="default_location_src_id" ref="stock.location_production"/>
             <field name="default_location_dest_id" ref="stock.stock_location_stock"/>
         </record>
-
+        -->
     </data>
 </odoo>

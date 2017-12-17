@@ -19,9 +19,11 @@ Functionalitati:
 
     "category": "Manufacturing",
     "depends": [
-        "mrp", "stock",
+        "mrp",
+        "stock",
         "sale",
         "product",
+        "deltatech_warehouse"
 
     ],
 

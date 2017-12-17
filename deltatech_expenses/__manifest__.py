@@ -57,6 +57,7 @@ Este necesar sa fie definit un jurnal nou pentru decontul de cheltuieli la care 
         #"data/product_data.xml",
         "data/partner_data.xml",
         #'views/report_expenses.xml',
+        'security/ir.model.access.csv'
 
     ],
 
@@ -64,4 +65,4 @@ Este necesar sa fie definit un jurnal nou pentru decontul de cheltuieli la care 
     'active': False,
 }
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -7,8 +7,7 @@
 
 import odoo.addons.decimal_precision as dp
 
-from odoo import api
-from odoo import models, fields
+from odoo import api, models, fields
 import math
 
 
@@ -111,8 +110,8 @@ class MrpProduction(models.Model):
                 else:
                     picking = move.picking_id
             if move_list:
-                picking_type = self.env.ref('stock.picking_type_consume', raise_if_not_found=True)
-
+                #picking_type = self.env.ref('stock.picking_type_consume', raise_if_not_found=True)
+                picking_type = self.env.user.company_id.pick_type_prod_consume_id
                 if picking_type:
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
@@ -136,8 +135,8 @@ class MrpProduction(models.Model):
                 else:
                     picking = move.picking_id
             if move_list:
-                picking_type = self.env.ref('stock.picking_type_receipt_production', raise_if_not_found=True)
-
+                #picking_type = self.env.ref('stock.picking_type_receipt_production', raise_if_not_found=True)
+                picking_type = self.env.user.company_id.pick_type_prod_receipt_id
                 if picking_type:
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
