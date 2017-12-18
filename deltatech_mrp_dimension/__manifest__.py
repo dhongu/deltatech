@@ -43,7 +43,7 @@ Functionalitati:
     'qweb': [
 
     ],
-    "active": False,
+
     "installable": True,
 }
 

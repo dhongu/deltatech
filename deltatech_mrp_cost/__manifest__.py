@@ -31,7 +31,7 @@ Functionalitati:
         "views/mrp_view.xml",
         "data/mrp_data.xml"
     ],
-    "active": False,
+
     "installable": True,
 }
 
