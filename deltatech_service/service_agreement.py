@@ -309,17 +309,13 @@ class service_agreement(models.Model):
     @api.multi
     def get_counters(self):
         histories = self.env['service.equipment.history'].search([('agreement_id','=',self.id)])
-        #get equipments
         equipment_ids = []
         history_ids = []
-        readings_list = []
-        equipments = []
         for history in histories:
             history_ids+=[history.id]
             if history.equipment_id not in equipment_ids:
                 equipment_ids+=[history.equipment_id.id]
-
-        #equipments = self.env['service.equipment'].search([('id','in',equipment_ids)])
+        #cautare readings care au echipamentul care a fost in contract si history-ul cu agreement_id-ul potrivit
         readings = self.env['service.meter.reading'].search([('equipment_id', 'in', equipment_ids), ('equipment_history_id', 'in', history_ids)],order="date")
         return readings
 
