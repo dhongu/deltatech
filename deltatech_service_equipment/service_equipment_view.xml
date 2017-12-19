@@ -20,7 +20,7 @@
             <field name="name">Services equipment history</field>
             <field name="model">service.equipment.history</field>
             <field name="arch" type="xml">
-                <form string="Services Equipment History" create="false">
+                <form string="Services Equipment History" create="true">
                     <group>
                         <field name="equipment_id"/>
                         <field name="partner_id"/>
