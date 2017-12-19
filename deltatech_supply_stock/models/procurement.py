@@ -21,7 +21,11 @@ class ProcurementOrder(models.Model):
                 cr = registry(self._cr.dbname).cursor()
                 self = self.with_env(self.env(cr=cr))  # TDE FIXME
 
-            warehouse = self.env['stock.warehouse'].search([], limit=1)
+            if not company_id:
+                company_id = self.env.user.company_id
+
+            warehouse = company_id.warehouse_id
+
             location = warehouse.lot_stock_id
             procurements = self.env["procurement.order"]
             for product in products:
@@ -59,7 +63,7 @@ class ProcurementOrder(models.Model):
                             'warehouse_id': warehouse.id,
                             'location_id': location.id,
                             'group_id': move.group_id.id,
-                            'company_id': warehouse.company_id.id})
+                            'company_id': company_id.id})
 
                         procurement.message_post(body=msg)
                         procurements |= procurement

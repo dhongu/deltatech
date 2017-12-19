@@ -31,7 +31,8 @@ class ProcurementComputeProducts(models.TransientModel):
         active_model = self.env.context.get('active_model', False)
         active_ids = self.env.context.get('active_ids', False)
 
-        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
+        warehouse = self.env.user.company_id.warehouse_id
+        #warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
 
         qty = {}
         products = self.env['product.product']
