@@ -91,7 +91,6 @@
                                 <td><span t-field="reading.date"/></td>
                                 <td><span t-field="reading.meter_id"/></td>
                                 <td><span t-field="reading.address_id"/></td>
-                                <td><span t-field="reading.equipment_history_id." </td>
                                 <td><span t-field="reading.equipment_id.name"/></td>
                                 <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
                                 <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
