@@ -86,6 +86,7 @@ class service_equipment_history(models.Model):
 
     active = fields.Boolean(default=True)
 
+
     # dupa ce se introduce un nou contor se verifica daca are citiri introduse la data din istoric echipament
     # la instalare dezinstalare se citesc automat contorii si se genereaza consumuri !! planificat???
 
@@ -117,7 +118,7 @@ class service_equipment(models.Model):
                                  readonly=True, help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location', related='equipment_history_id.address_id',
                                  readonly=True,
-                                 help='The address where the equipment is located')
+                                 help='The address where the equipment is located', store=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True,
                               help='Detail of location of the equipment in working point')
     install_date = fields.Date(string='Installation Date', related='equipment_history_id.from_date', readonly=True)
