@@ -119,6 +119,7 @@ class service_equipment(models.Model):
                                  readonly=True,
                                  help='The address where the equipment is located')
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True,
+                              store=True,
                               help='Detail of location of the equipment in working point')
     install_date = fields.Date(string='Installation Date', related='equipment_history_id.from_date', readonly=True)
     equipment_backup_id = fields.Many2one('service.equipment', string="Backup Equipment",
@@ -285,6 +286,8 @@ class service_equipment(models.Model):
             self.display_name = self.name + ' / ' + self.address_id.name
         else:
             self.display_name = self.name
+        if self.emplacement:
+            self.display_name = self.display_name + ' / ' + self.emplacement
         if self.serial_id:
             self.display_name = self.display_name + ' / ' + self.serial_id.name
 
