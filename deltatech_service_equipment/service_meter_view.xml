@@ -147,6 +147,7 @@
                                 <field name="previous_counter_value"/>
                                 <field name="counter_value"/>
                                 <field name="difference"/>
+                                <field name="equipment_history_id"/>
                             </group>
                             <group>
                                 <field name="estimated"/>

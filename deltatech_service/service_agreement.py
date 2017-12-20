@@ -306,6 +306,19 @@ class service_agreement(models.Model):
                 wizard_billing = self.env['service.billing'].with_context(active_ids=res['consumption_ids']).create({})
                 wizard_billing.do_billing()
 
+    @api.multi
+    def get_counters(self):
+        histories = self.env['service.equipment.history'].search([('agreement_id','=',self.id)])
+        equipment_ids = []
+        history_ids = []
+        for history in histories:
+            history_ids+=[history.id]
+            if history.equipment_id not in equipment_ids:
+                equipment_ids+=[history.equipment_id.id]
+        #cautare readings care au echipamentul care a fost in contract si history-ul cu agreement_id-ul potrivit
+        readings = self.env['service.meter.reading'].search([('equipment_id', 'in', equipment_ids), ('equipment_history_id', 'in', history_ids)],order="date")
+        return readings
+
 
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
