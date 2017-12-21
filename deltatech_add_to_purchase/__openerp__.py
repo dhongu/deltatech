@@ -27,7 +27,7 @@
     "depends": ['purchase', 'procurement', 'stock'],
     "description": '',
     "data": ['views/make_procurement_product_view.xml',
-             'views/prourement_view.xml'],
+             'views/procurement_view.xml'],
     "active": False,
     "installable": True,
     'application': False,
