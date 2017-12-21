@@ -19,31 +19,18 @@
 #
 ##############################################################################
 {
-    "name": "Deltatech Average Payment Period",
+    "name": "Deltatech Add To Purchase",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "description": """
-
-Functionalitati:
- -  
-
-   
-    """,
-
-    'category': 'Accounting & Finance',
-    "depends": ['account'],
-
-    "data": [
-        'account_view.xml',
-        'report/account_average_payment_view.xml',
-        'security/ir.model.access.csv'
-    ],
-
+    "category": "Generic Modules",
+    "depends": ['purchase', 'procurement', 'stock'],
+    "description": '',
+    "data": ['views/make_procurement_product_view.xml',
+             'views/prourement_view.xml'],
     "active": False,
     "installable": True,
+    'application': False,
+
 }
-
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

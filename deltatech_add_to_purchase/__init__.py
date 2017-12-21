@@ -18,32 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Deltatech Average Payment Period",
-    "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
 
-Functionalitati:
- -  
-
-   
-    """,
-
-    'category': 'Accounting & Finance',
-    "depends": ['account'],
-
-    "data": [
-        'account_view.xml',
-        'report/account_average_payment_view.xml',
-        'security/ir.model.access.csv'
-    ],
-
-    "active": False,
-    "installable": True,
-}
-
-
+import models
+import wizard
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
