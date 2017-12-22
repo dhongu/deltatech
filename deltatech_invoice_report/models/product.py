@@ -16,7 +16,7 @@ class product_invoice_history(models.TransientModel):
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    # invoice_count = fields.Integer(compute='_compute_invoice_count')
+    invoice_count = fields.Integer(compute='_compute_invoice_count')
     # invoice_history  = fields.Many2many('account.invoice.report', compute="_compute_invoice_history")
     invoice_history = fields.One2many('product.invoice.history', 'template_id', compute="_compute_invoice_history")
 
@@ -71,8 +71,7 @@ class product_template(models.Model):
         products = self.env['product.product']
         for template in self:
             products |= template.product_variant_ids
-        action[
-            'context'] = """{
+        action['context'] = """{
              'group_by':['date:year'],
              'measures': ['product_qty', 'price_average'],
              'col_group_by': ['type'] ,
@@ -81,4 +80,22 @@ class product_template(models.Model):
              }"""
         #
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, products.ids)) + "])]"
+        return action
+
+
+class product_product(models.Model):
+    _inherit = 'product.product'
+
+    @api.multi
+    def action_view_invoice(self):
+        action = self.env.ref('account.action_account_invoice_report_all').read()[0]
+        action['context'] = """{
+             'group_by':['date:year'],
+             'measures': ['product_qty', 'price_average'],
+             'col_group_by': ['type'] ,
+              'group_by_no_leaf': 1,
+              'search_disable_custom_filters': True
+             }"""
+        #
+        action['domain'] = "[('product_id','in',[" + ','.join(map(str, self.ids)) + "])]"
         return action
