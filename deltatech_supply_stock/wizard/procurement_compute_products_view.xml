@@ -13,10 +13,15 @@
                         Compute procurements
                     </p>
                     <group>
-                        <field name="group_id"/>
-                        <field name="background"/>
-                        <field name="make_prod"/>
-                        <field name="make_purch"/>
+                        <group>
+                            <field name="group_id"/>
+                            <field name="warehouse_id"/>
+                        </group>
+                        <group>
+                            <field name="background"/>
+                            <field name="make_prod"/>
+                            <field name="make_purch"/>
+                         </group>
                     </group>
 
                     <field name="item_ids">

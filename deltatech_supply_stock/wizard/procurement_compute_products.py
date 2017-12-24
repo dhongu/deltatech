@@ -7,7 +7,7 @@ import threading
 from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import odoo.addons.decimal_precision as dp
-
+from odoo.osv import expression
 
 _logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ class ProcurementComputeProducts(models.TransientModel):
     item_ids = fields.One2many('procurement.compute.products.item', 'compute_id')
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
     background = fields.Boolean('Run in background', default=True)
-    warehouse = fields.Many2one('stock.warehouse')
+    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse")
 
     make_prod = fields.Boolean(string = 'Make production order', default=True)
     make_purch = fields.Boolean(string= "Make purchase order", default=False)
@@ -34,6 +34,7 @@ class ProcurementComputeProducts(models.TransientModel):
         warehouse = self.env.user.company_id.warehouse_id
         #warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
 
+
         qty = {}
         products = self.env['product.product']
         if active_model == 'product.template':
@@ -47,6 +48,7 @@ class ProcurementComputeProducts(models.TransientModel):
         for product in products:
             qty[product.id] = -1.0 * product.virtual_available
 
+        # nu trbuie combinate comenzi din companii diferite
         if active_model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:
@@ -63,7 +65,7 @@ class ProcurementComputeProducts(models.TransientModel):
             for sale_order in sale_orders:
                 defaults['group_id'] = sale_order.procurement_group_id.id
                 warehouse = sale_order.warehouse_id
-                defaults['warehouse'] = warehouse.id
+
                 for line in sale_order.order_line:
                     products |= line.product_id
                     product_qty = line.product_uom._compute_quantity(line.product_uom_qty, line.product_id.uom_id)
@@ -90,7 +92,7 @@ class ProcurementComputeProducts(models.TransientModel):
             else:
                 qty[product.id] = -1 * product.virtual_available
 
-        defaults['warehouse'] = warehouse.id
+        defaults['warehouse_id'] = warehouse.id
         defaults['item_ids'] = []
         for product in products:
             if qty[product.id] > 0:
@@ -143,17 +145,27 @@ class ProcurementComputeProducts(models.TransientModel):
     @api.multi
     def individual_procurement(self):
         self.ensure_one()
-        route_buy = self.env.ref('purchase.route_warehouse0_buy')
-        route_manufacture = self.env.ref('mrp.route_warehouse0_manufacture')
 
         productions = self.env['mrp.production']
-        location = self.warehouse.lot_stock_id
+        location = self.warehouse_id.lot_stock_id
+        rule_domain = [('location_id','=',location.id)]
         OrderPoint = self.env['stock.warehouse.orderpoint']
         for item in self.item_ids:
             if item.qty > 0:
-                if route_buy.id in item.product_id.route_ids.ids and not self.make_purch:
+                product_routes = item.product_id.route_ids | item.product_id.categ_id.total_route_ids
+
+                rule = self.env['procurement.rule'].search(expression.AND([[('route_id', 'in', product_routes.ids)], rule_domain]),
+                                  order='route_sequence, sequence', limit=1)
+                if not rule:
                     continue
-                if route_manufacture.id in item.product_id.route_ids.ids and not self.make_prod:
+
+                if rule.action == 'buy':
+                    if not self.make_purch:
+                        continue
+                elif rule.action == 'manufacture':
+                    if not self.make_prod:
+                        continue
+                else:
                     continue
 
                 procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
@@ -189,11 +201,11 @@ class ProcurementComputeProducts(models.TransientModel):
                     'product_id': item.product_id.id,
                     'product_qty': qty,
                     'product_uom': item.product_id.uom_id.id,
-                    'warehouse_id': self.warehouse.id,
+                    'warehouse_id': self.warehouse_id.id,
                     'location_id': location.id,
                     'origin': origin,
                     'group_id': self.group_id.id,
-                    'company_id': self.warehouse.company_id.id})
+                    'company_id': self.warehouse_id.company_id.id})
                 new_procurement.run()
                 new_procurement.message_post(body=msg)
             if new_procurement.production_id:

@@ -34,7 +34,7 @@ Functionalitati:
     """,
 
     "category": "Warehouse",
-    "depends": ['procurement', 'sale_stock', 'mrp'],
+    "depends": ['procurement', 'sale_stock', 'mrp', 'deltatech_warehouse'],
 
     "data": [
         'wizard/procurement_compute_products_view.xml',
