@@ -89,6 +89,11 @@ class service_equipment_history(models.Model):
 
     # dupa ce se introduce un nou contor se verifica daca are citiri introduse la data din istoric echipament
     # la instalare dezinstalare se citesc automat contorii si se genereaza consumuri !! planificat???
+    @api.multi
+    def get_readings(self):
+        readings = self.env['service.meter.reading'].search([('equipment_history_id', '=', self.id)],order="date")
+        return readings
+
 
 
 class service_equipment(models.Model):
@@ -534,7 +539,7 @@ class service_equipment(models.Model):
 
     @api.multi
     def get_readings(self):
-        readings = self.env['service.meter.reading'].search([('equipment_id','=',self.id)])
+        readings = self.env['service.meter.reading'].search([('equipment_id','=',self.id)],order="date")
         return readings
 
 
