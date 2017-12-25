@@ -279,6 +279,7 @@
                     <field name="product_id"/>
                     <field name="note"/>
                     <field name="emplacement"/>
+                    <field name="address_id"/>
                     <field name="ean_code"/>
                     <field name="agreement_type_id"/>
                     <field name="contact_id"/>
