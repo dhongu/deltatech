@@ -279,6 +279,7 @@
                     <field name="product_id"/>
                     <field name="note"/>
                     <field name="emplacement"/>
+                    <field name="address_id"/>
                     <field name="ean_code"/>
                     <field name="agreement_type_id"/>
                     <field name="contact_id"/>
@@ -467,6 +468,16 @@
             name="deltatech_service_equipment.report_agreement_counters"
             attachment_use="False"
             file="deltatech_service_equipment.report_agreement_counters"
+		/>
+
+        <report
+			id="service_agreement_invoice_counters"
+            model="account.invoice"
+            string="Citiri contori"
+            report_type="qweb-pdf"
+            name="deltatech_service_equipment.report_invoice_counters"
+            attachment_use="False"
+            file="deltatech_service_equipment.report_invoice_counters"
 		/>
 
     </data>
