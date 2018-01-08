@@ -33,11 +33,14 @@ class product_template(models.Model):
                 else:
                     product.is_qty_available = 'provider'
         return res    
-    _ 
+    _
 
- 
- 
-   
-      
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+class ProductPricelist(models.Model):
+    _inherit = "product.pricelist"
+
+    def _default_website(self):
+        return self.env['website'].search([], limit=1)
+
+    website_id = fields.Many2one('website', string="website", default=_default_website)
+    selectable = fields.Boolean(help="Allow the end user to choose this price list")
