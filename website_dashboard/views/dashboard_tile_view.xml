@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_dashboard_tile_tree" model="ir.ui.view">
+            <field name="name">Dashboard Tiles</field>
+            <field name="model">dashboard.tile</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="symbol"/>
+                    <field name="color"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_dashboard_tile_form" model="ir.ui.view">
+            <field name="name">Dashboard Tile</field>
+            <field name="model">dashboard.tile</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="symbol"/>
+                                <field name="symbol_type"/>
+                                <field name="color"/>
+                            </group>
+
+                            <group>
+                                <field name="footer_symbol"/>
+                                <field name="footer_symbol_type"/>
+                                <field name="footer_text"/>
+                            </group>
+
+                            <group>
+                                <field name="model_id"/>
+                                <field name="domain"/>
+                                <field name="action_id"/>
+                            </group>
+                            <newlinw/>
+                            <group>
+                                <field name="primary_function"/>
+                                <field name="primary_field_id"/>
+                                <field name="primary_format"/>
+                                <field name="primary_negative"/>
+                                <field name="primary_value"/>
+                                <field name="primary_helper"/>
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_open_action" model="ir.actions.server">
+            <field name="name">Open Action</field>
+            <field name="model_id" ref="model_dashboard_tile"/>
+            <field name="code">
+                if not object and 'params' in context:
+                context['active_id'] = context['params']['id']
+                object = pool['dashboard.tile'].browse(cr, uid, context['params']['id'], context=context)
+                action = object.open_link()
+            </field>
+        </record>
+
+        <record id="action_dashboard_tile" model="ir.actions.act_window">
+            <field name="name">Dashboard Tile</field>
+            <field name="res_model">dashboard.tile</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Dashboard Tile" id="menu_dashboard_tile" action="action_dashboard_tile"
+                  parent="base.menu_reporting_dashboard" sequence="500"/>
+
+
+    </data>
+</openerp>

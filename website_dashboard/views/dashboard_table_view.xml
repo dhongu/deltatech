@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_dashboard_table_tree" model="ir.ui.view">
+            <field name="name">Dashboard Table</field>
+            <field name="model">dashboard.table</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="color"/>
+                    <field name="model_id"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_dashboard_table_form" model="ir.ui.view">
+            <field name="name">Dashboard Table</field>
+            <field name="model">dashboard.table</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="color"/>
+                                <field name="description"/>
+                                <field name="col"/>
+                            </group>
+                            <group>
+                                <field name="model_id"/>
+                                <field name="domain"/>
+                                <field name="action_id"/>
+                                <field name="order_by"/>
+                                <field name="top"/>
+                            </group>
+
+                        </group>
+                        <group>
+                            <field name="field_ids">
+                                <tree editable="bootom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="field_id"/>
+                                    <field name="func"/>
+                                    <field name="dashboard_table_id" invisible="1"/>
+                                    <field name="model_id" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <field name="field_id"/>
+                                    <field name="func"/>
+                                    <field name="dashboard_table_id" invisible="1"/>
+                                    <field name="model_id" invisible="1"/>
+                                </form>
+                            </field>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_dashboard_table" model="ir.actions.act_window">
+            <field name="name">Dashboard Table</field>
+            <field name="res_model">dashboard.table</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Dashboard Table" id="menu_dashboard_table" action="action_dashboard_table"
+                  parent="base.menu_reporting_dashboard" sequence="501"/>
+
+
+    </data>
+</openerp>
