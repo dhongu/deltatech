@@ -36,6 +36,14 @@ from openerp.addons.website.models.website import slug
 
 from openerp import SUPERUSER_ID
 
+from openerp.addons.website_sale.controllers.main import website_sale
+from openerp.addons.website_sale.controllers.main import QueryURL
+
+
+class WebsiteSale(website_sale):
+    def get_pricelist(self):
+        return request.website.get_current_pricelist()
+
 
 class website_stock(http.Controller):
     @http.route(['/stock/products', '/stock/products/page/<int:page>'], type='http', auth="user", website=True)
@@ -73,7 +81,7 @@ class website_stock(http.Controller):
         return request.website.render("deltatech_website_sale.products", values)
 
     @http.route(['/stock/product/<model("product.product"):product>'], type='http', auth="user", website=True)
-    def equipment_page(self, product, search='', message='', message_type='', **post):
+    def product_page(self, product, search='', message='', message_type='', **post):
 
         values = {
             'search': search,
@@ -82,4 +90,19 @@ class website_stock(http.Controller):
         # alert-success 
         return request.website.render("deltatech_website_sale.product", values)
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    @http.route(['/shop/change_pricelist/<model("product.pricelist"):pl_id>'], type='http', auth="public", website=True)
+    def pricelist_change(self, pl_id, **post):
+        if (pl_id.selectable or pl_id == request.env.user.partner_id.property_product_pricelist) \
+                and request.website.is_pricelist_available(pl_id.id):
+            request.session['website_sale_current_pl'] = pl_id.id
+            # request.website.sale_get_order(force_pricelist=pl_id.id)
+        return request.redirect(request.httprequest.referrer or '/shop')
+
+    @http.route(['/shop/pricelist'], type='http', auth="public", website=True)
+    def pricelist(self, promo, **post):
+        pricelist = request.env['product.pricelist'].sudo().search([('code', '=', promo)], limit=1)
+        if pricelist and not request.website.is_pricelist_available(pricelist.id):
+            return request.redirect("/shop/cart?code_not_available=1")
+
+        request.website.sale_get_order(code=promo)
+        return request.redirect("/shop/cart")
