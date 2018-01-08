@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_analytic_transfer_form" model="ir.ui.view">
+            <field name="name">account.analytic.transfer</field>
+            <field name="model">account.analytic.transfer</field>
+            <field name="arch" type="xml">
+                <form string="Change invoice number">
+                    <group>
+
+                        <group>
+                            <field name="from_alanytic_line" invisible="1"/>
+                            <field name="from_alanytic"/>
+                            <field name="to_alanytic"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="amount" class="oe_inline"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button name="do_transfer" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_account_analytic_transfer" name="Transfer amount"
+                    res_model="account.analytic.transfer"
+                    src_model="account.analytic.line"
+                    view_mode="form"
+                    target="new"/>
+
+    </data>
+</openerp>
