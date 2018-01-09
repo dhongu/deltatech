@@ -414,6 +414,15 @@ class account_invoice(models.Model):
             consumptions.write({'state': 'done'})
         return res
 
+    @api.multi
+    def get_counters(self):
+        readings = []
+        c_reading_ids = []
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
+        for consumption in consumptions:
+            c_reading_ids += [consumption.id]
+        readings = self.env['service.meter.reading'].search([('consumption_id','in',c_reading_ids)])
+        return readings
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'

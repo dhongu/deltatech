@@ -124,51 +124,45 @@
 
         <template id="equipment_invoice_counters_document">
             <div class="page">
-                <t t-set="histories_d" t-value="[]"/>
+                <t t-set="meters" t-value="[]"/>
+                <t t-set="readings" t-value="o.get_counters()"/>
+                <t t-foreach="readings" t-as="reading">
+                    <t t-set="meters" t-value="meters+[reading.meter_id.meter_categ_id]"/>
+                </t>
                 <strong>Factura: <span t-field="o.number"/> / <span t-field="o.date_invoice"/></strong><br/>
                 Client: <span t-field="o.partner_id"/><br/>
-                <t t-foreach="o.invoice_line" t-as="line">
-                    <t t-if="line.agreement_line_id">
-                        <t t-set="rd" t-value="line.agreement_line_id.equipment_history_id.get_readings()"/>
-                        <t t-set="histories" t-value="[]"/>
-                        <t t-foreach="rd" t-as="readings">
-                            <t t-set="histories" t-value="histories+[readings.equipment_history_id]"/>
-                        </t>
-
-                        <t t-foreach="set(histories)" t-as="history">
-                            <t t-if="history not in histories_d"> <!-- avoid history duplicates -->
-                                <t t-set="histories_d" t-value="histories_d+[history]"/>
-                                <h3><span t-field="history.equipment_id.name"/></h3>
-                                <strong style="margin-top:0px;margin-bottom:2px;">Amplasament:<span t-field="history.equipment_id.emplacement"/></strong>
-                                <strong style="margin-top:0px;margin-bottom:2px;">Serie:<span t-field="history.equipment_id.serial_id"/></strong>
-                                <table>
-                                    <thead class="default">
-                                        <th>Data</th>
-                                        <th>Contor</th>
-                                        <th>Instalat la</th>
-                                        <th>Valoare precedenta</th>
-                                        <th>Valoare citire</th>
-                                        <th>Diferenta</th>
-                                    </thead>
-
-                                    <tbody class="default">
-                                        <t t-foreach="rd" t-as="reading">
-                                            <t t-if="history.id==reading.equipment_history_id.id">
-                                                <tr>
-                                                    <td><span t-field="reading.date"/></td>
-                                                    <td><span t-field="reading.meter_id"/></td>
-                                                    <td><span t-field="reading.address_id"/></td>
-                                                    <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
-                                                    <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
-                                                    <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
-                                                </tr>
-                                            </t>
-                                        </t>
-                                    </tbody>
-                                </table>
+                Contract: <span t-field="o.agreement_id"/>/<span t-field="o.agreement_id.date_agreement"/><br/>
+                <t t-foreach="set(meters)" t-as="meter">
+                    <t t-set="total_readings" t-value="0"/>
+                    <table>
+                        <thead class="default">
+                            <th>Data</th>
+                            <th>Contor</th>
+                            <th>Instalat la</th>
+                            <th>Valoare precedenta</th>
+                            <th>Valoare citire</th>
+                            <th>Diferenta</th>
+                        </thead>
+                        <tbody class="default">
+                            <t t-foreach="readings" t-as="reading">
+                                <t t-if="reading.meter_id.meter_categ_id==meter">
+                                    <tr>
+                                        <td><span t-field="reading.date"/></td>
+                                        <td><span t-field="reading.meter_id"/></td>
+                                        <td><span t-field="reading.address_id"/></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                        <t t-set="total_readings" t-value="total_readings+reading.difference"/>
+                                    </tr>
+                                </t>
                             </t>
-                        </t>
-                    </t>
+                            <tr>
+                                <td colspan="5">Total: </td>
+                                <td><t t-esc="'{0:,.0f}'.format(total_readings)" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </t>
             </div>
         </template>
