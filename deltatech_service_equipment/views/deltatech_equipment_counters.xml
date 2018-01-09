@@ -137,6 +137,7 @@
                     <table>
                         <thead class="default">
                             <th>Data</th>
+                            <th>Echipament</th>
                             <th>Contor</th>
                             <th>Instalat la</th>
                             <th>Valoare precedenta</th>
@@ -148,6 +149,7 @@
                                 <t t-if="reading.meter_id.meter_categ_id==meter">
                                     <tr>
                                         <td><span t-field="reading.date"/></td>
+                                        <td><span t-field="reading.equipment_id"/></td>
                                         <td><span t-field="reading.meter_id"/></td>
                                         <td><span t-field="reading.address_id"/></td>
                                         <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
@@ -158,8 +160,8 @@
                                 </t>
                             </t>
                             <tr>
-                                <td colspan="5">Total: </td>
-                                <td><t t-esc="'{0:,.0f}'.format(total_readings)" /></td>
+                                <td colspan="6" style="text-align:right;font-weight:bold;">Total: </td>
+                                <td style="font-weight:bold;"><t t-esc="'{0:,.0f}'.format(total_readings)" /></td>
                             </tr>
                         </tbody>
                     </table>
