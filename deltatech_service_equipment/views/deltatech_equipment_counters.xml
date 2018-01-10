@@ -76,16 +76,22 @@
                     <h3>Contract: <span t-field="o.name"/> / <span t-field="o.date_agreement"/> </h3>
                     <span t-field="o.partner_id"/>
                     <t t-set="rd" t-value="o.get_counters()"/>
-
-                    <t t-set="equipments" t-value="[]"/>
+                    <t t-set="addresses" t-value="[]"/>
                     <t t-foreach="rd" t-as="readings">
-                        <t t-set="equipments" t-value="equipments+[readings.equipment_id]"/>
+                        <t t-set="addresses" t-value="addresses+[readings.address_id]"/>
                     </t>
-                    <t t-foreach="set(equipments)" t-as="equipment">
-                        <h3><span t-field="equipment.name"/></h3>
-                        <strong style="margin-top:0px;margin-bottom:2px;">Amplasament:<span t-field="equipment.emplacement"/></strong>
-                        <strong style="margin-top:0px;margin-bottom:2px;">Serie:<span t-field="equipment.serial_id"/></strong>
-                        <table>
+                    <t t-foreach="set(addresses)" t-as="address">
+                        <t t-set="ea_readings" t-value="o.get_counters_ea(address.id)"/>
+                        <h3 t-field="address.name"/>
+                        <t t-set="equipments" t-value="[]"/>
+                        <t t-foreach="ea_readings" t-as="readings">
+                            <t t-set="equipments" t-value="equipments+[readings.equipment_id]"/>
+                        </t>
+                        <t t-foreach="set(equipments)" t-as="equipment">
+                            <strong><span t-field="equipment.name"/></strong>
+                            <strong style="margin-top:0px;margin-bottom:2px;">Amplasament:<span t-field="equipment.emplacement"/></strong>
+                            <strong style="margin-top:0px;margin-bottom:2px;">Serie:<span t-field="equipment.serial_id"/></strong>
+                            <table>
                             <thead class="default">
                                 <th>Data</th>
                                 <th>Contor</th>
@@ -94,22 +100,32 @@
                                 <th>Valoare citire</th>
                                 <th>Diferenta</th>
                             </thead>
-
                             <tbody class="default">
-                                <t t-foreach="rd" t-as="reading">
-                                    <t t-if="equipment.id==reading.equipment_id.id">
+                                <t t-foreach="ea_readings" t-as="reading">
+                                    <t t-if="equipment.id==reading.equipment_id.id and reading.address_id==address">
                                         <tr>
-                                            <td><span t-field="reading.date"/></td>
-                                            <td><span t-field="reading.meter_id"/></td>
-                                            <td><span t-field="reading.address_id"/></td>
-                                            <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
-                                            <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
-                                            <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                            <t t-if="reading.previous_counter_value&gt;0">
+                                                <td><span t-field="reading.date"/></td>
+                                                <td><span t-field="reading.meter_id"/></td>
+                                                <td><span t-field="reading.address_id"/></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                            </t>
+                                            <t t-if="reading.previous_counter_value==0">
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.date"/></td>
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.meter_id"/></td>
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.address_id"/></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                            </t>
                                         </tr>
                                     </t>
                                 </t>
                             </tbody>
-                        </table>
+                            </table>
+                        </t>
                     </t>
                 </div>
         </template>
@@ -138,6 +154,7 @@
                         <thead class="default">
                             <th>Data</th>
                             <th>Echipament</th>
+                            <th>Serie</th>
                             <th>Contor</th>
                             <th>Instalat la</th>
                             <th>Valoare precedenta</th>
@@ -150,6 +167,7 @@
                                     <tr>
                                         <td><span t-field="reading.date"/></td>
                                         <td><span t-field="reading.equipment_id"/></td>
+                                        <td><span t-field="reading.equipment_id.serial_id"/></td>
                                         <td><span t-field="reading.meter_id"/></td>
                                         <td><span t-field="reading.address_id"/></td>
                                         <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
@@ -160,7 +178,7 @@
                                 </t>
                             </t>
                             <tr>
-                                <td colspan="6" style="text-align:right;font-weight:bold;">Total: </td>
+                                <td colspan="7" style="text-align:right;font-weight:bold;">Total: </td>
                                 <td style="font-weight:bold;"><t t-esc="'{0:,.0f}'.format(total_readings)" /></td>
                             </tr>
                         </tbody>
