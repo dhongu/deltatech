@@ -77,12 +77,20 @@
                     <span t-field="o.partner_id"/>
                     <t t-set="rd" t-value="o.get_counters()"/>
                     <t t-set="addresses" t-value="[]"/>
-                    <t t-foreach="rd" t-as="readings">
+                    <t t-foreach="rd.sorted(key=lambda r: r.address_id.name)" t-as="readings">
                         <t t-set="addresses" t-value="addresses+[readings.address_id]"/>
                     </t>
-                    <t t-foreach="set(addresses)" t-as="address">
+                    <!--remove duplicates-->
+                    <t t-set="addresses_unduplicated" t-value="[]"/>
+                    <t t-foreach="addresses" t-as="address">
+                        <t t-if="address not in addresses_unduplicated">
+                            <t t-set="addresses_unduplicated" t-value="addresses_unduplicated+[address]"/>
+                        </t>
+                    </t>
+
+                    <t t-foreach="addresses_unduplicated" t-as="address">
                         <t t-set="ea_readings" t-value="o.get_counters_ea(address.id)"/>
-                        <h3 t-field="address.name"/>
+                        <h3>||<span t-field="address.name"/></h3>
                         <t t-set="equipments" t-value="[]"/>
                         <t t-foreach="ea_readings" t-as="readings">
                             <t t-set="equipments" t-value="equipments+[readings.equipment_id]"/>
