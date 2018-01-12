@@ -28,6 +28,8 @@ import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import time
+from openerp.osv import expression
+
 
 from collections import OrderedDict
 
@@ -104,6 +106,8 @@ class dashboard_tile(models.Model):
     domain = fields.Text(default='[]')
     action_id = fields.Many2one('ir.actions.act_window', 'Action')
 
+    date_field_id = fields.Many2one('ir.model.fields', string='Date Field',
+                                    domain="[('model_id', '=', model_id), ('ttype', 'in', ['date', 'datetime'])]")
     # Primary Value
     primary_function = fields.Selection(FIELD_FUNCTION_SELECTION, string='Function', default='count')
     primary_field_id = fields.Many2one('ir.model.fields', string='Field',
@@ -113,101 +117,64 @@ class dashboard_tile(models.Model):
                                  help='Python Format String valid with str.format()\n'
                                       'ie: \'{:,} Kgs\' will output \'1,000 Kgs\' if value is 1000.')
     primary_value = fields.Char(string='Value', compute='_compute_data')
-    primary_helper = fields.Char(string='Helper', compute='_compute_helper')
 
-    # Secondary Value
-    secondary_function = fields.Selection(FIELD_FUNCTION_SELECTION, string='Secondary Function')
-    secondary_field_id = fields.Many2one('ir.model.fields', string='Secondary Field',
-                                         domain="[('model_id', '=', model_id),  ('ttype', 'in', ['float', 'integer'])]")
-    secondary_negative = fields.Boolean('Negative')
-    secondary_format = fields.Char(string='Secondary Format',
-                                   help='Python Format String valid with str.format()\n'
-                                        'ie: \'{:,} Kgs\' will output \'1,000 Kgs\' if value is 1000.')
-    secondary_value = fields.Char(string='Secondary Value', compute='_compute_data')
-    secondary_helper = fields.Char(string='Secondary Helper', compute='_compute_helper')
+
 
     error = fields.Char(string='Error Details', compute='_compute_data')
 
+
     @api.one
     def _compute_data(self):
-
-        model = self.env[self.model_id.model]
-        eval_context = self._get_eval_context()
-        domain = self.domain or '[]'
         try:
-            count = model.search_count(eval(domain, eval_context))
+            model = self.env[self.model_id.model]
+            eval_context = self._get_eval_context()
+            domain = self.domain or '[]'
+            domain = eval(domain, eval_context)
+            if 'date_range' in self.env.context and self.date_field_id:
+                start = self.env.context['date_range']['start']
+                end = self.env.context['date_range']['end']
+                date_domain = [(self.date_field_id.name, '>=', start),
+                               (self.date_field_id.name, '<=', end)]
+                domain = expression.AND([domain, date_domain])
+
+            field_name = self.primary_field_id.name
+
+            if self.primary_function == 'sum':
+                records = model.read_group(domain=domain, fields=[field_name], groupby=[])
+                value = records and records[0][field_name] or 0.0
+                if self.primary_negative:
+                    value = -1 * value
+                self.primary_value = value
+            elif self.primary_function == 'count':
+                value = model.search_count(domain)
+                self.primary_value = value
+            elif self.primary_function == 'min':
+                records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                           orderby=field_name, limit=1)
+                value = records and records[0][field_name] or 0.0
+                if self.primary_negative:
+                    value = -1 * value
+                self.primary_value = value
+            elif self.primary_function == 'max':
+                records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                           orderby=field_name + ' DESC', limit=1)
+                value = records and records[0][field_name] or 0.0
+                if self.primary_negative:
+                    value = -1 * value
+                self.primary_value = value
         except Exception as e:
-            self.primary_value = self.secondary_value = 'ERR!'
+            self.primary_value = 'ERR!'
             self.error = str(e)
             return
-        if any([self.primary_function and self.primary_function != 'count',
-                self.secondary_function and self.secondary_function != 'count'
-                ]):
-            records = model.search(eval(domain, eval_context))
-        for f in ['primary_', 'secondary_']:
-            f_function = f + 'function'
-            f_field_id = f + 'field_id'
-            f_format = f + 'format'
-            f_value = f + 'value'
-            f_negative = f + 'negative'
-            value = 0
-            if self[f_function] == 'count':
-                value = count
-            elif self[f_function]:
-                func = FIELD_FUNCTIONS[self[f_function]]['func']
-                if func and self[f_field_id] and count:
-                    vals = [x[self[f_field_id].name] for x in records]
-                    value = func(vals)
-            if self[f_negative]:
-                value = -1 * value
-            if self[f_function]:
-                try:
-                    self[f_value] = (self[f_format] or '{:,}').format(value)
-                except Exception as e:
-                    self[f_value] = 'F_ERR!'
-                    self.error = str(e)
-                    return
-            else:
-                self[f_value] = False
-
-    @api.one
-    @api.onchange('primary_function', 'primary_field_id', 'secondary_function', 'secondary_field_id')
-    def _compute_helper(self):
-        for f in ['primary_', 'secondary_']:
-            f_function = f + 'function'
-            f_field_id = f + 'field_id'
-            f_helper = f + 'helper'
-            self[f_helper] = ''
-            field_func = FIELD_FUNCTIONS.get(self[f_function], {})
-            help = field_func.get('help', False)
-            if help:
-                if self[f_function] != 'count' and self[f_field_id]:
-                    desc = self[f_field_id].field_description
-                    self[f_helper] = help % desc
-                else:
-                    self[f_helper] = help
-
-    # Constraints and onchanges
-    @api.one
-    @api.constrains('model_id', 'primary_field_id', 'secondary_field_id')
-    def _check_model_id_field_id(self):
-        if any([self.primary_field_id and self.primary_field_id.model_id.id != self.model_id.id,
-                self.secondary_field_id and self.secondary_field_id.model_id.id != self.model_id.id
-                ]):
-            raise ValidationError(
-                _("Please select a field from the selected model."))
 
     @api.onchange('model_id')
     def _onchange_model_id(self):
         self.primary_field_id = False
-        self.secondary_field_id = False
 
-    @api.onchange('primary_function', 'secondary_function')
+    @api.onchange('primary_function')
     def _onchange_function(self):
         if self.primary_function in [False, 'count']:
             self.primary_field_id = False
-        if self.secondary_function in [False, 'count']:
-            self.secondary_field_id = False
 
     # Action methods
     @api.multi

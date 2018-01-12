@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-import babel.dates
+
 import time
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -40,10 +40,13 @@ from openerp import SUPERUSER_ID
 
 class website_dasboard(http.Controller):
     @http.route(['/dashboard'], type='http', auth="user", website=True)
-    def dashboard(self, page=1, search='', **post):
+    def dashboard(self, start='', end='', **post):
         cr, uid, context = request.cr, request.uid, request.context
         tiles_obj = request.registry['dashboard.tile']
         domain = []
+        if start and end:
+            context['date_range'] = {'start': start, 'end': end}
+
         tile_ids = tiles_obj.search(cr, uid, domain, context=context)
         tiles = tiles_obj.browse(cr, uid, tile_ids, context=context)
 
@@ -65,16 +68,3 @@ class website_dasboard(http.Controller):
 
         return request.website.render("website_dashboard.dashboard", values)
 
-    @http.route(['/dashboard/graph_pie/<int:graph_id>'], type='json', auth="user", website=True)
-    def get_pie_data(self, graph_id, **post):
-        cr, uid, context = request.cr, request.uid, request.context
-        res = {}
-        return res
-
-    @http.route(['/dashboard/graph_data/<int:graph_id>'], type='http', auth="user", website=True)
-    def get_pie_data(self, graph_id, **post):
-        res = {
-            'labels': ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-            'series': [[12, 17, 7, 17, 23, 18, 38]]
-        }
-        return res

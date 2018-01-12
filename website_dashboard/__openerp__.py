@@ -39,7 +39,8 @@ Functionalitati:
              'views/dashboard_table_view.xml',
              'views/dashboard_graph_view.xml',
              'views/assets.xml',
-             'views/template.xml'],
+             'views/template.xml',
+             'security/ir.model.access.csv'],
     "active": False,
     "installable": True,
 }

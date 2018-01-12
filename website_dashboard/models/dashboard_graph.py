@@ -6,7 +6,7 @@ from datetime import datetime, date, timedelta
 import time
 import json
 import locale
-
+from openerp.osv import expression
 
 class Encoder(json.JSONEncoder):
     def default(self, obj):
@@ -115,6 +115,8 @@ class dashboard_graph_series(models.Model):
     model_id = fields.Many2one('ir.model', 'Model', required=True)
     domain = fields.Text(default='[]')
     negative = fields.Boolean('Negative')
+    date_field_id = fields.Many2one('ir.model.fields', string='Date Field',
+                                    domain="[('model_id', '=', model_id), ('ttype', 'in', ['date', 'datetime'])]")
     value_field_id = fields.Many2one('ir.model.fields', string='Value Field',
                                      domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
     label_field_id = fields.Many2one('ir.model.fields', string='Label Field', domain="[('model_id', '=', model_id)]")
@@ -142,6 +144,12 @@ class dashboard_graph_series(models.Model):
         model = self.env[self.model_id.model]
         eval_context = self._get_eval_context()
         domain = eval(self.domain, eval_context)
+        if 'date_range' in self.env.context and self.date_field_id:
+            start = self.env.context['date_range']['start']
+            end = self.env.context['date_range']['end']
+            date_domain = [(self.date_field_id.name, '>=', start),
+                           (self.date_field_id.name, '<=', end)]
+            domain = expression.AND([domain, date_domain])
         # records = model.search(eval(domain, eval_context), order=self.order_by, limit=self.top)
         if self.dashboard_graph_id.time_series and not self.dashboard_graph_id.no_group:
             group_by = [self.label_field_id.name + ':day']

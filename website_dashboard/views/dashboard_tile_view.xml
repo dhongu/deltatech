@@ -37,6 +37,7 @@
                             <group>
                                 <field name="model_id"/>
                                 <field name="domain"/>
+                                <field name="date_field_id"/>
                                 <field name="action_id"/>
                             </group>
                             <newlinw/>
@@ -46,7 +47,6 @@
                                 <field name="primary_format"/>
                                 <field name="primary_negative"/>
                                 <field name="primary_value"/>
-                                <field name="primary_helper"/>
                             </group>
                             <group>
 

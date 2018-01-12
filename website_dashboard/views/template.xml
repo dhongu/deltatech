@@ -9,16 +9,37 @@
                 <script src="/website_dashboard/static/lib/nvd3/nv.d3.js"></script>
                 -->
 
+                <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+                <script src="/website_dashboard/static/lib/moment/moment.js"/>
+
+                <!-- Include Date Range Picker -->
+                <script type="text/javascript" src="/website_dashboard/static/lib/daterangepicker/daterangepicker.js"/>
+                <link rel="stylesheet" type="text/css"
+                      href="/website_dashboard/static/lib/daterangepicker/daterangepicker.css"/>
+
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div id="reportrange">
+                            <i class="fa fa-calendar"></i>
+                            <span></span>
+                            <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+                <script src="/website_dashboard/static/src/js/datarange.js"></script>
+
 
                 <link href="/website_dashboard/static/src/css/chartist.css" rel="stylesheet" type="text/css"/>
                 <script src="/website_dashboard/static/lib/chartist/chartist.js"></script>
-                <script src="/website_dashboard/static/lib/moment/moment.js"></script>
+
                 <link href="/website_dashboard/static/src/css/material-dashboard.css" rel="stylesheet"/>
                 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
                       type='text/css'/>
 
                 <div class="container-fluid">
                     <div id="wrap" class="oe_structure"/>
+
                     <div class="row">
                         <t t-foreach="tiles" t-as="tile">
                             <t t-call="website_dashboard.tile"/>
@@ -38,6 +59,7 @@
 
             </t>
             <script src="/website_dashboard/static/src/js/graph.js"></script>
+
             <t t-foreach="graphs" t-as="graph">
 
                 <script t-if="graph.type=='line'">
