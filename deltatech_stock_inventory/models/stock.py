@@ -206,6 +206,11 @@ class Quant(models.Model):
     def _compute_sale_value(self):
         self.sale_value = self.qty * self.product_id.list_price
 
+    @api.one
+    def calc_inv_value(self):
+        sale_value = self.qty * self.product_id.list_price
+        self.inventory_value=sale_value-(sale_value*0.1)
+
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         res = super(Quant, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
