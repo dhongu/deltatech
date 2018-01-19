@@ -207,9 +207,10 @@ class Quant(models.Model):
         self.sale_value = self.qty * self.product_id.list_price
 
     @api.one
-    def calc_inv_value(self):
-        sale_value = self.qty * self.product_id.list_price
-        self.inventory_value=sale_value-(sale_value*0.1)
+    def calc_inv_value(self,vat_value,dim_value):
+        #sale_value = self.qty * self.product_id.list_price
+        sale_value = round((self.qty * self.product_id.list_price)/vat_value,2)
+        self.inventory_value=sale_value-(sale_value*dim_value)
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
