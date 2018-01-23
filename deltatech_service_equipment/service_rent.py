@@ -118,6 +118,7 @@ class service_agreement_line(models.Model):
                                            copy=False)  # id de istoric la care a fost instalat echipamentul
     meter_id = fields.Many2one('service.meter', string='Meter')
 
+
     lock_edit = fields.Boolean()
     
     # de adaugat constringerea ca unitatea de masura de la linie sa fi la fel ca si cea de la meter
@@ -208,13 +209,13 @@ class service_agreement_line(models.Model):
                     end_date =  consumption.period_id.date_start 
                     start_date =  consumption.period_id.date_stop
 
-                print start_date, end_date, readings
+                # print start_date, end_date, readings
                 # de ce mai determin citirile cand : pentru a scoate citirile care au facuta cand echipamentul era dezinstalat sau backup
                 domain = [('id','in',readings.ids ),('equipment_history_id.address_id','child_of',self.agreement_id.partner_id.id)]
                 
                 readings = self.env['service.meter.reading'].search(domain)
                 quantity = 0
-                print start_date, end_date, readings
+                #print start_date, end_date, readings
                 for reading in readings:   
                     from_uom = reading.meter_id.uom_id
                     to_uom =  consumption.agreement_line_id.uom_id
@@ -236,8 +237,8 @@ class service_agreement_line(models.Model):
                     readings.write({'consumption_id':consumption.id})
                 if quantity != 0 or consumption.agreement_line_id.active:
                     consumption.write({'quantity': quantity,
-                                    'name':name,
-                                    'equipment_id':equipment.id })
+                                       'name': name,
+                                       'equipment_id': equipment.id})
                 
                 # determin daca in interval echipamentul a fost inlcuit de altul
                 domain = [('equipment_id','=',equipment.id),('from_date','>=',start_date),('from_date','<=',end_date)]
@@ -261,8 +262,10 @@ class service_agreement_line(models.Model):
                         res = res.extend( self.after_create_consumption(new_consumption, equi) )                   
                 
             else:  # echipament fara contor
-                consumption.write({'name':self.equipment_id.display_name,
-                                   'equipment_id':equipment.id})
+                cons_value = {'name': self.equipment_id.display_name, 'equipment_id': equipment.id}
+                if not consumption.agreement_line_id.active:
+                    cons_value['quantity'] = 0
+                consumption.write(cons_value)
         return res        
                 
 
@@ -270,6 +273,10 @@ class service_consumption(models.Model):
     _inherit = 'service.consumption'                
 
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True)
+    address_id = fields.Many2one('res.partner', string='Location', related='equipment_id.address_id',
+                                 readonly=True,
+                                 help='The address where the equipment is located', store=True)
+
 
     _sql_constraints = [
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id,equipment_id)',

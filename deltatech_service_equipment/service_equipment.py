@@ -515,7 +515,8 @@ class service_equipment(models.Model):
                 # dalca nu se pot sterge atunci le fac inactive
 
             """
-            lines.write({'active': False})
+            lines.write({'active': False,
+                         'quantity': 0})
             self.agreement_id = False
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
