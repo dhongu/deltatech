@@ -86,8 +86,14 @@ class service_equipment_history(models.Model):
 
     active = fields.Boolean(default=True)
 
+
     # dupa ce se introduce un nou contor se verifica daca are citiri introduse la data din istoric echipament
     # la instalare dezinstalare se citesc automat contorii si se genereaza consumuri !! planificat???
+    @api.multi
+    def get_readings(self):
+        readings = self.env['service.meter.reading'].search([('equipment_history_id', '=', self.id)],order="date")
+        return readings
+
 
 
 class service_equipment(models.Model):
@@ -117,8 +123,9 @@ class service_equipment(models.Model):
                                  readonly=True, help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location', related='equipment_history_id.address_id',
                                  readonly=True,
-                                 help='The address where the equipment is located')
+                                 help='The address where the equipment is located', store=True)
     emplacement = fields.Char(string='Emplacement', related='equipment_history_id.emplacement', readonly=True,
+                              store=True,
                               help='Detail of location of the equipment in working point')
     install_date = fields.Date(string='Installation Date', related='equipment_history_id.from_date', readonly=True)
     equipment_backup_id = fields.Many2one('service.equipment', string="Backup Equipment",
@@ -285,6 +292,8 @@ class service_equipment(models.Model):
             self.display_name = self.name + ' / ' + self.address_id.name
         else:
             self.display_name = self.name
+        if self.emplacement:
+            self.display_name = self.display_name + ' / ' + self.emplacement
         if self.serial_id:
             self.display_name = self.display_name + ' / ' + self.serial_id.name
 
@@ -507,10 +516,7 @@ class service_equipment(models.Model):
 
             """
             lines.write({'active': False})
-            if not self.agreement_id.agreement_line:
-                self.agreement_id.unlink()
-            else:
-                self.agreement_id = False
+            self.agreement_id = False
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
 
@@ -544,7 +550,7 @@ class service_equipment(models.Model):
 
     @api.multi
     def get_readings(self):
-        readings = self.env['service.meter.reading'].search([('equipment_id','=',self.id)])
+        readings = self.env['service.meter.reading'].search([('equipment_id','=',self.id)],order="date")
         return readings
 
 

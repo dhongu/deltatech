@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_dashboard_table,access_dashboard_table,model_dashboard_table,base.group_user,1,0,0,0
+access_dashboard_table_fields,access_dashboard_table_fields,model_dashboard_table_fields,base.group_user,1,0,0,0
+access_dashboard_tile,access_ashboard_tile,model_dashboard_tile,base.group_user,1,0,0,0
+access_dashboard_graph,access_dashboard_graph,model_dashboard_graph,base.group_user,1,0,0,0
+access_dashboard_graph_series,access_dashboard_graph_series,model_dashboard_graph_series,base.group_user,1,0,0,0

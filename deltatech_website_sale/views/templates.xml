@@ -2,6 +2,25 @@
 <openerp>
     <data>
 
+        <template id="pricelist_list" name="Pricelists Dropdown">
+            <div>Lista de Preturi</div>
+            <t t-set="website_sale_pricelists" t-value="website.get_pricelist_available(show_visible=True)"/>
+            <div t-attf-class="#{website_sale_pricelists and len(website_sale_pricelists)&gt;1 and 'dropdown' or 'hidden'} btn-group">
+                <t t-set="curr_pl" t-value="website.get_current_pricelist()"/>
+                <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown">
+                    <t t-esc="curr_pl and curr_pl.name or ' - '"/>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu">
+                    <li t-foreach="website_sale_pricelists" t-as="pl">
+                        <a t-att-href="'/shop/change_pricelist/%s' % pl.id">
+                            <span class="switcher_pricelist" t-att-data-pl_id="pl.id" t-esc="pl.name"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </template>
+
         <template id="products_qty_available" inherit_id="website_sale.products_item" active="False"
                   customize_show="True" name="Product Available">
             <xpath expr="//div[@class='product_price']" position="before">
@@ -64,6 +83,7 @@
                             <t t-call="deltatech_website_sale.product_search">
                                 <t t-set="search_class">pagination form-inline col-md-3</t>
                             </t>
+                            <t t-call="deltatech_website_sale.pricelist_list"/>
                             <t t-call="website.pager"/>
                         </div>
                         <div class="row mt32 mb32">

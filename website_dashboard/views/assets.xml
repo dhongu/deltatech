@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_frontend_dashboard" name="Dashboard Assets" inherit_id="website.assets_frontend">
+            <xpath expr="//script[last()]" position="after">
+                <!--
+                <script src="/website_dashboard/static/lib/nvd3/d3.v3.js" charset="utf-8"></script>
+                <script src="/website_dashboard/static/lib/nvd3/nv.d3.js"></script>
+                -->
+            </xpath>
+        </template>
+        <template id="assets_frontend_dashboard_css" name="Dashboard Style Assets" inherit_id="website.theme">
+            <xpath expr='//link[@href="/website/static/src/css/website.css"]' position="after">
+                <!--
+                <link href="/website_dashboard/static/src/css/material-dashboard.css" rel="stylesheet"/>
+                <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
+                      type='text/css'/>
+                <link href="/website_dashboard/static/src/css/nv.d3.css" rel="stylesheet" type="text/css"/>
+                -->
+            </xpath>
+        </template>
+    </data>
+</openerp>
+
+
+

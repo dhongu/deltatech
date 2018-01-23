@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Stock Reevaluation Report -->
+<!--Counters reports -->
 <openerp>
     <data>
         <template id="equipment_counters_document">
@@ -51,9 +51,9 @@
                                 <td><span t-field="reading.meter_id"/></td>
                                 <td><span t-field="reading.address_id"/></td>
                                 <td><span t-field="reading.equipment_history_id.agreement_id"/></td>
-                                <td><span t-field="reading.previous_counter_value"/></td>
-                                <td><span t-field="reading.counter_value"/></td>
-                                <td><span t-field="reading.difference"/></td>
+                                <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -68,5 +68,142 @@
                 </t>
             </t>
         </template>
+
+
+        <template id="equipment_agreement_counters_document">
+
+                <div class="page">
+                    <h3>Contract: <span t-field="o.name"/> / <span t-field="o.date_agreement"/> </h3>
+                    <span t-field="o.partner_id"/>
+                    <t t-set="rd" t-value="o.get_counters()"/>
+                    <t t-set="addresses" t-value="[]"/>
+                    <t t-foreach="rd.sorted(key=lambda r: r.address_id.name)" t-as="readings">
+                        <t t-set="addresses" t-value="addresses+[readings.address_id]"/>
+                    </t>
+                    <!--remove duplicates-->
+                    <t t-set="addresses_unduplicated" t-value="[]"/>
+                    <t t-foreach="addresses" t-as="address">
+                        <t t-if="address not in addresses_unduplicated">
+                            <t t-set="addresses_unduplicated" t-value="addresses_unduplicated+[address]"/>
+                        </t>
+                    </t>
+
+                    <t t-foreach="addresses_unduplicated" t-as="address">
+                        <t t-set="ea_readings" t-value="o.get_counters_ea(address.id)"/>
+                        <h3>||<span t-field="address.name"/></h3>
+                        <t t-set="equipments" t-value="[]"/>
+                        <t t-foreach="ea_readings" t-as="readings">
+                            <t t-set="equipments" t-value="equipments+[readings.equipment_id]"/>
+                        </t>
+                        <t t-foreach="set(equipments)" t-as="equipment">
+                            <strong><span t-field="equipment.name"/></strong>
+                            <strong style="margin-top:0px;margin-bottom:2px;">Amplasament:<span t-field="equipment.emplacement"/></strong>
+                            <strong style="margin-top:0px;margin-bottom:2px;">Serie:<span t-field="equipment.serial_id"/></strong>
+                            <table>
+                            <thead class="default">
+                                <th>Data</th>
+                                <th>Contor</th>
+                                <th>Instalat la</th>
+                                <th>Valoare precedenta</th>
+                                <th>Valoare citire</th>
+                                <th>Diferenta</th>
+                            </thead>
+                            <tbody class="default">
+                                <t t-foreach="ea_readings" t-as="reading">
+                                    <t t-if="equipment.id==reading.equipment_id.id and reading.address_id==address">
+                                        <tr>
+                                            <t t-if="reading.previous_counter_value&gt;0">
+                                                <td><span t-field="reading.date"/></td>
+                                                <td><span t-field="reading.meter_id"/></td>
+                                                <td><span t-field="reading.address_id"/></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                                <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                            </t>
+                                            <t t-if="reading.previous_counter_value==0">
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.date"/></td>
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.meter_id"/></td>
+                                                <td style="background-color:#ffb3b3;"><span t-field="reading.address_id"/></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                                <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                            </table>
+                        </t>
+                    </t>
+                </div>
+        </template>
+
+        <template id="report_agreement_counters">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_service_equipment.equipment_agreement_counters_document')"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="equipment_invoice_counters_document">
+            <div class="page">
+                <t t-set="meters" t-value="[]"/>
+                <t t-set="readings" t-value="o.get_counters()"/>
+                <t t-foreach="readings" t-as="reading">
+                    <t t-set="meters" t-value="meters+[reading.meter_id.meter_categ_id]"/>
+                </t>
+                <strong>Factura: <span t-field="o.number"/> / <span t-field="o.date_invoice"/></strong><br/>
+                Client: <span t-field="o.partner_id"/><br/>
+                Contract: <span t-field="o.agreement_id"/>/<span t-field="o.agreement_id.date_agreement"/><br/>
+                <t t-foreach="set(meters)" t-as="meter">
+                    <t t-set="total_readings" t-value="0"/>
+                    <table>
+                        <thead class="default">
+                            <th>Data</th>
+                            <th>Echipament</th>
+                            <th>Serie</th>
+                            <th>Contor</th>
+                            <th>Instalat la</th>
+                            <th>Valoare precedenta</th>
+                            <th>Valoare citire</th>
+                            <th>Diferenta</th>
+                        </thead>
+                        <tbody class="default">
+                            <t t-foreach="readings" t-as="reading">
+                                <t t-if="reading.meter_id.meter_categ_id==meter">
+                                    <tr>
+                                        <td><span t-field="reading.date"/></td>
+                                        <td><span t-field="reading.equipment_id"/></td>
+                                        <td><span t-field="reading.equipment_id.serial_id"/></td>
+                                        <td><span t-field="reading.meter_id"/></td>
+                                        <td><span t-field="reading.address_id"/></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                        <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                        <t t-set="total_readings" t-value="total_readings+reading.difference"/>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr>
+                                <td colspan="7" style="text-align:right;font-weight:bold;">Total: </td>
+                                <td style="font-weight:bold;"><t t-esc="'{0:,.0f}'.format(total_readings)" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </template>
+
+        <template id="report_invoice_counters">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_service_equipment.equipment_invoice_counters_document')"/>
+                </t>
+            </t>
+        </template>
+
+
+
     </data>
 </openerp>

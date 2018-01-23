@@ -12,7 +12,24 @@
                     <field name="address_id"/>
                     <field name="emplacement"/>
                     <field name="from_date"/>
+                    <field name="agreement_id"/>
                 </tree>
+            </field>
+        </record>
+        <record id="view_service_equipment_history_form" model="ir.ui.view">
+            <field name="name">Services equipment history</field>
+            <field name="model">service.equipment.history</field>
+            <field name="arch" type="xml">
+                <form string="Services Equipment History" create="true">
+                    <group>
+                        <field name="equipment_id"/>
+                        <field name="partner_id"/>
+                        <field name="address_id"/>
+                        <field name="emplacement"/>
+                        <field name="from_date"/>
+                        <field name="agreement_id"/>
+                    </group>
+                </form>
             </field>
         </record>
 
@@ -38,7 +55,7 @@
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="address_id"/>
-                    <field name="emplacement" invisible="1"/>
+                    <field name="emplacement"/>
                     <field name="product_id" invisible="1"/>
                     <field name="serial_id"/>
                     <field name="quant_id" invisible="1"/>
@@ -261,7 +278,8 @@
                     <field name="partner_id"/>
                     <field name="product_id"/>
                     <field name="note"/>
-
+                    <field name="emplacement"/>
+                    <field name="address_id"/>
                     <field name="ean_code"/>
                     <field name="agreement_type_id"/>
                     <field name="contact_id"/>
@@ -272,6 +290,7 @@
 
                     <group expand="1" string="Group By...">
                         <filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/>
+                        <filter string="Partner PL" name="partner_pl" context="{'group_by':'address_id'}"/>
                         <filter string="Agreement" name="agreement" context="{'group_by':'agreement_id'}"/>
                         <filter string="Type" name="type" context="{'group_by':'type_id'}"/>
                         <filter string="Agreement Type" name="agreement_type"
@@ -301,7 +320,7 @@
             <field name="name">Equipments History</field>
             <field name="res_model">service.equipment.history</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem name="Equipment History" id="menu_service_equipment_history" action="action_service_equipment_history"
@@ -440,6 +459,27 @@
             attachment_use="False"
             file="deltatech_service_equipment.report_equipment_counters"
 		/>
+
+        <report
+			id="service_agreement_equipment_counters"
+            model="service.agreement"
+            string="Citiri contori"
+            report_type="qweb-pdf"
+            name="deltatech_service_equipment.report_agreement_counters"
+            attachment_use="False"
+            file="deltatech_service_equipment.report_agreement_counters"
+		/>
+
+        <report
+			id="service_agreement_invoice_counters"
+            model="account.invoice"
+            string="Citiri contori"
+            report_type="qweb-pdf"
+            name="deltatech_service_equipment.report_invoice_counters"
+            attachment_use="False"
+            file="deltatech_service_equipment.report_invoice_counters"
+		/>
+
     </data>
 
     <data noupdate="1">

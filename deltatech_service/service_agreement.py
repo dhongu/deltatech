@@ -306,6 +306,27 @@ class service_agreement(models.Model):
                 wizard_billing = self.env['service.billing'].with_context(active_ids=res['consumption_ids']).create({})
                 wizard_billing.do_billing()
 
+    @api.multi
+    def get_counters(self):
+        histories = self.env['service.equipment.history'].search([('agreement_id','=',self.id)])
+        equipment_ids = []
+        history_ids = []
+        for history in histories:
+            history_ids+=[history.id]
+            if history.equipment_id.id not in equipment_ids:
+                equipment_ids+=[history.equipment_id.id]
+        #cautare readings care au echipamentul care a fost in contract si history-ul cu agreement_id-ul potrivit
+        readings = self.env['service.meter.reading'].search([('equipment_id', 'in', equipment_ids), ('equipment_history_id', 'in', history_ids)],order="date")
+        return readings
+
+    @api.multi
+    def get_counters_ea(self,address_id):
+        history_ids = []
+        histories = self.env['service.equipment.history'].search([('agreement_id', '=', self.id),('address_id','=',address_id)])
+        for history in histories:
+            history_ids+=[history.id]
+        readings = self.env['service.meter.reading'].search([('equipment_history_id', 'in', history_ids)], order="date")
+        return readings
 
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'
@@ -401,6 +422,15 @@ class account_invoice(models.Model):
             consumptions.write({'state': 'done'})
         return res
 
+    @api.multi
+    def get_counters(self):
+        readings = []
+        c_reading_ids = []
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
+        for consumption in consumptions:
+            c_reading_ids += [consumption.id]
+        readings = self.env['service.meter.reading'].search([('consumption_id','in',c_reading_ids)])
+        return readings
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'

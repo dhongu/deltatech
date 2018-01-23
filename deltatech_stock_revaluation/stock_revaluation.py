@@ -25,7 +25,7 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
-from duplicity.tempdir import default
+#from duplicity.tempdir import default
 
 
 class stock_revaluation(models.Model):
@@ -100,26 +100,39 @@ class stock_revaluation(models.Model):
     new_amount_total = fields.Float(string="New Amount Total", readonly=True, )
     account_symbol = fields.Char(string="Cont", default='21.03')
 
+    location_id = fields.Many2one('stock.location')
+
+
     @api.model
     def default_get(self, fields):
         defaults = super(stock_revaluation, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
+        active_id = self.env.context.get('active_id', False)
+        model = self.env.context.get('active_model', False)
 
-        domain = [('id', 'in', active_ids)]
-        quants = self.env['stock.quant'].search(domain)
-        defaults['line_ids'] = []
-        for quant in quants:
-            if not quant.init_value:
-                init_value = quant.inventory_value
-            else:
-                init_value = quant.init_value
-            defaults['line_ids'] += [(0, 0, {'quant_id': quant.id,
-                                             'product_id': quant.product_id.id,
-                                             'init_value': init_value,
-                                             'old_value': quant.inventory_value,
-                                             'new_value': quant.inventory_value,
-                                             })]
+        domain = False
+
+        if model == 'stock.quant':
+            domain = [('id', 'in', active_ids)]
+        if model == 'stock.location':
+            domain = [('location_id', '=', active_id)]
+            defaults['location_id'] = active_id
+
+        if domain:
+            quants = self.env['stock.quant'].search(domain)
+            defaults['line_ids'] = []
+            for quant in quants:
+                if not quant.init_value:
+                    init_value = quant.inventory_value
+                else:
+                    init_value = quant.init_value
+                defaults['line_ids'] += [(0, 0, {'quant_id': quant.id,
+                                                 'product_id': quant.product_id.id,
+                                                 'init_value': init_value,
+                                                 'old_value': quant.inventory_value,
+                                                 'new_value': quant.inventory_value,
+                                                 })]
 
         return defaults
 

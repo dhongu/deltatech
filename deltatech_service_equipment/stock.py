@@ -33,7 +33,11 @@ class stock_picking(models.Model):
     
     equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')    
     equipment_id = fields.Many2one('service.equipment', string='Equipment' ,store=True) # , related='equipment_history_id.equipment_id'
-    agreement_id = fields.Many2one('service.agreement', string='Service Agreement', related='equipment_history_id.agreement_id',store=True, readonly=True)
+    agreement_id = fields.Many2one('service.agreement', string='Service Agreement',
+                                   related='equipment_history_id.agreement_id',
+                                   store=True,
+                                   readonly=False
+                                   )
     
 
     @api.onchange('equipment_id','date')

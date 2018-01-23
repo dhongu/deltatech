@@ -26,14 +26,17 @@
     "description": """
 
 Functionalitati: 
- -Adaugare in raportul de analiza facturi a campurilor: judet, nr de factura si furnizor
+ -Adaugare in raportul de analiza facturi a campurilor: judet, nr de factura, furnizor si client
+
+ In Produs a fost adaugat un buton pentru a vedea raportul de facturi in care se gaseste produsul cu pricina.
 
 
     """,
     "category" : "Generic Modules/Other",
-    "depends" : ['account'],
- 
-    "data" : ['report/invoice_report_view.xml'],
+    "depends": ['account', 'product'],
+
+    "data": ['report/invoice_report_view.xml',
+             'views/product_view.xml'],
     "active": False,
     "installable": True,
 }

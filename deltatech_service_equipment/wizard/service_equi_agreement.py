@@ -70,6 +70,7 @@ class service_equi_agreement(models.TransientModel):
             values['equipment_history_id'] = self.equipment_id.equipment_history_id.id
             values['currency_id'] = template.currency_id.id
             values['product_id'] = template.product_id.id
+            values['uom_id'] = template.product_id.uom_id.id  # preluare unitate de masura pentru "chirie"
             values['lock_edit'] = True
             for meter in self.equipment_id.meter_ids:
                 if meter.meter_categ_id == template.meter_categ_id:

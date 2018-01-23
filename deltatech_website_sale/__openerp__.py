@@ -14,7 +14,7 @@ OpenERP E-Commerce Extension
 
     'depends': ['website', 'website_sale'],
     'data': [
-        'product_view.xml',
+        'views/product_view.xml',
         'views/templates.xml',
 
     ],
