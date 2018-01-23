@@ -245,7 +245,7 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
-                    <field name="partner_id"/>
+                    <field name="agreement_id"/>
                 </search>
             </field>
         </record>
