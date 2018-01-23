@@ -288,6 +288,17 @@ class service_equipment(models.Model):
         if self.serial_id:
             self.display_name = self.display_name + ' / ' + self.serial_id.name
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        if name and len(name) > 2:
+            equipment_ids = self.search([('serial_id.name', operator, name)], limit=10)
+            if equipment_ids:
+                equips = equipment_ids.name_get()
+                return equips
+        res = super(service_equipment, self).name_search(name, args, operator=operator, limit=limit)
+        return res
+
+
     @api.multi
     def name_get(self):
         res = super(service_equipment, self).name_get()

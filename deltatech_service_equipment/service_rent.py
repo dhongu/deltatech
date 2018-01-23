@@ -234,8 +234,8 @@ class service_agreement_line(models.Model):
                     name +=  _('Old index: %s, New index:%s') % (first_reading.previous_counter_value, last_reading.counter_value)  
                     
                     readings.write({'consumption_id':consumption.id})
-                    
-                consumption.write({'quantity':quantity,
+                if quantity != 0 or consumption.agreement_line_id.active:
+                    consumption.write({'quantity': quantity,
                                     'name':name,
                                     'equipment_id':equipment.id })
                 
