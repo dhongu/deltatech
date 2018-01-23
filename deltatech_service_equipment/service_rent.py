@@ -264,8 +264,10 @@ class service_agreement_line(models.Model):
             else:  # echipament fara contor
                 cons_value = {'name': self.equipment_id.display_name, 'equipment_id': equipment.id}
                 if not consumption.agreement_line_id.active:
-                    cons_value['quantity'] = 0
-                consumption.write(cons_value)
+                    # cons_value['quantity'] = 0
+                    consumption.unlink()
+                else:
+                    consumption.write(cons_value)
         return res        
                 
 
