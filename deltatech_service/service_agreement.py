@@ -65,7 +65,7 @@ class service_agreement(models.Model):
                        states={'draft': [('readonly', False)]}, copy=False)
 
     description = fields.Char(string='Description', readonly=True, states={'draft': [('readonly', False)]}, copy=False)
-
+    # active = fields.Boolean(default=True)  # pentru a ascunde un contract
     date_agreement = fields.Date(string='Agreement Date', default=lambda *a: fields.Date.today(),
                                  readonly=True, states={'draft': [('readonly', False)]}, copy=False)
 
