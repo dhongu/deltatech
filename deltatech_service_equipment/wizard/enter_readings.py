@@ -50,7 +50,7 @@ class service_enter_reading(models.TransientModel):
             if meter.type == 'counter':
                 defaults['items'] += [(0,0,{'meter_id':meter.id,
                                             'equipment_id':meter.equipment_id.id,
-                                            'counter_value':meter.estimated_value})]
+                                            'counter_value': meter.total_counter_value})]
 
         return defaults
 
@@ -66,7 +66,7 @@ class service_enter_reading(models.TransientModel):
                 meter = meter.with_context({'date':self.date})
                 items += [(0,0,{'meter_id':meter.id,
                                 'equipment_id':meter.equipment_id.id,
-                                 'counter_value':meter.estimated_value})]
+                                'counter_value': meter.total_counter_value})]
 
         items =  self._convert_to_cache({'items': items }, validate=False)
         self.update(items) 
