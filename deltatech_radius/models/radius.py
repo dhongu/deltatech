@@ -157,6 +157,13 @@ class radius_radcheck(models.Model):
     _description = "Radcheck"
     _rec_name = 'username'
 
+    def _get_groupname(self):
+        list = []
+        groupname = self.env['radius.groups'].search([])
+        for item in groupname:
+            list += [(item.name, item.name)]
+        return list
+
     username = fields.Char('Username', size=64, index=1, required=True)
     #        'attribute': fields.char('Attribute', size=64)
     attribute = fields.Selection([('Cleartext-Password', 'Cleartext-Password'), ('Auth-Type', 'Auth-Type'),
@@ -168,8 +175,28 @@ class radius_radcheck(models.Model):
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], 'OP', default='==', required=True)
     value = fields.Char('Value', size=253, default='==', required=True)
-
     partner_id = fields.Many2one('res.partner', compute='_compute_partner', string='Customer', store=True)
+
+    groupname = fields.Selection(_get_groupname, string='Group Name',default='',readonly=False,
+                                 compute="_compute_groupname", store=True)
+
+    state = fields.Selection([('connected','Connected'),('disconnected','Disconnected')],
+                             compute="_compute_groupname")
+
+    radusergroup_id = fields.Many2one("radius.radusergroup", compute="_compute_groupname")
+
+    @api.depends('username')
+    def _compute_groupname(self):
+        for rec in self:
+            radusergroup = self.env["radius.radusergroup"].search([('username','=',rec.username)], limit=1)
+            if radusergroup:
+                rec.radusergroup_id = radusergroup
+
+                if  radusergroup.groupname != 'disconected':
+                    rec.groupname = radusergroup.groupname
+                    rec.state = 'connected'
+                else:
+                    rec.state = 'disconnected'
 
     @api.depends('username')
     def _compute_partner(self):
@@ -277,7 +304,7 @@ radius_radgroupreply()
 class radius_radusergroup(models.Model):
     _name = "radius.radusergroup"
     _description = "Radusergroup"
-    _rec_name = 'username'
+    _rec_name = 'groupname'
 
     def _get_groupname(self):
         list = []
@@ -287,8 +314,9 @@ class radius_radusergroup(models.Model):
         return list
 
     groupname = fields.Selection(_get_groupname, string='Group Name')
-    username = fields.Char('Username', size=64, index=1)
-    priority = fields.Integer('priority')
+
+    username = fields.Char('User Name', size=64, index=1)
+    priority = fields.Integer('Priority')
 
     partner_id = fields.Many2one('res.partner', compute='_compute_partner', string='Customer')
 

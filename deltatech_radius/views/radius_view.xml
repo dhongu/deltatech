@@ -108,11 +108,11 @@
             <field name="model">radius.radcheck</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="Users">
+                <tree string="Users"  decoration-danger="state=='disconnected'">
                     <field name="username" select="1"/>
                     <field name="partner_id"/>
-                    <field name="attribute" select="1"/>
-                    <field name="value" string="Password"/>
+                    <field name="groupname"/>
+                    <field name="state" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -130,6 +130,10 @@
                             <field name="attribute"/>
                             <field name="op"/>
                             <field name="value" string="Password"/>
+                        </group>
+                        <group>
+                            <field name="radusergroup_id"/>
+                            <field name="groupname"/>
                         </group>
                     </sheet>
 
