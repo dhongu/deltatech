@@ -256,7 +256,7 @@
             <field name="arch" type="xml">
                 <tree string="User Group Mappings">
                     <field name="username" select="1"/>
-                    <field name="partner_id"  />
+                    <field name="partner_id"/>
                     <field name="groupname" select="1"/>
                     <field name="priority"/>
                 </tree>
@@ -272,7 +272,7 @@
                     <sheet>
                         <group>
                             <field name="username" select="1"/>
-                            <field name="partner_id" />
+                            <field name="partner_id"/>
                             <field name="groupname" select="1"/>
                             <field name="priority"/>
                         </group>
@@ -333,6 +333,59 @@
         </record>
         <menuitem name="Users Reply Attributes" parent="menu_radius_definition" id="menu_action_radreply_tree"
                   action="action_radius_radreply"/>
+
+
+        <!-- radippool -->
+
+        <record model="ir.ui.view" id="radippool_tree">
+            <field name="name">radius.radippool.tree</field>
+            <field name="model">radius.radippool</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="pool_name"/>
+                    <field name="framedipaddress"/>
+                    <field name="nasipaddress"/>
+                    <field name="pool_key"/>
+                    <field name="calledstationid"/>
+                    <field name="callingstationid"/>
+                    <field name="expiry_time"/>
+                    <field name="username"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="radippool_form">
+            <field name="name">radius.radippool.form</field>
+            <field name="model">radius.radippool</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Users Reply Attributes">
+                    <sheet>
+                        <group>
+                            <field name="pool_name"/>
+                            <field name="framedipaddress"/>
+                            <field name="nasipaddress"/>
+                            <field name="pool_key"/>
+                            <field name="calledstationid"/>
+                            <field name="callingstationid"/>
+                            <field name="expiry_time"/>
+                            <field name="username"/>
+                        </group>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_radius_radippool">
+            <field name="name">IP Pool</field>
+            <field name="res_model">radius.radippool</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="IP Pool" parent="menu_radius_definition" id="menu_action_radippool_tree"
+                  action="action_radius_radippool"/>
+
 
         <!-- Radpostauth -->
 

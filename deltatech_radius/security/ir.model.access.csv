@@ -15,3 +15,4 @@ access_radius_radgroupcheck,access_radius_radgroupcheck,model_radius_radgroupche
 
 
 access_radius_radpostauth,access_radius_radpostauth,model_radius_radpostauth,group_radius_manager,1,0,0,0
+access_radius_radippool,access_radius_radippool,model_radius_radippool,group_radius_manager,1,1,1,1
