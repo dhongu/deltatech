@@ -174,7 +174,7 @@ class radius_radcheck(models.Model):
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], 'OP', default='==', required=True)
-    value = fields.Char('Value', size=253, default='==', required=True)
+    value = fields.Char('Value', size=253, default='', required=True)
     partner_id = fields.Many2one('res.partner', compute='_compute_partner', string='Customer', store=True)
 
     groupname = fields.Selection(_get_groupname, string='Group Name',default='',readonly=False,
@@ -201,10 +201,11 @@ class radius_radcheck(models.Model):
     @api.depends('username')
     def _compute_partner(self):
         for rec in self:
-            uname = rec.username.replace('A', '').replace('B', '').replace('C', '')
-            partner = self.env['res.partner'].search([('ref', '=', uname)], limit=1)
-            if partner:
-                rec.partner_id = partner
+            if rec.username:
+                uname = rec.username.replace('A', '').replace('B', '').replace('C', '')
+                partner = self.env['res.partner'].search([('ref', '=', uname)], limit=1)
+                if partner:
+                    rec.partner_id = partner
 
     _sql_constraints = [('radcheck_username_key', 'UNIQUE (username)', 'Username must be unique!')]
 
