@@ -324,10 +324,11 @@ class radius_radusergroup(models.Model):
     @api.depends('username')
     def _compute_partner(self):
         for rec in self:
-            uname = rec.username.replace('A', '').replace('B', '').replace('C', '')
-            partner = self.env['res.partner'].search([('ref', '=', uname)], limit=1)
-            if partner:
-                rec.partner_id = partner
+            if rec.username:
+                uname = rec.username.replace('A', '').replace('B', '').replace('C', '')
+                partner = self.env['res.partner'].search([('ref', '=', uname)], limit=1)
+                if partner:
+                    rec.partner_id = partner
 
 
 # ----------------------------------------------------------
