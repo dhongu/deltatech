@@ -16,6 +16,10 @@ Functionalitati:
   
    - trebuie converite campurile din tipul text in varchar
    
+   coloana pass din radpostauth trebuie modificata in password
+   coloana radacctid din radacct trebuie modificata in id
+   
+   
     """,
 
     "category": "Generic Modules/Base",

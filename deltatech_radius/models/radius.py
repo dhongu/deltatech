@@ -80,7 +80,7 @@ class radius_radacct(models.Model):
     _description = "Radacct"
 
     name = fields.Char('Name', size=64)  # new
-    radacctid = fields_Int8(related='id', string='Rad Acct Id')  # care trbuie sa fie de fapt ID
+    radacctid = fields_Int8(related='id', string='Rad Acct Id', store=True)  # care trebuie sa fie de fapt ID
     acctsessionid = fields.Char('Acct Session id', size=64, required=True)
     acctuniqueid = fields.Char('Acct Unique id', size=64, required=True)
     username = fields.Char('User Name', size=128)
@@ -332,5 +332,5 @@ class radius_radippool(models.Model):
     pool_key = fields.Char(string="Pool Key", size=64, default='0', required=True)
     calledstationid = fields.Char(string="Called station id", size=64)
     callingstationid = fields.Char(string="Calling station id", default='', size=64)
-    expiry_time = fields.Datetime(required=True, default=fields.Datetime.new())
+    expiry_time = fields.Datetime(required=True, default=fields.Datetime.now())
     username = fields.Char(string="User Name", default='')
