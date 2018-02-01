@@ -47,6 +47,7 @@
                         </thead>
                         <tbody class="default">
                             <tr t-foreach="readings.sorted(key=lambda r: r.date)" t-as="reading">
+                                <!--
                                 <td><span t-field="reading.date"/></td>
                                 <td><span t-field="reading.meter_id"/></td>
                                 <td><span t-field="reading.address_id"/></td>
@@ -54,6 +55,25 @@
                                 <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
                                 <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
                                 <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                -->
+                                <t t-if="reading.previous_counter_value&gt;0">
+                                    <td><span t-field="reading.date"/></td>
+                                    <td><span t-field="reading.meter_id"/></td>
+                                    <td><span t-field="reading.address_id"/></td>
+                                    <td><span t-field="reading.equipment_history_id.agreement_id"/></td>
+                                    <td><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                    <td><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                    <td><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                </t>
+                                <t t-if="reading.previous_counter_value==0">
+                                    <td style="background-color:#ffb3b3;"><span t-field="reading.date"/></td>
+                                    <td style="background-color:#ffb3b3;"><span t-field="reading.meter_id"/></td>
+                                    <td style="background-color:#ffb3b3;"><span t-field="reading.address_id"/></td>
+                                    <td style="background-color:#ffb3b3;"><span t-field="reading.equipment_history_id.agreement_id"/></td>
+                                    <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.previous_counter_value)" /></td>
+                                    <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.counter_value)" /></td>
+                                    <td style="background-color:#ffb3b3;"><t t-esc="'{0:,.0f}'.format(reading.difference)" /></td>
+                                </t>
                             </tr>
                         </tbody>
                     </table>

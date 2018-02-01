@@ -50,7 +50,8 @@ class service_enter_reading(models.TransientModel):
             if meter.type == 'counter':
                 defaults['items'] += [(0,0,{'meter_id':meter.id,
                                             'equipment_id':meter.equipment_id.id,
-                                            'counter_value': meter.total_counter_value})]
+                                            'counter_value': meter.total_counter_value,
+                                            'prev_value': meter.total_counter_value})]
 
         return defaults
 
@@ -66,7 +67,8 @@ class service_enter_reading(models.TransientModel):
                 meter = meter.with_context({'date':self.date})
                 items += [(0,0,{'meter_id':meter.id,
                                 'equipment_id':meter.equipment_id.id,
-                                'counter_value': meter.total_counter_value})]
+                                'counter_value': meter.total_counter_value,
+                                'prev_value': meter.total_counter_value})]
 
         items =  self._convert_to_cache({'items': items }, validate=False)
         self.update(items) 
@@ -92,4 +94,5 @@ class service_enter_reading_item(models.TransientModel):
     meter_id = fields.Many2one('service.meter', string='Meter',  readonly=True ) 
     equipment_id = fields.Many2one('service.equipment', string="Equipment", readonly=True)
     counter_value = fields.Float(string='Counter Value', digits= dp.get_precision('Meter Value'), required=True)
+    prev_value = fields.Float(string='Previous Value', digits= dp.get_precision('Meter Value'), required=True)
     estimated = fields.Boolean(string='Estimated')
