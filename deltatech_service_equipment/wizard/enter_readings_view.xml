@@ -7,9 +7,9 @@
 			<field name="arch" type="xml">
 				<form string="Enter Meter Readings">
 					<div attrs="{'invisible':[ ('error', '=', '')]}">
-						<div class="alert alert-warning  alert-dismissible text-left" role="alert">
+						<div class="alert alert-warning  alert-dismissible text-left" role="alert" style="background-color:red;">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
-							<field name="error" style="height: 50px;"/>
+							<field name="error" style="height: 50px;color:white;"/>
 						</div>
 					</div>
 					<group string="Enter Meter Readings">
