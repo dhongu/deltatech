@@ -1421,3 +1421,18 @@ msgstr ""
 msgid "{'readonly': [('meter_id', '!=', False)]}"
 msgstr ""
 
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "For the selected meters please enter readings"
+msgstr "Pentru contorii selectați vă rugăm să întroduceți citiri"
+
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "Previous Value"
+msgstr "Valoare precedenta contor"
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "Estimated"
+msgstr "Estimat"

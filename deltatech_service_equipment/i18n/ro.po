@@ -532,6 +532,11 @@ msgid "For the selected meters please enter readings"
 msgstr "Pentru contorii selectați vă rugăm să întroduceți citiri"
 
 #. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "The counter %s value must be greater than %s"
+msgstr "Valoarea contorului %s trebuie sa fie mai mare decat %s"
+
+#. module: deltatech_service_equipment
 #: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
 msgid "For the selected meters will generate estimate readings"
 msgstr "Pentru contorii selectați se vor genera citiri estimate"
@@ -1422,3 +1427,12 @@ msgstr "total"
 msgid "{'readonly': [('meter_id', '!=', False)]}"
 msgstr "{'readonly': [('meter_id', '!=', False)]}"
 
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "Previous Value"
+msgstr "Valoare precedenta contor"
+
+#. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "Estimated"
+msgstr "Estimat"

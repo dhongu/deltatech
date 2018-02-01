@@ -312,11 +312,11 @@ class service_meter_reading(models.Model):
     @api.constrains('difference')
     def _check_difference(self):
         for record in self:
-            """
+
             if self.difference < 0 and self.previous_counter_value > 0:
                 raise ValidationError(
                     _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
-            """
+
             if self.difference == 0:
                 pass
                 #raise Warning(_('The counter %s value is equal to previous value: %s') % (self.meter_id.name, self.previous_counter_value))
