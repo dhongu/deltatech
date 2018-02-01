@@ -4,8 +4,7 @@
 
 
 
-import models
-import wizard
+import radius_disconnect
 
 
  
