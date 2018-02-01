@@ -36,6 +36,18 @@ class service_enter_reading(models.TransientModel):
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
     note =  fields.Text(String='Notes')
     items = fields.One2many('service.enter.reading.item','enter_reading_id')
+    error = fields.Text(compute="_compute_error")
+
+    @api.one
+    @api.depends('items.counter_value')
+    def _compute_error(self):
+        self.error = ''
+        for item in self.items:
+            if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
+                self.error += _('The counter %s value must be greater than %s') % (
+                item.meter_id.name, item.meter_id.total_counter_value)
+
+
 
 
     @api.model

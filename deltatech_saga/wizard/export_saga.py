@@ -205,8 +205,17 @@ class export_saga(models.TransientModel):
                     raise Warning(error)
 
             if partner.is_company:
+                if not partner.vat:
+                    error = _("Partenerul %s nu are CUI") % partner.name
+                    result_html += '<div>Eroare %s</div>' % error
+                    if not self.ignore_error:
+                        raise Warning(error)
+
                 if not partner.vat_subjected:
-                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2]=='RO' else partner.vat
+                    if partner.vat and partner.vat[:2] == 'RO':
+                        cod_fiscal = partner.vat[2:]
+                    else:
+                        cod_fiscal = partner.vat
                     is_tva  = 0
                 else:
                     cod_fiscal = partner.vat

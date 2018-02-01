@@ -6,7 +6,12 @@
 			<field name="model">service.enter.reading</field>
 			<field name="arch" type="xml">
 				<form string="Enter Meter Readings">
-
+					<div attrs="{'invisible':[ ('error', '=', '')]}">
+						<div class="alert alert-warning  alert-dismissible text-left" role="alert">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+							<field name="error" style="height: 50px;"/>
+						</div>
+					</div>
 					<group string="Enter Meter Readings">
 						<div class="oe_grey">
 							For the selected meters please enter readings

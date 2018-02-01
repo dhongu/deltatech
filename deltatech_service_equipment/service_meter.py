@@ -265,7 +265,8 @@ class service_meter_reading(models.Model):
                                compute='_compute_difference', store=True)
     consumption_id = fields.Many2one('service.consumption', string='Consumption',readonly=True) 
     read_by = fields.Many2one('res.partner', string='Read by', domain=[('is_company','=',False)])
-    note =  fields.Text(String='Notes')  
+    note = fields.Text(string='Notes')
+    error = fields.Text(compute="_compute_error")
 
     #todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
     
@@ -297,6 +298,16 @@ class service_meter_reading(models.Model):
             # if self.difference <= 0 and self.previous_counter_value > 0:
             #    raise Warning(
             #        _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
+
+    @api.one
+    @api.depends('difference')
+    def _compute_error(self):
+        if self.difference <= 0 and self.previous_counter_value > 0:
+            self.error = _('The counter %s value must be greater than %s') % (
+            self.meter_id.name, self.previous_counter_value)
+        else:
+            self.error = ''
+
 
     @api.constrains('difference')
     def _check_difference(self):
