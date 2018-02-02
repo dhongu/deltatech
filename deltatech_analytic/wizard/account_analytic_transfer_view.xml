@@ -15,7 +15,6 @@
                         </group>
                         <group>
                             <field name="date"/>
-                            <field name="amount"/>
                             <field name="amount" class="oe_inline"/>
                         </group>
                     </group>
