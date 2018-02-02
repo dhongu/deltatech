@@ -431,7 +431,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
                 else:
-                    values['COD_ART'] = line.product_id.default_code[:16] or '',
+                    values['COD_ART'] = line.product_id.default_code[:16] or ''
                     values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
                                   
                 intrari_dbf.insert(values)
@@ -601,7 +601,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                    'TVAI':      tvai,
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
-                   'COD_ART':    line.product_id.default_code or '',
+                    'COD_ART': line.product_id.default_code[:16] or '',
                    'DEN_ART':    self.unaccent(line.name[:60]),
                    'UM':         '',
                    'CANTITATE':  line.quantity,
