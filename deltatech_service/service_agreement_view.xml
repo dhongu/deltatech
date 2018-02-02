@@ -53,7 +53,7 @@
             <field name="model">service.agreement</field>
             <field name="arch" type="xml">
                 <tree string="Services Agreements" fonts="bold:message_unread==True"
-                      colors="grey:state in ('cancel','closed')">
+                      colors="grey:state in ('cancel','closed')" default_order="create_date desc">
                     <field name="name"/>
                     <field name="date_agreement"/>
 
@@ -148,9 +148,9 @@
                         <field name="notes" string="Note" style="width:800px;background-color:#ff9999;"/>
                         <field name="agreement_line" context="{'default_currency_id':currency_id}">
                             <tree string="Agreement Lines" editable="bottom"
-                                  colors=" red:price_unit==1; red:price_unit==0;">
+                                  colors=" red:price_unit==1; red:price_unit==0;" default_order="create_date desc">
 
-                                <field name="sequence" widget="handle"/>
+                                <!--<field name="sequence" widget="handle"/>-->
                                 <field name="product_id"/>
                                 <field name="quantity"/>
                                 <field name="uom_id" groups="product.group_uom"/>
