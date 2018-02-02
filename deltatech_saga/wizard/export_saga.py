@@ -399,10 +399,12 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     partner_code =   invoice.commercial_partner_id.ref_supplier.zfill(5)
                 else:
                     partner_code = ''
-                    
+
+                nr_int = 10000 + int(''.join([s for s in invoice.number if s.isdigit()]))
+                nr_intrare = invoice.supplier_invoice_number or invoice.number
                 values = {
-                   'NR_NIR':     10000+int(''.join([s for s in invoice.number if s.isdigit()])),
-                   'NR_INTRARE': invoice.supplier_invoice_number or invoice.number ,
+                    'NR_NIR': nr_int,
+                    'NR_INTRARE': nr_intrare[16:],
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
                    'COD':        partner_code,
@@ -429,7 +431,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
                 else:
-                    values['COD_ART'] = line.product_id.default_code or '',
+                    values['COD_ART'] = line.product_id.default_code[:16] or '',
                     values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
                                   
                 intrari_dbf.insert(values)
@@ -472,10 +474,12 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     partner_code =   voucher.partner_id.commercial_partner_id.ref_supplier.zfill(5)
                 else:
                     partner_code = ''
-                    
+
+                nr_int = 10000 + int(''.join([s for s in voucher.number if s.isdigit()]))
+                nr_intrare = voucher.reference or voucher.number
                 values = {
-                   'NR_NIR':     10000+int(''.join([s for s in voucher.number if s.isdigit()])),
-                   'NR_INTRARE': voucher.reference or voucher.number ,
+                    'NR_NIR': nr_int,
+                    'NR_INTRARE': nr_intrare[16:],
                    'GESTIUNE'  : '',
                    'DEN_GEST'  : '',
                    'COD':        partner_code,
@@ -498,7 +502,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
                 else:
-                    values['COD_ART'] = line.product_id.default_code or '',
+                    values['COD_ART'] = line.product_id.default_code[:16] or '',
                     values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])      
                                   
                 intrari_dbf.insert(values)
