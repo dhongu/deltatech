@@ -79,6 +79,18 @@ class account_invoice(models.Model):
         super(account_invoice, self).action_number()
         return True
 
+    @api.multi
+    def invoice_proforma2(self):
+        self.ensure_one()
+        values = {'state': 'proforma2'}
+        if not self.name:
+            sequence = self.env.ref('deltatech_invoice_number.sequence_invoice_proforma')
+            if sequence:
+                proforma_number = self.env['ir.sequence'].next_by_id(sequence.id)
+                values['name'] = proforma_number
+
+        self.write(values)
+
 
   
 
