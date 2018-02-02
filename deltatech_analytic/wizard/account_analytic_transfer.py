@@ -12,7 +12,7 @@ class account_analytic_transfer(models.TransientModel):
                                     readonly=True)
     to_alanytic = fields.Many2one('account.analytic.account', string='To')
     date = fields.Date('Date', default=fields.Date.today)
-    from_amount = fields.Float(string='from amount', related='from_alanytic_line.amount', readonly=True)
+    from_amount = fields.Float(string='From amount', related='from_alanytic_line.amount', readonly=True)
     amount = fields.Float(string='Amount')
 
     @api.model
