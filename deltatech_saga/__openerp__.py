@@ -29,8 +29,11 @@ Functionalitati:
  - Permite exportul de date din Odoo pentru a fi importate in Saga
  - Partenerii au doua referinte pentru codurile de client respectiv de furnizor din SAGA
  - categoriile de porduse au un camp nou pentru tipul de acticol din SAGA  
-  
-   
+
+
+Nota:
+La export se preiua ultimile 4 caractere din nr de factura la care se adauga 10000 si se formeaza nr de NIR.
+
     """,
     
     "category" : "Generic Modules/Base",
