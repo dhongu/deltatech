@@ -106,5 +106,5 @@ class service_enter_reading_item(models.TransientModel):
     meter_id = fields.Many2one('service.meter', string='Meter',  readonly=True ) 
     equipment_id = fields.Many2one('service.equipment', string="Equipment", readonly=True)
     counter_value = fields.Float(string='Counter Value', digits= dp.get_precision('Meter Value'), required=True)
-    prev_value = fields.Float(string='Previous Value', digits= dp.get_precision('Meter Value'), required=True)
+    prev_value = fields.Float(string='Previous Value', digits= dp.get_precision('Meter Value'), required=False)
     estimated = fields.Boolean(string='Estimated')
