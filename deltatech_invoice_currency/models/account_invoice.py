@@ -25,9 +25,9 @@ from odoo.exceptions import RedirectWarning, UserError, ValidationError
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    base_rate = fields.Float(string='Rate', digits=(12, 4), readonly=True, default=0.0,
+    base_rate = fields.Float(string='Rate', digits=(12, 4),  readonly=True, default=0.0,
                              store=False, compute="_compute_base_rate")
-    currency_rate = fields.Float(string='Currency Rate', digits=(12, 4), readonly=True, default=0.0)
+    currency_rate = fields.Float(string='Currency Rate', digits=(12, 4), default=0.0)
     price_currency_id = fields.Many2one('res.currency', string='Price currency', help="Price currency")
 
     @api.one
@@ -56,7 +56,7 @@ class account_invoice(models.Model):
 
         if to_currency and from_currency:
             self.currency_rate = from_currency.with_context(date=date_eval).compute(self.base_rate, to_currency,
-                                                                                    round=False)
+                                                        round=False)
         else:
             self.currency_rate = self.base_rate
 

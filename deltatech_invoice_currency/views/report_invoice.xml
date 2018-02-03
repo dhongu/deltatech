@@ -24,9 +24,8 @@
 
 		<template id="report_invoice_2">
 			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="doc_id">
+				<t t-foreach="docs" t-as="o">
 					<t t-call="deltatech_invoice_currency.report_invoice_document2" t-lang="o.partner_id.lang"/>
-
 				</t>
 			</t>
 		</template>
@@ -43,10 +42,10 @@
 			<t t-call="account.report_invoice_document" />
 		</template>
 
-	<!-- 
+
+        <!--
 		<template id="l10n_ro_report_invoice_document" inherit_id="l10n_ro_invoice_report.l10n_ro_report_invoice_document">
- 
-			
+
 			<xpath expr="//span[@id='price_unit_without_taxes']" position="before">
  				<t t-set="price_unit_without_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_unit_without_taxes,currency_id)" />
 			</xpath>
@@ -65,14 +64,13 @@
  				<t t-set="amount_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)" />
 			</xpath>
 
-
-			<xpath expr="//span[@id='amount_tax']" position="before">
- 				<t t-set="amount_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)" />
+			<xpath expr="//span[@id='amount_total']" position="before">
+ 				<t t-set="amount_total" t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_total,currency_id)" />
 			</xpath>
 			
 		</template>
-	
-	 -->
+	     -->
+
 
 
 

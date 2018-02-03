@@ -8,7 +8,7 @@
     "description": """
     
 Functionalitati:
-
+    - pretul de lista din datele de baza ala produsului poate fa fie in alta moneda 
 
     """,
 
