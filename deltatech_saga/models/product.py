@@ -17,8 +17,3 @@ class product_category(models.Model):
     code_saga = fields.Char(string="Code SAGA", size=2)
     
 
-
-
-    
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

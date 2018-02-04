@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech SAGA Interface",
-    "version": "2.0",
+    'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -19,13 +19,10 @@ Functionalitati:
    
     """,
 
-    "category": "Generic Modules/Base",
+    "category": "Accounting",
     "depends": [
-
-       # 'deltatech_backwards',
         "base",
         "account",
-        #"l10n_ro_invoice_report"
     ],
 
     "data": [
@@ -41,5 +38,3 @@ Functionalitati:
 }
 
 
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

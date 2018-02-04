@@ -51,4 +51,4 @@ class res_partner(models.Model):
                     vals['ref_supplier'] = sequence.next_by_id( )
         
         return super(res_partner, self).write( vals)
-    
+
