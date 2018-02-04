@@ -18,34 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-
-
-class res_company(models.Model):
-    _inherit = 'res.company'
-    
-    no_negative_stock  = fields.Boolean(string='No negative stock',
-                                        help='Allows you to prohibit negative stock quantities.')
+{
+    "name": "Deltatech No Negative Stock",
+    'version': '11.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "description": """
  
-        
-class stock_config_settings(models.TransientModel):
-    _inherit = 'stock.config.settings'
-    
-    
-    no_negative_stock  = fields.Boolean(string='No negative stock',
-                                        help='Allows you to prohibit negative stock quantities.')
-
-    @api.multi
-    def set_default_no_negative_stock(self):
-        self.env['ir.values'].set_default( 'stock.config.settings', 'no_negative_stock', self.no_negative_stock)
-        self.env.user.company_ids.write({'no_negative_stock': self.no_negative_stock})
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    """,
+    "category": "Generic Modules/Stock",
+    "depends": ["stock"],
 
-
-
-
-
+    "data": ['views/res_config_view.xml'],
+    "active": False,
+    "installable": True,
+}

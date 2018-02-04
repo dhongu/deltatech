@@ -29,7 +29,23 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
+    # versiunea din 11.0
+    @api.model
+    def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None,
+                                   in_date=None):
+        if location_id.usage == 'internal':
+            if location_id.company_id.no_negative_stock:
+                raise Warning(_('You have chosen to avoid negative stock. \
+                        %s pieces of %s are remaining in location %s  but you want to transfer  \
+                        %s pieces. Please adjust your quantities or \
+                        correct your stock with an inventory adjustment.')% \
+                        (product_id.qty_available, product_id.name, location_id.name, quantity))
 
+
+        return super(stock_quant,self)._update_available_quantity( product_id, location_id, quantity, lot_id, package_id, owner_id,in_date)
+
+
+    # Versiunea veche
     @api.model
     def _quant_create_from_move(self, qty, move, lot_id=False, owner_id=False,
                                 src_package_id=False, dest_package_id=False,
