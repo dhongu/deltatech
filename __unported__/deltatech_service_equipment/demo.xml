@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+    
+        <record id="uom_categ_page" model="product.uom.categ">
+            <field name="name">Page</field>
+        </record>
+
+        <record id="uom_page" model="product.uom">
+            <field name="category_id" ref="uom_categ_page"/>
+            <field name="name">Page</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+
+        <record id="uom_kpage" model="product.uom">
+            <field name="category_id" ref="uom_categ_page"/>
+            <field name="name">KPage</field>
+            <field name="factor_inv" eval="1000"/>
+            <field name="uom_type">bigger</field>
+        </record>
+
+         <record id="uom_page_color" model="product.uom">
+            <field name="category_id" ref="uom_categ_page"/>
+            <field name="name">Color Page</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+         <record id="uom_page_black" model="product.uom">
+            <field name="category_id" ref="uom_categ_page"/>
+            <field name="name">Black Page</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+
+         <record id="uom_page_scanned" model="product.uom">
+            <field name="category_id" ref="uom_categ_page"/>
+            <field name="name">Scanned Page</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+        
+        <!-- 
+		<record id="partner_service" model="res.partner">
+			<field name="name">Partner service</field>
+			<field name="is_company">True</field>
+			<field name="street">Stefan Cel Mare, Nr. 222</field>
+			<field name="city">Bacau</field>
+		</record>
+
+
+		<record id="partner_service_loc1" model="res.partner">
+			<field name="name">Location 1</field>
+			<field name="parent_id" ref="partner_service"/>
+			<field name="street">Eminescu, Nr. 5</field>
+			<field name="city">Onesti</field>
+		</record>
+
+		<record id="partner_service_loc2" model="res.partner">
+			<field name="name">Location 1</field>
+			<field name="parent_id" ref="partner_service"/>
+			<field name="street">Prinicpala, Nr. 24</field>
+			<field name="city">Comanesti</field>
+		</record>
+
+		 -->
+		 
+		 
+		<record id="equi_type_printer" model="service.equipment.type">
+			<field name="name">Printer</field>
+		</record>
+
+
+	
+  		<!-- 
+		<record id="product_printer" model="product.product">
+			 <field name="name">Printer ABC</field>
+			 <field name="purchase_ok" eval="False"/>
+		</record>
+
+		<record id="product_printer_serial" model="stock.production.lot">
+			 <field name="product_id" ref="product_printer"/>	
+			 <field name="name">12345678</field>
+		</record>
+ 
+		<record id="equi_test1" model="service.equipment">
+				
+		</record>
+ 
+		<record id="meter_balck" model="service.meter">
+			<field name="equipment_id" ref="equi_test1"/>	
+			<field name="uom_id" ref="uom_page_black"/>	
+		</record>
+
+		<record id="meter_color" model="service.meter">
+			<field name="equipment_id" ref="equi_test1"/>	
+			<field name="uom_id" ref="uom_page_color"/>	
+		</record>
+
+		<record id="meter_total_page" model="service.meter">
+			<field name="equipment_id" ref="equi_test1"/>	
+			<field name="type">collector</field>
+			<field name="uom_id" ref="uom_page"/>	
+		</record>
+
+		<record id="hist_equi_test1" model="service.equipment.history">
+			<field name="equipment_id" ref="equi_test1"/>
+			<field name="partner_id" ref="partner_service"/>
+			<field name="address_id" ref="partner_service_loc1"/>
+			<field name="from_date">2015-01-01</field>
+			<field name="emplacement">Etajul 1, Birou Contabilitate</field>
+		</record>
+
+
+		<record id="hist_equi_test0" model="service.equipment.history">
+			<field name="equipment_id" ref="equi_test1"/>
+			<field name="partner_id" ref="partner_service"/>
+			<field name="address_id" ref="partner_service_loc2"/>
+			<field name="from_date">2015-01-01</field>
+		</record>
+
+		<record id="hist_equi_test1" model="service.equipment.history">
+			<field name="equipment_id" ref="equi_test1"/>
+			<field name="partner_id" ref="partner_service"/>
+			<field name="address_id" ref="partner_service_loc1"/>
+			<field name="from_date">2015-03-01</field>
+			<field name="emplacement">Etajul 1, Birou Contabilitate</field>
+		</record>
+
+
+		<record id="equi_test1" model="service.equipment">
+			<field name="type_id" ref="equi_type_printer"/>	
+			<field name="equipment_history_id" ref="hist_equi_test1"/>	
+			<field name="state">installed</field>
+			<field name="product_id" ref="product_printer"/>	
+			<field name="serial_id" ref="product_printer_serial"/>				
+		</record>
+ 	
+ 		 -->
+
+  
+    </data>
+</openerp>

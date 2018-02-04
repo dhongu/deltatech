@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+	<t t-name="gmap_marker" style="height:500px;"> 
+		<div name="gmap" style="height:500px;     min-width: 500px;" />
+	</t>
+	<t t-name="gmap_markers" style="height:500px;"> 
+		<div name="gmap" style="height:500px;     min-width: 500px;" />
+	</t>	
+	<t t-name="gmap_route" style="height:500px;"> 
+		<div name="gmap" style="height:500px;     min-width: 500px;" />
+	</t>	
+	 
+	 <div t-name="gmaps" t-att-id="elem_id" style="position:absolute; top:0; bottom:0; right:0; left:0; margin: 0; padding: 0; overflow: hidden;">
+          <div id="the_map"></div>
+    </div>
+</template>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="0">
+
+		<record id="base.module_category_service" model="ir.module.category">
+			<field name="name">Service</field>
+		</record>
+
+
+		<record id="base.group_service_client" model="res.groups">
+			<field name="name">Client</field>
+			<field name="category_id" ref="base.module_category_service" />
+			<field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+		</record>
+
+		<record id="base.group_service_user" model="res.groups">
+			<field name="name">User</field>
+			<field name="category_id" ref="base.module_category_service" />
+			<field name="implied_ids" eval="[(4, ref('base.group_service_client'))]" />
+		</record>
+
+		<record id="base.group_service_manager" model="res.groups">
+			<field name="name">Manager</field>
+			<field name="category_id" ref="base.module_category_service" />
+			<field name="implied_ids" eval="[(4, ref('base.group_service_user'))]" />
+			<field name="users" eval="[(4, ref('base.user_root'))]" />
+		</record>
+
+
+		<record id="service_invoice_personal_rule" model="ir.rule">
+			<field name="name">Personal service invoice</field>
+			<field name="model_id" ref="account.model_account_invoice" />
+			<field name="domain_force"> ['|', ('commercial_partner_id','=',[user.commercial_partner_id.id] ),
+				('message_follower_ids','child_of',[user.commercial_partner_id.id]) ]
+			</field>
+			<field name="groups" eval="[(4, ref('base.group_service_client'))]" />
+		</record>
+
+		<record id="service_invoice_see_all_rule" model="ir.rule">
+			<field name="name">All service invoices</field>
+			<field name="model_id" ref="account.model_account_invoice" />
+			<field name="domain_force">[(1,'=',1)]</field>
+			<field name="groups" eval="[(4, ref('base.group_service_user'))]" />
+		</record>
+
+
+
+	</data>
+</openerp>

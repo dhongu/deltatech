@@ -1,0 +1,180 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_alternative
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-28 05:09+0000\n"
+"PO-Revision-Date: 2015-04-28 07:13+0200\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: ro\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#. module: deltatech_alternative
+#: view:product.template:deltatech_alternative.view_product_form_alternative
+msgid "Alternative"
+msgstr "Echivalență"
+
+#. module: deltatech_alternative
+#: sql_constraint:product.alternative:0
+msgid "Alternative code must be unique !"
+msgstr "Codul echivalent trebuie sa fie unic"
+
+#. module: deltatech_alternative
+#: field:product.template,alternative_ids:0
+msgid "Alternatives"
+msgstr "Echivalențe"
+
+#. module: deltatech_alternative
+#: field:product.alternative,name:0 field:product.catalog,code:0
+msgid "Code"
+msgstr "Cod"
+
+#. module: deltatech_alternative
+#: field:product.catalog,code_new:0
+msgid "Code New"
+msgstr "Cod echivalent"
+
+#. module: deltatech_alternative
+#: field:product.catalog,purchase_delay:0
+msgid "Purchase delay"
+msgstr "Zile pentru achiziție"
+
+#. module: deltatech_alternative
+#: field:product.catalog,sale_delay:0
+msgid "Sale delay"
+msgstr "Zile pentru livrare"
+
+#. module: deltatech_alternative
+#: sql_constraint:product.catalog:0
+msgid "Code must be unique !"
+msgstr "Codul trebuie să fie unic!"
+
+#. module: deltatech_alternative
+#: view:product.catalog:deltatech_alternative.view_product_catalog_form
+msgid "Create Product"
+msgstr "Creează produs"
+
+#. module: deltatech_alternative
+#: field:product.alternative,create_uid:0 field:product.catalog,create_uid:0
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_alternative
+#: field:product.alternative,create_date:0 field:product.catalog,create_date:0
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_alternative
+#: field:product.template,dimensions:0
+msgid "Dimensions"
+msgstr "Dimensiuni"
+
+#. module: deltatech_alternative
+#: field:product.alternative,id:0 field:product.catalog,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_alternative
+#: field:product.catalog,categ_id:0
+msgid "Internal Category"
+msgstr "Categorie internă"
+
+#. module: deltatech_alternative
+#: field:product.alternative,write_uid:0 field:product.catalog,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima modificare făcută de"
+
+#. module: deltatech_alternative
+#: field:product.alternative,write_date:0 field:product.catalog,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima modificare în"
+
+#. module: deltatech_alternative
+#: field:product.catalog,name:0
+msgid "Name"
+msgstr "Denumire"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_product
+#: field:product.catalog,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_alternative
+#: view:product.alternative:deltatech_alternative.product_alternative_form_view
+#: view:product.alternative:deltatech_alternative.product_alternative_tree_view
+#: view:product.template:deltatech_alternative.view_product_form_alternative
+msgid "Product Alternatives"
+msgstr "Echivalențe produs"
+
+#. module: deltatech_alternative
+#: model:ir.actions.act_window,name:deltatech_alternative.action_product_catalog
+#: model:ir.ui.menu,name:deltatech_alternative.menu_product_catalog
+#: view:product.catalog:deltatech_alternative.view_product_catalog_form
+#: view:product.catalog:deltatech_alternative.view_product_catalog_tree
+msgid "Product Catalog"
+msgstr "Catalog de Produse"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_template
+#: field:product.alternative,product_tmpl_id:0
+msgid "Product Template"
+msgstr "Sablon Produs"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_alternative
+msgid "Product alternative"
+msgstr "Echivalență produs"
+
+#. module: deltatech_alternative
+#: model:ir.model,name:deltatech_alternative.model_product_catalog
+msgid "Product catalog"
+msgstr "Catalog de Produse"
+
+#. module: deltatech_alternative
+#: field:product.catalog,list_price:0
+msgid "Sale Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_alternative
+#: view:product.catalog:deltatech_alternative.view_product_catalog_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_alternative
+#: help:product.catalog,categ_id:0
+msgid "Select category for the current product"
+msgstr "Alegeți categoria pentru produsul curent"
+
+#. module: deltatech_alternative
+#: field:product.template,shelf_life:0
+msgid "Shelf Life"
+msgstr "Durata de viaţă"
+
+#. module: deltatech_alternative
+#: field:product.catalog,supplier_id:0
+msgid "Supplier"
+msgstr "Furnizor"
+
+#. module: deltatech_alternative
+#: field:product.template,uom_shelf_life:0
+msgid "Unit of Measure Shelf Life"
+msgstr "Unitate de măsură Durata de viaţă"
+
+#. module: deltatech_alternative
+#: help:product.template,uom_shelf_life:0
+msgid "Unit of Measurer for Shelf Life"
+msgstr "Unitate de măsură pentru Durata de viaţă"
+
+#. module: deltatech_alternative
+#: field:product.alternative,sequence:0
+msgid "sequence"
+msgstr "Secvența"

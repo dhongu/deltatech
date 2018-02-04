@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<record id="view_order_form" model="ir.ui.view">
+			<field name="name">Sale Order</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+
+				<!--  
+				<button name="invoice_cancel" position="after">
+					<button name="action_button_confirm_to_invoice" states="draft"
+					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
+					<button name="action_button_confirm_to_invoice" states="progress"
+					 string="Deliver and Invoice" type="object" groups="base.group_user" />
+				</button>
+				-->
+
+				<xpath expr="//div[@name='button_box']" position="inside">
+
+
+						<button type="object" name="view_procurement" class="oe_stat_button" groups="stock.group_stock_user"
+						                 icon="fa-stack-overflow" attrs="{'invisible': [('procurement_count', '=', 0)]}">
+							<field name="procurement_count" widget="statinfo" string="Procurements"  />
+						</button>
+
+						<button class="oe_stat_button" string="To Be Delivered" name="view_to_be_delivered"
+						                  type="object" groups="stock.group_stock_user" icon="fa-arrows-v" />
+
+						<!-- cod mutat in modulul show_quant
+						<button class="oe_stat_button" string="Current Stock" name="view_current_stock"
+						                  type="object" groups="stock.group_stock_user" icon="fa-building-o" />
+
+						-->
+				</xpath>
+				<xpath expr="//tree/field[@name='price_unit']" position="before">
+					<field name="qty_available" groups="stock.group_stock_user"/>
+					<field name="virtual_available" groups="stock.group_stock_user"/>
+				</xpath>
+				<field name="note" position="after" >
+					<field name="deliveriy_note" class="oe_inline" placeholder="Delivery Note..." groups="stock.group_stock_user"/>
+				</field>
+			</field>
+		</record>
+
+
+		<record id="view_order_tree" model="ir.ui.view">
+			<field name="name">sale.order.tree</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_tree" />
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<button name="open_sale_order" icon="STOCK_DND" string="Show" type="object" class="oe_highlight" />
+				</field>
+				<field name="amount_total" position="before">
+					<field name="amount_untaxed" sum="Total untaxed" />
+				</field>
+				<field name="amount_total" position="after">
+					<field name="currency_id" />
+				</field>
+				<field name="state" position="after">
+					<field name="client_order_ref" />
+					<field name="invoiced_rate" widget="progressbar" />
+				</field>
+			</field>
+		</record>
+
+	</data>
+</openerp>

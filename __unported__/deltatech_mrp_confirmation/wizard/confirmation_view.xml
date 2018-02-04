@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_mrp_production_conf_form" model="ir.ui.view">
+            <field name="name">mrp.production.conf.form</field>
+            <field name="model">mrp.production.conf</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Production Order Confirmation">
+
+                        <field name="_barcode_scanned" widget="barcode_handler"/>
+                        <field name="production_id"/>
+                        <field name="workorder_id"/>
+                        <field name="worker_id"/>
+                        <!--
+                         <field name="has_tracking" invisible="1"/>
+
+                        <field name="lot_id" attrs="{'invisible': [('has_tracking', 'not in', ['lot','serial'])]}"/>
+                        -->
+                        <!--
+                        <field name="code" invisible="1"/>
+                        -->
+                    </group>
+                    <group string="Producing">
+                        <group>
+                            <field name="product_id"/>
+                            <field name="qty_producing"/>
+                        </group>
+
+                        <group>
+                            <label for="qty_produced" string="Quantity Produced"/>
+                            <div class="o_row">
+                                <field name="qty_produced"/>
+                                /
+                                <field name="qty_ready_prod"/>
+
+                            </div>
+                        </group>
+
+                    </group>
+                    <group string="Time">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <label for="duration"/>
+                        <div>
+                            <field name="duration" widget="float_time" class="oe_inline"/>
+                            minutes
+                        </div>
+                    </group>
+                    <div class="alert alert-danger alert-dismissible text-left" role="alert"
+                         attrs="{'invisible': [('error_message', '=', False)]}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="error_message" style="height: 50px;"/>
+                    </div>
+                    <div class="alert alert-info alert-dismissible text-left" role="alert"
+                         attrs="{'invisible': [('info_message', '=', False)]}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="info_message" style="height: 50px;"/>
+                    </div>
+                    <div class="alert alert-success alert-dismissible text-left" role="alert"
+                         attrs="{'invisible': [('success_message', '=', False)]}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="success_message" style="height: 50px;"/>
+                    </div>
+
+
+                    <footer>
+
+                        <button name="do_confirm" type="object" string="Confirm" class="oe_highlight"/>
+                        <button string="Close" special="cancel" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mrp_production_conf" name="Production Confirmation" res_model="mrp.production.conf"
+                    src_model="mrp.production"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+
+        <menuitem name="Production Confirmation" id="menu_mrp_production_conf" action="action_mrp_production_conf"
+                  parent="mrp.menu_mrp_manufacturing"
+                  sequence="102"/>
+
+    </data>
+</openerp>

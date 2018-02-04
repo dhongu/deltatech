@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_mrp_production_start_form" model="ir.ui.view">
+            <field name="name">mrp.production.start.form</field>
+            <field name="model">mrp.production.start</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Start Production">
+                        <div>
+                            Select Production Order
+                        </div>
+                    </group>
+                    <group>
+                        <field name="scanned_barcode"/>
+
+                    </group>
+                    <field name="production_ids"/>
+                    <footer>
+                        <button name="do_start" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mrp_production_start" name="Start Production"
+                    res_model="mrp.production.start" src_model="mrp.production"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <menuitem name="Start Production" id="menu_mrp_production_start"
+                  action="action_mrp_production_start" parent="mrp.menu_mrp_manufacturing" sequence="101"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+            <field name="arch" type="xml">
+                <group name="capacity" position="after">
+                    <group string="Confirmation">
+                        <field name="partial_conf"/>
+                        <field name="confirm_real_time"/>
+                        <field name="start_without_stock"/>
+                    </group>
+                    <group string="Costing Information">
+                        <field name="costs_hour"/>
+                        <field name="costs_hour_account_id" groups="analytic.group_analytic_accounting"/>
+                    </group>
+                </group>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Workers">
+                        <field name="worker_ids" widget="one2many_list">
+                            <tree editable="bottom">
+                                <field name="worker_id"/>
+                                <field name="from_date"/>
+                                <field name="to_date"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

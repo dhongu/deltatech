@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	 <template id="report_project">
+
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+							<t t-set="for_day" t-value="today" />
+						    <t t-set="do_in_day" t-value="False" />
+							<t t-call="deltatech_project.report_project_for_day" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+	
+	
+		<template id="report_project_do_today">
+
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+							<t t-set="for_day" t-value="today" />
+							<t t-set="do_in_day" t-value="True" />
+							<h3>
+								<span>Activitati pentru azi:</span><t t-esc="for_day" />
+							</h3>							
+							<t t-call="deltatech_project.report_project_for_day" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<template id="report_project_do_tomorrow">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+						 	
+							<t t-set="for_day" t-value="tomorrow" />
+							<t t-set="do_in_day" t-value="True" />
+							<h3>
+								<span>Activitati pentru maine:</span><t t-esc="for_day" />
+							</h3>	
+							<t t-call="deltatech_project.report_project_for_day" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+		<template id="report_project_do_on_date">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<t t-set="project" t-value="o" />
+						 	<t t-if="data">
+						 		<t t-set="for_day" t-value="data['for_date']" />
+						 	</t>
+						 	<t t-if="not data">
+						 		<t t-set="for_day" t-value="today" />
+						 	</t>						
+							<t t-set="do_in_day" t-value="True" />
+							<h3>
+								<span>Activitati pentru:</span><t t-esc="for_day" />
+							</h3>	
+							<t t-call="deltatech_project.report_project_for_day" />
+							<div class="oe_structure" />
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+
+
+		<template id="report_project_for_day">
+		
+		
+			<div t-if="project.project_child_ids or project.tasks">
+				
+				<t t-if="project.parent_id and not project.parent_id.parent_id">
+					<h3 t-if="project.partner_id">
+						<strong t-field="project.partner_id" />
+					</h3>
+				</t>
+
+
+				<h4 t-if="project.parent_id">
+					<strong t-field="project.code" />
+					<strong t-field="project.name" />
+				</h4>
+
+				<h2 t-if="not project.parent_id">
+					<strong t-field="project.code" />
+					<strong t-field="project.name" />
+				</h2>
+
+				<div class="row">
+					<div class="col-xs-6 col-xs-offset-6">
+						<div class="progress">
+							<div class="progress-bar" role="progressbar" t-att-aria-valuenow="project.progress_rate" aria-valuemin="0" aria-valuemax="100"
+								t-attf-style="width: {{project.progress_rate}}%;">
+								<div t-field="project.progress_rate" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+				<p t-if="project.description">
+					<i t-field="project.description" />
+				</p>
+				<ul t-foreach="project.project_child_ids" t-as="o" class="list-unstyled">
+					<li>
+						<t t-set="project" t-value="o" />
+						<t t-call="deltatech_project.report_project_for_day" />
+					</li>
+				</ul>
+				<ul t-foreach="project.tasks" t-as="task" class="list-unstyled">
+					<li t-if="not do_in_day or (task.progress &lt; 100 and task.date_start &lt;= for_day)">
+						<div class="row">
+
+							<div class="col-xs-5 col-xs-offset-1">
+
+								<strong t-field="task.name" />
+							</div>
+							<div class="col-xs-3">
+								<t t-if="task.date_deadline &gt; for_day">
+									<span>Deadline:</span>
+									<span t-field="task.date_deadline" />
+								</t>
+								<t t-if="task.date_deadline &lt; for_day">
+									<div class="label label-danger">
+										<span>Deadline:</span>
+										<span t-field="task.date_deadline" />
+									</div>
+								</t>
+								<t t-if="task.date_deadline == for_day">
+									<div class="label label-warning">
+										<span>Deadline:</span>
+										<span t-field="task.date_deadline" />
+									</div>
+								</t>
+							</div>
+							<div class="col-xs-3">
+								<span>Assigned:</span>
+								<span t-field="task.user_id" />
+							</div>
+
+							<div t-if="task.description" class="col-xs-11 col-xs-offset-1">
+								<i t-field="task.description" />
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</template>
+
+
+		<report string="Do today" id="action_report_project_do_on_date" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project_do_on_date"
+			file="deltatech_project.report_project_do_on_date" />
+
+		<!-- report string="Do today" id="action_report_project_do_today" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project_do_today"
+			file="deltatech_project.report_project_do_today"  -->
+
+		<report string="Do tomorow" id="action_report_project_do_tomorrow" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project_do_tomorrow"
+			file="deltatech_project.report_project_do_tomorrow" />
+
+
+
+
+		<report string="Project" id="action_report_project" model="project.project" report_type="qweb-pdf" 
+		    name="deltatech_project.report_project"
+			file="deltatech_project.report_project" />
+
+	</data>
+</openerp>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_import_mentor_form" model="ir.ui.view">
+            <field name="name">Import Mentor</field>
+            <field name="model">import.mentor</field>
+            <field name="arch" type="xml">
+                <form string="Import Mentor">
+                    <field name="state" invisible="1"/>
+
+                    <group states="choose" string="Import">
+                        <group>
+                            <field name="sel_nir"/>
+                            <field name="sel_retetar"/>
+                        </group>
+                        <group>
+                            <field name="sel_articole"/>
+                            <field name="sel_partener"/>
+                            <field name="sel_gestiuni"/>
+                        </group>
+                        <group>
+                            <field name="data_file" widget="binary" filename="data_file_name"/>
+                        </group>
+
+                    </group>
+                    <div states="result">
+                        <h2>Import Complete</h2>
+                        <field name="result"/>
+                    </div>
+                    <footer states="choose">
+                        <button name="do_import" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="_Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+
+                    <footer states="result">
+                        <button string="OK" class="oe_highlight"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_import_mentor" model="ir.actions.act_window">
+            <field name="name">Import Mentor</field>
+            <field name="res_model">import.mentor</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Import Mentor" id="menu_import_mentor"
+                  action="action_import_mentor" parent="account.menu_finance_entries"
+                  groups="account.group_account_manager"/>
+    </data>
+</openerp>

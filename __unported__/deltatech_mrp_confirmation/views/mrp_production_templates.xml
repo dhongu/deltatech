@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+
+
+        <xpath expr="//div[@t-if='o.workorder_ids']" position="replace">
+            <div t-if="o.workorder_ids">
+                <strong>Work Orders</strong>
+                <table class="bordered" style="width:100%;">
+                    <tr>
+                        <td colspan="2" style="width:16%;text-align:center;" t-foreach="o.workorder_ids" t-as="wkorder">
+                            <span style="font-weight:bold;" t-field="wkorder.code" />
+                            <br />
+                            <span style="font-size:10px;" t-field="wkorder.name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <t t-foreach="o.workorder_ids" t-as="wkorder">
+                            <td>
+                                <img style="width:60px; height:200px;" t-att-src="'data:image/png;base64,%s' % wkorder.barcode_image" />
+                            </td>
+                            <td style="width:9%;height:250px;"></td>
+                        </t>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+
+
+
+    </template>
+</odoo>

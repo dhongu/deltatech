@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <!--   xml:space="preserve" -->
+
+    <t t-name="MrpConfirmationBarcodeMode">
+
+
+        <div class="modal fade" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&amp;times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Enter manual barcode</h4>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="barcode" class="control-label">Barcode</label>
+                            <input class="form-control" id="barcode" placeholder="bar code"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary o_mrp_confirmation_barcode_button_search">Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="o_mrp_confirmation_barcode_mode_container">
+              <img src="/web/binary/company_logo" />
+            <div class="container">
+
+                <div class="row">
+
+
+                    <div class="col-lg-6">
+
+                        <div class="o_mrp_confirmation_barcode_mode">
+                            <h1>Production Order Confirmation</h1>
+
+                            <h2>Scan barcode</h2>
+
+                            <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal"
+                                    data-target="#barcodeModal">
+                                Enter bar code
+                            </button>
+
+                            <div class="o_mrp_confirmation_barcode_item">
+
+
+                                </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="o_mrp_confirmation_barcode_mode">
+                            <h1>More information</h1>
+                            <div class="o_mrp_confirmation_barcode_mode_info"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </t>
+
+    <t t-name="MrpConfirmationBarcodeModeInfo">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Produced</th>
+                            <th>Production</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="workorder" t-as="o">
+                            <t t-set="color" t-value="'info'"/>
+                            <t t-if="o.qty_produced == o.qty_production ">
+                                <t t-set="color" t-value="'success'"/>
+                            </t>
+                            <t t-if="o.qty_produced &lt; o.qty_production ">
+                                <t t-set="color" t-value="'warning'"/>
+                            </t>
+                            <t t-if="o.qty_produced == 0 " >
+                                <t t-set="color" t-value="'danger'"/>
+                            </t>
+
+                            <tr t-attf-class="{{ color }}">
+                                <td>
+                                    <t t-esc="o.product_id[1]"/>
+                                </td>
+                                <td>
+                                    <t t-esc="o.qty_produced"/>
+                                </td>
+                                <td>
+                                    <t t-esc="o.qty_production"/>
+                                </td>
+                            </tr>
+
+                        </t>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </t>
+
+
+    <t t-name="MrpConfirmationBarcodeItem">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <h2>
+                    <label>Production Order:</label>
+                    <t t-if="conf.production_id">
+                        <t t-esc="conf.production_id[1]"/>
+                    </t>
+                </h2>
+                <h2>
+                    <label>Worker:</label>
+                    <t t-if="conf.worker_id">
+                        <t t-esc="conf.worker_id[1]"/>
+                    </t>
+
+                </h2>
+
+                <h2>
+                    <label>Operation:</label>
+                    <t t-if="conf.workorder_id">
+                        <t class="o_mrp_confirmation_workorder" t-esc="conf.workorder_id[1]"/>
+                        <div>
+                            <span>Quantity Produced:</span>
+                            <t t-esc="conf.qty_produced"/>
+                            /
+                            <t t-esc="conf.qty_ready_prod"/>
+                            <span>Total:</span>
+                            <t t-esc="conf.qty_production"/>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t class="o_mrp_confirmation_workorder" t-esc="conf.code or ''"/>
+                    </t>
+                </h2>
+                <h3>
+
+                    <label>Product:</label>
+                    <t t-if="conf.product_id">
+                        <t t-esc="conf.product_id[1]"/>
+                        <div class="form-group form-group-lg">
+
+                            <input type="number" class="form-control keyboard keyboard-numpad quantity"
+                                   id="formGroupInputQty" placeholder="Quantity"
+                                   data-min="1" name="add_qty" t-att-value="conf.qty_producing"/>
+                        </div>
+                    </t>
+
+
+                </h3>
+            </div>
+
+
+        </div>
+
+        <t t-if="conf.error_message">
+            <div class="alert alert-danger alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.error_message"/>
+            </div>
+        </t>
+
+        <t t-if="conf.info_message">
+            <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.info_message"/>
+            </div>
+        </t>
+
+        <t t-if="conf.success_message">
+            <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="conf.success_message"/>
+            </div>
+        </t>
+
+        <t t-if="(conf.qty_produced + conf.qty_producing)==conf.qty_production and conf.qty_producing!=0">
+            <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"/>
+                <span>Quantity processed totally</span>
+            </div>
+        </t>
+
+
+        <t t-if="(conf.qty_produced + conf.qty_producing) &lt; conf.qty_production">
+            <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <i class="fa fa-hand-o-left" aria-hidden="true"/>
+                <span>There are still products to process</span>
+            </div>
+        </t>
+
+        <t t-if="conf.production_id and conf.worker_id and conf.workorder_id">
+            <button class="fa fa-floppy-o btn-primary btn-lg o_mrp_confirmation_barcode_button_save">
+                Save
+            </button>
+        </t>
+
+        <t t-if="!(conf.production_id and conf.worker_id and conf.workorder_id)">
+            <button class="fa fa-times btn-primary btn-lg o_mrp_confirmation_barcode_button_close">
+                Close
+            </button>
+        </t>
+    </t>
+
+</template>

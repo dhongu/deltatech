@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record id="mrp_confirmation_action_barcode_mode" model="ir.actions.client">
+        <field name="name">Confirmation Barcode</field>
+        <field name="tag">mrp_confirmation_barcode_mode</field>
+        <field name="target">fullscreen</field>
+    </record>
+
+
+    <menuitem id="menu_mrp_confirmation_barcode_mode" name="Confirmation Barcode"
+              parent="mrp.menu_mrp_manufacturing" sequence="20"
+              action="mrp_confirmation_action_barcode_mode"/>
+
+
+     <!-- Barcode Nomenclatures -->
+    <menuitem id="menu_pos_barcode_nomenclature_all" parent="mrp.menu_mrp_configuration"
+              action="barcodes.action_barcode_nomenclature_form" sequence="30"/>
+
+</data>
+</odoo>

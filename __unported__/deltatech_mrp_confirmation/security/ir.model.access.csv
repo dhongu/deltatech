@@ -1,0 +1,7 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_mrp_workcenter_worker,access_mrp_workcenter_worker,model_mrp_workcenter_worker,,1,1,1,1
+access_mrp_rework_manager,access_mrp_rework,model_mrp_rework,mrp.group_mrp_manager,1,1,1,1
+access_mrp_rework_user,access_mrp_rework,model_mrp_rework,mrp.group_mrp_user,1,1,1,1
+
+

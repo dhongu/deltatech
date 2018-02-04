@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mrp_production_tree_view" model="ir.ui.view">
+            <field name="name">mrp.production.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_qty']" position="after">
+                    <field name="qty_produced" sum="Total Qty Produced" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <button name="button_unreserve" position="after">
+                    <button name="%(action_mrp_production_conf)d" type="action" string="Confirmation"
+                            attrs="{'invisible': ['|',('workorder_count', '=', 0),('state','in',['done','cancel'])]}"/>
+
+                </button>
+                <xpath expr="//field[@name='move_raw_ids']//field[@name='product_id']" position="after">
+                    <button name="show_production" string="Show source" type="object" icon="fa-shopping-cart"
+                            attrs="{'invisible': [('state', 'in', ['done','cancel'])]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

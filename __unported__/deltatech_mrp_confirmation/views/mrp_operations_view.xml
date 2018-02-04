@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--
+        <record id="mrp_production_workcenter_form_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.workcenter.productivity.form</field>
+            <field name="model">mrp.workcenter.productivity</field>
+            <field name="inherit_id" ref="mrp_confirmation.mrp_production_workcenter_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <group string="Actual Production Date" position="replace">
+                    <group string="Actual Production Date">
+                        <field name="date_start" readonly="0"/>
+                        <field name="date_finished" readonly="0"/>
+                        <field name="delay" widget="float_time"/>
+                        <field name="partner_id" options="{'no_create': True}"/>
+                        <field name="possible_partner_ids" invisible="1"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <record id="mrp_production_workcenter_tree_view_inherit" model="ir.ui.view">
+            <field name="name">mrp.production.workcenter.line.tree</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_confirmation.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="arch" type="xml">
+                <field name="workcenter_id" position="after">
+                    <field name="partner_id"/>
+                </field>
+            </field>
+        </record>
+
+        -->
+
+    </data>
+</openerp>

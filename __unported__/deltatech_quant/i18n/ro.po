@@ -1,0 +1,366 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_quant
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-31 08:11+0000\n"
+"PO-Revision-Date: 2017-05-31 08:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_tag
+msgid " Stock Quant Tag"
+msgstr " Stock Quant Tag"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_categ_id
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Category of Product"
+msgstr "Categorie de produs"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,name:deltatech_quant.action_stock_quant_change_lot
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+msgid "Change Lot / Serial Number"
+msgstr "Change Lot / Serial Number"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_create_uid
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_create_uid
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_create_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_create_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_customer_id
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_customer_id
+#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Date Input"
+msgstr "Dată intrare"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Date Output"
+msgstr "Dată ieșire"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_display_name
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_display_name
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_display_name
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Group By..."
+msgstr "Grupează după..."
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_id
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_id
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_id
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_input_amount
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_input_amount
+msgid "Input Amount"
+msgstr "Valoare intrare"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_input_price
+msgid "Input Price"
+msgstr "Preț intrare"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Input Qty"
+msgstr "Cant intrare"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_input_qty
+msgid "Input Quantity"
+msgstr "Cantitate intrare"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Input This Month"
+msgstr "Intrări în acestă lună"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Input amount"
+msgstr "Valoare intrare"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_input_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_input_date
+msgid "Input date"
+msgstr "Dată intrare"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Input in Previous Month"
+msgstr "Intrări în luna anterioară"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_categ_id
+msgid "Internal Category"
+msgstr "Categorie internă"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report___last_update
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot___last_update
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split___last_update
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_write_uid
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_write_uid
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_write_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_write_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_location_id
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_lot_id
+msgid "Lot/Serial Number"
+msgstr "Lot/Număr Serial"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_manufacturer
+msgid "Manufacturer"
+msgstr "Producător"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Manufacturer of Product"
+msgstr "Producător"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_output_amount
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_output_amount
+msgid "Output Amount"
+msgstr "Valoare ieșire"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_output_price
+msgid "Output Price"
+msgstr "Preț ieșire"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Output Qty"
+msgstr "Cant ieșire"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_output_qty
+msgid "Output Quantity"
+msgstr "Canitiate ieșire"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Output This Month"
+msgstr "Ieșiri în luna curentă"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Output amount"
+msgstr "Valoare ieșire"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_output_date
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_output_date
+msgid "Output date"
+msgstr "Dată ieșire"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Output in Previous Month"
+msgstr "Ieșiri în luna precedentă"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_split_parts
+msgid "Parts"
+msgstr "Părți"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Comenzi din Punctul de vânzare"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_product_id
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_product_qty
+msgid "Product Quantity"
+msgstr "Cantitatea produsului"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_change_lot_product_id
+msgid "Product id"
+msgstr "Product id"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_profit
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Profit"
+msgstr "Profit"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,help:deltatech_quant.field_stock_quant_categ_id
+msgid "Select category for the current product"
+msgstr "Selectați categoria pentru produsul curent"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_origin
+msgid "Source Document"
+msgstr "Document sursă"
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,name:deltatech_quant.action_stock_quant_split
+msgid "Split"
+msgstr "Împarte"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_change_lot
+msgid "Stock Quant Change Lot"
+msgstr "Stock Quant Change Lot"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_quant_split
+msgid "Stock Quant Split"
+msgstr "Stock Quant Split"
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_profit_report
+msgid "Stock Statistics"
+msgstr "Statistici poziții stoc"
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,name:deltatech_quant.action_stock_profit_report
+#: model:ir.ui.menu,name:deltatech_quant.menu_stock_profit_report_tree
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_graph
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+msgid "Stock profit report"
+msgstr "raport profit stoc"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_supplier_id
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_supplier_id
+#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+msgid "Supplier"
+msgstr "Furnizor"
+
+#. module: deltatech_quant
+#: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_tag_ids
+msgid "Tags"
+msgstr "Etichete"
+
+#. module: deltatech_quant
+#: model:ir.actions.act_window,help:deltatech_quant.action_stock_profit_report
+msgid "This report performs analysis on your stock."
+msgstr "Acest raport analizează stocurile intrate și ieșite."
+
+#. module: deltatech_quant
+#: model:ir.model,name:deltatech_quant.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+#. module: deltatech_quant
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+msgid "or"
+msgstr "sau"
+

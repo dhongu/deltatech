@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="im assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+             	<link rel='stylesheet' href='/web_widget_google_maps/static/src/css/web_gmaps.css'/>
+                <script type="text/javascript" src="/web_widget_google_maps/static/src/js/web_gmaps.js"></script>
+                 
+             </xpath>
+        </template>
+    </data>
+</openerp>

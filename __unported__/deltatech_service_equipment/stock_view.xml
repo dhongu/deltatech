@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+		<record id="view_picking_form" model="ir.ui.view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form" />
+			<field name="arch" type="xml">
+
+				<field name="priority" position="after">
+					<field name="equipment_history_id" invisible="0"/>
+					<field name="equipment_id" />
+					<field name="agreement_id" />
+				</field>
+			</field>
+		</record>
+	
+	</data>
+</openerp>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record model="ir.ui.view" id="mrp_production_workcenter_form_view_inherit">
+            <field name="name">mrp.production.work.order.form</field>
+            <field name="model">mrp.workorder</field>
+
+            <field name="inherit_id" ref="mrp.mrp_production_workcenter_form_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="code"/>
+                </xpath>
+
+                <xpath expr="//field[@name='is_produced']" position="before">
+                    <field name="qty_rework" readonly="1"/>
+                    <field name="qty_ready_prod"/>
+                </xpath>
+                <xpath expr="//tree/field[@name='user_id']" position="replace">
+                    <field name="worker_id" options="{'no_create': True}"/>
+                    <field name="qty_produced" />
+                    <field name="possible_worker_ids" invisible="1"/>
+                </xpath>
+                <xpath expr="//form//field[@name='user_id']" position="after">
+                    <field name="worker_id" options="{'no_create': True}"/>
+                     <field name="qty_produced" />
+                    <field name="possible_worker_ids" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_mrp_production_workcenter_form_view_filter" model="ir.ui.view">
+            <field name="name">mrp.production.work.order.select</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_workcenter_form_view_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="mrp_production_workcenter_tree_view_inherit">
+            <field name="name">mrp.production.work.order.tree</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="code"/>
+                </xpath>
+                <xpath expr="//field[@name='qty_production']" position="before">
+                    <field name="qty_produced"/>
+                </xpath>
+            </field>
+
+        </record>
+
+        <record id="workcenter_line_kanban" model="ir.ui.view">
+            <field name="name">mrp.production.work.order.kanban</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp.workcenter_line_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="code"/>
+                </xpath>
+                <xpath expr="//t[@t-esc='record.product_id.value']" position="before">
+                    <t t-esc="record.code.value"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

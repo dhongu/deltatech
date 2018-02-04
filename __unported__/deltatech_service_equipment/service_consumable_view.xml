@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+
+
+		<record id="view_service_consumable_tree" model="ir.ui.view">
+			<field name="name">consumable</field>
+			<field name="model">service.consumable</field>
+			<field name="arch" type="xml">
+				<tree string="Consumables">
+					<field name="name"/> 
+					<field name="type_id"/> 
+					<field name="product_id"/> 
+				</tree>
+			</field>
+		</record>
+					
+
+
+
+		<record id="view_service_consumable_form" model="ir.ui.view">
+			<field name="name">consumable</field>
+			<field name="model">service.consumable</field>
+			<field name="arch" type="xml">
+				<form string="Consumables">
+
+					<sheet>
+						<group>
+							<group>
+								<field name="name" invidible="1"/> 	
+								<field name="categ"/> 
+								<field name="product_id"  attrs="{'invisible':[('categ', '==', 'type')]}"/>
+								<field name="type_id"     attrs="{'invisible':[('categ', '!=', 'type')]}"/>  
+								<field name="item_ids" >
+									<tree editable="bottom">
+										<field name="product_id"/>
+										<field name="colors"/>
+										<field name="shelf_life"/>
+										<field name="uom_shelf_life"/>
+										<field name="max_qty"/>
+									</tree>
+								</field>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+							
+
+ 
+		<record id="action_service_consumable" model="ir.actions.act_window">
+			<field name="name">Services Consumable</field>
+			<field name="res_model">service.consumable</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Consumables" id="menu_service_consumable"
+			action="action_service_consumable" parent="base.menu_service_config" sequence="200" />
+			
+			
+			
+		</data>
+		</openerp>

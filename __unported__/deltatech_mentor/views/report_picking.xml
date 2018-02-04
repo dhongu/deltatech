@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+         <report 
+            string="Export Avize nefacturabile pt Mentor" 
+            id="action_report_picking_mentor" 
+            model="stock.picking" 
+            report_type="qweb-html"
+            name="deltatech_mentor.report_picking"  
+            file="deltatech_mentor.report_picking"  />
+
+ 
+            
+            
+<template id="report_picking">
+    <t t-call="report.html_container">
+	    <div>
+			<div>[InfoPachet]</div> 
+			<t t-set="picking_date" t-value="docs[0].date"></t>
+			<div>AnLucru=<span t-esc="picking_date"></span></div>
+			<div>LunaLucru=<span t-esc="picking_date"></span></div>
+			
+			<div>TipDocument=AVIZ EXPEDITIE</div>
+			<t t-set="TotalAvize" t-value="len(docs)"/>
+			<div><span>TotalAvize=</span>
+            <span t-esc="TotalAvize"/></div>
+		</div>   
+		
+        <t t-set='index' t-value='1'/>
+        <t t-foreach="docs" t-as="o">
+        	<div>
+    			<div>[Aviz_<t t-esc="index"/>]</div>
+    			 
+				<div>NrDoc=<span t-field="o.name" /></div>
+				<div>Data=<span t-field="o.date" /></div>
+				<div>NrNir=</div>
+				<div>CodFurnizor=<span t-field="o.partner_id.vat"/></div>
+				<div>TVAINCASARE=</div>		
+				<div>PRORATA=</div>	
+				<div>Moneda=</div>
+				<div>Curs=</div>						
+				<div>Scadenta=</div>
+				<div>Majorari=</div>
+				<div>Observatii=</div>	
+				<div>TotalArticole=<t t-esc="len(o.move_lines)"/></div>	 
+				<div>Discount=</div>
+ 				
+ 				<div>[Items_<t t-esc="index"/>]</div>
+ 				<t t-set="nr_crt" t-value="1" />
+ 				<t t-foreach="o.move_lines" t-as="l">
+					<div>Item_<t t-esc="nr_crt"/>=
+						<span t-field="l.product_id.default_code" />;Buc;
+						<span t-field="l.product_qty" />;
+						<span t-field="l.price_unit" />; ;
+					</div>
+					<t t-set="nr_crt" t-value="nr_crt + 1" />
+				</t>
+			</div>  
+             <t t-set='index' t-value='index + 1'/>
+        </t>
+    </t>		
+</template>
+</data>
+</openerp>
+
+
+

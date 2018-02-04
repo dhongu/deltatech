@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_project_task_recurrence_form" model="ir.ui.view">
+			<field name="name">project.task.recurrence.form</field>
+			<field name="model">project.task.recurrence</field>
+			<field name="arch" type="xml">
+				<form string="Recurrence">
+					<group string="Recurrence">
+						<div>
+							Create Recurrence for task: <field name="task_id" />
+						</div> 
+					</group>
+					<group>
+						<field name="first_date" />
+						<field name="last_date" />
+						<field name="project_progress" />					   
+					</group>
+					<group>
+						<label for="interval" />
+						<div>
+							<field name="interval" class="oe_inline" />
+							<field name="cycle" class="oe_inline" />
+						</div>
+					</group>
+					<group attrs="{'invisible': [('cycle','!=','month')]}">
+						<field name="day_start" />
+						<field name="day_end" />
+					</group>
+					<footer>
+						<button name="do_recurrence" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+	<act_window id="action_project_task_recurrence" name="Create Recurrence"
+			res_model="project.task.recurrence" src_model="project.task"
+			view_mode="form" multi="False" target="new" key2="client_action_multi" />
+		
+		
+	</data>
+</openerp>
