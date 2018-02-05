@@ -146,7 +146,9 @@ class export_saga(models.TransientModel):
                       'EMAIL': partner.email or '',
                       'IS_TVA': is_tva,
                       }
-
+            for key in values:
+                if isinstance(values[key], unicode):
+                    values[key] = self.unaccent(values[key])
             furnizori_dbf.insert(values)
 
         return temp_file, result_html
@@ -245,6 +247,9 @@ class export_saga(models.TransientModel):
                       'EMAIL': partner.email or '',
                       'IS_TVA': is_tva,
                       }
+            for key in values:
+                if isinstance(values[key], unicode):
+                    values[key] = self.unaccent(values[key])
             clienti_dbf.insert(values)
 
         return temp_file, result_html
@@ -292,6 +297,9 @@ class export_saga(models.TransientModel):
                 'DEN_TIP': self.unaccent(product.categ_id.name[:36]),
                 'TVA': tva,
             }
+            for key in values:
+                if isinstance(values[key], unicode):
+                    values[key] = self.unaccent(values[key])
             articole_dbf.insert(values)
 
         return temp_file, result_html
@@ -431,6 +439,9 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     values['COD_ART'] = line.product_id.default_code and line.product_id.default_code[:16] or ''
                     values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
 
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
                 intrari_dbf.insert(values)
 
         for voucher in voucher_in_ids:
@@ -497,7 +508,9 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     'PRET_VANZ': 0.0,
                     'GRUPA': '',
                 }
-
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
                 intrari_dbf.insert(values)
 
         return temp_file, result_html
@@ -616,6 +629,10 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                 if not self.export_product:
                     values['COD_ART'] = ''
                     values['DEN_TIP'] = ''
+
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
                 iesiri_dbf.insert(values)
         return temp_file, result_html
 
