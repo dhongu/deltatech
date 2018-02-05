@@ -150,7 +150,7 @@
                             <tree string="Agreement Lines" editable="bottom"
                                   colors=" red:price_unit==1; red:price_unit==0;" default_order="create_date desc">
 
-                                <!--<field name="sequence" widget="handle"/>-->
+                                <field name="sequence"/>
                                 <field name="product_id"/>
                                 <field name="quantity"/>
                                 <field name="uom_id" groups="product.group_uom"/>
