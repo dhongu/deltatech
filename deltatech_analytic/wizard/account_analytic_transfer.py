@@ -31,7 +31,7 @@ class account_analytic_transfer(models.TransientModel):
         self.ensure_one()
         #value = {'amount': 1 * self.amount, 'date': self.date}
         #new_line = self.from_alanytic_line.copy(value)
-        value = {'amount': self.amount, 'date': self.date, 'alanytic_id': self.to_alanytic.id, }
+        value = {'amount': self.amount, 'date': self.date, 'account_id': self.to_alanytic.id, }
         new_line = self.from_alanytic_line.copy(value)
         #new_line = self.from_alanytic_line.copy(value)
         self.from_alanytic_line.amount = self.from_alanytic_line.amount - self.amount
