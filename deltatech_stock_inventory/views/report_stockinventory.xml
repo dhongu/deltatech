@@ -7,9 +7,9 @@
 			name="deltatech_stock_inventory.report_inventory_position" file="deltatech_stock_inventory.report_inventory_position" />
 
 		<template id="report_inventory_position">
-			<t t-call="report.html_container">
+			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
+					<t t-call="web.external_layout">
 						<div class="page">
 							<h2>
 								Stock Inventory by position
@@ -117,9 +117,9 @@
 			name="deltatech_stock_inventory.report_inventory_diff" file="deltatech_stock_inventory.report_inventory_diff" />
 
 		<template id="report_inventory_diff">
-			<t t-call="report.html_container">
+			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
+					<t t-call="web.external_layout">
 						<div class="page">
 							<h2>
 								Stock Inventory
@@ -330,17 +330,12 @@
 				</td>
 			</xpath>
 
-
-
 			<xpath expr="//table[2]/thead/tr" position="replace">
-
 				<t t-call="deltatech_stock_inventory.report_inventory_header" />
 				<t t-set="categ_id" t-value="0" />
 			</xpath>
 
-
-
-			<xpath expr="//table[2]/tr" position="replace">
+			<xpath expr="//table[2]/tbody/t" position="replace">
 				<t t-set="total_plus" t-value="0" />
 				<t t-set="total_minus" t-value="0" />
 				<t t-set="total_amount" t-value="0" />

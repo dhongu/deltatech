@@ -20,7 +20,7 @@
             </field>
         </record>
 
-
+        <!--
         <record id="view_stock_quant_tree" model="ir.ui.view">
             <field name="name">stock.quant.tree</field>
             <field name="model">stock.quant</field>
@@ -45,6 +45,7 @@
                 </field>
             </field>
         </record>
+        -->
 
     </data>
 </openerp>

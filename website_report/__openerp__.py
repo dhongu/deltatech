@@ -7,7 +7,7 @@
 Use the website editor to customize your reports.
         """,
     'author': 'OpenERP SA',
-    'depends': ['base', 'website', 'report'],
+    'depends': ['base', 'website'],
     'data': [
         'views/layouts.xml',
     ],

@@ -46,10 +46,10 @@
 
 </template>
 
-<template id="website_html_container" inherit_id="report.html_container">
+<template id="website_html_container" inherit_id="web.html_container">
 
-    <xpath expr="//t[@t-call='report.layout']" position="replace">
-        <t t-call="website_report.layout">          
+    <xpath expr="//t[@t-call='web.report_layout']" position="replace">
+        <t t-call="website_report.layout">
             <t t-raw="0"/>
         </t>
     </xpath>

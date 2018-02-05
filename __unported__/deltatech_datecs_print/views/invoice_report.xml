@@ -8,7 +8,8 @@
 		<template id="report_invoice">
 			<t t-call="report.html_container">
 				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_datecs_print.report_invoice_datecs')" />
+					<!-- t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_datecs_print.report_invoice_datecs')" /  -->
+					<t t-call="deltatech_datecs_print.report_invoice_datecs" t-lang="doc_id.partner_id.lang"/>
 				</t>
 			</t>
 		</template>
