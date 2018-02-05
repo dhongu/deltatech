@@ -135,11 +135,11 @@ class export_saga(models.TransientModel):
                 partner_code = ''
 
             values = {'COD': partner_code,
-                      'DENUMIRE': self.unaccent(partner.name[:48]),
+                      'DENUMIRE': partner.name[:48],
                       'COD_FISCAL': cod_fiscal or '',
                       'ANALITIC': analitic,
                       'ZS': 0,
-                      'ADRESA': self.unaccent(partner.contact_address),
+                      'ADRESA': partner.contact_address,
                       # 'BANCA'
                       'TARA': partner.country_id.code or '',
                       'TEL': partner.phone or '',
@@ -236,12 +236,12 @@ class export_saga(models.TransientModel):
                 partner_code = ''
 
             values = {'COD': partner_code,
-                      'DENUMIRE': self.unaccent(partner.name[:48]),
+                      'DENUMIRE': partner.name[:48],
                       'COD_FISCAL': cod_fiscal or '',
                       'REG_COM': nrc or '',
                       'ANALITIC': analitic,
                       'ZS': 0,
-                      'ADRESA': self.unaccent(partner.contact_address[:48]),
+                      'ADRESA': partner.contact_address[:48],
                       'TARA': partner.country_id.code or '',
                       'TEL': partner.phone or '',
                       'EMAIL': partner.email or '',
@@ -290,11 +290,11 @@ class export_saga(models.TransientModel):
 
             values = {
                 'COD': product.default_code or '',
-                'DENUMIRE': self.unaccent(product.name[:60]),
+                'DENUMIRE': product.name[:60],
                 'UM': product.uom_id.name[:5].split(' ')[0],
 
                 'TIP': product.categ_id.code_saga or '',
-                'DEN_TIP': self.unaccent(product.categ_id.name[:36]),
+                'DEN_TIP': product.categ_id.name[:36],
                 'TVA': tva,
             }
             for key in values:
@@ -418,7 +418,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     'TIP': tip,
                     'TVAI': tvai,
                     'COD_ART': '',
-                    'DEN_ART': self.unaccent(line.name[:60]),
+                    'DEN_ART': line.name[:60],
                     'UM': '',
                     'CANTITATE': round(line.quantity, 3),
                     'DEN_TIP': '',
@@ -437,7 +437,7 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code and line.product_id.default_code[:16] or ''
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    values['DEN_TIP'] = line.product_id.categ_id.name[:36]
 
                 for key in values:
                     if isinstance(values[key], unicode):
@@ -610,7 +610,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                     'GESTIUNE': '',
                     'DEN_GEST': '',
                     'COD_ART': line.product_id.default_code and line.product_id.default_code[:16] or '',
-                    'DEN_ART': self.unaccent(line.name[:60]),
+                    'DEN_ART': line.name[:60],
                     'UM': '',
                     'CANTITATE': round(line.quantity, 3),
                     'DEN_TIP': '',
@@ -624,7 +624,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                 if line.uos_id:
                     values['UM'] = line.uos_id.name[:5].split(' ')[0]
                 if line.product_id.categ_id:
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    values['DEN_TIP'] = line.product_id.categ_id.name[:36]
 
                 if not self.export_product:
                     values['COD_ART'] = ''
