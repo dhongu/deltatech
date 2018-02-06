@@ -32,6 +32,7 @@
                                 <field name="footer_symbol"/>
                                 <field name="footer_symbol_type"/>
                                 <field name="footer_text"/>
+
                             </group>
 
                             <group>
@@ -39,17 +40,30 @@
                                 <field name="domain"/>
                                 <field name="date_field_id"/>
                                 <field name="action_id"/>
+                                <field name="no_group"/>
                             </group>
-                            <newlinw/>
                             <group>
+                                <a href="https://material.io/icons/" target="_blank">Material design icon</a>
+                                <a href="https://fontawesome.com/icons?m=free/" target="_blank">Font Awesome icon</a>
+                            </group>
+                            <group string="Primary">
                                 <field name="primary_function"/>
                                 <field name="primary_field_id"/>
-                                <field name="primary_format"/>
+
                                 <field name="primary_negative"/>
                                 <field name="primary_value"/>
                             </group>
-                            <group>
+                            <group string="Secondary">
+                                <field name="secondary_function"/>
+                                <field name="secondary_field_id"/>
 
+                                <field name="secondary_negative"/>
+                                <field name="secondary_value"/>
+                            </group>
+                            <group>
+                                <field name="operator"/>
+                                <field name="total_value"/>
+                                <field name="error"/>
                             </group>
                         </group>
                     </sheet>

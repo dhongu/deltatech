@@ -6,7 +6,8 @@ var dataChart = {
 var optionsChart = {
     labelInterpolationFnc: function(value) {
         return value[0]
-      }
+      },
+    plugins: [ Chartist.plugins.tooltip() ]
 };
 
 var optionsTimeChart = {
@@ -19,7 +20,8 @@ var optionsTimeChart = {
         labelInterpolationFnc: function(value) {
           return moment(value).format('MMM D');
         }
-    }
+    },
+    plugins: [ Chartist.plugins.tooltip() ]
 };
 
 var responsiveOptions = [

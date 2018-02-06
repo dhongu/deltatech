@@ -104,6 +104,7 @@ class dashboard_tile(models.Model):
 
     model_id = fields.Many2one('ir.model', 'Model', required=True)
     domain = fields.Text(default='[]')
+    no_group = fields.Boolean('No group')
     action_id = fields.Many2one('ir.actions.act_window', 'Action')
 
     date_field_id = fields.Many2one('ir.model.fields', string='Date Field',
@@ -113,12 +114,20 @@ class dashboard_tile(models.Model):
     primary_field_id = fields.Many2one('ir.model.fields', string='Field',
                                        domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
     primary_negative = fields.Boolean('Negative')
-    primary_format = fields.Char(string='Format',
-                                 help='Python Format String valid with str.format()\n'
-                                      'ie: \'{:,} Kgs\' will output \'1,000 Kgs\' if value is 1000.')
+
     primary_value = fields.Char(string='Value', compute='_compute_data')
 
+    # Secondary Value
+    secondary_function = fields.Selection(FIELD_FUNCTION_SELECTION, string='Function', default='count')
+    secondary_field_id = fields.Many2one('ir.model.fields', string='Field',
+                                         domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
+    secondary_negative = fields.Boolean('Negative')
 
+    secondary_value = fields.Char(string='Value', compute='_compute_data')
+
+    operator = fields.Selection([('+', '+'), ('-', '-'), ('*', '*'), ('/', '/')], default='+', required=True)
+
+    total_value = fields.Float(string='Value', compute='_compute_data')
 
     error = fields.Char(string='Error Details', compute='_compute_data')
 
@@ -138,33 +147,72 @@ class dashboard_tile(models.Model):
                 domain = expression.AND([domain, date_domain])
 
             field_name = self.primary_field_id.name
+            if self.no_group:
+                record = model.search(domain, limit=1)
+                self.primary_value = record[self.primary_field_id.name]
+                if self.secondary_field_id:
+                    self.secondary_value = record[self.secondary_field_id.name]
+            else:
+                if self.primary_function == 'sum':
+                    records = model.read_group(domain=domain, fields=[field_name], groupby=[])
+                    value = records and records[0][field_name] or 0.0
+                    if self.primary_negative:
+                        value = -1 * value
+                    self.primary_value = value
+                elif self.primary_function == 'count':
+                    value = model.search_count(domain)
+                    self.primary_value = value
+                elif self.primary_function == 'min':
+                    records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                               orderby=field_name, limit=1)
+                    value = records and records[0][field_name] or 0.0
+                    if self.primary_negative:
+                        value = -1 * value
+                    self.primary_value = value
+                elif self.primary_function == 'max':
+                    records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                               orderby=field_name + ' DESC', limit=1)
+                    value = records and records[0][field_name] or 0.0
+                    if self.primary_negative:
+                        value = -1 * value
+                    self.primary_value = value
 
-            if self.primary_function == 'sum':
-                records = model.read_group(domain=domain, fields=[field_name], groupby=[])
-                value = records and records[0][field_name] or 0.0
-                if self.primary_negative:
-                    value = -1 * value
-                self.primary_value = value
-            elif self.primary_function == 'count':
-                value = model.search_count(domain)
-                self.primary_value = value
-            elif self.primary_function == 'min':
-                records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
-                                           orderby=field_name, limit=1)
-                value = records and records[0][field_name] or 0.0
-                if self.primary_negative:
-                    value = -1 * value
-                self.primary_value = value
-            elif self.primary_function == 'max':
-                records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
-                                           orderby=field_name + ' DESC', limit=1)
-                value = records and records[0][field_name] or 0.0
-                if self.primary_negative:
-                    value = -1 * value
-                self.primary_value = value
+                if self.secondary_field_id:
+                    field_name = self.secondary_field_id.name
+
+                    if self.secondary_function == 'sum':
+                        records = model.read_group(domain=domain, fields=[field_name], groupby=[])
+                        value = records and records[0][field_name] or 0.0
+                        if self.secondary_negative:
+                            value = -1 * value
+                        self.secondary_value = value
+                    elif self.secondary_function == 'count':
+                        value = model.search_count(domain)
+                        self.secondary_value = value
+                    elif self.secondary_function == 'min':
+                        records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                                   orderby=field_name, limit=1)
+                        value = records and records[0][field_name] or 0.0
+                        if self.secondary_negative:
+                            value = -1 * value
+                        self.secondary_value = value
+                    elif self.secondary_function == 'max':
+                        records = model.read_group(domain=domain, fields=[field_name], groupby=[field_name],
+                                                   orderby=field_name + ' DESC', limit=1)
+                        value = records and records[0][field_name] or 0.0
+                        if self.secondary_negative:
+                            value = -1 * value
+                        self.secondary_value = value
+                else:
+                    self.secondary_value = 0.0
+
+            total = '%s %s %s' % (self.primary_value, self.operator, self.secondary_value)
+            self.total_value = eval(total)
+
         except Exception as e:
-            self.primary_value = 'ERR!'
+            self.primary_value = 'ERR! %s' % str(e)
             self.error = str(e)
+            print str(e)
             return
 
     @api.onchange('model_id')
