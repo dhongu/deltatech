@@ -32,6 +32,11 @@ class analytic_analyti_account(models.Model):
     project_margin = fields.Float()
 
 
+class account_analytic_line(models.Model):
+    _inherit = 'account.analytic.line'
+
+    date_maturity = fields.Date('Due date')
+
 class analytic_entries_report(models.Model):
     _inherit = "analytic.entries.report"
 
@@ -44,6 +49,8 @@ class analytic_entries_report(models.Model):
                                      ('cash', 'Cash'), ('general', 'General'),
                                      ('situation', 'Situation')], string='Type')
 
+    date_maturity = fields.Date('Due date')
+
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'analytic_entries_report')
         cr.execute("""
@@ -52,6 +59,7 @@ class analytic_entries_report(models.Model):
                      min(a.id) as id,
                      count(distinct a.id) as nbr,
                      a.date as date,
+                     a.date_maturity,
                      a.user_id as user_id,
                      a.name as name,
                      analytic.partner_id as partner_id,
@@ -74,7 +82,7 @@ class analytic_entries_report(models.Model):
                      join account_analytic_journal journal on journal.id = a.journal_id
 
                  group by
-                     a.date, a.user_id,a.name,analytic.partner_id,a.company_id,a.currency_id,
+                     a.date, a.date_maturity, a.user_id,a.name,analytic.partner_id,a.company_id,a.currency_id,
                      a.account_id,a.general_account_id,a.journal_id,
                      a.move_id,a.product_id,a.product_uom_id,
                      analytic.type, journal.type, analytic.parent_id

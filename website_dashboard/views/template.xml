@@ -33,6 +33,10 @@
                 <link href="/website_dashboard/static/src/css/chartist.css" rel="stylesheet" type="text/css"/>
                 <script src="/website_dashboard/static/lib/chartist/chartist.js"></script>
 
+                <link href="/website_dashboard/static/src/css/chartist-plugin-tooltip.css" rel="stylesheet"
+                      type="text/css"/>
+                <script src="/website_dashboard/static/lib/chartist/chartist-plugin-tooltip.js"></script>
+
                 <link href="/website_dashboard/static/src/css/material-dashboard.css" rel="stylesheet"/>
                 <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
                       type='text/css'/>
@@ -110,7 +114,7 @@
                             <t t-esc="tile.name"/>
                         </p>
                         <h3 class="title">
-                            <t t-esc="tile.primary_value"/>
+                            <span t-field="tile.total_value"/>
                         </h3>
                     </div>
                     <div class="card-footer">

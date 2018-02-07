@@ -95,6 +95,8 @@ class dashboard_graph(models.Model):
                             'data': []}
             for label in labels:
                 value = y_values[series.id].get(label, None)
+                if value and series.negative:
+                    value = -1 * value
                 if self.time_series and not self.no_group:
                     locale.setlocale(locale.LC_TIME, ('ro', 'UTF-8'))
 

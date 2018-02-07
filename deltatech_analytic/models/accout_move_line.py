@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+# Copyright (c) 2017 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,19 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Deltatech Account Analytic",
-    "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    'category': 'Accounting & Finance',
-    "depends": ['account'],
-    "description": '',
-    "data": ['wizard/account_analytic_transfer_view.xml',
-             'views/account_analytic_view.xml'],
-    "active": False,
-    "installable": True,
-    'application': False,
 
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from openerp import models, fields, api, _
+import openerp.addons.decimal_precision as dp
+from openerp.exceptions import Warning, RedirectWarning
+from openerp import tools
+
+
+class account_move_line(models.Model):
+    _inherit = "account.move.line"
+
+    @api.model
+    def _prepare_analytic_line(self, obj_line):
+        res = super(account_move_line, self)._prepare_analytic_line(obj_line)
+        if obj_line.invoice and obj_line.invoice.date_due:
+            res['date_maturity'] = obj_line.invoice.date_due
+        else:
+            res['date_maturity'] = obj_line.date
+
+        return res
