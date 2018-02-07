@@ -55,10 +55,10 @@
                 <tree string="Services Agreements" fonts="bold:message_unread==True" colors="grey:state in ('cancel','closed');green: meter_reading_status==True"  default_order="create_date desc">
                     <field name="name"/>
                     <field name="date_agreement"/>
-
                     <field name="partner_id"/>
                     <field name="description"/>
                     <field name="state"/>
+                    <field name="meter_reading_status"/>
                     <field name="type_id"/>
                     <field name="total_consumption" sum="consumption"/>
                     <field name="total_invoiced" sum="invoiced"/>
