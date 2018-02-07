@@ -52,8 +52,7 @@
             <field name="name">Services Agreements</field>
             <field name="model">service.agreement</field>
             <field name="arch" type="xml">
-                <tree string="Services Agreements" fonts="bold:message_unread==True"
-                      colors="grey:state in ('cancel','closed')" default_order="create_date desc">
+                <tree string="Services Agreements" fonts="bold:message_unread==True" colors="grey:state in ('cancel','closed');green: meter_reading_status==True"  default_order="create_date desc">
                     <field name="name"/>
                     <field name="date_agreement"/>
 
@@ -127,6 +126,7 @@
                         </div>
                         <group>
                             <group>
+                                <field name="meter_reading_status" style="background-color:red;"/>
                                 <field name="date_agreement"/>
                                 <field name="final_date"/>
                                 <field name="type_id"/>

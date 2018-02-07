@@ -133,6 +133,7 @@ class service_agreement(models.Model):
                                           string="Billing automation", default='manual')
 
     notes = fields.Text(string='Notes')
+    meter_reading_status = fields.Boolean(default=False, string="Readings done")
 
     @api.model
     def _needaction_domain_get(self):
@@ -141,6 +142,12 @@ class service_agreement(models.Model):
     @api.model
     def compute_invoicing_status(self):
         self._compute_invoicing_status()
+
+    @api.model
+    def clear_meter_readings(self):
+        agreements = self.search([])
+        for agreement in agreements:
+            agreement.write({'meter_reading_status': False })
 
     @api.multi
     def _compute_invoicing_status(self):
