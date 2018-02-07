@@ -268,16 +268,19 @@ class service_notification(models.Model):
             domain = '[]'
             res_id = False
         print domain
-        return {
-            'domain': domain,
-            'res_id': res_id,
-            'name': _('Services Order'),
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'service.order',
-            'context': context,
-            'type': 'ir.actions.act_window'
-        }
+        if self.partner_id.sale_warn and self.partner_id.sale_warn=='block':
+            raise Warning(_('Acest partener este blocat'))
+        else:
+            return {
+                'domain': domain,
+                'res_id': res_id,
+                'name': _('Services Order'),
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'service.order',
+                'context': context,
+                'type': 'ir.actions.act_window'
+            }
 
 
        
@@ -437,16 +440,19 @@ class service_notification(models.Model):
                 value['state'] = 'draft'
                 context['default_order_line'] += [(0,0,value)]
         context['notification_id'] = self.id
-        return {
-            'name': _('Sale Order for Notification'),
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'sale.order',
-            'view_id': False,
-            'views': [[False, 'form']],
-            'context': context,
-            'type': 'ir.actions.act_window'
-        }
+        if self.partner_id.sale_warn and self.partner_id.sale_warn == 'block':
+            raise Warning(_('This partner is blocked'))
+        else:
+            return {
+                'name': _('Sale Order for Notification'),
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'sale.order',
+                'view_id': False,
+                'views': [[False, 'form']],
+                'context': context,
+                'type': 'ir.actions.act_window'
+            }
 
     @api.multi
     def sale_order_button(self):
