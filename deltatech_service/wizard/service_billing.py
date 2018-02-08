@@ -37,8 +37,11 @@ class service_billing(models.TransientModel):
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection([('partner','Group by partner'),
                                       ('agreement','Group by agreement')], string="Group invoice", default='agreement')
-    
-    
+
+    date_invoice = fields.Date('Invoice date', default=fields.Date.today)
+
+    date_type = fields.Selection([('contract', 'Contract'), ('manual', 'Manual')])
+
     # indica daca liniile din facura sunt insumate dupa servicu
     
     group_service = fields.Boolean(string="Group by service",default=False)
@@ -72,12 +75,23 @@ class service_billing(models.TransientModel):
         pre_invoice = {}   # lista de facuri
         agreements = self.env['service.agreement']
         for cons in self.consumption_ids:
-            pre_invoice[cons.date_invoice] = {}
+            if self.date_type == 'contract':
+                date_invoice = cons.date_invoice
+            else:
+                date_invoice = self.date_invoice
+
+            pre_invoice[date_invoice] = {}
             agreements |= cons.agreement_id
+
         for cons in self.consumption_ids:
             # convertire pret in moneda companeie
-            
-            currency = cons.currency_id.with_context(date=cons.date_invoice or fields.Date.context_today(self)) 
+
+            if self.date_type == 'contract':
+                date_invoice = cons.date_invoice
+            else:
+                date_invoice = self.date_invoice
+
+            currency = cons.currency_id.with_context(date=date_invoice or fields.Date.context_today(self))
              
             price_unit = currency.compute(cons.price_unit, self.env.user.company_id.currency_id )
             
@@ -109,26 +123,26 @@ class service_billing(models.TransientModel):
                 #este pt situatia in care se doreste stornarea unei pozitii
                 if cons.quantity < 0:
                     invoice_line['quantity'] = cons.quantity
-                
-                if pre_invoice[cons.date_invoice].get(key,False):
+
+                if pre_invoice[date_invoice].get(key, False):
                     is_prod = False
                     if ( self.group_service and  cons.agreement_id.invoice_mode!='detail' ) or cons.agreement_id.invoice_mode=='service':
-                        for line in pre_invoice[cons.date_invoice][key]['lines']:
+                        for line in pre_invoice[date_invoice][key]['lines']:
                             if line['product_id'] ==  cons.product_id.id and  float_compare(line['price_unit'],invoice_line['price_unit'], precision_digits=2) == 0 :
                                 line['quantity'] += invoice_line['quantity']
                                 is_prod = True
                                 break
-                    if not is_prod:   
-                        pre_invoice[cons.date_invoice][key]['lines'].append(invoice_line)
-                    pre_invoice[cons.date_invoice][key]['cons'] += cons
-                    pre_invoice[cons.date_invoice][key]['agreement_ids'] |= cons.agreement_id
+                    if not is_prod:
+                        pre_invoice[date_invoice][key]['lines'].append(invoice_line)
+                    pre_invoice[date_invoice][key]['cons'] += cons
+                    pre_invoice[date_invoice][key]['agreement_ids'] |= cons.agreement_id
                 else:
-                    pre_invoice[cons.date_invoice][key] = {   'lines':[invoice_line],
+                    pre_invoice[date_invoice][key] = {'lines': [invoice_line],
                                            'cons':cons,
                                            'partner_id':cons.partner_id.id,
                                            'account_id':cons.partner_id.property_account_receivable.id, }
-                    
-                    pre_invoice[cons.date_invoice][key]['agreement_ids'] = cons.agreement_id
+
+                    pre_invoice[date_invoice][key]['agreement_ids'] = cons.agreement_id
                 cons.write({'state':'done',
                             'invoiced_qty': cons.quantity - cons.agreement_line_id.quantity_free,})  
             else: # cons.quantity < cons.agreement_line_id.quantity_free:
@@ -140,8 +154,9 @@ class service_billing(models.TransientModel):
                     key = cons.agreement_id.id
                 else:
                     key = cons.partner_id.id
-                if pre_invoice[cons.date_invoice].get(key,False):  # daca a fost generata o factura atunci leg si consumul de facura pentru a aparea in centralizator
-                    pre_invoice[cons.date_invoice][key]['cons'] += cons
+                if pre_invoice[date_invoice].get(key,
+                                                 False):  # daca a fost generata o factura atunci leg si consumul de facura pentru a aparea in centralizator
+                    pre_invoice[date_invoice][key]['cons'] += cons
             
                 
         if not pre_invoice:

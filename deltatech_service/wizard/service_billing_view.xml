@@ -16,6 +16,8 @@
 						<field name="journal_id" domain="[('type','=','sale')]"/>
 						<field name="group_invoice" />
 						<field name="group_service" />
+						<field name="date_invoice"/>
+						<field name="date_type"/>
 					</group>
 					<group>
 						<field name="consumption_ids" nolabel="1" />
