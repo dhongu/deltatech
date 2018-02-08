@@ -1,0 +1,221 @@
+<openerp>
+    <data>
+        <template id="dashboard" name="Dashboard">
+
+            <t t-call="website.layout">
+                <!--
+                <link href="/website_dashboard/static/src/css/nv.d3.css" rel="stylesheet" type="text/css"/>
+                <script src="/website_dashboard/static/lib/nvd3/d3.v4.js" charset="utf-8"></script>
+                <script src="/website_dashboard/static/lib/nvd3/nv.d3.js"></script>
+                -->
+
+                <script type="text/javascript" src="/web/static/lib/jquery/jquery.js"></script>
+                <script src="/website_dashboard/static/lib/moment/moment.js"/>
+
+                <!-- Include Date Range Picker -->
+                <script type="text/javascript" src="/website_dashboard/static/lib/daterangepicker/daterangepicker.js"/>
+                <link rel="stylesheet" type="text/css"
+                      href="/website_dashboard/static/lib/daterangepicker/daterangepicker.css"/>
+
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div id="reportrange">
+                            <i class="fa fa-calendar"></i>
+                            <span></span>
+                            <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+                <script src="/website_dashboard/static/src/js/datarange.js"></script>
+
+
+                <link href="/website_dashboard/static/src/css/chartist.css" rel="stylesheet" type="text/css"/>
+                <script src="/website_dashboard/static/lib/chartist/chartist.js"></script>
+
+                <link href="/website_dashboard/static/src/css/chartist-plugin-tooltip.css" rel="stylesheet"
+                      type="text/css"/>
+                <script src="/website_dashboard/static/lib/chartist/chartist-plugin-tooltip.js"></script>
+
+                <link href="/website_dashboard/static/src/css/material-dashboard.css" rel="stylesheet"/>
+                <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet'
+                      type='text/css'/>
+
+                <div class="container-fluid">
+                    <div id="wrap" class="oe_structure"/>
+
+                    <div class="row">
+                        <t t-foreach="tiles" t-as="tile">
+                            <t t-call="website_dashboard.tile"/>
+                        </t>
+
+                        <t t-foreach="tables" t-as="table">
+                            <t t-call="website_dashboard.table"/>
+                        </t>
+
+                        <t t-foreach="graphs" t-as="graph">
+                            <t t-call="website_dashboard.graph"/>
+                        </t>
+                    </div>
+                    <div id="wrap" class="oe_structure"/>
+                </div>
+
+
+            </t>
+            <script src="/website_dashboard/static/src/js/graph.js"></script>
+
+            <t t-foreach="graphs" t-as="graph">
+
+                <script t-if="graph.type=='line'">
+                    dataChart =
+                    <t t-raw="graph.get_data()"/>
+                    ;
+                    <t t-if="graph.time_series">
+                        optionsChart = optionsTimeChart;
+                        dataChart = ConvertDataChart(dataChart);
+                    </t>
+                    var lineChart = new Chartist.Line('#graph_<t t-esc="graph.id"/>', dataChart, optionsChart);
+                    //md.startAnimationForLineChart(lineChart);
+                </script>
+                <script t-if="graph.type=='bar'">
+                    dataChart =
+                    <t t-raw="graph.get_data()"/>
+                    ;
+                    var barChart = new Chartist.Bar('#graph_<t t-esc="graph.id"/>', dataChart, optionsChart,
+                    responsiveOptions);
+                    //md.startAnimationForLineChart(barChart);
+                </script>
+                <script t-if="graph.type=='pie'">
+                    dataChart =
+                    <t t-raw="graph.get_data_pie()"/>
+                    ;
+                    var pieChart = new Chartist.Pie('#graph_<t t-esc="graph.id"/>', dataChart, optionsChart);
+                    //md.startAnimationForLineChart(pieChart);
+                </script>
+            </t>
+
+        </template>
+
+        <template id="tile" name="Tile">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card card-stats tile-card">
+                    <div class="card-header" t-attf-data-background-color="{{tile.color}}">
+                        <t t-if='tile.symbol_type=="fa"'>
+                            <i t-attf-class="fa {{tile.symbol}}"></i>
+                        </t>
+                        <t t-if='tile.symbol_type=="mi"'>
+                            <i class="material-icons">
+                                <t t-esc="tile.symbol"/>
+                            </i>
+                        </t>
+                    </div>
+                    <div class="card-content">
+                        <p class="category">
+                            <t t-esc="tile.name"/>
+                        </p>
+                        <h3 class="title">
+                            <span t-field="tile.total_value"/>
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+
+                            <t t-if='tile.footer_symbol_type=="fa"'>
+                                <i t-attf-class="fa {{tile.footer_symbol}}"></i>
+                            </t>
+                            <t t-if='tile.footer_symbol_type=="mi"'>
+                                <i class="material-icons">
+                                    <t t-esc="tile.footer_symbol"/>
+                                </i>
+                            </t>
+                            <t t-if="tile.action_id">
+                                <a t-attf-href="/web/#id={{tile.id}}&amp;action=%(action_open_action)d"
+                                   data-action-model="ir.actions.act_window" t-att-data-action-id="tile.action_id.id">
+                                    <t t-esc="tile.footer_text"/>
+                                </a>
+                            </t>
+                            <t t-if="not tile.action_id">
+                                <t t-esc="tile.footer_text"/>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="table" name="Table">
+            <div t-attf-class="col-lg-{{table.col}} col-md-12">
+                <div class="card">
+                    <div class="card-header" t-attf-data-background-color="{{table.color}}">
+                        <h4 class="title">
+                            <t t-esc="table.name"/>
+                        </h4>
+                        <p class="category">
+                            <t t-esc="table.description"/>
+                        </p>
+                    </div>
+                    <div class="card-content table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                                <tr>
+                                    <t t-foreach="table.field_ids" t-as="f">
+                                        <th>
+                                            <span t-esc="f.field_id.field_description"/>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="table.get_records()" t-as="item">
+                                    <tr>
+                                        <t t-foreach="table.field_ids" t-as="f">
+                                            <td>
+                                                <t t-set="value" t-value="table.get_field(item, f.field_id.name)"/>
+                                                <span t-esc="value"/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+
+        <template id="graph" name="Graph">
+
+            <div t-attf-class="col-md-{{graph.col}}">
+                <div class="card">
+                    <div class="card-header card-chart" t-attf-data-background-color="{{graph.color}}">
+                        <div class="ct-chart" t-attf-id="graph_{{graph.id}}">
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <h4 class="title">
+                            <t t-esc="graph.name"/>
+                        </h4>
+                        <p class="category">
+                            <t t-esc="graph.description"/>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <t t-if='graph.footer_symbol_type=="fa"'>
+                                <i t-attf-class="fa {{graph.footer_symbol}}"></i>
+                            </t>
+                            <t t-if='graph.footer_symbol_type=="mi"'>
+                                <i class="material-icons">
+                                    <t t-esc="graph.footer_symbol"/>
+                                </i>
+                            </t>
+                            <t t-esc="graph.footer_text"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+    </data>
+</openerp>
