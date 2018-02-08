@@ -32,18 +32,29 @@ class StockProfitReport(models.Model):
 
     sale_value = fields.Float('Sale Value',  readonly=True)
 
+    qty_available = fields.Float(string='Quantity On Hand')
+
+
+    @api.multi
+    def _compute_quantities(self):
+        for item in self:
+            self.qty_available = item.product_id.with_context(location=self.location_id)._qty_available
+
+
+
     def _select(self):
         select_str = """
-            id, product_id,  categ_id, product_qty, location_id,
+            id, product_id, qty_available, categ_id, product_qty, location_id,
              input_qty, input_date, input_amount,
              output_qty, output_date,  output_amount, sale_value,
-             customer_id, supplier_id, manufacturer, profit
+             customer_id,  supplier_id, 
+             manufacturer, profit
         """
         return select_str
 
     def _sub_select(self):
         select_str = """
-        max(sq.id) as id,
+        max(sq.id) as id, sum(available.qty_available) as qty_available,
         sq.product_id,  pt.categ_id, sq.location_id, sq.input_date, sq.output_date,
 
         SUM( sq.qty ) as product_qty,
@@ -81,7 +92,17 @@ class StockProfitReport(models.Model):
             join stock_location as sl on sq.location_id = sl.id
             join product_product pp on (sq.product_id=pp.id)
             join product_template pt on (pp.product_tmpl_id=pt.id)
-
+            left join ( 
+                    select sum(qty) as qty_available , stock_quant.product_id, stock_quant.location_id,
+                                   supplier_id
+                        from stock_quant 
+                                join stock_location on stock_location.id = stock_quant.location_id
+                         where stock_location.usage =  'internal'
+                          group by stock_quant.product_id, stock_quant.location_id,   supplier_id
+                          
+            ) available on available.product_id = sq.product_id and 
+                           available.location_id = sq.location_id and 
+                           available.supplier_id = sq.supplier_id
         """
         return from_str
 
