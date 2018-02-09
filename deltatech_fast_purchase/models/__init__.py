@@ -5,5 +5,5 @@
 
 
 
-import purchase
-import stock
+from . import purchase
+from . import stock
