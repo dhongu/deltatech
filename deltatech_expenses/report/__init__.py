@@ -22,7 +22,7 @@
 
 
 
-import expenses_deduction_report
+from . import expenses_deduction_report
 
 
 

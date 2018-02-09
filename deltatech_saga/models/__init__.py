@@ -5,8 +5,8 @@
 
 
 
-import res_partner
-import product
+from . import res_partner
+from . import product
  
 
 

@@ -1,2 +1,2 @@
-import controllers
+from . import controllers
 #import report

@@ -4,9 +4,16 @@
 
 import base64
 import zipfile
-import StringIO
 
-from mydbf import base, fields as dbf_fields
+try:
+    # For Python 3.0 and later
+    from io import StringIO
+    unicode = str
+except ImportError:
+    # Fall back to Python 2's
+    import StringIO
+
+from .mydbf import base, fields as dbf_fields
 
 import os
 
@@ -90,7 +97,7 @@ class import_saga(models.TransientModel):
         for supplier in suppliers:
             if not supplier['DENUMIRE']:
                 continue
-            print "Import", supplier['DENUMIRE']
+            print ("Import", supplier['DENUMIRE'])
 
             country = self.env['res.country'].search([('code', '=', supplier['TARA'])], limit=1)
             if not country:
@@ -142,7 +149,7 @@ class import_saga(models.TransientModel):
             }
             try:
                 partner.write(values)
-            except Exception, e:
+            except Exception as e:
                 result_html += '<div>Eroare modificare furnizor %s: %s</div>' % (supplier['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
@@ -189,7 +196,7 @@ class import_saga(models.TransientModel):
         for customer in customers:
             if not customer['DENUMIRE']:
                 continue
-            print "Import", customer['DENUMIRE']
+            print ("Import", customer['DENUMIRE'])
 
             country = self.env['res.country'].search([('code', '=', customer['TARA'])], limit=1)
             if not country:
@@ -248,7 +255,7 @@ class import_saga(models.TransientModel):
             }
             try:
                 partner.write(values)
-            except Exception, e:
+            except Exception as e:
                 result_html += '<div>Eroare modificare client %s: %s</div>' % (customer['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
@@ -322,7 +329,7 @@ class import_saga(models.TransientModel):
                 'taxes_id':[(6, False, sale_tax.ids)],
                 'supplier_taxes_id':[(6, False, purchase_tax.ids)],
             }
-            print values
+            print (values)
             if not product:
                 product = self.env['product.product'].create(values)
             else:

@@ -4,5 +4,5 @@
 # See README.rst file on addons root folder for license details
 
 
-import stock
+from . import stock
 

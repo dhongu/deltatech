@@ -3,8 +3,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
  
-import stock
-import product
+from . import stock
+from . import product
 
 
 

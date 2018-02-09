@@ -2,12 +2,22 @@
 # ©  2017 Deltatech
 # See README.rst file on addons root folder for license details
 
-import StringIO
+try:
+    # For Python 3.0 and later
+    from io import StringIO
+    unicode = str
+except ImportError:
+    # Fall back to Python 2's
+    import StringIO
+
+
+
+
 import base64
 import unicodedata
 import zipfile
 
-from mydbf import base, fields as dbf_fields
+from .mydbf import base, fields as dbf_fields
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning
 import datetime
@@ -17,6 +27,8 @@ try:
     import html2text
 except:
     from odoo.addons.mail.models import html2text
+
+
 
 
 class export_saga(models.TransientModel):
@@ -43,8 +55,8 @@ class export_saga(models.TransientModel):
         today = fields.Date.context_today(self)
         today = fields.Date.from_string(today)
 
-        from_date = (today + relativedelta(day=01, months=-1, days=0))
-        to_date = (today + relativedelta(day=01, months=0, days=-1))
+        from_date = (today + relativedelta(day=1, months=-1, days=0))
+        to_date = (today + relativedelta(day=1, months=0, days=-1))
 
 
         res['date_from'] = fields.Date.to_string(from_date)
@@ -62,12 +74,7 @@ class export_saga(models.TransientModel):
         :returns: The processed String.
         :rtype: String.
         """
-        """
-        try:
-            text = unicode(text, 'utf-8')
-        except NameError: # unicode is a default on python 3 
-            pass
-        """
+
         text = unicodedata.normalize('NFD', text)
         text = text.encode('ascii', 'ignore')
         text = text.decode("utf-8")

@@ -103,8 +103,8 @@ import struct
 
 #from dbf import fields
 #from dbf.sorteddict import SortedDict
-import fields
-from sorteddict import SortedDict
+from . import fields
+from .sorteddict import SortedDict
 
 class DBF(object):
 
