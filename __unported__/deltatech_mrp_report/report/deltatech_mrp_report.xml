@@ -80,13 +80,13 @@
 
 
                     <filter string="This Month" name="month"
-                            domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                            domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                             help="Production performed during current month"/>
 
                     <filter string="Previous Month" name="prev_month"
-                            domain="[('date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                            domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                             help="Production performed during previous month"/>
 
 

@@ -203,8 +203,8 @@
                             domain="[('progress','&lt;','100'),('date_deadline','=',datetime.datetime.combine(context_today(), datetime.time(0,0,0)))]"/>
 
                     <filter string="This Month" name="month"
-                            domain="[('date_deadline','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('date_deadline','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                            domain="[('date_deadline','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date_deadline','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                             help="Task with deadline in current month"/>
 
 

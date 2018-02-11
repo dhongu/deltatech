@@ -216,8 +216,8 @@ class service_equipment(models.Model):
 
     @api.multi
     def _compute_readings_status(self):
-        from_date = date.today() + relativedelta(day=01, months=0, days=0)
-        to_date = date.today() + relativedelta(day=01, months=1, days=-1)
+        from_date = date.today() + relativedelta(day=1, months=0, days=0)
+        to_date = date.today() + relativedelta(day=1, months=1, days=-1)
         from_date = fields.Date.to_string(from_date)
         to_date = fields.Date.to_string(to_date)
 
