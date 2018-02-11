@@ -8,6 +8,9 @@
 
             <field name="inherit_id" ref="stock.view_inventory_form"/>
             <field name="arch" type="xml">
+                 <field name="location_id" position="replace">
+                     <field name="location_id"   groups="stock.group_stock_multi_locations"/>
+                 </field>
                 <field name="package_id" position="after">
                     <field name="filterbyrack"/>
                 </field>

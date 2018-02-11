@@ -108,6 +108,7 @@ class StockInventoryLine(models.Model):
                    ('lot_id', '=', self.prod_lot_id.id),
                    ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
                    ('package_id', '=', self.package_id.id)]
+
             dom = [('location_id', '=', self.location_id.id), ('product_id', '=', self.product_id.id),
                    ('lot_id', '=', self.prod_lot_id.id),
                    ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
@@ -117,6 +118,13 @@ class StockInventoryLine(models.Model):
             value = sum([q.inventory_value for q in quants])
             if self.theoretical_qty > 0:
                 price = value / self.theoretical_qty
+
+            if not price:
+                dom = [('product_id', '=', self.product_id.id)]
+                quants = self.env['stock.quant'].search(dom)
+                value = sum([q.inventory_value for q in quants])
+                if self.theoretical_qty > 0:
+                    price = value / self.theoretical_qty
 
         return price
 

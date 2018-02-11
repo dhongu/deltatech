@@ -31,6 +31,7 @@
     "description": """
 Features:    
  - Update purchase price after receipt
+ - Compute price in company currency at move date
  
 """,
     "data": [

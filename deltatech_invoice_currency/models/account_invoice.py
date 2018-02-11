@@ -27,7 +27,7 @@ class account_invoice(models.Model):
 
     base_rate = fields.Float(string='Rate', digits=(12, 4),  readonly=True, default=0.0,
                              store=False, compute="_compute_base_rate")
-    currency_rate = fields.Float(string='Currency Rate', digits=(12, 4), default=0.0)
+    currency_rate = fields.Float(string='Currency Rate', readonly=True, digits=(12, 4), default=0.0)
     price_currency_id = fields.Many2one('res.currency', string='Price currency', help="Price currency")
 
     @api.one
@@ -55,8 +55,8 @@ class account_invoice(models.Model):
             self.base_rate = 0.0
 
         if to_currency and from_currency:
-            self.currency_rate = from_currency.with_context(date=date_eval).compute(self.base_rate, to_currency,
-                                                        round=False)
+            from_currency = from_currency.with_context(date=date_eval)
+            self.currency_rate = from_currency.compute(self.base_rate, to_currency,  round=False)
         else:
             self.currency_rate = self.base_rate
 
@@ -68,10 +68,15 @@ class account_invoice(models.Model):
             to_currency = invoice.currency_id or self.env.user.company_id.currency_id
             from_currency = invoice.price_currency_id
 
+            last_rate = invoice.currency_rate  or 1.0
             if to_currency and from_currency:
                 invoice.currency_rate = from_currency.with_context(date=date_eval).compute(1, to_currency, round=False)
             else:
-                invoice.currency_rate = 1
+                invoice.currency_rate = 1.0
+
+            for line in invoice.invoice_line_ids:
+                line.price_unit =  line.price_unit * invoice.currency_rate / last_rate
+
 
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):

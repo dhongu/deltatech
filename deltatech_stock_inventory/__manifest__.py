@@ -27,6 +27,7 @@
 
      Afisare coloana de pret de stoc la inventariere
      Afisare valoare de vanzare in rapotul de pozitii de stoc (evaluare inventar) si stoc la data
+    Se permite inventarierea oricarei locatii
  
     """,
     "category": "Generic Modules/Other",
