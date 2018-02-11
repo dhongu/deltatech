@@ -9,7 +9,7 @@ from odoo import models, fields, api, _
 class StockBackorderConfirmation(models.TransientModel):
     _inherit = 'stock.backorder.confirmation'
 
-    date = fields.Datetime(string="Date", related='pick_id.min_date')
+    date = fields.Datetime(string="Date", related='pick_ids.scheduled_date')
 
     @api.one
     def _process(self, cancel_backorder=False):

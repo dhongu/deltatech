@@ -12,7 +12,7 @@ class StockImmediateTransfer(models.TransientModel):
     _inherit = 'stock.immediate.transfer'
 
     
-    date = fields.Datetime(string="Date", related='pick_ids.date',  store=False)
+    date = fields.Datetime(string="Date", related='pick_ids.scheduled_date',  store=False)
     
     @api.multi
     def process(self):
