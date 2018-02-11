@@ -61,7 +61,8 @@ class stock_move(models.Model):
     @api.multi
     def write(self, vals):
         date_fields = set(['date', 'date_expected'])
-        if date_fields.intersection(vals):
+        use_date = self.env.context.get('use_date', False)
+        if date_fields.intersection(vals) and not use_date:
             for move in self:
                 today = fields.Date.today()
                 if 'date' in vals:
@@ -78,3 +79,15 @@ class stock_move(models.Model):
                         vals['date_expected'] = move_date
 
         return super(stock_move, self).write(vals)
+
+
+class Picking(models.Model):
+    _inherit = "stock.picking"
+
+    @api.multi
+    def do_transfer(self):
+        super(Picking, self).do_transfer()
+        use_date = self.env.context.get('use_date',False)
+        if use_date:
+            self.write({'date': self.date})
+            self.move_lines.write({'date_expected': use_date, 'date': use_date})

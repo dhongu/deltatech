@@ -26,9 +26,6 @@ class product_pricelist_item(models.Model):
     
     
     
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
 
 
 

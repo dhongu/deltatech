@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# ©  2015-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import api, models
 
@@ -11,7 +14,7 @@ class StockMove(models.Model):
         """ Returns the unit price to store on the quant """
         if self.purchase_line_id:
 
-            price_unit = self.purchase_line_id._get_stock_move_price_unit()
+            price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             self.write({'price_unit': price_unit}) #mai trebuie sa pun o conditie de status ?
             # update price form last receipt
             for seller in self.product_id.seller_ids:

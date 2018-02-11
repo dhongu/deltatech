@@ -14,5 +14,8 @@ class StockImmediateTransfer(models.TransientModel):
     
     date = fields.Datetime(string="Date", related='pick_ids.date',  store=False)
     
+    @api.multi
+    def process(self):
+        return super(StockImmediateTransfer, self.with_context(use_date=self.date)).process()
 
 
