@@ -861,6 +861,16 @@ msgid "invoiced"
 msgstr ""
 
 #. module: deltatech_service
+#: view:service.agreement:deltatech_service.view_service_agreement_filter
+msgid "Readings done"
+msgstr ""
+
+#. module: deltatech_service
+#: view:service.agreement:deltatech_service.view_service_agreement_filter
+msgid "Without readings"
+msgstr ""
+
+#. module: deltatech_service
 #: view:service.billing:deltatech_service.view_service_billing_form
 #: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
 #: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form

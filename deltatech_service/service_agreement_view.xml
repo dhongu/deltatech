@@ -52,7 +52,7 @@
             <field name="name">Services Agreements</field>
             <field name="model">service.agreement</field>
             <field name="arch" type="xml">
-                <tree string="Services Agreements" fonts="bold:message_unread==True" colors="grey:state in ('cancel','closed');green: meter_reading_status==True"  default_order="create_date desc">
+                <tree string="Services Agreements" fonts="bold:message_unread==True" colors="grey:state in ('cancel','closed');blue: meter_reading_status==True"  default_order="create_date desc">
                     <field name="name"/>
                     <field name="date_agreement"/>
                     <field name="partner_id"/>
@@ -65,7 +65,7 @@
                     <field name="message_unread" invisible="1"/>
                     <field name="last_invoice_date"/>
                     <field name="next_date_invoice"/>
-                    <field name="invoicing_status"/>
+                    <!--<field name="invoicing_status"/>-->
 
                 </tree>
             </field>
@@ -141,7 +141,7 @@
                                 <field name="invoice_day"/>
                                 <field name="next_date_invoice"/>
                                 <field name="prepare_invoice_day"/>
-                                <field name="invoicing_status"/>
+                                <!--<field name="invoicing_status"/>-->
                                 <field name="billing_automation"/>
                             </group>
                         </group>
@@ -179,10 +179,11 @@
                     <field name="type_id"/>
                     <field name="cycle_id"/>
                     <newline/>
-                    <filter string="Whitout invoice in this month" name="month"
-                            domain="['|',('last_invoice_date','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								 ('last_invoice_date','&gt;', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"/>
-
+                    <!--<filter string="Whitout invoice in this month" name="month"-->
+                            <!--domain="['|',('last_invoice_date','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),-->
+								 <!--('last_invoice_date','&gt;', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"/>-->
+                    <filter string="Readings done" name="meter_reading_status" domain="[('meter_reading_status','=',True)]" />
+                    <filter string="Without readings" name="meter_reading_status" domain="[('meter_reading_status','=',False)]" />
                     <group expand="1" string="Group By...">
                         <filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/>
                         <filter string="Type" name="type" context="{'group_by':'type_id'}"/>
