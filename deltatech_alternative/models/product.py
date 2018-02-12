@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
@@ -33,23 +17,13 @@ class product_catalog(models.Model):
     code_new = fields.Char(string='Code New', index=True)
     list_price = fields.Float(string='Sale Price', required=True, digits=dp.get_precision('Product Price'))
     categ_id = fields.Many2one('product.category', string='Internal Category', required=True,
-                               domain="[('type','=','normal')]", help="Select category for the current product")
+                               help="Select category for the current product")
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
     purchase_delay = fields.Integer(string="Purchase delay")
     sale_delay = fields.Integer(string="Sale delay")
-    # list_price_currency_id = fields.Many2one('res.currency',  string='Currency List Price', help="Currency for list price." , compute='_compute_currency_id' )
-
-
-    """
-    @api.one
-    def _compute_currency_id(self):            
-        price_type = self.env['product.price.type'].search([('field','=','list_price')]) 
-        if price_type:
-            self.list_price_currency_id = price_type.currency_id
-        else:
-            self.list_price_currency_id = self.env.user.company_id
-    """
+    list_price_currency_id = fields.Many2one('res.currency', string='Currency List Price',
+                                             help="Currency for list price.")
 
     @api.multi
     def create_product(self):
@@ -66,9 +40,15 @@ class product_catalog(models.Model):
                 if buy:
                     route_ids += [buy.id]
 
+                if self.list_price_currency_id:
+                    price_currency_id = self.list_price_currency_id
+                else:
+                    price_currency_id = self.env.user.company_id.currency_id
+
                 values = {'name': prod_cat.name,
                           'default_code': prod_cat.code,
                           'lst_price': prod_cat.list_price,
+                          'price_currency_id': price_currency_id.id,
                           'categ_id': prod_cat.categ_id.id,
                           'route_ids': [(6, 0, route_ids)],
                           'sale_delay': prod_cat.sale_delay}
@@ -215,4 +195,3 @@ class product_alternative(models.Model):
         ('code_uniq', 'unique(name)', 'Alternative code must be unique !'),
     ]
 
-    # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
