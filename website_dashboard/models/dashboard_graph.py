@@ -19,6 +19,7 @@ class Encoder(json.JSONEncoder):
 class dashboard_graph(models.Model):
     _name = 'dashboard.graph'
     _description = "Dashboard Graph"
+    _order = 'sequence,id'
 
     name = fields.Char(string='Name')
     description = fields.Char(string='Description')
@@ -36,6 +37,8 @@ class dashboard_graph(models.Model):
     footer_symbol = fields.Char(string='Mini Symbol')
     footer_symbol_type = fields.Selection([('fa', 'Font Awesome'), ('mi', 'Material Icons')], string="Mini symbol type")
     footer_text = fields.Char(string='Footer')
+    sequence = fields.Integer(string='Sequence')
+
 
     @api.multi
     def get_data_pie(self):

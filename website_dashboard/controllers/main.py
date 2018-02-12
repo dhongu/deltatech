@@ -47,17 +47,17 @@ class website_dasboard(http.Controller):
         if start and end:
             context['date_range'] = {'start': start, 'end': end}
 
-        tile_ids = tiles_obj.search(cr, uid, domain, context=context)
+        tile_ids = tiles_obj.search(cr, uid, domain, order='sequence', context=context)
         tiles = tiles_obj.browse(cr, uid, tile_ids, context=context)
 
         table_obj = request.registry['dashboard.table']
         domain = []
-        table_ids = table_obj.search(cr, uid, domain, context=context)
+        table_ids = table_obj.search(cr, uid, domain, order='sequence', context=context)
         tables = table_obj.browse(cr, uid, table_ids, context=context)
 
         graph_obj = request.registry['dashboard.graph']
         domain = []
-        graph_ids = graph_obj.search(cr, uid, domain, context=context)
+        graph_ids = graph_obj.search(cr, uid, domain, order='sequence', context=context)
         graphs = graph_obj.browse(cr, uid, graph_ids, context=context)
 
         values = {

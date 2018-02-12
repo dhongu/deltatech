@@ -77,6 +77,7 @@ FIELD_FUNCTION_SELECTION = [
 class dashboard_tile(models.Model):
     _name = 'dashboard.tile'
     _description = "Dashboard Tile"
+    _order = 'sequence,id'
 
     def _get_eval_context(self):
         def _context_today():
@@ -106,6 +107,9 @@ class dashboard_tile(models.Model):
     domain = fields.Text(default='[]')
     no_group = fields.Boolean('No group')
     action_id = fields.Many2one('ir.actions.act_window', 'Action')
+
+    sequence = fields.Integer(string='Sequence')
+
 
     date_field_id = fields.Many2one('ir.model.fields', string='Date Field',
                                     domain="[('model_id', '=', model_id), ('ttype', 'in', ['date', 'datetime'])]")

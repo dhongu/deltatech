@@ -6,6 +6,7 @@
             <field name="model">dashboard.tile</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
                     <field name="symbol"/>
                     <field name="color"/>

@@ -9,6 +9,7 @@ from openerp.osv import expression
 class dashboard_table(models.Model):
     _name = 'dashboard.table'
     _description = "Dashboard table"
+    _order = 'sequence,id'
 
     name = fields.Char(string='Name')
     description = fields.Char(string='Description')
@@ -27,6 +28,7 @@ class dashboard_table(models.Model):
     field_ids = fields.One2many('dashboard.table.fields', 'dashboard_table_id', string='Fields')
 
     top = fields.Integer()
+    sequence = fields.Integer(string='Sequence')
 
     def _get_eval_context(self):
         def _context_today():
