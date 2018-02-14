@@ -44,10 +44,10 @@ de facut:
     "category": "Generic Modules/Stock",
     "depends": [
 
-        "stock",
-        "point_of_sale",
+        "stock_account",
+        #"point_of_sale",
         "account",
-        "deltatech_product_extension",
+        #"deltatech_product_extension",
         # "stock_picking_invoice_link"
     ],
 

@@ -47,7 +47,7 @@ class stock_picking(models.Model):
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
-    inventory_value = fields.Float(store=True)
+    #quant_value = fields.Float(string = 'Quant Value' )
     categ_id = fields.Many2one('product.category', string='Internal Category', related="product_id.categ_id",
                                store=True, readonly=True)
 
@@ -103,6 +103,8 @@ class stock_move(models.Model):
 
     @api.multi
     def update_quant_partner(self):
+        pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale')])
+
         for move in self:
             value = {}
             if move.picking_id:
@@ -120,11 +122,12 @@ class stock_move(models.Model):
                             sale_line.order_id.currency_id, move.company_id.currency_id) * price_invoice
                     else:
                         # Vanzare din POS
-                        pos_order = self.env['pos.order'].search([('picking_id', '=', move.picking_id.id)])
-                        if pos_order:
-                            for line in pos_order.lines:
-                                if line.product_id == move.product_id:
-                                    price_invoice = line.price_subtotal / line.qty
+                        if pos_mod:
+                            pos_order = self.env['pos.order'].search([('picking_id', '=', move.picking_id.id)])
+                            if pos_order:
+                                for line in pos_order.lines:
+                                    if line.product_id == move.product_id:
+                                        price_invoice = line.price_subtotal / line.qty
                     value['output_price'] = price_invoice
 
                 if move.location_id.usage == 'supplier' and move.location_dest_id.usage == 'internal':
