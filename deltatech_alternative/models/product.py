@@ -16,6 +16,7 @@ class product_catalog(models.Model):
     code = fields.Char(string='Code', index=True)
     code_new = fields.Char(string='Code New', index=True)
     list_price = fields.Float(string='Sale Price', required=True, digits=dp.get_precision('Product Price'))
+    purchase_price = fields.Float(string='Purchase Price', digits=dp.get_precision('Product Price'))
     categ_id = fields.Many2one('product.category', string='Internal Category', required=True,
                                help="Select category for the current product")
     supplier_id = fields.Many2one('res.partner', string='Supplier')
@@ -54,6 +55,8 @@ class product_catalog(models.Model):
                           'sale_delay': prod_cat.sale_delay}
                 if prod_cat.supplier_id:
                     values['seller_ids'] = [(0, 0, {'name': prod_cat.supplier_id.id,
+                                                    'price':prod_cat.purchase_price,
+                                                    'currency_id': price_currency_id.id,
                                                     'delay': prod_cat.purchase_delay})]
                 old_code = prod_cat.get_echiv()
                 if old_code:
