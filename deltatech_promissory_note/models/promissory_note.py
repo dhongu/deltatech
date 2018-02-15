@@ -43,14 +43,14 @@ class promissory_note(models.Model):
                                   domain=[('name', 'in', ['RON', 'EUR'])])
 
     acc_issuer = fields.Char('Bank Account Issuer', size=64, readonly=True,
-                             states={'not_cashed': [('readonly', False)]}, required=True)
+                             states={'not_cashed': [('readonly', False)]}, required=False)
     acc_beneficiary = fields.Char('Bank Account Beneficiary', size=64, readonly=True,
-                                  states={'not_cashed': [('readonly', False)]}, required=True)
+                                  states={'not_cashed': [('readonly', False)]}, required=False)
     
     bank_issuer = fields.Char('Bank Issuer', size=64, readonly=True,
-                             states={'not_cashed': [('readonly', False)]}, required=True)
+                             states={'not_cashed': [('readonly', False)]}, required=False)
     bank_beneficiary = fields.Char('Bank Beneficiary', size=64, readonly=True,
-                                  states={'not_cashed': [('readonly', False)]}, required=True)
+                                  states={'not_cashed': [('readonly', False)]}, required=False)
 
     note = fields.Text(string='Note')
 
