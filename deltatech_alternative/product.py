@@ -135,6 +135,7 @@ class product_catalog(models.Model):
 class product_template(models.Model):
     _inherit = 'product.template'
 
+    list_price = fields.Float(track_visibility='always')
     alternative_code = fields.Char(string='Alternative Code', index=True,  compute='_compute_alternative_code' )
     alternative_ids = fields.One2many('product.alternative', 'product_tmpl_id', string='Alternatives')  
     #dimensions = fields.Char(string='Dimensions' )
