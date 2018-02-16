@@ -33,7 +33,7 @@ Functionalitati:
 
     """,
     "category" : "Generic Modules/Other",
-    "depends": ['account', 'product'],
+    "depends": ['account', 'sale', 'product'],
 
     "data": ['report/invoice_report_view.xml',
              'views/product_view.xml'],

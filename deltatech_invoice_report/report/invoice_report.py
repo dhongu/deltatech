@@ -42,4 +42,5 @@ class account_invoice_report(models.Model):
     def _group_by(self):
         return super(account_invoice_report, self)._group_by() + ", partner.state_id,  ail.invoice_id,  supplier.name "
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    def init(self, cr):
+        super(account_invoice_report, self).init(cr)
