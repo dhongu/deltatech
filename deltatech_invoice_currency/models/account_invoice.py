@@ -22,12 +22,15 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 
+
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    base_rate = fields.Float(string='Rate', digits=(12, 4),  readonly=True, default=0.0,
+    base_rate = fields.Float(string='Rate', digits=(12, 4), readonly=True, default=0.0,
                              store=False, compute="_compute_base_rate")
-    currency_rate = fields.Float(string='Currency Rate', readonly=True, digits=(12, 4), default=0.0)
+
+    last_currency_rate = fields.Float(string='Currency Rate', digits=(12, 4), default=0.0)
+    currency_rate = fields.Float(string='Currency Rate', digits=(12, 4), default=0.0)
     price_currency_id = fields.Many2one('res.currency', string='Price currency', help="Price currency")
 
     @api.one
@@ -37,7 +40,7 @@ class account_invoice(models.Model):
         else:
             self.base_rate = 0.0
 
-    @api.onchange('price_currency_id')
+    @api.onchange('price_currency_id', 'date_invoice')
     def onchange_price_currency_id(self):
         date_eval = self.env.context.get('date', False) or self.date_invoice or fields.Date.context_today(self)
         to_currency = self.currency_id or self.env.user.company_id.currency_id
@@ -56,27 +59,36 @@ class account_invoice(models.Model):
 
         if to_currency and from_currency:
             from_currency = from_currency.with_context(date=date_eval)
-            self.currency_rate = from_currency.compute(self.base_rate, to_currency,  round=False)
+            self.currency_rate = from_currency.compute(self.base_rate, to_currency, round=False)
         else:
             self.currency_rate = self.base_rate
+        if not self.last_currency_rate:
+            self.last_currency_rate = self.currency_rate
 
     @api.multi
     def get_currency_rate(self):
         ''' La apasarea butonului de actualizare curs valutat'''
         for invoice in self:
+            '''
             date_eval = invoice.date_invoice or fields.Date.context_today(self)
             to_currency = invoice.currency_id or self.env.user.company_id.currency_id
             from_currency = invoice.price_currency_id
 
-            last_rate = invoice.currency_rate  or 1.0
+            
             if to_currency and from_currency:
                 invoice.currency_rate = from_currency.with_context(date=date_eval).compute(1, to_currency, round=False)
             else:
                 invoice.currency_rate = 1.0
+            '''
+            if not invoice.last_currency_rate:
+                last_rate = invoice.currency_rate or 1.0
+            else:
+                last_rate = invoice.last_currency_rate
 
             for line in invoice.invoice_line_ids:
-                line.price_unit =  line.price_unit * invoice.currency_rate / last_rate
+                line.price_unit = line.price_unit * invoice.currency_rate / last_rate
 
+            invoice.last_currency_rate = invoice.currency_rate
 
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
@@ -102,7 +114,11 @@ class account_invoice_line(models.Model):
     def _onchange_product_id(self):
         res = super(account_invoice_line, self)._onchange_product_id()
         invoice = self.invoice_id
-        currency = self.invoice_id.currency_id
+        if self.invoice_id.currency_rate:
+            currency = self.invoice_id.currency_id.with_context(fix_rate=self.invoice_id.currency_rate)
+        else:
+            currency = self.invoice_id.currency_id
+
         partner = self.invoice_id.partner_id
         if self.product_id:
             product = self.product_id
@@ -111,7 +127,8 @@ class account_invoice_line(models.Model):
             price_unit = self.price_unit
             if invoice.type == 'out_invoice' and partner.property_product_pricelist:
                 pricelist = partner.property_product_pricelist
-                price_unit = pricelist.get_product_price(product, qty, partner,  date=invoice.date or fields.Date.today())
+                price_unit = pricelist.get_product_price(product, qty, partner,
+                                                         date=invoice.date or fields.Date.today())
                 from_currency = partner.property_product_pricelist.currency_id or self.env.user.company_id.currency_id
 
                 if currency and from_currency:

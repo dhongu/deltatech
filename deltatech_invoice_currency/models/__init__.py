@@ -19,8 +19,9 @@
 #
 ##############################################################################
 
-import account_invoice
-import sale
+from . import account_invoice
+from . import sale
+from . import res_currency
 
 
 

@@ -21,9 +21,9 @@ class SaleOrder(models.Model):
                     date_invoice = picking.min_date[:10]
 
         date_invoice = date_invoice or fields.Date.context_today(self)
-        invoice_vals['currency_rate'] = self.pricelist_id.currency_id.with_context(date=date_invoice).compute(1,
-                                                                                                              currency_id,
-                                                                                                              round=False)
+        from_currency = self.pricelist_id.currency_id.with_context(date=date_invoice)
+        invoice_vals['currency_rate'] = from_currency.compute(1,  currency_id, round=False)
+        invoice_vals['last_currency_rate'] = invoice_vals['currency_rate']
         invoice_vals['date_invoice'] = date_invoice
         # cu obtin data ultimului aviz ?
         return invoice_vals
