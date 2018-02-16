@@ -28,6 +28,8 @@ class account_average_payment_report(models.Model):
     balance = fields.Float('Balance', readonly=True)
     pondere = fields.Float('Pondere', readonly=True)
     amount = fields.Float('Amount', readonly=True)
+    customer = fields.Boolean()
+    supplier = fields.Boolean()
 
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False,
                    lazy=True):
@@ -78,6 +80,8 @@ class account_average_payment_report(models.Model):
             l.debit as debit,
             l.credit as credit,
             am.ref as ref,
+            p.customer as customer,
+            p.supplier as supplier,
 
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as pondere,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
@@ -87,6 +91,7 @@ class account_average_payment_report(models.Model):
         from    account_move_line l
                 left join account_move am on (am.id=l.move_id)
                 left join account_journal j on (j.id = l.journal_id)
+                left join res_partner p on (p.id = l.partner_id)
                 where l.state != 'draft' and  l.reconcile_id is not null and
                       j.type in ('sale', 'purchase', 'sale_refund', 'purchase_refund')
 
