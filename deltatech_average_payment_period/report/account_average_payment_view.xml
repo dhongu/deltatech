@@ -21,7 +21,6 @@
                 <search>
                     <field name="partner_id"/>
                     <field name="period_id"/>
-
                     <group expand="1" string="Group By">
                         <filter string="Partner" context="{'group_by':'partner_id'}" name='group_by_partner'/>
 

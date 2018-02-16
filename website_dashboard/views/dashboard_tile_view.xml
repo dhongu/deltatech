@@ -24,6 +24,7 @@
                         <group>
                             <group>
                                 <field name="name"/>
+                                <field name="sequence"/>
                                 <field name="symbol"/>
                                 <field name="symbol_type"/>
                                 <field name="color"/>

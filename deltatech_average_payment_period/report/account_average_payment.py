@@ -22,7 +22,7 @@ class account_average_payment_report(models.Model):
     move_id = fields.Many2one('account.move', string='Account Move', readonly=True)
     ref = fields.Char('Reference', readonly=True)
     # invoice_id = fields.Many2one('account.invoice',string="Invoice",readonly=True)
-    account_id = fields.Many2one('account.account', string="Account", readonly=True)
+    account_id = fields.Char(string="Account", readonly=True)
     debit = fields.Float('Debit', readonly=True)
     credit = fields.Float('Credit', readonly=True)
     balance = fields.Float('Balance', readonly=True)
@@ -78,7 +78,8 @@ class account_average_payment_report(models.Model):
             l.debit as debit,
             l.credit as credit,
             am.ref as ref,
-
+            a.code as account_id,
+            
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0)) * l.payment_days as pondere,
             abs(coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0))  as amount,
             coalesce(l.debit, 0.0) - coalesce(l.credit, 0.0) as balance
@@ -87,6 +88,7 @@ class account_average_payment_report(models.Model):
         from    account_move_line l
                 left join account_move am on (am.id=l.move_id)
                 left join account_journal j on (j.id = l.journal_id)
+                left join account_account a on (a.id = l.account_id)
                 where l.state != 'draft' and  l.reconcile_id is not null and
                       j.type in ('sale', 'purchase', 'sale_refund', 'purchase_refund')
 

@@ -89,20 +89,20 @@
                     <header>
                         <button name="new_piking_button" type="object" string="Delivery for service"/>
                         <button name="%(action_service_equi_ins)d" type="action" string="Install" class="oe_highlight"
-                                states="available"/>
+                                states="available" groups="base.group_service_manager"/>
                         <button name="%(action_service_equi_ebk)d" type="action" string="Enable Backup"
-                                states="installed"/>
+                                states="installed" groups="base.group_service_manager"/>
                         <button name="%(action_service_equi_dbk)d" type="action" string="Disable Backup"
-                                class="oe_highlight" states="backuped"/>
-                        <button name="%(action_service_equi_rem)d" type="action" string="Remove" state="installed"/>
+                                class="oe_highlight" states="backuped" groups="base.group_service_manager"/>
+                        <button name="%(action_service_equi_rem)d" type="action" string="Remove" state="installed" groups="base.group_service_manager"/>
                         <button name="create_meters_button" type="object" string="Create Meters"
-                                attrs="{'invisible':['|',('meter_ids','!=',[])]}"/>
+                                attrs="{'invisible':['|',('meter_ids','!=',[])]}" groups="base.group_service_manager"/>
                         <button name="%(action_service_equi_agreement)d" type="action" string="Add to Agreement"
                                 state="installed"
-                                attrs="{'invisible':['|',('agreement_id','!=',False)]}"/>
+                                attrs="{'invisible':['|',('agreement_id','!=',False)]}" groups="base.group_service_manager"/>
                         <button name="remove_from_agreement_button" type="object" string="Remove from Agreement"
                                 state="available"
-                                attrs="{'invisible':['|',('agreement_id','==',False)]}"/>
+                                attrs="{'invisible':['|',('agreement_id','==',False)]}" groups="base.group_service_manager"/>
                         <field name="state" widget="statusbar" statusbar_visible="available,installed"
                                statusbar_colors='{"backuped":"red"}'/>
                     </header>
@@ -195,8 +195,8 @@
                                 </group>
                                 <group string="Stock">
                                     <field name="serial_id" domain="[('product_id','=',product_id)]" context="{'default_product_id':product_id,
-														          'product_id':product_id }"/>
-                                    <field name="quant_id" domain="[('product_id','=',product_id )]"/>
+														          'product_id':product_id }" groups="base.group_service_user"/>
+                                    <field name="quant_id" domain="[('product_id','=',product_id )]" groups="base.group_service_user"/>
                                     <field name="inventory_value"/>
 
                                     <field name="vendor_id"/>
