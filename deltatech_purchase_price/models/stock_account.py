@@ -10,7 +10,7 @@ class StockMove(models.Model):
     def get_price_unit(self):
         """ Returns the unit price to store on the quant """
 
-        print (self.date)
+
         if self.purchase_line_id:
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()

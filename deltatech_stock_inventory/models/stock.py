@@ -28,6 +28,10 @@ from odoo.tools.translate import _
 # TODO: de adaugat pretul si in wizardul ce permite modificarea stocului
 
 
+def avg(l):
+    """uses floating-point division."""
+    return sum(l) / float(len(l))
+
 class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
@@ -94,7 +98,7 @@ class StockInventoryLine(models.Model):
     loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
 
-    @api.onchange('theoretical_qty')
+    @api.onchange('theoretical_qty','product_id')
     def onchange_theoretical_qty(self):
         self.standard_price = self.get_price()
 
@@ -109,9 +113,10 @@ class StockInventoryLine(models.Model):
                    ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
                    ('package_id', '=', self.package_id.id)]
 
-            dom = [('location_id', '=', self.location_id.id), ('product_id', '=', self.product_id.id),
+            dom = [('location_id', '=', self.location_id.id),
                    ('lot_id', '=', self.prod_lot_id.id),
-                   ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
+                   ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
+                   ('package_id', '=', self.package_id.id)]
 
             quants = self.env['stock.quant'].search(dom)
 
@@ -121,10 +126,12 @@ class StockInventoryLine(models.Model):
 
             if not price:
                 dom = [('product_id', '=', self.product_id.id)]
-                quants = self.env['stock.quant'].search(dom)
-                value = sum([q.inventory_value for q in quants])
-                if self.theoretical_qty > 0:
-                    price = value / self.theoretical_qty
+                quants = self.env['stock.quant'].search(dom, limit=100)
+                price = avg([q.cost for q in quants])
+
+
+            if not price:
+                price = self.product_id.standard_price
 
         return price
 

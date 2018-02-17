@@ -77,6 +77,6 @@ class Picking(models.Model):
         super(Picking, self).do_transfer()
         use_date = self.env.context.get('use_date',False)
         if use_date:
-            print (" USE date", use_date)
+
             self.write({'date': self.date})
             self.move_lines.write({'date_expected': use_date, 'date': use_date})
