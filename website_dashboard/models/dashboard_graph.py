@@ -120,7 +120,7 @@ class dashboard_graph_series(models.Model):
     date_field_id = fields.Many2one('ir.model.fields', string='Date Field',
                                     domain="[('model_id', '=', model_id), ('ttype', 'in', ['date', 'datetime'])]")
     value_field_id = fields.Many2one('ir.model.fields', string='Value Field',
-                                     domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
+                                     domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer','monetary'])]")
     label_field_id = fields.Many2one('ir.model.fields', string='Label Field', domain="[('model_id', '=', model_id)]")
 
     action_id = fields.Many2one('ir.actions.act_window', 'Action')

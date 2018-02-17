@@ -112,7 +112,7 @@ class dashboard_tile(models.Model):
     # Primary Value
     primary_function = fields.Selection(FIELD_FUNCTION_SELECTION, string='Function', default='count')
     primary_field_id = fields.Many2one('ir.model.fields', string='Field',
-                                       domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
+                                       domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer','monetary'])]")
     primary_negative = fields.Boolean('Negative')
 
     primary_value = fields.Char(string='Value', compute='_compute_data')
@@ -120,7 +120,7 @@ class dashboard_tile(models.Model):
     # Secondary Value
     secondary_function = fields.Selection(FIELD_FUNCTION_SELECTION, string='Function', default='count')
     secondary_field_id = fields.Many2one('ir.model.fields', string='Field',
-                                         domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer'])]")
+                                         domain="[('model_id', '=', model_id), ('ttype', 'in', ['float', 'integer','monetary'])]")
     secondary_negative = fields.Boolean('Negative')
 
     secondary_value = fields.Char(string='Value', compute='_compute_data')
