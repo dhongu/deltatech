@@ -41,9 +41,9 @@ class radius_nas(models.Model):
     shortname = fields.Char('Nas Shortname', size=32, required=True)
 
     type = fields.Selection([('cisco', 'cisco'), ('portslave', 'portslave'), ('other', 'other')], 'Nas Type',
-                            size=32, default='other',required=True)
+                            size=32, default='other', required=True)
     ports = fields.Integer('Nas Ports')
-    secret = fields.Char('Nas Secret', size=64,required=True)
+    secret = fields.Char('Nas Secret', size=64, required=True)
     server = fields.Char('Nas Secret', size=64)
     community = fields.Char('Nas Community', size=64)
     description = fields.Text('Nas Description')
@@ -71,6 +71,7 @@ WITH (OIDS=FALSE)
 
 
 """
+
 
 # ----------------------------------------------------------
 # Radacct
@@ -112,6 +113,7 @@ class radius_radacct(models.Model):
 
     acctstartdelay = fields.Integer('Acct start delay')  # new
     acctstopdelay = fields.Integer('Acct stop delay')  # new
+
 
 """
 CREATE TABLE "public"."radacct" (
@@ -177,26 +179,36 @@ class radius_radcheck(models.Model):
     value = fields.Char('Value', size=253, default='', required=True)
     partner_id = fields.Many2one('res.partner', compute='_compute_partner', string='Customer', store=True)
 
-    groupname = fields.Selection(_get_groupname, string='Group Name',default='',readonly=False,
-                                 compute="_compute_groupname", store=True)
+    groupname = fields.Selection(_get_groupname, string='Contract Group Name', default='', readonly=False,
+                                 # compute="_compute_groupname",
+                                 store=True)
 
-    state = fields.Selection([('connected','Connected'),('disconnected','Disconnected')],
+    state = fields.Selection([('connected', 'Connected'), ('disconnected', 'Disconnected')],
                              compute="_compute_groupname")
 
-    radusergroup_id = fields.Many2one("radius.radusergroup", compute="_compute_groupname")
+    radusergroup_id = fields.Many2one("radius.radusergroup", string='Actual Group Name', compute="_compute_groupname")
 
     @api.depends('username')
     def _compute_groupname(self):
         for rec in self:
-            radusergroup = self.env["radius.radusergroup"].search([('username','=',rec.username)], limit=1)
+            radusergroup = self.env["radius.radusergroup"].search([('username', '=', rec.username)], limit=1)
             if radusergroup:
                 rec.radusergroup_id = radusergroup
 
-                if  radusergroup.groupname != 'disconected':
+                if radusergroup.groupname != 'disconnected':
                     rec.groupname = radusergroup.groupname
                     rec.state = 'connected'
                 else:
                     rec.state = 'disconnected'
+
+    @api.onchange('groupname')
+    def onchange_groupname(self):
+        if self.groupname != 'disconnected':
+            radusergroup = self.env["radius.radusergroup"].search([('username', '=', self.username)], limit=1)
+            if radusergroup:
+                radusergroup.write({'groupname': self.groupname})
+            else:
+                self.env["radius.radusergroup"].create({'username': self.username, 'groupname': self.groupname})
 
     @api.depends('username')
     def _compute_partner(self):
@@ -225,11 +237,11 @@ class radius_radreply(models.Model):
                                   ('WISPr-Redirection-URL', 'WISPr-Redirection-URL'),
                                   ('WISPr-Bandwidth-Max-Up', 'WISPr-Bandwidth-Max-Up'),
                                   ('WISPr-Bandwidth-Max-Down', 'WISPr-Bandwidth-Max-Down')], 'Attribute',
-                                 size=64 , default='',)
+                                 size=64, default='', )
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], 'OP', default='==', )
-    value = fields.Char('Value', size=253, default='',)
+    value = fields.Char('Value', size=253, default='', )
 
 
 # ----------------------------------------------------------
@@ -246,12 +258,13 @@ class radius_radgroupcheck(models.Model):
             list += [(item.name, item.name)]
         return list
 
-    groupname = fields.Selection(_get_groupname, string='Group Name',default='', required=True)
+    groupname = fields.Selection(_get_groupname, string='Group Name', default='', required=True)
     #        'attribute': fields.char('Attribute', size=64),
     attribute = fields.Selection([('Auth-Type', 'Auth-Type'), ('Max-All-Session', 'Max-All-Session'),
                                   ('Max-Monthly-Session', 'Max-Monthly-Session'),
                                   ('Pool-Name', 'Pool-Name'),
-                                  ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute',default='', size=64, required=True)
+                                  ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute', default='', size=64,
+                                 required=True)
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], default='==', string='OP', required=True)
