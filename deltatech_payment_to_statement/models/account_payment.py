@@ -13,7 +13,7 @@ class account_payment(models.Model):
     statement_id = fields.Many2one('account.bank.statement', string='Statement',
                                    domain="[('journal_id','=',journal_id)]")
 
-    statement_line_id = fields.Many2one('account.bank.statement.line', string='Statement Line',
+    statement_line_id = fields.Many2one('account.bank.statement.line', string='Statement Line',readonly=True,
                                         domain="[('statement_id','=',statement_id)]")
 
     @api.onchange('payment_date', 'journal_id')
@@ -65,3 +65,39 @@ class account_payment(models.Model):
                     move_line.write({'statement_id':payment.statement_id.id})
                     move_line.move_id.write({'statement_line_id':payment.statement_line_id.id})
         return res
+
+
+    @api.multi
+    def add_statement_line(self):
+        lines = self.env['account.bank.statement.line']
+        for payment in self:
+            if payment.journal_id.type == 'cash' and not payment.statement_id:
+                domain = [('date', '=', self.payment_date), ('journal_id', '=', self.journal_id.id)]
+                statement = self.env['account.bank.statement'].search(domain, limit=1)
+                if not statement:
+                    values = {'journal_id': payment.journal_id.id,
+                              'date': payment.payment_date,
+                              'name': '/'}
+                    statement = payment.env['account.bank.statement'].create(values)
+                payment.write({'statement_id':statement.id})
+
+            if payment.state == 'posted' and not payment.statement_line_id and payment.statement_id:
+                values = {
+                    'name': payment.communication or payment.name,
+                    'statement_id': payment.statement_id.id,
+                    'date': payment.payment_date,
+                    'partner_id': payment.partner_id.id,
+                    'amount': payment.amount,
+                    'payment_id': payment.id,
+                }
+                if payment.payment_type == 'outbound':
+                    values['amount'] = -1 * payment.amount
+
+                line = self.env['account.bank.statement.line'].create(values)
+                lines |= line
+                payment.write({'statement_line_id': line.id})
+
+                for move_line in payment.move_line_ids:
+                    if not move_line.statement_id:
+                        move_line.write({'statement_id': payment.statement_id.id})
+                        move_line.move_id.write({'statement_line_id': payment.statement_line_id.id})
