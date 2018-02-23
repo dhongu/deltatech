@@ -175,9 +175,10 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
+                    <field name="name"/>
                     <field name="partner_id"/>
                     <field name="type_id"/>
-                    <field name="cycle_id"/>
+                    <field name="cycle_id" string="Agreement"/>
                     <newline/>
                     <!--<filter string="Whitout invoice in this month" name="month"-->
                             <!--domain="['|',('last_invoice_date','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),-->
