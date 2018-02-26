@@ -10,6 +10,7 @@
                     <page string="Warehouse">
                         <group>
                             <field name="warehouse_id"/>
+                            <field name="supplier_id"/>
                         </group>
                     </page>
                 </xpath>
