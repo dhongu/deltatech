@@ -96,7 +96,9 @@ class ProcurementComputeProducts(models.TransientModel):
         defaults['item_ids'] = []
         for product in products:
             if qty[product.id] > 0:
-                defaults['item_ids'].append((0, 0, {'product_id': product.id, 'qty': qty[product.id]}))
+                defaults['item_ids'].append((0, 0, {'product_id': product.id,
+                                                    'qty': qty[product.id],
+                                                    'uom_id':product.uom_id.id}))
 
         return defaults
 
@@ -241,3 +243,4 @@ class ProcurementComputeProductsItem(models.TransientModel):
     compute_id = fields.Many2one('procurement.compute.products')
     product_id = fields.Many2one('product.product', string="Product")
     qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
+    uom_id = fields.Many2one( 'product.uom', 'Product Unit of Measure' )

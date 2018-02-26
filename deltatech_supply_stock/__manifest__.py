@@ -39,7 +39,8 @@ Functionalitati:
     "data": [
         'wizard/procurement_compute_products_view.xml',
         'wizard/mrp_check_availability_view.xml',
-        'views/template_product_view.xml'
+        'views/template_product_view.xml',
+        #'views/procurement_view.xml'
     ],
 
     "active": False,
