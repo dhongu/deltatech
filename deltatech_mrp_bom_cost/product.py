@@ -82,6 +82,16 @@ class ProductProduct(models.Model):
     def update_bom_price(self):
         for product in self:
             product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
 
     @api.multi
     def button_update_bom_price(self):
