@@ -70,7 +70,9 @@ class ProductProduct(models.Model):
                 self.product_attributes = self._get_product_attributes_values_dict() 
             
             self.bom_price = bom.with_context(production=self).calculate_price
-            #self.standard_price = self.bom_price 
+            self.standard_price = self.bom_price
+
+
         else:
             self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
         
