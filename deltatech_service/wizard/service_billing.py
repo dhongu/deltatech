@@ -99,7 +99,7 @@ class service_billing(models.TransientModel):
 
             if cons.name:
                 if cons.agreement_id.invoice_mode == 'detail' or  self.group_service == False:
-                    name += ' '+cons.name
+                    name += '\n'+cons.name
             
                 
 
