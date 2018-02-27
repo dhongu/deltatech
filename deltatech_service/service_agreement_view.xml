@@ -148,8 +148,8 @@
                         <label for="notes" string="Note"/>
                         <field name="notes" string="Note" style="width:800px;background-color:#ff9999;"/>
                         <field name="agreement_line" context="{'default_currency_id':currency_id}">
-                            <tree string="Agreement Lines" editable="bottom"
-                                  colors=" red:price_unit==1; red:price_unit==0;" default_order="create_date desc">
+                            <tree string="Agreement Lines" editable="top"
+                                  colors=" red:price_unit==1; red:price_unit==0;" default_order="sequence">
 
                                 <field name="sequence"/>
                                 <field name="product_id"/>
