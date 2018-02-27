@@ -56,6 +56,7 @@ class ProductProduct(models.Model):
     
     bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price')
     standard_price = fields.Float()
+    is_simple_product = fields.Boolean(string="Base product")
     
     
 

@@ -15,6 +15,7 @@
 						<field name="bom_price" class="oe_inline" />
 						<button name="button_update_bom_price" string="Update" type="object" class="oe_edit_only oe_inline" />
 					</div>
+					<field name="is_simple_product"/>
 				</group>
 			</field>
 		</record>
@@ -28,6 +29,7 @@
 				<field name="price" position="after">
 					<field name="standard_price" />
 					<field name="bom_price" />
+					<field name="is_simple_product"/>
 				</field>
 			</field>
 		</record>
