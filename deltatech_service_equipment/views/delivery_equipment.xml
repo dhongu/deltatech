@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <template id="equipment_in_delivery" inherit_id="l10n_ro_stock_picking_report.report_delivery">
+            <xpath expr="//div[@class='oe_structure']" position="after">
+                <t t-if="o.equipment_id">
+                    <div>Equipment: <span t-field="o.equipment_id"/></div>
+                </t>
+                <t t-if="o.agreement_id">
+                    <div>Agreement: <span t-field="o.agreement_id"/></div>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</openerp>

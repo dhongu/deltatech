@@ -51,6 +51,7 @@ Functionalitati:
                 "deltatech_product_extension",
                 "deltatech_stock_report",
                 "web_notification",  # pentru afisare mesaje procese lansate in background
+                "l10n_ro_stock_picking_report",#afisare echipament in tiparire livrari
                 ],
 
     "data": ['data.xml',
@@ -74,6 +75,7 @@ Functionalitati:
 
              'demo.xml',
              'views/deltatech_equipment_counters.xml',
+             'views/delivery_equipment.xml'
              # 'service.meter.reading.csv'
 
              ],
