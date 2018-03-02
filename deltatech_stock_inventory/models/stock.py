@@ -30,7 +30,10 @@ from odoo.tools.translate import _
 
 def avg(l):
     """uses floating-point division."""
-    return sum(l) / float(len(l))
+    if float(len(l)) == 0:
+        return 0
+    else:
+        return sum(l) / float(len(l))
 
 class StockInventory(models.Model):
     _inherit = 'stock.inventory'
