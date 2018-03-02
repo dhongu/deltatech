@@ -28,6 +28,7 @@
                         <tree editable="bootom">
                             <field name="product_id"/>
                             <field name="qty"/>
+                            <field name="uom_id"/>
                         </tree>
                     </field>
                     <footer>

@@ -7,6 +7,9 @@
 
             <field name="inherit_id" ref="account.view_account_payment_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="add_statement_line" states="posted" string="Add to statement" type="object"/>
+                </xpath>
                 <xpath expr="//field[@name='communication']" position="after">
 
                         <field name="statement_id"/>

@@ -71,6 +71,52 @@
             </field>
         </record>
 
+        <record id="view_dashboard_tile_kanban" model="ir.ui.view">
+            <field name="name">Dashboard Tiles</field>
+            <field name="model">dashboard.tile</field>
+            <field name="arch" type="xml">
+                <kanban create="false" class="oe_background_grey o_kanban_dashboard o_account_kanban">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(0)}">
+                                <t t-call="TileTop"/>
+                                <div class="container o_kanban_card_content o_visible">
+                                    <div class="row">
+                                        <h2><field name="total_value"/></h2>
+                                    </div>
+
+                                </div>
+                                <div class="container o_kanban_card_manage_pane o_invisible">
+
+                                </div>
+                            </div>
+                        </t>
+
+                        <t t-name="TileTop">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary">
+                                        <a type="object" name="open_link">
+                                            <field name="name"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">More
+                                        <i class="fa fa-caret-down"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
         <record id="action_open_action" model="ir.actions.server">
             <field name="name">Open Action</field>
             <field name="model_id" ref="model_dashboard_tile"/>
@@ -86,7 +132,7 @@
             <field name="name">Dashboard Tile</field>
             <field name="res_model">dashboard.tile</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban</field>
         </record>
 
         <menuitem name="Dashboard Tile" id="menu_dashboard_tile" action="action_dashboard_tile"
