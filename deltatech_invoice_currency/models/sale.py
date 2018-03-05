@@ -38,31 +38,18 @@ class SaleOrderLine(models.Model):
     # se convertesc facturile in moneda jurnalului
     @api.multi
     def invoice_line_create(self, invoice_id, qty):
-        super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
+        invoice_lines = super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
+
         invoice = self.env['account.invoice'].browse(invoice_id)
-        lines = self.env['account.invoice.line'].search([('invoice_id', '=', invoice_id)])
+
         to_currency = invoice.journal_id.currency_id or self.env.user.company_id.currency_id
         from_currency = self.order_id.pricelist_id.currency_id
 
 
         date_invoice = invoice.date_invoice or fields.Date.context_today(self)
-        for line in lines:
+        for line in invoice_lines:
             price_unit = from_currency.with_context(date=date_invoice).compute(line.price_unit, to_currency)
             line.write({'price_unit': price_unit})
 
-    """
-    @api.multi
-    def _create_invoice(self, order, so_line, amount):
-        print "trece pe aici"
-        invoice = super(SaleAdvancePaymentInv,self)._create_invoice(order, so_line, amount)
-        invoice.write({'price_currency_id':order.currency_id.id})
-        currency_id = invoice.journal_id.currency_id or self.env.user.company.currency_id
-        if invoice.currency_id != currency_id:
-            print "Trebuie sa modific pretul"
+        return invoice_lines
 
-        return invoice
-
-
-    @api.multi
-    def action_invoice_create(self, grouped=False, final=False):
-    """
