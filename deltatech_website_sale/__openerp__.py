@@ -9,14 +9,15 @@
 OpenERP E-Commerce Extension
 ============================
 - adugata posbilitatea de a afisa daca produsul este dispoibil in stoc
- 
+- inregistreaza istoricul cautarilor din magazin
+
         """,
 
     'depends': ['website', 'website_sale'],
     'data': [
         'views/product_view.xml',
         'views/templates.xml',
-
+        'views/website_keyword_view.xml'
     ],
     'demo': [
         # 'data/demo.xml',

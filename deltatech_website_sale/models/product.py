@@ -32,8 +32,7 @@ class product_template(models.Model):
                     product.is_qty_available = 'order'
                 else:
                     product.is_qty_available = 'provider'
-        return res    
-    _
+        return res
 
 
 class ProductPricelist(models.Model):
