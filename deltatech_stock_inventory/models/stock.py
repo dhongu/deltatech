@@ -30,8 +30,6 @@ from odoo.tools.translate import _
 
 def avg(l):
     """uses floating-point division."""
-    if not l:
-        return 0.0
     return sum(l) / float(len(l))
 
 class StockInventory(models.Model):
@@ -110,6 +108,10 @@ class StockInventoryLine(models.Model):
     def get_price(self):
         price = self.product_id.standard_price
         if self.product_id.cost_method == 'real':
+            dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id),
+                   ('lot_id', '=', self.prod_lot_id.id),
+                   ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
+                   ('package_id', '=', self.package_id.id)]
 
             dom = [('location_id', '=', self.location_id.id),
                    ('lot_id', '=', self.prod_lot_id.id),
@@ -180,8 +182,8 @@ class StockInventoryLine(models.Model):
     def _generate_moves(self):
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'real':
-                # acutlizare pret in produs
-                inventory_line.product_id.product_tmpl_id.write( {'standard_price': inventory_line.standard_price})
+                inventory_line.product_id.product_tmpl_id.write(
+                    {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         return moves
 
@@ -241,3 +243,4 @@ class Quant(models.Model):
                     line['sale_value'] = sale_value
         return res
 
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
