@@ -35,17 +35,19 @@ class SaleOrderLine(models.Model):
     # se convertesc facturile in moneda jurnalului
     @api.multi
     def invoice_line_create(self, invoice_id, qty):
-        super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
+        invoice_lines = super(SaleOrderLine, self).invoice_line_create(invoice_id, qty)
+
         invoice = self.env['account.invoice'].browse(invoice_id)
-        lines = self.env['account.invoice.line'].search([('invoice_id', '=', invoice_id)])
+
         to_currency = invoice.journal_id.currency_id or self.env.user.company_id.currency_id
         from_currency = self.order_id.pricelist_id.currency_id
 
-
         date_invoice = invoice.date_invoice or fields.Date.context_today(self)
-        for line in lines:
+        for line in invoice_lines:
             price_unit = from_currency.with_context(date=date_invoice).compute(line.price_unit, to_currency)
             line.write({'price_unit': price_unit})
+
+        return invoice_lines
 
     """
     @api.multi
