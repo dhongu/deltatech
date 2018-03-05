@@ -1436,3 +1436,13 @@ msgstr "Valoare precedenta contor"
 #: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
 msgid "Estimated"
 msgstr "Estimat"
+
+#. module: deltatech_service_equipment
+#: view:website:l10n_ro_stock_picking_report.report_delivery
+msgid "Equipment:"
+msgstr "Echipament:"
+
+#. module: deltatech_service_equipment
+#: view:website:l10n_ro_stock_picking_report.report_delivery
+msgid "Agreement:"
+msgstr "Contract:"

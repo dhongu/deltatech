@@ -41,7 +41,12 @@
 									</div>
 									<div class="col-xs-2">
 										<strong>Percent:</strong>
-										<t t-set="percent" t-value="round((o.quantity/o.quantity_claimed)*100,2)" />
+										<t t-if="o.quantity_claimed">
+											<t t-set="percent" t-value="round((o.quantity/o.quantity_claimed)*100,2)" />
+										</t>
+										<t t-if="not o.quantity_claimed">
+											<t t-set="percent" t-value="0"/>
+										</t>
 										<t t-esc="percent" />%
 										<p />
 									</div>

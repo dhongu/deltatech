@@ -233,8 +233,11 @@ class service_agreement_line(models.Model):
                     first_reading = readings[-1]
                     last_reading = readings[0]
                     name +=  _('Old index: %s, New index:%s') % (first_reading.previous_counter_value, last_reading.counter_value)  
-                    
+                    if self.invoice_description!='' and self.invoice_description!=False:
+                        name = self.invoice_description
                     readings.write({'consumption_id':consumption.id})
+                if self.invoice_description != '' and self.invoice_description!=False:
+                    name = self.invoice_description
                 if quantity != 0 or consumption.agreement_line_id.active:
                     consumption.write({'quantity': quantity,
                                        'name': name,
@@ -262,12 +265,17 @@ class service_agreement_line(models.Model):
                         res = res.extend( self.after_create_consumption(new_consumption, equi) )                   
                 
             else:  # echipament fara contor
-                cons_value = {'name': self.equipment_id.display_name, 'equipment_id': equipment.id}
+                cons_value = {'name': self.invoice_description or self.equipment_id.display_name, 'equipment_id': equipment.id}
                 if not consumption.agreement_line_id.active:
                     # cons_value['quantity'] = 0
                     consumption.unlink()
                 else:
                     consumption.write(cons_value)
+
+        else:
+            if self.invoice_description!='':
+                consumption.write({'name': self.invoice_description})
+                res = [consumption.id]
         return res        
                 
 

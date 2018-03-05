@@ -358,6 +358,7 @@ class service_agreement_line(models.Model):
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,
                                   domain=[('name', 'in', ['RON', 'EUR'])])
     active = fields.Boolean(default=True)  # pentru a ascunde liniile din contract care nu
+    invoice_description = fields.Char(string='Invoice Description')
 
     @api.onchange('product_id')
     def onchange_product_id(self):

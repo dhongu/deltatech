@@ -56,6 +56,7 @@ class ProductProduct(models.Model):
     
     bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price')
     standard_price = fields.Float()
+    is_simple_product = fields.Boolean(string="Base product")
     
     
 
@@ -70,7 +71,9 @@ class ProductProduct(models.Model):
                 self.product_attributes = self._get_product_attributes_values_dict() 
             
             self.bom_price = bom.with_context(production=self).calculate_price
-            #self.standard_price = self.bom_price 
+            self.standard_price = self.bom_price
+
+
         else:
             self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
         
@@ -78,6 +81,16 @@ class ProductProduct(models.Model):
 
     @api.multi
     def update_bom_price(self):
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
+        for product in self:
+            product._calculate_bom_price()
         for product in self:
             product._calculate_bom_price()
 

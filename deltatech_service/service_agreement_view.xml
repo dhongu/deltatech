@@ -148,11 +148,12 @@
                         <label for="notes" string="Note"/>
                         <field name="notes" string="Note" style="width:800px;background-color:#ff9999;"/>
                         <field name="agreement_line" context="{'default_currency_id':currency_id}">
-                            <tree string="Agreement Lines" editable="bottom"
-                                  colors=" red:price_unit==1; red:price_unit==0;" default_order="create_date desc">
+                            <tree string="Agreement Lines" editable="top"
+                                  colors=" red:price_unit==1; red:price_unit==0;" default_order="sequence">
 
                                 <field name="sequence"/>
                                 <field name="product_id"/>
+                                <field name="invoice_description"/>
                                 <field name="quantity"/>
                                 <field name="uom_id" groups="product.group_uom"/>
                                 <field name="price_unit"/>
@@ -175,9 +176,10 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
+                    <field name="name"/>
                     <field name="partner_id"/>
                     <field name="type_id"/>
-                    <field name="cycle_id"/>
+                    <field name="cycle_id" string="Agreement"/>
                     <newline/>
                     <!--<filter string="Whitout invoice in this month" name="month"-->
                             <!--domain="['|',('last_invoice_date','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),-->
