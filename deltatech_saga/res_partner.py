@@ -54,14 +54,14 @@ class res_partner(models.Model):
 
     @api.multi
     def write(self, vals):
-        if ('ref_customer' in vals) and (vals.get('ref_customer') in ('/', False)):
+        if ('ref_customer' in vals) and (vals.get('ref_customer' == '/')):
             self.ensure_one()
             if self.customer:
                 sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
                 if sequence:
-                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id) 
-                    
-        if ('ref_supplier' in vals) and (vals.get('ref_supplier') in ('/', False)):
+                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id)
+
+        if ('ref_supplier' in vals) and (vals.get('ref_supplier' == '/')):
             self.ensure_one()
             if self.supplier:
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')

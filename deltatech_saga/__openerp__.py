@@ -27,6 +27,7 @@
 
 Functionalitati:
  - Permite exportul de date din Odoo pentru a fi importate in Saga
+ - Permite importul de clienti si furnizori din SAGA
  - Partenerii au doua referinte pentru codurile de client respectiv de furnizor din SAGA
  - categoriile de porduse au un camp nou pentru tipul de acticol din SAGA  
 
@@ -46,7 +47,7 @@ La export se preiua ultimile 4 caractere din nr de factura la care se adauga 100
               'res_partner_view.xml',
               'product_view.xml',
               'wizard/export_saga_view.xml',
-              #'wizard/import_saga_view.xml',
+        'wizard/import_saga_view.xml',
               ],
     
     "active": False,
