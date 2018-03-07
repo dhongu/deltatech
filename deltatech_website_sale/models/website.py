@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+# Copyright (c) 2015 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,16 +17,27 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
 
+from openerp import models, fields, api, _
+from openerp import SUPERUSER_ID
+from openerp.addons.web.http import request
+from openerp.tools.translate import _
+from sys import maxint
 
 
+class website(models.Model):
+    _inherit = 'website'
 
-import export_saga
-import import_saga
- 
+    @api.multi
+    def sale_product_domain(self):
+        domain = super(website, self).sale_product_domain()
+        search = request.params.get('search', False)
+        if search:
+            values = {'user_id': self.env.user.id,
+                      'date': fields.Datetime.now(),
+                      'word': search}
+            self.env['website.user.search'].sudo().create(values)
 
-
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+        return domain

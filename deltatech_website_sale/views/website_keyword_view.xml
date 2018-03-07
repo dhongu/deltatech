@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+
+        <record id="view_website_user_search_tree" model="ir.ui.view">
+            <field name="name">User search history</field>
+            <field name="model">website.user.search</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="word"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_website_user_search" model="ir.actions.act_window">
+            <field name="name">User search history</field>
+            <field name="res_model">website.user.search</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem id="menu_website_user_search" name="User search history" parent="base.menu_config"
+                  sequence="14" action="action_website_user_search"/>
+
+    </data>
+</openerp>
