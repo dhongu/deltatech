@@ -70,7 +70,7 @@ class account_invoice(models.Model):
                             break
                     if not ok:
                        raise except_orm(_('Delivery not found!'),
-                                        _('No delivery line for product %s') % line.product_id.name)
+                                        _('No delivery line for product %s, code %s') % (line.product_id.name,line.product_id.default_code))
         return 
     
     @api.multi
