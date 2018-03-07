@@ -241,7 +241,9 @@ class service_agreement_line(models.Model):
                 if quantity != 0 or consumption.agreement_line_id.active:
                     consumption.write({'quantity': quantity,
                                        'name': name,
-                                       'equipment_id': equipment.id})
+                                       'equipment_id': equipment.id,
+                                       'address_id': equipment.address_id.id
+                                       })
                 
                 # determin daca in interval echipamentul a fost inlcuit de altul
                 domain = [('equipment_id','=',equipment.id),('from_date','>=',start_date),('from_date','<=',end_date)]
@@ -259,6 +261,7 @@ class service_agreement_line(models.Model):
                               'agreement_id': consumption.agreement_id.id,
                               'agreement_line_id': consumption.agreement_line_id.id,
                               'date_invoice':consumption.date_invoice,
+                              'address_id': consumption.address_id,
                         }) 
                         new_consumption = self.env['service.consumption'].create(cons_value) 
                          
