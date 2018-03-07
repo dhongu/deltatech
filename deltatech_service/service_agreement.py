@@ -345,9 +345,9 @@ class service_agreement_type(models.Model):
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'
     _description = "Service Agreement Line"
-    _order = "id desc,sequence,agreement_id"
+    _order = "sequence,id desc,agreement_id"
 
-    sequence = fields.Integer(string='Sequence', default=10, help="Gives the sequence of this line when displaying the agreement.")
+    sequence = fields.Integer(string='Sequence', default=1, help="Gives the sequence of this line when displaying the agreement.")
     agreement_id = fields.Many2one('service.agreement', string='Contract Services', ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null',
                                  domain=[('type', '=', 'service')])
