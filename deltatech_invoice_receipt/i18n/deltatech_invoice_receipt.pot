@@ -86,7 +86,7 @@ msgstr ""
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:284
 #, python-format
-msgid "No purchase orders line from product %s in quantity of %s "
+msgid "No purchase orders line from product %s (code %s) in quantity of %s "
 msgstr ""
 
 #. module: deltatech_invoice_receipt
