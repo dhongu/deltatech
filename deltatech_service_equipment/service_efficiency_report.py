@@ -93,8 +93,8 @@ class service_efficiency_report(models.Model):
                         product_id = cond[2]
                     if cond[0] == 'uom_usage':
                         uom_usage = cond[2]
-                
-                usage = self.get_usage(cr,uid, begin_date,end_date, equipment_id, uom_usage, product_id)
+
+                usage = self.get_usage(cr, uid, begin_date, end_date, equipment_id, uom_usage, product_id)
                     
                 line['usage'] = usage
                 
@@ -131,7 +131,8 @@ class service_efficiency_report(models.Model):
                 usage = usage/from_uom.factor
                 usage = usage * to_uom.factor
 
-        
+        """
+        # se intra in bucla infinita
         if not uom_usage or not equipment_id:
             domain =  [('date', '>=', begin_date ), ('date', '<', end_date)]
             fields=['equipment_id','uom_usage','usage']
@@ -147,7 +148,8 @@ class service_efficiency_report(models.Model):
             res = self.read_group( domain=domain, fields=fields, groupby=groupby,lazy=False)
             for line in res:
                 usage += line['usage']
-       
+        """
+
         return usage
             
         
