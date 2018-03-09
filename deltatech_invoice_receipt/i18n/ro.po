@@ -82,8 +82,8 @@ msgstr "Last Modified on"
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:73
 #, python-format
-msgid "No delivery line for product %s"
-msgstr "Nu există livrare pentru produsul %s"
+msgid "No delivery line for product %s, code %s"
+msgstr "Nu există livrare pentru produsul %s, referinta interna %s"
 
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:220
@@ -94,9 +94,8 @@ msgstr "Nu există comenzi de achiziție pentru acest furnizor"
 #. module: deltatech_invoice_receipt
 #: code:addons/deltatech_invoice_receipt/account_invoice.py:284
 #, python-format
-msgid "No purchase orders line from product %s in quantity of %s "
-msgstr ""
-"Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
+msgid "No purchase orders line from product %s (code %s) in quantity of %s "
+msgstr "Nu există produsul %s (cod %s) cu cantitatea %s în comenzile de achiziție deschise"
 
 #. module: deltatech_invoice_receipt
 #: field:account.invoice,origin_refund_invoice_id:0

@@ -70,7 +70,7 @@ class account_invoice(models.Model):
                             break
                     if not ok:
                        raise except_orm(_('Delivery not found!'),
-                                        _('No delivery line for product %s') % line.product_id.name)
+                                        _('No delivery line for product %s, code %s') % (line.product_id.name,line.product_id.default_code))
         return 
     
     @api.multi
@@ -198,6 +198,7 @@ class account_invoice(models.Model):
                     price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                     lines.append({'invoice_line': line,
                                   'product_id':line.product_id,
+                                  'product_code':line.product_id.default_code,
                                   'quantity':  line.quantity,
                                   'price_unit':  from_currency.compute(price, self.env.user.company_id.currency_id )
                                    })                  # pretul trebuie convertit in moneda codului de companie!!     
@@ -281,7 +282,7 @@ class account_invoice(models.Model):
         for line in lines:
            if line['quantity'] > 0:
                raise except_orm(_('Picking not found!'),
-                                _('No purchase orders line from product %s in quantity of %s ') % (line['product_id'].name, line['quantity'] )  )
+                                _('No purchase orders line from product %s (code %s) in quantity of %s ') % (line['product_id'].name,line['product_code'], line['quantity'] )  )
             
         # sa incepem receptia
         processed_ids = []
