@@ -35,9 +35,10 @@ class website(models.Model):
         domain = super(website, self).sale_product_domain()
         search = request.params.get('search', False)
         if search:
-            values = {'user_id': self.env.user.id,
-                      'date': fields.Datetime.now(),
-                      'word': search}
-            self.env['website.user.search'].sudo().create(values)
+            if self.env.user.share:
+                values = {'user_id': self.env.user.id,
+                          'date': fields.Datetime.now(),
+                          'word': search}
+                self.env['website.user.search'].sudo().create(values)
 
         return domain

@@ -15,6 +15,18 @@
             </field>
         </record>
 
+        <record id="view_website_user_search_filter" model="ir.ui.view">
+            <field name="name">User search history</field>
+            <field name="model">website.user.search</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="user_id"/>
+                </search>
+            </field>
+        </record>
+
+
         <record id="action_website_user_search" model="ir.actions.act_window">
             <field name="name">User search history</field>
             <field name="res_model">website.user.search</field>
