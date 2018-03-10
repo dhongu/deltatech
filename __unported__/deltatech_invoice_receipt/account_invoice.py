@@ -168,7 +168,7 @@ class account_invoice(models.Model):
         from_currency = self.currency_id.with_context(date=date_eval)
 
         for line in self.invoice_line_ids:
-            if line.product_id.type == 'product' and line.product_id.cost_method == 'real':
+            if line.product_id.type == 'product' and line.product_id.cost_method == 'fifo':
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 price = from_currency.compute(price, self.env.user.company_id.currency_id)
                 if price <> line.product_id.product_tmpl_id.standard_price:

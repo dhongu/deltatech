@@ -31,7 +31,7 @@ class stock_move(models.Model):
     # metoda standard copiata si am comentat actualizarea pretului
     def _store_average_cost_price(self):
         """ Store the average price of the move on the move and product form (costing method 'real')"""
-        for move in self.filtered(lambda move: move.product_id.cost_method == 'real'):
+        for move in self.filtered(lambda move: move.product_id.cost_method == 'fifo'):
             # product_obj = self.pool.get('product.product')
             if any(q.qty <= 0 for q in move.quant_ids) or move.product_qty == 0:
                 # if there is a negative quant, the standard price shouldn't be updated

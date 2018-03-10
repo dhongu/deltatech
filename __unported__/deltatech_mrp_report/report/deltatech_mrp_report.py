@@ -53,7 +53,7 @@ class deltatech_mrp_report(models.Model):
 
                 lines_rec = lines
                 for line_rec in lines_rec:
-                    if line_rec.product_id.cost_method == 'real':
+                    if line_rec.product_id.cost_method == 'fifo':
                         price = line_rec.price_unit_on_quant
                     else:
                         if not line_rec.product_id.id in prod_dict:

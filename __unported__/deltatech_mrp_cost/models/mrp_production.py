@@ -76,7 +76,7 @@ class MrpProduction(models.Model):
         super(MrpProduction, self)._cal_price(consumed_moves)
         self.ensure_one()
         production = self
-        if production.product_id.cost_method == 'real' and production.product_id.standard_price != production.calculate_price:
+        if production.product_id.cost_method == 'fifo' and production.product_id.standard_price != production.calculate_price:
             # oare aici am campul calculate_price actualizat dupa miscarile de stoc efectuate?
             price_unit = production.calculate_price
             production.product_id.write({'standard_price': price_unit})

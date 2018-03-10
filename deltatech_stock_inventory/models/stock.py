@@ -86,7 +86,7 @@ class StockInventoryLine(models.Model):
     @api.model
     def get_price(self):
         price = self.product_id.standard_price
-        if self.product_id.cost_method == 'real':
+        if self.product_id.cost_method == 'fifo':
             dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id),
                    ('lot_id', '=', self.prod_lot_id.id),
                    ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
@@ -149,7 +149,7 @@ class StockInventoryLine(models.Model):
 
     def _generate_moves(self):
         for inventory_line in self:
-            if inventory_line.product_id.cost_method == 'real':
+            if inventory_line.product_id.cost_method == 'fifo':
                 inventory_line.product_id.product_tmpl_id.write(
                     {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()

@@ -37,10 +37,7 @@ class ResConfigSettings(models.TransientModel):
                                        string='No negative stock',
                                        help='Allows you to prohibit negative stock quantities.')
 
-    @api.multi
-    def set_default_no_negative_stock(self):
-        self.env['ir.values'].set_default('res.config.settings', 'no_negative_stock', self.no_negative_stock)
-        self.env.user.company_id.write({'no_negative_stock': self.no_negative_stock})
+
 
     @api.model
     def get_values(self):
@@ -56,3 +53,4 @@ class ResConfigSettings(models.TransientModel):
         if not self.user_has_groups('stock.group_stock_manager'):
             return
         self.env['ir.config_parameter'].sudo().set_param('stock.no_negative_stock', self.no_negative_stock)
+        self.env.user.company_id.write({'no_negative_stock': self.no_negative_stock})

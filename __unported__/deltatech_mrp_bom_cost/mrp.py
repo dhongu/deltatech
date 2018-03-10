@@ -67,7 +67,7 @@ class mrp_production(models.Model):
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         production = self.browse(cr, uid, production_id, context=context)
             
-        if production.product_id.cost_method == 'real' and production.product_id.standard_price <> production.calculate_price:
+        if production.product_id.cost_method == 'fifo' and production.product_id.standard_price <> production.calculate_price:
             self.pool.get('product.product').write(cr,uid,[production.product_id.id],{'standard_price':production.calculate_price})
         
         res = super(mrp_production,self).action_produce(cr, uid, production_id, production_qty, production_mode, wiz, context)
