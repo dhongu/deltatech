@@ -174,8 +174,8 @@ class service_meter(models.Model):
                 if not reading.estimated:
                     x  += [ fields.Date.from_string(reading.date).toordinal() ]
                     y  += [ reading.counter_value]
-            
-            a,b =  linreg(x,y) 
+
+            a, b = linreg(x, y)
             meter.write({'value_a':a, 'value_b':b})
             #_logger.info("Value A: %s, Value B: %s" % (str(a), str(b) ))
        

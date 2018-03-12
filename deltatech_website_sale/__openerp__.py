@@ -17,7 +17,8 @@ OpenERP E-Commerce Extension
     'data': [
         'views/product_view.xml',
         'views/templates.xml',
-        'views/website_keyword_view.xml'
+        'views/website_keyword_view.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
         # 'data/demo.xml',
