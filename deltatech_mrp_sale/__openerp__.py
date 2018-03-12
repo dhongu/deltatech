@@ -62,6 +62,7 @@ Functionalitati:
                 'views/report_saleorder_v2.xml',
                 'views/report_saleorder_v3.xml',
                 'views/report_saleorder_group.xml',
+                'views/simple_products.xml',
                 'security/ir.model.access.csv',
              ],
     
