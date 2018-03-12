@@ -49,6 +49,7 @@ class ProductTemplate(models.Model):
                     product.write({'standard_price':vals['standard_price']})          
         return res
 
+
     
  
 class ProductProduct(models.Model):
@@ -79,18 +80,9 @@ class ProductProduct(models.Model):
         
         #print self.name, self.bom_price
 
+
     @api.multi
     def update_bom_price(self):
-        for product in self:
-            product._calculate_bom_price()
-        for product in self:
-            product._calculate_bom_price()
-        for product in self:
-            product._calculate_bom_price()
-        for product in self:
-            product._calculate_bom_price()
-        for product in self:
-            product._calculate_bom_price()
         for product in self:
             product._calculate_bom_price()
 
