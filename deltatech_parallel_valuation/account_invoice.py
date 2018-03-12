@@ -61,7 +61,8 @@ class account_invoice(models.Model):
         readonly=True, states={'draft': [('readonly', False)],
                                'proforma':[('readonly', False)],
                                'open':[('readonly', False)],
-                               'proforma2':[('readonly', False)]})    
+                               'proforma2':[('readonly', False)],
+                               'paid': [('readonly', False)],})
     
 
 class account_invoice_line(models.Model):
