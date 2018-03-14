@@ -52,6 +52,9 @@ class export_saga(models.TransientModel):
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
     result = fields.Html(string="Result Export", readonly=True)
+    journal_ids = fields.Many2many('account.journal')
+    use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
+
 
     def unaccent(self, text):
         """
@@ -308,28 +311,28 @@ class export_saga(models.TransientModel):
     def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
         result_html = ''
         """
- Intrări 
-Nr. crt. Nume câmp Tip Mărime câmp Descriere 
-1. NR_NIR Numeric 7 Număr NIR 
-2. NR_INTRARE Character 16 Numărul documentului de intrare 
-3. GESTIUNE Character 4 Cod gestiune (optional) 
-4. DEN_GEST Character 36 Denumirea gestiunii (optional) 
-5. COD Character 5 Cod furnizor 
-6. DATA Date - Data documentului de intrare (a facturii) 
-7. SCADENT Date - Data scadenţei 
-8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă... 
-9. TVAI Numeric 1 1 pentru TVA la incasare 
-10. COD_ART Character 16 Cod articol (optional) 
-11. DEN_ART Character 60 Denumire articol 
-12. UM Character 5 Unitatea de măsură pt.articol (optional) 
-13. CANTITATE Numeric 14,3 Cantitate 
-14. DEN_TIP Character 36 Denumirea tipului de articol (optional) 
-15. TVA_ART Numeric 2 Procentul de TVA 
-16. VALOARE Numeric 15,2 Valoarea totală, fără TVA 
-17. TVA Numeric 15,2 TVA total 
-18. CONT Character 20 Contul corespondent 
-19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional) 
-20. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
+         Intrări
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere
+        1. NR_NIR Numeric 7 Număr NIR
+        2. NR_INTRARE Character 16 Numărul documentului de intrare
+        3. GESTIUNE Character 4 Cod gestiune (optional)
+        4. DEN_GEST Character 36 Denumirea gestiunii (optional)
+        5. COD Character 5 Cod furnizor
+        6. DATA Date - Data documentului de intrare (a facturii)
+        7. SCADENT Date - Data scadenţei
+        8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă...
+        9. TVAI Numeric 1 1 pentru TVA la incasare
+        10. COD_ART Character 16 Cod articol (optional)
+        11. DEN_ART Character 60 Denumire articol
+        12. UM Character 5 Unitatea de măsură pt.articol (optional)
+        13. CANTITATE Numeric 14,3 Cantitate
+        14. DEN_TIP Character 36 Denumirea tipului de articol (optional)
+        15. TVA_ART Numeric 2 Procentul de TVA
+        16. VALOARE Numeric 15,2 Valoarea totală, fără TVA
+        17. TVA Numeric 15,2 TVA total
+        18. CONT Character 20 Contul corespondent
+        19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional)
+        20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
         """
 
         Intrari = {
@@ -519,32 +522,32 @@ Nr. crt. Nume câmp Tip Mărime câmp Descriere
     def do_export_iesiri(self, invoice_out_ids):
         result_html = ''
         """
-Ieşiri 
-Nr. crt. Nume câmp Tip Mărime câmp Descriere 
-1. NR_IESIRE Character 16 Numărul documentului de ieşire, bon 
-2. COD Character 5 Cod client 
-3. DATA Date - Data documentului de ieşire 
-4. SCADENT Date - Data scadenţei 
-5. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă... 
-6. TVAI Numeric 1 1 pentru TVA la incasare 
-7. GESTIUNE Character 4 Cod gestiune (optional) 
-8. DEN_GEST Character 36 Denumirea gestiunii (optional) 
-9. COD_ART Character 16 Cod articol 
-10. DEN_ART Character 60 Denumire articol 
-11. UM Character 5 Unitatea de măsură pt.articol 
-12. CANTITATE Numeric 14,3 Cantitate 
-13. DEN_TIP Character 36 Denumirea tipului de articol (optional) 
-14. TVA_ART Numeric 2 Procentul de TVA 
-15. VALOARE Numeric 15,2 Valoarea totală, fără TVA 
-16. TVA Numeric 15,2 TVA total 
-17. CONT Character 20 Contul corespondent 
-18. PRET_VANZ Numeric 15,2 Preţul de vânzare 
-19. GRUPA Character 16 Cod de grupa de articol contabil (optional) 
+        Ieşiri
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere
+        1. NR_IESIRE Character 16 Numărul documentului de ieşire, bon
+        2. COD Character 5 Cod client
+        3. DATA Date - Data documentului de ieşire
+        4. SCADENT Date - Data scadenţei
+        5. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă...
+        6. TVAI Numeric 1 1 pentru TVA la incasare
+        7. GESTIUNE Character 4 Cod gestiune (optional)
+        8. DEN_GEST Character 36 Denumirea gestiunii (optional)
+        9. COD_ART Character 16 Cod articol
+        10. DEN_ART Character 60 Denumire articol
+        11. UM Character 5 Unitatea de măsură pt.articol
+        12. CANTITATE Numeric 14,3 Cantitate
+        13. DEN_TIP Character 36 Denumirea tipului de articol (optional)
+        14. TVA_ART Numeric 2 Procentul de TVA
+        15. VALOARE Numeric 15,2 Valoarea totală, fără TVA
+        16. TVA Numeric 15,2 TVA total
+        17. CONT Character 20 Contul corespondent
+        18. PRET_VANZ Numeric 15,2 Preţul de vânzare
+        19. GRUPA Character 16 Cod de grupa de articol contabil (optional)
 
 
 
-Numele fişierului trebuie să fie în formatul următor: IE_<data-inceput>_<data-sfarsit>.dbf.
-Fişierul va conţine câte o înregistrare pentru fiecare articol din factură. 
+        Numele fişierului trebuie să fie în formatul următor: IE_<data-inceput>_<data-sfarsit>.dbf.
+        Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
     """
         Iesiri = {
@@ -636,6 +639,124 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
                 iesiri_dbf.insert(values)
         return temp_file, result_html
 
+    @api.model
+    def do_export_nc(self, account_moves):
+        """
+        Articole contabile
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere
+        1. NDP Character 10 Număr articol contabil
+        2. CONT_D Character 20 Contul debitor
+        3. CONT_C Character 20 Contul creditor
+        4. SUMA Numeric 15,2 Suma înregistrată cu articolul contabil
+        5. CURS Numeric 15,4 Curs valutar  (optional)
+        6. SUMA_VAL Numeric 14,2 Suma în valută  (optional)
+        7. DATA Date - Data articolului contabil
+        8. EXPLICATIE Character 48 Explicaţie, articol contabil
+        9. GRUPA Character 16 Grupa asociată (optional)
+
+
+        Numele fişierului trebuie să fie în formatul următor: NC_<data-inceput>_<data-sfarsit>.dbf
+
+        """
+        result_html = ''
+        Note = {
+            'NDP': dbf_fields.CharField(max_length=10),  # Număr articol contabil
+            'CONT_D': dbf_fields.CharField(max_length=20),  # Contul debitor
+            'CONT_C': dbf_fields.CharField(max_length=20),  # Contul creditor
+            'SUMA': dbf_fields.DecimalField(size=15, deci=2),  # Suma înregistrată cu articolul contabil
+            'CURS': dbf_fields.DecimalField(size=15, deci=2),  # Curs valutar  (optional)
+            'SUMA_VAL': dbf_fields.DecimalField(size=15, deci=2),  # Numeric 14,2 Suma în valută  (optional)
+            'DATA': dbf_fields.DateField(),  # Data articolului contabil
+            'EXPLICATIE': dbf_fields.CharField(max_length=48),  # Explicaţie, articol contabil
+            'GRUPA': dbf_fields.CharField(max_length=16),  # Grupa asociată (optional)
+        }
+
+        temp_file = StringIO.StringIO()
+        note_dbf = base.DBF(temp_file, Note)
+        for account_move in account_moves:
+
+            cont_d = ''
+            cont_c = ''
+            nr = 0
+            for line in account_move.line_ids:
+                cont = line.account_id.code
+                while cont[-1] == '0':
+                    cont = cont[:-1]
+
+                if cont == '401':
+                    cont = '401.' + line.partner_id.ref_supplier.zfill(5)
+                if cont == '4111':
+                    cont = '4111.' + line.partner_id.ref_customer.zfill(5)
+
+                if cont == '531001':  # din numerar in casa in lei
+                    cont = '5311'
+                if cont == '512001':  # din banca in banca in lei
+                    cont = '5121'
+
+                suma = 0.0
+                if line.credit != 0:
+                    cont_c = cont
+                    suma = line.credit
+
+                if line.debit != 0:
+                    cont_d = cont
+                    suma = line.debit
+
+                nr += 1
+                if nr == 1:
+                    if len(account_move.line_ids) == 2:
+                        continue
+                    else:
+                        if line.credit == 0:
+                            cont_c = '%'
+                        else:
+                            cont_d = '%'
+                else:
+                    if len(account_move.line_ids) != 2:
+                        if line.credit == 0:
+                            cont_c = ''
+                        else:
+                            cont_d = ''
+                ndp = ''.join([s for s in account_move.name if s.isdigit()])
+
+                if cont_d == '371' and cont_c == '44282':
+                    cont_c = '4428.M'
+
+                if cont_d == '44281' and cont_c == '371':
+                    cont_d = '4428.M'
+
+                if cont_c == '44281':
+                    cont_c = '4428.TP'
+
+                if cont_c == '44282':
+                    cont_c = '4428.TI'
+
+                if cont_d == '44281':
+                    cont_d = '4428.TP'
+
+                if cont_d == '44282':
+                    cont_d = '4428.TI'
+
+                values = {
+                    'NDP': ndp[-10:],
+                    'CONT_D': cont_d,
+                    'CONT_C': cont_c,
+                    'SUMA': suma,
+                    'CURS': 0.0,
+                    'SUMA_VAL': 0.0,
+                    'DATA': fields.Date.from_string(account_move.date),
+                    'EXPLICATIE': line.name,
+                    'GRUPA': '',
+                }
+
+                for key in values:
+                    if isinstance(values[key], unicode):
+                        values[key] = self.unaccent(values[key])
+                note_dbf.insert(values)
+        return temp_file, result_html
+
+
+
     @api.multi
     def do_export(self):
 
@@ -649,8 +770,15 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         zip_archive.comment = 'Arhiva pentru Saga'
 
         partner_in_ids = self.env['res.partner']
-
+        account_move_line_ids = self.env['account.move.line']
+        account_move_ids = self.env['account.move']
         product_ids = self.env['product.template']
+
+        if self.journal_ids:
+            account_move_ids = self.env['account.move'].search([('period_id', '=', self.period_id.id),
+                                                                ('state', '=', 'posted'),
+                                                                ('journal_id', 'in', self.journal_ids.ids)])
+
         invoice_in_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
                                                              ('state', 'in', ['open', 'paid']),
                                                              ('type', 'in', ['in_invoice', 'in_refund'])])
@@ -671,6 +799,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
             partner_in_ids |= voucher.partner_id.commercial_partner_id
 
         partner_out_ids = self.env['res.partner']
+
         invoice_out_ids = self.env['account.invoice'].search([('period_id', '=', self.period_id.id),
                                                               ('state', 'in', ['open', 'paid']),
                                                               ('type', 'in', ['out_invoice', 'out_refund'])])
@@ -683,6 +812,15 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         for invoice in invoice_out_ids:
             partner_out_ids |= invoice.commercial_partner_id
 
+        for account_move in account_move_ids:
+            account_move_line_ids |= account_move.line_ids
+
+        for line in account_move_line_ids:
+            if line.partner_id and line.partner_id.customer:
+                partner_out_ids |= line.partner_id
+            if line.partner_id and line.partner_id.supplier:
+                partner_in_ids |= line.partner_id
+
         date_start = fields.Date.from_string(self.period_id.date_start)
         date_stop = fields.Date.from_string(self.period_id.date_stop)
 
@@ -690,6 +828,7 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
         result_html += '<div>Bonuri fiscale: %s</div>' % str(len(voucher_in_ids))
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
+        result_html += '<div>Note contabile %s</div>' % str(len(account_move_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
         result_html += '<div>Furnizori %s</div>' % str(len(partner_in_ids))
         result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
@@ -729,6 +868,13 @@ Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
         file_name = 'IE_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
         zip_archive.writestr(file_name, temp_file.getvalue())
+
+        if account_move_line_ids:
+            temp_file, messaje = self.do_export_nc(account_move_ids)
+            result_html += messaje
+            file_name = 'NC_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
+            zip_archive.writestr(file_name, temp_file.getvalue())
+
 
         zip_archive.close()
         out = base64.encodestring(buff.getvalue())
