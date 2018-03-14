@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+# Copyright (c) 2018 Terrabit Solutions All Rights Reserved
+#                    Dan Stoica <danila(@)terrabit(.)ro
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,34 +20,13 @@
 #
 ##############################################################################
 
-{
-    "name": "Deltatech MRP BOM Cost",
-    "version": "2.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
- - Calculeaza pretul pentru fiecare lista de materiale
- - La fiecare bom exista posibilitatea de a defini costuri indirecte
- - In produs se memoreaza pretul caclulat in BOM
- 
-Obs: depinde si de mrp_product_variants
- 
-    """,
 
-    "category": "Generic Modules/Production",
-    "depends": ['deltatech', "base", "mrp_hook", "product_variants_no_automatic_creation"],
+import calculate_bom_prices
 
-    "data": [
-        "mrp_view.xml",
-        "product_view.xml",
-        "wizard/calculate_bom_prices.xml"
 
-    ],
-    "active": False,
-    "installable": True,
-}
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

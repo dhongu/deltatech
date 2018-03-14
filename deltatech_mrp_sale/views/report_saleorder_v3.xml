@@ -18,6 +18,7 @@
             <div class="col-xl-2">
               <div t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="margin-bottom:-20px;;"/>
             </div>
+            <div style="margin-top:18px;">Telefon: 0234 537436; 0746 016 626</div>
             <div class="col-xs-9 text-right" style="margin-top:10px;" t-field="res_company.rml_header1"/>
           </div>
           <div class="row zero_min_height">
@@ -38,7 +39,7 @@
             <strong>Customer:</strong>
             <div t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
             <p t-if="o.partner_id.vat">
-											VAT:
+        									VAT:
 											<span t-field="o.partner_id.vat"/>
 										</p>
           </div>
@@ -79,6 +80,14 @@
               <span t-field="o.primary_uom"/>
             </p>
           </div>
+        </div>
+        <div class="row" id="informations-line2">
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3"></div>
+            <div class="col-xs-3">
+              <strong>Number of days mounting:</strong><span t-field="o.add_inst_day" />
+            </div>
         </div>
         <div class="row zero_min_height">
           <div class="col-xs-12">
@@ -121,7 +130,12 @@
                 <t t-set="total_primary" t-value="total_primary + a.amount"/>
               </t>
               <t t-if="a.item_categ==&quot;optional&quot;">
-                <t t-set="total_opt" t-value="total_opt + a.amount"/>
+                <!--t t-set="total_opt" t-value="total_opt + a.amount"/-->
+                <t t-set="article_amount" t-value="0" />
+                <t t-foreach="a.resource_ids" t-as="resource">
+                    <t t-set="article_amount" t-value="article_amount+resource.amount" />
+                </t>
+                <t t-set="total_opt" t-value="total_opt + article_amount"/>
               </t>
               <t t-if="a.item_categ==&quot;service&quot;">
                 <t t-set="total_service" t-value="total_service + a.amount"/>
@@ -134,7 +148,7 @@
             <t t-set="total2" t-value="total1+total_service"/>
             <t t-set="total3" t-value="total2+total_opt_serv"/>
           </t>
-          <tbody class="sale_tbody">
+          <tbody class="sale1_tbody">
             <tr style="background-color:#cadb34;">
               <td colspan="5">
                 <h4 style="margin: 00 0 0 0;font-weight:bold;">KIT</h4>
@@ -145,8 +159,10 @@
               <td/>
             </tr>
             <t t-foreach="o.article_ids" t-as="a">
-              <t t-if="a.item_categ==&quot;normal&quot;">
-                <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+              <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
+                <t t-if="a.item_categ==&quot;normal&quot;">
+                    <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+                </t>
                 <t t-foreach="a.resource_ids" t-as="resource">
                   <t t-if="resource.item_categ=='labor'">
                     <t t-set="total_labor_kit" t-value="total_labor_kit + resource.amount"/>
@@ -208,14 +224,12 @@
               <td colspan="5">KIT MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_kit-total_labor_kit,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">MONTAGE KIT</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_kit,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
@@ -225,20 +239,6 @@
                 </h4>
               </td>
               <td/>
-              <!--
-			            <td class="text-right">
-			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
-			            </td>
-			            
-			            <td class="text-right" style="white-space: nowrap;">
-			              <t t-if="o.qty_primary">
-			                <t t-set="price" t-value="total_kit/qty_primary"/>
-			                <span t-esc="round(price,2)"/>
-			                <span t-field="o.pricelist_id.currency_id.symbol"/>
-			              </t>
-			            </td>
-			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <strong>
                   <span t-esc="round(total_kit,2)"/>
@@ -249,12 +249,6 @@
             <tr style="background-color:#cadb34">
               <td colspan="4">PRICE / M<sup>2</sup></td>
               <td/>
-              <!--
-			            <td class="text-right">
-			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
-			            </td>
-			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total_kit/qty_primary"/>
@@ -262,12 +256,6 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
-              <!--
-			            <td class="text-right" style="white-space: nowrap;">
-			              <span t-esc="round(total_kit,2)"/>
-			              <span t-field="o.pricelist_id.currency_id.symbol"/>
-			            </td>
-			            -->
             </tr>
           </tbody>
         </table>
@@ -279,7 +267,7 @@
               <th colspan="2"/>
               <th/>
               <th/>
-              <th class="text-right"></th>
+              <th/>
               <th class="text-right">Quantity</th>
             </tr>
           </thead>
@@ -311,14 +299,12 @@
               <td colspan="5">MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_opt-total_labor_optional,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">MONTAGE</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_optional,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#A9E2F3">
@@ -337,14 +323,12 @@
               <td colspan="5">TOTAL MATERIALS</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">TOTAL MONTAGE</td>
               <td class="text-right" style="white-space: nowrap;">
                 <span t-esc="round(total_labor_kit + total_labor_optional,2)"/>
-                <span t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
             </tr>
             <tr style="background-color:#cadb34">
@@ -360,12 +344,6 @@
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">PRICE / M<sup>2</sup></td>
-              <!--
-			            <td class="text-right">
-			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
-			            </td>
-			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total1/qty_primary"/>
@@ -373,31 +351,13 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
-              <!--
-			            <th class="text-right" style="white-space: nowrap;">
-			              <span t-esc="round(total1,2)"/>
-			              <span t-field="o.pricelist_id.currency_id.symbol"/>
-			            </th>
-			            -->
             </tr>
             <tr>
               <td colspan="6"/>
             </tr>
-            <!--
-			          <tr style="background-color:#B8CCE4">
-			            <td colspan="5">
-			              
-			              <h3>
-			                 Service
-			              </h3>
-			              
-			              <t t-set="with_price" t-value="1"/>
-			              <t t-set="with_qty" t-value="0"/>
-			            </td>
-			          </tr>
-			          -->
             <t t-set="with_qty" t-value="0"/>
             <t t-set="with_price" t-value="1"/>
+            <t t-set="qty_only" t-value="1"/>
             <t t-foreach="o.article_ids" t-as="a">
               <t t-if="a.item_categ==&quot;service&quot;">
                 <t t-call="deltatech_mrp_sale.report_specification_article3"/>
@@ -411,19 +371,6 @@
                 <t t-set="with_price" t-value="1"/>
                 <t t-set="with_qty" t-value="1"/>
               </td>
-              <!--
-			            <td class="text-right">
-			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
-			            </td>
-			            <td class="text-right" style="white-space: nowrap;">
-			              <t t-if="o.qty_primary">
-			                <t t-set="price" t-value="total2/qty_primary"/>
-			                <span t-esc="round(price,2)"/>
-			                <span t-field="o.pricelist_id.currency_id.symbol"/>
-			              </t>
-			            </td>
-			            -->
               <td style="text-align:right;vertical-align:middle;">
                 <span style="font-weight:bold;" t-esc="round(total2,2)"/>
                 <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
@@ -435,12 +382,6 @@
 			              <t t-set="with_price" t-value="1"/>
 			              <t t-set="with_qty" t-value="1"/>
 			            </td>
-              <!--
-			            <td class="text-right">
-			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
-			            </td>
-			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total2/qty_primary"/>
@@ -448,12 +389,6 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
-              <!--
-			            <th class="text-right" style="white-space: nowrap;">
-			              <span t-esc="round(total2,2)"/>
-			              <span t-field="o.pricelist_id.currency_id.symbol"/>
-			            </th>
-			            -->
             </tr>
             <tr>
               <td colspan="6"> </td>
@@ -473,7 +408,9 @@
                   <strong>TOTAL GENERAL</strong>
                 </td>
                 <td class="text-right">
-                  <span style="font-weight:bold;" t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                  <!--span style="font-weight:bold;" t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/-->
+                  <span style="font-weight:bold;" t-esc="round(total2+total_opt_serv,2)"/>
+                  <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
                 </td>
               </tr>
             </table>
@@ -496,9 +433,9 @@
         <p style="width:75px;"/>
         <p style="background-color:#F8F8F8; color:#FF0000">
           <span>
-            This estimate is a contractual document for which EcoKit takes responsibility only if 
+            This estimate is a contractual document for which EcoKit takes responsibility only if
             the document is signed by the client. Any other commercial and technical information
-            communicated during our correspondence on this project and not included in this estimate 
+            communicated during our correspondence on this project and not included in this estimate
             will not be counted.
 		  </span>
         </p>
@@ -507,8 +444,8 @@
         </p>
         <p style="background-color:#F8F8F8; color:#FF0000">
           <span>
-              Signing this document means accepting the offer commercial and technical commitment to the 
-              responsibility. Any other request later after signing this estimate will be subject to 
+              Signing this document means accepting the offer commercial and technical commitment to the
+              responsibility. Any other request later after signing this estimate will be subject to
               recalculation and a tender attached to this estimate.
           </span>
         </p>
@@ -551,11 +488,10 @@
 
 
 <!-- Begin Specification article 3 -->
-		<template id="report_specification_article3">
-			<t t-name="deltatech_mrp_sale.report_specification_article2">
-  <t t-if="a.product_uom_qty != 0.0">
-    <!-- t if ammount<0-->
-    <t t-if="a.amount&gt;0.0">
+<template id="report_specification_article3">
+  <t t-name="deltatech_mrp_sale.report_specification_article2">
+      <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%%'">
+          <t t-if="a.amount&gt;0.0">
     <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
       <td colspan="4" style="white-space: nowrap;">
         <h4 style="margin:0 0 0 0;">
@@ -627,9 +563,9 @@
     </t>
     <t t-if="a.product_id">
     <td colspan="6">
-      
+
         <small t-field="a.product_id.description_sale"/>
-      
+
       <t t-if="not a.product_id">
         <small t-field="a.product_template.description_sale"/>
       </t>
@@ -649,7 +585,7 @@
               </div>
             </em>
           </td>
-          <td />
+          <td/>
           <!--
           <td/>
           <td/>
@@ -659,11 +595,9 @@
       </tr>
     </t>
   </t>
-  <!-- End t if ammount<0-->
+      </t>
   </t>
-</t>
-			
-		</template>
+</template>
 <!-- End Specification article 3 -->
 
 

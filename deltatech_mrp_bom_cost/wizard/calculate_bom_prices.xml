@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+        <act_window id="calculate_bom_prices_action" name="Calculeaza pret BOM" res_model="calculate_bom_prices"
+        src_model="product.product" view_mode="form" target="new"/>
+
+        <record model="ir.ui.view" id="calculate_bom_prices">
+            <field name="name">calculate_bom_prices.form</field>
+            <field name="model">calculate_bom_prices</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Calculeaza preturi liste materiale">
+                    <div>
+                        <p>Sistemul va recalcula toate preturile pentru listele de materiale fara variante.</p>
+                        <p>Va rugam asteptati pana calculul se finalizaeaza.</p>
+                    </div>
+                    <button name="action_calculate_boms" string="Calculeaza" type="object" />
+                </form>
+            </field>
+        </record>
+
+        <menuitem name="Recalculeaza LdM" id="menu_sale_mrp_update_boms" action="calculate_bom_prices_action"  parent="base.menu_product" sequence="50" groups="mrp.group_mrp_manager" />
+    </data>
+</openerp>
