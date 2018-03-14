@@ -1,0 +1,31 @@
+<openerp>
+    <data>
+
+        <record id="action_agreements" model="ir.actions.act_window">
+            <field name="name">Contracte</field>
+            <field name="res_model">service.agreement</field>
+            <!--<field name="domain">[('account_id','=',224),('reconcile_id','=',False), ('account_id.reconcile','=',True)]</field>-->
+            <!--<field name="domain">[('reconcile_id','=',False)]</field>-->
+            <field name="context">{'search_default_partner_id': [active_id]}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="limit">160</field>
+            <!--<field name="search_view_id" ref="action_journal_pl_search"/>-->
+        </record>
+
+        <record model="ir.ui.view" id="partner_view_button_agreements">
+            <field name="name">partner.view.button.agreements</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="25"/>
+            <field name="groups_id" eval="[(4, ref('base.group_service_manager'))]"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='buttons']" position="inside">
+                    <button type="action" class="oe_stat_button" name="%(action_agreements)d" icon="fa-list" string="Contracte" context="{'default_partner_id': id}">
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

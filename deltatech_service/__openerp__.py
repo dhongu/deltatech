@@ -42,7 +42,7 @@ Functionalitati:
         'service_config_view.xml',
         "service_consumption_view.xml",
         "service_agreement_view.xml",
-
+        "res_partner_view.xml",
         "wizard/service_billing_preparation_view.xml",
         "wizard/service_billing_view.xml",
         "wizard/service_distribution_view.xml",
