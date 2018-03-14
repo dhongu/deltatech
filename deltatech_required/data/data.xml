@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<openerp>
+
+    <data noupdate="1">
+
+
+        <record id="seq_type_required_order_resource" model="ir.sequence.type">
+            <field name="name">Required Products Orders</field>
+            <field name="code">required.order</field>
+        </record>
+        <record id="seq_required_order_resource" model="ir.sequence">
+            <field name="name">Required Products Orders</field>
+            <field name="code">required.order</field>
+            <field name="prefix">PR</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</openerp>
