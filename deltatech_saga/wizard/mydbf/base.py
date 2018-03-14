@@ -113,7 +113,7 @@ class DBF(object):
     fields_fmt = '<11sc4xBB14x'
     
     def __init__(self, db, fieldspecs=None):
-        if isinstance(db, basestring):
+        if isinstance(db, str): #basestring):
             db = open(db, 'w+b')
         self.db = db
         self.fields = fieldspecs
