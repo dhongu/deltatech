@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {
-    "name": "Deltatech Required",
+    "name": "Deltatech Required Products",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -28,6 +28,7 @@
 Features:
 
  - New object - Required product
+    - Generates Purchase orders based on the chosen supplier or (if not chosen) the supplier of the product. If no supplier is provided, generates a procurement exception.
 
 
 
