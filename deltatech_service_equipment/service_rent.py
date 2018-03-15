@@ -268,7 +268,7 @@ class service_agreement_line(models.Model):
                         res = res.extend( self.after_create_consumption(new_consumption, equi) )                   
                 
             else:  # echipament fara contor
-                cons_value = {'name': self.invoice_description or self.equipment_id.display_name, 'equipment_id': equipment.id}
+                cons_value = {'name': self.invoice_description or self.equipment_id.display_name, 'equipment_id': equipment.id, 'address_id': equipment.address_id.id}
                 if not consumption.agreement_line_id.active:
                     # cons_value['quantity'] = 0
                     consumption.unlink()
@@ -286,9 +286,11 @@ class service_consumption(models.Model):
     _inherit = 'service.consumption'                
 
     equipment_id = fields.Many2one('service.equipment', string='Equipment',index=True)
-    address_id = fields.Many2one('res.partner', string='Location', related='equipment_id.address_id',
-                                 readonly=True,
-                                 help='The address where the equipment is located', store=True)
+    # address_id = fields.Many2one('res.partner', string='Location', related='equipment_id.address_id',
+    #                              readonly=True,
+    #                              help='The address where the equipment is located', store=True)
+
+    address_id = fields.Many2one('res.partner', string='Location', help='The address where the equipment is located', store=True)
 
 
     _sql_constraints = [
