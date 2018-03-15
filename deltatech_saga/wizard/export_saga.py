@@ -2,15 +2,15 @@
 # ©  2017 Deltatech
 # See README.rst file on addons root folder for license details
 
-# try:
-# For Python 3.0 and later
-# import io as StringIO
+import sys
+PY2 = sys.version_info[0] == 2
 
-#    unicode = str
-# except ImportError:
-# Fall back to Python 2's
+if PY2:
+    import StringIO
+else:
+    import io as StringIO
+    unicode = str
 
-import StringIO
 
 import base64
 import unicodedata
@@ -793,6 +793,13 @@ class export_saga(models.TransientModel):
                 invoice.write({'period_id': period.id})
         '''
 
+        if self.journal_ids:
+            account_move_ids = self.env['account.move'].search([('date', '>=', self.date_from),
+                                                                ('date', '<=', self.date_to),
+                                                                ('state', '=', 'posted'),
+                                                                ('journal_id', 'in', self.journal_ids.ids)])
+
+
         invoice_in_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
                                                              ('date', '<=', self.date_to),
                                                              ('state', 'in', ['open', 'paid']),
@@ -803,10 +810,7 @@ class export_saga(models.TransientModel):
                                                              ('state', 'in', ['posted']),
                                                              ('voucher_type', 'in', ['purchase'])])
 
-        if self.journal_ids:
-            account_move_ids = self.env['account.move'].search([('date', '>=', self.date_from),
-                                                                ('date', '<=', self.date_to),
-                                                                ('journal_id', 'in', self.journal_ids.ids)])
+
 
         if self.export_product:
             for invoice in invoice_in_ids:
