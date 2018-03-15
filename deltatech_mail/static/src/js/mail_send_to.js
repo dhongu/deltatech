@@ -97,8 +97,8 @@ openerp.deltatech_mail = function (instance) {
             var action = view.getParent().action;
             has_follower(this, action.res_model, function() {
                 self.add_items('other', [
-                                         {   label: _t('Send Mail'),
-                                             callback: self.on_click_mail_send },
+                                    //     {   label: _t('Send Mail'),
+                                    //         callback: self.on_click_mail_send },
                                          {   label: _t('Make Read'),
                                              callback: self.on_click_make_read },
                                          {   label: _t('Make UnRead'),
