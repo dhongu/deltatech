@@ -155,5 +155,68 @@ class stock_inventory_line(models.Model):
                 
         return move_id
  
+class StockHistory(models.Model):
+    _inherit = 'stock.history'
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    sale_value = fields.Float('Sale Value', compute='_compute_sale_value', readonly=True)
+
+    @api.one
+    def _compute_sale_value(self):
+        self.sale_value = self.quantity * self.product_id.list_price
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        res = super(StockHistory, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
+                                                   lazy=lazy)
+        if 'sale_value' in fields:
+            for line in res:
+                if '__domain' in line:
+                    lines = self.search(line['__domain'])
+                    sale_value = 0.0
+                    for line2 in lines:
+                        sale_value += line2.sale_value
+                    line['sale_value'] = sale_value
+        return res
+
+class Quant(models.Model):
+    _inherit = "stock.quant"
+
+    sale_value = fields.Float('Sale Value', compute='_compute_sale_value', readonly=True)
+    sale_currency_id = fields.Many2one('res.currency',  string='Sale currency', compute='_compute_sale_value', readonly=True)
+
+    @api.multi
+    def _compute_sale_value(self):
+        price_type = self.env['product.price.type'].search([('field', '=', 'list_price')])
+        if price_type:
+            sale_currency_id = price_type.currency_id
+        else:
+            sale_currency_id = self.env.user.company_id
+
+        if 'pricelist_id' in self.env.context:
+            pricelist = self.env['product.pricelist'].browse(self.env.context['pricelist_id'])
+            sale_currency_id = pricelist.currency_id
+        else:
+            pricelist = False
+
+        for quant in self:
+            quant.sale_value = quant.qty * quant.product_id.list_price
+            quant.sale_currency_id = sale_currency_id
+            if pricelist:
+                price = pricelist.price_get( quant.product_id.id, quant.qty )[pricelist.id]
+                if price:
+                    quant.sale_value = price * quant.qty
+
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        res = super(Quant, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby,
+                                            lazy=lazy)
+        if 'sale_value' in fields:
+            for line in res:
+                if '__domain' in line:
+                    lines = self.search(line['__domain'])
+                    sale_value = 0.0
+                    for line2 in lines:
+                        sale_value += line2.sale_value
+                    line['sale_value'] = sale_value
+        return res

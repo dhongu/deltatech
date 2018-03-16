@@ -27,7 +27,7 @@
 
      Afisare coloana de pret de stoc la inventariere
      Grupare pozitii dupa categorie
-     
+     Afisare valoare de vanzare
  
     """,
     "category" : "Generic Modules/Other",
