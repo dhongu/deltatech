@@ -197,6 +197,7 @@ class required_order_line(models.Model):
 
     required_id = fields.Many2one('required.order', string='Required Products Order', ondelete='cascade', index=True)
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
+    product_uom = fields.Many2one('product.uom', string='UM', related='product_id.uom_id')
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
     procurement_id = fields.Many2one('procurement.order', string='Procurement Order')
     supplier_id = fields.Many2one('res.partner', string='Supplier', domain=[('supplier', '=', True)])

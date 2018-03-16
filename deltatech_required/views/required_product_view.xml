@@ -83,6 +83,7 @@
                             <tree string="Lines" editable="bottom">
                                 <field name="product_id"/>
                                 <field name="product_qty"/>
+                                <field name="product_uom" string="UM" readonly="1"/>
                                 <field name="qty_available"/>
                                 <field name="virtual_available"/>
                                 <field name="supplier_id"/>
