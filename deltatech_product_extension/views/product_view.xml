@@ -38,6 +38,8 @@
             </field>
         </record>
 
+        <!-- todo: de cautat produs dupa fabricant -->
+
     </data>
 </openerp>
 
