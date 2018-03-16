@@ -12,6 +12,7 @@
  					<field name="name"/>
  					<field name="categ_id"/>
  					<field name="product_id"/>
+					<field name="list_price" widget="monetary" options="{'currency_field': 'list_price_currency_id'}" />
 				</tree>
 			</field>
 		</record>

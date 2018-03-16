@@ -28,7 +28,7 @@ import openerp.addons.decimal_precision as dp
 import math
 from dateutil.relativedelta import relativedelta
 from datetime import date, datetime
-
+from openerp.osv import expression
 
 def ean_checksum(eancode):
     """returns the checksum of an ean string of length 13, returns -1 if the string has the wrong length"""
@@ -297,15 +297,36 @@ class service_equipment(models.Model):
         if self.serial_id:
             self.display_name = self.display_name + ' / ' + self.serial_id.name
 
+    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
+        if not args:
+            args = []
+        if operator in expression.NEGATIVE_TERM_OPERATORS:
+            domain = [('code', operator, name), ('name', operator, name)]
+        else:
+            domain = ['|', ('code', operator, name), ('name', operator, name)]
+        ids = self.search(cr, user, expression.AND([domain, args]), limit=limit, context=context)
+        return self.name_get(cr, user, ids, context=context)
+
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
+        if not args:
+            args = []
+        equipment_ids = self.env['service.equipment']
+
         if name and len(name) > 2:
-            equipment_ids = self.search([('serial_id.name', operator, name)], limit=10)
-            if equipment_ids:
-                equips = equipment_ids.name_get()
-                return equips
-        res = super(service_equipment, self).name_search(name, args, operator=operator, limit=limit)
-        return res
+            equipment_ids = self.search([('serial_id.name', '=', name)], limit=10)
+
+        if not equipment_ids:
+            if operator in expression.NEGATIVE_TERM_OPERATORS:
+                domain = [('ean_code', operator, name), ('name', operator, name), ('address_id.name', operator, name)]
+            else:
+                domain = ['|', '|', ('ean_code', operator, name), ('name', operator, name),
+                          ('address_id.name', operator, name)]
+
+            equipment_ids = self.search(expression.AND([domain, args]), limit=limit)
+        return equipment_ids.name_get()
+
+
 
 
     @api.multi
