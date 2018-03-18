@@ -22,4 +22,4 @@
 
 
 
-import gmaps
+from . import gmaps

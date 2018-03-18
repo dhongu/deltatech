@@ -24,6 +24,16 @@
     'name': 'Widget Google Maps',
     'sequence': 10,
     'description': """
+
+It offers the functionality of editing locations and routes on the goolge map
+1. Location - Allows you to display and edit a marker on the google map
+    <widget type="gmap_marker" lat="field_lat" lng="field_lng" description="field_descriptions"/>
+2. Locations - Allows you to display a list of locations on the google map
+     <widget type="gmap_markers" lat="field_lat" lng="field_lng" description="field_descriptions"/>
+3. Route - Allows you to display routes on the google map
+    <widget type="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" 
+                              to_lat="field_to_lat" to_lng="field_to_lng" />
+
     
 Ofera functionalitatea de  editare de locatii si trasee pe harta de la goolge
 
@@ -31,7 +41,7 @@ Ofera functionalitatea de  editare de locatii si trasee pe harta de la goolge
     <widget type="gmap_marker" lat="field_lat" lng="field_lng" description="field_descriptions"/>
 2. Locatii - permite afisarea unei liste de locatii pe harta de la google
      <widget type="gmap_markers" lat="field_lat" lng="field_lng" description="field_descriptions"/>
-3. Route - permite afisarea rute pe harta google
+3. Rute - permite afisarea rute pe harta google
     <widget type="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" 
                               to_lat="field_to_lat" to_lng="field_to_lng" />
 
