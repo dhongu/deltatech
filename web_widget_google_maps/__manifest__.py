@@ -25,34 +25,27 @@
     'sequence': 10,
     'description': """
 
-It offers the functionality of editing locations and routes on the goolge map
-1. Location - Allows you to display and edit a marker on the google map
-    <widget type="gmap_marker" lat="field_lat" lng="field_lng" description="field_descriptions"/>
-2. Locations - Allows you to display a list of locations on the google map
-     <widget type="gmap_markers" lat="field_lat" lng="field_lng" description="field_descriptions"/>
-3. Route - Allows you to display routes on the google map
-    <widget type="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" 
-                              to_lat="field_to_lat" to_lng="field_to_lng" />
+Widget Goolge Map
+=================
+
+ It offers the functionality of editing locations and routes on the goolge map
+ 1. Location - Allows you to display and edit a marker on the google map
+     <widget name="gmap_marker" lat="field_lat" lng="field_lng" description="field_descriptions"/>
+ 2. Locations - Allows you to display a list of locations on the google map
+     <widget name="gmap_markers" lat="field_lat" lng="field_lng" description="field_descriptions"/>
+ 3. Route - Allows you to display routes on the google map
+    <widget name="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" 
+                              to_lat="field_to_lat" to_lng="field_to_lng"/>
 
     
-Ofera functionalitatea de  editare de locatii si trasee pe harta de la goolge
-
-1. Locatie - permite afisarea si editarea unui marker pe harta google
-    <widget type="gmap_marker" lat="field_lat" lng="field_lng" description="field_descriptions"/>
-2. Locatii - permite afisarea unei liste de locatii pe harta de la google
-     <widget type="gmap_markers" lat="field_lat" lng="field_lng" description="field_descriptions"/>
-3. Rute - permite afisarea rute pe harta google
-    <widget type="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" 
-                              to_lat="field_to_lat" to_lng="field_to_lng" />
-
     
     """,
-    'version': '1.2',
-    "author" : "Terrabit, Dorin Hongu",
+    'version': '2.1',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     'category': 'Odoo  widgets',
     'depends': ['web'],
-    'data': ['views/web_gmaps_assets.xml'  ],
+    'data': ['views/web_gmaps_assets.xml'],
 
     'qweb': [
         'static/src/xml/resource.xml'
@@ -62,5 +55,3 @@ Ofera functionalitatea de  editare de locatii si trasee pe harta de la goolge
     'bootstrap': True,
     'auto_install': False,
 }
-
-

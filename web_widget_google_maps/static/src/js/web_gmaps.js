@@ -12,6 +12,8 @@ var view_registry = require('web.view_registry');
 var registry = require('web.field_registry');
 var widgetRegistry = require('web.widget_registry');
 
+//var form_common = require('web.form_common');
+//var FormWidget = form_common.FormWidget;
 
 var map ;
 
@@ -20,32 +22,26 @@ var map ;
 var gmap_marker = Widget.extend({
         template: "gmap_marker",
 
-        init: function (view, dataPoint) {
-            this._super(view, dataPoint);
-            this.field_lat = dataPoint.fieldsInfo.form.lat.name  // code.attrs.lat;
-            this.field_lng = dataPoint.fieldsInfo.form.lng.name   //  code.attrs.lng;
+        init: function (view, record, node) {
+            this._super(view, record, node);
+            this.field_lat =    node.attrs.lat;
+            this.field_lng =   node.attrs.lng;
             this.shown = $.Deferred();
-            this.data = dataPoint.data;
+            this.data = record.data;
+            this.mode = view.mode || "readonly";
+            this.record = record;
+            this.view = view;
         },
           
         start: function() {
-
+            var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
                 $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');        	 
             }
             else {
                 setTimeout(function () { self.on_ready(); }, 1000);
-
-                //window.ginit = this.on_ready;
-                //$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
             }
-           var self = this;
-           self.on("change:effective_readonly", self, function() {
-               self.marker.setDraggable(self.get("effective_readonly") ? false : true);
-           });
-
-           //this.shown.done(this.proxy('on_ready'));
            return this._super();
 
         },
@@ -71,7 +67,7 @@ var gmap_marker = Widget.extend({
             this.marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
-                draggable:false,
+                draggable: this.mode=='edit'? true : false,
             });    
              
             var my_self= this;  
@@ -82,10 +78,8 @@ var gmap_marker = Widget.extend({
                   my_self.update_latlng(lat,lng);
                });
                
-            
-            //this.field_manager.on("field_changed:"+this.field_lat, this, this.display_result);
-            //this.field_manager.on("field_changed:"+this.field_lng, this, this.display_result);
-
+            this.view.on("field_changed:"+this.field_lat, this, this.display_result);
+            this.view.on("field_changed:"+this.field_lng, this, this.display_result);
 
 
             //bounds.extend(myLatlng);
@@ -96,10 +90,23 @@ var gmap_marker = Widget.extend({
         },
 
         update_latlng: function(lat, lng ){
-            var values = {};
-            values[this.field_lat] = lat;
-            values[this.field_lng] = lng; 
-            //this.field_manager.set_values(values).done(function() { });
+
+            this.data[this.field_lat] = lat;
+            this.data[this.field_lng] = lng;
+
+
+            var def = $.Deferred();
+            var changes = {};
+            changes[this.field_lat] = lat;
+            changes[this.field_lng] = lng;
+
+            this.trigger_up('field_changed', {
+                dataPointID: this.record.id,
+                changes: changes,
+                onSuccess: def.resolve.bind(def),
+                onFailure: def.reject.bind(def),
+            });
+
         },
 
         display_result: function() {
@@ -122,29 +129,21 @@ widgetRegistry.add('gmap_marker', gmap_marker);
 var gmap_route =  Widget.extend({
         template: "gmap_route",
 
-        init: function (view, dataPoint) {
-            this._super(view, dataPoint);
-/*            this.field_from_lat = code.attrs.from_lat;
-            this.field_from_lng = code.attrs.from_lng;
-            this.field_to_lat = code.attrs.to_lat;
-            this.field_to_lng = code.attrs.to_lng; 
+        init: function (view, record, node) {
+            this._super(view, record);
+            this.field_from_lat = node.attrs.from_lat;
+            this.field_from_lng = node.attrs.from_lng;
+            this.field_to_lat = node.attrs.to_lat;
+            this.field_to_lng = node.attrs.to_lng;
             
-            this.field_distance = code.attrs.distance; 
-            this.field_duration = code.attrs.duration; */
-
-
-            this.field_from_lat = dataPoint.fieldsInfo.form.from_lat.name;
-            this.field_from_lng = dataPoint.fieldsInfo.form.from_lng.name;
-            this.field_to_lat = dataPoint.fieldsInfo.form.to_lat.name;
-            this.field_to_lng = dataPoint.fieldsInfo.form.to_lng.name;
-
-            this.field_distance = dataPoint.fieldsInfo.form.distance.name;
-            this.field_duration = dataPoint.fieldsInfo.form.duration.name;
-
+            this.field_distance = node.attrs.distance;
+            this.field_duration = node.attrs.duration;
 
             this.shown = $.Deferred();
-            this.data = dataPoint.data;
-
+            this.data = record.data;
+            this.mode = view.mode || "readonly";
+            this.record = record;
+            this.view = view;
         },       
         
         start: function () {
@@ -190,15 +189,15 @@ var gmap_route =  Widget.extend({
             //this.field_manager.on("field_changed:"+this.field_to_lat, this, this.display_result);
             //this.field_manager.on("field_changed:"+this.field_to_lng, this, this.display_result);
     
-           self.on("change:effective_readonly", self, function() {
-               var rendererOptions = {
-                  draggable: self.get("effective_readonly") ? false : true
-               };              
-               self.directionsDisplay.setOptions(rendererOptions);
-           }); 
+
+           var rendererOptions = {
+               draggable: this.mode=='edit'? true : false,
+           };
+           self.directionsDisplay.setOptions(rendererOptions);
+
            
            google.maps.event.addListener(self.directionsDisplay, 'directions_changed', function() {
-                if (!self.get("effective_readonly")){
+                if (self.mode=='edit'){
                       self.computeTotal(self.directionsDisplay.getDirections());
                   }
                 
@@ -232,7 +231,7 @@ var gmap_route =  Widget.extend({
             self.directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                   self.directionsDisplay.setDirections(response);
-                  if (!self.get("effective_readonly")){
+                  if (self.mode=='edit'){
                       self.computeTotal(response);
                   }
                 }
@@ -242,33 +241,55 @@ var gmap_route =  Widget.extend({
         
         
       computeTotal: function(result) {
-          var self = this;
-          var distance = 0;
-          var duration = 0;
-          var myroute = result.routes[0];
-          for (var i = 0; i < myroute.legs.length; i++) {
+            var self = this;
+            var distance = 0;
+            var duration = 0;
+            var myroute = result.routes[0];
+            for (var i = 0; i < myroute.legs.length; i++) {
             distance += myroute.legs[i].distance.value;
             duration += myroute.legs[i].duration.value;
 
-          }
-          distance = distance / 1000.0;
-          duration = duration / 60 / 60;
-          var values = {};
- 
-          values[this.field_distance] = distance;
-          values[this.field_duration] = duration; 
- 
-          values[this.field_from_lat] = result.Lb.origin.lat();
-          values[this.field_from_lng] = result.Lb.origin.lng(); 
-          
-          values[this.field_to_lat] = result.Lb.destination.lat();
-          values[this.field_to_lng] = result.Lb.destination.lng();
-          
-          this.updating = true;
-          this.field_manager.set_values(values).done(function() { 
-              self.updating = false;
-              });   
-          
+            }
+            distance = distance / 1000.0;
+            duration = duration / 60 / 60;
+            this.updating = true;
+
+            var changes = {};
+
+            if (result.request.origin.location != undefined) {
+                changes[this.field_from_lat] = result.request.origin.location.lat();
+                changes[this.field_from_lng] = result.request.origin.location.lng();
+            }
+            else {
+                changes[this.field_from_lat] = result.request.origin.lat();
+                changes[this.field_from_lng] = result.request.origin.lng();
+            }
+
+            if (result.request.destination.location != undefined) {
+                changes[this.field_to_lat] = result.request.destination.location.lat();
+                changes[this.field_to_lng] = result.request.destination.location.lng();
+            }
+            else {
+                changes[this.field_to_lat] = result.request.destination.lat();
+                changes[this.field_to_lng] = result.request.destination.lng();
+            }
+
+            var def = $.Deferred();
+
+            if (this.field_distance != undefined) {
+                changes[this.field_distance] = distance;
+            }
+            if (this.field_duration) {
+                changes[this.field_duration] = duration;
+            }
+            this.trigger_up('field_changed', {
+                dataPointID: this.record.id,
+                changes: changes,
+                onSuccess: def.resolve.bind(def),
+                onFailure: def.reject.bind(def),
+            });
+
+
         },
 
 
@@ -291,8 +312,6 @@ var gmaps = BasicView.extend({
          this.model = this.dataset.model;
          this.view_id = view_id;
          this.view_type = 'gmaps';
-
-
      },
      
 
@@ -307,7 +326,6 @@ var gmaps = BasicView.extend({
          //});
          this.$el.html(QWeb.render("gmaps", {"fields_view": this.fields_view, 'elem_id': this.elem_id}));
 
-         
          if (typeof google== 'undefined') {
              window.ginit = this.on_ready;
              $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
@@ -319,8 +337,6 @@ var gmaps = BasicView.extend({
 
      
      on_ready: function() {
- 
-
     	 var myLatlng = new google.maps.LatLng(45, 25);
          var mapOptions = {
              zoom: 8,
@@ -328,13 +344,10 @@ var gmaps = BasicView.extend({
          };
          
          var div_gmap = this.$el[0];
-         
          map = new google.maps.Map(div_gmap, mapOptions); 
          
          this.directionsService = new google.maps.DirectionsService();
 
-         
-         
          var self = this;
          self.dataset.read_slice(_.keys(self.fields_view.fields)).then(function(data){
              _(data).each(self.do_load_record); 
@@ -368,7 +381,6 @@ var gmaps = BasicView.extend({
              var from_lng =  record[item.attrs.from_lng]
              var to_lat =  record[item.attrs.to_lat]
              var to_lng =   record[item.attrs.to_lng]
-             
 
              var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
              var to_Latlng = new google.maps.LatLng(to_lat, to_lng);         
@@ -382,7 +394,6 @@ var gmaps = BasicView.extend({
              self.directionsService.route(request, function(response, status) {
                  if (status == google.maps.DirectionsStatus.OK) {
                    directionsDisplay.setDirections(response);
-
                  }
              }); 
     	 }    	 
