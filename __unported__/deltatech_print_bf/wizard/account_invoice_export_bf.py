@@ -21,7 +21,7 @@
 
 import base64
 import contextlib
-import cStringIO
+from io import BytesIO
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -60,7 +60,7 @@ class account_invoice_export_bf(models.TransientModel):
 
         # generare fisier pentru casa de marcat OPTIMA CR1020
         currency = invoice_id.currency_id or None
-        with contextlib.closing(cStringIO.StringIO()) as buf:
+        with contextlib.closing(BytesIO()) as buf:
             
             # printing reference
             buf.write('2;%s\r\n' % _('Ref:'+invoice_id.number))

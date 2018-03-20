@@ -5,7 +5,7 @@
 
 import base64
 import zipfile
-import StringIO
+from io import BytesIO
 import ConfigParser
 
 from odoo import models, fields, api, _
@@ -38,7 +38,7 @@ class export_mentor(models.TransientModel):
     @api.multi
     def do_export(self):
 
-        buff = StringIO.StringIO()
+        buff = BytesIO()
 
         files = []
 

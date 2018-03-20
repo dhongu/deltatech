@@ -4,13 +4,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
 import sys
-PY2 = sys.version_info[0] == 2
-
-if PY2:
-    import StringIO
-else:
-    import io as StringIO
-    unicode = str
+from io import BytesIO
 import base64
 
 from PIL import Image
@@ -52,7 +46,7 @@ class MrpWorkorder(models.Model):
                 barcode_image = self.env['report'].barcode('Code128', workorder.code, width=600, height=200,
                                                            humanreadable=0)
 
-                image_stream = StringIO.StringIO(barcode_image)
+                image_stream = BytesIO(barcode_image)
                 img = Image.open(image_stream)
 
                 img = img.convert('RGBA')
@@ -64,7 +58,7 @@ class MrpWorkorder(models.Model):
                             pixdata[x, y] = (255, 255, 255, 0)
 
                 img = img.rotate(90, expand=True)
-                image_stream = StringIO.StringIO()
+                image_stream = BytesIO()
                 img.save(image_stream, 'PNG')
                 barcode_image = image_stream.getvalue().encode('base64')
                 workorder.barcode_image = barcode_image

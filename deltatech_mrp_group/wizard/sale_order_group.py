@@ -54,8 +54,8 @@ class SaleOrderGroup(models.TransientModel):
             move_ids = self.env['stock.move'].search([('group_id', 'in', group_ids.ids)])
             move_ids.write({'group_id': self.group_id.id})
 
-            procurement_orders = self.env["procurement.order"].search([('group_id', 'in', group_ids.ids)])
-            procurement_orders.write({'group_id': self.group_id.id})
+            # procurement_orders = self.env["procurement.order"].search([('group_id', 'in', group_ids.ids)])
+            # procurement_orders.write({'group_id': self.group_id.id})
 
             pickings = self.env['stock.picking'].search([('group_id', 'in', group_ids.ids)])
             pickings.write({'group_id': self.group_id.id})

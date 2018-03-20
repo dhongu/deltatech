@@ -25,10 +25,10 @@ from odoo.exceptions import   Warning, RedirectWarning
 
 import base64  #file encode
 
-try:
-    import cStringIO as StringIO
-except ImportError:
-    import StringIO
+
+
+from io import BytesIO
+
 from PIL import Image
 from PIL import ImageEnhance
 
@@ -82,17 +82,17 @@ class product_template(models.Model):
                 image_base64 = product.with_context(bin_size=False).read( ['image'] )[0]
                  
                 img = image_base64.get('image')
-                image_stream = StringIO.StringIO(img.decode('base64'))
+                image_stream = BytesIO(img.decode('base64'))
                 image = Image.open(image_stream)
                 
                 image_base64 = self.env.user.company_id.with_context(bin_size=False).read( ['watermark_image'] )[0]
                  
                 img = image_base64.get('watermark_image')
-                mark_stream = StringIO.StringIO(img.decode('base64'))
+                mark_stream = BytesIO(img.decode('base64'))
                 mark_image = Image.open(mark_stream)
                 watermark_image =  watermark(image, mark_image,  0.2)
                 
-                background_stream = StringIO.StringIO()
+                background_stream = BytesIO()
                 watermark_image.save(background_stream, 'PNG')
                 product.watermark_image = background_stream.getvalue().encode('base64')               
             else:

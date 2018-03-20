@@ -4,7 +4,7 @@ import logging
 import threading
 import base64
 import zipfile
-import StringIO
+from io import BytesIO
 import ConfigParser
 import unicodedata
 
@@ -63,7 +63,7 @@ class import_mentor(models.TransientModel):
             self = self.with_env(self.env(cr=new_cr))  # TDE FIXME
 
             mentor_file = base64.decodestring(self.data_file)
-            buff = StringIO.StringIO(mentor_file)
+            buff = BytesIO(mentor_file)
             self.zip_archive = zipfile.ZipFile(buff, mode='r')
             self.file_list = self.zip_archive.namelist()
             if self.sel_articole and 'Articole.txt' in self.file_list:

@@ -11,6 +11,7 @@ else:
     import io as StringIO
     unicode = str
 
+from io import BytesIO
 
 import base64
 import unicodedata

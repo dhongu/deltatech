@@ -13,6 +13,8 @@ except ImportError:
     # Fall back to Python 2's
     import StringIO
 
+from io import BytesIO
+
 from .mydbf import base, fields as dbf_fields
 
 import os

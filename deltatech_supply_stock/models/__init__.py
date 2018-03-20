@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,32 +20,15 @@
 #
 ##############################################################################
 
-{
-    "name": "MRP Group Production Order",
-    "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-----------------
+# from . import procurement # in 11.0 nu mai exista obiectul;
+from . import sale_order
+#import mrp_production      #
+from  . import product
 
-    """,
 
-    "category": "Manufacturing",
-    "depends": ["mrp","sale","procurement"],
 
-    "data": [
-        "views/mrp_production_view.xml",
-        "views/sale_view.xml",
-        "views/procurement_views.xml",
-        "wizard/mrp_order_group_view.xml",
-        "wizard/sale_order_group_view.xml",
-        "data/data.xml"
-    ],
-    "active": False,
-    "installable": True,
-}
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
