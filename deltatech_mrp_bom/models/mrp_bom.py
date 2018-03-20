@@ -1,4 +1,6 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# ©  2015-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 
 from odoo import models, fields, api, _
@@ -15,7 +17,7 @@ class MrpBomLine(models.Model):
 
     @api.onchange('product_id')
     def onchange_product_id(self):
-        super(MrpBomLine, self).onchange_product_id
+        super(MrpBomLine, self).onchange_product_id()
         if self.product_id:
             self.name = self.product_id.name
 

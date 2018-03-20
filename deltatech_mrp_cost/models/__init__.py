@@ -4,5 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 
-import models
-
+from . import mrp_production
+from . import stock_picking
+from . import stock_move
+from . import mrp_routing

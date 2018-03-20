@@ -1,10 +1,10 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# ©  2015-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models, _
 
-from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError, ValidationError
-from odoo.tools.float_utils import float_round, float_compare
+
 
 
 class PackOperation(models.Model):
