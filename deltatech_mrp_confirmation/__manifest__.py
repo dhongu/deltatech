@@ -22,7 +22,7 @@
 
 {
     "name": "MRP Confirmation",
-    "version": "1.0",
+    'version': '11.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """

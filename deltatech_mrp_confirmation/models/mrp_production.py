@@ -22,7 +22,7 @@ class MrpProduction(models.Model):
     def generate_finished_lot_ids(self):
         """ Generate stock move lots """
         self.ensure_one()
-        MoveLot = self.env['stock.move.lots']
+        MoveLot = self.env['stock.move.line']
         tracked_moves = self.move_finished_ids.filtered(
             lambda move: move.state not in ('done', 'cancel') and move.product_id.tracking != 'none')
         for move in tracked_moves:

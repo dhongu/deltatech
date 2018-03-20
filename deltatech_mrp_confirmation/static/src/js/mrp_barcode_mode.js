@@ -2,23 +2,23 @@ odoo.define('deltatech_mrp_confirmation.mrp_barcode_mode', function (require) {
 "use strict";
 
 var core = require('web.core');
-var Model = require('web.Model');
+//var Model = require('web.Model');
 var Widget = require('web.Widget');
-var session = require('web.session');
-var BarcodeHandlerMixin = require('barcodes.BarcodeHandlerMixin');
+var Session = require('web.session');
+//var BarcodeHandlerMixin = require('barcodes.BarcodeHandlerMixin');
 
 var QWeb = core.qweb;
 var _t = core._t;
 
 
-var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
+var MrpBarcodeMode = Widget.extend({
 
     events: {
         "click .o_mrp_confirmation_barcode_button_search": function() {
-        var modal = $('#barcodeModal');
-        this.barcode = modal.find('.modal-body input').val();
-        modal.modal('hide');
-        return this.on_barcode_scanned(this.barcode);
+            var modal = $('#barcodeModal');
+            this.barcode = modal.find('.modal-body input').val();
+            modal.modal('hide');
+            return this.on_barcode_scanned(this.barcode);
         },
 
         "click .o_mrp_confirmation_barcode_button_save":function() {
@@ -40,55 +40,56 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
 
     },
 
-    init: function (parent, action) {
-        // Note: BarcodeHandlerMixin.init calls this._super.init, so there's no need to do it here.
-        // Yet, "_super" must be present in a function for the class mechanism to replace it with the actual parent method.
-        this._super;
-        var self = this;
-        this.barcode = '';
-        this.conf_wizard = new Model('mrp.production.conf');
-        this.conf_wizard.call("create",[{}]).then(function(id) {
-            self.conf_wizard_id = id;
-        });
-
-        BarcodeHandlerMixin.init.apply(this, arguments);
-    },
 
     start: function () {
         var self = this;
-        self.session = session;
-        var res_company = new Model('res.company');
-        res_company.query(['name'])
-           .filter([['id', '=', self.session.company_id]])
-           .all()
-           .then(function (companies){
-                self.company_name = companies[0].name;
-                self.company_image_url = self.session.url('/web/image', {model: 'res.company', id: self.session.company_id, field: 'logo',})
-                self.$el.html(QWeb.render("MrpConfirmationBarcodeMode", {widget: self}));
-
+        this.barcode = '';
+        var def = this._rpc({
+                model: 'mrp.production.conf',
+                method: 'create',
+                args: [{}],
+            })
+            .then(function (id){
+                self.conf_wizard_id = id;
             });
-        return self._super.apply(this, arguments);
+
+
+        core.bus.on('barcode_scanned', this, this._onBarcodeScanned);
+        self.session = Session;
+        var def = this._rpc({
+                model: 'res.company',
+                method: 'search_read',
+                args: [[['id', '=', this.session.company_id]], ['name']],
+            })
+            .then(function (companies){
+                self.company_name = companies[0].name;
+                self.company_image_url = self.session.url('/web/image', {model: 'res.company', id: self.session.company_id, field: 'logo',});
+                self.$el.html(QWeb.render("MrpConfirmationBarcodeMode", {widget: self}));
+            });
+        return $.when(def, this._super.apply(this, arguments));
     },
+
+
+
 
     display_data: function(){
         var self = this;
-        self.session = session;
-        //var conf_wizard = new Model('mrp.production.conf');
-
-        self.conf_wizard.query()  //['production_id','worker_id','operation_id','code']
-            .filter([['id', '=', self.conf_wizard_id]])
-           .all()
-           .then(function (conf){
+        self.session = Session;
+        this._rpc({
+                model: 'mrp.production.conf',
+                method: 'search_read',
+                args: [ [['id', '=', self.conf_wizard_id]]  ],
+            })
+            .then(function (conf){
                 self.conf = conf[0];
                 if (self.conf.procurement_group_id) {
                     self.display_info(self.conf)
                 }
                 self.$(".o_mrp_confirmation_barcode_item").html(QWeb.render("MrpConfirmationBarcodeItem", {conf: conf[0]}));
-           });
-
+            });
 
         var time_out = 25000;
-        if (session.debug) {
+        if (Session.debug) {
             time_out = 500000;
         }
 
@@ -98,22 +99,25 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
 
     display_info: function(conf){
         var self = this;
-        var workorder = new Model('mrp.workorder');
+
 
         var filter = [['procurement_group_id', '=', conf.procurement_group_id[0]]]
         if (self.conf.code) {
             filter = [['code', '=', self.conf.code],
                       ['procurement_group_id', '=', conf.procurement_group_id[0]]]
         }
-        workorder.query(['product_id','qty_produced','qty_production'])
-
-               .filter(filter)
-               .all()
-               .then(function (workorder_data){
+        this._rpc({
+                model: 'mrp.workorder',
+                method: 'search_read',
+                args: [  filter , ['product_id','qty_produced','qty_production']],
+            }).then(function (workorder_data){
                self.$(".o_mrp_confirmation_barcode_mode_info").html(QWeb.render("MrpConfirmationBarcodeModeInfo", {workorder: workorder_data}));
         });
     },
 
+    _onBarcodeScanned: function(barcode) {
+            this.on_barcode_scanned(barcode)
+      },
 
     on_barcode_scanned: function(barcode, display ) {
         if (display === undefined) {
@@ -123,7 +127,12 @@ var MrpBarcodeMode = Widget.extend(BarcodeHandlerMixin, {
         if (this.return_to_main_menu) {  // in case of multiple scans in the greeting message view, delete the timer, a new one will be created.
             clearTimeout(this.return_to_main_menu);
         }
-        self.conf_wizard.call("search_scanned",  [self.conf_wizard_id, barcode] )
+
+        this._rpc({
+                model: 'mrp.production.conf',
+                method: 'search_scanned',
+                args: [  self.conf_wizard_id, barcode  ],
+            })
             .then(function(result) {
                 if (result.action) {
                     self.do_action(result.action);

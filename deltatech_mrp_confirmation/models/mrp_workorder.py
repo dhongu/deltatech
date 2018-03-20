@@ -3,11 +3,14 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-try:
-    import cStringIO as StringIO
-except ImportError:
-    import StringIO
+import sys
+PY2 = sys.version_info[0] == 2
 
+if PY2:
+    import StringIO
+else:
+    import io as StringIO
+    unicode = str
 import base64
 
 from PIL import Image

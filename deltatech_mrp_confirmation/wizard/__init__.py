@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import models
-import wizard
+
+from . import start_production
+from . import confirmation
 
 
-
-
-
-
-
+from . import mrp_mark_done
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

@@ -214,7 +214,7 @@ class mrp_production_conf(models.TransientModel):
                         self.info_message = _('Lot %s was scanned.') % production.name
                     if lot:
                         domain = [('lot_produced_id', '=', lot.id)]
-                        move_lot = self.env['stock.move.lots'].search(domain)
+                        move_lot = self.env['stock.move.line'].search(domain)
                         if move_lot:
                             production = move_lot.production_id
 
