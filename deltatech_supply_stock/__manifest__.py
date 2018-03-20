@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,11 +22,11 @@
 
 {
     "name": "Supply Stock",
-    'version': '11.0.1.0.0',
+    'version': '10.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
-    
+
 Functionalitati:
 
     - generare comenzi de aprovizionare pentru produsele la care Estimatul este negativ.
@@ -34,12 +34,12 @@ Functionalitati:
     """,
 
     "category": "Warehouse",
-    "depends": ['procurement', 'sale_stock', 'mrp', 'deltatech_warehouse'],
+    "depends": ['sale_stock', 'mrp', 'deltatech_warehouse'],
 
     "data": [
-        'wizard/procurement_compute_products_view.xml',
-        'wizard/mrp_check_availability_view.xml',
-        'views/template_product_view.xml'
+        'wizard/procurement_compute_wizard_view.xml',
+        # 'wizard/mrp_check_availability_view.xml',
+        # 'views/template_product_view.xml',
     ],
 
     "active": False,

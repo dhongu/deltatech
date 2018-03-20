@@ -4,7 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models, fields
+from odoo import models, fields
 
 
 
@@ -13,3 +13,4 @@ class res_company(models.Model):
 
 
     warehouse_id = fields.Many2one('stock.warehouse', string="Default Warehouse")
+    supplier_id = fields.Many2one('product.supplierinfo', string='Default Supplier')

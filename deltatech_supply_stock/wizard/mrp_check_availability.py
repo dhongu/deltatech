@@ -24,10 +24,11 @@ class MrpCheckAvailability(models.TransientModel):
     @api.multi
     def _do_check_availability(self):
         active_ids = self.env.context.get('active_ids', False)
-
+        print active_ids
         with api.Environment.manage():
             new_cr = registry(self._cr.dbname).cursor()
-            productions = self.with_env(self.env(cr=new_cr)).env['mrp.production'].browse(active_ids)
+            self = self.with_env(self.env(cr=new_cr))
+            productions = self.env['mrp.production'].browse(active_ids)
             productions.action_assign()
             new_cr.commit()
             new_cr.close()

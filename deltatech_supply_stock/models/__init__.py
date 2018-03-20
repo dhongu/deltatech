@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2017 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,11 +20,13 @@
 #
 ##############################################################################
 
-# from . import procurement # in 11.0 nu mai exista obiectul;
+# from . import procurement
 from . import sale_order
-#import mrp_production      #
-from  . import product
-
+from . import product
+from . import existing_procurement
+from . import purchase
+from . import mrp_production
+# from . import mrp_production
 
 
 

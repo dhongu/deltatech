@@ -6,6 +6,7 @@ from odoo.tools import float_is_zero
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
 
+
 class ProcurementOrder(models.Model):
     _inherit = "procurement.order"
 

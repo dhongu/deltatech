@@ -5,11 +5,11 @@
 
 {
     "name": "MRP Warehouse",
-    'version': '11.0.1.0.0',
+    "version": "1.0",
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
-    
+
 Functionalitati:
 
 
@@ -17,12 +17,13 @@ Functionalitati:
 
     "category": "Warehouse",
     "depends": [
-         "stock",
+         "stock","product"
     ],
 
     "data": [
         'views/company_view.xml',
         'views/stock_warehouse_view.xml',
+        'data/data.xml'
     ],
     "active": False,
     "installable": True,
