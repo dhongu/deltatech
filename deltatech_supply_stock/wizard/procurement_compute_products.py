@@ -32,7 +32,7 @@ class ProcurementComputeProducts(models.TransientModel):
         active_ids = self.env.context.get('active_ids', False)
 
         warehouse = self.env.user.company_id.warehouse_id
-        #warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.user.company_id.id)], limit=1)
+
 
 
         qty = {}
@@ -48,7 +48,7 @@ class ProcurementComputeProducts(models.TransientModel):
         for product in products:
             qty[product.id] = -1.0 * product.virtual_available
 
-        # nu trbuie combinate comenzi din companii diferite
+        # nu trebuie combinate comenzi din companii diferite
         if active_model == 'mrp.production':
             productions = self.env['mrp.production'].browse(active_ids)
             for production in productions:

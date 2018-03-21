@@ -52,7 +52,7 @@ class MrpOrderGroup(models.TransientModel):
                                                   ('raw_material_production_id', 'in', self.production_ids.ids)])
         move_ids.write({'group_id': self.group_id.id})
         for move in move_ids:
-            move.procurement_id.write({'group_id': self.group_id.id})
+            #move.procurement_id.write({'group_id': self.group_id.id})
             move.picking_id.write({'group_id': self.group_id.id})
 
         '''

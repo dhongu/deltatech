@@ -25,6 +25,13 @@ class SuppliferInfo(models.Model):
                 res = self.env.user.company_id.supplier_id
         return res
 
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+
+    scrap = fields.Float(string="Scrap", help="A factor of 0.1 means a loss of 10% during the consumption.")
+
+
 class ProductProduct(models.Model):
     _inherit = "product.product"
 

@@ -27,4 +27,4 @@ class StockSchedulerExistingProcurement(models.Model):
         else:
             self.quantity = self.quantity - qty_to_decrease
 
-    
+

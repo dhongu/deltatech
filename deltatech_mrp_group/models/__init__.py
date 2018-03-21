@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 
-import procurement
-import mrp_workorder
+from . import procurement
+from . import mrp_workorder
