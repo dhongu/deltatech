@@ -112,9 +112,9 @@ class StockSchedulerWizard(models.TransientModel):
             if item.qty > 0:
 
                 values = {
-                'date_planned': datetime.today().strftime(DEFAULT_SERVER_DATETIME_FORMAT),
-                'warehouse_id': self.warehouse_id,
-                'group_id': self.group_id
+                    'date_planned': datetime.today().strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+                    'warehouse_id': self.warehouse_id,
+                    'group_id': self.group_id
                 }
 
                 rule = ProcurementGroup._get_rule(item.product_id, self.warehouse_id.lot_stock_id, values)

@@ -8,6 +8,7 @@ from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import odoo.addons.decimal_precision as dp
 from odoo.osv import expression
+from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -19,10 +20,11 @@ class ProcurementComputeProducts(models.TransientModel):
     item_ids = fields.One2many('procurement.compute.products.item', 'compute_id')
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
     background = fields.Boolean('Run in background', default=True)
-    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse")
+    warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", )
 
-    make_prod = fields.Boolean(string = 'Make production order', default=True)
-    make_purch = fields.Boolean(string= "Make purchase order", default=False)
+    make_prod = fields.Boolean(string='Make production order', default=True)
+    make_purch = fields.Boolean(string="Make purchase order", default=False)
+
     # stock_min_max = fields.Boolean()
 
     @api.model
@@ -32,8 +34,6 @@ class ProcurementComputeProducts(models.TransientModel):
         active_ids = self.env.context.get('active_ids', False)
 
         warehouse = self.env.user.company_id.warehouse_id
-
-
 
         qty = {}
         products = self.env['product.product']
@@ -77,13 +77,24 @@ class ProcurementComputeProducts(models.TransientModel):
         location = warehouse.lot_stock_id
         if 'group_id' in defaults:
 
-            procurements = self.env["procurement.order"].search([('product_id', 'in', products.ids),
-                                                                 ('state', 'in', ['exception', 'running']),
-                                                                 ('group_id', '=', defaults['group_id']),
-                                                                 ('location_id', '=', location.id)])
-            procurements.run()
-            for procurement in procurements:
-                qty[procurement.product_id.id] = qty[procurement.product_id.id] - procurement.product_qty
+            polines = self.env['purchase.order.line'].search([
+                ('state', 'in', ('draft', 'sent', 'to approve')),
+                ('order_id.group_id', '=', defaults['group_id']),
+                ('product_id', 'in', products.ids)
+            ])
+            for poline in polines:
+                qty[poline.product_id.id] -= poline.product_uom._compute_quantity(poline.product_qty,
+                                                                                  poline.product_id.uom_id,
+                                                                                  round=False)
+            productions = self.env['mrp.production'].search([
+                ('state', 'in', ('confirmed', 'planned', 'progress')),
+                ('procurement_group_id', '=', defaults['group_id']),
+                ('product_id', 'in', products.ids)
+            ])
+            for production in productions:
+                qty[production.product_id.id] -= (production.product_qty - production.qty_produced)
+
+
 
         for product in products:
             product = product.with_context({'location': location.ids})
@@ -95,10 +106,12 @@ class ProcurementComputeProducts(models.TransientModel):
         defaults['warehouse_id'] = warehouse.id
         defaults['item_ids'] = []
         for product in products:
-            if qty[product.id] > 0:
+
+            if float_compare(qty[product.id], 0, precision_rounding = product.uom_id.rounding) > 0:
+
                 defaults['item_ids'].append((0, 0, {'product_id': product.id,
                                                     'qty': qty[product.id],
-                                                    'uom_id':product.uom_id.id}))
+                                                    'uom_id': product.uom_id.id}))
 
         return defaults
 
@@ -114,7 +127,7 @@ class ProcurementComputeProducts(models.TransientModel):
             new_cr = registry(self._cr.dbname).cursor()
             self = self.with_env(self.env(cr=new_cr))  # TDE FIXME
 
-            scheduler_cron = self.sudo().env.ref('procurement.ir_cron_scheduler_action')
+            scheduler_cron = self.sudo().env.ref('stock.ir_cron_scheduler_action')
             # Avoid to run the scheduler multiple times in the same time
             try:
                 with tools.mute_logger('odoo.sql_db'):
@@ -132,32 +145,31 @@ class ProcurementComputeProducts(models.TransientModel):
                 products = self.env['product.product']
                 for item in self.item_ids:
                     products |= item.product_id
-                Procurement = self.env['procurement.order']
-                for company in self.env.user.company_ids:
-                    Procurement.supply(products, use_new_cursor=self._cr.dbname, company_id=company.id)
-            # close the new cursor
-            """
-            self.env['procurement.order']._procure_orderpoint_confirm(
-                use_new_cursor=new_cr.dbname,
-                company_id=self.env.user.company_id.id)
-            """
+
+                ProcurementGroup = self.env['procurement.group']
+                ProcurementGroup.with_context(product_ids=products.ids).run_scheduler(self, use_new_cursor=self._cr.dbname, company_id=self.env.user.company_id)
+
             self._cr.close()
             return {}
 
     @api.multi
     def individual_procurement(self):
         self.ensure_one()
-
+        ProcurementGroup = self.env['procurement.group']
         productions = self.env['mrp.production']
         location = self.warehouse_id.lot_stock_id
-        rule_domain = [('location_id','=',location.id)]
+        rule_domain = [('location_id', '=', location.id)]
         OrderPoint = self.env['stock.warehouse.orderpoint']
         for item in self.item_ids:
             if item.qty > 0:
-                product_routes = item.product_id.route_ids | item.product_id.categ_id.total_route_ids
+                values = {
+                    'date_planned': fields.Date.today(),
+                    'warehouse_id': self.warehouse_id,
+                    'group_id': self.group_id
+                }
 
-                rule = self.env['procurement.rule'].search(expression.AND([[('route_id', 'in', product_routes.ids)], rule_domain]),
-                                  order='route_sequence, sequence', limit=1)
+                rule = ProcurementGroup._get_rule(item.product_id, self.warehouse_id.lot_stock_id, values)
+
                 if not rule:
                     continue
 
@@ -170,63 +182,48 @@ class ProcurementComputeProducts(models.TransientModel):
                 else:
                     continue
 
-                procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
-                                                                   limit=1, order='date_planned')
-                date_planned = procurement.date_planned or fields.Date.today()
-                origin = procurement.origin
+                # procurement = self.env["procurement.order"].search([('group_id', '=', self.group_id.id)],
+                #                                                    limit=1, order='date_planned')
+                # date_planned = procurement.date_planned or fields.Date.today()
+                origin = self.group_id.name or '/'
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
                 orderpoint = OrderPoint.search([('product_id', '=', item.product_id.id),
                                                 ('location_id', '=', location.id)])
                 if item.product_id.scrap:
                     msg = ('Necesar %s + scrap %s = %s.') % (item.qty, item.qty * item.product_id.scrap, qty)
                 else:
-                    msg =  ('Necesar %s ') % (qty)
-                name = 'SUP: %s ' % (procurement.origin)
-                if orderpoint:
-                    name = name + orderpoint.name
-                    qty += max(orderpoint.product_min_qty, orderpoint.product_max_qty)
-                    remainder = orderpoint.qty_multiple > 0 and qty % orderpoint.qty_multiple or 0.0
+                    msg = ('Necesar %s ') % (qty)
+                name = 'SUP: %s ' % (origin)
 
-                    if float_compare(remainder, 0.0, precision_rounding=orderpoint.product_uom.rounding) > 0:
-                        qty += orderpoint.qty_multiple - remainder
-
-                    if float_compare(qty, 0.0, precision_rounding=orderpoint.product_uom.rounding) < 0:
-                        continue
-
-                    qty = float_round(qty, precision_rounding=orderpoint.product_uom.rounding)
-
-                    date_planned = orderpoint._get_date_planned(fields.Date.from_string(date_planned))
-
-                new_procurement = self.env["procurement.order"].create({
-                    'name': name,
-                    'date_planned': date_planned,
-                    'product_id': item.product_id.id,
-                    'product_qty': qty,
-                    'product_uom': item.product_id.uom_id.id,
-                    'warehouse_id': self.warehouse_id.id,
-                    'location_id': location.id,
-                    'origin': origin,
-                    'group_id': self.group_id.id,
-                    'company_id': self.warehouse_id.company_id.id})
-                new_procurement.run()
-                new_procurement.message_post(body=msg)
-            if new_procurement.production_id:
-                productions |= new_procurement.production_id
+                ProcurementGroup.run(item.product_id, item.qty, item.uom_id, self.warehouse_id.lot_stock_id,name,
+                                     self.group_id.name, values)
+            # cum determin ce comenzi  de productie au fost facute ?
+            # if new_procurement.production_id:
+            #     productions |= new_procurement.production_id
 
         active_model = self.env.context.get('active_model', False)
-
-
 
         if productions and active_model == 'mrp.production':
             new_context = {'active_ids': productions.ids, 'active_model': 'mrp.production'}
             new_wizard = self.with_context(new_context).create({'background': self.background,
-                                                                'make_prod':self.make_prod,
-                                                                'make_purch':self.make_purch,
+                                                                'make_prod': self.make_prod,
+                                                                'make_purch': self.make_purch,
                                                                 'group_id': self.group_id.id})
             new_wizard.individual_procurement()
 
     @api.multi
     def procure_calculation(self):
+        # verific faca toate produsele au punct re reaprovizionare
+
+
+        OrderPoint = self.env['stock.warehouse.orderpoint']
+
+        products = self.env['product.product']
+        for item in self.item_ids:
+            order_point = OrderPoint.search([('product_id', '=', item.product_id.id)], limit=1)
+            if not order_point:
+                order_point = OrderPoint.create(  {'product_id': item.product_id.id, 'product_min_qty': 0.0, 'product_max_qty': 0.0})
+            item.write({'orderpoint_id':order_point.id})
         if self.group_id and not self.background:
             self.individual_procurement()
 
@@ -243,4 +240,5 @@ class ProcurementComputeProductsItem(models.TransientModel):
     compute_id = fields.Many2one('procurement.compute.products')
     product_id = fields.Many2one('product.product', string="Product")
     qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
-    uom_id = fields.Many2one( 'product.uom', 'Product Unit of Measure' )
+    uom_id = fields.Many2one('product.uom', 'Product Unit of Measure')
+    orderpoint_id = fields.Many2one('stock.warehouse.orderpoint')

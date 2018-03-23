@@ -32,14 +32,16 @@ class MrpProduction(models.Model):
 
         if planned_cost:
             for move in production.move_raw_ids:
-                if move.move_line_ids:
-                    for item in move.move_line_ids:
-                        if item.product_qty > 0:
-                            qty = item.product_qty + item.product_qty * item.product_id.scrap
-                            amount += item.cost *  qty  # se face calculul dupa quanturile planificate
-                else:
-                    qty = move.product_qty + move.product_qty * move.product_id.scrap
-                    amount += move.product_id.standard_price * qty
+                qty = move.product_qty + move.product_qty * move.product_id.scrap
+                amount += move.price_unit * qty
+                # if move.move_line_ids:
+                #     for item in move.move_line_ids:
+                #         if item.product_qty > 0:
+                #             qty = item.product_qty + item.product_qty * item.product_id.scrap
+                #             amount += item.cost *  qty  # se face calculul dupa quanturile planificate
+                # else:
+                #     qty = move.product_qty + move.product_qty * move.product_id.scrap
+                #     amount += move.product_id.standard_price * qty
             product_qty = production.product_qty
 
         else:

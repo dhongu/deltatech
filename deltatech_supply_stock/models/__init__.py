@@ -20,11 +20,11 @@
 #
 ##############################################################################
 
-# from . import procurement
+from . import procurement
 from . import sale_order
 from . import product
-from . import existing_procurement
-from . import purchase
+#from . import existing_procurement
+#from . import purchase
 from . import mrp_production
 # from . import mrp_production
 

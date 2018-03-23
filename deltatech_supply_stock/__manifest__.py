@@ -22,7 +22,7 @@
 
 {
     "name": "Supply Stock",
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -37,9 +37,10 @@ Functionalitati:
     "depends": ['sale_stock', 'mrp', 'deltatech_warehouse'],
 
     "data": [
-        'wizard/procurement_compute_wizard_view.xml',
-        # 'wizard/mrp_check_availability_view.xml',
-        # 'views/template_product_view.xml',
+        #'wizard/procurement_compute_wizard_view.xml',
+        'wizard/procurement_compute_products_view.xml',
+        'wizard/mrp_check_availability_view.xml',
+
     ],
 
     "active": False,
