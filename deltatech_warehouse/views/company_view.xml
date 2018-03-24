@@ -11,6 +11,7 @@
                         <group>
                             <field name="warehouse_id"/>
                             <field name="supplier_id"/>
+                            <button name="set_supplier" type="object" string="Set supplier for all products"/>
                         </group>
                     </page>
                 </xpath>
