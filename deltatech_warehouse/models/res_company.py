@@ -16,9 +16,6 @@ class res_company(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Default Supplier')
 
 
-
-
-
     @api.multi
     def set_supplier(self):
         if self.supplier_id:

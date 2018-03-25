@@ -187,8 +187,7 @@ class ProcurementComputeProducts(models.TransientModel):
                 # date_planned = procurement.date_planned or fields.Date.today()
                 origin = self.group_id.name or '/'
                 qty = item.qty + item.qty * item.product_id.scrap  # se adauga si pierderea
-                orderpoint = OrderPoint.search([('product_id', '=', item.product_id.id),
-                                                ('location_id', '=', location.id)])
+                qty = item.product_id.uom_id._compute_quantity(qty, item.product_id.uom_id)  # rotunjire cantitate de aprovizionat
                 if item.product_id.scrap:
                     msg = ('Necesar %s + scrap %s = %s.') % (item.qty, item.qty * item.product_id.scrap, qty)
                 else:

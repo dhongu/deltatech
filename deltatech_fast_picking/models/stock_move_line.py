@@ -7,11 +7,11 @@ from odoo import api, fields, models, _
 
 
 
-class PackOperation(models.Model):
-    _inherit = "stock.pack.operation"
+class StockMoveLine(models.Model):
+    _inherit = "stock.move.line"
 
     @api.model
     def create(self, vals):
-        vals['qty_done'] = vals.get('product_qty')
-        return super(PackOperation, self).create(vals)
+        vals['qty_done'] = vals.get('product_uom_qty')
+        return super(StockMoveLine, self).create(vals)
 

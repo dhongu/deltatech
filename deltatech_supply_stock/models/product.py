@@ -18,7 +18,7 @@ class ProductProduct(models.Model):
     @api.multi
     def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False):
         res = super(ProductProduct, self)._select_seller(partner_id, quantity, date, uom_id)
-        if not res:
+        if not res and not partner_id:
             if self.seller_ids:
                 res = self.seller_ids[0]
         return res
