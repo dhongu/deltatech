@@ -113,7 +113,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    picking.recheck_availability()
+                    picking.action_assign()
                     # picking.get_account_move_lines()  # din localizare
             #for move in production.move_raw_ids:
                 #if not move.quantity_done_store:
@@ -138,7 +138,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    picking.recheck_availability()
+                    picking.action_assign()
         return
 
     @api.multi

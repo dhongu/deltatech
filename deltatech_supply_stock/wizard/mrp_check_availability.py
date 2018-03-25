@@ -1,4 +1,8 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# ©  2008-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
 
 from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
@@ -8,7 +12,7 @@ class MrpCheckAvailability(models.TransientModel):
     _name = 'mrp.check.availability'
     _description = 'Check Availability'
 
-    background = fields.Boolean('Run in background', default=True)
+    background = fields.Boolean('Run in background', default=False)
 
     @api.multi
     def do_check_availability(self):

@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
+# ©  2008-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 
 from odoo import api, fields, models, registry, _
 from odoo.tools import float_is_zero
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
+
+class Orderpoint(models.Model):
+    _inherit = "stock.warehouse.orderpoint"
+
+
+    def _quantity_in_progress(self):
+        return super(Orderpoint, self)._quantity_in_progress()
+
 
 class ProcurementGroup(models.Model):
     _inherit = "procurement.group"
@@ -15,16 +26,8 @@ class ProcurementGroup(models.Model):
             domain += [('product_id', 'in', self.env.context['product_ids'])]
         return domain
 
-class Orderpoint(models.Model):
-    _inherit = "stock.warehouse.orderpoint"
 
 
-    def _quantity_in_progress(self):
-        return super(Orderpoint, self)._quantity_in_progress()
-
-# class ProcurementOrder(models.Model):
-#     _inherit = "procurement.order"
-#
 #     @api.model
 #     def run_scheduler(self, use_new_cursor=False, company_id=False):
 #         products = self.env['product.product'].search([('type', '=', 'product')])

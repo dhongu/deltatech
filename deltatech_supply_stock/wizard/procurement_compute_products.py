@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2008-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
 
 import logging
 import threading
@@ -19,7 +22,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
     item_ids = fields.One2many('procurement.compute.products.item', 'compute_id')
     group_id = fields.Many2one('procurement.group', string="Procurement Group")
-    background = fields.Boolean('Run in background', default=True)
+    background = fields.Boolean('Run in background', default=False)
     warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", )
 
     make_prod = fields.Boolean(string='Make production order', default=True)
