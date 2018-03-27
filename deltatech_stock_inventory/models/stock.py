@@ -41,9 +41,9 @@ class StockInventory(models.Model):
             res = lines
         return res
 
+
     @api.multi
-    def prepare_inventory(self):
-        res = super(StockInventory, self).prepare_inventory()
+    def action_check(self):
         for inventory in self:
             date = inventory.date
             values = {'date': date}
@@ -53,8 +53,9 @@ class StockInventory(models.Model):
                     values['name'] = sequence.next_by_id()
 
             inventory.write(values)
-            for line in inventory.line_ids:
-                line.write({'standard_price': line.get_price()})
+            # for line in inventory.line_ids:
+            #     line.write({'standard_price': line.get_price()})
+        res = super(StockInventory, self).action_check()
         return res
 
     @api.multi
@@ -150,8 +151,7 @@ class StockInventoryLine(models.Model):
     def _generate_moves(self):
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'fifo':
-                inventory_line.product_id.product_tmpl_id.write(
-                    {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+                inventory_line.product_id.write( {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         return moves
 
