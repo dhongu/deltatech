@@ -12,9 +12,11 @@ Usage
 
 It offers the functionality of editing locations and routes on the goolge map
  1. Location - Allows you to display and edit a marker on the google map: *<widget name="gmap_marker" lat="field_lat" lng="field_lng" />*
- 2. Locations - Allows you to display a list of locations on the google map:  *<widget name="gmap_markers" lat="field_lat" lng="field_lng" />*
- 3. Route - Allows you to display routes on the google map: *<widget name="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" to_lat="field_to_lat" to_lng="field_to_lng"/>*
+ 2. Route - Allows you to display routes on the google map: *<widget name="gmap_route" from_lat="field_from_lat" from_lng="field_from_lng" to_lat="field_to_lat" to_lng="field_to_lng"/>*
 
+ 3. Locations - Allows you to display a list of locations on the google map:  *<widget name="gmap_marker" lat="field_lat" lng="field_lng" />*
+
+For example see: deltatech_partner_gmap
 
 Contributors
 ------------

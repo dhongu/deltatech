@@ -7,19 +7,29 @@ var _t = core._t;
 var _lt = core._lt;
 var Widget = require('web.Widget');
 var FormView = require('web.FormView');
-var BasicView  = require('web.BasicView');
+
+
 var view_registry = require('web.view_registry');
 var registry = require('web.field_registry');
 var widgetRegistry = require('web.widget_registry');
 
-//var form_common = require('web.form_common');
-//var FormWidget = form_common.FormWidget;
+
+var BasicView  = require('web.BasicView');
+var BasicController = require('web.BasicController');
+var BasicRenderer = require('web.BasicRenderer');
+
+var AbstractView = require('web.AbstractView');
+var AbstractModel = require('web.AbstractModel');
+var AbstractController = require('web.AbstractController');
+var AbstractRenderer = require('web.AbstractRenderer');
+
+
 
 var map ;
 
 
 
-var gmap_marker = Widget.extend({
+var GMapMarker = Widget.extend({
         template: "gmap_marker",
 
         init: function (view, record, node) {
@@ -123,10 +133,10 @@ var gmap_marker = Widget.extend({
  
  });
 
-core.form_custom_registry.add('gmap_marker', gmap_marker);
-widgetRegistry.add('gmap_marker', gmap_marker);
+core.form_custom_registry.add('gmap_marker', GMapMarker);
+widgetRegistry.add('gmap_marker', GMapMarker);
  
-var gmap_route =  Widget.extend({
+var GMapRoute =  Widget.extend({
         template: "gmap_route",
 
         init: function (view, record, node) {
@@ -295,15 +305,136 @@ var gmap_route =  Widget.extend({
 
  });
 
-core.form_custom_registry.add('gmap_route', gmap_route);
-widgetRegistry.add('gmap_route', gmap_route);
+core.form_custom_registry.add('gmap_route', GMapRoute);
+widgetRegistry.add('gmap_route', GMapRoute);
 
- 
-var gmaps = BasicView.extend({
 
-     template: 'gmaps',
+/////////////////////////////////////////////////
+// gather the fields to get
+var fieldsToGather = [
+    "lat",
+    "lng",
+];
 
-     init: function(parent, dataset, view_id, options) {
+var GMapsModel = AbstractModel.extend({
+
+});
+
+var GMapsController = BasicController.extend({
+});
+
+
+var GMapsRenderer = BasicRenderer.extend({
+    template: 'gmaps',
+
+    init: function (parent, state, params) {
+        this._super.apply(this, arguments);
+    },
+
+    start: function () {
+        var self = this;
+        var myLatlng = new google.maps.LatLng(46, 25);
+        var mapOptions = {
+            zoom: 8,
+            center: myLatlng
+        };
+        var div_gmap = this.$el[0];
+        this.map = new google.maps.Map(div_gmap, mapOptions);
+
+        this.directionsService = new google.maps.DirectionsService();
+        return this._super();
+
+
+    },
+
+    _render: function () {
+        var div_gmap = this.$el[0];
+
+        $(div_gmap).css({'position':'absolute'});
+        var self = this;
+        _(this.state.data).each(self.do_load_record);
+        google.maps.event.trigger( this.map, 'resize')
+        return this._super.apply(this, arguments);
+
+    },
+
+    do_load_record: function(record){
+    	 var self = this;
+    	 _(self.arch.children).each(function(data){
+    		 self.do_add_item(data,record.data)
+    	 });
+     },
+
+    do_add_item: function(item,data){
+    	 var self = this;
+    	 if (item.tag == 'widget' && item.attrs.name == 'gmap_marker' ){
+        	 var myLatlng = new google.maps.LatLng(data[item.attrs.lat], data[item.attrs.lng]);
+             var title = data[item.attrs.description];
+             var marker = new google.maps.Marker({
+                 position: myLatlng,
+                 map: this.map,
+                 title:title,
+                 draggable:false,
+             });
+    	 };
+
+    	 if (item.tag == 'widget' && item.attrs.name == 'gmap_route' ){
+
+             var from_lat = data[item.attrs.from_lat]
+             var from_lng =  data[item.attrs.from_lng]
+             var to_lat =  data[item.attrs.to_lat]
+             var to_lng =   data[item.attrs.to_lng]
+
+             var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
+             var to_Latlng = new google.maps.LatLng(to_lat, to_lng);
+             var request = {
+                   origin:from_Latlng,
+                   destination:to_Latlng,
+                   travelMode: google.maps.TravelMode.DRIVING
+             };
+             var directionsDisplay = new google.maps.DirectionsRenderer();
+             directionsDisplay.setMap(map);
+             self.directionsService.route(request, function(response, status) {
+                 if (status == google.maps.DirectionsStatus.OK) {
+                   directionsDisplay.setDirections(response);
+                 }
+             });
+    	 }
+
+
+    }
+
+});
+
+
+
+
+var GMaps = BasicView.extend({
+
+     display_name: _lt('Map'),
+     icon: 'fa-map-marker',
+     accesskey: "g",
+
+     config: _.extend({}, BasicView.prototype.config, {
+       // Model: GMapsModel,
+        Controller: GMapsController,
+        Renderer: GMapsRenderer,
+     }),
+     viewType: 'gmaps',
+     jsLibs: ['http://maps.googleapis.com/maps/api/js?&sensor=false'],
+
+
+     init: function (viewInfo, params) {
+        this._super.apply(this, arguments);
+        var arch = viewInfo.arch;
+        var fields = viewInfo.fields;
+        var attrs = arch.attrs;
+        var mode = arch.attrs.editable && !params.readonly ? "edit" : "readonly";
+        this.controllerParams.mode = mode;
+     },
+
+
+     init_old: function(parent, dataset, view_id, options) {
          this._super(parent);
          this.set_default_options(options);
          this.view_manager = parent;
@@ -316,101 +447,17 @@ var gmaps = BasicView.extend({
      
 
  
-     view_loading: function(data) {
-
-         var self = this;
-         this.fields_view = data;
-         
-         //_.each(data.geoengine_layers.actives, function(item) {
-         //    self.geometry_columns[item.geo_field_id[1]] = true;
-         //});
-         this.$el.html(QWeb.render("gmaps", {"fields_view": this.fields_view, 'elem_id': this.elem_id}));
-
-         if (typeof google== 'undefined') {
-             window.ginit = this.on_ready;
-             $.getScript('http://maps.googleapis.com/maps/api/js?&sensor=false&callback=ginit');        	 
-         }
-         else {
-        	 setTimeout(function () { self.on_ready(); }, 1000);
-         }
-     },
-
-     
-     on_ready: function() {
-    	 var myLatlng = new google.maps.LatLng(45, 25);
-         var mapOptions = {
-             zoom: 8,
-             center: myLatlng
-         };
-         
-         var div_gmap = this.$el[0];
-         map = new google.maps.Map(div_gmap, mapOptions); 
-         
-         this.directionsService = new google.maps.DirectionsService();
-
-         var self = this;
-         self.dataset.read_slice(_.keys(self.fields_view.fields)).then(function(data){
-             _(data).each(self.do_load_record); 
-         });
-          google.maps.event.trigger( map, 'resize')
-     },
-     
-     
- 
-     do_load_record: function(record){
-    	 var self = this;
-    	 _(self.fields_view.arch.children).each(function(data){
-    		 self.do_add_item(data,record)
-    	 });
-     },
-
-     do_add_item: function(item,record){
-    	 var self = this;
-    	 if (item.tag == 'widget' && item.attrs.type == 'gmap_marker' ){
-
-        	 var myLatlng = new google.maps.LatLng(record[item.attrs.lat], record[item.attrs.lng]);
-             var marker = new google.maps.Marker({
-                 position: myLatlng,
-                 map: map,
-                 draggable:false,
-             });     		 
-    	 }
-    	 if (item.tag == 'widget' && item.attrs.type == 'gmap_route' ){
-
-             var from_lat = record[item.attrs.from_lat] 
-             var from_lng =  record[item.attrs.from_lng]
-             var to_lat =  record[item.attrs.to_lat]
-             var to_lng =   record[item.attrs.to_lng]
-
-             var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
-             var to_Latlng = new google.maps.LatLng(to_lat, to_lng);         
-             var request = {
-                   origin:from_Latlng,
-                   destination:to_Latlng,
-                   travelMode: google.maps.TravelMode.DRIVING
-             };
-             var directionsDisplay = new google.maps.DirectionsRenderer();
-             directionsDisplay.setMap(map);
-             self.directionsService.route(request, function(response, status) {
-                 if (status == google.maps.DirectionsStatus.OK) {
-                   directionsDisplay.setDirections(response);
-                 }
-             }); 
-    	 }    	 
-    	 
-  	 
-     },
 
  });
  
  
-view_registry.add('gmaps', gmaps)
+view_registry.add('gmaps', GMaps)
  
  
 return {
-    gmap_marker: gmap_marker,
-    gmap_route: gmap_route,
-    gmaps:gmaps
+    gmap_marker: GMapMarker,
+    gmap_route: GMapRoute,
+    gmaps:GMaps
 };
 
  
