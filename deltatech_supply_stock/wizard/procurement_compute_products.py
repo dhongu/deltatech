@@ -197,7 +197,23 @@ class ProcurementComputeProducts(models.TransientModel):
                     msg = ('Necesar %s ') % (qty)
                 name = 'SUP: %s ' % (origin)
 
-                ProcurementGroup.run(item.product_id, item.qty, item.uom_id, self.warehouse_id.lot_stock_id,name,
+                orderpoint =  item.orderpoint_id
+
+
+                name = name + orderpoint.name
+                qty += max(orderpoint.product_min_qty, orderpoint.product_max_qty)
+                remainder = orderpoint.qty_multiple > 0 and qty % orderpoint.qty_multiple or 0.0
+
+                if float_compare(remainder, 0.0, precision_rounding=orderpoint.product_uom.rounding) > 0:
+                    qty += orderpoint.qty_multiple - remainder
+
+                if float_compare(qty, 0.0, precision_rounding=orderpoint.product_uom.rounding) < 0:
+                    continue
+
+                qty = float_round(qty, precision_rounding=orderpoint.product_uom.rounding)
+
+
+                ProcurementGroup.run(item.product_id, qty, item.uom_id, self.warehouse_id.lot_stock_id,name,
                                      self.group_id.name, values)
             # cum determin ce comenzi  de productie au fost facute ?
             # if new_procurement.production_id:
@@ -228,7 +244,6 @@ class ProcurementComputeProducts(models.TransientModel):
             item.write({'orderpoint_id':order_point.id})
         if self.group_id and not self.background:
             self.individual_procurement()
-
         else:
             threaded_calculation = threading.Thread(target=self._procure_calculation_products, args=())
             threaded_calculation.start()
