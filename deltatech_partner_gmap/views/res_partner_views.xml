@@ -21,8 +21,31 @@
         <field name="arch" type="xml">
             <field name="partner_latitude"/>
             <field name="partner_longitude"/>
-            <widget name="gmap_markers" lat="partner_latitude" lng="partner_longitude"/>
+            <field name="name"/>
+            <widget name="gmap_marker" lat="partner_latitude" lng="partner_longitude" description="name"/>
         </field>
+    </record>
+
+
+    <record id="action_partner_gmap_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">gmaps</field>
+            <field name="view_id" ref="view_crm_partner_gmap"/>
+            <field name="act_window_id" ref="base.action_partner_form"/>
+    </record>
+
+    <record id="action_partner_customer_gmap" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">gmaps</field>
+            <field name="view_id" ref="view_crm_partner_gmap"/>
+            <field name="act_window_id" ref="base.action_partner_customer_form"/>
+    </record>
+
+    <record id="action_partner_vendor_gmap" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">gmaps</field>
+            <field name="view_id" ref="view_crm_partner_gmap"/>
+            <field name="act_window_id" ref="base.action_partner_supplier_form"/>
     </record>
 
 </odoo>

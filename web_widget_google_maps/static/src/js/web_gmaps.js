@@ -8,13 +8,11 @@ var _lt = core._lt;
 var Widget = require('web.Widget');
 var FormView = require('web.FormView');
 
-
 var view_registry = require('web.view_registry');
 var registry = require('web.field_registry');
 var widgetRegistry = require('web.widget_registry');
 
-
-var BasicView  = require('web.BasicView');
+var BasicView = require('web.BasicView');
 var BasicController = require('web.BasicController');
 var BasicRenderer = require('web.BasicRenderer');
 
@@ -42,12 +40,12 @@ var GMapMarker = Widget.extend({
             this.record = record;
             this.view = view;
         },
-          
+
         start: function() {
             var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');        	 
+                $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
             }
             else {
                 setTimeout(function () { self.on_ready(); }, 1000);
@@ -368,6 +366,17 @@ var GMapsRenderer = BasicRenderer.extend({
     do_add_item: function(item,data){
     	 var self = this;
     	 if (item.tag == 'widget' && item.attrs.name == 'gmap_marker' ){
+        	 var myLatlng = new google.maps.LatLng(data[item.attrs.lat], data[item.attrs.lng]);
+             var title = data[item.attrs.description];
+             var marker = new google.maps.Marker({
+                 position: myLatlng,
+                 map: this.map,
+                 title:title,
+                 draggable:false,
+             });
+    	 };
+
+         if (item.tag == 'widget' && item.attrs.name == 'gmap_markers' ){
         	 var myLatlng = new google.maps.LatLng(data[item.attrs.lat], data[item.attrs.lng]);
              var title = data[item.attrs.description];
              var marker = new google.maps.Marker({
