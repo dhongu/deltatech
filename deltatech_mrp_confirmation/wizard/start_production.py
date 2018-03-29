@@ -22,7 +22,7 @@
 
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 from odoo.tools import float_compare
 import odoo.addons.decimal_precision as dp
 from datetime import datetime, date, timedelta

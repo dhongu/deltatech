@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
@@ -28,7 +28,7 @@ class stock_picking(models.Model):
     def unlink(self):
         for picking in self:
             if picking.request_number:
-                raise Warning(_('The document %s has been numbered') % picking.request_number)
+                raise UserError(_('The document %s has been numbered') % picking.request_number)
         return super(stock_picking, self).unlink()
 
 

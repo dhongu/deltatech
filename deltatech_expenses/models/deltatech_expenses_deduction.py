@@ -5,7 +5,7 @@ import odoo.addons.decimal_precision as dp
 
 from odoo import api
 from odoo import models, fields
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 from odoo.tools.translate import _
 
 
@@ -151,7 +151,7 @@ class deltatech_expenses_deduction(models.Model):
     def unlink(self):
         for t in self:
             if t.state not in ('draft', 'cancel'):
-                raise Warning(_('Cannot delete Expenses Deduction(s) which are already done.'))
+                raise UserError(_('Cannot delete Expenses Deduction(s) which are already done.'))
         return super(deltatech_expenses_deduction, self).unlink()
 
     @api.multi
@@ -456,7 +456,7 @@ class deltatech_expenses_deduction(models.Model):
                 statement = statement[0]
 
             if statement.state != 'open':
-                raise Warning(_('The cash statement of journal %s from date is not in open state, please open it \n'
+                raise UserError(_('The cash statement of journal %s from date is not in open state, please open it \n'
                                 'to create the line in  it "%s".') % (journal_id.name, date))
             return statement
 

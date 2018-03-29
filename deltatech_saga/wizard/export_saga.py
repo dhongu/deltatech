@@ -19,7 +19,7 @@ import zipfile
 
 from .mydbf import base, fields as dbf_fields
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 import datetime
 from dateutil.relativedelta import relativedelta
 
@@ -118,14 +118,14 @@ class export_saga(models.TransientModel):
                 error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
-                    raise Warning(error)
+                    raise UserError(error)
 
             if partner.is_company:
                 if not partner.vat:
                     error = _("Partenerul %s nu are CUI") % partner.name
                     result_html += '<div>Eroare %s</div>' % error
                     if not self.ignore_error:
-                        raise Warning(error)
+                        raise UserError(error)
 
                 if not partner.vat_subjected:
                     cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
@@ -214,14 +214,14 @@ class export_saga(models.TransientModel):
                 error = _("Partenerul %s nu are cod de client SAGA") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
-                    raise Warning(error)
+                    raise UserError(error)
 
             if partner.is_company:
                 if not partner.vat:
                     error = _("Partenerul %s nu are CUI") % partner.name
                     result_html += '<div>Eroare %s</div>' % error
                     if not self.ignore_error:
-                        raise Warning(error)
+                        raise UserError(error)
                 if not partner.vat_subjected:
                     cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
                     is_tva = 0

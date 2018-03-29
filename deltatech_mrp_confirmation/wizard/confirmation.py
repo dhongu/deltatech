@@ -20,6 +20,7 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, RedirectWarning
 
 # worker_module = 'res.partner'
 worker_module = 'hr.employee'
@@ -331,7 +332,7 @@ class mrp_production_conf(models.TransientModel):
         workorder.qty_producing = qty_producing  # de ce nu merge la onchange ????
 
         if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
-            raise Warning( _('It is not possible to increase the quantity'))
+            raise UserError( _('It is not possible to increase the quantity'))
 
 
 

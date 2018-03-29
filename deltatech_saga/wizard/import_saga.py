@@ -20,7 +20,7 @@ from .mydbf import base, fields as dbf_fields
 import os
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 import odoo.addons.decimal_precision as dp
 import unicodedata
 

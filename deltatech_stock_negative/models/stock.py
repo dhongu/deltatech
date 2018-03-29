@@ -22,7 +22,7 @@
 
 
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 
 
 
@@ -35,7 +35,7 @@ class stock_quant(models.Model):
                                    in_date=None):
         if location_id.usage == 'internal':
             if location_id.company_id.no_negative_stock:
-                raise Warning(_('You have chosen to avoid negative stock. \
+                raise UserError(_('You have chosen to avoid negative stock. \
                         %s pieces of %s are remaining in location %s  but you want to transfer  \
                         %s pieces. Please adjust your quantities or \
                         correct your stock with an inventory adjustment.')% \
@@ -53,7 +53,7 @@ class stock_quant(models.Model):
 
         if move.location_id.usage == 'internal':
             if move.location_id.company_id.no_negative_stock:
-                raise Warning(_('You have chosen to avoid negative stock. \
+                raise UserError(_('You have chosen to avoid negative stock. \
                         %s pieces of %s are remaining in location %s  but you want to transfer  \
                         %s pieces. Please adjust your quantities or \
                         correct your stock with an inventory adjustment.')% \
