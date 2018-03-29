@@ -318,10 +318,10 @@ class service_equipment(models.Model):
 
         if not equipment_ids:
             if operator in expression.NEGATIVE_TERM_OPERATORS:
-                domain = [('ean_code', operator, name), ('name', operator, name), ('address_id.name', operator, name)]
+                domain = [('ean_code', operator, name), ('name', operator, name), ('address_id.name', operator, name), ('serial_id.name',operator,name)]
             else:
-                domain = ['|', '|', ('ean_code', operator, name), ('name', operator, name),
-                          ('address_id.name', operator, name)]
+                domain = ['|', '|','|', ('ean_code', operator, name), ('name', operator, name),
+                          ('address_id.name', operator, name), ('serial_id.name',operator,name)]
 
             equipment_ids = self.search(expression.AND([domain, args]), limit=limit)
         return equipment_ids.name_get()

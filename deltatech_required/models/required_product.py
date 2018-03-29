@@ -53,8 +53,7 @@ class required_order(models.Model):
         ('done', 'Done'),
     ], string='Status', index=True, readonly=True, default='draft', copy=False)
 
-    required_line = fields.One2many('required.order.line', 'required_id', string='Required Lines', readonly=True,
-                                    states={'draft': [('readonly', False)]})
+    required_line = fields.One2many('required.order.line', 'required_id', string='Required Lines', readonly=True, states={'draft': [('readonly', False)]}, copy=True)
     date_planned = fields.Date(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]})
     location_id = fields.Many2one('stock.location', required=True, string='Procurement Location', readonly=True,
                                   states={'draft': [('readonly', False)]})
@@ -197,6 +196,7 @@ class required_order_line(models.Model):
 
     required_id = fields.Many2one('required.order', string='Required Products Order', ondelete='cascade', index=True)
     product_id = fields.Many2one('product.product', string='Product', ondelete='set null')
+    product_uom = fields.Many2one('product.uom', string='UM', related='product_id.uom_id')
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
     procurement_id = fields.Many2one('procurement.order', string='Procurement Order')
     supplier_id = fields.Many2one('res.partner', string='Supplier', domain=[('supplier', '=', True)])
