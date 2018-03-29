@@ -32,7 +32,7 @@ class fetchmail_server(models.Model):
 
     
     def fetch_mail(self, cr, uid, ids, context=None):
-        # aici trebuie sa citesc care este serverui de pe care se ruleaza si daca este egal cu cel 
+        # aici trebuie sa citesc care este serverul de pe care se ruleaza si daca este egal cu cel
         hostname = socket.gethostname()
         dbname  = self.pool.db.dbname
         

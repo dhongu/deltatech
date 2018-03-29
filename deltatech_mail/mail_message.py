@@ -49,10 +49,14 @@ class mail_message(models.Model):
         """ Add the related record followers to the destination partner_ids if is not a private message.
             Call mail_notification.notify to manage the email sending
         """
+        message = self.browse(cr, SUPERUSER_ID, newid, context=context)
+        if message.type == 'comment':
+            context['default_starred'] = True
         if context and context.get('only_selected',False):
             message = self.browse(cr, SUPERUSER_ID, newid, context=context)
             if message.subtype_id:
                 self.write(cr, SUPERUSER_ID, newid, {'subtype_id':False} , context=context)
+
         if 'mail_notify_noemail' in context:
             message = self.browse(cr, SUPERUSER_ID, newid, context=context)
             if message.type == 'comment':
@@ -60,6 +64,8 @@ class mail_message(models.Model):
                     self.write(cr, SUPERUSER_ID, newid, {'type':'notification'} , context=context)
                 else:
                     self.write(cr, SUPERUSER_ID, newid, {'type':'email'} , context=context)
+
+
                     
         return super(mail_message,self)._notify( cr, uid, newid, context, force_send, user_signature)
         

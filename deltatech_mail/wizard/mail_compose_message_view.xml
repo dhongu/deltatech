@@ -7,14 +7,14 @@
 			<field name="inherit_id" ref="mail.email_compose_message_wizard_form" />
 			<field name="arch" type="xml">
 				<label for="partner_ids" position="before">
-					<field name="only_selected" attrs="{'invisible':[('composition_mode', '!=', 'comment')]}"/>
+					<field name="only_selected" attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('is_log','=',True)]}"/>
 				</label>
 				<field name="notify" position="before">
-					<field name="auto_subscribe" attrs="{'invisible':[('composition_mode', '!=', 'comment')]}"/>
-					<field name="mail_notify_noemail" attrs="{'invisible':[('composition_mode', '!=', 'comment')]}"/>
+					<field name="auto_subscribe" attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('is_log','=',True)]}"/>
+					<field name="mail_notify_noemail" attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('is_log','=',True)]}"/>
 				</field>
 				<xpath expr="//form//div/span[2]" position="replace">
-					<span attrs="{'invisible':['|',('composition_mode', '!=', 'comment'),('only_selected', '=', True)]}">Followers of the document and</span>
+					<span attrs="{'invisible':['|','|',('composition_mode', '!=', 'comment'),('only_selected', '=', True),('is_log','=',True)]}">Followers of the document and</span>
 				</xpath>
 				<field name="attachment_ids" position="replace">
 					<group><field name="attachment_mode" /></group>

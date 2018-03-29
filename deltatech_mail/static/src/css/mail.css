@@ -5,3 +5,68 @@
 .openerp .oe_mail .oe_msg.oe_msg_email{
     background: hsla(4, 90%, 58%, 0.37);
 }
+
+
+a.oe_compose_post {
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    border-color: #cacaca;
+}
+
+a.oe_compose_post:hover {
+    -webkit-animation-name: hvr-back-pulse;
+    animation-name: hvr-back-pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-color: #2098D1;
+    background-color: #2098d1;
+    color: white;
+}
+
+
+a.oe_compose_log {
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    border-color: #cacaca;
+}
+
+
+a.oe_compose_log:hover {
+    -webkit-animation-name: hvr-back-pulse;
+    animation-name: hvr-back-pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-color: #2098D1;
+    background-color: #2098d1;
+    color: white;
+}
+
+
+.openerp .oe_mail .oe_msg_center button.oe_full {
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    float: right;
+    filter: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #fcfcfc;
+    border-color: #cacaca;
+    color: #F44336;
+}

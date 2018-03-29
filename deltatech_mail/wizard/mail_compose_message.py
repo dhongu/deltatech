@@ -73,7 +73,7 @@ class mail_compose_message(models.TransientModel):
         if res_model and res_model in ['mail.group', 'crm.lead']:
             defaults['mail_notify_noemail'] = False
         else:
-            defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
+            defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].sudo().get_param( key="mail.notify.noemail", default="False"))
         # poate ca documentele anexate trebuie sa fie in functie de o configurare ??
         """
         res_id = defaults.get('res_id',False)   
@@ -94,5 +94,7 @@ class mail_compose_message(models.TransientModel):
             context['mail_post_autofollow'] = wizard.auto_subscribe
             context['only_selected'] = wizard.only_selected
             context['mail_notify_noemail'] = wizard.mail_notify_noemail
+            context['default_starred'] = True
+
             
         return super(mail_compose_message, self).send_mail(cr, uid, ids, context)

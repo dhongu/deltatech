@@ -90,7 +90,7 @@ openerp.deltatech_mail = function (instance) {
 	/* Extend the Sidebar to add Send Mail link in the 'More' menu */
 	instance.web.Sidebar = instance.web.Sidebar.extend({
 
-        start: function() {
+          start: function() {
             var self = this;
             this._super(this);
             var view = this.getParent()
