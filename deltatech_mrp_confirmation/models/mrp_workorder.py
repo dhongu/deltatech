@@ -43,7 +43,7 @@ class MrpWorkorder(models.Model):
     def _compute_barcode_image(self):
         for workorder in self:
             if workorder.code:
-                barcode_image = self.env['report'].barcode('Code128', workorder.code, width=600, height=200,
+                barcode_image = self.env['ir.actions.report'].barcode('Code128', workorder.code, width=600, height=200,
                                                            humanreadable=0)
 
                 image_stream = BytesIO(barcode_image)
@@ -60,7 +60,7 @@ class MrpWorkorder(models.Model):
                 img = img.rotate(90, expand=True)
                 image_stream = BytesIO()
                 img.save(image_stream, 'PNG')
-                barcode_image = image_stream.getvalue().encode('base64')
+                barcode_image = base64.b64encode(image_stream.getvalue())
                 workorder.barcode_image = barcode_image
 
     @api.multi
