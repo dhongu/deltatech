@@ -33,7 +33,7 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": ["mrp","sale","purchase"],
+    "depends": ["mrp","sale","purchase",'sale_management'],
 
     "data": [
         "views/mrp_production_view.xml",
