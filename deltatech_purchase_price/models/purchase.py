@@ -5,11 +5,18 @@
 
 from odoo import api, models
 
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"\
 
+    @api.multi
+    def _add_supplier_to_product(self):
+        #todo: de adaugat parametru in configurare
+        add_supplier_to_product = self.env['ir.config_parameter'].sudo().get_param('purchase.add_supplier_to_product')
+        if add_supplier_to_product:
+            super(PurchaseOrder, self)._add_supplier_to_product()
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
-
 
     @api.multi
     def _get_stock_move_price_unit(self):
