@@ -20,7 +20,7 @@ class StockPicking(models.Model):
             # override the context to get rid of the default filtering
             result['context'] = {'type': 'in_invoice',
                                  'default_purchase_id': self.purchase_id.id,
-                                 'default_date_invoice': self.min_date[:10]}
+                                 'default_date_invoice': self.scheduled_date[:10]}
 
 
             if not self.purchase_id.invoice_ids:
