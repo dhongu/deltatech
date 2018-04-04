@@ -8,9 +8,9 @@ from odoo import api, fields, models, registry, _
 from odoo.tools import float_is_zero
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
+
 class Orderpoint(models.Model):
     _inherit = "stock.warehouse.orderpoint"
-
 
     def _quantity_in_progress(self):
         return super(Orderpoint, self)._quantity_in_progress()
@@ -27,6 +27,28 @@ class ProcurementGroup(models.Model):
         return domain
 
 
+class ProcurementRule(models.Model):
+    _inherit = 'procurement.rule'
+
+    @api.multi
+    def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, values, po, supplier):
+        procurement_uom_po_qty = product_uom._compute_quantity(product_qty, product_id.uom_po_id)
+        seller = product_id._select_seller(
+            partner_id=supplier.name,
+            quantity=procurement_uom_po_qty,
+            date=po.date_order and po.date_order[:10],
+            uom_id=product_id.uom_po_id)
+
+        if procurement_uom_po_qty < supplier.min_qty:
+            msg = 'Cantitatea %s este mai mica decat %s impusa de furnizorul %s' % (procurement_uom_po_qty,
+                                                                                    supplier.min_qty,
+                                                                                    supplier.name.name)
+            po.message_post(body=msg)
+            product_qty = product_id.uom_po_id._compute_quantity(supplier.min_qty, product_uom)
+
+        res = super(ProcurementRule, self)._prepare_purchase_order_line(product_id, product_qty, product_uom, values,
+                                                                        po, supplier)
+        return res
 
 #     @api.model
 #     def run_scheduler(self, use_new_cursor=False, company_id=False):
