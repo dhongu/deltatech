@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+
+
+    <t t-name="MrpWorkBarcodeModeWelcome">
+        <div class="o_mrp_record_barcode_mode_container">
+            <h1>Welcome to
+                <t t-esc="widget.company_name"/>
+            </h1>
+            <img t-attf-src="{{widget.company_image_url}}" alt="Company Logo"/>
+            <h2>Scan barcode</h2>
+            <h4>or</h4>
+            <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal"
+                    data-target="#barcodeModal">
+                Enter bar code
+            </button>
+        </div>
+    </t>
+
+
+    <t t-name="MrpWorkBarcodeMode">
+
+        <div class="modal fade" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&amp;times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Enter manual barcode</h4>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="barcode" class="control-label">Barcode</label>
+                            <input class="form-control" id="barcode" placeholder="bar code"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary o_mrp_record_barcode_button_search">Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+            <div class="o_mrp_record_barcode_mode_container o_mrp_welcome">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>Welcome to
+                            <t t-esc="widget.company_name"/>
+                        </h1>
+                        <img t-attf-src="{{widget.company_image_url}}" alt="Company Logo"/>
+                        <h2>Scan barcode</h2>
+                        <h4>or</h4>
+                        <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal"
+                                data-target="#barcodeModal">
+                            Enter bar code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="o_mrp_record_barcode_mode_container o_mrp_work hide" >
+
+                <div class="container">
+                    <div class="col-md-4">
+                        <button class="fa fa-bars btn-primary btn-lg">Exit</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h1>Record Work for Production</h1>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal"
+                                data-target="#barcodeModal">
+                            Enter bar code
+                        </button>
+                    </div>
+                </div>
+
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="o_mrp_record_barcode_orders">
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="o_mrp_record_barcode_workers">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="o_mrp_record_logo">
+                    <!--<img t-attf-src="{{widget.company_image_url}}" alt="Company Logo"/>-->
+                </div>
+            </div>
+
+    </t>
+
+    <t t-name="MrpRecordBarcodeModeOrders">
+        <div class="row o_mrp_orders">
+            <t t-foreach="work_orders" t-as="o">
+                <div class="col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <h4 class="title">
+                                <t t-esc="o.product_id[1]"/>
+                            </h4>
+                            <div class="progress">
+                                <t t-set="p" t-value="o.qty_produced / o.qty_production"/>
+                                <div class="progress-bar" t-attf-style="width: #{p}%">
+                                    <h4 class="label">
+                                        <t t-esc="o.qty_produced"/>
+                                        din
+                                        <t t-esc="o.qty_production"/>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+
+    <t t-name="MrpRecordBarcodeModeWorkers">
+        <div class="o_mrp_workers row">
+            <t t-foreach="workers" t-as="w">
+                <div class="col-xs-4">
+                    <div class="card panel">
+                        <img t-attf-src="/web/image?model=hr.employee&amp;field=image_medium&amp;id=#{w.id}"
+                             t-attf-alt="w.name" style="width:100%"/>
+                        <h4>
+                            <t t-esc="w.name"/>
+                        </h4>
+                    </div>
+                </div>
+            </t>
+
+        </div>
+    </t>
+
+
+    <t t-name="MrpRecordBarcodeModeManyWorkers">
+
+    </t>
+
+</template>

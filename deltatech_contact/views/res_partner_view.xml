@@ -20,18 +20,13 @@
 
                 <xpath expr="//notebook" position="before">
                     <group>
-                        <group>
-                            <field name="id_nr" placeholder="AB123456"
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
-                            <field name="id_issued_by" placeholder="SPCLEP .."
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
-
-                            <field name="cnp"
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
-                            <field name="birthdate"
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
-                             <field name='gender'
-                                    attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}"/>
+                        <group name="person_id"
+                               attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}">
+                            <field name="id_nr"/>
+                            <field name="id_issued_by" placeholder="SPCLEP .."/>
+                            <field name="cnp"/>
+                            <field name="birthdate"/>
+                            <field name='gender'/>
                         </group>
 
                     </group>
@@ -40,7 +35,7 @@
                 </xpath>
                 <xpath expr="//field[@name='ref']" position="after">
                     <field name="mean_transp"
-                                   attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',False)]}"/>
+                           attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',False)]}"/>
                 </xpath>
 
                 <xpath expr="//kanban//field[@name='is_company']" position="after">
@@ -58,6 +53,26 @@
                     </t>
                 </xpath>
                  -->
+            </field>
+        </record>
+
+
+
+        <record id="view_partner_simple_form" model="ir.ui.view">
+            <field name="name">res.partner.simplified.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_simple_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <group name="person_id"
+                               attrs="{'invisible': ['|',('is_company','=', True),('is_department','=',True)]}">
+                            <field name="id_nr"/>
+                            <field name="id_issued_by" placeholder="SPCLEP .."/>
+                            <field name="cnp"/>
+                            <field name="birthdate"/>
+                            <field name='gender'/>
+                        </group>
+                </xpath>
             </field>
         </record>
 

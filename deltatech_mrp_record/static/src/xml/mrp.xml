@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <!--   xml:space="preserve" -->
+
+    <t t-name="MrpRecordBarcodeMode">
+
+
+        <div class="modal fade" id="barcodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&amp;times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Enter manual barcode</h4>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="barcode" class="control-label">Barcode</label>
+                            <input class="form-control" id="barcode" placeholder="bar code"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary o_mrp_record_barcode_button_search">Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="o_mrp_record_barcode_mode_container">
+            <div class="row">
+                <h1>Record Production</h1>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="o_mrp_record_barcode_mode">
+
+
+                            <h2>Scan barcode</h2>
+
+                            <button class="fa fa-barcode btn-primary btn-lg" data-toggle="modal"
+                                    data-target="#barcodeModal">
+                                Enter bar code
+                            </button>
+                            <div class="o_mrp_record_barcode_item">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="o_mrp_record_barcode_mode">
+                            <h1>More information</h1>
+                            <div class="o_mrp_record_barcode_mode_info"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="o_mrp_record_logo">
+                <img src="/web/binary/company_logo"/>
+            </div>
+
+        </div>
+    </t>
+
+    <t t-name="MrpRecordBarcodeModeInfo">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Produced</th>
+                            <th>Production</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="workorder" t-as="o">
+                            <t t-set="color" t-value="'info'"/>
+                            <t t-if="o.qty_produced == o.qty_production ">
+                                <t t-set="color" t-value="'success'"/>
+                            </t>
+                            <t t-if="o.qty_produced &lt; o.qty_production ">
+                                <t t-set="color" t-value="'warning'"/>
+                            </t>
+                            <t t-if="o.qty_produced == 0 ">
+                                <t t-set="color" t-value="'danger'"/>
+                            </t>
+
+                            <tr t-attf-class="{{ color }}">
+                                <td>
+                                    <t t-esc="o.product_id[1]"/>
+                                </td>
+                                <td>
+                                    <t t-esc="o.qty_produced"/>
+                                </td>
+                                <td>
+                                    <t t-esc="o.qty_production"/>
+                                </td>
+                            </tr>
+
+                        </t>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </t>
+
+
+    <t t-name="MrpRecordBarcodeItem">
+        <div class="panel panel-default">
+
+            <div class="panel-body">
+                <h2>
+                    <label>Production Order:</label>
+                    <t t-if="mrp_recordproduction_id">
+                        <t t-esc="mrp_recordproduction_id[1]"/>
+                    </t>
+                </h2>
+                <h2>
+                    <label>Worker:</label>
+                    <t t-if="mrp_recordworker_id">
+                        <t t-esc="mrp_recordworker_id[1]"/>
+                    </t>
+
+                </h2>
+
+                <h2>
+                    <label>Operation:</label>
+                    <t t-if="mrp_recordworkorder_id">
+                        <t class="o_mrp_record_workorder" t-esc="mrp_recordworkorder_id[1]"/>
+                        <div>
+                            <span>Quantity Produced:</span>
+                            <t t-esc="mrp_recordqty_produced"/>
+                            /
+                            <t t-esc="mrp_recordqty_ready_prod"/>
+                            <span>Total:</span>
+                            <t t-esc="mrp_recordqty_production"/>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t class="o_mrp_record_workorder" t-esc="mrp_recordcode or ''"/>
+                    </t>
+                </h2>
+                <h3>
+
+                    <label>Product:</label>
+                    <t t-if="mrp_recordproduct_id">
+                        <t t-esc="mrp_recordproduct_id[1]"/>
+                        <div class="form-group form-group-lg">
+
+                            <input type="number" class="form-control keyboard keyboard-numpad quantity"
+                                   id="formGroupInputQty" placeholder="Quantity"
+                                   data-min="1" name="add_qty" t-att-value="mrp_recordqty_producing"/>
+                        </div>
+                    </t>
+
+
+                </h3>
+            </div>
+
+
+        </div>
+
+        <t t-if="mrp_recorderror_message">
+            <div class="alert alert-danger alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="mrp_recorderror_message"/>
+            </div>
+        </t>
+
+        <t t-if="mrp_recordinfo_message">
+            <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="mrp_recordinfo_message"/>
+            </div>
+        </t>
+
+        <t t-if="mrp_recordsuccess_message">
+            <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <t t-esc="mrp_recordsuccess_message"/>
+            </div>
+        </t>
+
+        <t t-if="(mrp_recordqty_produced + mrp_recordqty_producing)==mrp_recordqty_production and mrp_recordqty_producing!=0">
+            <div class="alert alert-success alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+
+                <i class="fa fa-thumbs-o-up" aria-hidden="true"/>
+                <span>Quantity processed totally</span>
+            </div>
+        </t>
+
+
+        <t t-if="(mrp_recordqty_produced + mrp_recordqty_producing) &lt; mrp_recordqty_production">
+            <div class="alert alert-info alert-dismissible text-left" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&amp;times;</a>
+                <i class="fa fa-hand-o-left" aria-hidden="true"/>
+                <span>There are still products to process</span>
+            </div>
+        </t>
+
+        <t t-if="mrp_recordproduction_id and mrp_recordworker_id and mrp_recordworkorder_id">
+            <button class="fa fa-floppy-o btn-primary btn-lg o_mrp_record_barcode_button_save">
+                Save
+            </button>
+        </t>
+
+        <t t-if="!(mrp_recordproduction_id and mrp_recordworker_id and mrp_recordworkorder_id)">
+            <button class="fa fa-times btn-primary btn-lg o_mrp_record_barcode_button_close">
+                Close
+            </button>
+        </t>
+    </t>
+
+</template>
