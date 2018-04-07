@@ -275,6 +275,9 @@ class MrpRecord(models.TransientModel):
                             self.error_message = _('Worker %s not assigned to work center %s') % (
                                 worker.name, workorder.workcenter_id.name)
 
+                        #  trimite mesaj de refresh
+                        (channel, message) = ( (self._cr.dbname, 'mrp.record', False), ('refresh', False))
+                        self.env['bus.bus'].sendone(channel, message)
 
 
 

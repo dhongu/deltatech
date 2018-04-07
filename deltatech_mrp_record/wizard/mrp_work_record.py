@@ -23,7 +23,7 @@ class MrpWorkRecord(models.TransientModel):
     @api.model
     def get_workers_ids(self, work_order_ids):
         productivity = self.env["mrp.workcenter.productivity"].search([('workorder_id', 'in', work_order_ids)])
-        productivity = productivity.filtered(lambda x: x.date_end == False)
+        productivity = productivity.filtered(lambda x: x.date_end is False)
 
         workers = self.env[worker_module]
         for prod in productivity:
@@ -47,6 +47,22 @@ class MrpWorkRecord(models.TransientModel):
         return action
 
     @api.model
+    def get_statistics(self, work_order_ids):
+        values = self.env['mrp.workorder'].read_group(
+            domain=[('id', '=', work_order_ids)],
+            fields=['qty_production', 'qty_produced', 'duration_expected', 'duration'])
+        return values
+
+    @api.model
+    def save_work(self, values):
+        work_orders = self.env['mrp.workorder'].browse(values['work_order_ids'])
+        for work_order in work_orders:
+            work_order.record_production()
+        values['work_order_ids'] = False
+        values['info_message'] = _('Work orders was finished')
+        return values
+
+    @api.model
     def on_barcode_scanned(self, barcode, old_values=None):
         if not old_values:
             values = {}
@@ -59,6 +75,9 @@ class MrpWorkRecord(models.TransientModel):
             'info_message': False,
             'warning': False,
         })
+
+        if barcode == '#save':
+            return self.save_work()
 
         nomenclature = self.env['barcode.nomenclature'].search([], limit=1)
         if not nomenclature:
@@ -87,15 +106,24 @@ class MrpWorkRecord(models.TransientModel):
                 values['info_message'] = _('Worker %s was scanned') % worker.name
 
                 # se gaeste in comanda de lucru?
-                if values['work_order_ids']:
+                if values.get('work_order_ids', False):
                     loss_id = self.env['mrp.workcenter.productivity.loss'].search([('loss_type', '=', 'productive')],
                                                                                   limit=1)
-                    time_ids = self.env["mrp.workcenter.productivity"].search(
-                        [('workorder_id', 'in', values['work_order_ids'])])
-                    time_ids = time_ids.filtered(lambda x: x.date_end == False and x.worker_id.id == worker.id)
+                    time_ids = self.env["mrp.workcenter.productivity"].search([
+                        ('workorder_id', 'in', values['work_order_ids']),
+                        ('worker_id', '=', worker.id),
+                        ('date_end', '=', False)
+                    ])
                     if time_ids:
                         time_ids.write({'date_end': fields.Datetime.now()})
                     else:
+                        # lucreaza pe o alta comanda ?
+                        time_ids = self.env["mrp.workcenter.productivity"].search([
+                            ('worker_id', '=', worker.id),
+                            ('date_end', '=', False)
+                        ])
+                        if time_ids:
+                            time_ids.write({'date_end': fields.Datetime.now()})
                         work_orders = self.env['mrp.workorder'].browse(values['work_order_ids'])
                         for work_order in work_orders:
                             self.env["mrp.workcenter.productivity"].create({
@@ -105,15 +133,27 @@ class MrpWorkRecord(models.TransientModel):
                                 'loss_id': loss_id.id,
                                 'date_start': fields.Datetime.now()
                             })
+                #  trimite mesaj de refresh
+                (channel, message) = ((self._cr.dbname, 'mrp.record', True), ('refresh', True))
+                self.env['bus.bus'].sendone(channel, message)
+
 
         elif scann['type'] == 'mrp_operation':
             workorder_domain = [('code', '=', barcode),
                                 ('state', 'in', ['planned', 'progress'])]
+            if values.get('work_order_ids', False):
+                workorder_domain += [('id', 'in', values['work_order_ids'])]
+
             work_orders = self.env['mrp.workorder'].search(workorder_domain)
             if not work_orders:
                 values['error_message'] = _('For the operation code %s there are no work order') % barcode
+                values['operation_code'] = False
+                values['work_order_ids'] = False
             else:
+                values['info_message'] = _('Operation %s was scanned') % barcode
                 values['work_order_ids'] = work_orders.ids
+                values['work_order_limit_ids'] = work_orders.ids[:10]
+                values['operation_code'] = barcode
 
 
         elif scann['type'] == 'mrp_group':
@@ -122,14 +162,20 @@ class MrpWorkRecord(models.TransientModel):
             if not procurement_group:
                 values['error_message'] = _('Work order group %s not found') % barcode
             else:
-                values['info_message'] = _('Work order %s was scanned') % procurement_group.name
+                values['info_message'] = _('Work order group %s was scanned') % procurement_group.name
                 values['procurement_group_id'] = procurement_group.id
-                work_orders = self.env['mrp.workorder'].search([('procurement_group_id', '=', procurement_group.id),
-                                                                ('state', 'in', ['planned', 'progress'])])
+
+                workorder_domain = [('procurement_group_id', '=', procurement_group.id),
+                                    ('state', 'in', ['planned', 'progress'])]
+                if values.get('operation_code', False):
+                    workorder_domain += [('code', '=', values['operation_code'])]
+                work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
                     values['error_message'] = _('For the group %s there are no work order') % barcode
+                    values['work_order_ids'] = False
                 else:
                     values['work_order_ids'] = work_orders.ids
+                    values['work_order_limit_ids'] = work_orders.ids[:10]
         else:
             values['error_message'] = _('The type %s is not used in this screen') % (scann['type'])
 
