@@ -239,6 +239,20 @@
                 </h4>
               </td>
               <td/>
+              <!--
+			            <td class="text-right">
+			              <span t-field="o.qty_primary"/>
+			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			            </td>
+
+			            <td class="text-right" style="white-space: nowrap;">
+			              <t t-if="o.qty_primary">
+			                <t t-set="price" t-value="total_kit/qty_primary"/>
+			                <span t-esc="round(price,2)"/>
+			                <span t-field="o.pricelist_id.currency_id.symbol"/>
+			              </t>
+			            </td>
+			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <strong>
                   <span t-esc="round(total_kit,2)"/>
@@ -249,6 +263,12 @@
             <tr style="background-color:#cadb34">
               <td colspan="4">PRICE / M<sup>2</sup></td>
               <td/>
+              <!--
+			            <td class="text-right">
+			              <span t-field="o.qty_primary"/>
+			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			            </td>
+			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total_kit/qty_primary"/>
@@ -256,6 +276,12 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
+              <!--
+			            <td class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total_kit,2)"/>
+			              <span t-field="o.pricelist_id.currency_id.symbol"/>
+			            </td>
+			            -->
             </tr>
           </tbody>
         </table>
@@ -269,6 +295,7 @@
               <th/>
               <th/>
               <th class="text-right">Quantity</th>
+              <!--<th class="text-right">Price</th>-->
             </tr>
           </thead>
           <tbody>
@@ -344,6 +371,12 @@
             </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">PRICE / M<sup>2</sup></td>
+              <!--
+			            <td class="text-right">
+			              <span t-field="o.qty_primary"/>
+			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			            </td>
+			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total1/qty_primary"/>
@@ -351,10 +384,29 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
+              <!--
+			            <th class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total1,2)"/>
+			              <span t-field="o.pricelist_id.currency_id.symbol"/>
+			            </th>
+			            -->
             </tr>
             <tr>
               <td colspan="6"/>
             </tr>
+            <!--
+			          <tr style="background-color:#B8CCE4">
+			            <td colspan="5">
+
+			              <h3>
+			                 Service
+			              </h3>
+
+			              <t t-set="with_price" t-value="1"/>
+			              <t t-set="with_qty" t-value="0"/>
+			            </td>
+			          </tr>
+			          -->
             <t t-set="with_qty" t-value="0"/>
             <t t-set="with_price" t-value="1"/>
             <t t-set="qty_only" t-value="1"/>
@@ -371,6 +423,19 @@
                 <t t-set="with_price" t-value="1"/>
                 <t t-set="with_qty" t-value="1"/>
               </td>
+              <!--
+			            <td class="text-right">
+			              <span t-field="o.qty_primary"/>
+			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			            </td>
+			            <td class="text-right" style="white-space: nowrap;">
+			              <t t-if="o.qty_primary">
+			                <t t-set="price" t-value="total2/qty_primary"/>
+			                <span t-esc="round(price,2)"/>
+			                <span t-field="o.pricelist_id.currency_id.symbol"/>
+			              </t>
+			            </td>
+			            -->
               <td style="text-align:right;vertical-align:middle;">
                 <span style="font-weight:bold;" t-esc="round(total2,2)"/>
                 <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
@@ -382,6 +447,12 @@
 			              <t t-set="with_price" t-value="1"/>
 			              <t t-set="with_qty" t-value="1"/>
 			            </td>
+              <!--
+			            <td class="text-right">
+			              <span t-field="o.qty_primary"/>
+			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			            </td>
+			            -->
               <td class="text-right" style="white-space: nowrap;">
                 <t t-if="o.qty_primary">
                   <t t-set="price" t-value="total2/qty_primary"/>
@@ -389,6 +460,12 @@
                   <span t-field="o.pricelist_id.currency_id.symbol"/>
                 </t>
               </td>
+              <!--
+			            <th class="text-right" style="white-space: nowrap;">
+			              <span t-esc="round(total2,2)"/>
+			              <span t-field="o.pricelist_id.currency_id.symbol"/>
+			            </th>
+			            -->
             </tr>
             <tr>
               <td colspan="6"> </td>
@@ -477,6 +554,7 @@
         </p>
         <div class="oe_structure"/>
       </div>
+
     </t>
   </t>
 
@@ -491,7 +569,8 @@
 <template id="report_specification_article3">
   <t t-name="deltatech_mrp_sale.report_specification_article2">
       <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%%'">
-          <t t-if="a.amount&gt;0.0">
+    <!-- t if ammount<0-->
+    <t t-if="a.amount&gt;0.0">
     <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
       <td colspan="4" style="white-space: nowrap;">
         <h4 style="margin:0 0 0 0;">
@@ -594,6 +673,8 @@
         </t>
       </tr>
     </t>
+  </t>
+  <!-- End t if ammount<0-->
   </t>
       </t>
   </t>
