@@ -55,8 +55,8 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = 'product.product'
     
-    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price')
-    standard_price = fields.Float()
+    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price', track_visibility='always')
+    standard_price = fields.Float(track_visibility='always')
     is_simple_product = fields.Boolean(string="Base product")
     
     

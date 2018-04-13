@@ -38,6 +38,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     other_categ_id = fields.Many2one('product.category',string='Other Category', store = True)
+    standard_price = fields.Float(track_visibility='always')
  
 class ProductProduct(models.Model):
     _inherit = 'product.product'
