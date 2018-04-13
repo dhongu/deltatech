@@ -38,6 +38,7 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
+    standard_price = fields.Float(track_visibility='always')
 
     @api.multi
     def write(self, vals):
