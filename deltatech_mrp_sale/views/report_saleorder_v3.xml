@@ -676,7 +676,6 @@
   </t>
   <!-- End t if ammount<0-->
   </t>
-      </t>
   </t>
 </template>
 <!-- End Specification article 3 -->
@@ -693,5 +692,5 @@
 		
 		
 
-	</data>
+</data>
 </openerp>
