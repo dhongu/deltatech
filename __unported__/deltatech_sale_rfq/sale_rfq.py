@@ -62,7 +62,7 @@ class sale_rfq(models.Model):
     
     date_deadline = fields.Date(string='Deadline', readonly=True, states={'draft': [('readonly', False)]})
     
-    report_id = fields.Many2one('ir.actions.report.xml', string='Report', domain=[('model','=','sale.order')] )
+    report_id = fields.Many2one('ir.actions.report', string='Report', domain=[('model','=','sale.order')] )
     
     doc_count = fields.Integer(string="Number of documents attached", compute = "_compute_doc_count")
  
