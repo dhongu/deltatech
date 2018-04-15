@@ -10,9 +10,9 @@ from odoo import models, fields, api, _
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
-    procurement_group_id = fields.Many2one( 'procurement.group', 'Procurement Group')
-
-
+    procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group')
+    raw_product_id = fields.Many2one('product.product', string='Raw product', store=True,
+                                     related='production_id.raw_product_id')
 
     @api.model
     def create(self, vals):

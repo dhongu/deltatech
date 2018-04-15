@@ -4,7 +4,7 @@
 
     <data noupdate="1">
 
-        <record id="mrp.consolidation" model="ir.sequence">
+        <record id="mrp_consolidation" model="ir.sequence">
             <field name="name">Consolidation</field>
             <field name="code">mrp.consolidation</field>
             <field name="prefix"></field>

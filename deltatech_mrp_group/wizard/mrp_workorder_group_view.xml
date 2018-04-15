@@ -8,7 +8,7 @@
                 <form>
                     <group string="Group Work Order">
                         <group>
-                            <field name="group_id"/>
+                            <field name="group_id" placeholder="Leave empty to create a new group"/>
                             <field name="date_planned"/>
                         </group>
 

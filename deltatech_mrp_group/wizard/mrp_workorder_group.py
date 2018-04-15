@@ -31,8 +31,6 @@ class MrpWorkOrderGroup(models.TransientModel):
             defaults['group_id'] = group_ids.id
         return defaults
 
-
-
     @api.multi
     def do_group(self):
 
@@ -40,7 +38,8 @@ class MrpWorkOrderGroup(models.TransientModel):
             return
 
         if not self.group_id:
-            self.group_id.self.env["procurement.group"].create({})
+            name = self.env['ir.sequence'].next_by_code('mrp.consolidation')
+            self.group_id.self.env["procurement.group"].create({'name': name})
 
         self.workorder_ids.write({'procurement_group_id': self.group_id.id})
         return
