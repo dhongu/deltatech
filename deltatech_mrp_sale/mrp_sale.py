@@ -710,13 +710,13 @@ class sale_mrp_resource(models.Model):
             except:
                 pass
 
-            pricelist = order_id.pricelist_id.with_context(production=self.article_id)
-            price = pricelist.price_get(self.product_id.id, self.product_uom_qty or 1.0, order_id.partner_id.id)[pricelist.id]
+            # pricelist = order_id.pricelist_id.with_context(production=self.article_id)
+            # price = pricelist.price_get(self.product_id.id, self.product_uom_qty or 1.0, order_id.partner_id.id)[pricelist.id]
+            #
+            # price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id)
+            # self.price_unit = price
 
-            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id)
-            self.price_unit = price
-
-    @api.onchange('product_id', 'product_uom_qty')
+    @api.onchange('product_id', 'product_uom_qty','purchase_price')
     def onchange_product_id(self):
         if self.product_id and self.article_id.order_id and self.article_id.order_id.pricelist_id:
 
