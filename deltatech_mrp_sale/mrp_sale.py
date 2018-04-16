@@ -706,13 +706,13 @@ class sale_mrp_resource(models.Model):
             purchase_price = from_currency.compute(self.purchase_price, self.env.user.company_id.currency_id)
             try:
                 self.product_id.write({'standard_price': purchase_price})
+
             except:
                 pass
 
-            price = \
-                order_id.pricelist_id.price_get(self.product_id.id, self.product_uom_qty or 1.0,
-                                                order_id.partner_id.id)[
-                    order_id.pricelist_id.id]
+            pricelist = order_id.pricelist_id.with_context(production=self.article_id)
+            price = pricelist.price_get(self.product_id.id, self.product_uom_qty or 1.0, order_id.partner_id.id)[pricelist.id]
+
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id)
             self.price_unit = price
 
@@ -735,10 +735,8 @@ class sale_mrp_resource(models.Model):
             # am pus in context atricolul pentru ca se se reia de acolo atributele can de calculeaza pretul
             # am pus dar fara efect ca se pierde pe drum contextul
             # pretul se va caclula manual din BOM prin apasarea unui buton care va face calculul pentru ficare varianta de produs
-            price = order_id.pricelist_id.with_context(production=self.article_id).price_get(self.product_id.id,
-                                                                                             self.product_uom_qty or 1.0,
-                                                                                             order_id.partner_id.id)[
-                order_id.pricelist_id.id]
+            pricelist = order_id.pricelist_id.with_context(production=self.article_id)
+            price = pricelist.price_get(self.product_id.id, self.product_uom_qty or 1.0, order_id.partner_id.id)[pricelist.id]
 
             price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price,
                                                            self.product_uom.id)  # nu cred ca e cazul ca sa mai schimb si unitatea de masura
