@@ -166,10 +166,12 @@ class MrpWorkRecord(models.TransientModel):
                 values['error_message'] = _('pProduct %s not found') % barcode
             else:
                 workorder_domain = [('raw_product_id', '=', product.id),
+                                    ('code', '=', values['operation_code']),
                                     ('state', 'in', ['planned', 'progress'])]
                 work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
                     workorder_domain = [('product_id', '=', product.id),
+                                        ('code', '=', values['operation_code']),
                                         ('state', 'in', ['planned', 'progress'])]
                     work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
@@ -190,6 +192,7 @@ class MrpWorkRecord(models.TransientModel):
                 values['procurement_group_id'] = procurement_group.id
 
                 workorder_domain = [('procurement_group_id', '=', procurement_group.id),
+                                    ('code', '=', values['operation_code']),
                                     ('state', 'in', ['planned', 'progress'])]
                 if values.get('operation_code', False):
                     workorder_domain += [('code', '=', values['operation_code'])]
