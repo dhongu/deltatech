@@ -42,3 +42,22 @@ class SaleAdvancePaymentInv(models.TransientModel):
     def create_invoices(self):
         new_self = self.with_context(default_journal_id=self.journal_id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
+
+
+    @api.multi
+    def _create_invoice(self, order, so_line, amount):
+        new_self = self.with_context(default_journal_id=self.journal_id)
+        invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
+
+        from_currency = invoice.currency_id
+        to_currency = self.journal_id.currency_id or self.env.user.company_id.currency_id
+        date_eval = invoice.date_invoice or fields.Date.context_today(self)
+
+        if from_currency != to_currency:
+            invoice.write({'currency_id':to_currency.id})
+            for line in invoice.invoice_line_ids:
+                price_unit = from_currency.compute(line.price_unit, to_currency, round=False)
+                line.write({'price_unit':price_unit})
+
+
+        return invoice
