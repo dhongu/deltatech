@@ -38,7 +38,34 @@ class SaleAdvancePaymentInv(models.TransientModel):
                                  default=_default_journal,
                                  domain="[('type', '=', 'sale')]")
 
+
+    @api.model
+    def default_get(self, fields):
+        defaults = super(SaleAdvancePaymentInv, self).default_get(fields)
+        if self._context.get('active_ids'):
+            sale_obj = self.env['sale.order']
+            order = sale_obj.browse(self._context.get('active_ids'))[0]
+            if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
+                defaults['advance_payment_method'] = 'percentage'
+                defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
+                # defaults['product_id'] =  self.env.ref('sale.advance_product_0').id,
+
+        return defaults
+
+
     @api.multi
     def create_invoices(self):
         new_self = self.with_context(default_journal_id=self.journal_id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
+
+
+    @api.onchange('advance_payment_method')
+    def onchange_advance_payment_method(self):
+        if self.advance_payment_method == 'percentage':
+            amount = 0
+            sale_obj = self.env['sale.order']
+            order = sale_obj.browse(self._context.get('active_ids'))[0]
+            if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
+                amount = order.payment_term_id.line_ids[0].value_amount
+            return {'value': {'amount': amount}}
+        return {}
