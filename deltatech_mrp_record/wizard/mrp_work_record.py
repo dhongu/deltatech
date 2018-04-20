@@ -194,7 +194,8 @@ class MrpWorkRecord(models.TransientModel):
                 workorder_domain = [('procurement_group_id', '=', procurement_group.id),
                                     ('code', '=', values['operation_code']),
                                     ('state', 'in', ['planned', 'progress'])]
-
+                if values.get('operation_code', False):
+                    workorder_domain += [('code', '=', values['operation_code'])]
                 work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
                     values['error_message'] = _('For the group %s there are no work order') % barcode
