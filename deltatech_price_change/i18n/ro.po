@@ -1,0 +1,546 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-11 21:02+0000\n"
+"PO-Revision-Date: 2014-11-11 21:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Adaos"
+msgstr "Adaos"
+
+#. module: deltatech_price
+#: field:product.price.change,address_id:0
+msgid "Address"
+msgstr "Adresa"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Adresa de livrare :"
+msgstr "Adresa de livrare:"
+
+#. module: deltatech_price
+#: help:purchase.order.line,list_price:0
+msgid "Base price to compute the customer price. Sometimes called the catalog price."
+msgstr "Preț de catalog"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "CUI:"
+msgstr "CUI:"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Cantitate"
+msgstr "Cantitate"
+
+#. module: deltatech_price
+#: code:addons/deltatech_price/product_price_change.py:157
+#, python-format
+msgid "Change Price document with status 'Done' cant't by deleted"
+msgstr "Documentul de modificare preț are statusul 'Gata' și nu mai poate fi șters"
+
+#. module: deltatech_price
+#: view:product.price.change:deltatech_price.view_change_price_form
+#: view:product.price.change:deltatech_price.view_product_change_price
+msgid "Change Product Price"
+msgstr "Modificare preț produs"
+
+#. module: deltatech_price
+#: field:product.price.change,child_ids:0
+msgid "Child Product Price Change"
+msgstr "Copil Modificare preț produs"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "City:"
+msgstr "Localitatea:"
+
+#. module: deltatech_price
+#: field:product.price.change,company_id:0
+msgid "Company"
+msgstr "Compania"
+
+#. module: deltatech_price
+#: view:product.price.change:deltatech_price.view_change_price_form
+msgid "Confirm"
+msgstr "Confirmă"
+
+#. module: deltatech_price
+#: view:purchase.order:deltatech_price.purchase_order_form
+msgid "Confirm Receive Products"
+msgstr "Confimă recepția Produselor"
+
+#. module: deltatech_price
+#: field:product.price.change,create_uid:0
+#: field:product.price.change.line,create_uid:0
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_price
+#: field:product.price.change,create_date:0
+#: field:product.price.change.line,create_date:0
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Data:"
+msgstr "Data:"
+
+#. module: deltatech_price
+#: field:product.price.change,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_price
+#: help:product.price.change,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Descriere"
+msgstr "Descriere"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_price
+#: field:product.price.change,diff_amount:0
+#: field:product.price.change.line,diff_amount:0
+#: report:product.price.change.list:0
+msgid "Difference Amount"
+msgstr "Valoare diferență"
+
+#. module: deltatech_price
+#: selection:product.price.change,state:0
+msgid "Done"
+msgstr "Gata"
+
+#. module: deltatech_price
+#: selection:product.price.change,state:0
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Fed. State:"
+msgstr "Județ:"
+
+#. module: deltatech_price
+#: field:product.price.change,message_follower_ids:0
+msgid "Followers"
+msgstr "Interesați"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Gestionar:"
+msgstr "Gestionar:"
+
+
+#. module: deltatech_price
+#: field:product.price.change,id:0
+#: field:product.price.change.line,id:0
+#: field:report.deltatech_price.report_receivepurchaseorder,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_price
+#: help:product.price.change,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "If checked new messages require your attention."
+
+#. module: deltatech_price
+#: code:addons/deltatech_price/product_price_change.py:157
+#, python-format
+msgid "Invalid Action!"
+msgstr "Invalid Action!"
+
+#. module: deltatech_price
+#: field:product.price.change,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Este interesat"
+
+#. module: deltatech_price
+#: field:product.price.change,message_last_post:0
+msgid "Last Message Date"
+msgstr "Last Message Date"
+
+#. module: deltatech_price
+#: field:product.template,last_purchase_price:0
+msgid "Last Purchase Price"
+msgstr "Ultimul preț de achiziție"
+
+#. module: deltatech_price
+#: field:product.price.change,write_uid:0
+#: field:product.price.change.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: deltatech_price
+#: field:product.price.change,write_date:0
+#: field:product.price.change.line,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: deltatech_price
+#: view:product.price.change:deltatech_price.view_change_price_form
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_price
+#: field:purchase.order.line,margin:0
+msgid "Margin"
+msgstr "Adaos"
+
+#. module: deltatech_price
+#: field:product.price.change,message_ids:0
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_price
+#: help:product.price.change,message_ids:0
+msgid "Messages and communication history"
+msgstr "Mesaje și istoricul comunicaării"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Modificare Preț:"
+msgstr "Modificare Preț:"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "NRC:"
+msgstr "NRC:"
+
+#. module: deltatech_price
+#: field:product.price.change,new_amount:0
+#: report:product.price.change.list:0
+msgid "New Amount"
+msgstr "Valoare nouă"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "New Price"
+msgstr "Preț Nou"
+
+#. module: deltatech_price
+#: code:addons/deltatech_price/product_price_change.py:144
+#: code:addons/deltatech_price/purchase.py:49
+#, python-format
+msgid "New Price Change"
+msgstr "Modificare de preț nouă"
+
+#. module: deltatech_price
+#: field:product.price.change.line,new_price:0
+msgid "New Sale Price"
+msgstr "Preț vânzare nou"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Notă de recepție și constatare diferențe:"
+msgstr "Notă de recepție și constatare diferențe:"
+
+#. module: deltatech_price
+#: field:product.price.change,name:0
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_price
+#: field:product.price.change,old_amount:0
+#: field:product.price.change.line,new_amount:0
+#: field:product.price.change.line,old_amount:0
+#: report:product.price.change.list:0
+msgid "Old Amount"
+msgstr "Valoare veche"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Old Price"
+msgstr "Preț vechi"
+
+#. module: deltatech_price
+#: field:product.price.change.line,old_price:0
+msgid "Old Sale Price"
+msgstr "Preț vânzare vechi"
+
+#. module: deltatech_price
+#: field:product.price.change,partner_id:0
+msgid "Owner Address"
+msgstr "Gestionar"
+
+#. module: deltatech_price
+#: field:product.price.change,parent_id:0
+msgid "Parent Product Price Change"
+msgstr "Părinte Modificare Preț"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Preț Nou"
+msgstr "Preț Nou"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Preț unitar fără TVA"
+msgstr "Preț unitar fără TVA"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Preț vechi"
+msgstr "Preț vechi"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Preț vânzare"
+msgstr "Preț vânzare"
+
+#. module: deltatech_price
+#: model:ir.actions.report.xml,name:deltatech_price.action_report_product_price_change
+#: model:ir.actions.report.xml,name:deltatech_price.report_product_price_change_list
+msgid "Price Change"
+msgstr "Modificare Preț"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Price Change:"
+msgstr "Modificare Preț:"
+
+#. module: deltatech_price
+#: field:product.price.change,line_ids:0
+msgid "Price History Lines"
+msgstr "Linii prețuri"
+
+#. module: deltatech_price
+#: field:product.price.change.line,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_price
+#: model:ir.actions.act_window,name:deltatech_price.action_deltatech_price_change
+#: model:ir.model,name:deltatech_price.model_product_price_change
+#: model:ir.ui.menu,name:deltatech_price.menu_deltatech_price_change
+#: field:product.price.change.line,price_change_id:0
+msgid "Product Price Change"
+msgstr "Modificare Preț Produs"
+
+#. module: deltatech_price
+#: model:ir.model,name:deltatech_price.model_product_template
+msgid "Product Template"
+msgstr "Produs șablon"
+
+#. module: deltatech_price
+#: model:ir.model,name:deltatech_price.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_price
+#: model:ir.model,name:deltatech_price.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_price
+#: field:product.price.change.line,quantity:0
+#: report:product.price.change.list:0
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_price
+#: model:ir.actions.report.xml,name:deltatech_price.action_report_receive_purchase_order
+msgid "Receive Purchase Order"
+msgstr "Recepție comandă achiziție"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Recepționat de:"
+msgstr "Recepționat de:"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Referința"
+msgstr "Referința"
+
+#. module: deltatech_price
+#: field:purchase.order.line,list_price:0
+msgid "Sale Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_price
+#: field:product.price.change.line,sequence:0
+msgid "Sequence"
+msgstr "Secvență"
+
+#. module: deltatech_price
+#: field:product.price.change,state:0
+msgid "Status"
+msgstr "Status"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Street:"
+msgstr "Strada:"
+
+#. module: deltatech_price
+#: field:product.price.change,message_summary:0
+msgid "Summary"
+msgstr "Sumar"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "TVA"
+msgstr "TVA"
+
+#. module: deltatech_price
+#: field:purchase.order.line,price_taxed:0
+msgid "Taxed Price"
+msgstr "Preț cu TVA"
+
+#. module: deltatech_price
+#: field:purchase.order.line,amount_tax:0
+msgid "Taxes"
+msgstr "TVA"
+
+#. module: deltatech_price
+#: help:purchase.order.line,price_taxed:0
+msgid "The price with tax"
+msgstr "Prețul cu TVA"
+
+#. module: deltatech_price
+#: help:purchase.order.line,price_untaxed:0
+msgid "The price without tax"
+msgstr "Prețul fără TVA"
+
+#. module: deltatech_price
+#: help:purchase.order.line,amount_tax:0
+msgid "The tax amount"
+msgstr "Total valoare TVA"
+
+#. module: deltatech_price
+#: help:purchase.order.line,amount_total:0
+msgid "The total amount"
+msgstr "Total valoare"
+
+#. module: deltatech_price
+#: help:purchase.order.line,amount_sale:0
+msgid "The total sale amount"
+msgstr "Total valoare vânzare"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+#: field:purchase.order.line,amount_total:0
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Total Fără TVA"
+msgstr "Total Fără TVA"
+
+#. module: deltatech_price
+#: field:purchase.order.line,amount_sale:0
+msgid "Total Sale"
+msgstr "Total Sale"
+
+#. module: deltatech_price
+#: view:product.product:deltatech_price.product_normal_form_view
+msgid "True"
+msgstr "True"
+
+#. module: deltatech_price
+#: field:product.price.change,message_unread:0
+msgid "Unread Messages"
+msgstr "Mesaje necitite"
+
+#. module: deltatech_price
+#: field:purchase.order.line,price_untaxed:0
+msgid "Untaxed Price"
+msgstr "Preț fără taxe"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "VAT:"
+msgstr "CUI:"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Valoare"
+msgstr "Valoare"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Valoare Nouă"
+msgstr "Valoare Nouă"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Valoare cu TVA"
+msgstr "Valoare cu TVA"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_receivepurchaseorder
+msgid "Valoare de vânzare"
+msgstr "Valoare de vânzare"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Valoare diferență"
+msgstr "Valoare diferență"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "Valoare veche"
+msgstr "Valoare veche"
+
+#. module: deltatech_price
+#: field:product.price.change,warehouse_id:0
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_price
+#: view:product.price.change:deltatech_price.view_change_price_form
+msgid "Warehouses"
+msgstr "Depozit"
+
+#. module: deltatech_price
+#: field:product.price.change,website_message_ids:0
+#: field:purchase.order,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mesaje Website"
+
+#. module: deltatech_price
+#: help:product.price.change,website_message_ids:0
+#: help:purchase.order,website_message_ids:0
+msgid "Website communication history"
+msgstr "Website communication history"
+
+#. module: deltatech_price
+#: report:product.price.change.list:0
+msgid "Zip:"
+msgstr "Cod poștal:"
+
+#. module: deltatech_price
+#: view:website:deltatech_price.report_pricechange
+msgid "din data:"
+msgstr "din data:"
+
+#. module: deltatech_price
+#: field:product.price.change,lot_stock_id:0
+msgid "unknown"
+msgstr "necunoscut"
+

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_receivepurchaseorder">
+	<t t-name="deltatech_price.report_receivepurchaseorder">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            Adresa de livrare :
+                            <br/>
+                            <div t-if="o.dest_address_id">
+                                <div t-field="o.dest_address_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                <p t-if="o.partner_id.vat">CUI: 
+                                    <span t-field="o.partner_id.vat"/>
+                                </p>
+                            </div>
+                            <div t-if="o.picking_type_id and o.picking_type_id.warehouse_id">
+                                <span t-field="o.picking_type_id.warehouse_id.name"/>
+                                <div t-field="o.picking_type_id.warehouse_id.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                                <p t-if="o.partner_id.vat">CUI: 
+
+                                    <span t-field="o.partner_id.vat"/>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-xs-5 col-xs-offset-1">
+                            <div t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/></div>
+                    </div>
+                    <h2>Notă de recepție și constatare diferențe:  <span t-field="o.name"/> </h2>
+                    <div class="row mt32 mb32">
+                        <div t-if="o.partner_ref" class="col-xs-3">
+                            <strong>Referința</strong>
+                            <p t-field="o.partner_ref"/>
+                        </div>
+                        <div t-if="o.date_order" class="col-xs-3">
+                            <strong> Data:</strong>
+                            <p t-field="o.date_order"/>
+                        </div>
+                        <div t-if="o.validator" class="col-xs-3">
+                            <strong>Recepționat de:</strong>
+                            <p t-field="o.validator"/>
+                        </div>
+                    </div>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <strong>Descriere</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Cantitate</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Preț unitar fără TVA</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Valoare</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>TVA</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Valoare cu TVA</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Preț vânzare</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Adaos</strong>
+                                </th>
+                                <th class="text-right">
+                                    <strong>Valoare de vânzare</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="o.order_line" t-as="line">
+                                <td>
+                                    <span t-field="line.name"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.product_qty"/>
+                                    <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.price_untaxed"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.price_subtotal"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.amount_tax"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.amount_total"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.list_price"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.margin"/>
+                                </td>
+                                <td class="text-right">
+                                    <span t-field="line.amount_sale"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>Total Fără TVA</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>TVA</td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <p t-field="o.notes"/>
+                    <div class="oe_structure"/></div>
+            </t>
+        </t>
+    </t>
+</t>
+	
+	
+
+</template>
+</data>
+</openerp>
