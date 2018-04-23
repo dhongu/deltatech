@@ -6,7 +6,7 @@
 from odoo import api, models
 
 class PurchaseOrder(models.Model):
-    _inherit = "purchase.order"\
+    _inherit = "purchase.order"
 
     @api.multi
     def _add_supplier_to_product(self):
