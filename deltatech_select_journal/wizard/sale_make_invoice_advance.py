@@ -37,7 +37,8 @@ class SaleAdvancePaymentInv(models.TransientModel):
     journal_id = fields.Many2one('account.journal', string='Journal',
                                  default=_default_journal,
                                  domain="[('type', '=', 'sale')]")
-
+    order_id = fields.Many2one('sale.order')
+    payment_term_id = fields.Many2one('account.payment.term', string='Payment Terms')
 
     @api.model
     def default_get(self, fields):
@@ -45,10 +46,13 @@ class SaleAdvancePaymentInv(models.TransientModel):
         if self._context.get('active_ids'):
             sale_obj = self.env['sale.order']
             order = sale_obj.browse(self._context.get('active_ids'))[0]
-            if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
-                defaults['advance_payment_method'] = 'percentage'
-                defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
-                # defaults['product_id'] =  self.env.ref('sale.advance_product_0').id,
+            defaults['order_id'] = order.id
+            defaults['payment_term_id'] = order.payment_term_id.id
+            if order.invoice_count == 0:
+                if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
+                    defaults['advance_payment_method'] = 'percentage'
+                    defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
+                    # defaults['product_id'] =  self.env.ref('sale.advance_product_0').id,
 
         return defaults
 
@@ -74,6 +78,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 price_unit = from_currency.compute(line.price_unit, to_currency, round=False)
                 line.write({'price_unit':price_unit})
 
+        invoice.write({'payment_term_id':False})
 
         return invoice
 
