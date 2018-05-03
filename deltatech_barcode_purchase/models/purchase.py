@@ -34,7 +34,7 @@ class PurchaseOrder(models.Model):
                 'state': 'draft',
             }
             order_line = self.order_line.new(vals)
-            order_line.product_id_change()
+            order_line.onchange_product_id()
             self.order_line += order_line
 
     def on_barcode_scanned(self, barcode):
