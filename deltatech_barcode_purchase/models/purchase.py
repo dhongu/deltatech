@@ -16,13 +16,6 @@ class PurchaseOrder(models.Model):
         if order_line:
             order_line.product_qty += qty
         else:
-            # product_lang = product.with_context({
-            #     'lang': self.partner_id.lang,
-            #     'partner_id': self.partner_id.id,
-            # })
-            # name = product_lang.display_name
-            # if product_lang.description_purchase:
-            #     name += '\n' + product_lang.description_purchase
 
             vals = {
                 'product_id': product.id,
