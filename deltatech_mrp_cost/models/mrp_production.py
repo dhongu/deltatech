@@ -26,59 +26,58 @@ class MrpProduction(models.Model):
     service_amount = fields.Float(digits=dp.get_precision('Account'))
     acc_move_line_ids = fields.One2many('account.move.line', 'production_id', string='Account move lines')
 
-    @api.one
+    @api.multi
     def _calculate_amount(self):
-        production = self
-        calculate_price = 0.0
-        amount = 0.0
+        for production in self:
+            calculate_price = 0.0
+            amount = 0.0
 
-        planned_cost = True
-        for move in production.move_raw_ids:
-            if move.quantity_done > 0:
-                planned_cost = False  # nu au fost facute miscari de stoc
-
-        if planned_cost:
+            planned_cost = True
             for move in production.move_raw_ids:
-                qty = move.product_qty + move.product_qty * move.product_id.scrap
-                amount += move.price_unit * qty
-            product_qty = production.product_qty
+                if move.quantity_done > 0:
+                    planned_cost = False  # nu au fost facute miscari de stoc
 
-        else:
-            for move in production.move_raw_ids:
-                qty = move.product_qty + move.product_qty * move.product_id.scrap
-                amount += abs(move.price_unit) * qty
-            product_qty = 0.0
-            for move in production.move_finished_ids:
-                product_qty += move.product_uom_qty
-            if product_qty == 0.0:
+            if planned_cost:
+                for move in production.move_raw_ids:
+                    qty = move.product_qty + move.product_qty * move.product_id.scrap
+                    amount += move.price_unit * qty
                 product_qty = production.product_qty
 
-        # adaugare manopera:
+            else:
+                for move in production.move_raw_ids:
+                    qty = move.product_qty + move.product_qty * move.product_id.scrap
+                    amount += abs(move.price_unit) * qty
+                product_qty = 0.0
+                for move in production.move_finished_ids:
+                    product_qty += move.product_uom_qty
+                if product_qty == 0.0:
+                    product_qty = production.product_qty
 
-        if production.routing_id:
-            for operation in production.routing_id.operation_ids:
-                time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
+            # adaugare manopera:
 
-                cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
-                duration_expected = (operation.workcenter_id.time_start +
-                                     operation.workcenter_id.time_stop +
-                                     cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
+            if production.routing_id:
+                for operation in production.routing_id.operation_ids:
+                    time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
 
-                amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
+                    cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
+                    duration_expected = (operation.workcenter_id.time_start +
+                                         operation.workcenter_id.time_stop +
+                                         cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
 
-        amount += production.service_amount
-        calculate_price = amount / product_qty
-        production.calculate_price = calculate_price
+                    amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
 
-        if not planned_cost:
+            amount += production.service_amount
+            calculate_price = amount / product_qty
+            production.calculate_price = calculate_price
             production.amount = amount
 
     def _cal_price(self, consumed_moves):
         super(MrpProduction, self)._cal_price(consumed_moves)
         self.ensure_one()
         production = self
+        self._calculate_amount()  # refac calculul
         if production.product_id.cost_method == 'fifo' and production.product_id.standard_price != production.calculate_price:
-            # oare aici am campul calculate_price actualizat dupa miscarile de stoc efectuate?
+
             price_unit = production.calculate_price
             production.product_id.write({'standard_price': price_unit})
             production.move_finished_ids.write({'price_unit': price_unit})
@@ -197,18 +196,6 @@ class MrpProduction(models.Model):
             action = False
         return action
 
-    """
-    @api.multi
-    def post_inventory(self):
-        super(MrpProduction,self).post_inventory()
-        for order in self:
-            if order.move_raw_ids:
-                picking = order.move_raw_ids[0].picking_id
-                for op in picking.pack_operation_ids:
-                    if not op.qty_done:
-                        op.qty_done = op.product_qty
-
-    """
 
     def _generate_raw_move(self, bom_line, line_data):
         move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
