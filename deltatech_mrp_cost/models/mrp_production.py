@@ -1,15 +1,20 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ©  2015-2017 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-
 import odoo.addons.decimal_precision as dp
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
+from odoo.exceptions import UserError
 import math
 
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    production_id = fields.Many2one('mrp.production')
 
 
 class MrpProduction(models.Model):
@@ -18,6 +23,8 @@ class MrpProduction(models.Model):
     amount = fields.Float(digits=dp.get_precision('Account'), string='Production Amount', compute='_calculate_amount')
     calculate_price = fields.Float(digits=dp.get_precision('Account'), string='Calculate Price',
                                    compute='_calculate_amount')
+    service_amount = fields.Float(digits=dp.get_precision('Account'))
+    acc_move_line_ids = fields.One2many('account.move.line', 'production_id', string='Account move lines')
 
     @api.one
     def _calculate_amount(self):
@@ -39,7 +46,7 @@ class MrpProduction(models.Model):
         else:
             for move in production.move_raw_ids:
                 qty = move.product_qty + move.product_qty * move.product_id.scrap
-                amount += move.price_unit * qty
+                amount += abs(move.price_unit) * qty
             product_qty = 0.0
             for move in production.move_finished_ids:
                 product_qty += move.product_uom_qty
@@ -59,6 +66,7 @@ class MrpProduction(models.Model):
 
                 amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
 
+        amount += production.service_amount
         calculate_price = amount / product_qty
         production.calculate_price = calculate_price
 
@@ -77,9 +85,43 @@ class MrpProduction(models.Model):
         return True
 
     @api.multi
+    def check_service_invoiced(self):
+        # sunt servicii in bom ?
+        for production in self:
+            service_amount = 0
+            for line in production.bom_id.bom_line_ids:
+                if line.product_id.type == 'service':
+                    # care este comanda de achizitie ?
+                    orders = self.env['purchase.order'].search([('group_id', '=', production.procurement_group_id.id)])
+                    for order in orders:
+                        if order.invoice_status != 'invoiced':
+                            raise UserError(_('Order %s is not invoiced') % order.name)
+                        for invoice in order.invoice_ids:
+                            if not invoice.move_id:
+                                raise UserError(_('Invoice %s is not validated') % invoice.number)
+                            else:
+                                for acc_move_line in invoice.move_id.line_ids:
+                                    acc_move_line.write({'production_id': production.id})
+                                    if acc_move_line.product_id:
+                                        service_amount += acc_move_line.debit + acc_move_line.credit
+            if service_amount:
+                production.write({'service_amount': service_amount})
+
+    @api.multi
     def post_inventory(self):
+        self.check_service_invoiced()
+
         self.assign_picking()
-        return super(MrpProduction, self).post_inventory()
+        res = super(MrpProduction, self).post_inventory()
+        for production in self:
+            acc_move_line_ids = self.env['account.move.line']
+            for move in production.move_raw_ids:
+                acc_move_line_ids |= move.account_move_ids.line_ids
+            for move in production.move_finished_ids:
+                acc_move_line_ids |= move.account_move_ids.line_ids
+            if acc_move_line_ids:
+                acc_move_line_ids.write({'production_id': production.id})
+        return res
 
     @api.multi
     def _generate_moves(self):
@@ -103,8 +145,9 @@ class MrpProduction(models.Model):
                 else:
                     picking = move.picking_id
             if move_list:
-                #picking_type = self.env.ref('stock.picking_type_consume', raise_if_not_found=True)
-                picking_type = self.env.user.company_id.warehouse_id.pick_type_prod_consume_id
+
+                warehouse_id = production.location_dest_id.get_warehouse() or self.env.user.company_id.warehouse_id
+                picking_type = warehouse_id.pick_type_prod_consume_id
                 if picking_type:
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
@@ -114,10 +157,6 @@ class MrpProduction(models.Model):
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
                     picking.action_assign()
-                    # picking.get_account_move_lines()  # din localizare
-            #for move in production.move_raw_ids:
-                #if not move.quantity_done_store:
-                    #move.quantity_done_store = move.product_qty
 
             # nota de predare
             move_list = self.env['stock.move']
@@ -128,8 +167,9 @@ class MrpProduction(models.Model):
                 else:
                     picking = move.picking_id
             if move_list:
-                #picking_type = self.env.ref('stock.picking_type_receipt_production', raise_if_not_found=True)
-                picking_type = self.env.user.company_id.warehouse_id.pick_type_prod_receipt_id
+                warehouse_id = production.location_src_id.get_warehouse() or self.env.user.company_id.warehouse_id
+
+                picking_type = warehouse_id.pick_type_prod_receipt_id
                 if picking_type:
                     if not picking:
                         picking = self.env['stock.picking'].create({'picking_type_id': picking_type.id,
@@ -152,8 +192,10 @@ class MrpProduction(models.Model):
         action = self.env.ref('stock.action_picking_tree_all').read()[0]
         if pickings:
             action['domain'] = "[('id','in'," + str(pickings.ids) + " )]"
-        return action
 
+        else:
+            action = False
+        return action
 
     """
     @api.multi
@@ -167,3 +209,35 @@ class MrpProduction(models.Model):
                         op.qty_done = op.product_qty
 
     """
+
+    def _generate_raw_move(self, bom_line, line_data):
+        move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
+        if bom_line.product_id.type == 'service':
+            self._action_launch_procurement_rule(bom_line)
+            self.service_amount += bom_line.product_id.standard_price * line_data['qty']
+        return move
+
+    @api.model
+    def _prepare_service_procurement_values(self):
+        location = self.location_src_id
+        return {
+            'company_id': self.company_id,
+            'date_planned': self.date_planned_start,
+            'warehouse_id': location.get_warehouse(),
+            'group_id': self.procurement_group_id,
+        }
+
+    @api.model
+    def _action_launch_procurement_rule(self, line):
+        values = self._prepare_service_procurement_values()
+
+        name = '%s for %s' % (line.product_id.name, self.name)
+        self.env['procurement.group'].sudo().run(
+            line.product_id,
+            line.product_qty,
+            line.product_uom_id,
+            self.location_src_id,
+            name,
+            name,
+            values)
+        return True
