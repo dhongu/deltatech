@@ -12,6 +12,23 @@ import math
 
 
 
+class ChangeProductionQty(models.TransientModel):
+    _inherit = 'change.production.qty'
+
+
+    @api.model
+    def _update_product_to_produce(self, production, qty):
+        if production.product_id:
+            return super(ChangeProductionQty, self)._update_product_to_produce()
+
+        production_move = production.move_finished_ids.filtered(lambda x:x.product_id.product_tmpl_id.id == production.product_tmpl_id.id and x.state not in ('done', 'cancel'))
+
+        if not production_move:
+            production_move = production._generate_finished_moves()
+
+        for move in production_move:
+            move.write({'product_uom_qty': qty * move.unit_factor})
+
 
 
 
@@ -69,7 +86,7 @@ class MrpProduction(models.Model):
                 'production_id': self.id,
                 'origin': self.name,
                 'group_id': self.procurement_group_id.id,
-                'unit_factor': 1 / self.product_tmpl_id.product_variant_count,
+                'unit_factor': product_qty / self.product_qty,
                 'propagate': self.propagate,
                 'move_dest_ids': [(4, x.id) for x in self.move_dest_ids],
             })
