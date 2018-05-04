@@ -76,11 +76,12 @@ class MrpProduction(models.Model):
         self.ensure_one()
         production = self
         self._calculate_amount()  # refac calculul
-        if production.product_id.cost_method == 'fifo' and production.product_id.standard_price != production.calculate_price:
+        if production.product_tmpl_id.cost_method == 'fifo' and production.product_tmpl_id.standard_price != production.calculate_price:
 
             price_unit = production.calculate_price
-            production.product_id.write({'standard_price': price_unit})
+            production.product_tmpl_id.write({'standard_price': price_unit})
             production.move_finished_ids.write({'price_unit': price_unit})
+
         return True
 
     @api.multi

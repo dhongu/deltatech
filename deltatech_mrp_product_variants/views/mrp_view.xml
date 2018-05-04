@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<odoo>
+     <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">deltatech.mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <!--
+                <field name="product_id" position="replace">
+                    <field name="product_id" attrs="{'readonly': [('has_moves', '=', True)]}" invisible="1"
+                       domain="[('bom_ids', '!=', False), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal')]"/>
+                </field>
+                -->
+                <field name="product_tmpl_id" position="replace">
+                    <field name="product_tmpl_id" attrs="{'readonly': [('has_moves', '=', True)]}"
+                       domain="[('bom_ids', '!=', False), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal')]"/>
+                </field>
+
+            </field>
+        </record>
+</odoo>

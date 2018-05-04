@@ -87,20 +87,21 @@ class StockInventoryLine(models.Model):
     @api.model
     def get_price(self):
         price = self.product_id.standard_price
-        if self.product_id.cost_method == 'fifo':
-            dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id),
-                   ('lot_id', '=', self.prod_lot_id.id),
-                   ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
-                   ('package_id', '=', self.package_id.id)]
-            dom = [('location_id', '=', self.location_id.id), ('product_id', '=', self.product_id.id),
-                   ('lot_id', '=', self.prod_lot_id.id),
-                   ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
-
-            quants = self.env['stock.quant'].search(dom)
-
-            value = sum([q.inventory_value for q in quants])
-            if self.theoretical_qty > 0:
-                price = value / self.theoretical_qty
+        # todo: in 11 determinarea preturlui trebuie facuta din miscarile de stoc nu din quant
+        # if self.product_id.cost_method == 'fifo':
+        #     dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id),
+        #            ('lot_id', '=', self.prod_lot_id.id),
+        #            ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
+        #            ('package_id', '=', self.package_id.id)]
+        #     dom = [('location_id', '=', self.location_id.id), ('product_id', '=', self.product_id.id),
+        #            ('lot_id', '=', self.prod_lot_id.id),
+        #            ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
+        #
+        #     quants = self.env['stock.quant'].search(dom)
+        #
+        #     value = sum([q.inventory_value for q in quants])
+        #     if self.theoretical_qty > 0:
+        #         price = value / self.theoretical_qty
 
         return price
 
