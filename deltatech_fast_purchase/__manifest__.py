@@ -16,6 +16,7 @@ Features:
 ---------
  - Buton in comanda de aprovizionare pentru a face pasii de confirmare, receptie si facturare
  - Buton in repetie pentru a introduce direct factura
+ - Buton in camoanda de aprovizonare pentru generare de receptie in baza unui aviz
 
 
     """,
