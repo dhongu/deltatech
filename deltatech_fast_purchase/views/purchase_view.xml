@@ -11,8 +11,12 @@
 				<xpath expr="//header" position="inside">
 					<button name="action_button_confirm_to_invoice" states="draft,sent"
 					 string="Confirm, Receipt and Bill" type="object" groups="base.group_user" />
+
 					<button name="action_button_confirm_to_invoice" states="purchase"
 					 string="Receipt and Bill" type="object" groups="base.group_user" />
+
+					<button name="action_button_confirm_notice" states="purchase"
+					 string="Receipt Notice" type="object" groups="base.group_user" />
 				</xpath>
 
 			</field>
