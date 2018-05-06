@@ -94,7 +94,7 @@ class MrpWorkRecord(models.TransientModel):
 
         elif scann['type'] == 'mrp_operation':
             workorder_domain = [('code', '=', barcode),
-                                ('state', 'in', ['planned', 'progress'])]
+                                ('state', 'in', ['ready', 'progress'])]
             if values.get('work_order_ids', False):
                 workorder_domain += [('id', 'in', values['work_order_ids'])]
 
@@ -169,12 +169,12 @@ class MrpWorkRecord(models.TransientModel):
             else:
                 workorder_domain = [('raw_product_id', '=', product.id),
                                     ('code', '=', values['operation_code']),
-                                    ('state', 'in', ['planned', 'progress'])]
+                                    ('state', 'in', ['ready', 'progress'])]
                 work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
                     workorder_domain = [('product_id', '=', product.id),
                                         ('code', '=', values['operation_code']),
-                                        ('state', 'in', ['planned', 'progress'])]
+                                        ('state', 'in', ['ready', 'progress'])]
                     work_orders = self.env['mrp.workorder'].search(workorder_domain)
                 if not work_orders:
                     values['error_message'] = _('For the product %s there are no work order') % product.name
@@ -195,7 +195,7 @@ class MrpWorkRecord(models.TransientModel):
 
                 workorder_domain = [('procurement_group_id', '=', procurement_group.id),
                                     ('code', '=', values['operation_code']),
-                                    ('state', 'in', ['planned', 'progress'])]
+                                    ('state', 'in', ['ready', 'progress'])]
                 if values.get('operation_code', False):
                     workorder_domain += [('code', '=', values['operation_code'])]
                 work_orders = self.env['mrp.workorder'].search(workorder_domain)
