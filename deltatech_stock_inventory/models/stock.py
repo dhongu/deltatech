@@ -41,7 +41,6 @@ class StockInventory(models.Model):
             res = lines
         return res
 
-
     @api.multi
     def action_check(self):
         for inventory in self:
@@ -78,9 +77,11 @@ class StockInventoryLine(models.Model):
     loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
 
-    @api.onchange('theoretical_qty')
-    def onchange_theoretical_qty(self):
+    @api.onchange('product_id')
+    def onchange_product(self):
+        res = super(StockInventoryLine, self).onchange_product()
         self.standard_price = self.get_price()
+        return res
 
     # todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
 
@@ -152,9 +153,11 @@ class StockInventoryLine(models.Model):
     def _generate_moves(self):
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'fifo':
-                inventory_line.product_id.write( {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+                inventory_line.product_id.write(
+                    {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         return moves
+
 
 """
 class StockHistory(models.Model):

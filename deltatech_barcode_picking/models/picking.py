@@ -41,3 +41,4 @@ class Picking(models.Model):
         product = self.env['product.product'].search([('barcode', '=', barcode)])
         if product:
             self._add_product(product)
+

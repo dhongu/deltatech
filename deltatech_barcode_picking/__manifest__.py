@@ -19,7 +19,8 @@ Features:
  
 """,
     "data": [
-        'views/picking_views.xml'
+        'views/picking_views.xml',
+        'views/stock_inventory_view.xml'
     ],
     "active": False,
     "installable": True,

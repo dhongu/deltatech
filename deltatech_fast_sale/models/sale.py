@@ -21,7 +21,7 @@ class sale_order(models.Model):
             self.action_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
-            if picking.state not in ['done']:
+            if picking.state not in ['done','cancel']:
                 picking.action_assign()  # verifica disponibilitate
                 if not all(move.state == 'assigned' for move in picking.move_lines):
                     raise UserError(_('Not all products are available.'))
@@ -37,4 +37,33 @@ class sale_order(models.Model):
         action = action_obj.read()[0]
 
         return action
+
+
+
+    @api.multi
+    def action_button_confirm_notice(self):
+
+        picking_ids = self.env['stock.picking']
+        for picking in self.picking_ids:
+            if picking.state == 'assigned':
+                picking.write({'notice': True})
+                picking_ids |= picking
+
+        if not picking_ids:
+            return
+
+        action = self.env.ref('stock.action_picking_tree')
+        result = action.read()[0]
+
+        result['context'] = {}
+
+        pick_ids = picking_ids.ids
+        # choose the view_mode accordingly
+        if len(pick_ids) > 1:
+            result['domain'] = "[('id','in',%s)]" % (pick_ids.ids)
+        elif len(pick_ids) == 1:
+            res = self.env.ref('stock.view_picking_form', False)
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = picking_ids.id
+        return result
 
