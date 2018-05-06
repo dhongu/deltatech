@@ -14,6 +14,8 @@
 					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
 					<button name="action_button_confirm_to_invoice" states="sale"
 					 string="Deliver and Invoice" type="object" groups="base.group_user" />
+					<button name="action_button_confirm_notice" states="sale"
+					 string="Deliver Notice" type="object" groups="base.group_user" />
 				</xpath>
 
 			</field>
