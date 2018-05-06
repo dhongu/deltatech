@@ -113,7 +113,9 @@ class MrpWorkRecord(models.TransientModel):
             values['error_message'] = _('Please scan first the operation')
             return values
 
-        if scann['type'] == 'mrp_worker':
+        if scann['type'] == 'mrp_operation':
+            pass
+        elif scann['type'] == 'mrp_worker':
             domain = []
             if worker_module == 'res.partner':
                 domain = [('ref', '=', scann['code'])]
