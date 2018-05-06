@@ -35,8 +35,8 @@ class stock_move(models.Model):
     #metoda asata nu cred ca mai este in 10
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
-        if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
-            sale_line = move.procurement_id.sale_line_id 
+        if inv_type in ('out_invoice', 'out_refund') and move.sale_line_id:
+            sale_line = move.sale_line_id
             res['ref'] = sale_line.ref
             
         return res

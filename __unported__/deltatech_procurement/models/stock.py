@@ -72,7 +72,7 @@ class stock_picking(models.Model):
             msg = ''
             if picking.location_id.user_id:
                 new_follower_ids += [picking.location_id.user_id.partner_id.id]
-                if picking.location_id.user_id.id <> self.env.user.id:
+                if picking.location_id.user_id.id != self.env.user.id:
                     msg = _('Please confirm transfer from %s to %s') % (picking.location_id.name, picking.location_dest_id.name)
             if picking.location_dest_id.user_id:
                 new_follower_ids += [picking.location_dest_id.user_id.partner_id.id]                
@@ -276,8 +276,8 @@ class stock_move(models.Model):
         parent_move_line = get_parent_move(move.id)
         if parent_move_line:
             move = move_obj.browse(cr, uid, parent_move_line)
-            partner_name = move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.order_id.partner_id.name or False
-            name = move.procurement_id and move.procurement_id.sale_line_id and move.procurement_id.sale_line_id.order_id.name or False
+            partner_name = move.sale_line_id and move.sale_line_id.order_id.partner_id.name or False
+            name = move.sale_line_id and move.sale_line_id.order_id.name or False
             if partner_name:
                 res['origin'] = name + ':' +partner_name
         return res

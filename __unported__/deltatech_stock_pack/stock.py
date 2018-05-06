@@ -54,8 +54,8 @@ class stock_move(models.Model):
         for key in packs:
             pack_str += str(packs[key]) + ' x ' +str(key) + ';'  #+ move.product_uom.name +'; '         
         res['name'] +=  '\n' +  pack_str  
-        if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
-            sale_line = move.procurement_id.sale_line_id 
+        if inv_type in ('out_invoice', 'out_refund') and move.sale_line_id:
+            sale_line = move.sale_line_id
             if sale_line.order_id.client_order_ref:
                 res['name'] +=  '\n' + _('Ord.') +  sale_line.order_id.client_order_ref + '/'+sale_line.order_id.date_order[10:] 
         return res

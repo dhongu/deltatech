@@ -109,7 +109,7 @@ class MrpWorkRecord(models.TransientModel):
                 values['work_order_limit_ids'] = work_orders.ids[:10]
                 values['operation_code'] = barcode
 
-        if not values['operation_code']:
+        if 'operation_code' not in values:
             values['error_message'] = _('Please scan first the operation')
             return values
 
