@@ -53,7 +53,8 @@ class ResConfigSettings(models.TransientModel):
                             properties = PropertyObj.search([('name', '=', property),
                                                              ('company_id', '=', company.id)])
                             if properties:
-                                properties.copy({'company_id': self.company_id.id})
+                                for prop in properties:
+                                    prop.copy({'company_id': self.company_id.id})
 
 
         super(ResConfigSettings, self).set_values()

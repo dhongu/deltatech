@@ -17,16 +17,15 @@ class SaleOrder(models.Model):
             order_line.product_uom_qty += qty
             order_line.product_uom_change()
         else:
-
             vals = {
                 'product_id': product.id,
-                # 'name': name,
                 'product_uom': product.uom_id.id,
                 'product_uom_qty': 1,
                 'state': 'draft',
             }
             order_line = self.order_line.new(vals)
             order_line.product_id_change()
+            order_line.product_uom_change()
             self.order_line += order_line
 
 
