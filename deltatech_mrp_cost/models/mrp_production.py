@@ -216,14 +216,14 @@ class MrpProduction(models.Model):
         }
 
     @api.model
-    def _action_launch_procurement_rule(self, line):
+    def _action_launch_procurement_rule(self, bom_line, line_data):
         values = self._prepare_service_procurement_values()
 
-        name = '%s for %s' % (line.product_id.name, self.name)
+        name = '%s for %s' % (bom_line.product_id.name, self.name)
         self.env['procurement.group'].sudo().run(
-            line.product_id,
-            line.product_qty,
-            line.product_uom_id,
+            bom_line.product_id,
+            line_data['qty'],
+            bom_line.product_uom_id,
             self.location_src_id,
             name,
             name,
