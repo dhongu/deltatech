@@ -28,7 +28,7 @@ class StockMove(models.Model):
                                                                                                  seller.currency)
                         else:
                             seller_price_unit = price_unit
-                        seller.write({'price': seller_price_unit})
+                        seller.write({'price': seller_price_unit}) #todo: de facut update doar daca exista o bifa in configurare
 
             return price_unit
 

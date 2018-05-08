@@ -201,7 +201,7 @@ class MrpProduction(models.Model):
     def _generate_raw_move(self, bom_line, line_data):
         move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
         if bom_line.product_id.type == 'service':
-            self._action_launch_procurement_rule(bom_line)
+            self._action_launch_procurement_rule(bom_line, line_data)
             self.service_amount += bom_line.product_id.standard_price * line_data['qty']
         return move
 
