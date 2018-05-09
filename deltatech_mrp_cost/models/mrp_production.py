@@ -23,7 +23,7 @@ class MrpProduction(models.Model):
     amount = fields.Float(digits=dp.get_precision('Account'), string='Production Amount', compute='_calculate_amount')
     calculate_price = fields.Float(digits=dp.get_precision('Account'), string='Calculate Price',
                                    compute='_calculate_amount')
-    service_amount = fields.Float(digits=dp.get_precision('Account'))
+    service_amount = fields.Float(digits=dp.get_precision('Account'), string='Service Amount')
     acc_move_line_ids = fields.One2many('account.move.line', 'production_id', string='Account move lines')
 
     @api.multi
@@ -31,7 +31,7 @@ class MrpProduction(models.Model):
         for production in self:
             calculate_price = 0.0
             amount = 0.0
-
+            service_amount = 0.0
             planned_cost = True
             for move in production.move_raw_ids:
                 if move.quantity_done > 0:
@@ -39,14 +39,16 @@ class MrpProduction(models.Model):
 
             if planned_cost:
                 for move in production.move_raw_ids:
-                    qty = move.product_qty + move.product_qty * move.product_id.scrap
-                    amount += move.price_unit * qty
+                    if move.product_id.type == 'product':
+                        qty = move.product_qty + move.product_qty * move.product_id.scrap
+                        amount += move.price_unit * qty
                 product_qty = production.product_qty
 
             else:
                 for move in production.move_raw_ids:
-                    qty = move.product_qty + move.product_qty * move.product_id.scrap
-                    amount += abs(move.price_unit) * qty
+                    if move.product_id.type == 'product':
+                        qty = move.product_qty + move.product_qty * move.product_id.scrap
+                        amount += abs(move.price_unit) * qty
                 product_qty = 0.0
                 for move in production.move_finished_ids:
                     product_qty += move.product_uom_qty
@@ -80,6 +82,7 @@ class MrpProduction(models.Model):
 
             price_unit = production.calculate_price
             production.product_tmpl_id.write({'standard_price': price_unit})
+            production.product_tmpl_id.product_variant_ids.write({'standard_price': price_unit})
             production.move_finished_ids.write({'price_unit': price_unit})
 
         return True
@@ -202,7 +205,9 @@ class MrpProduction(models.Model):
         move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
         if bom_line.product_id.type == 'service':
             self._action_launch_procurement_rule(bom_line, line_data)
+        if bom_line.product_id.type != 'product':
             self.service_amount += bom_line.product_id.standard_price * line_data['qty']
+
         return move
 
     @api.model

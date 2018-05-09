@@ -13,6 +13,7 @@
                 </div>
                 <field name="availability" position="after">
                     <field name="amount"/>
+                    <field name="service_amount" attrs="{'readonly': [('state', 'in', ['done','cancel'])]}"/>
                     <field name="calculate_price"/>
                 </field>
             </field>

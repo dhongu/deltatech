@@ -14,6 +14,7 @@ Functionalitati:
  - Calculeaza pretul de productie ca fiind pretul real al componentelor
  - Asigneaza un picking pentru materialele consumate si unul pentru cele receptionate
  - Inregistrare costuri de servicii prestate de terti
+ - variantele au acelasi pret
 
     """,
 

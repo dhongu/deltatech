@@ -11,7 +11,7 @@
     "description": """
     
 Functionalitati:
- - 
+ - Sablon de produs in comanda de productie
 
 
     """,
