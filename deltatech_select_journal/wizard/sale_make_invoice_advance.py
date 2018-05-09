@@ -42,13 +42,13 @@ class SaleAdvancePaymentInv(models.TransientModel):
             order = self.env['sale.order'].browse(self._context.get('active_ids'))[0]
             defaults['order_id'] = order.id
             defaults['payment_term_id'] = order.payment_term_id.id
-            if order.invoice_count == 0:
-                if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
+            defaults['advance_payment_method'] = self._get_advance_payment_method()
+
+            if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
+                defaults['payment_term_id'] = self.env.ref('account.account_payment_term_immediate').id
+                if order.invoice_count == 0:
                     defaults['advance_payment_method'] = 'percentage'
                     defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
-            else:
-                defaults['advance_payment_method'] = 'delivered'
-
 
             company_id = self._context.get('company_id', self.env.user.company_id.id)
             domain = [('type', '=', 'sale'), ('company_id', '=', company_id)]
@@ -75,12 +75,15 @@ class SaleAdvancePaymentInv(models.TransientModel):
         from_currency = invoice.currency_id.with_context(date=date_eval)
 
         if from_currency != to_currency:
-            invoice.write({'currency_id': to_currency.id})
+            invoice.write({'currency_id': to_currency.id, 'date_invoice': date_eval})
             for line in invoice.invoice_line_ids:
                 price_unit = from_currency.compute(line.price_unit, to_currency, round=False)
                 line.write({'price_unit': price_unit})
-
-        invoice.write({'payment_term_id': self.payment_term_id.id})
+            invoice.compute_taxes()
+        if self.advance_payment_method == 'percentage':
+            invoice.write({'payment_term_id': False})
+        else:
+            invoice.write({'payment_term_id': self.payment_term_id.id})
 
         return invoice
 

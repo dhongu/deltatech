@@ -12,7 +12,8 @@
     "description": """
 
 Functionalitati:
- - Selectie jurnal 
+ - Selectie jurnal in momentul generarii facturii din comanda de vanzare
+ -  
    
     """,
 
