@@ -58,7 +58,8 @@ class AccountAccount(models.Model):
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
-
+    color = fields.Integer(string='Color Index', default=0)
+    
     company_id = fields.Many2one('res.company',   compute='_compute_company_id', inverse='_set_company_id' )
     store_company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.user.company_id)
