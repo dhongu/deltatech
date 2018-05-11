@@ -256,7 +256,7 @@ class service_equipment(models.Model):
                     agreements = agreements | line.agreement_id
             if len(agreements) > 1:
                 msg = _("Equipment %s assigned to many agreements.")
-                self.post_message(msg)
+                self.message_post(msg)
 
             # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
             if not agreements:
