@@ -27,7 +27,7 @@ class PurchaseOrder(models.Model):
                         move_line.write({'quantity_done': move_line.product_uom_qty})
                     else:
                         move_line.unlink()
-                picking.do_transfer()
+                picking.action_done()
 
         action = self.action_view_invoice()
 
