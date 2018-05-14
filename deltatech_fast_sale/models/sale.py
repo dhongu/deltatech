@@ -31,7 +31,7 @@ class sale_order(models.Model):
                         move_line.write({'quantity_done': move_line.product_uom_qty})
                     else:
                         move_line.unlink()
-                picking.do_transfer()
+                picking.action_done()
 
         action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
         action = action_obj.read()[0]
