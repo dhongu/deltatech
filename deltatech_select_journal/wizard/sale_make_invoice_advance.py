@@ -45,7 +45,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             defaults['advance_payment_method'] = self._get_advance_payment_method()
 
             if order.payment_term_id and order.payment_term_id.line_ids[0].value == 'percent':
-                defaults['payment_term_id'] = self.env.ref('account.account_payment_term_immediate').id
+                # defaults['payment_term_id'] = self.env.ref('account.account_payment_term_immediate').id
                 if order.invoice_count == 0:
                     defaults['advance_payment_method'] = 'percentage'
                     defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
@@ -84,6 +84,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             invoice.write({'payment_term_id': False})
         else:
             invoice.write({'payment_term_id': self.payment_term_id.id})
+            invoice.write({'date_invoice': False})
 
         return invoice
 
