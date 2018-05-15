@@ -37,9 +37,11 @@ class StockMove(models.Model):
         return super(StockMove, self).get_price_unit()
 
 
+
+
     @api.multi
     def product_price_update_before_done(self, forced_qty=None):
-        super(StockMove, self).product_price_update_before_done()
+        super(StockMove, self).product_price_update_before_done(forced_qty)
         tmpl_dict = defaultdict(lambda: 0.0)
         # adapt standard price on incomming moves if the product cost_method is 'fifo'
         std_price_update = {}
