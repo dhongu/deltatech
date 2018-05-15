@@ -5,13 +5,13 @@
 
 {
     "name": "Deltatech Purchase Price",
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
 
     'category': 'Sales',
 
-    "depends": ["purchase"],
+    "depends": ['stock', 'stock_account', "purchase"],
 
     "description": """
 Features:    
