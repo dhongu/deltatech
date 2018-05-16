@@ -40,6 +40,11 @@ msgid "Receipt and Bill"
 msgstr "Recepție și Factură"
 
 #. module: deltatech_fast_purchase
+#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+msgid "Are you sure you want to make the automatic receipt with the quantities and price from the purchase order?"
+msgstr "Sigur doriți să faceți recepția automată cu cantitățile și prețurile din comanda de achiziție?"
+
+#. module: deltatech_fast_purchase
 #: model:ir.model,name:deltatech_fast_purchase.model_stock_picking
 msgid "Transfer"
 msgstr "Transfer"
