@@ -103,13 +103,19 @@ class MrpProduction(models.Model):
         super(MrpProduction, self)._cal_price(consumed_moves)
         self.ensure_one()
         production = self
-        self._calculate_amount()  # refac calculul
-        if production.product_tmpl_id.cost_method == 'fifo' and production.product_tmpl_id.standard_price != production.calculate_price:
 
-            price_unit = production.calculate_price
-            production.product_tmpl_id.write({'standard_price': price_unit})
-            production.product_tmpl_id.product_variant_ids.write({'standard_price': price_unit})
-            production.move_finished_ids.write({'price_unit': price_unit})
+        self._calculate_amount()  # refac calculul
+        price_unit = production.calculate_price
+        self.move_finished_ids.write({'price_unit':price_unit})
+        # functia standard nu permite si de aceea am facut o modificare in deltatech_purchase_price
+        self.move_finished_ids.product_price_update_before_done()
+
+        # if production.product_tmpl_id.cost_method == 'fifo' and production.product_tmpl_id.standard_price != production.calculate_price:
+        #
+        #     price_unit = production.calculate_price
+        #     production.product_tmpl_id.write({'standard_price': price_unit})
+        #     production.product_tmpl_id.product_variant_ids.write({'standard_price': price_unit})
+        #     production.move_finished_ids.write({'price_unit': price_unit})
 
         return True
 

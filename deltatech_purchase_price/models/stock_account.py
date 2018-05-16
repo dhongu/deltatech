@@ -45,7 +45,7 @@ class StockMove(models.Model):
         tmpl_dict = defaultdict(lambda: 0.0)
         # adapt standard price on incomming moves if the product cost_method is 'fifo'
         std_price_update = {}
-        for move in self.filtered(lambda move: move.location_id.usage in ('supplier') and move.product_id.cost_method == 'fifo'):
+        for move in self.filtered(lambda move: move.location_id.usage in ('supplier','production') and move.product_id.cost_method == 'fifo'):
             product_tot_qty_available = move.product_id.qty_available + tmpl_dict[move.product_id.id]
             rounding = move.product_id.uom_id.rounding
 
