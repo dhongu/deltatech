@@ -33,10 +33,10 @@ Features:
  - Warning/Error on sale order if sale price is below the purchase price
  - Warning/Error on customer invoice if sale price is below the purchase price
  - New report for analysis profitability
- - Calcul comisione de vanzari
+ - Calcul comisione de vanzari + ierarhide de agenti
  - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
  - data din comanda de vanzare este preluata si la nivel de linie
-
+-
 
     """,
 
