@@ -26,6 +26,7 @@ Functionalitati:
         "views/mrp_view.xml",
         'views/mrp_product_produce_views.xml',
         "views/mrp_production_templates.xml",
+        "views/product_view.xml"
 
     ],
 

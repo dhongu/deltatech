@@ -17,8 +17,9 @@
                        domain="[('bom_ids', '!=', False), ('bom_ids.active', '=', True), ('bom_ids.type', '=', 'normal')]"/>
             </field>
 
-            <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='qty_done']" position="before">
+            <xpath expr="//field[@name='finished_move_line_ids']/tree/field[@name='qty_done']" position="replace">
                 <field name="product_uom_qty" string="To produce" sum="Qty"/>
+                <field name="qty_done" string="Produced" sum="Qty"/>
             </xpath>
 
         </field>
