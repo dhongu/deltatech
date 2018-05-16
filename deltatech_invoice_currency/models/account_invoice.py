@@ -68,9 +68,10 @@ class account_invoice(models.Model):
                 last_rate = invoice.currency_rate or 1.0
             else:
                 last_rate = invoice.last_currency_rate
-
+            advance_payment_product_id = self.env['ir.config_parameter'].sudo().get_param('sale.default_deposit_product_id',False)
             for line in invoice.invoice_line_ids:
-                line.price_unit = line.price_unit * invoice.currency_rate / last_rate
+                if advance_payment_product_id and line.product_id.id != int(advance_payment_product_id):
+                    line.price_unit = line.price_unit * invoice.currency_rate / last_rate
 
             invoice.last_currency_rate = invoice.currency_rate
 
