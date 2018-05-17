@@ -7,8 +7,13 @@
             <field name="model">purchase.order</field>
 			<field name="inherit_id" ref="purchase.purchase_order_form" />
 			<field name="arch" type="xml">
-
+				<xpath expr="//header/button[@name='action_view_picking']" position="after">
+					<button name="action_button_create_invoice" states="purchase"
+					 string="Create Invoice" type="object" groups="base.group_user" />
+				</xpath>
 				<xpath expr="//header" position="inside">
+
+
 					<button name="action_button_confirm_to_invoice" states="draft,sent"
 							confirm="Are you sure you want to make the automatic receipt with the quantities and price from the purchase order?"
 					 string="Confirm, Receipt and Bill" type="object" groups="base.group_user" />

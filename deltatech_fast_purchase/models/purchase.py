@@ -66,4 +66,50 @@ class PurchaseOrder(models.Model):
             result['res_id'] = picking_ids.id
         return result
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    def action_button_create_invoice(self):
+        action = self.env.ref('account.action_invoice_tree2')
+        result = action.read()[0]
+
+        # override the context to get rid of the default filtering
+        invoice_type = 'in_invoice'
+        result['context'] = {'default_purchase_id': self.id,
+                             'default_date_invoice': self.date_planned[:10]}
+
+
+        for line in self.order_line:
+            if line.product_id.purchase_method == 'purchase':
+                qty = line.product_qty - line.qty_invoiced
+            else:
+                qty = line.qty_received - line.qty_invoiced
+            if qty < 0:
+                invoice_type = 'in_refund'
+
+        result['context']['type'] = invoice_type
+        invoice_ids = self.invoice_ids.filtered(lambda r: r.type == invoice_type)
+
+        if not invoice_ids:
+            # Choose a default account journal in the same currency in case a new invoice is created
+            journal_domain = [
+                ('type', '=', 'purchase'),
+                ('company_id', '=', self.company_id.id),
+                ('currency_id', '=', self.currency_id.id),
+            ]
+            default_journal_id = self.env['account.journal'].search(journal_domain, limit=1)
+            if default_journal_id:
+                result['context']['default_journal_id'] = default_journal_id.id
+        else:
+            # Use the same account journal than a previous invoice
+            result['context']['default_journal_id'] = invoice_ids[0].journal_id.id
+
+        # choose the view_mode accordingly
+        # if len(invoice_ids) != 1:
+        #     result['domain'] = "[('id', 'in', " + str(invoice_ids.ids) + ")]"
+        # elif len(invoice_ids) == 1:
+        #     res = self.env.ref('account.invoice_supplier_form', False)
+        #     result['views'] = [(res and res.id or False, 'form')]
+        #     result['res_id'] = invoice_ids.id
+        # if not invoice_ids:
+
+        result['views'] = [[False, "form"]]
+        return result
+
