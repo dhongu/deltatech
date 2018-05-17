@@ -237,8 +237,8 @@ class MrpProduction(models.Model):
         move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
         if bom_line.product_id.type == 'service':
             self._action_launch_procurement_rule(bom_line, line_data)
-        if bom_line.product_id.type != 'product':
-            self.service_amount += bom_line.product_id.standard_price * line_data['qty']
+        # if bom_line.product_id.type != 'product':
+        #     self.service_amount += bom_line.product_id.standard_price * line_data['qty']
 
         return move
 

@@ -7,10 +7,7 @@
             <th class="text-right">
                 <strong>Effective Quantity</strong>
             </th>
-            <td class="text-right">
-                <span t-field="line.quantity_done"/>
-                <span t-field="line.product_uom.name" groups="product.group_uom"/>
-            </td>
+
             <th class="text-right">
                 <strong>Price</strong>
             </th>
@@ -23,6 +20,10 @@
         </xpath>
 
         <xpath expr="//table[@t-if='o.move_raw_ids']/tbody/t/tr[@t-as='line']" position="inside">
+            <td class="text-right">
+                <span t-field="line.quantity_done"/>
+                <span t-field="line.product_uom.name" groups="product.group_uom"/>
+            </td>
             <td class="text-right">
                 <span t-field="line.price_unit"/>
             </td>

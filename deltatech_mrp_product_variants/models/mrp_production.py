@@ -19,7 +19,7 @@ class ChangeProductionQty(models.TransientModel):
     @api.model
     def _update_product_to_produce(self, production, qty):
         if production.product_id:
-            return super(ChangeProductionQty, self)._update_product_to_produce()
+            return super(ChangeProductionQty, self)._update_product_to_produce(production, qty)
 
         production_move = production.move_finished_ids.filtered(lambda x:x.product_id.product_tmpl_id.id == production.product_tmpl_id.id and x.state not in ('done', 'cancel'))
 
