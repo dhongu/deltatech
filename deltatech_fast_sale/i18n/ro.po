@@ -26,6 +26,14 @@ msgid "Deliver and Invoice"
 msgstr "Livrează și Facturează"
 
 #. module: deltatech_fast_sale
+#: view:sale.order:deltatech_fast_sale.view_order_form
+msgid "Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
+msgstr "Sunteți sigur să doriți să faceți automat livrarea cu antitățile și prețurile din comanda de vânzaare"
+
+
+
+
+#. module: deltatech_fast_sale
 #: code:addons/deltatech_fast_sale/sale.py:42
 #, python-format
 msgid "Not all products are available."

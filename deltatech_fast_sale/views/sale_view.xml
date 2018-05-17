@@ -11,8 +11,10 @@
 
 				<xpath expr="//header" position="inside">
 					<button name="action_button_confirm_to_invoice" states="draft,sent"
+							confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
 					 string="Confirm, Deliver and Invoice" type="object" groups="base.group_user" />
 					<button name="action_button_confirm_to_invoice" states="sale"
+                            confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
 					 string="Deliver and Invoice" type="object" groups="base.group_user" />
 					<button name="action_button_confirm_notice" states="sale"
 					 string="Deliver Notice" type="object" groups="base.group_user" />
