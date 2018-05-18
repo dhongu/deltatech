@@ -29,15 +29,17 @@ from openerp.api import Environment
 class commission_users(models.Model):
     _name = 'commission.users'
     _description = "Users commission"
-    
+
     user_id = fields.Many2one('res.users', string='Salesperson', required=True)
     name = fields.Char(string='Name', related='user_id.name')
-    rate =  fields.Float(string="Rate", default=0.01) 
-    
+    rate = fields.Float(string="Rate", default=0.01)
+    manager_rate = fields.Float(string="Rate manager", default=0)
+    manager_user_id = fields.Many2one('res.users', string='Sales Manager')
 
-
-
-
-
+    _constraints = [
+        (models.Model._check_recursion,
+         'Error ! You cannot create recursive.',
+         ['mamager_user_id'])
+    ]
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
