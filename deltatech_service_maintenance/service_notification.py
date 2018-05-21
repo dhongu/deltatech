@@ -87,11 +87,11 @@ class service_notification(models.Model):
     color =  fields.Integer(string='Color Index', default=0)  
     order_id = fields.Many2one('service.order', string='Order', readonly=True, copy=False, compute='_compute_order_id' )    
 
-    category = fields.Selection([  ('delivery','Delivery'), 
+    category = fields.Selection([('sale_support','Sale Support'),
+                                ('delivery','Delivery'),
                                 ('sale','Sale'),
                                 ('transfer','Transfer'), 
-                                ('required','Required'),
-                                   ('sale_support','Sale Support')], default='delivery', string='Category' )
+                                ('required','Required')], default='delivery', string='Category' )
 
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
     sale_order_id = fields.Many2one('sale.order', string="Sale Order")  # legatua la comanda de vanzare
