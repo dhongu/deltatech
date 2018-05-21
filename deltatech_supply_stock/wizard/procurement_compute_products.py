@@ -28,6 +28,7 @@ class ProcurementComputeProducts(models.TransientModel):
     make_prod = fields.Boolean(string='Make production order', default=True)
     make_purch = fields.Boolean(string="Make purchase order", default=False)
 
+    # with_reservation = fields.Boolean(default=True)
     # stock_min_max = fields.Boolean()
 
     @api.model
@@ -58,10 +59,15 @@ class ProcurementComputeProducts(models.TransientModel):
                 defaults['group_id'] = production.procurement_group_id.id
                 for move in production.move_raw_ids:
                     products |= move.product_id
-                    if move.product_id.id in qty:
-                        qty[move.product_id.id] += move.product_qty
+                    if move.state == 'draft':
+                        product_qty = move.product_uom._compute_quantity(move.product_uom_qty, move.product_id.uom_id)
                     else:
-                        qty[move.product_id.id] = move.product_qty
+                        product_qty = move.product_qty
+
+                    if move.product_id.id in qty:
+                        qty[move.product_id.id] += product_qty
+                    else:
+                        qty[move.product_id.id] = product_qty
 
         if active_model == 'sale.order':
             sale_orders = self.env['sale.order'].browse(active_ids)
@@ -96,6 +102,7 @@ class ProcurementComputeProducts(models.TransientModel):
             ])
             for production in productions:
                 qty[production.product_id.id] -= (production.product_qty - production.qty_produced)
+
 
         for product in products:
             product = product.with_context({'location': location.ids})

@@ -21,6 +21,7 @@
                             <field name="background"/>
                             <field name="make_prod"/>
                             <field name="make_purch"/>
+                            <!--<field name="with_reservation"/>-->
                          </group>
                     </group>
 
