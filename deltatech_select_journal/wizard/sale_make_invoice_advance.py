@@ -52,9 +52,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
             company_id = self._context.get('company_id', self.env.user.company_id.id)
             domain = [('type', '=', 'sale'), ('company_id', '=', company_id)]
-            if order and order.pricelist_id and order.pricelist_id.currency_id:
-                if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
-                    domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
+            # de ce as pune default jurnalul in aceeasi valuta cu oferta? ca doar de aceea vreau sa-l schimb
+            # if order and order.pricelist_id and order.pricelist_id.currency_id:
+            #     if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
+            #         domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
             journal = self.env['account.journal'].search(domain, limit=1)
             if journal:
                 defaults['journal_id'] = journal.id

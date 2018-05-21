@@ -20,8 +20,8 @@
                         <field name="base_rate" nolabel="1" class="oe_inline" widget="monetary"
                                options="{'currency_field': 'price_currency_id'}"/>
                         <label string='='/>
-                        <field name="currency_rate" nolabel="1" class="oe_inline" widget="monetary"
-                               options="{'currency_field': 'currency_id'}"/>
+                        <!--<field name="currency_rate" nolabel="1" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                        <field name="currency_rate" nolabel="1" class="oe_inline"/>
                         <button name="get_currency_rate" states="draft,proforma2" string="(update)"
                                 class="oe_inline oe_link oe_edit_only" type="object"
                                 help="Update Currency Rate "/>
@@ -54,8 +54,8 @@
                         <field name="base_rate" nolabel="1" class="oe_inline" widget="monetary"
                                options="{'currency_field': 'price_currency_id'}"/>
                         <label string='='/>
-                        <field name="currency_rate" nolabel="1" class="oe_inline" widget="monetary"
-                               options="{'currency_field': 'currency_id'}"/>
+                        <!--<field name="currency_rate" nolabel="1" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                        <field name="currency_rate" nolabel="1" class="oe_inline"/>
                         <button name="get_currency_rate" states="draft,proforma2" string="(update)"
                                 class="oe_inline oe_link oe_edit_only" type="object"
                                 help="Update Currency Rate "/>
