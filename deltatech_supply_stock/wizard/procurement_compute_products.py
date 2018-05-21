@@ -106,10 +106,12 @@ class ProcurementComputeProducts(models.TransientModel):
 
         for product in products:
             product = product.with_context({'location': location.ids})
-            if 'group_id' in defaults:
-                qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
-            else:
-                qty[product.id] = -1 * product.virtual_available
+            virtual_available = product.virtual_available
+            if virtual_available < 0.0:
+                if 'group_id' in defaults:
+                    qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
+                else:
+                    qty[product.id] = -1 * product.virtual_available
 
         defaults['warehouse_id'] = warehouse.id
         defaults['item_ids'] = []
