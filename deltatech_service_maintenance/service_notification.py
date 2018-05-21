@@ -90,7 +90,8 @@ class service_notification(models.Model):
     category = fields.Selection([  ('delivery','Delivery'), 
                                 ('sale','Sale'),
                                 ('transfer','Transfer'), 
-                                ('required','Required')], default='delivery', string='Category' )  
+                                ('required','Required'),
+                                   ('sale_support','Sale Support')], default='delivery', string='Category' )
 
     piking_id = fields.Many2one('stock.picking', string="Consumables")  # legatua cu necesarul / consumul de consumabile
     sale_order_id = fields.Many2one('sale.order', string="Sale Order")  # legatua la comanda de vanzare
