@@ -191,7 +191,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    picking.action_assign()
+                    #picking.action_assign()
 
             # nota de predare
             move_list = self.env['stock.move']
@@ -213,7 +213,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    picking.action_assign()
+                    #picking.action_assign()
         return
 
     @api.multi
