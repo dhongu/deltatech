@@ -23,6 +23,7 @@
             <field name="arch" type="xml">
                 <tree string="Required Products Orders">
                     <field name="name"/>
+                    <field name="default_supplier_id"/>
                     <field name="location_id"/>
                     <field name="group_id"/>
                     <field name="state"/>
@@ -66,6 +67,7 @@
                         </div>
                         <group>
                             <group>
+                                <field name="default_supplier_id"/>
                                 <field name="date"/>
                                 <field name="date_planned" groups="stock.group_stock_manager"/>
                                 <field name="group_id" groups="stock.group_stock_manager"/>

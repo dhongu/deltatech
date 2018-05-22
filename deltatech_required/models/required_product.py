@@ -69,6 +69,7 @@ class required_order(models.Model):
     procurement_count = fields.Integer(string='Procurements', compute='_compute_procurement_count')
     comment = fields.Char(string='Comment')
     product_id = fields.Many2one('product.product', string='Product', related='required_line.product_id')
+    default_supplier_id = fields.Many2one('res.partner', string='Default supplier')
 
     @api.model
     def default_get(self, fields):
@@ -205,9 +206,9 @@ class required_order_line(models.Model):
     qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
     virtual_available = fields.Float(related='product_id.virtual_available', string='Quantity Available')
 
-    date_planned = fields.Datetime(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]}
-                                   , compute='_compute_date_planned', store=True)
+    date_planned = fields.Datetime(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]}, store=True, compute = '_compute_date_planned')
 
+    @api.multi
     @api.depends('required_id.date', 'product_id')
     def _compute_date_planned(self):
         for line in self:
@@ -216,7 +217,10 @@ class required_order_line(models.Model):
             for supplier in line.product_id.seller_ids:
                 supplierinfo = supplier
                 break
-
+            if supplierinfo:
+                line.supplier_id = supplierinfo
+            else:
+                line.supplier_id = line.required_id.default_supplier_id
             supplier_delay = int(supplierinfo.delay) if supplierinfo else 0
             date_planned = fields.Date.from_string(line.required_id.date) + relativedelta(days=supplier_delay)
             date_planned = fields.Datetime.to_string(date_planned)
@@ -224,6 +228,10 @@ class required_order_line(models.Model):
                 date_planned = line.required_id.date_planned
 
             line.date_planned = date_planned
+
+    @api.onchange('product_id')
+    def _set_def_supplier(self):
+        self.supplier_id = self.required_id.default_supplier_id
 
     @api.multi
     def create_procurement(self):

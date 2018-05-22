@@ -28,7 +28,7 @@
 Features:
 
  - New object - Required product
-    - Generates Purchase orders based on the chosen supplier or (if not chosen) the supplier of the product. If no supplier is provided, generates a procurement exception.
+    - Generates Purchase orders based on the chosen supplier or (if not chosen) the supplier of the product. If no supplier isprovided, generates a procurement exception. A default suuplier can be set.
 
 
 

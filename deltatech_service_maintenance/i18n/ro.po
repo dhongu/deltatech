@@ -850,6 +850,11 @@ msgid "Required"
 msgstr "Necesar"
 
 #. module: deltatech_service_maintenance
+#: selection:service.notification,category:0
+msgid "Sale Support"
+msgstr "Suport vanzare"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_required_order
 #: field:service.notification,required_order_id:0
 msgid "Required Products Order"
