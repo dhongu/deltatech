@@ -42,6 +42,7 @@
 					<field name="categ_id" invisible="1" />
 					<field name="product_id"  />
 					<field name="user_id"  />
+					<field name="manager_user_id"  />
 					<field name="partner_id" invisible="1"/>
 					<field name="commercial_partner_id" />
 					<field name="invoice_id" />
@@ -52,6 +53,7 @@
 					<field name="stock_val" sum="Stock value"/>
 					<field name="profit_val" sum="Profit"/>
 					<field name="commission_computed" sum="Commission Computed"/>
+					<field name="commission_manager_computed" sum="Commission Manager Computed"/>
 					<field name="commission" sum="Commission"/>
 					<field name="indicator_supplement" avg="Supplement Indicator"/>
 					<field name="indicator_profit" avg="Profit Indicator"/>
@@ -120,6 +122,7 @@
 					<field name="commercial_partner_id"/>
 					<field name="product_id"/>
 					<field name="user_id"/>
+					<field name="manager_user_id"  />
 					<field name="period_id"/>
 					<field name="date"/>
 					
@@ -129,6 +132,7 @@
 					</group>
 					<group expand="1" string="Group By...">
 						<filter string="Salesperson"   name="user" context="{'group_by':'user_id'}"/>
+						<filter string="Sale Manager"   name="manager_user" context="{'group_by':'manager_user_id'}"/>
 						<filter string="Partner"    name="customer" context="{'group_by':'partner_id'}"/>
 						<filter string="Commercial Partner"    name="customer" context="{'group_by':'commercial_partner_id'}"/>
 						<filter string="Product"   name="product" context="{'group_by':'product_id','set_visible':True}"/>
