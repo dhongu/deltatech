@@ -104,7 +104,7 @@ class sale_margin_report(models.Model):
  
                 
                 sub.rate * (sale_val  / cr.rate - stock_val ) as commission_computed,
-                sub.manager_rate * sub.rate * (sale_val  / cr.rate - stock_val )  as commission_manager_computed,
+                sub.manager_rate * (sale_val  / cr.rate - stock_val )  as commission_manager_computed,
                 commission,  
                 partner_id, commercial_partner_id, user_id, manager_user_id, period_id,  company_id,
                 in_rates,

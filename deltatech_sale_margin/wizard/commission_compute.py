@@ -39,11 +39,15 @@ class commission_compute_total(models.TransientModel):
         commission_user = self.env['commission.users']
 
         domain = [('date', '>=', self.from_date), ('date', '<=', self.to_date)]
-        commissions = self.env["sale.margin.report"].read_group(domain=domain, fields=['user_id', 'commission'],
+        commissions = self.env["sale.margin.report"].read_group(domain=domain, fields=['user_id', 'commission','profit_val'],
                                                                 groupby=['user_id'])
         for item in commissions:
-            self.env['commission.compute.total.line'].create(
-                {'total_id': self.id, 'user_id': item['user_id'][0], 'commission': item['commission']})
+            self.env['commission.compute.total.line'].create( {
+                'total_id': self.id,
+                'user_id': item['user_id'][0],
+                'commission': item['commission'],
+                'profit_val': item['profit_val']
+            })
 
         while self.item_ids.filtered(lambda r: not r.final):
             for item in self.item_ids.filtered(lambda r: not r.final):
@@ -55,7 +59,8 @@ class commission_compute_total(models.TransientModel):
                         self.env['commission.compute.total.line'].create({
                                 'total_id': self.id,
                                 'user_id': commission_user.manager_user_id.id,
-                                'commission': item.commission * commission_user.manager_rate
+                                'commission': item.profit_val * commission_user.manager_rate,
+                                'profit_val' : item.profit_val
                             })
 
         domain = [('total_id','=',self.id)]
@@ -84,6 +89,7 @@ class commission_compute_total_line(models.TransientModel):
     total_id = fields.Many2one('commission.compute.total')
     user_id = fields.Many2one('res.users', string='Salesperson', required=True)
     commission = fields.Float(string="Commission", default=0.0)
+    profit_val = fields.Float(string='Profit')
     final = fields.Boolean()
 
 
