@@ -85,7 +85,8 @@ class ProcurementComputeProducts(models.TransientModel):
 
         location = warehouse.lot_stock_id
         if 'group_id' in defaults:
-
+            # purcahse_orders = self.env['purchase.order'].search([('group_id', '=', defaults['group_id']),
+            #                                                      ('state', 'in', ['draft', 'sent'])])
             polines = self.env['purchase.order.line'].search([
                 ('state', 'in', ('draft', 'sent', 'to approve')),
                 ('order_id.group_id', '=', defaults['group_id']),
@@ -102,16 +103,26 @@ class ProcurementComputeProducts(models.TransientModel):
             ])
             for production in productions:
                 qty[production.product_id.id] -= (production.product_qty - production.qty_produced)
+        else:
+            purcahse_orders = self.env['purchase.order'].search([('state', 'in', ['draft', 'sent'])])
+            # se scazut ce este deja in comenzi de achzitii ciorna
+            for order in purcahse_orders:
+                for line in order.order_line:
+                    if line.product_id.id in qty:
+                        qty[line.product_id.id] -= line.product_qty
 
 
         for product in products:
             product = product.with_context({'location': location.ids})
-            virtual_available = product.virtual_available
-            if virtual_available < 0.0:
-                if 'group_id' in defaults:
-                    qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
-                else:
-                    qty[product.id] = -1 * product.virtual_available
+            virtual_available = product.qty_available + product.incoming_qty
+            qty[product.id] -= virtual_available
+
+            #if virtual_available < 0.0:
+            #todo: se verificat daca cantitatea care este dispobibila (sau in comanda de achiztie) este pentru aceasta comanda
+            # if 'group_id' in defaults:
+            #     qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
+            # else:
+            #     qty[product.id] = -1 * product.virtual_available
 
         defaults['warehouse_id'] = warehouse.id
         defaults['item_ids'] = []
@@ -186,6 +197,8 @@ class ProcurementComputeProducts(models.TransientModel):
                     continue
 
                 if rule.action == 'buy':
+                    if rule.group_propagation_option != 'propagate':
+                        rule.write({'group_propagation_option':'propagate'})
                     if not self.make_purch:
                         continue
                 elif rule.action == 'manufacture':
