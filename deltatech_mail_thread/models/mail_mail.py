@@ -60,5 +60,5 @@ class MailMail(models.Model):
         threaded_calculation = threading.Thread(target=self._send_in_thread, args=(auto_commit,raise_exception))
         threaded_calculation.start()
 
-        return
+        return True
 
