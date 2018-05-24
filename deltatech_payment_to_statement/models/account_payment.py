@@ -27,7 +27,6 @@ class account_payment(models.Model):
             if self.journal_id.type == 'cash':
                 name = False
 
-
                 values = {'journal_id': self.journal_id.id,
                           'date': self.payment_date,
                           'name': '/'}
