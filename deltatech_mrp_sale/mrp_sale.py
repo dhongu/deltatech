@@ -119,7 +119,7 @@ class sale_order(models.Model):
                 if article.item_categ == 'primary':
                     order.qty_primary += article.product_uom_qty
                     order.primary_uom = article.product_uom
-            order.add_inst_day = order.qty_primary / 4
+            order.add_inst_day = order.qty_primary / 6
 
     @api.multi
     @api.depends('qty_primary', 'resource_ids')

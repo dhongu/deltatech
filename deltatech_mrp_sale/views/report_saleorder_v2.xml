@@ -81,12 +81,13 @@
           </div>
         </div>
         <div class="row" id="informations-line2">
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3"></div>
-            <div class="col-xs-3">
-              <strong>Number of days mounting:</strong><span t-field="o.add_inst_day" />
-            </div>
+          <div class="col-xs-3"/>
+          <div class="col-xs-3"/>
+          <div class="col-xs-3"/>
+          <div class="col-xs-3">
+            <strong>Number of days mounting:</strong>
+            <span t-field="o.add_inst_day"/>
+          </div>
         </div>
         <div class="row zero_min_height">
           <div class="col-xs-12">
@@ -130,9 +131,9 @@
               </t>
               <t t-if="a.item_categ==&quot;optional&quot;">
                 <!--t t-set="total_opt" t-value="total_opt + a.amount"/-->
-                <t t-set="article_amount" t-value="0" />
+                <t t-set="article_amount" t-value="0"/>
                 <t t-foreach="a.resource_ids" t-as="resource">
-                    <t t-set="article_amount" t-value="article_amount+resource.amount" />
+                  <t t-set="article_amount" t-value="article_amount+resource.amount"/>
                 </t>
                 <t t-set="total_opt" t-value="total_opt + article_amount"/>
               </t>
@@ -160,7 +161,7 @@
             <t t-foreach="o.article_ids" t-as="a">
               <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
                 <t t-if="a.item_categ==&quot;normal&quot;">
-                    <t t-call="deltatech_mrp_sale.report_specification_article2"/>
+                  <t t-call="deltatech_mrp_sale.report_specification_article2"/>
                 </t>
                 <t t-foreach="a.resource_ids" t-as="resource">
                   <t t-if="resource.item_categ=='labor'">
@@ -526,16 +527,19 @@
         </p>
         <!--<div t-if="o.add_inst_day">-->
         <div>
-          <p>Gypsum board or paneling interior (when this elements appears in the estimation) are installed only if the client electrician and the plumber make their work before.</p>
+          <p/>
           <p>
-            <span style="font-weight:bold;">Specifications:</span>
+            <span style="font-weight:bold;">Precizari :</span>
           </p>
-          <div sytle="margin-left: 40px;">Transport, accommodation, and meals for the team of workers is the responsibility of the customer.&amp;nbsp;</div>
-          <div sytle="margin-left: 40px;">The cost of transporting team of workers from Romania round-trip is EUR 1,200.&amp;nbsp;</div>
-          <div sytle="margin-left: 40px;">The cost meal / team / day: 50 Euro.&amp;nbsp;</div>
-          <div sytle="margin-left: 40px;">Accommodation is customer choice If the site is 10 km away, plus it will calculate a value for fuel.&amp;nbsp;</div>
-          <div sytle="margin-left: 40px;">The fork lift truck (Manitou) with driver (for download) is the responsibility of the customer.&amp;nbsp;</div>
-          <div sytle="margin-left: 40px;">The offer is valid for 3 months, excepting the offer for the exterior joinery that is valid for one month.</div>
+          <div sytle="margin-left: 40px;">Transportul si&amp;nbsp;masa echipei de montaj cade in sarcina ECOKIT;</div>
+          <t t-if="not o.partner_id.lang=='ro_RO'">
+            <div sytle="margin-left: 40px;">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</div>
+            <div style="/*margin-left: 40px*/;">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</div>
+            <div sytle="margin-left: 40px;">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</div>
+          </t>
+          <div style="/*margin-left: 40px;*/">Motostivuitorul (manitou) cu sofer (pentru descarcare) cade in sarcina clientului;</div>
+          <div sytle="margin-left: 40px;">Descarcarea materialelor trebuie sa se faca obligatoriu pe santier. Dacă acest lucru nu este posibil, transportul materialelor către santier este responsabilitatea clientului.</div>
+          <div sytle="margin-left: 40px;">Prezenta oferta este valabila 3 luni, cu exceptia ofertei pentru tamplaria exterioara ce are valabilitate 1 luna;</div>
           <p/>
         </div>
         <br/>
