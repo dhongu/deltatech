@@ -571,7 +571,7 @@
 <!-- Begin Specification article 3 -->
 <template id="report_specification_article3">
   <t t-name="deltatech_mrp_sale.report_specification_article2">
-      <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%%'">
+      <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%' and a.product_uom.name !='%%'">
     <!-- t if ammount<0-->
     <t t-if="a.amount&gt;0.0">
     <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
