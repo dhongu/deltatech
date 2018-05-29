@@ -36,6 +36,8 @@ Functionalitati:
     "depends": ['deltatech', "hr_attendance"],
 
     "data": [
+        'wizard/hr_attendance_import_view.xml',
+        'hr_employee_view.xml'
     ],
 
     "active": False,

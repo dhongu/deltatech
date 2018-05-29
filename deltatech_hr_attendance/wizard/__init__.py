@@ -21,9 +21,7 @@
 
  
 
-import hr_attendance
-import wizard
-import hr_employee
+import hr_attendance_import
 
 
 
