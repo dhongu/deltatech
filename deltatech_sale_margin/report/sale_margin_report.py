@@ -46,11 +46,14 @@ class sale_margin_report(models.Model):
         'stock_val': fields.float("Stock value",  readonly=True, help="Stock value in company currency"),
         'profit_val': fields.float("Profit",   readonly=True, help="Profit obtained at invoicing in company currency"),
         'commission_computed': fields.float("Commission Computed",   readonly=True),
+        'commission_manager_computed': fields.float("Commission Manager Computed", readonly=True),
         'commission': fields.float("Commission"),
         'partner_id': fields.many2one('res.partner', 'Partner', readonly=True),
         'commercial_partner_id': fields.many2one('res.partner', 'Commercial Partner', readonly=True),
         'user_id': fields.many2one('res.users', 'Salesperson'),
-        
+        'manager_user_id' : fields.many2one('res.users', 'Sale manager', readonly=True),
+
+
         'company_id': fields.many2one('res.company','Company',readonly=True), 
         
         'period_id': fields.many2one('account.period', 'Period', readonly=True),
@@ -101,8 +104,9 @@ class sale_margin_report(models.Model):
  
                 
                 sub.rate * (sale_val  / cr.rate - stock_val ) as commission_computed,
+                sub.manager_rate * (sale_val  / cr.rate - stock_val )  as commission_manager_computed,
                 commission,  
-                partner_id, commercial_partner_id, user_id, period_id,  company_id,
+                partner_id, commercial_partner_id, user_id, manager_user_id, period_id,  company_id,
                 in_rates,
                 type,  state ,  journal_id, 
                 cr.rate as currency_rate,
@@ -141,7 +145,7 @@ class sale_margin_report(models.Model):
 
 
                     sum(l.commission) as commission,   
-                    cu.rate,
+                    cu.rate, cu.manager_rate, cu.manager_user_id,
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
@@ -183,8 +187,8 @@ class sale_margin_report(models.Model):
                     s.date_invoice,
                     s.partner_id,
                     s.commercial_partner_id,
-                    s.user_id,
-                    cu.rate,
+                    s.user_id, cu.manager_user_id,
+                    cu.rate,cu.manager_rate,
                     s.company_id,
                     s.in_rates,
                     s.period_id,
