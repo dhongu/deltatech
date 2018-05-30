@@ -42,14 +42,26 @@ class hr_attendance_import(models.TransientModel):
         buff = StringIO.StringIO(attendance_file)
 
         reader = csv.DictReader(buff, quoting=csv.QUOTE_NONE, delimiter=',')
-        for row in reader:
+        attendances = self.env['hr.attendance']
+        sortedlist = sorted(reader, key=lambda row: row['Event Time'])
+        for row in sortedlist:
             print row
-            employee = self.env['hr.employee'].search([('barcode','=',row['Card No.'])])
+            barcode = row['Card No.']
+            employee = self.env['hr.employee'].search([('barcode','=',barcode)])
             if not employee:
-                continue
+                barcode = barcode.replace("'",'')
+                employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
+                if not employee:
+                    continue
             attendance = self.env['hr.attendance'].search([('employee_id','=',employee.id),('name','=',row['Event Time'])])
+
+
             if attendance:
                 continue
+
+
+            #attendance = self.env['hr.attendance'].search(  [('employee_id', '=', employee.id), ('name', '<', row['Event Time'])], limit=1, order='name DESC')
+            attendance = self.env['hr.attendance']
             values = {
                 'name':row['Event Time'],
               #  'action_desc':row['Event Source'],
@@ -61,7 +73,38 @@ class hr_attendance_import(models.TransientModel):
                 values['action'] = 'sign_out'
             else:
                 values['action'] = 'action'
-            self.env['hr.attendance'].create(values)
+
+            is_ok = True
+
+            prev_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '<', values['name']),
+                                        ('action', 'in', ('sign_in', 'sign_out'))], limit=1, order='name DESC')
+            next_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '>', values['name']),
+                                        ('action', 'in', ('sign_in', 'sign_out'))], limit=1, order='name ASC')
+
+            # check for alternance, return False if at least one condition is not satisfied
+            if prev_atts and prev_atts[0].action == values['action']:  # previous exists and is same action
+                is_ok = False
+            if next_atts and next_atts[0].action == values['action']:  # next exists and is same action
+                is_ok = False
+            if (not prev_atts) and ( not next_atts) and  values['action'] != 'sign_in':  # first attendance must be sign_in
+                is_ok = False
+
+
+            if is_ok:
+                attendances |= self.env['hr.attendance'].create(values)
+
+
+        return {
+            'domain': "[('id','in', [" + ','.join(map(str, attendances.ids)) + "])]",
+            'name': _('Imported Attendances'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'hr.attendance',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+
+        }
+
 
 
 

@@ -33,7 +33,7 @@ Functionalitati:
     """,
 
     "category": "Generic Modules/Stock",
-    "depends": ['deltatech', "hr_attendance"],
+    "depends": [  "hr_attendance"],
 
     "data": [
         'wizard/hr_attendance_import_view.xml',
