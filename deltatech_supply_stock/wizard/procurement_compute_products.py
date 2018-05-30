@@ -114,7 +114,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
         for product in products:
             product = product.with_context({'location': location.ids})
-            virtual_available = product.qty_available + product.incoming_qty
+            virtual_available = product.qty_available + product.incoming_qty - product.outgoing_qty
             qty[product.id] -= virtual_available
 
             #if virtual_available < 0.0:
