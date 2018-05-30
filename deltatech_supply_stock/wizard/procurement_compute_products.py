@@ -40,6 +40,7 @@ class ProcurementComputeProducts(models.TransientModel):
         warehouse = self.env.user.company_id.warehouse_id
 
         qty = {}
+        qty_reserved = {}
         products = self.env['product.product']
         if active_model == 'product.template':
             product_tmpl = self.env['product.template'].browse(active_ids)
@@ -68,6 +69,12 @@ class ProcurementComputeProducts(models.TransientModel):
                         qty[move.product_id.id] += product_qty
                     else:
                         qty[move.product_id.id] = product_qty
+
+                    if move.state != 'draft':  # daca miscarea are o rezervare
+                        if move.product_id.id in qty_reserved:
+                            qty_reserved[move.product_id.id] += move.reserved_availability
+                        else:
+                            qty_reserved[move.product_id.id] = move.reserved_availability
 
         if active_model == 'sale.order':
             sale_orders = self.env['sale.order'].browse(active_ids)
@@ -114,7 +121,12 @@ class ProcurementComputeProducts(models.TransientModel):
 
         for product in products:
             product = product.with_context({'location': location.ids})
-            virtual_available = product.qty_available + product.incoming_qty - product.outgoing_qty
+            if product.id in  qty_reserved:
+                qty_available = qty_reserved[product.id]
+            else:
+                qty_available = product.qty_available
+
+            virtual_available = qty_available + product.incoming_qty
             qty[product.id] -= virtual_available
 
             #if virtual_available < 0.0:
