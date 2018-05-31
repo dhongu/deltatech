@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cash_box_in_form">
+            <field name="name">cash_box_in</field>
+            <field name="model">cash.box.in</field>
+            <field name="inherit_id" ref="account.cash_box_in_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                        <field name="partner_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="cash_box_out_form">
+            <field name="name">cash_box_out</field>
+            <field name="model">cash.box.out</field>
+            <field name="inherit_id" ref="account.cash_box_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group>
+                        <field name="partner_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

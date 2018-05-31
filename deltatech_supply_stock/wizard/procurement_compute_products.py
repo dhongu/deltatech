@@ -40,6 +40,7 @@ class ProcurementComputeProducts(models.TransientModel):
         warehouse = self.env.user.company_id.warehouse_id
 
         qty = {}
+        qty_reserved = {}
         products = self.env['product.product']
         if active_model == 'product.template':
             product_tmpl = self.env['product.template'].browse(active_ids)
@@ -69,6 +70,12 @@ class ProcurementComputeProducts(models.TransientModel):
                     else:
                         qty[move.product_id.id] = product_qty
 
+                    if move.state != 'draft':  # daca miscarea are o rezervare
+                        if move.product_id.id in qty_reserved:
+                            qty_reserved[move.product_id.id] += move.reserved_availability
+                        else:
+                            qty_reserved[move.product_id.id] = move.reserved_availability
+
         if active_model == 'sale.order':
             sale_orders = self.env['sale.order'].browse(active_ids)
             for sale_order in sale_orders:
@@ -85,7 +92,8 @@ class ProcurementComputeProducts(models.TransientModel):
 
         location = warehouse.lot_stock_id
         if 'group_id' in defaults:
-
+            # purcahse_orders = self.env['purchase.order'].search([('group_id', '=', defaults['group_id']),
+            #                                                      ('state', 'in', ['draft', 'sent'])])
             polines = self.env['purchase.order.line'].search([
                 ('state', 'in', ('draft', 'sent', 'to approve')),
                 ('order_id.group_id', '=', defaults['group_id']),
@@ -102,16 +110,31 @@ class ProcurementComputeProducts(models.TransientModel):
             ])
             for production in productions:
                 qty[production.product_id.id] -= (production.product_qty - production.qty_produced)
+        else:
+            purcahse_orders = self.env['purchase.order'].search([('state', 'in', ['draft', 'sent'])])
+            # se scazut ce este deja in comenzi de achzitii ciorna
+            for order in purcahse_orders:
+                for line in order.order_line:
+                    if line.product_id.id in qty:
+                        qty[line.product_id.id] -= line.product_qty
 
 
         for product in products:
             product = product.with_context({'location': location.ids})
-            virtual_available = product.virtual_available
-            if virtual_available < 0.0:
-                if 'group_id' in defaults:
-                    qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
-                else:
-                    qty[product.id] = -1 * product.virtual_available
+            if product.id in  qty_reserved:
+                qty_available = qty_reserved[product.id]
+            else:
+                qty_available = product.qty_available
+
+            virtual_available = qty_available + product.incoming_qty
+            qty[product.id] -= virtual_available
+
+            #if virtual_available < 0.0:
+            #todo: se verificat daca cantitatea care este dispobibila (sau in comanda de achiztie) este pentru aceasta comanda
+            # if 'group_id' in defaults:
+            #     qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
+            # else:
+            #     qty[product.id] = -1 * product.virtual_available
 
         defaults['warehouse_id'] = warehouse.id
         defaults['item_ids'] = []
@@ -186,6 +209,8 @@ class ProcurementComputeProducts(models.TransientModel):
                     continue
 
                 if rule.action == 'buy':
+                    if rule.group_propagation_option != 'propagate':
+                        rule.write({'group_propagation_option':'propagate'})
                     if not self.make_purch:
                         continue
                 elif rule.action == 'manufacture':
