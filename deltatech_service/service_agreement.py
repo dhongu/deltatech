@@ -134,6 +134,9 @@ class service_agreement(models.Model):
 
     notes = fields.Text(string='Notes')
     meter_reading_status = fields.Boolean(default=False, string="Readings done")
+    user_id = fields.Many2one('res.users', string='Salesperson', track_visibility='onchange',
+                              readonly=True,  states={'draft': [('readonly', False)]},
+                              default=lambda self: self.env.user)
 
     @api.model
     def _needaction_domain_get(self):

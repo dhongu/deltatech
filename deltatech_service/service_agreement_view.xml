@@ -143,6 +143,7 @@
                                 <field name="prepare_invoice_day"/>
                                 <!--<field name="invoicing_status"/>-->
                                 <field name="billing_automation"/>
+                                <field name="user_id"/>
                             </group>
                         </group>
                         <label for="notes" string="Note"/>

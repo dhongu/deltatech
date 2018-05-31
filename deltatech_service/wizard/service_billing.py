@@ -139,6 +139,7 @@ class service_billing(models.TransientModel):
                 else:
                     pre_invoice[date_invoice][key] = {'lines': [invoice_line],
                                            'cons':cons,
+                                           'user_id':cons.agreement_id.user_id.id,
                                            'partner_id':cons.partner_id.id,
                                            'account_id':cons.partner_id.property_account_receivable.id, }
 
@@ -154,8 +155,8 @@ class service_billing(models.TransientModel):
                     key = cons.agreement_id.id
                 else:
                     key = cons.partner_id.id
-                if pre_invoice[date_invoice].get(key,
-                                                 False):  # daca a fost generata o factura atunci leg si consumul de facura pentru a aparea in centralizator
+                # daca a fost generata o factura atunci leg si consumul de facura pentru a aparea in centralizator
+                if pre_invoice[date_invoice].get(key, False):
                     pre_invoice[date_invoice][key]['cons'] += cons
             
                 
@@ -180,6 +181,7 @@ class service_billing(models.TransientModel):
                     'account_id': pre_invoice[date_invoice][key]['account_id'], 
                     'type': 'out_invoice',
                     'state': 'draft',
+                    'user_id':   pre_invoice[date_invoice][key]['user_id'],
                     'invoice_line': [(0, 0, x) for x in pre_invoice[date_invoice][key]['lines']],
                     'comment':comment,
                     #'agreement_id':pre_invoice[key]['agreement_id'],
