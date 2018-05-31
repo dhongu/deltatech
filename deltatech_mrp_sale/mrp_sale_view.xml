@@ -91,7 +91,7 @@
 						<field name="article_ids" context="{'default_order_id':id, 'order_id':id}">
 							<tree colors="silver:product_uom_qty==0.0">
 								<field name="sequence" widget="handle" />
-
+								<field name="sequence"/>
 								<field name="product_template" />
 								<field name="product_id" domain="[('product_tmpl_id','=',product_template)]" />
 								<field name="bom_id" invisible='1'  />
