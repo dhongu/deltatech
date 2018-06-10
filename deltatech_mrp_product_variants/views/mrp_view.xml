@@ -22,18 +22,23 @@
                 <field name="qty_done" string="Produced" sum="Qty"/>
             </xpath>
 
+            <button name="%(mrp.action_change_production_qty)d" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', '|', ('state', 'in', ('done','cancel')), ('id', '=', False),('product_id','=',False)]}
+                </attribute>
+            </button>
+
         </field>
     </record>
 
-<!--    <record id="view_finisehd_move_line" model="ir.ui.view">
-        <field name="name">mrp.finished.move.line.form</field>
-        <field name="priority">1000</field>
-        <field name="model">stock.move.line</field>
-        <field name="inherit_id" ref="mrp.view_finisehd_move_line"/>
-        <field name="arch" type="xml">
-            <field name="product_uom_qty" position="replace">
-                <field name="product_uom_qty" nolabel="1"/>
+    <!--    <record id="view_finisehd_move_line" model="ir.ui.view">
+            <field name="name">mrp.finished.move.line.form</field>
+            <field name="priority">1000</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="mrp.view_finisehd_move_line"/>
+            <field name="arch" type="xml">
+                <field name="product_uom_qty" position="replace">
+                    <field name="product_uom_qty" nolabel="1"/>
+                </field>
             </field>
-        </field>
-    </record>-->
+        </record>-->
 </odoo>
