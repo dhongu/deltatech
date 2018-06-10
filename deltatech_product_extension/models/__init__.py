@@ -22,5 +22,6 @@
 import product
 import res_partner
 import account_invoice_report
+import account_move_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -32,11 +32,13 @@
 Features:    
  - New field in product: Dimensions, Shelf Life and Unit of Measure for Shelf Life
  - Adaugare tip partener de tip producator
+ - adaugare raport cu liniile contabile in care apar produse
  
 """,
     "data": [
         "views/product_view.xml",
-        'views/res_partner_view.xml'
+        'views/res_partner_view.xml',
+        'views/account_move_report_view.xml',
     ],
     "active": False,
     "installable": True,
