@@ -124,6 +124,7 @@ class service_agreement(models.Model):
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
+    total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
 
     invoicing_status = fields.Selection(
         [('', 'N/A'), ('unmade', 'Unmade'), ('progress', 'In progress'), ('done', 'Done')],
@@ -192,6 +193,7 @@ class service_agreement(models.Model):
         for agreement in self:
             total_consumption = 0.0
             total_invoiced = 0.0
+            total_costs = 0.0
             consumptions = self.env['service.consumption'].search([('agreement_id', '=', agreement.id)])
             invoices = self.env['account.invoice'].search([('agreement_id', '=', agreement.id)])
             for consumption in consumptions:
@@ -203,8 +205,20 @@ class service_agreement(models.Model):
                 if invoice.state in ['open', 'paid']:
                     total_invoiced += invoice.amount_untaxed
 
+            pickings = self.env['stock.picking'].search([('agreement_id', '=', agreement.id), ('state', '=', 'done')])
+            for picking in pickings:
+                for move in picking.move_lines:
+                    move_value = 0.0
+                    for quant in move.quant_ids:
+                        move_value += quant.cost * quant.qty
+                    if move.location_id.usage == 'internal':
+                        total_costs += move_value
+                    else:
+                        total_costs -= move_value
+
             agreement.write({'total_invoiced': total_invoiced,
-                             'total_consumption': total_consumption})
+                             'total_consumption': total_consumption,
+                             'total_costs': total_costs})
 
     # TODO: de legat acest contract la un cont analitic ...
     @api.one
@@ -337,6 +351,24 @@ class service_agreement(models.Model):
             history_ids+=[history.id]
         readings = self.env['service.meter.reading'].search([('equipment_history_id', 'in', history_ids)], order="date")
         return readings
+
+    @api.multi
+    def picking_button(self):
+        pickings = self.env['stock.picking'].search([('agreement_id', '=', self.id)])
+        context = {'default_agreement_id': self.id,
+                   'default_picking_type_code': 'outgoing',
+                   'default_picking_type_id': self.env.ref('stock.picking_type_outgoing_not2binvoiced').id}
+
+        return {
+            'domain': "[('id','in', [" + ','.join(map(str, pickings.ids)) + "])]",
+            'name': _('Delivery for service'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'stock.picking',
+            'view_id': False,
+            'context': context,
+            'type': 'ir.actions.act_window'
+        }
 
 class service_agreement_type(models.Model):
     _name = 'service.agreement.type'

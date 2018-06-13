@@ -66,7 +66,7 @@
 							</group>
 							<group>
 								<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}" options="{'always_reload': True}" />
-								<field name="equipment_id" />
+								<field name="equipment_id" attrs="{'required': [('category','in',('delivery') )]}"/>
 								<field name="partner_id" attrs="{'required': [('category','in',('delivery','sale') )]}"/>
 								
 								<field name="address_id"

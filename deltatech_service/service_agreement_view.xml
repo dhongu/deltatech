@@ -123,6 +123,17 @@
                                 </div>
                             </button>
 
+                            <button type="object" class="oe_stat_button" id="picking_button" icon="fa-sign-out"
+                                    name="picking_button">
+                                <div>
+                                    <strong>
+                                        <field name="total_costs" widget="monetary"/>
+                                    </strong>
+                                    <br/>
+                                    Costs
+                                </div>
+                            </button>
+
                         </div>
                         <group>
                             <group>
