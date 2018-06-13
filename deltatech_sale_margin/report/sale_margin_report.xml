@@ -26,7 +26,7 @@
 					<field name="company_id" invisible="1" groups="base.group_multi_company"/>
 					<field name="type" invisible="1"/>
 					<field name="state" invisible="1"/>
-					<field name="commission_type" />
+					<field name="journal_id" />
 				</tree>
 			</field>
 		</record>
@@ -62,7 +62,7 @@
 					<field name="state" invisible="1"/>
 					<field name="currency_id"  />
 					<field name="currency_rate"  />
-					<field name="commission_type" />
+				    <field name="journal_id" />
 				</tree>
 			</field>
 		</record>
@@ -73,6 +73,7 @@
 	        <field name="model">sale.margin.report</field>
 	        <field name="arch" type="xml">
 	            <graph string="Sale margin report" type="pivot" stacked="True">
+					<field name="journal_id" type="row"/>
 	                <field name="categ_id" type="row"/>
 	                <field name="product_id" type="row"/>	                
 	                <field name="product_uom_qty" type="measure"/>
@@ -124,7 +125,7 @@
 					<field name="product_id"/>
 					<field name="user_id"/>
 					<field name="manager_user_id"  />
-					<field name="commission_type" />
+					<field name="journal_id" />
 					<field name="period_id"/>
 					<field name="date"/>
 					
@@ -144,7 +145,7 @@
 						<filter string="Period"   context="{'group_by':'period_id'}"/>
 						<filter string="Company"   groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
 						<filter string="Date"  context="{'group_by':'date:month'}" />
-						<filter string="Type"  context="{'group_by':'commission_type'}" />
+						<filter string="Journal"  context="{'group_by':'journal_id'}" />-->
 					</group>
 				</search>
 			</field>

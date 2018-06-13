@@ -64,8 +64,8 @@ class sale_margin_report(models.Model):
         'currency_id': fields.many2one('res.currency', 'Currency', readonly=True),
         'currency_rate': fields.float('Currency Rate', readonly=True),
         'in_rates': fields.boolean('In Rates',readonly=True),
-        'commission_type' : fields.selection(  [('product', 'Stockable Product'), ('consu', 'Consumable'), ('service', 'Service')],
-                                               'Product Type', default='product',readonly=True),
+        # 'commission_type' : fields.selection(  [('product', 'Stockable Product'), ('consu', 'Consumable'), ('service', 'Service')],
+        #                                        'Product Type', default='product',readonly=True),
         'type': fields.selection([
             ('out_invoice','Customer Invoice'),
             ('in_invoice','Supplier Invoice'),
@@ -107,7 +107,7 @@ class sale_margin_report(models.Model):
                 
                 sub.rate * (sale_val  / cr.rate - stock_val ) as commission_computed,
                 sub.manager_rate * (sale_val  / cr.rate - stock_val )  as commission_manager_computed,
-                commission,  commission_type,
+                commission,
                 partner_id, commercial_partner_id, user_id, manager_user_id, period_id,  company_id,
                 in_rates,
                 type,  state ,  journal_id, 
@@ -147,7 +147,7 @@ class sale_margin_report(models.Model):
 
 
                     sum(l.commission) as commission,   
-                    cu.rate, cu.manager_rate, cu.manager_user_id, cu.commission_type,
+                    cu.rate, cu.manager_rate, cu.manager_user_id,
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
@@ -169,7 +169,7 @@ class sale_margin_report(models.Model):
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join product_uom u on (u.id=l.uos_id)
                     left join product_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.user_id = cu.user_id and t.type = cu.commission_type)
+                    left join commission_users cu on (s.user_id = cu.user_id and s.journal_id = cu.journal_id )
                     
         """
         return from_str
@@ -190,7 +190,8 @@ class sale_margin_report(models.Model):
                     s.partner_id,
                     s.commercial_partner_id,
                     s.user_id, cu.manager_user_id,
-                    cu.rate,cu.manager_rate,cu.commission_type,
+                    cu.rate,cu.manager_rate,
+
                     s.company_id,
                     s.in_rates,
                     s.period_id,

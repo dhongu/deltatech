@@ -35,7 +35,9 @@ class commission_users(models.Model):
     rate = fields.Float(string="Rate", default=0.01)
     manager_rate = fields.Float(string="Rate manager", default=0)
     manager_user_id = fields.Many2one('res.users', string='Sales Manager')
-    commission_type = fields.Selection([('product', 'Stockable Product'),('consu', 'Consumable'), ('service', 'Service')], 'Product Type', default='product' )
+    journal_id = fields.Many2one('account.journal', string='Journal',     domain="[('type', 'in', ['sale','sale_refund'])]")
+
+    #commission_type = fields.Selection([('product', 'Stockable Product'),('consu', 'Consumable'), ('service', 'Service')], 'Product Type', default='product' )
 
     _constraints = [
         (models.Model._check_recursion,
