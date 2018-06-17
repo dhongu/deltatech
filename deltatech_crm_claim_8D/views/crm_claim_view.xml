@@ -47,7 +47,7 @@
 					<field name="loc_detected" />
 				</xpath>
 
-				<xpath expr="//page[@string='Follow Up']" position="replace">
+				<xpath expr="//page[@id='follow_up']" position="replace">
 
 					<page string="Follow Up">
 						<group colspan="2" col="2">

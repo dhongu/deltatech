@@ -3,8 +3,23 @@
     <data>
 
         <menuitem id="base.menu_aftersale" name="After-Sale Services"
-            groups="base.group_sale_salesman"
-            parent="base.menu_base_partner" sequence="2" />
+            groups="sales_team.group_sale_salesman"
+            sequence="2" />
+
+        <menuitem id="menu_reports_claim" name="Reports"
+
+            parent="base.menu_aftersale"  />
+
+        <menuitem id="menu_config_claim" name="Configuration"
+            groups="base.group_no_one"
+            parent="base.menu_aftersale" sequence="55"/>
+
+
+        <menuitem action="crm_claim_categ_action" name="Categories"
+            id="menu_crm_case_claim-act" parent="menu_config_claim" groups="base.group_no_one"/>
+
+
+
 
         <!-- Claims Menu -->
         <record model="ir.actions.act_window" id="crm_case_categ_claim0">
@@ -43,9 +58,11 @@
             <field name="act_window_id" ref="crm_case_categ_claim0"/>
         </record>
 
+        <menuitem name="Claims" id="menu_crm_claims"
+            parent="base.menu_aftersale"   sequence="1"/>
 
         <menuitem name="Claims" id="menu_crm_case_claims"
-            parent="base.menu_aftersale" action="crm_case_categ_claim0" sequence="1"/>
+            parent="menu_crm_claims" action="crm_case_categ_claim0" sequence="1"/>
 
         <!-- Claim Stages -->
         <menuitem id="menu_claim_stage_view" name="Stages" action="crm_claim_stage_act" parent="menu_config_claim" sequence="20"/>
