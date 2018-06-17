@@ -3,10 +3,8 @@
     <data>
 
         <menuitem id="base.menu_aftersale" name="After-Sale Services"
-
-
-            parent="sales_team.menu_base_partner" sequence="2" />
-
+            groups="base.group_sale_salesman"
+            parent="base.menu_base_partner" sequence="2" />
 
         <!-- Claims Menu -->
         <record model="ir.actions.act_window" id="crm_case_categ_claim0">
