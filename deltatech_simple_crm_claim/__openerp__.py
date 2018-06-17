@@ -44,9 +44,9 @@ Atentie: Nu se utilizeaza impreuna cu modulul de CRM
         'crm_claim_view.xml',
         'crm_claim_menu.xml',
         'security/ir.model.access.csv',
-        'report/crm_claim_report_view.xml',
+         'report/crm_claim_report_view.xml',
         'crm_claim_data.xml',
-        'res_partner_view.xml',
+         'res_partner_view.xml',
     ],
     'demo': ['crm_claim_demo.xml'],
     'test': [
