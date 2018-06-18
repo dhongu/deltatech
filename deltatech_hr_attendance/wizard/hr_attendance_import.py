@@ -12,7 +12,7 @@ import odoo.addons.decimal_precision as dp
 
 import csv
 import sys
-
+import pytz
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import threading
 
@@ -45,6 +45,11 @@ class hr_attendance_import(models.TransientModel):
             employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
             if not employee:
                 return
+
+        tz_name = self._context.get('tz') or self.env.user.tz or  "Europe/Bucharest"
+        local = pytz.timezone(tz_name)
+        local_dt = local.localize(fields.Datetime.from_string(event_time), is_dst=None)
+        event_time = fields.Datetime.to_string( local_dt.astimezone(pytz.utc) )
 
         attendance = self.env['hr.attendance']
         values = {
