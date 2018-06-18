@@ -10,6 +10,9 @@
                             'required': [('product_tracking', 'not in', [False, 'none'])]}"
                        domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}"/>
             </field>
+            <field name="product_qty" position="replace">
+                <field name="product_qty" attrs="{'readonly': ['|',('serial', '=', True),('product_id','=',False)]}"/>
+            </field>
         </field>
     </record>
 </odoo>

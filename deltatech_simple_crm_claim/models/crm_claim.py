@@ -20,10 +20,7 @@
 ##############################################################################
 
 import odoo
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
-
+from odoo import models, fields, api, _
 from odoo.tools import html2plaintext
 
 
@@ -35,14 +32,13 @@ class crm_case_categ(models.Model):
     @api.model
     def _find_object_id(self):
         """Finds id for case object"""
-        context = self.env.context
-        object_id = context.get('object_id', False)
-        ids = self.env['ir.model'].search(['|', ('id', '=', object_id),
-                                           ('model', '=', context.get('object_name', False))])
-        return ids and ids[0] or False
+        object_id = self.env.context.get('object_id', False)
+        object_name = self.env.context.get('object_name', False)
+        object_id = self.env['ir.model'].search(['|', ('id', '=', object_id), ('model', '=', object_name)], limit=1)
+        return object_id
 
     name = fields.Char('Name', required=True, translate=True)
-    section_id = fields.Many2one('crm.team', 'Sales Team')
+    section_id = fields.Many2one('crm.case.section', 'Sales Team')
     object_id = fields.Many2one('ir.model', 'Object Name', default=_find_object_id)
 
 
@@ -57,9 +53,10 @@ class crm_claim_stage(models.Model):
     _rec_name = 'name'
     _order = "sequence"
 
-    name = fields.Char(string='Stage Name', required=True, translate=True)
+    name = fields.Char('Stage Name', required=True, translate=True)
     sequence = fields.Integer('Sequence', help="Used to order stages. Lower is better.", default=1)
-    section_ids = fields.Many2many('crm.team', 'section_claim_stage_rel', 'stage_id', 'section_id', string='Sections',
+    section_ids = fields.Many2many('crm.case.section', 'section_claim_stage_rel', 'stage_id', 'section_id',
+                                   string='Sections',
                                    help="Link between stages and sales teams. When set, this limitate the current stage to the selected sales teams.")
     case_default = fields.Boolean('Common to All Teams',
                                   help="If you check this field, this stage will be proposed by default on each sales team. It will not assign this stage to existing teams.")
@@ -79,31 +76,34 @@ class crm_claim(models.Model):
             context key, or None if it cannot be resolved to a single
             Sales Team.
         """
-        context = self.env.context
-        if type(context.get('default_section_id')) in (int, long):
-            return context.get('default_section_id')
-        if isinstance(context.get('default_section_id'), basestring):
 
-            section_ids = self.env['crm.team'].name_search(name=context['default_section_id'])
-
+        if type(self.env.context.get('default_section_id')) in (int, long):
+            return self.env.context.get('default_section_id')
+        if isinstance(self.env.context.get('default_section_id'), basestring):
+            section_ids = self.env['crm.case.section'].name_search(name=self.env.context['default_section_id'])
             if len(section_ids) == 1:
                 return int(section_ids[0][0])
         return None
 
     @api.model
-    def _get_default_section_id(self, ):
-
+    def _get_default_section_id(self):
         return self._resolve_section_id_from_context() or False
 
     @api.model
-    def _get_default_stage_id(self, ):
-
+    def _get_default_stage_id(self):
         section_id = self._get_default_section_id()
         return self.stage_find(section_id, [('sequence', '=', '1')])
 
+    @api.model
+    def _reference_models(self):
+        models = self.env['res.request.link'].search([])
+        return [(model.object, model.name) for model in models]
+
+
+
     id = fields.Integer('ID', readonly=True)
     name = fields.Char('Claim Subject', required=True)
-    active = fields.Boolean('Active', default=True)
+    active = fields.Boolean('Active', default=1)
     action_next = fields.Char('Next Action')
     date_action_next = fields.Datetime('Next Action Date')
     description = fields.Text('Description')
@@ -112,39 +112,43 @@ class crm_claim(models.Model):
     write_date = fields.Datetime('Update Date', readonly=True)
     date_deadline = fields.Date('Deadline')
     date_closed = fields.Datetime('Closed', readonly=True)
-    date = fields.Datetime('Claim Date', index=True, default=fields.Datetime.now)
-    ref = fields.Reference(odoo.addons.base.res.res_request.referenceable_models, string='Reference')
-    categ_id = fields.Many2one('crm.case.categ', 'Category', \
+    date = fields.Datetime('Claim Date', select=True, defalut=fields.Datetime.now)
+
+    #ref = fields.Char()
+    ref = fields.Reference(string='Reference',selection = '_reference_models' )
+    #ref = fields.Reference(string='Reference', selection=openerp.addons.base.res.res_request.referencable_models)
+
+    categ_id = fields.Many2one('crm.case.categ', 'Category',
                                domain="[('section_id','=',section_id),   ('object_id.model', '=', 'crm.claim')]")
-    priority = fields.Selection([('0', 'Low'), ('1', 'Normal'), ('2', 'High')], 'Priority', default='1')
+    priority = fields.Selection([('0', 'Low'), ('1', 'Normal'), ('2', 'High')], 'Priority', default=1)
     type_action = fields.Selection([('correction', 'Corrective Action'), ('prevention', 'Preventive Action')],
                                    'Action Type')
-    user_id = fields.Many2one('res.users', 'Responsible', track_visibility='always', default=lambda self: self.env.user)
+    user_id = fields.Many2one('res.users', 'Responsible', track_visibility='always', default=lambda self: self.env.use)
     user_fault = fields.Char('Trouble Responsible')
-    section_id = fields.Many2one('crm.team', 'Sales Team', default=lambda self: self._get_default_section_id(),
-                                 index=True, help="Responsible sales team." \
+    section_id = fields.Many2one('crm.case.section', 'Sales Team', default=_get_default_section_id,
+                                 select=True, help="Responsible sales team." \
                                                    " Define Responsible user and Email account for" \
                                                    " mail gateway.")
-    company_id = fields.Many2one('res.company', 'Company', default=lambda self: self.env.user.company_id.id)
+    company_id = fields.Many2one('res.company', 'Company',
+                                 default=lambda self: self.env['res.company']._company_default_get('crm.case'))
     partner_id = fields.Many2one('res.partner', 'Partner')
     email_cc = fields.Text('Watchers Emails', size=252,
                            help="These email addresses will be added to the CC field of all inbound and outbound emails for this record before being sent. Separate multiple email addresses with a comma")
     email_from = fields.Char('Email', size=128, help="Destination email for email gateway.")
     partner_phone = fields.Char('Phone')
-    stage_id = fields.Many2one('crm.claim.stage', string='Stage', track_visibility='onchange',
-                               default=lambda self: self._get_default_stage_id(),
+    stage_id = fields.Many2one('crm.claim.stage', 'Stage', track_visibility='onchange', default=_get_default_stage_id,
                                domain="['|', ('section_ids', '=', section_id), ('case_default', '=', True)]")
     cause = fields.Text('Root Cause')
 
-    @api.multi
-    def stage_find(self, section_id, domain=[], order='sequence'):
+    @api.model
+    def stage_find(self, cases, section_id, domain=[], order='sequence'):
         """ Override of the base.stage method
             Parameter of the stage search taken from the lead:
             - section_id: if set, stages must belong to this section or
               be a default case
         """
-
-        cases = self
+        if isinstance(cases, (int, long)):
+            cases = self.browse(cases)
         # collect all section_ids
         section_ids = []
         if section_id:
@@ -162,44 +166,38 @@ class crm_claim(models.Model):
         # AND with the domain in parameter
         search_domain += list(domain)
         # perform search, return the first found
-        stage_ids = self.env['crm.claim.stage'].search(search_domain, order=order, limit=1)
+        stage_ids = self.env['crm.claim.stage'].search(search_domain, order=order)
         if stage_ids:
-            return stage_ids.id
+            return stage_ids[0]
         return False
 
-    @api.multi
-    def onchange_partner_id(self, partner_id, email=False):
-
-        """This function returns value of partner address based on partner
-           :param email: ignored
-        """
-        if not partner_id:
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        if not self.partner_id:
             return {'value': {'email_from': False, 'partner_phone': False}}
-
-        address = self.env['res.partner'].browse(partner_id)
-
+        address = self.partner_id
         return {'value': {'email_from': address.email, 'partner_phone': address.phone}}
 
     @api.model
     def create(self, vals):
-        context = self.env.context
-        if vals.get('section_id') and not context.get('default_section_id'):
-            context['default_section_id'] = vals.get('section_id')
+        if vals.get('section_id') and not self.env.context.get('default_section_id'):
+            default_section_id = vals.get('section_id')
+            self = self.with_context(default_section_id=default_section_id)
 
         # context: no_log, because subtype already handle this
         return super(crm_claim, self).create(vals)
 
+
     @api.multi
     def copy(self, default=None):
-        self.ensure_one()
-        default = dict(default or {},
-                       stage_id=self._get_default_stage_id(),
-                       name=_('%s (copy)') % self.name)
+        claim = self
+        default = dict(default or {},  stage_id=self._get_default_stage_id(), name=_('%s (copy)') % claim.name)
         return super(crm_claim, self).copy(default)
 
     # -------------------------------------------------------
     # Mail gateway
     # -------------------------------------------------------
+
     @api.model
     def message_new(self, msg_dict, custom_values=None):
         """ Overrides mail_thread message_new that is called by the mailgateway
@@ -219,17 +217,19 @@ class crm_claim(models.Model):
         if msg_dict.get('priority'):
             defaults['priority'] = msg_dict.get('priority')
         defaults.update(custom_values)
-        return super(crm_claim, self).message_new(msg_dict, custom_values=defaults)
+        return super(crm_claim, self).message_new( msg_dict, custom_values=defaults)
+
+
 
 
 class res_partner(models.Model):
     _inherit = 'res.partner'
 
+    claim_count = fields.Integer(string='# Claims', compute='_compute_claim_count')
+
     @api.multi
-    def _claim_count(self):
+    def _compute_claim_count(self):
         for partner in self:
             partner.claim_count = self.env['crm.claim'].search_count([('partner_id', '=', partner.id)])
-
-    claim_count = fields.Integer(compute="_claim_count", string='# Claims')
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

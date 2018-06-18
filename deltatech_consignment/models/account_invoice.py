@@ -30,3 +30,11 @@ class AccountInvoice(models.Model):
                 data['quantity'] = qty
 
         return data
+
+
+    @api.onchange('purchase_id')
+    def purchase_order_change(self):
+        res = super(AccountInvoice, self).purchase_order_change()
+        for line in self.invoice_line_ids:
+            if line.quantity == 0 :
+                self.invoice_line_ids -= line

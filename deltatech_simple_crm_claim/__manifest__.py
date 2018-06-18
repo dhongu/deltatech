@@ -34,7 +34,7 @@ It is fully integrated with the email gateway so that you can create
 automatically new claims based on incoming emails.
 
 Am eliminat dependenta de CRM
-Nu se utilizeaza impreuna cu modulul de CRM
+Atentie: Nu se utilizeaza impreuna cu modulul de CRM
 
     """,
     'author': 'OpenERP SA',
@@ -42,15 +42,13 @@ Nu se utilizeaza impreuna cu modulul de CRM
     'depends': ['sales_team'],
     'data': [
         'views/crm_claim_view.xml',
-        'data/crm_claim_menu.xml',
+        'views/crm_claim_menu.xml',
         'security/ir.model.access.csv',
         'report/crm_claim_report_view.xml',
-        'data/crm_claim_data.xml',
-        'views/res_partner_view.xml'
+        'views/crm_claim_data.xml',
+        'views/res_partner_view.xml',
     ],
-
-    'demo': [],
-
+    'demo': ['crm_claim_demo.xml'],
     'test': [
         'test/process/claim.yml',
         'test/ui/claim_demo.yml'

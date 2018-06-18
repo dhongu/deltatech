@@ -22,11 +22,12 @@ class SaleOrder(models.Model):
                 'product_uom': product.uom_id.id,
                 'product_uom_qty': 1,
                 'state': 'draft',
+                'order_id':self.id,
             }
             order_line = self.order_line.new(vals)
             order_line.product_id_change()
             order_line.product_uom_change()
-            self.order_line += order_line
+            #self.order_line += order_line
 
 
     def on_barcode_scanned(self, barcode):
