@@ -121,7 +121,7 @@ class account_invoice_export_bf(models.TransientModel):
             for payment in invoice_id.payment_ids:
                 #if payment.payment_method_code == 'manual':
                 if payment.journal_id.type == 'cash':
-                    if payment.journal_id.code == 'VOUC':
+                    if payment.journal_id.code == 'VOUC' or payment.journal_id.code == "VOUPR":
                         buf.write('5;%s;5;1;0\r\n' % str(int(payment.amount * 100.0)))
                     else:
                         buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
