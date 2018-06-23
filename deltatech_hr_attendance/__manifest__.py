@@ -16,11 +16,14 @@ Functionalitati:
     """,
 
     "category": "Human Resources",
-    "depends": ["hr_attendance"],
+    "depends": ["hr_attendance","web_grid"],
 
     "data": [
+        'views/hr_attendance_view.xml',
+        'views/hr_attendance_sheet_view.xml',
         'wizard/hr_attendance_import_view.xml',
-
+        'security/hr_attendance_sheet_security.xml',
+        'security/ir.model.access.csv',
     ],
 
     "active": False,
