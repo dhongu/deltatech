@@ -44,6 +44,8 @@ class hr_attendance_import(models.TransientModel):
 
         if not employee_data:
             employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
+            if not employee:
+                employee = self.env['hr.employee'].with_context(active_test=False).search([('barcode', '=', barcode)])
             last_attendance = False
         else:
             employee = employee_data['employee']
@@ -62,29 +64,32 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-        if not last_attendance:
+        if not last_attendance or direction == 'sign_in':
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
                 ('check_in', '<=', event_time),
             ], order='check_in desc', limit=1)
 
         if direction == 'sign_in':
-            no_check_out_attendance = self.env['hr.attendance'].search([
-                ('employee_id', '=', employee.id),
-                ('check_out', '=', False),
-            ], limit=1)
-            if no_check_out_attendance:
-                if no_check_out_attendance.check_in == event_time:
-                    is_ok = False  # exista deja inregistrarea
-                else:
-                    if last_attendance != no_check_out_attendance:
-                        if event_time < no_check_out_attendance.check_in:
-                            no_check_out_attendance.unlink()
-                        else:
-                            try:
-                                no_check_out_attendance.write({'check_out': event_time,  'no_check_out': True})
-                            except ValidationError as e:
-                                print(str(e), 'event_time', event_time)
+            if last_attendance.check_in == event_time:
+                is_ok = False
+            else:
+                no_check_out_attendance = self.env['hr.attendance'].search([
+                    ('employee_id', '=', employee.id),
+                    ('check_out', '=', False),
+                ], limit=1)
+                if no_check_out_attendance:
+                    if no_check_out_attendance.check_in == event_time:
+                        is_ok = False  # exista deja inregistrarea
+                    else:
+                        if last_attendance != no_check_out_attendance:
+                            if event_time < no_check_out_attendance.check_in:
+                                no_check_out_attendance.unlink()  # inregistrarea va fi regenerata
+                            else:
+                                try:
+                                    no_check_out_attendance.write({'check_out': event_time,  'no_check_out': True})
+                                except ValidationError as e:
+                                    print(str(e), 'event_time', event_time)
 
             if last_attendance and (not last_attendance.check_out or last_attendance.check_out > event_time):
                 is_ok = False

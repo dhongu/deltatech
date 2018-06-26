@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="view_attendance_tree" model="ir.ui.view">
+            <field name="name">hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="for_date"/>
+                    <button name="action_add_day" type="object"  icon="fa-calendar-plus-o"/>
+                    <button name="action_minus_day" type="object"  icon="fa-calendar-minus-o"/>
+                    <field name="no_check_out"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="hr_attendance_view_form" model="ir.ui.view">
             <field name="name">hr.attendance.form</field>
             <field name="model">hr.attendance</field>
-            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form" />
-			<field name="arch" type="xml">
-				<xpath expr="//sheet" position="inside">
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <header>
+                        <button name="action_add_day" type="object" class="oe_edit_only" icon="fa-calendar-plus-o"/>
+                        <button name="action_minus_day" type="object"  class="oe_edit_only" icon="fa-calendar-minus-o"/>
+                    </header>
                     <group>
-                         <field name="for_date"/>
+
+                        <field name="for_date"/>
+
+                        <field name="no_check_out"/>
                     </group>
                 </xpath>
             </field>
