@@ -83,8 +83,12 @@
         <field name="res_model">hr.attendance.sheet.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,grid,pivot</field>
-        <field name="domain">[('sheet_id','=',active_id)]</field>
+
     </record>
+
+    <menuitem id="menu_hr_attendance_sheet_line" name="Daily Attendance"
+              action="action_hr_attendance_sheet_line"
+              parent="hr_attendance.menu_hr_attendance_manage_attendances"/>
 
     <record id="view_hr_attendance_sheet_line_tree" model="ir.ui.view">
         <field name="name">hr.attendance.sheet.line</field>
@@ -99,11 +103,12 @@
                 <field name="check_out"/>
                 <button name="action_attendance_details" type="object" icon="fa-info-circle"/>
 
-                <field name="hour_from" widget="float_time"/>
-                <field name="hour_to" widget="float_time"/>
+                <field name="hour_from" widget="float_time" groups="base.group_no_one"/>
+                <field name="hour_to" widget="float_time" groups="base.group_no_one"/>
 
                 <field name="worked_hours" widget="float_time" sum="1"/>
                 <field name="overtime" widget="float_time" sum="1"/>
+                <field name="night_hours" widget="float_time" sum="1"/>
                 <button name="action_confirm" type="object" icon="fa-check"/>
                 <field name="breaks" widget="float_time" sum="1"/>
                 <field name="late_in" widget="float_time" sum="1"/>
@@ -197,7 +202,9 @@
                             <field name="worked_hours" widget="float_time"/>
                             <field name="overtime" widget="float_time"/>
                             <field name="breaks" widget="float_time"/>
+                            <field name="night_hours" widget="float_time"/>
                         </group>
+
                         <group>
                             <field name="attendance_hours" widget="float_time"/>
                             <field name="effective_hours" widget="float_time" groups="base.group_no_one"/>
@@ -233,7 +240,6 @@
                     <filter string="Date"   context="{'group_by':'date'}"/>
                 </group>
             </search>
-
         </field>
     </record>
 </odoo>

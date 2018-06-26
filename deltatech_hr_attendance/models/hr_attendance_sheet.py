@@ -81,7 +81,8 @@ class HrAttendanceSheet(models.Model):
 
     @api.multi
     def do_compute(self):
-        self.line_ids.unlink()
+        lines = self.line_ids.filtered(lambda x: x.state not in ('done'))
+        lines.unlink()
         query = """
            SELECT   for_date, employee_id, sum(worked_hours), min(check_in), max(check_out), array_agg(hr_attendance.id)
               FROM hr_attendance JOIN hr_employee on hr_attendance.employee_id = hr_employee.id
@@ -142,6 +143,7 @@ class HrAttendanceSheet(models.Model):
 
 class HrAttendanceSheetLine(models.TransientModel):
     _name = "hr.attendance.sheet.line"
+    _description = "Daily Attendance"
     _order = 'check_in'
 
     sheet_id = fields.Many2one('hr.attendance.sheet', required=True, ondelete='cascade', index=True)
@@ -160,6 +162,8 @@ class HrAttendanceSheetLine(models.TransientModel):
 
     worked_hours = fields.Float(string='Worked Hours', compute="_compute_hours", store=True, readonly=False)
     overtime = fields.Float(string='Overtime', compute="_compute_hours", store=True, readonly=False)
+    night_hours = fields.Float(string='Night Hours', compute="_compute_hours", store=True, readonly=False)
+
     shift = fields.Selection([('S1', 'Shift 1'), ('S2', 'Shift 2'), ('S3', 'Shift 3'), ('T', 'Tesa'), ('F', 'Free')],
                              compute="_compute_hours", store=True, readonly=False)
     late_in = fields.Float(compute="_compute_hours", store=True, readonly=False)
@@ -247,6 +251,7 @@ class HrAttendanceSheetLine(models.TransientModel):
             values['hour_from'] = hour_from
             values['hour_to'] = hour_to
             values['state'] = 'not_ok'
+            values.update(self.compute_no_shift(shift))
         else:
             values.update(self.compute_on_shift(shift))
 
@@ -276,6 +281,19 @@ class HrAttendanceSheetLine(models.TransientModel):
             'T': (prog['T'] + 8) % 24,
         }
         return prog, prog_out
+
+
+    @api.model
+    def compute_no_shift(self, shift):
+        values = {}
+        worked_hours = self.attendance_hours
+        if worked_hours > 8:
+            values['overtime'] = worked_hours - 8
+            values['worked_hours'] = 8
+        else:
+            values['worked_hours'] = worked_hours
+
+        return values
 
     @api.model
     def compute_on_shift(self, shift):
@@ -334,6 +352,12 @@ class HrAttendanceSheetLine(models.TransientModel):
             values['worked_hours'] = worked_hours - max(values['breaks'], 1)
             values['state'] = 'need'
 
+        if shift == 'S1':
+            values['night_hours'] = values['early_in']
+        if shift == 'S2':
+            values['night_hours'] = values['late_out']
+        if shift == 'S3':
+            values['night_hours'] = values['worked_hours']
 
         return values
 
