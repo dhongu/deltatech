@@ -26,7 +26,7 @@
     
     'category': 'Project Management',
     
-    "depends" : ['deltatech',"project"],
+    "depends" : ["project"],
 
 
     "description": """
@@ -41,7 +41,7 @@ Features:
         "data/project_data.xml",
         'wizard/recurrence_view.xml',
         'wizard/task_set_progress_view.xml', 
-        'views/res_config_view.xml'
+        # 'views/res_config_view.xml'
 
     ],
     "active": False,

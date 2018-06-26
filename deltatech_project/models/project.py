@@ -99,8 +99,7 @@ class project_project(models.Model):
             res.append((project_item.id, data))
         return res
 
-    def _progress_rate(self, cr, uid, ids, names, arg, context=None):
-        print "_progress_rate"
+
     
     @api.multi
     def refresh_progress(self):
@@ -247,7 +246,7 @@ class project_task(models.Model):
             self.date_end = self.date_deadline + fields.Datetime.now()[-9:]
             self.date_start = self.date_end[:8]+'01'+self.date_end[10:]
 
-            print self.date_start, self.date_end
+            
  
 
 

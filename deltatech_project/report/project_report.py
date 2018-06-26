@@ -23,49 +23,54 @@
 import time
 import datetime
 
-from odoo.report import report_sxw
-from odoo.osv import osv
+from odoo import api, models
 
 
+class ReportProjectAbstract(models.AbstractModel):
+    _name = 'report.abstract_report.project'
+    _template = None
 
-class report_project_wrapper(report_sxw.rml_parse):
-
-    def __init__(self, cr, uid, name, context):
-        super(report_project_wrapper, self).__init__(cr, uid, name, context=context)
-        self.localcontext.update({
+    @api.model
+    def get_report_values(self, docids, data=None):
+        report = self.env['ir.actions.report']._get_report_from_name(self._template)
+        return {
+            'doc_ids': docids,
+            'doc_model': report.model,
+            'data': data,
             'time': time,
+            'docs': self.env[report.model].browse(docids),
+            'formatLang': self._formatLang,
+            'get_line': self._get_line,
+            'get_totals': self._get_totals,
+            'reduce': reduce,
+
             'datetime': datetime,
             'today': time.strftime('%Y-%m-%d'),
-            'tomorrow':datetime.datetime.strftime(datetime.date.today() + datetime.timedelta(days=1),'%Y-%m-%d'),
-        })
+            'tomorrow': datetime.datetime.strftime(datetime.date.today() + datetime.timedelta(days=1), '%Y-%m-%d'),
+        }
 
 
-class report_project(osv.AbstractModel):
+
+
+
+class report_project(models.AbstractModel):
     _name = 'report.deltatech_project.report_project'
-    _inherit = 'report.abstract_report'
+    _inherit = 'report.abstract_report.project'
     _template = 'deltatech_project.report_project'
-    _wrapped_report_class = report_project_wrapper
 
-
-class report_project_do_today(osv.AbstractModel):
+class report_project_do_today(models.AbstractModel):
     _name = 'report.deltatech_project.report_project_do_today'
-    _inherit = 'report.abstract_report'
+    _inherit = 'report.abstract_report.project'
     _template = 'deltatech_project.report_project_do_today'
-    _wrapped_report_class = report_project_wrapper
-    
-    
-class report_project_do_tomorrow(osv.AbstractModel):
-    _name = 'report.deltatech_project.report_project_do_tomorrow'
-    _inherit = 'report.abstract_report'
-    _template = 'deltatech_project.report_project_do_tomorrow'
-    _wrapped_report_class = report_project_wrapper
-    
-    
-class report_project_do_on_date(osv.AbstractModel):
-    _name = 'report.deltatech_project.report_project_do_on_date'
-    _inherit = 'report.abstract_report'
-    _template = 'deltatech_project.report_project_do_on_date'
-    _wrapped_report_class = report_project_wrapper
- 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    
+class report_project_do_tomorrow(models.AbstractModel):
+    _name = 'report.deltatech_project.report_project_do_tomorrow'
+    _inherit = 'report.abstract_report.project'
+    _template = 'deltatech_project.report_project_do_tomorrow'
+
+    
+class report_project_do_on_date(models.AbstractModel):
+    _name = 'report.deltatech_project.report_project_do_on_date'
+    _inherit = 'report.abstract_report.project'
+    _template = 'deltatech_project.report_project_do_on_date'

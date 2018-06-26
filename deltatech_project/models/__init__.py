@@ -19,11 +19,11 @@
 #
 ##############################################################################
 
-import project
+from . import project
 
 
-import project_config
-import res_config
+from . import project_config
+from . import res_config
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
