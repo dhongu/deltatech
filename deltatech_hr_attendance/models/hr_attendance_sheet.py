@@ -166,6 +166,7 @@ class HrAttendanceSheetLine(models.TransientModel):
 
     worked_hours = fields.Float(string='Worked Hours', compute="_compute_hours", store=True, readonly=False)
     overtime = fields.Float(string='Overtime', compute="_compute_hours", store=True, readonly=False)
+    total_hours = fields.Float(string='Total Hours', compute="_compute_total_hours")
     night_hours = fields.Float(string='Night Hours', compute="_compute_hours", store=True, readonly=False)
 
     shift = fields.Selection([('S1', 'Shift 1'), ('S2', 'Shift 2'), ('S3', 'Shift 3'), ('T', 'Tesa'), ('F', 'Free')],
@@ -179,6 +180,8 @@ class HrAttendanceSheetLine(models.TransientModel):
     state = fields.Selection([('draft', 'Draft'), ('ok', 'Ok'), ('not_ok', 'Not OK'),
                               ('need', 'Need attention'), ('done', 'Confirmed')],
                              default='draft', compute="_compute_hours", store=True)
+
+    comments = fields.Char()
 
     @api.multi
     def adjust_grid(self, row_domain, column_field, column_value, cell_field, change):
@@ -216,6 +219,12 @@ class HrAttendanceSheetLine(models.TransientModel):
         # span is always daily and value is an iso range
         day = column_value.split('/')[0]
         return [('name', '=', False), ('date', '=', day)]
+
+    @api.multi
+    @api.depends('worked_hours', 'overtime')
+    def _compute_total_hours(self):
+        for item in self:
+            item.total_hours = item.worked_hours + item.overtime
 
     @api.model
     def calcul(self, prog, prog_out):
@@ -316,12 +325,17 @@ class HrAttendanceSheetLine(models.TransientModel):
         t_diff = relativedelta(check_out, check_in)
 
         worked_hours = t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
+        if worked_hours > 24:
+            values['state'] = 'not_ok'
+        else:
+            values['state'] = 'ok'
+
         breaks = worked_hours - self.attendance_hours
         effective_hours = self.attendance_hours
 
         values['hour_from'] = prog[shift]
         values['hour_to'] = prog_out[shift]
-        values['state'] = 'ok'
+
         diff = prog[shift] - hour_from
         overtime = 0
         if diff < 0:
@@ -330,7 +344,7 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_in'] = 0
             values['early_in'] = diff
-            overtime += float_round(diff, precision_rounding=1, rounding_method='DOWN')
+            overtime +=  diff
             effective_hours = effective_hours - diff
 
         diff = hour_to - prog_out[shift]
@@ -340,8 +354,11 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_out'] = diff
             values['early_out'] = 0
-            overtime += float_round(diff, precision_rounding=1, rounding_method='DOWN')
+            overtime +=  diff
             effective_hours = effective_hours - diff
+
+        #7:40  trebuie sa sta in pauza
+        # rotunjurea la ora suplimentara
 
         if effective_hours >= 7 or worked_hours >= 8:
             worked_hours = 8.0
@@ -349,11 +366,16 @@ class HrAttendanceSheetLine(models.TransientModel):
         values['effective_hours'] = effective_hours
         values['breaks'] = float_round(breaks, precision_rounding=0.1)
 
-        values['overtime'] = overtime
+        values['overtime'] = float_round(overtime, precision_rounding=1)
         values['worked_hours'] = worked_hours
-        if values['breaks'] > 21 / 60 and overtime <= 1 and shift[0] == 'S':
+        if values['breaks'] > 25 / 60 and overtime < 1 and shift[0] == 'S':
             values['worked_hours'] = worked_hours - max(values['breaks'], 1)
             values['state'] = 'need'
+
+        if overtime >= 1 and values['breaks'] > 25 / 60:
+            values['worked_hours'] = worked_hours
+            values['overtime'] = float_round(overtime - (values['breaks'] - 20/60) , precision_rounding=1)
+
 
         if shift == 'S1' and values['early_in'] > 0.5:
             values['night_hours'] = values['early_in']
@@ -364,6 +386,10 @@ class HrAttendanceSheetLine(models.TransientModel):
         if shift == 'S3':
             values['night_hours'] = values['worked_hours']
 
+        if shift == 'T': # tesa
+            values['worked_hours'] = min(8, worked_hours)
+            values['overtime'] = 0.0
+            values['night_hours'] = 0.0
         return values
 
     @api.onchange('shift')

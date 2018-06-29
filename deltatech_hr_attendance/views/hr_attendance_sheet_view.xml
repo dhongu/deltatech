@@ -95,7 +95,7 @@
         <field name="model">hr.attendance.sheet.line</field>
         <field name="arch" type="xml">
             <tree decoration-danger="state=='not_ok'" decoration-success="state=='done'"
-                  decoration-warning="state=='need'">
+                  decoration-warning="state=='need'" decoration-bf="state in ['need','not_ok']">
                 <field name="employee_id"/>
                 <field name="date"/>
                 <field name="shift"/>
@@ -118,7 +118,7 @@
                 <field name="early_out" widget="float_time" sum="1"/>
                 <field name="effective_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
                 <field name="attendance_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
-                <field name="state" invisible="1"/>
+                <field name="state"/>
 
             </tree>
         </field>
@@ -136,7 +136,7 @@
                     <range name="week" string="Week" span="week" step="day"/>
                     <range name="month" string="Month" span="month" step="day"/>
                 </field>
-                <field name="worked_hours" type="measure" widget="float_time"/>
+                <field name="total_hours" type="measure" widget="float_time"/>
             </grid>
         </field>
     </record>
@@ -204,6 +204,7 @@
                             <field name="overtime" widget="float_time"/>
                             <field name="breaks" widget="float_time"/>
                             <field name="night_hours" widget="float_time"/>
+                            <field name="comments"/>
                         </group>
 
                         <group>
