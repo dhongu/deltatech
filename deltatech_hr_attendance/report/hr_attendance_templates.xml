@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_attendance_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h3 class="mb32">Attendance Summary</h3>
+                        <t t-set="info" t-value="get_header_info"/>
+                        <h3 class="text-center mb32">
+                            Analyze from
+
+                            <span t-field="doc.date_from"/>
+                            to
+                            <span t-field="doc.date_to"/>
+
+                        </h3>
+
+                        <table class="table table-condensed table-bordered mb32" style="table-layout:auto">
+                            <thead>
+                                <!-- <tr>
+                                     <th>Month</th>
+                                     <t t-foreach="get_months" t-as="month">
+                                         &lt;th class="text-center" colspan=<t t-esc="month['days']"/>&gt;<t t-esc="month['month_name']"/>&lt;/th&gt;
+                                     </t>
+                                     <th/>
+                                 </tr>-->
+                                <tr>
+                                    <td rowspan="2">
+                                        <strong>Employees</strong>
+                                    </td>
+                                    <td rowspan="2"><strong>Type</strong></td>
+                                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
+                                        <td class="text-center oe_leftfit oe_rightfit"
+                                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
+                                            <t t-esc="day['day_str']"/>
+                                        </td>
+                                    </t>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
+                                        <td class="text-center oe_leftfit oe_rightfit"
+                                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
+                                            <t t-esc="day['day']"/>
+                                        </td>
+                                    </t>
+                                    <td class="text-center">Sum</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
+                                   t-as="obj">
+                                    <tr>
+                                        <td rowspan="4">
+                                            <t t-esc="obj['emp']"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>normal</td>
+                                        <t t-foreach="obj['display']" t-as="details">
+                                            <td>
+                                                <t t-set="line" t-value="details['line']"/>
+                                                <t t-if="line">
+                                                    <div t-esc="float_time(line.worked_hours)"/>
+
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <tr>
+                                         <td>overtime</td>
+                                        <t t-foreach="obj['display']" t-as="details">
+                                            <td>
+                                                <t t-set="line" t-value="details['line']"/>
+                                                <t t-if="line and line.overtime">
+                                                    <div t-esc="float_time(line.overtime)"/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <tr>
+                                        <td>night</td>
+                                        <t t-foreach="obj['display']" t-as="details">
+                                            <td>
+                                                <t t-set="line" t-value="details['line']"/>
+                                                <t t-if="line and line.night_hours">
+                                                    <div t-esc="float_time(line.night_hours)"/>
+                                                </t>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                    <tr></tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

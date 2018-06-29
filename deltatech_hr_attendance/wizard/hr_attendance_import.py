@@ -9,7 +9,7 @@ import os
 from odoo import models, fields, api, _, registry
 from odoo.exceptions import  Warning, RedirectWarning,  ValidationError, UserError
 import odoo.addons.decimal_precision as dp
-
+from dateutil.relativedelta import relativedelta
 import csv
 import sys
 import pytz
@@ -87,7 +87,10 @@ class hr_attendance_import(models.TransientModel):
                                 no_check_out_attendance.unlink()  # inregistrarea va fi regenerata
                             else:
                                 try:
-                                    no_check_out_attendance.write({'check_out': event_time,  'no_check_out': True})
+                                    event_time_out = fields.Datetime.from_string(no_check_out_attendance.check_in)
+                                    event_time_out = event_time_out +  relativedelta(seconds =1)
+                                    event_time_out = fields.Datetime.to_string(event_time_out)
+                                    no_check_out_attendance.write({'check_out': event_time_out,  'no_check_out': True})
                                 except ValidationError as e:
                                     print(str(e), 'event_time', event_time)
 

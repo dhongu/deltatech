@@ -233,8 +233,8 @@ class HrAttendanceSheetLine(models.TransientModel):
             values['hour_from'] = hour_from
             values['state'] = 'not_ok'
 
-        check_out = fields.Datetime.context_timestamp(self,
-                                                      fields.Datetime.from_string(line.check_out or line.check_in))
+        check_out = fields.Datetime.from_string(line.check_out or line.check_in)
+        check_out = fields.Datetime.context_timestamp(self, check_out)
         hour_to = check_out.hour + check_out.minute / 60.0
 
         diff = {
@@ -272,16 +272,17 @@ class HrAttendanceSheetLine(models.TransientModel):
             'S1': day_start,
             'S2': day_start + 8,
             'S3': day_start + 16,
-            'T': day_tesa_start
+            'T': day_tesa_start,
+            'F': 0
         }
         prog_out = {
             'S1': (prog['S1'] + 8) % 24,
             'S2': (prog['S2'] + 8) % 24,
             'S3': (prog['S3'] + 8) % 24,
             'T': (prog['T'] + 8) % 24,
+            'F': 24
         }
         return prog, prog_out
-
 
     @api.model
     def compute_no_shift(self, shift):
@@ -308,25 +309,25 @@ class HrAttendanceSheetLine(models.TransientModel):
                                                       fields.Datetime.from_string(self.check_out or self.check_in))
         hour_to = check_out.hour + check_out.minute / 60.0
 
-        t_diff = relativedelta(check_out,
-                               check_in)  # print("Difference is %d days %d hours" % (tdiff.days, tdiff.seconds/3600))
+        t_diff = relativedelta(check_out,  check_in)
+
         worked_hours = t_diff.hours + t_diff.minutes / 60
         breaks = worked_hours - self.attendance_hours
         effective_hours = self.attendance_hours
-
 
         values['hour_from'] = prog[shift]
         values['hour_to'] = prog_out[shift]
         values['state'] = 'ok'
         diff = prog[shift] - hour_from
+        overtime = 0
         if diff < 0:
             values['late_in'] = abs(diff)
             values['early_in'] = 0
-            overtime = 0
         else:
             values['late_in'] = 0
             values['early_in'] = diff
-            overtime = diff
+            if diff > 0.5:
+                overtime = diff
             effective_hours = effective_hours - diff
 
         diff = hour_to - prog_out[shift]
@@ -336,26 +337,28 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_out'] = diff
             values['early_out'] = 0
-            overtime += diff
+            if diff > 0.5:
+                overtime += diff
             effective_hours = effective_hours - diff
 
-        if effective_hours > 7.5 or  worked_hours >= 8 :
+        if effective_hours >= 7 or worked_hours >= 8:
             worked_hours = 8.0
 
         values['effective_hours'] = effective_hours
         values['breaks'] = breaks
 
-
         values['overtime'] = overtime
         values['worked_hours'] = worked_hours
-        if values['breaks'] > 21 / 60 and overtime <= 1:
+        if values['breaks'] > 21 / 60 and overtime <= 1 and shift[0] == 'S':
             values['worked_hours'] = worked_hours - max(values['breaks'], 1)
             values['state'] = 'need'
 
-        if shift == 'S1':
+        if shift == 'S1' and values['early_in'] > 0.5:
             values['night_hours'] = values['early_in']
-        if shift == 'S2':
+
+        if shift == 'S2' and values['late_out'] > 0.5:
             values['night_hours'] = values['late_out']
+
         if shift == 'S3':
             values['night_hours'] = values['worked_hours']
 
@@ -370,18 +373,32 @@ class HrAttendanceSheetLine(models.TransientModel):
 
     @api.multi
     def action_confirm(self):
-        self.write({'state': 'done'})
+        if not self.shift:
+            self.write({'state': 'done','shift':'F'})
+        else:
+            self.write({'state': 'done'})
+
+    @api.multi
+    def action_invalidate(self):
+        for item in self:
+            if item.shift:
+                values = self.compute_on_shift(item.shift)
+                item.write(values)
+            else:
+                self.write({'state': 'not_ok'})
+
 
     @api.multi
     def action_attendance_details(self):
         self.ensure_one()
         # hr_attendance_action
+        context =  { 'display_button_add_minus':True }
         action = {
             'name': _('Attendance'),
             'type': 'ir.actions.act_window',
             'view_type': 'form',
             'view_mode': 'tree,form',
-            'context': self.env.context,
+            'context': context,
             'res_model': 'hr.attendance',
             'domain': [('id', 'in', self.attendance_ids.ids)]
         }

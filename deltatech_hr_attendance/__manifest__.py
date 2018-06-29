@@ -23,6 +23,8 @@ Functionalitati:
         'views/hr_attendance_sheet_view.xml',
         'wizard/hr_attendance_import_view.xml',
         'security/hr_attendance_sheet_security.xml',
+        'report/hr_attendance_reports.xml',
+        'report/hr_attendance_templates.xml',
         'security/ir.model.access.csv',
     ],
 
