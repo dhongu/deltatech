@@ -28,6 +28,9 @@
                                  </tr>-->
                                 <tr>
                                     <td rowspan="2">
+                                        <strong>Marca</strong>
+                                    </td>
+                                    <td rowspan="2">
                                         <strong>Employees</strong>
                                     </td>
                                     <td rowspan="2"><strong>Type</strong></td>
@@ -53,8 +56,11 @@
                                 <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
                                    t-as="obj">
                                     <tr>
+                                         <td rowspan="4">
+                                            <span t-field="obj['emp'].barcode"/>
+                                        </td>
                                         <td rowspan="4">
-                                            <t t-esc="obj['emp']"/>
+                                            <span t-field="obj['emp'].name"/>
                                         </td>
 
                                     </tr>

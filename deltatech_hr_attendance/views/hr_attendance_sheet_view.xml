@@ -109,7 +109,8 @@
                 <field name="worked_hours" widget="float_time" sum="1"/>
                 <field name="overtime" widget="float_time" sum="1"/>
                 <field name="night_hours" widget="float_time" sum="1"/>
-                <button name="action_confirm" type="object" icon="fa-check"/>
+                <button name="action_confirm" type="object" icon="fa-check" states="not_ok,need,ok"/>
+                <button name="action_invalidate" type="object" icon="fa-ban" states="done"/>
                 <field name="breaks" widget="float_time" sum="1"/>
                 <field name="late_in" widget="float_time" sum="1"/>
                 <field name="early_in" widget="float_time" sum="1" groups="base.group_no_one"/>
@@ -173,7 +174,7 @@
             <form>
                 <header>
                      <button name="action_confirm" string="Confirmation" type="object" icon="fa fa-check"/>
-                     <button name="action_invalidate" string="Invalidate" type="object" icon="fa fa-check"/>
+                     <button name="action_invalidate" string="Invalidate" type="object" icon="fa fa-ban"/>
                 </header>
                 <sheet>
 

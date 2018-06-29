@@ -80,7 +80,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         for emp in employees.sorted(key=lambda r: r.name):
             res.append({
-                'emp': emp.name,
+                'emp': emp,
                 'display': self._get_attendance_summary( start_date, end_date, lines, emp.id),
                 'sum': 0.0
             })

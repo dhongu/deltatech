@@ -40,18 +40,18 @@ class HrAttendanceSheet(models.Model):
     line_ids = fields.One2many('hr.attendance.sheet.line', 'sheet_id', readonly=True, states={
         'draft': [('readonly', False)]})
 
-    @api.constrains('date_to', 'date_from', 'department_id')
-    def _check_sheet_date(self):
-        for sheet in self:
-            self.env.cr.execute('''
-                     SELECT id
-                     FROM hr_attendance_sheet
-                     WHERE (date_from <= %s and %s <= date_to)
-                         AND department_id=%s
-                         AND id <> %s''',
-                                (sheet.date_to, sheet.date_from, sheet.department_id.id, sheet.id))
-            if any(self.env.cr.fetchall()):
-                raise ValidationError(_('You cannot have 2 timesheets that overlap!'))
+    # @api.constrains('date_to', 'date_from', 'department_id')
+    # def _check_sheet_date(self):
+    #     for sheet in self:
+    #         self.env.cr.execute('''
+    #                  SELECT id
+    #                  FROM hr_attendance_sheet
+    #                  WHERE (date_from <= %s and %s <= date_to)
+    #                      AND department_id=%s
+    #                      AND id <> %s''',
+    #                             (sheet.date_to, sheet.date_from, sheet.department_id.id, sheet.id))
+    #         if any(self.env.cr.fetchall()):
+    #             raise ValidationError(_('You cannot have 2 timesheets that overlap!'))
 
     @api.multi
     def name_get(self):
@@ -110,6 +110,9 @@ class HrAttendanceSheet(models.Model):
                 [('date', '=', values['date']), ('employee_id', '=', values['employee_id'])])
             if not line:
                 self.env['hr.attendance.sheet.line'].create(values)
+            else:
+                if line.sheet_id != self.id:
+                    line.write({'sheet_id': self.id})
 
         self.write({'state': 'draft'})
 
@@ -148,7 +151,8 @@ class HrAttendanceSheetLine(models.TransientModel):
 
     sheet_id = fields.Many2one('hr.attendance.sheet', required=True, ondelete='cascade', index=True)
 
-    department_id = fields.Many2one('hr.department', string='Department', required=True)
+    department_id = fields.Many2one('hr.department', string='Department', required=True,
+                                    domain="[('parent_id','=',False)]")
     employee_id = fields.Many2one('hr.employee', string='Employee', index=True)
     date = fields.Date(index=True)
     check_in = fields.Datetime()
@@ -309,9 +313,9 @@ class HrAttendanceSheetLine(models.TransientModel):
                                                       fields.Datetime.from_string(self.check_out or self.check_in))
         hour_to = check_out.hour + check_out.minute / 60.0
 
-        t_diff = relativedelta(check_out,  check_in)
+        t_diff = relativedelta(check_out, check_in)
 
-        worked_hours = t_diff.hours + t_diff.minutes / 60
+        worked_hours = t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
         breaks = worked_hours - self.attendance_hours
         effective_hours = self.attendance_hours
 
@@ -326,8 +330,7 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_in'] = 0
             values['early_in'] = diff
-            if diff > 0.5:
-                overtime = diff
+            overtime += float_round(diff, precision_rounding=1, rounding_method='DOWN')
             effective_hours = effective_hours - diff
 
         diff = hour_to - prog_out[shift]
@@ -337,15 +340,14 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_out'] = diff
             values['early_out'] = 0
-            if diff > 0.5:
-                overtime += diff
+            overtime += float_round(diff, precision_rounding=1, rounding_method='DOWN')
             effective_hours = effective_hours - diff
 
         if effective_hours >= 7 or worked_hours >= 8:
             worked_hours = 8.0
 
         values['effective_hours'] = effective_hours
-        values['breaks'] = breaks
+        values['breaks'] = float_round(breaks, precision_rounding=0.1)
 
         values['overtime'] = overtime
         values['worked_hours'] = worked_hours
@@ -374,7 +376,7 @@ class HrAttendanceSheetLine(models.TransientModel):
     @api.multi
     def action_confirm(self):
         if not self.shift:
-            self.write({'state': 'done','shift':'F'})
+            self.write({'state': 'done', 'shift': 'F'})
         else:
             self.write({'state': 'done'})
 
@@ -387,12 +389,11 @@ class HrAttendanceSheetLine(models.TransientModel):
             else:
                 self.write({'state': 'not_ok'})
 
-
     @api.multi
     def action_attendance_details(self):
         self.ensure_one()
         # hr_attendance_action
-        context =  { 'display_button_add_minus':True }
+        context = {'display_button_add_minus': True}
         action = {
             'name': _('Attendance'),
             'type': 'ir.actions.act_window',
