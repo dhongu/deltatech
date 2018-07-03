@@ -111,7 +111,7 @@ class HrAttendanceSheet(models.Model):
             if not line:
                 self.env['hr.attendance.sheet.line'].create(values)
             else:
-                if line.sheet_id != self.id:
+                if line.sheet_id.id != self.id:
                     line.write({'sheet_id': self.id})
 
         self.write({'state': 'draft'})
@@ -344,7 +344,7 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_in'] = 0
             values['early_in'] = diff
-            overtime +=  diff
+            overtime += diff
             effective_hours = effective_hours - diff
 
         diff = hour_to - prog_out[shift]
@@ -354,10 +354,10 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values['late_out'] = diff
             values['early_out'] = 0
-            overtime +=  diff
+            overtime += diff
             effective_hours = effective_hours - diff
 
-        #7:40  trebuie sa sta in pauza
+        # 7:40  trebuie sa sta in pauza
         # rotunjurea la ora suplimentara
 
         if effective_hours >= 7 or worked_hours >= 8:
@@ -374,8 +374,7 @@ class HrAttendanceSheetLine(models.TransientModel):
 
         if overtime >= 1 and values['breaks'] > 25 / 60:
             values['worked_hours'] = worked_hours
-            values['overtime'] = float_round(overtime - (values['breaks'] - 20/60) , precision_rounding=1)
-
+            values['overtime'] = float_round(overtime - (values['breaks'] - 20 / 60), precision_rounding=1)
 
         if shift == 'S1' and values['early_in'] > 0.5:
             values['night_hours'] = values['early_in']
@@ -386,7 +385,7 @@ class HrAttendanceSheetLine(models.TransientModel):
         if shift == 'S3':
             values['night_hours'] = values['worked_hours']
 
-        if shift == 'T': # tesa
+        if shift == 'T':  # tesa
             values['worked_hours'] = min(8, worked_hours)
             values['overtime'] = 0.0
             values['night_hours'] = 0.0

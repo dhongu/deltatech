@@ -17,6 +17,13 @@ def utc_to_local(event_time):
     return event_time
 
 
+class HolidaysType(models.Model):
+    _inherit = "hr.holidays.status"
+
+    cod = fields.Char()
+
+
+
 class hr_attendance(models.Model):
     _inherit = "hr.attendance"
 
@@ -60,12 +67,11 @@ class hr_attendance(models.Model):
                 date_time_out = fields.Datetime.from_string(attendance.check_out) - timedelta(hours=day_start)
                 date_time_out = utc_to_local(date_time_out)
                 date_out = fields.Date.to_string(date_time_out)
-                attendance.for_date = date_out
-                # if date_in != date_out:
-                #     date_time_00 = fields.Datetime.from_string(date_out + ' 00:00:00')
-                #     d1 = date_time_00 - date_time_in
-                #     d2 = date_time_out - date_time_00
-                #     if d2 > d1:
-                #         attendance.for_date = date_out
+                if date_in != date_out:
+                    date_time_00 = fields.Datetime.from_string(date_out + ' 00:00:00')
+                    d1 = date_time_00 - date_time_in
+                    d2 = date_time_out - date_time_00
+                    if d2 > d1:
+                        attendance.for_date = date_out
 
 

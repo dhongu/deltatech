@@ -48,7 +48,13 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         return res
 
     def _get_attendance_summary(self, start_date, end_date, lines, empid):
-        res = []
+        res = {
+            'days':[],
+            'worked_hours':0.0,
+            'overtime':0.0,
+            'night_hours':0.0,
+            'rows':3,
+        }
         count = 0
         start_date = fields.Date.from_string(start_date)
         end_date = fields.Date.from_string(end_date)
@@ -56,17 +62,45 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         for index in range(0, max(7, days)):
             current = start_date + timedelta(index)
-            res.append({'day': current.day, 'color': '', 'line':False})
+            res['days'].append({'day': current.day, 'color': '', 'line':False})
             if self._date_is_day_off(current) :
-                res[index]['color'] = '#ababab'
+                res['days'][index]['color'] = '#ababab'
         # count and get leave summary details.
+
+        holiday_type = ['confirm', 'validate']
+        holidays = self.env['hr.holidays'].search([
+            ('employee_id', '=', empid), ('state', 'in', holiday_type),
+            ('type', '=', 'remove'), ('date_from', '<=', str(end_date)),
+            ('date_to', '>=', str(start_date))
+        ])
+        for holiday in holidays:
+            # Convert date to user timezone, otherwise the report will not be consistent with the
+            # value displayed in the interface.
+            date_from = fields.Datetime.from_string(holiday.date_from)
+            date_from = fields.Datetime.context_timestamp(holiday, date_from).date()
+            date_to = fields.Datetime.from_string(holiday.date_to)
+            date_to = fields.Datetime.context_timestamp(holiday, date_to).date()
+            for index in range(0, ((date_to - date_from).days + 1)):
+                if date_from >= start_date and date_from <= end_date:
+                    res['days'][(date_from - start_date).days]['color'] = holiday.holiday_status_id.color_name
+                date_from += timedelta(1)
+            count += abs(holiday.number_of_days)
+
+
 
         for line in lines.filtered( lambda l: l.employee_id.id == empid):
             index_date = fields.Date.from_string(line.date)
             index = (index_date - start_date).days
-            res[index]['line'] = line
-            count += 1
+            res['days'][index]['line'] = line
+            res['worked_hours'] += line.worked_hours
+            res['overtime'] += line.overtime
+            res['night_hours'] += line.night_hours
 
+        if not res['overtime']:
+            res['rows'] -= 1
+        if not res['night_hours']:
+            res['rows'] -= 1
+        print(res)
         return res
 
     def _get_data_from_report(self, start_date, end_date, lines):
@@ -87,7 +121,11 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         return res
 
     def _float_time(self,val):
-        return '%02d:%02d' % (int(str(val).split('.')[0]), int(float(str('%.2f' % val).split('.')[1])/100*60))
+        if val == 8.0:
+            res = '8'
+        else:
+            res = '%2d:%02d' % (int(str(val).split('.')[0]), int(float(str('%.2f' % val).split('.')[1])/100*60))
+        return res
 
     def _get_holidays_status(self):
         res = []

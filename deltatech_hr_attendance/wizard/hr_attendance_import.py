@@ -64,7 +64,7 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-        if not last_attendance or direction == 'sign_in':
+        if not last_attendance: # or direction == 'sign_in':
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
                 ('check_in', '<=', event_time),
@@ -99,6 +99,24 @@ class hr_attendance_import(models.TransientModel):
         else:
             if not last_attendance or last_attendance.check_in > event_time:
                 is_ok = False
+
+            if last_attendance:
+                check_in = fields.Datetime.from_string(last_attendance.check_in)
+                check_out = fields.Datetime.from_string(event_time)
+                t_diff = relativedelta(check_out, check_in)
+                worked_hours = t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
+                if worked_hours > 24:
+                    event_time_out = check_in + relativedelta(seconds=1)
+                    event_time_out = fields.Datetime.to_string(event_time_out)
+                    last_attendance.write({'check_out': event_time_out, 'no_check_out': True})
+                    event_time_in = check_out + relativedelta(seconds=-1)
+                    event_time_in = fields.Datetime.to_string(event_time_in)
+                    last_attendance = self.env['hr.attendance'].create({
+                        'check_in': event_time_in,
+                        'check_out': event_time,
+                        'no_check_out': True
+                    })
+                    print('Work > 24 h')
 
         if is_ok:
             if direction == 'sign_in':

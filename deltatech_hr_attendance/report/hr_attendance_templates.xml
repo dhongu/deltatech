@@ -33,7 +33,9 @@
                                     <td rowspan="2">
                                         <strong>Employees</strong>
                                     </td>
-                                    <td rowspan="2"><strong>Type</strong></td>
+                                    <td rowspan="2">
+                                        <strong>Type</strong>
+                                    </td>
                                     <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
                                         <td class="text-center oe_leftfit oe_rightfit"
                                             t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
@@ -49,25 +51,25 @@
                                             <t t-esc="day['day']"/>
                                         </td>
                                     </t>
-                                    <td class="text-center">Sum</td>
+                                    <td class="text-right">Sum</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
                                    t-as="obj">
+
                                     <tr>
-                                         <td rowspan="4">
+                                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
                                             <span t-field="obj['emp'].barcode"/>
                                         </td>
-                                        <td rowspan="4">
+                                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
                                             <span t-field="obj['emp'].name"/>
                                         </td>
 
-                                    </tr>
-                                    <tr>
+
                                         <td>normal</td>
-                                        <t t-foreach="obj['display']" t-as="details">
-                                            <td>
+                                        <t t-foreach="obj['display']['days']" t-as="details">
+                                            <td t-attf-style="background-color: {{details['color']}}">
                                                 <t t-set="line" t-value="details['line']"/>
                                                 <t t-if="line">
                                                     <div t-esc="float_time(line.worked_hours)"/>
@@ -75,30 +77,42 @@
                                                 </t>
                                             </td>
                                         </t>
+                                        <td class="text-right">
+                                            <strong t-esc="int(obj['display']['worked_hours'])"/>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                         <td>overtime</td>
-                                        <t t-foreach="obj['display']" t-as="details">
-                                            <td>
-                                                <t t-set="line" t-value="details['line']"/>
-                                                <t t-if="line and line.overtime">
-                                                    <div t-esc="float_time(line.overtime)"/>
-                                                </t>
+                                    <t t-if="obj['display']['overtime']">
+                                        <tr>
+                                            <td>overtime</td>
+                                            <t t-foreach="obj['display']['days']" t-as="details">
+                                                <td t-attf-style="background-color: {{details['color']}}">
+                                                    <t t-set="line" t-value="details['line']"/>
+                                                    <t t-if="line and line.overtime">
+                                                        <div t-esc="float_time(line.overtime)"/>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                            <td class="text-right">
+                                                <strong t-esc="int(obj['display']['overtime'])"/>
                                             </td>
-                                        </t>
-                                    </tr>
-                                    <tr>
-                                        <td>night</td>
-                                        <t t-foreach="obj['display']" t-as="details">
-                                            <td>
-                                                <t t-set="line" t-value="details['line']"/>
-                                                <t t-if="line and line.night_hours">
-                                                    <div t-esc="float_time(line.night_hours)"/>
-                                                </t>
+                                        </tr>
+                                    </t>
+                                    <t t-if="obj['display']['night_hours']">
+                                        <tr>
+                                            <td>night</td>
+                                            <t t-foreach="obj['display']['days']" t-as="details">
+                                                <td t-attf-style="background-color: {{details['color']}}">
+                                                    <t t-set="line" t-value="details['line']"/>
+                                                    <t t-if="line and line.night_hours">
+                                                        <div t-esc="float_time(line.night_hours)"/>
+                                                    </t>
+                                                </td>
+                                            </t>
+                                            <td class="text-right">
+                                                <strong t-esc="int(obj['display']['night_hours'])"/>
                                             </td>
-                                        </t>
-                                    </tr>
-                                    <tr></tr>
+                                        </tr>
+                                    </t>
                                 </t>
                             </tbody>
                         </table>

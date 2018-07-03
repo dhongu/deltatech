@@ -118,7 +118,7 @@
                 <field name="early_out" widget="float_time" sum="1"/>
                 <field name="effective_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
                 <field name="attendance_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
-                <field name="state"/>
+                <field name="state" invisible="1"/>
 
             </tree>
         </field>
