@@ -22,10 +22,28 @@
             id="action_report_attendance_summary"
             string="Attendance Summary"
             model="hr.attendance.sheet"
-            report_type="qweb-pdf"
+            report_type="qweb-html"
             name="deltatech_hr_attendance.report_attendance_summary"
             file="deltatech_hr_attendance.report_attendance_summary"
             menu="True"/>
+
+        <report
+            id="action_report_attendance_summary_pdf"
+            string="Attendance Summary"
+            model="hr.attendance.sheet"
+            report_type="qweb-pdf"
+            name="deltatech_hr_attendance.report_attendance_summary"
+            file="deltatech_hr_attendance.report_attendance_summary"
+            menu="False"/>
+
+        <report
+            id="action_attendance_summary_control"
+            string="Attendance Summary"
+            model="hr.attendance.sheet"
+            report_type="qweb-html"
+            name="deltatech_hr_attendance.control_attendance_summary"
+            file="deltatech_hr_attendance.control_attendance_summary"
+            menu="False"/>
 
         <record id="action_report_attendance_summary" model="ir.actions.report">
             <field name="paperformat_id" ref="deltatech_hr_attendance.paper_format_attendance_summary"/>

@@ -11,4 +11,5 @@ class HrEmployee(models.Model):
     _inherit = "hr.employee"
     _description = "Employee"
 
-    type_contract = fields.Selection([('acord', 'Acord'), ('regie', 'Regie')], default='')
+
+    shift = fields.Selection([('S1', 'Shift 1'), ('S2', 'Shift 2'), ('S3', 'Shift 3'), ('T', 'Tesa'), ('F', 'Free')])

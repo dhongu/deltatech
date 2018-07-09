@@ -7,7 +7,7 @@ from io import StringIO
 import os
 
 from odoo import models, fields, api, _, registry
-from odoo.exceptions import  Warning, RedirectWarning,  ValidationError, UserError
+from odoo.exceptions import Warning, RedirectWarning, ValidationError, UserError
 import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 import csv
@@ -49,7 +49,7 @@ class hr_attendance_import(models.TransientModel):
             last_attendance = False
         else:
             employee = employee_data['employee']
-            last_attendance =  employee_data['last_attendance']
+            last_attendance = employee_data['last_attendance']
 
         tz_name = self._context.get('tz') or self.env.user.tz or "Europe/Bucharest"
         local = pytz.timezone(tz_name)
@@ -64,38 +64,35 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-        if not last_attendance: # or direction == 'sign_in':
+        if not last_attendance:  # or direction == 'sign_in':
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
                 ('check_in', '<=', event_time),
             ], order='check_in desc', limit=1)
 
-        if direction == 'sign_in':
-            if last_attendance.check_in == event_time:
-                is_ok = False
-            else:
-                no_check_out_attendance = self.env['hr.attendance'].search([
-                    ('employee_id', '=', employee.id),
-                    ('check_out', '=', False),
-                ], limit=1)
-                if no_check_out_attendance:
-                    if no_check_out_attendance.check_in == event_time:
-                        is_ok = False  # exista deja inregistrarea
-                    else:
-                        if last_attendance != no_check_out_attendance:
-                            if event_time < no_check_out_attendance.check_in:
-                                no_check_out_attendance.unlink()  # inregistrarea va fi regenerata
-                            else:
-                                try:
-                                    event_time_out = fields.Datetime.from_string(no_check_out_attendance.check_in)
-                                    event_time_out = event_time_out +  relativedelta(seconds =1)
-                                    event_time_out = fields.Datetime.to_string(event_time_out)
-                                    no_check_out_attendance.write({'check_out': event_time_out,  'no_check_out': True})
-                                except ValidationError as e:
-                                    print(str(e), 'event_time', event_time)
+            attendance_future = self.env['hr.attendance'].search([
+                ('employee_id', '=', employee.id),
+                ('check_in', '>', event_time),
+            ], limit=1)
+            if attendance_future:
+                last_attendance = False
+                return False
 
-            if last_attendance and (not last_attendance.check_out or last_attendance.check_out > event_time):
-                is_ok = False
+        if direction == 'sign_in':
+            if last_attendance:
+                if last_attendance.check_in == event_time:
+                    is_ok = False
+                else:
+                    if not last_attendance.check_out:
+                        event_time_out = fields.Datetime.from_string(last_attendance.check_in)
+                        event_time_out = event_time_out + relativedelta(seconds=1)
+                        event_time_out = fields.Datetime.to_string(event_time_out)
+                        try:
+                            last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
+                        except ValidationError as e:
+                            print('Corectie:', str(e), 'event_time', event_time)
+
+
         else:
             if not last_attendance or last_attendance.check_in > event_time:
                 is_ok = False
@@ -104,26 +101,27 @@ class hr_attendance_import(models.TransientModel):
                 check_in = fields.Datetime.from_string(last_attendance.check_in)
                 check_out = fields.Datetime.from_string(event_time)
                 t_diff = relativedelta(check_out, check_in)
-                worked_hours = t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
+                worked_hours = t_diff.days * 24 + t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
                 if worked_hours > 24:
+                    print('Work > 24 h')
                     event_time_out = check_in + relativedelta(seconds=1)
                     event_time_out = fields.Datetime.to_string(event_time_out)
-                    last_attendance.write({'check_out': event_time_out, 'no_check_out': True})
+                    last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
                     event_time_in = check_out + relativedelta(seconds=-1)
                     event_time_in = fields.Datetime.to_string(event_time_in)
-                    last_attendance = self.env['hr.attendance'].create({
+                    values = {
                         'check_in': event_time_in,
                         'check_out': event_time,
-                        'no_check_out': True
-                    })
-                    print('Work > 24 h')
 
+                        'state': 'no_in',
+                    }
         if is_ok:
             if direction == 'sign_in':
                 try:
                     last_attendance = self.env['hr.attendance'].create(values)
                 except ValidationError as e:
-                    print(str(e), values)
+                    last_attendance = False
+                    print('Error In', str(e), values)
 
             else:
                 try:
@@ -131,10 +129,11 @@ class hr_attendance_import(models.TransientModel):
                     if self.background:
                         self._cr.commit()
                 except ValidationError as e:
-                    print(str(e), )
+                    last_attendance = False
+                    print('Error out', str(e),)
 
-        employees[barcode] = { 'employee': employee,
-                                   'last_attendance': last_attendance}
+        employees[barcode] = {'employee': employee,
+                              'last_attendance': last_attendance}
         return last_attendance
 
     @api.multi

@@ -28,8 +28,8 @@ class hr_attendance(models.Model):
     _inherit = "hr.attendance"
 
     for_date = fields.Date(string='For Date', compute="_compute_for_date", store=True, readonly=False)
-    no_check_out = fields.Boolean()
-    state = fields.Selection([('ok','OK'),('no_in','No check in'),('no_out','No check'),('manual','Manual')], default='ok')
+
+    state = fields.Selection([('ok','OK'),('no_in','No check in'),('no_out','No check out'),('manual','Manual')], default='ok')
     department_id = fields.Many2one('hr.department', string='Department',   compute="_compute_department", store=True, readonly=False)
 
 

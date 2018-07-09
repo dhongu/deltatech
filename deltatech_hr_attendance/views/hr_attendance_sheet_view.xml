@@ -25,6 +25,7 @@
                 <header>
                     <button name="do_compute" string="Calcul" type="object" class="oe_highlight"/>
                     <button name="button_show" string="Show" type="object"/>
+                    <button name="button_show_grid" string="Show Grid" type="object"/>
 
                     <button name="action_timesheet_confirm" states="draft" string="Submit to Manager" type="object"
                             class="oe_highlight"/>
@@ -83,7 +84,8 @@
         <field name="res_model">hr.attendance.sheet.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form,grid,pivot</field>
-         <field name="context">{}</field>
+        <field name="context">{}</field>
+        <field name="domain"></field>
     </record>
 
     <menuitem id="menu_hr_attendance_sheet_line" name="Daily Attendance"
@@ -103,21 +105,22 @@
                 <field name="check_out"/>
                 <button name="action_attendance_details" type="object" icon="fa-info-circle"/>
 
-                <field name="hour_from" widget="float_time" groups="base.group_no_one"/>
-                <field name="hour_to" widget="float_time" groups="base.group_no_one"/>
+          <!--      <field name="hour_from" widget="float_time" groups="base.group_no_one"/>
+                <field name="hour_to" widget="float_time" groups="base.group_no_one"/>-->
 
                 <field name="worked_hours" widget="float_time" sum="1"/>
                 <field name="overtime" widget="float_time" sum="1"/>
+                <field name="overtime_granted" widget="float_time" sum="1"/>
                 <field name="night_hours" widget="float_time" sum="1"/>
                 <button name="action_confirm" type="object" icon="fa-check" states="not_ok,need,ok"/>
                 <button name="action_invalidate" type="object" icon="fa-ban" states="done"/>
                 <field name="breaks" widget="float_time" sum="1"/>
-                <field name="late_in" widget="float_time" sum="1"/>
+<!--                <field name="late_in" widget="float_time" sum="1"/>
                 <field name="early_in" widget="float_time" sum="1" groups="base.group_no_one"/>
                 <field name="late_out" widget="float_time" sum="1" groups="base.group_no_one"/>
                 <field name="early_out" widget="float_time" sum="1"/>
                 <field name="effective_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
-                <field name="attendance_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
+                <field name="attendance_hours" widget="float_time" sum="1" groups="base.group_no_one"/>-->
                 <field name="state" invisible="1"/>
 
             </tree>
@@ -129,9 +132,8 @@
         <field name="name">hr.attendance.sheet.line</field>
         <field name="model">hr.attendance.sheet.line</field>
         <field name="arch" type="xml">
-            <grid string="Timesheets" adjustment="object" adjust_name="adjust_grid">
+            <grid string="Timesheets" adjustment="object" adjust_name="adjust_grid"  >
                 <field name="employee_id" type="row"/>
-                <field name="department_id" type="row"/>
                 <field name="date" type="col">
                     <range name="week" string="Week" span="week" step="day"/>
                     <range name="month" string="Month" span="month" step="day"/>
@@ -175,6 +177,7 @@
                 <header>
                      <button name="action_confirm" string="Confirmation" type="object" icon="fa fa-check"/>
                      <button name="action_invalidate" string="Invalidate" type="object" icon="fa fa-ban"/>
+                     <button name="action_set_shift" string="Set Default Shift" type="object"  />
                 </header>
                 <sheet>
 
@@ -202,6 +205,7 @@
                         <group>
                             <field name="worked_hours" widget="float_time"/>
                             <field name="overtime" widget="float_time"/>
+                            <field name="overtime_granted" widget="float_time" sum="1"/>
                             <field name="breaks" widget="float_time"/>
                             <field name="night_hours" widget="float_time"/>
                             <field name="comments"/>
@@ -244,4 +248,29 @@
             </search>
         </field>
     </record>
+
+
+     <template id="deltatech_hr_attendance_assets_backend"
+              name="deltatech_hr_attendance assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link href="/deltatech_hr_attendance/static/src/css/report.css" rel="stylesheet"/>
+            <script type="text/javascript"
+                    src="/deltatech_hr_attendance/static/src/js/attendance_summary_backend.js"/>
+            <script type="text/javascript"
+                    src="/deltatech_hr_attendance/static/src/js/attendance_summary_widgets.js"/>
+            <!--<script type="text/javascript"-->
+                    <!--src="/deltatech_hr_attendance/static/src/js/report_client_action.js"/>-->
+        </xpath>
+    </template>
+
+
+
+
+     <record id="action_attendance_summary" model="ir.actions.client">
+        <field name="name">Attendance_summary</field>
+        <field name="tag">attendance_summary_backend</field>
+        <field name="context" eval="{'active_model': 'hr.attendance.sheet'}" />
+    </record>
+
+
 </odoo>

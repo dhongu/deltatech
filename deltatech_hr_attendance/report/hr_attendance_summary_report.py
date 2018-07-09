@@ -11,6 +11,7 @@ from odoo.exceptions import UserError
 
 class HrAttendanceSummaryReport(models.AbstractModel):
     _name = 'report.deltatech_hr_attendance.report_attendance_summary'
+    _template = 'deltatech_hr_attendance.report_attendance_summary'
 
     def _get_header_info(self, start_date, holiday_type):
         st_date = fields.Date.from_string(start_date)
@@ -93,7 +94,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             index = (index_date - start_date).days
             res['days'][index]['line'] = line
             res['worked_hours'] += line.worked_hours
-            res['overtime'] += line.overtime
+            res['overtime'] += line.overtime_granted
             res['night_hours'] += line.night_hours
 
         if not res['overtime']:
@@ -137,13 +138,13 @@ class HrAttendanceSummaryReport(models.AbstractModel):
     def get_report_values(self, docids, data=None):
 
 
-        attendance_report = self.env['ir.actions.report']._get_report_from_name('deltatech_hr_attendance.report_attendance_summary')
+        attendance_report = self.env['ir.actions.report']._get_report_from_name(self._template)
         attendances = self.env['hr.attendance.sheet'].browse(docids)
         return {
             'doc_ids': docids,
             'doc_model': attendance_report.model,
             'docs': attendances,
-
+            'doc': attendances,
             'get_day': self._get_day,
             'get_months': self._get_months,
             'float_time': self._float_time,
@@ -151,4 +152,6 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             'get_holidays_status': self._get_holidays_status(),
         }
 
-
+class HrAttendanceSummaryControl(HrAttendanceSummaryReport):
+    _name = 'report.deltatech_hr_attendance.control_attendance_summary'
+    _template = 'deltatech_hr_attendance.control_attendance_summary'

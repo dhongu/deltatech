@@ -6,122 +6,151 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.internal_layout">
                     <div class="page">
-                        <h3 class="mb32">Attendance Summary</h3>
-                        <t t-set="info" t-value="get_header_info"/>
-                        <h3 class="text-center mb32">
-                            Analyze from
-
-                            <span t-field="doc.date_from"/>
-                            to
-                            <span t-field="doc.date_to"/>
-
-                        </h3>
-
-                        <table class="table table-condensed table-bordered mb32" style="table-layout:auto">
-                            <thead>
-                                <!-- <tr>
-                                     <th>Month</th>
-                                     <t t-foreach="get_months" t-as="month">
-                                         &lt;th class="text-center" colspan=<t t-esc="month['days']"/>&gt;<t t-esc="month['month_name']"/>&lt;/th&gt;
-                                     </t>
-                                     <th/>
-                                 </tr>-->
-                                <tr>
-                                    <td rowspan="2">
-                                        <strong>Marca</strong>
-                                    </td>
-                                    <td rowspan="2">
-                                        <strong>Employees</strong>
-                                    </td>
-                                    <td rowspan="2">
-                                        <strong>Type</strong>
-                                    </td>
-                                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
-                                        <td class="text-center oe_leftfit oe_rightfit"
-                                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
-                                            <t t-esc="day['day_str']"/>
-                                        </td>
-                                    </t>
-                                    <td/>
-                                </tr>
-                                <tr>
-                                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
-                                        <td class="text-center oe_leftfit oe_rightfit"
-                                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
-                                            <t t-esc="day['day']"/>
-                                        </td>
-                                    </t>
-                                    <td class="text-right">Sum</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
-                                   t-as="obj">
-
-                                    <tr>
-                                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
-                                            <span t-field="obj['emp'].barcode"/>
-                                        </td>
-                                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
-                                            <span t-field="obj['emp'].name"/>
-                                        </td>
-
-
-                                        <td>normal</td>
-                                        <t t-foreach="obj['display']['days']" t-as="details">
-                                            <td t-attf-style="background-color: {{details['color']}}">
-                                                <t t-set="line" t-value="details['line']"/>
-                                                <t t-if="line">
-                                                    <div t-esc="float_time(line.worked_hours)"/>
-
-                                                </t>
-                                            </td>
-                                        </t>
-                                        <td class="text-right">
-                                            <strong t-esc="int(obj['display']['worked_hours'])"/>
-                                        </td>
-                                    </tr>
-                                    <t t-if="obj['display']['overtime']">
-                                        <tr>
-                                            <td>overtime</td>
-                                            <t t-foreach="obj['display']['days']" t-as="details">
-                                                <td t-attf-style="background-color: {{details['color']}}">
-                                                    <t t-set="line" t-value="details['line']"/>
-                                                    <t t-if="line and line.overtime">
-                                                        <div t-esc="float_time(line.overtime)"/>
-                                                    </t>
-                                                </td>
-                                            </t>
-                                            <td class="text-right">
-                                                <strong t-esc="int(obj['display']['overtime'])"/>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                    <t t-if="obj['display']['night_hours']">
-                                        <tr>
-                                            <td>night</td>
-                                            <t t-foreach="obj['display']['days']" t-as="details">
-                                                <td t-attf-style="background-color: {{details['color']}}">
-                                                    <t t-set="line" t-value="details['line']"/>
-                                                    <t t-if="line and line.night_hours">
-                                                        <div t-esc="float_time(line.night_hours)"/>
-                                                    </t>
-                                                </td>
-                                            </t>
-                                            <td class="text-right">
-                                                <strong t-esc="int(obj['display']['night_hours'])"/>
-                                            </td>
-                                        </tr>
-                                    </t>
-                                </t>
-                            </tbody>
-                        </table>
-
-
+                        <t t-call="deltatech_hr_attendance.report_attendance_summary_base"/>
                     </div>
                 </t>
             </t>
         </t>
+    </template>
+
+    <template id="control_attendance_summary">
+        <div class="o_attendance_summary_page">
+            <t t-call="deltatech_hr_attendance.attendance_summary_buttons"/>
+            <t t-call="deltatech_hr_attendance.report_attendance_summary_base"/>
+        </div>
+    </template>
+
+    <template id="attendance_summary_buttons">
+        <div class="button_row">
+            <button class="o_attendance_summary_print btn btn-sm oe_button" context="{'show_links': False}"><span class="fa fa-print"/> Print</button>
+            <button class="o_attendance_summary_export btn btn-sm oe_button" context="{'show_links': False}"><span class="fa fa-download"/> Export</button>
+        </div>
+    </template>
+
+    <template id="report_attendance_summary_base">
+
+        <h3 class="mb32">Attendance Summary</h3>
+        <t t-set="info" t-value="get_header_info"/>
+        <h3 class="text-center mb32">
+            Analyze from
+
+            <span t-field="doc.date_from"/>
+            to
+            <span t-field="doc.date_to"/>
+
+        </h3>
+
+        <table class="table table-condensed table-bordered mb32" style="table-layout:auto">
+            <thead>
+                <!-- <tr>
+                     <th>Month</th>
+                     <t t-foreach="get_months" t-as="month">
+                         &lt;th class="text-center" colspan=<t t-esc="month['days']"/>&gt;<t t-esc="month['month_name']"/>&lt;/th&gt;
+                     </t>
+                     <th/>
+                 </tr>-->
+                <tr>
+                    <td rowspan="2">
+                        <strong>Marca</strong>
+                    </td>
+                    <td rowspan="2">
+                        <strong>Employees</strong>
+                    </td>
+                    <td rowspan="2">
+                        <strong>Type</strong>
+                    </td>
+                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
+                        <td class="text-center oe_leftfit oe_rightfit"
+                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
+                            <t t-esc="day['day_str']"/>
+                        </td>
+                    </t>
+                    <td/>
+                </tr>
+                <tr>
+                    <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
+                        <td class="text-center oe_leftfit oe_rightfit"
+                            t-attf-style="background-color: {{day['color']}} !important; font-size: 10px">
+                            <t t-esc="day['day']"/>
+                        </td>
+                    </t>
+                    <td class="text-right">Sum</td>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
+                   t-as="obj">
+
+                    <tr>
+                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
+                            <span t-field="obj['emp'].barcode"/>
+                        </td>
+                        <td t-attf-rowspan=" {{obj['display']['rows']}}">
+                            <span t-field="obj['emp'].name"/>
+                        </td>
+
+
+                        <td>normal</td>
+                        <t t-foreach="obj['display']['days']" t-as="details">
+                            <td t-attf-style="background-color: {{details['color']}}">
+                                <t t-set="line" t-value="details['line']"/>
+                                <t t-if="line">
+                                    <t t-set="text_color"
+                                       t-value="line.state=='not_ok' and 'text-danger text-bf' or line.state=='need' and 'text-warning text-bf' "/>
+                                    <span>
+                                        <a   t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
+                                           t-att-data-active-id="line.id"
+                                           t-att-data-res-model="line._name" >
+
+                                            <t  t-raw="float_time(line.total_hours)"/>
+                                        </a>
+                                    </span>
+
+
+                                </t>
+                            </td>
+                        </t>
+                        <td class="text-right">
+                            <strong t-esc="int(obj['display']['worked_hours'])"/>
+                        </td>
+                    </tr>
+                    <t t-if="obj['display']['overtime']">
+                        <tr>
+                            <td>overtime</td>
+                            <t t-foreach="obj['display']['days']" t-as="details">
+                                <td t-attf-style="background-color: {{details['color']}}">
+                                    <t t-set="line" t-value="details['line']"/>
+                                    <t t-if="line and line.overtime_granted">
+                                        <div t-esc="float_time(line.overtime_granted)"/>
+                                    </t>
+                                </td>
+                            </t>
+                            <td class="text-right">
+                                <strong t-esc="int(obj['display']['overtime'])"/>
+                            </td>
+                        </tr>
+                    </t>
+                    <t t-if="obj['display']['night_hours']">
+                        <tr>
+                            <td>night</td>
+                            <t t-foreach="obj['display']['days']" t-as="details">
+                                <td t-attf-style="background-color: {{details['color']}}">
+                                    <t t-set="line" t-value="details['line']"/>
+                                    <t t-if="line and line.night_hours">
+                                        <div t-esc="float_time(line.night_hours)"/>
+                                    </t>
+                                </td>
+                            </t>
+                            <td class="text-right">
+                                <strong t-esc="int(obj['display']['night_hours'])"/>
+                            </td>
+                        </tr>
+                    </t>
+                </t>
+            </tbody>
+        </table>
+
+
     </template>
 
 </odoo>
