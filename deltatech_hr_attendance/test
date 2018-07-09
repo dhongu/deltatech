@@ -1,0 +1,5 @@
+b'         <div class="o_attendance_summary_page">
+                    <div class="button_row" data-oe-field="arch" data-oe-id="985" data-oe-model="ir.ui.view" data-oe-xpath="/t[1]/div[1]">
+                              <button class="o_attendance_summary_print btn btn-sm oe_button" context="{\'show_links\': False}"><span class="fa fa-print">
+                              </span> Print</button>
+                                 <button class="o_attendance_summary_export btn btn-sm oe_button" context="{\'show_links\': False}"><span class="fa fa-download"></span> Export</button>         </div>                  </div>     '

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_attendance_tree" model="ir.ui.view">
+            <field name="name">hr.attendance.tree</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="for_date"/>
+                    <button name="action_add_day" invisible="not context.get('display_button_add_minus', False)"  type="object"  icon="fa-calendar-plus-o"/>
+                    <button name="action_minus_day" invisible="not context.get('display_button_add_minus', False)"  type="object"  icon="fa-calendar-minus-o"/>
+
+                    <field name="state"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_attendance_view_form" model="ir.ui.view">
+            <field name="name">hr.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_add_day" string='Add' type="object" class="oe_edit_only" icon="fa-calendar-plus-o"/>
+                        <button name="action_minus_day"  string='Minus' type="object"  class="oe_edit_only" icon="fa-calendar-minus-o"/>
+                    </header>
+                </xpath>
+                    <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="for_date"/>
+
+
+                         <field name="state"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--<record id="edit_holiday_status_form" model="ir.ui.view">-->
+            <!--<field name="name">hr.holidays.status.form</field>-->
+            <!--<field name="model">hr.holidays.status</field>-->
+            <!--<field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//field[@name='color_name'" position="after">-->
+                    <!--<field name="code"/>-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
+
+
+    </data>
+</odoo>

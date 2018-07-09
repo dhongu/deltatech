@@ -7,9 +7,9 @@ from io import StringIO
 import os
 
 from odoo import models, fields, api, _, registry
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import Warning, RedirectWarning, ValidationError, UserError
 import odoo.addons.decimal_precision as dp
-
+from dateutil.relativedelta import relativedelta
 import csv
 import sys
 import pytz
@@ -24,6 +24,7 @@ Index,Event Type,Card Holder,Card Type,Card No.,Event Time,Direction,Event Sourc
 4,Fingerprint/Finger Vein Authentication Passed,Cristi,,'0000000001,2018-05-23 16:12:20,Enter,HiK:Usa1 - Intrare,,,,
 
 """
+employees = {}
 
 
 class hr_attendance_import(models.TransientModel):
@@ -39,17 +40,21 @@ class hr_attendance_import(models.TransientModel):
     attendance_file_name = fields.Char(string='Attendance File Name')
 
     def add_attendance(self, event_time, barcode, direction):
-        employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
-        if not employee:
-            barcode = barcode.replace("'", '')
+        employee_data = employees.get(barcode, False)
+
+        if not employee_data:
             employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
             if not employee:
-                return
+                employee = self.env['hr.employee'].with_context(active_test=False).search([('barcode', '=', barcode)])
+            last_attendance = False
+        else:
+            employee = employee_data['employee']
+            last_attendance = employee_data['last_attendance']
 
-        tz_name = self._context.get('tz') or self.env.user.tz or  "Europe/Bucharest"
+        tz_name = self._context.get('tz') or self.env.user.tz or "Europe/Bucharest"
         local = pytz.timezone(tz_name)
         local_dt = local.localize(fields.Datetime.from_string(event_time), is_dst=None)
-        event_time = fields.Datetime.to_string( local_dt.astimezone(pytz.utc) )
+        event_time = fields.Datetime.to_string(local_dt.astimezone(pytz.utc))
 
         attendance = self.env['hr.attendance']
         values = {
@@ -59,39 +64,77 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-        last_attendance = self.env['hr.attendance'].search([
-            ('employee_id', '=', employee.id),
-            ('check_in', '<=', event_time),
-        ], order='check_in desc', limit=1)
+        if not last_attendance:  # or direction == 'sign_in':
+            last_attendance = self.env['hr.attendance'].search([
+                ('employee_id', '=', employee.id),
+                ('check_in', '<=', event_time),
+            ], order='check_in desc', limit=1)
+
+            attendance_future = self.env['hr.attendance'].search([
+                ('employee_id', '=', employee.id),
+                ('check_in', '>', event_time),
+            ], limit=1)
+            if attendance_future:
+                last_attendance = False
+                return False
 
         if direction == 'sign_in':
-            no_check_out_attendances = self.env['hr.attendance'].search([
-                ('employee_id', '=', employee.id),
-                ('check_out', '=', False),
-            ])
-            if no_check_out_attendances:
-                if no_check_out_attendances.check_in == event_time:
+            if last_attendance:
+                if last_attendance.check_in == event_time:
                     is_ok = False
                 else:
-                    if last_attendance != no_check_out_attendances:
-                        no_check_out_attendances.unlink()
+                    if not last_attendance.check_out:
+                        event_time_out = fields.Datetime.from_string(last_attendance.check_in)
+                        event_time_out = event_time_out + relativedelta(seconds=1)
+                        event_time_out = fields.Datetime.to_string(event_time_out)
+                        try:
+                            last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
+                        except ValidationError as e:
+                            print('Corectie:', str(e), 'event_time', event_time)
 
-            if last_attendance and (not last_attendance.check_out or last_attendance.check_out > event_time):
-                is_ok = False
+
         else:
             if not last_attendance or last_attendance.check_in > event_time:
                 is_ok = False
 
+            if last_attendance:
+                check_in = fields.Datetime.from_string(last_attendance.check_in)
+                check_out = fields.Datetime.from_string(event_time)
+                t_diff = relativedelta(check_out, check_in)
+                worked_hours = t_diff.days * 24 + t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
+                if worked_hours > 24:
+                    print('Work > 24 h')
+                    event_time_out = check_in + relativedelta(seconds=1)
+                    event_time_out = fields.Datetime.to_string(event_time_out)
+                    last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
+                    event_time_in = check_out + relativedelta(seconds=-1)
+                    event_time_in = fields.Datetime.to_string(event_time_in)
+                    values = {
+                        'check_in': event_time_in,
+                        'check_out': event_time,
+
+                        'state': 'no_in',
+                    }
         if is_ok:
             if direction == 'sign_in':
-                return self.env['hr.attendance'].create(values)
-            else:
-                last_attendance.write({'check_out': event_time})
-                if self.background:
-                    self._cr.commit()
-                return last_attendance
+                try:
+                    last_attendance = self.env['hr.attendance'].create(values)
+                except ValidationError as e:
+                    last_attendance = False
+                    print('Error In', str(e), values)
 
-        return False
+            else:
+                try:
+                    last_attendance.write({'check_out': event_time})
+                    if self.background:
+                        self._cr.commit()
+                except ValidationError as e:
+                    last_attendance = False
+                    print('Error out', str(e),)
+
+        employees[barcode] = {'employee': employee,
+                              'last_attendance': last_attendance}
+        return last_attendance
 
     @api.multi
     def do_import(self):

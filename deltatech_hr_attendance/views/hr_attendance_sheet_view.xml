@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_attendance_sheet_tree" model="ir.ui.view">
+        <field name="name">hr_attendance_sheet</field>
+        <field name="model">hr.attendance.sheet</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state == 'done'"
+                  decoration-bf="message_needaction == True" string="Timesheets">
+                <field name="state"/>
+                <field name="department_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="message_needaction" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_hr_attendance_sheet_form" model="ir.ui.view">
+        <field name="name">hr_attendance_sheet</field>
+        <field name="model">hr.attendance.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Sheet Options">
+                <header>
+                    <button name="do_compute" string="Calcul" type="object" class="oe_highlight"/>
+                    <button name="button_show" string="Show" type="object"/>
+                    <button name="button_show_grid" string="Show Grid" type="object"/>
+
+                    <button name="action_timesheet_confirm" states="draft" string="Submit to Manager" type="object"
+                            class="oe_highlight"/>
+                    <button name="action_timesheet_done" states="confirm" string="Approve" type="object"
+                            groups="deltatech_hr_attendance.group_hr_timesheet_user" class="oe_highlight"/>
+                    <button name="action_timesheet_draft" states="done" string="Set to Draft" type="object"
+                            groups="deltatech_hr_attendance.group_hr_timesheet_user"/>
+                    <button name="action_timesheet_draft" states="confirm" string="Refuse" type="object"
+                            groups="deltatech_hr_attendance.group_hr_timesheet_user"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group name="date_range">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <field name="line_ids"/>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_attendance_sheet" model="ir.actions.act_window">
+        <field name="name">Attendance sheet</field>
+        <field name="res_model">hr.attendance.sheet</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target"></field>
+    </record>
+
+
+    <menuitem id="menu_hr_attendance_sheet" name="Attendance Sheet"
+              action="action_hr_attendance_sheet"
+              parent="hr_attendance.menu_hr_attendance_manage_attendances"/>
+
+
+    <record id="action_hr_attendance_sheet_line" model="ir.actions.act_window">
+        <field name="name">Attendance sheet</field>
+        <field name="res_model">hr.attendance.sheet.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,grid,pivot</field>
+        <field name="context">{}</field>
+        <field name="domain"></field>
+    </record>
+
+    <menuitem id="menu_hr_attendance_sheet_line" name="Daily Attendance"
+              action="action_hr_attendance_sheet_line"
+              parent="hr_attendance.menu_hr_attendance_manage_attendances"/>
+
+    <record id="view_hr_attendance_sheet_line_tree" model="ir.ui.view">
+        <field name="name">hr.attendance.sheet.line</field>
+        <field name="model">hr.attendance.sheet.line</field>
+        <field name="arch" type="xml">
+            <tree decoration-danger="state=='not_ok'" decoration-success="state=='done'"
+                  decoration-warning="state=='need'" decoration-bf="state in ['need','not_ok']">
+                <field name="employee_id"/>
+                <field name="date"/>
+                <field name="shift"/>
+                <field name="check_in"/>
+                <field name="check_out"/>
+                <button name="action_attendance_details" type="object" icon="fa-info-circle"/>
+
+          <!--      <field name="hour_from" widget="float_time" groups="base.group_no_one"/>
+                <field name="hour_to" widget="float_time" groups="base.group_no_one"/>-->
+
+                <field name="worked_hours" widget="float_time" sum="1"/>
+                <field name="overtime" widget="float_time" sum="1"/>
+                <field name="overtime_granted" widget="float_time" sum="1"/>
+                <field name="night_hours" widget="float_time" sum="1"/>
+                <button name="action_confirm" type="object" icon="fa-check" states="not_ok,need,ok"/>
+                <button name="action_invalidate" type="object" icon="fa-ban" states="done"/>
+                <field name="breaks" widget="float_time" sum="1"/>
+<!--                <field name="late_in" widget="float_time" sum="1"/>
+                <field name="early_in" widget="float_time" sum="1" groups="base.group_no_one"/>
+                <field name="late_out" widget="float_time" sum="1" groups="base.group_no_one"/>
+                <field name="early_out" widget="float_time" sum="1"/>
+                <field name="effective_hours" widget="float_time" sum="1" groups="base.group_no_one"/>
+                <field name="attendance_hours" widget="float_time" sum="1" groups="base.group_no_one"/>-->
+                <field name="state" invisible="1"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_hr_attendance_sheet_line_grid" model="ir.ui.view">
+        <field name="name">hr.attendance.sheet.line</field>
+        <field name="model">hr.attendance.sheet.line</field>
+        <field name="arch" type="xml">
+            <grid string="Timesheets" adjustment="object" adjust_name="adjust_grid"  >
+                <field name="employee_id" type="row"/>
+                <field name="date" type="col">
+                    <range name="week" string="Week" span="week" step="day"/>
+                    <range name="month" string="Month" span="month" step="day"/>
+                </field>
+                <field name="total_hours" type="measure" widget="float_time"/>
+            </grid>
+        </field>
+    </record>
+
+<!--    <record id="view_hr_attendance_sheet_line_gantt" model="ir.ui.view">
+			<field name="name">hr.attendance.sheet.line</field>
+            <field name="model">hr.attendance.sheet.line</field>
+			<field name="arch" type="xml">
+				<gantt date_start="check_in" date_stop="check_out" mode="week"
+                       default_group_by="employee_id" drag_resize="0">
+
+                </gantt>
+			</field>
+		</record>-->
+
+    <record id="view_hr_attendance_sheet_line_pivot" model="ir.ui.view">
+        <field name="name">hr.attendance.sheet.line</field>
+        <field name="model">hr.attendance.sheet.line</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="employee_id" type="row"/>
+
+                <field name="date" type="col"/>
+
+                <field name="worked_hours" type="measure" widget="float_time"/>
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="view_hr_attendance_sheet_line_form" model="ir.ui.view">
+        <field name="name">hr.attendance.sheet.line</field>
+        <field name="model">hr.attendance.sheet.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                     <button name="action_confirm" string="Confirmation" type="object" icon="fa fa-check"/>
+                     <button name="action_invalidate" string="Invalidate" type="object" icon="fa fa-ban"/>
+                     <button name="action_set_shift" string="Set Default Shift" type="object"  />
+                </header>
+                <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_attendance_details" string="Attendance"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-info-circle">
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="shift"/>
+                        </group>
+                        <group>
+                            <field name="check_in"/>
+                            <field name="check_out"/>
+                        </group>
+                        <group>
+                            <field name="hour_from" widget="float_time"/>
+                            <field name="hour_to" widget="float_time"/>
+                        </group>
+                        <group>
+                            <field name="worked_hours" widget="float_time"/>
+                            <field name="overtime" widget="float_time"/>
+                            <field name="overtime_granted" widget="float_time" sum="1"/>
+                            <field name="breaks" widget="float_time"/>
+                            <field name="night_hours" widget="float_time"/>
+                            <field name="comments"/>
+                        </group>
+
+                        <group>
+                            <field name="attendance_hours" widget="float_time" groups="base.group_no_one"/>
+                            <field name="effective_hours" widget="float_time" groups="base.group_no_one"/>
+                        </group>
+                        <group>
+                            <field name="late_in" widget="float_time"/>
+                            <field name="early_in" widget="float_time" groups="base.group_no_one" />
+                            <field name="late_out" widget="float_time" groups="base.group_no_one"/>
+                            <field name="early_out" widget="float_time"/>
+                        </group>
+                    </group>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search note -->
+    <record id="view_hr_attendance_sheet_line_filter" model="ir.ui.view">
+        <field name="name">hr.attendance.sheet.line</field>
+        <field name="model">hr.attendance.sheet.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+                <field name="state"/>
+                <filter string="Not ok" domain="[('state','=','not_ok')]"/>
+                <filter string="Need Attention" domain="[('state','=','need')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee"   context="{'group_by':'employee_id'}"/>
+                    <filter string="Department"   context="{'group_by':'department_id'}"/>
+                    <filter string="Date"   context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+     <template id="deltatech_hr_attendance_assets_backend"
+              name="deltatech_hr_attendance assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link href="/deltatech_hr_attendance/static/src/css/report.css" rel="stylesheet"/>
+            <script type="text/javascript"
+                    src="/deltatech_hr_attendance/static/src/js/attendance_summary_backend.js"/>
+            <script type="text/javascript"
+                    src="/deltatech_hr_attendance/static/src/js/attendance_summary_widgets.js"/>
+            <!--<script type="text/javascript"-->
+                    <!--src="/deltatech_hr_attendance/static/src/js/report_client_action.js"/>-->
+        </xpath>
+    </template>
+
+
+
+
+     <record id="action_attendance_summary" model="ir.actions.client">
+        <field name="name">Attendance_summary</field>
+        <field name="tag">attendance_summary_backend</field>
+        <field name="context" eval="{'active_model': 'hr.attendance.sheet'}" />
+    </record>
+
+
+</odoo>
