@@ -41,8 +41,8 @@ class account_invoice(models.Model):
         action = self.env.ref('deltatech_payment_term.action_account_moves_sale').read()[0]  
        
 
-        action['domain'] = "[('invoice','=',"+str(self.id)+" )]" 
-          
+        action['domain'] = "['|',('invoice','=',"+str(self.id)+" ),('name','ilike','"+str(self.number)+"')]"
+
         return action          
 
     @api.multi

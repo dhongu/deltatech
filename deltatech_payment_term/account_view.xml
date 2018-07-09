@@ -145,7 +145,8 @@
 		</record>
 
 		<record id="action_account_moves_sale" model="ir.actions.act_window">
-			<field name="context">{'journal_type':'sale','search_default_sale_journal':True,'search_default_unreconciled':True}</field>
+			<!--<field name="context">{'journal_type':'sale','search_default_sale_journal':True,'search_default_unreconciled':True}</field>-->
+			<field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
 			<field name="name">Open Journal Items</field>
 			<field name="res_model">account.move.line</field>
 			<field name="view_id" ref="view_move_line_tree" />
