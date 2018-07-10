@@ -8,6 +8,9 @@ import pytz
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
+import logging
+_logger = logging.getLogger(__name__)
+
 def utc_to_local(event_time):
     tz_name = "Europe/Bucharest"
     tz = pytz.timezone(tz_name)

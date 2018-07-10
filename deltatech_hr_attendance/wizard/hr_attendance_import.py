@@ -15,21 +15,18 @@ import sys
 import pytz
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import threading
+import logging
+_logger = logging.getLogger(__name__)
 
-"""
-Index,Event Type,Card Holder,Card Type,Card No.,Event Time,Direction,Event Source,MAC Address,Card Swiping Type,Card Reader Type,Remark
-1,Fingerprint/Finger Vein Authentication Passed,Cristi,,'0000000001,2018-05-23 16:12:29,Exit,HiK:Usa2 - Iesire,,,,
-2,Fingerprint/Finger Vein Authentication Passed,Cristi,,'0000000001,2018-05-23 16:12:26,Enter,HiK:Usa2 - Intrare,,,,
-3,Fingerprint/Finger Vein Authentication Passed,Cristi,,'0000000001,2018-05-23 16:12:23,Exit,HiK:Usa1 - Iesire,,,,
-4,Fingerprint/Finger Vein Authentication Passed,Cristi,,'0000000001,2018-05-23 16:12:20,Enter,HiK:Usa1 - Intrare,,,,
 
-"""
-employees = {}
+
 
 
 class hr_attendance_import(models.TransientModel):
     _name = 'hr.attendance.import'
     _description = "HR Attendance Import"
+
+    employees = {}
 
     background = fields.Boolean('Run in background', default=False)
 
@@ -40,7 +37,7 @@ class hr_attendance_import(models.TransientModel):
     attendance_file_name = fields.Char(string='Attendance File Name')
 
     def add_attendance(self, event_time, barcode, direction):
-        employee_data = employees.get(barcode, False)
+        employee_data = self.employees.get(barcode, False)
 
         if not employee_data:
             employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
@@ -67,16 +64,20 @@ class hr_attendance_import(models.TransientModel):
         if not last_attendance:  # or direction == 'sign_in':
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
-                ('check_in', '<=', event_time),
+                # ('check_in', '<=', event_time),
             ], order='check_in desc', limit=1)
 
-            attendance_future = self.env['hr.attendance'].search([
-                ('employee_id', '=', employee.id),
-                ('check_in', '>', event_time),
-            ], limit=1)
-            if attendance_future:
-                last_attendance = False
+            if last_attendance and last_attendance.check_in > event_time:
                 return False
+
+
+            # attendance_future = self.env['hr.attendance'].search([
+            #     ('employee_id', '=', employee.id),
+            #     ('check_in', '>', event_time),
+            # ], limit=1)
+            # if attendance_future:
+            #     last_attendance = False
+            #     return False
 
         if direction == 'sign_in':
             if last_attendance:
@@ -90,7 +91,7 @@ class hr_attendance_import(models.TransientModel):
                         try:
                             last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
                         except ValidationError as e:
-                            print('Corectie:', str(e), 'event_time', event_time)
+                            _logger.info('Corectie:', str(e), 'event_time', event_time)
 
 
         else:
@@ -103,7 +104,7 @@ class hr_attendance_import(models.TransientModel):
                 t_diff = relativedelta(check_out, check_in)
                 worked_hours = t_diff.days * 24 + t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
                 if worked_hours > 24:
-                    print('Work > 24 h')
+                    _logger.info('Work > 24 h')
                     event_time_out = check_in + relativedelta(seconds=1)
                     event_time_out = fields.Datetime.to_string(event_time_out)
                     last_attendance.write({'check_out': event_time_out, 'state': 'no_out'})
@@ -121,7 +122,7 @@ class hr_attendance_import(models.TransientModel):
                     last_attendance = self.env['hr.attendance'].create(values)
                 except ValidationError as e:
                     last_attendance = False
-                    print('Error In', str(e), values)
+                    _logger.info('Error In', str(e), values)
 
             else:
                 try:
@@ -130,9 +131,9 @@ class hr_attendance_import(models.TransientModel):
                         self._cr.commit()
                 except ValidationError as e:
                     last_attendance = False
-                    print('Error out', str(e),)
+                    _logger.info('Error out', str(e),)
 
-        employees[barcode] = {'employee': employee,
+        self.employees[barcode] = {'employee': employee,
                               'last_attendance': last_attendance}
         return last_attendance
 
