@@ -61,23 +61,25 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-        if not last_attendance:  # or direction == 'sign_in':
+
+        if not last_attendance:
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
-                # ('check_in', '<=', event_time),
+                ('check_in', '<=', event_time),
             ], order='check_in desc', limit=1)
 
-            if last_attendance and last_attendance.check_in > event_time:
+
+            attendance_future = self.env['hr.attendance'].search([
+                ('employee_id', '=', employee.id),
+                ('check_in', '>', event_time),
+             ], limit=1)
+            if attendance_future:
                 return False
 
+        if direction == 'sign_in' and  last_attendance :
+            if  last_attendance.check_out and last_attendance.check_out > event_time:
+                is_ok = False
 
-            # attendance_future = self.env['hr.attendance'].search([
-            #     ('employee_id', '=', employee.id),
-            #     ('check_in', '>', event_time),
-            # ], limit=1)
-            # if attendance_future:
-            #     last_attendance = False
-            #     return False
 
         if direction == 'sign_in':
             if last_attendance:
@@ -98,7 +100,7 @@ class hr_attendance_import(models.TransientModel):
             if not last_attendance or last_attendance.check_in > event_time:
                 is_ok = False
 
-            if last_attendance:
+            if last_attendance and is_ok:
                 check_in = fields.Datetime.from_string(last_attendance.check_in)
                 check_out = fields.Datetime.from_string(event_time)
                 t_diff = relativedelta(check_out, check_in)
@@ -113,7 +115,6 @@ class hr_attendance_import(models.TransientModel):
                     values = {
                         'check_in': event_time_in,
                         'check_out': event_time,
-
                         'state': 'no_in',
                     }
         if is_ok:
@@ -133,12 +134,13 @@ class hr_attendance_import(models.TransientModel):
                     last_attendance = False
                     _logger.info('Error out', str(e),)
 
-        self.employees[barcode] = {'employee': employee,
-                              'last_attendance': last_attendance}
+            self.employees[barcode] = {'employee': employee,
+                                  'last_attendance': last_attendance}
         return last_attendance
 
     @api.multi
     def do_import(self):
+        self.employees = {}
         if self.background:
             threaded_import = threading.Thread(target=self._do_import_background, args=())
             threaded_import.start()
