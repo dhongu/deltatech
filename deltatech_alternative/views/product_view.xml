@@ -149,6 +149,7 @@
                             <tree string="Product Alternatives" editable="bottom">
                                 <field name="sequence" widget="handle"/>
                                 <field name="name"/>
+                                <field name="hide" />
                             </tree>
                         </field>
                     </page>
@@ -167,6 +168,7 @@
                     <field name="product_tmpl_id"/>
                     <field name="sequence" widget="handle"/>
                     <field name="name"/>
+                    <field name="hide" />
                 </tree>
             </field>
         </record>
@@ -178,6 +180,7 @@
                 <form string="Product Alternatives">
                     <field name="product_tmpl_id"/>
                     <field name="name"/>
+                    <field name="hide" />
                 </form>
             </field>
         </record>
