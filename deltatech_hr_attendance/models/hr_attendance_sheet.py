@@ -344,7 +344,7 @@ class HrAttendanceSheetLine(models.TransientModel):
     @api.model
     def compute_on_shift(self, shift):
 
-        values = {}
+        values = {'shift':shift}
 
         prog, prog_out = self.get_shifts()
 
