@@ -61,6 +61,10 @@
                     </group>
                 </xpath>
 
+                <!--Pentru eroarea care apare cand numele este gol-->
+                <xpath expr="//field[@name='child_ids']/form/sheet/group/group[2]/field[@name='name']" position="replace">
+                    <field name="name" string="Contact Name" required="1"/>
+                </xpath>
             </field>
         </record>
 
