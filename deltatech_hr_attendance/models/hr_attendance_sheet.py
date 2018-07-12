@@ -10,7 +10,17 @@ from odoo.osv import expression
 from odoo.tools.float_utils import float_round
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, date
+import pytz
+
+
+def utc_to_local(event_time):
+    tz_name = "Europe/Bucharest"
+    tz = pytz.timezone(tz_name)
+
+    event_time = pytz.UTC.localize(event_time).astimezone(tz).replace(tzinfo=None)
+
+    return event_time
 
 
 class HrAttendanceSheet(models.Model):
@@ -81,6 +91,18 @@ class HrAttendanceSheet(models.Model):
 
     @api.multi
     def do_compute(self):
+        employees = self.env['hr.employee'].search([('department_id', '=', self.department_id.id),
+                                                    ('shift', 'in', ['F', 'T'])])
+        attendances = self.env['hr.attendance'].search([('employee_id', 'in', employees.ids),
+                                                      ('for_date', '>=', self.date_from),
+                                                      ('for_date', '<=', self.date_to)])
+        for attendance in attendances:
+            date_time_in = fields.Datetime.from_string(attendance.check_in)
+            date_time_in = utc_to_local(date_time_in)
+            date_in = fields.Date.to_string(date_time_in)
+            if date_in != attendance.for_date:
+                attendance.write({'for_date': date_in})
+
         lines = self.line_ids.filtered(lambda x: x.state not in ('done'))
         lines.unlink()
         query = """
@@ -344,7 +366,7 @@ class HrAttendanceSheetLine(models.TransientModel):
     @api.model
     def compute_on_shift(self, shift):
 
-        values = {'shift':shift}
+        values = {'shift': shift}
 
         prog, prog_out = self.get_shifts()
 
@@ -383,7 +405,7 @@ class HrAttendanceSheetLine(models.TransientModel):
             diff = prog['S1'] - hour_from
             if diff > 0:
                 values['night_hours'] += diff
-            diff = hour_to - prog_out['S3']
+            diff = hour_to - prog['S3']
             if diff > 0:
                 values['night_hours'] += diff
         else:

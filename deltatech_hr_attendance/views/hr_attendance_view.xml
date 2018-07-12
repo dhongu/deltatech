@@ -39,16 +39,16 @@
         </record>
 
 
-        <!--<record id="edit_holiday_status_form" model="ir.ui.view">-->
-            <!--<field name="name">hr.holidays.status.form</field>-->
-            <!--<field name="model">hr.holidays.status</field>-->
-            <!--<field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<xpath expr="//field[@name='color_name'" position="after">-->
-                    <!--<field name="code"/>-->
-                <!--</xpath>-->
-            <!--</field>-->
-        <!--</record>-->
+        <record id="edit_holiday_status_form" model="ir.ui.view">
+            <field name="name">hr.holidays.status.form</field>
+            <field name="model">hr.holidays.status</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='color_name']" position="before">
+                    <field name="cod"/>
+                </xpath>
+            </field>
+        </record>
 
 
     </data>

@@ -22,8 +22,14 @@
 
     <template id="attendance_summary_buttons">
         <div class="button_row">
-            <button class="o_attendance_summary_print btn btn-sm oe_button" context="{'show_links': False}"><span class="fa fa-print"/> Print</button>
-            <button class="o_attendance_summary_export btn btn-sm oe_button" context="{'show_links': False}"><span class="fa fa-download"/> Export</button>
+            <button class="o_attendance_summary_print btn btn-sm oe_button" context="{'show_links': False}">
+                <span class="fa fa-print"/>
+                Print
+            </button>
+            <button class="o_attendance_summary_export btn btn-sm oe_button" context="{'show_links': False}">
+                <span class="fa fa-download"/>
+                Export
+            </button>
         </div>
     </template>
 
@@ -65,7 +71,14 @@
                             <t t-esc="day['day_str']"/>
                         </td>
                     </t>
-                    <td/>
+                    <td rowspan="2" class="text-right"><strong>Sum</strong></td>
+                    <td rowspan="2" class="text-right"><strong>Norma</strong></td>
+                    <t t-foreach="get_holidays_status()" t-as="holiday">
+                        <td rowspan="2" class="text-center oe_leftfit oe_rightfit"
+                            t-attf-style="color: {{holiday['color']}} !important">
+                            <t t-esc="holiday['cod']"/>
+                        </td>
+                    </t>
                 </tr>
                 <tr>
                     <t t-foreach="get_day(doc.date_from, doc.date_to)" t-as="day">
@@ -74,7 +87,7 @@
                             <t t-esc="day['day']"/>
                         </td>
                     </t>
-                    <td class="text-right">Sum</td>
+
                 </tr>
             </thead>
             <tbody>
@@ -86,64 +99,79 @@
                             <span t-field="obj['emp'].barcode"/>
                         </td>
                         <td t-attf-rowspan=" {{obj['display']['rows']}}">
-                            <span t-field="obj['emp'].name"/>
+                            <strong t-field="obj['emp'].name"/>
                         </td>
 
 
                         <td>normal</td>
                         <t t-foreach="obj['display']['days']" t-as="details">
-                            <td t-attf-style="background-color: {{details['color']}}">
+                            <td class="text-right" t-attf-style="background-color: {{details['color']}}">
                                 <t t-set="line" t-value="details['line']"/>
                                 <t t-if="line">
                                     <t t-set="text_color"
                                        t-value="line.state=='not_ok' and 'text-danger text-bf' or line.state=='need' and 'text-warning text-bf' "/>
                                     <span>
-                                        <a   t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
+                                        <a t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
                                            t-att-data-active-id="line.id"
-                                           t-att-data-res-model="line._name" >
+                                           t-att-data-res-model="line._name">
 
-                                            <t  t-raw="float_time(line.total_hours)"/>
+                                            <t t-raw="int(line.total_hours)"/>
                                         </a>
                                     </span>
-
-
+                                </t>
+                                <t t-if="not line">
+                                    <t t-raw="details['text']"/>
                                 </t>
                             </td>
                         </t>
                         <td class="text-right">
                             <strong t-esc="int(obj['display']['worked_hours'])"/>
                         </td>
+                        <td class="text-right">
+                            <strong t-esc="int(obj['display']['norma'])"/>
+                        </td>
+                        <t t-foreach="get_holidays_status()" t-as="holiday">
+                            <t t-set="nr" t-value="obj['display']['holiday'][holiday['cod']]"/>
+                            <td t-attf-rowspan=" {{obj['display']['rows']}}" class="text-center oe_leftfit oe_rightfit"
+                                t-attf-style="color: {{holiday['color']}} !important">
+                                    <t t-if="nr">
+                                        <span t-esc="nr"/>
+                                    </t>
+                            </td>
+                        </t>
                     </tr>
                     <t t-if="obj['display']['overtime']">
                         <tr>
                             <td>overtime</td>
                             <t t-foreach="obj['display']['days']" t-as="details">
-                                <td t-attf-style="background-color: {{details['color']}}">
+                                <td class="text-right" t-attf-style="background-color: {{details['color']}}">
                                     <t t-set="line" t-value="details['line']"/>
                                     <t t-if="line and line.overtime_granted">
-                                        <div t-esc="float_time(line.overtime_granted)"/>
+                                        <div t-esc="int(line.overtime_granted)"/>
                                     </t>
                                 </td>
                             </t>
                             <td class="text-right">
                                 <strong t-esc="int(obj['display']['overtime'])"/>
                             </td>
+                             <td/>
                         </tr>
                     </t>
                     <t t-if="obj['display']['night_hours']">
                         <tr>
                             <td>night</td>
                             <t t-foreach="obj['display']['days']" t-as="details">
-                                <td t-attf-style="background-color: {{details['color']}}">
+                                <td class="text-right" t-attf-style="background-color: {{details['color']}}">
                                     <t t-set="line" t-value="details['line']"/>
                                     <t t-if="line and line.night_hours">
-                                        <div t-esc="float_time(line.night_hours)"/>
+                                        <div t-esc="int(line.night_hours)"/>
                                     </t>
                                 </td>
                             </t>
                             <td class="text-right">
                                 <strong t-esc="int(obj['display']['night_hours'])"/>
                             </td>
+                            <td/>
                         </tr>
                     </t>
                 </t>
