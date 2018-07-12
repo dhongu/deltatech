@@ -319,6 +319,9 @@ class HrAttendanceSheetLine(models.TransientModel):
         else:
             values.update(self.compute_on_shift(shift))
 
+        if values['state'] == 'ok' and values['worked_hours'] != 8:
+            values['state'] = 'need'
+
         return values
 
     @api.depends('check_in', 'check_out')

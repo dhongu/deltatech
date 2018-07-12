@@ -104,9 +104,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             index = (index_date - start_date).days
             res['days'][index]['line'] = line
             res['days'][index]['text'] = line.total_hours
-            res['worked_hours'] += line.worked_hours
-            res['overtime'] += int(line.overtime_granted)
-            res['night_hours'] += int(line.night_hours)
+            res['worked_hours'] += round(line.worked_hours)
+            res['overtime'] += round(line.overtime_granted)
+            res['night_hours'] += round(line.night_hours)
 
         res['norma'] = work_day * 8
         if res['worked_hours'] < res['norma']:
