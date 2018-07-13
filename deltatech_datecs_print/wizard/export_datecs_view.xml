@@ -28,7 +28,7 @@
             <field name="inherit_id" ref="account.invoice_form" />
             <field name="arch" type="xml">
             	 <field name="state" position="before">
-            	 	 <button name="print_datecs" states="open,paid" string="Print Datecs" type="object" groups="base.group_no_one"/>
+            	 	 <button name="print_datecs" states="open,paid" string="Print Datecs" type="object" groups="base.group_no_one" confirm="Sigur doriti tiparirea bonului fiscal?"/>
             	 </field>
             </field>
         </record>
