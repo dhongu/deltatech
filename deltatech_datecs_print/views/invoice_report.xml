@@ -28,7 +28,7 @@
 			<t t-if="o.payment_ids">
 				<t t-foreach="o.payment_ids" t-as="payment">
 					<t t-if="payment.journal_id.type=='bank'">
-						<t t-set='line_total' t-value='"T,1,______,_,__;2;"+str(payment.credit)+";;;;"' />
+						<t t-set='line_total' t-value='"T,1,______,_,__;1;"+str(payment.credit)+";;;;"' />
 						<div t-esc='line_total' />
 					</t>
 					<t t-if="payment.journal_id.type=='cash'">
