@@ -420,7 +420,8 @@ class HrAttendanceSheetLine(models.TransientModel):
             else:
                 values['late_in'] = 0
                 values['early_in'] = diff
-                overtime += diff
+                if diff >= 1:  # daca a venit cu mai mult de o ora mai devreme se considera ora suplimentara
+                    overtime += diff
                 effective_hours = effective_hours - diff
 
             diff = hour_to - prog_out[shift]
