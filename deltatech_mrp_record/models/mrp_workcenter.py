@@ -16,9 +16,10 @@ class MrpWorkcenter(models.Model):
     start_without_stock = fields.Boolean(string='Start without stock', defalut=True)
     record_real_time = fields.Boolean(string="Real Time", default=True)
     worker_ids = fields.One2many('mrp.workcenter.worker', 'workcenter_id', string='Workers')
-    costs_hour = fields.Float(string='Cost per hour', help="Specify cost of work center per hour.")
-    costs_hour_account_id = fields.Many2one('account.analytic.account', string="Analytic Account",
-                                            help="Fill this only if you want automatic analytic accounting entries on production orders.")
+    # mutat  in mrp_cost
+    # costs_hour = fields.Float(string='Cost per hour', help="Specify cost of work center per hour.")
+    # costs_hour_account_id = fields.Many2one('account.analytic.account', string="Analytic Account",
+    #                                         help="Fill this only if you want automatic analytic accounting entries on production orders.")
 
 
 class MrpWorkcenterWorkers(models.Model):

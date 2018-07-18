@@ -32,6 +32,7 @@ Functionalitati:
         "views/mrp_view.xml",
         "data/mrp_data.xml",
         "views/mrp_production_templates.xml",
+        "views/mrp_workcenter_view.xml"
     ],
 
     "installable": True,

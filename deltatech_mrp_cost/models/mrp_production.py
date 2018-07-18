@@ -81,7 +81,7 @@ class MrpProduction(models.Model):
                 if product_qty == 0.0:
                     product_qty = production.product_qty
 
-            # adaugare manopera:
+            # adaugare manopera la costul estimat
 
             if production.routing_id:
                 for operation in production.routing_id.operation_ids:
