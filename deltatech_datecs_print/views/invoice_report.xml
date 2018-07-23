@@ -24,8 +24,22 @@
 				<div t-esc='line_value' />
 
 			</t>
-			<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(o.amount_total)+";;;;"' />
-			<div t-esc='line_total' />
+			<!--Verificare plati si defalcare pe registru numerar/banca-->
+			<t t-if="o.payment_ids">
+				<t t-foreach="o.payment_ids" t-as="payment">
+					<t t-if="payment.journal_id.type=='bank'">
+						<t t-set='line_total' t-value='"T,1,______,_,__;1;"+str(payment.credit)+";;;;"' />
+						<div t-esc='line_total' />
+					</t>
+					<t t-if="payment.journal_id.type=='cash'">
+						<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(payment.credit)+";;;;"' />
+						<div t-esc='line_total' />
+					</t>
+				</t>
+			</t>
+
+			<!--<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(o.amount_total)+";;;;"' />-->
+			<!--<div t-esc='line_total' />-->
 
 
 
