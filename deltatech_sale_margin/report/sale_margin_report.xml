@@ -14,7 +14,7 @@
 					<field name="product_uom" invisible="not context.get('set_visible',False)" groups = "product.group_uom"/>
 					
 					<field name="user_id" invisible="1"/>
- 		
+ 					<field name="state_id" invisible="1"/>
 					<field name="partner_id" invisible="1"/>
 					<field name="commercial_partner_id" invisible="1"/>
 					
@@ -122,6 +122,7 @@
 					<filter   string="Open"  name="open" domain="[('state','=','open')]"/>
 					<field name="partner_id"/>
 					<field name="commercial_partner_id"/>
+					<field name="state_id"/>
 					<field name="product_id"/>
 					<field name="user_id"/>
 					<field name="manager_user_id"  />
@@ -145,7 +146,8 @@
 						<filter string="Period"   context="{'group_by':'period_id'}"/>
 						<filter string="Company"   groups="base.group_multi_company" context="{'group_by':'company_id'}"/>
 						<filter string="Date"  context="{'group_by':'date:month'}" />
-						<filter string="Journal"  context="{'group_by':'journal_id'}" />-->
+						<filter string="Journal"  context="{'group_by':'journal_id'}" />
+						<filter string="Region"  context="{'group_by':'state_id'}" />
 					</group>
 				</search>
 			</field>
