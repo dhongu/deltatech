@@ -457,7 +457,7 @@ class HrAttendanceSheetLine(models.Model):
                 values['overtime'] = overtime - (values['breaks'] - 20 / 60)
                 values['overtime_granted'] = float_round(values['overtime'], precision_rounding=1)
 
-        if shift == 'S1' and values['early_in'] > 0.5:
+        if shift == 'S1' and values['early_in'] >= 1:
             values['night_hours'] = values['early_in']
 
         if shift == 'S2' and values['late_out'] > 0.5:
