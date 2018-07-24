@@ -194,7 +194,7 @@ class HrAttendanceSheet(models.Model):
         return self.with_context(given_context)._get_html()
 
 
-class HrAttendanceSheetLine(models.TransientModel):
+class HrAttendanceSheetLine(models.Model):
     _name = "hr.attendance.sheet.line"
     _description = "Daily Attendance"
     _order = 'check_in'
@@ -315,7 +315,7 @@ class HrAttendanceSheetLine(models.TransientModel):
             values['hour_from'] = hour_from
             values['hour_to'] = hour_to
             values['state'] = 'not_ok'
-            values.update(self.compute_no_shift(shift))
+            values.update(self.compute_witout_shift())
         else:
             values.update(self.compute_on_shift(shift))
 
@@ -355,7 +355,7 @@ class HrAttendanceSheetLine(models.TransientModel):
         return prog, prog_out
 
     @api.model
-    def compute_no_shift(self, shift):
+    def compute_witout_shift(self):
         values = {}
         worked_hours = self.attendance_hours
         if worked_hours > 8:
