@@ -101,19 +101,36 @@ import os
 import datetime
 import struct
 
-#from dbf import fields
-#from dbf.sorteddict import SortedDict
+# from dbf import fields
+# from dbf.sorteddict import SortedDict
 from . import fields
 from .sorteddict import SortedDict
 
-class DBF(object):
 
+import sys
+
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    def itervalues(d):
+        return iter(d.values())
+    def iteritems(d, **kw):
+        return iter(d.items(**kw))
+else:
+    def itervalues(d):
+        return d.itervalues()
+    def iteritems(d, **kw):
+        return iter(d.iteritems(**kw))
+
+
+class DBF(object):
     version = 3
     header_fmt = '<BBBBLHH20x'
     fields_fmt = '<11sc4xBB14x'
-    
+
     def __init__(self, db, fieldspecs=None):
-        if isinstance(db, str): #basestring):
+        if isinstance(db, str):  # basestring):
             db = open(db, 'w+b')
         self.db = db
         self.fields = fieldspecs
@@ -121,6 +138,8 @@ class DBF(object):
         # try to read the header infos from the db
         header = db.read(32)
         if header:
+            if isinstance(header, str):
+                header = header.encode()
             header = struct.unpack(self.header_fmt, header)
 
         # if the user passed fieldspecs
@@ -128,10 +147,10 @@ class DBF(object):
             # obtain dbf meta data from them
             self.numfields = len(self.fields)
             self.lenheader = self.numfields * 32 + 33
-            
+
             self.lenrecord = 1
             self.record_fmt = '1s'
-            for field in self.fields.itervalues():
+            for field in itervalues(self.fields):
                 self.lenrecord += field.size
                 self.record_fmt += '%ds' % field.size
 
@@ -142,20 +161,20 @@ class DBF(object):
                 self.numrec, lenheader, lenrecord = header[-3:]
                 assert (lenheader == self.lenheader and
                         lenrecord == self.lenrecord), \
-                        "database's fields doesn't match provided fields"
+                    "database's fields doesn't match provided fields"
             # if no header is present, write it
             else:
                 self.numrec = 0
 
                 # header
                 now = datetime.datetime.now()
-                y, m, d = now.year-1900, now.month, now.day
+                y, m, d = now.year - 1900, now.month, now.day
                 header = struct.pack(self.header_fmt, self.version, y, m, d,
                                      self.numrec, self.lenheader, self.lenrecord)
                 self.db.write(header)
 
                 # field specs
-                for fname, field in self.fields.iteritems():
+                for fname, field in iteritems(self.fields):
                     fname = fname.ljust(11, '\0')
                     field = struct.pack(self.fields_fmt, fname, field.type,
                                         field.size, field.deci)
@@ -169,12 +188,15 @@ class DBF(object):
                 self.numfields = (self.lenheader - 33) // 32
                 self.fields = SortedDict()
                 self.record_fmt = '1s'
-                for fieldno in xrange(self.numfields):
+                for fieldno in range(self.numfields):
                     fieldinfo = struct.unpack(self.fields_fmt, db.read(32))
                     name, type, size, deci = fieldinfo
-                    name = name.partition('\0')[0]
-                    if type in ['C','L','N','D']:
-                        self.fields[name] = fields.guessField(type, size, deci)
+                    name = name.partition(b'\0')[0]
+                    type = type.decode()
+                    name = name.decode()
+                    if type in ['C', 'L', 'N', 'D']:
+                        field = fields.guessField(type, size, deci)
+                        self.fields[name] = field
                         self.record_fmt += '%ds' % size
 
             else:
@@ -183,7 +205,7 @@ class DBF(object):
 
         i = 0
         self._fieldpos = []
-        for field in self.fields.itervalues():
+        for field in iter(self.fields.values()): #self.fields.itervalues():
             self._fieldpos.append(i)
             i += field.size
 
@@ -219,7 +241,7 @@ class DBF(object):
 
         dflag = self.db.read(1)
 
-        for fname, field in self.fields.iteritems():
+        for fname, field in iteritems(self.fields):
             if fname in record:
                 self.db.write(field.encode(record[fname]))
                 self.db.flush()
@@ -234,26 +256,26 @@ class DBF(object):
 
         self.db.write(' ')
         data = ''
-        for fname, field in self.fields.iteritems():
+        for fname, field in iteritems(self.fields):
             data += field.encode(record[fname])
         self.db.write(data)
-        
+
         self.db.write('\x1A')
         self.increase_numrec()
 
         self.db.flush()
 
     def _iterselect(self, fields=None):
-        for recId in xrange(self.numrec):
+        for recId in range(self.numrec):
             yield self.select(recId, fields)
- 
+
     def select(self, recId=None, fields=None):
         if recId is None:
             return self._iterselect(fields)
 
         if not recId in self:
             raise KeyError(recId)
-        
+
         if not fields:
             fields = self.fields.keys()
 
@@ -261,7 +283,7 @@ class DBF(object):
         res = {'pk': recId}
 
         self.db.read(1)
-        for fname, field in self.fields.iteritems():
+        for fname, field in iteritems(self.fields):
             if fname in fields:
                 res[fname] = field.decode(self.db.read(field.size))
             else:
@@ -277,7 +299,7 @@ class DBF(object):
         return False
 
     def __iter__(self):
-        for i in xrange(self.numrec):
+        for i in range(self.numrec):
             yield self.select(i)
 
     def __len__(self):
@@ -289,9 +311,11 @@ class DBF(object):
     def __setitem__(self, recordID, dict):
         self.select(recordID, dict)
 
+
 def _test():
     import doctest
     doctest.testmod()
+
 
 if __name__ == '__main__':
     _test()

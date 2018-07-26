@@ -6,12 +6,13 @@ import base64
 import zipfile
 
 try:
+    # Fall back to Python 2's
+    from StringIO import StringIO
+except ImportError:
     # For Python 3.0 and later
     from io import StringIO
+
     unicode = str
-except ImportError:
-    # Fall back to Python 2's
-    import StringIO
 
 from io import BytesIO
 
@@ -20,7 +21,7 @@ from .mydbf import base, fields as dbf_fields
 import os
 
 from odoo import models, fields, api, _
-from odoo.exceptions import UserError, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 import odoo.addons.decimal_precision as dp
 import unicodedata
 
@@ -93,7 +94,8 @@ class import_saga(models.TransientModel):
 
         """
         supplier_file = base64.decodestring(self.supplier_file)
-        buff = StringIO.StringIO(supplier_file)
+        #supplier_file = "".join(chr(x) for x in bytearray(supplier_file))
+        buff = BytesIO(supplier_file)
         suppliers = base.DBF(buff)
         result_html = ''
         for supplier in suppliers:
@@ -135,24 +137,25 @@ class import_saga(models.TransientModel):
                 'is_company': is_company,
                 'supplier': True
             }
-
-            if not partner:
-                values['customer'] = False
-                partner = self.env['res.partner'].create(values)
-            else:
-                del values['name']  # se pastreaza numele actualizat din Odoo
-                partner.write(values)
-
-            # update vat
-            values = {
-                'vat': vat,
-                'cnp': cnp,
-                'vat_subjected': supplier['IS_TVA'] == 1,
-            }
             try:
+                if not partner:
+                    values['customer'] = False
+                    partner = self.env['res.partner'].create(values)
+
+                else:
+                    del values['name']  # se pastreaza numele actualizat din Odoo
+                    partner.write(values)
+
+                # update vat
+                values = {
+                    'vat': vat,
+                    'cnp': cnp,
+                    'vat_subjected': supplier['IS_TVA'] == 1,
+                }
+
                 partner.write(values)
-            except Exception as e:
-                result_html += '<div>Eroare modificare furnizor %s: %s</div>' % (supplier['DENUMIRE'], str(e))
+            except (Exception, ValidationError) as e:
+                result_html += '<div>Eroare  furnizor %s: %s</div>' % (supplier['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
 
