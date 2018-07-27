@@ -93,8 +93,8 @@ class import_saga(models.TransientModel):
         17. IS_TVA Numeric 1 1, dacă este platitor de TVA
 
         """
-        supplier_file = base64.decodestring(self.supplier_file)
-        #supplier_file = "".join(chr(x) for x in bytearray(supplier_file))
+        supplier_file = base64.b64decode(self.supplier_file)
+
         buff = BytesIO(supplier_file)
         suppliers = base.DBF(buff)
         result_html = ''
@@ -194,8 +194,8 @@ class import_saga(models.TransientModel):
         25. IS_TVA Numeric 1 1, dacă este platitor de TVA
 
         """
-        customer_file = base64.decodestring(self.customer_file)
-        buff = StringIO.StringIO(customer_file)
+        customer_file = base64.b64decode(self.customer_file)
+        buff = BytesIO(customer_file)
         customers = base.DBF(buff)
         result_html = ''
         for customer in customers:
@@ -244,24 +244,24 @@ class import_saga(models.TransientModel):
                 'state_id': state.id,
 
             }
-
-            if not partner:
-                values['supplier'] = False
-                partner = self.env['res.partner'].create(values)
-            else:
-                del values['name']  # se pastreaza numele actualizat din Odoo
-                partner.write(values)
-
-            # update vat
-            values = {
-                'vat': vat,
-                'cnp': cnp,
-                'vat_subjected': customer['IS_TVA'] == 1,
-            }
             try:
+                if not partner:
+                    values['supplier'] = False
+                    partner = self.env['res.partner'].create(values)
+                else:
+                    del values['name']  # se pastreaza numele actualizat din Odoo
+                    partner.write(values)
+
+                # update vat
+                values = {
+                    'vat': vat,
+                    'cnp': cnp,
+                    'vat_subjected': customer['IS_TVA'] == 1,
+                }
+
                 partner.write(values)
             except Exception as e:
-                result_html += '<div>Eroare modificare client %s: %s</div>' % (customer['DENUMIRE'], str(e))
+                result_html += '<div>Eroare client %s: %s</div>' % (customer['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
             self.env.cr.commit()
@@ -287,7 +287,7 @@ class import_saga(models.TransientModel):
         """
 
         articole_file = base64.decodestring(self.articole_file)
-        buff = StringIO.StringIO(articole_file)
+        buff = BytesIO(articole_file)
         articole = base.DBF(buff)
         result_html = self.result
         tax = {}

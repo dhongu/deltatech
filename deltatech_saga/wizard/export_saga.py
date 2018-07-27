@@ -5,10 +5,7 @@
 import sys
 PY2 = sys.version_info[0] == 2
 
-if PY2:
-    import StringIO
-else:
-    import io as StringIO
+if not PY2:
     unicode = str
 
 from io import BytesIO
@@ -111,7 +108,7 @@ class export_saga(models.TransientModel):
             'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
             'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
         }
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         furnizori_dbf = base.DBF(temp_file, Furnizori)
         for partner in partner_ids:
             if not partner.ref_supplier:
@@ -206,7 +203,7 @@ class export_saga(models.TransientModel):
             'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
             'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
         }
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
         for partner in partner_ids:
 
@@ -291,7 +288,7 @@ class export_saga(models.TransientModel):
             'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumire tip
             'TVA': dbf_fields.DecimalField(size=5, deci=2),  # TVA
         }
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         articole_dbf = base.DBF(temp_file, Articole)
         for product in product_ids:
             if product.taxes_id:
@@ -367,7 +364,7 @@ class export_saga(models.TransientModel):
 
         }
 
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
 
         # todo: de convertit toate preturile in RON
@@ -582,7 +579,7 @@ class export_saga(models.TransientModel):
 
         }
 
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         iesiri_dbf = base.DBF(temp_file, Iesiri)
 
         # todo: de convertit toate preturirile in RON
@@ -682,7 +679,7 @@ class export_saga(models.TransientModel):
             'GRUPA': dbf_fields.CharField(max_length=16),  # Grupa asociată (optional)
         }
 
-        temp_file = StringIO.StringIO()
+        temp_file = BytesIO()
         note_dbf = base.DBF(temp_file, Note)
         for account_move in account_moves:
 
@@ -695,9 +692,9 @@ class export_saga(models.TransientModel):
                     cont = cont[:-1]
 
                 if self.use_analitic:
-                    if cont == '401':
+                    if cont == '401' and line.partner_id.ref_supplier:
                         cont = '401.' + line.partner_id.ref_supplier.zfill(5)
-                    if cont == '4111':
+                    if cont == '4111' and line.partner_id.ref_customer:
                         cont = '4111.' + line.partner_id.ref_customer.zfill(5)
 
                 if cont == '531001':  # din numerar in casa in lei
@@ -770,7 +767,7 @@ class export_saga(models.TransientModel):
     @api.multi
     def do_export(self):
 
-        buff = StringIO.StringIO()
+        buff = BytesIO()
 
         files = []
 
@@ -898,7 +895,7 @@ class export_saga(models.TransientModel):
             zip_archive.writestr(file_name, temp_file.getvalue())
 
         zip_archive.close()
-        out = base64.encodestring(buff.getvalue())
+        out = base64.b64encode(buff.getvalue())
         buff.close()
 
         filename = 'ExportOdoo_%s_%s' % (self.date_from, self.date_to)

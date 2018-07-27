@@ -176,10 +176,9 @@ class DBF(object):
                 # field specs
                 for fname, field in iteritems(self.fields):
                     fname = fname.ljust(11, '\0')
-                    field = struct.pack(self.fields_fmt, fname, field.type,
-                                        field.size, field.deci)
+                    field = struct.pack(self.fields_fmt, fname.encode(), field.type.encode(),  field.size, field.deci)
                     self.db.write(field)
-                self.db.write('\r\x1A')
+                self.db.write(b'\r\x1A')
         else:
             # if we have no fieldspecs, but we have an header in our dbf,
             # obtain the fieldspecs from it.
@@ -254,13 +253,13 @@ class DBF(object):
         self.gotoRecord(recId)
         record['pk'] = recId
 
-        self.db.write(' ')
+        self.db.write(b' ')
         data = ''
         for fname, field in iteritems(self.fields):
             data += field.encode(record[fname])
-        self.db.write(data)
+        self.db.write(data.encode())
 
-        self.db.write('\x1A')
+        self.db.write(b'\x1A')
         self.increase_numrec()
 
         self.db.flush()
