@@ -179,8 +179,7 @@ class ProcurementComputeProducts(models.TransientModel):
                     products |= item.product_id
 
                 ProcurementGroup = self.env['procurement.group']
-                ProcurementGroup.with_context(product_ids=products.ids).run_scheduler(self,
-                                                                                      use_new_cursor=self._cr.dbname,
+                ProcurementGroup.with_context(product_ids=products.ids).run_scheduler(use_new_cursor=self._cr.dbname,
                                                                                       company_id=self.env.user.company_id)
 
             self._cr.close()
