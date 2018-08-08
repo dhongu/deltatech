@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 
 
@@ -56,7 +40,7 @@ class stock_production_lot(models.Model):
 
 
     @api.multi
-    @api.depends('quant_ids.qty','quant_ids.location_id')
+    @api.depends('quant_ids.quantity','quant_ids.location_id')
     def _compute_stock_available(self):
 
         for lot in self:
@@ -64,14 +48,12 @@ class stock_production_lot(models.Model):
             show_lots = 0.0
             for quant in lot.quant_ids:
                 if quant.location_id.usage == 'internal' or not quant.location_id.hide_lot:
-                    show_lots += quant.qty
+                    show_lots += quant.quantity
                     if quant.location_id.usage == 'internal':
-                        available += quant.qty
+                        available += quant.quantity
             if show_lots > 0:
                 lot.active = True
             else:
                 lot.active = False
             lot.stock_available = available
     
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

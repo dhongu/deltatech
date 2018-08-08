@@ -60,7 +60,7 @@ class stock_move(models.Model):
 
     @api.multi
     def write(self, vals):
-        date_fields = set(['date', 'date_expected'])
+        date_fields = {'date', 'date_expected'}
         use_date = self.env.context.get('use_date', False)
         if date_fields.intersection(vals):
             if not use_date:
