@@ -25,10 +25,16 @@ msgstr "Confimă, Livrează și Facturează"
 msgid "Deliver and Invoice"
 msgstr "Livrează și Facturează"
 
+
+#. module: deltatech_fast_sale
+#: view:sale.order:deltatech_fast_sale.view_order_form
+msgid "Deliver Notice"
+msgstr "Livrează cu Aviz"
+
 #. module: deltatech_fast_sale
 #: view:sale.order:deltatech_fast_sale.view_order_form
 msgid "Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
-msgstr "Sunteți sigur să doriți să faceți automat livrarea cu antitățile și prețurile din comanda de vânzaare"
+msgstr "Sunteți sigur să doriți să faceți automat livrarea cu cantitățile și prețurile din comanda de vânzaare"
 
 
 
