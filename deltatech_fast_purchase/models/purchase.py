@@ -41,7 +41,6 @@ class PurchaseOrder(models.Model):
 
     @api.multi
     def action_button_confirm_notice(self):
-
         picking_ids = self.env['stock.picking']
         for picking in self.picking_ids:
             if picking.state == 'assigned':
