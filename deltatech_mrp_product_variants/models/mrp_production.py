@@ -68,8 +68,11 @@ class MrpProduction(models.Model):
     def _generate_finished_moves(self):
         if self.product_id:
             return super(MrpProduction, self)._generate_finished_moves()
+        if self.product_tmpl_id.product_variant_count:
+            qty_inc = int(self.product_qty / self.product_tmpl_id.product_variant_count)
+        else:
+            qty_inc = 0.0
 
-        qty_inc = int(self.product_qty / self.product_tmpl_id.product_variant_count)
         product_qty = qty_inc + self.product_qty - qty_inc*self.product_tmpl_id.product_variant_count
         for product_id in  self.product_tmpl_id.product_variant_ids:
 
