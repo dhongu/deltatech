@@ -63,7 +63,7 @@ class product_product(models.Model):
 
     @api.multi        
     def _set_product_lst_price(self):
-        print "set price"
+
         for product in self: 
             if 'uom' in self.env.context:
                 uom = product.uos_id or product.uom_id
