@@ -146,7 +146,7 @@ class StockInventoryLine(models.Model):
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'fifo':
                 inventory_line.product_id.write(
-                    {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+                    {'standard_price': inventory_line.standard_price})  # actualizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         return moves
 

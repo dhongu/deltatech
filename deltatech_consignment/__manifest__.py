@@ -19,7 +19,8 @@ Features:
  
 """,
     "data": [
-        'views/purchase_view.xml'
+        'views/purchase_view.xml',
+        'wizard/product_location_select_view.xml'
     ],
     "active": False,
     "installable": True,

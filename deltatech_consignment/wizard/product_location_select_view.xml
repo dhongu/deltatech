@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_product_location_select_form" model="ir.ui.view">
+            <field name="name">product.location.select.form</field>
+            <field name="model">product.location.select</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Select">
+                     <div> Select all products from location</div>
+                    </group>
+
+                    <footer>
+                        <button name="do_select" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_picking_product_location_select" name="Select products from location"
+                    res_model="product.location.select" src_model="stock.picking"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+        <act_window id="action_sale_product_location_select" name="Select products from location"
+                    res_model="product.location.select" src_model="sale.order"
+                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+
+    </data>
+</openerp>

@@ -95,7 +95,7 @@ class sale_order(models.Model):
             amount = 0
             for resource in order.resource_ids:
                 amount += resource.amount
-            if  order.qty_primary <> 0:
+            if  order.qty_primary != 0:
                 order.price_unit = amount / order.qty_primary
 
 
@@ -104,7 +104,7 @@ class sale_order(models.Model):
         for order in self:
             order.resource_item_ids.unlink()    
             for resource in order.resource_ids:
-                if resource.product_uom_qty <> 0.0:
+                if resource.product_uom_qty != 0.0:
                     resource.explode_bom()    
 
     @api.multi
