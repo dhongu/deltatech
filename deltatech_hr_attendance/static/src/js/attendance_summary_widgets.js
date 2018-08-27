@@ -21,12 +21,14 @@ var AttendanceSummaryWidget = Widget.extend({
     boundLink: function(e) {
         var res_model = $(e.target).data('res-model');
         var res_id = $(e.target).data('active-id');
+        var context = $(e.target).data('context');
         return this.do_action({
             type: 'ir.actions.act_window',
             res_model: res_model,
             res_id: res_id,
             views: [[false, 'form']],
-            target: 'current'
+            target: 'current',
+            context: context
         });
     },
     boundLinkmulti: function(e) {

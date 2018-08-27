@@ -105,7 +105,9 @@
 
                         <td>normal</td>
                         <t t-foreach="obj['display']['days']" t-as="details">
-                            <td class="text-right" t-attf-style="background-color: {{details['color']}}">
+                            <td class="text-right" t-attf-style="   {{details['text'] and  'border-color:'+ details['color'] or 'background-color:'+ details['color']}};
+                                         {{details['text']  and 'border-collapse:separate;'  }}
+                                         {{details['text']  and 'border-width:2px' }} ">
                                 <t t-set="line" t-value="details['line']"/>
                                 <t t-if="line">
                                     <t t-set="text_color"
@@ -113,15 +115,31 @@
                                     <span>
                                         <a t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
                                            t-att-data-active-id="line.id"
-                                           t-att-data-res-model="line._name">
+                                           t-att-data-res-model="line._name" style="cursor: pointer;">
 
                                             <t t-raw="int(line.total_hours)"/>
+                                            <t t-if="details['text']">
+                                                <span>/</span>
+                                               <t t-raw="details['text']"/>
+                                            </t>
+
                                         </a>
                                     </span>
                                 </t>
                                 <t t-if="not line">
-                                    <t t-raw="details['text']"/>
+                                    <t t-if="details['text']">
+                                        <t t-raw="details['text']"/>
+                                    </t>
+                                    <t t-if="not details['text']">
+                                        <a t-attf-class="o_attendance_summary_backend_web_action"
+                                           t-att-data-res-model="'hr.holidays'"
+                                           t-att-data-context="{'default_employee_id':obj['emp'].id,'default_date':details['date']}"
+                                           style="cursor: pointer;">
+                                            __
+                                        </a>
+                                    </t>
                                 </t>
+
                             </td>
                         </t>
                         <td class="text-right">
@@ -133,7 +151,10 @@
                         <t t-foreach="get_holidays_status()" t-as="holiday">
                             <t t-set="nr" t-value="obj['display']['holiday'][holiday['cod']]"/>
                             <td t-attf-rowspan=" {{obj['display']['rows']}}" class="text-center oe_leftfit oe_rightfit"
-                                t-attf-style="color: {{holiday['color']}} !important">
+                                t-attf-style="   {{nr and  'border-color:'+ holiday['color']}};
+                                                 {{nr  and 'border-collapse:separate;'  }}
+                                                 {{nr  and 'border-width:2px' }} ">
+
                                     <t t-if="nr">
                                         <span t-esc="nr"/>
                                     </t>
@@ -144,7 +165,10 @@
                         <tr>
                             <td>overtime</td>
                             <t t-foreach="obj['display']['days']" t-as="details">
-                                <td class="text-right" t-attf-style="background-color: {{details['color']}}">
+                                <td class="text-right"   t-attf-style="   {{details['text'] and  'border-color:'+ details['color'] or 'background-color:'+ details['color']}};
+                                         {{details['text']  and 'border-collapse:separate;'  }}
+                                           {{details['text']  and 'border-width:2px' }} ">
+
                                     <t t-set="line" t-value="details['line']"/>
                                     <t t-if="line and line.overtime_granted">
                                         <div t-esc="int(line.overtime_granted)"/>
@@ -161,7 +185,9 @@
                         <tr>
                             <td>night</td>
                             <t t-foreach="obj['display']['days']" t-as="details">
-                                <td class="text-right" t-attf-style="background-color: {{details['color']}}">
+                                <td class="text-right" t-attf-style="   {{details['text'] and  'border-color:'+ details['color'] or 'background-color:'+ details['color']}};
+                                         {{details['text']  and 'border-collapse:separate;'  }}
+                                           {{details['text']  and 'border-width:2px' }} ">
                                     <t t-set="line" t-value="details['line']"/>
                                     <t t-if="line and line.night_hours">
                                         <div t-esc="int(line.night_hours)"/>

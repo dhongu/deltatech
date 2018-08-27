@@ -29,7 +29,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
         for x in range(0, max(7, days)):
-            color = '#ababab' if self._date_is_day_off(start_date) else ''
+            color = '#f2f2f2' if self._date_is_day_off(start_date) else ''
             res.append({'day_str': start_date.strftime('%a'), 'day': start_date.day, 'color': color})
             start_date = start_date + relativedelta(days=1)
         return res
@@ -64,9 +64,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         work_day = 0
         for index in range(0, max(7, days)):
             current = start_date + timedelta(index)
-            res['days'].append({'day': current.day, 'color': '', 'line': False, 'text': ''})
+            res['days'].append({'day': current.day, 'color': '', 'line': False, 'text': '','date':fields.Date.to_string( current)})
             if self._date_is_day_off(current):
-                res['days'][index]['color'] = '#ababab'
+                res['days'][index]['color'] = '#f2f2f2'
             else:
                 work_day += 1
         # count and get leave summary details.
@@ -89,6 +89,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             date_to = fields.Datetime.from_string(holiday.date_to)
             date_to = fields.Datetime.context_timestamp(holiday, date_to).date()
             for index in range(0, ((date_to - date_from).days + 1)):
+                res['days'][(date_from - start_date).days]['text'] = ''
                 if date_from >= start_date and date_from <= end_date:
                     res['days'][(date_from - start_date).days]['color'] = holiday.holiday_status_id.color_name
                     res['days'][(date_from - start_date).days]['text'] = holiday.holiday_status_id.cod
@@ -103,7 +104,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             index_date = fields.Date.from_string(line.date)
             index = (index_date - start_date).days
             res['days'][index]['line'] = line
-            res['days'][index]['text'] = line.total_hours
+
+            #res['days'][index]['text'] = line.total_hours
             res['worked_hours'] += round(line.worked_hours)
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
