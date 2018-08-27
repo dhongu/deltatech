@@ -156,7 +156,7 @@ class HrAttendanceSheet(models.Model):
         for row in res:
             values = {
                 'sheet_id': self.id,
-                'department_id': self.formation_id_id.id,
+                'department_id': self.formation_id.id,
                 'date': row[0],
                 'employee_id': row[1],
                 'attendance_hours': row[2],
