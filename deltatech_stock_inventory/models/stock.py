@@ -81,7 +81,7 @@ class StockInventory(models.Model):
         return res
 
     @api.multi
-    def action_done(self, ):
+    def action_done(self ):
         super(StockInventory, self).action_done()
         for inv in self:
             for move in inv.move_ids:
