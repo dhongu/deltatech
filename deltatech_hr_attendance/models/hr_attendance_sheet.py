@@ -35,9 +35,27 @@ class HrAttendanceSheet(models.Model):
     date_to = fields.Date('End Date', required=True, readonly=True, states={
         'draft': [('readonly', False)],
         'new': [('readonly', False)]})
-    department_id = fields.Many2one('hr.department', string='Department', required=True, readonly=True, states={
+
+    division_id = fields.Many2one('hr.department', string='Division', required=True, readonly=True,
+                                  domain=[('type','=','div')],
+                                  states={
         'draft': [('readonly', False)],
         'new': [('readonly', False)]})
+
+
+
+    department_id = fields.Many2one('hr.department', string='Department', required=True, readonly=True,
+                                    domain=[('type', '=', 'dep')],
+                                    states={
+        'draft': [('readonly', False)],
+        'new': [('readonly', False)]})
+
+    formation_id = fields.Many2one('hr.department', string='Formation', required=True, readonly=True,
+                                    domain=[('type', '=', 'for')],
+                                    states={
+                                        'draft': [('readonly', False)],
+                                        'new': [('readonly', False)]})
+
     state = fields.Selection([
         ('new', 'New'),
         ('draft', 'Open'),
@@ -50,18 +68,36 @@ class HrAttendanceSheet(models.Model):
     line_ids = fields.One2many('hr.attendance.sheet.line', 'sheet_id', readonly=True, states={
         'draft': [('readonly', False)]})
 
-    # @api.constrains('date_to', 'date_from', 'department_id')
-    # def _check_sheet_date(self):
-    #     for sheet in self:
-    #         self.env.cr.execute('''
-    #                  SELECT id
-    #                  FROM hr_attendance_sheet
-    #                  WHERE (date_from <= %s and %s <= date_to)
-    #                      AND department_id=%s
-    #                      AND id <> %s''',
-    #                             (sheet.date_to, sheet.date_from, sheet.department_id.id, sheet.id))
-    #         if any(self.env.cr.fetchall()):
-    #             raise ValidationError(_('You cannot have 2 timesheets that overlap!'))
+
+
+    @api.onchange('division_id')
+    def onchange_division_id(self):
+        if not self.division_id:
+            return
+        if self.division_id != self.department_id.parent_id:
+            self.department_id = False
+        return {
+            'domain': {'department_id': [('parent_id', '=', self.division_id.id)]},
+        }
+
+    @api.onchange('department_id')
+    def onchange_department_id(self):
+        if not self.department_id:
+            return
+        self.division_id = self.department_id.parent_id
+        if self.department_id != self.formation_id.parent_id:
+            self.formation_id = False
+        return {
+            'domain': {'formation_id': [('parent_id', '=', self.department_id.id)]},
+        }
+
+    @api.onchange('formation_id')
+    def onchange_formation_id(self):
+        if not self.formation_id:
+            return
+        self.department_id = self.formation_id.parent_id
+
+
 
     @api.multi
     def name_get(self):
@@ -91,7 +127,7 @@ class HrAttendanceSheet(models.Model):
 
     @api.multi
     def do_compute(self):
-        employees = self.env['hr.employee'].search([('department_id', '=', self.department_id.id),
+        employees = self.env['hr.employee'].search([('department_id', '=', self.formation_id.id),
                                                     ('shift', 'in', ['F', 'T'])])
         attendances = self.env['hr.attendance'].search([('employee_id', 'in', employees.ids),
                                                       ('for_date', '>=', self.date_from),
@@ -112,7 +148,7 @@ class HrAttendanceSheet(models.Model):
                  GROUP BY for_date, employee_id
                  ORDER BY for_date desc
         """
-        params = (self.date_from, self.date_to, self.department_id.id)
+        params = (self.date_from, self.date_to, self.formation_id.id)
 
         self.env.cr.execute(query, params=params)
 
@@ -120,7 +156,7 @@ class HrAttendanceSheet(models.Model):
         for row in res:
             values = {
                 'sheet_id': self.id,
-                'department_id': self.department_id.id,
+                'department_id': self.formation_id_id.id,
                 'date': row[0],
                 'employee_id': row[1],
                 'attendance_hours': row[2],
@@ -201,8 +237,8 @@ class HrAttendanceSheetLine(models.Model):
 
     sheet_id = fields.Many2one('hr.attendance.sheet', required=True, ondelete='cascade', index=True)
 
-    department_id = fields.Many2one('hr.department', string='Department', required=True,
-                                    domain="[('parent_id','=',False)]")
+    department_id = fields.Many2one('hr.department', string='Formation', required=True,
+                                    domain="[('type','=','for')]")
     employee_id = fields.Many2one('hr.employee', string='Employee', index=True)
     date = fields.Date(index=True)
     check_in = fields.Datetime()
