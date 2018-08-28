@@ -43,6 +43,8 @@ class hr_attendance_import(models.TransientModel):
             employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
             if not employee:
                 employee = self.env['hr.employee'].with_context(active_test=False).search([('barcode', '=', barcode)])
+                if not employee:
+                    return
             last_attendance = False
         else:
             employee = employee_data['employee']
