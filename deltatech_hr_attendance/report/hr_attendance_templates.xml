@@ -128,7 +128,14 @@
                                 </t>
                                 <t t-if="not line">
                                     <t t-if="details['text']">
-                                        <t t-raw="details['text']"/>
+                                        <a t-attf-class="o_attendance_summary_backend_web_action"
+                                           t-att-data-res-model="'hr.holidays'"
+                                           t-att-data-active-id="details['holiday_id']"
+                                           t-att-data-context="{'default_employee_id':obj['emp'].id,'default_date':details['date']}"
+                                           style="cursor: pointer;">
+                                            <t t-raw="details['text']"/>
+                                        </a>
+
                                     </t>
                                     <t t-if="not details['text']">
                                         <a t-attf-class="o_attendance_summary_backend_web_action"

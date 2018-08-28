@@ -152,7 +152,6 @@ class hr_attendance_import(models.TransientModel):
 
     @api.multi
     def _do_import_background(self):
-
         with api.Environment.manage():
             new_cr = registry(self._cr.dbname).cursor()
             job = self.with_env(self.env(cr=new_cr))
@@ -187,5 +186,4 @@ class hr_attendance_import(models.TransientModel):
             'res_model': 'hr.attendance',
             'view_id': False,
             'type': 'ir.actions.act_window',
-
         }

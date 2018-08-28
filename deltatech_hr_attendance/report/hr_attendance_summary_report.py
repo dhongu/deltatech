@@ -96,6 +96,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                         res['days'][(date_from - start_date).days]['text'] = holiday.holiday_status_id.cod
                         work_day -= 1
                         res['holiday'][holiday.holiday_status_id.cod] += 1
+                        res['days'][(date_from - start_date).days]['holiday_id'] = holiday.id
                 date_from += timedelta(1)
 
             count += abs(holiday.number_of_days)
