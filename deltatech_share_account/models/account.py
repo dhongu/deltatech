@@ -104,12 +104,14 @@ class AccountTax(models.Model):
     @api.multi
     def _compute_company_id(self):
         account_tax_rule = self.env.ref('account.tax_comp_rule')
+        vat_subjected = self.env.user.company_id.partner_id.vat_subjected
         company_share_account_tax = not bool(account_tax_rule.active)
         for tax in self:
-            if not company_share_account_tax:
-                tax.company_id = tax.store_company_id
-            else:
+            if company_share_account_tax and vat_subjected:
                 tax.company_id = self.env.user.company_id
+            else:
+                tax.company_id = tax.store_company_id
+
 
     @api.multi
     def _set_company_id(self):
