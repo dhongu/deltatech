@@ -89,15 +89,15 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             date_to = fields.Datetime.from_string(holiday.date_to)
             date_to = fields.Datetime.context_timestamp(holiday, date_to).date()
             for index in range(0, ((date_to - date_from).days + 1)):
-                res['days'][(date_from - start_date).days]['text'] = ''
+                #res['days'][(date_from - start_date).days]['text'] = ''
                 if date_from >= start_date and date_from <= end_date:
-                    res['days'][(date_from - start_date).days]['color'] = holiday.holiday_status_id.color_name
-                    res['days'][(date_from - start_date).days]['text'] = holiday.holiday_status_id.cod
-                    work_day -= 1
-                    res['holiday'][holiday.holiday_status_id.cod] += 1
-
-
+                    if not self._date_is_day_off(date_from):
+                        res['days'][(date_from - start_date).days]['color'] = holiday.holiday_status_id.color_name
+                        res['days'][(date_from - start_date).days]['text'] = holiday.holiday_status_id.cod
+                        work_day -= 1
+                        res['holiday'][holiday.holiday_status_id.cod] += 1
                 date_from += timedelta(1)
+
             count += abs(holiday.number_of_days)
 
         for line in lines.filtered(lambda l: l.employee_id.id == empid):
