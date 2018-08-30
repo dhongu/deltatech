@@ -23,4 +23,5 @@ class ProductTemplate(models.Model):
             amount = 0.0
             for variant in template.product_variant_ids:
                 amount += variant.standard_price
-            template.cost_price = amount / template.product_variant_count
+            if template.product_variant_count > 0:
+                template.cost_price = amount / template.product_variant_count
