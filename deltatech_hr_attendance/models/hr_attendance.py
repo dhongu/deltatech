@@ -65,19 +65,20 @@ class hr_attendance(models.Model):
         day_start = int(day_start)
         # caclul ora de inceput zi lucratoare
         for attendance in self:
-            date_time_in = fields.Datetime.from_string(attendance.check_in) - timedelta(hours=day_start)
-            date_time_in = utc_to_local(date_time_in)
-            date_in = fields.Date.to_string(date_time_in)
-            attendance.for_date = date_in
-            if attendance.check_out:
-                date_time_out = fields.Datetime.from_string(attendance.check_out) - timedelta(hours=day_start)
-                date_time_out = utc_to_local(date_time_out)
-                date_out = fields.Date.to_string(date_time_out)
-                if date_in != date_out:
-                    date_time_00 = fields.Datetime.from_string(date_out + ' 00:00:00')
-                    d1 = date_time_00 - date_time_in
-                    d2 = date_time_out - date_time_00
-                    if d2 > d1:
-                        attendance.for_date = date_out
+            if attendance.check_in:
+                date_time_in = fields.Datetime.from_string(attendance.check_in) - timedelta(hours=day_start)
+                date_time_in = utc_to_local(date_time_in)
+                date_in = fields.Date.to_string(date_time_in)
+                attendance.for_date = date_in
+                if attendance.check_out:
+                    date_time_out = fields.Datetime.from_string(attendance.check_out) - timedelta(hours=day_start)
+                    date_time_out = utc_to_local(date_time_out)
+                    date_out = fields.Date.to_string(date_time_out)
+                    if date_in != date_out:
+                        date_time_00 = fields.Datetime.from_string(date_out + ' 00:00:00')
+                        d1 = date_time_00 - date_time_in
+                        d2 = date_time_out - date_time_00
+                        if d2 > d1:
+                            attendance.for_date = date_out
 
 
