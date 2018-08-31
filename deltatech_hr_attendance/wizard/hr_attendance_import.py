@@ -16,10 +16,8 @@ import pytz
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import threading
 import logging
+
 _logger = logging.getLogger(__name__)
-
-
-
 
 
 class hr_attendance_import(models.TransientModel):
@@ -63,25 +61,22 @@ class hr_attendance_import(models.TransientModel):
 
         is_ok = True
 
-
         if not last_attendance:
             last_attendance = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
                 ('check_in', '<=', event_time),
             ], order='check_in desc', limit=1)
 
-
             attendance_future = self.env['hr.attendance'].search([
                 ('employee_id', '=', employee.id),
                 ('check_in', '>', event_time),
-             ], limit=1)
+            ], limit=1)
             if attendance_future:
                 return False
 
-        if direction == 'sign_in' and  last_attendance :
-            if  last_attendance.check_out and last_attendance.check_out > event_time:
+        if direction == 'sign_in' and last_attendance:
+            if last_attendance.check_out and last_attendance.check_out > event_time:
                 is_ok = False
-
 
         if direction == 'sign_in':
             if last_attendance:
@@ -134,10 +129,10 @@ class hr_attendance_import(models.TransientModel):
                         self._cr.commit()
                 except ValidationError as e:
                     last_attendance = False
-                    _logger.info('Error out', str(e),)
+                    _logger.info('Error out', str(e), )
 
             self.employees[barcode] = {'employee': employee,
-                                  'last_attendance': last_attendance}
+                                       'last_attendance': last_attendance}
         return last_attendance
 
     @api.multi

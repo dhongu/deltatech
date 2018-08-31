@@ -50,12 +50,20 @@ class hr_attendance(models.Model):
         for_date = fields.Date.from_string(self.for_date)
         for_date = for_date + relativedelta(days=1)
         self.for_date =fields.Date.to_string(for_date)
+        line = self.env['hr.attendance.sheet.line'].search( [('date', '=',  self.for_date),
+                                                             ('employee_id', '=', self.employee_id)])
+        line.action_invalidate()
 
     @api.multi
     def action_minus_day(self):
         for_date = fields.Date.from_string(self.for_date)
         for_date = for_date + relativedelta(days=-1)
         self.for_date = fields.Date.to_string(for_date)
+        line = self.env['hr.attendance.sheet.line'].search([('date', '=', self.for_date),
+                                                            ('employee_id', '=', self.employee_id)])
+        line.action_invalidate()
+
+
 
 
     @api.multi

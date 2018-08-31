@@ -248,7 +248,7 @@ class HrAttendanceSheetLine(models.Model):
     hour_from = fields.Float(string='Work from', compute="_compute_hours", store=True)
     hour_to = fields.Float(string='Work to', compute="_compute_hours", store=True)
 
-    attendance_ids = fields.Many2many("hr.attendance")
+    attendance_ids = fields.Many2many("hr.attendance", ondelete='restrict')
     attendance_hours = fields.Float(string='Attendance Hours', readonly=True)
     effective_hours = fields.Float(string='Effective Hours', compute="_compute_hours", store=True, readonly=False)
 
