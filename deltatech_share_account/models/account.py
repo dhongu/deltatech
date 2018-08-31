@@ -117,3 +117,12 @@ class AccountTax(models.Model):
     def _set_company_id(self):
         for tax in self:
             tax.store_company_id = tax.company_id
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.model
+    def _query_get(self, domain=None):
+        self = self.with_context(company_id=self.env.user.company_id.id)
+        return super(AccountMoveLine, self)._query_get(domain)
