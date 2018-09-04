@@ -83,12 +83,12 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             ('employee_id', '=', empid), ('state', 'in', holiday_type),
             ('type', '=', 'remove'), ('date_from', '<=', str(end_date)),
             ('date_to', '>=', str(start_date))
-        ], order='holiday_status_id')
+        ])
         res['holiday'] = {}
         for holiday in self.env['hr.holidays.status'].search([]):
             res['holiday'][holiday.cod] = 0
 
-        for holiday in holidays:
+        for holiday in holidays.sorted(lambda x: x.holiday_status_id.sequence):
             # Convert date to user timezone, otherwise the report will not be consistent with the
             # value displayed in the interface.
             date_from = fields.Datetime.from_string(holiday.date_from)

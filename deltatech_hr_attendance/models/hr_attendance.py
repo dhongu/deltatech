@@ -20,13 +20,7 @@ def utc_to_local(event_time):
     return event_time
 
 
-class HolidaysType(models.Model):
-    _inherit = "hr.holidays.status"
-    _order = 'sequence'
 
-
-    sequence = fields.Integer("Sequence", default=10)
-    cod = fields.Char()
 
 
 

@@ -12,6 +12,14 @@ class Department(models.Model):
     type = fields.Selection([('div', 'Division'),('dep','Department'),('for','Formation')])
 
 
+class HolidaysType(models.Model):
+    _inherit = "hr.holidays.status"
+    _order = 'sequence'
+
+
+    sequence = fields.Integer("Sequence", default=10)
+    cod = fields.Char()
+
 class Holidays(models.Model):
     _inherit = "hr.holidays"
 
