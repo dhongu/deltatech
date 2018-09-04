@@ -64,7 +64,14 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         work_day = 0
         for index in range(0, max(7, days)):
             current = start_date + timedelta(index)
-            res['days'].append({'day': current.day, 'color': '', 'line': False, 'text': '','date':fields.Date.to_string( current)})
+            res['days'].append({
+                'day': current.day,
+                'color': '',
+                'line': False,
+                'text': '',
+                'date':fields.Date.to_string( current),
+                'holiday_id':False
+            })
             if self._date_is_day_off(current):
                 res['days'][index]['color'] = '#f2f2f2'
             else:
@@ -76,7 +83,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             ('employee_id', '=', empid), ('state', 'in', holiday_type),
             ('type', '=', 'remove'), ('date_from', '<=', str(end_date)),
             ('date_to', '>=', str(start_date))
-        ])
+        ], order='holiday_status_id')
         res['holiday'] = {}
         for holiday in self.env['hr.holidays.status'].search([]):
             res['holiday'][holiday.cod] = 0
@@ -91,7 +98,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             for index in range(0, ((date_to - date_from).days + 1)):
                 #res['days'][(date_from - start_date).days]['text'] = ''
                 if date_from >= start_date and date_from <= end_date:
-                    if not self._date_is_day_off(date_from):
+                    if not self._date_is_day_off(date_from) and not res['days'][(date_from - start_date).days]['holiday_id'] :
                         res['days'][(date_from - start_date).days]['color'] = holiday.holiday_status_id.color_name
                         res['days'][(date_from - start_date).days]['text'] = holiday.holiday_status_id.cod
                         work_day -= 1
@@ -111,6 +118,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
 
+        if work_day < 0:
+            work_day = 0
         res['norma'] = work_day * 8
         res['work_day'] = work_day
         if res['worked_hours'] < res['norma']:
