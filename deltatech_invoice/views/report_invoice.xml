@@ -59,17 +59,20 @@
                                     <span>C.U.I. :</span>
                                     <span t-field="res_company.partner_id.vat"/>
                                 </div>
-                                <div t-foreach="res_company.bank_ids" t-as="banca">
-                                    <!--<t t-if="banca.bank_name == 'RAIFFEISEN BANK ROMANIA'"/>-->
-                                    <span>BANCA:</span>
-                                    <span t-esc="banca.bank_name"/>
-                                    <br/>
+                                <span>Banca:</span>
+                                <span>RAIFFEISEN BANK ROMANIA</span>
+                                <br/>
+                                <div t-foreach="res_company.bank_ids" t-as="bank">
+                                    <span t-if="bank.currency_id.name == 'RON' ">
+                                        RON:
+                                        <span t-field="bank.acc_number"/>
+                                    </span>
                                 </div>
                                 <div t-foreach="res_company.bank_ids" t-as="bank">
-                                    <span t-field="bank.currency_id.name"/>
-                                    <span>:</span>
-                                    <span t-field="bank.acc_number"/>
-                                    <br/>
+                                    <span t-if="bank.currency_id.name == 'EUR' ">
+                                        EUR:
+                                        <span t-field="bank.acc_number"/>
+                                    </span>
                                 </div>
                                 <div>
                                     <span t-field="res_company.street"/>
@@ -210,7 +213,15 @@
                         <td>
                             <div>
                                 <span>SHIP TO:</span>
-                                <span t-field="o.comment"/>
+                                <span t-field="o.partner_contact_id.name"/>
+                                <span t-field="o.partner_contact_id.street"/>
+                                <span t-field="o.partner_contact_id.street2"/>
+                                <span t-field="o.partner_contact_id.city"/>
+                                <span t-field="o.partner_contact_id.state_id"/>
+                                <span t-field="o.partner_contact_id.country_id"/><br/>
+                                <span t-field="o.inco.code"/><br/>
+                                <span>MODE OF TRANSPORT: </span><span t-field="o.mean_transp"/>- <span t-field="o.date_invoice"/> <br/>
+
                             </div>
                         </td>
                         <td>
@@ -342,7 +353,7 @@
                         </tr>
                         <tr>
                             <td colspan="5">
-                                <span>NR.PALLET/PACKAGING</span>
+                                <span>NR.PALLET/PACKAGING: </span><span t-field="o.nr_paleti"/>
                             </td>
                         </tr>
                         <!--<span t-field="currency_id.symbol"/>-->
@@ -415,7 +426,7 @@
                                 <span>Refunding invoice</span>
                                 <span t-field="o.origin"/>
                             </div>
-                            <table class="table table-bordered table-condensed" style="width:50%;">
+                            <table class="table table-bordered table-condensed" style="width:48%;">
                                 <tr>
                                     <td>NR. FACTURII:</td>
                                     <td>
@@ -576,40 +587,40 @@
                             <table class="table table-condensed  table-bordered" style="margin-top:-20px;">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="2" colspan="2" style="width:20%;height: 160px;">
+                                        <td rowspan="2" colspan="2" style="width:14%;height: 160px;">
                                             <span>Semnatura<br/>si stampila<br/>furnizorului
                                             </span>
                                         </td>
-                                        <td style="width:44%;">
-                                            <span style="font-weight:bold;">Date privind expeditia:</span>
-                                            <p t-if="o.comment">
-                                                <span t-field="o.comment"/>
-                                            </p>
+                                        <td style="width:38.5%;">
+                                            <span style="font-weight:bold;">Date privind expeditia:</span><br/>
+                                            <!--<p t-if="o.comment">-->
+                                                <!--<span t-field="o.comment"/>-->
+                                            <!--</p>-->
                                             <span>NUMELE DELEGATULUI:</span>
                                             <span t-field="o.delegate_id"/>
                                             <br/>
-                                            <span>MIJLOCUL DE TRANSPORT</span>
+                                            <span>MIJLOCUL DE TRANSPORT: </span>
                                             <span t-field="o.mean_transp"/>
                                             <br/>
-                                            <span>NUMAR PALET/AMBALARE</span>
-                                            <span t-field="o.mean_transp"/>
+                                            <span>NUMAR PALET/AMBALARE: </span>
+                                            <span t-field="o.nr_paleti"/>
                                             <br/>
-                                            <span>GREUTATE</span>
+                                            <span>GREUTATE: </span>
                                             <span t-field="o.weight"/>
                                             <br/>
                                             <span>EXPEDIEREA S-A EFECTUAT LA</span>
                                             <br/>
-                                            <span>DATA DE:</span>
+                                            <span>DATA DE: </span>
                                             <span t-field="o.date_invoice"/>
-                                            <span>ORA:</span>
+                                            <span>ORA: </span>
                                             <span t-field="o.date_invoice"/>
                                         </td>
-                                        <td rowspan="2" style="width:18%;text-align:center;vertical-align:middle;height:80px;">
-                                            <span>Total:</span>
+                                        <td style="width:14.7%;text-align:center;vertical-align:middle;height:80px;">
+                                            <span><strong>Total:</strong></span>
                                             <br/>
                                             <span>DATA SCADENTA:</span>
                                         </td>
-                                        <td style="width:18%;text-align:center;vertical-align:middle;">
+                                        <td style="width:21%;text-align:center;vertical-align:middle;">
                                             <t t-set="amount_untaxeds" t-value="o.amount_untaxed"/>
                                             <t t-set="amount_tax" t-value="o.amount_tax"/>
                                             <t t-if="o.type == 'out_refund'">
@@ -621,7 +632,8 @@
                                             <t t-set="amount_tax"
                                                t-value="o.currency_id.with_context(date=o.date_invoice).compute(amount_tax,currency_id)"/>
                                             <span id="amount_total">
-                                                <span t-esc="formatLang(amount_untaxeds+amount_tax)"/><br/>
+                                                <strong><span t-esc="formatLang(amount_untaxeds+amount_tax)"/></strong>
+                                                <br/>
                                                 <span t-field="o.date_due"/>
                                             </span>
                                         </td>
@@ -762,7 +774,16 @@
                                 <div>
                                     <span>LOCUL DE DESTINATIE</span>
                                     <br/>
-                                    <span t-field="o.commercial_partner_id.info_for_invoice"/>
+                                    <span t-field="o.partner_contact_id.name"/>
+                                    <br/>
+                                    <span t-field="o.partner_contact_id.street2"/>
+                                    <span>Adresa: </span><span t-field="o.partner_contact_id.street"/><span>, </span>
+                                    <span></span><span t-field="o.partner_contact_id.city"/><br/>
+                                    <span t-field="o.partner_contact_id.state_id"/>
+                                    <br/>
+                                    <span t-field="o.partner_contact_id.country_id"/>
+                                    <br/>
+
                                 </div>
                                 <!--<small>-->
                                 <!--<div t-foreach="o.commercial_partner_id.bank_ids" t-as="bank">-->
