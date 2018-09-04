@@ -35,7 +35,11 @@
 
     <template id="report_attendance_summary_base">
 
+        <div t-field="doc.division_id.name"/>
+        <div t-field="doc.department_id.name"/>
+        <div t-field="doc.formation_id.name"/>
         <h3 class="mb32">Attendance Summary</h3>
+
         <t t-set="info" t-value="get_header_info"/>
         <h3 class="text-center mb32">
             Analyze from
@@ -46,7 +50,7 @@
 
         </h3>
 
-        <table class="table table-condensed table-bordered mb32" style="table-layout:auto">
+        <table class="table table-condensed table-bordered mb32" style="table-layout:auto;">
             <thead>
                 <!-- <tr>
                      <th>Month</th>
@@ -73,6 +77,7 @@
                     </t>
                     <td rowspan="2" class="text-right"><strong>Sum</strong></td>
                     <td rowspan="2" class="text-right"><strong>Norma</strong></td>
+                    <td rowspan="2" class="text-right"><strong>WD</strong></td>
                     <t t-foreach="get_holidays_status()" t-as="holiday">
                         <td rowspan="2" class="text-center oe_leftfit oe_rightfit"
                             t-attf-style="color: {{holiday['color']}} !important">
@@ -91,7 +96,7 @@
                 </tr>
             </thead>
             <tbody>
-                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc.line_ids)"
+                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc)"
                    t-as="obj">
 
                     <tr>
@@ -156,6 +161,9 @@
                         </td>
                         <td class="text-right">
                             <strong t-esc="int(obj['display']['norma'])"/>
+                        </td>
+                        <td class="text-right">
+                            <strong t-esc="int(obj['display']['work_day'])"/>
                         </td>
                         <t t-foreach="get_holidays_status()" t-as="holiday">
                             <t t-set="nr" t-value="obj['display']['holiday'][holiday['cod']]"/>

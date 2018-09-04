@@ -112,6 +112,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['night_hours'] += round(line.night_hours)
 
         res['norma'] = work_day * 8
+        res['work_day'] = work_day
         if res['worked_hours'] < res['norma']:
             dif = res['norma'] - res['worked_hours']
             if dif < res['overtime']:
@@ -132,12 +133,12 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         return res
 
-    def _get_data_from_report(self, start_date, end_date, lines):
+    def _get_data_from_report(self, start_date, end_date, doc):
         res = []
-
-        employees = self.env['hr.employee']
-        for line in lines:
-            employees |= line.employee_id
+        lines = doc.line_ids
+        employees = self.env['hr.employee'].search([('department_id', '=', doc.formation_id.id)])
+        # for line in lines:
+        #     employees |= line.employee_id
 
         for emp in employees.sorted(key=lambda r: r.name):
             res.append({
