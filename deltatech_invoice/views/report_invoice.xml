@@ -613,7 +613,7 @@
                                             <span>DATA DE: </span>
                                             <span t-field="o.date_invoice"/>
                                             <span>ORA: </span>
-                                            <span t-field="o.date_invoice"/>
+                                            <!--<span t-field="o.date_invoice"/>-->
                                         </td>
                                         <td style="width:14.7%;text-align:center;vertical-align:middle;height:80px;">
                                             <span><strong>Total:</strong></span>
