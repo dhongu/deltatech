@@ -51,6 +51,7 @@
                 <xpath expr="//field[@name='color_name']" position="before">
                     <field name="cod"/>
                     <field name="sequence"/>
+                    <field name="global_leave"/>
                 </xpath>
             </field>
         </record>
