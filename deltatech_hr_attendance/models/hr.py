@@ -30,8 +30,11 @@ class Holidays(models.Model):
         default = super(Holidays, self).default_get(fields_list)
 
         if 'default_date' in self.env.context:
-            default['date_from'] = self.env.context['default_date']
-            default['date_to'] = self.env.context['default_date']
+            default_date =  self.env.context['default_date']
+            if len(default_date)  == 10 :
+                default_date = default_date + ' 12:00:00'
+            default['date_from'] = default_date
+            default['date_to'] = default_date
 
         return default
 
@@ -49,4 +52,4 @@ class Holidays(models.Model):
             ]
             nholidays = self.search_count(domain)
             if nholidays:
-                raise ValidationError(_('You can not have 2 leaves that overlaps on same day!'))
+                raise ValidationError(_('You can not have 2 leaves that overlaps on same day for employee %s!') % holiday.employee_id.name)

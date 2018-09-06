@@ -22,8 +22,6 @@ def utc_to_local(event_time):
 
 
 
-
-
 class hr_attendance(models.Model):
     _inherit = "hr.attendance"
 
@@ -68,6 +66,8 @@ class hr_attendance(models.Model):
         # caclul ora de inceput zi lucratoare
         for attendance in self:
             if attendance.check_in:
+                if attendance.employee_id.shift in ['F','T']:
+                    day_start = 0
                 date_time_in = fields.Datetime.from_string(attendance.check_in) - timedelta(hours=day_start)
                 date_time_in = utc_to_local(date_time_in)
                 date_in = fields.Date.to_string(date_time_in)
