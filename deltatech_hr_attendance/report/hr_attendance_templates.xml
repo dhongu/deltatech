@@ -116,7 +116,7 @@
                                          {{details['text']  and 'border-collapse:separate;'  }}
                                          {{details['text']  and 'border-width:2px' }} ">
 
-                                <t t-if="line and int(line.total_hours)>=1">
+                                <t t-if="line">
                                     <t t-set="text_color"
                                        t-value="line.state=='not_ok' and 'text-danger text-bf' or line.state=='need' and 'text-warning text-bf' "/>
                                     <span>
@@ -124,9 +124,14 @@
                                            t-att-data-active-id="line.id"
                                            t-att-data-res-model="line._name" style="cursor: pointer;">
 
-                                            <t t-raw="int(line.total_hours)"/>
+                                            <t t-if="int(line.total_hours)>=1">
+                                                <t t-raw="int(line.total_hours)"/>
+                                            </t>
+
                                             <t t-if="details['text']">
-                                                <span>/</span>
+                                                 <t t-if="int(line.total_hours)>=1">
+                                                    <span>/</span>
+                                                 </t>
                                                <t t-raw="details['text']"/>
                                             </t>
 
