@@ -116,7 +116,7 @@
                                          {{details['text']  and 'border-collapse:separate;'  }}
                                          {{details['text']  and 'border-width:2px' }} ">
 
-                                <t t-if="line">
+                                <t t-if="line and int(line.total_hours)>=1">
                                     <t t-set="text_color"
                                        t-value="line.state=='not_ok' and 'text-danger text-bf' or line.state=='need' and 'text-warning text-bf' "/>
                                     <span>

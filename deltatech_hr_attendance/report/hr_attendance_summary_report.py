@@ -71,7 +71,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             'night_hours': 0.0,
             'rows': 3,
         }
-        count = 0
+
         start_date = fields.Date.from_string(start_date)
         end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
@@ -111,7 +111,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         if holiday_global_leave :
             for index in range(0, max(7, days)):
                 current = start_date + timedelta(index)
-                if self._date_is_global_leave(current):
+                if self._date_is_global_leave(current) and not self._date_is_day_off(current):
                     res['days'][index]['color'] = holiday_global_leave.color_name
                     res['days'][index]['text'] = holiday_global_leave.cod
                     res['days'][index]['holiday'] = True
@@ -138,22 +138,26 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                         res['days'][index_d]['holiday'] = True
                 date_from += timedelta(1)
 
-            count += abs(holiday.number_of_days)
 
+        working_day = 0
         for line in lines.filtered(lambda l: l.employee_id.id == empid):
             index_date = fields.Date.from_string(line.date)
             index = (index_date - start_date).days
             res['days'][index]['line'] = line
 
             # res['days'][index]['text'] = line.total_hours
-            res['worked_hours'] += round(line.worked_hours)
+            if line.worked_hours >= 1:
+                res['worked_hours'] += round(line.worked_hours)
+
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
+            if not res['days'][index]['holiday'] and line.worked_hours>0.5 and not self._date_is_day_off(index_date) :
+                working_day += 1
 
         if work_day < 0:
             work_day = 0
-        res['norma'] = work_day * 8
-        res['work_day'] = work_day
+        res['norma'] = working_day * 8
+        res['work_day'] = working_day
         if res['worked_hours'] < res['norma']:
             dif = res['norma'] - res['worked_hours']
             if dif < res['overtime']:
