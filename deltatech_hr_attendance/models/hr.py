@@ -42,14 +42,15 @@ class Holidays(models.Model):
     @api.constrains('date_from', 'date_to')
     def _check_date(self):
         for holiday in self:
-            domain = [
-                ('date_from', '<=', holiday.date_to),
-                ('date_to', '>=', holiday.date_from),
-                ('employee_id', '=', holiday.employee_id.id),
-                ('id', '!=', holiday.id),
-                ('holiday_status_id', '=', holiday.holiday_status_id.id),
-                ('state', 'not in', ['cancel', 'refuse']),
-            ]
-            nholidays = self.search_count(domain)
-            if nholidays:
-                raise ValidationError(_('You can not have 2 leaves that overlaps on same day for employee %s!') % holiday.employee_id.name)
+            if holiday.employee_id:
+                domain = [
+                    ('date_from', '<=', holiday.date_to),
+                    ('date_to', '>=', holiday.date_from),
+                    ('employee_id', '=', holiday.employee_id.id),
+                    ('id', '!=', holiday.id),
+                    ('holiday_status_id', '=', holiday.holiday_status_id.id),
+                    ('state', 'not in', ['cancel', 'refuse']),
+                ]
+                nholidays = self.search_count(domain)
+                if nholidays:
+                    raise ValidationError(_('You can not have 2 leaves that overlaps on same day for the employee %s!') % holiday.employee_id.name)
