@@ -12,7 +12,7 @@ class SaleOrderLine(models.Model):
 
 
 
-    @api.onchange('price_unit','product_uom')
+    @api.onchange('price_unit','product_uom','discount')
     def onchange_price_unit(self):
         if self.product_id:
             highest_price = 0.0
@@ -25,9 +25,15 @@ class SaleOrderLine(models.Model):
                 highest_price = max(highest_price, seller_price_unit)
 
             highest_price = self.product_id.uom_po_id._compute_price(highest_price, self.product_uom)
+            if self.discount:
+                unit_price = self.price_unit-self.price_unit*self.discount/100
+            else:
+                unit_price = self.price_unit
 
-            if highest_price and self.price_unit and highest_price > self.price_unit:
-                self.price_unit = highest_price
+            if highest_price and self.price_unit and (highest_price > self.price_unit or highest_price > unit_price):
+                self.price_unit = self.product_id.lst_price
+                # self.price_unit = highest_price
+                self.discount = 0
                 return {
                     'warning': {'title': "Warning",
                                 'message': _('It is not allowed to sell below the price %s') % str(highest_price)},
