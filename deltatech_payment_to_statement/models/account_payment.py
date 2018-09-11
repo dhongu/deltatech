@@ -26,7 +26,6 @@ class account_payment(models.Model):
             # daca tipul este numerar trebuie generat
             if self.journal_id.type == 'cash':
                 name = False
-
                 values = {'journal_id': self.journal_id.id,
                           'date': self.payment_date,
                           'name': '/'}
@@ -36,7 +35,10 @@ class account_payment(models.Model):
     @api.multi
     def post(self):
         lines = self.env['account.bank.statement.line']
+        statement_payment = {}
+
         for payment in self:
+            detination_statement = False
             if not payment.statement_line_id and payment.statement_id:
                 values = {
                     'name': payment.communication or '/',
@@ -47,22 +49,46 @@ class account_payment(models.Model):
                     'payment_id': payment.id,
 
                 }
-                if payment.payment_type == 'outbound':
+                if payment.payment_type in ['outbound','transfer']:
                     values['amount'] = -1 * payment.amount
 
                 line = self.env['account.bank.statement.line'].create(values)
                 lines |= line
                 payment.write({'statement_line_id': line.id})
+                statement_payment[payment] = {
+                    'line':line
+                }
+                if payment.payment_type == 'transfer':
+                    if payment.destination_journal_id.type == 'cash':
+                        domain = [('date', '=', payment.payment_date), ('journal_id', '=', payment.destination_journal_id.id)]
+                        detination_statement = self.env['account.bank.statement'].search(domain, limit=1)
+                        if not detination_statement:
+                            statement_values = {'journal_id': payment.destination_journal_id.id,
+                                      'date': payment.payment_date,
+                                      'name': '/'}
+                            detination_statement = self.env['account.bank.statement'].create(statement_values)
+                        values['statement_id'] = detination_statement.id
+                        values['amount'] =  payment.amount
+                        line = self.env['account.bank.statement.line'].create(values)
+                        lines |= line
+                        statement_payment[payment]['line_detination'] = line
+
         res = super(account_payment, self).post()
         if lines:
             for line in lines:
                 if line.name == '/':
                     line.write({'name': line.payment_id.name})
-        for payment in self:
-            for move_line in payment.move_line_ids:
-                if not move_line.statement_id:
-                    move_line.write({'statement_id':payment.statement_id.id})
-                    move_line.move_id.write({'statement_line_id':payment.statement_line_id.id})
+        # for payment in self:
+        #     for move_line in payment.move_line_ids:
+        #         if not move_line.statement_id:
+        #             if move_line.journal_id==payment.journal_id:
+        #                 line = statement_payment[payment]['line']
+        #             else:
+        #                 line = statement_payment[payment]['line_detination']
+        #             move_line.write({'statement_id': line.statement_id.id})
+        #             move_line.move_id.write({'statement_line_id': line.id})
+        #     if payment.payment_type == 'transfer':
+        #         payment.write({'state': 'reconciled'})
         return res
 
 
@@ -89,12 +115,28 @@ class account_payment(models.Model):
                     'amount': payment.amount,
                     'payment_id': payment.id,
                 }
-                if payment.payment_type == 'outbound':
+                if payment.payment_type in ['outbound','transfer']:
                     values['amount'] = -1 * payment.amount
 
                 line = self.env['account.bank.statement.line'].create(values)
                 lines |= line
                 payment.write({'statement_line_id': line.id})
+
+                if payment.payment_type == 'transfer':
+                    payment.write({'stare':'reconciled'})
+                    if payment.destination_journal_id.type == 'cash':
+                        domain = [('date', '=', payment.payment_date), ('journal_id', '=', payment.destination_journal_id.id)]
+                        detination_statement = self.env['account.bank.statement'].search(domain, limit=1)
+                        if not detination_statement:
+                            statement_values = {'journal_id': payment.destination_journal_id.id,
+                                      'date': payment.payment_date,
+                                      'name': '/'}
+                            detination_statement = self.env['account.bank.statement'].create(statement_values)
+                        values['statement_id'] = detination_statement.id
+                        values['amount'] =  payment.amount
+                        line = self.env['account.bank.statement.line'].create(values)
+                        lines |= line
+
 
                 for move_line in payment.move_line_ids:
                     if not move_line.statement_id:
