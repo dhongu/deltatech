@@ -3,7 +3,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-
+import time
 from odoo import api, fields, models, _
 
 
@@ -77,10 +77,29 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
         if from_currency != to_currency:
             invoice.write({'currency_id': to_currency.id, 'date_invoice': date_eval})
-            for line in invoice.invoice_line_ids:
-                price_unit = from_currency.compute(line.price_unit, to_currency, round=False)
-                line.write({'price_unit': price_unit})
-            invoice.compute_taxes()
+            if self.advance_payment_method != 'fixed':
+                for line in invoice.invoice_line_ids:
+                    price_unit = from_currency.compute(line.price_unit, to_currency, round=False)
+                    line.write({'price_unit': price_unit})
+                invoice.compute_taxes()
+            else:
+                for line in invoice.invoice_line_ids:
+                    taxes = line.product_id.taxes_id or self.account_id.tax_ids
+                    for tax in taxes:
+                        price_w_taxes = self.amount / (1 + tax.amount / 100)
+                    line.write({'price_unit': price_w_taxes})
+                    price_unit_saleorder = to_currency.compute(self.amount, from_currency, round=False)
+                    sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
+                    for order in sale_orders:
+                        order_lines = order.order_line
+                        for order_line in order_lines:
+                            if order_line.is_downpayment == True:
+                                # order_line.write({'price_unit': price_unit_saleorder})
+                                order_line_downpayment = order_line
+                    order_line_downpayment.write({'price_unit': price_unit_saleorder})
+
+                invoice.compute_taxes()
+
         if self.advance_payment_method == 'percentage':
             invoice.write({'payment_term_id': False})
         else:
