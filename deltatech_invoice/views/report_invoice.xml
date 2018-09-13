@@ -460,7 +460,7 @@
                                         </t>
                                         <t t-if="o.partner_id.property_account_position.name != 'Regim Intra-Comunitar Bunuri'">
                                             <div>
-                                                <span>Cota TVA: 20%</span>
+                                                <span>Cota TVA: 19%</span>
                                                 <!--<span t-foreach="o.tax_line" t-as="t">
                                                     <span t-field="t.name"/>
                                                 </span>-->
@@ -724,7 +724,7 @@
                                 </t>
                                 <t t-if="o.partner_id.property_account_position.name != 'Regim Intra-Comunitar Bunuri'">
                                     <div>
-                                        <span>Cota TVA: 20%</span>
+                                        <span>Cota TVA: 19%</span>
                                         <!--<span t-foreach="o.tax_line" t-as="t">
                                             <span t-field="t.name"/>
                                         </span>-->
