@@ -32,12 +32,12 @@ screens.ReceiptScreenWidget.include({
         this._super();
     },
 
-
     get_ecr_setting:function(ecr_type){
         var ecr = {};
         switch(ecr_type) {
         case 'datecs18':
             ecr = {
+
                 print:'P,1,______,_,__;{text}', // comanda print
                 sale:'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;{uom};', // comanda sale
                 total:'T,1,______,_,__;{type};{amount};;;;', // comanda de inchidere
@@ -96,7 +96,7 @@ screens.ReceiptScreenWidget.include({
                 'qty':ecr.qty(orderline.quantity),
                 'dep':'1',
                 'group':'1',
-                'tax':'0',
+                'tax':'1',  // de adus codul de taxa model
                 'uom':orderline.product.uom_id[1]
             });
             textfile = textfile +line + '\r\n';
