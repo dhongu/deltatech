@@ -227,7 +227,9 @@
                         <td>
                             <div>
                                 <span>BUYER:</span>
-                                <span t-field="o.partner_id.name"/>
+                                <span t-field="o.partner_id.name"/><br/>
+                                <span t-field="o.partner_id.street"/><span>, </span><span t-field="o.partner_id.city"/><span>, </span><span t-field="o.partner_id.state_id"/><br/>
+                                <span t-field="o.partner_id.vat"/>
                             </div>
                         </td>
                     </tr>
