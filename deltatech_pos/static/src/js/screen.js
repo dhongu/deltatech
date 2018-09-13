@@ -37,11 +37,10 @@ screens.ReceiptScreenWidget.include({
         switch(ecr_type) {
         case 'datecs18':
             ecr = {
-
                 print:'P,1,______,_,__;{text};;;;', // comanda print
                 sale:'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;{uom};', // comanda sale
                 total:'T,1,______,_,__;{type};{amount};;;;', // comanda de inchidere
-                discount: 'C,1,______,_,__;{typr};{value};;;;',
+                discount: 'C,1,______,_,__;{type};{value};;;;',
                 limit:72,
                 amount:function(value){return value.toFixed(2);},
                 qty:function(value){return value.toFixed(3);}
