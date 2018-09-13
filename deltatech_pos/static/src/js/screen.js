@@ -8,7 +8,7 @@ var models = require('point_of_sale.models');
 var QWeb = core.qweb;
 var _t = core._t;
 
-/*
+
 if (!String.prototype.format) {
   String.prototype.format = function() {
     var args;
@@ -20,7 +20,7 @@ if (!String.prototype.format) {
       return (typeof args[key] !== "undefined" ? args[key] : match);
     });
   };
-}*/
+}
 
 
 models.load_fields('account.journal', ['cod_ecr']);
@@ -32,28 +32,32 @@ screens.ReceiptScreenWidget.include({
         this._super();
     },
 
+
     get_ecr_setting:function(ecr_type){
-        var ecr = {}
+        var ecr = {};
         switch(ecr_type) {
         case 'datecs18':
             ecr = {
-                p:'P,1,______,_,__;', // comanda print
-                s:'S,1,______,_,__;', // comanda sale
-                t:'T,1,______,_,__;', // comanda de inchidere
+                print:'P,1,______,_,__;{text}', // comanda print
+                sale:'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;{uom};', // comanda sale
+                total:'T,1,______,_,__;{type};{amount};;;;', // comanda de inchidere
+                discount: 'C,1,______,_,__;{typr};{value};;;;',
                 limit:72,
-                c_a:1,
-                c_q:1
-             }
+                amount:function(value){return value.toFixed(2);},
+                qty:function(value){return value.toFixed(3);}
+             };
             break;
         case 'optima':
             ecr = {
-                p:'2;', // comanda print
-                s:'1;', // comanda sale
-                t:'5;', // comanda de inchidere
+                print:'2;{text}',                   // comanda print
+                sale:'1;{name};1;1;{price};{qty}',  // comanda sale
+                total:'5;{amount};{type};1;0',      // comanda de inchidere
+                discount:'',
                 limit:18,
-                c_a:100,
-                c_q:100000
-            }
+                amount:function(value){return value*100;},
+                qty:function(value){return value*100000;}
+
+            };
             break;
         }
      return  ecr;
@@ -62,13 +66,14 @@ screens.ReceiptScreenWidget.include({
     prepare_bf: function(){
         var order = this.pos.get_order();
         var textfile = '';
-
+        var line = '';
         var ecr = this.get_ecr_setting(this.pos.config.ecr_type);
 
 
         var reference = order.uid;
-
-        textfile = textfile + ecr.p +reference+'\r\n';
+        line = ecr.print.format({'text':reference});
+        textfile = textfile +line + '\r\n';
+        //textfile = textfile + ecr.p +reference+'\r\n';
         var orderlines = order.get_orderlines();
         for (var i = 0; i < orderlines.length; i++) {
             var orderline = orderlines[i];
@@ -79,26 +84,44 @@ screens.ReceiptScreenWidget.include({
             //verifying length...
             if(product_display_name.length<=ecr.limit){
                 var prod_name = product_display_name;
-                textfile = textfile +  ecr.s +prod_name+';1;1;'+orderline.price*ecr.c_a+';'+orderline.quantity*ecr.c_q+'\r\n';
             }
             else{
                 var prod_name = product_display_name.substring(0,ecr.limit);
 		        var prodname = product_display_name;
-
-                textfile = textfile +  ecr.s +prod_name+';1;1;'+orderline.price*ecr.c_a+';'+orderline.quantity*ecr.c_q+'\r\n';
-                var d_array = prodname.match(/.{1,ecr.limit}/g);
-                for(var j = 1; j < d_array.length; j++){//skip first element
-                    textfile = textfile +  ecr.p + d_array[j] + '\r\n';
-                }
             }
 
+            line = ecr.sale.format({
+                'name':prod_name,
+                'price':ecr.amount(orderline.price),
+                'qty':ecr.qty(orderline.quantity),
+                'dep':'1',
+                'group':'1',
+                'tax':'0',
+                'uom':orderline.product.uom_id[1]
+            });
+            textfile = textfile +line + '\r\n';
+
+
+            if(product_display_name.length>ecr.limit){
+                var d_array = prodname.match(/.{1,ecr.limit}/g);
+                for(var j = 1; j < d_array.length; j++){
+                    line = ecr.print.format({'text':d_array[j]});
+                    textfile = textfile +line + '\r\n';
+                }
+            }
+            if (orderline.discount>0){
+                line = ecr.discount.format({'type':1,'value':ecr.amount(orderline.discount)});
+                textfile = textfile +line + '\r\n';
+            }
 
         }
         var paymentlines = order.get_paymentlines();
         for (var i = 0; i < paymentlines.length; i++) {
             var paymentline = paymentlines[i];
             var cod_ecr = paymentline.cashregister.journal.cod_ecr;
-            textfile = textfile + ecr.t +paymentline.amount*ecr.c_a+';'+cod_ecr+';1;0\r\n'
+            line = ecr.total.format({'type':cod_ecr, 'amount':ecr.amount(paymentline.amount)});
+            textfile = textfile +line + '\r\n';
+            //textfile = textfile + ecr.t +paymentline.amount*ecr.c_a+';'+cod_ecr+';1;0\r\n';
         }
 
 
@@ -109,7 +132,7 @@ screens.ReceiptScreenWidget.include({
     download: function(filename, blob) {
         var element = document.createElement('a');
 
-        element.setAttribute('href', URL.createObjectURL(blob))
+        element.setAttribute('href', URL.createObjectURL(blob));
         element.setAttribute('download', filename);
 
         element.style.display = 'none';
@@ -133,13 +156,13 @@ screens.ReceiptScreenWidget.include({
     	else{
     	    this.gui.show_popup('error',{
                     'title': _t('Error: Nu ati tiparit bonul fiscal!'),
-                    'body': "Apasati pe botonul de tiparire pentru ca bonul fiscal sa fie tiparit de casa de marcat",
+                    'body': "Apasati pe botonul de tiparire pentru ca bonul fiscal sa fie tiparit de casa de marcat"
                 }
     	    );
 
     	}
 
-    },
+    }
 
  });
 

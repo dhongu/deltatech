@@ -7,4 +7,4 @@ class PosConfig(models.Model):
 
     ecr_type = fields.Selection([('datecs18',"Datecs 2018"),('optima','Optima')], default='datecs18')
     file_prefix = fields.Char(string='File prefix', default='order')
-    file_ext = fields.Char(string='File extension', default='prt')
+    file_ext = fields.Char(string='File extension', default='inp')
