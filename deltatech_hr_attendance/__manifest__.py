@@ -16,9 +16,13 @@ Functionalitati:
     """,
 
     "category": "Human Resources",
-    "depends": ["hr_attendance",
-                "hr_holidays",
-                "web_grid"],
+    "depends": [
+        "hr_attendance",
+        "hr_holidays",
+        "report_xlsx",
+        # "web_grid"
+    ]
+    ,
 
     "data": [
         'views/hr_attendance_view.xml',

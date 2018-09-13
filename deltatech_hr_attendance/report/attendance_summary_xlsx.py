@@ -45,14 +45,14 @@ class HrAttendanceSummaryReportXslx(models.AbstractModel):
     def _generate_report_content(self, workbook, report):
         # For each taxtag
         self.write_array_header(workbook)
-        for taxtag in report.taxtags_ids:
-            # Write taxtag line
-            self.write_line(workbook, taxtag, {'bold': True, 'font_size': 12})
-
-            # For each tax if detail taxes
-            if report.tax_detail:
-                formatline = {'font_color': 'gray',
-                              'font_size': 10,
-                              'num_format': '#,##0.00'}
-                for tax in taxtag.tax_ids:
-                    self.write_line(workbook, tax, formatline)
+        # for taxtag in report.taxtags_ids:
+        #     # Write taxtag line
+        #     self.write_line(workbook, taxtag, {'bold': True, 'font_size': 12})
+        #
+        #     # For each tax if detail taxes
+        #     if report.tax_detail:
+        #         formatline = {'font_color': 'gray',
+        #                       'font_size': 10,
+        #                       'num_format': '#,##0.00'}
+        #         for tax in taxtag.tax_ids:
+        #             self.write_line(workbook, tax, formatline)

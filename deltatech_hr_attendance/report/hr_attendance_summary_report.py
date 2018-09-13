@@ -12,6 +12,7 @@ from odoo.exceptions import UserError
 class HrAttendanceSummaryReport(models.AbstractModel):
     _name = 'report.deltatech_hr_attendance.report_attendance_summary'
     _template = 'deltatech_hr_attendance.report_attendance_summary'
+    _inherit = 'report.attendance_summary_xlsx'
 
     def _get_header_info(self, start_date, holiday_type):
         st_date = fields.Date.from_string(start_date)
@@ -226,6 +227,109 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         }
 
+    def _get_report_name(self):
+        return _('Attendance Summary')
+
+    def _get_report_filters(self, report):
+        return [
+            [_('Date from'), report.date_from],
+            [_('Date to'), report.date_to],
+        ]
+
+    def _get_report_columns(self, report):
+        columns =  {
+            0: {'header': _('Marca'),
+                'field':'["emp"].barcode',
+                'width': 5},
+            1: {'header': _('Employees'),
+                'field': '["emp"].name',
+                'width': 10},
+            2: {'header': _('Type'),
+                'width': 7},
+        }
+        days = self._get_day(report.date_from, report.date_to)
+        col = 3
+        for day in days:
+            columns[col] = {
+                'header': ('%s %s') % (day['day'], day['day_str']),
+                'width': 7
+            }
+            col += 1
+        columns[col] = {'header': _('Sum'),
+                'width':  7 }
+        col += 1
+        columns[col] = {'header': _('Norm'),
+                        'width': 7}
+        col += 1
+        columns[col] = {'header': _('Wd'),
+                        'width': 7}
+        col += 1
+        for holiday in self._get_holidays_status():
+            columns[col] = {
+                'header': holiday['cod'],
+                'width': 5
+            }
+            col += 1
+        return columns
+
+
+    def _generate_report_content(self, workbook, report):
+
+        self.write_array_header(workbook)
+        for obj in self._get_data_from_report(report.date_from, report.date_to, report):
+            self.sheet.write_string(self.row_pos, 0, obj['emp'].barcode or '', workbook.add_format({}))
+            self.sheet.write_string(self.row_pos, 1, obj['emp'].name or '', workbook.add_format({}))
+            self.sheet.write_string(self.row_pos, 2, 'normal' or '', workbook.add_format({}))
+            col_pos = 3
+            for details in obj['display']['days']:
+                line = details['line']
+                if line:
+                    if int(line.total_hours)>=1:
+                        self.sheet.write_number( self.row_pos, col_pos, int(line.total_hours), workbook.add_format({}))
+                    if details['text']:
+                        if int(line.total_hours)>=1:
+                            text = "%s  / %s" % (int(line.total_hours), details['text'])
+                        else:
+                            text = details['text']
+
+                        self.sheet.write_string(self.row_pos, col_pos, text, workbook.add_format({}))
+                else:
+                    if details['text']:
+                        text = details['text']
+                        self.sheet.write_string(self.row_pos, col_pos, text, workbook.add_format({}))
+                col_pos += 1
+            self.sheet.write_number(self.row_pos, col_pos, int(obj['display']['worked_hours']), workbook.add_format({}))
+            col_pos += 1
+            self.sheet.write_number(self.row_pos, col_pos, int(obj['display']['norma']), workbook.add_format({}))
+            col_pos += 1
+            self.sheet.write_number(self.row_pos, col_pos, int(obj['display']['work_day']), workbook.add_format({}))
+            col_pos += 1
+            for holiday in self._get_holidays_status():
+
+                nr = obj['display']['holiday'][holiday['cod']]
+                if nr:
+                    self.sheet.write_number(self.row_pos, col_pos, nr,  workbook.add_format({}))
+                col_pos += 1
+
+            self.row_pos += 1
+
+
+
+    def write_line(self, workbook, line_object, formats):
+        """Write a line on current line using all defined columns field name.
+        Columns are defined with `_get_report_columns` method.
+        """
+        for col_pos, column in self.columns.items():
+            value = getattr(line_object, column['field'])
+            cell_type = column.get('type', 'string')
+            if cell_type == 'string':
+                self.sheet.write_string(self.row_pos, col_pos, value or '',workbook.add_format(formats))
+            elif cell_type == 'amount':
+                self.sheet.write_number(
+                    self.row_pos, col_pos, float(value),
+                    workbook.add_format(formats)
+                )
+        self.row_pos += 1
 
 class HrAttendanceSummaryControl(HrAttendanceSummaryReport):
     _name = 'report.deltatech_hr_attendance.control_attendance_summary'

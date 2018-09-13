@@ -29,9 +29,18 @@
 
         <report
             id="action_report_attendance_summary_pdf"
-            string="Attendance Summary"
+            string="Attendance Summary PDF"
             model="hr.attendance.sheet"
             report_type="qweb-pdf"
+            name="deltatech_hr_attendance.report_attendance_summary"
+            file="deltatech_hr_attendance.report_attendance_summary"
+            menu="False"/>
+
+        <report
+            id="action_report_attendance_summary_xlsx"
+            string="Attendance Summary XLSX"
+            model="hr.attendance.sheet"
+            report_type="xlsx"
             name="deltatech_hr_attendance.report_attendance_summary"
             file="deltatech_hr_attendance.report_attendance_summary"
             menu="False"/>

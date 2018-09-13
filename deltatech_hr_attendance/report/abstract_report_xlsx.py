@@ -146,12 +146,13 @@ class AbstractReportXslx(models.AbstractModel):
         Columns are defined with `_get_report_columns` method.
         """
         for col_pos, column in self.columns.items():
+            color = column.get('color', '#FFFFCC')
             self.sheet.write(self.row_pos, col_pos, column['header'],
                              workbook.add_format(
                                  {'bold': True,
                                   'align': 'center',
                                   'border': True,
-                                  'bg_color': '#FFFFCC'}))
+                                  'bg_color': color}))
         self.row_pos += 1
 
     def write_line(self, workbook, line_object, formats):
@@ -162,8 +163,7 @@ class AbstractReportXslx(models.AbstractModel):
             value = getattr(line_object, column['field'])
             cell_type = column.get('type', 'string')
             if cell_type == 'string':
-                self.sheet.write_string(self.row_pos, col_pos, value or '',
-                                        workbook.add_format(formats))
+                self.sheet.write_string(self.row_pos, col_pos, value or '',workbook.add_format(formats))
             elif cell_type == 'amount':
                 self.sheet.write_number(
                     self.row_pos, col_pos, float(value),

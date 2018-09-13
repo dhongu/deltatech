@@ -210,10 +210,21 @@ class HrAttendanceSheet(models.Model):
         vals = action.read()[0]
         return vals
 
+    # @api.multi
+    # def print_report(self, report_type='qweb'):
+    #     res = self.env.ref('deltatech_hr_attendance.action_report_attendance_summary_pdf').report_action(self)
+    #     return res
+
     @api.multi
-    def print_report(self, report_type='qweb'):
-        res = self.env.ref('deltatech_hr_attendance.action_report_attendance_summary_pdf').report_action(self)
-        return res
+    def print_report(self, report_type='qweb-pdf'):
+        self.ensure_one()
+        report_name = 'deltatech_hr_attendance.report_attendance_summary'
+        context = dict(self.env.context)
+        action = self.env['ir.actions.report'].search(
+            [('report_name', '=', report_name),
+             ('report_type', '=', report_type)], limit=1)
+        return action.with_context(context).report_action(self)
+
 
     def _get_html(self):
         result = {}
