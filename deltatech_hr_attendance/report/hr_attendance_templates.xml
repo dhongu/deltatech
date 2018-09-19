@@ -38,7 +38,17 @@
 
         <style>
              .font-weight-bold {
-              font-weight: bold;
+                font-weight: bold;
+            }
+            .text_d {
+                .text-danger ;
+                color:red;
+                font-weight: bold;
+            }
+            .text_w {
+                .text-warning;
+                color: brown;
+                font-weight: bold;
             }
         </style>
         <div t-field="doc.division_id.name"/>
@@ -124,7 +134,7 @@
 
                                 <t t-if="line">
                                     <t t-set="text_color"
-                                       t-value="line.state=='not_ok' and 'text-danger text-bf font-weight-bold' or line.state=='need' and 'text-warning text-bf font-weight-bold' "/>
+                                       t-value="line.state=='not_ok' and 'text_d' or line.state=='need' and 'text_w' "/>
                                     <span>
                                         <a t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
                                            t-att-data-active-id="line.id"
