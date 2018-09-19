@@ -144,11 +144,12 @@ class HrAttendanceSheet(models.Model):
         query = """
            SELECT   for_date, employee_id, sum(worked_hours), min(check_in), max(check_out), array_agg(hr_attendance.id)
               FROM hr_attendance JOIN hr_employee on hr_attendance.employee_id = hr_employee.id
-                 WHERE for_date >= %s AND for_date <= %s and hr_employee.department_id = %s 
+                 WHERE for_date >= %s AND for_date <= %s and 
+                 ( hr_employee.department_id = %s or hr_attendance.department_id = %s ) 
                  GROUP BY for_date, employee_id
                  ORDER BY for_date desc
         """
-        params = (self.date_from, self.date_to, self.formation_id.id)
+        params = (self.date_from, self.date_to, self.formation_id.id, self.formation_id.id)
 
         self.env.cr.execute(query, params=params)
 

@@ -28,6 +28,7 @@ class hr_attendance(models.Model):
     for_date = fields.Date(string='For Date', compute="_compute_for_date", store=True, readonly=False)
 
     state = fields.Selection([('ok','OK'),('no_in','No check in'),('no_out','No check out'),('manual','Manual')], default='ok')
+    # salvez departamentul din momentul in care a fost facut pontajul
     department_id = fields.Many2one('hr.department', string='Department',   compute="_compute_department", store=True, readonly=False)
 
 

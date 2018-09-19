@@ -35,6 +35,12 @@
 
     <template id="report_attendance_summary_base">
 
+
+        <style>
+             .font-weight-bold {
+              font-weight: bold;
+            }
+        </style>
         <div t-field="doc.division_id.name"/>
         <div t-field="doc.department_id.name"/>
         <div t-field="doc.formation_id.name"/>
@@ -96,7 +102,7 @@
                 </tr>
             </thead>
             <tbody>
-                <t t-foreach="get_data_from_report(doc.date_from, doc.date_to, doc)"
+                <t t-foreach="get_data_from_report(doc)"
                    t-as="obj">
 
                     <tr>
@@ -118,7 +124,7 @@
 
                                 <t t-if="line">
                                     <t t-set="text_color"
-                                       t-value="line.state=='not_ok' and 'text-danger text-bf' or line.state=='need' and 'text-warning text-bf' "/>
+                                       t-value="line.state=='not_ok' and 'text-danger text-bf font-weight-bold' or line.state=='need' and 'text-warning text-bf font-weight-bold' "/>
                                     <span>
                                         <a t-attf-class="o_attendance_summary_backend_web_action {{text_color}}"
                                            t-att-data-active-id="line.id"

@@ -179,17 +179,18 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         return res
 
-    def _get_data_from_report(self, start_date, end_date, doc):
+    def _get_data_from_report(self, report):
         res = []
-        lines = doc.line_ids
-        employees = self.env['hr.employee'].search([('department_id', '=', doc.formation_id.id)])
-        # for line in lines:
-        #     employees |= line.employee_id
+        lines = report.line_ids
+        employees = self.env['hr.employee'].search([('department_id', '=', report.formation_id.id)])
+        # mai sunt si angazati inactivi care totusi apar in pontaj si care trebuie afisati in raport
+        for line in report.line_ids:
+            employees |= line.employee_id
 
         for emp in employees.sorted(key=lambda r: r.name):
             res.append({
                 'emp': emp,
-                'display': self._get_attendance_summary(start_date, end_date, lines, emp.id),
+                'display': self._get_attendance_summary(report.date_from, report.date_to, lines, emp.id),
                 'sum': 0.0
             })
         return res
