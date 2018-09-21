@@ -27,7 +27,7 @@ Functionalitati:
     "data": [
         'views/account_payment_view.xml',
         'views/account_view.xml',
-        'wizard/pos_box_view.xml',
+
     ],
 
     "active": False,

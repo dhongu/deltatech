@@ -17,12 +17,13 @@ Functionalitati:
     """,
 
     'category': 'Point Of Sale',
-    "depends": ['point_of_sale'],
+    "depends": ['point_of_sale',],
 
     "data": [
         'views/assets.xml',
         'views/account_journal_view.xml',
-        'views/pos_config_view.xml'
+        'views/pos_config_view.xml',
+        'wizard/pos_box_view.xml'
     ],
 
     "active": False,

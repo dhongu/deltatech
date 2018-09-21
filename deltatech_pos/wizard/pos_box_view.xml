@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <data noupdate="1">
+
+        <record id="seq_pos_box_in_out" model="ir.sequence">
+            <field name="name">Pos Box InOut</field>
+            <field name="code">pos.box</field>
+            <field name="prefix"></field>
+            <field name="implementation">no_gap</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+
     <data>
+
+
+
         <record model="ir.ui.view" id="cash_box_in_form">
             <field name="name">cash_box_in</field>
             <field name="model">cash.box.in</field>
