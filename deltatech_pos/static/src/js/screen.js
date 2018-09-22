@@ -154,8 +154,8 @@ screens.ReceiptScreenWidget.include({
     	}
     	else{
     	    this.gui.show_popup('error',{
-                    'title': _t('Error: Nu ati tiparit bonul fiscal!'),
-                    'body': "Apasati pe botonul de tiparire pentru ca bonul fiscal sa fie tiparit de casa de marcat"
+                    'title': _t('Error: You did not print your tax bill!'),
+                    'body': "Apasati pe butonul de tiparire pentru ca bonul fiscal sa fie tiparit de casa de marcat"
                 }
     	    );
 

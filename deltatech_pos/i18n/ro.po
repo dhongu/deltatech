@@ -1,0 +1,215 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_pos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-22 15:30+0000\n"
+"PO-Revision-Date: 2018-09-22 15:30+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:48
+#, python-format
+msgid "Cash collection"
+msgstr "Dispoziție de încasare"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_account_journal_cod_ecr
+msgid "Cod ECR"
+msgstr "Cod ECR"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_pos
+#: selection:pos.config,ecr_type:0
+msgid "Datecs 2018"
+msgstr "Datecs 2018"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos
+#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+msgid "ECR"
+msgstr "ECR"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_pos_config_ecr_type
+msgid "Ecr Type"
+msgstr "Tip ECR"
+
+#. module: deltatech_pos
+#. openerp-web
+#: code:addons/deltatech_pos/static/src/js/screen.js:167
+#, python-format
+msgid "Error: You did not print your tax bill!"
+msgstr "Eroare: Nu ați tipărit bonul fiscal!"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_data_file
+msgid "File"
+msgstr "Fișier"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_file_name
+msgid "File Name"
+msgstr "Nume fișier"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_pos_config_file_ext
+#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+msgid "File extension"
+msgstr "Extensia fișierului"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_pos_config_file_prefix
+msgid "File prefix"
+msgstr "Prefixul fișierului"
+
+
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:77
+#: code:addons/deltatech_pos/wizard/pos_payment.py:58
+#, python-format
+msgid "I received,            I gave,"
+msgstr "Am primit,            Am dat,"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:49
+#, python-format
+msgid "It has been collected from the delegate"
+msgstr "S-a încasat de la delegat"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:58
+#, python-format
+msgid "It was paid to the delegate"
+msgstr "A fost plătit către delegat"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_payment.py:32
+#, python-format
+msgid "It was paid to:"
+msgstr "A fost plătit către:"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_wizard_download_file_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_cash_box_in_number
+#: model:ir.model.fields,field_description:deltatech_pos.field_cash_box_out_number
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_pos
+#: selection:pos.config,ecr_type:0
+msgid "Optima"
+msgstr "Optima"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:57
+#: code:addons/deltatech_pos/wizard/pos_payment.py:31
+#, python-format
+msgid "Payment disposal"
+msgstr "Dispoziție plată"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_pos_make_payment
+msgid "Point of Sale Payment"
+msgstr "Plată Punct de vânzare"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:105
+#, python-format
+msgid "Put Money In Cash"
+msgstr "Depunere bani în casă"
+
+#. module: deltatech_pos
+#: model:ir.model.fields,field_description:deltatech_pos.field_cash_box_out_ref
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:130
+#, python-format
+msgid "Take Money From Cash"
+msgstr "Ridicare bani din casă"
+
+#. module: deltatech_pos
+#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+msgid "Type of electronic cash register"
+msgstr "Tipul casei de marcat"
+
+#. module: deltatech_pos
+#: code:addons/deltatech_pos/wizard/pos_box.py:72
+#: code:addons/deltatech_pos/wizard/pos_payment.py:53
+#, python-format
+msgid "amount :%s"
+msgstr "sumă: %s"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_cash_box_in
+msgid "cash.box.in"
+msgstr "cash.box.in"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_cash_box_out
+msgid "cash.box.out"
+msgstr "cash.box.out"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_pos_config
+msgid "pos.config"
+msgstr "pos.config"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_pos_session
+msgid "pos.session"
+msgstr "pos.session"
+
+#. module: deltatech_pos
+#: model:ir.model,name:deltatech_pos.model_wizard_download_file
+msgid "wizard.download.file"
+msgstr "wizard.download.file"
+

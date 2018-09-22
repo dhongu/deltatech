@@ -39,7 +39,7 @@
                         <div class="o_setting_right_pane">
                             <label for="file_ext"/>
                             <div class="text-muted">
-                                file extension
+                                File extension
                             </div>
                             <div>
                                 <field name="file_ext"/>

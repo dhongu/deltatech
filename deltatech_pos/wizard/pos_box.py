@@ -16,28 +16,12 @@ I,1,______,_,__;0;10<suma>;;;;
 Retragere numerar din sertar :
 I,1,______,_,__;1;10<suma>;
 
-I,1,______,_,__;0;1000;tr;;;
-P,1,______,_,__;dispozitie de incasare nr.235/20.09.2018;;;;
-P,1,______,_,__;S-a incasat de la delegat...............;;;;
-P,1,______,_,__;suma de: 1000.00 lei ;;;;
-P,1,______,_,__;reprezentand ...........................;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;Am primit--------   -----Am predat;;;;
-P,1,______,_,__;Violeta Vasilescu--------Popescu Ciprian;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;---------------------------------------;;;;
-P,1,______,_,__;---------------------------------------;;;;
-
 """
 
 class PosBoxExtended(PosBox):
     _register = False
 
-    #file_name = fields.Char(string='File Name')
-    #data_file = fields.Binary(string='File')
+
     partner_id = fields.Many2one('res.partner', string='Partner')
     number = fields.Char("Number",  default=lambda self: self.env['ir.sequence'].next_by_code('pos.box'))
 
@@ -46,19 +30,21 @@ class PosBoxExtended(PosBox):
         res = super(PosBoxExtended, self)._create_bank_statement_line(record)
         return res
 
-    # @api.multi
-    # def do_download_file(self):
-    #     return {
-    #         'type': 'ir.actions.act_url',
-    #         'url': '/web/content?model=%s&download=True&field=data_file&id=%s&filename=%s' % (
-    #         self._name, self.id, self.file_name),
-    #         'target': 'self',
-    #     }
+
+
 
     def print_bf_in_out(self,type, record):
-        com_print = 'P,1,______,_,__;%s;;;;\r\n'
+        if record.config_id.ecr_type == 'datecs18':
+            com_print = 'P,1,______,_,__;%s;;;;\r\n'
+            com_in = 'I,1,______,_,__;0;%s;;;;\r\n'
+            com_out = 'I,1,______,_,__;1;%s;;;;\r\n'
+        elif record.config_id.ecr_type == 'optima':
+            com_print = "2;%s\r\n"
+            com_in = "2;%s\r\n"
+            com_out = "2;%s\r\n"
+
         if type == 'in':
-            com = 'I,1,______,_,__;1;%s;;;;\r\n'
+            com = com_in
             txt1 = _('Cash collection')
             txt2 = _('It has been collected from the delegate')
             txt3 = self.env.user.name
@@ -66,7 +52,8 @@ class PosBoxExtended(PosBox):
                 txt3 += '          '+self.partner_id.name
 
         if type == 'out':
-            com = 'I,1,______,_,__;0;%s;;;;\r\n'
+            com = com_out
+
             txt1 = _('Payment disposal')
             txt2 = _('It was paid to the delegate')
             txt3 = ''
@@ -87,7 +74,7 @@ class PosBoxExtended(PosBox):
         data_file += com_print % '---------------------------------------'
         data_file += com_print % '---------------------------------------'
 
-        data_file += com_print % 'I received,            I gave,'
+        data_file += com_print % _('I received,            I gave,')
         data_file += com_print % txt2
 
         data_file += com_print % '---------------------------------------'
@@ -96,8 +83,13 @@ class PosBoxExtended(PosBox):
         data_file += com_print % '---------------------------------------'
         data_file += com_print % '---------------------------------------'
         data_file = base64.encodestring(data_file.encode())
-        wizard = self.env['wizard.download.file'].create({'data_file': data_file, 'file_name': 'cash_box_in.inp'})
-        #self.write({'data_file': data_file, 'file_name': 'cash_box_in.inp'})
+
+        ext = record.config_id.file_ext
+        name = record.name.replace('/', '_')
+        file_name = 'cash_box_%s_%s_%s.%s' % (name, type,self.id, ext)
+
+        wizard = self.env['wizard.download.file'].create({'data_file': data_file, 'file_name': file_name})
+
 
         return wizard.do_download_file()
 
@@ -135,7 +127,7 @@ class PosBoxOut(PosBoxExtended):
         if self.partner_id:
             values['partner_id'] = self.partner_id.id
         values['name'] = self.number
-        values['ref'] = _('Put Money In Cash')
+        values['ref'] = _('Take Money From Cash')
         return values
 
 

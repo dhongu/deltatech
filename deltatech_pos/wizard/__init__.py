@@ -6,3 +6,4 @@
 
 from . import pos_box
 from . import wizard_download_file
+from . import pos_payment

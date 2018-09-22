@@ -20,7 +20,10 @@ class WizardDownloadFile(models.TransientModel):
     def do_download_file(self):
         return {
             'type': 'ir.actions.act_url',
-            'url': '/web/content?model=%s&download=True&field=data_file&id=%s&filename=%s' % (
-                self._name, self.id, self.file_name),
-            'target': 'self',
+            'url': '/web/content?model=%s&download=True&field=data_file&id=%s&filename=%s' %
+                   ( self._name, self.id, self.file_name),
+            'target': 'new',
         }
+
+
+
