@@ -30,7 +30,7 @@ class AccountFiscalPosition(models.Model):
     def _compute_company_id(self):
         account_rule = self.env.ref('account.account_comp_rule')  # account.account_fiscal_position_comp_rule
         company_share_account = not bool(account_rule.active)
-        for account in self:
+        for account in self.sudo():
             if not company_share_account:
                 account.company_id = account.store_company_id
             else:
@@ -38,7 +38,7 @@ class AccountFiscalPosition(models.Model):
 
     @api.multi
     def _set_company_id(self):
-        for account in self:
+        for account in self.sudo():
             account.store_company_id = account.company_id
 
 
@@ -66,7 +66,7 @@ class AccountAccount(models.Model):
     def _compute_company_id(self):
         account_rule = self.env.ref('account.account_comp_rule')
         company_share_account = not bool(account_rule.active)
-        for account in self:
+        for account in self.sudo():
             if not company_share_account:
                 account.company_id = account.store_company_id
             else:
@@ -74,7 +74,7 @@ class AccountAccount(models.Model):
 
     @api.multi
     def _set_company_id(self):
-        for account in self:
+        for account in self.sudo():
             account.store_company_id = account.company_id
 
 
@@ -106,7 +106,7 @@ class AccountTax(models.Model):
         account_tax_rule = self.env.ref('account.tax_comp_rule')
         vat_subjected = self.env.user.company_id.partner_id.vat_subjected
         company_share_account_tax = not bool(account_tax_rule.active)
-        for tax in self:
+        for tax in self.sudo():
             if company_share_account_tax and vat_subjected:
                 tax.company_id = self.env.user.company_id
             else:
@@ -115,7 +115,7 @@ class AccountTax(models.Model):
 
     @api.multi
     def _set_company_id(self):
-        for tax in self:
+        for tax in self.sudo():
             tax.store_company_id = tax.company_id
 
 

@@ -12,7 +12,9 @@ class PosMakePayment(models.TransientModel):
     @api.multi
     def check(self):
         res = super(PosMakePayment, self).check()
-        return self.print_bf_out()
+        if self.journal_id.type == 'cash':
+            res = self.print_bf_out()
+        return res
 
 
     def print_bf_out(self):
