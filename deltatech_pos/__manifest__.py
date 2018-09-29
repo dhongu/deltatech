@@ -23,6 +23,7 @@ Functionalitati:
         'views/assets.xml',
         'views/account_journal_view.xml',
         'views/pos_config_view.xml',
+        'views/point_of_sale_dashboard.xml',
         'wizard/pos_box_view.xml'
     ],
 
