@@ -19,9 +19,9 @@
 										<span t-field="o.date"/>
 									</h3>
 									<div>
-										<div>
+										<div t-if="o.location_id">
 											Locatia:
-											<span t-field="location_id"/>
+											<span t-field="o.location_id"/>
 										</div>
 									</div>
 									<table class="table table-condensed">

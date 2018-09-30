@@ -176,7 +176,7 @@ class ProductPriceChangeLine(models.Model):
     @api.depends('old_price', 'new_price', 'quantity')
     def _compute_diff_amount(self):
         for line in self:
-            line.old_amount = line.new_price * line.quantity - line.old_price * line.quantity
+            line.diff_amount = line.new_price * line.quantity - line.old_price * line.quantity
 
     @api.multi
     @api.depends('product_id')
