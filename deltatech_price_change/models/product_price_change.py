@@ -80,25 +80,20 @@ class ProductPriceChange(models.Model):
         # aici se actualizeaza si preturile din produse
 
         for change in self:
-            for line in change.line_ids:
-                line.product_id.write({'list_price': line.new_price, 'standard_price': line.new_price})
-                # actualizare cantitati pentru ficare depozit in parte
-            if not change.warehouse_id:
-                warehouse_ids = self.env['stock.warehouse'].search([])
+            if not change.location_id:
+                locations = self.env['stock.location'].search([('usage','=','internal')])
 
-                for warehouse in warehouse_ids:
+                for location in locations:
                     new_lines = []
+                    warehouse = location.get_warehouse()
                     for line in change.line_ids:
 
-                        # c = context.copy()
-                        # c.update({'states': ('done',), 'what': ('in', 'out'), 'warehouse': warehouse.id})
-                        # pelcaind de la depozit se determina locatia si apoi din quant se determina catintatea 
                         available = 0
                         quant_ids = self.env['stock.quant'].search([('product_id', '=', line.product_id.id),
-                                                                    ('location_id', '=', warehouse.lot_stock_id.id)])
+                                                                    ('location_id', '=', location.id)])
 
                         for quant in quant_ids:
-                            available += quant.qty
+                            available += quant.quantity
                         #available = line.product_id.qty_available
 
                         if available != 0:
@@ -111,12 +106,17 @@ class ProductPriceChange(models.Model):
                     if len(new_lines) > 0:
                         change_id = self.create({'parent_id': change.id,
                                                  'warehouse_id': warehouse.id,
+                                                 'location_id':location.id,
                                                  'state': 'done',
                                                  'line_ids': new_lines})
                         if warehouse.partner_id:
                             self.message_subscribe([warehouse.partner_id.id])
                         self.message_post(body=_('New Price Change'), type='comment',
                                           subtype='mail.mt_comment')
+
+            for change in self:
+                for line in change.line_ids:
+                    line.product_id.write({'list_price': line.new_price})
 
         return True
 
@@ -142,19 +142,20 @@ class ProductPriceChangeLine(models.Model):
                               help="Gives the sequence order when displaying a list of product with price changed.")
     product_id = fields.Many2one('product.product', 'Product', required=True)
 
-    old_price = fields.Float('Old Sale Price', digits=dp.get_precision('Sale Price'), readonly=True)
+    old_price = fields.Float('Old Sale Price', compute='_compute_old_amount', digits=dp.get_precision('Sale Price'),
+                             readonly=True, store=True)
     old_amount = fields.Monetary(compute='_compute_old_amount', string='Old Amount', digits=dp.get_precision('Account'),
-                                 readonly=True)
+                                 readonly=True,  store=True)
 
     new_price = fields.Float('New Sale Price', required=True, digits=dp.get_precision('Sale Price'))
     new_amount = fields.Monetary(compute='_compute_new_amount', string='New Amount', digits=dp.get_precision('Account'),
-                                 readonly=True)
+                                 readonly=True,  store=True)
 
     diff_amount = fields.Monetary(compute='_compute_diff_amount', string='Difference Amount',
-                                  digits=dp.get_precision('Account'), readonly=True)
+                                  digits=dp.get_precision('Account'), readonly=True,   store=True)
 
     quantity = fields.Float('Quantity', digits=dp.get_precision('Product Unit of Measure'), readonly=True,
-                            compute='_compute_quantity')
+                            compute='_compute_quantity',  store=True)
 
     currency_id = fields.Many2one('res.currency', related='price_change_id.currency_id')
 
@@ -162,6 +163,7 @@ class ProductPriceChangeLine(models.Model):
     @api.depends('old_price', 'quantity')
     def _compute_old_amount(self):
         for line in self:
+            line.old_price = line.product_id.list_price
             line.old_amount = line.old_price * line.quantity
 
     @api.multi
@@ -177,9 +179,11 @@ class ProductPriceChangeLine(models.Model):
             line.old_amount = line.new_price * line.quantity - line.old_price * line.quantity
 
     @api.multi
+    @api.depends('product_id')
     def _compute_quantity(self):
         for line in self:
-            line.quantity = self.product_id.with_context(warehouse=line.price_change_id.warehouse_id).qty_available
+            line.quantity = line.product_id.with_context(warehouse=line.price_change_id.warehouse_id.id,
+                                                         location = line.price_change_id.location_id.id).qty_available
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -194,21 +198,21 @@ class ProductPriceChangeLine(models.Model):
             return {}
 
         product = self.product_id
-        available = 0
-        if self.price_change_id.warehouse_id:
-            available = 0
-            warehouse = self.price_change_id.warehouse_id
-            location_ids = [warehouse.lot_stock_id.id]
-            location = warehouse.lot_stock_id
-            get_child(location_ids, location)
-
-            quant_ids = self.env['stock.quant'].search([('product_id', '=', product.id),
-                                                        ('location_id', 'in', location_ids)])
-            for quant in quant_ids:
-                available = available + quant.qty
-        else:
-            available = product.qty_available  # self.pool.get('product.product').get_product_available(cr, uid,  [prod_id], c)[prod_id]
+        # available = 0
+        # if self.price_change_id.warehouse_id:
+        #     available = 0
+        #     warehouse = self.price_change_id.warehouse_id
+        #     location_ids = [warehouse.lot_stock_id.id]
+        #     location = warehouse.lot_stock_id
+        #     get_child(location_ids, location)
+        #
+        #     quant_ids = self.env['stock.quant'].search([('product_id', '=', product.id),
+        #                                                 ('location_id', 'in', location_ids)])
+        #     for quant in quant_ids:
+        #         available = available + quant.quantity
+        # else:
+        #     available = product.qty_available  # self.pool.get('product.product').get_product_available(cr, uid,  [prod_id], c)[prod_id]
 
         self.old_price = product.list_price
-        self.quantity = available
+        # self.quantity = available
         self.new_price = product.list_price

@@ -3,11 +3,11 @@
 	<data>
 		<template id="report_pricechange">
 
-			<t t-name="deltatech_price.report_pricechange">
-				<t t-name="deltatech_price.report_pricechange">
+			<t t-name="deltatech_price_change.report_pricechange">
+				<t t-name="deltatech_price_change.report_pricechange">
 					<t t-call="web.html_container">
 						<t t-foreach="docs" t-as="o">
-							<t t-call="report.external_layout">
+							<t t-call="web.external_layout">
 								<div class="page">
 									<newline/>
 									<h2>
@@ -18,6 +18,12 @@
 										din data:
 										<span t-field="o.date"/>
 									</h3>
+									<div>
+										<div>
+											Locatia:
+											<span t-field="location_id"/>
+										</div>
+									</div>
 									<table class="table table-condensed">
 										<thead>
 											<tr>

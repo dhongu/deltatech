@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
     <data noupdate="1">
 
         <record id="seq_change_price_resource" model="ir.sequence">
@@ -114,4 +114,4 @@
                   parent="sale.product_menu_catalog"/>
 
     </data>
-</openerp>
+</odoo>
