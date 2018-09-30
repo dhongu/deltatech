@@ -27,6 +27,7 @@ Functionalitati:
     "data": [
         'views/account_payment_view.xml',
         'views/account_view.xml',
+        'views/account_journal_dashboard_view.xml'
 
     ],
 
