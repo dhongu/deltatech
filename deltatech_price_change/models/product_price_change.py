@@ -81,7 +81,7 @@ class ProductPriceChange(models.Model):
 
         for change in self:
             if not change.location_id:
-                locations = self.env['stock.location'].search([('usage','=','internal')])
+                locations = self.env['stock.location'].search([('usage', '=', 'internal')])
 
                 for location in locations:
                     new_lines = []
@@ -94,7 +94,7 @@ class ProductPriceChange(models.Model):
 
                         for quant in quant_ids:
                             available += quant.quantity
-                        #available = line.product_id.qty_available
+                        # available = line.product_id.qty_available
 
                         if available != 0:
                             new_lines.append([0, 0, {'product_id': line.product_id.id,
@@ -104,11 +104,13 @@ class ProductPriceChange(models.Model):
                                                      }])
 
                     if len(new_lines) > 0:
-                        change_id = self.create({'parent_id': change.id,
-                                                 'warehouse_id': warehouse.id,
-                                                 'location_id':location.id,
-                                                 'state': 'done',
-                                                 'line_ids': new_lines})
+                        change_id = self.create({
+                            'name': change.name,
+                            'parent_id': change.id,
+                            'warehouse_id': warehouse.id,
+                            'location_id': location.id,
+                            'state': 'done',
+                            'line_ids': new_lines})
                         if warehouse.partner_id:
                             self.message_subscribe([warehouse.partner_id.id])
                         self.message_post(body=_('New Price Change'), type='comment',
@@ -116,7 +118,7 @@ class ProductPriceChange(models.Model):
 
             for change in self:
                 for line in change.line_ids:
-                    line.product_id.write({'list_price': line.new_price})
+                    line.product_id.with_context(ref=change.name).write({'list_price': line.new_price})
 
         return True
 
@@ -145,17 +147,17 @@ class ProductPriceChangeLine(models.Model):
     old_price = fields.Float('Old Sale Price', compute='_compute_old_amount', digits=dp.get_precision('Sale Price'),
                              readonly=True, store=True)
     old_amount = fields.Monetary(compute='_compute_old_amount', string='Old Amount', digits=dp.get_precision('Account'),
-                                 readonly=True,  store=True)
+                                 readonly=True, store=True)
 
     new_price = fields.Float('New Sale Price', required=True, digits=dp.get_precision('Sale Price'))
     new_amount = fields.Monetary(compute='_compute_new_amount', string='New Amount', digits=dp.get_precision('Account'),
-                                 readonly=True,  store=True)
+                                 readonly=True, store=True)
 
     diff_amount = fields.Monetary(compute='_compute_diff_amount', string='Difference Amount',
-                                  digits=dp.get_precision('Account'), readonly=True,   store=True)
+                                  digits=dp.get_precision('Account'), readonly=True, store=True)
 
     quantity = fields.Float('Quantity', digits=dp.get_precision('Product Unit of Measure'), readonly=True,
-                            compute='_compute_quantity',  store=True)
+                            compute='_compute_quantity', store=True)
 
     currency_id = fields.Many2one('res.currency', related='price_change_id.currency_id')
 
@@ -183,7 +185,7 @@ class ProductPriceChangeLine(models.Model):
     def _compute_quantity(self):
         for line in self:
             line.quantity = line.product_id.with_context(warehouse=line.price_change_id.warehouse_id.id,
-                                                         location = line.price_change_id.location_id.id).qty_available
+                                                         location=line.price_change_id.location_id.id).qty_available
 
     @api.onchange('product_id')
     def onchange_product_id(self):
