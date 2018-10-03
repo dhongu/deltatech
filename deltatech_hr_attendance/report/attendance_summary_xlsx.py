@@ -1,5 +1,6 @@
-# Copyright  2018 Forest and Biomass Romania
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# -*- coding: utf-8 -*-
+# ©  2015-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 from odoo import _, models
 

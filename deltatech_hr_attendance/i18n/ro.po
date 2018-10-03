@@ -511,6 +511,12 @@ msgstr "Nou"
 msgid "Night Hours"
 msgstr "Ore de noapte"
 
+
+#. module: deltatech_hr_attendance
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_working_day
+msgid "Working Day"
+msgstr "Zile lucru"
+
 #. module: deltatech_hr_attendance
 #: selection:hr.attendance,state:0
 msgid "No check in"

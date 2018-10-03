@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ©  2017 Deltatech
+# ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -281,7 +281,7 @@ class HrAttendanceSheetLine(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('ok', 'Ok'), ('not_ok', 'Not OK'),
                               ('need', 'Need attention'), ('done', 'Confirmed')],
                              default='draft', compute="_compute_hours", store=True)
-    working_day = fields.Float(default=1)
+    working_day = fields.Float(default=1, string="Working Day")
     comments = fields.Char()
 
     @api.multi

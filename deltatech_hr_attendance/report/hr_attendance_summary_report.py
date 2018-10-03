@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2015-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 import calendar
 
