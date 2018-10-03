@@ -154,6 +154,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['night_hours'] += round(line.night_hours)
             if not res['days'][index]['holiday'] and line.worked_hours>0.5 and not self._date_is_day_off(index_date) :
                 working_day += 1
+                line.write({'working_day':1.0})
+            else:
+                line.write({'working_day': 0.0})
 
         if work_day < 0:
             work_day = 0
@@ -277,7 +280,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
     def _generate_report_content(self, workbook, report):
 
         self.write_array_header(workbook)
-        for obj in self._get_data_from_report(report.date_from, report.date_to, report):
+        for obj in self._get_data_from_report( report):
             self.sheet.write_string(self.row_pos, 0, obj['emp'].barcode or '', workbook.add_format({}))
             self.sheet.write_string(self.row_pos, 1, obj['emp'].name or '', workbook.add_format({}))
             self.sheet.write_string(self.row_pos, 2, 'normal' or '', workbook.add_format({}))

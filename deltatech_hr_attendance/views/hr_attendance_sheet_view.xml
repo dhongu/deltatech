@@ -75,8 +75,8 @@
         <field name="model">hr.attendance.sheet</field>
         <field name="arch" type="xml">
             <search>
+                <field name="formation_id" filter_domain="[('formation_id','child_of',self)]"/>
 
-                <field name="formation_id"/>
                 <field name="state"/>
 
                 <filter name="week" string="Last Week"
@@ -268,11 +268,18 @@
         <field name="model">hr.attendance.sheet.line</field>
         <field name="arch" type="xml">
             <search>
+
+                <field name="department_id" filter_domain="[('department_id','child_of',self)]"/>
                 <field name="employee_id"/>
                 <field name="state"/>
                 <filter string="Not ok" domain="[('state','=','not_ok')]"/>
                 <filter string="Need Attention" domain="[('state','=','need')]"/>
                 <separator/>
+
+                <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"/>
+                <filter string="Last Month" name="last_month" domain="['&amp;', ('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')),
+                 ('date', '&lt;', context_today().strftime('%%Y-%%m-01'))]"/>
+
                 <group expand="0" string="Group By">
                     <filter string="Employee"   context="{'group_by':'employee_id'}"/>
                     <filter string="Department"   context="{'group_by':'department_id'}"/>

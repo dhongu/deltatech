@@ -281,7 +281,7 @@ class HrAttendanceSheetLine(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('ok', 'Ok'), ('not_ok', 'Not OK'),
                               ('need', 'Need attention'), ('done', 'Confirmed')],
                              default='draft', compute="_compute_hours", store=True)
-
+    working_day = fields.Float(default=1)
     comments = fields.Char()
 
     @api.multi

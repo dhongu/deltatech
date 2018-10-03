@@ -115,7 +115,7 @@ msgstr "Orele de prezență"
 #. module: deltatech_hr_attendance
 #: model:ir.ui.menu,name:deltatech_hr_attendance.menu_hr_attendance_sheet
 msgid "Attendance Sheet"
-msgstr "Fişă de prezenţă"
+msgstr "Fișă de prezență"
 
 #. module: deltatech_hr_attendance
 #: code:addons/deltatech_hr_attendance/report/attendance_summary_xlsx.py:12
@@ -141,7 +141,7 @@ msgstr "Rezumatul prezenței xlsx"
 #: model:ir.actions.act_window,name:deltatech_hr_attendance.action_hr_attendance_sheet
 #: model:ir.actions.act_window,name:deltatech_hr_attendance.action_hr_attendance_sheet_line
 msgid "Attendance sheet"
-msgstr "Fişă de prezenţă"
+msgstr "Fișă de prezență"
 
 #. module: deltatech_hr_attendance
 #: model:ir.actions.client,name:deltatech_hr_attendance.action_attendance_summary
