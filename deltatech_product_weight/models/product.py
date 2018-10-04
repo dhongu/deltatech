@@ -63,7 +63,7 @@ class ProductProduct(models.Model):
 
 
     weight_uom = fields.Float('Weight UoM', digits=dp.get_precision('Stock Weight'),
-        help="The weight of the contents in Kg, not including any packaging, etc.")
+        help="The weight of the contents, not including any packaging, etc.")
 
 
     @api.onchange('weight_uom','weight_uom_id')

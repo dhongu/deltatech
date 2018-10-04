@@ -99,7 +99,7 @@
                     <field name="vat"/>
                     <field name="is_department"/>
                 </field>
-                <xpath expr="//div[@class='oe_kanban_details']//ul/li" position="after">
+                <xpath expr="//div[hasclass('oe_kanban_details')]//ul/li" position="after">
                     <li t-if="record.vat">
                         <field name="vat" attrs="{'invisible': [('is_company','=', False)]}"/>
                     </li>
