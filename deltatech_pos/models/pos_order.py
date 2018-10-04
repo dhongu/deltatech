@@ -8,7 +8,9 @@ from odoo import api, fields, models, SUPERUSER_ID, _
 from odoo.exceptions import UserError, ValidationError
 
 import base64
-
-class PosOrder(models.Model):
-    _inherit = "pos.order"
+#
+# class PosOrder(models.Model):
+#     _inherit = "pos.order"
+#
+#
 

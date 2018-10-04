@@ -4,5 +4,5 @@
 # See README.rst file on addons root folder for license details
 
 
-from . import pos_box
-from . import pos_payment
+from . import models
+from . import wizard

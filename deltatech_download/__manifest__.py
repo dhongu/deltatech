@@ -4,27 +4,24 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Print Invoice to ECR",
+    "name": "Deltatech Download File",
     "version": "1.0",
     "author": "Dorin Hongu",
-    'summary': 'Generare fisier pentu casa de marcat',
+    'summary': 'Generare fisier',
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
- - Generare fisier pentru program de tiparit Bon Fiscal din POS
+ - Descarcare fisiere
    
     """,
 
-    'category': 'Point Of Sale',
-    "depends": ['point_of_sale','deltatech_download'],
+    'category': 'Base',
+    "depends": [],
 
     "data": [
         'views/assets.xml',
-        'views/account_journal_view.xml',
-        'views/pos_config_view.xml',
-        'views/point_of_sale_dashboard.xml',
-        'wizard/pos_box_view.xml'
+
     ],
 
     "active": False,

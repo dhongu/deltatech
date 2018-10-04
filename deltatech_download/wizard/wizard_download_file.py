@@ -3,12 +3,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo.addons.point_of_sale.wizard.pos_box import PosBox
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError
-import base64
-from io import StringIO
 
+from odoo import models, fields, api, _
 
 class WizardDownloadFile(models.TransientModel):
     _name = 'wizard.download.file'

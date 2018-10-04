@@ -9,10 +9,6 @@
                 <script type="text/javascript" src="/deltatech_pos/static/src/js/screen.js"></script>
             </xpath>
         </template>
-        <template id="assets_backend" inherit_id="web.assets_backend">
-            <xpath expr="." position="inside">
-                <script type="text/javascript" src="/deltatech_pos/static/src/js/action_manager.js"/>
-            </xpath>
-        </template>
+
     </data>
 </openerp>
