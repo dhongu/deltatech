@@ -11,11 +11,15 @@
                 <field name="package_id" position="after">
                     <field name="filterbyrack"/>
                 </field>
+                <field name="date" position="after">
+                    <field name="create_uid" readonly="1"/>
+                </field>
                 <notebook position="before">
                     <field name="note"/>
                 </notebook>
                 <field name="product_qty" position="after">
                     <field name="standard_price"/>
+                    <field name="is_ok"/>
                 </field>
             </field>
         </record>
@@ -36,7 +40,6 @@
         </record>-->
 
 
-
         <record id="view_stock_quant_form" model="ir.ui.view">
             <field name="name">stock.quant.tree</field>
             <field name="model">stock.quant</field>
@@ -49,20 +52,34 @@
             </field>
         </record>
 
-<!--
+        <!--
 
-        <record id="view_stock_history_report_tree" model="ir.ui.view">
-            <field name="name">Stock Value At Date</field>
-            <field name="model">stock.history</field>
-            <field name="inherit_id" ref="stock_account.view_stock_history_report_tree"/>
+                <record id="view_stock_history_report_tree" model="ir.ui.view">
+                    <field name="name">Stock Value At Date</field>
+                    <field name="model">stock.history</field>
+                    <field name="inherit_id" ref="stock_account.view_stock_history_report_tree"/>
+                    <field name="arch" type="xml">
+                        <field name="inventory_value" position="after">
+                            <field name="sale_value" sum="1"/>
+                        </field>
+                    </field>
+                </record>
+
+        -->
+
+        <record id="view_template_property_form" model="ir.ui.view">
+            <field name="name">product.template.stock.property.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.view_template_property_form"/>
             <field name="arch" type="xml">
-                <field name="inventory_value" position="after">
-                    <field name="sale_value" sum="1"/>
+                <field name="loc_case" position="after">
+                    <field name="last_inventory_date"/>
+                    <field name="last_inventory_id"/>
+                    <button string="Update" name="get_last_inventory_date" type="object" class="oe_link"/>
                 </field>
             </field>
         </record>
 
--->
 
     </data>
 </openerp>

@@ -25,9 +25,11 @@
     "website": "www.terrabit.ro",
     "description": """
 
-     Afisare coloana de pret de stoc la inventariere
-     Grupare pozitii dupa categorie
-     Afisare valoare de vanzare
+Functionalitati:
+ - Afisare coloana de pret de stoc la inventariere
+ - Grupare pozitii dupa categorie
+ - Afisare valoare de vanzare
+ - bifa de validare pe line
  
     """,
     "category" : "Generic Modules/Other",

@@ -54,7 +54,9 @@ class stock_inventory(models.Model):
                     if product.loc_rack and inventory.filterbyrack == product.loc_rack :
                         res.append(line)
         else:
-            res = lines                
+            res = lines
+        for line in lines:
+            line['is_ok'] = False
         return res
 
     @api.multi    
@@ -91,7 +93,7 @@ class stock_inventory_line(models.Model):
     loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
     loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
-
+    is_ok = fields.Boolean('Is Ok', default=True)
 
     @api.one
     @api.onchange('theoretical_qty')
@@ -152,7 +154,9 @@ class stock_inventory_line(models.Model):
         if move_id:
             move = self.env['stock.move'].browse(move_id)
             move.action_done()
-                
+        if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
+            inventory_line.product_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
+                            'last_inventory_id':inventory_line.inventory_id.id})
         return move_id
  
 class StockHistory(models.Model):
@@ -163,6 +167,7 @@ class StockHistory(models.Model):
     @api.one
     def _compute_sale_value(self):
         self.sale_value = self.quantity * self.product_id.list_price
+
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
