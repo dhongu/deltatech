@@ -22,9 +22,7 @@ from openerp import models, fields, api, _
 
 
 class stock_invoice_onshipping(models.TransientModel):
-
     _inherit = "stock.invoice.onshipping"
-
 
     @api.model
     def default_get(self, fields):
@@ -32,14 +30,15 @@ class stock_invoice_onshipping(models.TransientModel):
         journal_type = self._get_journal_type()
         journals = self.env['account.journal'].search([('type', '=', journal_type)])
 
-        active_id =  self.env.context['active_id']
-        active_picking = self.env['stock.picking'].browse( active_id )
+        active_id = self.env.context['active_id']
+        active_picking = self.env['stock.picking'].browse(active_id)
 
         if journal_type == 'sale':
-            is_company = active_picking.partner_id.is_company or active_picking.partner_id.parent_id.is_company
-            for journal in journals:
-                if journal.fiscal_receipt != is_company:
-                    res['journal_id'] = journal.id
+            generic_partner = eval( self.env['ir.config_parameter'].sudo().get_param(key="sale.generic_partner", default="False"))
+            # is_company = active_picking.partner_id.is_company or active_picking.partner_id.parent_id.is_company
+            if generic_partner and active_picking.partner_id.id in generic_partner:
+                for journal in journals:
+                    if journal.fiscal_receipt:
+                        res['journal_id'] = journal.id
 
         return res
-    

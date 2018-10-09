@@ -18,6 +18,28 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api, _
 
-import account_journal
-import account_voucher
+
+
+
+class AccountVoucher(models.Model):
+    _inherit = 'account.voucher'
+
+
+    @api.model
+    def _get_journal(self):
+        res = super(AccountVoucher, self)._get_journal()
+        invoice_id = self.env.context.get('invoice_id', False)
+        if invoice_id:
+            invoice = self.env['account.invoice'].browse(invoice_id)
+            if invoice.type == 'out_invoice' and invoice.journal_id.fiscal_receipt:
+                journal = self.env['account.invoice'].search([
+                    ('company_id', '=', invoice.company_id.id),
+                    ('type','=','cash'),
+                    ('fiscal_receipt','=',True)
+                ])
+                if journal:
+                    return journal.id
+
+        return res
