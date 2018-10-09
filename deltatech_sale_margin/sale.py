@@ -32,14 +32,14 @@ from datetime import datetime
 class sale_order(models.Model):
     _inherit = "sale.order"
 
-    @api.multi
-    def onchange_partner_id(self,   part ):
-        res = super(sale_order, self).onchange_partner_id(part)
-        dedicated_salesman = eval(self.env['ir.config_parameter'].sudo().get_param(key="sale.dedicated_salesman", default="True"))
-        if not dedicated_salesman and not self.env.user.share:
-            res['value']['user_id'] = self.env.user.id
-
-        return res
+    # @api.multi
+    # def onchange_partner_id(self,   part ):
+    #     res = super(sale_order, self).onchange_partner_id(part)
+    #     dedicated_salesman = eval(self.env['ir.config_parameter'].sudo().get_param(key="sale.dedicated_salesman", default="True"))
+    #     if not dedicated_salesman and not self.env.user.share:
+    #         res['value']['user_id'] = self.env.user.id
+    #
+    #     return res
 
     @api.multi
     def action_button_confirm(self):
