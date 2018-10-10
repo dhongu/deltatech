@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_kanban" model="ir.ui.view">
+        <field name="name">pos.config.kanban.view</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="quantity"/>
+            </field>
+            <button name="open_existing_session_cb" position="after">
+                <button class="btn btn-default" name="open_stock" type="object">Stock</button>
+            </button>
+            <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">
+                <div t-if="record.quantity.value" class="row">
+                    <div class="col-xs-6">
+                        <span>Products</span>
+                    </div>
+                    <div class="col-xs-6">
+                        <a name="open_stock" type="object"><span><t t-esc="record.quantity.value"/></span></a>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

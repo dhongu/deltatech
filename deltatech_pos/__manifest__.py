@@ -1,31 +1,36 @@
 # -*- coding: utf-8 -*-
-# ©  2018 Deltatech
+# ©  2008-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Point Of Sale",
+    "name": "Deltatech Print Invoice to ECR",
     "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
+    "author": "Dorin Hongu",
+    'summary': 'Generare fisier pentu casa de marcat',
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
-----------------
-
- 
- 
+ - Generare fisier pentru program de tiparit Bon Fiscal din POS
+   
     """,
-
-    "category": "Point Of Sale",
-    "depends": [
-         "point_of_sale",
-
-    ],
+    "licence":"LGPL-3",
+    "price": 40.00,
+    "currency": "EUR",
+    'category': 'Point Of Sale',
+    "depends": ['point_of_sale','deltatech_download'],
 
     "data": [
-
+        'views/assets.xml',
+        'views/account_journal_view.xml',
+        'views/pos_config_view.xml',
+        'views/point_of_sale_dashboard.xml',
+        'wizard/pos_box_view.xml'
     ],
 
-
+    "active": False,
     "installable": True,
 }
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
