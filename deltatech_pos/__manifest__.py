@@ -15,7 +15,9 @@ Functionalitati:
  - Generare fisier pentru program de tiparit Bon Fiscal din POS
    
     """,
-
+    "licence":"LGPL-3",
+    "price": 40.00,
+    "currency": "EUR",
     'category': 'Point Of Sale',
     "depends": ['point_of_sale','deltatech_download'],
 
