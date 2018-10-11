@@ -37,9 +37,9 @@ import openerp.addons.decimal_precision as dp
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    last_inventory_date = fields.Date( string='Last Inventory Date',readonly=True, compute='_compute_last_inventory')
+    last_inventory_date = fields.Date( string='Last Inventory Date',readonly=True, compute='_compute_last_inventory', store=True)
     last_inventory_id = fields.Many2one('stock.inventory',string='Last Inventory',
-                                        readonly=True, compute='_compute_last_inventory')
+                                        readonly=True, compute='_compute_last_inventory', store=True)
 
     @api.multi
     def get_last_inventory_date(self):
@@ -75,5 +75,5 @@ class product_product(models.Model):
             line = self.env['stock.inventory.line'].search([('product_id','=',product.id),('is_ok','=',True)],
                                                            limit=1, order='id desc')
             if line:
-                product.write({'last_inventory_date' : line.inventory_id.date,
-                            'last_inventory_id':line.inventory_id.id})
+                line.set_last_last_inventory()
+

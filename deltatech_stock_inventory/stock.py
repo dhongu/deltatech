@@ -33,6 +33,9 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
+
+
+
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
@@ -102,7 +105,15 @@ class stock_inventory_line(models.Model):
 
 
     #todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
-    
+
+
+    @api.model
+    def create(self, vals):
+        res = super(stock_inventory_line, self).create(vals)
+        if 'standard_price' not in vals:
+            res.write({'standard_price':res.get_price()})
+        return res
+
     @api.model
     def get_price(self):                
         price  =  self.product_id.standard_price 
@@ -154,11 +165,36 @@ class stock_inventory_line(models.Model):
         if move_id:
             move = self.env['stock.move'].browse(move_id)
             move.action_done()
+        inventory_line.set_last_last_inventory()
+
+        return move_id
+
+
+    @api.multi
+    def set_last_last_inventory(self):
+        inventory_line = self
         if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
             inventory_line.product_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
-                            'last_inventory_id':inventory_line.inventory_id.id})
-        return move_id
- 
+                                            'last_inventory_id':inventory_line.inventory_id.id})
+            if inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+                inventory_line.product_id.product_tmpl_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
+                                            'last_inventory_id':inventory_line.inventory_id.id})
+
+
+
+class stock_change_product_qty(models.TransientModel):
+    _inherit = "stock.change.product.qty"
+
+    @api.model
+    def default_get(self,  fields ):
+        res = super(stock_change_product_qty, self).default_get(fields)
+        product = self.env['product.product'].browse(res['product_id'])
+        if 'location_id' in res:
+            product = product.with_context(location=res['location_id'])
+
+        res['new_quantity'] = product.qty_available
+        return res
+
 class StockHistory(models.Model):
     _inherit = 'stock.history'
 
