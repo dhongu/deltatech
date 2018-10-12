@@ -58,6 +58,20 @@ class ProductTemplate(models.Model):
         self.weight = self.weight_uom_id._compute_quantity(self.weight_uom, uom_kg)
 
 
+    @api.model
+    def create(self, vals):
+        template = super(ProductTemplate, self).create(vals)
+        # This is needed to set given values to first variant after creation
+        related_vals = {}
+
+        if vals.get('weight_uom'):
+            related_vals['weight_uom'] = vals['weight_uom']
+        if vals.get('weight_uom_id'):
+            related_vals['weight_uom_id'] = vals['weight_uom_id']
+        if related_vals:
+            template.write(related_vals)
+        return template
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
