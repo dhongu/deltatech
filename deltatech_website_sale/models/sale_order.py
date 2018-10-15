@@ -8,6 +8,12 @@ from openerp.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
+class ResCountryGroup(models.Model):
+    _inherit = 'res.country.group'
+
+    pricelist_ids = fields.Many2many('product.pricelist', 'res_country_group_pricelist_rel',
+                                     'res_country_group_id', 'pricelist_id', string='Pricelists')
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -49,7 +55,7 @@ class Website(models.Model):
         :returns: list of pricelist ids
         """
         pricelists = self.env['product.pricelist']
-        if country_code:
+        if 1==2 and country_code:
             for cgroup in self.env['res.country.group'].search([('country_ids.code', '=', country_code)]):
                 for group_pricelists in cgroup.pricelist_ids:
                     if not show_visible or group_pricelists.selectable or group_pricelists.id in (current_pl, order_pl):

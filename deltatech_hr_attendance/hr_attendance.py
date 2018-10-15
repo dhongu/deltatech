@@ -37,8 +37,12 @@ class hr_attendance(models.Model):
     @api.multi
     @api.depends('name') 
     def _compute_for_date(self):
+        day_start = self.env['ir.config_parameter'].sudo().get_param('attendance.day_start', 7)
+        day_start = int(day_start)
+        # caclul ora de inceput zi lucratoare
         for attendance in self:
-            for_date = fields.Datetime.from_string(attendance.name) - timedelta(hours=7)
+
+            for_date = fields.Datetime.from_string(attendance.name) - timedelta(hours=day_start)
             attendance.for_date = fields.Datetime.to_string(for_date)
              
             

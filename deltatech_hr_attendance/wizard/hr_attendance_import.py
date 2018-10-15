@@ -13,7 +13,7 @@ import openerp.addons.decimal_precision as dp
 
 import csv
 import sys
-
+import pytz, datetime
 
 
 """
@@ -36,6 +36,55 @@ class hr_attendance_import(models.TransientModel):
     attendance_file = fields.Binary(string='Attendance File')
     attendance_file_name = fields.Char(string='Attendance File Name')
 
+    def add_attendance(self, event_time, barcode, direction ):
+        employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
+        if not employee:
+            barcode = barcode.replace("'", '')
+            employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
+            if not employee:
+                return
+        attendance = self.env['hr.attendance'].search(
+            [('employee_id', '=', employee.id), ('name', '=', event_time)])
+
+        if attendance:
+            return
+
+        tz_name = self._context.get('tz') or self.env.user.tz or  "Europe/Bucharest"
+        local = pytz.timezone(tz_name)
+        local_dt = local.localize(fields.Datetime.from_string(event_time), is_dst=None)
+        event_time = fields.Datetime.to_string( local_dt.astimezone(pytz.utc) )
+
+
+        attendance = self.env['hr.attendance']
+        values = {
+            'name': event_time,
+            'employee_id': employee.id,
+            'action':direction
+        }
+
+
+        is_ok = True
+
+        prev_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '<', event_time),
+                                                      ('action', 'in', ('sign_in', 'sign_out'))], limit=1,
+                                                     order='name DESC')
+        next_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '>', event_time),
+                                                      ('action', 'in', ('sign_in', 'sign_out'))], limit=1,
+                                                     order='name ASC')
+
+        # check for alternance, return False if at least one condition is not satisfied
+        if prev_atts and prev_atts[0].action == values['action']:  # previous exists and is same action
+            is_ok = False
+        if next_atts and next_atts[0].action == values['action']:  # next exists and is same action
+            is_ok = False
+        if (not prev_atts) and (not next_atts) and values['action'] != 'sign_in':  # first attendance must be sign_in
+            is_ok = False
+
+        if is_ok:
+            return self.env['hr.attendance'].create(values)
+
+        return False
+
     @api.multi
     def do_import(self):
         attendance_file = base64.decodestring(self.attendance_file)
@@ -45,53 +94,15 @@ class hr_attendance_import(models.TransientModel):
         attendances = self.env['hr.attendance']
         sortedlist = sorted(reader, key=lambda row: row['Event Time'])
         for row in sortedlist:
-            print row
-            barcode = row['Card No.']
-            employee = self.env['hr.employee'].search([('barcode','=',barcode)])
-            if not employee:
-                barcode = barcode.replace("'",'')
-                employee = self.env['hr.employee'].search([('barcode', '=', barcode)])
-                if not employee:
-                    continue
-            attendance = self.env['hr.attendance'].search([('employee_id','=',employee.id),('name','=',row['Event Time'])])
-
-
-            if attendance:
-                continue
-
-
-            #attendance = self.env['hr.attendance'].search(  [('employee_id', '=', employee.id), ('name', '<', row['Event Time'])], limit=1, order='name DESC')
-            attendance = self.env['hr.attendance']
-            values = {
-                'name':row['Event Time'],
-              #  'action_desc':row['Event Source'],
-                'employee_id':employee.id,
-            }
             if row['Direction'] == 'Enter':
-                values['action'] = 'sign_in'
+                direction = 'sign_in'
             elif row['Direction'] == 'Exit':
-                values['action'] = 'sign_out'
+                direction = 'sign_out'
             else:
-                values['action'] = 'action'
-
-            is_ok = True
-
-            prev_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '<', values['name']),
-                                        ('action', 'in', ('sign_in', 'sign_out'))], limit=1, order='name DESC')
-            next_atts = self.env['hr.attendance'].search([('employee_id', '=', employee.id), ('name', '>', values['name']),
-                                        ('action', 'in', ('sign_in', 'sign_out'))], limit=1, order='name ASC')
-
-            # check for alternance, return False if at least one condition is not satisfied
-            if prev_atts and prev_atts[0].action == values['action']:  # previous exists and is same action
-                is_ok = False
-            if next_atts and next_atts[0].action == values['action']:  # next exists and is same action
-                is_ok = False
-            if (not prev_atts) and ( not next_atts) and  values['action'] != 'sign_in':  # first attendance must be sign_in
-                is_ok = False
-
-
-            if is_ok:
-                attendances |= self.env['hr.attendance'].create(values)
+                direction = 'action'
+            attendance = self.add_attendance(event_time=row['Event Time'], barcode=row['Card No.'],  direction = direction )
+            if attendance:
+                attendances |= attendance
 
 
         return {

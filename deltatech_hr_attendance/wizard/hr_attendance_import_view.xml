@@ -11,7 +11,7 @@
 					<group states="choose" string="Import">
 
 
-						<group>
+						<group id="file">
 
 							<field name="attendance_file" widget="binary" filename="attendance_file_name"/>
 
@@ -41,7 +41,7 @@
 			<field name="target">new</field>
 		</record>
 
-		<menuitem name="Import attendancea" id="menu_hr_attendance_import"
+		<menuitem name="Import attendance" id="menu_hr_attendance_import"
 				  action="action_hr_attendance_import" parent="hr_attendance.menu_hr_attendance" />
 
 

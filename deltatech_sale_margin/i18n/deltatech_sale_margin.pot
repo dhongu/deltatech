@@ -1,0 +1,509 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_sale_margin
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:10+0000\n"
+"PO-Revision-Date: 2017-03-11 17:10+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,invoice_line_ids:0
+#: field:commission.update.purchase.price,invoice_line_ids:0
+msgid "Account invoice line"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,state:0
+msgid "Cancelled"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,categ_id:0
+msgid "Category"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Category of Product"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,commercial_partner_id:0
+msgid "Commercial Partner"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:account.invoice.line,commission:0
+#: code:addons/deltatech_sale_margin/wizard/commission_compute.py:65
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_sale_margin_commission_report
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_sale_margin_commission_report_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,commission:0
+#, python-format
+msgid "Commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: field:sale.margin.report,commission_computed:0
+msgid "Commission Computed"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_compute
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission_compute
+msgid "Compute Commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_commission_compute
+msgid "Compute commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:account.invoice.line,purchase_price:0
+msgid "Cost Price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,create_uid:0
+#: field:commission.update.purchase.price,create_uid:0
+#: field:commission.users,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,create_date:0
+#: field:commission.update.purchase.price,create_date:0
+#: field:commission.users,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,currency_rate:0
+msgid "Currency Rate"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,type:0
+msgid "Customer Invoice"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,type:0
+msgid "Customer Refund"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,date:0
+msgid "Date"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,display_name:0
+#: field:commission.update.purchase.price,display_name:0
+#: field:commission.users,display_name:0
+#: field:sale.margin.report,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,state:0
+msgid "Done"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Extended Filters..."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.update.purchase.price,for_all:0
+msgid "For all lines"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "For the ALL invoice line will update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+msgid "For the selected invoice line will compute commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "For the selected invoice line will update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Group By..."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,id:0
+#: field:commission.update.purchase.price,id:0
+#: field:commission.users,id:0
+#: field:sale.margin.report,id:0
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,in_rates:0
+msgid "In Rates"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_account_invoice
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Invoice"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,state:0
+msgid "Invoice Status"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,__last_update:0
+#: field:commission.update.purchase.price,__last_update:0
+#: field:commission.users,__last_update:0
+#: field:sale.margin.report,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,write_uid:0
+#: field:commission.update.purchase.price,write_uid:0
+#: field:commission.users,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.compute,write_date:0
+#: field:commission.update.purchase.price,write_date:0
+#: field:commission.users,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "My Sales"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.users,name:0
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_no_change_price
+msgid "No change price on sale order"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: selection:sale.margin.report,state:0
+msgid "Open"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Paid"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,period_id:0
+msgid "Period"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Previous Month"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/sale.py:71
+#: code:addons/deltatech_sale_margin/sale.py:81
+#, python-format
+msgid "Price Error!"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.update.purchase.price,price_from_doc:0
+msgid "Price from delivery"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,state:0
+msgid "Pro-forma"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
+#: field:sale.margin.report,profit_val:0
+msgid "Profit"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,indicator_profit:0
+msgid "Profit Indicator"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: help:sale.margin.report,profit_val:0
+msgid "Profit obtained at invoicing in company currency"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
+msgid "Qty"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,product_uom_qty:0
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.users,rate:0
+msgid "Rate"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_sale_margin_report
+#: model:ir.model,name:deltatech_sale_margin.model_sale_margin_report
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_sale_margin_report_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_graph
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
+msgid "Sale margin report"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
+#: field:sale.margin.report,sale_val:0
+msgid "Sale value"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: help:sale.margin.report,sale_val:0
+msgid "Sale value in company currency"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Sales performed during current year"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:commission.users,user_id:0
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,user_id:0
+msgid "Salesperson"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Search"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_below_purchase_price
+msgid "Sell below the purchase price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:res.groups,name:deltatech_sale_margin.group_sale_margin
+msgid "Show purchase price on sale order lines and customer invoice"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_commission_tree
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_tree
+#: field:sale.margin.report,stock_val:0
+msgid "Stock value"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: help:sale.margin.report,stock_val:0
+msgid "Stock value in company currency"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,indicator_supplement:0
+msgid "Supplement Indicator"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,type:0
+msgid "Supplier Invoice"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: selection:sale.margin.report,type:0
+msgid "Supplier Refund"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "This Month"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+msgid "This Year"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.actions.act_window,help:deltatech_sale_margin.action_sale_margin_report
+msgid "This report performs analysis on your invoices."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,type:0
+msgid "Type"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: field:sale.margin.report,product_uom:0
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_update_purchase_price
+msgid "Update Purchase Price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_commission_update_purchase_price
+msgid "Update purchase price"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_res_users
+msgid "Users"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.users:deltatech_sale_margin.view_commission_users_tree
+#: model:ir.actions.act_window,name:deltatech_sale_margin.action_commission_users
+#: model:ir.ui.menu,name:deltatech_sale_margin.menu_commission_users
+msgid "Users Commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: model:ir.model,name:deltatech_sale_margin.model_commission_users
+msgid "Users commission"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: code:addons/deltatech_sale_margin/account_invoice.py:84
+#: code:addons/deltatech_sale_margin/sale.py:72
+#: code:addons/deltatech_sale_margin/sale.py:82
+#: code:addons/deltatech_sale_margin/sale.py:94
+#, python-format
+msgid "You can not sell below the purchase price."
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:sale.order:deltatech_sale_margin.sale_margin_sale_order
+msgid "deltatech_sale_margin.group_sale_margin"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:commission.compute:deltatech_sale_margin.view_commission_compute_form
+#: view:commission.update.purchase.price:deltatech_sale_margin.view_commission_update_purchase_price_form
+msgid "or"
+msgstr ""
+
+#. module: deltatech_sale_margin
+#: view:account.invoice:deltatech_sale_margin.invoice_form
+msgid "price_unit_change(price_unit,purchase_price,context)"
+msgstr ""
+

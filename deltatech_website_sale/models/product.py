@@ -43,3 +43,5 @@ class ProductPricelist(models.Model):
 
     website_id = fields.Many2one('website', string="website", default=_default_website)
     selectable = fields.Boolean(help="Allow the end user to choose this price list")
+    country_group_ids = fields.Many2many('res.country.group', 'res_country_group_pricelist_rel',
+                                         'pricelist_id', 'res_country_group_id', string='Country Groups')

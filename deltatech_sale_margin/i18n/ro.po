@@ -272,6 +272,14 @@ msgstr "Partener"
 msgid "Period"
 msgstr "Perioada"
 
+
+#. module: deltatech_sale_margin
+#: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
+#: field:sale.margin.report,state_id:0
+msgid "Region"
+msgstr "Judet"
+
+
 #. module: deltatech_sale_margin
 #: view:sale.margin.report:deltatech_sale_margin.view_sale_margin_report_filter
 msgid "Previous Month"

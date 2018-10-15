@@ -33,6 +33,9 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
+
+
+
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
@@ -54,7 +57,9 @@ class stock_inventory(models.Model):
                     if product.loc_rack and inventory.filterbyrack == product.loc_rack :
                         res.append(line)
         else:
-            res = lines                
+            res = lines
+        for line in lines:
+            line['is_ok'] = False
         return res
 
     @api.multi    
@@ -91,7 +96,7 @@ class stock_inventory_line(models.Model):
     loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
     loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
-
+    is_ok = fields.Boolean('Is Ok', default=True)
 
     @api.one
     @api.onchange('theoretical_qty')
@@ -100,7 +105,15 @@ class stock_inventory_line(models.Model):
 
 
     #todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
-    
+
+
+    @api.model
+    def create(self, vals):
+        res = super(stock_inventory_line, self).create(vals)
+        if 'standard_price' not in vals:
+            res.write({'standard_price':res.get_price()})
+        return res
+
     @api.model
     def get_price(self):                
         price  =  self.product_id.standard_price 
@@ -152,9 +165,36 @@ class stock_inventory_line(models.Model):
         if move_id:
             move = self.env['stock.move'].browse(move_id)
             move.action_done()
-                
+        inventory_line.set_last_last_inventory()
+
         return move_id
- 
+
+
+    @api.multi
+    def set_last_last_inventory(self):
+        inventory_line = self
+        if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
+            inventory_line.product_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
+                                            'last_inventory_id':inventory_line.inventory_id.id})
+            if inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+                inventory_line.product_id.product_tmpl_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
+                                            'last_inventory_id':inventory_line.inventory_id.id})
+
+
+
+class stock_change_product_qty(models.TransientModel):
+    _inherit = "stock.change.product.qty"
+
+    @api.model
+    def default_get(self,  fields ):
+        res = super(stock_change_product_qty, self).default_get(fields)
+        product = self.env['product.product'].browse(res['product_id'])
+        if 'location_id' in res:
+            product = product.with_context(location=res['location_id'])
+
+        res['new_quantity'] = product.qty_available
+        return res
+
 class StockHistory(models.Model):
     _inherit = 'stock.history'
 
@@ -163,6 +203,7 @@ class StockHistory(models.Model):
     @api.one
     def _compute_sale_value(self):
         self.sale_value = self.quantity * self.product_id.list_price
+
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
