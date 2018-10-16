@@ -79,6 +79,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         days = (end_date - start_date).days + 1
 
         work_day = 0
+        to_retrieve = 0
         for index in range(0, max(7, days)):
             current = start_date + timedelta(index)
             res['days'].append({
@@ -109,8 +110,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             if holiday.global_leave:
                 holiday_global_leave = holiday
 
-
-        if holiday_global_leave :
+        if holiday_global_leave:
             for index in range(0, max(7, days)):
                 current = start_date + timedelta(index)
                 if self._date_is_global_leave(current) and not self._date_is_day_off(current):
@@ -131,15 +131,17 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                 index_d = (date_from - start_date).days
                 # res['days'][(date_from - start_date).days]['text'] = ''
                 if date_from >= start_date and date_from <= end_date:
-                    if not self._date_is_day_off(date_from)  and not res['days'][index_d]['holiday']:
+                    if not self._date_is_day_off(date_from) and not res['days'][index_d]['holiday']:
                         res['days'][index_d]['color'] = holiday.holiday_status_id.color_name
                         res['days'][index_d]['text'] = holiday.holiday_status_id.cod
                         work_day -= 1
                         res['holiday'][holiday.holiday_status_id.cod] += 1
                         res['days'][index_d]['holiday_id'] = holiday.id
                         res['days'][index_d]['holiday'] = True
-                date_from += timedelta(1)
+                        if holiday.holiday_status_id.retrieve:
+                            to_retrieve += 1
 
+                date_from += timedelta(1)
 
         working_day = 0
         for line in lines.filtered(lambda l: l.employee_id.id == empid):
@@ -153,15 +155,15 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
-            if not res['days'][index]['holiday'] and line.worked_hours>0.5 and not self._date_is_day_off(index_date) :
+            if not res['days'][index]['holiday'] and line.worked_hours > 0.5 and not self._date_is_day_off(index_date):
                 working_day += 1
-                line.write({'working_day':1.0})
+                line.write({'working_day': 1.0})
             else:
                 line.write({'working_day': 0.0})
 
         if work_day < 0:
             work_day = 0
-        res['norma'] = working_day * 8
+        res['norma'] = (to_retrieve + working_day) * 8
         res['work_day'] = working_day
         if res['worked_hours'] < res['norma']:
             dif = res['norma'] - res['worked_hours']
@@ -242,9 +244,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         ]
 
     def _get_report_columns(self, report):
-        columns =  {
+        columns = {
             0: {'header': _('Marca'),
-                'field':'["emp"].barcode',
+                'field': '["emp"].barcode',
                 'width': 5},
             1: {'header': _('Employees'),
                 'field': '["emp"].name',
@@ -261,7 +263,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             }
             col += 1
         columns[col] = {'header': _('Sum'),
-                'width':  7 }
+                        'width': 7}
         col += 1
         columns[col] = {'header': _('Norm'),
                         'width': 7}
@@ -277,11 +279,10 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             col += 1
         return columns
 
-
     def _generate_report_content(self, workbook, report):
 
         self.write_array_header(workbook)
-        for obj in self._get_data_from_report( report):
+        for obj in self._get_data_from_report(report):
             self.sheet.write_string(self.row_pos, 0, obj['emp'].barcode or '', workbook.add_format({}))
             self.sheet.write_string(self.row_pos, 1, obj['emp'].name or '', workbook.add_format({}))
             self.sheet.write_string(self.row_pos, 2, 'normal' or '', workbook.add_format({}))
@@ -289,10 +290,10 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             for details in obj['display']['days']:
                 line = details['line']
                 if line:
-                    if int(line.total_hours)>=1:
-                        self.sheet.write_number( self.row_pos, col_pos, int(line.total_hours), workbook.add_format({}))
+                    if int(line.total_hours) >= 1:
+                        self.sheet.write_number(self.row_pos, col_pos, int(line.total_hours), workbook.add_format({}))
                     if details['text']:
-                        if int(line.total_hours)>=1:
+                        if int(line.total_hours) >= 1:
                             text = "%s  / %s" % (int(line.total_hours), details['text'])
                         else:
                             text = details['text']
@@ -313,12 +314,10 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
                 nr = obj['display']['holiday'][holiday['cod']]
                 if nr:
-                    self.sheet.write_number(self.row_pos, col_pos, nr,  workbook.add_format({}))
+                    self.sheet.write_number(self.row_pos, col_pos, nr, workbook.add_format({}))
                 col_pos += 1
 
             self.row_pos += 1
-
-
 
     def write_line(self, workbook, line_object, formats):
         """Write a line on current line using all defined columns field name.
@@ -328,13 +327,14 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             value = getattr(line_object, column['field'])
             cell_type = column.get('type', 'string')
             if cell_type == 'string':
-                self.sheet.write_string(self.row_pos, col_pos, value or '',workbook.add_format(formats))
+                self.sheet.write_string(self.row_pos, col_pos, value or '', workbook.add_format(formats))
             elif cell_type == 'amount':
                 self.sheet.write_number(
                     self.row_pos, col_pos, float(value),
                     workbook.add_format(formats)
                 )
         self.row_pos += 1
+
 
 class HrAttendanceSummaryControl(HrAttendanceSummaryReport):
     _name = 'report.deltatech_hr_attendance.control_attendance_summary'

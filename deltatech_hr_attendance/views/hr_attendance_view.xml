@@ -52,6 +52,7 @@
                     <field name="cod"/>
                     <field name="sequence"/>
                     <field name="global_leave"/>
+                    <field name="retrieve"/>
                 </xpath>
             </field>
         </record>

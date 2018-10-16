@@ -20,6 +20,7 @@ class HolidaysType(models.Model):
     sequence = fields.Integer("Sequence", default=10)
     cod = fields.Char()
     global_leave = fields.Boolean()
+    retrieve = fields.Boolean()
 
 class Holidays(models.Model):
     _inherit = "hr.holidays"
