@@ -881,3 +881,9 @@ msgstr "Fara citiri"
 msgid "or"
 msgstr "sau"
 
+#. module: deltatech_service
+#: code:addons/deltatech_service/wizard/service_billing_preparation.py:64
+#, python-format
+msgid "Partner invoicing is blocked!"
+msgstr "Partenerul este blocat la facturare!"
+

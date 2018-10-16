@@ -60,21 +60,24 @@ class service_billing_preparation(models.TransientModel):
     def do_billing_preparation(self):
         res = []
         for agreement in self.agreement_ids:
-            lines = self.env['service.agreement.line'].with_context({'active_test': False}).search(
-                [('agreement_id', '=', agreement.id)],order = 'sequence')
-            for line in lines:  # agreement.agreement_line:
-                cons_value = line.get_value_for_consumption()
-                if cons_value:
-                    cons_value.update({
-                          'partner_id' : agreement.partner_id.id,
-                          'period_id':   self.period_id.id,   
-                          'agreement_id': agreement.id,
-                          'agreement_line_id': line.id,
-                          'date_invoice':agreement.next_date_invoice,
-                    })
+            if agreement.partner_id.invoice_warn == 'block':
+                raise Warning(_('Partner invoicing is blocked!'))
+            else:
+                lines = self.env['service.agreement.line'].with_context({'active_test': False}).search(
+                    [('agreement_id', '=', agreement.id)],order = 'sequence')
+                for line in lines:  # agreement.agreement_line:
+                    cons_value = line.get_value_for_consumption()
+                    if cons_value:
+                        cons_value.update({
+                              'partner_id' : agreement.partner_id.id,
+                              'period_id':   self.period_id.id,
+                              'agreement_id': agreement.id,
+                              'agreement_line_id': line.id,
+                              'date_invoice':agreement.next_date_invoice,
+                        })
 
-                    consumption = self.env['service.consumption'].create(cons_value) 
-                    res.extend( line.after_create_consumption(consumption) )
+                        consumption = self.env['service.consumption'].create(cons_value)
+                        res.extend( line.after_create_consumption(consumption) )
         self.agreement_ids.compute_totals()
         return {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",
