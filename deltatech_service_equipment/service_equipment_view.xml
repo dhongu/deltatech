@@ -94,7 +94,7 @@
                                 states="installed" groups="base.group_service_manager"/>
                         <button name="%(action_service_equi_dbk)d" type="action" string="Disable Backup"
                                 class="oe_highlight" states="backuped" groups="base.group_service_manager"/>
-                        <button name="%(action_service_equi_rem)d" type="action" string="Remove" state="installed" groups="base.group_service_manager"/>
+                        <button name="%(action_service_equi_rem)d" type="action" string="Remove" attrs="{'invisible':[('state','!=','installed')]}"  groups="base.group_service_manager"/>
                         <button name="create_meters_button" type="object" string="Create Meters"
                                 attrs="{'invisible':['|',('meter_ids','!=',[])]}" groups="base.group_service_manager"/>
                         <button name="%(action_service_equi_agreement)d" type="action" string="Add to Agreement"
