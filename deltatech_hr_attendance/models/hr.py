@@ -8,8 +8,13 @@ from odoo.exceptions import ValidationError
 
 class Department(models.Model):
     _inherit = "hr.department"
+    _order = 'sequence,id'
 
     type = fields.Selection([('div', 'Division'),('dep','Department'),('for','Formation')])
+    sequence = fields.Integer()
+
+
+
 
 
 class HolidaysType(models.Model):
