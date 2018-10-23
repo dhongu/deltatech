@@ -127,6 +127,7 @@ class HrAttendanceSheet(models.Model):
 
     @api.multi
     def do_compute(self):
+        self.ensure_one()
         employees = self.env['hr.employee'].search([('department_id', '=', self.formation_id.id),
                                                     ('shift', 'in', ['F', 'T'])])
         attendances = self.env['hr.attendance'].search([('employee_id', 'in', employees.ids),
@@ -167,16 +168,14 @@ class HrAttendanceSheet(models.Model):
             }
             line = self.env['hr.attendance.sheet.line'].search( [('date', '=', values['date']),
                                                                  ('employee_id', '=', values['employee_id'])])
-            line.unlink()
-            self.env['hr.attendance.sheet.line'].create(values)
-            # if len(line.ids) > 1:
-            #     line.unlink()
-            #
-            # if not line:
-            #     self.env['hr.attendance.sheet.line'].create(values)
-            # else:
-            #     if line.sheet_id.id != self.id:
-            #         line.write({'sheet_id': self.id})
+
+            if len(line) == 1:
+                if line.sheet_id.id != self.id:
+                    line.write({'sheet_id': self.id})
+            else:
+                line.unlink()
+                self.env['hr.attendance.sheet.line'].create(values)
+
 
         self.write({'state': 'draft'})
 
