@@ -167,13 +167,16 @@ class HrAttendanceSheet(models.Model):
             }
             line = self.env['hr.attendance.sheet.line'].search( [('date', '=', values['date']),
                                                                  ('employee_id', '=', values['employee_id'])])
-            if len(line.ids) > 1:
-                line.unlink()
-            if not line:
-                self.env['hr.attendance.sheet.line'].create(values)
-            else:
-                if line.sheet_id.id != self.id:
-                    line.write({'sheet_id': self.id})
+            line.unlink()
+            self.env['hr.attendance.sheet.line'].create(values)
+            # if len(line.ids) > 1:
+            #     line.unlink()
+            #
+            # if not line:
+            #     self.env['hr.attendance.sheet.line'].create(values)
+            # else:
+            #     if line.sheet_id.id != self.id:
+            #         line.write({'sheet_id': self.id})
 
         self.write({'state': 'draft'})
 
