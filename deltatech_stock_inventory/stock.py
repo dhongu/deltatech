@@ -33,28 +33,26 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
-
-
-
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
     name = fields.Char(string='Name', default='/')
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
+                           states={'draft': [('readonly', False)]})
     note = fields.Text(string='Note')
 
-    filterbyrack =fields.Char('Rack')
+    filterbyrack = fields.Char('Rack')
 
     @api.model
     def _get_inventory_lines(self, inventory):
         lines = super(stock_inventory, self)._get_inventory_lines(inventory)
         res = []
         if inventory.filterbyrack:
-            
+
             for line in lines:
                 if line['product_id']:
                     product = self.env['product.product'].browse(line['product_id'])
-                    if product.loc_rack and inventory.filterbyrack == product.loc_rack :
+                    if product.loc_rack and inventory.filterbyrack == product.loc_rack:
                         res.append(line)
         else:
             res = lines
@@ -62,40 +60,41 @@ class stock_inventory(models.Model):
             line['is_ok'] = False
         return res
 
-    @api.multi    
+    @api.multi
     def prepare_inventory(self):
         res = super(stock_inventory, self).prepare_inventory()
         for inventory in self:
             date = inventory.date
-            values = {'date': date} 
+            values = {'date': date}
             if inventory.name == '/':
                 sequence = self.env.ref('deltatech_stock_inventory.sequence_inventory_doc')
                 if sequence:
-                    values['name'] = self.env['ir.sequence'].next_by_id(sequence.id) 
-                    
+                    values['name'] = self.env['ir.sequence'].next_by_id(sequence.id)
+
             inventory.write(values)
-            for line in  inventory.line_ids:
-                line.write({'standard_price':line.get_price()})
+            for line in inventory.line_ids:
+                line.write({'standard_price': line.get_price()})
         return res
-           
-    
+
     def action_done(self, cr, uid, ids, context=None):
-        super(stock_inventory,self).action_done(cr, uid, ids, context)
+        super(stock_inventory, self).action_done(cr, uid, ids, context)
         for inv in self.browse(cr, uid, ids, context=context):
             for move in inv.move_ids:
-                if move.date_expected != inv.date or move.date != inv.date   :
-                    self.pool.get('stock.move').write(cr, uid, [move.id], { 'date_expected': inv.date, 'date':inv.date }, context )
+                if move.date_expected != inv.date or move.date != inv.date:
+                    self.pool.get('stock.move').write(cr, uid, [move.id], {'date_expected': inv.date, 'date': inv.date},
+                                                      context)
         return True
- 
+
+
 class stock_inventory_line(models.Model):
     _inherit = "stock.inventory.line"
     _order = "inventory_id, location_name, categ_id, product_code, product_name, prodlot_name"
 
-    categ_id = fields.Many2one('product.category',string="Category", related="product_id.categ_id",store=True)
+    categ_id = fields.Many2one('product.category', string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string='Price')
-    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack",store=True)
-    loc_row = fields.Char('Row', size=16, related="product_id.loc_row",store=True)
-    loc_case = fields.Char('Case', size=16, related="product_id.loc_case",store=True)
+    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack", store=True)
+    loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
+    loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
     is_ok = fields.Boolean('Is Ok', default=True)
 
     @api.one
@@ -103,34 +102,36 @@ class stock_inventory_line(models.Model):
     def onchange_theoretical_qty(self):
         self.standard_price = self.get_price()
 
-
-    #todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
+    # todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
 
 
     @api.model
     def create(self, vals):
         res = super(stock_inventory_line, self).create(vals)
         if 'standard_price' not in vals:
-            res.write({'standard_price':res.get_price()})
+            res.write({'standard_price': res.get_price()})
         return res
 
     @api.model
-    def get_price(self):                
-        price  =  self.product_id.standard_price 
-        if  self.product_id.cost_method == 'real': 
-            dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id), ('lot_id', '=', self.prod_lot_id.id),
-                        ('product_id','=', self.product_id.id), ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
-            dom = [('location_id', '=', self.location_id.id),     ('product_id','=', self.product_id.id) , ('lot_id', '=', self.prod_lot_id.id), 
+    def get_price(self):
+        price = self.product_id.standard_price
+        if self.product_id.cost_method == 'real':
+            dom = [('company_id', '=', self.company_id.id), ('location_id', '=', self.location_id.id),
+                   ('lot_id', '=', self.prod_lot_id.id),
+                   ('product_id', '=', self.product_id.id), ('owner_id', '=', self.partner_id.id),
+                   ('package_id', '=', self.package_id.id)]
+            dom = [('location_id', '=', self.location_id.id), ('product_id', '=', self.product_id.id),
+                   ('lot_id', '=', self.prod_lot_id.id),
                    ('owner_id', '=', self.partner_id.id), ('package_id', '=', self.package_id.id)]
-             
+
             quants = self.env['stock.quant'].search(dom)
-            
+
             value = sum([q.inventory_value for q in quants])
             if self.theoretical_qty > 0:
                 price = value / self.theoretical_qty
-             
+
         return price
-    
+
     """
     def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False,
                                                 prod_lot_id=False, partner_id=False, company_id=False, context=None):
@@ -142,26 +143,29 @@ class stock_inventory_line(models.Model):
     """
 
     @api.model
-    def _resolve_inventory_line(self,  inventory_line):  
-
+    def _resolve_inventory_line(self, inventory_line):
+        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price", default="True")
+        use_inventory_price = eval(use_inventory_price)
         product_qty = inventory_line.product_qty
-        if inventory_line.product_id.cost_method == 'real':
-            price = inventory_line.get_price( )           
-      
-            if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2 ): 
+        if inventory_line.product_id.cost_method == 'real' and use_inventory_price:
+            price = inventory_line.get_price()
+
+            if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2):
                 # se completeaza o line de inventar cu cantitate zero si cu vechiul pret
                 line_price = inventory_line.standard_price
-                inventory_line.write( {'standard_price': price, 'product_qty':0.0 } )
-                inventory_line.product_id.product_tmpl_id.write({'standard_price':price} )
-                move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
+                inventory_line.write({'standard_price': price, 'product_qty': 0.0})
+                inventory_line.product_id.product_tmpl_id.write({'standard_price': price})
+                move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
 
-                inventory_line.write( {'standard_price': line_price, 'product_qty':product_qty + inventory_line.theoretical_qty } )
-                
-            inventory_line.product_id.product_tmpl_id.write( {'standard_price':inventory_line.standard_price}  ) # acutlizare pret in produs
-            
-        move_id = super(stock_inventory_line,self)._resolve_inventory_line(    inventory_line )
-        if   product_qty <> inventory_line.product_qty:
-            inventory_line.write( {'product_qty':product_qty } )
+                inventory_line.write(
+                    {'standard_price': line_price, 'product_qty': product_qty + inventory_line.theoretical_qty})
+
+            inventory_line.product_id.product_tmpl_id.write(
+                {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+
+        move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
+        if product_qty <> inventory_line.product_qty:
+            inventory_line.write({'product_qty': product_qty})
         if move_id:
             move = self.env['stock.move'].browse(move_id)
             move.action_done()
@@ -169,24 +173,23 @@ class stock_inventory_line(models.Model):
 
         return move_id
 
-
     @api.multi
     def set_last_last_inventory(self):
         inventory_line = self
         if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
-            inventory_line.product_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
-                                            'last_inventory_id':inventory_line.inventory_id.id})
+            inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
+                                             'last_inventory_id': inventory_line.inventory_id.id})
             if inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
-                inventory_line.product_id.product_tmpl_id.write({'last_inventory_date' : inventory_line.inventory_id.date,
-                                            'last_inventory_id':inventory_line.inventory_id.id})
-
+                inventory_line.product_id.product_tmpl_id.write(
+                    {'last_inventory_date': inventory_line.inventory_id.date,
+                     'last_inventory_id': inventory_line.inventory_id.id})
 
 
 class stock_change_product_qty(models.TransientModel):
     _inherit = "stock.change.product.qty"
 
     @api.model
-    def default_get(self,  fields ):
+    def default_get(self, fields):
         res = super(stock_change_product_qty, self).default_get(fields)
         product = self.env['product.product'].browse(res['product_id'])
         if 'location_id' in res:
@@ -194,6 +197,7 @@ class stock_change_product_qty(models.TransientModel):
 
         res['new_quantity'] = product.qty_available
         return res
+
 
 class StockHistory(models.Model):
     _inherit = 'stock.history'
@@ -203,7 +207,6 @@ class StockHistory(models.Model):
     @api.one
     def _compute_sale_value(self):
         self.sale_value = self.quantity * self.product_id.list_price
-
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
@@ -219,11 +222,13 @@ class StockHistory(models.Model):
                     line['sale_value'] = sale_value
         return res
 
+
 class Quant(models.Model):
     _inherit = "stock.quant"
 
     sale_value = fields.Float('Sale Value', compute='_compute_sale_value', readonly=True)
-    sale_currency_id = fields.Many2one('res.currency',  string='Sale currency', compute='_compute_sale_value', readonly=True)
+    sale_currency_id = fields.Many2one('res.currency', string='Sale currency', compute='_compute_sale_value',
+                                       readonly=True)
 
     @api.multi
     def _compute_sale_value(self):
@@ -243,10 +248,9 @@ class Quant(models.Model):
             quant.sale_value = quant.qty * quant.product_id.list_price
             quant.sale_currency_id = sale_currency_id
             if pricelist:
-                price = pricelist.price_get( quant.product_id.id, quant.qty )[pricelist.id]
+                price = pricelist.price_get(quant.product_id.id, quant.qty)[pricelist.id]
                 if price:
                     quant.sale_value = price * quant.qty
-
 
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
