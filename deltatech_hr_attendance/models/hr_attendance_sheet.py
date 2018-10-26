@@ -251,7 +251,7 @@ class HrAttendanceSheetLine(models.Model):
     _description = "Daily Attendance"
     _order = 'check_in'
 
-    sheet_id = fields.Many2one('hr.attendance.sheet', required=True, ondelete='cascade', index=True)
+    sheet_id = fields.Many2one('hr.attendance.sheet',  ondelete='set null', index=True)
 
     department_id = fields.Many2one('hr.department', string='Formation', required=True,
                                     domain="[('type','=','for')]")
@@ -577,3 +577,9 @@ class HrAttendanceSheetLine(models.Model):
             result.append((line.id, ('%s %s') % (line.employee_id.name, line.date)))
 
         return result
+
+    @api.multi
+    def unlink(self):
+        if any(line.state == 'done' for line in self):
+            raise UserError(_('Cannot delete a daily attendance in Confirmed state '))
+        return super(HrAttendanceSheetLine, self).unlink()
