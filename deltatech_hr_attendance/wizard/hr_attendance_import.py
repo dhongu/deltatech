@@ -50,7 +50,12 @@ class hr_attendance_import(models.TransientModel):
 
         tz_name = self._context.get('tz') or self.env.user.tz or "Europe/Bucharest"
         local = pytz.timezone(tz_name)
-        local_dt = local.localize(fields.Datetime.from_string(event_time), is_dst=None)
+        try:
+            local_dt = local.localize(fields.Datetime.from_string(event_time), is_dst=False)
+        except pytz.AmbiguousTimeError:
+            _logger.error('AmbiguousTimeError')
+            return
+
         event_time = fields.Datetime.to_string(local_dt.astimezone(pytz.utc))
 
         attendance = self.env['hr.attendance']
