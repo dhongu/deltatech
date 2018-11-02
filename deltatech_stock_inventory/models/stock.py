@@ -41,6 +41,9 @@ class StockInventory(models.Model):
         #             if product.loc_rack and self.filterbyrack == product.loc_rack:
         #                 res.append(line)
         #     lines = res
+
+        for line in lines:
+            line['is_ok'] = False
         return lines
 
 
@@ -70,6 +73,12 @@ class StockInventory(models.Model):
                     move.write({'date_expected': inv.date, 'date': inv.date})
         return True
 
+    @api.multi
+    def action_remove_not_ok(self):
+        for line in self.line_ids:
+            if not line.is_ok:
+                line.unlink()
+
 
 class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"
@@ -80,6 +89,7 @@ class StockInventoryLine(models.Model):
     loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack", store=True)
     loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
+    is_ok = fields.Boolean('Is Ok', default=True)
 
     @api.onchange('product_id')
     def onchange_product(self):
@@ -143,10 +153,30 @@ class StockInventoryLine(models.Model):
     """
 
     def _generate_moves(self):
+        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price",
+                                                                               default="True")
+        use_inventory_price = eval(use_inventory_price)
         for inventory_line in self:
-            if inventory_line.product_id.cost_method == 'fifo':
-                inventory_line.product_id.write(
-                    {'standard_price': inventory_line.standard_price})  # actualizare pret in produs
+            if inventory_line.product_id.cost_method == 'fifo' and use_inventory_price:
+                inventory_line.product_id.write({'standard_price': inventory_line.standard_price})  # actualizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
+        self.set_last_last_inventory()
         return moves
+
+
+    @api.multi
+    def set_last_last_inventory(self):
+        for inventory_line in self:
+            if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
+                inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
+                                                 'last_inventory_id': inventory_line.inventory_id.id})
+                if inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+                    inventory_line.product_id.product_tmpl_id.write(
+                        {'last_inventory_date': inventory_line.inventory_id.date,
+                         'last_inventory_id': inventory_line.inventory_id.id})
+
+
+    @api.onchange('product_qty')
+    def onchange_product_qty(self):
+        self.is_ok = True
 

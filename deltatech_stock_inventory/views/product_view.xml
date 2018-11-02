@@ -8,12 +8,16 @@
             <field name="inherit_id" ref="stock.view_template_property_form"/>
             <field name="arch" type="xml">
                 <group name="group_lots_and_weight" position="after">
-                    <group name="store"  attrs="{'invisible':[('type','=','service')]}">
+                    <group string='Stock' name="store"  attrs="{'invisible':[('type','=','service')]}">
                         <field name="loc_rack"/>
                         <field name="loc_row"/>
                         <field name="loc_case"/>
+                        <field name="last_inventory_date"/>
+                        <field name="last_inventory_id"/>
+                        <button string="Update" name="get_last_inventory_date" type="object" class="oe_link"/>
                     </group>
                 </group>
+
             </field>
         </record>
 
