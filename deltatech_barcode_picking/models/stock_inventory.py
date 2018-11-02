@@ -6,9 +6,6 @@
 from odoo import fields, api, models
 
 
-
-
-
 class Inventory(models.Model):
     _name = "stock.inventory"
     _inherit = ["stock.inventory", 'barcodes.barcode_events_mixin']
@@ -18,16 +15,16 @@ class Inventory(models.Model):
         if line:
             line.product_qty += qty
             if 'is_ok' in line._fields:
-                line['is_ok'] = True
+                line.is_ok = True
         else:
             vals = {
                 'product_id': product.id,
                 'date_planned': fields.Datetime.now(),
                 'product_uom': product.uom_po_id.id,
                 'product_qty': 1,
-                'location_id':self.location_id.id,
-                'company_id':self.company_id.id,
-                'is_ok':True
+                'location_id': self.location_id.id,
+                'company_id': self.company_id.id,
+                'is_ok': True
             }
             line = self.line_ids.new(vals)
             line._compute_theoretical_qty()
