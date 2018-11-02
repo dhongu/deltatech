@@ -25,7 +25,7 @@ class Inventory(models.Model):
                 'product_qty': 1,
                 'location_id':self.location_id.id,
                 'company_id':self.company_id.id,
-
+                'is_ok':True
             }
             line = self.line_ids.new(vals)
             line._compute_theoretical_qty()
