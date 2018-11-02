@@ -79,6 +79,15 @@ class StockInventory(models.Model):
             if not line.is_ok:
                 line.unlink()
 
+    @api.multi
+    def action_new_for_not_ok(self):
+        new_inv = self.copy({'line_ids': False,'state':'confirm'})
+        for line in self.line_ids:
+            if not line.is_ok:
+                line.write({'inventory_id':new_inv.id})
+
+
+
 
 class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"

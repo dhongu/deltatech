@@ -10,7 +10,8 @@
             <field name="arch" type="xml">
 
                 <field name="state" position="before">
-                    <button name="action_remove_not_ok" states="confirm" string="Remove Not Ok" type="object"/>
+                    <!--<button name="action_remove_not_ok" states="confirm" string="Remove Not Ok" type="object"/>-->
+                    <button name="action_new_for_not_ok" states="confirm" string="New inventory for Not Ok" type="object"/>
                 </field>
 
 

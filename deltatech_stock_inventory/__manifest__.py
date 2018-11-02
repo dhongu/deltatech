@@ -2,6 +2,10 @@
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+
+#     In versiunea 10.0 era si
+#     Afisare valoare de vanzare in rapotul de pozitii de stoc (evaluare inventar) si stoc la data
+
 {
     "name": "Deltatech Stock Inventory",
     'version': '11.0.1.0.0',
@@ -11,8 +15,7 @@
 
      Afisare coloana de pret de stoc la inventariere
      
-     In versiunea 10.0 era si
-     Afisare valoare de vanzare in rapotul de pozitii de stoc (evaluare inventar) si stoc la data
+
  
     """,
     "category": "Warehouse",
