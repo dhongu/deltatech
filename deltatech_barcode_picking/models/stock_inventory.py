@@ -17,6 +17,8 @@ class Inventory(models.Model):
         line = self.line_ids.filtered(lambda r: r.product_id.id == product.id)
         if line:
             line.product_qty += qty
+            if 'is_ok' in line._fields:
+                line['is_ok'] = True
         else:
             vals = {
                 'product_id': product.id,
