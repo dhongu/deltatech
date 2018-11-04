@@ -24,10 +24,12 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <field name="analytic_account_id" position="before">
-                    <button name="refresh_progress" string="Refresh" type="object" states="open"
+                    <header>
+                    <button name="refresh_progress" string="Refresh" type="object"
                             groups="base.group_user"/>
                     <button name="%(action_project_print_report_date)d" string="Print" type="action"
                             groups="base.group_user"/>
+                    </header>
                 </field>
 
                 <field name="partner_id" position="after">

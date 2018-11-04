@@ -3,9 +3,6 @@
     <data noupdate="1">
 
 
-
-
-
         <record forcecreate="True" id="ir_cron_check_task"  model="ir.cron">
             <field name="name">Run Task Checker</field>
             <field name="interval_number">1</field>

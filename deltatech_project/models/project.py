@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as 
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015-2018 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -47,8 +31,7 @@ class project_project(models.Model):
 
     child_count = fields.Integer(compute='_get_project_child_count',  string="Child Projects Count")
     
-    # camul standard progress_rate a fost redefinit pentru a caclula progresul cum vor muschii mei
-    # campul nu mai este in 10
+
     progress_rate = fields.Float(string='Progress',  compute='_compute_progress_rate', store=False, digits=(16, 2))
     # campul project_progress a fost adaugat pentru a memora valoarea caclulata a progresului
     project_progress = fields.Float(string='Progress', copy=False  )  
@@ -143,8 +126,8 @@ class project_project(models.Model):
  
     
     @api.model
-    def default_get(self, fields):
-        defaults = super(project_project, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(project_project, self).default_get(fields_list)
         project_parent_id = self.env.context.get('active_id', False) 
         project_parent = self.browse(project_parent_id) 
         if project_parent_id:
@@ -156,7 +139,7 @@ class project_project(models.Model):
  
 
     @api.multi
-    def print_button(self,  data ):
+    def print_button(self,  data):
         data['ceva'] = 'ceva'     
         return self.env['report'].get_action( report_name='deltatech_project.report_project', data=data)
  
