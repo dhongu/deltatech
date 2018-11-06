@@ -58,9 +58,18 @@ class MealTicketReport(models.TransientModel):
 
         for employee in employees:
             lines[employee]['price'] = self.price
+
+
+            tickets = (lines[employee]['worked_hours'] + lines[employee]['overtime']) / 8
+            diff = lines[employee]['tickets'] - tickets
+            if 0.5 < diff < 0.99:
+                lines[employee]['tickets'] = round(tickets)
+
             lines[employee]['amount'] = self.price * lines[employee]['tickets']
             line = self.env['hr.meal.ticket.line'].create(lines[employee])
             line._compute_first_last_name()
+
+
 
     def button_show(self):
         self.do_compute()
