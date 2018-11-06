@@ -68,6 +68,7 @@ class HrAttendanceSheet(models.Model):
     line_ids = fields.One2many('hr.attendance.sheet.line', 'sheet_id', readonly=True, states={
         'draft': [('readonly', False)]})
 
+    employee_id = fields.Many2one('hr.employee', related='line_ids.employee_id', string='Employee' )
 
 
     @api.onchange('division_id')

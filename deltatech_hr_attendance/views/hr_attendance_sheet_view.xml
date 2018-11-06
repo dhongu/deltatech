@@ -76,7 +76,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="formation_id" filter_domain="[('formation_id','child_of',self)]"/>
-
+                <field name="employee_id"/>
                 <field name="state"/>
 
                 <filter name="week" string="Last Week"
