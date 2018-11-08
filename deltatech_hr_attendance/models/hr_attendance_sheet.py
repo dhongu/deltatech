@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools.float_utils import float_round
-
+import calendar
 import time
 from datetime import datetime, timedelta, date
 import pytz
@@ -69,6 +69,9 @@ class HrAttendanceSheet(models.Model):
         'draft': [('readonly', False)]})
 
     employee_id = fields.Many2one('hr.employee', related='line_ids.employee_id', string='Employee' )
+
+
+
 
 
     @api.onchange('division_id')
@@ -287,6 +290,13 @@ class HrAttendanceSheetLine(models.Model):
     working_day = fields.Float(default=1, string="Working Day")
     comments = fields.Char()
 
+
+
+    def _date_is_day_off(self, date):
+        if isinstance(date,str):
+            date = fields.Date.from_string(date)
+        return date.weekday() in (calendar.SATURDAY, calendar.SUNDAY,)
+
     @api.multi
     def adjust_grid(self, row_domain, column_field, column_value, cell_field, change):
         if column_field != 'date' or cell_field != 'unit_amount':
@@ -419,6 +429,8 @@ class HrAttendanceSheetLine(models.Model):
 
         return values
 
+
+
     @api.model
     def compute_on_shift(self, shift):
 
@@ -523,6 +535,11 @@ class HrAttendanceSheetLine(models.Model):
             values['worked_hours'] = min(8, worked_hours)
             values['overtime_granted'] = 0.0
             values['night_hours'] = 0.0
+
+        if self._date_is_day_off(self.date):
+            values['overtime_granted'] = values['overtime'] + values['worked_hours']
+            values['worked_hours'] = 0
+
 
         return values
 

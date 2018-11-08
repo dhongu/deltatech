@@ -140,12 +140,12 @@
                                            t-att-data-active-id="line.id"
                                            t-att-data-res-model="line._name" style="cursor: pointer;">
 
-                                            <t t-if="int(line.total_hours)>=1">
-                                                <t t-raw="int(line.total_hours)"/>
+                                            <t t-if="round(line.total_hours)>=1">
+                                                <t t-raw="round(line.total_hours)"/>
                                             </t>
 
                                             <t t-if="details['text']">
-                                                 <t t-if="int(line.total_hours)>=1">
+                                                 <t t-if="round(line.total_hours)>=1">
                                                     <span>/</span>
                                                  </t>
                                                <t t-raw="details['text']"/>
@@ -224,12 +224,12 @@
                                 <td class="text-right" t-attf-style="   {{not details['text'] and   'background-color:'+ details['color']}};  ">
                                     <t t-set="line" t-value="details['line']"/>
                                     <t t-if="line and line.night_hours">
-                                        <div t-esc="int(line.night_hours)"/>
+                                        <div t-esc="round(line.night_hours)"/>
                                     </t>
                                 </td>
                             </t>
                             <td class="text-right">
-                                <strong t-esc="int(obj['display']['night_hours'])"/>
+                                <strong t-esc="round(obj['display']['night_hours'])"/>
                             </td>
                             <td/>
                         </tr>
