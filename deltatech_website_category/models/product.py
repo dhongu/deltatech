@@ -73,7 +73,8 @@ class ProductCategory(models.Model):
     def _get_product_count(self):
         prod_obj = self.env["product.template"]
         for rec in self:
-            if not isinstance(rec.id, models.NewId):
-                counts = prod_obj.search_count( [('public_categ_ids', 'child_of', rec.id),
-                                                   ('website_published', '=', True)])
-                rec.total_tree_products = counts
+            if rec.product_ids:
+                if not isinstance(rec.id, models.NewId):
+                    counts = prod_obj.search_count( [('public_categ_ids', 'child_of', rec.id),
+                                                       ('website_published', '=', True)])
+                    rec.total_tree_products = counts
