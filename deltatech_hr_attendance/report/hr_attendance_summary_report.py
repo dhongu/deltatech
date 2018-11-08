@@ -157,12 +157,13 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['night_hours'] += round(line.night_hours)
             if not res['days'][index]['holiday'] and line.worked_hours > 0.5 and not self._date_is_day_off(index_date):
                 working_day += 1
-                line.write({'working_day': 1.0})
+                if line.working_day != 1.0:
+                    line.write({'working_day': 1.0})
             else:
-                line.write({'working_day': 0.0})
+                if line.working_day != 0.0:
+                    line.write({'working_day': 0.0})
 
-        if work_day < 0:
-            work_day = 0
+
         res['norma'] = (to_retrieve + working_day) * 8
         res['work_day'] = working_day
         if res['worked_hours'] < res['norma']:
@@ -177,6 +178,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             dif = res['worked_hours'] - res['norma']
             res['worked_hours'] = res['norma']
             res['overtime'] = res['overtime'] + dif
+
+        res['work_day'] = res['worked_hours'] / 8
 
         if not res['overtime']:
             res['rows'] -= 1

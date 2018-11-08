@@ -51,10 +51,22 @@ class MealTicketReport(models.TransientModel):
                 'overtime': 0.0,
             }
 
-        for attendance_line in attendance_lines:
-            lines[attendance_line.employee_id]['tickets'] += attendance_line.working_day
-            lines[attendance_line.employee_id]['worked_hours'] += attendance_line.worked_hours
-            lines[attendance_line.employee_id]['overtime'] += attendance_line.overtime_granted
+            res = self.env['report.deltatech_hr_attendance.report_attendance_summary']._get_attendance_summary(
+                start_date = self.date_from,
+                end_date = self.date_to,
+                lines = attendance_lines.filtered(lambda l: l.employee_id.id == employee.id),
+                empid = employee.id
+            )
+            lines[employee]['tickets'] = res['work_day']
+            #lines[employee]['tickets'] = res['worked_hours'] / 8
+            lines[employee]['worked_hours'] = res['worked_hours']
+            lines[employee]['overtime'] = res['overtime']
+
+
+        # for attendance_line in attendance_lines:
+        #     lines[attendance_line.employee_id]['tickets'] += attendance_line.working_day
+        #     lines[attendance_line.employee_id]['worked_hours'] += attendance_line.worked_hours
+        #     lines[attendance_line.employee_id]['overtime'] += attendance_line.overtime_granted
 
         for employee in employees:
             lines[employee]['price'] = self.price
