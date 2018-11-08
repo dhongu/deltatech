@@ -178,13 +178,13 @@
                             </td>
                         </t>
                         <td class="text-right">
-                            <strong t-esc="int(obj['display']['worked_hours'])"/>
+                            <strong t-esc="round(obj['display']['worked_hours'])"/>
                         </td>
                         <td class="text-right">
                             <strong t-esc="int(obj['display']['norma'])"/>
                         </td>
                         <td class="text-right">
-                            <strong t-esc="int(obj['display']['work_day'])"/>
+                            <strong t-esc="round(obj['display']['work_day'])"/>
                         </td>
                         <t t-foreach="get_holidays_status()" t-as="holiday">
                             <t t-set="nr" t-value="obj['display']['holiday'][holiday['cod']]"/>
