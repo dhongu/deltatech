@@ -189,14 +189,18 @@
 			<field name="model_id" ref="model_service_agreement" />
 			<field name="state">code</field>
 			<field name="code">action = self.compute_totals(self.env.context.get('active_ids', []))</field>
+			<field name="binding_model_id" ref="model_service_agreement" />
 		</record>
 
+<!--
 		<record id="more_item_update_revenues" model="ir.values">
 			<field name="key2" eval="'client_action_multi'" />
 			<field name="model" eval="'service.agreement'" />
 			<field name="name">Update Revenues</field>
 			<field name="value" eval="'ir.actions.server,%d'%action_update_revenues" />
 		</record>
+-->
+
 
 
 

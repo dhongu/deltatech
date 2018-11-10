@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# ©  2008-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 
 from odoo import models, fields, api, _
@@ -31,13 +13,13 @@ class service_billing_preparation(models.TransientModel):
     _description = "Service Billing Preparation"
     
     
-    period_id = fields.Many2one('account.period', string='Period', domain=[('state', '!=', 'done')],required=True,) 
-    
-    
+    period_id = fields.Many2one('date.range', string='Period', required=True,)
     agreement_ids = fields.Many2many('service.agreement', 'service_billing_agreement', 'billing_id','agreement_id', 
         string='Agreements', domain=[('state', '=', 'open')])
     
-  
+
+
+
     @api.model
     def default_get(self, fields):      
         defaults = super(service_billing_preparation, self).default_get(fields)
@@ -62,7 +44,7 @@ class service_billing_preparation(models.TransientModel):
                 if cons_value:
                     cons_value.update({
                           'partner_id' : agreement.partner_id.id,
-                          'period_id':   self.period_id.id,   
+                          'period_id':   self.period_id.id,
                           'agreement_id': agreement.id,
                           'agreement_line_id': line.id,
                           'date_invoice':agreement.next_date_invoice,
