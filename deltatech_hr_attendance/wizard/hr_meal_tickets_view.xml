@@ -43,7 +43,7 @@
 
     <menuitem id="menu_meal_ticket" name="Meal Tickets"
               action="action_meal_ticket"
-              parent="hr_attendance.menu_hr_attendance_manage_attendances"  />
+              parent="hr_attendance.menu_hr_attendance_report"  />
 
 
     <record id="action_meal_ticket_line" model="ir.actions.act_window">

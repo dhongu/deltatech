@@ -211,6 +211,7 @@
                      <button name="action_confirm" string="Confirmation" type="object" icon="fa fa-check"/>
                      <button name="action_invalidate" string="Invalidate" type="object" icon="fa fa-ban"/>
                      <button name="action_set_shift" string="Set Default Shift" type="object"  />
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
 

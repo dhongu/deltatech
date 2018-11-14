@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-04 04:35+0000\n"
-"PO-Revision-Date: 2018-10-04 04:35+0000\n"
+"POT-Creation-Date: 2018-11-14 07:20+0000\n"
+"PO-Revision-Date: 2018-11-14 07:20+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -79,11 +79,6 @@ msgid "Amount"
 msgstr "Valoare"
 
 #. module: deltatech_hr_attendance
-#: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
-msgid "Analyze from"
-msgstr "Analiza de la"
-
-#. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_form
 msgid "Approve"
 msgstr "Aprobă"
@@ -94,7 +89,7 @@ msgid "Approved"
 msgstr "Aprobat"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:560
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:584
 #: model:ir.model,name:deltatech_hr_attendance.model_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_attendance_ids
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_form
@@ -124,13 +119,21 @@ msgstr "Fișă de prezență"
 
 #. module: deltatech_hr_attendance
 #: code:addons/deltatech_hr_attendance/report/attendance_summary_xlsx.py:13
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:236
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:242
+#: model:ir.actions.act_window,name:deltatech_hr_attendance.action_hr_attendance_summary
 #: model:ir.actions.report,name:deltatech_hr_attendance.action_attendance_summary_control
 #: model:ir.actions.report,name:deltatech_hr_attendance.action_report_attendance_summary
-#: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
+#: model:ir.ui.menu,name:deltatech_hr_attendance.menu_hr_attendance_summary
 #, python-format
 msgid "Attendance Summary"
-msgstr "Sumar prezență"
+msgstr "Centralizator prezență"
+
+#. module: deltatech_hr_attendance
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
+msgid "Attendance Summary\n"
+"            Analyze from"
+msgstr "Centralizator prezențe\n"
+"            analiză din"
 
 #. module: deltatech_hr_attendance
 #: model:ir.actions.report,name:deltatech_hr_attendance.action_report_attendance_summary_pdf
@@ -151,7 +154,7 @@ msgstr "Fișă de prezență"
 #. module: deltatech_hr_attendance
 #: model:ir.actions.client,name:deltatech_hr_attendance.action_attendance_summary
 msgid "Attendance_summary"
-msgstr "Attendance_summary"
+msgstr "Centralizator prezențe"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_breaks
@@ -164,15 +167,22 @@ msgid "Calcul"
 msgstr "Calcul"
 
 #. module: deltatech_hr_attendance
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_summary_form
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_meal_ticket_form
 msgid "Cancel"
 msgstr "Anulează"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:204
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:210
 #, python-format
 msgid "Cannot approve a non-submitted timesheet."
 msgstr "Imposibil de aprobat o foaie de pontaj neremisă."
+
+#. module: deltatech_hr_attendance
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:606
+#, python-format
+msgid "Cannot delete a daily attendance in Confirmed state "
+msgstr "Cannot delete a daily attendance in Confirmed state "
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_check_in
@@ -183,6 +193,13 @@ msgstr "Intrare"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_check_out
 msgid "Check Out"
 msgstr "Ieșire"
+
+#. module: deltatech_hr_attendance
+#: model:ir.actions.act_window,name:deltatech_hr_attendance.action_hr_clarvision
+#: model:ir.actions.act_window,name:deltatech_hr_attendance.action_hr_clarvision_line
+#: model:ir.ui.menu,name:deltatech_hr_attendance.menu_hr_clarvision
+msgid "Clarvision"
+msgstr "Clarvision"
 
 #. module: deltatech_hr_attendance
 #: model:ir.actions.act_window,help:deltatech_hr_attendance.action_hr_attendance_sheet
@@ -224,6 +241,7 @@ msgstr "Confirmat"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_create_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_create_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_create_uid
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_create_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_create_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_create_uid
 msgid "Created by"
@@ -233,6 +251,7 @@ msgstr "Creat de"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_create_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_create_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_create_date
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_create_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_create_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_create_date
 msgid "Created on"
@@ -252,19 +271,20 @@ msgstr "Dată"
 
 #. module: deltatech_hr_attendance
 #: code:addons/deltatech_hr_attendance/report/attendance_summary_xlsx.py:36
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:240
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:246
 #, python-format
 msgid "Date from"
 msgstr "Data de la"
 
 #. module: deltatech_hr_attendance
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_date_range_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_date_range_id
 msgid "Date range"
 msgstr "Interval"
 
 #. module: deltatech_hr_attendance
 #: code:addons/deltatech_hr_attendance/report/attendance_summary_xlsx.py:37
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:241
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:247
 #, python-format
 msgid "Date to"
 msgstr "Data pâna la"
@@ -272,6 +292,7 @@ msgstr "Data pâna la"
 #. module: deltatech_hr_attendance
 #: selection:hr.department,type:0
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_department_id
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_formation_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_department_id
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_department_filter
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_filter
@@ -287,6 +308,7 @@ msgstr "Departamente"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_display_name
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_display_name
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_display_name
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_display_name
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_display_name
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_display_name
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_report_abstract_attendance_summary_xlsx_display_name
@@ -325,6 +347,7 @@ msgstr "Ore efective"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model,name:deltatech_hr_attendance.model_hr_employee
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_employee_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_employee_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_employee_id
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_filter
@@ -332,13 +355,14 @@ msgid "Employee"
 msgstr "Angajat"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:249
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:255
 #, python-format
 msgid "Employees"
 msgstr "Angajați"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_date_to
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_date_to
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_date_to
 msgid "End Date"
 msgstr "Dată sfârșit"
@@ -373,6 +397,11 @@ msgid "Global Leave"
 msgstr "Libere globale"
 
 #. module: deltatech_hr_attendance
+#: model:ir.ui.menu,name:deltatech_hr_attendance.menu_hr_attendance_report_graph
+msgid "Graph Reporting"
+msgstr "Raport grafic"
+
+#. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_filter
 msgid "Group By"
 msgstr "Grupează după"
@@ -388,9 +417,15 @@ msgid "HR Department"
 msgstr "HR Department"
 
 #. module: deltatech_hr_attendance
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_hours_details
+msgid "Hours Details"
+msgstr "Detaliere ore"
+
+#. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_id
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_id
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_report_abstract_attendance_summary_xlsx_id
@@ -418,10 +453,15 @@ msgid "Import attendance"
 msgstr "Import prezență"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/wizard/hr_attendance_import.py:178
+#: code:addons/deltatech_hr_attendance/wizard/hr_attendance_import.py:183
 #, python-format
 msgid "Imported Attendances"
 msgstr "Prezențe importate"
+
+#. module: deltatech_hr_attendance
+#: model:ir.ui.menu,name:deltatech_hr_attendance.menu_hr_attendance_interface
+msgid "Interface"
+msgstr "Interfațare"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_form
@@ -432,6 +472,7 @@ msgstr "Invalidare"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import___last_update
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet___last_update
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line___last_update
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary___last_update
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket___last_update
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line___last_update
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_report_abstract_attendance_summary_xlsx___last_update
@@ -455,6 +496,7 @@ msgstr "Nume"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_write_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_write_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_write_uid
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_write_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_write_uid
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_write_uid
 msgid "Last Updated by"
@@ -464,6 +506,7 @@ msgstr "Ultima actualizare făcută de"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_write_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_write_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_write_date
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_write_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_write_date
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_write_date
 msgid "Last Updated on"
@@ -496,6 +539,7 @@ msgstr "Tipul concediului"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_ids
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_line_ids
 msgid "Line"
 msgstr "Linie"
 
@@ -510,7 +554,7 @@ msgid "Manual"
 msgstr "Manual"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:246
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:252
 #, python-format
 msgid "Marca"
 msgstr "Marca"
@@ -533,7 +577,7 @@ msgid "Month"
 msgstr "Luna"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:301
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:317
 #, python-format
 msgid "Multiple timesheet entries match the modified value. Please change the search options or modify the entries individually."
 msgstr "Multiple timesheet entries match the modified value. Please change the search options or modify the entries individually."
@@ -581,7 +625,7 @@ msgid "No check out"
 msgstr "Fără ieșire"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:266
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:272
 #, python-format
 msgid "Norm"
 msgstr "Normă"
@@ -589,7 +633,7 @@ msgstr "Normă"
 #. module: deltatech_hr_attendance
 #: selection:hr.attendance.sheet.line,state:0
 msgid "Not OK"
-msgstr "Not OK"
+msgstr "Nu e OK"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_filter
@@ -613,13 +657,13 @@ msgid "Ok"
 msgstr "Ok"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:202
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:208
 #, python-format
 msgid "Only an HR Officer or Manager can approve timesheets."
 msgstr "Only an HR Officer or Manager can approve timesheets."
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:190
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:196
 #, python-format
 msgid "Only an HR Officer or Manager can refuse timesheets or reset them to draft."
 msgstr "Only an HR Officer or Manager can refuse timesheets or reset them to draft."
@@ -631,6 +675,7 @@ msgstr "Open"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_overtime
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_overtime
 msgid "Overtime"
 msgstr "Ore suplimentare"
 
@@ -651,6 +696,7 @@ msgid "Price"
 msgstr "Preț"
 
 #. module: deltatech_hr_attendance
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_summary_form
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_meal_ticket_form
 msgid "Print"
 msgstr "Tipăriți"
@@ -663,12 +709,18 @@ msgstr "Refuzați"
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_report_id
 msgid "Report"
-msgstr "Report"
+msgstr "raport"
 
 #. module: deltatech_hr_attendance
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_summary_form
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_meal_ticket_form
 msgid "Report Options"
-msgstr "Report Options"
+msgstr "Opțiuni raport"
+
+#. module: deltatech_hr_attendance
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_holidays_status_retrieve
+msgid "Retrieve"
+msgstr "Recuperează"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_import_background
@@ -676,6 +728,7 @@ msgid "Run in background"
 msgstr "Rulează în fundal"
 
 #. module: deltatech_hr_attendance
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_department_sequence
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_holidays_status_sequence
 msgid "Sequence"
 msgstr "Secvență"
@@ -693,7 +746,7 @@ msgstr "Setați ca ciornă"
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_sheet_id
 msgid "Sheet"
-msgstr "Fișă"
+msgstr "Foaie"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_form
@@ -726,6 +779,7 @@ msgstr "Schimb 3"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_form
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_summary_form
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_meal_ticket_form
 msgid "Show"
 msgstr "Afișează"
@@ -737,6 +791,7 @@ msgstr "Afișează Pontaj"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_date_from
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_summary_date_from
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_date_from
 msgid "Start Date"
 msgstr "Dată început"
@@ -746,7 +801,7 @@ msgstr "Dată început"
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_state
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_state
 msgid "State"
-msgstr "Stare"
+msgstr "Județ"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_state
@@ -761,10 +816,10 @@ msgstr "Subdepartmente"
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_form
 msgid "Submit to Manager"
-msgstr "Trimiteți Directorului"
+msgstr "Trimiteti Directorului"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:263
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:269
 #, python-format
 msgid "Sum"
 msgstr "Sum"
@@ -804,7 +859,12 @@ msgid "Total Hours"
 msgstr "Total ore"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:252
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_two_fields_employee
+msgid "Two Fields Employee"
+msgstr "Separare Nume de Prenume"
+
+#. module: deltatech_hr_attendance
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:258
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_department_type
 #, python-format
 msgid "Type"
@@ -821,10 +881,10 @@ msgid "Waiting Approval"
 msgstr "Așteaptă aprobare"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:269
+#: code:addons/deltatech_hr_attendance/report/hr_attendance_summary_report.py:275
 #, python-format
 msgid "Wd"
-msgstr "Zl"
+msgstr "ZL"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_sheet_line_grid
@@ -832,7 +892,7 @@ msgid "Week"
 msgstr "Săptămână"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:105
+#: code:addons/deltatech_hr_attendance/models/hr_attendance_sheet.py:109
 #, python-format
 msgid "Week "
 msgstr "Săptămână"
@@ -849,8 +909,9 @@ msgstr "Lucru până la"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_worked_hours
+#: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_meal_ticket_line_worked_hours
 msgid "Worked Hours"
-msgstr "Ore lucrate"
+msgstr "Ore lucrare"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model.fields,field_description:deltatech_hr_attendance.field_hr_attendance_sheet_line_working_day
@@ -858,7 +919,7 @@ msgid "Working Day"
 msgstr "Zile lucru"
 
 #. module: deltatech_hr_attendance
-#: code:addons/deltatech_hr_attendance/models/hr.py:56
+#: code:addons/deltatech_hr_attendance/models/hr.py:62
 #, python-format
 msgid "You can not have 2 leaves that overlaps on same day for the employee %s!"
 msgstr "You can not have 2 leaves that overlaps on same day for the employee %s!"
@@ -899,6 +960,11 @@ msgid "hr.attendance.sheet"
 msgstr "hr.attendance.sheet"
 
 #. module: deltatech_hr_attendance
+#: model:ir.model,name:deltatech_hr_attendance.model_hr_attendance_summary
+msgid "hr.attendance.summary"
+msgstr "hr.attendance.summary"
+
+#. module: deltatech_hr_attendance
 #: model:ir.model,name:deltatech_hr_attendance.model_hr_meal_ticket
 msgid "hr.meal.ticket"
 msgstr "hr.meal.ticket"
@@ -911,7 +977,7 @@ msgstr "hr.meal.ticket.line"
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
 msgid "night"
-msgstr "Ore de noapte"
+msgstr "noapte"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
@@ -920,6 +986,7 @@ msgstr "normal"
 
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_import_form
+#: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_hr_attendance_summary_form
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.view_meal_ticket_form
 msgid "or"
 msgstr "sau"
@@ -927,7 +994,7 @@ msgstr "sau"
 #. module: deltatech_hr_attendance
 #: model:ir.ui.view,arch_db:deltatech_hr_attendance.report_attendance_summary_base
 msgid "overtime"
-msgstr "ore suplimentare"
+msgstr "suplimentare"
 
 #. module: deltatech_hr_attendance
 #: model:ir.model,name:deltatech_hr_attendance.model_report_abstract_attendance_summary_xlsx

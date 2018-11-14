@@ -38,8 +38,10 @@
             <field name="target">new</field>
         </record>
 
+         <menuitem name="Interface" id="menu_hr_attendance_interface"
+                   parent="hr_attendance.menu_hr_attendance_root" sequence="20" />
         <menuitem name="Import attendance" id="menu_hr_attendance_import"
-                  action="action_hr_attendance_import" parent="hr_attendance.menu_hr_attendance_manage_attendances"/>
+                  action="action_hr_attendance_import" parent="menu_hr_attendance_interface"/>
 
 
     </data>

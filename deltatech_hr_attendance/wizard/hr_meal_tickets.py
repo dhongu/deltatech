@@ -1,8 +1,7 @@
-# coding=utf-8
 # -*- coding: utf-8 -*-
-# ©  2008-2018 Fekete Mihai <mihai.fekete@forbiom.eu>
-#              Dorin Hongu <dhongu(@)gmail(.)com
+# ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
+
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _

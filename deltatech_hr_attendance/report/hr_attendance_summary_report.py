@@ -40,7 +40,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         start_date = fields.Date.from_string(start_date)
         end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
-        for x in range(0, max(7, days)):
+        for x in range(0, max(2, days)):
             if self._date_is_day_off(start_date) or self._date_is_global_leave(start_date):
                 color = '#f2f2f2'
             elif self._date_is_global_leave(start_date):
@@ -80,7 +80,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
         work_day = 0
         to_retrieve = 0
-        for index in range(0, max(7, days)):
+        for index in range(0, max(2, days)):
             current = start_date + timedelta(index)
             res['days'].append({
                 'day': current.day,
@@ -111,7 +111,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                 holiday_global_leave = holiday
 
         if holiday_global_leave:
-            for index in range(0, max(7, days)):
+            for index in range(0, max(2, days)):
                 current = start_date + timedelta(index)
                 if self._date_is_global_leave(current) and not self._date_is_day_off(current):
                     res['days'][index]['color'] = holiday_global_leave.color_name
@@ -120,6 +120,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                     work_day -= 1
                     res['holiday'][holiday_global_leave.cod] += 1
 
+        holiday_to_retrieve = []
         for holiday in holidays.sorted(lambda x: x.holiday_status_id.sequence):
             # Convert date to user timezone, otherwise the report will not be consistent with the
             # value displayed in the interface.
@@ -140,6 +141,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                         res['days'][index_d]['holiday'] = True
                         if holiday.holiday_status_id.retrieve:
                             to_retrieve += 1
+                            holiday_to_retrieve += [holiday.holiday_status_id.cod]
 
                 date_from += timedelta(1)
 
@@ -155,7 +157,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
-            if not res['days'][index]['holiday'] and line.worked_hours > 0.5 and not self._date_is_day_off(index_date):
+            if not res['days'][index]['holiday'] and line.worked_hours >= 5 and not self._date_is_day_off(index_date):
                 working_day += 1
                 if line.working_day != 1.0:
                     line.write({'working_day': 1.0})
@@ -163,7 +165,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                 if line.working_day != 0.0:
                     line.write({'working_day': 0.0})
 
-
+        retrieved = res['overtime'] * 8
         res['norma'] = (to_retrieve + working_day) * 8
         res['work_day'] = working_day
         if res['worked_hours'] < res['norma']:
@@ -179,7 +181,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['worked_hours'] = res['norma']
             res['overtime'] = res['overtime'] + dif
 
-        res['work_day'] = res['worked_hours'] / 8
+        retrieved =  retrieved - res['overtime'] * 8
+
+        #res['work_day'] = res['worked_hours'] / 8   # nu se mai calculeaza ca numarul de zile
 
         if not res['overtime']:
             res['rows'] -= 1
@@ -191,7 +195,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
     def _get_data_from_report(self, report):
         res = []
         lines = report.line_ids
-        employees = self.env['hr.employee'].search([('department_id', '=', report.formation_id.id)])
+        employees = self.env['hr.employee'].search([('department_id', 'child_of', report.formation_id.id)])
         # mai sunt si angazati inactivi care totusi apar in pontaj si care trebuie afisati in raport
         for line in report.line_ids:
             employees |= line.employee_id
@@ -223,7 +227,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
     def get_report_values(self, docids, data=None):
 
         attendance_report = self.env['ir.actions.report']._get_report_from_name(self._template)
-        attendances = self.env['hr.attendance.sheet'].browse(docids)
+        active_model = self.env.context.get('model', 'hr.attendance.sheet')
+        attendances = self.env[active_model].browse(docids)
         return {
             'doc_ids': docids,
             'doc_model': attendance_report.model,

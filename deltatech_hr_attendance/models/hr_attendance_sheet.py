@@ -187,7 +187,7 @@ class HrAttendanceSheet(models.Model):
 
         action = self.env.ref('deltatech_hr_attendance.action_hr_attendance_sheet_line').read()[0]
         action['domain'] = [('sheet_id', '=', self.id)]
-        action['context'] = {'active_id': self.id}
+        action['context'] = {'active_id': self.id, 'active_model': self._name }
         return action
 
     @api.multi
@@ -214,7 +214,9 @@ class HrAttendanceSheet(models.Model):
     def button_show_grid(self):
         self.ensure_one()
         action = self.env.ref('deltatech_hr_attendance.action_attendance_summary')
+
         vals = action.read()[0]
+        vals['context'] = {'active_id': self.id, 'active_model': self._name}
         return vals
 
     # @api.multi
@@ -227,6 +229,7 @@ class HrAttendanceSheet(models.Model):
         self.ensure_one()
         report_name = 'deltatech_hr_attendance.report_attendance_summary'
         context = dict(self.env.context)
+        context['active_model'] = self._name
         action = self.env['ir.actions.report'].search(
             [('report_name', '=', report_name),
              ('report_type', '=', report_type)], limit=1)
@@ -446,7 +449,7 @@ class HrAttendanceSheetLine(models.Model):
 
         t_diff = relativedelta(check_out, check_in)
 
-        worked_hours = t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
+        worked_hours = 24*t_diff.days +  t_diff.hours + t_diff.minutes / 60 + t_diff.seconds / 60 / 60
         if worked_hours > 24:
             values['state'] = 'not_ok'
         else:
@@ -514,8 +517,9 @@ class HrAttendanceSheetLine(models.Model):
 
         if shift[0] == 'S':
             if values['breaks'] > 25 / 60 and overtime < 1:
-                values['worked_hours'] = worked_hours - max(values['breaks'], 1)
+                values['worked_hours'] = worked_hours - max(values['breaks'], 1) + values['overtime_granted']
                 values['state'] = 'need'
+                values['overtime_granted'] = 0.0
 
             if overtime >= 1 and values['breaks'] > 25 / 60:
                 values['worked_hours'] = worked_hours

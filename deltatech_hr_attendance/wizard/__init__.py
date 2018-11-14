@@ -6,7 +6,7 @@
 
 from . import hr_attendance_import
 from . import hr_meal_tickets
-
+from . import hr_attendance_summary
 
 
 
