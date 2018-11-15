@@ -232,6 +232,7 @@ class HrAttendanceSheet(models.Model):
         context['active_model'] = self._name
         action = self.env['ir.actions.report'].search(
             [('report_name', '=', report_name),
+             ('model', '=', self._name),
              ('report_type', '=', report_type)], limit=1)
         return action.with_context(context).report_action(self)
 
@@ -293,7 +294,7 @@ class HrAttendanceSheetLine(models.Model):
     working_day = fields.Float(default=1, string="Working Day")
     comments = fields.Char()
 
-
+    #holiday_id = fields.Many2one('hr.holidays')
 
     def _date_is_day_off(self, date):
         if isinstance(date,str):

@@ -6,18 +6,25 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.internal_layout">
                     <div class="page">
-                        <t t-call="deltatech_hr_attendance.report_attendance_summary_base"/>
+                        <t t-call="deltatech_hr_attendance.report_attendance_summary_base" t-lang='user.lang'/>
                     </div>
                 </t>
             </t>
         </t>
     </template>
+    <template id="report_attendance_summary2">
+        <t t-call="deltatech_hr_attendance.report_attendance_summary"/>
+    </template>
 
     <template id="control_attendance_summary">
         <div class="o_attendance_summary_page">
             <t t-call="deltatech_hr_attendance.attendance_summary_buttons"/>
-            <t t-call="deltatech_hr_attendance.report_attendance_summary_base"/>
+            <t t-call="deltatech_hr_attendance.report_attendance_summary_base" t-lang='user.lang'/>
         </div>
+    </template>
+
+    <template id="control_attendance_summary2">
+        <t t-call="deltatech_hr_attendance.control_attendance_summary"/>
     </template>
 
     <template id="attendance_summary_buttons">
@@ -115,7 +122,7 @@
                 <t t-foreach="get_data_from_report(doc)"
                    t-as="obj">
 
-                    <tr>
+                    <tr style="{page-break-inside: avoid;}">
                         <td t-attf-rowspan=" {{obj['display']['rows']}}">
                             <span t-field="obj['emp'].barcode"/>
                         </td>

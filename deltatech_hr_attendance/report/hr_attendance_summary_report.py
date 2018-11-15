@@ -8,12 +8,19 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import copy
 
 
 class HrAttendanceSummaryReport(models.AbstractModel):
     _name = 'report.deltatech_hr_attendance.report_attendance_summary'
     _template = 'deltatech_hr_attendance.report_attendance_summary'
     _inherit = 'report.attendance_summary_xlsx'
+
+    _holiday = {}
+    _empty_row = {}
+    _days = []
+
+
 
     def _get_header_info(self, start_date, holiday_type):
         st_date = fields.Date.from_string(start_date)
@@ -36,19 +43,31 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         return leaves and True or False
 
     def _get_day(self, start_date, end_date):
+
         res = []
+        dayofweek = [ _("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat"), _("Sun")]
         start_date = fields.Date.from_string(start_date)
         end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
         for x in range(0, max(2, days)):
-            if self._date_is_day_off(start_date) or self._date_is_global_leave(start_date):
+            global_leave = self._date_is_global_leave(start_date)
+            is_day_off = self._date_is_day_off(start_date)
+            if is_day_off or global_leave:
                 color = '#f2f2f2'
-            elif self._date_is_global_leave(start_date):
+            elif global_leave:
                 color = '#f2f2f2'
             else:
                 color = ''
-            res.append({'day_str': start_date.strftime('%a'), 'day': start_date.day, 'color': color})
+            # todo: de adus string in functie de setarile locale
+            res.append({
+                'day_str': dayofweek[start_date.weekday()],
+                'day': start_date.day,
+                'color': color,
+                'global_leave': global_leave,
+                'is_day_off':is_day_off
+            })
             start_date = start_date + relativedelta(days=1)
+        self._days = res
         return res
 
     def _get_months(self, start_date, end_date):
@@ -65,21 +84,27 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             start_date += relativedelta(day=1, months=+1)
         return res
 
-    def _get_attendance_summary(self, start_date, end_date, lines, empid):
+    def get_holidays_status(self):
+        res = {}
+        res['holiday'] = {}
+        for holiday in self.env['hr.holidays.status'].search([]):
+            res['holiday'][holiday.cod] = 0
+            if holiday.global_leave:
+                res['holiday_global_leave'] = holiday
+        return res
+
+    def get_empty_row(self, start_date, end_date):
         res = {
             'days': [],
             'worked_hours': 0.0,
             'overtime': 0.0,
             'night_hours': 0.0,
             'rows': 3,
+            'work_day': 0
         }
 
-        start_date = fields.Date.from_string(start_date)
-        end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
 
-        work_day = 0
-        to_retrieve = 0
         for index in range(0, max(2, days)):
             current = start_date + timedelta(index)
             res['days'].append({
@@ -94,9 +119,46 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             if self._date_is_day_off(current):
                 res['days'][index]['color'] = '#f2f2f2'
             else:
-                work_day += 1
+                res['work_day'] += 1
+
+        return res
+
+    def _get_attendance_summary(self, start_date, end_date, lines, empid):
+
+        if not self._days:
+            self._get_day(start_date, end_date)
+
+        start_date = fields.Date.from_string(start_date)
+        end_date = fields.Date.from_string(end_date)
+        days = (end_date - start_date).days + 1
+
+        # work_day = 0
+        to_retrieve = 0
+
 
         # count and get leave summary details.
+
+        if not self._empty_row or not self._holiday:
+            self._empty_row = self.get_empty_row(start_date, end_date)
+            self._holiday = self.get_holidays_status()
+
+            holiday_global_leave = self._holiday['holiday_global_leave']
+            if holiday_global_leave:
+                for index in range(0, max(2, days)):
+                    current = start_date + timedelta(index)
+                    #if self._date_is_global_leave(current) and not self._date_is_day_off(current):
+                    if self._days[index]['global_leave'] and not self._days[index]['is_day_off']:
+                        self._empty_row['days'][index]['color'] = holiday_global_leave.color_name
+                        self._empty_row['days'][index]['text'] = holiday_global_leave.cod
+                        self._empty_row['days'][index]['holiday'] = True
+                        self._empty_row['work_day'] -= 1
+                        self._holiday['holiday'][holiday_global_leave.cod] += 1
+
+        res = copy.deepcopy(self._empty_row)
+        res['holiday'] = copy.deepcopy(self._holiday['holiday'])
+
+        holiday_global_leave = self._holiday['holiday_global_leave']
+
 
         holiday_type = ['confirm', 'validate']
         holidays = self.env['hr.holidays'].search([
@@ -104,21 +166,6 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             ('type', '=', 'remove'), ('date_from', '<=', str(end_date)),
             ('date_to', '>=', str(start_date))
         ])
-        res['holiday'] = {}
-        for holiday in self.env['hr.holidays.status'].search([]):
-            res['holiday'][holiday.cod] = 0
-            if holiday.global_leave:
-                holiday_global_leave = holiday
-
-        if holiday_global_leave:
-            for index in range(0, max(2, days)):
-                current = start_date + timedelta(index)
-                if self._date_is_global_leave(current) and not self._date_is_day_off(current):
-                    res['days'][index]['color'] = holiday_global_leave.color_name
-                    res['days'][index]['text'] = holiday_global_leave.cod
-                    res['days'][index]['holiday'] = True
-                    work_day -= 1
-                    res['holiday'][holiday_global_leave.cod] += 1
 
         holiday_to_retrieve = []
         for holiday in holidays.sorted(lambda x: x.holiday_status_id.sequence):
@@ -135,7 +182,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                     if not self._date_is_day_off(date_from) and not res['days'][index_d]['holiday']:
                         res['days'][index_d]['color'] = holiday.holiday_status_id.color_name
                         res['days'][index_d]['text'] = holiday.holiday_status_id.cod
-                        work_day -= 1
+                        res['work_day'] -= 1
                         res['holiday'][holiday.holiday_status_id.cod] += 1
                         res['days'][index_d]['holiday_id'] = holiday.id
                         res['days'][index_d]['holiday'] = True
@@ -181,9 +228,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['worked_hours'] = res['norma']
             res['overtime'] = res['overtime'] + dif
 
-        retrieved =  retrieved - res['overtime'] * 8
+        retrieved = retrieved - res['overtime'] * 8
 
-        #res['work_day'] = res['worked_hours'] / 8   # nu se mai calculeaza ca numarul de zile
+        # res['work_day'] = res['worked_hours'] / 8   # nu se mai calculeaza ca numarul de zile
 
         if not res['overtime']:
             res['rows'] -= 1
@@ -227,8 +274,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
     def get_report_values(self, docids, data=None):
 
         attendance_report = self.env['ir.actions.report']._get_report_from_name(self._template)
-        active_model = self.env.context.get('model', 'hr.attendance.sheet')
-        attendances = self.env[active_model].browse(docids)
+        #active_model = self.env.context.get('model', attendance_report.model)
+        attendances = self.env[attendance_report.model].browse(docids)
         return {
             'doc_ids': docids,
             'doc_model': attendance_report.model,
@@ -241,6 +288,8 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             'get_holidays_status': self._get_holidays_status,
 
         }
+
+
 
     def _get_report_name(self):
         return _('Attendance Summary')
@@ -347,3 +396,12 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 class HrAttendanceSummaryControl(HrAttendanceSummaryReport):
     _name = 'report.deltatech_hr_attendance.control_attendance_summary'
     _template = 'deltatech_hr_attendance.control_attendance_summary'
+
+
+class HrAttendanceSummaryControl2(HrAttendanceSummaryReport):
+    _name = 'report.deltatech_hr_attendance.control_attendance_summary2'
+    _template = 'deltatech_hr_attendance.control_attendance_summary2'
+
+class HrAttendanceSummaryReport2(HrAttendanceSummaryReport):
+    _name = 'report.deltatech_hr_attendance.report_attendance_summary2'
+    _template = 'deltatech_hr_attendance.report_attendance_summary2'

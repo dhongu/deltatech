@@ -30,6 +30,9 @@ class HolidaysType(models.Model):
 class Holidays(models.Model):
     _inherit = "hr.holidays"
 
+    date_to = fields.Datetime(index=True)
+    state = fields.Selection(index=True)
+
 
     @api.model
     def default_get(self, fields_list):

@@ -47,24 +47,25 @@ class HrAttendanceSummary(models.TransientModel):
     def button_show(self):
 
         self.ensure_one()
-        action = self.env.ref('deltatech_hr_attendance.action_attendance_summary')
+        action = self.env.ref('deltatech_hr_attendance.action_attendance_summary2')
         vals = action.read()[0]
         vals['context'] = {'active_id': self.id, 'active_model': self._name}
         return vals
 
     def button_print(self):
-        self.print_report()
+        return self.print_report()
 
 
     @api.multi
     def print_report(self, report_type='qweb-pdf'):
         self.ensure_one()
-        report_name = 'deltatech_hr_attendance.report_attendance_summary'
+        report_name = 'deltatech_hr_attendance.report_attendance_summary2'
         context = dict(self.env.context)
 
         context['active_model'] = self._name
         action = self.env['ir.actions.report'].search(
             [('report_name', '=', report_name),
+             ('model','=',self._name),
              ('report_type', '=', report_type)], limit=1)
         return action.with_context(context).report_action(self)
 
@@ -75,8 +76,8 @@ class HrAttendanceSummary(models.TransientModel):
         context = dict(self.env.context)
         report = self.browse(context.get('active_id'))
         if report:
-            html = self.env.ref('deltatech_hr_attendance.action_attendance_summary_control').render_qweb_html(
-                report.ids)
+            action =  self.env.ref('deltatech_hr_attendance.action_attendance_summary_control2')
+            html = action.render_qweb_html( report.ids)
             result['html'] = html[0]
 
         return result
