@@ -51,7 +51,7 @@ class import_saga(models.TransientModel):
 
     def unaccent(self, text):
 
-        text = unicode(text.decode('utf-8','ignore').encode("utf-8"))
+        text = unicode(text.decode('utf-8', 'ignore').encode("utf-8"))
         text = unicodedata.normalize('NFD', text)
         text = text.encode('ascii', 'ignore')
         text = text.decode("utf-8")
@@ -59,15 +59,29 @@ class import_saga(models.TransientModel):
         text = text.replace('\n', ' ')
         return str(text)
 
-
     @api.multi
     def do_import(self):
+        result_html = ''
         if self.supplier_file:
-            self.import_supplier()
+            result_html += self.import_supplier()
         if self.customer_file:
-            self.import_customer()
+            result_html += self.import_customer()
         if self.articole_file:
-            self.import_articole()
+            result_html += self.import_articole()
+
+        self.write({
+            'state': 'result',
+            'result': result_html
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'import.saga',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
     @api.multi
     def import_supplier(self):
@@ -101,7 +115,7 @@ class import_saga(models.TransientModel):
         for supplier in suppliers:
             if not supplier['DENUMIRE']:
                 continue
-            print ("Import", supplier['DENUMIRE'])
+            print("Import", supplier['DENUMIRE'])
 
             country = self.env['res.country'].search([('code', '=', supplier['TARA'])], limit=1)
             if not country:
@@ -160,24 +174,24 @@ class import_saga(models.TransientModel):
                     raise
 
             self.env.cr.commit()
-        return
+        return result_html
 
     @api.multi
     def import_customer(self):
         """
         Clienţi
         Nr. crt. Nume câmp Tip Mărime câmp Descriere
-        1. COD Character 5 Cod client
-        2. DENUMIRE Character 48 Denumire furnizor
-        3. COD_FISCAL Character 16 Cod Fiscal, client
-        4. REG_COM Character 16 Nr.înregistrare la Registrul Comerţului
+        -   1. COD Character 5 Cod client
+        -   2. DENUMIRE Character 48 Denumire furnizor
+        -   3. COD_FISCAL Character 16 Cod Fiscal, client
+        -   4. REG_COM Character 16 Nr.înregistrare la Registrul Comerţului
         5. ANALITIC Character 16 Cont analitic
         6. ZS Numeric 3 Zile Scadenţă (optional)
         7. DISCOUNT Numeric 5,2 Procent de discount acordat (optional)
-        8. ADRESA Character 48 Adresa (optional)
-        9. JUDET Character 36 Judeţ (optional)
+        -   8. ADRESA Character 48 Adresa (optional)
+        -   9. JUDET Character 36 Judeţ (optional)
         10. BANCA Character 36 Banca (optional)
-        11. CONT_BANCA Character 36 Contul bancar (optional)
+        -   11. CONT_BANCA Character 36 Contul bancar (optional)
         12. DELEGAT Character 36 Numele şi prenumele delegatului (optional)
         13. BI_SERIE Character 2 Seria actului de identitate a delegatului (op.)
         14. BI_NUMAR Character 8 Număr act identitate, a delegatului (optional)
@@ -189,9 +203,9 @@ class import_saga(models.TransientModel):
         20. GRUPA Character 16 Grupa de client (optional)
         21. TIP_TERT Character 1 I pt. intracomunitar, E pt. extracomunitari
         22. TARA Character 2 Codul de tara (RO)
-        23. TEL Character 20 Numar telefon (optional)
-        24. EMAIL Character 100 Email (optional)
-        25. IS_TVA Numeric 1 1, dacă este platitor de TVA
+        -   23. TEL Character 20 Numar telefon (optional)
+        -   24. EMAIL Character 100 Email (optional)
+        -   25. IS_TVA Numeric 1 1, dacă este platitor de TVA
 
         """
         customer_file = base64.b64decode(self.customer_file)
@@ -201,7 +215,7 @@ class import_saga(models.TransientModel):
         for customer in customers:
             if not customer['DENUMIRE']:
                 continue
-            print ("Import", customer['DENUMIRE'])
+            print("Import", customer['DENUMIRE'])
 
             country = self.env['res.country'].search([('code', '=', customer['TARA'])], limit=1)
             if not country:
@@ -209,6 +223,7 @@ class import_saga(models.TransientModel):
 
             vat = customer['COD_FISCAL']
             cnp = ''
+
             is_company = True
             if vat:
                 for char in vat:
@@ -242,7 +257,9 @@ class import_saga(models.TransientModel):
                 'phone': customer['TEL'],
                 'email': customer['EMAIL'],
                 'state_id': state.id,
-
+                'street': customer['ADRESA'],
+                'vat': False,
+                'cnp': False,
             }
             try:
                 if not partner:
@@ -251,21 +268,44 @@ class import_saga(models.TransientModel):
                 else:
                     del values['name']  # se pastreaza numele actualizat din Odoo
                     partner.write(values)
+                self.env.cr.commit()
+                try:
+                    # update vat
+                    values = {
+                        'vat': vat,
+                        'cnp': cnp,
 
-                # update vat
-                values = {
-                    'vat': vat,
-                    'cnp': cnp,
-                    'vat_subjected': customer['IS_TVA'] == 1,
-                }
+                        'vat_subjected': customer['IS_TVA'] == 1,
+                    }
+                    partner.write(values)
 
-                partner.write(values)
+                    if customer['CONT_BANCA']:
+                        banca = self.env["res.partner.bank"].search([('acc_number', '=', customer['CONT_BANCA'])],
+                                                                    limit=1)
+                        if not banca:
+                            banca = self.env["res.partner.bank"].create({
+                                'acc_number': customer['CONT_BANCA'],
+                                'partner_id': partner.id
+                            })
+
+                except Exception as e:
+                    print("Error vat: %s" % str(e))
+                    result_html += '<div>Eroare client %s: %s</div>' % (customer['DENUMIRE'], str(e))
+                    if not self.ignore_error:
+                        raise
+                    else:
+                        self.env.cr.rollback()
+                self.env.cr.commit()
             except Exception as e:
+                print("Error: %s" % str(e))
                 result_html += '<div>Eroare client %s: %s</div>' % (customer['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
-            self.env.cr.commit()
-        return
+                else:
+                    self.env.cr.rollback()
+
+
+        return result_html
 
     @api.multi
     def import_articole(self):
@@ -300,7 +340,6 @@ class import_saga(models.TransientModel):
             else:
                 uom_id = uom.id
 
-
             if articol['TIP'] not in categorii:
                 categ = self.env["product.category"].search([('code_saga', '=', articol['TIP'])], limit=1)
                 if not categ:
@@ -322,25 +361,24 @@ class import_saga(models.TransientModel):
                 sale_tax = tax[CotaTVA]['sale_tax']
                 purchase_tax = tax[CotaTVA]['purchase_tax']
 
-
             values = {
                 'name': self.unaccent(articol['DENUMIRE']),
                 'default_code': articol['COD'],
                 'uom_id': uom_id,
-                'uom_po_id':uom_id,
+                'uom_po_id': uom_id,
                 'categ_id': categ.id,
                 'list_price': articol['PRET_VANZ'],
                 'barcode': articol['COD_BARE'],
-                'taxes_id':[(6, False, sale_tax.ids)],
-                'supplier_taxes_id':[(6, False, purchase_tax.ids)],
+                'taxes_id': [(6, False, sale_tax.ids)],
+                'supplier_taxes_id': [(6, False, purchase_tax.ids)],
             }
-            print (values)
+            print(values)
             if not product:
                 product = self.env['product.product'].create(values)
             else:
                 product.write(values)
             self.env.cr.commit()
-        return
+        return result_html
 
 
 """

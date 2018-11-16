@@ -22,7 +22,7 @@ Functionalitati:
     "category": "Accounting",
     "depends": [
         "base",
-        "account",
+        "account",'base_vat'
     ],
 
     "data": [

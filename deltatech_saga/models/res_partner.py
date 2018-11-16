@@ -27,10 +27,10 @@ class res_partner(models.Model):
                     vals['ref_customer'] = sequence.next_by_id( )
 
         if ('ref_supplier' not in vals) or (vals.get('ref_supplier') in ('/', False)):
-            if  vals.get('customer',False): 
+            if  vals.get('supplier',False):
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
                 if sequence:
-                    vals['ref_customer'] = sequence.next_by_id( )
+                    vals['ref_supplier'] = sequence.next_by_id( )
         return super(res_partner, self).create( vals )
 
 

@@ -34,7 +34,7 @@
                     </footer>
 
                     <footer states="result">
-                        <button string="OK" class="oe_highlight"/>
+                        <button string="OK" class="oe_highlight" special="cancel"/>
                     </footer>
 
                 </form>
