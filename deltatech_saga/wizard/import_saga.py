@@ -52,12 +52,27 @@ class import_saga(models.TransientModel):
 
     @api.multi
     def do_import(self):
+        result_html = ''
         if self.supplier_file:
-            self.import_supplier()
+            result_html += self.import_supplier()
         if self.customer_file:
-            self.import_customer()
+            result_html += self.import_customer()
         if self.articole_file:
-            self.import_articole()
+            result_html += self.import_articole()
+
+        self.write({
+            'state': 'result',
+            'result': result_html
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'import.saga',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
     @api.multi
     def import_supplier(self):
@@ -148,7 +163,7 @@ class import_saga(models.TransientModel):
                     raise
 
             self.env.cr.commit()
-        return
+        return result_html
 
     @api.multi
     def import_customer(self):
@@ -253,7 +268,7 @@ class import_saga(models.TransientModel):
                 if not self.ignore_error:
                     raise
             self.env.cr.commit()
-        return
+        return result_html
 
     @api.multi
     def import_articole(self):
@@ -326,7 +341,7 @@ class import_saga(models.TransientModel):
             else:
                 product.write(values)
             self.env.cr.commit()
-        return
+        return result_html
 
 
 """
