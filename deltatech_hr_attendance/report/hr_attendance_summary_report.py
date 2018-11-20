@@ -270,12 +270,20 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         for line in report.line_ids:
             employees |= line.employee_id
 
+        no_empty = False
+        if 'no_empty' in report._fields:
+            no_empty = report.no_empty
+
         for emp in employees.sorted(key=lambda r: r.name):
+            display = self._get_attendance_summary(report.date_from, report.date_to, lines, emp.id)
+            if no_empty and display['worked_hours'] == 0:
+                continue
             res.append({
                 'emp': emp,
-                'display': self._get_attendance_summary(report.date_from, report.date_to, lines, emp.id),
+                'display': display,
                 'sum': 0.0
             })
+
         return res
 
     def _float_time(self, val):

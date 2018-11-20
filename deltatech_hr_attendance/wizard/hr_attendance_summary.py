@@ -20,6 +20,7 @@ class HrAttendanceSummary(models.TransientModel):
 
     line_ids = fields.Many2many('hr.attendance.sheet.line', compute='_compute_line_ids')
 
+    no_empty = fields.Boolean('Without empty rows', default=True)
 
     @api.multi
     def _compute_line_ids(self):

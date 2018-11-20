@@ -17,7 +17,7 @@
                         <field name="date_to"/>
                     </group>
                     <group>
-
+                        <field name="no_empty"/>
                     </group>
                 </group>
                 <footer>

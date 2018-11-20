@@ -119,8 +119,7 @@
                 </tr>
             </thead>
             <tbody>
-                <t t-foreach="get_data_from_report(doc)"
-                   t-as="obj">
+                <t t-foreach="get_data_from_report(doc)"       t-as="obj">
 
                     <tr style="{page-break-inside: avoid;}">
                         <td t-attf-rowspan=" {{obj['display']['rows']}}">
