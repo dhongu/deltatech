@@ -537,6 +537,11 @@ msgid "The counter %s value must be greater than %s"
 msgstr "Valoarea contorului %s trebuie sa fie mai mare decat %s"
 
 #. module: deltatech_service_equipment
+#: view:service.enter.reading:deltatech_service_equipment.view_service_enter_reading_form
+msgid "The counter %s has readings in the future!!!"
+msgstr "Contorul %s are citiri in viitor!!!"
+
+#. module: deltatech_service_equipment
 #: view:service.meter.reading.estimate:deltatech_service_equipment.view_service_meter_reading_estimate_form
 msgid "For the selected meters will generate estimate readings"
 msgstr "Pentru contorii selectați se vor genera citiri estimate"

@@ -46,8 +46,9 @@ class service_enter_reading(models.TransientModel):
             domain = [('date', '>', self.date),('meter_id','=',item.meter_id.id)]
             future_readings = meters = self.env['service.meter.reading'].search(domain)
             if future_readings:
-                self.error += _('The counter %s has readings in the future!!! \r\n') % (
+                self.error += _('The counter %s has readings in the future!!!') % (
                     item.meter_id.name)
+                self.error += '\r\n'
             if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
                 self.error += _('The counter %s value must be greater than %s') % (
                 item.meter_id.name, item.meter_id.total_counter_value)
