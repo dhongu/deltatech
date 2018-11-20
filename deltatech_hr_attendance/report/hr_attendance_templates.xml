@@ -206,7 +206,7 @@
                             </td>
                         </t>
                     </tr>
-                    <t t-if="obj['display']['overtime']">
+                    <t t-if="obj['display']['with_overtime']">
                         <tr>
                             <td>overtime</td>
                             <t t-foreach="obj['display']['days']" t-as="details">
