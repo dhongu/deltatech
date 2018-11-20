@@ -276,7 +276,12 @@ class service_meter_reading(models.Model):
         self.previous_counter_value = self.meter_id.start_value
         if self.date and self.meter_id:
             previous = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
-                                                                 ('date','<',self.date)],limit=1, order='date desc, id desc')
+                                                                 ('date','<=',self.date)],limit=2, order='date desc, id desc')
+            # limit 2, intotdeauna se va selecta si pe el insusi din cauza datei
+            if len(previous) > 1: # se selecteaza contorul precedent (nu el insusi)
+                previous = previous[1]
+            else: # daca exista doar citirea curenta (len(previous)==1)
+                previous = False
             if previous:
                 self.previous_counter_value = previous.counter_value
                 self.difference = self.counter_value - self.previous_counter_value
@@ -316,7 +321,10 @@ class service_meter_reading(models.Model):
             if self.difference < 0 and self.previous_counter_value > 0:
                 raise ValidationError(
                     _('The counter %s value must be greater than %s') % (self.meter_id.name, self.previous_counter_value))
-
+            future_counters = self.env['service.meter.reading'].search([('date','>',record.date),('meter_id','=',self.meter_id.id)])
+            if future_counters:
+                raise ValidationError(
+                    _('The counter %s has values in the future!!!') % (self.meter_id.name))
             if self.difference == 0:
                 pass
                 #raise Warning(_('The counter %s value is equal to previous value: %s') % (self.meter_id.name, self.previous_counter_value))

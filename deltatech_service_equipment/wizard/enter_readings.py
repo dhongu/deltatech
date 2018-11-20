@@ -43,6 +43,11 @@ class service_enter_reading(models.TransientModel):
     def _compute_error(self):
         self.error = ''
         for item in self.items:
+            domain = [('date', '>', self.date),('meter_id','=',item.meter_id.id)]
+            future_readings = meters = self.env['service.meter.reading'].search(domain)
+            if future_readings:
+                self.error += _('The counter %s has readings in the future!!! \r\n') % (
+                    item.meter_id.name)
             if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
                 self.error += _('The counter %s value must be greater than %s') % (
                 item.meter_id.name, item.meter_id.total_counter_value)
@@ -89,13 +94,17 @@ class service_enter_reading(models.TransientModel):
     def do_enter(self):
         for enter_reading in self:
             for item in enter_reading.items:
-                self.env['service.meter.reading'].create({'meter_id':item.meter_id.id,
-                                                          'equipment_id':item.meter_id.equipment_id.id,
-                                                          'date':enter_reading.date,
-                                                          'read_by':enter_reading.read_by.id,
-                                                          'note':enter_reading.note,
-                                                          'counter_value': item.counter_value,
-                                                          'estimated': item.estimated})
+                vals = {'meter_id':item.meter_id.id,
+                          'equipment_id':item.meter_id.equipment_id.id,
+                          'date':enter_reading.date,
+                          'read_by':enter_reading.read_by.id,
+                          'note':enter_reading.note,
+                          'counter_value': item.counter_value,
+                          'estimated': item.estimated,
+                          'previous_counter_value': item.prev_value
+                        }
+                reading = self.env['service.meter.reading'].create(vals)
+                pass
         
     
 class service_enter_reading_item(models.TransientModel):
