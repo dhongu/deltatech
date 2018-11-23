@@ -1,0 +1,228 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_mrp_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-23 06:55+0000\n"
+"PO-Revision-Date: 2018-11-23 06:55+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "<strong>Consumed</strong>"
+msgstr "<strong>Consumat</strong>"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "<strong>Obtained</strong>"
+msgstr "<strong>Obținut</strong>"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_account_id
+msgid "Account"
+msgstr "Cont"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_amount
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.view_mrp_summary_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_categ_id
+msgid "Categ"
+msgstr "Categ"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_consumed
+#: selection:mrp.summary.line,type:0
+msgid "Consumed"
+msgstr "Consumat"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_create_uid
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_create_date
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_date_range_id
+msgid "Date range"
+msgstr "Interval"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_display_name
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_date_to
+msgid "End Date"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_id
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary___last_update
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_write_uid
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_write_date
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_ids
+msgid "Line"
+msgstr "Linie"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_location_id
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_obtained
+#: selection:mrp.summary.line,type:0
+msgid "Obtained"
+msgstr "Obținut"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Price"
+msgstr "Preț"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.view_mrp_summary_form
+msgid "Print"
+msgstr "Tipăriți"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_product_id
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_mrp_report
+#: model:ir.actions.act_window,name:deltatech_mrp_report.action_mrp_summary
+#: model:ir.actions.act_window,name:deltatech_mrp_report.action_mrp_summary_line
+#: model:ir.actions.report,name:deltatech_mrp_report.action_report_mrp_summary
+#: model:ir.ui.menu,name:deltatech_mrp_report.menu_mrp_summary
+msgid "Production Summary"
+msgstr "Raport producție"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Production Summary\n"
+"            Analyze from"
+msgstr "Raport producție\n"
+"            analiză de la"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Qty"
+msgstr "Cant"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_report_id
+msgid "Report"
+msgstr "Raport"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.view_mrp_summary_form
+msgid "Report Options"
+msgstr "Opțiuni Raport"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Sale Amount"
+msgstr "Valoare vânzare"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "Sale Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.view_mrp_summary_form
+msgid "Show"
+msgstr "Afișare"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_date_from
+msgid "Start Date"
+msgstr "Dată început"
+
+#. module: deltatech_mrp_report
+#: model:ir.model.fields,field_description:deltatech_mrp_report.field_mrp_summary_line_type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "UM"
+msgstr "UM"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "UoM"
+msgstr "UM"
+
+#. module: deltatech_mrp_report
+#: model:ir.model,name:deltatech_mrp_report.model_mrp_summary
+msgid "mrp.summary"
+msgstr "mrp.summary"
+
+#. module: deltatech_mrp_report
+#: model:ir.model,name:deltatech_mrp_report.model_mrp_summary_line
+msgid "mrp.summary.line"
+msgstr "mrp.summary.line"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.view_mrp_summary_form
+msgid "or"
+msgstr "sau"
+
+#. module: deltatech_mrp_report
+#: model:ir.ui.view,arch_db:deltatech_mrp_report.report_mrp_summary_doc
+msgid "to"
+msgstr "la"
+

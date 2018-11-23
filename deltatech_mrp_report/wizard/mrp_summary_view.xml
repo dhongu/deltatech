@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mrp_summary_form" model="ir.ui.view">
+        <field name="name">mrp.summary</field>
+        <field name="model">mrp.summary</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group name="filters">
+                    <group>
+                        <field name="location_id" />
+                    </group>
+                    <group name="date_range">
+                        <field name="date_range_id" />
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+
+                    </group>
+                </group>
+                <footer>
+                    <button name="button_show" string="Show" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <button name="button_print" string="Print" type="object"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mrp_summary" model="ir.actions.act_window">
+        <field name="name">Production Summary</field>
+        <field name="res_model">mrp.summary</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_mrp_summary" name="Production Summary"
+              action="action_mrp_summary"
+              parent="mrp.menu_mrp_reporting"  />
+
+
+    <record id="action_mrp_summary_line" model="ir.actions.act_window">
+        <field name="name">Production Summary</field>
+        <field name="res_model">mrp.summary.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+    </record>
+
+    <record id="view_mrp_summary_line_tree" model="ir.ui.view">
+        <field name="name">mrp.summary.line</field>
+        <field name="model">mrp.summary.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="product_id"  />
+                <field name="consumed" sum="1"/>
+                <field name="obtained" sum="1"/>
+                <field name="amount" sum="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_mrp_summary_line_filter" model="ir.ui.view">
+        <field name="name">mrp.summary.line</field>
+        <field name="model">mrp.summary.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+            </search>
+        </field>
+    </record>
+
+
+    <report
+            id="action_report_mrp_summary"
+            string="Production Summary"
+            model="mrp.summary"
+            report_type="qweb-pdf"
+            name="deltatech_mrp_report.report_mrp_summary"
+            file="deltatech_mrp_report.report_mrp_summary"
+            menu="True"/>
+
+
+
+</odoo>
