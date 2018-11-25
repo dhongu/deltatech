@@ -191,7 +191,7 @@ class service_agreement_line(models.Model):
 
 
     agreement_id = fields.Many2one('service.agreement', string='Contract Services' , ondelete='cascade')   
-    product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')] )
+    product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')]  , required=True,)
     quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')

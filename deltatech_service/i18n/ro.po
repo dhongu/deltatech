@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-20 05:49+0000\n"
-"PO-Revision-Date: 2015-09-20 05:49+0000\n"
+"POT-Creation-Date: 2018-11-16 06:16+0000\n"
+"PO-Revision-Date: 2018-11-16 06:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,60 +15,8 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-
-
-
 #. module: deltatech_service
-#: field:service.agreement,last_invoice_id:0
-msgid "Last Invoice"
-msgstr "Ultima factură"
-
-#. module: deltatech_service
-#: field:service.agreement,next_date_invoice:0
-msgid "Next Invoice Date"
-msgstr "Următoare factură în"
-
-
-#. module: deltatech_service
-#: field:service.consumption,uom_id:0
-msgid "Unit of Measure"
-msgstr "Unitate de măsură"
-
-#. module: base
-#: model:ir_menu,name:base.menu_service_app
-msgid "Service"
-msgstr "Service"
-
-#. module: base
-#: model:ir.ui.menu,name:base.menu_service
-msgid "Service"
-msgstr "Service"
-
-#. module: base
-#: model:ir.ui.menu,name:base.menu_service
-msgid "Service"
-msgstr "Service"
-
-#. module: base
-#: model:ir.ui.menu,name:base.menu_service_agr
-msgid "Agreement"
-msgstr "Contract"
-
-#. module: base
-#: model:ir.ui.menu,name:base.menu_service_config
-msgid "Configuration"
-msgstr "Configurare"
-
-
-
-
-
-
-
-
- 
-#. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:149
+#: code:addons/deltatech_service/wizard/service_billing.py:136
 #, python-format
 msgid "%s from %s \n"
 ""
@@ -76,30 +24,40 @@ msgstr "%s din %s \n"
 ""
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:147
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+msgid "<span class=\"o_stat_text\">Invoiced</span>"
+msgstr "<span class=\"o_stat_text\">Facturat</span>"
+
+#. module: deltatech_service
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+msgid "<span class=\"o_stat_text\">Revenues</span>"
+msgstr "<span class=\"o_stat_text\">Revenues</span>"
+
+#. module: deltatech_service
+#: code:addons/deltatech_service/wizard/service_billing.py:134
 #, python-format
 msgid "According to agreement "
 msgstr "Conform contract "
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
-#: field:service.consumption,agreement_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_agreement_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Agreement"
 msgstr "Contract"
 
 #. module: deltatech_service
-#: field:service.agreement,date_agreement:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_date_agreement
 msgid "Agreement Date"
 msgstr "Dată contract"
 
 #. module: deltatech_service
-#: field:service.consumption,agreement_line_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_agreement_line_id
 msgid "Agreement Line"
 msgstr "Linie contract"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
-#: field:service.agreement,agreement_line:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_agreement_line
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Agreement Lines"
 msgstr "Linii contract"
 
@@ -109,20 +67,20 @@ msgid "Agreement line in period already exist!"
 msgstr "Există deja linia de contract în perioada selectată!"
 
 #. module: deltatech_service
-#: field:service.billing.preparation,agreement_ids:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_agreement_ids
 msgid "Agreements"
 msgstr "Contracte"
 
 #. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_billing
-#: view:service.billing:deltatech_service.view_service_billing_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
 msgid "Billing"
 msgstr "Facturare"
 
 #. module: deltatech_service
-#: field:service.agreement,cycle_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_cycle_id
 msgid "Billing Cycle"
-msgstr "Ciclu Facturare"
+msgstr "Ciclu facturare"
 
 #. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_billing_preparation
@@ -130,76 +88,76 @@ msgid "Billing Preparation"
 msgstr "Pregărire facturare"
 
 #. module: deltatech_service
-#: view:service.billing:deltatech_service.view_service_billing_form
-#: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
-#: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
-#: view:service.distribution:deltatech_service.view_service_distribution_form
-#: view:service.price.change:deltatech_service.view_service_price_change_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_preparation_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_change_invoice_date_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "Cancel"
-msgstr "Revocare"
+msgstr "Anulează"
 
 #. module: deltatech_service
-#: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_change_invoice_date_form
 msgid "Change"
 msgstr "Schimbă"
 
 #. module: deltatech_service
-#: field:service.billing,consumption_ids:0
+#: model:ir.actions.act_window,name:deltatech_service.action_service_change_invoice_date
+msgid "Change Invoice Date"
+msgstr "Modifică dată facturare"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_consumption_ids
 msgid "Consumptions"
 msgstr "Consumuri"
 
 #. module: deltatech_service
-#: field:service.agreement.line,agreement_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_agreement_id
 msgid "Contract Services"
-msgstr "Contracte servicii"
+msgstr "Contract servicii"
 
 #. module: deltatech_service
-#: field:service.agreement,create_uid:0
-#: field:service.agreement.line,create_uid:0
-#: field:service.agreement.type,create_uid:0
-#: field:service.billing,create_uid:0
-#: field:service.billing.preparation,create_uid:0
-#: field:service.change.invoice.date,create_uid:0
-#: field:service.consumption,create_uid:0
-#: field:service.cycle,create_uid:0
-#: field:service.distribution,create_uid:0
-#: field:service.price.change,create_uid:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_create_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_create_uid
 msgid "Created by"
 msgstr "Creat de"
 
 #. module: deltatech_service
-#: field:service.agreement,create_date:0
-#: field:service.agreement.line,create_date:0
-#: field:service.agreement.type,create_date:0
-#: field:service.billing,create_date:0
-#: field:service.billing.preparation,create_date:0
-#: field:service.change.invoice.date,create_date:0
-#: field:service.consumption,create_date:0
-#: field:service.cycle,create_date:0
-#: field:service.distribution,create_date:0
-#: field:service.price.change,create_date:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_create_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_create_date
 msgid "Created on"
 msgstr "Creat în"
 
 #. module: deltatech_service
-#: field:service.agreement,currency_id:0
-#: field:service.agreement.line,currency_id:0
-#: field:service.consumption,currency_id:0
-#: field:service.price.change,currency_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_currency_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_currency_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_currency_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_currency_id
 msgid "Currency"
 msgstr "Moneda"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_cycle
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_name
 #: model:ir.ui.menu,name:deltatech_service.menu_service_cycle
-#: field:service.cycle,name:0
 msgid "Cycle"
 msgstr "Ciclu"
-
-#. module: deltatech_service
-#: help:service.agreement,message_last_post:0
-msgid "Date of the last message posted on the record."
-msgstr "Date of the last message posted on the record."
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -207,14 +165,14 @@ msgid "Day"
 msgstr "Zile"
 
 #. module: deltatech_service
-#: help:service.agreement,invoice_day:0
+#: model:ir.model.fields,help:deltatech_service.field_service_agreement_invoice_day
 msgid "Day of the month, set -1 for the last day of the month.\n"
 "                                 If it's positive, it gives the day of the month. Set 0 for net days ."
-msgstr "Ziua din lună, setați -1 pentru ultima zi din lună.\n"
-"                                 Dacă este pozitivă va returna ziua din lună. Setați 0 pentu a nu influența."
+msgstr "Day of the month, set -1 for the last day of the month.\n"
+"                                 If it's positive, it gives the day of the month. Set 0 for net days ."
 
 #. module: deltatech_service
-#: field:service.agreement,description:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_description
 msgid "Description"
 msgstr "Descriere"
 
@@ -224,13 +182,27 @@ msgid "Detail"
 msgstr "Detaliu"
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_display_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_distribution
-#: view:service.distribution:deltatech_service.view_service_distribution_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
 msgid "Distribution"
 msgstr "Distribuție"
 
 #. module: deltatech_service
-#: view:service.distribution:deltatech_service.view_service_distribution_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
 msgid "Distribution services consumed quantities"
 msgstr "Distriburire cantități servicii consumate"
 
@@ -245,28 +217,28 @@ msgid "Draft"
 msgstr "Ciornă"
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_final_date
+msgid "Final Date"
+msgstr "Dată final"
+
+#. module: deltatech_service
 #: selection:service.distribution,mode:0
 msgid "Fix"
 msgstr "Fix"
 
 #. module: deltatech_service
-#: field:service.agreement,message_follower_ids:0
-msgid "Followers"
-msgstr "Followers"
-
-#. module: deltatech_service
-#: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_preparation_form
 msgid "For the selected agreement will generate estimate consumptions"
 msgstr "Pentru contractele selectate se vor genera consumuri estimate"
 
 #. module: deltatech_service
-#: view:service.billing:deltatech_service.view_service_billing_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
 msgid "For the selected services will generate invoices"
 msgstr "Pentru serviciile selectare se vor genera facturi"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Group By..."
 msgstr "Grupează după..."
 
@@ -281,16 +253,29 @@ msgid "Group by partner"
 msgstr "Grupează după partener"
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_group_service
 #: selection:service.agreement,invoice_mode:0
-#: field:service.billing,group_service:0
 msgid "Group by service"
 msgstr "Grupează după serviciu"
 
 #. module: deltatech_service
-#: field:service.billing,group_invoice:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_group_invoice
 msgid "Group invoice"
-msgstr "Guprare facturi"
+msgstr "Grupare facturi"
 
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id_4352
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_id
+msgid "ID"
+msgstr "ID"
 
 #. module: deltatech_service
 #: selection:service.agreement,state:0
@@ -300,87 +285,116 @@ msgstr "În progres"
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_account_invoice
 msgid "Invoice"
-msgstr "Factura"
+msgstr "Factură"
 
 #. module: deltatech_service
-#: field:service.change.invoice.date,date_invoice:0
-#: field:service.consumption,date_invoice:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_date_invoice
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_date_invoice
 msgid "Invoice Date"
-msgstr "Dată facturare"
+msgstr "Data facturii"
 
 #. module: deltatech_service
-#: field:service.agreement,invoice_day:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_invoice_day
 msgid "Invoice Day"
 msgstr "Zi facturare"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_account_invoice_line
 msgid "Invoice Line"
-msgstr "Linie factură"
+msgstr "Linie factura"
 
 #. module: deltatech_service
-#: field:service.agreement,invoice_mode:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_invoice_mode
 msgid "Invoice Mode"
 msgstr "Mod facturare"
 
 #. module: deltatech_service
-#: field:service.consumption,invoice_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_invoice_id
 msgid "Invoice Reference"
-msgstr "Referință factură"
+msgstr "Referința Facturii"
 
 #. module: deltatech_service
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Invoiced"
 msgstr "Facturat"
 
 #. module: deltatech_service
-#: field:service.consumption,invoiced_qty:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_invoiced_qty
 msgid "Invoiced Quantity"
 msgstr "Cantitate facturată"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Invoices"
 msgstr "Facturi"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
-msgid "Revenues"
-msgstr "Venituri"
-
-
-#. module: deltatech_service
-#: field:service.billing,journal_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_journal_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_journal_id
 msgid "Journal"
 msgstr "Jurnal"
 
-
-
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_last_invoice_id
+msgid "Last Invoice"
+msgstr "Ultima factură"
 
 #. module: deltatech_service
-#: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution___last_update
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_write_uid
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_write_date
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_service
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_change_invoice_date_form
 msgid "Mass change invoice date!"
 msgstr "Modificare în masă dată de facturare!"
 
 #. module: deltatech_service
-#: view:service.price.change:deltatech_service.view_service_price_change_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "Mass price change"
 msgstr "Modificare preț"
 
 #. module: deltatech_service
-#: field:service.agreement,message_ids:0
-msgid "Messages"
-msgstr "Mesaje"
-
-#. module: deltatech_service
-#: help:service.agreement,message_ids:0
-msgid "Messages and communication history"
-msgstr "Mesaje și istoric comunicare"
-
-#. module: deltatech_service
-#: field:service.distribution,mode:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_mode
 msgid "Mode"
-msgstr "Mod"
+msgstr "Mode"
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -393,15 +407,20 @@ msgid "Monthly"
 msgstr "Lunar"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:143
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_next_date_invoice
+msgid "Next Invoice Date"
+msgstr "Ummătoarea facturare"
+
+#. module: deltatech_service
+#: code:addons/deltatech_service/wizard/service_billing.py:130
 #, python-format
 msgid "No condition for create a new invoice"
 msgstr "Nu sunt condiții de a crea o factură nouă"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:58
-#: code:addons/deltatech_service/wizard/service_distribution.py:66
-#: code:addons/deltatech_service/wizard/service_price_change.py:75
+#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:40
+#: code:addons/deltatech_service/wizard/service_distribution.py:47
+#: code:addons/deltatech_service/wizard/service_price_change.py:58
 #, python-format
 msgid "No consumptions!"
 msgstr "Fără consumuri!"
@@ -417,46 +436,47 @@ msgid "Not defined"
 msgstr "Nedefinit"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: field:service.agreement,partner_id:0
-#: field:service.consumption,partner_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_partner_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_partner_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_filter
 msgid "Partner"
 msgstr "Partener"
 
 #. module: deltatech_service
-#: field:service.billing.preparation,period_id:0
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
-#: field:service.consumption,period_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_period_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_period_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Period"
 msgstr "Perioada"
 
 #. module: deltatech_service
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Previous Month"
 msgstr "Luna anterioară"
 
 #. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_price_change
-#: view:service.price.change:deltatech_service.view_service_price_change_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "Price Change"
 msgstr "Modificare preț"
 
 #. module: deltatech_service
-#: model:ir.actions.act_window,name:deltatech_service.action_service_change_invoice_date
-msgid "Change Invoice Date"
-msgstr "Modifică dată facturare"
-
-
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_product_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_product_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_product_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
+msgid "Product"
+msgstr "Produs"
 
 #. module: deltatech_service
-#: field:service.agreement.line,quantity:0
-#: field:service.consumption,quantity:0
-#: field:service.distribution,quantity:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_quantity
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_quantity
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_quantity
 msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_service
-#: field:service.agreement.line,quantity_free:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_quantity_free
 msgid "Quantity Free"
 msgstr "Cantitate gratuită"
 
@@ -466,26 +486,37 @@ msgid "Quarterly"
 msgstr "Trimestrial"
 
 #. module: deltatech_service
-#: field:service.agreement,name:0
-#: field:service.consumption,name:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_name
 msgid "Reference"
 msgstr "Referință"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+msgid "Revenues"
+msgstr "Venituri"
+
+#. module: deltatech_service
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "Search"
 msgstr "Caută"
 
 #. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_product_id
+msgid "Service"
+msgstr "Servicii"
+
+#. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_agreement
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.model.fields,field_description:deltatech_service.field_account_invoice_agreement_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Service Agreement"
 msgstr "Contract servicii"
 
 #. module: deltatech_service
-#: field:account.invoice.line,agreement_line_id:0
 #: model:ir.model,name:deltatech_service.model_service_agreement_line
+#: model:ir.model.fields,field_description:deltatech_service.field_account_invoice_line_agreement_line_id
 msgid "Service Agreement Line"
 msgstr "Linie contract"
 
@@ -501,15 +532,15 @@ msgstr "Facturare servicii"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_billing_preparation
-#: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_preparation_form
 msgid "Service Billing Preparation"
 msgstr "Pregătire facturare servicii"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing_preparation.py:74
-#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:66
-#: code:addons/deltatech_service/wizard/service_distribution.py:76
-#: code:addons/deltatech_service/wizard/service_price_change.py:86
+#: code:addons/deltatech_service/wizard/service_billing_preparation.py:57
+#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:48
+#: code:addons/deltatech_service/wizard/service_distribution.py:57
+#: code:addons/deltatech_service/wizard/service_price_change.py:69
 #, python-format
 msgid "Service Consumption"
 msgstr "Consum Serviciu"
@@ -536,7 +567,7 @@ msgstr "Service modificare dată facturare"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_consumption
-#: view:service.consumption:deltatech_service.view_service_consumption_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
 msgid "Service consumption"
 msgstr "Consum serviciu"
 
@@ -556,10 +587,10 @@ msgid "Services Agreement Type"
 msgstr "Tip contract"
 
 #. module: deltatech_service
-#: view:account.invoice:deltatech_service.view_account_invoice_filter
 #: model:ir.actions.act_window,name:deltatech_service.action_service_agreement
 #: model:ir.ui.menu,name:deltatech_service.menu_service_agreement
-#: view:service.agreement:deltatech_service.view_service_agreement_tree
+#: model:ir.ui.view,arch_db:deltatech_service.view_account_invoice_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
 msgid "Services Agreements"
 msgstr "Contracte Servicii"
 
@@ -571,38 +602,33 @@ msgstr "Tip contract"
 #. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_consumption
 #: model:ir.ui.menu,name:deltatech_service.menu_service_consumption
-#: view:service.consumption:deltatech_service.view_service_consumption_tree
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_tree
 msgid "Services Consumption"
 msgstr "Consumuri Servicii"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Set Draft"
 msgstr "Setează Ciornă"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Set In Progress"
 msgstr "Setează în progres"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Share a message..."
 msgstr "Share a message..."
 
 #. module: deltatech_service
-#: field:service.agreement,state:0
-#: field:service.consumption,state:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_state
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_state
 msgid "Status"
-msgstr "Status"
+msgstr "Stare"
 
 #. module: deltatech_service
-#: field:service.agreement,message_summary:0
-msgid "Summary"
-msgstr "Sumar"
-
-#. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Terminate Contract"
 msgstr "Reziliază contractul"
 
@@ -612,76 +638,77 @@ msgid "Terminated"
 msgstr "Reziliat"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:59
-#: code:addons/deltatech_service/wizard/service_distribution.py:67
-#: code:addons/deltatech_service/wizard/service_price_change.py:76
+#: code:addons/deltatech_service/wizard/service_change_invoice_date.py:41
+#: code:addons/deltatech_service/wizard/service_distribution.py:48
+#: code:addons/deltatech_service/wizard/service_price_change.py:59
 #, python-format
 msgid "There were no service consumption !"
 msgstr "Nu sunt servicii consumate !"
 
 #. module: deltatech_service
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "This Month"
 msgstr "Această lună"
 
 #. module: deltatech_service
-#: view:service.consumption:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 msgid "To Be Invoiced"
 msgstr "De facturat"
 
 #. module: deltatech_service
-#: view:service.consumption:deltatech_service.view_service_consumption_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
 msgid "Total Quantity"
 msgstr "Cantitate totală"
 
 #. module: deltatech_service
-#: view:service.agreement:deltatech_service.view_service_agreement_filter
-#: field:service.agreement,type_id:0
-#: field:service.agreement.type,name:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_total_consumption
+msgid "Total consumption"
+msgstr "Total consumption"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_total_invoiced
+msgid "Total invoiced"
+msgstr "Total facturat"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_name
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_filter
 msgid "Type"
 msgstr "Tip"
 
 #. module: deltatech_service
-#: field:service.cycle,unit:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_unit
 msgid "Unit Of Measure"
-msgstr "Unitate de măsură"
+msgstr "UM"
 
 #. module: deltatech_service
-#: field:service.agreement.line,price_unit:0
-#: field:service.consumption,price_unit:0
-#: field:service.price.change,price_unit:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_price_unit
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_price_unit
+#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_price_unit
 msgid "Unit Price"
 msgstr "Preț unitar"
 
 #. module: deltatech_service
-#: field:service.agreement.line,uom_id:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_uom_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_uom_id
 msgid "Unit of Measure"
 msgstr "Unitate de măsură"
 
 #. module: deltatech_service
-#: help:service.cycle,unit:0
+#: model:ir.model.fields,help:deltatech_service.field_service_cycle_unit
 msgid "Unit of Measure for Cycle."
-msgstr "Unitate de măsură pentru ciclu."
+msgstr "Unit of Measure for Cycle."
 
 #. module: deltatech_service
-#: field:service.agreement,message_unread:0
-msgid "Unread Messages"
-msgstr "Mesaje necitite"
+#: model:ir.actions.server,name:deltatech_service.action_update_revenues
+msgid "Update Revenues"
+msgstr "Actualizare venituri"
 
 #. module: deltatech_service
-#: field:service.cycle,value:0
+#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_value
 msgid "Value"
 msgstr "Valoare"
-
-#. module: deltatech_service
-#: field:service.agreement,website_message_ids:0
-msgid "Website Messages"
-msgstr "Website Messages"
-
-#. module: deltatech_service
-#: help:service.agreement,website_message_ids:0
-msgid "Website communication history"
-msgstr "Website communication history"
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -709,34 +736,42 @@ msgid "Yearly"
 msgstr "Anaual"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/service_agreement.py:167
+#: code:addons/deltatech_service/models/service_agreement.py:174
 #, python-format
 msgid "You cannot delete a service agreement which is not draft."
-msgstr "Nu puteți șterge un contract care nu e în starea ciornă."
+msgstr "Nu puteți șterge un contract daca nu este în statusul de ciornă."
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/service_consumption.py:93
+#: code:addons/deltatech_service/models/service_consumption.py:77
 #, python-format
 msgid "You cannot delete a service consumption which is invoiced."
-msgstr "Nu puteți șterge un consum de serviciu facturat."
+msgstr "Nu puteți șterge un consum care a fost facturat."
 
 #. module: deltatech_service
-#: view:service.billing:deltatech_service.view_service_billing_form
-#: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
-#: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
-#: view:service.distribution:deltatech_service.view_service_distribution_form
-#: view:service.price.change:deltatech_service.view_service_price_change_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_preparation_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_change_invoice_date_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "_Apply"
 msgstr "_Aplică"
 
 #. module: deltatech_service
-#: view:service.billing:deltatech_service.view_service_billing_form
-#: view:service.billing.preparation:deltatech_service.view_service_billing_preparation_form
-#: view:service.change.invoice.date:deltatech_service.view_service_change_invoice_date_form
-#: view:service.distribution:deltatech_service.view_service_distribution_form
-#: view:service.price.change:deltatech_service.view_service_price_change_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
+msgid "consumption"
+msgstr "consum"
+
+#. module: deltatech_service
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
+msgid "invoiced"
+msgstr "facturat"
+
+#. module: deltatech_service
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_preparation_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_change_invoice_date_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "or"
 msgstr "sau"
-
-
 
