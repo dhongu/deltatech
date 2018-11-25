@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 		<record id="view_account_payment_term_rate_wizard_form" model="ir.ui.view">
 			<field name="name">Payment Term Rate Wizard</field>
 			<field name="model">account.payment.term.rate.wizard</field>
 			<field name="arch" type="xml">
 				<form string="Payment Term Rate Wizard">
-
+					
 					<group>
 						<field name="name"   />
 						<field name="rate" />
@@ -28,10 +28,12 @@
 			res_model="account.payment.term.rate.wizard" src_model="sale.order"
 			view_mode="form" multi="False" target="new"   />
 
-
+		<act_window id="action_account_payment_term_rate_wizard" name="Payment Term Rate Wizard"
+			res_model="account.payment.term.rate.wizard" src_model="account.invoice"
+			view_mode="form" multi="False" target="new"   />
 
 		<!--  menuitem name="Payment Term Rate Wizard" id="menu_service_billing_preparation"
 			action="action_service_billing_preparation" parent="base.menu_service" sequence="101"/ -->
 
 	</data>
-</openerp>
+</odoo>

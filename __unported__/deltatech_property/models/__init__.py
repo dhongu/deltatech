@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import property_abstract
-import property_config
-import property_land
-import property_building
-import property_room
-import res_partner
+from . import property_abstract
+from . import property_config
+from . import property_land
+from . import property_building
+from . import property_room
+from . import res_partner
 
 
 

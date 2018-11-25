@@ -211,7 +211,7 @@ class service_notification(models.Model):
 
         new_follower_ids = [self.user_id.partner_id.id]
         
-        if self.user_id <> self.env.user.id:
+        if self.user_id != self.env.user.id:
             msg = _('Please solve notification for %s: %s') % ( self.partner_id.name, self.description or '')
        
             if msg and not self.env.context.get('no_message',False):
@@ -267,7 +267,7 @@ class service_notification(models.Model):
         else: 
             domain = '[]'
             res_id = False
-        print domain
+
         return {
             'domain': domain,
             'res_id': res_id,
@@ -289,7 +289,7 @@ class service_notification(models.Model):
 
         new_follower_ids = [self.contact_id.id]
         
-        if self.user_id <> self.env.user.id:
+        if self.user_id != self.env.user.id:
             msg = _('Notification %s for %s was done') % ( self.description or '', self.partner_id.name )
        
             if msg and not self.env.context.get('no_message',False):
