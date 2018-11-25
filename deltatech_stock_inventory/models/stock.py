@@ -176,10 +176,13 @@ class StockInventoryLine(models.Model):
     @api.multi
     def set_last_last_inventory(self):
         for inventory_line in self:
-            if inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
+
+            if not inventory_line.product_id.last_inventory_date or\
+                    inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
                 inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
                                                  'last_inventory_id': inventory_line.inventory_id.id})
-                if inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+                if not inventory_line.product_id.product_tmpl_id.last_inventory_date or\
+                        inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
                     inventory_line.product_id.product_tmpl_id.write(
                         {'last_inventory_date': inventory_line.inventory_id.date,
                          'last_inventory_id': inventory_line.inventory_id.id})
