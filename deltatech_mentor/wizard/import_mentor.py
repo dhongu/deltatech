@@ -5,7 +5,7 @@ import threading
 import base64
 import zipfile
 from io import BytesIO
-import ConfigParser
+import configparser as ConfigParser
 import unicodedata
 
 from odoo import models, fields, api, _, registry
@@ -266,7 +266,7 @@ class import_mentor(models.TransientModel):
         if vat or cnp:
             try:
                 partner.write({'vat': vat, 'cnp': cnp})
-            except Exception, e:
+            except Exception as e:
                 pass
 
         self.env.cr.commit()
