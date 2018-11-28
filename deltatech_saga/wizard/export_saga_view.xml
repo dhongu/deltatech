@@ -10,6 +10,7 @@
                     <field name="name" invisible="1"/>
                     <group states="choose" string="Export">
                         <group>
+                            <field name="date_range_id" />
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="journal_ids" widget="many2many_tags"/>

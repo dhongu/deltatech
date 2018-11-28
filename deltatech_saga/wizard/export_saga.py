@@ -36,14 +36,23 @@ class export_saga(models.TransientModel):
                               ('get', 'get')], default='choose')  # get the file
 
     # period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
-    date_from = fields.Date(string='Start Date')
-    date_to = fields.Date(string='End Date')
+    date_range_id = fields.Many2one('date.range', string='Date range')
+    date_from = fields.Date(string='Start Date',required=True, default=fields.Date.today)
+    date_to = fields.Date(string='End Date',required=True, default=fields.Date.today)
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
     journal_ids = fields.Many2many('account.journal')
     use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
     result = fields.Html(string="Result Export", readonly=True)
+
+    @api.onchange('date_range_id')
+    def onchange_date_range_id(self):
+        """Handle date range change."""
+        if self.date_range_id:
+            self.date_from = self.date_range_id.date_start
+            self.date_to = self.date_range_id.date_end
+
 
     @api.model
     def default_get(self, fields_list):

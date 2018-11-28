@@ -21,7 +21,7 @@ Functionalitati:
 
     "category": "Accounting",
     "depends": [
-        "base",
+        "base",'account_voucher',
         "account",'base_vat'
     ],
 
