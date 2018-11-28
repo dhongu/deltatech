@@ -11,6 +11,7 @@
 					<field name="period_id" />
 					<field name="date_invoice" />
 					<field name="partner_id" />
+					<field name="group_id" />
 					<field name="product_id" />
 					<field name="quantity"  />
 					<field name="uom_id" groups="product.group_uom"/>
@@ -33,6 +34,7 @@
 					<group col="2">
 						<field name="period_id" />
 						<field name="partner_id" />
+						<field name="group_id" />
 						<field name="product_id" />
 						<field name="quantity" sum="Total Quantity" />
 						<field name="price_unit" widget="monetary"
@@ -56,7 +58,7 @@
 			<field name="arch" type="xml">
 				<search string="Search">
 					
-					
+					<field name="group_id" />
 					<field name="product_id" />	
 					<field name="partner_id" />
 					<field name="period_id" options="{'no_create': True}"/>
@@ -79,6 +81,7 @@
 							context="{'group_by':'period_id'}" />
 						<filter string="Product" name="product" icon="terp-accessories-archiver"
 							context="{'group_by':'product_id'}" />
+						<filter string="Group" name="group"	context="{'group_by':'group_id'}" />
 					</group>
 				</search>
 			</field>

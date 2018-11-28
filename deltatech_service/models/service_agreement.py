@@ -96,7 +96,7 @@ class service_agreement(models.Model):
 
     total_invoiced = fields.Float(string="Total invoiced",readonly=True )
     total_consumption = fields.Float(string="Total consumption", readonly=True  )
-    
+    group_id = fields.Many2one('service.agreement.group')
 
     @api.multi
     def compute_totals(self):
@@ -184,7 +184,14 @@ class service_agreement_type(models.Model):
     _description = "Service Agreement Type"     
     name = fields.Char(string='Type', translate=True)
     journal_id = fields.Many2one('account.journal', 'Journal', required=True)  
- 
+
+
+class service_agreement_group(models.Model):
+    _name = 'service.agreement.group'
+    _description = "Service Agreement Group"
+    name = fields.Char(string='Type', translate=True)
+
+
 class service_agreement_line(models.Model):
     _name = 'service.agreement.line'
     _description = "Service Agreement Line"  
