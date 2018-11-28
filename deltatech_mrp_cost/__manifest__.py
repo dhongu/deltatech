@@ -24,7 +24,8 @@ Functionalitati:
         "stock",
         "sale",
         "product",
-        "deltatech_warehouse"
+        "deltatech_warehouse",
+        'deltatech_purchase_price'
 
     ],
 
