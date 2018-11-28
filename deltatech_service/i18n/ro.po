@@ -1,27 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_service
+# 	* deltatech_service
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-16 06:16+0000\n"
-"PO-Revision-Date: 2018-11-16 06:16+0000\n"
+"POT-Creation-Date: 2018-11-28 10:33+0000\n"
+"PO-Revision-Date: 2018-11-28 12:37+0200\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
+"Language: ro\n"
+"X-Generator: Poedit 2.2\n"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:136
+#: code:addons/deltatech_service/wizard/service_billing.py:139
 #, python-format
 msgid "%s from %s \n"
-""
 msgstr "%s din %s \n"
-""
 
 #. module: deltatech_service
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
@@ -34,7 +34,7 @@ msgid "<span class=\"o_stat_text\">Revenues</span>"
 msgstr "<span class=\"o_stat_text\">Revenues</span>"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:134
+#: code:addons/deltatech_service/wizard/service_billing.py:137
 #, python-format
 msgid "According to agreement "
 msgstr "Conform contract "
@@ -80,7 +80,7 @@ msgstr "Facturare"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_cycle_id
 msgid "Billing Cycle"
-msgstr "Ciclu facturare"
+msgstr "Ciclu Facturare"
 
 #. module: deltatech_service
 #: model:ir.actions.act_window,name:deltatech_service.action_service_billing_preparation
@@ -114,7 +114,7 @@ msgstr "Consumuri"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_agreement_id
 msgid "Contract Services"
-msgstr "Contract servicii"
+msgstr "Contracte servicii"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_create_uid
@@ -166,10 +166,12 @@ msgstr "Zile"
 
 #. module: deltatech_service
 #: model:ir.model.fields,help:deltatech_service.field_service_agreement_invoice_day
-msgid "Day of the month, set -1 for the last day of the month.\n"
+msgid ""
+"Day of the month, set -1 for the last day of the month.\n"
 "                                 If it's positive, it gives the day of the month. Set 0 for net days ."
-msgstr "Day of the month, set -1 for the last day of the month.\n"
-"                                 If it's positive, it gives the day of the month. Set 0 for net days ."
+msgstr ""
+"Ziua din lună, setați -1 pentru ultima zi din lună.\n"
+"                                 Dacă este pozitivă va returna ziua din lună. Setați 0 pentu a nu influența."
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_description
@@ -219,7 +221,7 @@ msgstr "Ciornă"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_final_date
 msgid "Final Date"
-msgstr "Dată final"
+msgstr "Final Date"
 
 #. module: deltatech_service
 #: selection:service.distribution,mode:0
@@ -261,12 +263,12 @@ msgstr "Grupează după serviciu"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_billing_group_invoice
 msgid "Group invoice"
-msgstr "Grupare facturi"
+msgstr "Guprare facturi"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id_4352
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id_4026
 #: model:ir.model.fields,field_description:deltatech_service.field_service_billing_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_id
@@ -291,7 +293,7 @@ msgstr "Factură"
 #: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_date_invoice
 #: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_date_invoice
 msgid "Invoice Date"
-msgstr "Data facturii"
+msgstr "Dată facturare"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_invoice_day
@@ -311,7 +313,7 @@ msgstr "Mod facturare"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_invoice_id
 msgid "Invoice Reference"
-msgstr "Referința Facturii"
+msgstr "Referință factură"
 
 #. module: deltatech_service
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
@@ -394,7 +396,7 @@ msgstr "Modificare preț"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_mode
 msgid "Mode"
-msgstr "Mode"
+msgstr "Mod"
 
 #. module: deltatech_service
 #: selection:service.cycle,unit:0
@@ -409,10 +411,10 @@ msgstr "Lunar"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_next_date_invoice
 msgid "Next Invoice Date"
-msgstr "Ummătoarea facturare"
+msgstr "Următoare factură în"
 
 #. module: deltatech_service
-#: code:addons/deltatech_service/wizard/service_billing.py:130
+#: code:addons/deltatech_service/wizard/service_billing.py:133
 #, python-format
 msgid "No condition for create a new invoice"
 msgstr "Nu sunt condiții de a crea o factură nouă"
@@ -505,7 +507,7 @@ msgstr "Caută"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_product_id
 msgid "Service"
-msgstr "Servicii"
+msgstr "Service"
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_agreement
@@ -619,7 +621,7 @@ msgstr "Setează în progres"
 #. module: deltatech_service
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
 msgid "Share a message..."
-msgstr "Share a message..."
+msgstr "Distribuie un mesaj..."
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_state
@@ -663,7 +665,7 @@ msgstr "Cantitate totală"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_total_consumption
 msgid "Total consumption"
-msgstr "Total consumption"
+msgstr "Total consum"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_total_invoiced
@@ -680,7 +682,7 @@ msgstr "Tip"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_unit
 msgid "Unit Of Measure"
-msgstr "UM"
+msgstr "Unitate de măsură"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_price_unit
@@ -698,7 +700,7 @@ msgstr "Unitate de măsură"
 #. module: deltatech_service
 #: model:ir.model.fields,help:deltatech_service.field_service_cycle_unit
 msgid "Unit of Measure for Cycle."
-msgstr "Unit of Measure for Cycle."
+msgstr "Unitate de măsură pentru ciclu."
 
 #. module: deltatech_service
 #: model:ir.actions.server,name:deltatech_service.action_update_revenues
@@ -733,19 +735,19 @@ msgstr "An"
 #. module: deltatech_service
 #: model:service.cycle,name:deltatech_service.cycle_yearly
 msgid "Yearly"
-msgstr "Anaual"
+msgstr "Anual"
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/models/service_agreement.py:174
 #, python-format
 msgid "You cannot delete a service agreement which is not draft."
-msgstr "Nu puteți șterge un contract daca nu este în statusul de ciornă."
+msgstr "Nu aveţi posibilitatea să ştergeţi un contract de service care nu este schiţă."
 
 #. module: deltatech_service
 #: code:addons/deltatech_service/models/service_consumption.py:77
 #, python-format
 msgid "You cannot delete a service consumption which is invoiced."
-msgstr "Nu puteți șterge un consum care a fost facturat."
+msgstr "Nu aveţi posibilitatea să ştergeţi un consum de service care este facturat."
 
 #. module: deltatech_service
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_billing_form
@@ -774,4 +776,3 @@ msgstr "facturat"
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_price_change_form
 msgid "or"
 msgstr "sau"
-
