@@ -14,7 +14,7 @@ from odoo.tools.translate import _
 class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
-    name = fields.Char(string='Name', default='/')
+    name = fields.Char(string='Name', default='/', copy=False)
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
                            states={'draft': [('readonly', False)]})
     note = fields.Text(string='Note')
@@ -25,7 +25,6 @@ class StockInventory(models.Model):
         if any(inventory.state not in ('draft', 'cancel') for inventory in self):
             raise UserError(_('You can only delete draft inventory.'))
         return super(StockInventory, self).unlink()
-
 
     def _get_inventory_lines_values(self):
         lines = super(StockInventory, self)._get_inventory_lines_values()
@@ -45,8 +44,6 @@ class StockInventory(models.Model):
         for line in lines:
             line['is_ok'] = False
         return lines
-
-
 
     @api.multi
     def action_check(self):
@@ -81,12 +78,10 @@ class StockInventory(models.Model):
 
     @api.multi
     def action_new_for_not_ok(self):
-        new_inv = self.copy({'line_ids': False,'state':'confirm'})
+        new_inv = self.copy({'line_ids': False, 'state': 'confirm'})
         for line in self.line_ids:
             if not line.is_ok:
-                line.write({'inventory_id':new_inv.id})
-
-
+                line.write({'inventory_id': new_inv.id})
 
 
 class StockInventoryLine(models.Model):
@@ -167,28 +162,27 @@ class StockInventoryLine(models.Model):
         use_inventory_price = eval(use_inventory_price)
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'fifo' and use_inventory_price:
-                inventory_line.product_id.write({'standard_price': inventory_line.standard_price})  # actualizare pret in produs
+                inventory_line.product_id.write({
+                    'standard_price': inventory_line.standard_price
+                })  # actualizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         self.set_last_last_inventory()
         return moves
-
 
     @api.multi
     def set_last_last_inventory(self):
         for inventory_line in self:
 
-            if not inventory_line.product_id.last_inventory_date or\
+            if not inventory_line.product_id.last_inventory_date or \
                     inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
                 inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
                                                  'last_inventory_id': inventory_line.inventory_id.id})
-                if not inventory_line.product_id.product_tmpl_id.last_inventory_date or\
+                if not inventory_line.product_id.product_tmpl_id.last_inventory_date or \
                         inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
                     inventory_line.product_id.product_tmpl_id.write(
                         {'last_inventory_date': inventory_line.inventory_id.date,
                          'last_inventory_id': inventory_line.inventory_id.id})
 
-
     @api.onchange('product_qty')
     def onchange_product_qty(self):
         self.is_ok = True
-
