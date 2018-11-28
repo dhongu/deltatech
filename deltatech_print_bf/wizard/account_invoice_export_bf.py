@@ -37,8 +37,8 @@ ecr_commands = {
         'print': "2;{text}\r\n",
         'in': "2;%s\r\n",
         'out': "2;%s\r\n",
-        'sale': '1;{name};1;1;{price};{qty}',  # comanda sale
-        'total': '5;{amount};{type};1;0',  # comanda de inchidere
+        'sale': '1;{name};1;1;{price};{qty}\r\n',  # comanda sale
+        'total': '5;{amount};{type};1;0\r\n',  # comanda de inchidere
         'discount': '7;{type};1;1;0;{value};1\r\n',
         'amount': lambda value: value * 100,
         'qty': lambda value: value * 100000
@@ -48,9 +48,9 @@ ecr_commands = {
         'print': 'P,1,______,_,__;{text};;;;\r\n',
         'in': 'I,1,______,_,__;0;%s;;;;\r\n',
         'out': 'I,1,______,_,__;1;%s;;;;\r\n',
-        'sale': 'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;',  # comanda sale
-        'total': 'T,1,______,_,__;{type};{amount};;;;',  # comanda de inchidere
-        'discount': 'C,1,______,_,__;{type};{value};;;;',
+        'sale': 'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;\r\n',  # comanda sale
+        'total': 'T,1,______,_,__;{type};{amount};;;;\r\n',  # comanda de inchidere
+        'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
     },
@@ -59,9 +59,9 @@ ecr_commands = {
         'print': 'P,1,______,_,__;{text};;;;\r\n',
         'in': 'I,1,______,_,__;0;%s;;;;\r\n',
         'out': 'I,1,______,_,__;1;%s;;;;\r\n',
-        'sale': 'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;{uom};',  # comanda sale
-        'total': 'T,1,______,_,__;{type};{amount};;;;',  # comanda de inchidere
-        'discount': 'C,1,______,_,__;{type};{value};;;;',
+        'sale': 'S,1,______,_,__;{name};{price};{qty};{dep};{group};{tax};0;0;{uom};\r\n',  # comanda sale
+        'total': 'T,1,______,_,__;{type};{amount};;;;\r\n',  # comanda de inchidere
+        'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
     },
@@ -185,7 +185,7 @@ class account_invoice_export_bf(models.TransientModel):
                     'type': payment.journal_id.cod_ecr,
                     'amount': str(ecr_comm['amount'](payment.amount))
                 }
-                buf.write(ecr_comm['print'].format(**data))
+                buf.write(ecr_comm['total'].format(**data))
 
             defaults['text_data'] = buf.getvalue()
             out = base64.encodestring(buf.getvalue())
