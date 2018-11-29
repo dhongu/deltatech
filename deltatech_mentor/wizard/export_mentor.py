@@ -56,10 +56,15 @@ class export_mentor(models.TransientModel):
         return cod_fiscal
 
     def get_cont(self, account_id):
+        if not account_id:
+            return ''
         cont = account_id.code
         while cont[-1] == '0':
             cont = cont[:-1]
         return cont
+
+    def get_date(self, date):
+        return date[8:10]+'.'+date[5:7]+'.'+date[:4]
 
     def get_temp_file(self, data):
         temp_file = StringIO()
@@ -69,7 +74,9 @@ class export_mentor(models.TransientModel):
         txt = txt.replace('False', '')
         txt = txt.replace(' = ', '=')
         temp_file.seek(0)
+        temp_file.truncate(0)
         temp_file.write(txt)
+        temp_file = temp_file.getvalue().encode('ascii', 'ignore')
         return temp_file
 
     @api.model
@@ -79,7 +86,9 @@ class export_mentor(models.TransientModel):
         parteneri.optionxform = lambda option: option
         for partner in partner_ids:
             cod_fiscal = self.get_cod_fiscal(partner)
-
+            if not partner:
+                error = _("Partenerul %s nu are cod fiscal") % partner.name
+                result_html += '<div>Eroare %s</div>' % error
             sections_name = "ParteneriNoi_%s" % cod_fiscal
             parteneri[sections_name] = {
                 'Denumire': partner.name,
@@ -88,7 +97,9 @@ class export_mentor(models.TransientModel):
                 'Adresa': partner.street,
                 'Sediu': '',
                 'Telefon': partner.phone,
-                'Email': partner.email
+                'Email': partner.email,
+                'CodFiscal':cod_fiscal,
+                'PersoanaFizica' : 'NU' and not partner.is_company or 'DA'
             }
         temp_file = self.get_temp_file(parteneri)
 
@@ -108,10 +119,12 @@ class export_mentor(models.TransientModel):
                 'TipContabil': product.categ_id.tip_contabil
             }
             if product.type == 'service':
-                articole[sections_name]['ContServiciu'] = self.get_cont(product.categ_id.property_account_income_categ)
+                articole[sections_name]['ContServiciu'] = self.get_cont(product.categ_id.property_account_expense_categ_id)
 
         temp_file = self.get_temp_file(articole)
         return temp_file, result_html
+
+
 
     @api.model
     def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
@@ -133,10 +146,10 @@ class export_mentor(models.TransientModel):
 
             sections_name = 'Factura_%s' % index
             NrDoc = invoice.reference or invoice.number
-            # NrDoc = ''.join([s for s in invoice.number if s.isdigit()])
+            NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
-                'Data': invoice.date_invoice,  # todo: de verificat care este formatul de data
+                'Data':  self.get_date(invoice.date_invoice),
                 'CodFurnizor': cod_fiscal,
                 'TVAINCASARE': '',  # todo: determinare
                 'PRORATA': '',
@@ -153,12 +166,19 @@ class export_mentor(models.TransientModel):
             item = 0
             for line in invoice.invoice_line_ids:
                 item += 1
+                if not line.product_id.default_code:
+                    error = _("Produsul %s nu are cod") % line.product_id.name
+                    result_html += '<div>Eroare %s</div>' % error
+                if line.product_id.type == 'product':
+                    gestiune = 'DepMP'
+                else:
+                    gestiune = ''
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
-                    line.product_id.default_code or '',  # Cod intern/extern articol;
+                    line.product_id.default_code or '' ,  # Cod intern/extern articol;
                     line.uom_id.name or '',
                     str(line.quantity),
-                    str(line.price_unit_without_taxes),  # line.price_unit,
-                    '',  # Simbol gestiune: pentru receptie/repartizare cheltuieli
+                    str(line.price_unit),  # line., price_unit_without_taxes
+                    gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
                     self.get_cont(line.account_id),  # Simbol cont articol serviciu;
                     '',  # Pret inregistrare;
@@ -172,14 +192,73 @@ class export_mentor(models.TransientModel):
 
         return temp_file, result_html
 
+
+
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
         result_html = ''
         iesiri = configparser.ConfigParser()
         iesiri.optionxform = lambda option: option
-        temp_file = StringIO()
-        iesiri.write(temp_file)
+        if invoice_out_ids:
+            invoice = invoice_out_ids[0]
+
+        iesiri['InfoPachet'] = {
+            'AnLucru': invoice.date_invoice[:4],
+            'LunaLucru': invoice.date_invoice[5:7],
+            'TipDocument': 'FACTURA IESIRE',
+            'TotalFacturi': len(invoice_out_ids)
+        }
+        index = 1
+        for invoice in invoice_out_ids:
+            cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
+
+            sections_name = 'Factura_%s' % index
+            NrDoc = invoice.reference or invoice.number
+            NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+            iesiri[sections_name] = {
+                'NrDoc': NrDoc,
+                'Data':  self.get_date(invoice.date_invoice),
+                'CodClient': cod_fiscal,
+                'TVAINCASARE': '',  # todo: determinare
+                'TotalArticole': len(invoice.invoice_line_ids),
+                'TaxareInversa':'N',
+                'Scadenta':self.get_date(invoice.date_due)
+            }
+            sections_name = 'Items_%s' % index
+            iesiri[sections_name] = {}
+            item = 0
+            for line in invoice.invoice_line_ids:
+                item += 1
+                if not line.product_id.default_code:
+                    error = _("Produsul %s nu are cod") % line.product_id.name
+                    result_html += '<div>Eroare %s</div>' % error
+                if line.product_id.type == 'product':
+                    gestiune = 'DepMP'
+                else:
+                    gestiune = ''
+                iesiri[sections_name]['Item_%s' % item] = ';'.join([
+                    line.product_id.default_code or '' ,  # Cod intern/extern articol;
+                    line.uom_id.name or '',
+                    str(line.quantity),
+                    str(line.price_unit),  # line., price_unit_without_taxes
+                    gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
+                    str(line.discount),  # Discount linie
+
+                    '',  # Pret inregistrare;
+                    '',  # Termen garantie;
+                    '',  # Valoare suplimentara;
+                    ''  # Observatii la nivel articol;
+                ])
+                if line.product_id.type == 'service':
+                    iesiri[sections_name]['Item_%s_Ext' % item] = ';'.join([
+                        gestiune,
+                        self.get_cont(line.account_id),  # Simbol cont articol serviciu;
+                    ])
+            index += 1
+
+        temp_file = self.get_temp_file(iesiri)
         return temp_file, result_html
+
 
     @api.multi
     def do_export(self):
@@ -246,61 +325,27 @@ class export_mentor(models.TransientModel):
         result_html += messaje
 
         file_name = 'Partner.txt'
-        zip_archive.writestr(file_name, temp_file.getvalue())
+        zip_archive.writestr(file_name, temp_file)
 
         temp_file, messaje = self.do_export_articole(product_ids)
         result_html += messaje
 
         file_name = 'Articole.txt'
-        zip_archive.writestr(file_name, temp_file.getvalue())
+        zip_archive.writestr(file_name, temp_file)
 
         temp_file, messaje = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
         result_html += messaje
         file_name = 'Facturi_Intrare.txt'
-        zip_archive.writestr(file_name, temp_file.getvalue())
+        zip_archive.writestr(file_name, temp_file)
 
         temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
         result_html += messaje
         file_name = 'Facturi_Iesire.txt'
-        zip_archive.writestr(file_name, temp_file.getvalue())
+        zip_archive.writestr(file_name, temp_file)
 
         data = {'item_details': self.item_details,
                 'code_article': self.code_article}
 
-        # if invoice_in_ids:
-        #     result = self.env['report'].get_html(records=invoice_in_ids, report_name='deltatech_mentor.report_invoice',
-        #                                          data=data)
-        #     if result:
-        #         result = html2text.html2text(result).decode('utf8', 'replace')
-        #         result = result.replace(chr(13), '\n')
-        #         result = result.replace('\n\n', '\r\n')
-        #         zip_archive.writestr('Facturi_Intrare.txt', result.encode('utf8'))
-        #
-        # if invoice_out_ids:
-        #     result = self.env['report'].get_html(records=invoice_out_ids, report_name='deltatech_mentor.report_invoice',
-        #                                          data=data)
-        #     if result:
-        #         result = html2text.html2text(result.decode('utf8', 'replace'))
-        #         result = result.replace(chr(13), '\n')
-        #         result = result.replace('\n\n', '\r\n')
-        #         zip_archive.writestr('Facturi_Iesire.txt', result.encode('utf8'))
-        #
-        # if product_ids:
-        #     result = self.env['report'].get_html(records=product_ids,
-        #                                          report_name='deltatech_mentor.report_product_template')
-        #     if result:
-        #         result = html2text.html2text(result.decode('utf8', 'replace'))
-        #         result = result.replace(chr(13), '\n')
-        #         result = result.replace('\n\n', '\r\n')
-        #         zip_archive.writestr('Articole.txt', result.encode('utf8'))
-        #
-        # if partner_ids:
-        #     result = self.env['report'].get_html(records=partner_ids, report_name='deltatech_mentor.report_res_partner')
-        #     if result:
-        #         result = html2text.html2text(result.decode('utf8', 'replace'))
-        #         result = result.replace(chr(13), '\n')
-        #         result = result.replace('\n\n', '\r\n')
-        #         zip_archive.writestr('Partner.txt', result.encode('utf8'))
 
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object
