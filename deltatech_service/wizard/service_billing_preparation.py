@@ -44,7 +44,7 @@ class service_billing_preparation(models.TransientModel):
                         'agreement_id': agreement.id,
                         'agreement_line_id': line.id,
                         'date_invoice': agreement.next_date_invoice,
-                        'group_id': agreement.id,
+                        'group_id': agreement.group_id.id,
                     })
                     consumption = self.env['service.consumption'].create(cons_value)
                     res.extend(line.after_create_consumption(consumption))
