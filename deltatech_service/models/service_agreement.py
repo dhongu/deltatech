@@ -96,7 +96,7 @@ class service_agreement(models.Model):
 
     total_invoiced = fields.Float(string="Total invoiced",readonly=True )
     total_consumption = fields.Float(string="Total consumption", readonly=True  )
-    group_id = fields.Many2one('service.agreement.group')
+    group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True, states={'draft': [('readonly', False)]})
 
     @api.multi
     def compute_totals(self):
@@ -189,7 +189,7 @@ class service_agreement_type(models.Model):
 class service_agreement_group(models.Model):
     _name = 'service.agreement.group'
     _description = "Service Agreement Group"
-    name = fields.Char(string='Type', translate=True)
+    name = fields.Char(string='Service Group')
 
 
 class service_agreement_line(models.Model):

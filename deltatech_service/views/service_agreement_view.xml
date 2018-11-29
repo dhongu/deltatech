@@ -220,13 +220,13 @@
 
 
 		<record id="action_service_agreement_group" model="ir.actions.act_window">
-			<field name="name">Services Agreements Group</field>
+			<field name="name">Services Group</field>
 			<field name="res_model">service.agreement.group</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Services Agreement Group" id="menu_service_agreement_group"
+		<menuitem name="Services Group" id="menu_service_agreement_group"
 			action="action_service_agreement_group" parent="base.menu_service_config" sequence="101" />
 
 

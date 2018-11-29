@@ -64,7 +64,7 @@ class service_consumption(models.Model):
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',
             'Agreement line in period already exist!'),
     ]
-    group_id = fields.Many2one('service.agreement.group', readonly=True, ondelete='restrict', copy=False, index=True )
+    group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True, ondelete='restrict', copy=False, index=True )
 
  
 
