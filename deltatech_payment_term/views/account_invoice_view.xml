@@ -13,9 +13,9 @@
                 </div>
                 <xpath expr="//field[@name='payment_term_id']" position="after">
 					<field name="in_rates"/>
-					<button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
+<!--					<button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
                             type="action"  class="oe_edit_only" groups="base.group_user"/>
-                    <newline/>
+                    <newline/>-->
 				</xpath>
             </field>
         </record>
