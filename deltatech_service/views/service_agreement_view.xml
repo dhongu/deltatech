@@ -56,7 +56,7 @@
 					<field name="description" />
 					<field name="state" />
 					<field name="type_id" />
-					<field name="group_id" />
+					<field name="group_id" string="Service Group"/>
 					<field name="total_consumption" sum="consumption"/>
 					<field name="total_invoiced" sum="invoiced"/>
 					<field name="message_unread" invisible="1" />
@@ -226,7 +226,7 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Services Group" id="menu_service_agreement_group"
+		<menuitem name="Service Group" id="menu_service_agreement_group"
 			action="action_service_agreement_group" parent="base.menu_service_config" sequence="101" />
 
 

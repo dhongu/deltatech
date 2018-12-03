@@ -35,7 +35,8 @@ class service_equipment(models.Model):
                                  readonly=True,  help='The address where the equipment is located')
     # emplacement = fields.Char(string='Emplacement',  readonly=True,
     #                           help='Detail of location of the equipment in working point')
-    # install_date = fields.Date(string='Installation Date',  readonly=True)
+
+    #install_date = fields.Date(string='Installation Date',  readonly=True)
 
     # contact_id = fields.Many2one('res.partner', string='Contact Person', track_visibility='onchange',
     #                              domain=[('type', '=', 'contact'), ('is_company', '=', False)])

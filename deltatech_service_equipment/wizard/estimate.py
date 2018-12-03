@@ -63,15 +63,15 @@ class service_meter_reading_estimate(models.TransientModel):
     @api.multi
     def _calc_estimation(self):
          
-        domain_date = [('date','>=',self.period_id.date_start),('date','<=',self.period_id.date_stop)]
+        domain_date = [('date','>=',self.period_id.date_start),('date','<=',self.period_id.date_end)]
         for meter in self.meter_ids:
             domain = domain_date + [('meter_id','=',meter.id)]
             reading = self.env['service.meter.reading'].search(domain, limit=1)
             if not reading:
                 reading = self.env['service.meter.reading'].create({'meter_id':meter.id,
                                                             'equipment_id':meter.equipment_id.id,
-                                                            'date':self.period_id.date_stop,
-                                                            'counter_value':meter.get_forcast(self.period_id.date_stop),
+                                                            'date':self.period_id.date_end,
+                                                            'counter_value':meter.get_forcast(self.period_id.date_end),
                                                             'estimated':True})
              
          

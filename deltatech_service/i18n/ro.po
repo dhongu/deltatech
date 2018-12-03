@@ -274,20 +274,7 @@ msgstr "Grupează după serviciu"
 msgid "Group invoice"
 msgstr "Guprare facturi"
 
-#. module: deltatech_service
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_line_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id_4352
-#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_billing_preparation_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_change_invoice_date_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_cycle_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_id
-#: model:ir.model.fields,field_description:deltatech_service.field_service_price_change_id
-msgid "ID"
-msgstr "ID"
+
 
 #. module: deltatech_service
 #: selection:service.agreement,state:0
@@ -806,3 +793,19 @@ msgstr "facturat"
 msgid "or"
 msgstr "sau"
 
+#. module: deltatech_service
+#: model:ir.model,name:deltatech_service.model_service_agreement_group
+msgid "Service Agreement Group"
+msgstr "Grup serviciu"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_group_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_tree
+msgid "Service Group"
+msgstr "Grup serviciu"

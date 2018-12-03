@@ -7,9 +7,9 @@
 			<field name="model">service.agreement</field>
 			<field name="inherit_id" ref="deltatech_service_equipment.view_service_agreement_form" />
 			<field name="arch" type="xml">
-				<xpath expr="//button[@id='service_equipment']/div" position="replace">
-					<div>Apartments</div>
-				</xpath>
+				<!--<xpath expr="//button[@id='service_equipment']/div" position="replace">-->
+					<!--<span class="o_stat_text">Apartments</span>-->
+				<!--</xpath>-->
 
 			</field>
 		</record>

@@ -21,7 +21,7 @@ Functionalitati:
     ],
 
     "data": [
-        'views/service_rent_view.xml',
+       # 'views/service_rent_view.xml',
         'views/service_equipment_view.xml',
     ],
     "active": False,

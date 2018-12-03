@@ -236,7 +236,7 @@ msgstr "Equipment %s assigned to many agreements."
 #. module: deltatech_service_equipment
 #: model:ir.ui.menu,name:deltatech_service_equipment.menu_service_equipment_category
 msgid "Equipment Category"
-msgstr "Categorie Equipment"
+msgstr "Categorie Echipament"
 
 #. module: deltatech_service_equipment
 #: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:154
@@ -554,7 +554,7 @@ msgstr "Services Invoices"
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_category
 msgid "Services Meter Category"
-msgstr "Services Meter Category"
+msgstr "Categorie contor"
 
 #. module: deltatech_service_equipment
 #: model:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_reading_tree
@@ -574,7 +574,7 @@ msgstr "Dată început"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_start_value
 msgid "Start Value"
-msgstr "Start Value"
+msgstr "Valoare start"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_state
@@ -586,10 +586,7 @@ msgstr "Stare"
 msgid "Tehnical Details"
 msgstr "Detalii tehnice"
 
-#. module: deltatech_service_equipment
-#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_type_template_meter_ids
-msgid "Template Meter"
-msgstr "Template Meter"
+
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment_address_id
@@ -608,15 +605,18 @@ msgstr "The agreement %s is in state %s"
 msgid "The owner of the equipment"
 msgstr "The owner of the equipment"
 
+
+
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_total_counter_value
 msgid "Total Counter Value"
-msgstr "Total Counter Value"
+msgstr "Valoare totală"
+
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_total_revenues
 msgid "Total Revenues"
-msgstr "Total Revenues"
+msgstr "Total Venituri"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_total_costs
@@ -673,3 +673,48 @@ msgstr "sau"
 msgid "total"
 msgstr "total"
 
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading_estimated
+msgid "Estimated"
+msgstr "Estimat"
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_agreement_form
+msgid "Leave empty to create a new agreement"
+msgstr "Lăsați necompletat pentru un contract nou"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading_previous_counter_value
+msgid "Previous Counter Value"
+msgstr "Valoare precedentă"
+
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/old/service_equipment.py:299
+#: code:addons/deltatech_service_equipment/models/service_equipment.py:169
+#, python-format
+msgid "Services Invoices"
+msgstr "Facturi servicii"
+
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_start_value
+msgid "Start Value"
+msgstr "Valoare start"
+
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_type_template_meter_ids
+msgid "Template Meter"
+msgstr "Control șablon"
+
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_total_revenues
+msgid "Total Revenues"
+msgstr "Total venituri"
+
+#. module: deltatech_service_equipment
+#: model:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_agreement_form
+msgid "_Apply"
+msgstr "_Aplică"
