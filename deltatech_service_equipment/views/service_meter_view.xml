@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
 	<data>
 
 		<record id="action_service_meter_reading" model="ir.actions.act_window">
@@ -36,21 +36,21 @@
 						<button name="recheck_value" type="object" string="Recheck Value " />
 					</header>
 					<sheet>
-						<div class="oe_title oe_left">
-							<h1>
-								<label string="Meter" />
-								<field name="name" class="oe_inline" />
-							</h1>
-						</div>
-						<div class="oe_right oe_button_box" name="buttons">
-							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa fa-tachometer" name="%(action_service_meter_reading)d"
+
+						<div class="oe_button_box" name="button_box">
+							<button type="action" class="oe_stat_button" id="meter_reading_button" icon="fa-tachometer" name="%(action_service_meter_reading)d"
 								context="{'search_default_equipment_id': equipment_id,
 										  'default_equipment_id': equipment_id,
 										  'search_default_meter_id': id,
 										  'default_meter_id': id }">
-								<div>Meter Readings</div>
+								 <span class="o_stat_text">Meter Readings</span>
 							</button>
 						</div>
+						<div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Meter" class="oe_inline"/>
+                            </h1>
+                        </div>
 						<group>
 							<group>
 								<field name="equipment_id" />
@@ -202,4 +202,4 @@
 
 
 	</data>
-</openerp>
+</odoo>

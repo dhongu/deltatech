@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-#
-##############################################################################
+# ©  2015-2018 Deltatech
+# See README.rst file on addons root folder for license details
 
 
 from odoo import models, fields, api, _
@@ -44,7 +26,7 @@ READING_TYPE_SELECTION = [
 # face legatura dintre categorie si unitatea de masura
 class service_meter_category(models.Model):
     _name = 'service.meter.category'
-    _description = "Service Equipment Category"     
+    _description = "Service Meter Category"
     
     name = fields.Char(string='Category') 
     uom_id = fields.Many2one('product.uom', string='Unit of Measure' , required=True ) 
@@ -241,8 +223,7 @@ class service_meter_reading(models.Model):
     
     meter_id = fields.Many2one('service.meter', string='Meter',required=True, ondelete='cascade',  domain=[('type', '=', 'counter')]) 
     
-    equipment_history_id = fields.Many2one('service.equipment.history', string='Equipment history')   
-    equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True, ondelete='restrict' ) 
+    equipment_id = fields.Many2one('service.equipment', string='Equipment',required=True, ondelete='restrict' )
 
     
     date = fields.Date(string='Date', index=True, required=True, default = fields.Date.today()  ) 
@@ -282,24 +263,12 @@ class service_meter_reading(models.Model):
         self.difference = self.counter_value - self.previous_counter_value
         next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
                                                          ('date','>',self.date)],limit=1, order='date, id')
-        if next and next.previous_counter_value <>  self.counter_value:
+        if next and next.previous_counter_value !=  self.counter_value:
             next.write({'previous_counter_value': self.counter_value,
                         'difference' : (next.counter_value - self.counter_value)})
             #next._compute_difference()      
 
  
-            
-    @api.onchange('equipment_id','date')
-    def onchange_equipment_id(self):
-        if self.equipment_id:
-            if len(self.equipment_id.meter_ids) == 1:
-                self.meter_id = self.equipment_id.meter_ids[0]
-            self.equipment_history_id = self.equipment_id.get_history_id(self.date) 
-        else: 
-            self.equipment_history_id = False           
-            #self.previous_counter_value = self.meter_id.last_meter_reading_id.counter_value
-            #self.counter_value =  self.meter_id.get_forcast(self.date)   #self.previous_counter_value 
-
 
     @api.onchange('meter_id')
     def onchange_meter_id(self):
@@ -308,18 +277,6 @@ class service_meter_reading(models.Model):
              
             
 
-    @api.model
-    def create(self, vals):
-        if not vals.get('equipment_history_id',False):
-            equipment = self.env['service.equipment'].browse(vals['equipment_id'])
-            history_id = equipment.get_history_id(vals['date']) 
-            print history_id
-            if history_id:
-                vals['equipment_history_id'] =  history_id.id
-                 
-        res = super(service_meter_reading,self).create(vals)
-        #self.meter_id.calc_forcast_coef()
-        return res
 
     @api.multi
     def write(self, vals):
@@ -339,16 +296,11 @@ class service_meter_reading(models.Model):
             if reading.consumption_id:
                 raise Warning('Meter reading recorder in consumption prepared for billing.')
             meters |= reading.meter_id
-            #next = self.env['service.meter.reading'].search([('meter_id','=',self.meter_id.id),
-            #                                                      ('date','>',self.date)],limit=1, order='date, id')
-            #nexts |= next
+
             
         res = super(service_meter_reading,self).unlink()
         
-        #for next in nexts:
-        #    next._compute_previous_counter_value()
-        #    next._compute_difference()
-        #  self.env.cr.commit()      este necesar ???
+
         meters.recheck_value() 
   
  

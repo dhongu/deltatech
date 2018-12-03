@@ -121,7 +121,7 @@
 								<field name="date_agreement" />
 								<field name="final_date" />
 								<field name="type_id" />
-								<field name="group_id" />
+								<field name="group_id" string="Service Group"/>
 								<field name="partner_id" />
 								<field name="description" />
 								<field name="currency_id" options="{'no_create': True}" />
