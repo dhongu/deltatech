@@ -134,12 +134,12 @@ class export_mentor(models.TransientModel):
         if invoice_in_ids:
             invoice = invoice_in_ids[0]
 
-        intrari['InfoPachet'] = {
-            'AnLucru': invoice.date_invoice[:4],
-            'LunaLucru': invoice.date_invoice[5:7],
-            'TipDocument': 'FACTURA INTRARE',
-            'TotalFacturi': len(invoice_in_ids) + len(voucher_in_ids)
-        }
+            intrari['InfoPachet'] = {
+                'AnLucru': invoice.date_invoice[:4],
+                'LunaLucru': invoice.date_invoice[5:7],
+                'TipDocument': 'FACTURA INTRARE',
+                'TotalFacturi': len(invoice_in_ids) + len(voucher_in_ids)
+            }
         index = 1
         for invoice in invoice_in_ids:
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
@@ -202,12 +202,12 @@ class export_mentor(models.TransientModel):
         if invoice_out_ids:
             invoice = invoice_out_ids[0]
 
-        iesiri['InfoPachet'] = {
-            'AnLucru': invoice.date_invoice[:4],
-            'LunaLucru': invoice.date_invoice[5:7],
-            'TipDocument': 'FACTURA IESIRE',
-            'TotalFacturi': len(invoice_out_ids)
-        }
+            iesiri['InfoPachet'] = {
+                'AnLucru': invoice.date_invoice[:4],
+                'LunaLucru': invoice.date_invoice[5:7],
+                'TipDocument': 'FACTURA IESIRE',
+                'TotalFacturi': len(invoice_out_ids)
+            }
         index = 1
         for invoice in invoice_out_ids:
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
