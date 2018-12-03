@@ -107,8 +107,8 @@
                             <group col="1">
 
                                 <group string="Agreement">
-                                    <field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}"
-                                           options="{'always_reload': True}"/>
+                                    <!--<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}"-->
+                                           <!--options="{'always_reload': True}"/>-->
                                     <field name="partner_id"/>
                                     <field name="agreement_id"/>
                                     <field name="agreement_type_id"/>
@@ -122,9 +122,9 @@
 
 
                         </group>
-                        <group>
-                            <group string="Meters">
-                                <field name="meter_ids" nolabel="1" widget="one2many_list">
+                        <notebook>
+                            <page string="Meters">
+                                <field name="meter_ids" mode="kanban,tree">
                                     <tree string="Meters" editable="bottom">
                                         <field name="name"/>
                                         <field name="meter_categ_id"/>
@@ -132,9 +132,32 @@
                                         <field name="total_counter_value"/>
                                         <field name="estimated_value"/>
                                     </tree>
+                                    <kanban class="o_kanban">
+                                        <field name="name"/>
+                                        <field name="meter_categ_id"/>
+                                        <field name="uom_id"/>
+                                        <field name="total_counter_value"/>
+                                        <field name="estimated_value"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                     <div class="row">
+                                                        <div class="col-xs-8">
+                                                            <strong><span><t t-esc="record.meter_categ_id.value"/></span></strong>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <strong><span class="pull-right text-right">
+                                                            <t t-esc="record.total_counter_value.value"/></span></strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
                                 </field>
-                            </group>
-                        </group>
+                            </page>
+                        </notebook>
+
 
                         <field name="note"/>
                     </sheet>

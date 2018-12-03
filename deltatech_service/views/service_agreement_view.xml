@@ -79,13 +79,8 @@
 						<field name="state" widget="statusbar" statusbar_visible="draft,quote" />
 					</header>
 					<sheet>
-						<div class="oe_title oe_left">
-							<h1>
-								<label string="Agreement" />
-								<field name="name" class="oe_inline" />
-							</h1>
-						</div>
-						<div class="oe_right oe_button_box" name="buttons">
+
+						<div class="oe_button_box" name="button_box">
 							<button type="action" class="oe_stat_button" id="invoice_button"
 								icon="fa-pencil-square-o" 
 								name="%(action_service_invoice)d"
@@ -115,6 +110,11 @@
 
 							</button>
 							
+						</div>
+                        <div class="oe_title">
+							<h1>
+								<field name="name" placeholder="Agreement" class="oe_inline" />
+							</h1>
 						</div>
 						<group>
 							<group>

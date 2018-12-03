@@ -29,17 +29,16 @@ class service_equipment(models.Model):
     user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
 
     # proprietarul  echipamentului
-    partner_id = fields.Many2one('res.partner', string='Customer',
+    partner_id = fields.Many2one('res.partner', string='Customer', related='agreement_id.partner_id', store=True,
                                  readonly=True, help='The owner of the equipment')
     address_id = fields.Many2one('res.partner', string='Location',
-                                 readonly=True,
-                                 help='The address where the equipment is located')
+                                 readonly=True,  help='The address where the equipment is located')
     # emplacement = fields.Char(string='Emplacement',  readonly=True,
     #                           help='Detail of location of the equipment in working point')
     # install_date = fields.Date(string='Installation Date',  readonly=True)
 
-    contact_id = fields.Many2one('res.partner', string='Contact Person', track_visibility='onchange',
-                                 domain=[('type', '=', 'contact'), ('is_company', '=', False)])
+    # contact_id = fields.Many2one('res.partner', string='Contact Person', track_visibility='onchange',
+    #                              domain=[('type', '=', 'contact'), ('is_company', '=', False)])
 
     name = fields.Char(string='Name', index=True, required=True, copy=False)
     display_name = fields.Char(compute='_compute_display_name')
@@ -229,8 +228,7 @@ class service_template_meter(models.Model):
     _description = "Service Template Meter"
 
     type_id = fields.Many2one('service.equipment.type', string="Type")
-    product_id = fields.Many2one('product.product', string='Service', ondelete='set null',
-                                 domain=[('type', '=', 'service')])
+    product_id = fields.Many2one('product.product', string='Service', ondelete='set null',  domain=[('type', '=', 'service')])
     meter_categ_id = fields.Many2one('service.meter.category', string="Meter category")
     bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure')
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,
