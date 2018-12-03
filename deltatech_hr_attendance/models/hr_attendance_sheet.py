@@ -605,6 +605,9 @@ class HrAttendanceSheetLine(models.Model):
 
     @api.multi
     def unlink(self):
-        if any(line.state == 'done' for line in self):
-            raise UserError(_('Cannot delete a daily attendance in Confirmed state '))
+        for line in self:
+            if line.state == 'done':
+                raise UserError(_('Cannot delete a daily attendance for % in Confirmed state in date %s') % (line.employee_id.name, line.date))
+        # if any(line.state == 'done' for line in self):
+        #     raise UserError(_('Cannot delete a daily attendance in Confirmed state '))
         return super(HrAttendanceSheetLine, self).unlink()
