@@ -440,6 +440,8 @@ class HrAttendanceSheetLine(models.Model):
     @api.model
     def compute_on_shift(self, shift):
 
+        hours_per_day = self.employee_id.hours_per_day
+
         values = {'shift': shift}
 
         prog, prog_out = self.get_shifts()
@@ -508,8 +510,15 @@ class HrAttendanceSheetLine(models.Model):
         # 7:40  trebuie sa sta in pauza
         # rotunjurea la ora suplimentara
 
-        if effective_hours >= 7 or worked_hours >= 8:
-            worked_hours = 8.0
+        if hours_per_day == 8:
+            if effective_hours >= 7 or worked_hours >= 8:
+                worked_hours = 8.0
+        else:
+            if  worked_hours > hours_per_day:
+                overtime += (worked_hours-hours_per_day)
+                worked_hours = hours_per_day
+
+
 
         values['effective_hours'] = effective_hours
         values['breaks'] = float_round(breaks, precision_rounding=0.1)
@@ -539,7 +548,7 @@ class HrAttendanceSheetLine(models.Model):
             values['night_hours'] = values['worked_hours']
 
         if shift == 'T':  # tesa
-            values['worked_hours'] = min(8, worked_hours)
+            values['worked_hours'] = min(hours_per_day, worked_hours)
             values['overtime_granted'] = 0.0
             values['night_hours'] = 0.0
 

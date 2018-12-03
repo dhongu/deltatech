@@ -132,6 +132,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         end_date = fields.Date.from_string(end_date)
         days = (end_date - start_date).days + 1
 
+        employee = self.env['hr.employee'].browse(empid)
+        hours_per_day = employee.hours_per_day or 8.0
+
         # work_day = 0
         to_retrieve = 0
 
@@ -202,7 +205,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
-            if not res['days'][index]['holiday'] and line.worked_hours >= 5 and not self._date_is_day_off(index_date):
+            if not res['days'][index]['holiday'] and line.worked_hours >= (1+hours_per_day/2) and not self._date_is_day_off(index_date):
                 working_day += 1
                 if line.working_day != 1.0:
                     line.write({'working_day': 1.0})
@@ -213,9 +216,9 @@ class HrAttendanceSummaryReport(models.AbstractModel):
         res['with_overtime'] = False
         if res['overtime'] > 0:
             res['with_overtime'] = True
-        res['norma'] = (to_retrieve + working_day) * 8
+        res['norma'] = (to_retrieve + working_day) * hours_per_day
 
-        retrieved = round(res['overtime'] / 8)
+        retrieved = round(res['overtime'] / hours_per_day)
         if to_retrieve and retrieved:
             if retrieved > to_retrieve:
                 retrieved = to_retrieve

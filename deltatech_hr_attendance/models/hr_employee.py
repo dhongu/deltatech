@@ -13,3 +13,4 @@ class HrEmployee(models.Model):
 
 
     shift = fields.Selection([('S1', 'Shift 1'), ('S2', 'Shift 2'), ('S3', 'Shift 3'), ('T', 'Tesa'), ('F', 'Free')])
+    hours_per_day = fields.Integer(string="Hours per day", default=8)

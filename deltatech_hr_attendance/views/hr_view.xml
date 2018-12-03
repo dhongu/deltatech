@@ -71,6 +71,17 @@
          </record>
 
 
+      <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">hr.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                 <field name="job_id" position="after">
+                     <!--<field name="shift"/>-->
+                     <field name="hours_per_day"/>
+                 </field>
+            </field>
+      </record>
 
 
 
