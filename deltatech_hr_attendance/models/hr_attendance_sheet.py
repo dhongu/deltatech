@@ -348,6 +348,8 @@ class HrAttendanceSheetLine(models.Model):
     def calcul(self, prog, prog_out):
         line = self
         values = {}
+        if not line.check_in:
+            return
 
         check_in = fields.Datetime.context_timestamp(self, fields.Datetime.from_string(line.check_in))
         hour_from = check_in.hour + check_in.minute / 60.0
