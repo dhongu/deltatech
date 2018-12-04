@@ -21,8 +21,8 @@ Functionalitati:
 
     "category": "Accounting",
     "depends": [
-        "base",'account_voucher',
-        "account",'base_vat'
+        "base", 'account_voucher',
+        "account", 'base_vat', "deltatech_contact"
     ],
 
     "data": [
@@ -36,5 +36,3 @@ Functionalitati:
     "active": False,
     "installable": True,
 }
-
-
