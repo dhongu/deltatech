@@ -136,15 +136,17 @@ class service_equipment(models.Model):
 
 
     def _compute_agreement_id(self):
-        if not isinstance(self.id, models.NewId):
+        for equipment in self:
+            if isinstance(equipment.id, models.NewId):
+                return
             agreements = self.env['service.agreement']
-            agreement_line = self.env['service.agreement.line'].search([('equipment_id', '=', self.id)])
+            agreement_line = self.env['service.agreement.line'].search([('equipment_id', '=', equipment.id)])
             for line in agreement_line:
                 if line.agreement_id.state == 'open':
                     agreements = agreements | line.agreement_id
             if len(agreements) > 1:
                 msg = _("Equipment %s assigned to many agreements.")
-                self.message_post(msg)
+                equipment.message_post(msg)
 
             # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
             if not agreements:
@@ -153,8 +155,8 @@ class service_equipment(models.Model):
                         agreements = agreements | line.agreement_id
 
             if len(agreements) > 0:
-                self.agreement_id = agreements[0]
-                self.partner_id = agreements[0].partner_id
+                equipment.agreement_id = agreements[0]
+                equipment.partner_id = agreements[0].partner_id
 
 
     @api.multi
