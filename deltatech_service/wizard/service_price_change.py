@@ -22,8 +22,8 @@ class service_price_change(models.TransientModel):
 
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price') ) 
 
-    currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency) 
-
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency)
+    reference = fields.Char('Reference')
 
     @api.model
     def default_get(self, fields):
@@ -34,6 +34,7 @@ class service_price_change(models.TransientModel):
             defaults['product_id'] = cons.product_id.id
             defaults['price_unit'] = cons.price_unit
             defaults['currency_id'] = cons.currency_id.id
+            defaults['reference'] = cons.name
         return defaults   
 
 
@@ -58,7 +59,11 @@ class service_price_change(models.TransientModel):
             raise except_orm(_('No consumptions!'),
                              _("There were no service consumption !"))
             
-        consumptions.write({'price_unit':self.price_unit, 'currency_id':self.currency_id.id  })
+        consumptions.write({
+            'price_unit':self.price_unit,
+            'currency_id':self.currency_id.id,
+            'name': self.reference
+        })
         
         price_unit = self.currency_id.compute(self.price_unit, self.env.user.company_id.currency_id )
        

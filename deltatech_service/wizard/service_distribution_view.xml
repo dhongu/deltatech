@@ -19,6 +19,7 @@
 							<field name="mode" />
 						</group>
 						<group>
+							<field name="reference" />
 						</group>
 					</group>
 					<footer>

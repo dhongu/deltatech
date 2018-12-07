@@ -19,6 +19,7 @@
 							<field name="currency_id" options="{'no_create': True}"/>
 						</group>
 						<group>
+							<field name="reference" />
 						</group>
 					</group>
 					<footer>
