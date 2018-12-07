@@ -15,5 +15,10 @@
             </field>
         </record>
 
+        <record id="account.menu_action_account_payments_receivable" model="ir.ui.menu">
+            <field name="name">Incoming payments</field>
+        </record>
+
+
     </data>
 </odoo>
