@@ -9,7 +9,9 @@ from odoo.osv import expression
 import odoo.addons.decimal_precision as dp
 
 
-class ProductCategory(models.Model):
-    _inherit = "product.category"
 
-    tip_contabil = fields.Char('TipContabil')
+class Location(models.Model):
+    _inherit = "stock.location"
+
+
+    code = fields.Char()

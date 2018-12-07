@@ -67,7 +67,7 @@ class export_mentor(models.TransientModel):
         return cont
 
     def get_date(self, date):
-        return date[8:10]+'.'+date[5:7]+'.'+date[:4]
+        return date[8:10] + '.' + date[5:7] + '.' + date[:4]
 
     def get_temp_file(self, data):
         temp_file = StringIO()
@@ -101,8 +101,8 @@ class export_mentor(models.TransientModel):
                 'Sediu': '',
                 'Telefon': partner.phone,
                 'Email': partner.email,
-                'CodFiscal':cod_fiscal,
-                'PersoanaFizica' : 'NU' and not partner.is_company or 'DA'
+                'CodFiscal': cod_fiscal,
+                'PersoanaFizica': 'NU' and not partner.is_company or 'DA'
             }
         temp_file = self.get_temp_file(parteneri)
 
@@ -122,12 +122,11 @@ class export_mentor(models.TransientModel):
                 'TipContabil': product.categ_id.tip_contabil
             }
             if product.type == 'service':
-                articole[sections_name]['ContServiciu'] = self.get_cont(product.categ_id.property_account_expense_categ_id)
+                articole[sections_name]['ContServiciu'] = self.get_cont(
+                    product.categ_id.property_account_expense_categ_id)
 
         temp_file = self.get_temp_file(articole)
         return temp_file, result_html
-
-
 
     @api.model
     def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
@@ -152,11 +151,11 @@ class export_mentor(models.TransientModel):
             NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
-                'Data':  self.get_date(invoice.date_invoice),
+                'Data': self.get_date(invoice.date_invoice),
                 'CodFurnizor': cod_fiscal,
                 'TVAINCASARE': '',  # todo: determinare
                 'PRORATA': '',
-                'Moneda': '', # invoice.currency_id.name,
+                'Moneda': '',  # invoice.currency_id.name,
                 'Curs': '',
                 'Scadenta': '',
                 'Majorari': '',
@@ -167,6 +166,8 @@ class export_mentor(models.TransientModel):
             sections_name = 'Items_%s' % index
             intrari[sections_name] = {}
             item = 0
+            sign = self.type = 'in_refund' and -1 or 1
+
             for line in invoice.invoice_line_ids:
                 item += 1
                 if not line.product_id.default_code:
@@ -174,12 +175,17 @@ class export_mentor(models.TransientModel):
                     result_html += '<div>Eroare %s</div>' % error
                 if line.product_id.type == 'product':
                     gestiune = 'DepMP'
+                    if 'stock_location_id' in invoice._fields:
+                        if invoice.stock_location_id.code:
+                            gestiune = invoice.stock_location_id.code
+
                 else:
                     gestiune = ''
+
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
-                    line.product_id.default_code or '' ,  # Cod intern/extern articol;
+                    line.product_id.default_code or '',  # Cod intern/extern articol;
                     line.uom_id.name or '',
-                    str(line.quantity),
+                    str(line.quantity*sign),
                     str(line.price_unit),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
@@ -194,8 +200,6 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(intrari)
 
         return temp_file, result_html
-
-
 
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
@@ -220,16 +224,17 @@ class export_mentor(models.TransientModel):
             NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
             iesiri[sections_name] = {
                 'NrDoc': NrDoc,
-                'Data':  self.get_date(invoice.date_invoice),
+                'Data': self.get_date(invoice.date_invoice),
                 'CodClient': cod_fiscal,
                 'TVAINCASARE': '',  # todo: determinare
                 'TotalArticole': len(invoice.invoice_line_ids),
-                'TaxareInversa':'N',
-                'Scadenta':self.get_date(invoice.date_due)
+                'TaxareInversa': 'N',
+                'Scadenta': self.get_date(invoice.date_due)
             }
             sections_name = 'Items_%s' % index
             iesiri[sections_name] = {}
             item = 0
+            sign = self.type = 'out_refund' and -1 or 1
             for line in invoice.invoice_line_ids:
                 item += 1
                 if not line.product_id.default_code:
@@ -240,9 +245,9 @@ class export_mentor(models.TransientModel):
                 else:
                     gestiune = ''
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
-                    line.product_id.default_code or '' ,  # Cod intern/extern articol;
+                    line.product_id.default_code or '',  # Cod intern/extern articol;
                     line.uom_id.name or '',
-                    str(line.quantity),
+                    str(sign*line.quantity),
                     str(line.price_unit),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
@@ -262,7 +267,6 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(iesiri)
         return temp_file, result_html
 
-
     @api.multi
     def do_export(self):
 
@@ -278,15 +282,27 @@ class export_mentor(models.TransientModel):
         partner_in_ids = self.env['res.partner']
         product_ids = self.env['product.template']
 
-        invoice_in_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
-                                                             ('date', '<=', self.date_to),
-                                                             ('state', 'in', ['open', 'paid']),
-                                                             ('type', 'in', ['in_invoice', 'in_refund'])])
+        # de adaugat conditia pentru moneda
+        domain = [
+            ('date', '>=', self.date_from),
+            ('date', '<=', self.date_to),
+            ('state', 'in', ['open', 'paid']),
+            ('type', 'in', ['in_invoice', 'in_refund'])
+        ]
 
-        voucher_in_ids = self.env['account.voucher'].search([('date', '>=', self.date_from),
-                                                             ('date', '<=', self.date_to),
-                                                             ('state', 'in', ['posted']),
-                                                             ('voucher_type', 'in', ['purchase'])])
+        if self.journal_ids:
+            domain += [('journal_id', 'in', self.journal_ids.ids)]
+
+        invoice_in_ids = self.env['account.invoice'].search(domain)
+        domain = [
+            ('date', '>=', self.date_from),
+            ('date', '<=', self.date_to),
+            ('state', 'in', ['posted']),
+            ('voucher_type', 'in', ['purchase'])
+        ]
+        if self.journal_ids:
+            domain += [('journal_id', 'in', self.journal_ids.ids)]
+        voucher_in_ids = self.env['account.voucher'].search(domain)
 
         for invoice in invoice_in_ids:
             for line in invoice.invoice_line_ids:
@@ -299,10 +315,14 @@ class export_mentor(models.TransientModel):
             partner_in_ids |= voucher.partner_id.commercial_partner_id
 
         partner_out_ids = self.env['res.partner']
-        invoice_out_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
-                                                              ('date', '<=', self.date_to),
-                                                              ('state', 'in', ['open', 'paid']),
-                                                              ('type', 'in', ['out_invoice', 'out_refund'])])
+
+        domain = [('date', '>=', self.date_from),
+                  ('date', '<=', self.date_to),
+                  ('state', 'in', ['open', 'paid']),
+                  ('type', 'in', ['out_invoice', 'out_refund'])]
+        if self.journal_ids:
+            domain += [('journal_id', 'in', self.journal_ids.ids)]
+        invoice_out_ids = self.env['account.invoice'].search(domain)
 
         for invoice in invoice_out_ids:
             for line in invoice.invoice_line_ids:
@@ -348,7 +368,6 @@ class export_mentor(models.TransientModel):
 
         data = {'item_details': self.item_details,
                 'code_article': self.code_article}
-
 
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object

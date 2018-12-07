@@ -15,10 +15,22 @@ Documentatia Mentor de import  din alte aplicatii:
  http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
  ftp://ftp2.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/   
    
+    - trebuie facuta mapare dintre categoriile de produse din Odoo si tipul contabil din mentor.   
+    - conturile din Odoo sunt trimise in Mentor fara zeroruile de la sfarsit
+    - daca este intalat modulul l10n_ro_stock_account se determina locatia din factura
+        - din locatie de citeste codul
+        - DepMP este codul utilizat in cazul in care nu este determinat un alt cod de locatie
+   
     """,
 
-    "category": "Generic Modules/Base",
-    "depends": ["date_range", "account", 'product','account_voucher'],
+    "category": "Accounting",
+    "depends": [
+        "date_range",
+        "account",
+        'product',
+        'account_voucher',
+        'deltatech_contact'
+    ],
 
     'external_dependencies': {
         'python': ['configparser'],
@@ -26,9 +38,10 @@ Documentatia Mentor de import  din alte aplicatii:
 
     "data": [
         'views/product_view.xml',
+        'views/stock_location_view.xml',
 
         'wizard/export_mentor_view.xml',
-        #'wizard/import_mentor_view.xml'
+        # 'wizard/import_mentor_view.xml'
     ],
 
     "active": False,
