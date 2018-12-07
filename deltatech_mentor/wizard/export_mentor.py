@@ -47,10 +47,13 @@ class export_mentor(models.TransientModel):
 
     def get_cod_fiscal(self, partner):
         if partner.is_company:
-            if not partner.vat_subjected:
-                cod_fiscal = partner.vat.replace('RO', '')
+            if partner.vat:
+                if not partner.vat_subjected:
+                    cod_fiscal = partner.vat.replace('RO', '')
+                else:
+                    cod_fiscal = partner.vat
             else:
-                cod_fiscal = partner.vat
+                cod_fiscal = 'FARA'
         else:
             cod_fiscal = partner.cnp
         return cod_fiscal
