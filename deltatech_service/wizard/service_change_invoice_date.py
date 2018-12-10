@@ -4,7 +4,7 @@
 
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, Warning, RedirectWarning
 from odoo.tools import float_compare
 import odoo.addons.decimal_precision as dp
 
@@ -37,8 +37,7 @@ class service_change_invoice_date(models.TransientModel):
         consumptions = self.env['service.consumption'].search(domain)
         
         if not consumptions:
-            raise except_orm(_('No consumptions!'),
-                             _("There were no service consumption !"))
+            raise UserError(_("There were no service consumption !"))
             
         consumptions.write({'date_invoice':self.date_invoice})
         

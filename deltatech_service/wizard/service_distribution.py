@@ -14,6 +14,8 @@ class service_distribution(models.TransientModel):
 
     product_id = fields.Many2one('product.product', string='Product', required=True, domain=[('type', '=', 'service')])
     quantity = fields.Float(string='Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
+    amount = fields.Float(string='Amount', required=True)
+    type =fields.Selection([('qty', 'Quantity'),('val','Value')], default='qty', string='Distribution type')
     mode = fields.Selection([
         ('divide', 'Divide'),
         ('fix', 'Fix'),
@@ -25,10 +27,13 @@ class service_distribution(models.TransientModel):
         defaults = super(service_distribution, self).default_get(fields)
         active_ids = self.env.context.get('active_ids', False)
         if active_ids:
-            cons = self.env['service.consumption'].browse(active_ids[0])
-            defaults['product_id'] = cons.product_id.id
-            defaults['quantity'] = cons.quantity
-            defaults['reference'] = cons.name
+            defaults['amount'] = 0
+            consumptions = self.env['service.consumption'].browse(active_ids)
+            for consumption in consumptions:
+                defaults['product_id'] = consumption.product_id.id
+                defaults['quantity'] = consumption.quantity
+                defaults['reference'] = consumption.name
+                defaults['amount'] += consumption.quantity * consumption.price_unit
         return defaults
 
     @api.multi
@@ -46,11 +51,17 @@ class service_distribution(models.TransientModel):
         if not consumptions:
             raise except_orm(_('No consumptions!'),
                              _("There were no service consumption !"))
-        if self.mode == 'divide':
-            qty = self.quantity / len(consumptions)
+
+        if self.type == 'qty':
+            if self.mode == 'divide':
+                qty = self.quantity / len(consumptions)
+            else:
+                qty = self.quantity
+            consumptions.write({'quantity': qty, 'name':self.reference})
         else:
-            qty = self.quantity
-        consumptions.write({'quantity': qty, 'name':self.reference})
+            price_unit = self.amount / len(consumptions)
+            consumptions.write({'quantity': 1, 'price_unit':price_unit, 'name': self.reference})
+
 
         return {
             'domain': "[('id','in', [" + ','.join(map(str, [rec.id for rec in consumptions])) + "])]",

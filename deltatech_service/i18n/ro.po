@@ -206,8 +206,8 @@ msgstr "Distribuție"
 
 #. module: deltatech_service
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_distribution_form
-msgid "Distribution services consumed quantities"
-msgstr "Distriburire cantități servicii consumate"
+msgid "Distribution services consumed quantities / values"
+msgstr "Distriburire cantități/valori servicii consumate"
 
 #. module: deltatech_service
 #: selection:service.distribution,mode:0
