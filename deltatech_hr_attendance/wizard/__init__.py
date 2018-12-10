@@ -7,7 +7,7 @@
 from . import hr_attendance_import
 from . import hr_meal_tickets
 from . import hr_attendance_summary
-
+from . import hr_leaves_summary
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

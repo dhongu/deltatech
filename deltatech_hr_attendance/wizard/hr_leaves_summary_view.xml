@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_leaves_summary_form" model="ir.ui.view">
+        <field name="name">hr.leaves.summary</field>
+        <field name="model">hr.leaves.summary</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group name="filters">
+                    <group>
+                        <field name="department_id"/>
+                        <field name="leave_id"/>
+                    </group>
+                    <group name="date_range">
+                        <field name="date_range_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+
+                    </group>
+                </group>
+                <footer>
+                    <button name="button_show" string="Show" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <!--<button name="button_print" string="Print" type="object"/>-->
+                    <!--or-->
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_leaves_summary" model="ir.actions.act_window">
+        <field name="name">Leaves</field>
+        <field name="res_model">hr.leaves.summary</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_leaves_summary" name="Leaves"
+              action="action_leaves_summary"
+              parent="hr_attendance.menu_hr_attendance_report"/>
+
+
+    <record id="action_leaves_summary_line" model="ir.actions.act_window">
+        <field name="name">Leaves</field>
+        <field name="res_model">hr.leaves.summary.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+    </record>
+
+    <record id="view_leaves_summary_line_tree" model="ir.ui.view">
+        <field name="name">hr.leaves.summary.line</field>
+        <field name="model">hr.leaves.summary.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="marca"/>
+                <field name="employee_id"/>
+                <field name="leave_id"/>
+                <field name="days" sum="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_leaves_summary_line_pivot" model="ir.ui.view">
+        <field name="name">hr.leaves.summary.line.pivot</field>
+        <field name="model">hr.leaves.summary.line</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="employee_id" type="row"/>
+                <field name="leave_id" type="col"/>
+                <field name="days" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="view_leaves_summary_line_filter" model="ir.ui.view">
+        <field name="name">hr.leaves.summary.line</field>
+        <field name="model">hr.leaves.summary.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="employee_id"/>
+            </search>
+        </field>
+    </record>
+
+
+</odoo>

@@ -32,6 +32,7 @@ Functionalitati:
         'wizard/hr_attendance_import_view.xml',
         'wizard/hr_meal_tickets_view.xml',
         'wizard/hr_attendance_summarry_view.xml',
+        'wizard/hr_leaves_summary_view.xml',
         'security/hr_attendance_sheet_security.xml',
         'report/hr_attendance_reports.xml',
         'report/hr_attendance_templates.xml',
