@@ -91,7 +91,7 @@
 					<field name="move_id" required="0" invisible="1"/>
 					<field name="debit" sum="Total Debit" />
 					<field name="credit" sum="Total Credit" />
-
+					<field name="amount_residual" string="Restanta"/>
 					<!--<field name="reconcile_ref" invisible="1"/>-->
 
 					<field name="amount_currency" readonly="True" invisible="not context.get('currency',False)" />
