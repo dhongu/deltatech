@@ -223,7 +223,7 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             if retrieved > to_retrieve:
                 retrieved = to_retrieve
             to_retrieve -= retrieved
-
+            working_day += retrieved  # se adauga zilele recuperate
             #res['overtime'] -= retrieved * 8
             for cod in holiday_to_retrieve:
                 dif = res['holiday'][cod] - retrieved
