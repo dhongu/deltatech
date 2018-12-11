@@ -21,6 +21,7 @@ class service_distribution(models.TransientModel):
         ('fix', 'Fix'),
     ], string="Mode", required=True, default='fix')
     reference = fields.Char('Reference')
+    add_values = fields.Boolean('Add to existing?', default=True)
 
     @api.model
     def default_get(self, fields):
@@ -60,7 +61,13 @@ class service_distribution(models.TransientModel):
             consumptions.write({'quantity': qty, 'name':self.reference})
         else:
             price_unit = self.amount / len(consumptions)
-            consumptions.write({'quantity': 1, 'price_unit':price_unit, 'name': self.reference})
+            if self.add_values:
+                for cons in consumptions:
+                    crt_value = cons.price_unit+price_unit
+                    name = cons.name or '' + self.reference
+                    cons.write({'quantity': 1, 'price_unit': crt_value, 'name': name})
+            else:
+                consumptions.write({'quantity': 1, 'price_unit':price_unit, 'name': self.reference})
 
 
         return {
