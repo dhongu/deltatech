@@ -134,12 +134,17 @@ class service_billing(models.TransientModel):
                 comment = _('According to agreement ')
                 for agreement in pre_invoice[date_invoice][key]['agreement_ids']:
                     comment += _('%s from %s \n') % (agreement.name or '____', agreement.date_agreement or '____')
-
+                if len(pre_invoice[date_invoice][key]['agreement_ids']) > 1:
+                    payment_term_id = False
+                else:
+                    for agreement in pre_invoice[date_invoice][key]['agreement_ids']:
+                        payment_term_id = agreement.payment_term_id.id
                 invoice_value = {
                     # 'name': _('Invoice'),
                     'partner_id': pre_invoice[date_invoice][key]['partner_id'],
                     'journal_id': self.journal_id.id,
                     'date_invoice': date_invoice,
+                    'payment_term_id': payment_term_id,
                     # todo: de determinat contul
                     # 'account_id': pre_invoice[date_invoice][key]['account_id'],
                     'type': 'out_invoice',
