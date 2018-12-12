@@ -224,13 +224,20 @@ class service_agreement_line(models.Model):
 
     @api.model
     def get_value_for_consumption(self):
-          cons_value = {
-                      'product_id':  self.product_id.id,    
-                      'quantity:':   self.quantity, 
-                      'price_unit':  self.price_unit,
-                      'currency_id': self.currency_id.id
-                }
-          return  cons_value
+        # calcul pret unitar din pretul produsului daca in contract este 0
+        if self.price_unit == 0.0:
+            product_price_currency = self.product_id.currency_id
+            product_price = self.product_id.lst_price
+            price_unit = product_price_currency.with_context(date=fields.Date.context_today(self)).compute(product_price, self.currency_id )
+        else:
+            price_unit = self.price_unit
+        cons_value = {
+                  'product_id':  self.product_id.id,
+                  'quantity:':   self.quantity,
+                  'price_unit':  price_unit,
+                  'currency_id': self.currency_id.id
+            }
+        return  cons_value
 
     @api.model
     def after_create_consumption(self, consumption):
