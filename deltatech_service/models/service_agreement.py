@@ -93,6 +93,8 @@ class service_agreement(models.Model):
     
     next_date_invoice = fields.Date(string='Next Invoice Date', compute="_compute_last_invoice_id"  )
 
+    payment_term_id = fields.Many2one('account.payment.term', string='Payment Terms')
+
 
     total_invoiced = fields.Float(string="Total invoiced",readonly=True )
     total_consumption = fields.Float(string="Total consumption", readonly=True  )

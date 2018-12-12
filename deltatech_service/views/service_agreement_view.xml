@@ -132,6 +132,7 @@
 								<field name="last_invoice_id" />
 								<field name="invoice_day" />
 								<field name="next_date_invoice" />
+								<field name="payment_term_id"/>
 							</group>
 						</group>
 						<field name="agreement_line" context = "{'default_currency_id':currency_id}">
