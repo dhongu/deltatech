@@ -16,6 +16,7 @@
 						<group>
                             <field name="type" />
 							<field name="mode" attrs="{'invisible': [('type', '=', 'val')]}"/>
+							<field name="add_values" attrs="{'invisible': [('type', '=', 'qty')]}"/>
 						</group>
 						<group>
 							<field name="product_id" />
