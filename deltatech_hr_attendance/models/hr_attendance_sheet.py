@@ -296,6 +296,12 @@ class HrAttendanceSheetLine(models.Model):
 
     #holiday_id = fields.Many2one('hr.holidays')
 
+    _sql_constraints = [
+        ('employee_date_uniq', 'unique (employee_id, date)', 'Doubling attendance one day for the employee')
+    ]
+
+
+
     def _date_is_day_off(self, date):
         if isinstance(date,str):
             date = fields.Date.from_string(date)
