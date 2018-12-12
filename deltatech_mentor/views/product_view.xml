@@ -7,9 +7,14 @@
             <field name="model">product.category</field>
 			<field name="inherit_id" ref="product.product_category_form_view" />
 			<field name="arch" type="xml">
-				<field name="parent_id" position="after">
-                    <field name="tip_contabil" />
-                </field>
+                <group name="first" position="after">
+                    <group>
+                        <group string="Mentor">
+                            <field name="tip_contabil" />
+                            <field name="gestiune_mentor" />
+                        </group>
+                    </group>
+                </group>
             </field>
         </record>
     </data>

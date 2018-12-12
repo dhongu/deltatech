@@ -166,21 +166,27 @@ class export_mentor(models.TransientModel):
             sections_name = 'Items_%s' % index
             intrari[sections_name] = {}
             item = 0
-            sign = self.type = 'in_refund' and -1 or 1
+            sign = self.type == 'in_refund' and -1 or 1
 
             for line in invoice.invoice_line_ids:
                 item += 1
                 if not line.product_id.default_code:
                     error = _("Produsul %s nu are cod") % line.product_id.name
                     result_html += '<div>Eroare %s</div>' % error
+
                 if line.product_id.type == 'product':
+                    cont = ''
                     gestiune = 'DepMP'
-                    if 'stock_location_id' in invoice._fields:
-                        if invoice.stock_location_id.code:
-                            gestiune = invoice.stock_location_id.code
+                    if line.product_id.categ_id.gestiune_mentor:
+                        gestiune = line.product_id.categ_id.gestiune_mentor
+                    # if 'stock_location_id' in invoice._fields:
+                    #     if invoice.stock_location_id.code:
+                    #         gestiune = invoice.stock_location_id.code
 
                 else:
                     gestiune = ''
+                    cont = self.get_cont(line.account_id)
+
 
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
@@ -189,7 +195,7 @@ class export_mentor(models.TransientModel):
                     str(line.price_unit),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
-                    self.get_cont(line.account_id),  # Simbol cont articol serviciu;
+                    cont,  # Simbol cont articol serviciu;
                     '',  # Pret inregistrare;
                     '',  # Termen garantie;
                     '',  # Valoare suplimentara;

@@ -12,4 +12,6 @@ import odoo.addons.decimal_precision as dp
 class ProductCategory(models.Model):
     _inherit = "product.category"
 
-    tip_contabil = fields.Char('TipContabil')
+    tip_contabil = fields.Char('Simbol Tip Contabil')
+    # gestiunea in care intra materialele la achizitie
+    gestiune_mentor = fields.Char('Gestiune Mentor')
