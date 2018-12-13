@@ -166,7 +166,7 @@ class export_mentor(models.TransientModel):
             sections_name = 'Items_%s' % index
             intrari[sections_name] = {}
             item = 0
-            sign = self.type == 'in_refund' and -1 or 1
+            sign = invoice.type == 'in_refund' and -1 or 1
 
             for line in invoice.invoice_line_ids:
                 item += 1
