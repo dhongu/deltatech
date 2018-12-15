@@ -116,7 +116,7 @@
         <field name="name">Attendance sheet</field>
         <field name="res_model">hr.attendance.sheet.line</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form,grid,pivot</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="context">{}</field>
         <field name="domain"></field>
     </record>
@@ -161,20 +161,20 @@
     </record>
 
 
-    <record id="view_hr_attendance_sheet_line_grid" model="ir.ui.view">
-        <field name="name">hr.attendance.sheet.line</field>
-        <field name="model">hr.attendance.sheet.line</field>
-        <field name="arch" type="xml">
-            <grid string="Timesheets" adjustment="object" adjust_name="adjust_grid"  >
-                <field name="employee_id" type="row"/>
-                <field name="date" type="col">
-                    <range name="week" string="Week" span="week" step="day"/>
-                    <range name="month" string="Month" span="month" step="day"/>
-                </field>
-                <field name="total_hours" type="measure" widget="float_time"/>
-            </grid>
-        </field>
-    </record>
+    <!--<record id="view_hr_attendance_sheet_line_grid" model="ir.ui.view">-->
+        <!--<field name="name">hr.attendance.sheet.line</field>-->
+        <!--<field name="model">hr.attendance.sheet.line</field>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<grid string="Timesheets" adjustment="object" adjust_name="adjust_grid"  >-->
+                <!--<field name="employee_id" type="row"/>-->
+                <!--<field name="date" type="col">-->
+                    <!--<range name="week" string="Week" span="week" step="day"/>-->
+                    <!--<range name="month" string="Month" span="month" step="day"/>-->
+                <!--</field>-->
+                <!--<field name="total_hours" type="measure" widget="float_time"/>-->
+            <!--</grid>-->
+        <!--</field>-->
+    <!--</record>-->
 
 <!--    <record id="view_hr_attendance_sheet_line_gantt" model="ir.ui.view">
 			<field name="name">hr.attendance.sheet.line</field>
