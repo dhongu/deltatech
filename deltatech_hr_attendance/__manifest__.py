@@ -25,6 +25,10 @@ Functionalitati:
     ]
     ,
 
+    "licence": "LGPL-3",
+    "price": 100.00,
+    "currency": "EUR",
+
     "data": [
         'views/hr_attendance_view.xml',
         'views/hr_attendance_sheet_view.xml',

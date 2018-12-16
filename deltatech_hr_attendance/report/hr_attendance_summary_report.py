@@ -115,12 +115,11 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                 'date': fields.Date.to_string(current),
                 'holiday_id': False,
                 'holiday': False,
-                'recoverable_day':False,
-                'is_day_off':self._date_is_day_off(current)
+                'recoverable_day': False,
+                'is_day_off': self._date_is_day_off(current)
             })
             if self._date_is_day_off(current):
                 res['days'][index]['color'] = '#f2f2f2'
-
 
         return res
 
@@ -195,7 +194,6 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
                 date_from += timedelta(1)
 
-
         day_worked = 0
         for line in lines.filtered(lambda l: l.employee_id.id == empid):
             index_date = fields.Date.from_string(line.date)
@@ -208,23 +206,38 @@ class HrAttendanceSummaryReport(models.AbstractModel):
 
             res['overtime'] += round(line.overtime_granted)
             res['night_hours'] += round(line.night_hours)
-            #if not res['days'][index]['holiday'] and line.worked_hours >= (1+hours_per_day/2) and not self._date_is_day_off(index_date):
+            # if not res['days'][index]['holiday'] and line.worked_hours >= (1+hours_per_day/2) and not self._date_is_day_off(index_date):
             #    day_worked += 1
-            if  line.worked_hours >= (1 + hours_per_day / 2):
+            if line.worked_hours >= (1 + hours_per_day / 2):
                 day_worked += 1
 
-
         working_day = 0
+        working_day_as_str = ''
         for day in res['days']:
-            if not ( day['is_day_off'] or  ( day['holiday'] and not day['recoverable_day']) ):
-                working_day += 1
+            if day['is_day_off']:
+                pass
+            elif day['holiday']:
+                if day['recoverable_day']:
+                    working_day_as_str += 'X'
+            else:
+                line = day['line']
+                if not line:
+                    worked_hours = 0
+                else:
+                    worked_hours = line.worked_hours
+                if worked_hours > 0:
+                    working_day_as_str += 'X'
+                else:
+                    working_day_as_str += '0'
 
+        working_day_as_str = working_day_as_str.strip('0')
+        working_day = len(working_day_as_str)
 
         res['with_overtime'] = False
         if res['overtime'] > 0:
             res['with_overtime'] = True
 
-        res['norma'] = ( working_day) * hours_per_day
+        res['norma'] = (working_day) * hours_per_day
 
         if res['worked_hours'] < res['norma']:
             dif = res['norma'] - res['worked_hours']
@@ -239,15 +252,13 @@ class HrAttendanceSummaryReport(models.AbstractModel):
             res['worked_hours'] = res['norma']
             res['overtime'] = res['overtime'] + dif
 
-
-
         retrieved = round(res['overtime'] / hours_per_day)
         if to_retrieve and retrieved:
             if retrieved > to_retrieve:
                 retrieved = to_retrieve
             to_retrieve -= retrieved
             day_worked += retrieved  # se adauga zilele recuperate
-            #res['overtime'] -= retrieved * 8
+            # res['overtime'] -= retrieved * 8
             for cod in holiday_to_retrieve:
                 dif = res['holiday'][cod] - retrieved
                 if dif >= 0:
@@ -259,14 +270,10 @@ class HrAttendanceSummaryReport(models.AbstractModel):
                 if retrieved <= 0:
                     break
 
-
         res['work_day'] = day_worked
-
 
         if res['overtime'] > 0:
             res['with_overtime'] = True
-
-
 
         # res['work_day'] = res['worked_hours'] / 8   # nu se mai calculeaza ca numarul de zile
 
