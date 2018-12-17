@@ -118,10 +118,10 @@ class export_mentor(models.TransientModel):
             sections_name = "ArticoleNoi_%s" % product.default_code
             articole[sections_name] = {
                 'Denumire': product.name,
-                'Serviciu': product.type == 'service' and 'D' or 'N',
+                'Serviciu': product.type != 'product' and 'D' or 'N',
                 'TipContabil': product.categ_id.tip_contabil
             }
-            if product.type == 'service':
+            if product.type != 'product':
                 articole[sections_name]['ContServiciu'] = self.get_cont(
                     product.categ_id.property_account_expense_categ_id)
 
@@ -263,7 +263,7 @@ class export_mentor(models.TransientModel):
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
-                if line.product_id.type == 'service':
+                if line.product_id.type != 'product':
                     iesiri[sections_name]['Item_%s_Ext' % item] = ';'.join([
                         gestiune,
                         self.get_cont(line.account_id),  # Simbol cont articol serviciu;
@@ -312,7 +312,7 @@ class export_mentor(models.TransientModel):
 
         for invoice in invoice_in_ids:
             for line in invoice.invoice_line_ids:
-                product_ids |= line.product_id.product_tmpl_id
+                product_ids |= line.product_id
 
         for invoice in invoice_in_ids:
             partner_in_ids |= invoice.commercial_partner_id
@@ -332,7 +332,7 @@ class export_mentor(models.TransientModel):
 
         for invoice in invoice_out_ids:
             for line in invoice.invoice_line_ids:
-                product_ids |= line.product_id.product_tmpl_id
+                product_ids |= line.product_id
 
         for invoice in invoice_out_ids:
             partner_out_ids |= invoice.commercial_partner_id
