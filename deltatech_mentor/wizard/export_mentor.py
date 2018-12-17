@@ -240,7 +240,7 @@ class export_mentor(models.TransientModel):
             sections_name = 'Items_%s' % index
             iesiri[sections_name] = {}
             item = 0
-            sign = self.type = 'out_refund' and -1 or 1
+            sign = invoice.type == 'out_refund' and -1 or 1
             for line in invoice.invoice_line_ids:
                 item += 1
                 if not line.product_id.default_code:
