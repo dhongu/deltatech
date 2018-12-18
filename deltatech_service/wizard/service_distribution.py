@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, Warning, RedirectWarning
 from odoo.tools import float_compare
 import odoo.addons.decimal_precision as dp
 
@@ -50,8 +50,7 @@ class service_distribution(models.TransientModel):
         consumptions = self.env['service.consumption'].search(domain)
 
         if not consumptions:
-            raise except_orm(_('No consumptions!'),
-                             _("There were no service consumption !"))
+            raise UserError(  _("There were no service consumption !"))
 
         if self.type == 'qty':
             if self.mode == 'divide':
@@ -64,7 +63,7 @@ class service_distribution(models.TransientModel):
             if self.add_values:
                 for cons in consumptions:
                     crt_value = cons.price_unit+price_unit
-                    name = cons.name or '' + self.reference
+                    name = cons.name or '' + self.reference or ''
                     cons.write({'quantity': 1, 'price_unit': crt_value, 'name': name})
             else:
                 consumptions.write({'quantity': 1, 'price_unit':price_unit, 'name': self.reference})

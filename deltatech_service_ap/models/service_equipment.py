@@ -16,10 +16,18 @@ class service_equipment(models.Model):
     _description = "Apartment"
     _inherit = 'service.equipment'
 
+
+    group_id = fields.Many2one('service.agreement.group', string="Building")
+
     @api.multi
     def _update_labels(self):
         translations = self.env['ir.translation'].search([('module','like','service'),('source','like','Equipment')])
         translations.unlink()
+        translations = self.env['ir.translation'].search([('module', 'like', 'service'), ('source', 'like', 'Service Group')])
+        translations.unlink()
+
+
+
 
 class service_equipment_category(models.Model):
     _inherit = 'service.equipment.category'

@@ -63,7 +63,7 @@ class service_equipment(models.Model):
     readings_status = fields.Selection([('', 'N/A'), ('unmade', 'Unmade'), ('done', 'Done')], string="Readings Status",
                                        compute="_compute_readings_status", store=True)
 
-
+    group_id = fields.Many2one('service.agreement.group', string="Service Group")
 
     @api.model
     def create(self, vals):

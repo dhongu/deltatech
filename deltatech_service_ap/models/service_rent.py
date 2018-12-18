@@ -5,7 +5,10 @@
 
 from odoo import models, fields, api, _
 
+class service_agreement(models.Model):
+    _inherit = 'service.agreement'
 
+    group_id = fields.Many2one('service.agreement.group', string="Building")
 
 class service_agreement_line(models.Model):
     _inherit = 'service.agreement.line'
@@ -18,5 +21,4 @@ class service_consumption(models.Model):
     _inherit = 'service.consumption'
 
     equipment_id = fields.Many2one('service.equipment', string='Apartment', index=True)
-
-
+    group_id = fields.Many2one('service.agreement.group', string="Building")

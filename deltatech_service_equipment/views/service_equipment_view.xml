@@ -10,6 +10,7 @@
                 <tree string="Services Equipment">
                     <field name="name"/>
                     <field name="partner_id"/>
+                    <field name="group_id"/>
                     <field name="agreement_type_id"/>
                     <field name="readings_status"/>
                     <field name="total_revenues" sum="total"/>
@@ -116,6 +117,7 @@
                                 </group>
                             </group>
                             <group string="Tehnical Details">
+                                <field name="group_id"/>
                                 <field name="type_id"/>
                                 <field name="start_date"/>
                             </group>
@@ -176,7 +178,7 @@
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="partner_id"/>
-
+                    <field name="group_id"/>
 
                     <field name="agreement_type_id"/>
                     <newline/>
