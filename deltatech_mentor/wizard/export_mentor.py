@@ -286,7 +286,7 @@ class export_mentor(models.TransientModel):
 
         partner_ids = self.env['res.partner']
         partner_in_ids = self.env['res.partner']
-        product_ids = self.env['product.template']
+        product_ids = self.env['product.product']
 
         # de adaugat conditia pentru moneda
         domain = [
