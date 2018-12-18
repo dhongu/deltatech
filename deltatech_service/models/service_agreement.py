@@ -190,7 +190,7 @@ class service_agreement_type(models.Model):
 
 class service_agreement_group(models.Model):
     _name = 'service.agreement.group'
-    _description = "Service Agreement Group"
+    _description = "Service Group"
     name = fields.Char(string='Service Group')
 
 

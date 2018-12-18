@@ -422,10 +422,12 @@ msgstr "Nu sunt condiții de a crea o factură nouă"
 #. module: deltatech_service
 #: code:addons/deltatech_service/wizard/service_change_invoice_date.py:40
 #: code:addons/deltatech_service/wizard/service_distribution.py:47
-#: code:addons/deltatech_service/wizard/service_price_change.py:58
+#: code:addons/deltatech_service/wizard/service_price_change.py:59
 #, python-format
 msgid "No consumptions!"
 msgstr "Fără consumuri!"
+
+
 
 #. module: deltatech_service
 #: selection:service.consumption,state:0
@@ -516,10 +518,7 @@ msgstr "Service"
 msgid "Service Agreement"
 msgstr "Contract servicii"
 
-#. module: deltatech_service
-#: model:ir.model,name:deltatech_service.model_service_agreement_group
-msgid "Service Agreement Group"
-msgstr "Service Agreement Group"
+
 
 #. module: deltatech_service
 #: model:ir.model,name:deltatech_service.model_service_agreement_line
@@ -588,10 +587,7 @@ msgstr "Distibuție"
 msgid "Service price change"
 msgstr "Modificare preț serviciu"
 
-#. module: deltatech_service
-#: model:ir.ui.menu,name:deltatech_service.menu_service_agreement_group
-msgid "Services Agreement Group"
-msgstr "Services Agreement Group"
+
 
 #. module: deltatech_service
 #: model:ir.ui.menu,name:deltatech_service.menu_service_agreement_type
@@ -688,7 +684,6 @@ msgid "Total invoiced"
 msgstr "Total facturat"
 
 #. module: deltatech_service
-#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_name
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_id
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_type_name
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_filter
@@ -793,10 +788,7 @@ msgstr "facturat"
 msgid "or"
 msgstr "sau"
 
-#. module: deltatech_service
-#: model:ir.model,name:deltatech_service.model_service_agreement_group
-msgid "Service Agreement Group"
-msgstr "Grup serviciu"
+
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_id
@@ -807,5 +799,16 @@ msgstr "Grup serviciu"
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
 #: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_tree
+#: model:ir.model,name:deltatech_service.model_service_agreement_group
 msgid "Service Group"
 msgstr "Grup serviciu"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_add_values
+msgid "Add to existing?"
+msgstr "Adăugați la cele existente?"
+
+#. module: deltatech_service
+#: model:ir.model.fields,field_description:deltatech_service.field_service_distribution_type
+msgid "Distribution type"
+msgstr "Tip distribuție"

@@ -22,3 +22,10 @@ class service_consumption(models.Model):
 
     equipment_id = fields.Many2one('service.equipment', string='Apartment', index=True)
     group_id = fields.Many2one('service.agreement.group', string="Building")
+
+
+class service_agreement_group(models.Model):
+    _name = 'service.agreement.group'
+    _description = "Building"
+
+    name = fields.Char(string='Building')

@@ -28,7 +28,6 @@ class service_equipment(models.Model):
 
 
 
-
 class service_equipment_category(models.Model):
     _inherit = 'service.equipment.category'
     _description = "Apartment Category"

@@ -55,3 +55,39 @@ msgstr "Linie contract"
 msgid "Service consumption"
 msgstr "Consum serviciu"
 
+
+
+#. modules: deltatech_service, deltatech_service_equipment
+#: model:ir.ui.menu,name:deltatech_service.menu_service_agreement_group
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_group_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_group_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_tree
+msgid "Service Group"
+msgstr "Clădire"
+
+#. modules: deltatech_service, deltatech_service_equipment, deltatech_service_ap
+#: model:ir.ui.menu,name:deltatech_service.menu_service_agreement_group
+#: model:ir.model,name:deltatech_service_ap.model_service_agreement_group
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_group_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_id
+#: model:ir.model.fields,field_description:deltatech_service.field_service_agreement_group_name
+#: model:ir.model.fields,field_description:deltatech_service.field_service_consumption_group_id
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_agreement_tree
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_filter
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_form
+#: model:ir.ui.view,arch_db:deltatech_service.view_service_consumption_tree
+msgid "Building"
+msgstr "Clădire"
+
+
+
+
+
+

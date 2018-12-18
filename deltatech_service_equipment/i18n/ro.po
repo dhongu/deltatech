@@ -436,7 +436,7 @@ msgstr "Selectați vă rog un echipament."
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading_previous_counter_value
 msgid "Previous Counter Value"
-msgstr "Previous Counter Value"
+msgstr "Valoare anterioară"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading_read_by
@@ -505,7 +505,7 @@ msgstr "Service Equipment Agreement"
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_equipment_category
 msgid "Service Equipment Category"
-msgstr "Service Equipment Category"
+msgstr "Categorie echipament"
 
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_equipment_type
@@ -515,7 +515,7 @@ msgstr "Tip Echipament Service"
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_meter_category
 msgid "Service Meter Category"
-msgstr "Service Meter Category"
+msgstr "Categorie contor"
 
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_template_meter
@@ -537,7 +537,7 @@ msgstr "Echipament"
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment_category
 msgid "Services Equipment Category"
-msgstr "Services Equipment Category"
+msgstr "Categorie echipament"
 
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment_type
@@ -549,7 +549,7 @@ msgstr "Services Tip Echipament"
 #: code:addons/deltatech_service_equipment/models/service_equipment.py:170
 #, python-format
 msgid "Services Invoices"
-msgstr "Services Invoices"
+msgstr "Facturi servicii"
 
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_category
