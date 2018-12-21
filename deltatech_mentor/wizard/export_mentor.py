@@ -75,7 +75,10 @@ class export_mentor(models.TransientModel):
     def get_date(self, date):
         return date[8:10] + '.' + date[5:7] + '.' + date[:4]
 
-
+    def get_uom_ref(self, uom):
+        uom_reg = self.env['product.uom'].search([('category_id','=',uom.category_id.id),
+                                                  ('uom_type','=','reference')], limit=1)
+        return uom_reg
 
     def get_uom(self, uom):
         cod_uom = uom.name
@@ -197,7 +200,8 @@ class export_mentor(models.TransientModel):
                 NrDoc = invoice.reference
             else:
                 NrDoc = invoice.number
-                NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+            # Mentorul accepta doar 10 cifre la numar
+            NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
 
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
@@ -237,12 +241,21 @@ class export_mentor(models.TransientModel):
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
+
+                qty = line.quantity * sign
+                price = line.price_unit
+
+                if line.uom_id != line.product_id.uom_po_id:
+                    # achizitia in alta unitatea de masura ?
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_po_id)
+                    price = line.uom_id._compute_price(line.price_unit, line.product_id.uom_po_id)
+
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
-                    self.get_uom(line.uom_id)         , # de convertit in unitatea de stocare ??????
+                    self.get_uom(line.product_id.uom_po_id)         , # de convertit in unitatea de stocare ??????
 
-                    str(line.quantity * sign),
-                    str(line.price_unit),  # line., price_unit_without_taxes
+                    str(qty),
+                    str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
                     cont,  # Simbol cont articol serviciu;
@@ -251,6 +264,10 @@ class export_mentor(models.TransientModel):
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
+                if line.uom_id.id != line.product_id.uom_id.id:
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
+                    intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
+
             index += 1
 
         temp_file = self.get_temp_file(intrari)
