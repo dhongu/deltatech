@@ -28,8 +28,6 @@ class export_mentor(models.TransientModel):
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
 
-    # period_id = fields.Many2one('account.period', string='Period' , required=True )
-
     date_range_id = fields.Many2one('date.range', string='Date range')
     date_from = fields.Date(string='Start Date', required=True, default=fields.Date.today)
     date_to = fields.Date(string='End Date', required=True, default=fields.Date.today)
@@ -37,6 +35,8 @@ class export_mentor(models.TransientModel):
     result = fields.Html(string="Result Export", readonly=True)
 
     journal_ids = fields.Many2many('account.journal', string='Journals')
+    prod_location_id = fields.Many2one('stock.location', string='Production location',
+                                       domain=[('usage', '=', 'production')], required=True, )
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -47,35 +47,66 @@ class export_mentor(models.TransientModel):
 
     def get_cod_fiscal(self, partner):
         if partner.is_company:
-            if partner.vat:
-                if not partner.vat_subjected:
-                    cod_fiscal = partner.vat.replace('RO', '')
-                else:
-                    cod_fiscal = partner.vat
+            cod_fiscal = partner.vat or ''
+            vat_subjected = partner.vat_subjected or ('RO' in cod_fiscal)
+            cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
+            if cod_fiscal:
+                if vat_subjected:
+                    country_code = partner.country_id.code or 'RO'
+                    cod_fiscal = country_code + cod_fiscal
             else:
-                cod_fiscal = 'FARA'
+                cod_fiscal = "id_%s" % str(partner.id)
         else:
             cod_fiscal = partner.cnp
+            cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
         return cod_fiscal
 
+    # conversie cont Odoo in cont Mentor
     def get_cont(self, account_id):
         if not account_id:
             return ''
-        cont = account_id.code
+        cont = account_id.code.replace('.', '')
         while cont[-1] == '0':
             cont = cont[:-1]
+        if len(cont) > 3:
+            cont = cont[:2] + '.0'.join(cont[2:])
         return cont
 
     def get_date(self, date):
         return date[8:10] + '.' + date[5:7] + '.' + date[:4]
 
+
+
+    def get_uom(self, uom):
+        cod_uom = uom.name
+        cod_uom = cod_uom.replace(' ','')
+        cod_uom = cod_uom.replace('(', '')
+        cod_uom = cod_uom.replace(')', '')
+        cod_uom = cod_uom[:10]
+        return cod_uom
+
+
     def get_temp_file(self, data):
+        dicritics = {
+            'ă': 'a', 'â': 'a',
+            'ș': 's',
+            'ț': 't',
+            'î': 'i',
+            'Ă': 'A', 'Â': 'A',
+            'Ș': 'S',
+            'Ț': 'T',
+            'Î': 'I'
+        }
         temp_file = StringIO()
         data.write(temp_file)
         txt = temp_file.getvalue()
         txt = txt.replace('\n', '\r\n')
         txt = txt.replace('False', '')
         txt = txt.replace(' = ', '=')
+        txt = txt.replace(' = ', '=')
+        for key, val in dicritics.items():
+            txt = txt.replace(key, val)
+
         temp_file.seek(0)
         temp_file.truncate(0)
         temp_file.write(txt)
@@ -92,17 +123,27 @@ class export_mentor(models.TransientModel):
             if not partner:
                 error = _("Partenerul %s nu are cod fiscal") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
+
             sections_name = "ParteneriNoi_%s" % cod_fiscal
+            if '_id_' in sections_name:
+                cod_fiscal = ''
+
+            if partner.is_company:
+                PersoanaFizica = 'NU'
+            else:
+                PersoanaFizica = 'DA'
             parteneri[sections_name] = {
                 'Denumire': partner.name,
                 'Tara': partner.country_id.name,
                 'Judet': partner.state_id.code,
                 'Adresa': partner.street,
+                'Localitate': partner.city,
                 'Sediu': '',
                 'Telefon': partner.phone,
                 'Email': partner.email,
                 'CodFiscal': cod_fiscal,
-                'PersoanaFizica': 'NU' and not partner.is_company or 'DA'
+                'RegistruComert': partner.nrc,
+                'PersoanaFizica': PersoanaFizica
             }
         temp_file = self.get_temp_file(parteneri)
 
@@ -119,11 +160,16 @@ class export_mentor(models.TransientModel):
             articole[sections_name] = {
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
-                'TipContabil': product.categ_id.tip_contabil
+                'GestiuneImplicita': product.categ_id.gestiune_mentor or ''
             }
             if product.type != 'product':
-                articole[sections_name]['ContServiciu'] = self.get_cont(
-                    product.categ_id.property_account_expense_categ_id)
+                articole[sections_name].update({
+                    'ContServiciu': self.get_cont(product.categ_id.property_account_expense_categ_id),
+                })
+            else:
+                articole[sections_name].update({
+                    'TipContabil': product.categ_id.tip_contabil,
+                })
 
         temp_file = self.get_temp_file(articole)
         return temp_file, result_html
@@ -147,8 +193,12 @@ class export_mentor(models.TransientModel):
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
 
             sections_name = 'Factura_%s' % index
-            NrDoc = invoice.reference or invoice.number
-            NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+            if invoice.reference:
+                NrDoc = invoice.reference
+            else:
+                NrDoc = invoice.number
+                NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
                 'Data': self.get_date(invoice.date_invoice),
@@ -187,11 +237,11 @@ class export_mentor(models.TransientModel):
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
-
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
-                    line.uom_id.name or '',
-                    str(line.quantity*sign),
+                    self.get_uom(line.uom_id)         , # de convertit in unitatea de stocare ??????
+
+                    str(line.quantity * sign),
                     str(line.price_unit),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
@@ -252,8 +302,9 @@ class export_mentor(models.TransientModel):
                     gestiune = ''
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
-                    line.uom_id.name or '',
-                    str(sign*line.quantity),
+                    self.get_uom(line.uom_id),
+
+                    str(sign * line.quantity),
                     str(line.price_unit),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
@@ -273,6 +324,60 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(iesiri)
         return temp_file, result_html
 
+    def do_export_bonuri_consum(self, move_ids):
+        result_html = ''
+        bonuri = configparser.ConfigParser()
+        bonuri.optionxform = lambda option: option
+        lines = {}
+        for move in move_ids:
+            if not move.product_id.id in lines:
+                lines[move.product_id.id] = {
+                    'product_id': move.product_id,
+                    'qty': move.product_qty,
+                    'amount': move.price_unit * move.product_qty
+                }
+            else:
+                lines[move.product_id.id]['qty'] += move.product_qty
+                lines[move.product_id.id]['amount'] += move.price_unit * move.product_qty
+
+        bonuri['InfoPachet'] = {
+            'AnLucru': self.date_to[:4],
+            'LunaLucru': self.date_to[5:7],
+            'TipDocument': 'BON DE CONSUM',
+            'TotalBonuri': 1
+        }
+        bonuri['Bon_1'] = {
+            'NrDoc': self.date_to[:4] + '_' + self.date_to[5:7],
+            'Data': self.date_to,
+            'GestConsum': 'DepMP',
+            'TotalArticole': len(lines)
+        }
+        item = 0
+        for line in lines:
+            item += 1
+            bonuri['Items_1']['Item_%s' % item] = ';'.join([
+                line['product_id'].default_code or '',  # Cod intern/extern articol;
+                self.get_uom(line['product_id'].uom),
+                str(line['qty']),
+                str(line['amount'] / line['qty']),
+                str()
+            ])
+
+        temp_file = self.get_temp_file(bonuri)
+        return temp_file, result_html
+
+    def do_export_gestiuni(self, location_ids):
+        result_html = ''
+        gestiuni = configparser.ConfigParser()
+        gestiuni.optionxform = lambda option: option
+        for location in location_ids:
+            code = location.code or str(location.id)
+            gestiuni['GestiuniNoi_%s' % code] = {
+                'Denumire': location.name or ''
+            }
+        temp_file = self.get_temp_file(gestiuni)
+        return temp_file, result_html
+
     @api.multi
     def do_export(self):
 
@@ -286,7 +391,9 @@ class export_mentor(models.TransientModel):
 
         partner_ids = self.env['res.partner']
         partner_in_ids = self.env['res.partner']
+        partner_out_ids = self.env['res.partner']
         product_ids = self.env['product.product']
+        move_ids = self.env['stock.move']
 
         # de adaugat conditia pentru moneda
         domain = [
@@ -320,8 +427,6 @@ class export_mentor(models.TransientModel):
         for voucher in voucher_in_ids:
             partner_in_ids |= voucher.partner_id.commercial_partner_id
 
-        partner_out_ids = self.env['res.partner']
-
         domain = [('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
                   ('state', 'in', ['open', 'paid']),
@@ -337,8 +442,24 @@ class export_mentor(models.TransientModel):
         for invoice in invoice_out_ids:
             partner_out_ids |= invoice.commercial_partner_id
 
-        date_start = fields.Date.from_string(self.date_from)
-        date_stop = fields.Date.from_string(self.date_to)
+        if self.prod_location_id:
+            domain = [
+                ('date', '>=', self.date_from),
+                ('date', '<=', self.date_to),
+                ('state', '=', 'done'),
+                ('location_dest_id', '=', self.location_id.id),
+            ]
+
+            move_ids = self.env['stock.move'].search(domain)
+            for move in move_ids:
+                product_ids |= move.product_id
+
+            # moves = self.env['stock.move'].read_group(domain,
+            #                                                    fields=['product_id','qty','amount'],
+            #                                                    groupby=['product_id'])
+
+        # export toate locatiile
+        location_ids = self.env['stock.location'].search([])
 
         result_html = ' <div>Au fost exportate:</div>'
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
@@ -346,6 +467,7 @@ class export_mentor(models.TransientModel):
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
         result_html += '<div>Furnizori %s</div>' % str(len(partner_in_ids))
+        result_html += '<div>Miscari de stoc %s</div>' % str(len(move_ids))
         result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
 
         partner_ids = partner_in_ids | partner_out_ids
@@ -372,8 +494,15 @@ class export_mentor(models.TransientModel):
         file_name = 'Facturi_Iesire.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        data = {'item_details': self.item_details,
-                'code_article': self.code_article}
+        temp_file, messaje = self.do_export_bonuri_consum(move_ids)
+        result_html += messaje
+        file_name = 'Bonuri_consum.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_gestiuni(location_ids)
+        result_html += messaje
+        file_name = 'Gestiuni.txt'
+        zip_archive.writestr(file_name, temp_file)
 
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object

@@ -13,5 +13,5 @@ class ProductCategory(models.Model):
     _inherit = "product.category"
 
     tip_contabil = fields.Char('Simbol Tip Contabil')
-    # gestiunea in care intra materialele la achizitie
+    # gestiunea in care intra materialele la achizitie - nu este o abordare tocmai ok
     gestiune_mentor = fields.Char('Gestiune Mentor')
