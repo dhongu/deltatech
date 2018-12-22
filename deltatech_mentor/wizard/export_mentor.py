@@ -76,18 +76,17 @@ class export_mentor(models.TransientModel):
         return date[8:10] + '.' + date[5:7] + '.' + date[:4]
 
     def get_uom_ref(self, uom):
-        uom_reg = self.env['product.uom'].search([('category_id','=',uom.category_id.id),
-                                                  ('uom_type','=','reference')], limit=1)
+        uom_reg = self.env['product.uom'].search([('category_id', '=', uom.category_id.id),
+                                                  ('uom_type', '=', 'reference')], limit=1)
         return uom_reg
 
     def get_uom(self, uom):
-        cod_uom = uom.name
-        cod_uom = cod_uom.replace(' ','')
+        cod_uom = uom.name or ''
+        cod_uom = cod_uom.replace(' ', '')
         cod_uom = cod_uom.replace('(', '')
         cod_uom = cod_uom.replace(')', '')
         cod_uom = cod_uom[:10]
         return cod_uom
-
 
     def get_temp_file(self, data):
         dicritics = {
@@ -231,16 +230,12 @@ class export_mentor(models.TransientModel):
                 if line.product_id.type == 'product':
                     cont = ''
                     gestiune = 'DepMP'
-                    if line.product_id.categ_id.gestiune_mentor:
-                        gestiune = line.product_id.categ_id.gestiune_mentor
-                    # if 'stock_location_id' in invoice._fields:
-                    #     if invoice.stock_location_id.code:
-                    #         gestiune = invoice.stock_location_id.code
-
                 else:
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
+                if line.product_id.categ_id.gestiune_mentor:
+                    gestiune = line.product_id.categ_id.gestiune_mentor
 
                 qty = line.quantity * sign
                 price = line.price_unit
@@ -252,7 +247,7 @@ class export_mentor(models.TransientModel):
 
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
-                    self.get_uom(line.product_id.uom_po_id)         , # de convertit in unitatea de stocare ??????
+                    self.get_uom(line.product_id.uom_po_id),  # de convertit in unitatea de stocare ??????
 
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
@@ -293,9 +288,13 @@ class export_mentor(models.TransientModel):
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
 
             sections_name = 'Factura_%s' % index
-            NrDoc = invoice.reference or invoice.number
+            NrDoc = invoice.number
             NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+            SerieCarnet = invoice.number
+            SerieCarnet = ''.join([s for s in SerieCarnet if not s.isdigit()])
+            SerieCarnet = SerieCarnet.replace('/', '')
             iesiri[sections_name] = {
+                'SerieCarnet': SerieCarnet,
                 'NrDoc': NrDoc,
                 'Data': self.get_date(invoice.date_invoice),
                 'CodClient': cod_fiscal,
@@ -314,9 +313,11 @@ class export_mentor(models.TransientModel):
                     error = _("Produsul %s nu are cod") % line.product_id.name
                     result_html += '<div>Eroare %s</div>' % error
                 if line.product_id.type == 'product':
-                    gestiune = 'DepMP'
+                    gestiune = 'DepPF'
                 else:
                     gestiune = ''
+                if line.product_id.categ_id.gestiune_mentor:
+                    gestiune = line.product_id.categ_id.gestiune_mentor
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
                     self.get_uom(line.uom_id),
@@ -327,9 +328,8 @@ class export_mentor(models.TransientModel):
                     str(line.discount),  # Discount linie
 
                     '',  # Pret inregistrare;
-                    '',  # Termen garantie;
-                    '',  # Valoare suplimentara;
-                    ''  # Observatii la nivel articol;
+                    '',  # Observatii la nivel articol;
+                    '',  # Pret de achizitie
                 ])
                 if line.product_id.type != 'product':
                     iesiri[sections_name]['Item_%s_Ext' % item] = ';'.join([
@@ -345,8 +345,13 @@ class export_mentor(models.TransientModel):
         result_html = ''
         bonuri = configparser.ConfigParser()
         bonuri.optionxform = lambda option: option
-        lines = {}
+        locations = {}
+
         for move in move_ids:
+            if move.location_id.id not in locations:
+                locations[move.location_id.id] = {'lines': {},'location_id':move.location_id}
+            lines = locations[move.location_id.id]['lines']
+
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
@@ -361,26 +366,121 @@ class export_mentor(models.TransientModel):
             'AnLucru': self.date_to[:4],
             'LunaLucru': self.date_to[5:7],
             'TipDocument': 'BON DE CONSUM',
-            'TotalBonuri': 1
+            'TotalBonuri': len(locations)
         }
-        bonuri['Bon_1'] = {
-            'NrDoc': self.date_to[:4] + '_' + self.date_to[5:7],
-            'Data': self.date_to,
-            'GestConsum': 'DepMP',
-            'TotalArticole': len(lines)
-        }
-        item = 0
-        for line in lines:
-            item += 1
-            bonuri['Items_1']['Item_%s' % item] = ';'.join([
-                line['product_id'].default_code or '',  # Cod intern/extern articol;
-                self.get_uom(line['product_id'].uom),
-                str(line['qty']),
-                str(line['amount'] / line['qty']),
-                str()
-            ])
+
+        GestConsum = self.prod_location_id.code or str(self.prod_location_id.id)
+        index = 0
+        for location_id in locations:
+            index += 1
+            location = locations[location_id]
+            lines = location['lines']
+            sections_name = 'Bon_%s' % index
+            bonuri[sections_name] = {
+                'NrDoc': self.date_to[:4] +  self.date_to[5:7]+ str(index),
+                'Data': self.get_date(self.date_to),
+                'GestConsum': GestConsum,
+                'TotalArticole': len(lines)
+            }
+
+            item = 0
+
+            gest = location['location_id'].code or str(location['location_id'].id)
+            sections_name = 'Items_%s' % index
+            bonuri[sections_name] = {}
+            for product_id in lines:
+                line = lines[product_id]
+                item += 1
+                qty = line['qty']
+                price = -1 * line['amount'] / line['qty']
+                uom_id = line['product_id'].uom_id
+                uom_po_id = line['product_id'].uom_po_id
+
+                if uom_id != uom_po_id:
+                    qty = uom_id._compute_quantity(qty, uom_po_id)
+                    price = uom_id._compute_price(price, uom_po_id)
+
+                bonuri[sections_name]['Item_%s' % item] = ';'.join([
+                    line['product_id'].default_code or '',  # Cod intern/extern articol;
+                    self.get_uom(uom_po_id),
+                    str(qty),
+                    str(price),
+                    gest
+                ])
 
         temp_file = self.get_temp_file(bonuri)
+        return temp_file, result_html
+
+
+    def do_export_note_predari(self, move_ids):
+        result_html = ''
+        predari = configparser.ConfigParser()
+        predari.optionxform = lambda option: option
+        locations = {}
+
+        for move in move_ids:
+            if move.location_dest_id.id not in locations:
+                locations[move.location_dest_id.id] = {'lines': {},'location_id':move.location_dest_id}
+            lines = locations[move.location_dest_id.id]['lines']
+
+            if not move.product_id.id in lines:
+                lines[move.product_id.id] = {
+                    'product_id': move.product_id,
+                    'qty': move.product_qty,
+                    'amount': move.price_unit * move.product_qty
+                }
+            else:
+                lines[move.product_id.id]['qty'] += move.product_qty
+                lines[move.product_id.id]['amount'] += move.price_unit * move.product_qty
+
+        predari['InfoPachet'] = {
+            'AnLucru': self.date_to[:4],
+            'LunaLucru': self.date_to[5:7],
+            'TipDocument': 'NOTA PREDARE',
+            'TotalNote': len(locations)
+        }
+
+        Gestsursa = self.prod_location_id.code or str(self.prod_location_id.id)
+        index = 0
+        for location_id in locations:
+            index += 1
+            location = locations[location_id]
+            lines = location['lines']
+            sections_name = 'Nota_%s' % index
+            predari[sections_name] = {
+                'NrDoc': self.date_to[:4] +  self.date_to[5:7]+ str(index),
+                'Data': self.get_date(self.date_to),
+                'Gestsursa': Gestsursa,
+                'TotalArticole': len(lines)
+            }
+
+            item = 0
+
+            gest = location['location_id'].code or str(location['location_id'].id)
+            sections_name = 'Items_%s' % index
+            predari[sections_name] = {}
+            for product_id in lines:
+                line = lines[product_id]
+                item += 1
+                qty = line['qty']
+                price = -1 * line['amount'] / line['qty']
+                uom_id = line['product_id'].uom_id
+                uom_po_id = line['product_id'].uom_po_id
+
+                if uom_id != uom_po_id:
+                    qty = uom_id._compute_quantity(qty, uom_po_id)
+                    price = uom_id._compute_price(price, uom_po_id)
+
+
+                predari[sections_name]['Item_%s' % item] = ';'.join([
+                    line['product_id'].default_code or '',  # Cod intern/extern articol;
+                    self.get_uom(uom_po_id),
+                    str(qty),
+                    str(price),
+                    gest
+                ])
+
+        temp_file = self.get_temp_file(predari)
         return temp_file, result_html
 
     def do_export_gestiuni(self, location_ids):
@@ -410,7 +510,8 @@ class export_mentor(models.TransientModel):
         partner_in_ids = self.env['res.partner']
         partner_out_ids = self.env['res.partner']
         product_ids = self.env['product.product']
-        move_ids = self.env['stock.move']
+        move_id_ids = self.env['stock.move']
+        move_out_ids = self.env['stock.move']
 
         # de adaugat conditia pentru moneda
         domain = [
@@ -464,16 +565,25 @@ class export_mentor(models.TransientModel):
                 ('date', '>=', self.date_from),
                 ('date', '<=', self.date_to),
                 ('state', '=', 'done'),
-                ('location_dest_id', '=', self.location_id.id),
+                ('location_dest_id', '=', self.prod_location_id.id),
             ]
 
-            move_ids = self.env['stock.move'].search(domain)
-            for move in move_ids:
+            move_out_ids = self.env['stock.move'].search(domain)
+            for move in move_out_ids:
                 product_ids |= move.product_id
 
-            # moves = self.env['stock.move'].read_group(domain,
-            #                                                    fields=['product_id','qty','amount'],
-            #                                                    groupby=['product_id'])
+
+            domain = [
+                ('date', '>=', self.date_from),
+                ('date', '<=', self.date_to),
+                ('state', '=', 'done'),
+                ('location_id', '=', self.prod_location_id.id),
+            ]
+
+            move_in_ids = self.env['stock.move'].search(domain)
+            for move in move_in_ids:
+                product_ids |= move.product_id
+
 
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
@@ -484,8 +594,11 @@ class export_mentor(models.TransientModel):
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
         result_html += '<div>Furnizori %s</div>' % str(len(partner_in_ids))
-        result_html += '<div>Miscari de stoc %s</div>' % str(len(move_ids))
+
         result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
+
+        result_html += '<div>Consumuri %s</div>' % str(len(move_out_ids))
+        result_html += '<div>Note Predari %s</div>' % str(len(move_in_ids))
 
         partner_ids = partner_in_ids | partner_out_ids
         temp_file, messaje = self.do_export_parteneri(partner_ids)
@@ -511,9 +624,14 @@ class export_mentor(models.TransientModel):
         file_name = 'Facturi_Iesire.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_bonuri_consum(move_ids)
+        temp_file, messaje = self.do_export_bonuri_consum(move_out_ids)
         result_html += messaje
         file_name = 'Bonuri_consum.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_note_predari(move_in_ids)
+        result_html += messaje
+        file_name = 'Note_Predari.txt'
         zip_archive.writestr(file_name, temp_file)
 
         temp_file, messaje = self.do_export_gestiuni(location_ids)
