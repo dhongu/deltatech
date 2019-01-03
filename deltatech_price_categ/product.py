@@ -37,11 +37,13 @@ class product_template(models.Model):
     percent_bronze    = fields.Float(string="Bronze Percent")
     percent_silver    = fields.Float(string="Silver Percent")
     percent_gold      = fields.Float(string="Gold Percent")
+    percent_platinum  = fields.Float(string="Platinum Percent")
     
     list_price_bronze = fields.Float(string="Bronze Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
     list_price_silver = fields.Float(string="Silver Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
     list_price_gold   = fields.Float(string="Gold Price",compute="_compute_price",store=True, readonly=True, compute_sudo=True)
-
+    list_price_platinum = fields.Float(string="Platinum Price", compute="_compute_price", store=True, readonly=True,
+                                   compute_sudo=True)
 
  
 
@@ -73,16 +75,16 @@ class product_template(models.Model):
             product.list_price_bronze =  price  * (1 + product.percent_bronze)            
             product.list_price_silver =  price  * (1 + product.percent_silver)
             product.list_price_gold  =   price  * (1 + product.percent_gold)
-            
+            product.list_price_platinum = price * (1 + product.percent_platinum)
+
             if tax_inc: 
                 taxes = taxe.compute_all( product.list_price_bronze, 1, force_excluded=True)
                 product.list_price_bronze =  taxes['total_included']
                 taxes = taxe.compute_all( product.list_price_silver, 1, force_excluded=True)
                 product.list_price_silver =  taxes['total_included']            
                 taxes = taxe.compute_all( product.list_price_gold, 1, force_excluded=True)
-                product.list_price_gold =  taxes['total_included']   
-                         
-            print product.list_price_bronze, product.list_price_silver, product.list_price_gold
-    
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+                product.list_price_gold =  taxes['total_included']
+                taxes = taxe.compute_all(product.list_price_platinum, 1, force_excluded=True)
+                product.list_price_platinum = taxes['total_included']
+
+

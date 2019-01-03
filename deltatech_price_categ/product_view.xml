@@ -13,6 +13,7 @@
             			<field name="percent_bronze"/> <field name="list_price_bronze"/>
             			<field name="percent_silver"/> <field name="list_price_silver"/>
             			<field name="percent_gold"/> <field name="list_price_gold"/>
+						<field name="percent_platinum"/> <field name="list_price_platinum"/>
             		</group>            		
             	</field>
             </field>
