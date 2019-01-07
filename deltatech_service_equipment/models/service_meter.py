@@ -56,6 +56,8 @@ class service_meter(models.Model):
     start_value = fields.Float(string='Start Value', digits=dp.get_precision('Meter Value'))
     last_meter_reading_id = fields.Many2one('service.meter.reading', string='Last Meter Reading',
                                             compute='_compute_last_meter_reading')
+    # last_reading_date = fields.Date(string='Last reading date', compute='_compute_last_meter_reading')
+    last_reading_date = fields.Date(string='Last reading date')
     total_counter_value = fields.Float(string='Total Counter Value', digits=dp.get_precision('Meter Value'),
                                        compute='_compute_last_meter_reading')
     estimated_value = fields.Float(string='Estimated Value', digits=dp.get_precision('Meter Value'),
@@ -116,6 +118,7 @@ class service_meter(models.Model):
         if self.type == 'counter':
             if self.meter_reading_ids:
                 self.last_meter_reading_id = self.meter_reading_ids[0]
+                self.write({'last_reading_date':self.meter_reading_ids[0].date})
                 total_counter_value = self.last_meter_reading_id.counter_value
         else:
             for meter in self.meter_ids:

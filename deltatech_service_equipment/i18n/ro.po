@@ -718,3 +718,8 @@ msgstr "Total venituri"
 #: model:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_agreement_form
 msgid "_Apply"
 msgstr "_Aplică"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_last_reading_date
+msgid "Last reading date"
+msgstr "Ultima citire pe"
