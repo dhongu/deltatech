@@ -8,8 +8,6 @@ from odoo.osv import expression
 
 import odoo.addons.decimal_precision as dp
 
-
-
 class Location(models.Model):
     _inherit = "stock.location"
 

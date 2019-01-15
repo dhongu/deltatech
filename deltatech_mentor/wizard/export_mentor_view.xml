@@ -13,12 +13,15 @@
                             <field name="date_range_id"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
-
                         </group>
                         <group>
                             <field name="journal_ids" widget="many2many_tags"/>
-                            <field name="prod_location_id"/>
 
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="location_id"/>
+                            <field name="prod_location_id"/>
                         </group>
                     </group>
                     <div states="get">

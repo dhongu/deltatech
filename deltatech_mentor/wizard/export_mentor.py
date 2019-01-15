@@ -35,8 +35,14 @@ class export_mentor(models.TransientModel):
     result = fields.Html(string="Result Export", readonly=True)
 
     journal_ids = fields.Many2many('account.journal', string='Journals')
+
+    location_id = fields.Many2one('stock.location', string='Stock location',
+                                  domain=[('usage', '=', 'internal')], required=True, )
+
     prod_location_id = fields.Many2one('stock.location', string='Production location',
                                        domain=[('usage', '=', 'production')], required=True, )
+
+    company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.user.company_id)
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -87,6 +93,12 @@ class export_mentor(models.TransientModel):
         cod_uom = cod_uom.replace(')', '')
         cod_uom = cod_uom[:10]
         return cod_uom
+
+    def get_gestiune(self, product):
+        gestiune = product.categ_id.gestiune_mentor
+        if not gestiune:
+            gestiune = self.location_id.code or str(self.prod_location_id.id)
+        return gestiune
 
     def get_temp_file(self, data):
         dicritics = {
@@ -162,7 +174,7 @@ class export_mentor(models.TransientModel):
             articole[sections_name] = {
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
-                'GestiuneImplicita': product.categ_id.gestiune_mentor or ''
+                'GestiuneImplicita': self.get_gestiune(product)
             }
             if product.type != 'product':
                 articole[sections_name].update({
@@ -229,13 +241,10 @@ class export_mentor(models.TransientModel):
 
                 if line.product_id.type == 'product':
                     cont = ''
-                    gestiune = 'DepMP'
+                    gestiune = self.get_gestiune(line.product_id)
                 else:
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
-
-                if line.product_id.categ_id.gestiune_mentor:
-                    gestiune = line.product_id.categ_id.gestiune_mentor
 
                 qty = line.quantity * sign
                 price = line.price_unit
@@ -313,11 +322,10 @@ class export_mentor(models.TransientModel):
                     error = _("Produsul %s nu are cod") % line.product_id.name
                     result_html += '<div>Eroare %s</div>' % error
                 if line.product_id.type == 'product':
-                    gestiune = 'DepPF'
+                    gestiune = self.get_gestiune(line.product_id)
                 else:
                     gestiune = ''
-                if line.product_id.categ_id.gestiune_mentor:
-                    gestiune = line.product_id.categ_id.gestiune_mentor
+
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     line.product_id.default_code or '',  # Cod intern/extern articol;
                     self.get_uom(line.uom_id),
@@ -349,7 +357,7 @@ class export_mentor(models.TransientModel):
 
         for move in move_ids:
             if move.location_id.id not in locations:
-                locations[move.location_id.id] = {'lines': {},'location_id':move.location_id}
+                locations[move.location_id.id] = {'lines': {}, 'location_id': move.location_id}
             lines = locations[move.location_id.id]['lines']
 
             if not move.product_id.id in lines:
@@ -377,7 +385,7 @@ class export_mentor(models.TransientModel):
             lines = location['lines']
             sections_name = 'Bon_%s' % index
             bonuri[sections_name] = {
-                'NrDoc': self.date_to[:4] +  self.date_to[5:7]+ str(index),
+                'NrDoc': self.date_to[:4] + self.date_to[5:7] + str(index),
                 'Data': self.get_date(self.date_to),
                 'GestConsum': GestConsum,
                 'TotalArticole': len(lines)
@@ -411,7 +419,6 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(bonuri)
         return temp_file, result_html
 
-
     def do_export_note_predari(self, move_ids):
         result_html = ''
         predari = configparser.ConfigParser()
@@ -420,7 +427,7 @@ class export_mentor(models.TransientModel):
 
         for move in move_ids:
             if move.location_dest_id.id not in locations:
-                locations[move.location_dest_id.id] = {'lines': {},'location_id':move.location_dest_id}
+                locations[move.location_dest_id.id] = {'lines': {}, 'location_id': move.location_dest_id}
             lines = locations[move.location_dest_id.id]['lines']
 
             if not move.product_id.id in lines:
@@ -448,7 +455,7 @@ class export_mentor(models.TransientModel):
             lines = location['lines']
             sections_name = 'Nota_%s' % index
             predari[sections_name] = {
-                'NrDoc': self.date_to[:4] +  self.date_to[5:7]+ str(index),
+                'NrDoc': self.date_to[:4] + self.date_to[5:7] + str(index),
                 'Data': self.get_date(self.date_to),
                 'Gestsursa': Gestsursa,
                 'TotalArticole': len(lines)
@@ -463,14 +470,13 @@ class export_mentor(models.TransientModel):
                 line = lines[product_id]
                 item += 1
                 qty = line['qty']
-                price = -1 * line['amount'] / line['qty']
+                price =  line['amount'] / line['qty']
                 uom_id = line['product_id'].uom_id
                 uom_po_id = line['product_id'].uom_po_id
 
                 if uom_id != uom_po_id:
                     qty = uom_id._compute_quantity(qty, uom_po_id)
                     price = uom_id._compute_price(price, uom_po_id)
-
 
                 predari[sections_name]['Item_%s' % item] = ';'.join([
                     line['product_id'].default_code or '',  # Cod intern/extern articol;
@@ -572,7 +578,6 @@ class export_mentor(models.TransientModel):
             for move in move_out_ids:
                 product_ids |= move.product_id
 
-
             domain = [
                 ('date', '>=', self.date_from),
                 ('date', '<=', self.date_to),
@@ -583,7 +588,6 @@ class export_mentor(models.TransientModel):
             move_in_ids = self.env['stock.move'].search(domain)
             for move in move_in_ids:
                 product_ids |= move.product_id
-
 
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
