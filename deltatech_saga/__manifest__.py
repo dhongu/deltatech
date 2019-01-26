@@ -24,7 +24,8 @@ Functionalitati:
 
        # 'deltatech_backwards',
         "base",
-        "account",
+        "account", 'account_voucher',
+        "date_range", 'deltatech_contact'
         #"l10n_ro_invoice_report"
     ],
 
