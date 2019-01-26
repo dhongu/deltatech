@@ -86,6 +86,9 @@ class export_mentor(models.TransientModel):
                                                   ('uom_type', '=', 'reference')], limit=1)
         return uom_reg
 
+    def get_product_code(self, product):
+        return product.default_code or product.product_tmpl_id.default_code or 'ID_'+product.id
+
     def get_uom(self, uom):
         cod_uom = uom.name or ''
         cod_uom = cod_uom.replace(' ', '')
@@ -170,7 +173,8 @@ class export_mentor(models.TransientModel):
         articole.optionxform = lambda option: option
 
         for product in product_ids:
-            sections_name = "ArticoleNoi_%s" % product.default_code
+            code = self.get_product_code(product)
+            sections_name = "ArticoleNoi_%s" % code
             articole[sections_name] = {
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
@@ -235,7 +239,8 @@ class export_mentor(models.TransientModel):
 
             for line in invoice.invoice_line_ids:
                 item += 1
-                if not line.product_id.default_code:
+                code = self.get_product_code(line.product_id)
+                if not code:
                     error = _("Produsul %s nu are cod") % line.product_id.name
                     result_html += '<div>Eroare %s</div>' % error
 
@@ -254,8 +259,9 @@ class export_mentor(models.TransientModel):
                     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_po_id)
                     price = line.uom_id._compute_price(line.price_unit, line.product_id.uom_po_id)
 
+                code = self.get_product_code(line.product_id)
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
-                    line.product_id.default_code or '',  # Cod intern/extern articol;
+                    code,  # Cod intern/extern articol;
                     self.get_uom(line.product_id.uom_po_id),  # de convertit in unitatea de stocare ??????
 
                     str(qty),
@@ -318,7 +324,8 @@ class export_mentor(models.TransientModel):
             sign = invoice.type == 'out_refund' and -1 or 1
             for line in invoice.invoice_line_ids:
                 item += 1
-                if not line.product_id.default_code:
+                code = self.get_product_code(line.product_id)
+                if not code:
                     error = _("Produsul %s nu are cod") % line.product_id.name
                     result_html += '<div>Eroare %s</div>' % error
                 if line.product_id.type == 'product':
@@ -326,8 +333,9 @@ class export_mentor(models.TransientModel):
                 else:
                     gestiune = ''
 
+                code = self.get_product_code(line.product_id)
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
-                    line.product_id.default_code or '',  # Cod intern/extern articol;
+                    code,  # Cod intern/extern articol;
                     self.get_uom(line.uom_id),
 
                     str(sign * line.quantity),
@@ -408,8 +416,9 @@ class export_mentor(models.TransientModel):
                     qty = uom_id._compute_quantity(qty, uom_po_id)
                     price = uom_id._compute_price(price, uom_po_id)
 
+                code = self.get_product_code(line.product_id)
                 bonuri[sections_name]['Item_%s' % item] = ';'.join([
-                    line['product_id'].default_code or '',  # Cod intern/extern articol;
+                    code,  # Cod intern/extern articol;
                     self.get_uom(uom_po_id),
                     str(qty),
                     str(price),
@@ -478,8 +487,9 @@ class export_mentor(models.TransientModel):
                     qty = uom_id._compute_quantity(qty, uom_po_id)
                     price = uom_id._compute_price(price, uom_po_id)
 
+                code = self.get_product_code(line.product_id)
                 predari[sections_name]['Item_%s' % item] = ';'.join([
-                    line['product_id'].default_code or '',  # Cod intern/extern articol;
+                    code,  # Cod intern/extern articol;
                     self.get_uom(uom_po_id),
                     str(qty),
                     str(price),
