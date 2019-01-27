@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech SAGA Interface",
-    'version': '11.0.1.0.0',
+    'version': '11.0.3.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -21,7 +21,7 @@ Functionalitati:
 
     "category": "Accounting",
     "depends": [
-        "base", 'account_voucher',
+        "base", 'account_voucher', 'date_range',
         "account", 'base_vat', "deltatech_contact"
     ],
 

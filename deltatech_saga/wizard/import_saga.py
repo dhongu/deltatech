@@ -326,7 +326,7 @@ class import_saga(models.TransientModel):
 
         """
 
-        articole_file = base64.decodestring(self.articole_file)
+        articole_file = base64.decodebytes(self.articole_file)
         buff = BytesIO(articole_file)
         articole = base.DBF(buff)
         result_html = self.result
