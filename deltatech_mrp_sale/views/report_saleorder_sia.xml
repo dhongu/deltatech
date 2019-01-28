@@ -5,8 +5,8 @@
 
 
         <!-- Begin Document specification 3 -->
-        <template id="report_saleorder_document_specification3">
-            
+        <template id="report_saleorder_document_specification4">
+            <t t-name="deltatech_mrp_sale.report_saleorder_document_specification4">
                 <t t-call="report.external_layout">
                     <div class="page">
                         <!--begin header-->
@@ -14,15 +14,20 @@
                             <div class="row">
                                 <div class="col-xs-3">
                                     <img t-if="res_company.logo"
-                                         t-att-src="'data:image/png;base64,%s' % res_company.logo"
-                                         style="max-height: 45px;"/>
+                                         t-att-src="'http://terrabit.ro/danila/mail-images/logo-sia.png'"
+                                         style="max-height: 90px;"/>
                                 </div>
                                 <div class="col-xl-2">
-                                    <div t-field="res_company.partner_id"
-                                         t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"
-                                         style="margin-bottom:-20px;;"/>
+                                    <!--<div t-field="res_company.partner_id"-->
+                                         <!--t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"-->
+                                         <!--style="margin-bottom:-20px;;"/>-->
+                                    <div>
+                                        S.C. SIA CONSTRUCT-COM S.R.L.<br />
+                                        Str. Soseau Nationala, sat Lespezi, com. Garleni, jud. Bacau CP 607202<br />
+                                        Tel: 0799729139, E-mail: sia.maisonsbois@gmail.com
+                                    </div>
                                 </div>
-                                <div style="margin-top:18px;">Telefon: 0234 537436; 0746 016 626</div>
+                                <div style="margin-top:18px;"></div>
                                 <div class="col-xs-9 text-right" style="margin-top:10px;"
                                      t-field="res_company.rml_header1"/>
                             </div>
@@ -595,6 +600,7 @@
                         <div class="oe_structure"/>
                     </div>
 
+                </t>
             </t>
 
 
@@ -602,130 +608,11 @@
         <!-- End Document specification 3 -->
 
 
-        <!-- Begin Specification article 3 -->
-        <template id="report_specification_article3">
-                <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%' and a.product_uom.name !='%%'">
-                    <!-- t if ammount<0-->
-                    <t t-if="a.amount&gt;0.0">
-                        <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
-                            <td colspan="4" style="white-space: nowrap;">
-                                <h4 style="margin:0 0 0 0;">
-                                    <strong t-field="a.name"/>
-                                </h4>
-                            </td>
-                            <t t-if="a.resource_ids and len(a.resource_ids)==1">
-                                <td class="text-right" style="white-space: nowrap;">
-                                    <t t-if="with_qty and qty_only==0">
-                                        <!--<span t-field="a.product_uom_qty"/>-->
-                                        <span t-esc="round(a.product_uom_qty,2)"/>
-                                        <span groups="product.group_uom" t-field="a.product_uom"/>
-                                    </t>
-                                </td>
-                                <!--
-                                <td class="text-right" style="white-space: nowrap;">
-                                  <t t-if="with_qty and with_price  and a.price_unit&gt;0">
-                                    <span t-field="a.price_unit"/>
-                                  </t>
-                                </td>
-                                -->
-                                <td class="text-right" style="white-space: nowrap;">
-                                    <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">
-                                        <span t-field="a.amount"
-                                              t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
-                                    </t>
-                                    <t t-if="with_qty and qty_only">
-                                        <!--<span t-field="a.product_uom_qty"/>-->
-                                        <span t-esc="round(a.product_uom_qty,2)"/>
-                                        <span groups="product.group_uom" t-field="a.product_uom"/>
-                                    </t>
-                                </td>
-                            </t>
-                            <t t-if="a.resource_ids and len(a.resource_ids)!=1">
-                                <td class="text-right" style="white-space: nowrap;">
-                                    <t t-if="with_qty and qty_only==0">
-                                        <!--<span t-field="a.product_uom_qty"/>-->
-                                        <span t-esc="round(a.product_uom_qty,2)"/>
-                                        <span groups="product.group_uom" t-field="a.product_uom"/>
-                                    </t>
-                                </td>
-                                <!--
-                                <td class="text-right" style="white-space: nowrap;">
-                                  <t t-if="with_qty and with_price and a.price_unit&gt;0">
-                                    <span t-field="a.price_unit"/>
-                                  </t>
-                                </td>
-                                -->
-                                <td class="text-right" style="white-space: nowrap;">
-                                    <t t-if="with_price and a.amount&gt;0">
-                                        <strong t-field="a.amount"
-                                                t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>
-                                    </t>
-                                    <t t-if="qty_only">
-                                        <!--<span t-field="a.product_uom_qty"/>-->
-                                        <span t-esc="round(a.product_uom_qty,2)"/>
-                                        <span groups="product.group_uom" t-field="a.product_uom"/>
-                                    </t>
-                                    <t t-if="with_price and a.amount&lt;0">
-                                        <span></span>
-                                    </t>
-                                </td>
-                            </t>
-                        </tr>
-                        <t t-if="a.note">
-                            <tr>
-                                <td colspan="6">
-                                    <small style="font-style: normal;color:red;" t-field="a.note"/>
-                                </td>
-                            </tr>
-                        </t>
-                        <t t-if="a.product_id">
-                            <td colspan="6">
 
-                                <small t-field="a.product_id.description_sale"/>
-
-                                <t t-if="not a.product_id">
-                                    <small t-field="a.product_template.description_sale"/>
-                                </t>
-                            </td>
-                        </t>
-                        <!--<t t-if="a.resource_ids and len(a.resource_ids)&gt;1">-->
-                        <t t-if="a.resource_ids">
-                            <tr t-foreach="a.resource_ids" t-as="r">
-                                <t t-if="r.product_uom_qty &gt; 0.0">
-                                    <td style="width:25px;">
-                                        <span/>
-                                    </td>
-                                    <td colspan="4">
-                                        <em>
-                                            <p style="margin:0px;">
-                                                <strong t-field="r.product_id.name"/>
-                                            </p>
-                                            <div t-if="r.product_id.description_sale">
-                                                <small style="font-style: normal;"
-                                                       t-field="r.product_id.description_sale"/>
-                                            </div>
-                                        </em>
-                                    </td>
-                                    <td/>
-                                    <!--
-                                    <td/>
-                                    <td/>
-                                    <td/>
-                                    -->
-                                </t>
-                            </tr>
-                        </t>
-                    </t>
-                    <!-- End t if ammount<0-->
-            </t>
-        </template>
-        <!-- End Specification article 3 -->
-
-
-        <template id="report_specification3">
+        <template id="report_specification4">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">
-                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_specification3')"/>
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_specification4')"/>
                 </t>
             </t>
         </template>

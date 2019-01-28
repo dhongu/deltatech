@@ -4,8 +4,8 @@
 
 
 
-        <!-- Begin Document specification 3 -->
-        <template id="report_saleorder_document_specification3">
+        <!-- Begin Document specification 5 -->
+        <template id="report_saleorder_document_specification5">
             
                 <t t-call="report.external_layout">
                     <div class="page">
@@ -170,7 +170,7 @@
                                 <t t-foreach="o.article_ids" t-as="a">
                                     <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
                                         <t t-if="a.item_categ==&quot;normal&quot;">
-                                            <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+                                            <t t-call="deltatech_mrp_sale.report_specification_article5"/>
                                         </t>
                                         <t t-foreach="a.resource_ids" t-as="resource">
                                             <t t-if="resource.item_categ=='labor'">
@@ -314,7 +314,8 @@
                                     <th/>
                                     <th/>
                                     <th/>
-                                    <th class="text-right">Quantity</th>
+                                    <!--<th class="text-right">Quantity</th>-->
+                                    <th class="text-right"></th>
                                     <!--<th class="text-right">Price</th>-->
                                 </tr>
                             </thead>
@@ -325,15 +326,16 @@
                                 <tr style="background-color:#cadb34">
                                     <td colspan="6">
                                         <h4 style="margin: 0 0 0 0;font-weight:bold;">OPTIONAL SUPPLIES</h4>
-                                        <t t-set="qty_only" t-value="1"/>
+                                        <t t-set="with_qty" t-value="0"/>
                                         <t t-set="with_price" t-value="0"/>
-                                        <t t-set="with_qty" t-value="1"/>
+                                        <t t-set="qty_only" t-value="0"/>
+                                        <t t-set="with_qty" t-value="0"/>
                                     </td>
                                 </tr>
                                 <tr style="height:36px;"/>
                                 <t t-foreach="o.article_ids" t-as="a">
                                     <t t-if="a.item_categ==&quot;optional&quot;">
-                                        <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+                                        <t t-call="deltatech_mrp_sale.report_specification_article5"/>
                                         <t t-foreach="a.resource_ids" t-as="resource">
                                             <t t-if="resource.item_categ=='labor'">
                                                 <t t-set="total_labor_optional"
@@ -435,7 +437,7 @@
                                 <t t-set="qty_only" t-value="1"/>
                                 <t t-foreach="o.article_ids" t-as="a">
                                     <t t-if="a.item_categ==&quot;service&quot;">
-                                        <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+                                        <t t-call="deltatech_mrp_sale.report_specification_article5"/>
                                     </t>
                                 </t>
                                 <tr style="background-color:#cadb34">
@@ -496,7 +498,11 @@
                                 </tr>
                                 <t t-foreach="o.article_ids" t-as="a">
                                     <t t-if="a.item_categ==&quot;opt_serv&quot;">
-                                        <t t-call="deltatech_mrp_sale.report_specification_article3"/>
+                                        <t t-set="with_qty" t-value="0"/>
+                                        <t t-set="with_price" t-value="0"/>
+                                        <t t-set="qty_only" t-value="0"/>
+                                        <t t-set="with_qty" t-value="0"/>
+                                        <t t-call="deltatech_mrp_sale.report_specification_article5"/>
                                     </t>
                                 </t>
                             </tbody>
@@ -599,11 +605,11 @@
 
 
         </template>
-        <!-- End Document specification 3 -->
+        <!-- End Document specification 5 -->
 
 
-        <!-- Begin Specification article 3 -->
-        <template id="report_specification_article3">
+        <!-- Begin Specification article 5 -->
+        <template id="report_specification_article5">
                 <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name !='%' and a.product_uom.name !='%%'">
                     <!-- t if ammount<0-->
                     <t t-if="a.amount&gt;0.0">
@@ -722,10 +728,10 @@
         <!-- End Specification article 3 -->
 
 
-        <template id="report_specification3">
+        <template id="report_specification5">
             <t t-call="report.html_container">
                 <t t-foreach="doc_ids" t-as="doc_id">
-                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_specification3')"/>
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_specification5')"/>
                 </t>
             </t>
         </template>
