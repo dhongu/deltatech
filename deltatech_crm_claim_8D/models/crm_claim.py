@@ -80,9 +80,11 @@ class crm_claim(models.Model):
             # actions = self.env['crm.claim.action'].search(['claim_id','=',claim.id])yyyy-mm-dd
             # print actions
             for action in claim.action_ids:
-                if action.date_deadline > fields.Date.today() and (action.date_deadline < claim.date_action_next_comp or not claim.date_action_next_comp):
-                     claim.date_action_next_comp = action.date_deadline
-                     claim.action_next_comp = action.name
+                # if action.date_deadline > fields.Date.today() and (not claim.date_action_next_comp or action.date_deadline < claim.date_action_next_comp):
+                if action.date_deadline > fields.Date.today():
+                    if not claim.date_action_next_comp or action.date_deadline < claim.date_action_next_comp:
+                        claim.date_action_next_comp = action.date_deadline
+                        claim.action_next_comp = action.name
 
 
 
