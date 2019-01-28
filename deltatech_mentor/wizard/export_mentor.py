@@ -12,7 +12,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import odoo.addons.decimal_precision as dp
 
-import html2text
+#import html2text
 
 
 class export_mentor(models.TransientModel):

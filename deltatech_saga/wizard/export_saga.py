@@ -36,7 +36,7 @@ class export_saga(models.TransientModel):
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
     journal_ids = fields.Many2many('account.journal')
-    use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori")
+    use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
     result = fields.Html(string="Result Export", readonly=True)
 
 
@@ -394,7 +394,7 @@ class export_saga(models.TransientModel):
 
             for line in invoice.invoice_line_ids:
                 if line.invoice_line_tax_id:
-                    tva_art = int(line.invoice_line_tax_id[0].amount * 100)
+                    tva_art = int(line.invoice_line_tax_id[0].amount )
                 else:
                     tva_art = 0
 
@@ -420,6 +420,19 @@ class export_saga(models.TransientModel):
                 nr_int = 10000 + int(nr_int[-4:])
                 nr_intrare = invoice.reference or invoice.number
 
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                currency = line.invoice_id and line.invoice_id.currency_id or None
+                taxes = False
+                if line.invoice_line_tax_ids:
+                    taxes = line.invoice_line_tax_ids.compute_all(price, currency, line.quantity,
+                                                                  product=line.product_id,
+                                                                  partner=line.invoice_id.partner_id)
+                    valoare_fara_tva =  taxes['total_excluded']
+                    valoare_cu_tva = taxes['total_included']
+                    valoare_tva = valoare_cu_tva - valoare_fara_tva
+                else:
+                    valoare_fara_tva = line.price_subtotal
+                    valoare_tva = 0
                 values = {
                     'NR_NIR': nr_int,
                     'NR_INTRARE': nr_intrare[-16:],
@@ -429,16 +442,16 @@ class export_saga(models.TransientModel):
                     'DATA': fields.Date.from_string(invoice.date_invoice),
                     'SCADENT': fields.Date.from_string(invoice.date_due),
                     'TIP': tip,
-                    'TVAI': tvai,
-
+                    'TVAI':  tvai,
+                    'COD_ART':'',
                     'DEN_ART': line.name[:60],
                     'UM': '',
                     'CANTITATE': round(line.quantity,3),
-
+                    'DEN_TIP':'',
                     'TVA_ART': tva_art,
-                    'VALOARE': round(line.price_subtotal,2),  # todo: daca pretul include tva valoarea cum o fi ?
+                    'VALOARE': round(valoare_fara_tva,2),
                     #'TVA': line.price_taxes,
-                    'TVA': round(line.price_total - line.price_subtotal, 2),
+                    'TVA': round(valoare_tva, 2),
                     'CONT': cont,
                     'PRET_VANZ': 0,
                     'GRUPA': '',
@@ -607,7 +620,7 @@ class export_saga(models.TransientModel):
             """
             for line in invoice.invoice_line_ids:
                 if line.invoice_line_tax_id:
-                    tva_art = int(line.invoice_line_tax_id[0].amount * 100)
+                    tva_art = int(line.invoice_line_tax_id[0].amount)
                 else:
                     tva_art = 0
 
@@ -622,7 +635,19 @@ class export_saga(models.TransientModel):
 
                 nr_out = ''.join([s for s in invoice.number if s.isdigit()])
                 nr_out = int(nr_out[-16:])
-
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                currency = line.invoice_id and line.invoice_id.currency_id or None
+                taxes = False
+                if line.invoice_line_tax_ids:
+                    taxes = line.invoice_line_tax_ids.compute_all(price, currency, line.quantity,
+                                                                  product=line.product_id,
+                                                                  partner=line.invoice_id.partner_id)
+                    valoare_fara_tva = taxes['total_excluded']
+                    valoare_cu_tva = taxes['total_included']
+                    valoare_tva = valoare_cu_tva - valoare_fara_tva
+                else:
+                    valoare_fara_tva = line.price_subtotal
+                    valoare_tva = 0
                 values = {
 
                     'NR_IESIRE':nr_out,
@@ -639,8 +664,8 @@ class export_saga(models.TransientModel):
                     'CANTITATE': round(line.quantity, 3),
                     'DEN_TIP': '',
                     'TVA_ART': tva_art,
-                    'VALOARE': round(line.price_subtotal, 2),  # todo: daca pretul include tva valoarea cum o fi ?
-                    'TVA': round(line.price_total - line.price_subtotal, 2),
+                    'VALOARE': round(valoare_fara_tva, 2),  # todo: daca pretul include tva valoarea cum o fi ?
+                    'TVA': round(valoare_tva, 2),
                     'CONT': cont,
                     'PRET_VANZ': 0,
                     'GRUPA': '',
