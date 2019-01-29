@@ -13,7 +13,8 @@ from ast import literal_eval
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    use_equal_distribution_percentage = fields.Boolean('Use the equal distribution percentage between task')
+    use_equal_distribution_percentage = fields.Boolean('Equal distribution', default=True,
+                                                       help='Use the equal distribution percentage between task')
 
     @api.model
     def get_values(self):

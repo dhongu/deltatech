@@ -14,10 +14,12 @@
             <field name="code">model.cron_update()</field>
 
         </record>
-      
+
+      <!--
       <record forcecreate="True" id="ir_project_config"  model="project.config">
       	 <field name="use_equal_distribution_percentage">True</field>
       </record>
-        
+       -->
+
     </data>
 </openerp>
