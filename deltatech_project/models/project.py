@@ -7,6 +7,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 import odoo.addons.decimal_precision as dp
 from odoo.tools import float_is_zero
+from ast import literal_eval
  
  
  
@@ -93,8 +94,11 @@ class project_project(models.Model):
     def get_tasks_progress(self, with_write=False):
         progress = []
         tasks_progres = 0.0
-        project_config_id = self.env['project.config'].search([],limit=1)
-        if project_config_id and project_config_id.use_equal_distribution_percentage:
+        # project_config_id = self.env['project.config'].search([],limit=1)
+        get_param = self.env['ir.config_parameter'].sudo().get_param
+        use_equal_distribution_percentage = literal_eval(get_param('project.use_equal_distribution_percentage', default='False'))
+        # if project_config_id and project_config_id.use_equal_distribution_percentage:
+        if use_equal_distribution_percentage:
             if self.tasks:
                 project_progress = 100.0 / len(self.tasks)
                 self.tasks.write({'project_progress':project_progress})
