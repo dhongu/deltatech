@@ -75,9 +75,9 @@
             <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
                 <xpath expr="//kanban/templates/t/div/div" position="after">
-                    <a class="o_project_kanban_box" name="%(action_open_view_project)d" type="action">
-                        <div>
-                            <field name="progress_rate" widget="gauge" style="width:150px; height: 110px;" options="{'levelcolors': [ '#ff0000','#a9d70b', '#f9c802']}">Progres (%)</field>
+                    <a class="o_kanban_primary_left" name="%(action_open_view_project)d" type="action">
+                        <div style="width:150px; height: 110px;">
+                            <field name="progress_rate" widget="gauge"  options="{'levelcolors': [ '#ff0000','#a9d70b', '#f9c802']}">Progres (%)</field>
                         </div>
                     </a>
                 </xpath>

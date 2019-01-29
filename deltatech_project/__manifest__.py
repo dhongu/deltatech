@@ -11,7 +11,7 @@
 
     'category': 'Project Management',
 
-    "depends": ["project"],
+    "depends": ["project",'web_kanban_gauge'],
 
     "description": """
 Features:    
