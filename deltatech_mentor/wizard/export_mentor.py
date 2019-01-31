@@ -87,7 +87,7 @@ class export_mentor(models.TransientModel):
         return uom_reg
 
     def get_product_code(self, product):
-        return product.default_code or product.product_tmpl_id.default_code or 'ID_'+product.id
+        return product.default_code or product.product_tmpl_id.default_code or 'ID_'+str(product.id)
 
     def get_uom(self, uom):
         cod_uom = uom.name or ''
