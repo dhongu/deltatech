@@ -416,7 +416,7 @@ class export_mentor(models.TransientModel):
                     qty = uom_id._compute_quantity(qty, uom_po_id)
                     price = uom_id._compute_price(price, uom_po_id)
 
-                code = self.get_product_code(line.product_id)
+                code = self.get_product_code(line['product_id'])
                 bonuri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
                     self.get_uom(uom_po_id),
@@ -487,7 +487,7 @@ class export_mentor(models.TransientModel):
                     qty = uom_id._compute_quantity(qty, uom_po_id)
                     price = uom_id._compute_price(price, uom_po_id)
 
-                code = self.get_product_code(line.product_id)
+                code = self.get_product_code(line['product_id'])
                 predari[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
                     self.get_uom(uom_po_id),
@@ -657,7 +657,7 @@ class export_mentor(models.TransientModel):
         # in your buff StringIO object
         zip_archive.close()
 
-        out = base64.encodestring(buff.getvalue())
+        out = base64.encodebytes(buff.getvalue())
         buff.close()
 
         filename = 'ExportOdooMentor_%s_%s' % (self.date_from, self.date_to)
