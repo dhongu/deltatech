@@ -12,12 +12,8 @@ import odoo.addons.decimal_precision as dp
 class ProductCategory(models.Model):
     _inherit = "product.category"
 
-    tip_contabil = fields.Char('Simbol Tip Contabil')
-    # gestiunea in care intra materialele la achizitie - nu este o abordare tocmai ok
-    gestiune_mentor = fields.Char('Gestiune Mentor')
-
     way_production = fields.Selection([
         ('consumption', 'Consumption in production'),
         ('receipt', 'Receipt from production'),
-        ('both', 'Cosnum/Prdare')], default='', string='Production Way'
+        ('both', 'Consumption and Receipt')], default='both', string='Production Way'
     )

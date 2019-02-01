@@ -364,19 +364,27 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_id.id not in locations:
-                locations[move.location_id.id] = {'lines': {}, 'location_id': move.location_id}
-            lines = locations[move.location_id.id]['lines']
+            if move.location_dest_id != self.prod_location_id: #
+                sign  = -1
+                location_id = move.location_dest_id
+            else:
+                sign = 1
+                location_id = move.location_id
+
+
+            if location_id.id not in locations:
+                locations[location_id.id] = {'lines': {}, 'location_id': location_id}
+            lines = locations[location_id.id]['lines']
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': move.product_qty,
-                    'amount': move.price_unit * move.product_qty
+                    'qty': sign*move.product_qty,
+                    'amount': sign*move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += move.product_qty
-                lines[move.product_id.id]['amount'] += move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign*move.product_qty
+                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
 
         bonuri['InfoPachet'] = {
             'AnLucru': self.date_to[:4],
@@ -394,7 +402,7 @@ class export_mentor(models.TransientModel):
             sections_name = 'Bon_%s' % index
             bonuri[sections_name] = {
                 'NrDoc': self.date_to[:4] + self.date_to[5:7] + str(index),
-                'Data': self.get_date(self.date_to),
+                'Data': self.get_date(self.date_from),
                 'GestConsum': GestConsum,
                 'TotalArticole': len(lines)
             }
@@ -435,19 +443,26 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_dest_id.id not in locations:
-                locations[move.location_dest_id.id] = {'lines': {}, 'location_id': move.location_dest_id}
-            lines = locations[move.location_dest_id.id]['lines']
+            if move.location_id != self.prod_location_id: #
+                sign  = -1
+                location_dest_id = move.location_id
+            else:
+                sign = 1
+                location_dest_id = move.location_dest_id
+
+            if location_dest_id.id not in locations:
+                locations[location_dest_id.id] = {'lines': {}, 'location_id':location_dest_id}
+            lines = locations[location_dest_id.id]['lines']
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': move.product_qty,
-                    'amount': move.price_unit * move.product_qty
+                    'qty': sign*move.product_qty,
+                    'amount': sign*move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += move.product_qty
-                lines[move.product_id.id]['amount'] += move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign*move.product_qty
+                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
 
         predari['InfoPachet'] = {
             'AnLucru': self.date_to[:4],
@@ -465,7 +480,7 @@ class export_mentor(models.TransientModel):
             sections_name = 'Nota_%s' % index
             predari[sections_name] = {
                 'NrDoc': self.date_to[:4] + self.date_to[5:7] + str(index),
-                'Data': self.get_date(self.date_to),
+                'Data': self.get_date(self.date_from),
                 'Gestsursa': Gestsursa,
                 'TotalArticole': len(lines)
             }
@@ -528,6 +543,8 @@ class export_mentor(models.TransientModel):
         product_ids = self.env['product.product']
         move_id_ids = self.env['stock.move']
         move_out_ids = self.env['stock.move']
+        move_consum  = self.env['stock.move']
+        move_predare = self.env['stock.move']
 
         # de adaugat conditia pentru moneda
         domain = [
@@ -577,6 +594,8 @@ class export_mentor(models.TransientModel):
             partner_out_ids |= invoice.commercial_partner_id
 
         if self.prod_location_id:
+
+
             domain = [
                 ('date', '>=', self.date_from),
                 ('date', '<=', self.date_to),
@@ -587,6 +606,10 @@ class export_mentor(models.TransientModel):
             move_out_ids = self.env['stock.move'].search(domain)
             for move in move_out_ids:
                 product_ids |= move.product_id
+                if move.product_id.categ_id.way_production == 'receipt':
+                    move_predare |= move
+                else:
+                    move_consum |= move
 
             domain = [
                 ('date', '>=', self.date_from),
@@ -598,6 +621,11 @@ class export_mentor(models.TransientModel):
             move_in_ids = self.env['stock.move'].search(domain)
             for move in move_in_ids:
                 product_ids |= move.product_id
+                if move.product_id.categ_id.way_production == 'consumption':
+                    move_consum |= move
+                else:
+                    move_predare |= move
+
 
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
@@ -611,8 +639,8 @@ class export_mentor(models.TransientModel):
 
         result_html += '<div>Client %s</div>' % str(len(partner_out_ids))
 
-        result_html += '<div>Consumuri %s</div>' % str(len(move_out_ids))
-        result_html += '<div>Note Predari %s</div>' % str(len(move_in_ids))
+        result_html += '<div>Consumuri %s</div>' % str(len(move_consum))
+        result_html += '<div>Note Predari %s</div>' % str(len(move_predare))
 
         partner_ids = partner_in_ids | partner_out_ids
         temp_file, messaje = self.do_export_parteneri(partner_ids)
@@ -643,12 +671,12 @@ class export_mentor(models.TransientModel):
         file_name = 'Bonuri_consum.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_note_predari(move_in_ids)
+        temp_file, messaje = self.do_export_note_predari(move_predare)
         result_html += messaje
         file_name = 'Note_Predari.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_gestiuni(location_ids)
+        temp_file, messaje = self.do_export_gestiuni(move_consum)
         result_html += messaje
         file_name = 'Gestiuni.txt'
         zip_archive.writestr(file_name, temp_file)

@@ -9,9 +9,7 @@
 			<field name="arch" type="xml">
                 <group name="first" position="after">
                     <group>
-                        <group string="Mentor">
-                            <field name="tip_contabil" />
-                            <field name="gestiune_mentor" />
+                        <group string="Production">
                              <field name="way_production" />
                         </group>
                     </group>

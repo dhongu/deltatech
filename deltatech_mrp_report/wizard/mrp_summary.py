@@ -39,16 +39,20 @@ class MRPSummary(models.TransientModel):
         moves = self.env['stock.move'].search(domain)
         for move in moves:
             products |= move.product_id
+            if move.product_id.categ_id.way_production == 'receipt':
+                sign = 1
+            else:
+                sign = -1
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'report_id': self.id,
                     'product_id': move.product_id.id,
-                    'qty': -1 * move.product_qty,
-                    'amount': -1 * move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] -= move.product_qty
-                lines[move.product_id.id]['amount'] -= move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign*move.product_qty
+                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
 
         #
         # determinare obtinut
@@ -62,31 +66,45 @@ class MRPSummary(models.TransientModel):
         moves = self.env['stock.move'].search(domain)
         for move in moves:
             products |= move.product_id
+            if move.product_id.categ_id.way_production == 'consumption':
+                sign = -1
+            else:
+                sign = 1
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'report_id': self.id,
                     'product_id': move.product_id.id,
-                    'qty': move.product_qty,
-                    'amount': move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += move.product_qty
-                lines[move.product_id.id]['amount'] += move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         for product in products:
             accounts = product.product_tmpl_id.get_product_accounts()
 
             line = lines[product.id]
             line['categ_id'] = product.categ_id.id
-            if line['qty'] <= 0:
+            if product.categ_id.way_production == 'consumption':
                 line['type'] = 'consumed'
                 line['consumed'] = -1 * line['qty']
                 line['amount'] = -1 * line['amount']
                 line['account_id'] = accounts['expense'].id
-            else:
+            elif product.categ_id.way_production == 'receipt':
                 line['type'] = 'obtained'
                 line['obtained'] = line['qty']
                 line['account_id'] = accounts['expense'].id
+            else:
+                if line['qty'] <= 0:
+                    line['type'] = 'consumed'
+                    line['consumed'] = -1 * line['qty']
+                    line['amount'] = -1 * line['amount']
+                    line['account_id'] = accounts['expense'].id
+                else:
+                    line['type'] = 'obtained'
+                    line['obtained'] = line['qty']
+                    line['account_id'] = accounts['expense'].id
 
             self.env['mrp.summary.line'].create(line)
 
