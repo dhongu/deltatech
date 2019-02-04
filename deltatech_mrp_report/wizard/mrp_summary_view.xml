@@ -38,10 +38,26 @@
         <field name="target">new</field>
     </record>
 
+    <!--
+
+    <menuitem id="mrp.menu_mrp_root"
+              name="Manufacturing"
+              icon="fa-wrench"
+              web_icon="mrp,static/description/icon.png"
+              sequence="35"/>
+
+
+    <menuitem id="mrp.menu_mrp_reporting"
+              name="Reporting"
+              parent="mrp.menu_mrp_root"
+              sequence="25"/>
+
+    -->
+
 
     <menuitem id="menu_mrp_summary" name="Production Summary"
               action="action_mrp_summary"
-              parent="mrp.menu_mrp_reporting"  />
+              parent="stock.menu_warehouse_report"  />
 
 
     <record id="action_mrp_summary_line" model="ir.actions.act_window">

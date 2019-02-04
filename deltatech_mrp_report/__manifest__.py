@@ -17,7 +17,7 @@ Functionalitati:
 
     "category": "Manufacturing",
     "depends": [
-        "mrp",
+        "stock",
         "date_range"
 
     ]
