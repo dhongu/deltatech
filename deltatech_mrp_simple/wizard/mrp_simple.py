@@ -5,7 +5,7 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
-
+import odoo.addons.decimal_precision as dp
 
 class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
@@ -98,7 +98,7 @@ class MRPSimpleLine(models.TransientModel):
 
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
-    quantity = fields.Float(string="Quantity")
+    quantity = fields.Float(string="Quantity", digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),
