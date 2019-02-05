@@ -22,6 +22,7 @@ Features:
         'views/picking_views.xml',
         'views/stock_inventory_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 

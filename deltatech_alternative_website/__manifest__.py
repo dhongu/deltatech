@@ -21,6 +21,7 @@ Functionalitati:
     "depends": ["website_sale", "deltatech_alternative", 'l10n_ro_invoice_report'],
 
     'data': ['views/product_view.xml', 'views/templates.xml'],
+    "images": ['images/main_screenshot.png'],
 
     "installable": True,
     'auto_install': False,
