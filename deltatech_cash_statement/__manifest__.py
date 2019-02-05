@@ -21,6 +21,7 @@ Functionalitati:
     "data": [
         'wizard/account_cash_update_balances_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,

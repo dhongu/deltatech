@@ -28,6 +28,7 @@ Functionalitati:
         'views/report8d.xml',
         'views/crm_claim_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,

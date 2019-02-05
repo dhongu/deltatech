@@ -18,6 +18,7 @@ Functionalitati:
 
     "category": "Generic Modules/Base",
     "depends": ["base"],
+    "images": ['images/main_screenshot.png'],
 
     "data": ['views/res_partner_view.xml',
              'security/partner_security.xml',

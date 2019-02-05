@@ -22,6 +22,7 @@ Features:
         'views/purchase_view.xml',
         'wizard/product_location_select_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 
