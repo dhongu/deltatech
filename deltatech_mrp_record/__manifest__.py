@@ -39,6 +39,7 @@ Functionalitati:
         'views/web_asset_backend_template.xml',
         'data/data.xml',
     ],
+    "images": ['images/main_screenshot.png'],
     'qweb': [
         "static/src/xml/*.xml",
     ],
