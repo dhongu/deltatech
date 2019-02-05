@@ -13,7 +13,7 @@
 
         'views/account_invoice_view.xml'
     ],
-    "images": ['images/mainscreetshot.png'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
     'application': False,
