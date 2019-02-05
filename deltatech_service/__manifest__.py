@@ -39,6 +39,7 @@ Functionalitati:
         'security/ir.model.access.csv',
 
     ],
+    "images": ['images/main_screenshot.png'],
     'application': True,
     "active": False,
     "installable": True,

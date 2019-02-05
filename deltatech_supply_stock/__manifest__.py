@@ -25,7 +25,7 @@ Functionalitati:
         'wizard/mrp_check_availability_view.xml',
 
     ],
-
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

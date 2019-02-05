@@ -28,6 +28,7 @@ Functionalitati:
         'wizard/mrp_summary_view.xml',
         'views/mrp_summary_template.xml'
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,

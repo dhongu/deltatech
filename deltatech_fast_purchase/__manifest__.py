@@ -25,6 +25,7 @@ Features:
 
     "data": ['views/purchase_view.xml',
              'views/stock_view.xml'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

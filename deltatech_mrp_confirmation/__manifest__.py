@@ -18,6 +18,7 @@ Obsolete, use deltatech_mrp_record
 
     "category": "Manufacturing",
     "depends": ['deltatech_mrp_record'],
+    "images": ['images/main_screenshot.png'],
 
 
     "active": False,

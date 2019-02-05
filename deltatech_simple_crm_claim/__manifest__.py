@@ -48,6 +48,7 @@ Atentie: Nu se utilizeaza impreuna cu modulul de CRM
         'views/crm_claim_data.xml',
         'views/res_partner_view.xml',
     ],
+    "images": ['images/main_screenshot.png'],
     'demo': ['crm_claim_demo.xml'],
     'test': [
         'test/process/claim.yml',

@@ -28,6 +28,7 @@ Functionalitati:
         'views/template_product_view.xml',
         'data/data.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

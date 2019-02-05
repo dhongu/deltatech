@@ -29,6 +29,7 @@ Functionalitati:
         "views/product_view.xml"
 
     ],
+    "images": ['images/main_screenshot.png'],
 
     "installable": True,
 }

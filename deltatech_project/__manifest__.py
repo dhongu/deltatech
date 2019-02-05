@@ -30,6 +30,7 @@ Features:
         "data/project_data.xml",
 
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 

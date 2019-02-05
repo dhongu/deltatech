@@ -18,6 +18,7 @@
     "depends": ["web_widget_google_maps", 'base_geolocalize'],
 
     "data": ['views/res_partner_views.xml'],
+    "images": ['images/main_screenshot.png'],
     'application': False,
     "active": False,
     "installable": True,

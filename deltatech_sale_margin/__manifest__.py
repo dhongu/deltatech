@@ -38,7 +38,7 @@ Features:
         'wizard/commission_compute_view.xml',
         'wizard/update_purchase_price_view.xml'
     ],
-
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

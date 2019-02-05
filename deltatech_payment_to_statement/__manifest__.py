@@ -30,7 +30,7 @@ Functionalitati:
         'views/account_journal_dashboard_view.xml'
 
     ],
-
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

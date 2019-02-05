@@ -60,6 +60,7 @@ Este necesar sa fie definit un jurnal nou pentru decontul de cheltuieli la care 
         'security/ir.model.access.csv'
 
     ],
+    "images": ['images/main_screenshot.png'],
 
     'installable': True,
     'active': False,

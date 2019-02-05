@@ -27,6 +27,6 @@ Functionalitati:
 
 
     ],
-
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }

@@ -23,6 +23,7 @@ Functionalitati:
 
     "data": ['views/account_invoice_view.xml',
              'views/report_invoice.xml'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

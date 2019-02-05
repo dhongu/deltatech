@@ -24,7 +24,7 @@ Functionalitati:
     "data": [
         'wizard/mrp_simple_view.xml'
     ],
-
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

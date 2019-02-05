@@ -32,6 +32,7 @@ Functionalitati:
         'wizard/export_saga_view.xml',
         'wizard/import_saga_view.xml',
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,

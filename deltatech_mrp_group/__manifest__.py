@@ -27,6 +27,7 @@ Functionalitati:
         "wizard/mrp_workorder_group_view.xml",
         "data/data.xml"
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

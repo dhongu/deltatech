@@ -17,6 +17,7 @@
     "depends": ["sms"],
 
     "data": [ 'views/iap_views.xml'],
+    "images": ['images/main_screenshot.png'],
     'application': False,
     "active": False,
     "installable": True,

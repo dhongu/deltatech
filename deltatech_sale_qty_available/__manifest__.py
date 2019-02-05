@@ -20,6 +20,7 @@ Features:
     "depends": ["sale"],
 
     "data": ['views/sale_view.xml'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

@@ -21,6 +21,7 @@ Functionalitati:
     "data": ['wizard/stock_immediate_transfer_view.xml'
 
              ],
+    "images": ['images/main_screenshot.png'],
     'application': False,
     "active": False,
     "installable": True,

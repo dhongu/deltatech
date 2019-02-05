@@ -20,6 +20,7 @@ Shared chart of account in multi-company
         'views/res_config_settings_views.xml',
        # 'views/account_invoice_views.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     'application': False,
     "active": False,
     "installable": True,

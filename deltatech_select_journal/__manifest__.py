@@ -23,7 +23,7 @@ Functionalitati:
     "data": [
         'wizard/sale_make_invoice_advance_views.xml',
     ],
-
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

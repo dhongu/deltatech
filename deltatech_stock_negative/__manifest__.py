@@ -32,6 +32,7 @@
     "depends": ["stock"],
 
     "data": ['views/res_config_view.xml'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

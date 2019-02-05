@@ -24,6 +24,7 @@ Functionalitati:
         'views/service_rent_view.xml',
         'views/service_equipment_view.xml',
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }
