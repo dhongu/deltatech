@@ -29,6 +29,7 @@
     'data': [
         'views/deltatech_assets.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
     'application': True,
