@@ -14,7 +14,7 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 import odoo.addons.decimal_precision as dp
 
 import html2text
-
+import odoo.addons.decimal_precision as dp
 
 class export_mentor(models.TransientModel):
     _name = 'export.mentor'
@@ -303,11 +303,17 @@ class export_mentor(models.TransientModel):
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
 
             sections_name = 'Factura_%s' % index
+
             NrDoc = invoice.number
-            NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
-            SerieCarnet = invoice.number
-            SerieCarnet = ''.join([s for s in SerieCarnet if not s.isdigit()])
-            SerieCarnet = SerieCarnet.replace('/', '')
+            if '/' in NrDoc:
+                seg = NrDoc.split('/')
+                NrDoc = seg[-1]
+                SerieCarnet = '/'.join(seg[:-1])
+            else:
+                NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
+                SerieCarnet = invoice.number
+                SerieCarnet = ''.join([s for s in SerieCarnet if not s.isdigit()])
+
             iesiri[sections_name] = {
                 'SerieCarnet': SerieCarnet,
                 'NrDoc': NrDoc,
