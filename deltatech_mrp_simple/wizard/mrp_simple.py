@@ -52,12 +52,20 @@ class MRPSimple(models.TransientModel):
             picking_out.action_assign()
             if self.validation_consume:
                 picking_out.button_validate()
+                if picking_out.state == 'assigned':
+                    for move in picking_out.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
 
         # se face receptia
         if picking_in.move_lines:
             picking_in.action_assign()
             if self.validation_receipt:
                 picking_in.button_validate()
+                if picking_in.state == 'assigned':
+                    for move in picking_in.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
 
         return {
             'domain': [('id', 'in', [picking_in.id, picking_out.id])],
