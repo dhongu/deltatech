@@ -11,9 +11,9 @@ class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
 
     product_in_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                     domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
+                                     domain=[('type', '=', 'receipt')], context={'default_type': 'receipt'})
     product_out_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                      domain=[('type', '=', 'receipt')], context={'default_type': 'receipt'})
+                                      domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
 
     picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume")
     picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt")
