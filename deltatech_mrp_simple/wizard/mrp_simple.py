@@ -5,15 +5,15 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
-
+import odoo.addons.decimal_precision as dp
 
 class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
 
     product_in_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                     domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
+                                     domain=[('type', '=', 'receipt')], context={'default_type': 'receipt'})
     product_out_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                      domain=[('type', '=', 'receipt')], context={'default_type': 'receipt'})
+                                      domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
 
     picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume")
     picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt")
@@ -52,12 +52,20 @@ class MRPSimple(models.TransientModel):
             picking_out.action_assign()
             if self.validation_consume:
                 picking_out.button_validate()
+                if picking_out.state == 'assigned':
+                    for move in picking_out.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
 
         # se face receptia
         if picking_in.move_lines:
             picking_in.action_assign()
             if self.validation_receipt:
                 picking_in.button_validate()
+                if picking_in.state == 'assigned':
+                    for move in picking_in.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
 
         return {
             'domain': [('id', 'in', [picking_in.id, picking_out.id])],
@@ -98,7 +106,7 @@ class MRPSimpleLine(models.TransientModel):
 
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
-    quantity = fields.Float(string="Quantity")
+    quantity = fields.Float(string="Quantity", digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),

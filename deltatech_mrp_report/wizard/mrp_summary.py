@@ -5,7 +5,7 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
-
+import odoo.addons.decimal_precision as dp
 
 class MRPSummary(models.TransientModel):
     _name = 'mrp.summary'
@@ -133,7 +133,7 @@ class MRPSummaryLine(models.TransientModel):
     product_id = fields.Many2one('product.product')
     account_id = fields.Many2one('account.account')
     categ_id = fields.Many2one('product.category')
-    qty = fields.Float(string='Quantity')
+    qty = fields.Float(string='Quantity',digits= dp.get_precision('Product Unit of Measure'))
     consumed = fields.Float(string='Consumed')
     obtained = fields.Float(string='Obtained')
     amount = fields.Float()

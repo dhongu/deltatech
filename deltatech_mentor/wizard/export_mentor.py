@@ -672,7 +672,7 @@ class export_mentor(models.TransientModel):
         file_name = 'Facturi_Iesire.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_bonuri_consum(move_out_ids)
+        temp_file, messaje = self.do_export_bonuri_consum(move_consum)
         result_html += messaje
         file_name = 'Bonuri_consum.txt'
         zip_archive.writestr(file_name, temp_file)
@@ -682,7 +682,7 @@ class export_mentor(models.TransientModel):
         file_name = 'Note_Predari.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_gestiuni(move_consum)
+        temp_file, messaje = self.do_export_gestiuni(location_ids)
         result_html += messaje
         file_name = 'Gestiuni.txt'
         zip_archive.writestr(file_name, temp_file)
