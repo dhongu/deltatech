@@ -19,5 +19,7 @@ class ProductCategory(models.Model):
     way_production = fields.Selection([
         ('consumption', 'Consumption in production'),
         ('receipt', 'Receipt from production'),
-        ('both', 'Cosnum/Prdare')], default='', string='Production Way'
+        ('both', 'Consumption/Receipt')], default='', string='Production Way'
     )
+
+    mentor_uom_id = fields.Many2one('product.uom', string='Mentor UOM')

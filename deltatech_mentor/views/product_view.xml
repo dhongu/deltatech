@@ -12,7 +12,8 @@
                         <group string="Mentor">
                             <field name="tip_contabil" />
                             <field name="gestiune_mentor" />
-                             <field name="way_production" />
+                            <field name="way_production" />
+                            <field name="mentor_uom_id" />
                         </group>
                     </group>
                 </group>

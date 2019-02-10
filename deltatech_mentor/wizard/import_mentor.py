@@ -32,7 +32,7 @@ class import_mentor(models.TransientModel):
 
     def unaccent(self, text):
 
-        text = unicode(text.decode('utf-8', 'ignore').encode("utf-8"))
+        text = str(text.decode('utf-8', 'ignore').encode("utf-8"))
         text = unicodedata.normalize('NFD', text)
         text = text.encode('ascii', 'ignore')
         text = text.decode("utf-8")

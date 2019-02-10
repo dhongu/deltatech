@@ -5,7 +5,7 @@
 
 from odoo import models, fields, api, _
 
-import odoo.addons.base as base
+from odoo.addons import base
  
 
 GEO_VIEW = ('gmaps', 'GMaps')
