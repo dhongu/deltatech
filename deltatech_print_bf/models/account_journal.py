@@ -11,12 +11,11 @@ class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
 
-    cod_ecr = fields.Char(string='Cod ECR', default='0', size=1)
+    cod_ecr = fields.Char(string='Cod ECR', default='1', size=1)
 
 
     '''
- 0 - plata cu numerar
- 1 - plata cu tichet
+ 1 - plata cu numerar
  2 - plata cu card
  4 - subtotal
  8 - plata in valuta alternativa si restul in valuta de baza
