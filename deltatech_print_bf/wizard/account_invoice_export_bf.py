@@ -158,8 +158,8 @@ class account_invoice_export_bf(models.TransientModel):
             # if discount exists, print it   
             if negative_price < 0:
                 negative_price = -negative_price
-                negative_price = negative_price * 100
-                negative_price_string = str(int(negative_price))
+                #negative_price = negative_price * 100
+                negative_price_string =  str(ecr_comm['amount'](negative_price))
                 # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
                 buf.write(ecr_comm['discount'].format(type='1', value=negative_price_string))
 
