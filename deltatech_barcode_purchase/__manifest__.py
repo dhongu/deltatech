@@ -15,7 +15,7 @@
 
     "description": """
 Features:    
- - Add product to the purchase order using barcode scanner
+ - Adds products to the purchase order using barcode scanner
  
 """,
     "data": [

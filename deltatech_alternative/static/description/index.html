@@ -4,13 +4,32 @@
             <span><img src="icons8-great-britain-480.png" style="max-width:40px;" alt="">
                 <h2>Features:</h2>
             </span>
+            <ul class="list-unstyled">
+                <li>New model: product_catalog</li>
+                <li>A module that add alternative on the product form
+                </li>
+                <li>New field in product.template (used_for)</li>
+            </ul>
         </div>
         <div class="oe_span6">
             <span><img src="icons8-romania-480.png" style="max-width:40px;" alt="">
                 <h2>Caracteristici:</h2>
             </span>
             <ul class="list-unstyled">
-                
+                <li>Permite definirea unui catalog de produse pentru un numar foarte mare de produse care uzual nu se
+                    folosesc</li>
+                <li>La cautarea dupa un cod din catalog, sistemul genereaza automat un produs (product.product), copie
+                    dupa cel din
+                    catalog</li>
+                <li>Se defineste modelul product_alternative</li>
+                <li>Se poate cauta un produs dupa alternativa</li>
+                <li>În product.template sunt definite campurile:
+                    <ul>
+                        <li>alternative_code - concatenarea tuturor codurilor alternative</li>
+                        <li>alternative_ids - lista de produse alternative</li>
+                        <li>used_for - la ce este utilizat produsul (text)</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

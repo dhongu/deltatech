@@ -15,7 +15,7 @@
 
     "description": """
 Features:    
- - Add product to picking using barcode scanner
+ - Adds products to picking using barcode scanner
  
 """,
     "data": [

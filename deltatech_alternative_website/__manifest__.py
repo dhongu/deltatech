@@ -14,6 +14,7 @@
 Functionalitati:
     - cautare produs dupa cod echivalent
     - afisare imagini produse in magazinul virtual cu watermark
+    - adauga categoriile afisate in website la catalogul de produse
 
     """,
 
