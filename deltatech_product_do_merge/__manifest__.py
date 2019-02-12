@@ -23,6 +23,7 @@
         "security/res_groups.xml",
         "wizard/base_product_merge_view.xml"
     ],
+    "images": ['images/main_screenshot.png'],
     "test": [],
     "js": [],
     "css": [],
