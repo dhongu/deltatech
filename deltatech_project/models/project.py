@@ -25,7 +25,7 @@ class project_project(models.Model):
     ref_qty  = fields.Float(string='Quantity')
     ref_customer  = fields.Char(string='Customer code')
 
-    categ_id = fields.Many2one('project.category', string='Category')
+    categ_id = fields.Many2one('project.task.type', string='Category')  #todo: de verificat unde e definit project.category
     project_parent_id = fields.Many2one('project.project',  string='Parent Project') #compute='_get_project_parent_id', inverse="_set_project_parent_id", store=True,
     project_child_ids = fields.One2many('project.project', 'project_parent_id', string='Child Projects')
     parent_id = fields.Many2one('account.analytic.account')

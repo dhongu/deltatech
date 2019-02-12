@@ -81,6 +81,11 @@ class export_mentor(models.TransientModel):
     def get_date(self, date):
         return date[8:10] + '.' + date[5:7] + '.' + date[:4]
 
+
+    def get_product_uom(self, product):
+        uom = product.categ_id.mentor_uom_id or product.uom_id
+        return uom
+
     def get_uom_ref(self, uom):
         uom_reg = self.env['product.uom'].search([('category_id', '=', uom.category_id.id),
                                                   ('uom_type', '=', 'reference')], limit=1)
@@ -254,15 +259,19 @@ class export_mentor(models.TransientModel):
                 qty = line.quantity * sign
                 price = line.price_unit
 
-                if line.uom_id != line.product_id.uom_po_id:
-                    # achizitia in alta unitatea de masura ?
-                    qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_po_id)
-                    price = line.uom_id._compute_price(line.price_unit, line.product_id.uom_po_id)
+
+                mentor_uom_id = self.get_product_uom(line.product_id)
+                if line.uom_id != mentor_uom_id:
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                else:
+                    qty = sign * line.quantity
+                    price = line.price_unit
 
                 code = self.get_product_code(line.product_id)
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(line.product_id.uom_po_id),  # de convertit in unitatea de stocare ??????
+                    self.get_uom(mentor_uom_id),
 
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
@@ -274,9 +283,9 @@ class export_mentor(models.TransientModel):
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
-                if line.uom_id.id != line.product_id.uom_id.id:
-                    qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
-                    intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
+                # if line.uom_id.id != line.product_id.uom_id.id:
+                #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
+                #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
 
             index += 1
 
@@ -339,13 +348,21 @@ class export_mentor(models.TransientModel):
                 else:
                     gestiune = ''
 
+                mentor_uom_id = self.get_product_uom(line.product_id)
+                if line.uom_id != mentor_uom_id:
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                else:
+                    qty = sign * line.quantity
+                    price = line.price_unit
+
                 code = self.get_product_code(line.product_id)
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(line.uom_id),
+                    self.get_uom(mentor_uom_id),
 
-                    str(sign * line.quantity),
-                    str(line.price_unit),  # line., price_unit_without_taxes
+                    str(qty),
+                    str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
                     str(line.discount),  # Discount linie
 
@@ -420,20 +437,22 @@ class export_mentor(models.TransientModel):
             bonuri[sections_name] = {}
             for product_id in lines:
                 line = lines[product_id]
+                product = line['product_id']
+
                 item += 1
                 qty = line['qty']
                 price = -1 * line['amount'] / line['qty']
-                uom_id = line['product_id'].uom_id
-                uom_po_id = line['product_id'].uom_po_id
 
-                if uom_id != uom_po_id:
-                    qty = uom_id._compute_quantity(qty, uom_po_id)
-                    price = uom_id._compute_price(price, uom_po_id)
+                mentor_uom_id = self.get_product_uom(product)
+                if product.uom_id != mentor_uom_id:
+                    qty = product.uom_id._compute_quantity(qty, mentor_uom_id)
+                    price = product.uom_id._compute_price(price, mentor_uom_id)
+
 
                 code = self.get_product_code(line['product_id'])
                 bonuri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(uom_po_id),
+                    self.get_uom(mentor_uom_id),
                     str(qty),
                     str(price),
                     gest
@@ -498,20 +517,19 @@ class export_mentor(models.TransientModel):
             predari[sections_name] = {}
             for product_id in lines:
                 line = lines[product_id]
+                product = line['product_id']
                 item += 1
                 qty = line['qty']
                 price =  line['amount'] / line['qty']
-                uom_id = line['product_id'].uom_id
-                uom_po_id = line['product_id'].uom_po_id
-
-                if uom_id != uom_po_id:
-                    qty = uom_id._compute_quantity(qty, uom_po_id)
-                    price = uom_id._compute_price(price, uom_po_id)
+                mentor_uom_id = self.get_product_uom(product)
+                if product.uom_id != mentor_uom_id:
+                    qty = product.uom_id._compute_quantity(qty, mentor_uom_id)
+                    price = product.uom_id._compute_price(price, mentor_uom_id)
 
                 code = self.get_product_code(line['product_id'])
                 predari[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(uom_po_id),
+                    self.get_uom(mentor_uom_id),
                     str(qty),
                     str(price),
                     gest
