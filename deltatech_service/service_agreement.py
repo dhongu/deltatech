@@ -125,6 +125,7 @@ class service_agreement(models.Model):
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
     total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
+    total_percent = fields.Float(string="Total percent", readonly=True)  # se va calcula (consum/factura)*100
 
     invoicing_status = fields.Selection(
         [('', 'N/A'), ('unmade', 'Unmade'), ('progress', 'In progress'), ('done', 'Done')],
@@ -146,6 +147,10 @@ class service_agreement(models.Model):
     @api.model
     def compute_invoicing_status(self):
         self._compute_invoicing_status()
+
+    @api.model
+    def compute_totals_sup(self):
+        self.compute_totals()
 
     @api.model
     def clear_meter_readings(self):
@@ -190,10 +195,14 @@ class service_agreement(models.Model):
 
     @api.multi
     def compute_totals(self):
-        for agreement in self:
+        agreements = self
+        if not agreements:
+            agreements = self.search([('state', '=', 'open')])
+        for agreement in agreements:
             total_consumption = 0.0
             total_invoiced = 0.0
             total_costs = 0.0
+            total_percent = 0.0
             consumptions = self.env['service.consumption'].search([('agreement_id', '=', agreement.id)])
             invoices = self.env['account.invoice'].search([('agreement_id', '=', agreement.id)])
             for consumption in consumptions:
@@ -216,9 +225,15 @@ class service_agreement(models.Model):
                     else:
                         total_costs -= move_value
 
+            if total_costs > 0.0:
+                total_percent = (total_invoiced/total_costs)*100
+
+
             agreement.write({'total_invoiced': total_invoiced,
                              'total_consumption': total_consumption,
-                             'total_costs': total_costs})
+                             'total_costs': total_costs,
+                             'total_percent':total_percent
+                             })
 
     # TODO: de legat acest contract la un cont analitic ...
     @api.one
