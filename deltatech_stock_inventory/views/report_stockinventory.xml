@@ -49,6 +49,7 @@
 								<t t-set="total_plus" t-value="0" />
 								<t t-set="total_minus" t-value="0" />
 								<t t-set="total_amount" t-value="0" />
+								<t t-set="total_before" t-value="0"/>
 								<t t-set="loc_rack" t-value="False" />
 								<t t-set="loc_row" t-value="False" />
 								<t t-set="loc_case" t-value="False" />
@@ -84,6 +85,7 @@
 
 									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+									<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price"/>
 
 									<t t-if='dif&gt;0'>
 										<t t-set="plus" t-value="plus+dif*line.standard_price" />
@@ -159,11 +161,13 @@
 								<t t-set="total_plus" t-value="0" />
 								<t t-set="total_minus" t-value="0" />
 								<t t-set="total_amount" t-value="0" />
+								<t t-set="total_before" t-value="0"/>
 								<t t-set="plus" t-value="0" />
 								<t t-set="minus" t-value="0" />
 								<t t-foreach="o.line_ids" t-as="line">
 									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+									<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price"/>
 
 									<t t-if='dif&gt;0'>
 										<t t-set="plus" t-value="plus+dif*line.standard_price" />
@@ -300,10 +304,12 @@
 				</td>
 				<td class="text-right">
 					<div>
-						<strong t-esc="round(total_amount,2)" />
+						<strong t-esc="total_before" />
+						<!--<strong t-esc="round(total_amount,2)"/>-->
 					</div>
 					<div>
-						<strong t-esc="round(total_amount+total_plus-total_minus,2)" />
+						<!--<strong t-esc="round(total_amount+total_plus-total_minus,2)" />-->
+						<strong t-esc="round(total_amount,2)"/>
 					</div>
 
 				</td>
@@ -344,6 +350,7 @@
 				<t t-set="total_plus" t-value="0" />
 				<t t-set="total_minus" t-value="0" />
 				<t t-set="total_amount" t-value="0" />
+				<t t-set="total_before" t-value="0" />
 				<t t-set="plus" t-value="0" />
 				<t t-set="minus" t-value="0" />
 
@@ -388,6 +395,7 @@
 					<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 
 					<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+					<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price" />
 					<t t-if='dif&gt;0'>
 						<t t-set="plus" t-value="plus+dif*line.standard_price" />
 						<t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
