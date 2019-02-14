@@ -18,11 +18,12 @@ class ProductPriceChange(models.Model):
     _inherit = ['mail.thread']
     _order = 'date desc'
 
-    def _get_price_change(self, cr, uid, ids, context=None):
-        result = {}
-        for line in self.pool.get('product.price.change.line').browse(cr, uid, ids, context=context):
-            result[line.price_change_id.id] = True
-        return result.keys()
+
+    # def _get_price_change(self, cr, uid, ids, context=None):
+    #     result = {}
+    #     for line in self.pool.get('product.price.change.line').browse(cr, uid, ids, context=context):
+    #         result[line.price_change_id.id] = True
+    #     return result.keys()
 
     name = fields.Char("Number", size=64, index=True, readonly=True,
                        default=lambda self: self.env['ir.sequence'].next_by_code('price.change'))
