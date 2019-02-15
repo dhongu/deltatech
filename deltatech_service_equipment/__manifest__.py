@@ -26,7 +26,7 @@ Functionalitati:
         "deltatech_service",
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
          'data/data.xml',
         #
         'views/service_rent_view.xml',

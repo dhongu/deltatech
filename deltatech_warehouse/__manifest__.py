@@ -22,7 +22,7 @@ Functionalitati:
         "stock", "product"
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/company_view.xml',
         'views/stock_warehouse_view.xml',
         'views/template_product_view.xml',

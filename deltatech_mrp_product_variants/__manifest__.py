@@ -22,7 +22,7 @@ Functionalitati:
 
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         "views/mrp_view.xml",
         'views/mrp_product_produce_views.xml',
         "views/mrp_production_templates.xml",

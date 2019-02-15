@@ -33,7 +33,7 @@ Features:
  - Adaugare adresa la produs
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         "product_view.xml",
     ],
     "active": False,

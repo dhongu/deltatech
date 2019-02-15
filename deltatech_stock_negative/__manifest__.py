@@ -31,7 +31,7 @@
     "category": "Generic Modules/Stock",
     "depends": ["stock"],
 
-    "data": ['views/res_config_view.xml'],
+    "license": "LGPL-3","data": ['views/res_config_view.xml'],
     "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,

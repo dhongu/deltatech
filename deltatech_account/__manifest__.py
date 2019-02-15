@@ -9,7 +9,7 @@
     'category': 'Accounting & Finance',
     "depends" : ['account'],
     "description": '',
-    "data" : [
+    "license": "LGPL-3","data" : [
 
         'views/account_invoice_view.xml'
     ],

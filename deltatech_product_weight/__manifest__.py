@@ -22,7 +22,7 @@ Features:
 
 
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         "views/product_view.xml"
     ],
     "images": ['images/main_screenshot.png'],

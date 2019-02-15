@@ -16,7 +16,7 @@ Functionalitati:
     'category': 'Discuss',
     "depends": ['deltatech_mail_filter', 'sale'],
 
-    "data": [],
+    "license": "LGPL-3","data": [],
     "active": False,
     "installable": True,
 }

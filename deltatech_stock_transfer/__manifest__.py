@@ -21,7 +21,7 @@ Functionalitati:
     ]
     ,
 
-    "data": [
+    "license": "LGPL-3","data": [
         'wizard/stock_transfer_view.xml',
         'views/stock_view.xml'
     ],

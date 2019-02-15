@@ -21,7 +21,7 @@
     "category": "Warehouse",
     "depends": ['deltatech_stock_date', "stock_account"],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'data/data.xml',
         'views/stock_view.xml',
         'views/product_view.xml',

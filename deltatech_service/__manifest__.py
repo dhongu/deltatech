@@ -24,7 +24,7 @@ Functionalitati:
         "date_range"
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'data/data.xml',
         "views/service_consumption_view.xml",
         "views/service_agreement_view.xml",

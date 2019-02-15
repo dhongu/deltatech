@@ -41,7 +41,7 @@ Functionalitati:
         "deltatech_simple_crm_claim"
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'security/ir.model.access.csv',
         'views/report8d.xml',
         'views/crm_claim_view.xml'

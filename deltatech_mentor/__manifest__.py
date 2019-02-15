@@ -36,7 +36,7 @@ Documentatia Mentor de import  din alte aplicatii:
         'python': ['configparser'],
     },
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/product_view.xml',
         'views/stock_location_view.xml',
 

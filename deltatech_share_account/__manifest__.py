@@ -16,7 +16,7 @@ Shared chart of account in multi-company
     "category": "Accounting",
     "depends": ["account"],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/res_config_settings_views.xml',
        # 'views/account_invoice_views.xml'
     ],

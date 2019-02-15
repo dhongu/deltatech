@@ -37,7 +37,7 @@ Functionalitati:
     "category": "Generic Modules/Other",
     "depends": ["account", 'stock', 'account_voucher'],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'wizard/account_period_close_view.xml',
         'views/account_view.xml',
         'security/ir.model.access.csv'

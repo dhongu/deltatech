@@ -34,7 +34,7 @@ Features:
  - Adaugare tip partener de tip producator
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         "views/product_view.xml",
         'views/res_partner_view.xml'
     ],

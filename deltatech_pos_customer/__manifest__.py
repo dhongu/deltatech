@@ -19,7 +19,7 @@ Functionalitati:
     'category': 'Point Of Sale',
     "depends": ['point_of_sale'],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/assets.xml'
     ],
     "images": ['images/main_screenshot.png'],

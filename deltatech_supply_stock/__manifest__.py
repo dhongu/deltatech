@@ -19,7 +19,7 @@ Functionalitati:
     "category": "Warehouse",
     "depends": ['sale_stock', 'mrp', 'deltatech_warehouse'],
 
-    "data": [
+    "license": "LGPL-3","data": [
         #'wizard/procurement_compute_wizard_view.xml',
         'wizard/procurement_compute_products_view.xml',
         'wizard/mrp_check_availability_view.xml',

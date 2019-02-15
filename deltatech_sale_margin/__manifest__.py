@@ -28,7 +28,7 @@ Features:
         'l10n_ro_invoice_report'
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'security/sale_security.xml',
         'security/ir.model.access.csv',
         'views/sale_margin_view.xml',

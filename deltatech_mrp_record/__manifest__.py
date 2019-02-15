@@ -22,7 +22,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ['web','bus', 'mrp', 'hr_attendance','deltatech_mrp_group','deltatech_mrp_cost'],
 
-    "data": [
+    "license": "LGPL-3","data": [
 
         'views/mrp_record_view.xml',
 

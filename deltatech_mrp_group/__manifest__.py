@@ -18,7 +18,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ["mrp","sale_stock","purchase",'sale_management'],
 
-    "data": [
+    "license": "LGPL-3","data": [
         "views/mrp_production_view.xml",
         "views/sale_view.xml",
        # "views/procurement_views.xml",

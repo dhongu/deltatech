@@ -36,7 +36,7 @@ Functionalitati:
     "category": "",
     "depends": [],
 
-    "data": [
+    "license": "LGPL-3","data": [
 
 
     ],

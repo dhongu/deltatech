@@ -25,7 +25,7 @@ Functionalitati:
         "account", 'base_vat', "deltatech_contact"
     ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'data/data.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',

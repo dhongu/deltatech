@@ -21,7 +21,7 @@ Functionalitati:
         "sale",
         'deltatech_account'],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'wizard/payment_term_view.xml',
         "views/sale_view.xml",
         "views/account_view.xml",

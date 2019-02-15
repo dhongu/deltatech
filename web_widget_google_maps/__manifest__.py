@@ -9,7 +9,7 @@
     'version': '11.0.2.1.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
     'category': 'Odoo  widgets',
     'depends': ['web'],
     'data': ['views/web_gmaps_assets.xml'],

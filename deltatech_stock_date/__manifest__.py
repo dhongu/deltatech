@@ -18,7 +18,7 @@ Functionalitati:
     "category": "Warehouse",
     "depends": ["base", "stock"],
 
-    "data": ['wizard/stock_immediate_transfer_view.xml'
+    "license": "LGPL-3","data": ['wizard/stock_immediate_transfer_view.xml'
 
              ],
     "images": ['images/main_screenshot.png'],

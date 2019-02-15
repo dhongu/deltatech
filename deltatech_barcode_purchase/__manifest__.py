@@ -18,7 +18,7 @@ Features:
  - Adds products to the purchase order using barcode scanner
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         'views/purchase_views.xml'
     ],
     "images": ['images/main_screenshot.png'],

@@ -19,7 +19,7 @@
         "stock"
     ],
     "demo": [],
-    "data": [
+    "license": "LGPL-3","data": [
         "security/res_groups.xml",
         "wizard/base_product_merge_view.xml"
     ],

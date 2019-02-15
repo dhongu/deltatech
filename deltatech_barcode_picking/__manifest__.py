@@ -18,7 +18,7 @@ Features:
  - Adds products to picking using barcode scanner
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         'views/picking_views.xml',
         'views/stock_inventory_view.xml'
     ],

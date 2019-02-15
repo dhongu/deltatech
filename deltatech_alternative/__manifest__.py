@@ -21,7 +21,7 @@ Features:
  
  
 """,
-    "data" : [
+    "license": "LGPL-3","data" : [
         "views/product_view.xml",
         'security/ir.model.access.csv',
     ],

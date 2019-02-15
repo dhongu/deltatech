@@ -18,7 +18,7 @@ Features:
  - Check sale price if is bigger that the highest purchase price
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         'views/sale_views.xml'
     ],
     "images": ['images/main_screenshot.png'],

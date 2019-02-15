@@ -28,7 +28,7 @@ Nota
     "category": "Generic Modules",
     "depends": ["base", "stock", "product", "sale"],
 
-    "data": [
+    "license": "LGPL-3","data": [
          "views/product_view.xml",
 
         "views/product_price_change_view.xml",

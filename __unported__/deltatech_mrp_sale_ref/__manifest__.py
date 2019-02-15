@@ -36,7 +36,7 @@ Afisare comanda de vanzare in comanda de productie
     "category": "Manufacturing",
     "depends": ["mrp"],
 
-    "data": [
+    "license": "LGPL-3","data": [
         "views/mrp_production_view.xml"
 
     ],

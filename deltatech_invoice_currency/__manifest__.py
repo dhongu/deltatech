@@ -21,7 +21,7 @@ Functionalitati:
     "category": "Accounting",
     "depends": ["account", "l10n_ro_invoice_report", 'sale'],
 
-    "data": ['views/account_invoice_view.xml',
+    "license": "LGPL-3","data": ['views/account_invoice_view.xml',
              'views/report_invoice.xml'],
     "images": ['images/main_screenshot.png'],
     "active": False,

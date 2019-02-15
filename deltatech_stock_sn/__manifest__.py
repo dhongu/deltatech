@@ -22,7 +22,7 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": ['stock', ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/stock_view.xml',
 
 

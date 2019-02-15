@@ -20,7 +20,7 @@ Features:
     "category": "Sales",
     "depends": ["base", "sale", 'stock','sale_stock'],
 
-    "data": ['views/sale_view.xml',
+    "license": "LGPL-3","data": ['views/sale_view.xml',
              'views/stock_view.xml'],
     "images": ['images/main_screenshot.png'],
     "active": False,

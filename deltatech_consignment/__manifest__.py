@@ -18,7 +18,7 @@ Features:
  - 
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
         'views/purchase_view.xml',
         'wizard/product_location_select_view.xml'
     ],

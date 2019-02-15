@@ -39,7 +39,7 @@ Features:
                 'procurement',
                 ],
 
-    "data": [
+    "license": "LGPL-3","data": [
         'views/required_product_view.xml',
 
         'security/ir.model.access.csv', ],

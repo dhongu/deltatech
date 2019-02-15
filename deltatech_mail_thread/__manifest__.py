@@ -34,7 +34,7 @@ Functionalitati:
     'category': 'Discuss',
     "depends": ['base', 'mail'],
 
-    "data": [],
+    "license": "LGPL-3","data": [],
     "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,

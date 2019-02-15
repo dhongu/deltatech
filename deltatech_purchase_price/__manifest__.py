@@ -18,7 +18,7 @@ Features:
  - Update purchase price after receipt
  
 """,
-    "data": [
+    "license": "LGPL-3","data": [
     ],
     "images": ['images/main_screenshot.png'],
     "active": False,
