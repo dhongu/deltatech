@@ -33,7 +33,7 @@
     "category": "Generic Modules/Other",
     "depends": ['deltatech', 'deltatech_stock_date', "stock_account"],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'data/data.xml',
         'views/stock_view.xml',
         'views/product_view.xml',

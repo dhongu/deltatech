@@ -47,7 +47,7 @@ Functionalitati:
                  'account',
                  'deltatech_stock_report'],
  
-    "license":"LGPL-3","data" : [ 
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data" : [ 
               'views/stock_return_picking_view.xml',
               'views/stock_view.xml',
               'views/account_invoice_view.xml',

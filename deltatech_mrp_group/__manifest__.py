@@ -35,7 +35,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ["mrp","sale","procurement"],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         "views/mrp_production_view.xml",
         "views/sale_view.xml",
         "views/procurement_views.xml",

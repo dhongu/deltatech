@@ -17,7 +17,7 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": ['stock_picking_wave','delivery','stock'],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/stock_picking_wave_view.xml'
     ],
 

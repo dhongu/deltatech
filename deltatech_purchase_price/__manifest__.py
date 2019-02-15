@@ -34,7 +34,7 @@ Features:
  - Compute price in company currency at move date
  
 """,
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
     ],
     "active": False,
     "installable": True,

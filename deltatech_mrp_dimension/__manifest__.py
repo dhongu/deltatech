@@ -37,7 +37,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ['mrp','product_dimension'],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/mrp_bom_view.xml'
              ],
     'qweb': [

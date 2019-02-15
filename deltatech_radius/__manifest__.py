@@ -28,7 +28,7 @@ Functionalitati:
 
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'security/radius_security.xml',
         'security/ir.model.access.csv',
         'views/radius_view.xml',

@@ -51,7 +51,7 @@ de facut:
         # "stock_picking_invoice_link"
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/stock_view.xml',
         'wizard/stock_quant_report_view.xml',
         'views/stock_profit_view.xml',

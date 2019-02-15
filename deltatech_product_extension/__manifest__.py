@@ -35,7 +35,7 @@ Features:
  - adaugare raport cu liniile contabile in care apar produse
  
 """,
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         "views/product_view.xml",
         'views/res_partner_view.xml',
         'views/account_move_report_view.xml',

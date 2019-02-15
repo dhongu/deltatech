@@ -34,7 +34,7 @@ Functionalitati:
     "category": "Generic Modules/Base",
     "depends": ["base"],
 
-    "license":"LGPL-3","data": ['views/res_partner_view.xml',
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": ['views/res_partner_view.xml',
              'security/partner_security.xml',
              'security/ir.model.access.csv'],
 

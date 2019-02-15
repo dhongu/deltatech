@@ -27,7 +27,7 @@ Functionalitati:
 
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         "views/mrp_view.xml",
         "data/mrp_data.xml"
     ],

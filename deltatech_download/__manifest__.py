@@ -19,7 +19,7 @@ Functionalitati:
     'category': 'Base',
     "depends": [],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/assets.xml',
 
     ],

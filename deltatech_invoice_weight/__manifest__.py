@@ -33,7 +33,7 @@ Functionalitati:
     "category" : "Accounting",
     "depends" : ['deltatech',"account" ],
  
-    "license":"LGPL-3","data" : ['views/account_invoice_view.xml' ],
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data" : ['views/account_invoice_view.xml' ],
     "active": False,
     "installable": True,
 }

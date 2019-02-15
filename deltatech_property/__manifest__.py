@@ -37,7 +37,7 @@ Functionalitati:
        # 'product'
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/property_menu_view.xml',
         'views/property_config_view.xml',
         'views/property_land_view.xml',

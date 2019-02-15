@@ -29,7 +29,7 @@ Functionalitati:
         #"l10n_ro_invoice_report"
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'data/data.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',

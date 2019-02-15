@@ -20,7 +20,7 @@ Functionalitati:
          "stock","product","procurement"
     ],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'views/company_view.xml',
         'views/stock_warehouse_view.xml',
     ],

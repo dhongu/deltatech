@@ -17,7 +17,7 @@ Functionalitati:
     'category': 'Accounting',
     "depends": ["account"],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
         'wizard/account_cash_update_balances_view.xml'
     ],
 

@@ -35,7 +35,7 @@ Features:
                  "sale",'purchase'
                   ],
  
-    "license":"LGPL-3","data" : [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data" : [
         'views/sale_view.xml',
         'views/purchase_view.xml'
     ],

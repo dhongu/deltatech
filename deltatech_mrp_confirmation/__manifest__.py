@@ -39,7 +39,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ['mrp', 'hr_attendance'],
 
-    "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
 
         'views/mrp_confirmation_view.xml',
 

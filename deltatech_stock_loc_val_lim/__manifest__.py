@@ -32,7 +32,7 @@ Functionalitati:
     "category" : "Generic Modules/Stock",
     "depends" : ['deltatech',"base","stock"],
  
-    "license":"LGPL-3","data" : [ 'views/stock_view.xml'],
+    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data" : [ 'views/stock_view.xml'],
     "active": False,
     "installable": True,
 }
