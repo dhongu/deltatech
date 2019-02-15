@@ -35,7 +35,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ["mrp"],
 
-    "data": [
+    "license":"LGPL-3","data": [
         "wizard/mrp_order_merge_view.xml"
 
     ],

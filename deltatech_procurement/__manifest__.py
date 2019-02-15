@@ -57,7 +57,7 @@ Features:
                  'deltatech_show_quant',
                  'deltatech_refund'],
  
-    "data" : ['views/purchase_view.xml',
+    "license":"LGPL-3","data" : ['views/purchase_view.xml',
               #'required_product_view.xml',
               'views/sale_view.xml',
               'views/stock_view.xml',

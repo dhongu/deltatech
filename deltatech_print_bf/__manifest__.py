@@ -40,7 +40,7 @@ De pregatit:
 
 
  
-    "data" : [ 'wizard/account_invoice_export_bf_view.xml',
+    "license":"LGPL-3","data" : [ 'wizard/account_invoice_export_bf_view.xml',
                'wizard/sale_make_invoice_advance_views.xml',
                'data/data.xml'],
     

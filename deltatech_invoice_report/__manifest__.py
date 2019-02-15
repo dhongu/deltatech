@@ -33,7 +33,7 @@ Functionalitati:
     "category" : "Accounting",
     "depends" : ['account'],
  
-    "data" : ['report/invoice_report_view.xml'],
+    "license":"LGPL-3","data" : ['report/invoice_report_view.xml'],
     "active": False,
     "installable": True,
 }

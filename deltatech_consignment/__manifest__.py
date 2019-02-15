@@ -18,7 +18,7 @@ Features:
  - Generare factura de achizitie dupa vanzarea produselor
  
 """,
-    "data": [
+    "license":"LGPL-3","data": [
         'views/purchase_view.xml'
     ],
     "active": False,

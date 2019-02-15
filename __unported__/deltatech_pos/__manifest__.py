@@ -36,7 +36,7 @@ Functionalitati:
 
 
  
-    "data" : [ 'views/assets.xml'],
+    "license":"LGPL-3","data" : [ 'views/assets.xml'],
     
     "active": False,
     "installable": True,

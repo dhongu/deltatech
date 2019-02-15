@@ -36,7 +36,7 @@ Functionalitati:
     "category": "Manufacturing",
     "depends": ["mrp", ],
 
-    "data": [
+    "license":"LGPL-3","data": [
         "views/mrp_view.xml"
 
     ],

@@ -61,7 +61,7 @@ report.mrp.production.order.deltatech
     "depends" : ["base","mrp","stock","sale","product"],
 
 
-    "data" : [      
+    "license":"LGPL-3","data" : [      
                 #"views/mrp_view.xml",
                 "views/mrp_report.xml",
                 "report/deltatech_mrp_report.xml", 

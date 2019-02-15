@@ -24,7 +24,7 @@ Functionalitati:
         "account",
     ],
 
-    "data": [
+    "license":"LGPL-3","data": [
         'views/account_payment_view.xml',
         'views/account_view.xml'
     ],

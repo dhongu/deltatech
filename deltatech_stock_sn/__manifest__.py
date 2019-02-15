@@ -38,7 +38,7 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": ['deltatech', 'stock', 'account', 'l10n_ro_stock_picking_report'],
 
-    "data": [
+    "license":"LGPL-3","data": [
         'views/stock_view.xml',
         'views/stock_picking_report_view.xml',
         'views/account_invoice_report_view.xml',

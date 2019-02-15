@@ -36,7 +36,7 @@ Functionalitati:
     'category': 'Accounting',
     "depends": ["account"],
 
-    "data": [
+    "license":"LGPL-3","data": [
         'views/account_view.xml',
     ],
     'application': False,

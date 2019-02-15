@@ -34,7 +34,7 @@ Features:
  
  
 """,
-    "data" : [
+    "license":"LGPL-3","data" : [
         'views/report_project_do_today.xml',
         'wizard/print_report_date_view.xml',
         "views/project_view.xml",

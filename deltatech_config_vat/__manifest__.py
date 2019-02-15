@@ -34,7 +34,7 @@ Functionalitati:
     "category": "Generic Modules/Base",
     "depends": [ "account", 'sale', 'purchase'],
 
-    "data": [],
+    "license":"LGPL-3","data": [],
 
     "active": False,
     "installable": True,

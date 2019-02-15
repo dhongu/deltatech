@@ -43,7 +43,7 @@ Functionalitati:
     "category": "Accounting",
     "depends": ["account"],
 
-    "data": ['security/sale_security.xml',
+    "license":"LGPL-3","data": ['security/sale_security.xml',
              'views/account_invoice_view.xml',
              'wizard/account_invoice_change_number_view.xml'],
     "active": False,

@@ -19,7 +19,7 @@ Features:
     "category": "Warehouse",
     "depends": ["sale_stock"],
 
-    "data": ['views/sale_view.xml','views/stock_picking_view.xml'],
+    "license":"LGPL-3","data": ['views/sale_view.xml','views/stock_picking_view.xml'],
     "active": False,
     "installable": True,
 }

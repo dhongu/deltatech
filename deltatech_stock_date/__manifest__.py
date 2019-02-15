@@ -18,7 +18,7 @@ Functionalitati:
     "category": "Generic Modules/Other",
     "depends": ["base", "stock", "deltatech"],
 
-    "data": [
+    "license":"LGPL-3","data": [
         'wizard/stock_immediate_transfer_view.xml',
         'wizard/stock_backorder_confirmation_view.xml'
              ],
