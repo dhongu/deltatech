@@ -161,7 +161,7 @@ class account_invoice_export_bf(models.TransientModel):
                 #negative_price = negative_price * 100
                 negative_price_string =  str(ecr_comm['amount'](negative_price))
                 # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
-                buf.write(ecr_comm['discount'].format(type='1', value=negative_price_string))
+                buf.write(ecr_comm['discount'].format(type='3', value=negative_price_string)) #discount valoric
 
             for payment in invoice_id.payment_ids:
                 # if payment.payment_method_code == 'manual':
