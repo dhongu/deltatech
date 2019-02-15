@@ -42,7 +42,7 @@ Functionalitati:
     "depends": ['deltatech', "account", "stock_account", 'l10n_ro_stock_account', 'deltatech_sale_margin',
                 'l10n_ro_invoice_report'],
 
-    "data": ['res_config_view.xml',
+    "license": "LGPL-3", "data": ['res_config_view.xml',
              'stock_valuation_history_view.xml',
              'stock_view.xml',
              'views/invoice_report.xml',

@@ -37,7 +37,7 @@ Functionalitati:
     "category": "Service Management",
     "depends": ["base", "product", "account"],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         'data.xml',
         'service_config_view.xml',
         "service_consumption_view.xml",
