@@ -13,7 +13,7 @@
     "author": "Vauxoo, Terrabit, Dorin Hongu",
     "category": "Generic Modules",
     "website": "http://www.vauxoo.com/",
-    "license": "",
+    "license": "LGPL-3",
     "depends": [
         "base",
         "stock"
