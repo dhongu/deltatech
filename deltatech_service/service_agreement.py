@@ -473,7 +473,8 @@ class account_invoice(models.Model):
         for invoice in self:
             for line in invoice.invoice_line:
                 agreements |= line.agreement_line_id.agreement_id
-        agreements.compute_totals()
+        if agreements:
+            agreements.compute_totals()
         consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
         if consumptions:
             consumptions.write({'state': 'done'})
