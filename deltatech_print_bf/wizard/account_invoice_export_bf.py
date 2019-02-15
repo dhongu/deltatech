@@ -130,7 +130,7 @@ class account_invoice_export_bf(models.TransientModel):
                     for start in range(0, len(prod_name), 18):
                         prod_name_array.append(prod_name[start:start + 18])
 
-                    prod_name = prod_name_array[0]
+                    prod_name = prod_name_array[-1]
 
                     data = {
                         'name': prod_name,
@@ -141,14 +141,15 @@ class account_invoice_export_bf(models.TransientModel):
                         'tax': '1',  # todo de terminat codul de taxa
                         'uom': ''
                     }
+                    if (len(prod_name_array)) > 1: # printing the first lines
+                        for extra_lines in prod_name_array[0:len(prod_name_array)-1]:
+                            buf.write(ecr_comm['print'].format(text=extra_lines))
                     buf.write(ecr_comm['sale'].format(**data))
                     # buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
                     #                                   str(int(price * 100.0)),
                     #                                   str(int(line.quantity * 100000.0))
                     #                                   ))
-                    if (len(prod_name_array)) > 1:
-                        for extra_lines in prod_name_array[1:len(prod_name_array)]:
-                            buf.write(ecr_comm['print'].format(text=extra_lines))
+
                     total_price += price * line.quantity
 
             # if total value is negaive        
@@ -161,7 +162,7 @@ class account_invoice_export_bf(models.TransientModel):
                 #negative_price = negative_price * 100
                 negative_price_string =  str(ecr_comm['amount'](negative_price))
                 # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
-                buf.write(ecr_comm['discount'].format(type='1', value=negative_price_string))
+                buf.write(ecr_comm['discount'].format(type='3', value=negative_price_string)) #discount valoric
 
             for payment in invoice_id.payment_ids:
                 # if payment.payment_method_code == 'manual':
