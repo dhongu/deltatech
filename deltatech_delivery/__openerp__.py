@@ -35,7 +35,7 @@ Features:
     "category": "Generic Modules/Stock",
     "depends": ['delivery'],
 
-    "data": ['stock_view.xml'],
+    "license": "LGPL-3", "data": ['stock_view.xml'],
     "active": False,
     "installable": True,
 }

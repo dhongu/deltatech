@@ -41,7 +41,7 @@ Features:
         'deltatech_add_to_purchase'
     ],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         'views/required_product_view.xml',
         'data/data.xml',
         'security/ir.model.access.csv', ],
