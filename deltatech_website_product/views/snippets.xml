@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="product" inherit_id="website.snippets" name="Snippet Product">
+
+    <xpath expr="//div[@id='snippet_content']" position="inside">
+        <div>
+            <div class="oe_snippet_thumbnail">
+                <img class="oe_snippet_thumbnail_img" src="/deltatech_website_product/static/src/img/product-development.png"/>
+                <span class="oe_snippet_thumbnail_title">Product</span>
+            </div>
+
+            <div class="oe_snippet_body js_product"
+                      data-id="0"
+                      data-object="product.template">
+				<div>
+					Product
+				</div>
+            </div>
+
+        </div>
+    </xpath>
+
+
+    <xpath expr="//div[@id='snippet_options']" position="inside">
+        <div data-snippet-option-id='product'
+            data-selector=".js_product"
+            data-selector-siblings="p, h1, h2, h3, blockquote, .well, .panel" >
+            <li>
+                <a href="#" class="button js_product_select">Change Product</a>
+            </li>
+        </div>
+    </xpath>
+
+</template>
+
+</data>
+</openerp>

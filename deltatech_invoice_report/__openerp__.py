@@ -35,7 +35,7 @@ Functionalitati:
     "category" : "Generic Modules/Other",
     "depends": ['account', 'sale', 'product'],
 
-    "license": "LGPL-3", "data": ['report/invoice_report_view.xml',
+    "license": "AGPL-3", "data": ['report/invoice_report_view.xml',
              'views/product_view.xml'],
     "active": False,
     "installable": True,

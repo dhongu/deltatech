@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"  ?>
+
+<openerp>
+	<data>
+		<template id="deltatech_odata.collections" name="Collections">&lt;?xml version="1.0" encoding="UTF-8" standalone="yes" ?&gt; 
+		
+		<service t-attf-xmlns="http://www.w3.org/2005/Atom"  > 
+					 
+				<workspace>
+					&lt;atom:title&gt; Default &lt;/atom:title&gt; 
+					<t t-foreach="collections" t-as="c">
+					<collection t-att-href="'OData/'+c.model">
+						<!-- 
+						&lt;atom:title&gt; 
+							<t t-esc="c.name"/>
+						&lt;/atom:title&gt; 
+						 -->
+						<title>
+							<t t-esc="c.name"/>
+						</title>
+							
+						 
+					</collection>
+					</t>
+				</workspace>
+			</service>
+		</template>
+	</data>
+</openerp>

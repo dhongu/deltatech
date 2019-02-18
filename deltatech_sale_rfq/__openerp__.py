@@ -44,7 +44,7 @@ Nu se va folosi modulul sale_crm
                 "sale", "crm"
                 ],
 
-    "license": "LGPL-3", "data": [
+    "license": "AGPL-3", "data": [
         "security/security.xml", "security/ir.model.access.csv",
         "sale_rfq_view.xml",
         "data.xml",

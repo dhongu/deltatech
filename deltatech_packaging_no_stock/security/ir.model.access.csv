@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_packing_doc_user,access_packing_doc,model_packing_doc,,1,1,1,1
+access_packing_item_user,access_packing_item,model_packing_item,,1,1,1,1 
+
+

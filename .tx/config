@@ -1,0 +1,440 @@
+[main]
+host = https://www.transifex.com
+type = PO
+
+[deltatech-80.deltatech]
+file_filter = deltatech/i18n/<lang>.po
+source_file = deltatech/i18n/deltatech.pot
+source_lang = en
+type = PO
+
+[deltatech-80.deltatech_account]
+file_filter = deltatech_account/i18n/<lang>.po
+source_file = deltatech_account/i18n/deltatech_account.pot
+source_lang = en
+type = PO
+
+[deltatech-80.deltatech_account_followup]
+file_filter = deltatech_account_followup/i18n/<lang>.po
+source_file = deltatech_account_followup/i18n/deltatech_account_followup.pot
+source_lang = en
+
+[deltatech-80.deltatech_alternative]
+file_filter = deltatech_alternative/i18n/<lang>.po
+source_file = deltatech_alternative/i18n/deltatech_alternative.pot
+source_lang = en
+
+[deltatech-80.deltatech_alternative_inv]
+file_filter = deltatech_alternative_inv/i18n/<lang>.po
+source_file = deltatech_alternative_inv/i18n/deltatech_alternative_inv.pot
+source_lang = en
+
+[deltatech-80.deltatech_alternative_website]
+file_filter = deltatech_alternative_website/i18n/<lang>.po
+source_file = deltatech_alternative_website/i18n/deltatech_alternative_website.pot
+source_lang = en
+
+[deltatech-80.deltatech_bank_statement]
+file_filter = deltatech_bank_statement/i18n/<lang>.po
+source_file = deltatech_bank_statement/i18n/deltatech_bank_statement.pot
+source_lang = en
+
+[deltatech-80.deltatech_cash_statement]
+file_filter = deltatech_cash_statement/i18n/<lang>.po
+source_file = deltatech_cash_statement/i18n/deltatech_cash_statement.pot
+source_lang = en
+
+[deltatech-80.deltatech_config_vat]
+file_filter = deltatech_config_vat/i18n/<lang>.po
+source_file = deltatech_config_vat/i18n/deltatech_config_vat.pot
+source_lang = en
+
+[deltatech-80.deltatech_contact]
+file_filter = deltatech_contact/i18n/<lang>.po
+source_file = deltatech_contact/i18n/deltatech_contact.pot
+source_lang = en
+
+[deltatech-80.deltatech_credit_limit]
+file_filter = deltatech_credit_limit/i18n/<lang>.po
+source_file = deltatech_credit_limit/i18n/deltatech_credit_limit.pot
+source_lang = en
+
+[deltatech-80.deltatech_crm]
+file_filter = deltatech_crm/i18n/<lang>.po
+source_file = deltatech_crm/i18n/deltatech_crm.pot
+source_lang = en
+
+[deltatech-80.deltatech_crm_claim_8D]
+file_filter = deltatech_crm_claim_8D/i18n/<lang>.po
+source_file = deltatech_crm_claim_8D/i18n/deltatech_crm_claim_8D.pot
+source_lang = en
+
+[deltatech-80.deltatech_crm_doc]
+file_filter = deltatech_crm_doc/i18n/<lang>.po
+source_file = deltatech_crm_doc/i18n/deltatech_crm_doc.pot
+source_lang = en
+
+[deltatech-80.deltatech_crm_survey]
+file_filter = deltatech_crm_survey/i18n/<lang>.po
+source_file = deltatech_crm_survey/i18n/deltatech_crm_survey.pot
+source_lang = en
+
+[deltatech-80.deltatech_datecs_print]
+file_filter = deltatech_datecs_print/i18n/<lang>.po
+source_file = deltatech_datecs_print/i18n/deltatech_datecs_print.pot
+source_lang = en
+
+[deltatech-80.deltatech_document]
+file_filter = deltatech_document/i18n/<lang>.po
+source_file = deltatech_document/i18n/deltatech_document.pot
+source_lang = en
+
+[deltatech-80.deltatech_expenses]
+file_filter = deltatech_expenses/i18n/<lang>.po
+source_file = deltatech_expenses/i18n/deltatech_expenses.pot
+source_lang = en
+
+[deltatech-80.deltatech_fast_sale]
+file_filter = deltatech_fast_sale/i18n/<lang>.po
+source_file = deltatech_fast_sale/i18n/deltatech_fast_sale.pot
+source_lang = en
+
+[deltatech-80.deltatech_gamification]
+file_filter = deltatech_gamification/i18n/<lang>.po
+source_file = deltatech_gamification/i18n/deltatech_gamification.pot
+source_lang = en
+
+[deltatech-80.deltatech_hr_attendance]
+file_filter = deltatech_hr_attendance/i18n/<lang>.po
+source_file = deltatech_hr_attendance/i18n/deltatech_hr_attendance.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice]
+file_filter = deltatech_invoice/i18n/<lang>.po
+source_file = deltatech_invoice/i18n/deltatech_invoice.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_number]
+file_filter = deltatech_invoice_number/i18n/<lang>.po
+source_file = deltatech_invoice_number/i18n/deltatech_invoice_number.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_product_filter]
+file_filter = deltatech_invoice_product_filter/i18n/<lang>.po
+source_file = deltatech_invoice_product_filter/i18n/deltatech_invoice_product_filter.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_receipt]
+file_filter = deltatech_invoice_receipt/i18n/<lang>.po
+source_file = deltatech_invoice_receipt/i18n/deltatech_invoice_receipt.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_report]
+file_filter = deltatech_invoice_report/i18n/<lang>.po
+source_file = deltatech_invoice_report/i18n/deltatech_invoice_report.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_residual]
+file_filter = deltatech_invoice_residual/i18n/<lang>.po
+source_file = deltatech_invoice_residual/i18n/deltatech_invoice_residual.pot
+source_lang = en
+
+[deltatech-80.deltatech_invoice_weight]
+file_filter = deltatech_invoice_weight/i18n/<lang>.po
+source_file = deltatech_invoice_weight/i18n/deltatech_invoice_weight.pot
+source_lang = en
+
+[deltatech-80.deltatech_mail]
+file_filter = deltatech_mail/i18n/<lang>.po
+source_file = deltatech_mail/i18n/deltatech_mail.pot
+source_lang = en
+
+[deltatech-80.deltatech_mail_automatically]
+file_filter = deltatech_mail_automatically/i18n/<lang>.po
+source_file = deltatech_mail_automatically/i18n/deltatech_mail_automatically.pot
+source_lang = en
+
+[deltatech-80.deltatech_mentor]
+file_filter = deltatech_mentor/i18n/<lang>.po
+source_file = deltatech_mentor/i18n/deltatech_mentor.pot
+source_lang = en
+
+[deltatech-80.deltatech_mrp_bom_cost]
+file_filter = deltatech_mrp_bom_cost/i18n/<lang>.po
+source_file = deltatech_mrp_bom_cost/i18n/deltatech_mrp_bom_cost.pot
+source_lang = en
+
+[deltatech-80.deltatech_mrp_cost]
+file_filter = deltatech_mrp_cost/i18n/<lang>.po
+source_file = deltatech_mrp_cost/i18n/deltatech_mrp_cost.pot
+source_lang = en
+
+[deltatech-80.deltatech_mrp_edit_comp]
+file_filter = deltatech_mrp_edit_comp/i18n/<lang>.po
+source_file = deltatech_mrp_edit_comp/i18n/deltatech_mrp_edit_comp.pot
+source_lang = en
+
+[deltatech-80.deltatech_mrp_operations]
+file_filter = deltatech_mrp_operations/i18n/<lang>.po
+source_file = deltatech_mrp_operations/i18n/deltatech_mrp_operations.pot
+source_lang = en
+
+[deltatech-80.deltatech_mrp_sale]
+file_filter = deltatech_mrp_sale/i18n/<lang>.po
+source_file = deltatech_mrp_sale/i18n/deltatech_mrp_sale.pot
+source_lang = en
+
+[deltatech-80.deltatech_odata]
+file_filter = deltatech_odata/i18n/<lang>.po
+source_file = deltatech_odata/i18n/deltatech_odata.pot
+source_lang = en
+
+[deltatech-80.deltatech_packaging_no_stock]
+file_filter = deltatech_packaging_no_stock/i18n/<lang>.po
+source_file = deltatech_packaging_no_stock/i18n/deltatech_packaging_no_stock.pot
+source_lang = en
+
+[deltatech-80.deltatech_parallel_valuation]
+file_filter = deltatech_parallel_valuation/i18n/<lang>.po
+source_file = deltatech_parallel_valuation/i18n/deltatech_parallel_valuation.pot
+source_lang = en
+
+[deltatech-80.deltatech_payment_term]
+file_filter = deltatech_payment_term/i18n/<lang>.po
+source_file = deltatech_payment_term/i18n/deltatech_payment_term.pot
+source_lang = en
+
+[deltatech-80.deltatech_percent_qty]
+file_filter = deltatech_percent_qty/i18n/<lang>.po
+source_file = deltatech_percent_qty/i18n/deltatech_percent_qty.pot
+source_lang = en
+
+[deltatech-80.deltatech_picking_number]
+file_filter = deltatech_picking_number/i18n/<lang>.po
+source_file = deltatech_picking_number/i18n/deltatech_picking_number.pot
+source_lang = en
+
+[deltatech-80.deltatech_price_categ]
+file_filter = deltatech_price_categ/i18n/<lang>.po
+source_file = deltatech_price_categ/i18n/deltatech_price_categ.pot
+source_lang = en
+
+[deltatech-80.deltatech_pricelist]
+file_filter = deltatech_pricelist/i18n/<lang>.po
+source_file = deltatech_pricelist/i18n/deltatech_pricelist.pot
+source_lang = en
+
+[deltatech-80.deltatech_procurement]
+file_filter = deltatech_procurement/i18n/<lang>.po
+source_file = deltatech_procurement/i18n/deltatech_procurement.pot
+source_lang = en
+
+[deltatech-80.deltatech_product_code]
+file_filter = deltatech_product_code/i18n/<lang>.po
+source_file = deltatech_product_code/i18n/deltatech_product_code.pot
+source_lang = en
+
+[deltatech-80.deltatech_product_extension]
+file_filter = deltatech_product_extension/i18n/<lang>.po
+source_file = deltatech_product_extension/i18n/deltatech_product_extension.pot
+source_lang = en
+
+[deltatech-80.deltatech_project]
+file_filter = deltatech_project/i18n/<lang>.po
+source_file = deltatech_project/i18n/deltatech_project.pot
+source_lang = en
+
+[deltatech-80.deltatech_purchase_xls]
+file_filter = deltatech_purchase_xls/i18n/<lang>.po
+source_file = deltatech_purchase_xls/i18n/deltatech_purchase_xls.pot
+source_lang = en
+
+[deltatech-80.deltatech_qr_invoice]
+file_filter = deltatech_qr_invoice/i18n/<lang>.po
+source_file = deltatech_qr_invoice/i18n/deltatech_qr_invoice.pot
+source_lang = en
+
+[deltatech-80.deltatech_quant]
+file_filter = deltatech_quant/i18n/<lang>.po
+source_file = deltatech_quant/i18n/deltatech_quant.pot
+source_lang = en
+
+[deltatech-80.deltatech_quant_purchase_unit]
+file_filter = deltatech_quant_purchase_unit/i18n/<lang>.po
+source_file = deltatech_quant_purchase_unit/i18n/deltatech_quant_purchase_unit.pot
+source_lang = en
+
+[deltatech-80.deltatech_rec_access]
+file_filter = deltatech_rec_access/i18n/<lang>.po
+source_file = deltatech_rec_access/i18n/deltatech_rec_access.pot
+source_lang = en
+
+[deltatech-80.deltatech_refund]
+file_filter = deltatech_refund/i18n/<lang>.po
+source_file = deltatech_refund/i18n/deltatech_refund.pot
+source_lang = en
+
+[deltatech-80.deltatech_saga]
+file_filter = deltatech_saga/i18n/<lang>.po
+source_file = deltatech_saga/i18n/deltatech_saga.pot
+source_lang = en
+
+[deltatech-80.deltatech_sale_margin]
+file_filter = deltatech_sale_margin/i18n/<lang>.po
+source_file = deltatech_sale_margin/i18n/deltatech_sale_margin.pot
+source_lang = en
+
+[deltatech-80.deltatech_sale_qty_available]
+file_filter = deltatech_sale_qty_available/i18n/<lang>.po
+source_file = deltatech_sale_qty_available/i18n/deltatech_sale_qty_available.pot
+source_lang = en
+
+[deltatech-80.deltatech_sale_ref]
+file_filter = deltatech_sale_ref/i18n/<lang>.po
+source_file = deltatech_sale_ref/i18n/deltatech_sale_ref.pot
+source_lang = en
+
+[deltatech-80.deltatech_sale_rfq]
+file_filter = deltatech_sale_rfq/i18n/<lang>.po
+source_file = deltatech_sale_rfq/i18n/deltatech_sale_rfq.pot
+source_lang = en
+
+[deltatech-80.deltatech_service]
+file_filter = translations/deltatech-80.deltatech_service/<lang>.po
+host = http://www.transifex.com
+source_file = deltatech_service/i18n/deltatech_service.pot
+source_lang = en
+type = PO
+
+[deltatech-80.deltatech_service_equipment]
+file_filter = translations/deltatech-80.deltatech_service_equipment/<lang>.po
+host = http://www.transifex.com
+source_file = deltatech_service_equipment/i18n/deltatech_service_equipment.pot
+source_lang = en
+type = PO
+
+[deltatech-80.deltatech_service_maintenance]
+file_filter = deltatech_service_maintenance/i18n/<lang>.po
+source_file = deltatech_service_maintenance/i18n/deltatech_service_maintenance.pot
+source_lang = en
+
+[deltatech-80.deltatech_service_printer]
+file_filter = deltatech_service_printer/i18n/<lang>.po
+source_file = deltatech_service_printer/i18n/deltatech_service_printer.pot
+source_lang = en
+
+[deltatech-80.deltatech_service_website]
+file_filter = deltatech_service_website/i18n/<lang>.po
+source_file = deltatech_service_website/i18n/deltatech_service_website.pot
+source_lang = en
+
+[deltatech-80.deltatech_show_quant]
+file_filter = deltatech_show_quant/i18n/<lang>.po
+source_file = deltatech_show_quant/i18n/deltatech_show_quant.pot
+source_lang = en
+
+[deltatech-80.deltatech_signup]
+file_filter = deltatech_signup/i18n/<lang>.po
+source_file = deltatech_signup/i18n/deltatech_signup.pot
+source_lang = en
+
+[deltatech-80.deltatech_simple_crm_claim]
+file_filter = deltatech_simple_crm_claim/i18n/<lang>.po
+source_file = deltatech_simple_crm_claim/i18n/deltatech_simple_crm_claim.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_date]
+file_filter = deltatech_stock_date/i18n/<lang>.po
+source_file = deltatech_stock_date/i18n/deltatech_stock_date.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_delivery]
+file_filter = deltatech_stock_delivery/i18n/<lang>.po
+source_file = deltatech_stock_delivery/i18n/deltatech_stock_delivery.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_inventory]
+file_filter = deltatech_stock_inventory/i18n/<lang>.po
+source_file = deltatech_stock_inventory/i18n/deltatech_stock_inventory.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_loc_val_lim]
+file_filter = deltatech_stock_loc_val_lim/i18n/<lang>.po
+source_file = deltatech_stock_loc_val_lim/i18n/deltatech_stock_loc_val_lim.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_negative]
+file_filter = deltatech_stock_negative/i18n/<lang>.po
+source_file = deltatech_stock_negative/i18n/deltatech_stock_negative.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_pack]
+file_filter = deltatech_stock_pack/i18n/<lang>.po
+source_file = deltatech_stock_pack/i18n/deltatech_stock_pack.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_report]
+file_filter = deltatech_stock_report/i18n/<lang>.po
+source_file = deltatech_stock_report/i18n/deltatech_stock_report.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_revaluation]
+file_filter = deltatech_stock_revaluation/i18n/<lang>.po
+source_file = deltatech_stock_revaluation/i18n/deltatech_stock_revaluation.pot
+source_lang = en
+
+[deltatech-80.deltatech_stock_sn]
+file_filter = deltatech_stock_sn/i18n/<lang>.po
+source_file = deltatech_stock_sn/i18n/deltatech_stock_sn.pot
+source_lang = en
+
+[deltatech-80.deltatech_tool]
+file_filter = deltatech_tool/i18n/<lang>.po
+source_file = deltatech_tool/i18n/deltatech_tool.pot
+source_lang = en
+
+[deltatech-80.deltatech_unit_per_product]
+file_filter = deltatech_unit_per_product/i18n/<lang>.po
+source_file = deltatech_unit_per_product/i18n/deltatech_unit_per_product.pot
+source_lang = en
+
+[deltatech-80.deltatech_variant_price]
+file_filter = deltatech_variant_price/i18n/<lang>.po
+source_file = deltatech_variant_price/i18n/deltatech_variant_price.pot
+source_lang = en
+
+[deltatech-80.deltatech_web]
+file_filter = deltatech_web/i18n/<lang>.po
+source_file = deltatech_web/i18n/deltatech_web.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_category]
+file_filter = deltatech_website_category/i18n/<lang>.po
+source_file = deltatech_website_category/i18n/deltatech_website_category.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_datatables]
+file_filter = deltatech_website_datatables/i18n/<lang>.po
+source_file = deltatech_website_datatables/i18n/deltatech_website_datatables.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_hover]
+file_filter = deltatech_website_hover/i18n/<lang>.po
+source_file = deltatech_website_hover/i18n/deltatech_website_hover.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_product]
+file_filter = deltatech_website_product/i18n/<lang>.po
+source_file = deltatech_website_product/i18n/deltatech_website_product.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_sale]
+file_filter = deltatech_website_sale/i18n/<lang>.po
+source_file = deltatech_website_sale/i18n/deltatech_website_sale.pot
+source_lang = en
+
+[deltatech-80.deltatech_website_style]
+file_filter = deltatech_website_style/i18n/<lang>.po
+source_file = deltatech_website_style/i18n/deltatech_website_style.pot
+source_lang = en
+

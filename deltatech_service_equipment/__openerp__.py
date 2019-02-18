@@ -54,7 +54,7 @@ Functionalitati:
                 "l10n_ro_stock_picking_report",#afisare echipament in tiparire livrari
                 ],
 
-    "license": "LGPL-3", "data": ['data.xml',
+    "license": "AGPL-3", "data": ['data.xml',
              'service_config_view.xml',
              'service_rent_view.xml',
 
