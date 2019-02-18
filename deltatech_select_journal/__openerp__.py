@@ -35,7 +35,8 @@ Functionalitati:
                 "sale",
                 ],
 
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         'views/account_journal_view.xml'
     ],
 

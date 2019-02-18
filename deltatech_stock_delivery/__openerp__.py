@@ -35,7 +35,7 @@ Functionalitati:
                  "stock",
                  "l10n_ro_stock_account",
                  'stock_picking_invoice_link'],
- 
+    "license": "AGPL-3",
     "data" : [ 'account_invoice_view.xml'],
     "active": False,
     "installable": True,

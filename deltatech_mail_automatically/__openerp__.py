@@ -35,7 +35,8 @@
 Functionalitati:
  - se timit automat liste de ridicare la o lista de destinatari
 """,
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         'mail_automatically_view.xml',
         'security/ir.model.access.csv',
     ],

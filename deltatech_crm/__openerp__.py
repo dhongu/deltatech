@@ -34,7 +34,9 @@ Functionalitati:
     'category': 'Customer Relationship Management',
     "depends": ['deltatech', "crm", "deltatech_mail"],
 
-    "license": "AGPL-3", "data": ['crm_activity_view.xml',
+    "license": "AGPL-3",
+
+    "data": ['crm_activity_view.xml',
              'crm_lead_view.xml',
              'security/ir.model.access.csv',
              # 'sale_crm_view.xml',

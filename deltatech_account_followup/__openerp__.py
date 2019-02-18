@@ -19,17 +19,18 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Account Followup",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Account Followup",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "category" : "Generic Modules",
-    "depends" : ['account_followup','warning'],
+    "category": "Generic Modules",
+    "license": "AGPL-3",
+    "depends": ['account_followup', 'warning'],
     "description": '',
-    "data" : ['account_followup_view.xml'],
+    "data": ['account_followup_view.xml'],
     "active": False,
     "installable": True,
     'application': False,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

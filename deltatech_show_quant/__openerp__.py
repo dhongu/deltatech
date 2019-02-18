@@ -34,7 +34,7 @@ Features:
     "depends" : ['deltatech',
                  "sale",
                   ],
- 
+    "license": "AGPL-3",
     "data" : [ 'sale_view.xml' ],
     "active": False,
     "installable": True,

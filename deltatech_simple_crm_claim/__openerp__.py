@@ -40,6 +40,7 @@ Atentie: Nu se utilizeaza impreuna cu modulul de CRM
     'author': 'OpenERP SA',
     'website': 'https://www.odoo.com',
     'depends': ['sales_team'],
+    "license": "AGPL-3",
     'data': [
         'crm_claim_view.xml',
         'crm_claim_menu.xml',

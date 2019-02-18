@@ -35,7 +35,9 @@ Features:
     "category": "Generic Modules/Stock",
     "depends": ['delivery'],
 
-    "license": "AGPL-3", "data": ['stock_view.xml'],
+    "license": "AGPL-3",
+
+    "data": ['stock_view.xml'],
     "active": False,
     "installable": True,
 }

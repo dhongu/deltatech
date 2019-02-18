@@ -35,6 +35,7 @@ https://github.com/codrops/HoverEffectIdeas
     "category" : "Website",
     "depends" : ["website" ],
 
+    "license": "AGPL-3",
 
     "data" : ['views/website.xml',
               'views/snippets.xml'

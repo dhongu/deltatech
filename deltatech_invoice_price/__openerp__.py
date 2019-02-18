@@ -31,7 +31,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : [ "account","sale"],
- 
+    "license": "AGPL-3",
     "data" : [ ],
     "active": False,
     "installable": True,

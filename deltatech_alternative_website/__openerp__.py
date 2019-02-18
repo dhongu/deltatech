@@ -36,7 +36,7 @@ Functionalitati:
 
     "category": "Website",
     "depends": ['deltatech', "website_sale", "deltatech_alternative", 'l10n_ro_invoice_report'],
-
+    "license": "AGPL-3",
     'data': ['product_view.xml', 'views/templates.xml'],
 
     "installable": True,

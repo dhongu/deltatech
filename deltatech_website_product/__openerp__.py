@@ -35,6 +35,7 @@
     "category" : "Website",
     "depends" : ["website_sale" ],
 
+    "license": "AGPL-3",
 
     "data" : [
               'views/website.xml',

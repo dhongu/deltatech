@@ -32,7 +32,8 @@ Features:
  
  
 """,
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         "views/report_invoice.xml",
 
     ],

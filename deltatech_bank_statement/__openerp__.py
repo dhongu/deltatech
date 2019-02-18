@@ -34,7 +34,7 @@ Functionalitati:
     'category': 'Accounting & Finance',
     "depends" : ['deltatech',"account" ],
 
-
+    "license": "AGPL-3",
  
     "data" : [ 
               ],

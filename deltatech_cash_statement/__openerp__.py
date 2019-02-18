@@ -33,7 +33,7 @@ Functionalitati:
     
     'category': 'Accounting & Finance',
     "depends" : ['deltatech',"account" ],
-
+    "license": "AGPL-3",
 
  
     "data" : [ 'wizard/account_cash_update_balances_view.xml'

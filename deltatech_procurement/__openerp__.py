@@ -54,7 +54,9 @@ Features:
                  "purchase",
                  'procurement',
                  'deltatech_refund'],
- 
+
+    "license": "AGPL-3",
+
     "data" : ['purchase_view.xml',
               'required_product_view.xml',
               'sale_view.xml',

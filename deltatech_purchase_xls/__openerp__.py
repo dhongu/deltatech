@@ -31,7 +31,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"purchase","report_xls"],
- 
+    "license": "AGPL-3",
     "data" : [ 'report/purchase_xls.xml'],
     "active": False,
     "installable": True,

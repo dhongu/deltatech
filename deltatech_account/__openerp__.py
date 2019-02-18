@@ -19,17 +19,18 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Account",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
-    "website" : "www.terrabit.ro",
+    "name": "Deltatech Account",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
     'category': 'Accounting & Finance',
-    "depends" : ['account'],
+    "depends": ['account'],
+    "license": "AGPL-3",
     "description": '',
-    "data" : ['account_view.xml','account_invoice_view.xml'],
+    "data": ['account_view.xml', 'account_invoice_view.xml'],
     "active": False,
     "installable": True,
     'application': False,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

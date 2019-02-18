@@ -41,7 +41,7 @@ Functionalitati:
 
                  ],
 
-
+    "license": "AGPL-3",
     "data" : [ 
                 ],
     "active": False,

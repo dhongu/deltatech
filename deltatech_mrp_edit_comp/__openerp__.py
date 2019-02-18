@@ -36,7 +36,7 @@ Functionalitati:
     "category" : "Generic Modules/Production",
     "depends" : ['deltatech',"mrp",],
 
-
+    "license": "AGPL-3",
     "data" : [      
                 "mrp_view.xml"
                 

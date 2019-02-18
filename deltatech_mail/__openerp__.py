@@ -51,7 +51,7 @@ Nota:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"base","mail","web_notification"],
- 
+    "license": "AGPL-3",
     "data" : ['mail_send_to_view.xml',
               'views/deltatech_mail_assets.xml',
               'wizard/mail_compose_message_view.xml'],

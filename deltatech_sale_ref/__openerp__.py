@@ -28,8 +28,6 @@
 
 Functionalitati:
  - Referinte client la fiecare linie de comanda
-  
-  
 
   
     """,
@@ -39,7 +37,9 @@ Functionalitati:
                 "sale", "account", 'stock', 'sale_stock'
                 ],
 
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+
+    "data": [
         "sale_view.xml",
         "account_invoice_view.xml",
         "stock_transfer_details.xml",

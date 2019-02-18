@@ -41,7 +41,8 @@ Features:
         'deltatech_add_to_purchase'
     ],
 
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         'views/required_product_view.xml',
         'data/data.xml',
         'security/ir.model.access.csv', ],

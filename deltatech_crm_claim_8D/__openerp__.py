@@ -41,7 +41,9 @@ Functionalitati:
         # "crm_claim"
     ],
 
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+
+    "data": [
         'security/ir.model.access.csv',
         'views/report8d.xml',
         'crm_claim_view.xml'

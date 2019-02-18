@@ -32,8 +32,7 @@ Functionalitati:
     'category': 'Knowledge Management',
     "depends" : ['deltatech',"document"],
 
-
- 
+    "license": "AGPL-3",
     "data" : [  'security/ir.model.access.csv',
               'document_view.xml'
               

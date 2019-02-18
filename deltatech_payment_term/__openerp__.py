@@ -33,10 +33,8 @@ Functionalitati:
     
     "category" : "Generic Modules/Base",
     "depends" : ['deltatech',"base","account","sale", 'deltatech_account'],
-   
 
-
- 
+    "license": "AGPL-3",
     "data" : [ 'wizard/payment_term_view.xml',
                "sale_view.xml",
                "account_view.xml",

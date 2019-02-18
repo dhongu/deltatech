@@ -51,7 +51,7 @@ Antentie:
                  'deltatech_refund',
                  #"deltatech_stock_reverse_transfer",
                  "stock_picking_invoice_link"],
- 
+    "license": "AGPL-3",
     "data" : [
                'account_invoice_view.xml'
                ],

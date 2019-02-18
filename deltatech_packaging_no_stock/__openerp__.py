@@ -35,7 +35,7 @@ Functionalitati:
     "category" :  'Sales Management',
     "depends" : [ 'deltatech', 'product', 'account'],
 
-
+    "license": "AGPL-3",
     "data" : [  
                 'product_view.xml',
                 'security/ir.model.access.csv',

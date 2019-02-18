@@ -34,7 +34,9 @@ Functionalitati:
     'category': 'Accounting & Finance',
     "depends": ['account'],
 
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+
+    "data": [
         'account_view.xml',
         'report/account_average_payment_view.xml',
         'security/ir.model.access.csv'

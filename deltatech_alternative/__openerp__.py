@@ -34,7 +34,8 @@ Features:
  
  
 """,
-    "license": "AGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         "product_view.xml",
         'security/ir.model.access.csv',
     ],

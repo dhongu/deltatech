@@ -39,7 +39,7 @@ Functionalitati:
     "category" : "Generic Modules/Stock",
     "depends" : ['deltatech','stock', "sale","account"],
 
-
+    "license": "AGPL-3",
     "data" : [ 
                 'wizard/pack_transfer_view.xml',
                 'wizard/stock_transfer_details_view.xml',

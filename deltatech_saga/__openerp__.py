@@ -41,7 +41,7 @@ La export se preiua ultimile 4 caractere din nr de factura la care se adauga 100
     "depends" : ['deltatech',"base","account","l10n_ro_invoice_report"],
     "external_depends":['dbf'],
 
- 
+    "license": "AGPL-3",
     "data" : [
               'data.xml',
               'res_partner_view.xml',

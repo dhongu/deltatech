@@ -29,7 +29,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"gamification"],
- 
+    "license": "AGPL-3",
     "data" : [ 'goal_view.xml'],
     "active": False,
     "installable": True,

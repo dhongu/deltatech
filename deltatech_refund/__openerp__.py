@@ -43,7 +43,7 @@ Functionalitati:
                  "sale",
                  'account',
                  'deltatech_stock_report'],
- 
+    "license": "AGPL-3",
     "data" : [ 
               'stock_return_picking_view.xml',
               'stock_view.xml',

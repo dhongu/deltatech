@@ -51,7 +51,7 @@ Functionalitati:
                  'deltatech_mrp_bom_cost',
                  'deltatech_percent_qty'],
 
-
+    "license": "AGPL-3",
     "data" : [  'wizard/take_bom_view.xml',
                 'wizard/sale_add_margin_view.xml',
                 'mrp_sale_view.xml',

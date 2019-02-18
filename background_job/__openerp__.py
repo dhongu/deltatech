@@ -28,6 +28,9 @@
 
 
 """,
+
+    "license": "AGPL-3",
+
     "data" : [
             "views/background_job_view.xml",    
             'security/ir.model.access.csv'       
