@@ -34,7 +34,7 @@ class stock_picking_report(models.Model):
     def _where(self):
         where_str = super(stock_picking_report, self)._where() + " and  (sp.origin_refund_picking_id is Null and sp.refund_picking_id is Null)"
         return where_str
-            
+
         
         
 

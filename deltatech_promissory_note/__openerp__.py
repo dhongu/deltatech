@@ -33,7 +33,7 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": ["account", ],
 
-    "data": ['views/promissory_note_view.xml',
+    "license": "LGPL-3", "data": ['views/promissory_note_view.xml',
              'views/promissory_note_report.xml',
              'security/ir.model.access.csv',
              ],

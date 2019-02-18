@@ -26,7 +26,7 @@
     'category': 'Accounting & Finance',
     "depends": ['account'],
     "description": '',
-    "data": ['wizard/account_analytic_transfer_view.xml',
+    "license": "LGPL-3", "data": ['wizard/account_analytic_transfer_view.xml',
              'views/account_analytic_view.xml'],
     "active": False,
     "installable": True,

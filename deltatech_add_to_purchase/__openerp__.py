@@ -26,7 +26,7 @@
     "category": "Generic Modules",
     "depends": ['purchase', 'procurement', 'stock'],
     "description": '',
-    "data": ['views/make_procurement_product_view.xml',
+    "license": "LGPL-3", "data": ['views/make_procurement_product_view.xml',
              'views/procurement_view.xml'],
     "active": False,
     "installable": True,

@@ -88,41 +88,41 @@ openerp.deltatech_mail = function (instance) {
     
     
 	/* Extend the Sidebar to add Send Mail link in the 'More' menu */
-	instance.web.Sidebar = instance.web.Sidebar.extend({
-
-          start: function() {
-            var self = this;
-            this._super(this);
-            var view = this.getParent()
-            var action = view.getParent().action;
-            has_follower(this, action.res_model, function() {
-                self.add_items('other', [
-                                    //     {   label: _t('Send Mail'),
-                                    //         callback: self.on_click_mail_send },
-                                         {   label: _t('Make Read'),
-                                             callback: self.on_click_make_read },
-                                         {   label: _t('Make UnRead'),
-                                             callback: self.on_click_make_unread },
-                                         ]);            	           	
-            });
-
-          
-        },
-        on_click_mail_send: function(item) {
-            var view = this.getParent()
-            	launch_wizard(this, view);      
-        },
-        
-        on_click_make_read: function(item) {
-            var view = this.getParent()
-        	make_as_read(this, view);              	
-        },
-        
-        on_click_make_unread: function(item) {
-            var view = this.getParent()
-        	make_as_unread(this, view);              	
-        },
-        
-        
-    });
+//	instance.web.Sidebar = instance.web.Sidebar.extend({
+//
+//          start: function() {
+//            var self = this;
+//            this._super(this);
+//            var view = this.getParent()
+//            var action = view.getParent().action;
+//            has_follower(this, action.res_model, function() {
+//                self.add_items('other', [
+//                                    //     {   label: _t('Send Mail'),
+//                                    //         callback: self.on_click_mail_send },
+//                                         {   label: _t('Make Read'),
+//                                             callback: self.on_click_make_read },
+//                                         {   label: _t('Make UnRead'),
+//                                             callback: self.on_click_make_unread },
+//                                         ]);
+//            });
+//
+//
+//        },
+//        on_click_mail_send: function(item) {
+//            var view = this.getParent()
+//            	launch_wizard(this, view);
+//        },
+//
+//        on_click_make_read: function(item) {
+//            var view = this.getParent()
+//        	make_as_read(this, view);
+//        },
+//
+//        on_click_make_unread: function(item) {
+//            var view = this.getParent()
+//        	make_as_unread(this, view);
+//        },
+//
+//
+//    });
 }

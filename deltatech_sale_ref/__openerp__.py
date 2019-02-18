@@ -39,7 +39,7 @@ Functionalitati:
                 "sale", "account", 'stock', 'sale_stock'
                 ],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         "sale_view.xml",
         "account_invoice_view.xml",
         "stock_transfer_details.xml",

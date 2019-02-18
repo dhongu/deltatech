@@ -39,7 +39,7 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": ['deltatech', "product",'account'],
 
-    "data": ['product_view.xml',
+    "license": "LGPL-3", "data": ['product_view.xml',
              ],
 
     "active": False,

@@ -35,7 +35,7 @@ Functionalitati:
                 "sale",
                 ],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         'views/account_journal_view.xml'
     ],
 

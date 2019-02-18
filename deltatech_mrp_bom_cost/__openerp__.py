@@ -39,7 +39,7 @@ Obs: depinde si de mrp_product_variants
     "category": "Generic Modules/Production",
     "depends": ['deltatech', "base", "mrp_hook", "product_variants_no_automatic_creation"],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         "mrp_view.xml",
         "product_view.xml",
         "wizard/calculate_bom_prices.xml"

@@ -43,7 +43,7 @@ actualizarea se face manual prin apasarea butonului
     "category": "Generic Modules/Production",
     "depends": ['deltatech', "product", "sale"],
 
-    "data": [
+    "license": "LGPL-3", "data": [
         'data.xml',
         'product_view.xml',
         'sale_view.xml',

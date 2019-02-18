@@ -32,7 +32,7 @@ Features:
  
  
 """,
-    "data": [
+    "license": "LGPL-3", "data": [
         "views/report_invoice.xml",
 
     ],

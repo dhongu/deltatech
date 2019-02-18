@@ -51,7 +51,7 @@ Functionalitati:
                 "web_notification",  # pentru afisare mesaje procese lansate in background
                 ],
 
-    "data": [
+    "license": "LGPL-3", "data": [
 
         'security/service_security.xml',
         'data.xml',
