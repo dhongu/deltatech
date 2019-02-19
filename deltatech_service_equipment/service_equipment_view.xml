@@ -63,11 +63,12 @@
                     <field name="agreement_id"/>
                     <field name="agreement_type_id"/>
                     <field name="install_date"/>
-                    <field name="total_revenues" sum="total"/>
-                    <field name="total_costs" sum="total"/>
                     <field name="inventory_value" sum="total"/>
                     <field name="readings_status"/>
                     <field name="last_reading"/>
+                    <field name="total_percent"/>
+                    <field name="total_revenues" sum="total"/>
+                    <field name="total_costs" sum="total"/>
                     <field name="message_unread" invisible="1"/>
                 </tree>
             </field>

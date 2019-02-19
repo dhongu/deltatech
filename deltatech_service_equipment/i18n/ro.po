@@ -1307,7 +1307,12 @@ msgstr "Valoare totală contor"
 #. module: deltatech_service_equipment
 #: field:service.equipment,total_revenues:0
 msgid "Total Revenues"
-msgstr "Total Revenues"
+msgstr "Total Venituri"
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,total_percent:0
+msgid "Total Percent"
+msgstr "Total Procent"
 
 #. module: deltatech_service_equipment
 #: sql_constraint:service.meter:0

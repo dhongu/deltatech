@@ -147,6 +147,7 @@ class service_equipment(models.Model):
     total_revenues = fields.Float(string="Total Revenues",
                                   readonly=True)  # se va calcula din suma consumurilor de servicii
     total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
+    total_percent = fields.Float(string="Total Percent", readonly=True) # costs/revenues
 
     note = fields.Text(String='Notes')
     start_date = fields.Date(string='Start Date')
@@ -220,9 +221,17 @@ class service_equipment(models.Model):
 
         return res
 
+    @api.model
+    def _costs_and_revenues(self):
+        self.costs_and_revenues()
+
     @api.multi
     def costs_and_revenues(self):
-        for equi in self:
+        equipments = self
+        if not equipments:
+            equipments = self.search([])
+        for equi in equipments:
+            total_percent = 0.0
             cost = 0.0
             pickings = self.env['stock.picking'].search([('equipment_id', '=', equi.id), ('state', '=', 'done')])
             for picking in pickings:
@@ -241,8 +250,12 @@ class service_equipment(models.Model):
                     revenues += consumption.currency_id.compute(consumption.price_unit * consumption.quantity,
                                                                 self.env.user.company_id.currency_id)
 
+            if revenues > 0.0:
+                total_percent = (cost/revenues)*100
             equi.write({'total_costs': cost,
-                        'total_revenues': revenues})
+                        'total_revenues': revenues,
+                        'total_percent': total_percent
+                        })
 
     @api.model
     def compute_readings_status(self):
