@@ -225,8 +225,8 @@ class service_agreement(models.Model):
                     else:
                         total_costs -= move_value
 
-            if total_costs > 0.0:
-                total_percent = (total_invoiced/total_costs)*100
+            if total_invoiced > 0.0:
+                total_percent = (total_costs/total_invoiced)*100
 
 
             agreement.write({'total_invoiced': total_invoiced,
