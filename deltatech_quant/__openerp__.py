@@ -44,7 +44,9 @@ de facut:
                 # "stock_picking_invoice_link"  # pentru a avea invoice_id in pickinglist
                 ],
 
-    "license": "LGPL-3", "data": [
+    "license": "AGPL-3",
+
+    "data": [
         'stock_view.xml',
         'wizard/stock_quant_change_lot_view.xml',
         'wizard/stock_quant_split_view.xml',

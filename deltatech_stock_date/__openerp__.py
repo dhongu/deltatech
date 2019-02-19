@@ -35,7 +35,7 @@ Functionalitati:
     "category" : "Generic Modules/Other",
     "depends" : ["base", "stock"],
 
-
+    "license": "AGPL-3",
     "data" : [ 'wizard/stock_transfer_details_view.xml'
               
                 ],

@@ -37,8 +37,8 @@ Functionalitati:
 
 
     "data" : [   'stock_view.xml' ],
-    
-    
+
+    "license": "AGPL-3",
     "active": False,
     "installable": True,
 }

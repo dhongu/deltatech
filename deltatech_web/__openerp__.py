@@ -38,7 +38,7 @@ Functionalitati:
     
     "category" : "Generic Modules",
     "depends" : ['deltatech',"web"],
-
+    "license": "AGPL-3",
    'data':['views/deltatech_web_assets.xml'],
 
  

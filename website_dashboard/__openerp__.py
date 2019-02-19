@@ -35,7 +35,7 @@ Functionalitati:
     "category": "Generic Modules",
     "depends": ["website"],
 
-    "license": "LGPL-3", "data": ['views/dashboard_tile_view.xml',
+    "license": "AGPL-3", "data": ['views/dashboard_tile_view.xml',
              'views/dashboard_table_view.xml',
              'views/dashboard_graph_view.xml',
              'views/assets.xml',

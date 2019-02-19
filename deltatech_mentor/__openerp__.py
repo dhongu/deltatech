@@ -37,7 +37,7 @@ Documentatia Mentor de import  din alte aplicatii:
     "depends" : ['deltatech',"base","account"],
     "external_depends":['html2text'],
 
- 
+    "license": "AGPL-3",
     "data" : [
               'views/report_product.xml',
               'views/report_invoice.xml',

@@ -34,8 +34,7 @@ Functionalitati:
     'category': 'Customer Relationship Management',
     "depends" : ['deltatech',"crm","document"],
 
-
- 
+    "license": "AGPL-3",
     "data" : [  'crm_view.xml'],
     
     "active": False,

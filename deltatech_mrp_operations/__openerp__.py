@@ -37,7 +37,7 @@ Functionalitati:
     "depends" : [ 
                  'deltatech', 'mrp_operations'],
 
-
+    "license": "AGPL-3",
     "data" : [
               'mrp_view.xml',
               'mrp_operations_view.xml',

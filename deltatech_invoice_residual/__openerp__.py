@@ -32,7 +32,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ["account"],
- 
+    "license": "AGPL-3",
     "data" : [ "account_invoice_data.xml"],
     "active": False,
     "installable": True,

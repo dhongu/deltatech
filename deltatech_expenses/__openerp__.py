@@ -39,6 +39,7 @@ Validarea documentrului duce la generarea notelor contabile de avans si inegistr
 
     'images': [''],
     'depends': ['account','account_voucher','product','l10n_ro','l10n_ro_account_voucher_cash'],
+    "license": "AGPL-3",
     'data' : ['account_voucher_view.xml',
                     'deltatech_expenses_deduction_view.xml',
                     'deltatech_expenses_deduction_report.xml',

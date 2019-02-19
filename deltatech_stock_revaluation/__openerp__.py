@@ -37,6 +37,7 @@ Functionalitati:
     "category" : "Generic Modules/Stock",
     "depends": ['stock'],
 
+    "license": "AGPL-3",
 
     "data" : [ 
                   'stock_view.xml', 

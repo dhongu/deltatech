@@ -33,6 +33,7 @@ Features:
  - Generare cod de produs  
  
 """,
+    "license": "AGPL-3",
     "data" : [
         "product_view.xml",
     ],

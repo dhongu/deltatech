@@ -37,7 +37,7 @@ Functionalitati:
     "category" : "Website",
     "depends" : ["website_sale" ],
 
-
+    "license": "AGPL-3",
     "data" : ['views/templates.xml','views/assets.xml','views/product_view.xml' ],
     "active": False,
     "installable": True,

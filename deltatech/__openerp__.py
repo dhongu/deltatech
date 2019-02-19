@@ -27,7 +27,9 @@
     "depends" : [],
     "description": 'Nu face nimic, este un modul generic'
                    '',
+
     "data" : [],
+"license": "AGPL-3",
     "active": False,
     "installable": True,
     'application': True,

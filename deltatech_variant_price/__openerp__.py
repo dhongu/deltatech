@@ -34,7 +34,7 @@ Functionalitati:
     
     "category" : "Generic Modules/Production",
     "depends" : ['deltatech','product'],
-
+    "license": "AGPL-3",
 
     "data" : [   
              ],

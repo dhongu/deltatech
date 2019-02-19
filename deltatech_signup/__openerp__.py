@@ -30,7 +30,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"base","auth_signup"],
- 
+    "license": "AGPL-3",
     "data" : ['views/auth_signup_login.xml'],
     "active": False,
     "installable": True,

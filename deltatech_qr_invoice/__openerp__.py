@@ -32,7 +32,7 @@ Features:
     """,
     
     "depends" : ['deltatech',"account",'crm'],
- 
+    "license": "AGPL-3",
     "data" : [
               "crm_view.xml",
               'views/invoice_report.xml',

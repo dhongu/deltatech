@@ -36,7 +36,7 @@ Functionalitati:
     
     "category" : "Generic Modules/Stock",
     "depends" : ['deltatech','stock'],
-
+    "license": "AGPL-3",
 
     "data" : [ 
                   'stock_view.xml', 

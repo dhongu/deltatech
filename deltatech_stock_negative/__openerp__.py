@@ -30,7 +30,7 @@
     """,
     "category" : "Generic Modules/Stock",
     "depends": ["base", "stock"],
- 
+    "license": "AGPL-3",
     "data" : [ 'res_config_view.xml'],
     "active": False,
     "installable": True,

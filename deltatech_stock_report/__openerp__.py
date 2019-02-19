@@ -35,7 +35,9 @@ Functionalitati:
     "depends": ["base", "stock","stock_account"],
 
 
-    "license": "LGPL-3", "data": [ 'security/ir.model.access.csv',
+    "license": "AGPL-3",
+
+    "data": [ 'security/ir.model.access.csv',
               "report/stock_picking_report.xml"],
     "active": False,
     "installable": True,

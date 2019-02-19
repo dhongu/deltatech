@@ -34,10 +34,6 @@ Functionalitati:
 - gestionare planuri de revizii
 - generare automat a comenzilor de service in baza planului
 
-
-
-
- 
     """,
 
     "category": "Generic Modules",
@@ -51,7 +47,9 @@ Functionalitati:
                 "web_notification",  # pentru afisare mesaje procese lansate in background
                 ],
 
-    "license": "LGPL-3", "data": [
+    "license": "AGPL-3",
+
+    "data": [
 
         'security/service_security.xml',
         'data.xml',

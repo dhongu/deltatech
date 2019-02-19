@@ -14,6 +14,7 @@ OpenERP E-Commerce Extension
         """,
 
     'depends': ['website', 'website_sale'],
+    "license": "AGPL-3",
     'data': [
         'views/product_view.xml',
         'views/templates.xml',

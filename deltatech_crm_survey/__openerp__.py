@@ -36,8 +36,7 @@ Functionalitati:
     'category': 'Customer Relationship Management',
     "depends" : ['deltatech',"crm","survey","deltatech_crm","deltatech_mail"],
 
-
- 
+    "license": "AGPL-3",
     "data" : [  "wizard/crm_new_survey_view.xml", 'crm_view.xml'],
     
     "active": False,

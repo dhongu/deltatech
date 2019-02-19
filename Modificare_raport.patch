@@ -1,0 +1,147 @@
+Index: addons/report/controllers/main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- addons/report/controllers/main.py	(date 1495051127000)
++++ addons/report/controllers/main.py	(revision )
+@@ -40,11 +40,11 @@
+     @route([
+         '/report/<path:converter>/<reportname>',
+         '/report/<path:converter>/<reportname>/<docids>',
++        '/report/<path:converter>/<reportname>/<docids>/<filename>',  # Dorin
+     ], type='http', auth='user', website=True)
+-    def report_routes(self, reportname, docids=None, converter=None, **data):
++    def report_routes(self, reportname, docids=None, converter=None, filename='', **data):
+         report_obj = request.registry['report']
+         cr, uid, context = request.cr, request.uid, request.context
+-
+         if docids:
+             docids = [int(i) for i in docids.split(',')]
+         options_data = None
+Index: addons/report/static/src/js/qwebactionmanager.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- addons/report/static/src/js/qwebactionmanager.js	(date 1495051127000)
++++ addons/report/static/src/js/qwebactionmanager.js	(revision )
+@@ -45,6 +45,15 @@
+                 if (!('data' in action) || !(action.data)) {
+                     if ('active_ids' in action.context) {
+                         report_url += "/" + action.context.active_ids.join(',');
++                        if ('filename' in action) {
++                            report_url += '/' + action.filename + '.pdf';
++                        }
++                        else if (action.report_rml_content) {
++                            if ('filename' in action.report_rml_content) {
++                             report_url += '/' + action.report_rml_content.filename + '.pdf';
++                            }
++                        }
++
+                     }
+                 } else {
+                     report_url += "?options=" + encodeURIComponent(JSON.stringify(action.data));
+@@ -84,7 +93,12 @@
+  support for table-breaking between pages.<br><br><a href="http://wkhtmltopdf.org/" \
+  target="_blank">wkhtmltopdf.org</a>'), true);
+                         }
+-                        return trigger_download(self.session, response, c, action, options);
++                        // --> Dorin
++                        //return trigger_download(self.session, response, c, action, options);
++                        instance.web.unblockUI();
++                        window.open(report_url,'_blank');
++                        return;
++                        /// <-- Dorin
+                     });
+                 } else if (action.report_type === 'controller') {
+                     return trigger_download(self.session, response, c, action, options);
+Index: addons/report/models/report.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- addons/report/models/report.py	(date 1495051127000)
++++ addons/report/models/report.py	(revision )
+@@ -287,6 +287,8 @@
+         :param ids: Ids of the records to print (if not used, pass an empty list)
+         :param report_name: Name of the template to generate an action for
+         """
++
++        filename = report_name
+         if ids:
+             if not isinstance(ids, list):
+                 ids = [ids]
+@@ -296,6 +298,11 @@
+         idreport = report_obj.search(cr, uid, [('report_name', '=', report_name)], context=context)
+         try:
+             report = report_obj.browse(cr, uid, idreport[0], context=context)
++            # --> Dorin
++            if ids:
++                obj = self.pool[report.model].browse(cr, uid, ids[0])
++                filename = obj.display_name.replace('/', '_', 10).replace(' ', '_', 10)
++                # <-- Dorin
+         except IndexError:
+             raise osv.except_osv(
+                 _('Bad Report Reference'),
+@@ -310,6 +317,7 @@
+             'report_type': report.report_type,
+             'report_file': report.report_file,
+             'context': context,
++            'filename': filename  # Dorin
+         }
+ 
+     @api.v8
+@@ -328,6 +336,7 @@
+         save_in_attachment = {}
+         save_in_attachment['model'] = report.model
+         save_in_attachment['loaded_documents'] = {}
++        save_in_attachment['attachment_use'] = report.attachment_use
+ 
+         if report.attachment:
+             for record_id in ids:
+@@ -412,6 +421,7 @@
+ 
+         for index, reporthtml in enumerate(bodies):
+             local_command_args = []
++            # local_command_args = ['--title', save_in_attachment.get(reporthtml[0])]
+             pdfreport_fd, pdfreport_path = tempfile.mkstemp(suffix='.pdf', prefix='report.tmp.')
+             temporary_files.append(pdfreport_path)
+ 
+@@ -457,7 +467,8 @@
+                                            'Message: %s') % (str(process.returncode), err))
+ 
+                 # Save the pdf in attachment if marked
+-                if reporthtml[0] is not False and save_in_attachment.get(reporthtml[0]):
++                if save_in_attachment['attachment_use'] and reporthtml[0] is not False and save_in_attachment.get(
++                        reporthtml[0]):
+                     with open(pdfreport_path, 'rb') as pdfreport:
+                         attachment = {
+                             'name': save_in_attachment.get(reporthtml[0]),
+@@ -590,3 +601,4 @@
+             return barcode.asString('png')
+         except (ValueError, AttributeError):
+             raise ValueError("Cannot convert into barcode.")
++
+Index: openerp/addons/base/ir/ir_actions.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+@@@ -88,7 -88,7 +88,15 @@@ class ir_actions_report_xml(osv.osv)
+                  finally:
+                      if fp:
+                          fp.close()
+++                try:
+++                    obj = self.pool[report.model].browse(cursor, user, context['active_id'])
+++                    if not data:
+++                        data = {}
+++                    data['filename'] = obj.display_name.replace('/', '_', 10).replace(' ','_',10)
+++                except:
+++                    pass
+              res[report.id] = data
+++
+          return res
+  
+      def _report_content_inv(self, cursor, user, id, name, value, arg, context=None):
+

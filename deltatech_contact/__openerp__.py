@@ -36,7 +36,7 @@ Functionalitati:
     "depends" : ['deltatech',"base"],
 
 
- 
+    "license": "AGPL-3",
     "data" : ["res_partner_view.xml",
               'security/partner_security.xml',
               'security/ir.model.access.csv'],

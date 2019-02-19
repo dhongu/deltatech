@@ -32,7 +32,7 @@ Functionalitati:
     """,
     "category" : "Generic Modules/Other",
     "depends" : ['deltatech',"account","l10n_ro_invoice_report"],
- 
+    "license": "AGPL-3",
     "data" : ['account_invoice_view.xml',
               'views/report_invoice.xml' ],
     "active": False,

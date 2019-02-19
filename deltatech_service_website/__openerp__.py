@@ -47,7 +47,7 @@ Functionalitati:
                  'deltatech_website_datatables',
                  ],
 
-
+    "license": "AGPL-3",
     "data" : [ 'data.xml',             
                'views/website_equipment.xml',
                'views/website_service.xml',

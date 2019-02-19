@@ -35,7 +35,7 @@ Functionalitati:
     "category" : "Generic Modules",
     "depends" : ["website" ],
 
-
+    "license": "AGPL-3",
     "data" : ['views/website.xml' ],
     "active": False,
     "installable": True,

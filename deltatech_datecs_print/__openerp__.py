@@ -34,7 +34,7 @@ Functionalitati:
     'category': 'Generic Modules',
     "depends" : ['deltatech',"account"],
 
-
+    "license": "AGPL-3",
  
     "data" : [ 'views/invoice_report.xml','wizard/export_datecs_view.xml' ],
     

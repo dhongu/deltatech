@@ -35,6 +35,9 @@ Functionalitati:
  - Afisare miscari personale (dezactivat)
  - Afisare quanturi proprii (dezactivat)
     """,
+
+    "license": "AGPL-3",
+
     "data" : [
          'security/security.xml',
          'stock_view.xml',

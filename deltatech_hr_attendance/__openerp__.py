@@ -35,7 +35,8 @@ Functionalitati:
     "category": "Generic Modules/Stock",
     "depends": [  "hr_attendance"],
 
-    "license": "LGPL-3", "data": [
+    "license": "AGPL-3",
+    "data": [
         'wizard/hr_attendance_import_view.xml',
         'hr_employee_view.xml'
     ],
