@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 
+
 class MRPSummary(models.TransientModel):
     _name = 'mrp.summary'
 
@@ -15,7 +16,7 @@ class MRPSummary(models.TransientModel):
     date_from = fields.Date('Start Date', required=True, default=fields.Date.today)
     date_to = fields.Date('End Date', required=True, default=fields.Date.today)
 
-    line_ids = fields.One2many('mrp.summary.line','report_id')
+    line_ids = fields.One2many('mrp.summary.line', 'report_id')
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -51,8 +52,8 @@ class MRPSummary(models.TransientModel):
                     'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += sign*move.product_qty
-                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         #
         # determinare obtinut
@@ -133,7 +134,7 @@ class MRPSummaryLine(models.TransientModel):
     product_id = fields.Many2one('product.product')
     account_id = fields.Many2one('account.account')
     categ_id = fields.Many2one('product.category')
-    qty = fields.Float(string='Quantity',digits= dp.get_precision('Product Unit of Measure'))
+    qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
     consumed = fields.Float(string='Consumed')
     obtained = fields.Float(string='Obtained')
     amount = fields.Float()

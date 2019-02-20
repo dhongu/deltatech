@@ -18,7 +18,7 @@ class MRPSimple(models.TransientModel):
     picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume")
     picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt")
 
-    date = fields.Date()
+    date = fields.Date(string="Date",default=fields.Date.today)
 
     validation_consume = fields.Boolean()
     validation_receipt = fields.Boolean(default=True)
@@ -91,6 +91,7 @@ class MRPSimple(models.TransientModel):
                 'product_id': product.id,
                 'product_uom': uom.id,
                 'product_uom_qty': quantity,
+                'quantity_done':quantity,         # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
