@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="deltatech_product_auto_rule.default_rule_warehouse_id" model="ir.config_parameter">
+            <field name="key">deltatech_product_auto_rule.default_rule_warehouse_id</field>
+            <field name="value">1</field>
+        </record>
+        <record id="deltatech_product_auto_rule.default_rule_location_id" model="ir.config_parameter">
+            <field name="key">deltatech_product_auto_rule.default_rule_location_id</field>
+            <field name="value">1</field>
+        </record>
+    </data>
+</odoo>
