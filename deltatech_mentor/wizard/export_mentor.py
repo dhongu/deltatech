@@ -198,7 +198,7 @@ class export_mentor(models.TransientModel):
         return temp_file, result_html
 
     @api.model
-    def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
+    def do_export_intrari(self, invoice_in_ids ):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -209,7 +209,7 @@ class export_mentor(models.TransientModel):
                 'AnLucru': invoice.date_invoice[:4],
                 'LunaLucru': invoice.date_invoice[5:7],
                 'TipDocument': 'FACTURA INTRARE',
-                'TotalFacturi': len(invoice_in_ids) + len(voucher_in_ids)
+                'TotalFacturi': len(invoice_in_ids)
             }
         index = 1
         for invoice in invoice_in_ids:
@@ -292,6 +292,98 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(intrari)
 
         return temp_file, result_html
+
+
+    @api.model
+    def do_export_bonuri_intrari(self,  voucher_in_ids):
+        result_html = ''
+        intrari = configparser.ConfigParser()
+        intrari.optionxform = lambda option: option
+        if voucher_in_ids:
+            invoice = voucher_in_ids[0]
+
+            intrari['InfoPachet'] = {
+                'AnLucru': invoice.date_invoice[:4],
+                'LunaLucru': invoice.date_invoice[5:7],
+                'TipDocument': 'BON FISCAL INTRARE',
+                'TotalBonuri':   len(voucher_in_ids)
+            }
+        index = 1
+        for voucher in voucher_in_ids:
+            cod_fiscal = self.get_cod_fiscal(voucher.partner_id)
+
+            sections_name = 'Bon_%s' % index
+            if voucher.reference:
+                NrDoc = voucher.reference
+            else:
+                NrDoc = voucher.number
+            # Mentorul accepta doar 10 cifre la numar
+            NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
+
+            intrari[sections_name] = {
+                'NrDoc': NrDoc,
+                'Data': self.get_date(voucher),
+                'CodFurnizor': cod_fiscal,
+                'TotalArticole': len(voucher.line_ids)
+            }
+            sections_name = 'Items_%s' % index
+            intrari[sections_name] = {}
+            item = 0
+            sign = 1
+
+            for line in voucher.line_ids:
+                item += 1
+                code = self.get_product_code(line.product_id)
+                if not code:
+                    error = _("Produsul %s nu are cod") % line.product_id.name
+                    result_html += '<div>Eroare %s</div>' % error
+
+                if line.product_id.type == 'product':
+                    cont = ''
+                    gestiune = self.get_gestiune(line.product_id)
+                else:
+                    gestiune = ''
+                    cont = self.get_cont(line.account_id)
+
+                qty = line.quantity * sign
+                price = line.price_unit
+
+
+                mentor_uom_id = self.get_product_uom(line.product_id)
+                if line.uom_id != mentor_uom_id:
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                else:
+                    qty = sign * line.quantity
+                    price = line.price_unit
+
+                code = self.get_product_code(line.product_id)
+                intrari[sections_name]['Item_%s' % item] = ';'.join([
+                    code,  # Cod intern/extern articol;
+                    self.get_uom(mentor_uom_id),
+
+                    str(qty),
+                    str(price),  # line., price_unit_without_taxes
+                    gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
+                    str(line.discount),  # Discount linie
+                    cont,  # Simbol cont articol serviciu;
+                    '',  # Pret inregistrare;
+                    '',  # Termen garantie;
+                    '',  # Valoare suplimentara;
+                    ''  # Observatii la nivel articol;
+                ])
+                # if line.uom_id.id != line.product_id.uom_id.id:
+                #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
+                #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
+
+            index += 1
+
+        temp_file = self.get_temp_file(intrari)
+
+        return temp_file, result_html
+
+
+
 
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
@@ -582,6 +674,8 @@ class export_mentor(models.TransientModel):
             domain += [('journal_id', 'in', self.journal_ids.ids)]
 
         invoice_in_ids = self.env['account.invoice'].search(domain)
+
+
         domain = [
             ('date', '>=', self.date_from),
             ('date', '<=', self.date_to),
@@ -676,14 +770,22 @@ class export_mentor(models.TransientModel):
 
         temp_file, messaje = self.do_export_articole(product_ids)
         result_html += messaje
-
         file_name = 'Articole.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
+        temp_file, messaje = self.do_export_intrari(invoice_in_ids)
         result_html += messaje
         file_name = 'Facturi_Intrare.txt'
         zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_bonuri_intrari(voucher_in_ids)
+        result_html += messaje
+        file_name = 'Bonuri Fiscale Intrare.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+
+
+
 
         temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
         result_html += messaje

@@ -76,6 +76,7 @@ class StockSimpleTransfer(models.TransientModel):
                 'product_id': product.id,
                 'product_uom': uom.id,
                 'product_uom_qty': quantity,
+               # 'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
