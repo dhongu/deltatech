@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
 
+
 class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
 
@@ -15,10 +16,11 @@ class MRPSimple(models.TransientModel):
     product_out_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
                                       domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
 
-    picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume")
-    picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt")
+    picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume", required=True, )
+    picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt",
+                                                      required=True)
 
-    date = fields.Date(string="Date",default=fields.Date.today)
+    date = fields.Date(string="Date", default=fields.Date.today, required=True)
 
     validation_consume = fields.Boolean()
     validation_receipt = fields.Boolean(default=True)
@@ -91,7 +93,7 @@ class MRPSimple(models.TransientModel):
                 'product_id': product.id,
                 'product_uom': uom.id,
                 'product_uom_qty': quantity,
-                'quantity_done':quantity,         # o fi bine >???
+                'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
@@ -107,7 +109,7 @@ class MRPSimpleLine(models.TransientModel):
 
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
-    quantity = fields.Float(string="Quantity", digits= dp.get_precision('Product Unit of Measure'))
+    quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),
