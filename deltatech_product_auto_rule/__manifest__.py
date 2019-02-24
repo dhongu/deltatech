@@ -23,7 +23,8 @@ Includes a function that creates blank rules for all existing products.
 
 
 """,
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'data/config_data.xml'
     ],
     "images": ['images/main_screenshot.png'],
