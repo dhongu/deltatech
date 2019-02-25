@@ -135,7 +135,9 @@ class service_agreement(models.Model):
                                           string="Billing automation", default='manual')
 
     notes = fields.Text(string='Notes')
-    meter_reading_status = fields.Boolean(default=False, string="Readings done")
+    meter_reading_status = fields.Boolean(default=False, string="Readings done", track_visibility='onchange')
+    meter_last_reading_date = fields.Date(string='Last reading date')
+    meter_last_reading_value = fields.Float(string='Last reading value')
     user_id = fields.Many2one('res.users', string='Salesperson', track_visibility='onchange',
                               readonly=True,  states={'draft': [('readonly', False)]},
                               default=lambda self: self.env.user)
@@ -228,14 +230,21 @@ class service_agreement(models.Model):
             if total_invoiced > 0.0:
                 total_percent = (total_costs/total_invoiced)*100
 
-
+            # get last reading date/value
+            equipments = self.env['service.equipment'].search([('agreement_id', '=', agreement.id)])
+            last_reading = self.env['service.meter.reading'].search([('equipment_id', 'in', equipments.ids)],
+                                                                        order='date, id desc', limit=1)
             agreement.write({'total_invoiced': total_invoiced,
                              'total_consumption': total_consumption,
                              'total_costs': total_costs,
-                             'total_percent':total_percent
+                             'total_percent':total_percent,
+                             'meter_last_reading_date':last_reading.date,
+                             'meter_last_reading_value':last_reading.counter_value
                              })
 
+
     # TODO: de legat acest contract la un cont analitic ...
+
     @api.one
     def _compute_last_invoice_id(self):
         self.last_invoice_id = self.env['account.invoice'].search(
@@ -489,6 +498,41 @@ class account_invoice(models.Model):
             c_reading_ids += [consumption.id]
         readings = self.env['service.meter.reading'].search([('consumption_id','in',c_reading_ids)])
         return readings
+
+    @api.multi
+    def get_counter_lines(self):
+        readings = []
+        c_reading_ids = []
+        consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
+        for consumption in consumptions:
+            c_reading_ids += [consumption.id]
+        readings = self.env['service.meter.reading'].search([('consumption_id', 'in', c_reading_ids)])
+        meters_ids = [] # all meters with readings
+        for reading in readings:
+            if reading.meter_id not in meters_ids:
+                meters_ids += [reading.meter_id]
+        lines = []
+        for meter_id in meters_ids:
+            line = {}
+            min = 9999999999
+            max = 0
+            for reading in readings:
+                if reading.meter_id == meter_id:
+                    if reading.previous_counter_value < min:
+                        min = reading.previous_counter_value
+                    if reading.counter_value > max:
+                        max = reading.counter_value
+                        line['date'] = reading.date
+                    line['equipment_id'] = reading.equipment_id.display_name
+                    # line[reading.id] = reading
+                    line['min'] = min
+                    line['max'] = max
+                    line['serial_id'] = reading.equipment_id.serial_id.name
+                    line['meter_id'] = reading.meter_id.name
+                    line['address_id'] = reading.address_id.display_name
+            lines += [line]
+
+        return sorted(lines, key=lambda k: k['address_id'])
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'

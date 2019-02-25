@@ -887,3 +887,12 @@ msgstr "sau"
 msgid "Partner invoicing is blocked!"
 msgstr "Partenerul este blocat la facturare!"
 
+#. module: deltatech_service
+#: field:service.agreement,meter_last_reading_date:0
+msgid "Last reading date"
+msgstr "Data ultima citire"
+
+#. module: deltatech_service
+#: field:service.agreement,meter_last_reading_value:0
+msgid "Last reading value"
+msgstr "Valoare citire"
