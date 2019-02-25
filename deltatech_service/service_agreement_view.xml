@@ -68,8 +68,6 @@
                     <field name="description"/>
                     <field name="state"/>
                     <field name="meter_reading_status"/>
-                    <field name="meter_last_reading_date"/>
-                    <field name="meter_last_reading_value"/>
                     <field name="type_id"/>
                     <field name="total_consumption" sum="consumption"/>
                     <field name="total_invoiced" sum="invoiced"/>

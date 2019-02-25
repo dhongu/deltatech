@@ -136,8 +136,6 @@ class service_agreement(models.Model):
 
     notes = fields.Text(string='Notes')
     meter_reading_status = fields.Boolean(default=False, string="Readings done", track_visibility='onchange')
-    meter_last_reading_date = fields.Date(string='Last reading date')
-    meter_last_reading_value = fields.Float(string='Last reading value')
     user_id = fields.Many2one('res.users', string='Salesperson', track_visibility='onchange',
                               readonly=True,  states={'draft': [('readonly', False)]},
                               default=lambda self: self.env.user)
@@ -230,16 +228,10 @@ class service_agreement(models.Model):
             if total_invoiced > 0.0:
                 total_percent = (total_costs/total_invoiced)*100
 
-            # get last reading date/value
-            equipments = self.env['service.equipment'].search([('agreement_id', '=', agreement.id)])
-            last_reading = self.env['service.meter.reading'].search([('equipment_id', 'in', equipments.ids)],
-                                                                        order='date, id desc', limit=1)
             agreement.write({'total_invoiced': total_invoiced,
                              'total_consumption': total_consumption,
                              'total_costs': total_costs,
-                             'total_percent':total_percent,
-                             'meter_last_reading_date':last_reading.date,
-                             'meter_last_reading_value':last_reading.counter_value
+                             'total_percent':total_percent
                              })
 
 
