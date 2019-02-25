@@ -66,6 +66,7 @@
                     <field name="inventory_value" sum="total"/>
                     <field name="readings_status"/>
                     <field name="last_reading"/>
+                    <field name="last_reading_value"/>
                     <field name="total_percent"/>
                     <field name="total_costs" sum="total"/>
                     <field name="total_revenues" sum="total"/>

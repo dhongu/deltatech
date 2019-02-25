@@ -175,6 +175,7 @@ class service_equipment(models.Model):
                                      If it's positive, it gives the day of the month. Set 0 for net days .""")
     last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
     next_reading = fields.Date('Next reading date', readonly=True, default="2000-01-01")
+    last_reading_value = fields.Float(string='Last reading value')
 
     _sql_constraints = [
         ('ean_code_uniq', 'unique(ean_code)',
@@ -252,9 +253,13 @@ class service_equipment(models.Model):
 
             if revenues > 0.0:
                 total_percent = (cost/revenues)*100
+
+            last_reading = self.env['service.meter.reading'].search([('equipment_id', '=', equi.id)],
+                                                                        order='date, id desc', limit=1)
             equi.write({'total_costs': cost,
                         'total_revenues': revenues,
-                        'total_percent': total_percent
+                        'total_percent': total_percent,
+                         'last_reading_value':last_reading.counter_value
                         })
 
     @api.model

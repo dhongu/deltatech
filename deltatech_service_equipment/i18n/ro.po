@@ -1456,3 +1456,13 @@ msgstr "Echipament:"
 #: view:website:l10n_ro_stock_picking_report.report_delivery
 msgid "Agreement:"
 msgstr "Contract:"
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,last_reading_value:0
+msgid "Last reading value"
+msgstr "Valoare citire"
+
+#. module: deltatech_service_equipment
+#: field:service.equipment,last_reading:0
+msgid "Last Reading Date"
+msgstr "Data ultima citire"
