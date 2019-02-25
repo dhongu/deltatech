@@ -26,12 +26,14 @@ GraphModel.include({
 
     _processData: function (raw_data) {
          this._super.apply(this, arguments);
-         if (this.color) {
-             for (var i = 0; i < raw_data.length; i++) {
-                data_pt = raw_data[i];
-                line = this.chart.data[i];
+
+         for (var i = 0; i < raw_data.length; i++) {
+            data_pt = raw_data[i];
+            line = this.chart.data[i];
+            if (this.color) {
                 line.color = data_pt[this.color];
-             }
+            }
+            line.domain = data_pt.__domain;
          }
     }
 

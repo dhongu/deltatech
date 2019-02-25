@@ -14,7 +14,10 @@ GraphRenderer.include({
     init: function (parent, state, params) {
         this._super.apply(this, arguments);
         this.discrete = params.discrete;
-
+        this.colors = [
+         '#377eb8','#e41a1c', '#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#999999',
+        '#3182bd','#6baed6','#9ecae1','#c6dbef','#e6550d','#fd8d3c','#fdae6b','#fdd0a2','#31a354',
+        '#74c476','#a1d99b','#c7e9c0','#756bb1','#9e9ac8','#bcbddc','#dadaeb','#636363','#969696','#bdbdbd','#d9d9d9'];
     },
 
 
@@ -81,10 +84,7 @@ GraphRenderer.include({
         svg.transition().duration(0);
 
         var chart = nv.models.discreteBarChart();
-        var colors = [
-         '#377eb8','#e41a1c', '#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#999999',
-        '#3182bd','#6baed6','#9ecae1','#c6dbef','#e6550d','#fd8d3c','#fdae6b','#fdd0a2','#31a354',
-        '#74c476','#a1d99b','#c7e9c0','#756bb1','#9e9ac8','#bcbddc','#dadaeb','#636363','#969696','#bdbdbd','#d9d9d9'];
+
         chart.options({
           margin: {left: 80, bottom: 100, top: 80, right: 0},
           delay: 100,
@@ -92,7 +92,7 @@ GraphRenderer.include({
           showLegend: false,//_.size(data) <= MAX_LEGEND_LENGTH,
           showXAxis: true,
           color: function(d,i){
-            return (d.data && d.data.color) || colors[i % colors.length]
+            return (d.data && d.data.color) || this.colors[i % this.colors.length]
           },
           showYAxis: true,
           rightAlignYAxis: false,
@@ -117,7 +117,7 @@ GraphRenderer.include({
    _renderMultiBarChart: function () {
         // prepare data for bar chart
         var self = this;
-        var data, values;
+        var data, values, domains;
         var measure = this.state.fields[this.state.measure].string;
 
         // zero groupbys
@@ -125,15 +125,18 @@ GraphRenderer.include({
             data = [{
                 values: [{
                     x: measure,
-                    y: this.state.data[0].value}],
+                    y: this.state.data[0].value,
+                    domain:this.state.data[0].domain
+                }],
                 key: measure,
-                color:false
+                color:false,
+
             }];
         }
         // one groupby
         if (this.state.groupedBy.length === 1) {
             values = this.state.data.map(function (datapt) {
-                return {x: datapt.labels, y: datapt.value};
+                return {x: datapt.labels, y: datapt.value, domain:datapt.domain};
             });
             data = [
                 {
@@ -147,8 +150,9 @@ GraphRenderer.include({
             var xlabels = [],
                 series = [],
                 series_color = [],
-                label, serie, value ,color;
+                label, serie, value ,color, domain;
             values = {};
+            domains = {};
             for (var i = 0; i < this.state.data.length; i++) {
                 label = this.state.data[i].labels[0];
                 serie = this.state.data[i].labels[1];
@@ -166,9 +170,11 @@ GraphRenderer.include({
                 }
                 series.push(this.state.data[i].labels[1]);
 
-                if (!(serie in values)) {values[serie] = {};}
+                if (!(serie in values)) {values[serie] = {};domains[serie]={}}
                 values[serie][label] = this.state.data[i].value;
-                series_color[serie]=color
+                domains[serie][label] = this.state.data[i].domain;
+                series_color[serie] = color;
+
             }
             series = _.uniq(series);
             data = [];
@@ -178,7 +184,8 @@ GraphRenderer.include({
                 for (j = 0; j < xlabels.length; j++) {
                     current_serie.values.push({
                         x: xlabels[j],
-                        y: values[series[i]][xlabels[j]] || 0
+                        y: values[series[i]][xlabels[j]] || 0,
+                        domain: domains[series[i]][xlabels[j]],
                     });
                 }
                 data.push(current_serie);
@@ -190,10 +197,7 @@ GraphRenderer.include({
         svg.transition().duration(0);
 
         var chart = nv.models.multiBarChart();
-        var colors = [
-         '#377eb8','#e41a1c', '#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#999999',
-        '#3182bd','#6baed6','#9ecae1','#c6dbef','#e6550d','#fd8d3c','#fdae6b','#fdd0a2','#31a354',
-        '#74c476','#a1d99b','#c7e9c0','#756bb1','#9e9ac8','#bcbddc','#dadaeb','#636363','#969696','#bdbdbd','#d9d9d9'];
+
 
         chart.options({
           margin: {left: 80, bottom: 100, top: 80, right: 0},
@@ -201,7 +205,7 @@ GraphRenderer.include({
           transition: 10,
 
           color: function(d,i){
-            return (d.values && d.values.color) || colors[i % colors.length]
+            return (d.values && d.values.color) || this.colors[i % this.colors.length]
           },
 
           showLegend: _.size(data) <= MAX_LEGEND_LENGTH,
@@ -213,6 +217,12 @@ GraphRenderer.include({
           rotateLabels: -20,
           showControls: (this.state.groupedBy.length > 1)
         });
+
+        chart.multibar.dispatch.on("elementClick", function(e) {
+           e.state =  self.state;
+           self.trigger_up('bar_click', e);
+        });
+
         chart.yAxis.tickFormat(function (d) {
             var measure_field = self.state.fields[self.measure];
             return field_utils.format.float(d, {

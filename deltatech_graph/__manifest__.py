@@ -9,6 +9,11 @@
     "website": "www.terrabit.ro",
     "description": """
  
+Features:
+ - Can set color for bar
+ - Click on bar for detail
+ 
+ 
     """,
 
     "category": "Generic Modules",
