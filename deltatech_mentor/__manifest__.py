@@ -35,8 +35,10 @@ Documentatia Mentor de import  din alte aplicatii:
     'external_dependencies': {
         'python': ['configparser'],
     },
-
-    "license": "LGPL-3","data": [
+    "price": 200.00,
+    "currency": "EUR",
+    "license": "LGPL-3",
+    "data": [
         'views/product_view.xml',
         'views/stock_location_view.xml',
 

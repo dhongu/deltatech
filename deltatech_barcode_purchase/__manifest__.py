@@ -18,6 +18,8 @@ Features:
  - Adds products to the purchase order using barcode scanner
  
 """,
+    "price": 15.00,
+    "currency": "EUR",
     "license": "LGPL-3","data": [
         'views/purchase_views.xml'
     ],

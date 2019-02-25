@@ -18,7 +18,10 @@ Features:
  - Adds products to picking using barcode scanner
  
 """,
-    "license": "LGPL-3","data": [
+    "price": 15.00,
+    "currency": "EUR",
+    "license": "LGPL-3",
+    "data": [
         'views/picking_views.xml',
         'views/stock_inventory_view.xml'
     ],

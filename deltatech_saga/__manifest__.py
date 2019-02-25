@@ -25,7 +25,11 @@ Functionalitati:
         "account", 'base_vat', "deltatech_contact"
     ],
 
-    "license": "LGPL-3","data": [
+    "price": 150.00,
+    "currency": "EUR",
+
+    "license": "LGPL-3",
+    "data": [
         'data/data.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
