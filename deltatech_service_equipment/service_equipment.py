@@ -255,7 +255,7 @@ class service_equipment(models.Model):
                 total_percent = (cost/revenues)*100
 
             last_reading = self.env['service.meter.reading'].search([('equipment_id', '=', equi.id)],
-                                                                        order='date, id desc', limit=1)
+                                                                        order='date desc, id desc', limit=1)
             equi.write({'total_costs': cost,
                         'total_revenues': revenues,
                         'total_percent': total_percent,
