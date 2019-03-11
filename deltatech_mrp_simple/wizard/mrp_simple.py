@@ -53,21 +53,22 @@ class MRPSimple(models.TransientModel):
         if picking_out.move_lines:
             picking_out.action_assign()
             if self.validation_consume:
-                picking_out.button_validate()
                 if picking_out.state == 'assigned':
                     for move in picking_out.move_lines:
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
+                picking_out.button_validate()
+
 
         # se face receptia
         if picking_in.move_lines:
             picking_in.action_assign()
             if self.validation_receipt:
-                picking_in.button_validate()
                 if picking_in.state == 'assigned':
                     for move in picking_in.move_lines:
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
+                picking_in.button_validate()
 
         return {
             'domain': [('id', 'in', [picking_in.id, picking_out.id])],
@@ -93,11 +94,12 @@ class MRPSimple(models.TransientModel):
                 'product_id': product.id,
                 'product_uom': uom.id,
                 'product_uom_qty': quantity,
-                'quantity_done': quantity,  # o fi bine >???
+                # 'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
-                'location_dest_id': picking.picking_type_id.default_location_dest_id.id
+                'location_dest_id': picking.picking_type_id.default_location_dest_id.id,
+                'picking_type_id': picking.picking_type_id.id
             }
 
             move = self.env['stock.move'].create(values)
