@@ -66,6 +66,7 @@ Functionalitati:
                 'security/ir.model.access.csv',
                 'views/report_saleorder_sia.xml',
                 'views/report_saleorder_v5.xml',
+                'resource_convert_view.xml'
              ],
     
     

@@ -5,6 +5,8 @@ access_sale_mrp_article,access_sale_mrp_article,model_sale_mrp_article,,1,1,1,1
 access_sale_mrp_resource,access_sale_mrp_resource,model_sale_mrp_resource,,1,1,1,1
 access_sale_mrp_resource_item,access_sale_mrp_resource_item,model_sale_mrp_resource_item,,1,1,1,1
 access_sale_mrp_order_attribute,access_sale_mrp_order_attribute,model_sale_mrp_order_attribute,,1,1,1,1
+access_sale_mrp_convert_manager,access_sale_mrp_convert_manager,deltatech_mrp_sale.model_resource_replace_rule,base.group_sale_manager,1,1,1,1
+access_sale_mrp_convert_user,access_sale_mrp_convert_user,deltatech_mrp_sale.model_resource_replace_rule,base.group_sale_salesman,1,0,0,0
 
 
 

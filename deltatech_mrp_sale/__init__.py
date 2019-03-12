@@ -25,7 +25,7 @@ import product
 import mrp
 import mrp_sale
 import wizard
-
+import resource_convert
 
 
 

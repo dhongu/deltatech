@@ -230,6 +230,17 @@
 			</field>
 		</record>
 
+		<record id="view_order_form_convert" model="ir.ui.view">
+			<field name="name">sale.order.form.convert</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="deltatech_percent_qty.view_order_form" />
+			<field name="arch" type="xml">
+				<button name="button_update" position="after">
+						<button name="button_convert_sale" string="Convert BBC" type="object" groups="base.group_sale_salesman"/>
+				</button>
+			</field>
+		</record>
+
 		<record id="view_sale_mrp_resource_item_tree" model="ir.ui.view">
 			<field name="name">Sale Resource Item</field>
 			<field name="model">sale.mrp.resource.item</field>

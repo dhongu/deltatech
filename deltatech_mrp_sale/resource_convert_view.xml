@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+        <record id="resource_convert_tree_view" model="ir.ui.view">
+			<field name="name">resource.convert.tree</field>
+			<field name="model">resource.replace.rule</field>
+            <field name= "arch" type = "xml">
+                    <tree editable="top" create="1">
+                        <field name="sequence" widget="handle"/>
+                        <field name="parent_id"/>
+                        <field name="from_product"/>
+                        <field name="to_product"/>
+                        <field name="factor"/>
+                        <field name="type"/>
+                    </tree>
+            </field>
+        </record>
+
+        <record id="resource_convert_form_view" model="ir.ui.view">
+			<field name="name">resource.convert.form</field>
+			<field name="model">resource.replace.rule</field>
+            <field name= "arch" type = "xml">
+                <form>
+                    <field name="sequence" widget="handle"/>
+                    <field name="parent_id"/>
+                    <field name="from_product"/>
+                    <field name="to_product"/>
+                    <field name="factor"/>
+                    <field name="type"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="deltatech_mrp_sale.action_resource_convert" model="ir.actions.act_window">
+			<field name="name">Resource convert rules</field>
+			<field name="res_model">resource.replace.rule</field>
+            <field name="view_id" ref="resource_convert_tree_view"/>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem name="Reguli conversie" id="resource_convert_rules" action="action_resource_convert"  parent="base.menu_product" sequence="40" groups="base.group_sale_manager" />
+
+
+
+    </data>
+</openerp>
