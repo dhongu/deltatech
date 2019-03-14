@@ -4,8 +4,8 @@
 
 
 
-import models
-import wizard
+from . import radius
+from . import res_partner
 
 
  
