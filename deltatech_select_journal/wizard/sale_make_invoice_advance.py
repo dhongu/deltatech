@@ -68,7 +68,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
     @api.multi
     def _create_invoice(self, order, so_line, amount):
-        new_self = self.with_context(default_journal_id=self.journal_id)
+        new_self = self.with_context(default_journal_id=self.journal_id.id)
         invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
 
         to_currency = self.journal_id.currency_id or self.env.user.company_id.currency_id
@@ -84,10 +84,14 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 invoice.compute_taxes()
             else:
                 for line in invoice.invoice_line_ids:
-                    taxes = line.product_id.taxes_id or self.account_id.tax_ids
-                    for tax in taxes:
-                        price_w_taxes = self.amount / (1 + tax.amount / 100)
-                    line.write({'price_unit': price_w_taxes})
+
+                    taxes = line.product_id.taxes_id or self.deposit_account_id.tax_ids
+                    if taxes:
+                        for tax in taxes:
+                            price_w_taxes = self.amount / (1 + tax.amount / 100)
+                        line.write({'price_unit': price_w_taxes})
+                    else:
+                        line.write({'price_unit': self.amount})
                     price_unit_saleorder = to_currency.compute(self.amount, from_currency, round=False)
                     sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
                     for order in sale_orders:
