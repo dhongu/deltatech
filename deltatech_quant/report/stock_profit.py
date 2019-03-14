@@ -94,15 +94,16 @@ class StockProfitReport(models.Model):
             join product_template pt on (pp.product_tmpl_id=pt.id)
             left join ( 
                     select sum(qty) as qty_available , stock_quant.product_id, stock_quant.location_id,
-                                   supplier_id
+                                   supplier_id, customer_id
                         from stock_quant 
                                 join stock_location on stock_location.id = stock_quant.location_id
                          where stock_location.usage =  'internal'
-                          group by stock_quant.product_id, stock_quant.location_id,   supplier_id
+                          group by stock_quant.product_id, stock_quant.location_id,   supplier_id, customer_id
                           
             ) available on available.product_id = sq.product_id and 
                            available.location_id = sq.location_id and 
-                           available.supplier_id = sq.supplier_id
+                           (available.supplier_id = sq.supplier_id or (available.supplier_id is null and sq.supplier_id is null )) and
+                           (available.customer_id = sq.customer_id or (available.customer_id is null and sq.customer_id is null ))
         """
         return from_str
 
