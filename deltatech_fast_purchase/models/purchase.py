@@ -35,7 +35,7 @@ class PurchaseOrder(models.Model):
             # result['target'] = 'new'
             if not action['context']:
                 action['context'] = {}
-            action['context']['default_date_invoice'] = self.date_order[:10]
+            action['context']['default_date_invoice'] = self.date_order
             action['views'] = [[False, "form"]]
         return action
 
@@ -72,7 +72,7 @@ class PurchaseOrder(models.Model):
         # override the context to get rid of the default filtering
         invoice_type = 'in_invoice'
         result['context'] = {'default_purchase_id': self.id,
-                             'default_date_invoice': self.date_planned[:10]}
+                             'default_date_invoice': self.date_planned}
 
 
         for line in self.order_line:
