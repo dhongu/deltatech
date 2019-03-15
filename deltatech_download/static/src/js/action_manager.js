@@ -1,10 +1,10 @@
-odoo.define('deltatech_pos.ActionManager', function (require) {
+odoo.define('deltatech_download.ActionManager', function (require) {
 "use strict";
 
 var ActionManager = require('web.ActionManager');
 var session = require('web.session');
 var framework = require('web.framework');
-var report = require('report.report');
+
 
 var wkhtmltopdf_state;
 

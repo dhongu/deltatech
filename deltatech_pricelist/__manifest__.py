@@ -10,7 +10,7 @@
     "description": """
     
 Functionalitati:
-    - pretul de lista din datele de baza ala produsului poate fa fie in alta moneda 
+    - pretul de lista din datele de baza ala produsului poate sa fie in alta moneda 
 
     """,
 

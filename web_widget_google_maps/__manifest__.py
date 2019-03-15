@@ -6,12 +6,12 @@
 
 {
     'name': 'Widget Google Maps',
-    'version': '11.0.2.1.0',
+    'version': '12.0.2.1.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     'license': 'AGPL-3',
     'category': 'Odoo  widgets',
-    'depends': ['web'],
+    'depends': ['web','website'],
     'data': ['views/web_gmaps_assets.xml'],
 
     'qweb': [

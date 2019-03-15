@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech Download File",
-    "version": "1.0",
+    'version': '12.0.0.0.0',
     "author": "Dorin Hongu",
     'summary': 'Generare fisier',
     "website": "www.terrabit.ro",

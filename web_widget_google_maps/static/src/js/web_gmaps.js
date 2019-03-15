@@ -131,7 +131,7 @@ var GMapMarker = Widget.extend({
  
  });
 
-core.form_custom_registry.add('gmap_marker', GMapMarker);
+//core.form_custom_registry.add('gmap_marker', GMapMarker);
 widgetRegistry.add('gmap_marker', GMapMarker);
  
 var GMapRoute =  Widget.extend({
@@ -303,7 +303,7 @@ var GMapRoute =  Widget.extend({
 
  });
 
-core.form_custom_registry.add('gmap_route', GMapRoute);
+//core.form_custom_registry.add('gmap_route', GMapRoute);
 widgetRegistry.add('gmap_route', GMapRoute);
 
 
@@ -438,8 +438,8 @@ var GMaps = BasicView.extend({
         var arch = viewInfo.arch;
         var fields = viewInfo.fields;
         var attrs = arch.attrs;
-        var mode = arch.attrs.editable && !params.readonly ? "edit" : "readonly";
-        this.controllerParams.mode = mode;
+        //var mode = arch.attrs.editable && !params.readonly ? "edit" : "readonly";
+        //this.controllerParams.mode = mode;
      },
 
 

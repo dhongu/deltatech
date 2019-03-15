@@ -45,7 +45,7 @@ class res_partner(models.Model):
 
     @api.onchange('cnp')
     def cnp_change(self):
-        if self.cnp:
+        if self.cnp and len(self.cnp)>7:
             birthdate = self.cnp[1:7]
             #Year 2000 (Y2K) issues
             if self.cnp[0] in ['1','2']:
@@ -62,7 +62,7 @@ class res_partner(models.Model):
     def birthdate_change(self):
         if self.cnp and self.birthdate:
             cnp = self.cnp
-            cnp = cnp[0] + time.strftime("%y%m%d", time.strptime(self.birthdate, "%Y-%m-%d")) + cnp[7:12]
+            cnp = cnp[0] + self.birthdate.strftime("%y%m%d") + cnp[7:12]
             key = '279146358279';
             suma = 0
             for i in range(len(key)):
@@ -127,7 +127,7 @@ class res_partner(models.Model):
         return res
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         res_vat = []
         if name and len(name) > 2:
             partner_ids = self.search([('vat', 'ilike', name), ('is_company', '=', True)], limit=10)

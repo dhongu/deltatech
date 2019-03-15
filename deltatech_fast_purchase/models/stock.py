@@ -20,7 +20,7 @@ class StockPicking(models.Model):
             # override the context to get rid of the default filtering
             invoice_type = 'in_invoice'
             result['context'] = { 'default_purchase_id': self.purchase_id.id,
-                                 'default_date_invoice': self.scheduled_date[:10]}
+                                 'default_date_invoice': self.scheduled_date}
 
             if self.location_id.usage == 'internal':
                 invoice_type = 'in_refund'
