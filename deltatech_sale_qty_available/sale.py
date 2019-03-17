@@ -27,8 +27,18 @@ from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
+class sale_order(models.Model):
+    _inherit = 'sale.order'
 
+    is_ready = fields.Boolean(string='Is ready', compute="_compute_is_ready")
 
+    @api.multi
+    def _compute_is_ready(self):
+        for order in self:
+            is_ready = True
+            for line in order.order_line:
+                is_ready = is_ready and (line.qty_available >= line.product_uos_qty)
+            order.is_ready = is_ready
         
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line' 
