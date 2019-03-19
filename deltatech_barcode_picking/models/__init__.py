@@ -6,3 +6,4 @@
 
 from . import picking
 from . import stock_inventory
+

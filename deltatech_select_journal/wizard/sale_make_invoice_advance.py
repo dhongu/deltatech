@@ -87,6 +87,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
                     taxes = line.product_id.taxes_id or self.deposit_account_id.tax_ids
                     if taxes:
+                        price_w_taxes= self.amount
                         for tax in taxes:
                             price_w_taxes = self.amount / (1 + tax.amount / 100)
                         line.write({'price_unit': price_w_taxes})
