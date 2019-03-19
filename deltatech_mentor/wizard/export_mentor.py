@@ -533,7 +533,10 @@ class export_mentor(models.TransientModel):
 
                 item += 1
                 qty = line['qty']
-                price = -1 * line['amount'] / line['qty']
+                if qty:
+                    price = -1 * line['amount'] / qty
+                else:
+                    price = 0.0
 
                 mentor_uom_id = self.get_product_uom(product)
                 if product.uom_id != mentor_uom_id:
@@ -612,7 +615,10 @@ class export_mentor(models.TransientModel):
                 product = line['product_id']
                 item += 1
                 qty = line['qty']
-                price =  line['amount'] / line['qty']
+                if qty:
+                    price =  line['amount'] / line['qty']
+                else:
+                    price = 0
                 mentor_uom_id = self.get_product_uom(product)
                 if product.uom_id != mentor_uom_id:
                     qty = product.uom_id._compute_quantity(qty, mentor_uom_id)
