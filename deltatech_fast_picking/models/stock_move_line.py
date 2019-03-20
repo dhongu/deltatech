@@ -10,8 +10,9 @@ from odoo import api, fields, models, _
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
-    @api.model
-    def create(self, vals):
-        vals['qty_done'] = vals.get('product_uom_qty')
-        return super(StockMoveLine, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals['qty_done'] = vals.get('product_uom_qty')
+        return super(StockMoveLine, self).create(vals_list)
 
