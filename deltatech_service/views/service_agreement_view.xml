@@ -111,6 +111,9 @@
 							</button>
 							
 						</div>
+						<group>
+							<field name="company_id" />
+						</group>
                         <div class="oe_title">
 							<h1>
 								<field name="name" placeholder="Agreement" class="oe_inline" />

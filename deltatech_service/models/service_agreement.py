@@ -56,6 +56,8 @@ class service_agreement(models.Model):
     
     partner_id = fields.Many2one('res.partner', string='Partner', 
         required=True, readonly=True, states={'draft': [('readonly', False)]})
+
+    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
     
     agreement_line = fields.One2many('service.agreement.line', 'agreement_id', string='Agreement Lines',
        readonly=True, states={'draft': [('readonly', False)]}, copy=True)  
@@ -205,8 +207,8 @@ class service_agreement_line(models.Model):
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
-    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
-    
+    currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])
+    company_id = fields.Many2one('res.company', string='Company', related='agreement_id.company_id', store=True, readonly=True, related_sudo=False)
   
     @api.onchange('product_id')
     def onchange_product_id(self):

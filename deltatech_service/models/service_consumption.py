@@ -59,6 +59,8 @@ class service_consumption(models.Model):
     uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True, copy=False )
 
     date_invoice = fields.Date(string='Invoice Date', readonly=True)
+    company_id = fields.Many2one('res.company', string='Company', related='agreement_id.company_id', store=True,
+                                 readonly=True, related_sudo=False)
 
     _sql_constraints = [
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',
