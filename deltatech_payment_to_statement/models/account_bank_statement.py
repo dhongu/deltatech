@@ -10,13 +10,14 @@ from odoo.exceptions import UserError, ValidationError
 class AccountBankStatement(models.Model):
     _inherit = "account.bank.statement"
 
-    @api.model
-    def create(self, vals):
-        if 'name' not in vals or vals['name'] in ['/', '', False]:
-            journal = self.env['account.journal'].browse(vals['journal_id'])
-            if journal.statement_sequence_id:
-                vals['name'] = journal.statement_sequence_id.next_by_id()
-        return super(AccountBankStatement, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if 'name' not in vals or vals['name'] in ['/', '', False]:
+                journal = self.env['account.journal'].browse(vals['journal_id'])
+                if journal.statement_sequence_id:
+                    vals['name'] = journal.statement_sequence_id.next_by_id()
+        return super(AccountBankStatement, self).create(vals_list)
 
 
 class AccountBankStatementLine(models.Model):
