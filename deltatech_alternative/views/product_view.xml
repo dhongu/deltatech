@@ -68,9 +68,9 @@
                     <field name="code_new"/>
                     <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
 
-                    <group expand="0" string="Group by...">
-                        <filter string="Category" domain="[]" context="{'group_by' : 'categ_id'}"/>
-                    </group>
+
+                    <filter name="categ" string="Category" domain="[]" context="{'group_by' : 'categ_id'}"/>
+
                 </search>
             </field>
         </record>

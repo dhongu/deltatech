@@ -155,7 +155,7 @@ class product_product(models.Model):
         return res
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
         res_alt = []
         if name and len(name) > 2:
