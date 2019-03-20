@@ -26,60 +26,22 @@ class res_partner(models.Model):
             cnp = contact.cnp.strip()
             if not cnp:
                 return True
-            if (len(cnp) != 13):
+            if len(cnp) != 13:
                 return False
-            key = '279146358279';
+            key = '279146358279'
             suma = 0
             for i in range(len(key)):
                 suma += int(cnp[i]) * int(key[i])
 
-            if (suma % 11 == 10):
+            if suma % 11 == 10:
                 rest = 1
             else:
                 rest = suma % 11
 
-            if (rest == int(cnp[12])):
+            if rest == int(cnp[12]):
                 return True
             else:
                 return False
-
-    @api.onchange('cnp')
-    def cnp_change(self):
-        if self.cnp:
-            birthdate = self.cnp[1:7]
-            #Year 2000 (Y2K) issues
-            if self.cnp[0] in ['1','2']:
-                birthdate = '19' + birthdate
-            else:
-                birthdate = '20' + birthdate
-            self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
-            if self.cnp[0] in ['1','5']:
-                self.gender = 'male'
-            else:
-                self.gender = 'female'
-
-    @api.onchange('birthdate')
-    def birthdate_change(self):
-        if self.cnp and self.birthdate:
-            cnp = self.cnp
-            cnp = cnp[0] + time.strftime("%y%m%d", time.strptime(self.birthdate, "%Y-%m-%d")) + cnp[7:12]
-            key = '279146358279';
-            suma = 0
-            for i in range(len(key)):
-                suma += int(cnp[i]) * int(key[i])
-            if (suma % 11 == 10):
-                rest = 1
-            else:
-                rest = suma % 11
-            self.cnp = cnp + str(rest)
-
-    @api.one
-    @api.depends('type', 'is_company')
-    def _compute_is_department(self):
-        if self.is_company or self.type == 'contact':
-            self.is_department = False
-        else:
-            self.is_department = True
 
     cnp = fields.Char(string='CNP', size=13)
 
@@ -93,10 +55,50 @@ class res_partner(models.Model):
                                ('female', 'Female'),
                                ('other', 'Other'),
                                ])
-
-
-    #_defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
+
+
+
+
+    @api.onchange('cnp')
+    def cnp_change(self):
+        if self.cnp and len(self.cnp) > 7:
+            birthdate = self.cnp[1:7]
+            # Year 2000 (Y2K) issues
+            if self.cnp[0] in ['1', '2']:
+                birthdate = '19' + birthdate
+            else:
+                birthdate = '20' + birthdate
+            self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
+            if self.cnp[0] in ['1', '5']:
+                self.gender = 'male'
+            else:
+                self.gender = 'female'
+
+    @api.onchange('birthdate')
+    def birthdate_change(self):
+        if self.cnp and self.birthdate:
+            cnp = self.cnp
+            cnp = cnp[0] + time.strftime("%y%m%d", time.strptime(self.birthdate, "%Y-%m-%d")) + cnp[7:12]
+            key = '279146358279'
+            suma = 0
+            for i in range(len(key)):
+                suma += int(cnp[i]) * int(key[i])
+            if suma % 11 == 10:
+                rest = 1
+            else:
+                rest = suma % 11
+            self.cnp = cnp + str(rest)
+
+    @api.one
+    @api.depends('type', 'is_company')
+    def _compute_is_department(self):
+        if self.is_company or self.type == 'contact':
+            self.is_department = False
+        else:
+            self.is_department = True
+
+
 
     @api.multi
     def name_get(self):
@@ -127,7 +129,7 @@ class res_partner(models.Model):
         return res
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         res_vat = []
         if name and len(name) > 2:
             partner_ids = self.search([('vat', 'ilike', name), ('is_company', '=', True)], limit=10)
@@ -142,6 +144,3 @@ class res_partner(models.Model):
             if not self.check_cnp():
                 vals['cnp'] = ''
         return super(res_partner, self).create(vals)
-
-
-

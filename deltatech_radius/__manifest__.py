@@ -37,6 +37,7 @@ Functionalitati:
         'data/radius_data.xml',
         'wizard/radius_disconnect_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,
