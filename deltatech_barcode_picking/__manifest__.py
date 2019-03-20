@@ -4,23 +4,28 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Barcode Sale",
+    "name": "Deltatech Barcode Picking",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
 
-    'category': 'Sales',
+    'category': 'Warehouse',
 
-    "depends": ["sale",'barcodes'],
+    "depends": ["stock",'barcodes'],
 
     "description": """
 Features:    
- - Add product to the sale order using barcode scanner
+ - Adds products to picking using barcode scanner
  
 """,
+    "price": 15.00,
+    "currency": "EUR",
+    "license": "LGPL-3",
     "data": [
-        'views/sale_views.xml'
+        'views/picking_views.xml',
+        'views/stock_inventory_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 
