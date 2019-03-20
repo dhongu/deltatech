@@ -109,10 +109,10 @@
                 <xpath expr="//t[@t-if='record.is_company.raw_value === false']" position="replace">
                     <t t-if="record.is_company.raw_value === false">
                         <t t-if="record.is_department.raw_value == false">
-                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image"/>
+                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image" alt="Avatar"/>
                         </t>
                         <t t-if="record.is_department.raw_value != false">
-                            <img t-att-src='_s + "/deltatech_contact/static/src/img/partner_group.png"'
+                            <img t-att-src='_s + "/deltatech_contact/static/src/img/partner_group.png"' alt="Avatar"
                                  class="oe_kanban_image"/>
                         </t>
                     </t>

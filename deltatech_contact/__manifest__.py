@@ -19,14 +19,14 @@ Functionalitati:
     "category": "Generic Modules/Base",
     "depends": ["base"],
 
-    "data": ['views/res_partner_view.xml',
-             'security/partner_security.xml',
-             'security/ir.model.access.csv'],
+    "data": [
+        'views/res_partner_view.xml',
+        #'security/partner_security.xml',
+        #'security/ir.model.access.csv'
+    ],
 
     "active": False,
     "installable": True,
 }
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

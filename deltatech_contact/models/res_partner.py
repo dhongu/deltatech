@@ -19,41 +19,45 @@ class res_partner(models.Model):
         # la import in fisiere sa nu mai faca validarea
         if 'install_mode' in self.env.context:
             return True
+        res = True
         for contact in self:
+            res = res and self.check_single_cnp(contact.cnp)
+        return res
 
-            if not contact.cnp:
-                return True
-            cnp = contact.cnp.strip()
-            if not cnp:
-                return True
-            if (len(cnp) != 13):
-                return False
-            key = '279146358279';
-            suma = 0
-            for i in range(len(key)):
-                suma += int(cnp[i]) * int(key[i])
+    @api.model
+    def check_single_cnp(self, cnp):
+        if not cnp:
+            return True
+        cnp = cnp.strip()
+        if not cnp:
+            return True
+        if len(cnp) != 13:
+            return False
+        key = '279146358279';
+        suma = 0
+        for i in range(len(key)):
+            suma += int(cnp[i]) * int(key[i])
 
-            if (suma % 11 == 10):
-                rest = 1
-            else:
-                rest = suma % 11
+        if suma % 11 == 10:
+            rest = 1
+        else:
+            rest = suma % 11
 
-            if (rest == int(cnp[12])):
-                return True
-            else:
-                return False
+        if rest == int(cnp[12]):
+            return True
+        else:
+            return False
 
     @api.onchange('cnp')
     def cnp_change(self):
-        if self.cnp and len(self.cnp)>7:
+        if self.cnp and len(self.cnp) > 7:
             birthdate = self.cnp[1:7]
-            #Year 2000 (Y2K) issues
-            if self.cnp[0] in ['1','2']:
+            if self.cnp[0] in ['1', '2']:
                 birthdate = '19' + birthdate
             else:
                 birthdate = '20' + birthdate
             self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
-            if self.cnp[0] in ['1','5']:
+            if self.cnp[0] in ['1', '5']:
                 self.gender = 'male'
             else:
                 self.gender = 'female'
@@ -63,11 +67,11 @@ class res_partner(models.Model):
         if self.cnp and self.birthdate:
             cnp = self.cnp
             cnp = cnp[0] + self.birthdate.strftime("%y%m%d") + cnp[7:12]
-            key = '279146358279';
+            key = '279146358279'
             suma = 0
             for i in range(len(key)):
                 suma += int(cnp[i]) * int(key[i])
-            if (suma % 11 == 10):
+            if suma % 11 == 10:
                 rest = 1
             else:
                 rest = suma % 11
@@ -94,8 +98,7 @@ class res_partner(models.Model):
                                ('other', 'Other'),
                                ])
 
-
-    #_defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
+    # _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
     @api.multi
@@ -136,12 +139,10 @@ class res_partner(models.Model):
         res = super(res_partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
-    @api.model
-    def create(self, vals):
-        if 'cnp' in vals:
-            if not self.check_cnp():
-                vals['cnp'] = ''
-        return super(res_partner, self).create(vals)
-
-
-
+    @api.model_create_multi
+    def create(self, vals_list):
+        for values in vals_list:
+            if 'cnp' in values:
+                if not self.check_single_cnp(values['cnp']):
+                    values['cnp'] = ''
+        return super(res_partner, self).create(vals_list)
