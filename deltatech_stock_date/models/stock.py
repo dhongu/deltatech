@@ -67,16 +67,16 @@ class stock_move(models.Model):
                 for move in self:
                     today = fields.Date.today()
                     if 'date' in vals:
-                        if move.date_expected[:10] < today and move.date_expected < vals['date']:
+                        if move.date_expected.date() < today and move.date_expected < vals['date']:
                             vals['date'] = move.date_expected
-                        if move.date[:10] < today and move.date < vals['date']:
+                        if move.date.date() < today and move.date < vals['date']:
                             vals['date'] = move.date
-                        move.move_line_ids.write({'date':vals['date']})
-                        #move.quant_ids.write({'in_date': vals['date']})
+                        move.move_line_ids.write({'date': vals['date']})
+                        # move.quant_ids.write({'in_date': vals['date']})
 
                     if 'date_expected' in vals:
                         move_date = vals.get('date', move.date)
-                        if move_date[:10] < today and move_date < vals['date_expected']:
+                        if move_date.date() < today and move_date < vals['date_expected']:
                             vals['date_expected'] = move_date
             else:
 
@@ -94,7 +94,7 @@ class Picking(models.Model):
     @api.multi
     def action_done(self):
         super(Picking, self).action_done()
-        use_date = self.env.context.get('use_date',False)
+        use_date = self.env.context.get('use_date', False)
         if use_date:
             self.write({'date': self.date})
             self.move_lines.write({'date_expected': use_date, 'date': use_date})

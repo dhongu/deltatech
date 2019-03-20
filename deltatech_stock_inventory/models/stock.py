@@ -86,7 +86,7 @@ class StockInventory(models.Model):
 
 class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"
-    _order = "inventory_id, location_name, categ_id, product_code, product_name, prodlot_name"
+    _order = "inventory_id, location_id, categ_id, product_id, prod_lot_id"
 
     categ_id = fields.Many2one('product.category', string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string='Price')
@@ -96,8 +96,8 @@ class StockInventoryLine(models.Model):
     is_ok = fields.Boolean('Is Ok', default=True)
 
     @api.onchange('product_id')
-    def onchange_product(self):
-        res = super(StockInventoryLine, self).onchange_product()
+    def _onchange_product(self):
+        res = super(StockInventoryLine, self)._onchange_product()
         self.standard_price = self.get_price()
         return res
 
