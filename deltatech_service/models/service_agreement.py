@@ -203,7 +203,7 @@ class service_agreement_line(models.Model):
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null', domain=[('type', '=', 'service')]  , required=True,)
     quantity = fields.Float(string='Quantity',   digits= dp.get_precision('Product Unit of Measure'))
     quantity_free = fields.Float(string='Quantity Free',   digits= dp.get_precision('Product Unit of Measure'))
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure', ondelete='set null')
+    uom_id = fields.Many2one('uom.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
     
@@ -250,6 +250,7 @@ class service_agreement_line(models.Model):
 # e posibil ca o factura sa contina mai multe contracte 
 class account_invoice(models.Model):
     _inherit = 'account.invoice'
+
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement',
                                    related='invoice_line_ids.agreement_line_id.agreement_id')
 
@@ -288,6 +289,7 @@ class account_invoice(models.Model):
 
 class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'
+
     agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line' )     
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 

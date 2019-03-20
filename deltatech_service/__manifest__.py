@@ -26,6 +26,8 @@ Functionalitati:
 
     "license": "LGPL-3","data": [
         'data/data.xml',
+        'security/service_security.xml',
+        'security/ir.model.access.csv',
         "views/service_consumption_view.xml",
         "views/service_agreement_view.xml",
 
@@ -35,8 +37,7 @@ Functionalitati:
         "wizard/service_price_change_view.xml",
         "wizard/service_change_invoice_date_view.xml",
         # "views/account_invoice_penalty_view.xml",
-        'security/service_security.xml',
-        'security/ir.model.access.csv',
+
 
     ],
     "images": ['images/main_screenshot.png'],

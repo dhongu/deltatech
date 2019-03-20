@@ -56,7 +56,7 @@ class service_consumption(models.Model):
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True, ondelete='restrict', copy=False )
     invoice_id = fields.Many2one('account.invoice', string='Invoice Reference',  ondelete='set default', readonly=True, copy=False,  index=True )
 
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True, copy=False )
+    uom_id = fields.Many2one('uom.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True, copy=False )
 
     date_invoice = fields.Date(string='Invoice Date', readonly=True)
 

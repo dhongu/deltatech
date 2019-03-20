@@ -41,7 +41,8 @@
  
 
 		<menuitem name="Service Invoice" id="menu_service_invoice" action="action_service_invoice"
-			parent="base.menu_service_agr" sequence="110" />
+				  groups="group_service_user"
+			parent="menu_service_agr" sequence="110" />
 
 
 		<record id="view_service_agreement_tree" model="ir.ui.view">
@@ -139,7 +140,7 @@
 							<tree string="Agreement Lines" editable="bottom">
 								<field name="product_id" context = "{'default_type':'service'}"/>
 								<field name="quantity" />
-								<field name="uom_id" groups="product.group_uom"/>
+								<field name="uom_id" groups="uom.group_uom"/>
 								<field name="price_unit" />
 								<field name="currency_id" options="{'no_create': True}" />
 								<field name="quantity_free" />
@@ -183,8 +184,8 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Services Agreements" id="menu_service_agreement"
-			action="action_service_agreement" parent="base.menu_service_agr" sequence="100" />
+		<menuitem name="Services Agreements" id="menu_service_agreement" groups="group_service_user"
+			action="action_service_agreement" parent="menu_service_agr" sequence="100" />
 
 
 
@@ -217,7 +218,8 @@
 		</record>
 
 		<menuitem name="Services Agreement Type" id="menu_service_agreement_type"
-			action="action_service_agreement_type" parent="base.menu_service_config" sequence="100" />
+				  groups="group_service_manager"
+			action="action_service_agreement_type" parent="menu_service_config" sequence="100" />
 
 
 		<record id="action_service_agreement_group" model="ir.actions.act_window">
@@ -228,7 +230,8 @@
 		</record>
 
 		<menuitem name="Service Group" id="menu_service_agreement_group"
-			action="action_service_agreement_group" parent="base.menu_service_config" sequence="101" />
+				  groups="group_service_manager"
+			action="action_service_agreement_group" parent="menu_service_config" sequence="101" />
 
 
 		<record id="action_service_cycle" model="ir.actions.act_window">
@@ -238,7 +241,9 @@
 			<field name="view_mode">tree,form</field>
 		</record>
 
-		<menuitem name="Cycle" id="menu_service_cycle" action="action_service_cycle" parent="base.menu_service_config" />
+		<menuitem name="Cycle" id="menu_service_cycle"
+				  groups="group_service_manager"
+				  action="action_service_cycle" parent="menu_service_config" />
 			
 	</data>
 </openerp>

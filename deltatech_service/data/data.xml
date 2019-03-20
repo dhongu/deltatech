@@ -2,15 +2,15 @@
 <openerp>
 	
 	<data>
-		<menuitem name="Service" id="base.menu_service_app"  sequence="25"/>
+		<menuitem name="Service" id="menu_service_app"  sequence="25"/>
 		
-		<menuitem name="Service" id="base.menu_service" parent="base.menu_service_app"  sequence="100" />	
+		<menuitem name="Service" id="menu_service" parent="menu_service_app"  sequence="100" />
 		
-		<menuitem name="Agreement" id="base.menu_service_agr" parent="base.menu_service_app"  sequence="200" />
+		<menuitem name="Agreement" id="menu_service_agr" parent="menu_service_app"  sequence="200" />
 
-		<menuitem name="Reports" id="base.menu_service_report" parent="base.menu_service_app"  sequence="200" />
+		<menuitem name="Reports" id="menu_service_report" parent="menu_service_app"  sequence="200" />
 
-		<menuitem name="Configuration" id="base.menu_service_config" parent="base.menu_service_app"   sequence="900" />		
+		<menuitem name="Configuration" id="menu_service_config" parent="menu_service_app"   sequence="900" />
 	
 	</data>
 	
