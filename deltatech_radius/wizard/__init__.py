@@ -4,7 +4,7 @@
 
 
 
-import radius_disconnect
+from . import radius_disconnect
 
 
  

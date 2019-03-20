@@ -28,6 +28,7 @@ Functionalitati:
 
     ],
 
+    "license": "LGPL-3",
     "data": [
         'security/radius_security.xml',
         'security/ir.model.access.csv',
@@ -36,6 +37,7 @@ Functionalitati:
         'data/radius_data.xml',
         'wizard/radius_disconnect_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
 
     "active": False,
     "installable": True,
