@@ -99,6 +99,11 @@ class service_agreement(models.Model):
     total_invoiced = fields.Float(string="Total invoiced",readonly=True )
     total_consumption = fields.Float(string="Total consumption", readonly=True  )
     group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True, states={'draft': [('readonly', False)]})
+    company_id = fields.Many2one('res.company', string='Company', change_default=True,
+                                 required=True, readonly=True, states={'draft': [('readonly', False)]},
+                                 default=lambda self: self.env['res.company']._company_default_get('service.agreement'))
+
+
 
     @api.multi
     def compute_totals(self):
@@ -206,7 +211,8 @@ class service_agreement_line(models.Model):
     uom_id = fields.Many2one('uom.uom', string='Unit of Measure', ondelete='set null')
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),  default=1)  
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,   domain=[('name', 'in', ['RON','EUR'])])   
-    
+    company_id = fields.Many2one('res.company', string='Company',
+        related='agreement_id.company_id', store=True, readonly=True, related_sudo=False)
   
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -291,5 +297,5 @@ class account_invoice_line(models.Model):
     _inherit = 'account.invoice.line'
 
     agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line' )     
-    
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 
+
+

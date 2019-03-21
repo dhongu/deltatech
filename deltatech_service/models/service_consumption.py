@@ -21,30 +21,25 @@ class service_consumption(models.Model):
     name = fields.Char(string='Reference', index=True, readonly=True)
 
     partner_id = fields.Many2one('res.partner', string='Partner', required=True, readonly=True)
-    
     period_id = fields.Many2one('date.range', string='Period', required=True,
           copy=False, readonly=True )
 
-
-  
     product_id = fields.Many2one('product.product', string='Product', required=True, ondelete='restrict',
                                   readonly=True,  index=True, domain=[('type', '=', 'service')] )
-
     quantity = fields.Float(string='Quantity', digits= dp.get_precision('Product Unit of Measure'), 
                             readonly=True, states={'draft': [('readonly', False)]},
                             required=True, default=1)
     invoiced_qty = fields.Float(string='Invoiced Quantity', digits= dp.get_precision('Product Unit of Measure'), 
                             readonly=True, default=0.0)
-
- 
     price_unit = fields.Float(string='Unit Price', required=True, digits= dp.get_precision('Service Price'),
                               readonly=True, states={'draft': [('readonly', False)]},
-                                default=1) 
-
+                                default=1)
     currency_id = fields.Many2one('res.currency', string="Currency", required=True, default=_default_currency,
                                   readonly=True, states={'draft': [('readonly', False)]},
-                                  ) 
-    
+                                  )
+    company_id = fields.Many2one('res.company', string='Company',
+                                 related='agreement_id.company_id', store=True, readonly=True, related_sudo=False)
+
     state = fields.Selection([
             ('draft','Without invoice'),
             ("none", "Not Applicable"),
@@ -66,7 +61,7 @@ class service_consumption(models.Model):
     ]
     group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True, ondelete='restrict', copy=False, index=True )
 
- 
+
 
 
  

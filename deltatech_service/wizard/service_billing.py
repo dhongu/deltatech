@@ -13,7 +13,10 @@ class service_billing(models.TransientModel):
     _name = 'service.billing'
     _description = "Service Billing"
 
-    journal_id = fields.Many2one('account.journal', 'Journal', required=True)
+    journal_id = fields.Many2one('account.journal', 'Journal', required=True,
+            domain = "[('type', '=',  'sale' ), ('company_id', '=', company_id)]")
+
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id)
 
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection([('partner', 'Group by partner'),
@@ -32,11 +35,10 @@ class service_billing(models.TransientModel):
         defaults = super(service_billing, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
-
+        domain = [('state', '=', 'draft'),('company_id','=',defaults['company_id'])]
         if active_ids:
-            domain = [('state', '=', 'draft'), ('id', 'in', active_ids)]
-        else:
-            domain = [('state', '=', 'draft')]
+            domain += [('id', 'in', active_ids)]
+
 
         res = self.env['service.consumption'].search(domain)
         for cons in res:
@@ -132,6 +134,7 @@ class service_billing(models.TransientModel):
         for date_invoice in pre_invoice:
             for key in pre_invoice[date_invoice]:
                 comment = _('According to agreement ')
+                payment_term_id = False
                 for agreement in pre_invoice[date_invoice][key]['agreement_ids']:
                     comment += _('%s from %s \n') % (agreement.name or '____', agreement.date_agreement or '____')
                 if len(pre_invoice[date_invoice][key]['agreement_ids']) > 1:
@@ -143,6 +146,7 @@ class service_billing(models.TransientModel):
                     # 'name': _('Invoice'),
                     'partner_id': pre_invoice[date_invoice][key]['partner_id'],
                     'journal_id': self.journal_id.id,
+                    'company_id': self.company_id.id,
                     'date_invoice': date_invoice,
                     'payment_term_id': payment_term_id,
                     # todo: de determinat contul

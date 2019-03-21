@@ -44,6 +44,19 @@
 		</record>
 
 
+		<record id="service_agreement_comp_rule" model="ir.rule">
+			<field name="name">Service Agreement multi-company</field>
+			<field name="model_id" ref="model_service_agreement"/>
+			<field name="global" eval="True"/>
+			<field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+		</record>
+
+		<record id="service_consumption_comp_rule" model="ir.rule">
+			<field name="name">Service Cnsumption multi-company</field>
+			<field name="model_id" ref="model_service_consumption"/>
+			<field name="global" eval="True"/>
+			<field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+		</record>
 
 	</data>
 </openerp>

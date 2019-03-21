@@ -17,16 +17,17 @@ class service_billing_preparation(models.TransientModel):
     agreement_ids = fields.Many2many('service.agreement', 'service_billing_agreement', 'billing_id', 'agreement_id',
                                      string='Agreements', domain=[('state', '=', 'open')])
 
+    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.user.company_id)
+
     @api.model
     def default_get(self, fields):
         defaults = super(service_billing_preparation, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
-
+        domain = [('state', '=', 'draft'),('company_id','=',defaults['company_id'])]
         if active_ids:
-            domain = [('state', '=', 'open'), ('id', 'in', active_ids)]
-        else:
-            domain = [('state', '=', 'open')]
+            domain += [  ('id', 'in', active_ids)]
+
         res = self.env['service.agreement'].search(domain)
         defaults['agreement_ids'] = [(6, 0, [rec.id for rec in res])]
         return defaults
