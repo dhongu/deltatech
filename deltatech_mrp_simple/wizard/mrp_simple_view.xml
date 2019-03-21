@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mrp_simple_form" model="ir.ui.view">
+        <field name="name">mrp.simple</field>
+        <field name="model">mrp.simple</field>
+        <field name="arch" type="xml">
+            <form string="Transfer">
+                <group>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="validation_consume"/>
+                        <field name="validation_receipt"/>
+                    </group>
+                    <group>
+                        <field name="picking_type_consume"/>
+                        <field name="picking_type_receipt_production"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Consumption">
+                        <field name="product_out_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantity" sum="1"/>
+                                <field name="uom_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Receipt">
+                        <field name="product_in_ids" nolabel="1">
+                            <tree editable="bottom">
+                               <field name="product_id"/>
+                                <field name="quantity" sum="1"/>
+                                <field name="uom_id"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+                <footer>
+                    <button name="do_transfer" string="Transfer" type="object" default_focus="1" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mrp_simple" model="ir.actions.act_window">
+        <field name="name">Simple Production</field>
+        <field name="res_model">mrp.simple</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!--
+    <menuitem id="mrp.menu_mrp_root"
+              name="Manufacturing"
+              icon="fa-wrench"
+              web_icon="mrp,static/description/icon.png"
+              sequence="35"/>
+
+    <menuitem id="mrp.menu_mrp_manufacturing"
+              name="Operations"
+              parent="mrp.menu_mrp_root"
+              sequence="10"/>
+    -->
+
+    <menuitem id="menu_mrp_simple" name="Simple Production"
+              action="action_mrp_simple"
+              parent="stock.menu_stock_warehouse_mgmt"/>
+
+</odoo>
