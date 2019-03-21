@@ -185,12 +185,12 @@ class account_invoice_export_bf(models.TransientModel):
                 # else:
                 #     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
 
-
-                data = {
-                    'type': payment.journal_id.cod_ecr,
-                    'amount': str(ecr_comm['amount'](payment.amount))
-                }
-                buf.write(ecr_comm['total'].format(**data))
+                if payment.state != 'draft':
+                    data = {
+                        'type': payment.journal_id.cod_ecr,
+                        'amount': str(ecr_comm['amount'](payment.amount))
+                    }
+                    buf.write(ecr_comm['total'].format(**data))
 
             defaults['text_data'] = buf.getvalue()
             out = base64.encodestring(buf.getvalue())
