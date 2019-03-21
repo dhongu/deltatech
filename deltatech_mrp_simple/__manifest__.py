@@ -1,31 +1,30 @@
 # -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
-
-
 {
-    "name": "Deltatech Rent Apartments",
+    "name": "Deltatech Simple MRP",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
 
 Functionalitati:
-
+ 
+ - Generare consumuri si nota de predare
+ 
 
     """,
 
-    "category": "Generic Modules",
+    "category": "Manufacturing",
     "depends": [
-        "deltatech_service_equipment",
-    ],
+        "stock"
+    ]
+    ,
 
-    "data": [
-        'views/service_rent_view.xml',
-        'views/service_equipment_view.xml',
+    "license": "LGPL-3","data": [
+        'wizard/mrp_simple_view.xml'
     ],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
