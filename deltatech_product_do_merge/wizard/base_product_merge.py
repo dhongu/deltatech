@@ -47,9 +47,10 @@ class MergeProductAutomatic(models.TransientModel):
     _name = 'base.product.merge.automatic.wizard'
 
     group_by_name_template = fields.Boolean('Template')
+    # group_by_attribute = fields.Boolean('Attribute')
     group_by_default_code = fields.Boolean('Reference')
     group_by_categ_id = fields.Boolean('Category')
-    group_by_uom_id = fields.Boolean('Unidad de medida')
+    group_by_uom_id = fields.Boolean('Unit of measure')
     state = fields.Selection(
         [('option', 'Option'),
          ('selection', 'Selection'),
@@ -62,7 +63,7 @@ class MergeProductAutomatic(models.TransientModel):
     product_to = fields.Many2one('product.product', string='Product to')
     current_line_id = fields.Many2one('base.product.merge.line', 'Current Line')
     line_ids = fields.One2many('base.product.merge.line', 'wizard_id', 'Lines')
-    dst_product_id = fields.Many2one('product.product', string='Destination Contact')
+    dst_product_id = fields.Many2one('product.product', string='Destination product')
     product_ids = fields.Many2many(
         'product.product', 'product_rel', 'product_merge_id',
         'product_id', string="Products to merge"
