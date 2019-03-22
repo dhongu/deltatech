@@ -41,7 +41,8 @@ ecr_commands = {
         'total': '5;{amount};{type};1;0\r\n',  # comanda de inchidere
         'discount': '7;{type};1;1;0;{value};1\r\n',
         'amount': lambda value: value * 100,
-        'qty': lambda value: value * 100000
+        'qty': lambda value: value * 100000,
+        'stl':''
     },
 
     'datecs': {
@@ -53,6 +54,7 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
+        'stl':''
     },
 
     'datecs18': {
@@ -64,6 +66,7 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
+        'stl':'L,1,______,_,__;\r\n'
     },
 }
 
@@ -162,6 +165,7 @@ class account_invoice_export_bf(models.TransientModel):
                 #negative_price = negative_price * 100
                 negative_price_string =  str(ecr_comm['amount'](negative_price))
                 # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
+                buf.write(ecr_comm['stl'])
                 buf.write(ecr_comm['discount'].format(type='3', value=negative_price_string)) #discount valoric
 
             for payment in invoice_id.payment_ids:
@@ -181,12 +185,12 @@ class account_invoice_export_bf(models.TransientModel):
                 # else:
                 #     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
 
-
-                data = {
-                    'type': payment.journal_id.cod_ecr,
-                    'amount': str(ecr_comm['amount'](payment.amount))
-                }
-                buf.write(ecr_comm['total'].format(**data))
+                if payment.state != 'draft':
+                    data = {
+                        'type': payment.journal_id.cod_ecr,
+                        'amount': str(ecr_comm['amount'](payment.amount))
+                    }
+                    buf.write(ecr_comm['total'].format(**data))
 
             defaults['text_data'] = buf.getvalue()
             out = base64.encodestring(buf.getvalue())
