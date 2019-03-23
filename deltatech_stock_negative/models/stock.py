@@ -29,10 +29,10 @@ from odoo.exceptions import UserError, RedirectWarning
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
-    # versiunea din 11.0
+
     @api.model
-    def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None,
-                                   in_date=None):
+    def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None):
+
         if location_id.usage == 'internal':
             if location_id.company_id.no_negative_stock:
                 raise UserError(_('You have chosen to avoid negative stock. \
@@ -43,29 +43,6 @@ class stock_quant(models.Model):
 
 
         return super(stock_quant,self)._update_available_quantity( product_id, location_id, quantity, lot_id, package_id, owner_id,in_date)
-
-
-    # Versiunea veche
-    @api.model
-    def _quant_create_from_move(self, qty, move, lot_id=False, owner_id=False,
-                                src_package_id=False, dest_package_id=False,
-                                force_location_from=False, force_location_to=False):
-
-        if move.location_id.usage == 'internal':
-            if move.location_id.company_id.no_negative_stock:
-                raise UserError(_('You have chosen to avoid negative stock. \
-                        %s pieces of %s are remaining in location %s  but you want to transfer  \
-                        %s pieces. Please adjust your quantities or \
-                        correct your stock with an inventory adjustment.')% \
-                        (move.product_id.qty_available, move.product_id.name, move.location_id.name, move.product_uom_qty))
-
-        quant = super(stock_quant, self)._quant_create_from_move( qty, move, lot_id=lot_id, owner_id=owner_id,
-                                 src_package_id=src_package_id, dest_package_id=dest_package_id,
-                                 force_location_from=force_location_from, force_location_to=force_location_to)
-
-        return quant
- 
- 
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
