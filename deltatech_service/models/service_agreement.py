@@ -148,8 +148,12 @@ class service_agreement(models.Model):
     @api.one
     @api.depends('name', 'date_agreement')
     def _compute_display_name(self):
+        crt_lang = self.env.user.lang
+        lang = self.env['res.lang'].search([('code','=',crt_lang)])
+        lang.ensure_one()
+        date_format = lang.date_format
         if self.date_agreement:
-            self.display_name =  self.name + ' / '+ self.date_agreement
+            self.display_name =  self.name + ' / '+ self.date_agreement.strftime(date_format)
         else:
             self.display_name =  self.name
 

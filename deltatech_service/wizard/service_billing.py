@@ -35,6 +35,8 @@ class service_billing(models.TransientModel):
         defaults = super(service_billing, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
+        if 'company_id' not in defaults:
+            defaults.update({'company_id': self.env.user.company_id.id})
         domain = [('state', '=', 'draft'),('company_id','=',defaults['company_id'])]
         if active_ids:
             domain += [('id', 'in', active_ids)]
