@@ -25,7 +25,9 @@ from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class service_billing(models.TransientModel):
     _name = 'service.billing'
@@ -191,6 +193,31 @@ class service_billing(models.TransientModel):
                 invoice_id.button_compute(True)
                 pre_invoice[date_invoice][key]['cons'].write( {'invoice_id':invoice_id.id})
                 res.append(invoice_id.id)
+
+                # send message to user(s)
+                if 'auto' in self._context:
+                    user_ids = self.env['res.users'].search([])
+                    for user in user_ids:
+                        if user.has_group('base.group_service_auto_bill'):
+                            subject = _('Factura automata din contract - %s') % (comment)
+                            partner_id = user.partner_id.id
+                            document = invoice_id
+                            message = self.env['mail.message'].with_context(
+                                {'default_starred': True, 'mail_notify_noemail': True}).create({
+                                'model': 'account.invoice',
+                                'res_id': invoice_id.id,
+                                'record_name': invoice_id.name_get()[0][1],
+                                'email_from': self.env['mail.message']._get_default_from(),
+                                'reply_to': self.env['mail.message']._get_default_from(),
+
+                                'subject': subject,
+                                'body': '',
+
+                                'message_id': self.env['mail.message']._get_message_id({'no_auto_thread': True}),
+                                'partner_ids': [(4, partner_id)],
+                            })
+                            _logger.info("AUTO_BILL_LOG: message sent: %s" % comment)
+
 
         for invoice in invoices:
             for line in invoice.invoice_line:
