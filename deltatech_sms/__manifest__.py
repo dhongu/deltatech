@@ -16,7 +16,8 @@
     "category": "Warehouse",
     "depends": ["sms"],
 
-    "data": [ 'views/iap_views.xml'],
+    "license": "LGPL-3","data": [ 'views/iap_views.xml'],
+
     'application': False,
     "active": False,
     "installable": True,
