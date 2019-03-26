@@ -73,15 +73,16 @@ class MailMail(models.Model):
     _inherit = 'mail.mail'
 
 
-    @api.model
-    def create(self, values):
+    @api.model_create_multi
+    def create(self, vals_list):
         get_param = self.env['ir.config_parameter'].sudo().get_param
         always_mail_to = get_param('mail.always.only.to', default=False)
         if not self.env.context.get('ignore_always_only_to', False):
             if always_mail_to:
-                values.update({'email_to': always_mail_to,
-                               'recipient_ids': [(5, False, False)]})
-        return super(MailMail, self).create(values)
+                for values in vals_list:
+                    values.update({'email_to': always_mail_to,
+                                   'recipient_ids': [(5, False, False)]})
+        return super(MailMail, self).create(vals_list)
 
 
 

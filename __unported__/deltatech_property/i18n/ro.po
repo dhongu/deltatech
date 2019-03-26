@@ -124,8 +124,8 @@ msgstr "Căi de acces"
 #. module: deltatech_property
 #: model:ir.actions.act_window,name:deltatech_property.action_property_acquisition
 #: model:ir.ui.menu,name:deltatech_property.menu_property_acquisition
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Acquisition"
 msgstr "Achiziție"
 
@@ -163,8 +163,8 @@ msgid "Administrator"
 msgstr "Administrator"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Adress"
 msgstr "Adresa"
 
@@ -180,8 +180,8 @@ msgid "Archive"
 msgstr "Arhivă"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
 msgid "Archived"
 msgstr "Arhivat"
 
@@ -249,8 +249,8 @@ msgstr "Categorie"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_city
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_city
 #: model:ir.model.fields,field_description:deltatech_property.field_property_property_city
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "City"
 msgstr "Localitate"
 
@@ -327,8 +327,8 @@ msgstr "Centrul de cost"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_country_id
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_country_id
 #: model:ir.model.fields,field_description:deltatech_property.field_property_property_country_id
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Country"
 msgstr "Țară"
 
@@ -373,7 +373,7 @@ msgid "Deflector"
 msgstr "Deflector"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "Dimension"
 msgstr "Dimensiuni"
 
@@ -387,8 +387,8 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Documente"
 msgstr "Documente"
 
@@ -403,7 +403,7 @@ msgid "Extinguishers"
 msgstr "Stingătoare"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
 #: selection:property.land,location_type:0
 msgid "Extravilan"
 msgstr "Extravilan"
@@ -432,9 +432,9 @@ msgid "Garage"
 msgstr "Garaj"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "General"
 msgstr "General"
 
@@ -477,14 +477,14 @@ msgid "IT endowments (Ranks, Hall Servers)"
 msgstr "Dotări IT (Ranck-uri, Sala Servere)"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "Identification"
 msgstr "Identificare"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
 #: selection:property.land,location_type:0
 msgid "Intravilan"
 msgstr "Intravilan"
@@ -640,8 +640,8 @@ msgstr "Lipsă"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_region_name
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_display_name
 #: model:ir.model.fields,field_description:deltatech_property.field_property_room_usage_name
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Name"
 msgstr "Nume"
 
@@ -654,8 +654,8 @@ msgstr "Nomencator"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_note
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_note
 #: model:ir.model.fields,field_description:deltatech_property.field_property_property_note
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Note"
 msgstr "Note"
 
@@ -690,8 +690,8 @@ msgid "Order Number"
 msgstr "Număr comandă"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Organization"
 msgstr "Organizație"
 
@@ -825,7 +825,7 @@ msgid "Room"
 msgstr "Încăpere"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "Room Number"
 msgstr "Număr cameră"
 
@@ -844,7 +844,7 @@ msgstr "Utilizare încăpere"
 #: model:ir.actions.act_window,name:deltatech_property.action_property_room
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_room_ids
 #: model:ir.ui.menu,name:deltatech_property.menu_property_room
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
 msgid "Rooms"
 msgstr "Camere"
 
@@ -855,9 +855,9 @@ msgid "Sanitary group"
 msgstr "Grup sanitar"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
 msgid "Search"
 msgstr "Caută"
 
@@ -867,8 +867,8 @@ msgid "Sector cadastral"
 msgstr "Sector cadastral"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Share a message..."
 msgstr "Share a message..."
 
@@ -887,8 +887,8 @@ msgstr "Casa scarii"
 #: model:ir.model.fields,field_description:deltatech_property.field_property_building_state_id
 #: model:ir.model.fields,field_description:deltatech_property.field_property_land_state_id
 #: model:ir.model.fields,field_description:deltatech_property.field_property_property_state_id
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "State"
 msgstr "Judeţ"
 
@@ -900,8 +900,8 @@ msgid "Street"
 msgstr "Stradă"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "Street..."
 msgstr "Strada..."
 
@@ -913,7 +913,7 @@ msgid "Street2"
 msgstr "Strada2"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
 msgid "Structure"
 msgstr "Structură"
 
@@ -1072,9 +1072,9 @@ msgid "Surface warehouse"
 msgstr "Suprafață magazii"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_form
 msgid "Surfaces"
 msgstr "Suprafețe"
 
@@ -1135,7 +1135,7 @@ msgid "Unsatisfactory"
 msgstr "nesatisfăcător"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_filter
 msgid "Usage"
 msgstr "Utilizare"
 
@@ -1161,8 +1161,8 @@ msgid "Wood"
 msgstr "Parchet"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_form
 msgid "ZIP"
 msgstr "Cod poștal"
 
@@ -1184,10 +1184,10 @@ msgid "office"
 msgstr "office"
 
 #. module: deltatech_property
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_form
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_building_tree
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_land_tree
-#: model:ir.ui.view,arch_db:deltatech_property.view_property_room_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_form
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_building_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_land_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_property.view_property_room_tree
 msgid "surface"
 msgstr "surface"
 

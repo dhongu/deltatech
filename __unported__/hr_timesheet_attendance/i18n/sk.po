@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "<span class=\"o_stat_text\">Timesheet</span>"
 msgstr "<span class=\"o_stat_text\">Časový rozvrh</span>"
 
@@ -46,7 +46,7 @@ msgstr "Dochádzka"
 #: model:ir.actions.act_window,name:hr_timesheet_attendance.act_hr_timesheet_sheet_sheet_2_hr_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendance_count
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendances_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Attendances"
 msgstr "Dochádzky"
 
@@ -68,7 +68,7 @@ msgid "Difference"
 msgstr "Rozdiel"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Differences"
 msgstr "Rozdiely"
 
@@ -97,8 +97,8 @@ msgstr "Posledná modifikácia"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_period_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Period"
 msgstr "Obdobie"
 
@@ -125,12 +125,12 @@ msgid ""
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Month"
 msgstr "Tento mesiac"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Week"
 msgstr "Tento týždeň"
 
@@ -170,7 +170,7 @@ msgid "Timesheet by Day"
 msgstr "Časový rozvrh podľa dňa"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Timesheets"
 msgstr "Časové rozvrhy"
 
@@ -185,19 +185,19 @@ msgid "Total Attendance"
 msgstr "Celková dochádzka"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Attendances"
 msgstr "Celkové dochádzky"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Difference"
 msgstr "Celkový rozdiel"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_day_total_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_total_timesheet
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Timesheet"
 msgstr "Celkový časový rozvrh"
 
@@ -268,7 +268,7 @@ msgid "project.config.settings"
 msgstr "project.config.settings "
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "timesheet attendance"
 msgstr ""

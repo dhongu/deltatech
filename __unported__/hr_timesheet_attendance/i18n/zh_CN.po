@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "<span class=\"o_stat_text\">Timesheet</span>"
 msgstr "<span class=\"o_stat_text\">工时表</span>"
 
@@ -43,7 +43,7 @@ msgstr "出勤"
 #: model:ir.actions.act_window,name:hr_timesheet_attendance.act_hr_timesheet_sheet_sheet_2_hr_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendance_count
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendances_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Attendances"
 msgstr "出勤"
 
@@ -65,7 +65,7 @@ msgid "Difference"
 msgstr "差异"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Differences"
 msgstr "差异"
 
@@ -94,8 +94,8 @@ msgstr "最后修改日"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_period_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Period"
 msgstr "期间"
 
@@ -122,12 +122,12 @@ msgid ""
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Month"
 msgstr "本月"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Week"
 msgstr "本周"
 
@@ -167,7 +167,7 @@ msgid "Timesheet by Day"
 msgstr "工时表按天"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Timesheets"
 msgstr "工时表"
 
@@ -182,19 +182,19 @@ msgid "Total Attendance"
 msgstr "出勤总计"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Attendances"
 msgstr "出勤总计"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Difference"
 msgstr "差异合计"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_day_total_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_total_timesheet
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Timesheet"
 msgstr "总工时表"
 
@@ -263,7 +263,7 @@ msgid "project.config.settings"
 msgstr "项目配置"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "timesheet attendance"
 msgstr "工时表出勤"

@@ -31,7 +31,7 @@ class ReportProjectAbstract(models.AbstractModel):
     _template = None
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         return {
             'doc_ids': docids,

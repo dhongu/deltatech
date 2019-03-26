@@ -63,7 +63,7 @@
 						<label for="qty_primary" />
 						<div>
 							<field name="qty_primary" class="oe_inline" />
-							<field name="primary_uom" class="oe_inline" groups="product.group_uom" />
+							<field name="primary_uom" class="oe_inline" groups="uom.group_uom" />
 						</div>
 						<field name="price_unit" />
 						<field name="add_inst_day" />
@@ -88,7 +88,7 @@
 								<field name="product_attributes_values" widget="many2many_tags" />
 								<field name="product_uom_qty" />
 							    
-								<field name="product_uom" groups="product.group_uom" />
+								<field name="product_uom" groups="uom.group_uom" />
 								<field name="resource_ids" invisible='1' />
 								<field name="item_categ" />
 								<field name="price_unit" invisible='1' />
@@ -105,7 +105,7 @@
 										 
 											<field name="product_uom_qty" /> 
 											<field name="qty_formula" class="oe_inline"/>
-											<field name="product_uom" groups="product.group_uom" class="oe_inline" />
+											<field name="product_uom" groups="uom.group_uom" class="oe_inline" />
 											
 										 
 										<field name="item_categ" />
@@ -127,7 +127,7 @@
 													<field name="product_id" />
 													<field name="name" />
 													<field name="product_uom_qty" />
-													<field name="product_uom" groups="product.group_uom" />
+													<field name="product_uom" groups="uom.group_uom" />
 													<field name="item_categ" />
 													<field name="purchase_price" />
 													<field name="price_unit" />
@@ -156,7 +156,7 @@
 								<button name="open_bom" icon="STOCK_INDENT" string="Show" type="object" attrs="{'invisible':[('bom_id','=',False)]}"/>
 								<field name="name" />
 								<field name="product_uom_qty" />
-								<field name="product_uom" groups="product.group_uom" />
+								<field name="product_uom" groups="uom.group_uom" />
 								<field name="item_categ" />
 								<field name="purchase_price" />
 								<field name="price_unit" />
@@ -175,7 +175,7 @@
 								<field name="resource_id" />
 								<field name="product_id" />							 
 								<field name="product_uom_qty" />
-								<field name="product_uom" groups="product.group_uom" />
+								<field name="product_uom" groups="uom.group_uom" />
 							</tree>
 						</field>
 					</page>
@@ -213,7 +213,7 @@
 					<field name="resource_id" />
 					<field name="product_id" />
 					<field name="product_uom_qty" />
-					<field name="product_uom" groups="product.group_uom" />
+					<field name="product_uom" groups="uom.group_uom" />
 				</tree>
 			</field>
 		</record>
@@ -228,7 +228,7 @@
 					<field name="categ_id" />
 					<field name="product_id" />
 					<field name="product_uom_qty" />
-					<field name="product_uom" groups="product.group_uom" />
+					<field name="product_uom" groups="uom.group_uom" />
 					<field name="price_unit" />
 					<field name="amount" />
 				</tree>

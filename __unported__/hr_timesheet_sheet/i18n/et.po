@@ -49,7 +49,7 @@ msgid "Analytic accounts"
 msgstr "Analüütilised kontod"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Approve"
 msgstr "Nõustu"
 
@@ -83,7 +83,7 @@ msgid "Company"
 msgstr "Ettevõte"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Confirmed Timesheets"
 msgstr ""
 
@@ -111,12 +111,12 @@ msgstr "Kuupäev kuni"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_sheet_department_id
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Department"
 msgstr "Osakond"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Details"
 msgstr "Üksikasjad"
 
@@ -134,27 +134,27 @@ msgid "Employee"
 msgstr "Tootaja"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Employee's Name"
 msgstr "Töötaja nimi"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Employees"
 msgstr "Töötajad"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Extra features"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Group By"
 msgstr "Rühmitamine"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Hours"
 msgstr "Tunnid"
 
@@ -171,7 +171,7 @@ msgid "ID"
 msgstr "ID"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "In Draft"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgid "Month"
 msgstr "Kuu"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "More Info"
 msgstr "Rohkem infot"
 
@@ -280,7 +280,7 @@ msgid "Project / Analytic Account"
 msgstr "Projekt / Analüütiline konto"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Refuse"
 msgstr "Keeldu"
 
@@ -290,17 +290,17 @@ msgid "Related user name for the resource to manage its access."
 msgstr "Seotud kasutajanimi ressursi juurdepääsu haldamiseks."
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
 msgid "Search Account"
 msgstr "Otsi kontot"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Search Timesheet"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Set to Draft"
 msgstr "Määra mustandiks"
 
@@ -317,28 +317,28 @@ msgid "Status"
 msgstr "Olek"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Submit to Manager"
 msgstr "Esitage juhile"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Summary"
 msgstr "Kokkuvõte"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet"
 msgstr "Ajagraafik"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Activities"
 msgstr "Ajaarvestuse tegevused"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Period"
 msgstr ""
 
@@ -353,8 +353,8 @@ msgid "Timesheet approved"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 msgid "Timesheet by Accounts"
 msgstr "Tööajaleht kontode kaupa"
 
@@ -381,10 +381,10 @@ msgstr ""
 #. module: hr_timesheet_sheet
 #: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_employee_2_hr_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee_timesheet_count
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Timesheets"
 msgstr "Tööajalehed"
 
@@ -416,7 +416,7 @@ msgstr ""
 
 #. module: hr_timesheet_sheet
 #: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_to_approve
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "To Approve"
 msgstr "Kinnitamiseks"
 
@@ -424,8 +424,8 @@ msgstr "Kinnitamiseks"
 #. openerp-web
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:14
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:36
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 #, python-format
 msgid "Total"
 msgstr "Kokku"
@@ -436,12 +436,12 @@ msgid "Total Time"
 msgstr "Aeg kokku"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unread Messages"
 msgstr "Lugemata sõnumid"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unvalidated Timesheets"
 msgstr "Valideerimata tööajalehed"
 
@@ -525,7 +525,7 @@ msgid "project.config.settings"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "to"
 msgstr "kuni"
 

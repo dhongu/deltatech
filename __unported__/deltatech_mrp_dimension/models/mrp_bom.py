@@ -15,4 +15,4 @@ class MrpBom(models.Model):
     @api.multi
     def action_create_surface_uom(self):
          for bom in self:
-            self.env['product.uom'].search_surface(bom.length,  bom.width)
+            self.env['uom.uom'].search_surface(bom.length,  bom.width)

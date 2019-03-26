@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Approve"
 msgstr "Approbation"
 
@@ -41,7 +41,7 @@ msgid "Created on"
 msgstr "Créé le"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Details"
 msgstr "Détails"
 
@@ -53,12 +53,12 @@ msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Hours"
 msgstr "Heures"
 
@@ -109,7 +109,7 @@ msgid "Status"
 msgstr "Statut"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Summary"
 msgstr "Résumé"
 
@@ -117,14 +117,14 @@ msgstr "Résumé"
 #. openerp-web
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:14
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:36
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 #, python-format
 msgid "Total"
 msgstr "Total"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unread Messages"
 msgstr "Messages non-lus"
 

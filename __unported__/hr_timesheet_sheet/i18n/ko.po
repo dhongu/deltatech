@@ -48,7 +48,7 @@ msgid "Analytic accounts"
 msgstr "분석 계정"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Approve"
 msgstr "승인"
 
@@ -82,7 +82,7 @@ msgid "Company"
 msgstr "회사"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Confirmed Timesheets"
 msgstr "확정된 작업표"
 
@@ -110,12 +110,12 @@ msgstr "종료일"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_sheet_department_id
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Department"
 msgstr "부서"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Details"
 msgstr "세부사항"
 
@@ -133,27 +133,27 @@ msgid "Employee"
 msgstr "임직원"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Employee's Name"
 msgstr "임직원 이름"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Employees"
 msgstr "임직원"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Extra features"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Group By"
 msgstr "그룹화"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Hours"
 msgstr "시간"
 
@@ -170,7 +170,7 @@ msgid "ID"
 msgstr "ID"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "In Draft"
 msgstr "기안 상태"
 
@@ -208,7 +208,7 @@ msgid "Month"
 msgstr "월"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "More Info"
 msgstr "더 많은 정보"
 
@@ -279,7 +279,7 @@ msgid "Project / Analytic Account"
 msgstr "프로젝트 / 분석 계정"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Refuse"
 msgstr "반려"
 
@@ -289,17 +289,17 @@ msgid "Related user name for the resource to manage its access."
 msgstr "이것에 접근을 관리하는 자원에 대한 관련된 사용자 이름."
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
 msgid "Search Account"
 msgstr "계정 검색"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Search Timesheet"
 msgstr "작업표 검색"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Set to Draft"
 msgstr "기안으로 설정"
 
@@ -316,28 +316,28 @@ msgid "Status"
 msgstr "상태"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Submit to Manager"
 msgstr "관리자에게 제출"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Summary"
 msgstr "요약"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet"
 msgstr "작업표"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Activities"
 msgstr "작업표 활동"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Period"
 msgstr "작업표 기록기간"
 
@@ -352,8 +352,8 @@ msgid "Timesheet approved"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 msgid "Timesheet by Accounts"
 msgstr "계정별 작업표"
 
@@ -380,10 +380,10 @@ msgstr ""
 #. module: hr_timesheet_sheet
 #: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_employee_2_hr_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee_timesheet_count
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Timesheets"
 msgstr "작업표"
 
@@ -415,7 +415,7 @@ msgstr ""
 
 #. module: hr_timesheet_sheet
 #: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_to_approve
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "To Approve"
 msgstr "승인 요청"
 
@@ -423,8 +423,8 @@ msgstr "승인 요청"
 #. openerp-web
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:14
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:36
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 #, python-format
 msgid "Total"
 msgstr "합계"
@@ -435,12 +435,12 @@ msgid "Total Time"
 msgstr "전체 시간"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unread Messages"
 msgstr "읽지 않은 메시지"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unvalidated Timesheets"
 msgstr "검증되지 않은 작업표"
 
@@ -526,7 +526,7 @@ msgid "project.config.settings"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "to"
 msgstr "까지"
 

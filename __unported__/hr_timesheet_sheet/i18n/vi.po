@@ -51,7 +51,7 @@ msgid "Analytic accounts"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Approve"
 msgstr "Chấp thuận"
 
@@ -85,7 +85,7 @@ msgid "Company"
 msgstr "Công ty"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Confirmed Timesheets"
 msgstr ""
 
@@ -113,12 +113,12 @@ msgstr ""
 
 #. module: hr_timesheet_sheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_sheet_department_id
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Department"
 msgstr "Phòng ban"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Details"
 msgstr "Các chi tiết"
 
@@ -136,27 +136,27 @@ msgid "Employee"
 msgstr "Người lao động"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Employee's Name"
 msgstr "Tên nhân viên"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Employees"
 msgstr "Nhân viên"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Extra features"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Group By"
 msgstr "Nhóm theo"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Hours"
 msgstr "Giờ"
 
@@ -173,7 +173,7 @@ msgid "ID"
 msgstr "ID"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "In Draft"
 msgstr ""
 
@@ -211,7 +211,7 @@ msgid "Month"
 msgstr "Tháng"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "More Info"
 msgstr "Thêm thông tin"
 
@@ -282,7 +282,7 @@ msgid "Project / Analytic Account"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Refuse"
 msgstr "Từ chối"
 
@@ -292,17 +292,17 @@ msgid "Related user name for the resource to manage its access."
 msgstr "Tài khoản liên quan của nhân viên dùng để truy cập hệ thống."
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
 msgid "Search Account"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Search Timesheet"
 msgstr "Tìm kiếm Bảng chấm công"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Set to Draft"
 msgstr "Thiết lập về dự thảo"
 
@@ -319,28 +319,28 @@ msgid "Status"
 msgstr "Trạng thái"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Submit to Manager"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Summary"
 msgstr "Tóm tắt"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet"
 msgstr "Bảng thời gian"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Activities"
 msgstr "Hoạt động chấm công"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Period"
 msgstr ""
 
@@ -355,8 +355,8 @@ msgid "Timesheet approved"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 msgid "Timesheet by Accounts"
 msgstr ""
 
@@ -383,10 +383,10 @@ msgstr ""
 #. module: hr_timesheet_sheet
 #: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_employee_2_hr_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee_timesheet_count
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Timesheets"
 msgstr "Chấm công"
 
@@ -418,7 +418,7 @@ msgstr ""
 
 #. module: hr_timesheet_sheet
 #: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_to_approve
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "To Approve"
 msgstr ""
 
@@ -426,8 +426,8 @@ msgstr ""
 #. openerp-web
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:14
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:36
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 #, python-format
 msgid "Total"
 msgstr "Tổng"
@@ -438,12 +438,12 @@ msgid "Total Time"
 msgstr "Tổng thời gian"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unread Messages"
 msgstr "Thông điệp chưa đọc"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unvalidated Timesheets"
 msgstr ""
 
@@ -527,7 +527,7 @@ msgid "project.config.settings"
 msgstr ""
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "to"
 msgstr "đến"
 

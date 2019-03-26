@@ -65,7 +65,7 @@ msgid "Analytic accounts"
 msgstr "Compte analytique"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Approve"
 msgstr "Approuver"
 
@@ -100,7 +100,7 @@ msgid "Company"
 msgstr "Société"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Confirmed Timesheets"
 msgstr "Feuilles de temps confirmées"
 
@@ -128,12 +128,12 @@ msgstr "Date de fin"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_sheet_department_id
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Department"
 msgstr "Département"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Details"
 msgstr "Détails"
 
@@ -151,27 +151,27 @@ msgid "Employee"
 msgstr "Employé"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Employee's Name"
 msgstr "Nom de l'employé"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Employees"
 msgstr "Employés"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Extra features"
 msgstr "Fonctionnalités supplémentaires"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Hours"
 msgstr "Heures"
 
@@ -188,7 +188,7 @@ msgid "ID"
 msgstr "ID"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "In Draft"
 msgstr "A l'état \"Brouillon\""
 
@@ -228,7 +228,7 @@ msgid "Month"
 msgstr "Mois"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "More Info"
 msgstr "Plus d'infos"
 
@@ -299,7 +299,7 @@ msgid "Project / Analytic Account"
 msgstr "Projet /Compte analytique"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Refuse"
 msgstr "Refuser"
 
@@ -309,17 +309,17 @@ msgid "Related user name for the resource to manage its access."
 msgstr "Utilisateur associé à la ressource pour gérer les droits d'accès."
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_filter
 msgid "Search Account"
 msgstr "Recherche de comptes"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Search Timesheet"
 msgstr "Rechercher dans les feuilles de temps"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Set to Draft"
 msgstr "Marquer comme brouillon"
 
@@ -336,28 +336,28 @@ msgid "Status"
 msgstr "État"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Submit to Manager"
 msgstr "Soumettre au responsable"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Summary"
 msgstr "Résumé"
 
 #. module: hr_timesheet_sheet
 #: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet"
 msgstr "Feuille de présence"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Activities"
 msgstr "Activités de la feuille de temps"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "Timesheet Period"
 msgstr "Période des feuilles de temps"
 
@@ -372,8 +372,8 @@ msgid "Timesheet approved"
 msgstr "Feuille de temps approuvée"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 msgid "Timesheet by Accounts"
 msgstr "Feuille de temps par compte"
 
@@ -400,10 +400,10 @@ msgstr "Feuille de temps à approuver"
 #. module: hr_timesheet_sheet
 #: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_employee_2_hr_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee_timesheet_count
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_department_view_kanban
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_employee_extd_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree_simplified
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_config_settings_form_inherit_hr_timesheet_sheet
 msgid "Timesheets"
 msgstr "Feuilles de temps"
 
@@ -437,7 +437,7 @@ msgstr "Feuilles de temps à approuver"
 
 #. module: hr_timesheet_sheet
 #: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_to_approve
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "To Approve"
 msgstr "À approuver"
 
@@ -445,8 +445,8 @@ msgstr "À approuver"
 #. openerp-web
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:14
 #: code:addons/hr_timesheet_sheet/static/src/xml/timesheet.xml:36
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_account_tree
 #, python-format
 msgid "Total"
 msgstr "Total"
@@ -457,12 +457,12 @@ msgid "Total Time"
 msgstr "Temps total"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unread Messages"
 msgstr "Messages non lus"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
 msgid "Unvalidated Timesheets"
 msgstr "Feuilles de temps non validées"
 
@@ -554,7 +554,7 @@ msgid "project.config.settings"
 msgstr "project.config.settings"
 
 #. module: hr_timesheet_sheet
-#: model:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
 msgid "to"
 msgstr "au"
 

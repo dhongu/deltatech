@@ -59,7 +59,7 @@ class sale_order(models.Model):
     # se va folosi pentru insumarea componentelor principale
     qty_primary = fields.Float(string='Primary Quantity', readonly=True, digits=dp.get_precision('Product Unit of Measure'),
                                 compute='_compute_qty_primary', store=True)  
-    primary_uom = fields.Many2one('product.uom', string='Unit of Measure', readonly=True , 
+    primary_uom = fields.Many2one('uom.uom', string='Unit of Measure', readonly=True , 
                                   compute='_compute_qty_primary', store=True)  
     price_unit =  fields.Float(string='Unit Price', digits= dp.get_precision('Product Price'),
                                compute='_compute_price_unit', store=True)  
@@ -341,7 +341,7 @@ class sale_mrp_article(models.Model):
     name = fields.Char(string='Name',related='product_template.name')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits=dp.get_precision('Product Unit of Measure'))
     qty_formula =  fields.Char(string='Formula for Quantity')
-    product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
+    product_uom = fields.Many2one('uom.uom', string='Unit of Measure', required=True)
     
     item_categ = fields.Selection(ITEM_CATEG, default='optional', string='Item Category')
     
@@ -525,7 +525,7 @@ class sale_mrp_article(models.Model):
         items = []
         if self.bom_id:
 
-            factor = self.env['product.uom']._compute_qty(self.product_uom.id, self.product_uom_qty, self.bom_id.product_uom.id)
+            factor = self.env['uom.uom']._compute_qty(self.product_uom.id, self.product_uom_qty, self.bom_id.product_uom.id)
 
             factor =  factor / self.bom_id.product_qty
              
@@ -557,7 +557,7 @@ class sale_mrp_article(models.Model):
                     price_list_id = self.order_id.pricelist_id.id
              
                     price_unit = self.order_id.pricelist_id.price_get( item['product_id'], item['product_qty'] or 1.0, self.order_id.partner_id.id)[price_list_id]
-                    price_unit = self.env['product.uom']._compute_price(product.uom_id.id, price_unit, item['product_uom'] )
+                    price_unit = self.env['uom.uom']._compute_price(product.uom_id.id, price_unit, item['product_uom'] )
                 else:
                     price_unit = 0
                 
@@ -630,7 +630,7 @@ class sale_mrp_resource(models.Model):
     product_id  = fields.Many2one('product.product', string='Product')
     name        = fields.Char(string='Name')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits =dp.get_precision('Product Unit of Measure'))
-    product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
+    product_uom = fields.Many2one('uom.uom', string='Unit of Measure', required=True)
     price_unit  = fields.Float(string='Unit Price', digits = dp.get_precision('Product Price') )
     amount      = fields.Float( string='Amount', digits = dp.get_precision('Account'), compute='_compute_amount', store=True)   
     categ_id    = fields.Many2one('product.category', related='product_id.categ_id', store=True) # este nevoie ? mai bine se aduce informatia direct in raport ?
@@ -685,7 +685,7 @@ class sale_mrp_resource(models.Model):
                 pass
             
             price =  order_id.pricelist_id.price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
-            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )  
+            price = self.env['uom.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id )  
             self.price_unit = price
  
 
@@ -710,7 +710,7 @@ class sale_mrp_resource(models.Model):
             # pretul se va caclula manual din BOM prin apasarea unui buton care va face calculul pentru ficare varianta de produs
             price =  order_id.pricelist_id.with_context(production=self.article_id).price_get( self.product_id.id, self.product_uom_qty or 1.0,  order_id.partner_id.id)[ order_id.pricelist_id.id]    
             
-            price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
+            price = self.env['uom.uom']._compute_price(self.product_id.uom_id.id, price, self.product_uom.id ) # nu cred ca e cazul ca sa mai schimb si unitatea de masura 
             self.price_unit = price
             self.name = self.product_id.name
             
@@ -748,10 +748,10 @@ class sale_mrp_resource(models.Model):
                             'product_uom': product_uom_id,    
                            }] 
         else:
-            uom = self.env['product.uom'].browse(product_uom_id)
+            uom = self.env['uom.uom'].browse(product_uom_id)
             product = self.env['product.product'].browse(product_id)
             
-            factor = self.env['product.uom']._compute_qty(product_uom_id, product_uom_qty, bom.product_uom.id)
+            factor = self.env['uom.uom']._compute_qty(product_uom_id, product_uom_qty, bom.product_uom.id)
             factor =  factor / bom.product_qty
             bom_items, work = bom.with_context(production=self.article_id)._bom_explode(product=product_id, factor = factor)
             for item in bom_items:
@@ -806,7 +806,7 @@ class sale_mrp_resource_item(models.Model):
     resource_id  = fields.Many2one('sale.mrp.resource', string='Resource', copy=False, ondelete='cascade')
     product_id  = fields.Many2one('product.product', string='Product')
     product_uom_qty = fields.Float(string='Product Quantity', required=True, digits =dp.get_precision('Product Unit of Measure'))
-    product_uom = fields.Many2one('product.uom', string='Unit of Measure', required=True)
+    product_uom = fields.Many2one('uom.uom', string='Unit of Measure', required=True)
  
  
     

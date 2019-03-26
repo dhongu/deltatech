@@ -33,7 +33,7 @@
 						</td>
 						<td class="text-right">
 							<span t-field="l.product_uom_qty" />
-							<span groups="product.group_uom" t-field="l.product_uom" />
+							<span groups="uom.group_uom" t-field="l.product_uom" />
 						</td>
 						<td class="text-right">
 							<span t-field="l.price_unit" />
@@ -91,7 +91,7 @@
 								</td>
 								<td class="text-right">
 									<span t-field="l.product_uom_qty" />
-									<span groups="product.group_uom" t-field="l.product_uom" />
+									<span groups="uom.group_uom" t-field="l.product_uom" />
 								</td>
 								<td class="text-right">
 									<span />
@@ -108,7 +108,7 @@
 						</th>
 						<td class="text-right">
 							<span t-field="o.qty_primary" />
-							<span groups="product.group_uom" t-field="o.primary_uom" />
+							<span groups="uom.group_uom" t-field="o.primary_uom" />
 						</td>
 						<td class="text-right">
 							<t t-if='o.qty_primary'>
@@ -143,7 +143,7 @@
 								</td>
 								<td class="text-right">
 									<span t-field="l.product_uom_qty" />
-									<span groups="product.group_uom" t-field="l.product_uom" />
+									<span groups="uom.group_uom" t-field="l.product_uom" />
 								</td>
 								<td class="text-right">
 									<span t-field="l.price_unit" />
@@ -173,7 +173,7 @@
 						</th>
 						<td class="text-right">
 							<span t-field="o.qty_primary" />
-							<span groups="product.group_uom" t-field="o.primary_uom" />
+							<span groups="uom.group_uom" t-field="o.primary_uom" />
 						</td>
 						<td class="text-right">
 							<t t-if='o.qty_primary'>
@@ -227,7 +227,7 @@
 						</th>
 						<td class="text-right">
 							<span t-field="o.qty_primary" />
-							<span groups="product.group_uom" t-field="o.primary_uom" />
+							<span groups="uom.group_uom" t-field="o.primary_uom" />
 						</td>
 						<td class="text-right">
 							<t t-if='o.qty_primary'>

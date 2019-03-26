@@ -226,7 +226,7 @@
               <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			              <span groups="uom.group_uom" t-field="o.primary_uom"/>
 			            </td>
 			            
 			            <td class="text-right" style="white-space: nowrap;">
@@ -250,7 +250,7 @@
               <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			              <span groups="uom.group_uom" t-field="o.primary_uom"/>
 			            </td>
 			            -->
               <td class="text-right" style="white-space: nowrap;">
@@ -357,7 +357,7 @@
               <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			              <span groups="uom.group_uom" t-field="o.primary_uom"/>
 			            </td>
 			            -->
               <td class="text-right" style="white-space: nowrap;">
@@ -407,7 +407,7 @@
               <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			              <span groups="uom.group_uom" t-field="o.primary_uom"/>
 			            </td>
 			            <td class="text-right" style="white-space: nowrap;">
 			              <t t-if="o.qty_primary">
@@ -431,7 +431,7 @@
               <!--
 			            <td class="text-right">
 			              <span t-field="o.qty_primary"/>
-			              <span groups="product.group_uom" t-field="o.primary_uom"/>
+			              <span groups="uom.group_uom" t-field="o.primary_uom"/>
 			            </td>
 			            -->
               <td class="text-right" style="white-space: nowrap;">
@@ -563,7 +563,7 @@
           <t t-if="with_qty and qty_only==0">
             <!--<span t-field="a.product_uom_qty"/>-->
              <span t-esc="round(a.product_uom_qty,2)"/>
-            <span groups="product.group_uom" t-field="a.product_uom"/>
+            <span groups="uom.group_uom" t-field="a.product_uom"/>
           </t>
         </td>
         <!--
@@ -580,7 +580,7 @@
           <t t-if="with_qty and qty_only">
             <!--<span t-field="a.product_uom_qty"/>-->
             <span t-esc="round(a.product_uom_qty,2)"/>
-            <span groups="product.group_uom" t-field="a.product_uom"/>
+            <span groups="uom.group_uom" t-field="a.product_uom"/>
           </t>
         </td>
       </t>
@@ -589,7 +589,7 @@
           <t t-if="with_qty and qty_only==0">
             <!--<span t-field="a.product_uom_qty"/>-->
             <span t-esc="round(a.product_uom_qty,2)"/>
-            <span groups="product.group_uom" t-field="a.product_uom"/>
+            <span groups="uom.group_uom" t-field="a.product_uom"/>
           </t>
         </td>
         <!--
@@ -606,7 +606,7 @@
           <t t-if="qty_only">
             <!--<span t-field="a.product_uom_qty"/>-->
             <span t-esc="round(a.product_uom_qty,2)"/>
-            <span groups="product.group_uom" t-field="a.product_uom"/>
+            <span groups="uom.group_uom" t-field="a.product_uom"/>
           </t>
           <t t-if="with_price and a.amount&lt;0">
             <span> </span>

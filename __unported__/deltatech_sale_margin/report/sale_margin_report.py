@@ -34,7 +34,7 @@ class sale_margin_report(models.Model):
     invoice_id = fields.Many2one('account.invoice', 'Invoice', readonly=True)
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
-    product_uom = fields.Many2one('product.uom', 'Unit of Measure', readonly=True)
+    product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
     product_uom_qty = fields.Float('Quantity', readonly=True)
     # 'purchase_price = fields.float('Purchase price', readonly=True )
     sale_val = fields.Float('Sale value', readonly=True, help="Sale value in company currency")

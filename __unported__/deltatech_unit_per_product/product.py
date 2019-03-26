@@ -36,7 +36,7 @@ class product_uom_categ(models.Model):
 
 
 class product_uom(models.Model):
-    _inherit = 'product.uom'
+    _inherit = 'uom.uom'
     
     description = fields.Char(string="Additional description")
     

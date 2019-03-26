@@ -81,8 +81,8 @@ class project_task_recurrence(models.TransientModel):
     def do_recurrence(self):
         self.ensure_one()
         recurrence_tasks=[]
-        first_date = fields.Date.from_string(self.first_date) 
-        last_date = fields.Date.from_string(self.last_date)
+        first_date = self.first_date
+        last_date =  self.last_date
 
         next_date = first_date 
         next_start_date = first_date  
@@ -102,9 +102,9 @@ class project_task_recurrence(models.TransientModel):
                     next_start_date += relativedelta(day=self.day_start , months=0)               
             
             recurrence_tasks += [{'name':self.task_id.name,
-                                  'date_start':fields.Date.to_string(next_start_date),
-                                 'date_end':fields.Date.to_string(next_date),
-                                 'date_deadline':fields.Date.to_string(next_date),
+                                  'date_start': next_start_date,
+                                 'date_end' next_date,
+                                 'date_deadline': next_date,
                                  'current': False,
                                  'kanban_state' :'blocked',
                                  'recurrence':True}]

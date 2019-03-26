@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "<span class=\"o_stat_text\">Timesheet</span>"
 msgstr ""
 
@@ -43,7 +43,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:hr_timesheet_attendance.act_hr_timesheet_sheet_sheet_2_hr_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendance_count
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendances_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Attendances"
 msgstr "დასწრებები"
 
@@ -65,7 +65,7 @@ msgid "Difference"
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Differences"
 msgstr ""
 
@@ -94,8 +94,8 @@ msgstr "ბოლოს განახლებულია"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_period_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Period"
 msgstr ""
 
@@ -122,12 +122,12 @@ msgid ""
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Month"
 msgstr "ეს თვე"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Week"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgid "Timesheet by Day"
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Timesheets"
 msgstr "დროის აღრიცხვა"
 
@@ -182,19 +182,19 @@ msgid "Total Attendance"
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Attendances"
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Difference"
 msgstr ""
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_day_total_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_total_timesheet
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Timesheet"
 msgstr ""
 
@@ -263,7 +263,7 @@ msgid "project.config.settings"
 msgstr ""
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "timesheet attendance"
 msgstr ""

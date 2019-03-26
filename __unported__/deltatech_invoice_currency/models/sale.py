@@ -20,8 +20,8 @@ class SaleOrder(models.Model):
         date_invoice = False
         for picking in self.picking_ids:
             if picking.state == 'done':
-                if not date_invoice or date_invoice < picking.scheduled_date[:10]:
-                    date_invoice = picking.scheduled_date[:10]
+                if not date_invoice or date_invoice < picking.scheduled_date:
+                    date_invoice = picking.scheduled_date
 
         date_invoice = date_invoice or fields.Date.context_today(self)
         from_currency = self.pricelist_id.currency_id.with_context(date=date_invoice)

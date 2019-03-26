@@ -57,7 +57,7 @@ class product_product(models.Model):
                 price = product.product_tmpl_id.list_price
             if 'uom' in self.env.context:
                 uom = product.uos_id or product.uom_id
-                price = self.env['product.uom']._compute_price( uom.id, price, self.env.context['uom'])
+                price = self.env['uom.uom']._compute_price( uom.id, price, self.env.context['uom'])
 
             product.lst_price =  price + product.price_extra + product.price_extra_variant
 
@@ -67,7 +67,7 @@ class product_product(models.Model):
         for product in self: 
             if 'uom' in self.env.context:
                 uom = product.uos_id or product.uom_id
-                lst_price = self.env['product.uom']._compute_price(self.env.context['uom'] , product.lst_price, uom.id)
+                lst_price = self.env['uom.uom']._compute_price(self.env.context['uom'] , product.lst_price, uom.id)
             else:
                 lst_price = product.lst_price
             self.price_extra_variant =  lst_price - product.list_price - product.price_extra

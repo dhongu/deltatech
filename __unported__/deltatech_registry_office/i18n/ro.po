@@ -15,8 +15,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "Address"
 msgstr "Adresa"
 
@@ -28,7 +28,7 @@ msgid "Assigned"
 msgstr "Atribuit"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
 msgid "Barcode"
 msgstr "Barcode"
 
@@ -38,8 +38,8 @@ msgid "CNP"
 msgstr "CNP"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
-#: model:ir.ui.view,arch_db:deltatech_registry_office.wizar_user_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.wizar_user_view_form
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 msgid "Cancel"
@@ -57,8 +57,8 @@ msgstr "Bifati daca contactul este o companie, in caz contrar este o persoana"
 
 #. module: deltatech_registry_office
 #: model:ir.model.fields,field_description:deltatech_registry_office.field_registry_office_doc_city
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "City"
 msgstr "Oraș"
 
@@ -69,13 +69,13 @@ msgstr "Configurare"
 
 #. module: deltatech_registry_office
 #: model:ir.model.fields,field_description:deltatech_registry_office.field_registry_office_doc_country_id
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "Country"
 msgstr "Țară"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.wizar_user_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.wizar_user_view_form
 msgid "Create Login"
 msgstr "Create Login"
 
@@ -139,7 +139,7 @@ msgid "Date output"
 msgstr "Dată ieșire"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 #: selection:registry.office.solution,state:0
@@ -239,8 +239,8 @@ msgid "External Number"
 msgstr "Număr extern"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 #: selection:registry.office.solution,state:0
@@ -276,7 +276,7 @@ msgid "In Progress"
 msgstr "În operare"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 #: selection:registry.office.solution,state:0
@@ -375,7 +375,7 @@ msgid "Number"
 msgstr "Număr"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
 msgid "Operate"
 msgstr "Operare"
 
@@ -393,7 +393,7 @@ msgid "Output document"
 msgstr "Document ieșire"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 #: selection:registry.office.solution,state:0
@@ -423,7 +423,7 @@ msgid "Please solve the document %s: %s"
 msgstr "Please solve the document %s: %s"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
 msgid "Receipt"
 msgstr "Bon"
 
@@ -459,14 +459,14 @@ msgid "Responsible"
 msgstr "Responsabil"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 msgid "Send"
 msgstr "Trimite"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "Send to"
 msgstr "Trmite la"
 
@@ -476,7 +476,7 @@ msgid "Sender"
 msgstr "Proveniență"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
 msgid "Share a message..."
 msgstr "Share a message..."
 
@@ -510,7 +510,7 @@ msgstr "Expediază Document"
 #. module: deltatech_registry_office
 #: model:ir.actions.act_window,name:deltatech_registry_office.action_solution
 #: model:ir.model,name:deltatech_registry_office.model_registry_office_solution
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 msgid "Solution"
 msgstr "Rezolvare"
 
@@ -527,8 +527,8 @@ msgstr "Dată început"
 
 #. module: deltatech_registry_office
 #: model:ir.model.fields,field_description:deltatech_registry_office.field_registry_office_doc_state_id
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "State"
 msgstr "Județ"
 
@@ -545,14 +545,14 @@ msgid "Street"
 msgstr "Stradă"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "Street 2..."
 msgstr "Strada 2..."
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "Street..."
 msgstr "Strada..."
 
@@ -594,8 +594,8 @@ msgid "Type"
 msgstr "Tip act"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_solution_wizard
 #: selection:registry.office.doc,state:0
 #: selection:registry.office.history,state:0
 #: selection:registry.office.solution,state:0
@@ -618,8 +618,8 @@ msgid "With Shipment"
 msgstr "Cu expediere"
 
 #. module: deltatech_registry_office
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
-#: model:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_form
+#: model_terms:ir.ui.view,arch_db:deltatech_registry_office.view_registry_office_doc_new_form
 msgid "ZIP"
 msgstr "Cod poștal"
 

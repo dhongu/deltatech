@@ -23,15 +23,15 @@ msgid "A factor of 0.1 means a loss of 10% during the consumption."
 msgstr "A factor of 0.1 means a loss of 10% during the consumption."
 
 #. module: deltatech_supply_stock
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
 msgid "Cancel"
 msgstr "Anulează"
 
 #. module: deltatech_supply_stock
 #: model:ir.actions.act_window,name:deltatech_supply_stock.action_mrp_check_availability
 #: model:ir.model,name:deltatech_supply_stock.model_mrp_check_availability
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_mrp_check_availability_wizard
 msgid "Check Availability"
 msgstr "Verifică disponibilitatea"
 
@@ -41,7 +41,7 @@ msgid "Compute id"
 msgstr "Compute id"
 
 #. module: deltatech_supply_stock
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
 msgid "Compute procurements"
 msgstr "Caclul aprovizionare"
 
@@ -151,7 +151,7 @@ msgstr "Cantitate"
 #. module: deltatech_supply_stock
 #: model:ir.actions.act_window,name:deltatech_supply_stock.action_compute_mrp_schedulers
 #: model:ir.actions.act_window,name:deltatech_supply_stock.action_compute_sale_schedulers
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
 msgid "Run Schedulers"
 msgstr "Rulează planificarea"
 
@@ -171,7 +171,7 @@ msgid "Sales Order Line"
 msgstr "Linie comandă de vânzare"
 
 #. module: deltatech_supply_stock
-#: model:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_supply_stock.view_compute_schedulers_wizard
 msgid "Scheduler Parameters"
 msgstr "Parametri programare"
 

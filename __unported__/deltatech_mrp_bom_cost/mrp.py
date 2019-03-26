@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import except_orm, Warning, RedirectWarning,ValidationError
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
@@ -67,7 +67,7 @@ class mrp_production(models.Model):
     def action_produce(self, cr, uid, production_id, production_qty, production_mode, wiz=False, context=None):
         production = self.browse(cr, uid, production_id, context=context)
             
-        if production.product_id.cost_method == 'fifo' and production.product_id.standard_price <> production.calculate_price:
+        if production.product_id.cost_method == 'fifo' and production.product_id.standard_price != production.calculate_price:
             self.pool.get('product.product').write(cr,uid,[production.product_id.id],{'standard_price':production.calculate_price})
         
         res = super(mrp_production,self).action_produce(cr, uid, production_id, production_qty, production_mode, wiz, context)
@@ -113,7 +113,7 @@ class mrp_bom(models.Model):
         amount = 0
         #print "Determinare pret pentru ", self.name, partner, pricelist
         
-        uom_obj = self.env['product.uom']
+        uom_obj = self.env['uom.uom']
  
              
         results, results2 = self._bom_explode(  self.product_id, 1 )
@@ -122,7 +122,7 @@ class mrp_bom(models.Model):
         for line in results:
             if line['product_id']:
                 line_product = self.env['product.product'].browse(line['product_id'])
-                product_qty = self.env['product.uom']._compute_qty( from_uom_id = line['product_uom'],  
+                product_qty = self.env['uom.uom']._compute_qty( from_uom_id = line['product_uom'],  
                                                                     qty = line['product_qty'],
                                                                     to_uom_id = line_product.uom_id.id, 
                                                                     round = False)
@@ -174,7 +174,7 @@ class mrp_bom(models.Model):
                     # de facut conversia dintre unitate de masura din bom si cea din produs
                     price = line_product.bom_price
                     
-                    product_qty = self.env['product.uom']._compute_qty( from_uom_id = item['product_uom'],  
+                    product_qty = self.env['uom.uom']._compute_qty( from_uom_id = item['product_uom'],
                                                                         qty = item['product_qty'],
                                                                         to_uom_id = line_product.uom_id.id, 
                                                                         round = False)
@@ -183,7 +183,7 @@ class mrp_bom(models.Model):
                     #print "Line: ", item['name'], price, product_qty
             else:
                 for line in bom.bom_line_ids:                  
-                    product_qty = self.env['product.uom']._compute_qty( from_uom_id = line.product_uom.id,  
+                    product_qty = self.env['uom.uom']._compute_qty( from_uom_id = line.product_uom.id,
                                                                         qty = line.product_qty,
                                                                         to_uom_id = line.product_id.uom_id.id, 
                                                                         round = False)
@@ -230,7 +230,7 @@ class mrp_bom(models.Model):
     pentru ce am facut metoda asta ????
     def _bom_explode(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
         result, result2 = super(mrp_bom,self)._bom_explode(cr, uid, bom, product, factor, properties, level, routing_id, previous_products, master_bom, context)
-        uom_obj = self.pool.get("product.uom")
+        uom_obj = self.pool.get('uom.uom')
         for res in result:
             res['product_qty'] = uom_obj._compute_qty(cr, uid, res['product_uom'], res['product_qty'], res['product_uom'] )
         return result, result2
@@ -264,7 +264,7 @@ class mrp_bom_line(models.Model):
     @api.depends('calculate_price','product_qty')
     def _calculate_amount(self):
         for bom_line in self:   
-            product_qty = self.env['product.uom']._compute_qty( from_uom_id = bom_line.product_uom.id,  
+            product_qty = self.env['uom.uom']._compute_qty( from_uom_id = bom_line.product_uom.id,
                                                                     qty = bom_line.product_qty,
                                                                     to_uom_id = bom_line.product_id.uom_id.id, 
                                                                     round = False)

@@ -22,7 +22,7 @@ msgstr "Transportator"
 
 #. module: deltatech_stock_picking_wave
 #: model:ir.model.fields,field_description:deltatech_stock_picking_wave.field_stock_picking_city
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_internal_search
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_internal_search
 msgid "City"
 msgstr "Oraș"
 
@@ -42,23 +42,23 @@ msgid "Picking Wave"
 msgstr "Val ridicare"
 
 #. module: deltatech_stock_picking_wave
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
 msgid "Picking list"
 msgstr "Listă ridicare"
 
 #. module: deltatech_stock_picking_wave
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
 msgid "Plan"
 msgstr "Planifică"
 
 #. module: deltatech_stock_picking_wave
 #: model:ir.model.fields,field_description:deltatech_stock_picking_wave.field_stock_picking_state_id
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_internal_search
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_internal_search
 msgid "State"
 msgstr "Județ"
 
 #. module: deltatech_stock_picking_wave
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
 msgid "Stock Moves"
 msgstr "Mișcări stoc"
 
@@ -73,14 +73,14 @@ msgid "Transfer"
 msgstr "Transfer"
 
 #. module: deltatech_stock_picking_wave
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.vpicktree
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.vpicktree
 msgid "volume"
 msgstr "volume"
 
 #. module: deltatech_stock_picking_wave
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
-#: model:ir.ui.view,arch_db:deltatech_stock_picking_wave.vpicktree
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.view_picking_wave_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_wave.vpicktree
 msgid "weight"
 msgstr "weight"
 

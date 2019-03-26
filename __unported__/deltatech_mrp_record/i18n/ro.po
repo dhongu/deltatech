@@ -28,7 +28,7 @@ msgid "&times;"
 msgstr "&times;"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.report_mrporder
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.report_mrporder
 msgid "<strong>Work Orders</strong>"
 msgstr "<strong>Comenzi lucru</strong>"
 
@@ -55,7 +55,7 @@ msgid "Barcode Nomenclatures"
 msgstr "Nomenclatoare coduri de bare"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
 msgid "Cancel"
 msgstr "Anulează"
 
@@ -63,7 +63,7 @@ msgstr "Anulează"
 #. openerp-web
 #: code:addons/deltatech_mrp_record/static/src/xml/mrp.xml:27
 #: code:addons/deltatech_mrp_record/static/src/xml/mrp.xml:221
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 #, python-format
 msgid "Close"
 msgstr "Închide"
@@ -75,7 +75,7 @@ msgid "Code"
 msgstr "Cod"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 msgid "Record"
 msgstr "Înregistrează"
 
@@ -87,8 +87,8 @@ msgstr "Înregistrare în timp real"
 
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.mrp_production_form_view
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.mrp_production_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
 msgid "Record"
 msgstr "Înregistrare"
 
@@ -104,7 +104,7 @@ msgid "Cost per hour"
 msgstr "Cost pe oră"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
 msgid "Costing Information"
 msgstr "Informații costuri"
 
@@ -143,7 +143,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
 #: selection:mrp.rework,state:0
 msgid "Draft"
 msgstr "Ciornă"
@@ -335,7 +335,7 @@ msgid "Possible worker ids"
 msgstr "Muncitori posibili"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
 msgid "Post"
 msgstr "Postează"
 
@@ -363,7 +363,7 @@ msgid "Produced"
 msgstr "Deja produs"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 msgid "Producing"
 msgstr "În lucru"
 
@@ -430,7 +430,7 @@ msgstr "Comanda de producția %s a fost scanată."
 #. module: deltatech_mrp_record
 #. openerp-web
 #: code:addons/deltatech_mrp_record/static/src/xml/mrp.xml:45
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 #, python-format
 msgid "Production Order Record"
 msgstr "Înregistrare comandă producție"
@@ -453,7 +453,7 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 msgid "Quantity Produced"
 msgstr "Cantitatea obținută"
 
@@ -480,7 +480,7 @@ msgstr "Cantitate procesată în totalitate"
 #. module: deltatech_mrp_record
 #: model:ir.actions.act_window,name:deltatech_mrp_record.action_mrp_rework
 #: model:ir.ui.menu,name:deltatech_mrp_record.menu_mrp_rework
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
 msgid "Rework"
 msgstr "Reprocesare"
 
@@ -516,17 +516,17 @@ msgid "Search"
 msgstr "Caută"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
 msgid "Select Production Order"
 msgstr "Selecați comanda de producție"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_form
 msgid "Share a message..."
 msgstr "Share a message..."
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.mrp_production_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.mrp_production_form_view
 msgid "Show source"
 msgstr "Afișați sursa"
 
@@ -544,7 +544,7 @@ msgstr "Dată început"
 #: model:ir.actions.act_window,name:deltatech_mrp_record.action_mrp_production_start
 #: model:ir.model,name:deltatech_mrp_record.model_mrp_production_start
 #: model:ir.ui.menu,name:deltatech_mrp_record.menu_mrp_production_start
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
 msgid "Start Production"
 msgstr "Începe producția"
 
@@ -578,7 +578,7 @@ msgid "There are still products to process"
 msgstr "Mai sunt produse de procesat"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 msgid "Time"
 msgstr "Ora"
 
@@ -657,7 +657,7 @@ msgstr "Muncitorul:"
 
 #. module: deltatech_mrp_record
 #: model:ir.model.fields,field_description:deltatech_mrp_record.field_mrp_workcenter_worker_ids
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.mrp_workcenter_view
 msgid "Workers"
 msgstr "Muncitori"
 
@@ -672,7 +672,7 @@ msgid "Workorders"
 msgstr "Comenzi de lucru"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
 msgid "_Apply"
 msgstr "_Aplică"
 
@@ -689,16 +689,16 @@ msgid "barcode.rule"
 msgstr "barcode.rule"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_record_form
 msgid "minutes"
 msgstr "minute"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_production_start_form
 msgid "or"
 msgstr "sau"
 
 #. module: deltatech_mrp_record
-#: model:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_record.view_mrp_rework_tree
 msgid "rework"
 msgstr "Reprocesare"

@@ -31,13 +31,13 @@ class stock_quant(models.Model):
     
     
     qty_po_uom = fields.Float(string="Quantity in Purchase Unit", compute="_compute_qty_po")
-    uom_po_id  = fields.Many2one('product.uom', string='Purchase Unit of Measure', related='product_id.uom_po_id')
-    uom_id  = fields.Many2one('product.uom', string='Unit of Measure', related='product_id.uom_id')
+    uom_po_id  = fields.Many2one('uom.uom', string='Purchase Unit of Measure', related='product_id.uom_po_id')
+    uom_id  = fields.Many2one('uom.uom', string='Unit of Measure', related='product_id.uom_id')
 
     @api.multi
     def _compute_qty_po(self):
         for quant in self:
-            quant.qty_po_uom = self.env['product.uom']._compute_qty_obj(quant.product_id.uom_id, quant.qty, quant.uom_po_id )
+            quant.qty_po_uom = self.env['uom.uom']._compute_qty_obj(quant.product_id.uom_id, quant.qty, quant.uom_po_id )
 
 
 

@@ -288,5 +288,5 @@ class ProcurementComputeProductsItem(models.TransientModel):
     compute_id = fields.Many2one('procurement.compute.products')
     product_id = fields.Many2one('product.product', string="Product")
     qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
-    uom_id = fields.Many2one('product.uom', 'Product Unit of Measure')
+    uom_id = fields.Many2one('uom.uom', 'Product Unit of Measure')
     orderpoint_id = fields.Many2one('stock.warehouse.orderpoint')

@@ -115,7 +115,7 @@ class required_order(models.Model):
                 for line in order.required_line:
                     if line.date_planned > date_planned:
                         date_planned = line.date_planned
-                order.write({'date_planned': date_planned[:10]})
+                order.write({'date_planned': date_planned})
 
         return self.write({'state': 'progress'})
 
@@ -226,7 +226,7 @@ class required_order_line(models.Model):
             supplier_delay = int(supplierinfo.delay) if supplierinfo else 0
             date_planned = fields.Date.from_string(line.required_id.date) + relativedelta(days=supplier_delay)
             date_planned = fields.Datetime.to_string(date_planned)
-            if line.required_id.date_planned and line.required_id.date_planned > date_planned[:10]:
+            if line.required_id.date_planned and line.required_id.date_planned > date_planned:
                 date_planned = line.required_id.date_planned
 
             line.date_planned = date_planned

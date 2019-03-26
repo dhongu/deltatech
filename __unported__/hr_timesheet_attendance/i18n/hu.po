@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "<span class=\"o_stat_text\">Timesheet</span>"
 msgstr "<span class=\"o_stat_text\">Munkaidő-kiosztás</span>"
 
@@ -46,7 +46,7 @@ msgstr "Jelenlét"
 #: model:ir.actions.act_window,name:hr_timesheet_attendance.act_hr_timesheet_sheet_sheet_2_hr_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendance_count
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_attendances_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Attendances"
 msgstr "Jelenlétek"
 
@@ -68,7 +68,7 @@ msgid "Difference"
 msgstr "Eltérés"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Differences"
 msgstr "Különbségek"
 
@@ -97,8 +97,8 @@ msgstr "Utoljára frissítve ekkor"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_period_ids
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Period"
 msgstr "Időszak"
 
@@ -129,12 +129,12 @@ msgstr ""
 "bejegyzést tartalmaz."
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Month"
 msgstr "Ebben a hónapban"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "This Week"
 msgstr "Ezen a héten"
 
@@ -174,7 +174,7 @@ msgid "Timesheet by Day"
 msgstr "Időkimutatások napok szerint"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_sheet_form
 msgid "Timesheets"
 msgstr "Munkaidő-beosztás"
 
@@ -189,19 +189,19 @@ msgid "Total Attendance"
 msgstr "Összes jelenlét"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Attendances"
 msgstr "Összes jelenlét"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Difference"
 msgstr "Teljes különbség"
 
 #. module: hr_timesheet_attendance
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_day_total_timesheet
 #: model:ir.model.fields,field_description:hr_timesheet_attendance.field_hr_timesheet_sheet_sheet_total_timesheet
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.hr_timesheet_day_tree
 msgid "Total Timesheet"
 msgstr "Munkaidő-kiosztás összesen"
 
@@ -277,7 +277,7 @@ msgid "project.config.settings"
 msgstr "project.config.settings"
 
 #. module: hr_timesheet_attendance
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
-#: model:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_pivot
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_attendance.view_hr_timesheet_attendance_report_search
 msgid "timesheet attendance"
 msgstr "timesheet attendance"

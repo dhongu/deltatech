@@ -114,7 +114,7 @@ class procurement_order(models.Model):
     @api.multi 
     def make_po(self):      
         res = super(procurement_order, self).make_po()
-        uom_obj = self.pool.get('product.uom')
+        uom_obj = self.pool.get('uom.uom')
         for procurement_id, po_line_id in res.iteritems():
             qty = 0
             po_line = self.env['purchase.order.line'].browse(po_line_id)
@@ -128,7 +128,7 @@ class procurement_order(models.Model):
             disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]['qty_available']
             msg = _("It is necessary quantity %s and in stock is %s.") %   (str(qty), str(disp))  
             procurement.message_post( body= msg)  
-            if  po_line.order_id.date_order[:10] < fields.Date.today() :
+            if  po_line.order_id.date_order < fields.Date.today() :
                 msg = _("Acquisition should be done in the past at %s") %   (po_line.order_id.date_order)  
                 procurement.message_post( body= msg)    
                 po_line.order_id.write({'date_order':fields.Datetime.now()})                   
@@ -168,7 +168,7 @@ class procurement_order(models.Model):
                   ('location_id','=',order_point.location_id.id)]
         
         procurement_ids = self.env['procurement.order'].search(domain)
-        print procurement_ids
+
         for procurement in procurement_ids:
             if procurement.rule_id.action == 'buy':
                 qty += procurement.product_qty

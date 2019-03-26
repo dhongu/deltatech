@@ -31,12 +31,12 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_print_bf
-#: model:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
 msgid "Export"
 msgstr "Export"
 
 #. module: deltatech_print_bf
-#: model:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
 msgid "Export BF"
 msgstr "Export BF"
 
@@ -51,7 +51,7 @@ msgid "File"
 msgstr "Fișier"
 
 #. module: deltatech_print_bf
-#: model:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
 msgid "File BF:"
 msgstr "Fișier BF:"
 
@@ -108,7 +108,7 @@ msgid "Please select Customer Invoice %s"
 msgstr "Slectați vă rog o facrură de vânzare %s"
 
 #. module: deltatech_print_bf
-#: model:ir.ui.view,arch_db:deltatech_print_bf.invoice_form
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.invoice_form
 msgid "Print Bon Fiscal"
 msgstr "Print Bon Fiscal"
 
@@ -123,7 +123,7 @@ msgid "Text"
 msgstr "Text"
 
 #. module: deltatech_print_bf
-#: model:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
 msgid "_Close"
 msgstr "Închide"
 

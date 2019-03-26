@@ -12,7 +12,7 @@
                     <field name="categ_id" invisible="1"/>
                     <field name="product_id" invisible="1"/>
                     <field name="product_uom" invisible="not context.get('set_visible',False)"
-                           groups="product.group_uom"/>
+                           groups="uom.group_uom"/>
 
                     <field name="user_id" invisible="1"/>
 

@@ -56,7 +56,7 @@
 											</td>
 											<td class="text-right">
 												<span t-field="pack_operation.product_qty" />
-												<span t-field="pack_operation.product_uom_id" groups="product.group_uom" />
+												<span t-field="pack_operation.product_uom_id" groups="uom.group_uom" />
 											</td>
 											<td class="text-right">
 												<span t-field="pack_operation.result_package_id.weight" />

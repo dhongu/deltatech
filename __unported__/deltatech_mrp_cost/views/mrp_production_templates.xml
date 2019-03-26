@@ -22,7 +22,7 @@
         <xpath expr="//table[@t-if='o.move_raw_ids']/tbody/t/tr[@t-as='line']" position="inside">
             <td class="text-right">
                 <span t-field="line.quantity_done"/>
-                <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
             </td>
             <td class="text-right">
                 <span t-field="line.price_unit"/>
@@ -63,12 +63,12 @@
                             </td>
                             <td class="text-right">
                                 <span t-field="line.product_uom_qty"/>
-                                <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
                             </td>
 
                             <td class="text-right">
                                 <span t-field="line.quantity_done"/>
-                                <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                                <span t-field="line.product_uom.name" groups="uom.group_uom"/>
                             </td>
                             <td class="text-right">
                                 <span t-field="line.price_unit"/>

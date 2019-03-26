@@ -47,7 +47,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_pos
-#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
 msgid "ECR"
 msgstr "ECR"
 
@@ -75,7 +75,7 @@ msgstr "Nume fișier"
 
 #. module: deltatech_pos
 #: model:ir.model.fields,field_description:deltatech_pos.field_pos_config_file_ext
-#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
 msgid "File extension"
 msgstr "Extensia fișierului"
 
@@ -177,7 +177,7 @@ msgid "Take Money From Cash"
 msgstr "Ridicare bani din casă"
 
 #. module: deltatech_pos
-#: model:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_pos.pos_config_view_form
 msgid "Type of electronic cash register"
 msgstr "Tipul casei de marcat"
 

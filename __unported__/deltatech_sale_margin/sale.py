@@ -45,7 +45,7 @@ class sale_order_line(models.Model):
             purchase_price = self.product_id.standard_price
             to_uom = self.product_uom.id
             if to_uom != self.product_id.uom_id.id:
-                purchase_price = self.env['product.uom']._compute_price(self.product_id.uom_id.id, purchase_price,
+                purchase_price = self.env['uom.uom']._compute_price(self.product_id.uom_id.id, purchase_price,
                                                                         to_uom)
 
             self.purchase_price = frm_cur.with_context(date=self.order_id.date_order).compute(purchase_price, to_cur,

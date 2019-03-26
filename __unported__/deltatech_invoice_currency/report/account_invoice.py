@@ -14,7 +14,7 @@ class ReportInvoicePrint(models.AbstractModel):
 
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
         return {
             'doc_ids': docids,
@@ -31,7 +31,7 @@ class ReportInvoicePrint(models.AbstractModel):
     def render_html(self, docids, data=None):
         report_obj = self.env['report']
 
-        docargs = self.get_report_values()
+        docargs = self._get_report_values()
         return report_obj.render(self._template, docargs)
 
 

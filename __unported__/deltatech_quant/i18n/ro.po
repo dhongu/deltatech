@@ -21,8 +21,8 @@ msgid " Stock Quant Tag"
 msgstr " Stock Quant Tag"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
 msgid "Cancel"
 msgstr "Anulează"
 
@@ -32,18 +32,18 @@ msgid "Category"
 msgstr "Categorie"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Category of Product"
 msgstr "Categorie de produs"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.quant_search_view
 msgid "Category"
 msgstr "Categorie"
 
 #. module: deltatech_quant
 #: model:ir.actions.act_window,name:deltatech_quant.action_stock_quant_change_lot
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
 msgid "Change Lot / Serial Number"
 msgstr "Change Lot / Serial Number"
 
@@ -64,17 +64,17 @@ msgstr "Creat în"
 #. module: deltatech_quant
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_customer_id
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_customer_id
-#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.quant_search_view
 msgid "Customer"
 msgstr "Client"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Date Input"
 msgstr "Dată intrare"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Date Output"
 msgstr "Dată ieșire"
 
@@ -87,7 +87,7 @@ msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Group By..."
 msgstr "Grupează după..."
 
@@ -111,7 +111,7 @@ msgid "Input Price"
 msgstr "Preț intrare"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Input Qty"
 msgstr "Cant intrare"
 
@@ -121,12 +121,12 @@ msgid "Input Quantity"
 msgstr "Cantitate intrare"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Input This Month"
 msgstr "Intrări în acestă lună"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Input amount"
 msgstr "Valoare intrare"
 
@@ -137,7 +137,7 @@ msgid "Input date"
 msgstr "Dată intrare"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Input in Previous Month"
 msgstr "Intrări în luna anterioară"
 
@@ -189,7 +189,7 @@ msgid "Manufacturer"
 msgstr "Producător"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Manufacturer of Product"
 msgstr "Producător"
 
@@ -215,7 +215,7 @@ msgid "Output Price"
 msgstr "Preț ieșire"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Output Qty"
 msgstr "Cant ieșire"
 
@@ -225,12 +225,12 @@ msgid "Output Quantity"
 msgstr "Canitiate ieșire"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Output This Month"
 msgstr "Ieșiri în luna curentă"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Output amount"
 msgstr "Valoare ieșire"
 
@@ -241,7 +241,7 @@ msgid "Output date"
 msgstr "Dată ieșire"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Output in Previous Month"
 msgstr "Ieșiri în luna precedentă"
 
@@ -257,7 +257,7 @@ msgstr "Comenzi din Punctul de vânzare"
 
 #. module: deltatech_quant
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_product_id
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Product"
 msgstr "Produs"
 
@@ -273,7 +273,7 @@ msgstr "Product id"
 
 #. module: deltatech_quant
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_profit
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Profit"
 msgstr "Profit"
 
@@ -283,7 +283,7 @@ msgid "Quants"
 msgstr "Poziții de stoc"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_filter
 msgid "Search"
 msgstr "Caută"
 
@@ -325,15 +325,15 @@ msgstr "Statistici poziții stoc"
 #. module: deltatech_quant
 #: model:ir.actions.act_window,name:deltatech_quant.action_stock_profit_report
 #: model:ir.ui.menu,name:deltatech_quant.menu_stock_profit_report_tree
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_graph
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_profit_report_tree
 msgid "Stock profit report"
 msgstr "raport profit stoc"
 
 #. module: deltatech_quant
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_profit_report_supplier_id
 #: model:ir.model.fields,field_description:deltatech_quant.field_stock_quant_supplier_id
-#: model:ir.ui.view,arch_db:deltatech_quant.quant_search_view
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.quant_search_view
 msgid "Supplier"
 msgstr "Furnizor"
 
@@ -353,14 +353,14 @@ msgid "Transfer"
 msgstr "Transfer"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
 msgid "_Apply"
 msgstr "_Aplică"
 
 #. module: deltatech_quant
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
-#: model:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_change_lot_form
+#: model_terms:ir.ui.view,arch_db:deltatech_quant.view_stock_quant_split_form
 msgid "or"
 msgstr "sau"
 
