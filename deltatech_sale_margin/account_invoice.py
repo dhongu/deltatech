@@ -79,7 +79,7 @@ class account_invoice_line(models.Model):
                 price_unit = from_currency.compute(self.price_unit, self.env.user.company_id.currency_id )
             else:
                 price_unit = self.price_unit
-            if price_unit < self.purchase_price and self.purchase_price > 0 and self.invoice_id.state in ['draft']:
+            if price_unit < self.purchase_price and self.purchase_price > 0 and self.invoice_id.state in ['draft'] and self.invoice_id.type == 'out_invoice':
                 raise Warning(_('You can not sell below the purchase price.'))
 
 
