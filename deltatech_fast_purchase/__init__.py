@@ -21,8 +21,7 @@
 
 
 
-import purchase
-import stock
+import models
 
 
 

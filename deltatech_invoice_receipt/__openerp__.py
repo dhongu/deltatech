@@ -43,7 +43,7 @@ Antentie:
     """,
     "category": "Accounting",
     "depends": [
-        'deltatech_backwards',
+        'deltatech_backwards', #??? mai este necesar ??
         'deltatech_stock_date',
         "base",
         "stock",

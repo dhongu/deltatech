@@ -18,31 +18,17 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Deltatech Fast Purchase",
-    'version': '10.0.1.0.1',
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    'summary': 'Achizitie rapida',
-
-    "description": """
- 
-Features:
----------
- - Buton in comanda de aprovizionare pentru a face pasii de confirmare, receptie si facturare
- - Buton in receptie pentru a introduce direct factura
 
 
-    """,
-    "category": "Generic Modules/Stock",
-    "depends": ["base", "purchase","stock"],
 
-    "images": ['images/main_screenshot.png'],
-    "license":"LGPL-3",
-    "data": [
-        'views/purchase_view.xml',
-        'views/stock_view.xml'
-    ],
-    "active": False,
-    "installable": True,
-}
+import purchase
+import stock
+
+
+
+
+
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
