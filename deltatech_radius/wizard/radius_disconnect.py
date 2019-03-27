@@ -47,10 +47,10 @@ class RediusDisconnect(models.TransientModel):
     def do_disconnect(self):
         for user in self.user_ids:
             if self.operation == 'd':
-                if user.radusergroup_id.groupname != 'disconected':
+                if user.radusergroup_id.groupname != 'disconnected':
                     user.write({'groupname':user.radusergroup_id.groupname})
-                    user.radusergroup_id.write({'groupname':'disconected'})
+                    user.radusergroup_id.write({'groupname':'disconnected'})
             else:
-                if user.radusergroup_id.groupname == 'disconected' and user.groupname:
+                if user.radusergroup_id.groupname == 'disconnected' and user.groupname:
                     user.radusergroup_id.write({'groupname': user.groupname})
 

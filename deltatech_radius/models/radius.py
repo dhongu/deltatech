@@ -197,7 +197,7 @@ class radius_radcheck(models.Model):
             if radusergroup:
                 rec.radusergroup_id = radusergroup
 
-                if radusergroup.groupname != 'disconected':
+                if radusergroup.groupname != 'disconnected':
                     rec.groupname = radusergroup.groupname
                     rec.state = 'connected'
                 else:
