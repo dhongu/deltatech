@@ -168,11 +168,14 @@ class radius_radcheck(models.Model):
 
     username = fields.Char('Username', size=64, index=1, required=True)
     #        'attribute': fields.char('Attribute', size=64)
-    attribute = fields.Selection([('Cleartext-Password', 'Cleartext-Password'), ('Auth-Type', 'Auth-Type'),
-                                  ('ChilliSpot-Max-Total-Octets', 'Quota Attribute'),
-                                  ('ChilliSpot-Max-Total-Gigawords', 'Quota Gigawords'),
-                                  ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute',
-                                 default='Cleartext-Password', size=64, index=1, required=True)
+    # attribute = fields.Selection([('Cleartext-Password', 'Cleartext-Password'), ('Auth-Type', 'Auth-Type'),
+    #                               ('ChilliSpot-Max-Total-Octets', 'Quota Attribute'),
+    #                               ('ChilliSpot-Max-Total-Gigawords', 'Quota Gigawords'),
+    #                               ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute',
+    #                              default='Cleartext-Password', size=64, index=1, required=True)
+    attribute = fields.Selection([('Framed-IP-Address', 'Framed-IP-Address'), ('Framed-IPv6-Prefix', 'Framed-IPv6-Prefix'),
+        ('Delegated-IPv6-Prefix', 'Delegated-IPv6-Prefix'), ('Idle-Timeout', 'Idle-Timeout'), ('Session-Timeout', 'Session-Timeout')],
+        'Attribute', size=64, default='', )
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], 'OP', default='==', required=True)
@@ -283,6 +286,7 @@ class radius_radgroupreply(models.Model):
         ('Framed-Protocol', 'Framed-Protocol'),
         ('Service-Type', 'Service-Type'),
         ('Mikrotik-Rate-Limit', 'Mikrotik-Rate-Limit'),
+        ('Mikrotik-Address-List', 'Mikrotik-Address-List'),
         ('MS-Primary-DNS-Server', 'MS-Primary-DNS-Server'),
         ('MS-Secondary-DNS-Server', 'MS-Secondary-DNS-Server'),
         ('Reply-Message', 'Reply-Message'),
