@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-# ©  2018 Deltatech
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
+
 
 {
     "name": "Price List Extension",
@@ -15,10 +17,11 @@ Functionalitati:
     """,
 
     'category': 'Sales',
-    "depends": ["product"],
+    "depends": ['base',"product"],
 
     "data": [
-            'views/product_view.xml'
+        #'views/product_view.xml',
+        'views/res_company_view.xml'
     ],
 
     "active": False,

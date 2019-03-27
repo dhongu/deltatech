@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
         <record id="product_template_form_view" model="ir.ui.view">
@@ -10,7 +10,7 @@
             <field name="arch" type="xml">
                 <field name="list_price" position="replace">
                     <field name="list_price" widget='monetary' options="{'currency_field': 'price_currency_id'}"/>
-                    <field class="oe_edit_only" name="price_currency_id"/>
+                    <field   name="price_currency_id"/>
                 </field>
             </field>
         </record>
@@ -39,11 +39,11 @@
 
                     <field name="lst_price" widget='monetary' options="{'currency_field': 'price_currency_id'}"
                             attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"/>
-                    <field class="oe_edit_only" name="price_currency_id" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
+                    <field   name="price_currency_id" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
                 </xpath>
             </field>
         </record>
 
 
     </data>
-</openerp>
+</odoo>
