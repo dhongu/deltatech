@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="product_qty_restrictions" inherit_id="website_sale.product" name="Product Qty Restrictions">
+        <xpath expr="//p[@t-field='product.description_sale']" position="after">
+            <p t-if="product.qty_multiple and product.qty_multiple!=1" class="text-muted" id="product_qty_restrictions">
+                <span>Multiple:</span>
+                <span t-field="product.qty_multiple" />
+            </p>
+        </xpath>
+    </template>
+</odoo>
