@@ -348,9 +348,9 @@ class import_saga(models.TransientModel):
         categorii = {}
         for articol in articole:
             product = self.env['product.product'].search([('default_code', '=', articol['COD'])], limit=1)
-            uom = self.env['product.uom'].search([('name', '=', articol['UM'])], limit=1)
+            uom = self.env['uom.uom'].search([('name', '=', articol['UM'])], limit=1)
             if not uom:
-                uom_id = self.env['product.uom'].name_create(articol['UM'])[0]
+                uom_id = self.env['uom.uom'].name_create(articol['UM'])[0]
             else:
                 uom_id = uom.id
 
