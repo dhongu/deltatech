@@ -30,6 +30,12 @@ msgid "According to agreement "
 msgstr "Conform contract "
 
 #. module: deltatech_service
+#: code:addons/deltatech_service/wizard/service_billing.py:180
+#, python-format
+msgid "An auto bill has been issued for agreement %s client %s"
+msgstr "S-a emis automat factura pentru contractul %s client %s"
+
+#. module: deltatech_service
 #: view:service.agreement:deltatech_service.view_service_agreement_form
 #: field:service.consumption,agreement_id:0
 msgid "Agreement"

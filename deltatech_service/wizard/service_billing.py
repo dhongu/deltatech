@@ -170,9 +170,10 @@ class service_billing(models.TransientModel):
         for date_invoice in pre_invoice:
             for key in pre_invoice[date_invoice]:
                 comment = _('According to agreement ')
+                agreement_number = ''
                 for  agreement in pre_invoice[date_invoice][key]['agreement_ids']:
                     comment += _('%s from %s \n') % (agreement.name or '____', agreement.date_agreement or '____')
-                
+                    agreement_number += agreement.name + ','
                 partner_id = self.env['res.partner'].search([('id', '=', pre_invoice[date_invoice][key]['partner_id'] )])
                 invoice_value = { 
                     #'name': _('Invoice'),
@@ -196,6 +197,7 @@ class service_billing(models.TransientModel):
 
                 # send message to user(s)
                 if 'auto' in self._context:
+                    body = _('An auto bill has been issued for agreement %s client %s') % (agreement_number, partner_id.name)
                     user_ids = self.env['res.users'].search([])
                     for user in user_ids:
                         if user.has_group('base.group_service_auto_bill'):
@@ -211,7 +213,7 @@ class service_billing(models.TransientModel):
                                 'reply_to': self.env['mail.message']._get_default_from(),
 
                                 'subject': subject,
-                                'body': '',
+                                'body': body,
 
                                 'message_id': self.env['mail.message']._get_message_id({'no_auto_thread': True}),
                                 'partner_ids': [(4, partner_id)],
