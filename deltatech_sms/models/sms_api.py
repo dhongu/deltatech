@@ -28,7 +28,7 @@ class SmsApi(models.AbstractModel):
             result = requests.post(endpoint+'&recipients='+params['to']+'&sms='+params['content'])
             response = result.content.decode("utf-8")
             if 'Success' not in response:
-                raise UserError(response)
+                raise UserError('URL: '+result.url+'RESPONSE:'+response)
 
         return True
 
