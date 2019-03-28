@@ -37,6 +37,19 @@ class PurchaseOrder(models.Model):
                 action['context'] = {}
             action['context']['default_date_invoice'] = self.date_order
             action['views'] = [[False, "form"]]
+
+            vals = {
+                'purchase_id': self.id,
+                'type': action['context']['type']
+            }
+            invoice = self.env['account.invoice'].with_context(action['context']).new(vals)
+            invoice.purchase_order_change()
+
+            inv = invoice._convert_to_write(invoice._cache)
+            new_invoice = self.env['account.invoice'].with_context(action['context']).create(inv)
+            res = self.env.ref('account.invoice_supplier_form', False)
+            action['views'] = [(res and res.id or False, 'form')]
+            action['res_id'] = new_invoice.id
         return action
 
     @api.multi
