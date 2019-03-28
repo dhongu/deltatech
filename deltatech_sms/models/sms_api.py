@@ -24,9 +24,11 @@ class SmsApi(models.AbstractModel):
         endpoint = self.env['ir.config_parameter'].sudo().get_param('sms.endpoint', '')
         for number in numbers:
             params['to'] = number
-            result = requests.post(endpoint+'/send',params)
-            if 'Success' not in result.content:
-                raise UserError(result.content)
+            # result = requests.post(endpoint+'/send',params)
+            result = requests.post(endpoint+'&recipients='+params['to']+'&sms='+params['content'])
+            response = result.content.decode("utf-8")
+            if 'Success' not in response:
+                raise UserError(response)
 
         return True
 
