@@ -247,7 +247,7 @@
 					</t>
 				</td>
 				<td>
-					<span t-field="line.product_uom_id" groups="product.group_uom" />
+					<span t-field="line.product_uom_id" groups="uom.group_uom" />
 				</td>
 				<td class="text-right">
 					<span t-esc="round(line.product_qty*line.standard_price,2)" />
