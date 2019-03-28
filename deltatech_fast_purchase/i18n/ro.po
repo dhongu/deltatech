@@ -15,17 +15,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Confirm, Receipt and Bill"
 msgstr "Confimă, Recepție și Factură"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Create Invoice"
 msgstr "Creare Factură"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.view_picking_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.view_picking_form
 msgid "Invoice"
 msgstr "Factură"
 
@@ -35,17 +35,17 @@ msgid "Purchase Order"
 msgstr "Comandă de achiziție"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Receipt Notice"
 msgstr "Recepție Aviz"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Receipt and Bill"
 msgstr "Recepție și Factură"
 
 #. module: deltatech_fast_purchase
-#: model:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
+#: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Are you sure you want to make the automatic receipt with the quantities and price from the purchase order?"
 msgstr "Sigur doriți să faceți recepția automată cu cantitățile și prețurile din comanda de achiziție?"
 
