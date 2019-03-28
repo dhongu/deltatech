@@ -4,7 +4,9 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 import requests
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class SmsApi(models.AbstractModel):
     _inherit = 'sms.api'
@@ -25,10 +27,12 @@ class SmsApi(models.AbstractModel):
         for number in numbers:
             params['to'] = number
             # result = requests.post(endpoint+'/send',params)
-            result = requests.post(endpoint+'&recipients='+params['to']+'&sms='+params['content'])
+            result = requests.get(endpoint+'&recipients='+params['to']+'&sms='+params['content'])
             response = result.content.decode("utf-8")
-            if 'Success' not in response:
+            if '{code:0, reason:"OK"}' not in response:
                 raise UserError('URL: '+result.url+'RESPONSE:'+response)
+            else:
+                _logger.info("SMS sent: "+result.url)
 
         return True
 
