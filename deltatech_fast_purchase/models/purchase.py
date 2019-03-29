@@ -40,9 +40,11 @@ class PurchaseOrder(models.Model):
 
             vals = {
                 'purchase_id': self.id,
-                'type': action['context']['type']
+                'type': action['context']['type'],
+                'currency_id': self.currency_id
             }
             invoice = self.env['account.invoice'].with_context(action['context']).new(vals)
+
             invoice.purchase_order_change()
 
             inv = invoice._convert_to_write(invoice._cache)
