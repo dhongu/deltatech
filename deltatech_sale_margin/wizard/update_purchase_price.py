@@ -1,24 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# ©  2015-2019 Deltatech
+# See README.rst file on addons root folder for license details
 
 
 from odoo import models, fields, api
@@ -65,17 +47,13 @@ class commission_update_purchase_price(models.TransientModel):
                 for sale_line in invoice_line.sale_line_ids:
                     pickings |= sale_line.order_id.picking_ids
 
-            moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids),
-                                                   ('product_id', '=', invoice_line.product_id.id)])
+                # sont doar livrari ?
+                moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids),
+                                                       ('product_id', '=', invoice_line.product_id.id)])
 
-            qty = 0.0
-            amount = 0.0
-            for move in moves:
-                for quant in move.quant_ids:
-                    amount = amount + quant.inventory_value
-                    qty = qty + quant.qty
-                if qty > 0:
-                    purchase_price = amount / qty
+                price_unit_list = moves.mapped('price_unit')  # preturile din livare sunt negative
+                if price_unit_list:
+                    purchase_price = abs(sum(price_unit_list) / float(len(price_unit_list)))
 
             else:
                 if invoice_line.product_id:
