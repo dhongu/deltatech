@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<openerp>
+<odoo>
     <data>
         <record model="radius.groups" id="d50M">
             <field name="name">dynamic-50M</field>
@@ -21,10 +21,10 @@
             <field name="name">nated-500M</field>
         </record>
 
-        <record model="radius.groups" id="disconected">
-            <field name="name">disconected</field>
+        <record model="radius.groups" id="disconnected">
+            <field name="name">disconnected</field>
         </record>
     </data>
 
-</openerp>
+</odoo>
 

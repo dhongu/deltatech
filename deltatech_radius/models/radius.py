@@ -168,27 +168,25 @@ class radius_radcheck(models.Model):
 
     username = fields.Char('Username', size=64, index=1, required=True)
     #        'attribute': fields.char('Attribute', size=64)
-    # attribute = fields.Selection([('Cleartext-Password', 'Cleartext-Password'), ('Auth-Type', 'Auth-Type'),
-    #                               ('ChilliSpot-Max-Total-Octets', 'Quota Attribute'),
-    #                               ('ChilliSpot-Max-Total-Gigawords', 'Quota Gigawords'),
-    #                               ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute',
-    #                              default='Cleartext-Password', size=64, index=1, required=True)
-    attribute = fields.Selection([('Framed-IP-Address', 'Framed-IP-Address'), ('Framed-IPv6-Prefix', 'Framed-IPv6-Prefix'),
-        ('Delegated-IPv6-Prefix', 'Delegated-IPv6-Prefix'), ('Idle-Timeout', 'Idle-Timeout'), ('Session-Timeout', 'Session-Timeout')],
-        'Attribute', size=64, default='', )
+    attribute = fields.Selection([('Cleartext-Password', 'Cleartext-Password'), ('Auth-Type', 'Auth-Type'),
+                                  ('ChilliSpot-Max-Total-Octets', 'Quota Attribute'),
+                                  ('ChilliSpot-Max-Total-Gigawords', 'Quota Gigawords'),
+                                  ('Simultaneous-Use', 'Simultaneous-Use')], 'Attribute',
+                                 default='Cleartext-Password', size=64, index=1, required=True)
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
          ('<', '<'), ('<=', '<='), ('=~', '=~')], 'OP', default='==', required=True)
     value = fields.Char('Value', size=253, default='', required=True)
     partner_id = fields.Many2one('res.partner', compute='_compute_partner', string='Customer', store=True)
 
-    groupname = fields.Selection(_get_groupname, string='Group Name', default='', readonly=False,
-                                 compute="_compute_groupname", store=True)
+    groupname = fields.Selection(_get_groupname, string='Contract Group Name', default='', readonly=False,
+                                 # compute="_compute_groupname",
+                                 store=True)
 
     state = fields.Selection([('connected', 'Connected'), ('disconnected', 'Disconnected')],
                              compute="_compute_groupname")
 
-    radusergroup_id = fields.Many2one("radius.radusergroup", compute="_compute_groupname")
+    radusergroup_id = fields.Many2one("radius.radusergroup", string='Actual Group Name', compute="_compute_groupname")
 
     @api.depends('username')
     def _compute_groupname(self):
@@ -202,6 +200,15 @@ class radius_radcheck(models.Model):
                     rec.state = 'connected'
                 else:
                     rec.state = 'disconnected'
+
+    @api.onchange('groupname')
+    def onchange_groupname(self):
+        if self.groupname != 'disconnected':
+            radusergroup = self.env["radius.radusergroup"].search([('username', '=', self.username)], limit=1)
+            if radusergroup:
+                radusergroup.write({'groupname': self.groupname})
+            else:
+                self.env["radius.radusergroup"].create({'username': self.username, 'groupname': self.groupname})
 
     @api.depends('username')
     def _compute_partner(self):
@@ -225,11 +232,11 @@ class radius_radreply(models.Model):
 
     username = fields.Char('Username', size=64, index=1)
     #        'attribute': fields.char('Attribute', size=64)
-    attribute = fields.Selection([('Reply-Message', 'Reply-Message'), ('Idle-Timeout', 'Idle-Timeout'),
-                                  ('Session-Timeout', 'Session-Timeout'),
-                                  ('WISPr-Redirection-URL', 'WISPr-Redirection-URL'),
-                                  ('WISPr-Bandwidth-Max-Up', 'WISPr-Bandwidth-Max-Up'),
-                                  ('WISPr-Bandwidth-Max-Down', 'WISPr-Bandwidth-Max-Down')], 'Attribute',
+    attribute = fields.Selection([('Framed-IP-Address', 'Framed-IP-Address'),
+				  ('Framed-IPv6-Prefix', 'Framed-IPv6-Prefix'),
+				  ('Delegated-IPv6-Prefix', 'Delegated-IPv6-Prefix'),
+				  ('Idle-Timeout', 'Idle-Timeout'),
+                                  ('Session-Timeout', 'Session-Timeout')], 'Attribute',
                                  size=64, default='', )
     op = fields.Selection(
         [('=', '='), (':=', ':='), ('==', '=='), ('+=', '+='), ('!=', '!='), ('>', '>'), ('>=', '>='),
@@ -280,6 +287,7 @@ class radius_radgroupreply(models.Model):
 
     groupname = fields.Selection(_get_groupname, string='Group Name', default='')
     #        'attribute': fields.char('Attribute', size=64),
+
 
     attribute = fields.Selection([
         ('Framed-Compression', 'Framed-Compression'),
