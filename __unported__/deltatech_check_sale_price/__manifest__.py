@@ -17,6 +17,8 @@
 Features:    
  - Check sale price if is bigger that the highest purchase price
  
+ - Vezi si modulul sale_margin 
+ 
 """,
     "data": [
         'views/sale_views.xml'

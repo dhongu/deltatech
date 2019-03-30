@@ -23,7 +23,7 @@ Functionalitati:
         #'views/product_view.xml',
         'views/res_company_view.xml'
     ],
-
+    "images": ['static/description/main_screenshot.png'],
     "active": False,
     "installable": True,
 }

@@ -20,7 +20,7 @@ Features:
 """,
     "data": [
     ],
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
     "active": False,
     "installable": True,
 

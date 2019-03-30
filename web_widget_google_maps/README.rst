@@ -16,12 +16,13 @@ It offers the functionality of editing locations and routes on the goolge map
  3. Locations - Allows you to display a list of locations on the google map
 
 
+.. code::
 
     <record id='view_crm_partner_gmap' model='ir.ui.view'>
         <field name="name">res.partner.gmap</field>
         <field name="model">res.partner</field>
         <field name="type">gmaps</field>
-        <field name="arch" type="xml">
+            <field name="arch" type="xml">
             <field name="partner_latitude"/>
             <field name="partner_longitude"/>
             <field name="name"/>
@@ -42,7 +43,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://terrabit.ro/wp-content/uploads/2016/03/terra-menu.png
+.. image:: /static/description/logo-terabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 
