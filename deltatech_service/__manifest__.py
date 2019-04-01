@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ©  2015-2018 Deltatech
+# ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
 {
@@ -24,7 +24,8 @@ Functionalitati:
         "date_range"
     ],
 
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'data/data.xml',
         'security/service_security.xml',
         'security/ir.model.access.csv',

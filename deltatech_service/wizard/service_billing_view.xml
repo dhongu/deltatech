@@ -39,8 +39,8 @@
 			view_mode="form" multi="True" target="new" key2="client_action_multi" />
 
 
-		<!-- menuitem name="Billing" id="menu_service_billing" action="action_service_billing"
-			parent="base.menu_service" sequence="103" / -->
+		<menuitem name="Billing" id="menu_service_billing" action="action_service_billing"
+			parent="menu_service_agr" sequence="103" />
 
 
 

@@ -36,8 +36,8 @@
 			view_mode="form" multi="False" target="new" key2="client_action_multi" />
 
 
-		<!--  menuitem name="Billing Preparation" id="menu_service_billing_preparation"
-			action="action_service_billing_preparation" parent="base.menu_service" sequence="101"/ -->
+		<menuitem name="Billing Preparation" id="menu_service_billing_preparation"
+			action="action_service_billing_preparation" parent="menu_service_agr" sequence="101"/>
 
 	</data>
 </openerp>

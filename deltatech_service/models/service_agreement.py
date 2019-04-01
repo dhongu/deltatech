@@ -103,7 +103,9 @@ class service_agreement(models.Model):
                                  required=True, readonly=True, states={'draft': [('readonly', False)]},
                                  default=lambda self: self.env['res.company']._company_default_get('service.agreement'))
 
-
+    _sql_constraints = [
+        ('name_uniq', 'unique(name, company_id)', 'Reference must be unique per Company!'),
+    ]
 
     @api.multi
     def compute_totals(self):
