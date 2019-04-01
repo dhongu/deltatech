@@ -38,6 +38,24 @@ class sale_order(models.Model):
                                     resource.product_id = rule.to_product
                                     resource.product_uom_qty = new_qty
                                     resource.name = rule.to_product.display_name
+                                    # modificare pret resursa
+                                    price = order.pricelist_id.price_get(resource.product_id.id,
+                                                                         resource.product_uom_qty or 1.0,
+                                                                         order.partner_id.id)[order.pricelist_id.id]
+                                    price = self.env['product.uom']._compute_price(resource.product_id.uom_id.id, price,
+                                                                                   resource.product_uom.id)
+
+                                    from_currency = self.env.user.company_id.currency_id.with_context(
+                                        date=order.date_order)
+
+                                    purchase_price = from_currency.compute(
+                                        resource.product_id.standard_price or self.product_id.product_tmpl_id.standard_price,
+                                        order.pricelist_id.currency_id)
+
+                                    amount = resource.product_uom_qty * resource.price_unit
+
+                                    resource.write(
+                                        {'price_unit': price, 'purchase_price': purchase_price, 'amount': amount})
                                     # modificare atribute in article
                                     for attribute in article.product_attributes:
                                         for attr_new_value in rule.to_product.attribute_value_ids:
