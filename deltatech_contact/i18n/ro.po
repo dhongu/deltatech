@@ -18,7 +18,7 @@ msgstr ""
 
 
 #. module: deltatech_contact
-#: model:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
 msgid "AB123456"
 msgstr "AB123456"
 
@@ -65,12 +65,12 @@ msgid "Partner"
 msgstr "Partener"
 
 #. module: deltatech_contact
-#: model:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
 msgid "SPCLEP .."
 msgstr "SPCLEP .."
 
 #. module: deltatech_contact
-#: model:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_contact.deltatech_res_partner_form_view
 msgid "e.g. Sales Director"
 msgstr "ex. director vânzări"
 
