@@ -13,6 +13,7 @@
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="date_invoice" position="after">
+                    <field name="last_currency_rate" invisible="1"/>
                     <field name="price_currency_id" groups="base.group_multi_currency"/>
                     <label for="currency_rate" attrs="{'invisible': [('base_rate', '!=', 1.0)]}"
                            groups="base.group_multi_currency"/>

@@ -24,6 +24,7 @@ class account_invoice(models.Model):
         else:
             self.base_rate = 0.0
 
+
     @api.onchange('price_currency_id', 'date_invoice')
     def onchange_price_currency_id(self):
         date_eval = self.env.context.get('date', False) or self.date_invoice or fields.Date.context_today(self)
@@ -35,7 +36,7 @@ class account_invoice(models.Model):
                 from_currency = self.partner_id.property_product_pricelist.currency_id
             if self.type in ['in_invoice', 'in_refund'] and self.partner_id.property_purchase_currency_id:
                 from_currency = self.partner_id.property_purchase_currency_id
-
+        self.price_currency_id = from_currency
         if self.price_currency_id and self.price_currency_id != self.currency_id:
             self.base_rate = 1.0
         else:
@@ -46,12 +47,12 @@ class account_invoice(models.Model):
             self.currency_rate = from_currency.compute(self.base_rate, to_currency, round=False)
         else:
             self.currency_rate = self.base_rate
-        if not self.last_currency_rate:
+        if not self.last_currency_rate: # set last currency rate to today rate (as is computed)
             self.last_currency_rate = self.currency_rate
 
     @api.multi
     def get_currency_rate(self):
-        ''' La apasarea butonului de actualizare curs valutat'''
+        ''' La apasarea butonului de actualizare curs valutar'''
         for invoice in self:
             '''
             date_eval = invoice.date_invoice or fields.Date.context_today(self)
