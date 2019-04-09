@@ -20,4 +20,15 @@
         </xpath>
     </template>
 
+    <template id="product_variants" inherit_id="website_sale.product_variants" name="Product Variant Qty Restrictions">
+        <xpath expr="//span[hasclass('badge')]" position="after">
+            <span class="text-muted small">(Multiple:
+                <span t-field="variant_id.qty_multiple"/>
+            )
+            </span>
+
+        </xpath>
+
+    </template>
+
 </odoo>
