@@ -24,7 +24,7 @@ class Picking(models.Model):
         ok = {}
         not_ok = {}
 
-        line = self.move_lines.filtered(lambda r: r.product_id.id == product.id)
+        line = self.move_ids_without_package.filtered(lambda r: r.product_id.id == product.id)
         if line:
             line.quantity_done += qty
         else:
@@ -43,6 +43,8 @@ class Picking(models.Model):
                 line = self.move_lines.new(vals)
                 line.onchange_product_id()
                 self.move_lines += line
+
+
             else:
                 return not_ok
 
