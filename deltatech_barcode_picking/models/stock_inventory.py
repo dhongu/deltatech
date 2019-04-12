@@ -36,3 +36,5 @@ class Inventory(models.Model):
         product = self.env['product.product'].search([('barcode', '=', barcode)])
         if product:
             self._add_product(product)
+        else:
+            self.env.user.notify_danger(message=_('There is no product with barcode %s') % barcode )

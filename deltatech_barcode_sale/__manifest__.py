@@ -11,7 +11,11 @@
 
     'category': 'Sales',
 
-    "depends": ["sale",'barcodes'],
+    "depends": [
+        "sale",
+        'barcodes',
+        'web_notify'
+    ],
 
     "description": """
 Features:    

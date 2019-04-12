@@ -3,7 +3,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, api, models
+from odoo import fields, api, models, _
 
 
 class PickingType(models.Model):
@@ -21,12 +21,16 @@ class Picking(models.Model):
 
     def _add_product(self, product, qty=1.0):
 
-        ok = {}
-        not_ok = {}
+
 
         line = self.move_ids_without_package.filtered(lambda r: r.product_id.id == product.id)
         if line:
-            line.quantity_done += qty
+            if line.reserved_availability >= line.quantity_done+qty:
+                line.quantity_done += qty
+                message = _('The %s product quantity was set to %s') % (product.name, line.quantity_done)
+                self.env.user.notify_info(message=message)
+            else:
+                self.env.user.notify_warning(message=_('Your reserved quantity has already been reached'))
         else:
             if self.state == 'draft':
                 vals = {
@@ -44,18 +48,23 @@ class Picking(models.Model):
                 line.onchange_product_id()
                 self.move_lines += line
 
-
             else:
-                return not_ok
+                message = _('%s product does not exist in this list') %  product.name
+                self.env.user.notify_danger(message=message)
 
-        return ok
+
+
 
     def on_barcode_scanned(self, barcode):
         if self.state not in ['draft', 'assigned']:
+            self.env.user.notify_danger(message=_('Status does not allow scanning') )
             return
         product = self.env['product.product'].search([('barcode', '=', barcode)])
         if product:
             self._add_product(product)
+        else:
+            self.env.user.notify_danger(message=_('There is no product with barcode %s') % barcode )
+
 
 
 

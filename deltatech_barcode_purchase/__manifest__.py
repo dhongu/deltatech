@@ -11,7 +11,11 @@
 
     'category': 'Purchases',
 
-    "depends": ["purchase",'barcodes'],
+    "depends": [
+        "purchase",
+        'barcodes',
+        'web_notify'
+    ],
 
     "description": """
 Features:    

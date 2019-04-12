@@ -1,0 +1,78 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_barcode_purchase
+#	* deltatech_barcode_sale
+#	* deltatech_barcode_picking
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-12 17:27+0000\n"
+"PO-Revision-Date: 2019-04-12 17:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_barcode_picking
+#: model:ir.model.fields,field_description:deltatech_barcode_picking.field_stock_picking_type__product_barcode_scanner
+msgid "Allowed to add products by scanning"
+msgstr "Permite adăugarea de produse prin scanare"
+
+#. module: deltatech_barcode_picking
+#: model:ir.model,name:deltatech_barcode_picking.model_stock_inventory
+msgid "Inventory"
+msgstr "Stoc"
+
+#. module: deltatech_barcode_picking
+#: model:ir.model,name:deltatech_barcode_picking.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Tip ridicare"
+
+#. module: deltatech_barcode_purchase
+#: model:ir.model,name:deltatech_barcode_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_barcode_sale
+#: model:ir.model,name:deltatech_barcode_sale.model_sale_order
+msgid "Sale Order"
+msgstr "Comadă vânzare"
+
+#. modules: deltatech_barcode_purchase, deltatech_barcode_sale, deltatech_barcode_picking
+#: code:addons/deltatech_barcode_picking/models/picking.py:31
+#: code:addons/deltatech_barcode_purchase/models/purchase.py:18
+#: code:addons/deltatech_barcode_sale/models/sale.py:19
+#, python-format
+msgid "The %s product quantity was set to %s"
+msgstr "Cantitatea produsului %s a fost setata la %s"
+
+#. modules: deltatech_barcode_purchase, deltatech_barcode_sale
+#: code:addons/deltatech_barcode_purchase/models/purchase.py:33
+#: code:addons/deltatech_barcode_sale/models/sale.py:33
+#, python-format
+msgid "The %s product was added"
+msgstr "Produsul %s a fost adăugat"
+
+#. modules: deltatech_barcode_purchase, deltatech_barcode_sale, deltatech_barcode_picking
+#: code:addons/deltatech_barcode_picking/models/picking.py:65
+#: code:addons/deltatech_barcode_purchase/models/purchase.py:43
+#: code:addons/deltatech_barcode_sale/models/sale.py:43
+#, python-format
+msgid "There is no product with barcode %s"
+msgstr "Nu există un produs cu codul de bare %s"
+
+#. module: deltatech_barcode_picking
+#: model:ir.model,name:deltatech_barcode_picking.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
+
+#. module: deltatech_barcode_picking
+#: code:addons/deltatech_barcode_picking/models/picking.py:34
+#, python-format
+msgid "Your reserved quantity has already been reached"
+msgstr "Cantitatea rezervată a fost atinsă"
+

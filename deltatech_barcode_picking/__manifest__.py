@@ -11,7 +11,12 @@
 
     'category': 'Warehouse',
 
-    "depends": ["stock",'barcodes'],
+    "depends": [
+        "stock",
+        'barcodes',
+        'web_notify'
+    ]
+    ,
 
     "description": """
 Features:    
