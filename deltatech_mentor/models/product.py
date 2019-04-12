@@ -22,4 +22,4 @@ class ProductCategory(models.Model):
         ('both', 'Consumption/Receipt')], default='', string='Production Way'
     )
 
-    mentor_uom_id = fields.Many2one('product.uom', string='Mentor UOM')
+    mentor_uom_id = fields.Many2one('uom.uom', string='Mentor UOM')

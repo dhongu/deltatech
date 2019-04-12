@@ -87,7 +87,7 @@ class export_mentor(models.TransientModel):
         return uom
 
     def get_uom_ref(self, uom):
-        uom_reg = self.env['product.uom'].search([('category_id', '=', uom.category_id.id),
+        uom_reg = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
                                                   ('uom_type', '=', 'reference')], limit=1)
         return uom_reg
 

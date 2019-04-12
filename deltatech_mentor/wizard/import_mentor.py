@@ -191,9 +191,9 @@ class import_mentor(models.TransientModel):
         sec = 'ArticoleNoi_%s' % cod
         name = self.unaccent(p.get(sec, 'Denumire'))
         if um:
-            uom = self.env['product.uom'].search([('name', '=', um)], limit=1)
+            uom = self.env['uom.uom'].search([('name', '=', um)], limit=1)
             if not uom:
-                uom_id = self.env['product.uom'].name_create(um)[0]
+                uom_id = self.env['uom.uom'].name_create(um)[0]
             else:
                 uom_id = uom.id
         values = {
