@@ -34,4 +34,5 @@ class stock_picking(models.Model):
 
 class stock_picking_type(models.Model):
     _inherit = "stock.picking.type"
+
     request_sequence_id = fields.Many2one('ir.sequence', string='Sequence on Request')
