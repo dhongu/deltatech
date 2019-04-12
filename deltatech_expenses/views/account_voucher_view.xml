@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data>
 
         <record model="ir.ui.view" id="deltatech_view_purchase_receipt_tree">
@@ -101,4 +101,4 @@
                   action="deltatech_action_purchase_receipt" parent="account.menu_finance_payables" sequence="10"/>
 
     </data>
-</openerp>
+</odoo>

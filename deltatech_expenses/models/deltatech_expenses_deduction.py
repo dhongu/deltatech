@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+# ©  2015-2019 Deltatech
+# See README.rst file on addons root folder for license details
 
 import odoo.addons.decimal_precision as dp
 
@@ -125,7 +126,7 @@ class deltatech_expenses_deduction(models.Model):
 
     @api.onchange('date_advance')
     def onchange_date_advance(self):
-        if self.date_advance > self.date_expense:
+        if not self.date_expense or self.date_advance > self.date_expense:
             self.date_expense = self.date_advance
 
     @api.multi

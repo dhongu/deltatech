@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data>
 
         <record id="view_deltatech_expenses_deduction_form" model="ir.ui.view">
@@ -161,14 +161,14 @@
                 <search string="Expenses Deduction">
                     <field name="number" string="Expenses Deduction"/>
                     <field name="date_expense"/>
-                    <filter icon="terp-document-new" domain="[('state','=','draft')]" string="New"
+                    <filter name="state_new" icon="terp-document-new" domain="[('state','=','draft')]" string="New"
                             help="New Expenses Deduction"/>
                     <separator/>
-                    <filter domain="[('employee_id', '=', uid)]" string="My Expenses"/>
+                    <filter name="my_expenses" domain="[('employee_id', '=', uid)]" string="My Expenses"/>
                     <group expand="0" string="Group By...">
-                        <filter string="Employee" icon="terp-personal" domain="[]"
+                        <filter name="employee" string="Employee" icon="terp-personal" domain="[]"
                                 context="{'group_by':'employee_id'}"/>
-                        <filter string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_expense'}"/>
+                        <filter name="group_by_month" string="Month" icon="terp-go-month" domain="[]" context="{'group_by':'date_expense'}"/>
                     </group>
                 </search>
             </field>
@@ -190,4 +190,4 @@
                   sequence="15"/>
 
     </data>
-</openerp>
+</odoo>
