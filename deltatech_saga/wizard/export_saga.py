@@ -27,18 +27,16 @@ class export_saga(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('get', 'get')], default='choose')  # get the file
 
-    #period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
+    # period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
     date_range_id = fields.Many2one('date.range', string='Date range')
-
-    date_from = fields.Date(string='Start Date',required=True, default=fields.Date.today)
-    date_to = fields.Date(string='End Date',required=True, default=fields.Date.today)
+    date_from = fields.Date(string='Start Date', required=True, default=fields.Date.today)
+    date_to = fields.Date(string='End Date', required=True, default=fields.Date.today)
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
-    journal_ids = fields.Many2many('account.journal')
+    journal_ids = fields.Many2many('account.journal', strings='Journals')
     use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
     result = fields.Html(string="Result Export", readonly=True)
-
 
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
@@ -59,8 +57,6 @@ class export_saga(models.TransientModel):
         res['date_from'] = fields.Date.to_string(from_date)
         res['date_to'] = fields.Date.to_string(to_date)
         return res
-
-
 
     def unaccent(self, text):
         """
@@ -124,7 +120,7 @@ class export_saga(models.TransientModel):
                 error = _("Partenerul %s nu are cod de furnizor SAGA") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
-                    raise Warning(error)
+                    raise UserError(error)
 
             if partner.is_company:
                 if not partner.vat:
@@ -158,11 +154,11 @@ class export_saga(models.TransientModel):
                 partner_code = ''
 
             values = {'COD': partner_code,
-                      'DENUMIRE':  partner.name[:48],
+                      'DENUMIRE': partner.name[:48],
                       'COD_FISCAL': cod_fiscal or '',
                       'ANALITIC': analitic,
                       'ZS': 0,
-                      'ADRESA':  partner.contact_address,
+                      'ADRESA': partner.contact_address,
                       # 'BANCA'
                       'TARA': partner.country_id.code or '',
                       'TEL': partner.phone or '',
@@ -181,21 +177,20 @@ class export_saga(models.TransientModel):
 
         """
         7. DISCOUNT Numeric 5,2 Procent de discount acordat (optional) 
-        8. ADRESA Character 48 Adresa (optional) 
-        9. JUDET Character 36 Judeţ (optional) 
-        10. BANCA Character 36 Banca (optional) 
-        11. CONT_BANCA Character 36 Contul bancar (optional) 
+
+
+
         12. DELEGAT Character 36 Numele şi prenumele delegatului (optional) 
         13. BI_SERIE Character 2 Seria actului de identitate a delegatului (op.) 
         14. BI_NUMAR Character 8 Număr act identitate, a delegatului (optional) 
         15. BI_POL Character 16 Eliberat de... (optional) 
         16. MASINA Character 16 Număr maşină delegat (optional) 
-        17. INF_SUPL Character 100 Informaltii care apar pe factura (optional) 
+
         18. AGENT Character 4 Cod agent (optional) 
         19. DEN_AGENT Character 36 Nume agent (optional) 
         20. GRUPA Character 16 Grupa de client (optional) 
         21. TIP_TERT Character 1 I pt. intracomunitar, E pt. extracomunitari 
-        22. TARA Character 2 Codul de tara (RO) 
+
  
         """
         result_html = ''
@@ -207,10 +202,15 @@ class export_saga(models.TransientModel):
             'ANALITIC': dbf_fields.CharField(max_length=16),  # Cont analitic
             'ZS': dbf_fields.IntegerField(size=3),  # Numeric 3 Zile Scadenţă (optional)
             'ADRESA': dbf_fields.CharField(max_length=48),  # Adresa (optional)
+            'JUDET': dbf_fields.CharField(max_length=36),  # Judeţ (optional)
             'TARA': dbf_fields.CharField(max_length=2),  # Codul de tara (RO)
             'TEL': dbf_fields.CharField(max_length=20),  # Numar telefon (optional)
             'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
             'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
+            'TIP_TERT': dbf_fields.CharField(max_length=1),  # I pt. intracomunitar, E pt. extracomunitari
+            'BANCA': dbf_fields.CharField(max_length=36),
+            'CONT_BANCA': dbf_fields.CharField(max_length=36),
+            'INF_SUPL': dbf_fields.CharField(max_length=100),  # Informaltii care apar pe factura (optional)
         }
         temp_file = StringIO.StringIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
@@ -220,7 +220,7 @@ class export_saga(models.TransientModel):
                 error = _("Partenerul %s nu are cod de client SAGA") % partner.name
                 result_html += '<div>Eroare %s</div>' % error
                 if not self.ignore_error:
-                    raise Warning(error)
+                    raise UserError(error)
 
             if partner.is_company:
                 if not partner.vat:
@@ -251,18 +251,31 @@ class export_saga(models.TransientModel):
             else:
                 partner_code = ''
 
-            values = {'COD': partner_code,
-                      'DENUMIRE': partner.name[:48],
-                      'COD_FISCAL': cod_fiscal or '',
-                      'REG_COM': partner.nrc or '',
-                      'ANALITIC': analitic,
-                      'ZS': 0,
-                      'ADRESA': partner.contact_address[:48],
-                      'TARA': partner.country_id.code or '',
-                      'TEL': partner.phone or '',
-                      'EMAIL': partner.email or '',
-                      'IS_TVA': is_tva,
-                      }
+            if not partner.country_id:
+                tip_tert = 'I'
+            else:
+                if partner.country_id.code == 'RO':
+                    tip_tert = 'I'
+                else:
+                    tip_tert = 'E'
+            values = {
+                'COD': partner_code,
+                'DENUMIRE': partner.name[:48],
+                'COD_FISCAL': cod_fiscal or '',
+                'REG_COM': partner.nrc or '',
+                'ANALITIC': analitic,
+                'ZS': 0,
+                'ADRESA': partner.contact_address[:48],
+                'JUDET': '',
+                'TARA': partner.country_id.code or '',
+                'TEL': partner.phone or '',
+                'EMAIL': partner.email or '',
+                'IS_TVA': is_tva,
+                'TIP_TERT': tip_tert,
+                'BANCA': '',
+                'CONT_BANCA': '',
+                'INF_SUPL': ''
+            }
             for key in values:
                 if isinstance(values[key], unicode):
                     values[key] = self.unaccent(values[key])
@@ -296,6 +309,8 @@ class export_saga(models.TransientModel):
             'TIP': dbf_fields.CharField(max_length=2),  # Cod tip
             'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumire tip
             'TVA': dbf_fields.DecimalField(size=5, deci=2),  # TVA
+            'PRET_VANZ': dbf_fields.DecimalField(size=15, deci=3),  # Pret de vanzare fara TVA
+            'COD_BARE': dbf_fields.CharField(max_length=16)
         }
         temp_file = StringIO.StringIO()
         articole_dbf = base.DBF(temp_file, Articole)
@@ -305,6 +320,12 @@ class export_saga(models.TransientModel):
             else:
                 tva = 0
 
+            if not product.categ_id.code_saga:
+                error = _("Categoria %s a produsului  %s nu are cod SAGA") % (product.categ_id.name, product.name)
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise UserError(error)
+
             values = {
                 'COD': product.default_code or '',
                 'DENUMIRE': product.name[:60],
@@ -313,6 +334,8 @@ class export_saga(models.TransientModel):
                 'TIP': product.categ_id.code_saga or '',
                 'DEN_TIP': product.categ_id.name[:36],
                 'TVA': tva,
+                'PRET_VANZ': product.list_price,
+                'COD_BARE': ''
             }
             articole_dbf.insert(values)
 
@@ -345,7 +368,6 @@ class export_saga(models.TransientModel):
         20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
         """
         result_html = ''
-
 
         Intrari = {
             'NR_NIR': dbf_fields.IntegerField(size=7),  # Număr NIR
@@ -393,8 +415,8 @@ class export_saga(models.TransientModel):
             """
 
             for line in invoice.invoice_line_ids:
-                if line.invoice_line_tax_id:
-                    tva_art = int(line.invoice_line_tax_id[0].amount )
+                if line.invoice_line_tax_ids:
+                    tva_art = int(line.invoice_line_tax_ids[0].amount)
                 else:
                     tva_art = 0
 
@@ -427,7 +449,7 @@ class export_saga(models.TransientModel):
                     taxes = line.invoice_line_tax_ids.compute_all(price, currency, line.quantity,
                                                                   product=line.product_id,
                                                                   partner=line.invoice_id.partner_id)
-                    valoare_fara_tva =  taxes['total_excluded']
+                    valoare_fara_tva = taxes['total_excluded']
                     valoare_cu_tva = taxes['total_included']
                     valoare_tva = valoare_cu_tva - valoare_fara_tva
                 else:
@@ -442,15 +464,15 @@ class export_saga(models.TransientModel):
                     'DATA': fields.Date.from_string(invoice.date_invoice),
                     'SCADENT': fields.Date.from_string(invoice.date_due),
                     'TIP': tip,
-                    'TVAI':  tvai,
-                    'COD_ART':'',
+                    'TVAI': tvai,
+                    'COD_ART': '',
                     'DEN_ART': line.name[:60],
                     'UM': '',
-                    'CANTITATE': round(line.quantity,3),
-                    'DEN_TIP':'',
+                    'CANTITATE': round(line.quantity, 3),
+                    'DEN_TIP': '',
                     'TVA_ART': tva_art,
-                    'VALOARE': round(valoare_fara_tva,2),
-                    #'TVA': line.price_taxes,
+                    'VALOARE': round(valoare_fara_tva, 2),
+                    # 'TVA': line.price_taxes,
                     'TVA': round(valoare_tva, 2),
                     'CONT': cont,
                     'PRET_VANZ': 0,
@@ -464,7 +486,10 @@ class export_saga(models.TransientModel):
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code and line.product_id.default_code[:16] or ''
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    if line.product_id.categ_id.name:
+                        values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    else:
+                        values['DEN_TIP'] = ''
 
                 for key in values:
                     if isinstance(values[key], unicode):
@@ -522,7 +547,7 @@ class export_saga(models.TransientModel):
                     'SCADENT': fields.Date.from_string(voucher.date),
                     'TIP': tip,
                     'TVAI': 0,
-
+                    'COD_ART': '',
                     'DEN_ART': '',
                     'UM': '',
                     'CANTITATE': 1,
@@ -619,8 +644,8 @@ class export_saga(models.TransientModel):
 
             """
             for line in invoice.invoice_line_ids:
-                if line.invoice_line_tax_id:
-                    tva_art = int(line.invoice_line_tax_id[0].amount)
+                if line.invoice_line_tax_ids:
+                    tva_art = int(line.invoice_line_tax_ids[0].amount)
                 else:
                     tva_art = 0
 
@@ -650,7 +675,7 @@ class export_saga(models.TransientModel):
                     valoare_tva = 0
                 values = {
 
-                    'NR_IESIRE':nr_out,
+                    'NR_IESIRE': nr_out,
                     'COD': partner_code,
                     'DATA': fields.Date.from_string(invoice.date_invoice),
                     'SCADENT': fields.Date.from_string(invoice.date_due),
@@ -673,7 +698,7 @@ class export_saga(models.TransientModel):
                 if line.uom_id:
                     values['UM'] = line.uom_id.name[:5].split(' ')[0]
                 if line.product_id.categ_id:
-                    values['DEN_TIP'] =  line.product_id.categ_id.name[:36]
+                    values['DEN_TIP'] = line.product_id.categ_id.name[:36]
 
                 if not self.export_product:
                     values['COD_ART'] = ''
@@ -684,7 +709,6 @@ class export_saga(models.TransientModel):
                         values[key] = self.unaccent(values[key])
                 iesiri_dbf.insert(values)
         return temp_file, result_html
-
 
     @api.model
     def do_export_nc(self, account_moves):
@@ -718,7 +742,7 @@ class export_saga(models.TransientModel):
             'GRUPA': dbf_fields.CharField(max_length=16),  # Grupa asociată (optional)
         }
 
-        temp_file =  StringIO.StringIO()
+        temp_file = StringIO.StringIO()
         note_dbf = base.DBF(temp_file, Note)
         for account_move in account_moves:
 
@@ -803,7 +827,6 @@ class export_saga(models.TransientModel):
                 note_dbf.insert(values)
         return temp_file, result_html
 
-
     @api.multi
     def do_export(self):
 
@@ -837,7 +860,6 @@ class export_saga(models.TransientModel):
                                                                 ('state', '=', 'posted'),
                                                                 ('journal_id', 'in', self.journal_ids.ids)])
 
-
         invoice_in_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
                                                              ('date', '<=', self.date_to),
                                                              ('state', 'in', ['open', 'paid']),
@@ -861,7 +883,7 @@ class export_saga(models.TransientModel):
 
         partner_out_ids = self.env['res.partner']
         invoice_out_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
-                                                             ('date', '<=', self.date_to),
+                                                              ('date', '<=', self.date_to),
                                                               ('state', 'in', ['open', 'paid']),
                                                               ('type', 'in', ['out_invoice', 'out_refund'])])
 
@@ -917,16 +939,12 @@ class export_saga(models.TransientModel):
             zip_archive.writestr(file_name, temp_file.getvalue())
 
         temp_file, messaje = self.do_export_intrari(invoice_in_ids, voucher_in_ids)
-
         result_html += messaje
-
         file_name = 'IN_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
         zip_archive.writestr(file_name, temp_file.getvalue())
 
         temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
-
         result_html += messaje
-
         file_name = 'IE_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
         zip_archive.writestr(file_name, temp_file.getvalue())
 
@@ -936,12 +954,11 @@ class export_saga(models.TransientModel):
             file_name = 'NC_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
             zip_archive.writestr(file_name, temp_file.getvalue())
 
-
         zip_archive.close()
         out = base64.encodestring(buff.getvalue())
         buff.close()
 
-        filename = 'ExportOdoo_%s_%s' % ( self.date_from , self.date_to )
+        filename = 'ExportOdoo_%s_%s' % (self.date_from, self.date_to)
         extension = 'zip'
 
         name = "%s.%s" % (filename, extension)
@@ -959,4 +976,3 @@ class export_saga(models.TransientModel):
             'views': [(False, 'form')],
             'target': 'new',
         }
-

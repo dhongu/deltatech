@@ -28,13 +28,24 @@ class import_saga(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('result', 'result')], default='choose')  # get the file
 
-    supplier_file = fields.Binary(string='Suppliers File')
-    supplier_file_name = fields.Char(string='Suppliers File Name')
-    customer_file = fields.Binary(string='Customers File')
-    customer_file_name = fields.Char(string='Customers File Name')
+    file_type = fields.Selection([
+        ('supplier', 'Suppliers File'),
+        ('customer', 'Customers File'),
+        ('product', 'Articole File'),
+        ('invoice_in', 'Intrari'),
+        ('invoice_out', 'Iesire'),
+    ], required=True)
 
-    articole_file = fields.Binary(string='Articole File')
-    articole_file_name = fields.Char(string='Products File Name')
+    name = fields.Char(string='File Name')
+    data_file = fields.Binary(string='File', required=True)
+
+    # supplier_file = fields.Binary(string='Suppliers File')
+    # supplier_file_name = fields.Char(string='Suppliers File Name')
+    # customer_file = fields.Binary(string='Customers File')
+    # customer_file_name = fields.Char(string='Customers File Name')
+    #
+    # articole_file = fields.Binary(string='Articole File')
+    # articole_file_name = fields.Char(string='Products File Name')
 
     ignore_error = fields.Boolean(string='Ignore Errors', default=True)
     result = fields.Html(string="Result Export", readonly=True)
@@ -49,15 +60,31 @@ class import_saga(models.TransientModel):
         text = text.replace('\n', ' ')
         return str(text)
 
-
     @api.multi
     def do_import(self):
-        if self.supplier_file:
-            self.import_supplier()
-        if self.customer_file:
-            self.import_customer()
-        if self.articole_file:
-            self.import_articole()
+        result_html = ''
+        if self.file_type == 'supplier':
+            result_html += self.import_supplier()
+        elif self.file_type == 'customer':
+            result_html += self.import_customer()
+        elif self.file_type == 'product':
+            result_html += self.import_articole()
+        elif self.file_type == 'invoice_in':
+            result_html += self.do_import_intrari()
+
+        self.write({
+            'state': 'result',
+            'result': result_html
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'import.saga',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
     @api.multi
     def import_supplier(self):
@@ -83,10 +110,10 @@ class import_saga(models.TransientModel):
         17. IS_TVA Numeric 1 1, dacă este platitor de TVA
 
         """
-        supplier_file = base64.decodestring(self.supplier_file)
+        supplier_file = base64.decodestring(self.data_file)
         buff = StringIO.StringIO(supplier_file)
         suppliers = base.DBF(buff)
-        result_html = ''
+        result_html = 'Import din fisier %s inregistrari' % (len(suppliers))
         for supplier in suppliers:
             if not supplier['DENUMIRE']:
                 continue
@@ -126,24 +153,25 @@ class import_saga(models.TransientModel):
                 'is_company': is_company,
                 'supplier': True
             }
-
-            if not partner:
-                values['customer'] = False
-                partner = self.env['res.partner'].create(values)
-            else:
-                del values['name']  # se pastreaza numele actualizat din Odoo
-                partner.write(values)
-
-            # update vat
-            values = {
-                'vat': vat,
-                'cnp': cnp,
-                'vat_subjected': supplier['IS_TVA'] == 1,
-            }
             try:
+                if not partner:
+                    values['customer'] = False
+                    partner = self.env['res.partner'].create(values)
+
+                else:
+                    del values['name']  # se pastreaza numele actualizat din Odoo
+                    partner.write(values)
+
+                # update vat
+                values = {
+                    'vat': vat,
+                    'cnp': cnp,
+                    'vat_subjected': supplier['IS_TVA'] == 1,
+                }
+
                 partner.write(values)
-            except Exception as e:
-                result_html += '<div>Eroare modificare furnizor %s: %s</div>' % (supplier['DENUMIRE'], str(e))
+            except (Exception, ValidationError) as e:
+                result_html += '<div>Eroare  furnizor %s: %s</div>' % (supplier['DENUMIRE'], str(e))
                 if not self.ignore_error:
                     raise
 
@@ -182,10 +210,11 @@ class import_saga(models.TransientModel):
         -   25. IS_TVA Numeric 1 1, dacă este platitor de TVA
 
         """
-        customer_file = base64.decodestring(self.customer_file)
+        customer_file = base64.decodestring(self.data_file)
         buff = StringIO.StringIO(customer_file)
         customers = base.DBF(buff)
         result_html = ''
+        result_html = 'Import din fisier %s inregistrari' % (len(customers))
         for customer in customers:
             if not customer['DENUMIRE']:
                 continue
@@ -230,10 +259,10 @@ class import_saga(models.TransientModel):
                 'phone': customer['TEL'],
                 'email': customer['EMAIL'],
                 'state_id': state.id,
+                'street': customer['ADRESA'],
                 'vat': False,
                 'cnp': False,
             }
-
             try:
                 if not partner:
                     values['supplier'] = False
@@ -298,10 +327,11 @@ class import_saga(models.TransientModel):
 
         """
 
-        articole_file = base64.decodestring(self.articole_file)
+        articole_file = base64.decodestring(self.data_file)
         buff = StringIO.StringIO(articole_file)
         articole = base.DBF(buff)
-        result_html = self.result
+        result_html = 'Import din fisier %s inregistrari' % (len(articole))
+
         tax = {}
         categorii = {}
         for articol in articole:
@@ -311,7 +341,6 @@ class import_saga(models.TransientModel):
                 uom_id = self.env['product.uom'].name_create(articol['UM'])[0]
             else:
                 uom_id = uom.id
-
 
             if articol['TIP'] not in categorii:
                 categ = self.env["product.category"].search([('code_saga', '=', articol['TIP'])], limit=1)
@@ -334,7 +363,6 @@ class import_saga(models.TransientModel):
                 sale_tax = tax[CotaTVA]['sale_tax']
                 purchase_tax = tax[CotaTVA]['purchase_tax']
 
-
             values = {
                 'name': self.unaccent(articol['DENUMIRE']),
                 'default_code': articol['COD'],
@@ -354,32 +382,74 @@ class import_saga(models.TransientModel):
             self.env.cr.commit()
         return result_html
 
+    @api.model
+    def do_import_intrari(self):
+        """
+         Intrări
+        Nr. crt. Nume câmp Tip Mărime câmp Descriere
+        1. NR_NIR Numeric 7 Număr NIR
+        2. NR_INTRARE Character 16 Numărul documentului de intrare
+        3. GESTIUNE Character 4 Cod gestiune (optional)
+        4. DEN_GEST Character 36 Denumirea gestiunii (optional)
+        5. COD Character 5 Cod furnizor
+        6. DATA Date - Data documentului de intrare (a facturii)
+        7. SCADENT Date - Data scadenţei
+        8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă...
+        9. TVAI Numeric 1 1 pentru TVA la incasare
+        10. COD_ART Character 16 Cod articol (optional)
+        11. DEN_ART Character 60 Denumire articol
+        12. UM Character 5 Unitatea de măsură pt.articol (optional)
+        13. CANTITATE Numeric 14,3 Cantitate
+        14. DEN_TIP Character 36 Denumirea tipului de articol (optional)
+        15. TVA_ART Numeric 2 Procentul de TVA
+        16. VALOARE Numeric 15,2 Valoarea totală, fără TVA
+        17. TVA Numeric 15,2 TVA total
+        18. CONT Character 20 Contul corespondent
+        19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional)
+        20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
+        """
+        result_html = ''
+        intrari_file = base64.decodestring(self.data_file)
+        buff = StringIO.StringIO(intrari_file)
 
-"""
-Intrări
-Nr. crt. Nume câmp Tip Mărime câmp Descriere
-1. NR_NIR Numeric 7 Număr NIR
-2. NR_INTRARE Character 16 Numărul documentului de intrare
-3. GESTIUNE Character 4 Cod gestiune (optional)
-4. DEN_GEST Character 36 Denumirea gestiunii (optional)
-5. COD Character 5 Cod furnizor
-6. DATA Date - Data documentului de intrare (a facturii)
-7. SCADENT Date - Data scadenţei
-8. TIP Character 1 "A" - pentru aviz, "T" - taxare inversă...
-9. TVAI Numeric 1 1 pentru TVA la incasare
-10. COD_ART Character 16 Cod articol (optional)
-11. DEN_ART Character 60 Denumire articol
-12. UM Character 5 Unitatea de măsură pt.articol (optional)
-13. CANTITATE Numeric 14,3 Cantitate
-14. DEN_TIP Character 36 Denumirea tipului de articol (optional)
-15. TVA_ART Numeric 2 Procentul de TVA
-16. VALOARE Numeric 15,2 Valoarea totală, fără TVA
-17. TVA Numeric 15,2 TVA total
-18. CONT Character 20 Contul corespondent
-19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional)
-20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
+        intrari = base.DBF(buff)
+        result_html = 'Import din fisier %s inregistrari' % (len(intrari))
+        for intrare in intrari:
+            code = str(intrare['COD'])
+            pertner = self.env['res.partner'].search([('ref_supplier', '=', code)], limit=1)
+            if not pertner:
+                code = str(int(intrare['COD']))
+                pertner = self.env['res.partner'].search([('ref_supplier', '=', code)], limit=1)
+            if not pertner:
+                continue
 
+            invoice = self.env['account.invoice'].search([('reference', '=', intrare['NR_INTRARE'])], limit=1)
+            if not invoice:
+                invoice = self.env['account.invoice'].search([('number', '=', intrare['NR_INTRARE'])], limit=1)
 
+            if not invoice:
+                values = {
+                    'reference': intrare['NR_INTRARE'],
+                    'date_invoice': intrare['DATA'],
+                    'date_due': intrare['SCADENT'],
+                    'partner_id':pertner.id,
+                    'commercial_partner_id': pertner.id,
+                    'type':'in_invoice',
+                    'account_id':pertner.property_account_payable_id.id
+                }
+                invoice = self.env['account.invoice'].create(values)
+            if invoice:
+                line =  invoice.invoice_line_ids.filtered(lambda r:   r.name == intrare['DEN_ART']  )
 
+                if not line:
+                    account = self.env['account.account'].search([('code','like', intrare['CONT'] )], limit=1)
+                    values = {
+                        'invoice_id':invoice.id,
+                        'quantity':intrare['CANTITATE'],
+                        'name': intrare['DEN_ART'],
+                        'price_unit':intrare['VALOARE']/intrare['CANTITATE'],
+                        'account_id':account.id
+                    }
+                    invoice = self.env['account.invoice.line'].create(values)
+        return result_html
 
-"""

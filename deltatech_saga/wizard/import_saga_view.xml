@@ -16,10 +16,11 @@
 
                         </group>
                         <group>
-
-                            <field name="supplier_file"   widget="binary" filename="supplier_file_name"/>
-                            <field name="customer_file"   widget="binary" filename="customer_file_name"/>
-                            <field name="articole_file"   widget="binary" filename="articole_file_name"/>
+                            <field name="file_type"/>
+                            <field name="data_file" widget="binary" filename="name"/>
+                            <!--<field name="supplier_file"   widget="binary" filename="supplier_file_name"/>-->
+                            <!--<field name="customer_file"   widget="binary" filename="customer_file_name"/>-->
+                            <!--<field name="articole_file"   widget="binary" filename="articole_file_name"/>-->
                         </group>
                     </group>
 
@@ -34,7 +35,7 @@
                     </footer>
 
                     <footer states="result">
-                        <button string="OK" class="oe_highlight"/>
+                        <button string="OK" class="oe_highlight" special="cancel"/>
                     </footer>
 
                 </form>
