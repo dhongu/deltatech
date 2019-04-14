@@ -10,7 +10,7 @@
                         <group>
                             <field name="name"/>
                             <field name="value"/>
-                            <field name="days2"/>
+                            <field name="day_of_the_month"/>
                         </group>
                         <group>
                             <field name="rate"/>
@@ -49,7 +49,7 @@
             <field name="model">account.payment.term</field>
             <field name="inherit_id" ref="account.view_payment_term_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/group" position="before">
+                <xpath expr="//form/sheet" position="before">
                     <header>
                         <button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
                                 type="action" class="oe_edit_only" groups="base.group_user"/>
@@ -59,7 +59,7 @@
             </field>
         </record>
 
-
+    <!--
         <record id="view_payment_term_line_form" model="ir.ui.view">
             <field name="name">account.payment.term.line.form</field>
             <field name="model">account.payment.term.line</field>
@@ -67,13 +67,13 @@
             <field name="arch" type="xml">
                 <field name="option" position="after">
                     <div class="o_row" attrs="{'invisible': [('option', '!=', 'day_of_month')]}">
-                        <field name="days2"/>
+                        <field name="day_of_the_month"/>
                         day
                     </div>
                 </field>
             </field>
         </record>
-
+    -->
 
     </data>
 </odoo>

@@ -6,7 +6,7 @@
 
  
 from odoo import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import except_orm, Warning, RedirectWarning
 
  
  

@@ -16,7 +16,7 @@ class account_payment_term_rate_wizard(models.TransientModel):
     rate = fields.Integer(string="Number of rates", required=True)
     advance = fields.Float(string="Advance", digits=dp.get_precision('Payment Term'), required=True)
     rate_value = fields.Float(string='Rate Value')
-    days2 = fields.Integer(string='Day of the Month', required=True)
+    day_of_the_month = fields.Integer(string='Day of the Month', required=True)
     term_id = fields.Many2one('account.payment.term')
     value = fields.Selection([
         ('percent', 'Percent'),
@@ -59,8 +59,8 @@ class account_payment_term_rate_wizard(models.TransientModel):
                 'value': 'percent',
                 'value_amount': self.advance,
                 'days': 0,
-                'days2': self.days2,
-                'option': 'day_of_month'
+                'day_of_the_month': self.day_of_the_month,
+                'option': 'day_after_invoice_date'
             }
             line_ids.append((0, 0, first_rate))
 
@@ -72,8 +72,8 @@ class account_payment_term_rate_wizard(models.TransientModel):
                     'value': 'percent',
                     'value_amount': float_round(rest, 6, rounding_method='DOWN'),
                     'days': 30 * x,
-                    'days2': self.days2,
-                    'option': 'day_of_month'
+                    'day_of_the_month': self.day_of_the_month,
+                    'option': 'day_after_invoice_date'
                 }
                 line_ids.append((0, 0, norm_rate))
         else:
@@ -81,8 +81,9 @@ class account_payment_term_rate_wizard(models.TransientModel):
             first_rate = {
                 'value': 'fixed',
                 'value_amount': self.advance,
-                'days': 0, 'days2': self.days2,
-                'option': 'day_of_month'
+                'days': 0,
+                'day_of_the_month': self.day_of_the_month,
+                'option': 'day_after_invoice_date'
             }
             line_ids.append((0, 0, first_rate))
 
@@ -91,13 +92,17 @@ class account_payment_term_rate_wizard(models.TransientModel):
                     'value': 'fixed',
                     'value_amount': self.rate_value,
                     'days': 30 * x,
-                    'days2': self.days2,
-                    'option': 'day_of_month'
+                    'day_of_the_month': self.day_of_the_month,
+                    'option': 'day_after_invoice_date'
                 }
                 line_ids.append((0, 0, norm_rate))
 
-        line_ids[-1] = (
-            0, 0, {'value': 'balance', 'days': 30 * (self.rate), 'days2': self.days2, 'option': 'day_of_month'})
+        line_ids[-1] = ( 0, 0, {
+            'value': 'balance',
+            'days': 30 * (self.rate),
+            'day_of_the_month': self.day_of_the_month,
+            'option': 'day_after_invoice_date'
+        })
 
         if not self.term_id:
             self.env["account.payment.term"].create({'name': self.name, 'line_ids': line_ids})

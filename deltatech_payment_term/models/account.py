@@ -15,7 +15,6 @@ class AccountPaymentTerm(models.Model):
 
     @api.one
     def compute(self, value, date_ref=False):
-
         date_ref = date_ref or fields.Date.today()
         amount = value
         sign = value < 0 and -1 or 1
@@ -43,13 +42,14 @@ class AccountPaymentTerm(models.Model):
 
                 if line.option == 'day_after_invoice_date':
                     next_date += relativedelta(days=line.days)
-                elif line.option == 'fix_day_following_month':
+
+                elif line.option == 'after_invoice_month':
                     next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
                     next_date = next_first_date + relativedelta(days=line.days - 1)
-                elif line.option == 'last_day_following_month':
-                    next_date += relativedelta(day=31, months=1)  # Getting last day of next month
-                elif line.option == 'last_day_current_month':
-                    next_date += relativedelta(day=31, months=0)  # Getting last day of next month
+                elif line.option == 'day_following_month':
+                    next_date += relativedelta(day=line.days, months=1)
+                elif line.option == 'day_current_month':
+                    next_date += relativedelta(day=line.days, months=0)
                 result.append((fields.Date.to_string(next_date), amt))
                 amount -= amt
         amount = sum(amt for _, amt in result)
