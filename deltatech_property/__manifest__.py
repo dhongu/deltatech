@@ -34,7 +34,6 @@ Functionalitati:
     "category": "Property",
     "depends": [
         'mail',
-       # 'product'
     ],
 
     "data": [

@@ -16,8 +16,8 @@ class MrpWorkOrderGroup(models.TransientModel):
     workorder_ids = fields.Many2many('mrp.workorder', string='Production Order')
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(MrpWorkOrderGroup, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(MrpWorkOrderGroup, self).default_get(fields_list)
 
         active_ids = self.env.context.get('active_ids', False)
 

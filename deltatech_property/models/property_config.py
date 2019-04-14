@@ -74,8 +74,6 @@ class PropertyRegion(models.Model):
     _inherit = 'property.nomenclature'
 
 
-
-
 class PropertyRoomUsage(models.Model):
     _name = 'property.room.usage'
     _description = "Property Room Usage"
@@ -85,8 +83,8 @@ class PropertyRoomUsage(models.Model):
         ('office', 'office'),
         ('meeting', 'Meeting room'),
         ('kitchens', 'Kitchens'),
-        ('laboratory','Laboratory'),
-        ('garage','Garage'),
+        ('laboratory', 'Laboratory'),
+        ('garage', 'Garage'),
         ('archive', 'Archive'),
         ('warehouse', 'Warehouse'),
         ('log_warehouse', 'Logistics warehouse'),

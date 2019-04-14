@@ -41,4 +41,4 @@ class account_cash_update_balances(models.TransientModel):
                 statement.write({'balance_start':balance_start})
                 statement.write({'balance_end_real':statement.balance_end})
                 balance_start = statement.balance_end
-            
+

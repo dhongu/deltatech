@@ -35,10 +35,7 @@ class PropertyBuilding(models.Model):
     surface_unfolded = fields.Float(string="Surface unfolded")  # Sd
     surface_terraces = fields.Float(string="Surface terraces")  # Ster
 
-    surface_flameproof = fields.Float(string="Flameproof surface")   #Sig
-
-
-
+    surface_flameproof = fields.Float(string="Flameproof surface")  # Sig
 
     surface_useful = fields.Float(string="Useful surface",
                                   help="∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh ",
@@ -69,34 +66,34 @@ class PropertyBuilding(models.Model):
     surface_access = fields.Float(string="Surface access", compute="_compute_all_surface", store=True)  # Sacc
 
     surface_cleaned_adm = fields.Float(string="Surface cleaned administratively",
-                                       compute="_compute_all_surface",   store=True)  # Sca
+                                       compute="_compute_all_surface", store=True)  # Sca
     surface_cleaned_ind = fields.Float(string="Surface cleaned industrial",
-                                       compute="_compute_all_surface",  store=True)  # Sci
+                                       compute="_compute_all_surface", store=True)  # Sci
 
-    surface_cleaned_ext = fields.Float(string="External surface cleaned")            #Scext
+    surface_cleaned_ext = fields.Float(string="External surface cleaned")  # Scext
     surface_cleaned_tot = fields.Float(string="Total surface cleaned",
-                                       compute="_compute_all_surface",  store=True)  # Stc
+                                       compute="_compute_all_surface", store=True)  # Stc
 
     surface_derating_ext = fields.Float(string="Surface derating external")  # Sdze
     surface_derating_int = fields.Float(string="Surface derating internal",  # Sdzi
-                                    compute="_compute_all_surface", store=True)  # Sdzt = ∑ Sdzi+Sdze
+                                        compute="_compute_all_surface", store=True)  # Sdzt = ∑ Sdzi+Sdze
     surface_derating = fields.Float(string="Total surface derating",
-                                       compute="_compute_all_surface", store=True)  # Sdzt = ∑ Sdzi+Sdze
+                                    compute="_compute_all_surface", store=True)  # Sdzt = ∑ Sdzi+Sdze
 
     surface_disinsection = fields.Float(string="Area of disinsection", compute="_compute_surface_disinsection",
-                                        store=True)  #Sds
+                                        store=True)  # Sds
 
+    surface_cleaning_carpet = fields.Float(string="Surface cleaning Carpet", compute="_cleaning_floor",
+                                           store=True)  # Sctextil
+    surface_cleaning_linoleum = fields.Float(string="Surface cleaning Linoleum", compute="_cleaning_floor",
+                                             store=True)  # Scgresie
+    surface_cleaning_wood = fields.Float(string="Surface cleaning Wood", compute="_cleaning_floor",
+                                         store=True)  # Scpodea
 
-    surface_cleaning_carpet = fields.Float(string="Surface cleaning Carpet", compute="_cleaning_floor", store=True)  #Sctextil
-    surface_cleaning_linoleum = fields.Float(string="Surface cleaning Linoleum", compute="_cleaning_floor", store=True) #Scgresie
-    surface_cleaning_wood = fields.Float(string="Surface cleaning Wood", compute="_cleaning_floor", store=True) #Scpodea
-
-    surface_cleaning_doors = fields.Float(string="Surface cleaning doors", compute="_cleaning_doors", store=True)      #Scusi
-    surface_cleaning_windows = fields.Float(string="Surface cleaning window", compute="_cleaning_windows", store=True)   #Scgeam
-
-
-
-
+    surface_cleaning_doors = fields.Float(string="Surface cleaning doors", compute="_cleaning_doors",
+                                          store=True)  # Scusi
+    surface_cleaning_windows = fields.Float(string="Surface cleaning window", compute="_cleaning_windows",
+                                            store=True)  # Scgeam
 
     @api.onchange('purpose_parent_id')
     def onchange_purpose_parent_id(self):
@@ -112,7 +109,6 @@ class PropertyBuilding(models.Model):
     def onchange_purpose_id(self):
         self.purpose_parent_id = self.purpose_id.parent_id
 
-
     @api.depends('room_ids.surface_cleaning_floor', 'room_ids.floor_type')
     def _cleaning_floor(self):
         surface_cleaning_carpet = 0.0
@@ -121,40 +117,36 @@ class PropertyBuilding(models.Model):
 
         for room in self.room_ids:
             if room.floor_type == 'c':
-                surface_cleaning_carpet +=  room.surface_cleaning_floor
+                surface_cleaning_carpet += room.surface_cleaning_floor
             if room.floor_type == 'l':
-                surface_cleaning_linoleum +=  room.surface_cleaning_floor
+                surface_cleaning_linoleum += room.surface_cleaning_floor
             if room.floor_type == 'w':
-                surface_cleaning_wood +=  room.surface_cleaning_floor
+                surface_cleaning_wood += room.surface_cleaning_floor
 
         self.surface_cleaning_carpet = surface_cleaning_carpet
         self.surface_cleaning_linoleum = surface_cleaning_linoleum
         self.surface_cleaning_wood = surface_cleaning_wood
 
-
-
     @api.depends('room_ids.surface_cleaning_windows')
     def _cleaning_windows(self):
         surface_cleaning_windows = 0.0
         for room in self.room_ids:
-            surface_cleaning_windows +=  room.surface_cleaning_windows
+            surface_cleaning_windows += room.surface_cleaning_windows
         self.surface_cleaning_windows = surface_cleaning_windows
 
     @api.depends('room_ids.surface_cleaning_doors')
     def _cleaning_doors(self):
         surface_cleaning_doors = 0.0
         for room in self.room_ids:
-            surface_cleaning_doors +=  room.surface_cleaning_doors
+            surface_cleaning_doors += room.surface_cleaning_doors
         self.surface_cleaning_doors = surface_cleaning_doors
-
 
     @api.depends('room_ids.surface_disinsection')
     def _compute_surface_disinsection(self):
         surface_disinsection = 0.0
         for room in self.room_ids:
-            surface_disinsection +=  room.surface_disinsection
+            surface_disinsection += room.surface_disinsection
         self.surface_disinsection = surface_disinsection
-
 
     @api.depends('room_ids.surface', 'surface_terraces', 'surface_cleaned_ext', 'surface_derating_ext')
     def _compute_all_surface(self):
@@ -162,10 +154,8 @@ class PropertyBuilding(models.Model):
                    'laboratory': 0.0, 'it_endowments': 0.0, 'garage': 0.0, 'warehouse': 0.0, 'log_warehouse': 0.0,
                    'archive': 0.0, 'cloakroom': 0.0, 'premises': 0.0, 'access': 0.0, }
 
-
         for room in self.room_ids:
             surface[room.usage] += room.surface
-
 
         self.surface_office = surface['office']
         self.surface_meeting = surface['meeting']
@@ -194,10 +184,11 @@ class PropertyBuilding(models.Model):
         self.surface_cleaned_adm = self.surface_common + surface['office']
         self.surface_cleaned_ind = surface['garage'] + surface['cloakroom'] + self.surface_terraces
 
-        self.surface_cleaned_tot = self.surface_cleaned_adm  + self.surface_cleaned_ind + self.surface_cleaned_ext
+        self.surface_cleaned_tot = self.surface_cleaned_adm + self.surface_cleaned_ind + self.surface_cleaned_ext
 
         self.surface_derating_int = self.surface_useful
         self.surface_derating = self.surface_derating_ext + self.surface_derating_int
+
 
 class PropertyFeatures(models.Model):
     _name = 'property.features'
