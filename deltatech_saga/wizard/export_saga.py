@@ -42,7 +42,7 @@ class export_saga(models.TransientModel):
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
-    journal_ids = fields.Many2many('account.journal')
+    journal_ids = fields.Many2many('account.journal', strings='Journals')
     use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
     result = fields.Html(string="Result Export", readonly=True)
 
@@ -207,10 +207,15 @@ class export_saga(models.TransientModel):
             'ANALITIC': dbf_fields.CharField(max_length=16),  # Cont analitic
             'ZS': dbf_fields.IntegerField(size=3),  # Numeric 3 Zile Scadenţă (optional)
             'ADRESA': dbf_fields.CharField(max_length=48),  # Adresa (optional)
+            'JUDET': dbf_fields.CharField(max_length=36),  # Judeţ (optional)
             'TARA': dbf_fields.CharField(max_length=2),  # Codul de tara (RO)
             'TEL': dbf_fields.CharField(max_length=20),  # Numar telefon (optional)
             'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
             'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
+            'TIP_TERT': dbf_fields.CharField(max_length=1),  # I pt. intracomunitar, E pt. extracomunitari
+            'BANCA': dbf_fields.CharField(max_length=36),
+            'CONT_BANCA': dbf_fields.CharField(max_length=36),
+            'INF_SUPL': dbf_fields.CharField(max_length=100),  # Informaltii care apar pe factura (optional)
         }
         temp_file = BytesIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
@@ -251,17 +256,30 @@ class export_saga(models.TransientModel):
             else:
                 partner_code = ''
 
-            values = {'COD': partner_code,
+            if not partner.country_id:
+                tip_tert = 'I'
+            else:
+                if partner.country_id.code == 'RO':
+                    tip_tert = 'I'
+                else:
+                    tip_tert = 'E'
+            values = {
+                'COD': partner_code,
                       'DENUMIRE': partner.name[:48],
                       'COD_FISCAL': cod_fiscal or '',
                       'REG_COM': partner.nrc or '',
                       'ANALITIC': analitic,
                       'ZS': 0,
                       'ADRESA': partner.contact_address[:48],
+                'JUDET': '',
                       'TARA': partner.country_id.code or '',
                       'TEL': partner.phone or '',
                       'EMAIL': partner.email or '',
                       'IS_TVA': is_tva,
+                'TIP_TERT': tip_tert,
+                'BANCA': '',
+                'CONT_BANCA': '',
+                'INF_SUPL': ''
                       }
             for key in values:
                 if isinstance(values[key], unicode):
@@ -296,6 +314,8 @@ class export_saga(models.TransientModel):
             'TIP': dbf_fields.CharField(max_length=2),  # Cod tip
             'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumire tip
             'TVA': dbf_fields.DecimalField(size=5, deci=2),  # TVA
+            'PRET_VANZ': dbf_fields.DecimalField(size=15, deci=3),  # Pret de vanzare fara TVA
+            'COD_BARE': dbf_fields.CharField(max_length=16)
         }
         temp_file = BytesIO()
         articole_dbf = base.DBF(temp_file, Articole)
@@ -303,7 +323,13 @@ class export_saga(models.TransientModel):
             if product.taxes_id:
                 tva = round(product.taxes_id[0].amount, 2)
             else:
-                tva = 0.0
+                tva = 0
+
+            if not product.categ_id.code_saga:
+                error = _("Categoria %s a produsului  %s nu are cod SAGA") % (product.categ_id.name, product.name)
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise UserError(error)
 
             values = {
                 'COD': product.default_code or '',
@@ -313,6 +339,8 @@ class export_saga(models.TransientModel):
                 'TIP': product.categ_id.code_saga or '',
                 'DEN_TIP': product.categ_id.name[:36],
                 'TVA': tva,
+                'PRET_VANZ': product.list_price,
+                'COD_BARE': ''
             }
             for key in values:
                 if isinstance(values[key], unicode):
@@ -422,6 +450,19 @@ class export_saga(models.TransientModel):
                 nr_int = 10000 + int(nr_int[-4:])
                 nr_intrare = invoice.reference or invoice.number
 
+                # price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                # currency = line.invoice_id and line.invoice_id.currency_id or None
+                # taxes = False
+                # if line.invoice_line_tax_ids:
+                #     taxes = line.invoice_line_tax_ids.compute_all(price, currency, line.quantity,
+                #                                                   product=line.product_id,
+                #                                                   partner=line.invoice_id.partner_id)
+                #     valoare_fara_tva =  taxes['total_excluded']
+                #     valoare_cu_tva = taxes['total_included']
+                #     valoare_tva = valoare_cu_tva - valoare_fara_tva
+                # else:
+                #     valoare_fara_tva = line.price_subtotal
+                #     valoare_tva = 0
                 values = {
                     'NR_NIR': nr_int,
                     'NR_INTRARE': nr_intrare[-16:],
@@ -453,7 +494,10 @@ class export_saga(models.TransientModel):
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code and line.product_id.default_code[:16] or ''
-                    values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    if line.product_id.categ_id.name:
+                        values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    else:
+                        values['DEN_TIP'] = ''
 
                 for key in values:
                     if isinstance(values[key], unicode):
@@ -618,7 +662,19 @@ class export_saga(models.TransientModel):
 
                 nr_out = ''.join([s for s in invoice.number if s.isdigit()])
                 nr_out = int(nr_out[-16:])
-
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                currency = line.invoice_id and line.invoice_id.currency_id or None
+                # taxes = False
+                # if line.invoice_line_tax_ids:
+                #     taxes = line.invoice_line_tax_ids.compute_all(price, currency, line.quantity,
+                #                                                   product=line.product_id,
+                #                                                   partner=line.invoice_id.partner_id)
+                #     valoare_fara_tva = taxes['total_excluded']
+                #     valoare_cu_tva = taxes['total_included']
+                #     valoare_tva = valoare_cu_tva - valoare_fara_tva
+                # else:
+                #     valoare_fara_tva = line.price_subtotal
+                #     valoare_tva = 0
                 values = {
 
                     'NR_IESIRE': nr_out,

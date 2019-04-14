@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
  				 <field name="parent_id" position="before">
  				 	<field name="code_saga"/>
+                     <field name="saga_standard_code"/>
  				 </field>
             </field>
         </record>

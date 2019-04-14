@@ -13,6 +13,7 @@ import math
 class res_partner(models.Model):
     _inherit = "res.partner"
 
+    vat_subjected = fields.Boolean('VAT Legal Statement')  # campu este definit si in modulele de localizare
     ref_customer = fields.Char(string="Code Customer SAGA", size=5)
     ref_supplier = fields.Char(string="Code Supplier SAGA", size=5)
 

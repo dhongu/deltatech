@@ -237,7 +237,6 @@ class import_saga(models.TransientModel):
 
             vat = customer['COD_FISCAL']
             cnp = ''
-
             is_company = True
             if vat:
                 for char in vat:
