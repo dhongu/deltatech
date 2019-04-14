@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+  		<record id="mrp_bom_form_view" model="ir.ui.view">
+			<field name="name">deltatech.mrp.bom.form</field>
+			<field name="model">mrp.bom</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//field[@name='bom_line_ids']//tree//field[@name='product_id']" position="after">
+					<field name="name" />
+					<field name="child_bom_id" invisible="1"/>
+					<button name="open_bom" icon="fa-flask" string="Show" type="object" attrs="{'invisible':[('child_bom_id','=',False)]}"/>
+				</xpath>
+
+			</field>
+		</record>
+
+        </data>
+    </odoo>
