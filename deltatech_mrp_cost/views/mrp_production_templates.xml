@@ -3,7 +3,7 @@
     <template id="report_mrporder" inherit_id="mrp.report_mrporder">
 
 
-        <xpath expr="//table[@t-if='o.move_raw_ids']/thead/tr" position="inside">
+        <xpath expr="//table[@t-if='o.move_raw_ids']//thead/tr" position="inside">
             <th class="text-right">
                 <strong>Effective Quantity</strong>
             </th>
@@ -16,10 +16,11 @@
             </th>
 
         </xpath>
-        <xpath expr="//table[@t-if='o.move_raw_ids']/tbody/t/tr" position="replace">
+       <!--
+        <xpath expr="//table[@t-if='o.move_raw_ids']//tbody/t//tr" position="replace">
         </xpath>
-
-        <xpath expr="//table[@t-if='o.move_raw_ids']/tbody/t/tr[@t-as='line']" position="inside">
+        -->
+        <xpath expr="//table[@t-if='o.move_raw_ids']//tbody/t//t[@t-as='line']" position="inside">
             <td class="text-right">
                 <span t-field="line.quantity_done"/>
                 <span t-field="line.product_uom.name" groups="uom.group_uom"/>

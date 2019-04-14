@@ -37,10 +37,10 @@
             </field>
         </record>
 
-        <record model="ir.ui.view" id="mrp_production_workcenter_tree_view_inherit">
+        <record model="ir.ui.view" id="mrp_production_workorder_tree_view_inherit">
             <field name="name">mrp.production.work.order.tree</field>
             <field name="model">mrp.workorder</field>
-            <field name="inherit_id" ref="mrp.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_view_inherit"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='production_id']" position="before">
                     <field name="procurement_group_id"/>
@@ -50,10 +50,10 @@
 
         </record>
 
-        <record model="ir.ui.view" id="mrp_production_workcenter_form_view_inherit">
+        <record model="ir.ui.view" id="mrp_production_workorder_form_view_inherit">
             <field name="name">mrp.production.work.order.form</field>
             <field name="model">mrp.workorder</field>
-            <field name="inherit_id" ref="mrp.mrp_production_workcenter_form_view_inherit"/>
+            <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='production_id']" position="before">
                     <field name="procurement_group_id"/>
@@ -62,10 +62,10 @@
             </field>
         </record>
 
-    <record id="view_mrp_production_workcenter_form_view_filter" model="ir.ui.view">
+    <record id="view_mrp_production_workorder_form_view_filter" model="ir.ui.view">
         <field name="name">mrp.production.work.order.select</field>
         <field name="model">mrp.workorder</field>
-        <field name="inherit_id" ref="mrp.view_mrp_production_workcenter_form_view_filter"/>
+        <field name="inherit_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
         <field name="arch" type="xml">
                 <field name="production_id" position="after">
                     <field name="procurement_group_id"/>
