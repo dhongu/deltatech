@@ -35,6 +35,7 @@ class PurchaseOrder(models.Model):
 
     def on_barcode_scanned(self, barcode):
         if self.state != 'draft':
+            self.env.user.notify_danger(message=_('Status does not allow scanning'))
             return
         product = self.env['product.product'].search([('barcode', '=', barcode)])
         if product:

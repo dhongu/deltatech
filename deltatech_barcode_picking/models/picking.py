@@ -22,8 +22,13 @@ class Picking(models.Model):
     def _add_product(self, product, qty=1.0):
 
 
-
         line = self.move_ids_without_package.filtered(lambda r: r.product_id.id == product.id)
+        if line.show_details_visible:
+            message = _('For %s it is necessary to specify some details.') % (product.name)
+            self.env.user.notify_warning(message=message)
+            line.is_quantity_done_editable = True
+
+
         if line:
             if line.reserved_availability >= line.quantity_done+qty:
                 line.quantity_done += qty
