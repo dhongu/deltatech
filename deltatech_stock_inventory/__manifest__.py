@@ -27,6 +27,6 @@
         'views/product_view.xml',
         'views/report_stockinventory.xml'
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 
 
@@ -49,6 +49,7 @@
 								<t t-set="total_plus" t-value="0" />
 								<t t-set="total_minus" t-value="0" />
 								<t t-set="total_amount" t-value="0" />
+								<t t-set="total_before" t-value="0"/>
 								<t t-set="loc_rack" t-value="False" />
 								<t t-set="loc_row" t-value="False" />
 								<t t-set="loc_case" t-value="False" />
@@ -84,6 +85,7 @@
 
 									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+									<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price"/>
 
 									<t t-if='dif&gt;0'>
 										<t t-set="plus" t-value="plus+dif*line.standard_price" />
@@ -159,11 +161,13 @@
 								<t t-set="total_plus" t-value="0" />
 								<t t-set="total_minus" t-value="0" />
 								<t t-set="total_amount" t-value="0" />
+								<t t-set="total_before" t-value="0"/>
 								<t t-set="plus" t-value="0" />
 								<t t-set="minus" t-value="0" />
 								<t t-foreach="o.line_ids" t-as="line">
 									<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 									<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+									<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price"/>
 
 									<t t-if='dif&gt;0'>
 										<t t-set="plus" t-value="plus+dif*line.standard_price" />
@@ -250,7 +254,7 @@
 					<span t-field="line.product_uom_id" groups="uom.group_uom" />
 				</td>
 				<td class="text-right">
-					<span t-esc="round(line.product_qty*line.standard_price,2)" />
+					<span t-esc="round(line.product_qty*line.standard_price,2)" t-options='{"widget": "float", "precision": 2}'/>
 
 
 				</td>
@@ -258,20 +262,20 @@
 				<td class="text-right">
 
 					<t t-if='dif!=0'>
-						<span t-esc="round(dif)" />
+						<span t-esc="round(dif)" t-options='{"widget": "float", "precision": 0}'/>
 					</t>
 				</td>
 				<td class="text-right">
 					<t t-if='dif&gt;0'>
 
-						<span t-esc="round(dif*line.standard_price,2)" />
+						<span t-esc="round(dif*line.standard_price,2)" t-options='{"widget": "float", "precision": 2}'/>
 					</t>
 
 				</td>
 				<td class="text-right">
 					<t t-if='dif&lt;0'>
 
-						<span t-esc="round(-1*dif*line.standard_price,2)" />
+						<span t-esc="round(-1*dif*line.standard_price,2)" t-options='{"widget": "float", "precision": 2}'/>
 					</t>
 
 				</td>
@@ -300,19 +304,19 @@
 				</td>
 				<td class="text-right">
 					<div>
-						<strong t-esc="round(total_amount,2)" />
+						<strong t-esc="round(total_amount,2)" t-options='{"widget": "float", "precision": 2}' />
 					</div>
 					<div>
-						<strong t-esc="round(total_amount+total_plus-total_minus,2)" />
+						<strong t-esc="round(total_amount+total_plus-total_minus,2)" t-options='{"widget": "float", "precision": 2}'/>
 					</div>
 
 				</td>
 				<td class="text-right" />
 				<td class="text-right">
-					<strong t-esc="round(total_plus,2)" />
+					<strong t-esc="round(total_plus,2)" t-options='{"widget": "float", "precision": 2}' />
 				</td>
 				<td class="text-right">
-					<strong t-esc="round(total_minus,2)" />
+					<strong t-esc="round(total_minus,2)" t-options='{"widget": "float", "precision": 2}' />
 				</td>
 			</tr>
 		</template>
@@ -339,6 +343,7 @@
 				<t t-set="total_plus" t-value="0" />
 				<t t-set="total_minus" t-value="0" />
 				<t t-set="total_amount" t-value="0" />
+				<t t-set="total_before" t-value="0" />
 				<t t-set="plus" t-value="0" />
 				<t t-set="minus" t-value="0" />
 
@@ -359,10 +364,10 @@
 								<td class="text-right" />
 								<td class="text-right" />
 								<td class="text-right">
-									<strong t-esc="round(plus,2)" />
+									<strong t-esc="plus" t-options='{"widget": "float", "precision": 2}' />
 								</td>
 								<td class="text-right">
-									<strong t-esc="round(minus,2)" />
+									<strong t-esc="minus" t-options='{"widget": "float", "precision": 2}' />
 								</td>
 							</tr>
 							<tr />
@@ -383,6 +388,7 @@
 					<t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
 
 					<t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+					<t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price" />
 					<t t-if='dif&gt;0'>
 						<t t-set="plus" t-value="plus+dif*line.standard_price" />
 						<t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
@@ -406,10 +412,10 @@
 					<td class="text-right" />
 					<td class="text-right" />
 					<td class="text-right">
-						<strong t-esc="round(plus,2)" />
+						<strong t-esc="plus"  t-options='{"widget": "float", "precision": 2}' />
 					</td>
 					<td class="text-right">
-						<strong t-esc="round(minus,2)" />
+						<strong t-esc="minus" t-options='{"widget": "float", "precision": 2}'  />
 					</td>
 				</tr>
 				<t t-call="deltatech_stock_inventory.report_inventory_total" />
@@ -419,4 +425,4 @@
 			</xpath>
 		</template>
 	</data>
-</openerp>
+</odoo>
