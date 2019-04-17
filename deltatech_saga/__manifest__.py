@@ -8,6 +8,7 @@
     'version': '12.0.3.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
+    "support": "odoo@terrabit.ro",
     "description": """
 
 Functionalitati:

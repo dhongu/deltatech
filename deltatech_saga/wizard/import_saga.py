@@ -187,6 +187,16 @@ class import_saga(models.TransientModel):
                     raise
 
             self.env.cr.commit()
+
+        # actualizare secventa
+        domain = [('ref_supplier', '!=', False), ('supplier', '=', True)]
+        last_supplier = self.env['res.partner'].search(domain, order='ref_supplier DESC', limit=1)
+        if last_supplier:
+            sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
+            ref = int(last_supplier.ref_supplier)
+            if ref > sequence.number_next:
+                sequence.number_next = ref + 1
+
         return result_html
 
     @api.multi
@@ -317,6 +327,14 @@ class import_saga(models.TransientModel):
                 else:
                     self.env.cr.rollback()
 
+        # actualizare secventa
+        domain = [('ref_customer', '!=', False), ('customer', '=', True)]
+        last_customer = self.env['res.partner'].search(domain, order='ref_customer DESC', limit=1)
+        if last_customer:
+            sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
+            ref = int(last_customer.ref_customer)
+            if ref > sequence.number_next:
+                sequence.number_next = ref + 1
         return result_html
 
     @api.multi
@@ -442,24 +460,23 @@ class import_saga(models.TransientModel):
                     'reference': intrare['NR_INTRARE'],
                     'date_invoice': intrare['DATA'],
                     'date_due': intrare['SCADENT'],
-                    'partner_id':pertner.id,
+                    'partner_id': pertner.id,
                     'commercial_partner_id': pertner.id,
-                    'type':'in_invoice',
-                    'account_id':pertner.property_account_payable_id.id
+                    'type': 'in_invoice',
+                    'account_id': pertner.property_account_payable_id.id
                 }
                 invoice = self.env['account.invoice'].create(values)
             if invoice:
-                line =  invoice.invoice_line_ids.filtered(lambda r:   r.name == intrare['DEN_ART']  )
+                line = invoice.invoice_line_ids.filtered(lambda r: r.name == intrare['DEN_ART'])
 
                 if not line:
-                    account = self.env['account.account'].search([('code','like', intrare['CONT'] )], limit=1)
+                    account = self.env['account.account'].search([('code', 'like', intrare['CONT'])], limit=1)
                     values = {
-                        'invoice_id':invoice.id,
-                        'quantity':intrare['CANTITATE'],
+                        'invoice_id': invoice.id,
+                        'quantity': intrare['CANTITATE'],
                         'name': intrare['DEN_ART'],
-                        'price_unit':intrare['VALOARE']/intrare['CANTITATE'],
-                        'account_id':account.id
+                        'price_unit': intrare['VALOARE'] / intrare['CANTITATE'],
+                        'account_id': account.id
                     }
                     invoice = self.env['account.invoice.line'].create(values)
         return result_html
-

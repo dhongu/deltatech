@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import sys
+
 PY2 = sys.version_info[0] == 2
 
 if not PY2:
@@ -37,8 +38,8 @@ class export_saga(models.TransientModel):
 
     # period_id = fields.Many2one('account.period', string='Period', required=True) # de inlocuit cu un interval
     date_range_id = fields.Many2one('date.range', string='Date range')
-    date_from = fields.Date(string='Start Date',required=True, default=fields.Date.today)
-    date_to = fields.Date(string='End Date',required=True, default=fields.Date.today)
+    date_from = fields.Date(string='Start Date', required=True, default=fields.Date.today)
+    date_to = fields.Date(string='End Date', required=True, default=fields.Date.today)
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
@@ -52,7 +53,6 @@ class export_saga(models.TransientModel):
         if self.date_range_id:
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_end
-
 
     @api.model
     def default_get(self, fields_list):
@@ -84,6 +84,18 @@ class export_saga(models.TransientModel):
         text = text.replace(chr(13), ' ')
         text = text.replace('\n', ' ')
         return str(text)
+
+    def get_cont(self, account_id):
+        if not account_id:
+            return ''
+
+        cont = account_id.code[:4]
+        while cont[-1] == '0':
+            cont = cont[:-1]
+        analitic = int(account_id.code[4:])
+        if analitic:
+            cont += '.' + str(analitic)
+        return cont
 
     @api.model
     def do_export_furnizori(self, partner_ids):
@@ -265,22 +277,22 @@ class export_saga(models.TransientModel):
                     tip_tert = 'E'
             values = {
                 'COD': partner_code,
-                      'DENUMIRE': partner.name[:48],
-                      'COD_FISCAL': cod_fiscal or '',
-                      'REG_COM': partner.nrc or '',
-                      'ANALITIC': analitic,
-                      'ZS': 0,
-                      'ADRESA': partner.contact_address[:48],
+                'DENUMIRE': partner.name[:48],
+                'COD_FISCAL': cod_fiscal or '',
+                'REG_COM': partner.nrc or '',
+                'ANALITIC': analitic,
+                'ZS': 0,
+                'ADRESA': partner.contact_address[:48],
                 'JUDET': '',
-                      'TARA': partner.country_id.code or '',
-                      'TEL': partner.phone or '',
-                      'EMAIL': partner.email or '',
-                      'IS_TVA': is_tva,
+                'TARA': partner.country_id.code or '',
+                'TEL': partner.phone or '',
+                'EMAIL': partner.email or '',
+                'IS_TVA': is_tva,
                 'TIP_TERT': tip_tert,
                 'BANCA': '',
                 'CONT_BANCA': '',
                 'INF_SUPL': ''
-                      }
+            }
             for key in values:
                 if isinstance(values[key], unicode):
                     values[key] = self.unaccent(values[key])
@@ -404,6 +416,16 @@ class export_saga(models.TransientModel):
         temp_file = BytesIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
 
+        # inlocuire contrui de cheltuiala cu cele de stoc
+        # todo: de pus contruile acestea intr-o tabela de mapare sau intr-un parametru
+        cont_mapping = {
+            '6028': '3028',
+            '6022': '3022',
+            '623': '6231'
+        }
+
+
+
         # todo: de convertit toate preturile in RON
 
         for invoice in invoice_in_ids:
@@ -428,17 +450,12 @@ class export_saga(models.TransientModel):
                 else:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+
+
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
 
                 if invoice.commercial_partner_id.ref_supplier:
                     partner_code = invoice.commercial_partner_id.ref_supplier.zfill(5)
@@ -518,18 +535,11 @@ class export_saga(models.TransientModel):
 
             for line in voucher.line_ids:
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                # astea trebuie puse intr-un meniu de configurare
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
+
 
                 if tva_art == 0:
                     tva = 0
@@ -651,9 +661,9 @@ class export_saga(models.TransientModel):
                 else:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
+
+
 
                 if invoice.commercial_partner_id.ref_customer:
                     partner_code = invoice.commercial_partner_id.ref_customer.zfill(5)
@@ -752,9 +762,7 @@ class export_saga(models.TransientModel):
             cont_c = ''
             nr = 0
             for line in account_move.line_ids:
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
                 if self.use_analitic:
                     if cont == '401' and line.partner_id.ref_supplier:
@@ -762,9 +770,9 @@ class export_saga(models.TransientModel):
                     if cont == '4111' and line.partner_id.ref_customer:
                         cont = '4111.' + line.partner_id.ref_customer.zfill(5)
 
-                if cont == '531001':  # din numerar in casa in lei
+                if cont == '531.1':  # din numerar in casa in lei
                     cont = '5311'
-                if cont == '512001':  # din banca in banca in lei
+                if cont == '512.1':  # din banca in banca in lei
                     cont = '5121'
 
                 suma = 0.0
@@ -793,22 +801,22 @@ class export_saga(models.TransientModel):
                             cont_d = ''
                 ndp = ''.join([s for s in account_move.name if s.isdigit()])
 
-                if cont_d == '371' and cont_c == '44282':
+                if cont_d == '371' and cont_c == '4428.2':
                     cont_c = '4428.M'
 
-                if cont_d == '44281' and cont_c == '371':
+                if cont_d == '4428.1' and cont_c == '371':
                     cont_d = '4428.M'
 
-                if cont_c == '44281':
+                if cont_c == '4428.1':
                     cont_c = '4428.TP'
 
-                if cont_c == '44282':
+                if cont_c == '4428.2':
                     cont_c = '4428.TI'
 
-                if cont_d == '44281':
+                if cont_d == '4428.1':
                     cont_d = '4428.TP'
 
-                if cont_d == '44282':
+                if cont_d == '4428.2':
                     cont_d = '4428.TI'
 
                 values = {
@@ -862,7 +870,6 @@ class export_saga(models.TransientModel):
                                                                 ('state', '=', 'posted'),
                                                                 ('journal_id', 'in', self.journal_ids.ids)])
 
-
         invoice_in_ids = self.env['account.invoice'].search([('date', '>=', self.date_from),
                                                              ('date', '<=', self.date_to),
                                                              ('state', 'in', ['open', 'paid']),
@@ -872,8 +879,6 @@ class export_saga(models.TransientModel):
                                                              ('date', '<=', self.date_to),
                                                              ('state', 'in', ['posted']),
                                                              ('voucher_type', 'in', ['purchase'])])
-
-
 
         if self.export_product:
             for invoice in invoice_in_ids:
