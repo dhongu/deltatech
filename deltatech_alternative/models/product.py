@@ -96,7 +96,7 @@ class product_template(models.Model):
     alternative_ids = fields.One2many('product.alternative', 'product_tmpl_id', string='Alternatives')
     # dimensions = fields.Char(string='Dimensions' )
     # shelf_life = fields.Char(string='Shelf Life' )
-    # uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
+    # uom_shelf_life = fields.Many2one('uom.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
     used_for = fields.Char(string="Used For")
 
     @api.one
@@ -115,24 +115,7 @@ class product_template(models.Model):
 class product_product(models.Model):
     _inherit = 'product.product'
 
-    """
-    @api.model
-    @api.returns('self')
-    def search(self,   args, offset=0, limit=None, order=None, context=None, count=False):
-        #return models.Model.search(self, cr, user, args, offset=offset, limit=limit, order=order, context=context, count=count)
-        res = models.Model.search(self,  args, offset=offset, limit=limit, order=order, context=context, count=count)
-        
-        if not res and not self.env.context.get('no_catalog',False):
-            name = ''
-            for opt in args:
-                if isinstance(opt, tuple):
-                    left, operator, right = opt
-                    if left in ['name','default_code']:
-                        name = right
-            if name:
-                res = self.search_in_catalog(name)  
-        return res
-    """
+
 
     @api.model
     def search_in_catalog(self, name):
@@ -173,7 +156,7 @@ class product_product(models.Model):
         this = self.with_context({'no_catalog': True})
         res = super(product_product, this).name_search(name, args, operator=operator, limit=limit) + res_alt
 
-        prod_cat_ids = None
+
         if not res:
             prod = self.search_in_catalog(name)
             if prod:
@@ -187,16 +170,9 @@ class product_alternative(models.Model):
     _description = "Product alternative"
 
     name = fields.Char(string='Code', index=True)
-    sequence = fields.Integer(string='sequence')
+    sequence = fields.Integer(string='sequence', default=10)
     product_tmpl_id = fields.Many2one('product.template', string='Product Template', ondelete='cascade')
     hide = fields.Boolean(string='Hide')
 
 
-    _defaults = {
-        'sequence': lambda *a: 10,
-    }
-
-    _sql_constraints = [
-        ('code_uniq', 'unique(name)', 'Alternative code must be unique !'),
-    ]
 

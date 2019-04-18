@@ -5,13 +5,12 @@
 
 
 {
-    "name" : "Deltatech Products Alternative",
-     'version': '11.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Products Alternative",
+    'version': '11.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "category" : "Generic Modules/Inventory Control",
-    "depends" : ["product",'stock'],
-
+    "category": "Generic Modules/Inventory Control",
+    "depends": ["product", 'stock'],
 
     "description": """
 Features:    
@@ -21,12 +20,12 @@ Features:
  
  
 """,
-    "data" : [
+    "data": [
         "views/product_view.xml",
         'security/ir.model.access.csv',
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
