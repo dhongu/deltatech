@@ -26,7 +26,7 @@ Functionalitati:
     'qweb': [
 
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 
