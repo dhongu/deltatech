@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech SAGA Interface",
-    "version" : "2.0",
+    "name": "Deltatech SAGA Interface",
+    "version": "2.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -36,25 +36,24 @@ Nota:
 La export se preiua ultimile 4 caractere din nr de factura la care se adauga 10000 si se formeaza nr de NIR.
 
     """,
-    
-    "category" : "Generic Modules/Base",
-    "depends" : ['deltatech',"base","account","l10n_ro_invoice_report"],
-    "external_depends":['dbf'],
+
+    "category": "Generic Modules/Base",
+    "depends": ['deltatech', "base", "account", "l10n_ro_invoice_report"],
+    "external_depends": ['dbf'],
+    "price": 150.00,
+    "currency": "EUR",
 
     "license": "AGPL-3",
-    "data" : [
-              'data.xml',
-              'res_partner_view.xml',
-              'product_view.xml',
-              'wizard/export_saga_view.xml',
+    "data": [
+        'data/data.xml',
+        'views/res_partner_view.xml',
+        'views/product_view.xml',
+        'wizard/export_saga_view.xml',
         'wizard/import_saga_view.xml',
-              ],
-    
+    ],
+
     "active": False,
     "installable": True,
 }
 
-
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
