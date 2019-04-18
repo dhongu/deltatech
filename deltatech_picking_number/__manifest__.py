@@ -17,6 +17,6 @@ Features:
     "depends": ["stock"],
 
     "data": ['views/stock_view.xml'],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
