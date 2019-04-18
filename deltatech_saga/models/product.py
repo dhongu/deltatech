@@ -4,21 +4,20 @@
 
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning
 from odoo.tools import float_compare
 import odoo.addons.decimal_precision as dp
 import math
 
- 
 
 class product_category(models.Model):
-    _inherit = "product.category" 
+    _inherit = "product.category"
 
     code_saga = fields.Char(string="Code SAGA", size=2)
     saga_standard_code = fields.Selection([
-        ('01','Marfuri 371'),
-        ('02','Materii prime 301'),
-        ('03','Materiale auxiliare 3021'),
+        ('01', 'Marfuri 371'),
+        ('02', 'Materii prime 301'),
+        ('03', 'Materiale auxiliare 3021'),
         ('14', 'Combustibili 3022'),
         ('15', 'Piese de schimb 3024'),
         ('16', 'Alte mat. consumabile 3028'),
@@ -38,13 +37,8 @@ class product_category(models.Model):
 
     ])
 
-
     @api.onchange('saga_standard_code')
     def onchange_saga_standard_code(self):
         self.code_saga = self.saga_standard_code
 
-
-
-    
-    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

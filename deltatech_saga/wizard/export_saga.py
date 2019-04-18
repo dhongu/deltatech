@@ -81,6 +81,18 @@ class export_saga(models.TransientModel):
         text = text.replace('\n', ' ')
         return str(text)
 
+    def get_cont(self, account_id):
+        if not account_id:
+            return ''
+
+        cont = account_id.code[:4]
+        while cont[-1] == '0':
+            cont = cont[:-1]
+        analitic = int(account_id.code[4:])
+        if analitic:
+            cont += '.' + str(analitic)
+        return cont
+
     @api.model
     def do_export_furnizori(self, partner_ids):
 
@@ -396,6 +408,16 @@ class export_saga(models.TransientModel):
         temp_file = StringIO.StringIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
 
+        # inlocuire contrui de cheltuiala cu cele de stoc
+        # todo: de pus contruile acestea intr-o tabela de mapare sau intr-un parametru
+        cont_mapping = {
+            '6028': '3028',
+            '6022': '3022',
+            '623': '6231'
+        }
+
+
+
         # todo: de convertit toate preturile in RON
 
         for invoice in invoice_in_ids:
@@ -420,17 +442,12 @@ class export_saga(models.TransientModel):
                 else:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+
+
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
 
                 if invoice.commercial_partner_id.ref_supplier:
                     partner_code = invoice.commercial_partner_id.ref_supplier.zfill(5)
@@ -510,18 +527,11 @@ class export_saga(models.TransientModel):
 
             for line in voucher.line_ids:
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                # astea trebuie puse intr-un meniu de configurare
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
+
 
                 if tva_art == 0:
                     tva = 0
@@ -649,9 +659,9 @@ class export_saga(models.TransientModel):
                 else:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
+
+
 
                 if invoice.commercial_partner_id.ref_customer:
                     partner_code = invoice.commercial_partner_id.ref_customer.zfill(5)
@@ -750,9 +760,7 @@ class export_saga(models.TransientModel):
             cont_c = ''
             nr = 0
             for line in account_move.line_ids:
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
                 if self.use_analitic:
                     if cont == '401' and line.partner_id.ref_supplier:
@@ -760,9 +768,9 @@ class export_saga(models.TransientModel):
                     if cont == '4111' and line.partner_id.ref_customer:
                         cont = '4111.' + line.partner_id.ref_customer.zfill(5)
 
-                if cont == '531001':  # din numerar in casa in lei
+                if cont == '531.1':  # din numerar in casa in lei
                     cont = '5311'
-                if cont == '512001':  # din banca in banca in lei
+                if cont == '512.1':  # din banca in banca in lei
                     cont = '5121'
 
                 suma = 0.0
@@ -791,22 +799,22 @@ class export_saga(models.TransientModel):
                             cont_d = ''
                 ndp = ''.join([s for s in account_move.name if s.isdigit()])
 
-                if cont_d == '371' and cont_c == '44282':
+                if cont_d == '371' and cont_c == '4428.2':
                     cont_c = '4428.M'
 
-                if cont_d == '44281' and cont_c == '371':
+                if cont_d == '4428.1' and cont_c == '371':
                     cont_d = '4428.M'
 
-                if cont_c == '44281':
+                if cont_c == '4428.1':
                     cont_c = '4428.TP'
 
-                if cont_c == '44282':
+                if cont_c == '4428.2':
                     cont_c = '4428.TI'
 
-                if cont_d == '44281':
+                if cont_d == '4428.1':
                     cont_d = '4428.TP'
 
-                if cont_d == '44282':
+                if cont_d == '4428.2':
                     cont_d = '4428.TI'
 
                 values = {

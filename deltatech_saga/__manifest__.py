@@ -22,14 +22,20 @@ Functionalitati:
     "category": "Generic Modules/Base",
     "depends": [
 
-       # 'deltatech_backwards',
         "base",
-        "account", 'account_voucher',
-        "date_range", 'deltatech_contact'
-        #"l10n_ro_invoice_report"
+        "account",
+        'account_voucher',
+        "date_range",
+        'deltatech_contact'
+        # "l10n_ro_invoice_report"
     ],
 
-    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'],
+    "price": 150.00,
+    "currency": "EUR",
+
+    "license": "LGPL-3",
+    "data": [
         'data/data.xml',
         'views/res_partner_view.xml',
         'views/product_view.xml',
@@ -40,7 +46,5 @@ Functionalitati:
     "active": False,
     "installable": True,
 }
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

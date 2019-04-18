@@ -11,7 +11,7 @@ from mydbf import base, fields as dbf_fields
 import os
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, RedirectWarning, ValidationError
 import odoo.addons.decimal_precision as dp
 import unicodedata
 
@@ -176,6 +176,16 @@ class import_saga(models.TransientModel):
                     raise
 
             self.env.cr.commit()
+
+        # actualizare secventa
+        domain = [('ref_supplier', '!=', False), ('supplier', '=', True)]
+        last_supplier = self.env['res.partner'].search(domain, order='ref_supplier DESC', limit=1)
+        if last_supplier:
+            sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
+            ref = int(last_supplier.ref_supplier)
+            if ref > sequence.number_next:
+                sequence.number_next = ref + 1
+
         return result_html
 
     @api.multi
@@ -306,6 +316,14 @@ class import_saga(models.TransientModel):
                 else:
                     self.env.cr.rollback()
 
+        # actualizare secventa
+        domain = [('ref_customer', '!=', False), ('customer', '=', True)]
+        last_customer = self.env['res.partner'].search(domain, order='ref_customer DESC', limit=1)
+        if last_customer:
+            sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
+            ref = int(last_customer.ref_customer)
+            if ref > sequence.number_next:
+                sequence.number_next = ref + 1
         return result_html
 
     @api.multi
