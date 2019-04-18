@@ -165,7 +165,6 @@ class ProductPriceChangeLine(models.Model):
     @api.depends('old_price', 'quantity')
     def _compute_old_amount(self):
         for line in self:
-            line.old_price = line.product_id.list_price
             line.old_amount = line.old_price * line.quantity
 
     @api.multi
@@ -186,6 +185,7 @@ class ProductPriceChangeLine(models.Model):
         for line in self:
             line.quantity = line.product_id.with_context(warehouse=line.price_change_id.warehouse_id.id,
                                                          location=line.price_change_id.location_id.id).qty_available
+            line.old_price = line.product_id.list_price
 
     @api.onchange('product_id')
     def onchange_product_id(self):

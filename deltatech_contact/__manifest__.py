@@ -25,7 +25,7 @@ Functionalitati:
         #'security/ir.model.access.csv'
     ],
 
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 

@@ -22,6 +22,6 @@ Features:
     "data": [
         'views/templates.xml'
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }

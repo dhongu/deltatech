@@ -20,8 +20,7 @@
     "data": [
         "security/sales_team_security.xml",
     ],
-
-    'application': False,
+    "images": ['images/main_screenshot.png'],
 
     "installable": True,
 }

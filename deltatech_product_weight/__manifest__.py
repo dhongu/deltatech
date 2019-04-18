@@ -24,6 +24,7 @@ Features:
     "data": [
        # "views/product_view.xml"
     ],
+    "images": ['static/description/main_screenshot.png'],
     "active": False,
     "installable": True,
 

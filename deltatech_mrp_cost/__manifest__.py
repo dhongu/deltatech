@@ -35,7 +35,7 @@ Functionalitati:
         "views/mrp_production_templates.xml",
         "views/mrp_workcenter_view.xml"
     ],
-
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 

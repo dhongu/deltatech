@@ -13,7 +13,7 @@
     'category': 'Odoo  widgets',
     'depends': ['web','website'],
     'data': ['views/web_gmaps_assets.xml'],
-
+    "images": ['images/main_screenshot.png'],
     'qweb': [
         'static/src/xml/resource.xml'
     ],

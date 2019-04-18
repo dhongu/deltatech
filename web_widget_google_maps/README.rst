@@ -43,7 +43,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: /static/description/logo-terabit.png
+.. image:: logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

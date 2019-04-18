@@ -16,6 +16,6 @@
     "depends": ["stock"],
 
     "data": ['views/res_config_view.xml'],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }

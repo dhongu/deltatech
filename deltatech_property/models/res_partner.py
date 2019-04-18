@@ -1,4 +1,9 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from datetime import datetime
 from odoo.modules import get_module_resource

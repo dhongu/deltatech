@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+#              Dan Stoica
+# See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
