@@ -81,7 +81,7 @@ class crm_claim(models.Model):
             # print actions
             for action in claim.action_ids:
                 # if action.date_deadline > fields.Date.today() and (not claim.date_action_next_comp or action.date_deadline < claim.date_action_next_comp):
-                if action.date_deadline > fields.Date.today():
+                if action.date_deadline and (action.date_deadline > fields.Date.today()):
                     if not claim.date_action_next_comp or action.date_deadline < claim.date_action_next_comp:
                         claim.date_action_next_comp = action.date_deadline
                         claim.action_next_comp = action.name
