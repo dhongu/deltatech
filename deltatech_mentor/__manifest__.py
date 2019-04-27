@@ -46,7 +46,7 @@ Documentatia Mentor de import  din alte aplicatii:
         # 'wizard/import_mentor_view.xml'
     ],
     "images": ['images/main_screenshot.png'],
-    "active": False,
+
     "installable": True,
 }
 
