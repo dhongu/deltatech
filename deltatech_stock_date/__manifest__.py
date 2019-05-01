@@ -22,7 +22,7 @@ Functionalitati:
 
              ],
     'application': False,
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 
