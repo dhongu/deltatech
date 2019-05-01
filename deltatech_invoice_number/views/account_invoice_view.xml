@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <button name="action_invoice_draft" position="after">
+                    <button name="action_get_number" states="draft" string="Get Number" type="object" groups="account.group_account_invoice"/>
+                </button>
+                <field name="date_invoice" position="attributes">
+                    <attribute name="attrs">{'readonly':['|',('state','not in','draft'),('move_name','!=',False)]}</attribute>
+                </field>
+
+                <field name="move_name" position="replace"/>
+                <field name="number" position="after">
+                    <field name="move_name" readonly="1" class="oe_inline" attrs="{'invisible': [('number','!=',False)]}" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

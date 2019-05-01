@@ -1,0 +1,134 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_invoice_number
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-21 07:02+0000\n"
+"PO-Revision-Date: 2017-04-21 07:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_invoice_number
+#: model:ir.model,name:deltatech_invoice_number.model_account_invoice_change_number
+msgid "Account Invoice Change Number"
+msgstr "Modificare număr factură"
+
+#. module: deltatech_invoice_number
+#: model:res.groups,name:deltatech_invoice_number.group_change_invoice_number
+msgid "Allow to change invoice number"
+msgstr "Permite modificarea numărului de factură"
+
+#. module: deltatech_invoice_number
+#: model:ir.ui.view,arch_db:deltatech_invoice_number.view_account_invoice_change_number_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_invoice_number
+#: model:ir.actions.act_window,name:deltatech_invoice_number.action_account_invoice_change_number
+#: model:ir.ui.view,arch_db:deltatech_invoice_number.view_account_invoice_change_number_form
+msgid "Change invoice number"
+msgstr "Modifică număr factură"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_invoice_number
+#: model:ir.ui.view,arch_db:deltatech_invoice_number.invoice_form
+msgid "Get Number"
+msgstr "Numerotează"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_invoice_number
+#: model:ir.model,name:deltatech_invoice_number.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_internal_number
+msgid "Invoice Number"
+msgstr "Număr factură"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_invoice_number
+#: model:ir.model.fields,field_description:deltatech_invoice_number.field_account_invoice_change_number_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:58
+#, python-format
+msgid "Please define a sequence for the refunds"
+msgstr "Vă rog să definiți o gamă de numere pentru rambursări"
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:63
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr "Vă rog să definiți o gamă de numere în jurnal."
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:87
+#, python-format
+msgid "Post the invoice with a greater date than %s"
+msgstr "Înregistrați factura cu data mai mare de %s"
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:48
+#, python-format
+msgid "The invoice has no date."
+msgstr "Factura nu are dată."
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:46
+#, python-format
+msgid "The invoice is already numbered."
+msgstr "Factura a fost deja numerotată."
+
+#. module: deltatech_invoice_number
+#: code:addons/deltatech_invoice_number/models/account_invoice.py:39
+#, python-format
+msgid "Warning"
+msgstr "Atenție"
+
+#. module: deltatech_invoice_number
+#: model:ir.ui.view,arch_db:deltatech_invoice_number.view_account_invoice_change_number_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+#. module: deltatech_invoice_number
+#: model:ir.ui.view,arch_db:deltatech_invoice_number.view_account_invoice_change_number_form
+msgid "or"
+msgstr "sau"
+
