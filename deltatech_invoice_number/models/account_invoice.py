@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from datetime import datetime
 
@@ -82,8 +66,9 @@ class AccountInvoice(models.Model):
                 if res:
                     lang = self.env['res.lang'].search([('code', '=', self.env.user.lang)])
                     # date_invoice = fields.Datetime.from_string
-                    date_invoice = datetime.strptime(res.date_invoice, DEFAULT_SERVER_DATE_FORMAT).strftime(
-                        lang.date_format.encode('utf-8'))
+                    date_invoice = res.date_invoice
+                    #date_invoice = datetime.strptime(res.date_invoice, DEFAULT_SERVER_DATE_FORMAT).strftime(
+                    #    lang.date_format.encode('utf-8'))
                     return _('Post the invoice with a greater date than %s') % date_invoice
         return ''
 
@@ -96,3 +81,36 @@ class AccountInvoice(models.Model):
         return True
 
 
+    @api.multi
+    def action_number(self):
+        #TODO: not correct fix but required a fresh values before reading it.
+        self.write({})
+
+        for inv in self:
+
+
+            if inv.type in ('in_invoice', 'in_refund'):
+                if not inv.reference:
+                    ref = inv.number
+                else:
+                    ref = inv.reference
+            else:
+                ref = inv.number
+
+            self._cr.execute(""" UPDATE account_move SET name=%s
+                                       WHERE id=%s  """,  (inv.number, inv.move_id.id))
+
+            self._cr.execute(""" UPDATE account_move SET ref=%s
+                           WHERE id=%s AND (ref IS NULL OR ref = '')""",
+                        (ref, inv.move_id.id))
+            self._cr.execute(""" UPDATE account_move_line SET ref=%s
+                           WHERE move_id=%s AND (ref IS NULL OR ref = '')""",
+                        (ref, inv.move_id.id))
+            self._cr.execute(""" UPDATE account_analytic_line SET ref=%s
+                           FROM account_move_line
+                           WHERE account_move_line.move_id = %s AND
+                                 account_analytic_line.move_id = account_move_line.id""",
+                        (ref, inv.move_id.id))
+            self.invalidate_cache()
+
+        return True
