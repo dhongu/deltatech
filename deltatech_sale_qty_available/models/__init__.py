@@ -18,26 +18,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Deltatech Sale Qty Available",
-    "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- 
- - Afisare campuri de cantitate disponibila in comanda de vanzare
- - Colorare comenzi de vanzare in functie de disponibilitatea produselor
+
+
+
+import sale
  
 
 
-    """,
-    "category": "Generic Modules/Stock",
-    "depends": ['sale', "sale_stock"],
 
-    "license": "AGPL-3",
-    "data": ['views/sale_view.xml'],
 
-    "installable": True,
-}
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -21,7 +21,7 @@
 
 
 
-import sale
+import models
  
 
 
