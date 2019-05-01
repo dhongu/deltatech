@@ -137,6 +137,7 @@ class ProductPriceChange(models.Model):
 
 class ProductPriceChangeLine(models.Model):
     _name = 'product.price.change.line'
+    _description = 'ProductPriceChangeLine'
     _rec_name = 'product_id'
 
     price_change_id = fields.Many2one('product.price.change', 'Product Price Change', readonly=True)

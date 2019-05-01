@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 		<template id="report_pricechange">
 
@@ -11,16 +11,16 @@
 								<div class="page">
 									<newline/>
 									<h2>
-										Modificare Preț:
+										Price change:
 										<span t-field="o.name"/>
 									</h2>
 									<h3>
-										din data:
+										from date:
 										<span t-field="o.date"/>
 									</h3>
 									<div>
 										<div t-if="o.location_id">
-											Locatia:
+											Location:
 											<span t-field="o.location_id"/>
 										</div>
 									</div>
@@ -28,25 +28,25 @@
 										<thead>
 											<tr>
 												<th>
-													<strong>Descriere</strong>
+													<strong>Description</strong>
 												</th>
 												<th class="text-right">
-													<strong>Cantitate</strong>
+													<strong>Quantity</strong>
 												</th>
 												<th class="text-right">
-													<strong>Preț vechi</strong>
+													<strong>Old Price</strong>
 												</th>
 												<th class="text-right">
-													<strong>Valoare veche</strong>
+													<strong>Old Amount</strong>
 												</th>
 												<th class="text-right">
-													<strong>Preț Nou</strong>
+													<strong>New Price</strong>
 												</th>
 												<th class="text-right">
-													<strong>Valoare Nouă</strong>
+													<strong>New Amount</strong>
 												</th>
 												<th class="text-right">
-													<strong>Valoare diferență</strong>
+													<strong>Difference Amount</strong>
 												</th>
 											</tr>
 										</thead>
@@ -88,4 +88,4 @@
 
 		</template>
 	</data>
-</openerp>
+</odoo>
