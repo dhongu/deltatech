@@ -140,6 +140,11 @@ class product_template(models.Model):
     # uom_shelf_life = fields.Many2one('product.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
     used_for = fields.Char(string="Used For")
 
+    loc_rack = fields.Char(copy=False)
+    loc_row = fields.Char(copy=False)
+    loc_case = fields.Char(copy=False)
+
+
     @api.one
     @api.depends('alternative_ids')
     def _compute_alternative_code(self):
