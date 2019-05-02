@@ -1,23 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 stock All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2015-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
@@ -25,7 +9,6 @@ from odoo import tools
 
 
 class stock_picking_report(models.Model):
-
     _name = "stock.picking.report"
     _description = "Stock picking report"
     _auto = False
@@ -39,6 +22,7 @@ class stock_picking_report(models.Model):
     date = fields.Datetime('Date', readonly=True)
 
     '''
+     
     invoice_state = fields.Selection([("invoiced", "Invoiced"),
                                       ("2binvoiced", "To Be Invoiced"),
                                       ("none", "Not Applicable")
@@ -59,37 +43,32 @@ class stock_picking_report(models.Model):
 
     commercial_partner_id = fields.Many2one('res.partner', string='Commercial Entity')
 
-
-
-
-
     def _select(self):
         select_str = """
             SELECT min(sm.id) as id, sp.id as picking_id,
             sp.partner_id, rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,  sp.company_id,
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,
-            sum(sq.qty) as product_qty, 
-            avg(sq.cost) as price,
-            sum(sq.qty*sq.cost) as amount
+            sum(sm.product_qty) as product_qty, 
+            avg(sm.price_unit) as price,
+            sum(sm.product_qty*sm.price_unit) as amount
         """
         return select_str
-
-
 
     def _from(self):
         from_str = """
             FROM stock_picking as sp
             LEFT JOIN res_partner as rp ON rp.id = sp.partner_id 
             LEFT JOIN stock_move as sm ON sp.id = sm.picking_id
+           /*
             LEFT JOIN stock_quant_move_rel ON sm.id = stock_quant_move_rel.move_id
             LEFT JOIN stock_quant as sq ON stock_quant_move_rel.quant_id = sq.id
+           */
             LEFT JOIN product_product as pp ON  sm.product_id = pp.id
             LEFT JOIN product_template as pt ON  pp.product_tmpl_id = pt.id
 
         """
         return from_str
-
 
     def _group_by(self):
         group_by_str = """
@@ -106,7 +85,7 @@ class stock_picking_report(models.Model):
 
     @api.model_cr
     def init(self):
-        # self._table = account_invoice_report
+
         tools.drop_view_if_exists(self.env.cr, self._table)
 
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
@@ -114,12 +93,6 @@ class stock_picking_report(models.Model):
             %s 
             %s
             %s
-        )""" % ( self._table,  self._select(), self._from(), self._where(), self._group_by() ) )
-                   
-        
-        
-
- 
+        )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
