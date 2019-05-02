@@ -19,51 +19,43 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp import models, fields, api, _
 import openerp.addons.decimal_precision as dp
 from openerp import tools
 
 
-class stock_picking_report(osv.osv):
+class stock_picking_report(models.Model):
     _name = "stock.picking.report"
     _description = "Stock picking report"
     _auto = False
 
-    _columns = {
+    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
+    picking_type_id = fields.Many2one('stock.picking.type', 'Picking Type', readonly=True)
+    picking_id = fields.Many2one('stock.picking', 'Picking', readonly=True)
 
-        'partner_id': fields.many2one(  'res.partner', 'Partner', readonly=True),
-        'picking_type_id':fields.many2one( 'stock.picking.type', 'Picking Type', readonly=True),
-        'picking_id':fields.many2one('stock.picking', 'Picking', readonly=True),
-        
-        'picking_type_code': fields.related('picking_type_id', 'code', type='char', string='Picking Type Code',readonly=True),  
-              
-        'date': fields.datetime('Date',  readonly=True),
+    picking_type_code = fields.Selection(related='picking_type_id.code', string='Picking Type Code', readonly=True)
 
-        'invoice_state': fields.selection([  ("invoiced", "Invoiced"), 
-                                             ("2binvoiced", "To Be Invoiced"), 
-                                             ("none", "Not Applicable")
-                                         ], string="Invoice Control", readonly=True ),
-                 
-        'company_id': fields.many2one('res.company', 'Company', readonly=True),
-        
-        'categ_id': fields.many2one(  'product.category', 'Category', readonly=True),
-        'product_id': fields.many2one( 'product.product', 'Product', readonly=True),
-        'product_uom': fields.many2one( 'product.uom', 'Unit of Measure', required=True),
-               
-        'location_id': fields.many2one( 'stock.location', 'Location', readonly=True, select=True),
-        'location_dest_id': fields.many2one( 'stock.location', 'Location Destination', readonly=True, select=True),
-        
+    date = fields.Datetime('Date', readonly=True)
 
+    invoice_state = fields.Selection([("invoiced", "Invoiced"),
+                                      ("2binvoiced", "To Be Invoiced"),
+                                      ("none", "Not Applicable")
+                                      ], string="Invoice Control", readonly=True)
 
-        'product_qty': fields.float(  'Quantity',   digits_compute=dp.get_precision('Product UoM'), readonly=True ),
-        'price': fields.float(   'Price Unit',  digits_compute=dp.get_precision('Account'), readonly=True, group_operator="avg"),
-        'amount': fields.float(   'Amount',  digits_compute=dp.get_precision('Account'), readonly=True ),
+    company_id = fields.Many2one('res.company', 'Company', readonly=True)
 
-        'commercial_partner_id' : fields.many2one('res.partner', string='Commercial Entity')
-        
+    categ_id = fields.Many2one('product.category', 'Category', readonly=True)
+    product_id = fields.Many2one('product.product', 'Product', readonly=True)
+    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
 
-    }
+    location_id = fields.Many2one('stock.location', 'Location', readonly=True, index=True)
+    location_dest_id = fields.Many2one('stock.location', 'Location Destination', readonly=True, index=True)
 
+    product_qty = fields.Float('Quantity', digits_=dp.get_precision('Product UoM'), readonly=True)
+    price = fields.Float('Price Unit', digits=dp.get_precision('Account'), readonly=True, group_operator="avg")
+    amount = fields.Float('Amount', digits=dp.get_precision('Account'), readonly=True)
+
+    commercial_partner_id = fields.Many2one('res.partner', string='Commercial Entity')
 
     def _select(self):
         select_str = """
@@ -76,8 +68,6 @@ class stock_picking_report(osv.osv):
             sum(sq.qty*sq.cost) as amount
         """
         return select_str
-
-
 
     def _from(self):
         from_str = """
@@ -92,7 +82,6 @@ class stock_picking_report(osv.osv):
         """
         return from_str
 
-
     def _group_by(self):
         group_by_str = """
             GROUP BY sp.id, sp.partner_id,rp.commercial_partner_id, sp.picking_type_id,   sp.state, sp.date,   sp.invoice_state,sp.company_id,
@@ -106,19 +95,12 @@ class stock_picking_report(osv.osv):
         return where_str
 
     def init(self, cr):
-
         tools.drop_view_if_exists(cr, self._table)
         cr.execute("""CREATE or REPLACE VIEW %s as (
             %s
             %s 
             %s
             %s
-        )""" % ( self._table,  self._select(), self._from(), self._where(), self._group_by() ) )
-                   
-        
-        
-
- 
-
+        )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

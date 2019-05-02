@@ -24,7 +24,7 @@
     "name": "Deltatech Stock Reports",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website" : "www.terrabit.ro",
+    "website": "www.terrabit.ro",
     "description": """
     
 Functionalitati:
@@ -32,16 +32,16 @@ Functionalitati:
     """,
 
     "category": "Generic Modules",
-    "depends": ["base", "stock","stock_account"],
-
+    "depends": ["base", "stock", "stock_account"],
 
     "license": "AGPL-3",
 
-    "data": [ 'security/ir.model.access.csv',
-              "report/stock_picking_report.xml"],
+    "data": [
+        'security/ir.model.access.csv',
+        "report/stock_picking_report.xml"
+    ],
     "active": False,
     "installable": True,
 }
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -36,7 +36,7 @@ import openerp.addons.decimal_precision as dp
 class stock_inventory(models.Model):
     _inherit = 'stock.inventory'
 
-    name = fields.Char(string='Name', default='/')
+    name = fields.Char(string='Name', default='/', copy=False)
     date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
                            states={'draft': [('readonly', False)]})
     note = fields.Text(string='Note')
@@ -76,15 +76,27 @@ class stock_inventory(models.Model):
                 line.write({'standard_price': line.get_price()})
         return res
 
-    def action_done(self, cr, uid, ids, context=None):
-        super(stock_inventory, self).action_done(cr, uid, ids, context)
-        for inv in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def action_done(self, ):
+        super(stock_inventory, self).action_done()
+        for inv in self:
             for move in inv.move_ids:
                 if move.date_expected != inv.date or move.date != inv.date:
-                    self.pool.get('stock.move').write(cr, uid, [move.id], {'date_expected': inv.date, 'date': inv.date},
-                                                      context)
+                    move.write({'date_expected': inv.date, 'date': inv.date})
         return True
 
+    @api.multi
+    def action_remove_not_ok(self):
+        for line in self.line_ids:
+            if not line.is_ok:
+                line.unlink()
+
+    @api.multi
+    def action_new_for_not_ok(self):
+        new_inv = self.copy({'line_ids': False, 'state': 'confirm'})
+        for line in self.line_ids:
+            if not line.is_ok:
+                line.write({'inventory_id': new_inv.id})
 
 class stock_inventory_line(models.Model):
     _inherit = "stock.inventory.line"
@@ -97,6 +109,26 @@ class stock_inventory_line(models.Model):
     loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
     is_ok = fields.Boolean('Is Ok', default=True)
 
+
+    # @api.onchange('product_id')
+    # def _onchange_product(self):
+    #     res = super(stock_inventory_line, self)._onchange_product()
+    #     self.standard_price = self.get_price()
+    #     return res
+
+
+    @api.multi
+    def onchange_createline(self,   location_id=False, product_id=False, uom_id=False, package_id=False,
+                                                prod_lot_id=False, partner_id=False, company_id=False ):
+        res = super(stock_inventory_line,self).onchange_createline(  location_id, product_id, uom_id, package_id,
+                                                                        prod_lot_id, partner_id, company_id )
+        if product_id:
+            product = self.env['product.product'].browse(product_id)
+            res['value']['standard_price'] = product.standard_price
+        return res
+
+
+
     @api.one
     @api.onchange('theoretical_qty')
     def onchange_theoretical_qty(self):
@@ -104,13 +136,16 @@ class stock_inventory_line(models.Model):
 
     # todo: nu sunt sigur ca e bine ??? e posibil ca self sa fie gol
 
-
     @api.model
     def create(self, vals):
         res = super(stock_inventory_line, self).create(vals)
         if 'standard_price' not in vals:
             res.write({'standard_price': res.get_price()})
         return res
+
+
+
+
 
     @api.model
     def get_price(self):
@@ -132,19 +167,12 @@ class stock_inventory_line(models.Model):
 
         return price
 
-    """
-    def onchange_createline(self, cr, uid, ids, location_id=False, product_id=False, uom_id=False, package_id=False,
-                                                prod_lot_id=False, partner_id=False, company_id=False, context=None):
-        res = super(stock_inventory_line,self).onchange_createline( cr, uid, ids, location_id, product_id, uom_id, package_id,
-                                                                        prod_lot_id, partner_id, company_id, context)
-        if product_id:
-            res['value']['standard_price'] = self.get_price(cr, uid, product_id, location_id )
-        return res
-    """
+
 
     @api.model
     def _resolve_inventory_line(self, inventory_line):
-        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price", default="True")
+        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price",
+                                                                               default="True")
         use_inventory_price = eval(use_inventory_price)
         product_qty = inventory_line.product_qty
         if inventory_line.product_id.cost_method == 'real' and use_inventory_price:
@@ -157,14 +185,16 @@ class stock_inventory_line(models.Model):
                 inventory_line.product_id.product_tmpl_id.write({'standard_price': price})
                 move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
 
-                inventory_line.write(
-                    {'standard_price': line_price, 'product_qty': product_qty + inventory_line.theoretical_qty})
+                inventory_line.write( {
+                    'standard_price': line_price,
+                    'product_qty': product_qty + inventory_line.theoretical_qty
+                })
 
             inventory_line.product_id.product_tmpl_id.write(
                 {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
 
         move_id = super(stock_inventory_line, self)._resolve_inventory_line(inventory_line)
-        if product_qty <> inventory_line.product_qty:
+        if product_qty != inventory_line.product_qty:
             inventory_line.write({'product_qty': product_qty})
         if move_id:
             move = self.env['stock.move'].browse(move_id)

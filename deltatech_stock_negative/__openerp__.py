@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name" : "Deltatech No Negative Stock",
-    "version" : "1.0",
+    "version" : "1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
