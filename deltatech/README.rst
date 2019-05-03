@@ -1,14 +1,12 @@
+=========
+Deltatech
+=========
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
-==============
-Deltatech
-==============
 
-
-.. include:: DESCRIPTION.rst
- 
+It's a generic module, it does not do anything special.
 
 Bug Tracker
 ===========
@@ -27,9 +25,6 @@ Contributors
 
 * Dorin Hongu <dhongu@gmail.com>
 
-Do not contact contributors directly about support or help with technical issues.
-
- 
 
 Maintainer
 ----------
