@@ -5,21 +5,14 @@
 
 
 {
-    "name": "Deltatech Products Alternative",
+    "name": "Products Alternative",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "category": "Generic Modules/Inventory Control",
     "depends": ["product", 'stock'],
 
-    "description": """
-Features:    
- - New model: product_catelog
- - A module that add alternative on the product form
- - Camp nou in produs (used for) pentru a indica la ce poate fi folosit produsul
- 
- 
-""",
+
     "data": [
         "views/product_view.xml",
         'security/ir.model.access.csv',
