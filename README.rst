@@ -1,17 +1,22 @@
-.. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
-   :target: https://www.gnu.org/licenses/agpl
-   :alt: License: AGPL-3
+
 
 
 Deltatech
-=================================
-
+==========
+.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+   :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
+   :alt: License: LGPL-3
 
 deltatech
 ---------
-Modul generic, nu face ceva deosebit.
+
+.. include:: deltatech/DESCRIPTION.rst
 
 
+deltatech_alternative
+---------------------
+
+.. include:: deltatech_alternative/DESCRIPTION.rst
 
 deltatech_account
 --------------------------------

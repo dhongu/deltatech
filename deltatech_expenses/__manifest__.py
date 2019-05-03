@@ -4,7 +4,7 @@
 
 
 {
-    'name': 'Deltatech Expenses Deduction & Disposition of Cashing',
+    'name': 'Expenses Deduction & Disposition of Cashing',
     'version': '12.0.1.0.0',
     "category": 'Accounting & Finance',
     'complexity': "easy",

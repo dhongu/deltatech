@@ -233,9 +233,9 @@ class radius_radreply(models.Model):
     username = fields.Char('Username', size=64, index=1)
     #        'attribute': fields.char('Attribute', size=64)
     attribute = fields.Selection([('Framed-IP-Address', 'Framed-IP-Address'),
-				  ('Framed-IPv6-Prefix', 'Framed-IPv6-Prefix'),
-				  ('Delegated-IPv6-Prefix', 'Delegated-IPv6-Prefix'),
-				  ('Idle-Timeout', 'Idle-Timeout'),
+                                  ('Framed-IPv6-Prefix', 'Framed-IPv6-Prefix'),
+                                  ('Delegated-IPv6-Prefix', 'Delegated-IPv6-Prefix'),
+                                  ('Idle-Timeout', 'Idle-Timeout'),
                                   ('Session-Timeout', 'Session-Timeout')], 'Attribute',
                                  size=64, default='', )
     op = fields.Selection(
@@ -287,7 +287,6 @@ class radius_radgroupreply(models.Model):
 
     groupname = fields.Selection(_get_groupname, string='Group Name', default='')
     #        'attribute': fields.char('Attribute', size=64),
-
 
     attribute = fields.Selection([
         ('Framed-Compression', 'Framed-Compression'),

@@ -8,6 +8,7 @@ from odoo import models, fields, api, _
 
 class WizardDownloadFile(models.TransientModel):
     _name = 'wizard.download.file'
+    _description = 'Download Wizard'
 
     file_name = fields.Char(string='File Name')
     data_file = fields.Binary(string='File')

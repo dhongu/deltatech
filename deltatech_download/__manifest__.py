@@ -4,7 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Download File",
+    "name": "Download File",
     'version': '12.0.0.0.0',
     "author": "Dorin Hongu",
     'summary': 'Generare fisier',
@@ -13,6 +13,9 @@
 
 Functionalitati:
  - Descarcare fisiere
+
+
+ToDo:  Actulizare action_manager.js
    
     """,
 
@@ -24,7 +27,7 @@ Functionalitati:
 
     ],
 
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 

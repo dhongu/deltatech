@@ -18,9 +18,8 @@
 
     "license": "LGPL-3",
     "data": [ 'views/iap_views.xml'],
-    "images": ['/static/description/main_screenshot.png'],
-    'application': False,
-    "active": False,
+
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
 

@@ -4,7 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Purchase Price",
+    "name": "Purchase Price",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
@@ -20,7 +20,7 @@ Features:
 """,
     "data": [
     ],
-    "images": ['static/description/main_screenshot.png'],
+    "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
 

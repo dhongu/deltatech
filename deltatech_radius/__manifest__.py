@@ -23,8 +23,8 @@ Functionalitati:
     """,
 
     "category": "Generic Modules/Base",
-    "depends": [ 'account'
-
+    "depends": [
+        'account'
 
     ],
 
@@ -34,12 +34,13 @@ Functionalitati:
         'security/ir.model.access.csv',
         'views/radius_view.xml',
         'views/res_partner_view.xml',
-        'data/radius_data.xml',
+
         'wizard/radius_disconnect_view.xml'
+    ],
+    "demo": [
+        'data/radius_data.xml',
     ],
     "images": ['images/main_screenshot.png'],
 
-
     "installable": True,
 }
-
