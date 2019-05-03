@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech Fast Purchase",
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     'summary': 'Achizitie rapida',
@@ -33,6 +33,6 @@ Features:
              'views/stock_view.xml'
     ],
     "images": ['images/main_screenshot.png'],
-    "active": False,
+
     "installable": True,
 }
