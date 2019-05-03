@@ -4,8 +4,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Fast Sale",
-    'version': '11.0.1.0.0',
+    "name": "Fast Sale",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -23,6 +23,6 @@ Features:
     "license": "LGPL-3","data": ['views/sale_view.xml',
              'views/stock_view.xml'],
     "images": ['images/main_screenshot.png'],
-    "active": False,
+
     "installable": True,
 }
