@@ -177,13 +177,20 @@ class export_mentor(models.TransientModel):
         articole = configparser.ConfigParser()
         articole.optionxform = lambda option: option
 
+
         for product in product_ids:
             code = self.get_product_code(product)
+            proc_tva = 19
+
+            if product.supplier_taxes_id:
+                proc_tva = int(product.supplier_taxes_id.amount)
+
             sections_name = "ArticoleNoi_%s" % code
             articole[sections_name] = {
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
-                'GestiuneImplicita': self.get_gestiune(product)
+                'GestiuneImplicita': self.get_gestiune(product),
+                'ProcTVA':proc_tva
             }
             if product.type != 'product':
                 articole[sections_name].update({
@@ -258,12 +265,13 @@ class export_mentor(models.TransientModel):
 
                 qty = line.quantity * sign
                 price = line.price_unit
-
+                tva = line.price_total - line.price_subtotal
 
                 mentor_uom_id = self.get_product_uom(line.product_id)
                 if line.uom_id != mentor_uom_id:
                     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
                     price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                    tva = line.uom_id._compute_price(tva, mentor_uom_id)
                 else:
                     qty = sign * line.quantity
                     price = line.price_unit
@@ -283,6 +291,9 @@ class export_mentor(models.TransientModel):
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
+
+                intrari[sections_name]['Item_%s_TVA' % item] = str(tva)
+
                 # if line.uom_id.id != line.product_id.uom_id.id:
                 #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
                 #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
