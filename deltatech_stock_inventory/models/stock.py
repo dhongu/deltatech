@@ -157,8 +157,8 @@ class StockInventoryLine(models.Model):
     """
 
     def _generate_moves(self):
-        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price",
-                                                                               default="True")
+        config_parameter = self.env['ir.config_parameter'].sudo()
+        use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
         use_inventory_price = eval(use_inventory_price)
         for inventory_line in self:
             if inventory_line.product_id.cost_method == 'fifo' and use_inventory_price:
@@ -172,15 +172,15 @@ class StockInventoryLine(models.Model):
     @api.multi
     def set_last_last_inventory(self):
         for inventory_line in self:
-
-            if not inventory_line.product_id.last_inventory_date or \
-                    inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
-                inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
+            prod_last_inventory_date = inventory_line.product_id.last_inventory_date
+            product_tmpl_inventory_date = inventory_line.product_id.product_tmpl_id.last_inventory_date
+            inventory_date = inventory_line.inventory_id.date.date()
+            if not prod_last_inventory_date or prod_last_inventory_date < inventory_date:
+                inventory_line.product_id.write({'last_inventory_date': inventory_date,
                                                  'last_inventory_id': inventory_line.inventory_id.id})
-                if not inventory_line.product_id.product_tmpl_id.last_inventory_date or \
-                        inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+                if not product_tmpl_inventory_date or product_tmpl_inventory_date < inventory_date:
                     inventory_line.product_id.product_tmpl_id.write(
-                        {'last_inventory_date': inventory_line.inventory_id.date,
+                        {'last_inventory_date': inventory_date,
                          'last_inventory_id': inventory_line.inventory_id.id})
 
     @api.onchange('product_qty')
