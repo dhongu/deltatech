@@ -264,7 +264,7 @@ class service_agreement_line(models.Model):
             price_unit = self.price_unit
         cons_value = {
             'product_id': self.product_id.id,
-            'quantity:': self.quantity,
+            'quantity': self.quantity,
             'price_unit': price_unit,
             'currency_id': self.currency_id.id
         }
