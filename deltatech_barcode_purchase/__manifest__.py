@@ -4,8 +4,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Barcode Purchase ",
-    'version': '11.0.1.0.0',
+    "name": "Barcode Purchase",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
 
@@ -17,11 +17,6 @@
         'web_notify'
     ],
 
-    "description": """
-Features:    
- - Adds products to the purchase order using barcode scanner
- 
-""",
     "price": 15.00,
     "currency": "EUR",
     "license": "LGPL-3","data": [
