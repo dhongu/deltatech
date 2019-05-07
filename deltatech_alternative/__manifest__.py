@@ -8,11 +8,13 @@
     "name": "Products Alternative",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "category": "Generic Modules/Inventory Control",
+    "website": "https://www.terrabit.ro",
+    'summary': 'Alternative product codes',
+    "category": "Sales",
     "depends": ["product", 'stock'],
 
 
+    "license": "LGPL-3",
     "data": [
         "views/product_view.xml",
         'security/ir.model.access.csv',
