@@ -3,22 +3,14 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech eCommerce Qty Multiple",
+    "name": "eCommerce Qty Multiple",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- 
- - Vanzare de multiplu de cantitate
- 
+    "website": "https://www.terrabit.ro",
 
-
-    """,
     "category": "Sales",
     "depends": ["sale_stock", 'deltatech_sale_multiple'],
-
+    "license": "LGPL-3",
     "data": [
         'views/templates.xml'
     ],

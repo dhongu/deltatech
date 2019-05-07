@@ -8,20 +8,10 @@
     'version': '12.0.0.0.0',
     "author": "Dorin Hongu",
     'summary': 'Generare fisier',
-    "website": "www.terrabit.ro",
-    "description": """
-
-Functionalitati:
- - Descarcare fisiere
-
-
-ToDo:  Actulizare action_manager.js
-   
-    """,
-
+    "website": "https://www.terrabit.ro",
     'category': 'Base',
     "depends": [],
-
+    "license": "LGPL-3",
     "data": [
         'views/assets.xml',
 

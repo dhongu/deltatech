@@ -2,18 +2,11 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Stock Transfer",
+    "name": "Stock Transfer",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- 
- - Wizard pt transfer produse dintr-o locatie in alta
- 
-
-    """,
 
     "category": "Stock",
     "depends": [

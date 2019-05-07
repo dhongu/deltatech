@@ -7,8 +7,8 @@
     "name": "Barcode Sale",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-
+    "website": "https://www.terrabit.ro",
+    "support": "odoo@terrabit.ro",
     'category': 'Sales',
 
     "depends": [
@@ -17,6 +17,8 @@
         'web_notify'
     ],
 
+    "price": 15.00,
+    "currency": "EUR",
 
     "license": "LGPL-3",
     "data": [

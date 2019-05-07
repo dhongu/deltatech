@@ -4,21 +4,12 @@
 
 
 {
-    "name": "Deltatech SAGA Interface",
+    "name": "SAGA Interface",
     'version': '12.0.3.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
-    "description": """
 
-Functionalitati:
- - Permite exportul de date din Odoo pentru a fi importate in SAGA
- - Permite importul de clienti si furnizori din SAGA
- - Partenerii au doua referinte pentru codurile de client respectiv de furnizor din SAGA
- - Categoriile de produse au un camp nou pentru tipul de articol din SAGA  
-  
-   
-    """,
 
     "category": "Accounting",
     "depends": [

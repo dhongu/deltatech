@@ -5,18 +5,10 @@
 
 {
     "name": "MRP Cost",
-    "version": "2.0",
+    'version': '12.0.2.0.0',
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
- - Calculeaza pretul de productie ca fiind pretul real al componentelor
- - Asigneaza un picking pentru materialele consumate si unul pentru cele receptionate
- - Inregistrare costuri de servicii prestate de terti
- - variantele au acelasi pret
+    "website": "https://www.terrabit.ro",
 
-    """,
 
     "category": "Manufacturing",
     "depends": [
@@ -28,7 +20,7 @@ Functionalitati:
         'deltatech_purchase_price'
 
     ],
-
+    "license": "LGPL-3",
     "data": [
         "views/mrp_view.xml",
         "data/mrp_data.xml",

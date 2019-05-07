@@ -3,18 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Services",
-    "version": "2.0",
+    "name": "Services",
+    'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - Ofera posibilitatea de a defini contracte de servicii.
- - Periodic in baza acestor contracte se genereaza facturi.
-
- 
-    """,
 
     "category": "Service Management",
     "depends": [

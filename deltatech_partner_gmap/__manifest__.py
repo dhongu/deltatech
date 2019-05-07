@@ -7,16 +7,12 @@
     "name": "Partner Map",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-- Display partners on google maps
-
-    """,
 
     "category": "Sale",
     "depends": ["web_widget_google_maps", 'base_geolocalize'],
-
+    "license": "LGPL-3",
     "data": ['views/res_partner_views.xml'],
     "images": ['images/main_screenshot.png'],
     "installable": True,

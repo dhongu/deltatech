@@ -24,7 +24,7 @@
     "name" : "Deltatech Stock Pack",
     'version': '10.0.1.2.0',
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
     
 Functionalitati:

@@ -4,20 +4,15 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Stock Date",
+    "name": "Stock Date",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-- preluare data efectiva din trecut in documente 
- 
-    """,
 
     "category": "Warehouse",
     "depends": ["base", "stock"],
-
+    "license": "LGPL-3",
     "data": ['wizard/stock_immediate_transfer_view.xml'
 
              ],

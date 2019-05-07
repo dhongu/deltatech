@@ -7,20 +7,13 @@
     "name": "Fast Sale",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
+    "website": "https://www.terrabit.ro",
 
- - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
- 
-
-
-    """,
     "category": "Sales",
     "depends": ["base", "sale", 'stock','sale_stock'],
 
-    "license": "LGPL-3","data": ['views/sale_view.xml',
+    "license": "LGPL-3",
+    "data": ['views/sale_view.xml',
              'views/stock_view.xml'],
     "images": ['images/main_screenshot.png'],
 

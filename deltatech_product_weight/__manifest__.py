@@ -4,10 +4,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Products Weight",
-    "version": "2.0",
+    "name": "Products Weight",
+    'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
 
@@ -21,6 +21,7 @@ Features:
 
 
 """,
+    "license": "LGPL-3",
     "data": [
        # "views/product_view.xml"
     ],

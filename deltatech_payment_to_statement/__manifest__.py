@@ -4,26 +4,17 @@
 
 
 {
-    "name": "Deltatech Payment to Statement",
-    'version': '11.0.1.0.0',
+    "name": "Payment to Statement",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - Adugare platilor in extrasele de banca
- 
- This module added features on customer/supplier payments to allow account user to link
- payment with bank statement direct through payment menu or customer/supplier invoices register payment option. 
- After selecting and validating payment, module will add bank statement line on selected bank statement.
-   
-    """,
 
     "category": "Accounting",
     "depends": [
         "account",
     ],
-
+    "license": "LGPL-3",
     "data": [
         'views/account_payment_view.xml',
         'views/account_view.xml',

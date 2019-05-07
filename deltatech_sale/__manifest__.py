@@ -4,16 +4,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale",
+    "name": "Sale Extension",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-
-Eroare la selectie produs in comanda fara client.
-
-    """,
-
+    "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["sale"],
 

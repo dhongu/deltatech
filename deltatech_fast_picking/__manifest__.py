@@ -5,21 +5,15 @@
     "name": "Fast Picking",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'summary': 'Trasnfer rapid',
 
-    "description": """
- 
-Features:
----------
- - Cantitate implicita la operatiile de ridicare
 
-
-    """,
     "category": "Generic Modules/Stock",
     "depends": ["stock"],
 
-    "license": "LGPL-3","data": [],
+    "license": "LGPL-3",
+    "data": [],
     "images": ['images/main_screenshot.png'],
 
     "installable": True,

@@ -7,7 +7,7 @@
     "name": "Deltatech POS Required customer",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'summary': 'Required customer',
     "description": """
 

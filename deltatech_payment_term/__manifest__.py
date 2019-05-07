@@ -6,14 +6,8 @@
     "name": "Payment Term Rate Wizard",
     'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-- generare rate
-  
-   
-    """,
 
     "category": "Generic Modules/Base",
     "depends": [

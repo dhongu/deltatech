@@ -5,19 +5,16 @@
 
 {
     "name": "Purchase Price",
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Purchase',
 
     "depends": ['stock', 'stock_account', "purchase_stock"],
 
-    "description": """
-Features:    
- - Update purchase price after receipt
- 
-""",
+
+    "license": "LGPL-3",
     "data": [
     ],
     "images": ['images/main_screenshot.png'],

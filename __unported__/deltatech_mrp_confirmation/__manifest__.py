@@ -8,7 +8,7 @@
     "name": "MRP Confirmation",
     'version': '11.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
 
 Obsolete, use deltatech_mrp_record

@@ -7,7 +7,7 @@
     "name": "MRP Warehouse",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -21,7 +21,7 @@ Functionalitati:
     "depends": [
         "stock", "product"
     ],
-
+    "license": "LGPL-3",
     "data": [
         'views/company_view.xml',
         'views/stock_warehouse_view.xml',

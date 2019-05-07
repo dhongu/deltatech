@@ -8,7 +8,7 @@
     "name": "Invoice Currency",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
 
 Functionalitati:

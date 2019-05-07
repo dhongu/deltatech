@@ -5,22 +5,11 @@
 
 
 {
-    "name": "Deltatech RADIUS",
-    "version": "1.0",
+    "name": "Radius Interface",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-
-Functionalitati:
- -  RADIUS  "Remote Authentication Dial In User Service"
-  
-   - trebuie converite campurile din tipul text in varchar
-   
-   coloana pass din radpostauth trebuie modificata in password
-   coloana radacctid din radacct trebuie modificata in id
-   
-   
-    """,
+    "website": "https://www.terrabit.ro",
+    "support": "odoo@terrabit.ro",
 
     "category": "Generic Modules/Base",
     "depends": [

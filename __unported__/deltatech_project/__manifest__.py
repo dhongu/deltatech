@@ -7,7 +7,7 @@
     "name" : "Deltatech Project  Extension",
     "version" : "1.10",
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     
     'category': 'Project Management',
     

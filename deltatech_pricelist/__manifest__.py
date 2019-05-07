@@ -6,19 +6,14 @@
 
 {
     "name": "Price List Extension",
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    - pretul de lista din datele de baza ala produsului poate sa fie in alta moneda 
+    "website": "https://www.terrabit.ro",
 
-    """,
 
     'category': 'Sales',
     "depends": ['base',"product"],
-
+    "license": "LGPL-3",
     "data": [
         #'views/product_view.xml',
         'views/res_company_view.xml'

@@ -4,14 +4,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Team",
+    "name": "Sale Team Access",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-
-    """,
 
     "category": "Sales",
     "depends": ["sales_team"],

@@ -3,18 +3,14 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech No Negative Stock",
+    "name": "No Negative Stock",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
+    "website": "https://www.terrabit.ro",
 
-
-    """,
     "category": "Generic Modules/Stock",
     "depends": ["stock"],
-
+    "license": "LGPL-3",
     "data": ['views/res_config_view.xml'],
     "images": ['images/main_screenshot.png'],
     "installable": True,

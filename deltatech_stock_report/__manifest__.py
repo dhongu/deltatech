@@ -4,16 +4,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Stock Reports",
-    "version": "1.0",
+    "name": "Stock Reports",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    Raport cu pozitii din liste de ridicare
-    
-    """,
+    "website": "https://www.terrabit.ro",
+
 
     "category": "Generic Modules",
     "depends": ["base", "stock", "stock_account"],

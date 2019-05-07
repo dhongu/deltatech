@@ -24,7 +24,7 @@
     "name": "Mobile",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
     
 Functionalitati:

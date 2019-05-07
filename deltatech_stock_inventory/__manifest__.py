@@ -7,20 +7,14 @@
 #     Afisare valoare de vanzare in rapotul de pozitii de stoc (evaluare inventar) si stoc la data
 
 {
-    "name": "Deltatech Stock Inventory",
-    'version': '11.0.1.0.0',
+    "name": "Stock Inventory",
+    'version': '12.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-     Afisare coloana de pret de stoc la inventariere
-     
-
- 
-    """,
     "category": "Warehouse",
     "depends": [ 'deltatech_stock_date', "stock_account"],
-
+    "license": "LGPL-3",
     "data": [
         'data/data.xml',
         'views/stock_view.xml',

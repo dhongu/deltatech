@@ -5,13 +5,9 @@
 
 {
     "name": "Deltatech SMS",
-    'version': '11.0.1.0.0',
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
-    "website": "www.terrabit.ro",
-    "description": """
-
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     "category": "Extra Tools",
     "depends": ["sms"],

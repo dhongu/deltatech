@@ -7,7 +7,7 @@
     "name" : "Deltatech Print Invoice to ECR",
     "version" : "1.0",
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'summary':'Generare fisier pentu casa de marcat',
     "description": """
 

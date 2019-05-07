@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 
  
@@ -64,4 +64,4 @@
 			sequence="10" />
 
 	</data>
-</openerp>
+</odoo>

@@ -3,24 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Margin",
+    "name": "Sale Margin",
     'version': '12.0.1.0.0',
-    "category": "Sales Management",
+    "category": "Sales",
     "author": "Dorin Hongu",
     "website": "",
-    "description": """
- 
-Features:
- - New technical access group for display margin and purchase price in sale order and customer invoice
- - New technical access group to prevent changing price in sale order (and customer invoice) 
- - New technical access group to allow sale price  below the purchase price
- - Warning/Error on sale order if sale price is below the purchase price
- - Warning/Error on customer invoice if sale price is below the purchase price
- - New report for analysis profitability
- - Calcul comisione de vanzari
- - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
-
-    """,
 
     "depends": [
         "sale_margin",

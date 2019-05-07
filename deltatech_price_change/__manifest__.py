@@ -5,29 +5,15 @@
 
 
 {
-    "name": "Deltatech Price Change",
-    "version": "1.0",
+    "name": "Price Change",
+    'version': '12.0.1.0.0',
     "author": "Deltatech",
     "website": "",
-    "description": """
- 
-Scopul modulului este de a controla modificarile de pret la produse.
-La fiecare modificare de pret intocmeste un document care este datat si numerotat.
 
-
-
-Nota
-    * campul list_price - este editabil in template si este editbil si sta la baza determinarii pretului
-    * campul lst_price  - este pretul calculat si apare la variantele de produs
-
-
-   
-
-    """,
 
     "category": "Generic Modules",
     "depends": ["base", "stock", "product", "sale"],
-
+    "license": "LGPL-3",
     "data": [
          "views/product_view.xml",
 
