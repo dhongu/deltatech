@@ -2,10 +2,10 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Picking Number",
-    'version': '11.0.2.0.0',
+    "name": "Picking Number",
+    'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
  
 Features:
@@ -15,7 +15,7 @@ Features:
     """,
     'category': 'Warehouse',
     "depends": ["stock"],
-
+    "license": "LGPL-3",
     "data": ['views/stock_view.xml'],
     "images": ['images/main_screenshot.png'],
     "installable": True,
