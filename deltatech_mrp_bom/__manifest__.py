@@ -4,18 +4,9 @@
 
 {
     "name": "MRP Bom",
-    "version": "1.0",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-----------------
- - adaugare nume la fiecare componenta din ldm
- - adugare buton pentru accesare rapida sub-LDM
-
-    """,
-
+    "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ['mrp'],
 
