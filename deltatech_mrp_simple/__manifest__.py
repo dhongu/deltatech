@@ -2,18 +2,11 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Simple MRP",
-    "version": "1.0",
+    "name": "Simple MRP",
+    'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- 
- - Generare consumuri si nota de predare
- 
-
-    """,
 
     "category": "Manufacturing",
     "depends": [
@@ -21,7 +14,8 @@ Functionalitati:
     ]
     ,
 
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'wizard/mrp_simple_view.xml'
     ],
     "images": ['images/main_screenshot.png'],
