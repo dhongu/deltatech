@@ -46,7 +46,7 @@ class mrp_production(models.Model):
     @api.onchange('calculate_price')
     def onchange_calculate_price(self):
         for production in self:
-            if production.product_id.cost_method == 'real' and production.product_id.standard_price <> production.calculate_price:
+            if production.product_id.cost_method == 'real' and production.product_id.standard_price != production.calculate_price:
                     production.product_id.write( {'standard_price':production.calculate_price})
 
     @api.multi

@@ -21,8 +21,7 @@
 ##############################################################################
 
 
-import mrp
-import product
+import models
 import wizard
 
 

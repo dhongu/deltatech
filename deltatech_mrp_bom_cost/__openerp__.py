@@ -41,8 +41,8 @@ Obs: depinde si de mrp_product_variants
 
     "license": "AGPL-3",
     "data": [
-        "mrp_view.xml",
-        "product_view.xml",
+        "views/mrp_view.xml",
+        "views/product_view.xml",
         "wizard/calculate_bom_prices.xml"
 
     ],

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+		<record id="mrp_production_form_view" model="ir.ui.view">
+			<field name="name">deltatech.mrp.production.form</field>
+			<field name="model">mrp.production</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="mrp.mrp_production_form_view" />
+			<field name="arch" type="xml">
+				<field name="date_planned" position="after">
+					<field name="amount"  />
+					<field name="calculate_price" string="Price"  />
+				</field>
+				 <button name="action_cancel" position="after">
+				 	 <button name="compute_price" type="object" states="confirmed,ready,in_production" string="Compute Production Price"/>
+				 </button>
+			</field>
+		</record>
+
+
+		<record id="mrp_bom_form_view" model="ir.ui.view">
+			<field name="name">mrp.bom.form</field>
+			<field name="model">mrp.bom</field>
+			<field name="inherit_id" ref="mrp.mrp_bom_form_view" />
+			<field name="arch" type="xml">
+
+				<field name="type" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="product_rounding" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="product_efficiency" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="date_start" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="date_stop" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="attribute_value_ids" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+				<field name="property_ids" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</field>
+
+			</field>
+		</record>
+
+
+	</data>
+	
+	<data noupdate="1">
+		<record id="seq_picking_consume_for_production" model="ir.sequence">
+			<field name="name">Sequence Consume From Production</field>
+			<field name="code">stock.picking</field>
+			<field name="prefix">CON_PROD/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+
+		<record id="seq_picking_receipt_for_production" model="ir.sequence">
+			<field name="name">Sequence Consume</field>
+			<field name="code">stock.picking</field>
+			<field name="prefix">REC_PROD/</field>
+			<field name="padding">5</field>
+			<field name="number_next">1</field>
+			<field name="number_increment">1</field>
+		</record>
+
+		<record id="stock.picking_type_consume_for_production" model="stock.picking.type">
+			<field name="name">Consume For Production</field>
+			<field name="code">internal</field>
+			<field name="sequence_id" ref="seq_picking_consume_for_production" />
+			<field name="default_location_src_id" ref="stock.stock_location_stock" />
+			<field name="default_location_dest_id" ref="stock.location_production" />
+		</record>
+
+		<record id="stock.picking_type_receipt_for_production" model="stock.picking.type">
+			<field name="name">Receipt</field>
+			<field name="code">internal</field>
+			<field name="sequence_id" ref="seq_picking_receipt_for_production" />
+			<field name="default_location_src_id" ref="stock.location_production" />
+			<field name="default_location_dest_id" ref="stock.stock_location_stock" />
+		</record>
+
+
+	</data>
+	
+	
+
+
+</openerp>
