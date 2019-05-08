@@ -7,15 +7,8 @@
     "name": "MRP Warehouse",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - definire  camp scrap (pierderi)
- - definire furnizor implicit
- - definire depozit implicit
- 
-    """,
 
     "category": "Warehouse",
     "depends": [

@@ -1,14 +1,10 @@
-.. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
-   :target: https://www.gnu.org/licenses/agpl
-   :alt: License: AGPL-3
+===========================================
+Widget Google Maps
+===========================================
+.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+   :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
+   :alt: License: LGPL-3
 
-
-Widget Goolge Map
-=================
-
-
-Usage
------
 
 It offers the functionality of editing locations and routes on the goolge map
  1. Location - Allows you to display and edit a marker on the google map: *<widget name="gmap_marker" lat="field_lat" lng="field_lng" />*
@@ -16,12 +12,13 @@ It offers the functionality of editing locations and routes on the goolge map
  3. Locations - Allows you to display a list of locations on the google map
 
 
+.. code::
 
     <record id='view_crm_partner_gmap' model='ir.ui.view'>
         <field name="name">res.partner.gmap</field>
         <field name="model">res.partner</field>
         <field name="type">gmaps</field>
-        <field name="arch" type="xml">
+            <field name="arch" type="xml">
             <field name="partner_latitude"/>
             <field name="partner_longitude"/>
             <field name="name"/>
@@ -33,6 +30,20 @@ It offers the functionality of editing locations and routes on the goolge map
 
 For example see: deltatech_partner_gmap
 
+
+
+Bug Tracker
+===========
+
+Bugs are tracked on `GitHub Issues
+<https://github.com/dhongu/deltatech/issues>`_. In case of trouble, please
+check there if your issue has already been reported. If you spotted it first,
+help us smash it by providing detailed and welcomed feedback.
+
+Credits
+=======
+
+
 Contributors
 ------------
 
@@ -42,8 +53,10 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://terrabit.ro/wp-content/uploads/2016/03/terra-menu.png
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 
 This module is maintained by the Terrabit.
+
+

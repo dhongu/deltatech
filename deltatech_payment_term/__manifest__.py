@@ -6,14 +6,8 @@
     "name": "Deltatech Payment Term Rate Wizard",
     "version": "2.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-
-  
-   
-    """,
 
     "category": "Generic Modules/Base",
     "depends": [

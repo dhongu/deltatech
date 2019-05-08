@@ -4,21 +4,18 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Project  Extension",
+    "name": "Project Extension",
     "version": "1.10",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Project Management',
 
     "depends": ["project",'web_kanban_gauge'],
 
-    "description": """
-Features:    
- 
- 
-""",
-    "license": "LGPL-3","data": [
+
+    "license": "LGPL-3",
+    "data": [
         'views/report_project_do_today.xml',
         'wizard/print_report_date_view.xml',
         "views/project_view.xml",

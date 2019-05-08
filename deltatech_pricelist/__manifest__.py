@@ -6,13 +6,7 @@
     "name": "Price List Extension",
     'version': '10.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    - pretul de lista din datele de baza ala produsului poate fa fie in alta moneda 
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
     "depends": ["product"],

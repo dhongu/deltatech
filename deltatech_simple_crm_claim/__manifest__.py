@@ -21,7 +21,7 @@
 
 
 {
-    'name': 'Deletatech Simple Claims Management',
+    'name': 'Simple Claims Management',
     'version': '1.0',
     'category': 'Customer Relationship Management',
     'description': """

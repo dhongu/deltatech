@@ -9,21 +9,7 @@
     "version": "1.0",
     "author": "Deltatech",
     "website": "",
-    "description": """
- 
-Scopul modulului este de a controla modificarile de pret la produse.
-La fiecare modificare de pret intocmeste un document care este datat si numerotat.
 
-
-
-Nota
-    * campul list_price - este editabil in template si este editbil si sta la baza determinarii pretului
-    * campul lst_price  - este pretul calculat si apare la variantele de produs
-
-
-   
-
-    """,
 
     "category": "Generic Modules",
     "depends": ["base", "stock", "product", "sale"],

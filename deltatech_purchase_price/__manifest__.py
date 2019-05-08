@@ -4,21 +4,19 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Purchase Price",
+    "name": "Purchase Price",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
 
     "depends": ['stock', 'stock_account', "purchase"],
 
-    "description": """
-Features:    
- - Update purchase price after receipt
- 
-""",
-    "license": "LGPL-3","data": [
+
+    "license": "LGPL-3",
+
+    "data": [
     ],
     "images": ['images/main_screenshot.png'],
     "active": False,

@@ -8,13 +8,8 @@
     "version": "1.0",
     "author": "Dorin Hongu",
     'summary': 'Generare fisier',
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - Descarcare fisiere
-   
-    """,
 
     'category': 'Base',
     "depends": [],

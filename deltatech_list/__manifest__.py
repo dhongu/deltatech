@@ -3,18 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech List",
+    "name": "List Extension",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
- Features:
- - Keep selection after sorting
- - Display a legend button in the list view.  The legend is extracted from the action-help field if it defines a tag with id "legend".
- 
- 
-    """,
+    "website": "https://www.terrabit.ro",
+
 
     "category": "Generic Modules",
     "depends": ['web'],

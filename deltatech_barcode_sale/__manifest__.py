@@ -7,17 +7,13 @@
     "name": "Deltatech Barcode Sale",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
 
     "depends": ["sale",'barcodes'],
 
-    "description": """
-Features:    
- - Adds products to the sale order using barcode scanner
- 
-""",
+
     "license": "LGPL-3","data": [
         'views/sale_views.xml'
     ],

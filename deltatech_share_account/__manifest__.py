@@ -4,14 +4,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Share Account",
+    "name": "Share Account",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-Shared chart of account in multi-company
+    "website": "https://www.terrabit.ro",
 
-    """,
 
     "category": "Accounting",
     "depends": ["account"],

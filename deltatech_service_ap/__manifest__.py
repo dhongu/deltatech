@@ -4,18 +4,13 @@
 
 
 {
-    "name": "Deltatech Rent Apartments",
+    "name": "Rent Apartments",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-
-Functionalitati:
+    "website": "https://www.terrabit.ro",
 
 
-    """,
-
-    "category": "Generic Modules",
+    "category": "Services",
     "depends": [
         "deltatech_service_equipment",
     ],

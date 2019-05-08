@@ -24,7 +24,7 @@
     "name": "Property Management",
     'version': '10.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "description": """
     
 Functionalitati:

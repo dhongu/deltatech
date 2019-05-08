@@ -4,22 +4,18 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech POS Required customer",
+    "name": "POS Required customer",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'summary': 'Required customer',
-    "description": """
 
-Functionalitati:
- - Required customer for service
-   
-    """,
 
     'category': 'Point Of Sale',
     "depends": ['point_of_sale'],
 
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'views/assets.xml'
     ],
     "images": ['images/main_screenshot.png'],

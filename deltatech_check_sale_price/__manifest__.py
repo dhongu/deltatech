@@ -4,21 +4,17 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Check Sale Price",
+    "name": "Check Sale Price",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
 
-    "depends": ["sale",'purchase'],
+    "depends": ["sale", 'purchase'],
 
-    "description": """
-Features:    
- - Check sale price if is bigger that the highest purchase price
- 
-""",
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'views/sale_views.xml'
     ],
     "images": ['images/main_screenshot.png'],

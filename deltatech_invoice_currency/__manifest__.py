@@ -8,16 +8,8 @@
     "name": "Invoice Currency",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-----------------
-
- - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
-
-
-    """,
     "category": "Accounting",
     "depends": ["account", "l10n_ro_invoice_report", 'sale'],
 

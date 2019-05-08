@@ -7,21 +7,13 @@
     "name": "Deltatech Products Weight",
     "version": "2.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales',
 
     "depends": ["product","stock"],
 
-    "description": """
-    
-Features:    
----------
 
-    
-
-
-""",
     "license": "LGPL-3","data": [
         "views/product_view.xml"
     ],

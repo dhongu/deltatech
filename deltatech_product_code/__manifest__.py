@@ -7,17 +7,12 @@
     "name": "Deltatech Products Code",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Sales Management',
 
     "depends": ["product"],
 
-    "description": """
-Features:    
- - Generare cod de produs  
- 
-""",
 
     "license": "LGPL-3",
     "data": [

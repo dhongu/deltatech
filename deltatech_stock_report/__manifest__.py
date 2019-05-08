@@ -7,15 +7,8 @@
     "name": "Deltatech Stock Reports",
     "version": "1.0",
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    Raport cu pozitii din liste de ridicare
-    
-   In 11 quanturile sunt altfel gestionate. 
-    
-    """,
+    "website": "https://www.terrabit.ro",
+
 
     "category": "Generic Modules",
     "depends": ["base", "stock","stock_account" ],

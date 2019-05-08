@@ -4,20 +4,16 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Registry Office",
+    "name": "Registry Office",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Document Management',
 
     "depends": ['document', 'mail', 'deltatech_contact'],
 
-    "description": """
-Features:    
- - 
- 
-""",
+
     "license": "LGPL-3","data": [
         'wizard/solution_view.xml',
         'wizard/user_view.xml',

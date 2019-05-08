@@ -3,18 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Graph",
+    "name": "Graph Extension",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- - Can set color for bar
- - Click on bar for detail
- 
- 
-    """,
+    "website": "https://www.terrabit.ro",
+
 
     "category": "Generic Modules",
     "depends": ['web'],

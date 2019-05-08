@@ -4,15 +4,10 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Partner Map",
+    "name": "Partner Map",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-
-- Display partners on google maps
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     "category": "Sale",
     "depends": ["web_widget_google_maps", 'base_geolocalize'],

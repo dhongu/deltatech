@@ -5,15 +5,8 @@
     "name": "Deltatech Stock Transfer",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- 
- - Wizard pt transfer produse dintr-o locatie in alta
- 
-
-    """,
 
     "category": "Stock",
     "depends": [

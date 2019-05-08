@@ -4,25 +4,16 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Products Auto Reordering Rules",
+    "name": "Products Auto Reordering Rules",
     "version": "1.0",
     "author": "Terrabit, Dan Stoica",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Generic Modules',
 
     "depends": ["product","stock"],
 
-    "description": """
-    
-Features:    
----------
-Create a blank reordering rule for new products.
-Includes a function that creates blank rules for all existing products.
-    
 
-
-""",
     "license": "LGPL-3",
     "data": [
         'data/config_data.xml'

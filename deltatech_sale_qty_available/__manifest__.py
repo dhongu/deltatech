@@ -6,16 +6,8 @@
     "name": "Deltatech Sale Qty Available",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- 
- - Afisare campuri de cantitate disponibila in comanda de vanzare
- 
+    "website": "https://www.terrabit.ro",
 
-
-    """,
     "category": "Generic Modules/Stock",
     "depends": ["sale"],
 

@@ -5,19 +5,11 @@
 
 
 {
-    "name": "Deltatech Stock Serial Number",
+    "name": "Stock Serial Number",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
+    "website": "https://www.terrabit.ro",
 
-    - ascundere loturi utilizate
-    - generare nr de lot la receptie daca se utilizeaza semnul /
-
-
-    """,
 
     "category": "Generic Modules/Stock",
     "depends": ['stock', ],

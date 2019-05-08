@@ -171,7 +171,7 @@ class account_invoice(models.Model):
             if line.product_id.type == 'product' and line.product_id.cost_method == 'fifo':
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
                 price = from_currency.compute(price, self.env.user.company_id.currency_id)
-                if price <> line.product_id.product_tmpl_id.standard_price:
+                if price != line.product_id.product_tmpl_id.standard_price:
                     line.product_id.product_tmpl_id.write({'standard_price': price})
                     msg = _('Price %s update from invoice %s') % (str(price), self.get_link(self))
                     line.product_id.product_tmpl_id.message_post(body=msg)

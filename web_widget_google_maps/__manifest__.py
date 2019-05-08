@@ -8,7 +8,7 @@
     'name': 'Widget Google Maps',
     'version': '11.0.2.1.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'license': 'LGPL-3',
     'category': 'Odoo  widgets',
     'depends': ['web'],

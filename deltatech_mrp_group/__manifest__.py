@@ -7,13 +7,7 @@
     "name": "MRP Group Production Order",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-----------------
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     "category": "Manufacturing",
     "depends": ["mrp","sale_stock","purchase",'sale_management'],

@@ -3,18 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "MRP Bom",
+    "name": "MRP Bom Extension",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-----------------
- - adaugare nume la fiecare componenta din ldm
- - adugare buton pentru accesare rapida sub-LDM
+    "website": "https://www.terrabit.ro",
 
-    """,
 
     "category": "Manufacturing",
     "depends": ['mrp'],

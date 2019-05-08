@@ -7,14 +7,8 @@
     "name": "Deltatech Contacts",
     'version': '11.0.1.3.0',
     "author": "Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - Adaugare campuri suplimentare in datele de contact: birthdate, CNP,  nr carte de identitate
-
-   
-    """,
 
     "category": "Generic Modules/Base",
     "depends": ["base"],

@@ -7,14 +7,8 @@
     "name": "MRP Product Variants",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
- - Șablon de produs în comanda de producție
+    "website": "https://www.terrabit.ro",
 
-
-    """,
 
     "category": "Manufacturing",
     "depends": [

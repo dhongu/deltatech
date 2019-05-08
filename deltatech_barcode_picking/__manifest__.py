@@ -7,17 +7,13 @@
     "name": "Deltatech Barcode Picking",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Warehouse',
 
     "depends": ["stock",'barcodes'],
 
-    "description": """
-Features:    
- - Adds products to picking using barcode scanner
- 
-""",
+
     "price": 15.00,
     "currency": "EUR",
     "license": "LGPL-3",

@@ -73,7 +73,7 @@ class mail_compose_message(models.TransientModel):
         if res_model and res_model == 'mail.group':
             defaults['mail_notify_noemail'] = False
         else:
-            defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].get_param( key="mail.notify.noemail", default="False"))
+            defaults['mail_notify_noemail'] =  eval(self.env['ir.config_parameter'].sudo().get_param( key="mail.notify.noemail", default="False"))
         # poate ca documentele anexate trebuie sa fie in functie de o configurare ??
         """
         res_id = defaults.get('res_id',False)   

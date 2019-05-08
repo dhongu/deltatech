@@ -22,7 +22,7 @@
 
 
 {
-    'name': 'Deltatech Expenses Deduction & Disposition of Cashing',
+    'name': 'Expenses Deduction & Disposition of Cashing',
     'version': '10.0.1.0.0',
     "category": 'Accounting & Finance',
     'complexity': "easy",
@@ -40,7 +40,7 @@ Este necesar sa fie definit un jurnal nou pentru decontul de cheltuieli la care 
 		
     """,
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'images': [''],
     'depends': [
         'account',

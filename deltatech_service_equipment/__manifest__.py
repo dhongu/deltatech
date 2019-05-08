@@ -4,29 +4,19 @@
 
 
 {
-    "name": "Deltatech Services Equipment",
+    "name": "Services Equipment",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
 
-- gestionare echipamente
-- gestionare contoare  
-- gestionare citiri contoare
-- facturare in baza citirilor
-- caclul estimare citiri
-- intoducere automat la sfarsit de perioada a valorilor estimate
-
-    """,
-
-    "category": "Generic Modules",
+    "category": "Services",
     "depends": [
         "deltatech_service",
     ],
 
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
          'data/data.xml',
         #
         'views/service_rent_view.xml',

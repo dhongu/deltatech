@@ -6,6 +6,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, UserError
 
+#todo: de tatat cazul in care sunt mai multe companii !
 
 class ProductProduct(models.Model):
     _inherit = "product.product"

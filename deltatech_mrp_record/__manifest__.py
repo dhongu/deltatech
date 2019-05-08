@@ -7,17 +7,7 @@
     "name": "MRP Record Production",
     'version': '11.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-----------------
- - adaugare operatori la centre de lucru
- - adaugare cod la operatie
- - inregistrare operatii efectuate prin scanare cod de bare
- 
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     "category": "Manufacturing",
     "depends": ['web','bus', 'mrp', 'hr_attendance','deltatech_mrp_group','deltatech_mrp_cost'],

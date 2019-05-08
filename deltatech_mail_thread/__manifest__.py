@@ -19,18 +19,11 @@
 #
 ##############################################################################
 {
-    "name": "Deltatech Mail Thread",
+    "name": "Mail Thread",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - send email in separate thread
-
-
-
-    """,
     'category': 'Discuss',
     "depends": ['base', 'mail'],
 

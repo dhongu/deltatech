@@ -8,17 +8,13 @@
     "version": "2.0",
     "author": "Dorin Hongu",
     "website": "",
-    "description": """
 
-Functionalitati:
- - actualizare automata sold la casa
-   
-    """,
 
     'category': 'Accounting & Finance',
     "depends": ["account"],
 
-    "license": "LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         'wizard/account_cash_update_balances_view.xml'
     ],
     "images": ['images/main_screenshot.png'],

@@ -2,19 +2,11 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Claim 8D",
+    "name": "Claim 8D",
     "version": "1.0",
     "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- - Raportare 8D
-  
-  https://en.wikipedia.org/wiki/Eight_Disciplines_Problem_Solving
-  
-   
-    """,
 
     'category': 'Sales Management',
     "depends": [

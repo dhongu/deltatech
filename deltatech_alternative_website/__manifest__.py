@@ -6,17 +6,10 @@
 
 {
     "name": "Deltatech Website alternative code",
-    "version": "1.0",
-    "author": "Dorin Hongu",
-    "website": "",
-    "description": """
+    'version': '11.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-    - cautare produs dupa cod echivalent
-    - afisare imagini produse in magazinul virtual cu watermark
-    - adauga categoriile afisate in website la catalogul de produse
-
-    """,
 
     "category": "Website",
     "depends": ["website_sale", "deltatech_alternative", 'l10n_ro_invoice_report'],

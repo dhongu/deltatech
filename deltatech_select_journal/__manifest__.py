@@ -4,18 +4,12 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Select Journal",
+    "name": "Select Journal",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     'summary': 'Selectie jurnal',
-    "description": """
 
-Functionalitati:
- - Selectie jurnal in momentul generarii facturii din comanda de vanzare
- -  
-   
-    """,
 
     'category': 'Sales',
     "depends": ['sale'],

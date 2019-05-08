@@ -5,14 +5,8 @@
     "name": "Deltatech Picking Number",
     'version': '11.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- - Numerotare liste de ridicare la cerere 
+    "website": "https://www.terrabit.ro",
 
-
-    """,
     'category': 'Warehouse',
     "depends": ["stock"],
 

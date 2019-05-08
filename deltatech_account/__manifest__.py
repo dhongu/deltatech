@@ -3,13 +3,14 @@
 # See README.rst file on addons root folder for license details
 {
     "name" : "Deltatech Account",
-    "version" : "2.0",
+    'version': '11.0.2.0.0',
     "author" : "Terrabit, Dorin Hongu",
     "website" : "www.terrabit.ro",
     'category': 'Accounting & Finance',
     "depends" : ['account'],
-    "description": '',
-    "license": "LGPL-3","data" : [
+
+    "license": "LGPL-3",
+    "data" : [
 
         'views/account_invoice_view.xml'
     ],

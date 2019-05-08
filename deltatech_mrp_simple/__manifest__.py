@@ -2,18 +2,10 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Simple MRP",
+    "name": "Simple MRP",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
-
-Functionalitati:
- 
- - Generare consumuri si nota de predare
- 
-
-    """,
+    "website": "https://www.terrabit.ro",
 
     "category": "Manufacturing",
     "depends": [

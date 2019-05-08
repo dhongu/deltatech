@@ -10,14 +10,8 @@
     "name": "Deltatech Stock Inventory",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-     Afișare coloană de preț de stoc la inventariere
-     
-
- 
-    """,
     "category": "Warehouse",
     "depends": ['deltatech_stock_date', "stock_account"],
 

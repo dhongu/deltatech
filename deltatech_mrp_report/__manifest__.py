@@ -2,18 +2,11 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech MRP Report",
+    "name": "MRP Report",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
- 
- - Raport de productie centralizat pe interval
- 
-
-    """,
 
     "category": "Manufacturing",
     "depends": [

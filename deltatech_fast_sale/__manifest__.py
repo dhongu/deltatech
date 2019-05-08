@@ -7,16 +7,8 @@
     "name": "Deltatech Fast Sale",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
+    "website": "https://www.terrabit.ro",
 
- - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
- 
-
-
-    """,
     "category": "Sales",
     "depends": ["base", "sale", 'stock','sale_stock'],
 

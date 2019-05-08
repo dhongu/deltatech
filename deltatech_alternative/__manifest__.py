@@ -5,29 +5,20 @@
 
 
 {
-    "name" : "Deltatech Products Alternative",
-     'version': '11.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "category" : "Generic Modules/Inventory Control",
-    "depends" : ["product",'stock'],
+    "name": "Deltatech Products Alternative",
+    'version': '11.0.1.0.0',
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "category": "Generic Modules/Inventory Control",
+    "depends": ["product", 'stock'],
 
-
-    "description": """
-Features:    
- - New model: product_catelog
- - A module that add alternative on the product form
- - Camp nou in produs (used for) pentru a indica la ce poate fi folosit produsul
- 
- 
-""",
-    "license": "LGPL-3","data" : [
-        "views/product_view.xml",
-        'security/ir.model.access.csv',
-    ],
+    "license": "LGPL-3", "data": [
+    "views/product_view.xml",
+    'security/ir.model.access.csv',
+],
     "images": ['images/main_screenshot.png'],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

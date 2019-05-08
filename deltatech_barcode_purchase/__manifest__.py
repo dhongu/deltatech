@@ -7,17 +7,13 @@
     "name": "Deltatech Barcode Purchase ",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
 
     'category': 'Purchases',
 
     "depends": ["purchase",'barcodes'],
 
-    "description": """
-Features:    
- - Adds products to the purchase order using barcode scanner
- 
-""",
+
     "price": 15.00,
     "currency": "EUR",
     "license": "LGPL-3","data": [

@@ -7,14 +7,8 @@
     "name": "Supply Stock",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
+    "website": "https://www.terrabit.ro",
 
-Functionalitati:
-
-    - generare comenzi de aprovizionare pentru produsele la care Estimatul este negativ.
-
-    """,
 
     "category": "Warehouse",
     "depends": ['sale_stock', 'mrp', 'deltatech_warehouse'],
