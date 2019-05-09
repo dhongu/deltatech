@@ -16,7 +16,7 @@ class resource_replace_rule(models.Model):
     from_product = fields.Many2one('product.product', string='Original Product')
     to_product = fields.Many2one('product.product', string='New Product')
     factor = fields.Float(string='Factor', default=1.0)
-    type = fields.Selection([('Replace','Replace'),('Add','Add')], default='Replace')
+    type = fields.Selection([('Replace','Replace'),('Add','Add'), ('Replace master','Replace master')], default='Replace')
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
@@ -62,7 +62,13 @@ class sale_order(models.Model):
                                             if attribute.attribute == attr_new_value.attribute_id:
                                                 attribute.value = attr_new_value
                         else: #vedem cum facem in alte cazuri
-                            pass
+                            if rule.type == 'Replace master':
+                                if rule.from_product == article.product_id:
+                                    new_template = rule.to_product.product_tmpl_id
+                                    article.write({
+                                        'product_template': new_template.id,
+                                        'product_id': rule.to_product.id,
+                                    })
                 article._compute_amount()
                 # do not explode, resets quantities
                 # article.explode_bom()
