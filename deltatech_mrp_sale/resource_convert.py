@@ -69,6 +69,7 @@ class sale_order(models.Model):
                                         'product_template': new_template.id,
                                         'product_id': rule.to_product.id,
                                     })
+                                    article.onchange_product_template()
                 article._compute_amount()
                 # do not explode, resets quantities
                 # article.explode_bom()
