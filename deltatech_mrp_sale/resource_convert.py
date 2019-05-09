@@ -70,6 +70,8 @@ class sale_order(models.Model):
                                         'product_id': rule.to_product.id,
                                     })
                                     article.onchange_product_template()
+                                    article.explode_bom()
+                                    vasile = 1
                 article._compute_amount()
                 # do not explode, resets quantities
                 # article.explode_bom()
