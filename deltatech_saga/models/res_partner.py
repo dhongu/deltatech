@@ -27,30 +27,27 @@ from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 import math
 
- 
 
 class res_partner(models.Model):
-    _inherit = "res.partner" 
+    _inherit = "res.partner"
 
     ref_customer = fields.Char(string="Code Customer SAGA", size=5)
     ref_supplier = fields.Char(string="Code Supplier SAGA", size=5)
 
-
     @api.model
-    def create(self,   vals ):  
+    def create(self, vals):
         if ('ref_customer' not in vals) or (vals.get('ref_customer') in ('/', False)):
-            if  vals.get('customer',False): 
+            if vals.get('customer', False):
                 sequence = self.env.ref('deltatech_saga.sequence_ref_customer')
                 if sequence:
-                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id)    
+                    vals['ref_customer'] = self.env['ir.sequence'].next_by_id(sequence.id)
 
         if ('ref_supplier' not in vals) or (vals.get('ref_supplier') in ('/', False)):
-            if  vals.get('supplier',False):
+            if vals.get('supplier', False):
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
                 if sequence:
                     vals['ref_supplier'] = self.env['ir.sequence'].next_by_id(sequence.id)
-        return super(res_partner, self).create( vals )
-
+        return super(res_partner, self).create(vals)
 
     @api.multi
     def write(self, vals):
@@ -66,9 +63,8 @@ class res_partner(models.Model):
             if self.supplier:
                 sequence = self.env.ref('deltatech_saga.sequence_ref_supplier')
                 if sequence:
-                    vals['ref_supplier'] = self.env['ir.sequence'].next_by_id(sequence.id) 
-        
-        return super(res_partner, self).write( vals)
-    
-    
+                    vals['ref_supplier'] = self.env['ir.sequence'].next_by_id(sequence.id)
+
+        return super(res_partner, self).write(vals)
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

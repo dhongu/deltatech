@@ -20,12 +20,12 @@
 ##############################################################################
 
 
-
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
+
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
@@ -35,15 +35,17 @@ class sale_order(models.Model):
     @api.multi
     def _compute_is_ready(self):
         for order in self:
-            is_ready = True
-            for line in order.order_line:
-                is_ready = is_ready and (line.qty_available >= line.product_uos_qty)
+            is_ready = order.state in ['sent', 'progress']
+            if is_ready:
+                for line in order.order_line:
+                    is_ready = is_ready and (line.qty_available >= line.product_uos_qty)
             order.is_ready = is_ready
-        
+
+
 class sale_order_line(models.Model):
-    _inherit = 'sale.order.line' 
-    
-    qty_available =  fields.Float( related= 'product_id.qty_available',string='Quantity On Hand')
+    _inherit = 'sale.order.line'
+
+    qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
     virtual_available = fields.Float(related='product_id.virtual_available', string='Quantity Available')
 
     qty_available_text = fields.Char(string="Available", compute='_compute_qty_available_text')

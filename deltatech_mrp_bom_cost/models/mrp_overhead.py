@@ -85,9 +85,9 @@ class mrp_cost_category(models.Model):
     # valoare materiale determinate * procent + suma fixa  
     # la costurile de tip view se face insmarea categoriilor inferioare
     
-    name = field.Char(string='Name') #materiale , #manopera,  #utilaje, # transport, #chirie,  #altele
-    #base = field.Selection([('bom_qty','BOM Quantity'),('bom_val','BOM Value')])
-    domain = field.Char(string="Domain", default='[()]')                    #se selecteaza din bom doar liniile utilizand domeniu
+    name = fields.Char(string='Name') #materiale , #manopera,  #utilaje, # transport, #chirie,  #altele
+    #base = fields.Selection([('bom_qty','BOM Quantity'),('bom_val','BOM Value')])
+    domain = fields.Char(string="Domain", default='[()]')                    #se selecteaza din bom doar liniile utilizand domeniu
     percent = fields.Float(string='Percent', help="For Cost Value percent enter % ratio between 0-1.", default=1.0)   
 
     type = fields.Selection([('view','View'), ('normal','Normal')], 'Category Type', 
@@ -96,8 +96,8 @@ class mrp_cost_category(models.Model):
     parent_id = fields.Many2one('mrp.cost.category',string='Parent Category', select=True, ondelete='cascade')
     
     child_id = fields.One2many('mrp.cost.category', 'parent_id', string='Child Categories')
-    parent_left = fields.integer(string='Left Parent', select=1)
-    parent_right = fields.integer(string='Right Parent', select=1)
+    parent_left = fields.Integer(string='Left Parent', select=1)
+    parent_right = fields.Integer(string='Right Parent', select=1)
     
     
     

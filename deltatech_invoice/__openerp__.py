@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Invoice",
-    "version" : "1.0",
+    "name": "Deltatech Invoice",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -30,13 +30,13 @@ Functionalitati:
  - Validare data factura sa fie mai mare decat data din ultima factura
 
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"account","l10n_ro_invoice_report"],
+    "category": "Generic Modules/Other",
+    "depends": ['deltatech', "account", "l10n_ro_invoice_report"],
     "license": "AGPL-3",
-    "data" : ['account_invoice_view.xml',
-              'views/report_invoice.xml' ],
+    "data": [
+        'views/account_invoice_view.xml',
+        'views/report_invoice.xml'
+    ],
     "active": False,
     "installable": True,
 }
-
-

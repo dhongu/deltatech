@@ -33,21 +33,20 @@ from openerp import SUPERUSER_ID, api
 import openerp.addons.decimal_precision as dp
 
 
-
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    last_inventory_date = fields.Date( string='Last Inventory Date',readonly=True, compute='_compute_last_inventory', store=True)
-    last_inventory_id = fields.Many2one('stock.inventory',string='Last Inventory',
+    last_inventory_date = fields.Date(string='Last Inventory Date', readonly=True, compute='_compute_last_inventory',
+                                      store=True)
+    last_inventory_id = fields.Many2one('stock.inventory', string='Last Inventory',
                                         readonly=True, compute='_compute_last_inventory', store=True)
 
     @api.multi
     def get_last_inventory_date(self):
         products = self.env['product.product']
         for template in self:
-            products |=   template.product_variant_ids
+            products |= template.product_variant_ids
         products.get_last_inventory_date()
-
 
     @api.multi
     def _compute_last_inventory(self):
@@ -66,14 +65,12 @@ class product_product(models.Model):
     _inherit = 'product.product'
 
     last_inventory_date = fields.Date(string='Last Inventory Date', readonly=True)
-    last_inventory_id = fields.Many2one('stock.inventory',string='Last Inventory', readonly=True)
-
+    last_inventory_id = fields.Many2one('stock.inventory', string='Last Inventory', readonly=True)
 
     @api.multi
     def get_last_inventory_date(self):
         for product in self:
-            line = self.env['stock.inventory.line'].search([('product_id','=',product.id),('is_ok','=',True)],
+            line = self.env['stock.inventory.line'].search([('product_id', '=', product.id), ('is_ok', '=', True)],
                                                            limit=1, order='id desc')
             if line:
                 line.set_last_last_inventory()
-

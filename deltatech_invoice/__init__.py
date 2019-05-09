@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-import account_invoice
+import models
 import report
 
 

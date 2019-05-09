@@ -28,6 +28,7 @@
 Features:
  
  - Afisare campuri de cantitate disponibila in comanda de vanzare
+ - Colorare comenzi de vanzare in functie de disponibilitatea produselor
  
 
 
@@ -36,7 +37,7 @@ Features:
     "depends": ['sale', "sale_stock"],
 
     "license": "AGPL-3",
-    "data": ['sale_view.xml'],
-    "active": False,
+    "data": ['views/sale_view.xml'],
+
     "installable": True,
 }

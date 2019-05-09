@@ -51,10 +51,9 @@ class export_saga(models.TransientModel):
     ignore_error = fields.Boolean(string='Ignore Errors')
     export_product = fields.Boolean(string='Export Products', default=False, help="Pentru evidenta cantitativa")
 
-    result = fields.Html(string="Result Export", readonly=True)
-    journal_ids = fields.Many2many('account.journal')
+    journal_ids = fields.Many2many('account.journal', strings='Journals')
     use_analitic = fields.Boolean(string="Foloseste conturi analitice la client si furnizori", default=True)
-
+    result = fields.Html(string="Result Export", readonly=True)
 
     def unaccent(self, text):
         """
@@ -78,6 +77,18 @@ class export_saga(models.TransientModel):
         text = text.replace(chr(13), ' ')
         text = text.replace('\n', ' ')
         return str(text)
+
+    def get_cont(self, account_id):
+        if not account_id:
+            return ''
+
+        cont = account_id.code[:4]
+        while cont[-1] == '0':
+            cont = cont[:-1]
+        analitic = int(account_id.code[4:])
+        if analitic:
+            cont += '.' + str(analitic)
+        return cont
 
     @api.model
     def do_export_furnizori(self, partner_ids):
@@ -120,15 +131,29 @@ class export_saga(models.TransientModel):
                 if not self.ignore_error:
                     raise Warning(error)
 
-            if not partner.vat_subjected:
-                cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
-                is_tva = 0
+            if partner.is_company:
+                if not partner.vat:
+                    error = _("Partenerul %s nu are CUI") % partner.name
+                    result_html += '<div>Eroare %s</div>' % error
+                    if not self.ignore_error:
+                        raise Warning(error)
+
+                if not partner.vat_subjected:
+                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
+                    is_tva = 0
+                else:
+                    cod_fiscal = partner.vat
+                    is_tva = 1
             else:
-                cod_fiscal = partner.vat
-                is_tva = 1
+                is_tva = 0
+                cod_fiscal = partner.cnp or partner.nrc
 
             if partner.ref_supplier:
-                analitic = '401.' + partner.ref_supplier.zfill(5)
+
+                if self.use_analitic:
+                    analitic = '401.' + partner.ref_supplier.zfill(5)
+                else:
+                    analitic = '401'
             else:
                 analitic = ''
 
@@ -161,21 +186,20 @@ class export_saga(models.TransientModel):
 
         """
         7. DISCOUNT Numeric 5,2 Procent de discount acordat (optional) 
-        8. ADRESA Character 48 Adresa (optional) 
-        9. JUDET Character 36 Judeţ (optional) 
-        10. BANCA Character 36 Banca (optional) 
-        11. CONT_BANCA Character 36 Contul bancar (optional) 
+
+
+
         12. DELEGAT Character 36 Numele şi prenumele delegatului (optional) 
         13. BI_SERIE Character 2 Seria actului de identitate a delegatului (op.) 
         14. BI_NUMAR Character 8 Număr act identitate, a delegatului (optional) 
         15. BI_POL Character 16 Eliberat de... (optional) 
         16. MASINA Character 16 Număr maşină delegat (optional) 
-        17. INF_SUPL Character 100 Informaltii care apar pe factura (optional) 
+
         18. AGENT Character 4 Cod agent (optional) 
         19. DEN_AGENT Character 36 Nume agent (optional) 
         20. GRUPA Character 16 Grupa de client (optional) 
         21. TIP_TERT Character 1 I pt. intracomunitar, E pt. extracomunitari 
-        22. TARA Character 2 Codul de tara (RO) 
+
  
         """
         result_html = ''
@@ -187,10 +211,15 @@ class export_saga(models.TransientModel):
             'ANALITIC': dbf_fields.CharField(max_length=16),  # Cont analitic
             'ZS': dbf_fields.IntegerField(size=3),  # Numeric 3 Zile Scadenţă (optional)
             'ADRESA': dbf_fields.CharField(max_length=48),  # Adresa (optional)
+            'JUDET': dbf_fields.CharField(max_length=36),  # Judeţ (optional)
             'TARA': dbf_fields.CharField(max_length=2),  # Codul de tara (RO)
             'TEL': dbf_fields.CharField(max_length=20),  # Numar telefon (optional)
             'EMAIL': dbf_fields.CharField(max_length=100),  # Email (optional)
             'IS_TVA': dbf_fields.IntegerField(size=1),  # Numeric 1 1, dacă este platitor de TVA
+            'TIP_TERT': dbf_fields.CharField(max_length=1),  # I pt. intracomunitar, E pt. extracomunitari
+            'BANCA': dbf_fields.CharField(max_length=36),
+            'CONT_BANCA': dbf_fields.CharField(max_length=36),
+            'INF_SUPL': dbf_fields.CharField(max_length=100),  # Informaltii care apar pe factura (optional)
         }
         temp_file = StringIO.StringIO()
         clienti_dbf = base.DBF(temp_file, Clienti)
@@ -210,10 +239,7 @@ class export_saga(models.TransientModel):
                         raise Warning(error)
 
                 if not partner.vat_subjected:
-                    if partner.vat and partner.vat[:2] == 'RO':
-                        cod_fiscal = partner.vat[2:]
-                    else:
-                        cod_fiscal = partner.vat
+                    cod_fiscal = partner.vat[2:] if partner.vat and partner.vat[:2] == 'RO' else partner.vat
                     is_tva = 0
                 else:
                     cod_fiscal = partner.vat
@@ -229,7 +255,10 @@ class export_saga(models.TransientModel):
                 cod_fiscal = partner.cnp or partner.id_nr or partner.nrc
 
             if partner.ref_customer:
-                analitic = '4111.' + partner.ref_customer.zfill(5)
+                if self.use_analitic:
+                    analitic = '4111.' + partner.ref_customer.zfill(5)
+                else:
+                    analitic = '4111'
             else:
                 analitic = ''
 
@@ -238,18 +267,32 @@ class export_saga(models.TransientModel):
             else:
                 partner_code = ''
 
-            values = {'COD': partner_code,
-                      'DENUMIRE': partner.name[:48],
-                      'COD_FISCAL': cod_fiscal or '',
-                      'REG_COM': nrc or '',
-                      'ANALITIC': analitic,
-                      'ZS': 0,
-                      'ADRESA': partner.contact_address[:48],
-                      'TARA': partner.country_id.code or '',
-                      'TEL': partner.phone or '',
-                      'EMAIL': partner.email or '',
-                      'IS_TVA': is_tva,
-                      }
+            if not partner.country_id:
+                tip_tert = 'I'
+            else:
+                if partner.country_id.code == 'RO':
+                    tip_tert = 'I'
+                else:
+                    tip_tert = 'E'
+
+            values = {
+                'COD': partner_code,
+                'DENUMIRE': partner.name[:48],
+                'COD_FISCAL': cod_fiscal or '',
+                'REG_COM': nrc or '',
+                'ANALITIC': analitic,
+                'ZS': 0,
+                'ADRESA': partner.contact_address[:48],
+                'JUDET': '',
+                'TARA': partner.country_id.code or '',
+                'TEL': partner.phone or '',
+                'EMAIL': partner.email or '',
+                'IS_TVA': is_tva,
+                'TIP_TERT': tip_tert,
+                'BANCA': '',
+                'CONT_BANCA': '',
+                'INF_SUPL': ''
+            }
             for key in values:
                 if isinstance(values[key], unicode):
                     values[key] = self.unaccent(values[key])
@@ -259,7 +302,7 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_articole(self, product_ids):
-        result_html = ''
+
         """
         Articole 
         Nr. crt. Nume câmp Tip Mărime câmp Descriere 
@@ -275,6 +318,7 @@ class export_saga(models.TransientModel):
         10. CANT_MIN Numeric 14,3 Stoc minim (optional) 
         11. GRUPA Character 16 Grupa de articol (optional) 
         """
+        result_html = ''
         Articole = {
             'COD': dbf_fields.CharField(max_length=16),  # Cod articol
             'DENUMIRE': dbf_fields.CharField(max_length=60),  # Denumire articol
@@ -282,6 +326,8 @@ class export_saga(models.TransientModel):
             'TIP': dbf_fields.CharField(max_length=2),  # Cod tip
             'DEN_TIP': dbf_fields.CharField(max_length=36),  # Denumire tip
             'TVA': dbf_fields.DecimalField(size=5, deci=2),  # TVA
+            'PRET_VANZ': dbf_fields.DecimalField(size=15, deci=3),  # Pret de vanzare fara TVA
+            'COD_BARE': dbf_fields.CharField(max_length=16)
         }
         temp_file = StringIO.StringIO()
         articole_dbf = base.DBF(temp_file, Articole)
@@ -291,6 +337,12 @@ class export_saga(models.TransientModel):
             else:
                 tva = 0
 
+            if not product.categ_id.code_saga:
+                error = _("Categoria %s a produsului  %s nu are cod SAGA") % (product.categ_id.name, product.name)
+                result_html += '<div>Eroare %s</div>' % error
+                if not self.ignore_error:
+                    raise Warning(error)
+
             values = {
                 'COD': product.default_code or '',
                 'DENUMIRE': product.name[:60],
@@ -299,6 +351,8 @@ class export_saga(models.TransientModel):
                 'TIP': product.categ_id.code_saga or '',
                 'DEN_TIP': product.categ_id.name[:36],
                 'TVA': tva,
+                'PRET_VANZ': product.list_price,
+                'COD_BARE': ''
             }
             for key in values:
                 if isinstance(values[key], unicode):
@@ -309,7 +363,6 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_intrari(self, invoice_in_ids, voucher_in_ids):
-        result_html = ''
         """
          Intrări
         Nr. crt. Nume câmp Tip Mărime câmp Descriere
@@ -334,6 +387,7 @@ class export_saga(models.TransientModel):
         19. PRET_VANZ Numeric 15,2 Preţul de vânzare, (optional)
         20. GRUPA Character 16 Cod de grupa de articol contabil (optional)
         """
+        result_html = ''
 
         Intrari = {
             'NR_NIR': dbf_fields.IntegerField(size=7),  # Număr NIR
@@ -362,7 +416,17 @@ class export_saga(models.TransientModel):
         temp_file = StringIO.StringIO()
         intrari_dbf = base.DBF(temp_file, Intrari)
 
-        # todo: de convertit toate preturirile in RON
+        # inlocuire contrui de cheltuiala cu cele de stoc
+        # todo: de pus contruile acestea intr-o tabela de mapare sau intr-un parametru
+        cont_mapping = {
+            '6028': '3028',
+            '6022': '3022',
+            '623': '6231'
+        }
+
+
+
+        # todo: de convertit toate preturile in RON
 
         for invoice in invoice_in_ids:
             if invoice.vat_on_payment:
@@ -388,17 +452,12 @@ class export_saga(models.TransientModel):
                 if tva_art > 100:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+
+
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
 
                 if invoice.commercial_partner_id.ref_supplier:
                     partner_code = invoice.commercial_partner_id.ref_supplier.zfill(5)
@@ -440,7 +499,10 @@ class export_saga(models.TransientModel):
                     values['DEN_TIP'] = ''
                 else:
                     values['COD_ART'] = line.product_id.default_code and line.product_id.default_code[:16] or ''
-                    values['DEN_TIP'] = line.product_id.categ_id.name[:36]
+                    if line.product_id.categ_id.name:
+                        values['DEN_TIP'] = self.unaccent(line.product_id.categ_id.name[:36])
+                    else:
+                        values['DEN_TIP'] = ''
 
                 for key in values:
                     if isinstance(values[key], unicode):
@@ -461,17 +523,11 @@ class export_saga(models.TransientModel):
 
             for line in voucher.line_ids:
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                # inlocuire contrui de cheltuiala cu cele de stoc
-                if cont == '6028':
-                    cont = '3028'
-                elif cont == '6022':
-                    cont = '3022'
-                elif cont == '623':
-                    cont = '6231'
+                if cont in cont_mapping:
+                    cont = cont_mapping[cont]
+
 
                 if tva_art == 0:
                     tva = 0.0
@@ -520,7 +576,7 @@ class export_saga(models.TransientModel):
 
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
-        result_html = ''
+
         """
         Ieşiri
         Nr. crt. Nume câmp Tip Mărime câmp Descriere
@@ -549,7 +605,8 @@ class export_saga(models.TransientModel):
         Numele fişierului trebuie să fie în formatul următor: IE_<data-inceput>_<data-sfarsit>.dbf.
         Fişierul va conţine câte o înregistrare pentru fiecare articol din factură.
 
-    """
+        """
+        result_html = ''
         Iesiri = {
 
             'NR_IESIRE': dbf_fields.CharField(max_length=16),  # Numărul documentului de ieşire, bon
@@ -590,9 +647,9 @@ class export_saga(models.TransientModel):
                 else:
                     tva_art = 0
 
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
+
+
 
                 if invoice.commercial_partner_id.ref_customer:
                     partner_code = invoice.commercial_partner_id.ref_customer.zfill(5)
@@ -679,18 +736,17 @@ class export_saga(models.TransientModel):
             cont_c = ''
             nr = 0
             for line in account_move.line_ids:
-                cont = line.account_id.code
-                while cont[-1] == '0':
-                    cont = cont[:-1]
+                cont = self.get_cont(line.account_id.code)
 
-                if cont == '401':
-                    cont = '401.' + line.partner_id.ref_supplier.zfill(5)
-                if cont == '4111':
-                    cont = '4111.' + line.partner_id.ref_customer.zfill(5)
+                if self.use_analitic:
+                    if cont == '401' and line.partner_id.ref_supplier:
+                        cont = '401.' + line.partner_id.ref_supplier.zfill(5)
+                    if cont == '4111' and line.partner_id.ref_customer:
+                        cont = '4111.' + line.partner_id.ref_customer.zfill(5)
 
-                if cont == '531001':  # din numerar in casa in lei
+                if cont == '531.1':  # din numerar in casa in lei
                     cont = '5311'
-                if cont == '512001':  # din banca in banca in lei
+                if cont == '512.1':  # din banca in banca in lei
                     cont = '5121'
 
                 suma = 0.0
@@ -719,22 +775,22 @@ class export_saga(models.TransientModel):
                             cont_d = ''
                 ndp = ''.join([s for s in account_move.name if s.isdigit()])
 
-                if cont_d == '371' and cont_c == '44282':
+                if cont_d == '371' and cont_c == '4428.2':
                     cont_c = '4428.M'
 
-                if cont_d == '44281' and cont_c == '371':
+                if cont_d == '4428.1' and cont_c == '371':
                     cont_d = '4428.M'
 
-                if cont_c == '44281':
+                if cont_c == '4428.1':
                     cont_c = '4428.TP'
 
-                if cont_c == '44282':
+                if cont_c == '4428.2':
                     cont_c = '4428.TI'
 
-                if cont_d == '44281':
+                if cont_d == '4428.1':
                     cont_d = '4428.TP'
 
-                if cont_d == '44282':
+                if cont_d == '4428.2':
                     cont_d = '4428.TI'
 
                 values = {
@@ -754,8 +810,6 @@ class export_saga(models.TransientModel):
                         values[key] = self.unaccent(values[key])
                 note_dbf.insert(values)
         return temp_file, result_html
-
-
 
     @api.multi
     def do_export(self):
@@ -874,7 +928,6 @@ class export_saga(models.TransientModel):
             result_html += messaje
             file_name = 'NC_' + date_start.strftime("%d-%m-%Y") + '_' + date_stop.strftime("%d-%m-%Y") + '.dbf'
             zip_archive.writestr(file_name, temp_file.getvalue())
-
 
         zip_archive.close()
         out = base64.encodestring(buff.getvalue())

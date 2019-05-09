@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -19,8 +19,12 @@
 #
 ##############################################################################
 
- 
-import models
+import account_invoice
+
+
+
+
+
 
 
 

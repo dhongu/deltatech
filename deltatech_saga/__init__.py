@@ -21,9 +21,7 @@
 
 
 
-import res_partner
-import wizard
-import product
+import models
  
 
 

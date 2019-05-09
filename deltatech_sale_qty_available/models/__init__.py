@@ -17,26 +17,17 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
 
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import float_compare
-import openerp.addons.decimal_precision as dp
-import math
 
+import sale
  
 
-class product_category(models.Model):
-    _inherit = "product.category" 
-
-    code_saga = fields.Char(string="Code SAGA", size=2)
-    
 
 
 
-    
-    
+
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

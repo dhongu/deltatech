@@ -19,8 +19,8 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Stock Inventory",
-    "version" : "1.0",
+    "name": "Deltatech Stock Inventory",
+    "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -32,14 +32,17 @@ Functionalitati:
  - bifa de validare pe line
  
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech','deltatech_stock_date',"stock"],
+    "category": "Generic Modules/Other",
+    "depends": [
+        'deltatech',
+        'deltatech_stock_date',
+        "stock"
+    ],
     "license": "AGPL-3",
-    "data" : ['data.xml',
-              'stock_view.xml',
-              'views/report_stockinventory.xml'],
+    "data": [
+        'data/data.xml',
+        'views/stock_view.xml',
+        'views/report_stockinventory.xml'],
     "active": False,
     "installable": True,
 }
-
-
