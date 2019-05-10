@@ -19,8 +19,14 @@ Utilizare:
         - DepMP este codul utilizat in cazul in care nu este determinat un alt cod de locatie
 
 
-.. figure:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/static/description/conf_art1.png
-.. figure:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/static/description/conf_art2.png
+.. figure:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/conf_art1.png
+    :alt: Config1
+    :scale: 50 %
+    :align: center
+.. figure:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/conf_art2.png
+    :alt: Config2
+    :scale: 50 %
+    :align: center
 
 Bug Tracker
 ===========
