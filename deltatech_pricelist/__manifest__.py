@@ -12,7 +12,7 @@
 
 
     'category': 'Sales',
-    "depends": ['base',"product"],
+    "depends": ['base',"product",'sale'],
     "license": "LGPL-3",
     "data": [
         #'views/product_view.xml',
