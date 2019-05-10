@@ -16,6 +16,7 @@ import odoo.addons.decimal_precision as dp
 import html2text
 import odoo.addons.decimal_precision as dp
 
+
 class export_mentor(models.TransientModel):
     _name = 'export.mentor'
     _description = "Export Mentor"
@@ -81,18 +82,17 @@ class export_mentor(models.TransientModel):
     def get_date(self, date):
         return date.strftime('%Y.%m.%d')
 
-
     def get_product_uom(self, product):
         uom = product.categ_id.mentor_uom_id or product.uom_id
         return uom
 
     def get_uom_ref(self, uom):
         uom_reg = self.env['uom.uom'].search([('category_id', '=', uom.category_id.id),
-                                                  ('uom_type', '=', 'reference')], limit=1)
+                                              ('uom_type', '=', 'reference')], limit=1)
         return uom_reg
 
     def get_product_code(self, product):
-        return product.default_code or product.product_tmpl_id.default_code or 'ID_'+str(product.id)
+        return product.default_code or product.product_tmpl_id.default_code or 'ID_' + str(product.id)
 
     def get_uom(self, uom):
         cod_uom = uom.name or ''
@@ -177,7 +177,6 @@ class export_mentor(models.TransientModel):
         articole = configparser.ConfigParser()
         articole.optionxform = lambda option: option
 
-
         for product in product_ids:
             code = self.get_product_code(product)
             proc_tva = 19
@@ -190,7 +189,7 @@ class export_mentor(models.TransientModel):
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
                 'GestiuneImplicita': self.get_gestiune(product),
-                'ProcTVA':proc_tva
+                'ProcTVA': proc_tva
             }
             if product.type != 'product':
                 articole[sections_name].update({
@@ -198,14 +197,14 @@ class export_mentor(models.TransientModel):
                 })
             else:
                 articole[sections_name].update({
-                    'TipContabil': product.categ_id.tip_contabil,
+                    'TipContabil': product.categ_id.tip_contabil or '',
                 })
 
         temp_file = self.get_temp_file(articole)
         return temp_file, result_html
 
     @api.model
-    def do_export_intrari(self, invoice_in_ids ):
+    def do_export_intrari(self, invoice_in_ids):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -304,9 +303,8 @@ class export_mentor(models.TransientModel):
 
         return temp_file, result_html
 
-
     @api.model
-    def do_export_bonuri_intrari(self,  voucher_in_ids):
+    def do_export_bonuri_intrari(self, voucher_in_ids):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -317,7 +315,7 @@ class export_mentor(models.TransientModel):
                 'AnLucru': invoice.date_invoice.year,
                 'LunaLucru': invoice.date_invoice.month,
                 'TipDocument': 'BON FISCAL INTRARE',
-                'TotalBonuri':   len(voucher_in_ids)
+                'TotalBonuri': len(voucher_in_ids)
             }
         index = 1
         for voucher in voucher_in_ids:
@@ -359,7 +357,6 @@ class export_mentor(models.TransientModel):
                 qty = line.quantity * sign
                 price = line.price_unit
 
-
                 mentor_uom_id = self.get_product_uom(line.product_id)
                 if line.uom_id != mentor_uom_id:
                     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
@@ -392,9 +389,6 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(intrari)
 
         return temp_file, result_html
-
-
-
 
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
@@ -490,13 +484,12 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_dest_id != self.prod_location_id: #
-                sign  = -1
+            if move.location_dest_id != self.prod_location_id:  #
+                sign = -1
                 location_id = move.location_dest_id
             else:
                 sign = 1
                 location_id = move.location_id
-
 
             if location_id.id not in locations:
                 locations[location_id.id] = {'lines': {}, 'location_id': location_id}
@@ -505,12 +498,12 @@ class export_mentor(models.TransientModel):
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': sign*move.product_qty,
-                    'amount': sign*move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += sign*move.product_qty
-                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         bonuri['InfoPachet'] = {
             'AnLucru': self.date_to.year,
@@ -554,7 +547,6 @@ class export_mentor(models.TransientModel):
                     qty = product.uom_id._compute_quantity(qty, mentor_uom_id)
                     price = product.uom_id._compute_price(price, mentor_uom_id)
 
-
                 code = self.get_product_code(line['product_id'])
                 bonuri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
@@ -574,26 +566,26 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_id != self.prod_location_id: #
-                sign  = -1
+            if move.location_id != self.prod_location_id:  #
+                sign = -1
                 location_dest_id = move.location_id
             else:
                 sign = 1
                 location_dest_id = move.location_dest_id
 
             if location_dest_id.id not in locations:
-                locations[location_dest_id.id] = {'lines': {}, 'location_id':location_dest_id}
+                locations[location_dest_id.id] = {'lines': {}, 'location_id': location_dest_id}
             lines = locations[location_dest_id.id]['lines']
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': sign*move.product_qty,
-                    'amount': sign*move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += sign*move.product_qty
-                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         predari['InfoPachet'] = {
             'AnLucru': self.date_to.year,
@@ -627,7 +619,7 @@ class export_mentor(models.TransientModel):
                 item += 1
                 qty = line['qty']
                 if qty:
-                    price =  line['amount'] / line['qty']
+                    price = line['amount'] / line['qty']
                 else:
                     price = 0
                 mentor_uom_id = self.get_product_uom(product)
@@ -676,7 +668,7 @@ class export_mentor(models.TransientModel):
         product_ids = self.env['product.product']
         move_id_ids = self.env['stock.move']
         move_out_ids = self.env['stock.move']
-        move_consum  = self.env['stock.move']
+        move_consum = self.env['stock.move']
         move_predare = self.env['stock.move']
 
         # de adaugat conditia pentru moneda
@@ -691,7 +683,6 @@ class export_mentor(models.TransientModel):
             domain += [('journal_id', 'in', self.journal_ids.ids)]
 
         invoice_in_ids = self.env['account.invoice'].search(domain)
-
 
         domain = [
             ('date', '>=', self.date_from),
@@ -730,7 +721,6 @@ class export_mentor(models.TransientModel):
 
         if self.prod_location_id:
 
-
             domain = [
                 ('date', '>=', self.date_from),
                 ('date', '<=', self.date_to),
@@ -760,7 +750,6 @@ class export_mentor(models.TransientModel):
                     move_consum |= move
                 else:
                     move_predare |= move
-
 
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
@@ -799,10 +788,6 @@ class export_mentor(models.TransientModel):
         result_html += messaje
         file_name = 'Bonuri Fiscale Intrare.txt'
         zip_archive.writestr(file_name, temp_file)
-
-
-
-
 
         temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
         result_html += messaje
