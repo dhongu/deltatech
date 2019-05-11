@@ -16,6 +16,7 @@ import odoo.addons.decimal_precision as dp
 import html2text
 import odoo.addons.decimal_precision as dp
 
+
 class export_mentor(models.TransientModel):
     _name = 'export.mentor'
     _description = "Export Mentor"
@@ -63,8 +64,11 @@ class export_mentor(models.TransientModel):
             else:
                 cod_fiscal = "id_%s" % str(partner.id)
         else:
-            cod_fiscal = partner.cnp
-            cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
+            if partner.cnp:
+                cod_fiscal = partner.cnp
+                cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
+            else:
+                cod_fiscal = "id_%s" % str(partner.id)
         return cod_fiscal
 
     # conversie cont Odoo in cont Mentor
@@ -93,6 +97,20 @@ class export_mentor(models.TransientModel):
 
     def get_product_code(self, product):
         return product.default_code or product.product_tmpl_id.default_code or 'ID_'+str(product.id)
+
+    def get_doc_number(self, nume):
+        NrDoc = nume
+        Serie = ''
+        if '/' in NrDoc:
+            seg = NrDoc.split('/')
+            NrDoc = seg[-1]
+            Serie = '/'.join(seg[:-1])
+        else:
+            Serie = nume
+            Serie = ''.join([s for s in Serie if not s.isdigit()])
+
+        NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
+        return NrDoc, Serie
 
     def get_uom(self, uom):
         cod_uom = uom.name or ''
@@ -177,7 +195,6 @@ class export_mentor(models.TransientModel):
         articole = configparser.ConfigParser()
         articole.optionxform = lambda option: option
 
-
         for product in product_ids:
             code = self.get_product_code(product)
             proc_tva = 19
@@ -198,7 +215,7 @@ class export_mentor(models.TransientModel):
                 })
             else:
                 articole[sections_name].update({
-                    'TipContabil': product.categ_id.tip_contabil,
+                    'TipContabil': product.categ_id.tip_contabil or  '',
                 })
 
         temp_file = self.get_temp_file(articole)
@@ -227,8 +244,9 @@ class export_mentor(models.TransientModel):
                 NrDoc = invoice.reference
             else:
                 NrDoc = invoice.number
-            # Mentorul accepta doar 10 cifre la numar
-            NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
+
+            # Atentie Mentorul accepta doar 10 cifre la numar
+            NrDoc, Serie = self.get_doc_number(NrDoc)
 
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
@@ -304,7 +322,6 @@ class export_mentor(models.TransientModel):
 
         return temp_file, result_html
 
-
     @api.model
     def do_export_bonuri_intrari(self,  voucher_in_ids):
         result_html = ''
@@ -329,7 +346,8 @@ class export_mentor(models.TransientModel):
             else:
                 NrDoc = voucher.number
             # Mentorul accepta doar 10 cifre la numar
-            NrDoc = ''.join([s for s in NrDoc[-10:] if s.isdigit()])
+
+            NrDoc, Serie = self.get_doc_number(NrDoc)
 
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
@@ -358,7 +376,6 @@ class export_mentor(models.TransientModel):
 
                 qty = line.quantity * sign
                 price = line.price_unit
-
 
                 mentor_uom_id = self.get_product_uom(line.product_id)
                 if line.uom_id != mentor_uom_id:
@@ -393,9 +410,6 @@ class export_mentor(models.TransientModel):
 
         return temp_file, result_html
 
-
-
-
     @api.model
     def do_export_iesiri(self, invoice_out_ids):
         result_html = ''
@@ -416,15 +430,7 @@ class export_mentor(models.TransientModel):
 
             sections_name = 'Factura_%s' % index
 
-            NrDoc = invoice.number
-            if '/' in NrDoc:
-                seg = NrDoc.split('/')
-                NrDoc = seg[-1]
-                SerieCarnet = '/'.join(seg[:-1])
-            else:
-                NrDoc = ''.join([s for s in NrDoc if s.isdigit()])
-                SerieCarnet = invoice.number
-                SerieCarnet = ''.join([s for s in SerieCarnet if not s.isdigit()])
+            NrDoc, SerieCarnet = self.get_doc_number(invoice.number)
 
             iesiri[sections_name] = {
                 'SerieCarnet': SerieCarnet,
@@ -554,7 +560,6 @@ class export_mentor(models.TransientModel):
                     qty = product.uom_id._compute_quantity(qty, mentor_uom_id)
                     price = product.uom_id._compute_price(price, mentor_uom_id)
 
-
                 code = self.get_product_code(line['product_id'])
                 bonuri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
@@ -659,6 +664,115 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(gestiuni)
         return temp_file, result_html
 
+    def do_export_plati(self, plati_ids):
+        result_html = ''
+        plati = configparser.ConfigParser()
+        plati.optionxform = lambda option: option
+        plati['InfoPachet'] = {
+            'AnLucru': self.date_to[:4],
+            'LunaLucru': self.date_to[5:7],
+            'TotalDocumente': len(plati_ids)
+        }
+        item = 0
+        for plata in plati_ids:
+            item += 1
+
+            NrDoc, Serie = self.get_doc_number(plata.name)
+
+            if plata.journal_id.type == 'cash':
+                sursa = 'CASA'
+            elif plata.journal_id.type == 'bank':
+                sursa = 'BANCA'
+            else:
+                sursa = 'AVANS DECONTARE'
+
+            cod_fiscal = self.get_cod_fiscal(plata.partner_id)
+
+            plati['Document%s' % item] = {
+                'Sursa': sursa,
+
+                'NumeBanca': plata.partner_bank_account_id.bank_name or 'NA',
+                'SimbolBanca': plata.partner_bank_account_id.bank_bic or 'NA',
+                'NumeCont': plata.journal_id.name or 'NA',
+                'NrCont': plata.partner_bank_account_id.sanitized_acc_number or 'NA',
+                'LocalitateCont': 'NA',
+                'ZiuaPlatii': str(plata.payment_date.day),
+                'TotalPlati': '1',
+
+            }
+            NrFactura = 'NA'
+            for invoice in plata.invoice_ids:
+                NrFactura, SerieFactura = self.get_doc_number(invoice.number)
+
+            plati['Document%s-Plata1' % item] = {
+                'DocPlata': 'CD',
+                # Reprezinta=tip (poate lua una din valorile: PLATA FACTURA,PLATA PENALITATI,ALIMENTARE CREDIT, DIMINUARE CREDIT, PERSONAL ANGAJAT)
+                'Reprezinta': 'PLATA FACTURA',
+                'NrFactura': NrFactura,
+                'SerieCarnet': SerieFactura,
+                'NrDocument': NrDoc,
+                'ValPlatita': str(plata.amount),
+                'Furnizor': plata.partner_id.name,
+                'CodFurnizor': cod_fiscal
+            }
+
+        temp_file = self.get_temp_file(plati)
+        return temp_file, result_html
+
+    def do_export_incasari(self, incasari_ids):
+        result_html = ''
+        incasari = configparser.ConfigParser()
+        incasari.optionxform = lambda option: option
+        incasari['InfoPachet'] = {
+            'AnLucru': self.date_to.year,
+            'LunaLucru': self.date_to.month,
+            'TotalDocumente': len(incasari_ids)
+        }
+        item = 0
+        for incasare in incasari_ids:
+            item += 1
+
+            NrDoc, Serie = self.get_doc_number(incasare.name)
+
+            if incasare.journal_id.type == 'cash':
+                sursa = 'CASA'
+            elif incasare.journal_id.type == 'bank':
+                sursa = 'BANCA'
+            else:
+                sursa = 'AVANS DECONTARE'
+
+            cod_fiscal = self.get_cod_fiscal(incasare.partner_id)
+
+            incasari['Document%s' % item] = {
+                'Sursa': sursa,
+
+                'NumeBanca': incasare.partner_bank_account_id.bank_name or 'NA',
+                'SimbolBanca': incasare.partner_bank_account_id.bank_bic or 'NA',
+                'NumeCont': incasare.journal_id.name or 'NA',
+                'NrCont': incasare.partner_bank_account_id.sanitized_acc_number or 'NA',
+                'LocalitateCont': 'NA',
+                'ZiuaIncasarii': str(incasare.payment_date.day),
+                'TotalIncasari': '1',
+
+            }
+            NrFactura = 'NA'
+            for invoice in incasare.invoice_ids:
+                NrFactura, SerieFactura = self.get_doc_number(invoice.number)
+
+            incasari['Document%s-Incasare1' % item] = {
+                'DocPlata': 'CD',
+                'Reprezinta': 'INCASARE FACTURA',
+                'SerieCarnet': SerieFactura,
+                'NrFactura': NrFactura,
+                'NrDocument': NrDoc,
+                'ValIncsata': str(incasare.amount),
+                'Furnizor': incasare.partner_id.name,
+                'CodFurnizor': cod_fiscal
+            }
+
+        temp_file = self.get_temp_file(incasari)
+        return temp_file, result_html
+
     @api.multi
     def do_export(self):
 
@@ -691,7 +805,6 @@ class export_mentor(models.TransientModel):
             domain += [('journal_id', 'in', self.journal_ids.ids)]
 
         invoice_in_ids = self.env['account.invoice'].search(domain)
-
 
         domain = [
             ('date', '>=', self.date_from),
@@ -730,7 +843,6 @@ class export_mentor(models.TransientModel):
 
         if self.prod_location_id:
 
-
             domain = [
                 ('date', '>=', self.date_from),
                 ('date', '<=', self.date_to),
@@ -761,6 +873,21 @@ class export_mentor(models.TransientModel):
                 else:
                     move_predare |= move
 
+        domain = [
+            ('payment_date', '>=', self.date_from),
+            ('payment_date', '<=', self.date_to),
+            ('state', '=', 'posted'),
+            ('payment_type', '=', 'outbound')
+        ]
+        plati_ids = self.env['account.payment'].search(domain)
+
+        domain = [
+            ('payment_date', '>=', self.date_from),
+            ('payment_date', '<=', self.date_to),
+            ('state', '=', 'posted'),
+            ('payment_type', '=', 'inbound')
+        ]
+        incasari_ids = self.env['account.payment'].search(domain)
 
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
@@ -776,6 +903,9 @@ class export_mentor(models.TransientModel):
 
         result_html += '<div>Consumuri %s</div>' % str(len(move_consum))
         result_html += '<div>Note Predari %s</div>' % str(len(move_predare))
+
+        result_html += '<div>Plati %s</div>' % str(len(plati_ids))
+        result_html += '<div>Incasari %s</div>' % str(len(incasari_ids))
 
         partner_ids = partner_in_ids | partner_out_ids
         temp_file, messaje = self.do_export_parteneri(partner_ids)
@@ -800,10 +930,6 @@ class export_mentor(models.TransientModel):
         file_name = 'Bonuri Fiscale Intrare.txt'
         zip_archive.writestr(file_name, temp_file)
 
-
-
-
-
         temp_file, messaje = self.do_export_iesiri(invoice_out_ids)
         result_html += messaje
         file_name = 'Facturi_Iesire.txt'
@@ -822,6 +948,16 @@ class export_mentor(models.TransientModel):
         temp_file, messaje = self.do_export_gestiuni(location_ids)
         result_html += messaje
         file_name = 'Gestiuni.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_plati(plati_ids)
+        result_html += messaje
+        file_name = 'Plati.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_incasari(incasari_ids)
+        result_html += messaje
+        file_name = 'Incasari.txt'
         zip_archive.writestr(file_name, temp_file)
 
         # Here you finish editing your zip. Now all the information is

@@ -2,8 +2,8 @@
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Mentor Interface",
-    "version": "2.0",
+    "name": "Mentor Interface",
+    'version': '11.0.2.0.1',
     "author": "Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
@@ -31,7 +31,7 @@
         # 'wizard/import_mentor_view.xml'
     ],
     "images": ['images/main_screenshot.png'],
-    "active": False,
+
     "installable": True,
 }
 
