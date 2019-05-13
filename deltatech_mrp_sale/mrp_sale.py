@@ -76,6 +76,8 @@ class sale_order(models.Model):
 
     add_inst_day = fields.Integer(string="Additional installing days")
 
+    discount_value = fields.Float(string='Discount value', digits=dp.get_precision('Product Price'))
+
     """
     @api.multi
     def onchange_pricelist_id(self,  pricelist_id, order_lines ):    

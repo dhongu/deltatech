@@ -351,6 +351,25 @@
                 <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
               </td>
             </tr>
+            <t t-if="o.discount_value">
+              <t t-set="discount_value" t-value="o.discount_value"/>
+              <t t-set="total1" t-value="total1-discount_value"/>
+            </t>
+            <t t-if=" not o.discount_value">
+              <t t-set="discount_value" t-value="0"/>
+            </t>
+            <tr t-if="o.discount_value" style="background-color:#cadb34">
+              <td colspan="5">DISCOUNT MATERIALS</td>
+              <td class="text-right" style="white-space: nowrap;">
+                <span t-field="o.discount_value"/>
+              </td>
+            </tr>
+            <tr t-if="o.discount_value" style="background-color:#cadb34">
+              <td colspan="5">MATERIALS WITH DISCOUNT</td>
+              <td class="text-right" style="white-space: nowrap;">
+                <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
+              </td>
+            </tr>
             <tr style="background-color:#cadb34">
               <td colspan="5">TOTAL MONTAGE</td>
               <td class="text-right" style="white-space: nowrap;">
@@ -436,6 +455,9 @@
 			            </td>
 			            -->
               <td style="text-align:right;vertical-align:middle;">
+                <t t-if="o.discount_value">
+                  <t t-set="total2" t-value="total2-o.discount_value"/>
+                </t>
                 <span style="font-weight:bold;" t-esc="round(total2,2)"/>
                 <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
               </td>
