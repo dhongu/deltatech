@@ -104,6 +104,10 @@ class export_mentor(models.TransientModel):
             seg = NrDoc.split('/')
             NrDoc = seg[-1]
             Serie = '/'.join(seg[:-1])
+        if '.' in NrDoc:
+            seg = NrDoc.split('.')
+            NrDoc = seg[-1]
+            Serie = '.'.join(seg[:-1])
         else:
             Serie = nume
             Serie = ''.join([s for s in Serie if not s.isdigit()])

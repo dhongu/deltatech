@@ -30,6 +30,27 @@ Utilizare:
     :class: img img-fluid
     :align: center
 
+
+
+Pentru importul in mentor se acceseaza meniu:
+MENTOR -> Intrari -> Import date din alte aplicatii.
+
+Pentru importul facturilor de intrare se alege submeniul 'Facturi Intrare'.
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/meniu_import.png
+    :alt: meniu_import
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
+Se slecteaza "Carnet NIR" si din calea in care a fost facuta dezarhivarea fisierului exportat de Odoo.
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/import_facturi_intrare.png
+    :alt: meniu_import
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
 Bug Tracker
 ===========
 
