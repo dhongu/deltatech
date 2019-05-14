@@ -49,7 +49,7 @@ Se slecteaza "Carnet NIR" si fisierul 'Facturi Intrare' din calea in care a fost
     :align: center
 
 Nota:
- - Programul Mentor face doar importul de produse si parteneri si actualizarea trebuie facuta manaula in ambele sisteme.
+ - Programul Mentor face doar importul de produse si parteneri, actualizarea trebuie facuta manaula in ambele sisteme.
 
 
 Bug Tracker

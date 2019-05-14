@@ -26,6 +26,7 @@
     "data": [
         'views/product_view.xml',
         'views/stock_location_view.xml',
+        'views/account_view.xml',
 
         'wizard/export_mentor_view.xml',
         # 'wizard/import_mentor_view.xml'

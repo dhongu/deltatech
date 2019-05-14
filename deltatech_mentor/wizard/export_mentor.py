@@ -104,7 +104,7 @@ class export_mentor(models.TransientModel):
             seg = NrDoc.split('/')
             NrDoc = seg[-1]
             Serie = '/'.join(seg[:-1])
-        if '.' in NrDoc:
+        elif '.' in NrDoc:
             seg = NrDoc.split('.')
             NrDoc = seg[-1]
             Serie = '.'.join(seg[:-1])
@@ -434,6 +434,9 @@ class export_mentor(models.TransientModel):
             sections_name = 'Factura_%s' % index
 
             NrDoc, SerieCarnet = self.get_doc_number(invoice.number)
+
+            if invoice.journal_id.serie_carnet:
+                SerieCarnet = invoice.journal_id.serie_carnet
 
             iesiri[sections_name] = {
                 'SerieCarnet': SerieCarnet,
