@@ -26,6 +26,8 @@ class export_mentor(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('get', 'get')], default='choose')  # get the file
 
+    format_data = fields.Char('Format Data', default='%Y.%m.%d')
+
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
 
@@ -83,7 +85,7 @@ class export_mentor(models.TransientModel):
         return cont
 
     def get_date(self, date):
-        return date.strftime('%Y.%m.%d')
+        return date.strftime(self.format_data)
 
     def get_product_uom(self, product):
         uom = product.categ_id.mentor_uom_id or product.uom_id
@@ -259,7 +261,7 @@ class export_mentor(models.TransientModel):
                 'PRORATA': '',
                 'Moneda': '',  # invoice.currency_id.name,
                 'Curs': '',
-                'Scadenta': '',
+                'Scadenta': self.get_date(invoice.date_due),
                 'Majorari': '',
                 'Observatii': '',
                 'Discount': '',
@@ -479,7 +481,7 @@ class export_mentor(models.TransientModel):
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
-                    str(line.discount),  # Discount linie
+                    str(line.discount),  # Discount linie  - se pare ca trebuie sa fie pozitiv
 
                     '',  # Pret inregistrare;
                     '',  # Observatii la nivel articol;

@@ -8,13 +8,17 @@ Mentor Interface
 
 Features:
  - Permite exportul de date din Odoo pentru a fi importate in Mentor
- - Documentatia Mentor de import  din alte aplicatii: http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/Utilizare:
+ - Documentatia Mentor de import  din alte aplicatii: http://download.winmentor.ro/WinMentor/Documentatie/08_Structuri%20import%20din%20alte%20aplicatii/Utilizare
 
-Inainte de utilizare trebuie sa va asigurati ca:
- - este facuta mapare dintre categoriile de produse din Odoo si tipul contabil din mentor
- - la fiecare locatie de stoc este completat codul de gestiune din Mentor
- - seriile de facturi definite in mentor corespund cu secventele de numere din Odoo. Programul de export extrage seria din numele documetelor si sprara seria in functie de caracterul "/".
- - sunt completate conturile la categoriile de produse si la parteneri. Conturile din Odoo sunt trimise in Mentor fara zeroruile de la sfarsit
+
+Utilizare:
+ - Inainte de utilizare trebuie sa va asigurati ca:
+    - partenerii existenti din Mentor au completat la cod extern CUI-ul
+    - articolele existenete din Mentor sunt mapate cu produsele din Odoo prin codul extern
+    - este facuta mapare dintre categoriile de produse din Odoo si tipul contabil din mentor
+    - la fiecare locatie de stoc este completat codul de gestiune din Mentor
+    - seriile de facturi definite in mentor corespund cu secventele de numere din Odoo. Programul de export extrage seria din numele documetelor si sprara seria in functie de caracterul "/".
+    - sunt completate conturile la categoriile de produse si la parteneri. Conturile din Odoo sunt trimise in Mentor fara zeroruile de la sfarsit
 
 
 
@@ -28,6 +32,13 @@ Inainte de utilizare trebuie sa va asigurati ca:
     :scale: 50 %
     :class: img img-fluid
     :align: center
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/conf_patener.png
+    :alt: Config Partener
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
 
 Pentru importul in mentor se acceseaza meniu:
 MENTOR -> Intrari -> Import date din alte aplicatii.
@@ -50,6 +61,7 @@ Se slecteaza "Carnet NIR" si fisierul 'Facturi Intrare' din calea in care a fost
 
 Nota:
  - Programul Mentor face doar importul de produse si parteneri, actualizarea trebuie facuta manaula in ambele sisteme.
+ - Daca la export un partener nu are CUI sau un produs nu are cod se va exporta id-ul intern din Odoo
 
 
 Bug Tracker
