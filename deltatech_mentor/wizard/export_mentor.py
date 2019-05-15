@@ -27,6 +27,7 @@ class export_mentor(models.TransientModel):
                               ('get', 'get')], default='choose')  # get the file
 
     format_data = fields.Char('Format Data', default='%Y.%m.%d')
+    without_discount = fields.Boolean('Without discout', default=True)
 
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
@@ -474,6 +475,12 @@ class export_mentor(models.TransientModel):
                     price = line.price_unit
 
                 code = self.get_product_code(line.product_id)
+                if self.without_discount:
+                    discount = ''
+                    price = price * (1 - (line.discount or 0.0) / 100.0)
+                else:
+                    discount = str(line.discount)
+
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
                     self.get_uom(mentor_uom_id),
@@ -481,7 +488,7 @@ class export_mentor(models.TransientModel):
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
-                    str(line.discount),  # Discount linie  - se pare ca trebuie sa fie pozitiv
+                    discount,  # Discount linie
 
                     '',  # Pret inregistrare;
                     '',  # Observatii la nivel articol;
