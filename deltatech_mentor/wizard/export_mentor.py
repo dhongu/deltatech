@@ -288,6 +288,7 @@ class export_mentor(models.TransientModel):
                 mentor_uom_id = self.get_product_uom(line.product_id)
                 if line.uom_id != mentor_uom_id:
                     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                    print (line.product_id, mentor_uom_id, line.uom_id )
                     price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
                     tva = line.uom_id._compute_price(tva, mentor_uom_id)
                 else:
