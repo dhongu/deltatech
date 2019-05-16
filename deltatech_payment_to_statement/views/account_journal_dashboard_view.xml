@@ -6,10 +6,10 @@
         <field name="arch" type="xml">
             <xpath expr="//t[@t-name='JournalBodyBankCash']/div[hasclass('o_kanban_primary_right')]" position="inside">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-7">
                         <span title="Transfer">Transfer</span>
                     </div>
-                    <div class="col-xs-6 text-right">
+                    <div class="col-5 text-right">
                         <span>
                             <t t-esc="dashboard.account_transfer_balance"/>
                         </span>

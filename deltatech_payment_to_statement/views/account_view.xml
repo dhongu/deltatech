@@ -7,7 +7,7 @@
 
             <field name="inherit_id" ref="account.view_account_journal_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='refund_sequence_id']" position="after">
+                <xpath expr="//field[@name='refund_sequence']" position="before">
 
                         <field name="statement_sequence_id"/>
 
