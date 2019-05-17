@@ -41,6 +41,9 @@ class account_payment(models.Model):
         for payment in self:
             detination_statement = False
             if not payment.statement_line_id and payment.statement_id:
+                ref = ''
+                for invoice in payment.invoice_ids:
+                    ref += invoice.number
                 values = {
                     'name': payment.communication or '/',
                     'statement_id': payment.statement_id.id,
@@ -48,6 +51,7 @@ class account_payment(models.Model):
                     'partner_id': payment.partner_id.id,
                     'amount': payment.amount,
                     'payment_id': payment.id,
+                    'ref':ref
                 }
                 if payment.payment_type in ['outbound', 'transfer']:
                     values['amount'] = -1 * payment.amount
@@ -98,12 +102,13 @@ class account_payment(models.Model):
     @api.multi
     def reconciliation_statement_line(self):
         for payment in self:
-            for move_line in payment.move_line_ids:
-                if not move_line.statement_id and not move_line.reconciled:
-                    move_line.write({
-                        'statement_id': payment.statement_id.id,
-                        'statement_line_id': payment.statement_line_id.id
-                    })
+            if payment.move_reconciled:
+                for move_line in payment.move_line_ids:
+                    if not move_line.statement_id and not move_line.reconciled:
+                        move_line.write({
+                            'statement_id': payment.statement_id.id,
+                            'statement_line_id': payment.statement_line_id.id
+                        })
 
     @api.multi
     def get_reconciled_statement_line(self):
@@ -134,6 +139,9 @@ class account_payment(models.Model):
                 payment.write({'statement_id': statement.id})
 
             if payment.state == 'posted' and not payment.statement_line_id and payment.statement_id:
+                ref = ''
+                for invoice in payment.invoice_ids:
+                    ref += invoice.number
                 values = {
                     'name': payment.communication or payment.name,
                     'statement_id': payment.statement_id.id,
@@ -141,6 +149,7 @@ class account_payment(models.Model):
                     'partner_id': payment.partner_id.id,
                     'amount': payment.amount,
                     'payment_id': payment.id,
+                    'ref':ref
                 }
                 if payment.payment_type in ['outbound', 'transfer']:
                     values['amount'] = -1 * payment.amount
