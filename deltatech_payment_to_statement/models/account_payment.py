@@ -44,6 +44,8 @@ class account_payment(models.Model):
                 ref = ''
                 for invoice in payment.invoice_ids:
                     ref += invoice.number
+                for invoice in payment.reconciled_invoice_ids:
+                    ref += invoice.number
                 values = {
                     'name': payment.communication or '/',
                     'statement_id': payment.statement_id.id,
@@ -109,6 +111,8 @@ class account_payment(models.Model):
                             'statement_id': payment.statement_id.id,
                             'statement_line_id': payment.statement_line_id.id
                         })
+            else:
+                raise UserError(_('Payment is not reconciled'))
 
     @api.multi
     def get_reconciled_statement_line(self):
@@ -141,6 +145,8 @@ class account_payment(models.Model):
             if payment.state == 'posted' and not payment.statement_line_id and payment.statement_id:
                 ref = ''
                 for invoice in payment.invoice_ids:
+                    ref += invoice.number
+                for invoice in payment.reconciled_invoice_ids:
                     ref += invoice.number
                 values = {
                     'name': payment.communication or payment.name,

@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
                     <button name="add_statement_line" states="posted"
-                            attrs="{'invisible':[('move_reconciled','=',False)]}"
+
                             string="Add to statement" type="object"/>
                 </xpath>
                 <xpath expr="//field[@name='communication']" position="after">
