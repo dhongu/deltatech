@@ -26,6 +26,10 @@ class export_mentor(models.TransientModel):
     state = fields.Selection([('choose', 'choose'),  # choose period
                               ('get', 'get')], default='choose')  # get the file
 
+    format_data = fields.Char('Format Data', default='%Y.%m.%d')
+    without_discount = fields.Boolean('Without discout', default=True)
+
+
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
 
@@ -83,8 +87,9 @@ class export_mentor(models.TransientModel):
         return cont
 
     def get_date(self, date):
-        return date[8:10] + '.' + date[5:7] + '.' + date[:4]
-
+        date = fields.Date.from_string(date)
+        ##return date[8:10] + '.' + date[5:7] + '.' + date[:4]
+        return date.strftime(self.format_data)
 
     def get_product_uom(self, product):
         uom = product.categ_id.mentor_uom_id or product.uom_id
@@ -96,7 +101,7 @@ class export_mentor(models.TransientModel):
         return uom_reg
 
     def get_product_code(self, product):
-        return product.default_code or product.product_tmpl_id.default_code or 'ID_'+str(product.id)
+        return product.default_code or product.product_tmpl_id.default_code or 'ID_' + str(product.id)
 
     def get_doc_number(self, nume):
         NrDoc = nume
@@ -105,6 +110,10 @@ class export_mentor(models.TransientModel):
             seg = NrDoc.split('/')
             NrDoc = seg[-1]
             Serie = '/'.join(seg[:-1])
+        elif '.' in NrDoc:
+            seg = NrDoc.split('.')
+            NrDoc = seg[-1]
+            Serie = '.'.join(seg[:-1])
         else:
             Serie = nume
             Serie = ''.join([s for s in Serie if not s.isdigit()])
@@ -207,7 +216,7 @@ class export_mentor(models.TransientModel):
                 'Denumire': product.name,
                 'Serviciu': product.type != 'product' and 'D' or 'N',
                 'GestiuneImplicita': self.get_gestiune(product),
-                'ProcTVA':proc_tva
+                'ProcTVA': proc_tva
             }
             if product.type != 'product':
                 articole[sections_name].update({
@@ -215,14 +224,14 @@ class export_mentor(models.TransientModel):
                 })
             else:
                 articole[sections_name].update({
-                    'TipContabil': product.categ_id.tip_contabil or  '',
+                    'TipContabil': product.categ_id.tip_contabil or '',
                 })
 
         temp_file = self.get_temp_file(articole)
         return temp_file, result_html
 
     @api.model
-    def do_export_intrari(self, invoice_in_ids ):
+    def do_export_intrari(self, invoice_in_ids):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -248,15 +257,27 @@ class export_mentor(models.TransientModel):
             # Atentie Mentorul accepta doar 10 cifre la numar
             NrDoc, Serie = self.get_doc_number(NrDoc)
 
+            if invoice.currency_id.name != "RON":
+                Moneda = invoice.currency_id.name
+                Curs = invoice.currency_id._get_rates(invoice.company_id, invoice.date_invoice)
+                if Curs:
+                    Curs = 1 / Curs[1]
+                else:
+                    Curs = 0
+                Curs = str(Curs)
+            else:
+                Moneda = ''
+                Curs = ''
+
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
                 'Data': self.get_date(invoice.date_invoice),
                 'CodFurnizor': cod_fiscal,
                 'TVAINCASARE': '',  # todo: determinare
                 'PRORATA': '',
-                'Moneda': '',  # invoice.currency_id.name,
-                'Curs': '',
-                'Scadenta': '',
+                'Moneda': Moneda,  # invoice.currency_id.name,
+                'Curs': Curs,
+                'Scadenta': self.get_date(invoice.date_due),
                 'Majorari': '',
                 'Observatii': '',
                 'Discount': '',
@@ -288,7 +309,6 @@ class export_mentor(models.TransientModel):
                 mentor_uom_id = self.get_product_uom(line.product_id)
                 if line.uom_id != mentor_uom_id:
                     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
-                    print (line.product_id, mentor_uom_id, line.uom_id )
                     price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
                     tva = line.uom_id._compute_price(tva, mentor_uom_id)
                 else:
@@ -324,7 +344,7 @@ class export_mentor(models.TransientModel):
         return temp_file, result_html
 
     @api.model
-    def do_export_bonuri_intrari(self,  voucher_in_ids):
+    def do_export_bonuri_intrari(self, voucher_in_ids):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -335,7 +355,7 @@ class export_mentor(models.TransientModel):
                 'AnLucru': invoice.date_invoice[:4],
                 'LunaLucru': invoice.date_invoice[5:7],
                 'TipDocument': 'BON FISCAL INTRARE',
-                'TotalBonuri':   len(voucher_in_ids)
+                'TotalBonuri': len(voucher_in_ids)
             }
         index = 1
         for voucher in voucher_in_ids:
@@ -433,6 +453,9 @@ class export_mentor(models.TransientModel):
 
             NrDoc, SerieCarnet = self.get_doc_number(invoice.number)
 
+            if invoice.journal_id.serie_carnet:
+                SerieCarnet = invoice.journal_id.serie_carnet
+
             iesiri[sections_name] = {
                 'SerieCarnet': SerieCarnet,
                 'NrDoc': NrDoc,
@@ -467,6 +490,12 @@ class export_mentor(models.TransientModel):
                     price = line.price_unit
 
                 code = self.get_product_code(line.product_id)
+                if self.without_discount:
+                    discount = ''
+                    price = price * (1 - (line.discount or 0.0) / 100.0)
+                else:
+                    discount = str(line.discount)
+
                 iesiri[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
                     self.get_uom(mentor_uom_id),
@@ -474,7 +503,7 @@ class export_mentor(models.TransientModel):
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
-                    str(line.discount),  # Discount linie
+                    discount,  # Discount linie
 
                     '',  # Pret inregistrare;
                     '',  # Observatii la nivel articol;
@@ -497,13 +526,12 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_dest_id != self.prod_location_id: #
-                sign  = -1
+            if move.location_dest_id != self.prod_location_id:  #
+                sign = -1
                 location_id = move.location_dest_id
             else:
                 sign = 1
                 location_id = move.location_id
-
 
             if location_id.id not in locations:
                 locations[location_id.id] = {'lines': {}, 'location_id': location_id}
@@ -512,12 +540,12 @@ class export_mentor(models.TransientModel):
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': sign*move.product_qty,
-                    'amount': sign*move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += sign*move.product_qty
-                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         bonuri['InfoPachet'] = {
             'AnLucru': self.date_to[:4],
@@ -580,26 +608,26 @@ class export_mentor(models.TransientModel):
         locations = {}
 
         for move in move_ids:
-            if move.location_id != self.prod_location_id: #
-                sign  = -1
+            if move.location_id != self.prod_location_id:  #
+                sign = -1
                 location_dest_id = move.location_id
             else:
                 sign = 1
                 location_dest_id = move.location_dest_id
 
             if location_dest_id.id not in locations:
-                locations[location_dest_id.id] = {'lines': {}, 'location_id':location_dest_id}
+                locations[location_dest_id.id] = {'lines': {}, 'location_id': location_dest_id}
             lines = locations[location_dest_id.id]['lines']
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
-                    'qty': sign*move.product_qty,
-                    'amount': sign*move.price_unit * move.product_qty
+                    'qty': sign * move.product_qty,
+                    'amount': sign * move.price_unit * move.product_qty
                 }
             else:
-                lines[move.product_id.id]['qty'] += sign*move.product_qty
-                lines[move.product_id.id]['amount'] += sign*move.price_unit * move.product_qty
+                lines[move.product_id.id]['qty'] += sign * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
 
         predari['InfoPachet'] = {
             'AnLucru': self.date_to[:4],
@@ -633,7 +661,7 @@ class export_mentor(models.TransientModel):
                 item += 1
                 qty = line['qty']
                 if qty:
-                    price =  line['amount'] / line['qty']
+                    price = line['amount'] / line['qty']
                 else:
                     price = 0
                 mentor_uom_id = self.get_product_uom(product)
@@ -791,7 +819,7 @@ class export_mentor(models.TransientModel):
         product_ids = self.env['product.product']
         move_id_ids = self.env['stock.move']
         move_out_ids = self.env['stock.move']
-        move_consum  = self.env['stock.move']
+        move_consum = self.env['stock.move']
         move_predare = self.env['stock.move']
 
         # de adaugat conditia pentru moneda

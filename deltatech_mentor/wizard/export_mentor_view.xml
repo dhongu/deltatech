@@ -16,12 +16,16 @@
                         </group>
                         <group>
                             <field name="journal_ids" widget="many2many_tags"/>
+                            <field name="format_data"/>
+                            <field name="without_discount"/>
 
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>
                         <group>
                             <field name="location_id"/>
                             <field name="prod_location_id"/>
+                        </group>
+                        <group>
+                             <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>
                     </group>
                     <div states="get">

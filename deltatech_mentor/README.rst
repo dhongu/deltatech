@@ -12,11 +12,14 @@ Features:
 
 
 Utilizare:
- - trebuie facuta mapare dintre categoriile de produse din Odoo si tipul contabil din mentor.
- - conturile din Odoo sunt trimise in Mentor fara zeroruile de la sfarsit
- - daca este intalat modulul l10n_ro_stock_account se determina locatia din factura
-        - din locatie de citeste codul
-        - DepMP este codul utilizat in cazul in care nu este determinat un alt cod de locatie
+ - Inainte de utilizare trebuie sa va asigurati ca:
+    - partenerii existenti din Mentor au completat la cod extern CUI-ul
+    - articolele existenete din Mentor sunt mapate cu produsele din Odoo prin codul extern
+    - este facuta mapare dintre categoriile de produse din Odoo si tipul contabil din mentor
+    - la fiecare locatie de stoc este completat codul de gestiune din Mentor
+    - seriile de facturi definite in mentor corespund cu secventele de numere din Odoo. Programul de export extrage seria din numele documetelor si sprara seria in functie de caracterul "/".
+    - sunt completate conturile la categoriile de produse si la parteneri. Conturile din Odoo sunt trimise in Mentor fara zeroruile de la sfarsit
+
 
 
 .. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/conf_art1.png
@@ -29,6 +32,37 @@ Utilizare:
     :scale: 50 %
     :class: img img-fluid
     :align: center
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/conf_patener.png
+    :alt: Config Partener
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
+
+Pentru importul in mentor se acceseaza meniu:
+MENTOR -> Intrari -> Import date din alte aplicatii.
+
+Pentru importul facturilor de intrare se alege submeniul 'Facturi Intrare'.
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/meniu_import.png
+    :alt: meniu_import
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
+Se slecteaza "Carnet NIR" si fisierul 'Facturi Intrare' din calea in care a fost facuta dezarhivarea fisierului exportat de Odoo.
+
+.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech_mentor/import_facturi_intrare.png
+    :alt: meniu_import
+    :scale: 50 %
+    :class: img img-fluid
+    :align: center
+
+Nota:
+ - Programul Mentor face doar importul de produse si parteneri, actualizarea trebuie facuta manaula in ambele sisteme.
+ - Daca la export un partener nu are CUI sau un produs nu are cod se va exporta id-ul intern din Odoo
+
 
 Bug Tracker
 ===========
