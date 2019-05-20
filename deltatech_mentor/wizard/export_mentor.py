@@ -124,10 +124,12 @@ class export_mentor(models.TransientModel):
 
     def get_uom(self, uom):
         cod_uom = uom.name or ''
-        cod_uom = cod_uom.replace(' ', '')
         cod_uom = cod_uom.replace('(', '')
         cod_uom = cod_uom.replace(')', '')
-        cod_uom = cod_uom[:10]
+        if len(cod_uom) >= 10:
+            cod_uom = cod_uom.replace(' ', '')
+            cod_uom = cod_uom[:10]
+
         return cod_uom
 
     def get_gestiune(self, product):
