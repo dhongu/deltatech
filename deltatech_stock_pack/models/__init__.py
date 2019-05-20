@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2016 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,46 +20,18 @@
 #
 ##############################################################################
 
-{
-    "name": "Stock Pack",
-    "version": "2.1",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "https://www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
 
-    - transferare packet intregral dintr-o locatie in alta
-    - generare automata de pachete in functie de catitatea maxima din masterul de produs
-    - editare greutate
-    - tiparire eticheta format Zebra
 
- 
 
-    """,
-
-    "category": "Stock",
-    "depends": [
-        'stock',
-        "sale",
-        "account",
-        'terrabit_product_labels'
-    ],
-
-    "license": "AGPL-3",
-    "data": [
-        'wizard/pack_transfer_view.xml',
-        'wizard/stock_transfer_details_view.xml',
-        'views/stock_view.xml',
-        'views/product_view.xml',
-        'views/account_invoice_view.xml',
-        'views/report_invoice.xml'
-    ],
-
-    "active": False,
-    "installable": True,
-}
+from . import product
+from . import stock
+from . import account_invoice
 
 
 
 
+
+
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -22,10 +22,8 @@
 
 
 
-import wizard
-import product
-import stock
-import account_invoice
+from . import wizard
+from . import models
 
 
 

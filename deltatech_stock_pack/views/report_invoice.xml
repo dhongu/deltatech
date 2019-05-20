@@ -103,5 +103,53 @@
 		</template>
 
 
+		<report string="Package list Label" id="action_report_package_label"
+				model="account.invoice"
+				report_type="prn"
+				name="deltatech_stock_pack.report_package_label"
+			    file="deltatech_stock_pack.report_package_label" />
+
+
+		<template id="report_package_label">
+
+				<t t-foreach="doc_ids" t-as="doc_id">
+					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_label_document')" />
+				</t>
+
+		</template>
+
+		<template id="report_package_label_document">
+			<t t-foreach="docs" t-as="o">
+				 <t t-foreach="o.picking_ids" t-as="picking">
+					 <t t-set="box_nr" t-value="1"/>
+					<t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+
+<t t-translation="off">
+^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR4,4~SD15^JUS^LRN^CI0^XZ
+^XA
+^MMT
+^PW799
+^LL1200
+^LS0
+^FT233,453^A0R,65,64^FH\^FD126^FS
+^FT237,47^A0R,65,64^FH\^FDNumber of box:<t t-esc="box_nr"/>^FS
+^FT706,49^A0R,78,48^FH\^FDSupplier Name: <t t-esc="o.company_id.name"/>^FS
+^FT608,49^A0R,78,48^FH\^FD<t t-esc="o.commercial_partner_id.name.split(' ')[0]"/> Internal Code (SAP): <t t-esc="pack_operation.product_id.default_code"/>^FS
+^FT510,49^A0R,78,48^FH\^FDDescription: <t t-esc="pack_operation.product_id.name"/>^FS
+^FT412,49^A0R,78,48^FH\^FDQuantity: <t t-esc="pack_operation.product_qty"/>  pz^FS
+^FT314,49^A0R,78,48^FH\^FDNet Weight: 3Kg^FS
+^FO148,41^GB82,936,82^FS
+^FT164,41^A0R,65,64^FR^FH\^FDORDER NUMBER:<t t-esc="picking.sale_id.client_order_ref"/>^FS
+^FO66,41^GB82,936,82^FS
+^FT82,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="o.date_invoice"/>^FS
+^PQ1,0,1,Y^XZ
+</t>
+						<t t-set="box_nr" t-value="box_nr + 1"/>
+					</t>
+				 </t>
+			</t>
+
+		</template>
+
 	</data>
 </openerp>
