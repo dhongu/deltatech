@@ -21,7 +21,7 @@
 
 import stock_quant_change_lot
 import stock_quant_split
-
+import stock_quant_report
 
 
 

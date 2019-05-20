@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_stock_quant_report_value_tree" model="ir.ui.view">
+            <field name="name">stock.quant.report.value.tree</field>
+            <field name="model">stock.quant.report.value</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="0" edit="0" delete="0" decoration-danger="qty&lt;0">
+
+                    <field name="product_id"/>
+                    <field name="qty"/>
+                    <field name="product_uom_id"/>
+                    <field name="amount" sum="amount"/>
+                    <field name="sale_value" sum="sale_value"/>
+                    <field name="categ_id"/>
+                    <field name="manufacturer"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_stock_quant_report_report_filter" model="ir.ui.view">
+            <field name="name">stock.quant.report.value.select</field>
+            <field name="model">stock.quant.report.value</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="product_id"/>
+                    <field name="categ_id"/>
+                    <field name="manufacturer"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Product" name="product" context="{'group_by':'product_id','set_visible':True}"/>
+                        <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}"/>
+                        <filter string="Manufacturer of Product" context="{'group_by':'manufacturer'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_stock_quant_report_value" model="ir.actions.act_window">
+            <field name="name">Stock Quant Report</field>
+            <field name="res_model">stock.quant.report.value</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+
+        <record id="view_stock_quant_report_form" model="ir.ui.view">
+            <field name="name">Stock Report</field>
+            <field name="model">stock.quant.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="location_id" domain="[('usage','=','internal')]"/>
+                    </group>
+                    <footer>
+                        <button name="do_execute" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="action_stock_quant_report" model="ir.actions.act_window">
+            <field name="name">Stock Report</field>
+            <field name="res_model">stock.quant.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_stock_quant_report" name="Location Stock"
+                  action="action_stock_quant_report"
+                  parent="stock.next_id_61"/>
+
+
+    </data>
+</openerp>
