@@ -29,6 +29,7 @@ class export_mentor(models.TransientModel):
     format_data = fields.Char('Format Data', default='%Y.%m.%d')
     without_discount = fields.Boolean('Without discout', default=True)
 
+
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
 
@@ -62,8 +63,11 @@ class export_mentor(models.TransientModel):
             cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
             if cod_fiscal:
                 if vat_subjected:
-                    country_code = partner.country_id.code or 'RO'
-                    cod_fiscal = country_code + cod_fiscal
+                    if 'RO' in partner.vat :
+                        cod_fiscal = partner.vat  # se preia codul asa cum e scris in Odoo ( cu staiu dupa ro eventual)
+                    else:
+                        country_code = partner.country_id.code or 'RO'
+                        cod_fiscal = country_code + cod_fiscal
             else:
                 cod_fiscal = "id_%s" % str(partner.id)
         else:
@@ -254,14 +258,26 @@ class export_mentor(models.TransientModel):
             # Atentie Mentorul accepta doar 10 cifre la numar
             NrDoc, Serie = self.get_doc_number(NrDoc)
 
+            if invoice.currency_id.name != "RON":
+                Moneda = invoice.currency_id.name
+                Curs = invoice.currency_id._get_rates(invoice.company_id, invoice.date_invoice)
+                if Curs:
+                    Curs = 1 / Curs[1]
+                else:
+                    Curs = 0
+                Curs = str(Curs)
+            else:
+                Moneda = ''
+                Curs = ''
+
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
                 'Data': self.get_date(invoice.date_invoice),
                 'CodFurnizor': cod_fiscal,
                 'TVAINCASARE': '',  # todo: determinare
                 'PRORATA': '',
-                'Moneda': '',  # invoice.currency_id.name,
-                'Curs': '',
+                'Moneda': Moneda,  # invoice.currency_id.name,
+                'Curs': Curs,
                 'Scadenta': self.get_date(invoice.date_due),
                 'Majorari': '',
                 'Observatii': '',
