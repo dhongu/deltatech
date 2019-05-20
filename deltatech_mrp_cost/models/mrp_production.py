@@ -26,6 +26,9 @@ class MrpProduction(models.Model):
     service_amount = fields.Float(digits=dp.get_precision('Account'), string='Service Amount',
                                   compute='_compute_service_amount',
                                   inverse='_set_service_amount', store=True)
+    overhead_amount = fields.Float(string='Overhead', help="For Value Overhead percent enter % ratio between 0-1.",
+                                   compute='_calculate_amount',
+                                  default='0.0')
     acc_move_line_ids = fields.One2many('account.move.line', 'production_id', string='Account move lines')
 
 
