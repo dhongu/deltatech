@@ -753,8 +753,8 @@ class export_mentor(models.TransientModel):
         incasari = configparser.ConfigParser()
         incasari.optionxform = lambda option: option
         incasari['InfoPachet'] = {
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
+            'AnLucru': self.date_to[:4],
+            'LunaLucru': self.date_to[5:7],
             'TotalDocumente': len(incasari_ids)
         }
         item = 0
