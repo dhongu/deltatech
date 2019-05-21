@@ -52,18 +52,14 @@ class account_average_payment_report(models.Model):
         # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
         if 'payment_days' in fields:
             for line in res:
-                if line['amount'] != 0.0:
-                    line['payment_days'] = line['pondere'] / line['amount']
+                pondere = line.get('pondere',0.0)
+                amount = line.get('amount',0.0)
+                if line['amount'] != 0.0 and pondere and amount:
+
+                    line['payment_days'] = pondere / amount
                 else:
                     line['payment_days'] = 0.0
-                """
-                for new_line in new_res:
-                    if '__domain' in line and '__domain' in new_line:
-                        if line['__domain'] == new_line['__domain']:
-                            if new_line['amount'] != 0.0:
-                                line['payment_days'] =  new_line['pondere'] / new_line['amount']
-                                break
-                """
+
         return res
 
     @api.model_cr
