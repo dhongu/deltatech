@@ -1,17 +1,17 @@
-====================
-Products Alternative
-====================
-.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+======================
+Average Payment Period
+======================
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+    :target: https://odoo-community.org/page/development-status
+    :alt: Beta
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
+|badge1| |badge2|
 
 Features:
- * New model: product_catelog for big master data of products
-    - generate new product from catalog: If the search for a product by code does not return results, an additional search is made in the product catalog and a product is automatically generated if it has been found
- * A module that add alternative on the product form
- * Search product by alternative code
- * A new product field (used for) to indicate what the product may be used for
+ - durata medie de incasare
 
 
 Bug Tracker
