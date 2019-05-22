@@ -63,14 +63,14 @@ class stock_transfer_details_items(models.TransientModel):
                                     'quantity': packop.product_id.pack_items,
                                     'packop_id': False,
                                     'weight': packop.product_id.pack_weight,
-                                    'result_package_id': newpack
+                                    'result_package_id': newpack.id
                                 })
                             else:
                                 new_id = packop.copy({
                                     'quantity': quantity,
                                     'packop_id': False,
                                     'weight': quantity * packop.product_id.pack_weight / packop.product_id.pack_items,
-                                    'result_package_id': newpack
+                                    'result_package_id': newpack.id
                                 })
 
                     return self.transfer_id.wizard_view()
