@@ -104,7 +104,7 @@
 
 
 		<report string="Package list Label" id="action_report_package_label"
-				model="account.invoice"
+				model="stock.picking"
 				report_type="prn"
 				name="deltatech_stock_pack.report_package_label"
 			    file="deltatech_stock_pack.report_package_label" />
@@ -120,9 +120,15 @@
 
 		<template id="report_package_label_document">
 			<t t-foreach="docs" t-as="o">
-				 <t t-foreach="o.picking_ids" t-as="picking">
+<!--				 <t t-foreach="o.picking_ids" t-as="picking">-->
 					 <t t-set="box_nr" t-value="1"/>
-					<t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+					<t t-set="so_date_year" t-value="o.sale_id.date_order[0:4]"/>
+					<t t-set="so_date_month" t-value="o.sale_id.date_order[5:7]"/>
+					<t t-set="so_date_day" t-value="o.sale_id.date_order[8:10]"/>
+					<t t-set="delivery_date_year" t-value="o.min_date[0:4]"/>
+					<t t-set="delivery_date_month" t-value="o.min_date[5:7]"/>
+					<t t-set="delivery_date_day" t-value="o.min_date[8:10]"/>
+					<t t-foreach="o.pack_operation_ids" t-as="pack_operation">
 
 <t t-translation="off">
 ^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR4,4~SD15^JUS^LRN^CI0^XZ
@@ -131,22 +137,19 @@
 ^PW799
 ^LL1200
 ^LS0
-^FT233,453^A0R,65,64^FH\^FD126^FS
 ^FT237,47^A0R,65,64^FH\^FDNumber of box:<t t-esc="box_nr"/>^FS
 ^FT706,49^A0R,78,48^FH\^FDSupplier Name: <t t-esc="o.company_id.name"/>^FS
-^FT608,49^A0R,78,48^FH\^FD<t t-esc="o.commercial_partner_id.name.split(' ')[0]"/> Internal Code (SAP): <t t-esc="pack_operation.product_id.default_code"/>^FS
-^FT510,49^A0R,78,48^FH\^FDDescription: <t t-esc="pack_operation.product_id.name"/>^FS
+^FT608,49^A0R,78,48^FH\^FD<t t-esc="o.partner_id.name.split(' ')[0]"/> Internal Code (SAP): <t t-esc="pack_operation.product_id.default_code"/>^FS
+^FT510,49^A0R,78,48^FH\^FDDescription: <t t-esc="pack_operation.product_id.name[0:31]"/>^FS
 ^FT412,49^A0R,78,48^FH\^FDQuantity: <t t-esc="pack_operation.product_qty"/>  pz^FS
-^FT314,49^A0R,78,48^FH\^FDNet Weight: 3Kg^FS
-^FO148,41^GB82,936,82^FS
-^FT164,41^A0R,65,64^FR^FH\^FDORDER NUMBER:<t t-esc="picking.sale_id.client_order_ref"/>^FS
-^FO66,41^GB82,936,82^FS
-^FT82,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="o.date_invoice"/>^FS
+^FT314,49^A0R,78,48^FH\^FDNet Weight: <t t-esc="round(pack_operation.result_package_id.weight,2)"/> Kg^FS
+^FT164,41^A0R,65,64^FR^FH\^FDORDER NUMBER:<t t-esc="o.sale_id.client_order_ref"/>/<t t-esc="so_date_day"/>.<t t-esc="so_date_month"/>.<t t-esc="so_date_year"/>^FS
+^FT82,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="delivery_date_day"/>.<t t-esc="delivery_date_month"/>.<t t-esc="delivery_date_year"/>^FS
 ^PQ1,0,1,Y^XZ
 </t>
 						<t t-set="box_nr" t-value="box_nr + 1"/>
 					</t>
-				 </t>
+<!--				 </t>-->
 			</t>
 
 		</template>
