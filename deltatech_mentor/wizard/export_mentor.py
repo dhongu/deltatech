@@ -979,15 +979,16 @@ class export_mentor(models.TransientModel):
         file_name = 'Gestiuni.txt'
         zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_plati(plati_ids)
-        result_html += messaje
-        file_name = 'Plati.txt'
-        zip_archive.writestr(file_name, temp_file)
 
-        temp_file, messaje = self.do_export_incasari(incasari_ids)
-        result_html += messaje
-        file_name = 'Incasari.txt'
-        zip_archive.writestr(file_name, temp_file)
+        # temp_file, messaje = self.do_export_plati(plati_ids)
+        # result_html += messaje
+        # file_name = 'Plati.txt'
+        # zip_archive.writestr(file_name, temp_file)
+        #
+        # temp_file, messaje = self.do_export_incasari(incasari_ids)
+        # result_html += messaje
+        # file_name = 'Incasari.txt'
+        # zip_archive.writestr(file_name, temp_file)
 
         # Here you finish editing your zip. Now all the information is
         # in your buff StringIO object
