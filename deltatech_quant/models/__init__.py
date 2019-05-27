@@ -21,4 +21,5 @@
 
  
 import stock
+import product
 

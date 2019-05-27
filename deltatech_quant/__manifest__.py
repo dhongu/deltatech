@@ -47,11 +47,13 @@ de facut:
         "stock_account",
         #"point_of_sale",
         "account",
-        #"deltatech_product_extension",
+        #"deltatech_product_extension",  # pentru manufacturer
         # "stock_picking_invoice_link"
     ],
 
-    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
+    "images": ['images/main_screenshot.png'],
+    "license":"LGPL-3",
+    "data": [
         'views/stock_view.xml',
         'wizard/stock_quant_report_view.xml',
         'views/stock_profit_view.xml',
