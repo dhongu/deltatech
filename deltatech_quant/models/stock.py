@@ -47,7 +47,7 @@ class stock_picking(models.Model):
 class stock_quant(models.Model):
     _inherit = "stock.quant"
 
-    #quant_value = fields.Float(string = 'Quant Value' )
+    # quant_value = fields.Float(string = 'Quant Value' )
     categ_id = fields.Many2one('product.category', string='Internal Category', related="product_id.categ_id",
                                store=True, readonly=True)
 
@@ -110,7 +110,7 @@ class stock_move(models.Model):
             if move.picking_id:
 
                 value = {'origin': move.picking_id.origin}
-                if move.location_dest_id.usage == 'customer' and move.location_id.usage in ['internal','supplier']:
+                if move.location_dest_id.usage == 'customer' and move.location_id.usage in ['internal', 'supplier']:
                     if move.picking_id.partner_id:
                         value['customer_id'] = move.picking_id.partner_id.id
                     value['output_date'] = move.picking_id.date_done
@@ -130,7 +130,7 @@ class stock_move(models.Model):
                                         price_invoice = line.price_subtotal / line.qty
                     value['output_price'] = price_invoice
 
-                if move.location_id.usage == 'supplier' and  move.location_dest_id.usage in  ['internal','customer' ]:
+                if move.location_id.usage == 'supplier' and move.location_dest_id.usage in ['internal', 'customer']:
                     if move.picking_id.partner_id:
                         value['supplier_id'] = move.picking_id.partner_id.id
                     value['input_date'] = move.picking_id.date_done

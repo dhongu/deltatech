@@ -20,54 +20,7 @@ class StockQuantReport(models.TransientModel):
     def compute_data_for_report(self):
         self.ensure_one()
 
-        query_inject = '''
-        WITH
-            q AS (
-                    SELECT  
-                        sq.product_id, 
-                        sum(sq.qty) as qty, 
-                        sum(coalesce(sq.cost*sq.qty,0.0)) as amount,
-                        sum(coalesce(pt.list_price*sq.qty,0.0)) as sale_value,
-                        
-                        pt.manufacturer,
-                        pt.categ_id
-                        from stock_quant sq
-                            join product_product pp on (sq.product_id=pp.id)
-                            join product_template pt on (pp.product_tmpl_id=pt.id)
-                        where sq.location_id = %s
-                        group by sq.product_id, pt.manufacturer, pt.categ_id
 
-            )
-        INSERT INTO
-            stock_quant_report_value
-            (
-            report_id,
-            create_uid,
-            create_date,
-            
-            product_id,
-            qty,
-            amount,
-            sale_value,
-            manufacturer,
-            categ_id
-            
-            )
-        SELECT
-            %s AS report_id,
-            %s AS create_uid,
-            NOW() AS create_date,
-        
-            product_id,
-            qty,
-            amount,
-            sale_value,
-            manufacturer,
-            categ_id
-        FROM
-            q
-        
-                '''
 
         query_inject = '''
          WITH
@@ -79,6 +32,7 @@ class StockQuantReport(models.TransientModel):
                     sum(coalesce(sq.cost*sq.qty,0.0)) as amount,  sum(qty) as qty ,
                     sum(coalesce(pt.list_price*sq.qty,0.0)) as sale_value,
 
+                    max(sq.supplier_id) as supplier_id,  
                      max(stock_in.date) as last_in,
                       max(stock_out.date) as last_out, 
                      extract(day from now() - max(stock_in.date)) as day_from_last_in,
@@ -120,6 +74,7 @@ class StockQuantReport(models.TransientModel):
              sale_value,
              manufacturer,
              categ_id,
+             supplier_id,
              last_in,
              last_out,
              day_from_last_in,
@@ -137,6 +92,7 @@ class StockQuantReport(models.TransientModel):
              sale_value,
              manufacturer,
              categ_id,
+             supplier_id,
              last_in,
              last_out,
              day_from_last_in,
@@ -182,7 +138,7 @@ class StockQuantReportValue(models.TransientModel):
 
     report_id = fields.Many2one('stock.quant.report', ondelete='cascade', string='Report')
     product_id = fields.Many2one('product.product', readonly=True, string='Product')
-
+    supplier_id = fields.Many2one('res.partner', string='Supplier')
     qty = fields.Float('Quantity', index=True, readonly=True, required=True,
                        help="Quantity of products in this quant, in the default unit of measure of the product")
     product_uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='product_id.uom_id',
@@ -194,11 +150,14 @@ class StockQuantReportValue(models.TransientModel):
     categ_id = fields.Many2one('product.category', string='Internal Category', readonly=True)
     manufacturer = fields.Many2one('res.partner', string='Manufacturer', readonly=True)
 
+    supplier_id = fields.Many2one('res.partner', string='Supplier')
+
     last_in = fields.Date('Last In')
     last_out = fields.Date('Last Out')
     day_from_last_in = fields.Integer('Days from last in')
     day_from_last_out = fields.Integer('Days from last out')
 
     @api.one
+    @api.depends('qty')
     def _compute_sale_value(self):
         self.sale_value = self.qty * self.product_id.list_price

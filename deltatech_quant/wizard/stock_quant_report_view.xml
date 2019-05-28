@@ -34,6 +34,7 @@
                     <field name="product_id"/>
                     <field name="categ_id"/>
                     <field name="manufacturer"/>
+                    <field name="supplier_id"/>
                     <group expand="1" string="Group By...">
                         <filter string="Product" name="product" context="{'group_by':'product_id','set_visible':True}"/>
                         <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}"/>
