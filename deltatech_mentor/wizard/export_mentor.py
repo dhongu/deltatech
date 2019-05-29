@@ -140,8 +140,8 @@ class export_mentor(models.TransientModel):
     @api.model
     def set_luna_lucru(self, pachet):
         pachet.update({
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
+            'AnLucru': str(self.date_to.year),
+            'LunaLucru': str(self.date_to.month)
         })
 
     def get_temp_file(self, data):
