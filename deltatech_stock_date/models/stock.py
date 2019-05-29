@@ -64,6 +64,9 @@ class stock_move(models.Model):
         use_date = self.env.context.get('use_date', False)
         if date_fields.intersection(vals):
             if not use_date:
+                if isinstance(vals['date_expected'], str):  # de unde ajunge aici cu string ?
+                    vals['date_expected'] = fields.Datetime.to_datetime(vals['date_expected'])
+
                 for move in self:
                     today = fields.Date.today()
                     if 'date' in vals:
