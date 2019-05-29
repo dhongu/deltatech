@@ -104,7 +104,7 @@ class export_mentor(models.TransientModel):
         return product.default_code or product.product_tmpl_id.default_code or 'ID_' + str(product.id)
 
     def get_doc_number(self, nume):
-        NrDoc = nume
+        NrDoc = nume or ''
         Serie = ''
         if '/' in NrDoc:
             seg = NrDoc.split('/')
