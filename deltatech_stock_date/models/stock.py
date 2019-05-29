@@ -64,8 +64,6 @@ class stock_move(models.Model):
         use_date = self.env.context.get('use_date', False)
         if date_fields.intersection(vals):
             if not use_date:
-                if isinstance(vals['date_expected'], str):  # de unde ajunge aici cu string ?
-                    vals['date_expected'] = fields.Datetime.to_datetime(vals['date_expected'])
 
                 for move in self:
                     today = fields.Date.today()
@@ -78,6 +76,8 @@ class stock_move(models.Model):
                         # move.quant_ids.write({'in_date': vals['date']})
 
                     if 'date_expected' in vals:
+                        if isinstance(vals['date_expected'], str):  # de unde ajunge aici cu string ?
+                            vals['date_expected'] = fields.Datetime.to_datetime(vals['date_expected'])
                         move_date = vals.get('date', move.date)
                         if move_date.date() < today and move_date < vals['date_expected']:
                             vals['date_expected'] = move_date
