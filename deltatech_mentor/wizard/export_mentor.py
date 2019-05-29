@@ -29,7 +29,6 @@ class export_mentor(models.TransientModel):
     format_data = fields.Char('Format Data', default='%Y.%m.%d')
     without_discount = fields.Boolean('Without discout', default=True)
 
-
     item_details = fields.Boolean(string="Item Details")
     code_article = fields.Char(string="Code Article")
 
@@ -138,6 +137,13 @@ class export_mentor(models.TransientModel):
             gestiune = self.location_id.code or str(self.prod_location_id.id)
         return gestiune
 
+    @api.model
+    def set_luna_lucru(self, pachet):
+        pachet.update({
+            'AnLucru': self.date_to.year,
+            'LunaLucru': self.date_to.month,
+        })
+
     def get_temp_file(self, data):
         dicritics = {
             'ă': 'a', 'â': 'a',
@@ -238,15 +244,13 @@ class export_mentor(models.TransientModel):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
-        if invoice_in_ids:
-            invoice = invoice_in_ids[0]
 
-            intrari['InfoPachet'] = {
-                'AnLucru': invoice.date_invoice.year,
-                'LunaLucru': invoice.date_invoice.month,
-                'TipDocument': 'FACTURA INTRARE',
-                'TotalFacturi': len(invoice_in_ids)
-            }
+        intrari['InfoPachet'] = {
+            'TipDocument': 'FACTURA INTRARE',
+            'TotalFacturi': len(invoice_in_ids)
+        }
+        self.set_luna_lucru(intrari['InfoPachet'])
+
         index = 1
         for invoice in invoice_in_ids:
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
@@ -313,7 +317,8 @@ class export_mentor(models.TransientModel):
                 if line.uom_id != mentor_uom_id:
                     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
                     price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
-                    tva = line.uom_id._compute_price(tva, mentor_uom_id)
+                    # TVA  nu mai trebuie recalculat ca este pe totla linie si nu mai conteaza cantitatea si unitatea de masura.
+                    # tva = line.uom_id._compute_price(tva, mentor_uom_id)
                 else:
                     qty = sign * line.quantity
                     price = line.price_unit
@@ -351,15 +356,12 @@ class export_mentor(models.TransientModel):
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
-        if voucher_in_ids:
-            invoice = voucher_in_ids[0]
 
-            intrari['InfoPachet'] = {
-                'AnLucru': invoice.date_invoice.year,
-                'LunaLucru': invoice.date_invoice.month,
-                'TipDocument': 'BON FISCAL INTRARE',
-                'TotalBonuri': len(voucher_in_ids)
-            }
+        intrari['InfoPachet'] = {
+            'TipDocument': 'BON FISCAL INTRARE',
+            'TotalBonuri': len(voucher_in_ids)
+        }
+        self.set_luna_lucru(intrari['InfoPachet'])
         index = 1
         for voucher in voucher_in_ids:
             cod_fiscal = self.get_cod_fiscal(voucher.partner_id)
@@ -439,15 +441,13 @@ class export_mentor(models.TransientModel):
         result_html = ''
         iesiri = configparser.ConfigParser()
         iesiri.optionxform = lambda option: option
-        if invoice_out_ids:
-            invoice = invoice_out_ids[0]
 
-            iesiri['InfoPachet'] = {
-                'AnLucru': invoice.date_invoice.year,
-                'LunaLucru': invoice.date_invoice.month,
-                'TipDocument': 'FACTURA IESIRE',
-                'TotalFacturi': len(invoice_out_ids)
-            }
+        iesiri['InfoPachet'] = {
+            'TipDocument': 'FACTURA IESIRE',
+            'TotalFacturi': len(invoice_out_ids)
+        }
+
+        self.set_luna_lucru(iesiri['InfoPachet'])
         index = 1
         for invoice in invoice_out_ids:
             cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
@@ -540,22 +540,25 @@ class export_mentor(models.TransientModel):
                 locations[location_id.id] = {'lines': {}, 'location_id': location_id}
             lines = locations[location_id.id]['lines']
 
+            price_unit = move.price_unit
+            if self.product_id.cost_method == 'standard':
+                price_unit = self.product_id.standard_price
+
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
                     'qty': sign * move.product_qty,
-                    'amount': sign * move.price_unit * move.product_qty
+                    'amount': sign * price_unit * move.product_qty
                 }
             else:
                 lines[move.product_id.id]['qty'] += sign * move.product_qty
-                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * price_unit * move.product_qty
 
         bonuri['InfoPachet'] = {
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
             'TipDocument': 'BON DE CONSUM',
             'TotalBonuri': len(locations)
         }
+        self.set_luna_lucru(bonuri['InfoPachet'])
 
         GestConsum = self.prod_location_id.code or str(self.prod_location_id.id)
         index = 0
@@ -566,7 +569,7 @@ class export_mentor(models.TransientModel):
             sections_name = 'Bon_%s' % index
             bonuri[sections_name] = {
                 'NrDoc': self.date_to.year + self.date_to.month + str(index),
-                'Data': self.get_date(self.date_from),
+                'Data': self.get_date(self.date_to),
                 'GestConsum': GestConsum,
                 'TotalArticole': len(lines)
             }
@@ -622,22 +625,25 @@ class export_mentor(models.TransientModel):
                 locations[location_dest_id.id] = {'lines': {}, 'location_id': location_dest_id}
             lines = locations[location_dest_id.id]['lines']
 
+            price_unit = move.price_unit
+            if self.product_id.cost_method == 'standard':
+                price_unit = self.product_id.standard_price
+
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
                     'product_id': move.product_id,
                     'qty': sign * move.product_qty,
-                    'amount': sign * move.price_unit * move.product_qty
+                    'amount': sign * price_unit * move.product_qty
                 }
             else:
                 lines[move.product_id.id]['qty'] += sign * move.product_qty
-                lines[move.product_id.id]['amount'] += sign * move.price_unit * move.product_qty
+                lines[move.product_id.id]['amount'] += sign * price_unit * move.product_qty
 
         predari['InfoPachet'] = {
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
             'TipDocument': 'NOTA PREDARE',
             'TotalNote': len(locations)
         }
+        self.set_luna_lucru(predari['InfoPachet'])
 
         Gestsursa = self.prod_location_id.code or str(self.prod_location_id.id)
         index = 0
@@ -701,10 +707,9 @@ class export_mentor(models.TransientModel):
         plati = configparser.ConfigParser()
         plati.optionxform = lambda option: option
         plati['InfoPachet'] = {
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
             'TotalDocumente': len(plati_ids)
         }
+        self.set_luna_lucru(plati['InfoPachet'])
         item = 0
         for plata in plati_ids:
             item += 1
@@ -756,10 +761,9 @@ class export_mentor(models.TransientModel):
         incasari = configparser.ConfigParser()
         incasari.optionxform = lambda option: option
         incasari['InfoPachet'] = {
-            'AnLucru': self.date_to.year,
-            'LunaLucru': self.date_to.month,
             'TotalDocumente': len(incasari_ids)
         }
+        self.set_luna_lucru(incasari['InfoPachet'])
         item = 0
         for incasare in incasari_ids:
             item += 1
@@ -829,7 +833,7 @@ class export_mentor(models.TransientModel):
         domain = [
             ('date', '>=', self.date_from),
             ('date', '<=', self.date_to),
-            ('state', 'in', ['open', 'paid']),
+            ('state', 'in', ['open', 'paid']),   # NU se trimit si facturile anulate!
             ('type', 'in', ['in_invoice', 'in_refund'])
         ]
 
@@ -860,7 +864,7 @@ class export_mentor(models.TransientModel):
 
         domain = [('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
-                  ('state', 'in', ['open', 'paid']),
+                  ('state', 'in', ['open', 'paid', 'cancel']),   # se trimit si facturile anulate!
                   ('type', 'in', ['out_invoice', 'out_refund'])]
         if self.journal_ids:
             domain += [('journal_id', 'in', self.journal_ids.ids)]
