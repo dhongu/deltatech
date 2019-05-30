@@ -506,6 +506,7 @@ class account_invoice(models.Model):
         lines = []
         for meter_id in meters_ids:
             line = {}
+            line['date'] = '2000-01-01'
             min = 9999999999
             max = 0
             for reading in readings:
