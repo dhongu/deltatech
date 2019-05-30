@@ -738,6 +738,7 @@ class export_mentor(models.TransientModel):
 
             }
             NrFactura = 'NA'
+            SerieFactura = 'NA'
             for invoice in plata.invoice_ids:
                 NrFactura, SerieFactura = self.get_doc_number(invoice.number)
 
@@ -792,6 +793,7 @@ class export_mentor(models.TransientModel):
 
             }
             NrFactura = 'NA'
+            SerieFactura = 'NA'
             for invoice in incasare.invoice_ids:
                 NrFactura, SerieFactura = self.get_doc_number(invoice.number)
 
