@@ -113,7 +113,7 @@ class stock_move(models.Model):
                 if move.location_dest_id.usage == 'customer' and move.location_id.usage in ['internal', 'supplier']:
                     if move.picking_id.partner_id:
                         value['customer_id'] = move.picking_id.partner_id.id
-                    value['output_date'] = move.picking_id.date_done
+                    value['output_date'] = move.date #move.picking_id.date_done
                     price_invoice = move.price_unit
                     sale_line = move.procurement_id.sale_line_id
                     if sale_line:
@@ -133,11 +133,11 @@ class stock_move(models.Model):
                 if move.location_id.usage == 'supplier' and move.location_dest_id.usage in ['internal', 'customer']:
                     if move.picking_id.partner_id:
                         value['supplier_id'] = move.picking_id.partner_id.id
-                    value['input_date'] = move.picking_id.date_done
+                    value['input_date'] = move.date #move.picking_id.date_done
                     value['input_price'] = move.price_unit
 
                 if move.location_id.usage == 'inventory' and move.location_dest_id.usage == 'internal':
-                    value['input_date'] = move.picking_id.date_done
+                    value['input_date'] = move.date #move.picking_id.date_done
                     value['input_price'] = move.price_unit
                     if not move.price_unit and move.product_id.seller_ids:
                         value['input_price'] = move.product_id.seller_ids[0].price
