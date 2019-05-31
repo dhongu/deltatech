@@ -24,15 +24,15 @@
         <field name="name">account.invoice.line.tree</field>
         <field name="model">account.invoice.line</field>
         <field name="arch" type="xml">
-            <tree create="0" edit="0">
+            <tree create="0" editable="bottom">
 
                 <field name="checked"/>
-                <field name="product_id" domain="[('sale_ok','=',True)]"/>
+                <field name="product_id" domain="[('sale_ok','=',True)]" readonly="1"/>
 
-                <field name="name"/>
-                <field name="quantity"/>
-                <field name="uom_id" groups="uom.group_uom"/>
-                <field name="price_unit" string="Price"/>
+                <field name="name" readonly="1"/>
+                <field name="quantity" />
+                <field name="uom_id" groups="uom.group_uom" readonly="1"/>
+                <field name="price_unit" string="Price" readonly="1"/>
 
             </tree>
         </field>
