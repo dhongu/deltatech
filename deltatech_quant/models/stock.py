@@ -130,7 +130,10 @@ class stock_move(models.Model):
     @api.multi
     def update_quant_partner(self):
         pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale')])
-
+        if pos_mod.state == 'uninstalled':
+            pos_mode_installed = False
+        else:
+            pos_mode_installed = True
         for move in self:
             value = {}
             if move.picking_id:
@@ -148,7 +151,7 @@ class stock_move(models.Model):
                             sale_line.order_id.currency_id, move.company_id.currency_id) * price_invoice
                     else:
                         # Vanzare din POS
-                        if pos_mod:
+                        if pos_mode_installed:
                             pos_order = self.env['pos.order'].search([('picking_id', '=', move.picking_id.id)])
                             if pos_order:
                                 for line in pos_order.lines:
