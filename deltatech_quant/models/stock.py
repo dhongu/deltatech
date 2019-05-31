@@ -103,7 +103,7 @@ class stock_move(models.Model):
 
     @api.multi
     def update_quant_partner(self):
-        pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale')])
+        pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale'),('state', '=', 'installed')])
 
         for move in self:
             value = {}
