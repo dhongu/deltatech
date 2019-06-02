@@ -26,7 +26,7 @@
 from . import product
 from . import stock
 from . import account_invoice
-
+from . import bom
 
 
 

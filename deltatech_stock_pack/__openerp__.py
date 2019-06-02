@@ -25,18 +25,7 @@
     "version": "2.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
 
-    - transferare packet intregral dintr-o locatie in alta
-    - generare automata de pachete in functie de catitatea maxima din masterul de produs
-    - editare greutate
-    - tiparire eticheta format Zebra
-
- 
-
-    """,
 
     "category": "Stock",
     "depends": [
@@ -53,7 +42,9 @@ Functionalitati:
         'views/stock_view.xml',
         'views/product_view.xml',
         'views/account_invoice_view.xml',
-        'views/report_invoice.xml'
+        'views/report_invoice.xml',
+        'views/bom_view.xml',
+        'security/ir.model.access.csv',
     ],
 
     "active": False,

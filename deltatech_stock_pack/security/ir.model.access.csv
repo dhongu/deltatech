@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_quant_package_component,access_stock_quant_package_component,model_stock_quant_package_component,,1,1,1,1
+access_package_bom,access_package_bom,model_package_bom,,1,1,1,1
+access_package_bom_line,access_package_bom_line,model_package_bom_line,,1,1,1,1
+

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+
+        <record id="package_bom_tree_view" model="ir.ui.view">
+            <field name="name">package.bom.tree</field>
+            <field name="model">package.bom</field>
+
+            <field name="arch" type="xml">
+                <tree string="Bill of Materials">
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="product_qty"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="package_bom_form_view" model="ir.ui.view">
+            <field name="name">package.bom.form</field>
+            <field name="model">package.bom</field>
+            <field name="arch" type="xml">
+                <form string="Bill of Material">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="categ_id"/>
+                            <field name="product_qty"/>
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Components">
+                            <field name="bom_line_ids" widget="one2many_list">
+                                <tree string="Components" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_bom" model="ir.actions.act_window">
+            <field name="name">Bill of Materials</field>
+            <field name="res_model">package.bom</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Bill of Materials" id="menu_bom" action="action_bom"
+                  parent="stock.menu_stock_product" sequence="900"/>
+
+    </data>
+</openerp>

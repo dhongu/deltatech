@@ -47,7 +47,7 @@ class stock_move(models.Model):
                 else:
                     packs[key] += 1
         pack_str = ''
-        print packs
+
         for key in packs:
             pack_str += str(packs[key]) + ' x ' + str(key) + ';'  # + move.product_uom.name +'; '
         res['name'] += '\n' + pack_str
@@ -62,6 +62,25 @@ class stock_move(models.Model):
         return res
 
 
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+
+
+    @api.multi
+    def do_transfer(self):
+
+        res  = super(stock_picking, self).do_transfer()
+        package = self.env['stock.quant.package']
+        for picking in self:
+            for operation in picking.pack_operation_ids:
+                package |= operation.result_package_id
+            # for move in picking.move_lines:
+            #     for quant in move.quant_ids:
+            #         package |= quant.package_id
+        package.action_get_components()
+        return res
+
+
 class stock_package(models.Model):
     _inherit = "stock.quant.package"
 
@@ -69,4 +88,48 @@ class stock_package(models.Model):
     weight = fields.Float('Gross Weight', digits=dp.get_precision('Stock Weight'), help="The gross weight in Kg.")
     weight_net = fields.Float('Net Weight', digits=dp.get_precision('Stock Weight'), help="The net weight in Kg.")
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+    # componente utilizate in acest pachet:
+
+    bom_id = fields.Many2one('package.bom', 'Bill of Materials')
+
+    component_ids = fields.One2many('stock.quant.package.component', 'package_id', string='Components')
+
+    @api.multi
+    def action_get_components(self):
+
+        for package in self.filtered(lambda x: not x.bom_id):
+            product = self.env['product.product']
+            for quant in package.quant_ids:
+                product = quant.product_id
+            bom = self.env['package.bom'].search([('categ_id', '=', product.categ_id.id)], limit=1)
+
+            if not bom:
+                code = product.default_code.split(' ')[0]
+                categ = self.env['product.category'].search([('name', '=', code)], limit=1)
+                if categ:
+                    bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
+
+            if bom:
+                package.write({'bom_id': bom.id})
+
+        for package in self.filtered(lambda x:  x.bom_id):
+            qty = 0
+            for quant in package.quant_ids:
+                qty += quant.qty
+            coef = qty / package.bom_id.product_qty
+            package.component_ids.unlink()
+            for item in package.bom_id.bom_line_ids:
+                self.env['stock.quant.package.component'].create({
+                    'package_id': package.id,
+                    'product_id': item.product_id.id,
+                    'product_qty': item.product_qty * coef
+                })
+
+
+class stock_package_component(models.Model):
+    _name = "stock.quant.package.component"
+
+    package_id = fields.Many2one('stock.quant.package')
+    product_id = fields.Many2one('product.product')
+    product_qty = fields.Float('Component Quantity', required=True)
+    product_uom = fields.Many2one('product.uom', related='product_id.uom_id', readonly=True)

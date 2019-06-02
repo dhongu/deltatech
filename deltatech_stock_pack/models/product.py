@@ -30,7 +30,6 @@ from datetime import datetime, date, timedelta
 import logging
 
 
-from openerp.addons.product import _common
 
 _logger = logging.getLogger(__name__)
 
