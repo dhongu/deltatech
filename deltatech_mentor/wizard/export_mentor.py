@@ -374,7 +374,7 @@ class export_mentor(models.TransientModel):
 
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
-                'Data': self.get_date(voucher),
+                'Data': self.get_date(voucher.date),
                 'CodFurnizor': cod_fiscal,
                 'TotalArticole': len(voucher.line_ids)
             }
@@ -397,16 +397,9 @@ class export_mentor(models.TransientModel):
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
-                qty = line.quantity * sign
-                price = line.price_unit
-
                 mentor_uom_id = self.get_product_uom(line.product_id)
-                if line.uom_id != mentor_uom_id:
-                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
-                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
-                else:
-                    qty = sign * line.quantity
-                    price = line.price_unit
+                qty = sign * line.quantity
+                price = line.price_unit
 
                 code = self.get_product_code(line.product_id)
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
@@ -416,7 +409,7 @@ class export_mentor(models.TransientModel):
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
-                    str(line.discount),  # Discount linie
+                    '0', # Discount linie
                     cont,  # Simbol cont articol serviciu;
                     '',  # Pret inregistrare;
                     '',  # Termen garantie;
@@ -538,8 +531,8 @@ class export_mentor(models.TransientModel):
             lines = locations[location_id.id]['lines']
 
             price_unit = move.price_unit
-            if self.product_id.cost_method == 'standard':
-                price_unit = self.product_id.standard_price
+            if move.product_id.cost_method == 'standard':
+                price_unit = move.product_id.standard_price
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
@@ -623,8 +616,8 @@ class export_mentor(models.TransientModel):
             lines = locations[location_dest_id.id]['lines']
 
             price_unit = move.price_unit
-            if self.product_id.cost_method == 'standard':
-                price_unit = self.product_id.standard_price
+            if move.product_id.cost_method == 'standard':
+                price_unit = move.product_id.standard_price
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
