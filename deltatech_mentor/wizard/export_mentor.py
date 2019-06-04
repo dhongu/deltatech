@@ -62,7 +62,7 @@ class export_mentor(models.TransientModel):
             cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
             if cod_fiscal:
                 if vat_subjected:
-                    if 'RO' in partner.vat :
+                    if 'RO' in partner.vat:
                         cod_fiscal = partner.vat  # se preia codul asa cum e scris in Odoo ( cu staiu dupa ro eventual)
                     else:
                         country_code = partner.country_id.code or 'RO'
@@ -377,7 +377,7 @@ class export_mentor(models.TransientModel):
 
             intrari[sections_name] = {
                 'NrDoc': NrDoc,
-                'Data': self.get_date(voucher),
+                'Data': self.get_date(voucher.date),
                 'CodFurnizor': cod_fiscal,
                 'TotalArticole': len(voucher.line_ids)
             }
@@ -454,7 +454,8 @@ class export_mentor(models.TransientModel):
 
             sections_name = 'Factura_%s' % index
 
-            NrDoc, SerieCarnet = self.get_doc_number(invoice.number)
+            NrDoc, SerieCarnet = self.get_doc_number(
+                invoice.number or invoice.move_name)  # daca facutra e anulata numarul ei se gaseste in move_name
 
             if invoice.journal_id.serie_carnet:
                 SerieCarnet = invoice.journal_id.serie_carnet
@@ -541,8 +542,8 @@ class export_mentor(models.TransientModel):
             lines = locations[location_id.id]['lines']
 
             price_unit = move.price_unit
-            if self.product_id.cost_method == 'standard':
-                price_unit = self.product_id.standard_price
+            if move.product_id.cost_method == 'standard':
+                price_unit = move.product_id.standard_price
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
@@ -626,8 +627,8 @@ class export_mentor(models.TransientModel):
             lines = locations[location_dest_id.id]['lines']
 
             price_unit = move.price_unit
-            if self.product_id.cost_method == 'standard':
-                price_unit = self.product_id.standard_price
+            if move.product_id.cost_method == 'standard':
+                price_unit = move.product_id.standard_price
 
             if not move.product_id.id in lines:
                 lines[move.product_id.id] = {
@@ -811,6 +812,66 @@ class export_mentor(models.TransientModel):
         temp_file = self.get_temp_file(incasari)
         return temp_file, result_html
 
+    def do_export_avize(self, avize_ids):
+        result_html = ''
+        avize = configparser.ConfigParser()
+        avize.optionxform = lambda option: option
+        avize['InfoPachet'] = {
+            'TotalAvize': len(avize_ids),
+            'Tipdocument': 'AVIZ EXPEDITIE',
+        }
+        self.set_luna_lucru(avize['InfoPachet'])
+        index = 0
+        for picking in avize_ids:
+            index += 1
+            NrDoc, Serie = self.get_doc_number(picking.name)
+            cod_fiscal = self.get_cod_fiscal(picking.partner_id)
+            avize['Aviz_%s' % index] = {
+                'NrDoc': NrDoc,
+                'Data': self.get_date(picking.date),
+                'CodClient': cod_fiscal,
+                'TotalArticole': len(picking.move_ids)
+            }
+            sections_name = 'Items_%s' % index
+            avize[sections_name] = {}
+            item = 0
+
+            for move in picking.move_ids:
+                item += 1
+                code = self.get_product_code(move.product_id)
+                gest = move.location_id.code or str(move.location_id.id)
+
+                qty = move.product_qty
+                price = 0.0  # trebuie determinat pretul din comanda de vanzare
+
+                line = move.sale_line_id
+                if line:
+                    taxes_ids = line.tax_id
+                    incl_tax = taxes_ids.filtered(lambda tax: tax.price_include)
+                    if line.product_uom_qty != 0:
+                        price = line.price_subtotal / line.product_uom_qty
+                        if incl_tax:
+                            price = line.price_total / line.product_uom_qty
+
+                if not price:
+                    price = move.product_id.list_price
+
+                mentor_uom_id = self.get_product_uom(move.product_id)
+                if move.product_id.uom_id != mentor_uom_id:
+                    qty = move.product_id.uom_id._compute_quantity(qty, mentor_uom_id)
+                    price = move.product_id.uom_id._compute_price(price, mentor_uom_id)
+
+                avize[sections_name]['Item_%s' % item] = ';'.join([
+                    code,  # Cod intern/extern articol;
+                    self.get_uom(mentor_uom_id),
+                    str(qty),
+                    str(price),
+                    gest
+                ])
+
+        temp_file = self.get_temp_file(avize)
+        return temp_file, result_html
+
     @api.multi
     def do_export(self):
 
@@ -835,7 +896,7 @@ class export_mentor(models.TransientModel):
         domain = [
             ('date', '>=', self.date_from),
             ('date', '<=', self.date_to),
-            ('state', 'in', ['open', 'paid']),   # NU se trimit si facturile anulate!
+            ('state', 'in', ['open', 'paid']),  # NU se trimit si facturile anulate!
             ('type', 'in', ['in_invoice', 'in_refund'])
         ]
 
@@ -866,7 +927,7 @@ class export_mentor(models.TransientModel):
 
         domain = [('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
-                  ('state', 'in', ['open', 'paid', 'cancel']),   # se trimit si facturile anulate!
+                  ('state', 'in', ['open', 'paid', 'cancel']),  # se trimit si facturile anulate!
                   ('type', 'in', ['out_invoice', 'out_refund'])]
         if self.journal_ids:
             domain += [('journal_id', 'in', self.journal_ids.ids)]
@@ -927,6 +988,16 @@ class export_mentor(models.TransientModel):
         ]
         incasari_ids = self.env['account.payment'].search(domain)
 
+        domain = [
+            ('state', '=', 'done'),
+            ('notice', '=', True),
+            ('date_done', '>=', self.date_from),
+            ('date_done', '<=', self.date_to),
+            ('location_id', '=', self.location_id.id),
+        ]
+
+        avize_ids = self.env['stock.picking'].search(domain)
+
         # export toate locatiile
         location_ids = self.env['stock.location'].search([])
 
@@ -944,6 +1015,8 @@ class export_mentor(models.TransientModel):
 
         result_html += '<div>Plati %s</div>' % str(len(plati_ids))
         result_html += '<div>Incasari %s</div>' % str(len(incasari_ids))
+
+        result_html += '<div>Avize de livrare %s</div>' % str(len(avize_ids))
 
         partner_ids = partner_in_ids | partner_out_ids
         temp_file, messaje = self.do_export_parteneri(partner_ids)
@@ -996,6 +1069,11 @@ class export_mentor(models.TransientModel):
         temp_file, messaje = self.do_export_incasari(incasari_ids)
         result_html += messaje
         file_name = 'Incasari.txt'
+        zip_archive.writestr(file_name, temp_file)
+
+        temp_file, messaje = self.do_export_avize(avize_ids)
+        result_html += messaje
+        file_name = 'Avize.txt'
         zip_archive.writestr(file_name, temp_file)
 
         # Here you finish editing your zip. Now all the information is

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Mentor Interface",
-    'version': '12.0.2.0.2',
+    'version': '12.0.2.0.3',
     "author": "Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
