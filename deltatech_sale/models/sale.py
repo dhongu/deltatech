@@ -23,10 +23,12 @@ class SaleOrderLine(models.Model):
 
         message = ''
         if self.product_id:
-            if self.product_id.standard_price == 0:
-                message += _('Cost price is zero')
-            if self.price_unit < self.product_id.standard_price:
-                message += _('You can not sell below the purchase price.')
+            # if self.product_id.standard_price == 0:
+            #     message += _('Cost price is zero')
+            if self.price_unit == 0:
+                message += _('You can not sell without price.')
+            # if self.price_unit < self.product_id.standard_price:
+            #     message += _('You can not sell below the purchase price.')
 
 
         if message:
