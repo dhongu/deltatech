@@ -44,10 +44,13 @@ class MRPSimple(models.TransientModel):
         })
 
         for line in self.product_in_ids:
-            self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id)
+            line.product_id.write({
+                'standard_price': line.price_unit,
+            })
+            self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
 
         for line in self.product_out_ids:
-            self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity, uom=line.uom_id)
+            self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.product_id.standard_price)
 
         # se face consumul
         if picking_out.move_lines:
@@ -81,7 +84,7 @@ class MRPSimple(models.TransientModel):
             'type': 'ir.actions.act_window'
         }
 
-    def add_picking_line(self, picking, product, quantity, uom):
+    def add_picking_line(self, picking, product, quantity, uom, price_unit):
         move = self.env['stock.move'].search([('picking_id', '=', picking.id),
                                               ('product_id', '=', product.id),
                                               ('product_uom', '=', uom.id)])
@@ -97,6 +100,7 @@ class MRPSimple(models.TransientModel):
                 # 'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
+                'price_unit': price_unit,
                 'location_id': picking.picking_type_id.default_location_src_id.id,
                 'location_dest_id': picking.picking_type_id.default_location_dest_id.id,
                 'picking_type_id': picking.picking_type_id.id
@@ -111,8 +115,9 @@ class MRPSimpleLine(models.TransientModel):
 
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
-    quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'))
-    uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
+    quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
+    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Product Price'))
+    uom_id = fields.Many2one('product.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),
         ('receipt', 'Receipt from production')], string='Type'
