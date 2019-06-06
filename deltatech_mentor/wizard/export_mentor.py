@@ -350,6 +350,7 @@ class export_mentor(models.TransientModel):
 
     @api.model
     def do_export_bonuri_intrari(self, voucher_in_ids):
+        "Export Bonuri fiscale"
         result_html = ''
         intrari = configparser.ConfigParser()
         intrari.optionxform = lambda option: option
@@ -397,14 +398,19 @@ class export_mentor(models.TransientModel):
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
-                mentor_uom_id = self.get_product_uom(line.product_id)
+                mentor_uom_id = self.get_product_uom(line.product_id)  #
                 qty = sign * line.quantity
                 price = line.price_unit
-
+                if line.tax_ids:
+                    taxes = line.tax_ids.compute_all(line.price_unit, quantity=line.quantity,  product=line.product_id)
+                    tva = taxes['total_included'] - taxes['total_excluded']
+                else:
+                    tva = 0
+                #tva = line.price_total - line.price_subtotal
                 code = self.get_product_code(line.product_id)
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(mentor_uom_id),
+                    self.get_uom(line.product_id.uom_id),
 
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
@@ -416,6 +422,7 @@ class export_mentor(models.TransientModel):
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
+                intrari[sections_name]['Item_%s_TVA' % item] = str(tva)
                 # if line.uom_id.id != line.product_id.uom_id.id:
                 #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
                 #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
@@ -851,6 +858,8 @@ class export_mentor(models.TransientModel):
 
         for voucher in voucher_in_ids:
             partner_in_ids |= voucher.partner_id.commercial_partner_id
+            for line in voucher.line_ids:
+                product_ids |= line.product_id
 
         domain = [('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
