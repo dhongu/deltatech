@@ -48,6 +48,8 @@ class export_mentor(models.TransientModel):
 
     company_id = fields.Many2one('res.company', 'Company', required=True, default=lambda self: self.env.user.company_id)
 
+
+
     @api.onchange('date_range_id')
     def onchange_date_range_id(self):
         """Handle date range change."""
@@ -303,7 +305,7 @@ class export_mentor(models.TransientModel):
                     result_html += '<div>Eroare %s</div>' % error
 
                 if line.product_id.type == 'product':
-                    cont = ''
+                    cont = self.get_cont(line.account_id)
                     gestiune = self.get_gestiune(line.product_id)
                 else:
                     gestiune = ''
@@ -351,6 +353,133 @@ class export_mentor(models.TransientModel):
 
         return temp_file, result_html
 
+
+    @api.model
+    def do_export_intrari_import(self, invoice_in_import_ids):
+        result_html = ''
+        intrari = configparser.ConfigParser()
+        intrari.optionxform = lambda option: option
+
+        intrari['InfoPachet'] = {
+            'TipDocument': 'INVOICE',
+            'TotalFacturi': len(invoice_in_import_ids)
+        }
+        self.set_luna_lucru(intrari['InfoPachet'])
+
+        index = 1
+        for invoice in invoice_in_import_ids:
+            cod_fiscal = self.get_cod_fiscal(invoice.commercial_partner_id)
+
+            sections_name = 'Factura_%s' % index
+            if invoice.reference:
+                NrDoc = invoice.reference
+            else:
+                NrDoc = invoice.number
+
+            # Atentie Mentorul accepta doar 10 cifre la numar
+            NrDoc, Serie = self.get_doc_number(NrDoc)
+
+            if invoice.currency_id.name != "RON":
+                Moneda = invoice.currency_id.name
+                Curs = invoice.currency_id._get_rates(invoice.company_id, invoice.date_invoice)
+                if Curs:
+                    Curs = 1 / Curs[1]
+                else:
+                    Curs = 0
+                Curs = str(Curs)
+            else:
+                Moneda = ''
+                Curs = ''
+
+            intrari[sections_name] = {
+                'NrDoc': NrDoc,
+                'Data': self.get_date(invoice.date_invoice),
+                'Lohn':'',
+                'CodFurnizor': cod_fiscal,
+                'Moneda': Moneda,  # invoice.currency_id.name,
+                'Curs': Curs,
+                'Scadenta': self.get_date(invoice.date_due),
+                'Majorari': '',
+                'Observatii': '',
+                'Discount': '',
+                'TotalArticole': len(invoice.invoice_line_ids),
+                'TaxareInversa':'',
+            }
+
+
+
+
+            sections_name = 'DVI_%s' % index
+
+            intrari[sections_name] = {
+                'NrDoc': NrDoc,
+                'Data': self.get_date(invoice.date_invoice),
+                'CodVama': cod_fiscal,
+                'Curs': Curs,
+            }
+
+            sections_name = 'Items_%s' % index
+            intrari[sections_name] = {}
+            item = 0
+            sign = invoice.type == 'in_refund' and -1 or 1
+
+            for line in invoice.invoice_line_ids:
+                item += 1
+                code = self.get_product_code(line.product_id)
+                if not code:
+                    error = _("Produsul %s nu are cod") % line.product_id.name
+                    result_html += '<div>Eroare %s</div>' % error
+
+                if line.product_id.type == 'product':
+                    cont = self.get_cont(line.account_id)
+                    gestiune = self.get_gestiune(line.product_id)
+                else:
+                    gestiune = ''
+                    cont = self.get_cont(line.account_id)
+
+                qty = line.quantity * sign
+                price = line.price_unit
+                tva = line.price_total - line.price_subtotal
+
+                mentor_uom_id = self.get_product_uom(line.product_id)
+                if line.uom_id != mentor_uom_id:
+                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                    # TVA  nu mai trebuie recalculat ca este pe totla linie si nu mai conteaza cantitatea si unitatea de masura.
+                    # tva = line.uom_id._compute_price(tva, mentor_uom_id)
+                else:
+                    qty = sign * line.quantity
+                    price = line.price_unit
+
+                code = self.get_product_code(line.product_id)
+                intrari[sections_name]['Item_%s' % item] = ';'.join([
+                    code,  # Cod intern/extern articol;
+                    self.get_uom(mentor_uom_id),
+
+                    str(qty),
+                    str(price),  # line., price_unit_without_taxes
+                    gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
+                    str(line.discount),  # Discount linie
+                    cont,  # Simbol cont articol serviciu;
+                    '',  # Pret inregistrare;
+                    '',  # Termen garantie;
+                    '',  # Valoare suplimentara;
+                    ''  # Observatii la nivel articol;
+                ])
+
+                intrari[sections_name]['Item_%s_TVA' % item] = str(tva)
+
+                # if line.uom_id.id != line.product_id.uom_id.id:
+                #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
+                #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
+
+            index += 1
+
+        temp_file = self.get_temp_file(intrari)
+
+        return temp_file, result_html
+
+
     @api.model
     def do_export_bonuri_intrari(self, voucher_in_ids):
         result_html = ''
@@ -394,38 +523,45 @@ class export_mentor(models.TransientModel):
                     result_html += '<div>Eroare %s</div>' % error
 
                 if line.product_id.type == 'product':
-                    cont = ''
+                    cont = self.get_cont(line.account_id)
                     gestiune = self.get_gestiune(line.product_id)
                 else:
                     gestiune = ''
                     cont = self.get_cont(line.account_id)
 
-                qty = line.quantity * sign
+                mentor_uom_id = self.get_product_uom(line.product_id)  #
+                qty = sign * line.quantity
                 price = line.price_unit
 
-                mentor_uom_id = self.get_product_uom(line.product_id)
-                if line.uom_id != mentor_uom_id:
-                    qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
-                    price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
-                else:
-                    qty = sign * line.quantity
-                    price = line.price_unit
+                # if line.uom_id != mentor_uom_id:
+                #     qty = sign * line.uom_id._compute_quantity(line.quantity, mentor_uom_id)
+                #     price = line.uom_id._compute_price(line.price_unit, mentor_uom_id)
+                # else:
+                #     qty = sign * line.quantity
+                #     price = line.price_unit
 
+                if line.tax_ids:
+                    taxes = line.tax_ids.compute_all(line.price_unit, quantity=line.quantity,  product=line.product_id)
+                    tva = taxes['total_included'] - taxes['total_excluded']
+                else:
+                    tva = 0
+                #tva = line.price_total - line.price_subtotal
                 code = self.get_product_code(line.product_id)
                 intrari[sections_name]['Item_%s' % item] = ';'.join([
                     code,  # Cod intern/extern articol;
-                    self.get_uom(mentor_uom_id),
+                    self.get_uom(line.product_id.uom_id),
 
                     str(qty),
                     str(price),  # line., price_unit_without_taxes
                     gestiune,  # Simbol gestiune: pentru receptie/repartizare cheltuieli
-                    str(line.discount),  # Discount linie
+                    '0', # Discount linie
                     cont,  # Simbol cont articol serviciu;
                     '',  # Pret inregistrare;
                     '',  # Termen garantie;
                     '',  # Valoare suplimentara;
                     ''  # Observatii la nivel articol;
                 ])
+                intrari[sections_name]['Item_%s_TVA' % item] = str(tva)
                 # if line.uom_id.id != line.product_id.uom_id.id:
                 #     qty = sign * line.uom_id._compute_quantity(line.quantity, line.product_id.uom_id)
                 #     intrari[sections_name]['Item_%s_UM1' % item] = str(qty)
@@ -903,7 +1039,20 @@ class export_mentor(models.TransientModel):
         if self.journal_ids:
             domain += [('journal_id', 'in', self.journal_ids.ids)]
 
-        invoice_in_ids = self.env['account.invoice'].search(domain)
+        invoice_ids = self.env['account.invoice'].search(domain)
+
+        invoice_in_ids = self.env['account.invoice']
+        invoice_in_import_ids = self.env['account.invoice']
+
+        ro_country = self.env.ref('base.ro')
+        for invoice in invoice_ids:
+            if not invoice.commercial_partner_id.country_id or invoice.commercial_partner_id.country_id == ro_country:
+                invoice_in_ids |= invoice
+            else:
+                invoice_in_import_ids  |= invoice
+
+
+
 
         domain = [
             ('date', '>=', self.date_from),
@@ -915,15 +1064,17 @@ class export_mentor(models.TransientModel):
             domain += [('journal_id', 'in', self.journal_ids.ids)]
         voucher_in_ids = self.env['account.voucher'].search(domain)
 
-        for invoice in invoice_in_ids:
+        for invoice in invoice_ids:
             for line in invoice.invoice_line_ids:
                 product_ids |= line.product_id
 
-        for invoice in invoice_in_ids:
+        for invoice in invoice_ids:
             partner_in_ids |= invoice.commercial_partner_id
 
         for voucher in voucher_in_ids:
             partner_in_ids |= voucher.partner_id.commercial_partner_id
+            for line in voucher.line_ids:
+                product_ids |= line.product_id
 
         domain = [('date', '>=', self.date_from),
                   ('date', '<=', self.date_to),
@@ -1003,6 +1154,7 @@ class export_mentor(models.TransientModel):
 
         result_html = ' <div>Au fost exportate:</div>'
         result_html += '<div>Facturi de intrare: %s</div>' % str(len(invoice_in_ids))
+        result_html += '<div>Facturi de intrare din Import: %s</div>' % str(len(invoice_in_import_ids))
         result_html += '<div>Bonuri fiscale: %s</div>' % str(len(voucher_in_ids))
         result_html += '<div>Facturi de iesire %s</div>' % str(len(invoice_out_ids))
         result_html += '<div>Produse %s</div>' % str(len(product_ids))
@@ -1035,6 +1187,13 @@ class export_mentor(models.TransientModel):
         result_html += messaje
         file_name = 'Facturi_Intrare.txt'
         zip_archive.writestr(file_name, temp_file)
+
+
+        temp_file, messaje = self.do_export_intrari_import(invoice_in_import_ids)
+        result_html += messaje
+        file_name = 'Facturi_Intrare din Import.txt'
+        zip_archive.writestr(file_name, temp_file)
+
 
         temp_file, messaje = self.do_export_bonuri_intrari(voucher_in_ids)
         result_html += messaje
