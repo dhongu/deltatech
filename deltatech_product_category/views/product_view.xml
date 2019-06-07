@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+        <record id="product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <field name="parent_id" position="after">
+                    <field name="company_id" options="{'no_create': True}"  class="oe_inline" groups="base.group_multi_company"/>
+                </field>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
+
