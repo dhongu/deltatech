@@ -6,13 +6,7 @@
     'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "description": """
- 
-Features:
- - Numerotare liste de ridicare la cerere 
 
-
-    """,
     'category': 'Warehouse',
     "depends": ["stock"],
     "license": "LGPL-3",
