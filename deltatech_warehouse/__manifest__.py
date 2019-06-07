@@ -8,14 +8,7 @@
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "description": """
 
-Functionalitati:
- - definire  camp scrap (pierderi)
- - definire furnizor implicit
- - definire depozit implicit
- 
-    """,
 
     "category": "Warehouse",
     "depends": [

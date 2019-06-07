@@ -31,9 +31,9 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.multi
-    def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False):
+    def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False, params=False):
 
-        res = super(ProductProduct, self)._select_seller(partner_id, quantity, date, uom_id)
+        res = super(ProductProduct, self)._select_seller(partner_id, quantity, date, uom_id,params)
 
         if not res:
             if self.env.user.company_id.supplier_id and \
@@ -42,6 +42,7 @@ class ProductProduct(models.Model):
                     #'product_id': self.id,
                     'product_tmpl_id': self.product_tmpl_id.id,
                     'company_id': self.env.user.company_id.id,
-                    'name': self.env.user.company_id.supplier_id.id})
+                    'name': self.env.user.company_id.supplier_id.id
+                })
 
         return res
