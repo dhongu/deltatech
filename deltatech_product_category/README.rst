@@ -7,7 +7,7 @@ Products Code
 
 
 Features:
- - Generare cod de produs
+ - Product Category per company
 
 
 
