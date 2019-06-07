@@ -7,9 +7,9 @@
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_form_view"/>
             <field name="arch" type="xml">
-                <group name="first" position="after">
-                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
-                </group>
+                <field name="parent_id" position="after">
+                    <field name="company_id" options="{'no_create': True}"  class="oe_inline" groups="base.group_multi_company"/>
+                </field>
             </field>
         </record>
 
