@@ -59,18 +59,22 @@ class export_mentor(models.TransientModel):
 
     def get_cod_fiscal(self, partner):
         if partner.is_company:
-            cod_fiscal = partner.vat or ''
-            vat_subjected = partner.vat_subjected or ('RO' in cod_fiscal)
-            cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
-            if cod_fiscal:
-                if vat_subjected:
-                    if 'RO' in partner.vat:
-                        cod_fiscal = partner.vat  # se preia codul asa cum e scris in Odoo ( cu staiu dupa ro eventual)
-                    else:
-                        country_code = partner.country_id.code or 'RO'
-                        cod_fiscal = country_code + cod_fiscal
+            ro_country = self.env.ref('base.ro')
+            if not partner.country_id or partner.country_id == ro_country:
+                cod_fiscal = partner.vat or ''
+                vat_subjected = partner.vat_subjected or ('RO' in cod_fiscal)
+                cod_fiscal = ''.join([s for s in cod_fiscal if s.isdigit()])
+                if cod_fiscal:
+                    if vat_subjected:
+                        if 'RO' in partner.vat:
+                            cod_fiscal = partner.vat  # se preia codul asa cum e scris in Odoo ( cu staiu dupa ro eventual)
+                        else:
+                            country_code = partner.country_id.code or 'RO'
+                            cod_fiscal = country_code + cod_fiscal
+                else:
+                    cod_fiscal = "id_%s" % str(partner.id)
             else:
-                cod_fiscal = "id_%s" % str(partner.id)
+                cod_fiscal = partner.vat or ''  # pentru partenerii din afara nu se mai elimina codul indicativul de tara
         else:
             if partner.cnp:
                 cod_fiscal = partner.cnp
