@@ -25,11 +25,6 @@
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    Raport cu pozitii din liste de ridicare
-    """,
 
     "category": "Generic Modules",
     "depends": ["base", "stock", "stock_account"],
@@ -38,7 +33,9 @@ Functionalitati:
 
     "data": [
         'security/ir.model.access.csv',
-        "report/stock_picking_report.xml"
+        "report/stock_picking_report.xml",
+        'report/monthly_stock_report_view.xml',
+        'report/stock_balance_view.xml',
     ],
     "active": False,
     "installable": True,
