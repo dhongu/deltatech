@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
@@ -130,9 +129,9 @@ class stock_return_picking(models.TransientModel):
             })
 
             msg = _('%s was generated to transfer products from %s they have been refunded by %s ') % (
-            self.get_link(pick_backorder),
-            self.get_link(pick),
-            self.get_link(pick_return))
+                self.get_link(pick_backorder),
+                self.get_link(pick),
+                self.get_link(pick_return))
             pick.message_post(body=msg)
             pick_backorder.message_post(body=msg)
 
@@ -150,8 +149,8 @@ class stock_return_picking(models.TransientModel):
         else:
             msg = _(
                 'It was not generated a new picking list for transfer products from %s they have been refunded by %s ') % (
-                  self.get_link(pick),
-                  self.get_link(pick_return))
+                      self.get_link(pick),
+                      self.get_link(pick_return))
             pick.message_post(body=msg)
         if self.do_transfer:
             pick_return.do_transfer()

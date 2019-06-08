@@ -19,6 +19,6 @@
 #
 ##############################################################################
 
-
-import stock_picking_report
+# nu stiu la ce foloseste asa ceva !
+# import stock_picking_report
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2015 stock All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com
+# Copyright (c) 2015 Deltatech All Rights Reserved
+#                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,26 +19,20 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
-import time 
-from datetime import datetime
+
+import stock_return_picking
+import stock
+import account_invoice
+import account_invoice_refund
 
 
-class stock_picking_report(models.Model):
-    _inherit = "stock.picking.report"
- 
-    # nu trebuie sa adauca in raport miscarile care sunt reversate ?
-    def _where(self):
-        where_str = super(stock_picking_report, self)._where() + " and  (sp.origin_refund_picking_id is Null and sp.refund_picking_id is Null)"
-        return where_str
+import res_company
+import res_config
 
-        
-        
 
- 
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

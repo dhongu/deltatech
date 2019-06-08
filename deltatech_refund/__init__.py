@@ -20,14 +20,10 @@
 ##############################################################################
 
 
-import stock_return_picking
-import stock
-import account_invoice
-import account_invoice_refund
+import models
 import report
 
-import res_company
-import res_config
+
 
 
 
