@@ -19,6 +19,8 @@
 #
 ##############################################################################
 
+# https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
+
 
 from odoo import api, fields, models, _
 import time
@@ -70,16 +72,16 @@ class background_job(models.Model):
     @api.multi
     def action_get(self):
         for thread in threading.enumerate():
-            print thread.name, id(thread), thread
+            print (thread.name, id(thread), thread)
 
     @api.multi
     def action_stop(self):
         job_threaded = get_var_by_id(self.thread_address)
         for job in self:
             for thread in threading.enumerate():
-                print thread.name, id(thread), thread
+                print (thread.name, id(thread), thread)
                 if thread.name == job.name:
-                    print "Join"
+                    print ("Join")
                     thread.join(0.05)
 
         self.write({'state': 'finalized', 'end_time': fields.Datetime.now()})

@@ -34,6 +34,7 @@ def is_integer_list(ids):
 
 class MergeProductLine(models.TransientModel):
     _name = 'base.product.merge.line'
+    _description = 'MergeProductLine'
     _order = 'min_id asc'
 
     wizard_id = fields.Many2one(         'base.product.merge.automatic.wizard',         'Wizard')
@@ -43,6 +44,7 @@ class MergeProductLine(models.TransientModel):
 
 class MergeProductAutomatic(models.TransientModel):
     _name = 'base.product.merge.automatic.wizard'
+    _description =  'MergeProductAutomatic'
 
     group_by_product_tmpl_id = fields.Boolean('Template')
     group_by_default_code = fields.Boolean('Reference')

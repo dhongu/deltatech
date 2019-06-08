@@ -14,11 +14,7 @@
 
     "depends": ["product"],
 
-    "description": """
-Features:    
- - Generare cod de produs  
- 
-""",
+
     "license": "LGPL-3",
     "data": [
         "views/product_view.xml",

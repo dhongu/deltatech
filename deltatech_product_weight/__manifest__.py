@@ -13,14 +13,7 @@
 
     "depends": ["product","stock"],
 
-    "description": """
-    
-Features:    
----------
-    Parametrul de sistem product.weight_uom permite alegerea unei unitati de masura
 
-
-""",
     "license": "LGPL-3",
     "data": [
        # "views/product_view.xml"

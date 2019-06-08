@@ -9,13 +9,16 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
-
     "category": "Generic Modules",
     "depends": ["base", "stock", "stock_account"],
 
     "license": "LGPL-3",
-    "data": ['security/ir.model.access.csv',
-             "report/stock_picking_report.xml"],
+    "data": [
+        'security/ir.model.access.csv',
+        "report/stock_picking_report.xml",
+        'report/monthly_stock_report_view.xml',
+        'report/stock_balance_view.xml',
+    ],
     "images": ['images/main_screenshot.png'],
     "installable": True,
 }
