@@ -8,7 +8,8 @@ Stock Reports
 
 Features:
  - Raport cu pozitii din liste de ridicare
-
+ - Raport balanta de stoc pe locatii
+ - Raport lunar de stoc
 
 Bug Tracker
 ===========
