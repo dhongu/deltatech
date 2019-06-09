@@ -53,34 +53,89 @@ class MonthlyStockReport(models.TransientModel):
     @api.multi
     def do_fix_stock_move_location_source(self):
 
+
+        # caut toate quanturile implicate in raport!
         query = """
-        select sm.id
-            from stock_pack_operation as so
-                join stock_move_operation_link as sol on so.id = sol.operation_id
-                join stock_move as sm on sm.id = sol.move_id
-                where sm.location_id <> so.location_id and 
-                      so.location_id = %(location)s
-        """
-        params = {'location': self.location_id.id}
-        self.env.cr.execute(query, params=params)
-
-        move_ids = []
-        res = self.env.cr.fetchall()
-        for row in res:
-            move_ids += [row[0]]
-
-
-
-        query = """
-         update stock_move set location_id = %(location)s
-         where id in %(move_ids)s
+        select sq.id
+            from stock_quant as sq
+                join stock_quant_move_rel as sqmr on sqmr.quant_id = sq.id 
+                join stock_move as sm on sqmr.move_id = sm.id
+            where
+                 date >= %(date_from)s AND date  <= %(date_to)s AND
+               ( sm.location_id = %(location)s OR sm.location_dest_id = %(location)s or
+                sm.location_id = %(location_parent)s OR sm.location_dest_id = %(location_parent)s)       
+            group by sq.id
         """
         params = {
             'location': self.location_id.id,
-            'move_ids': tuple(move_ids)
+            'location_parent': self.location_id.location_id.id,
+            'date_from': self.date_from + ' 00:00:00',
+            'date_to': self.date_to + ' 23:59:59',
         }
-
         self.env.cr.execute(query, params=params)
+        quant_ids = []
+        res = self.env.cr.fetchall()
+        for row in res:
+            quant_ids += [row[0]]
+
+        if quant_ids:
+            query = """
+            select sm.id 
+                from stock_move as sm
+                    join stock_quant_move_rel as sqmr   on sqmr.move_id = sm.id
+                    where  sqmr.quant_id in %(quant_ids)s and 
+                           sm.location_id = %(location_parent)s
+            """
+            params = {
+                'quant_ids': tuple(quant_ids),
+                'location_parent': self.location_id.location_id.id,
+            }
+            self.env.cr.execute(query, params=params)
+            move_ids = []
+            res = self.env.cr.fetchall()
+            for row in res:
+                move_ids += [row[0]]
+
+            if move_ids:
+                query = """
+                 update stock_move set location_id = %(location)s
+                 where id in %(move_ids)s
+                """
+                params = {
+                    'location': self.location_id.id,
+                    'move_ids': tuple(move_ids)
+                }
+
+                self.env.cr.execute(query, params=params)
+
+            query = """
+                select sm.id 
+                    from stock_move as sm
+                        join stock_quant_move_rel as sqmr   on sqmr.move_id = sm.id
+                        where  sqmr.quant_id in %(quant_ids)s and 
+                               sm.location_dest_id = %(location_parent)s
+                """
+            params = {
+                'quant_ids': tuple(quant_ids),
+                'location_parent': self.location_id.location_id.id,
+            }
+            self.env.cr.execute(query, params=params)
+            move_ids = []
+            res = self.env.cr.fetchall()
+            for row in res:
+                move_ids += [row[0]]
+
+            if move_ids:
+                query = """
+                 update stock_move set location_dest_id = %(location)s
+                 where id in %(move_ids)s
+                """
+                params = {
+                    'location': self.location_id.id,
+                    'move_ids': tuple(move_ids)
+                }
+
+                self.env.cr.execute(query, params=params)
 
 
 
@@ -253,6 +308,10 @@ class MonthlyStockReport(models.TransientModel):
                 'move_out_ids': [(6, 0, list(row[3]))]
             }
         products |= self.env['product.product'].browse(product_ids)
+
+
+
+
 
         for product in products:
             line_value = {
