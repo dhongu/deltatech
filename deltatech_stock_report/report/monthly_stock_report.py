@@ -51,12 +51,9 @@ class MonthlyStockReport(models.TransientModel):
             self.date_to = self.date_range_id.date_stop
 
 
-
     @api.multi
-    def do_fix_stock_move_location_source(self):
+    def do_fix_stock_move_location_from_picking(self):
 
-
-        # setaz locatiile cum erau inainte de update.
         picking_type_out = self.env.ref('stock.picking_type_out')
 
         query = """
@@ -99,7 +96,9 @@ class MonthlyStockReport(models.TransientModel):
 
 
 
-
+    @api.multi
+    def do_fix_stock_move_location_source(self):
+        picking_type_out = self.env.ref('stock.picking_type_out')
 
         # caut toate quanturile implicate in raport!
         query = """
