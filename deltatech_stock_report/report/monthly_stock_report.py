@@ -6,7 +6,8 @@
 from dateutil.relativedelta import relativedelta
 from openerp import api, fields, models, _
 
-#todo: de verificat ca sunt utilizate corect unitatile de masura!
+
+# todo: de verificat ca sunt utilizate corect unitatile de masura!
 
 class MonthlyStockReport(models.TransientModel):
     _name = 'stock.monthly.report'
@@ -50,8 +51,54 @@ class MonthlyStockReport(models.TransientModel):
             self.date_to = self.date_range_id.date_stop
 
 
+
     @api.multi
     def do_fix_stock_move_location_source(self):
+
+
+        # setaz locatiile cum erau inainte de update.
+        picking_type_out = self.env.ref('stock.picking_type_out')
+
+        query = """
+            SELECT sm.id
+                FROM stock_move as sm  join stock_location as sl on sl.id = sm.location_id
+                                       join stock_location as sld on sld.id = sm.location_dest_id       
+                WHERE  
+                    sm.state = 'done' AND
+                    date >= %(date_from)s AND date  <= %(date_to)s  AND
+                    picking_type_id  = %(picking_type_id)s
+              GROUP BY sm.id 
+        """
+        params = {
+            'location': self.location_id.id,
+            'date_from': self.date_from + ' 00:00:00',
+            'date_to': self.date_to + ' 23:59:59',
+            'picking_type_id':picking_type_out.id
+        }
+        self.env.cr.execute(query, params=params)
+
+
+        move_ids = []
+        res = self.env.cr.fetchall()
+        for row in res:
+            move_ids += [row[0]]
+
+
+        if move_ids:
+            query = """
+                 update stock_move set location_id = %(location)s
+                 where id in %(move_ids)s
+                """
+            params = {
+                'location': picking_type_out.default_location_src_id.id,
+                'move_ids': tuple(move_ids)
+            }
+
+            self.env.cr.execute(query, params=params)
+
+
+
+
 
 
         # caut toate quanturile implicate in raport!
@@ -62,8 +109,7 @@ class MonthlyStockReport(models.TransientModel):
                 join stock_move as sm on sqmr.move_id = sm.id
             where
                  date >= %(date_from)s AND date  <= %(date_to)s AND
-               ( sm.location_id = %(location)s OR sm.location_dest_id = %(location)s or
-                sm.location_id = %(location_parent)s OR sm.location_dest_id = %(location_parent)s)       
+               ( sm.location_id = %(location)s OR sm.location_dest_id = %(location)s )       
             group by sq.id
         """
         params = {
@@ -72,6 +118,7 @@ class MonthlyStockReport(models.TransientModel):
             'date_from': self.date_from + ' 00:00:00',
             'date_to': self.date_to + ' 23:59:59',
         }
+
         self.env.cr.execute(query, params=params)
         quant_ids = []
         res = self.env.cr.fetchall()
@@ -79,15 +126,20 @@ class MonthlyStockReport(models.TransientModel):
             quant_ids += [row[0]]
 
         if quant_ids:
+
+            # toate iesirile din stoc aferente acestui quant
             query = """
-            select sm.id 
-                from stock_move as sm
-                    join stock_quant_move_rel as sqmr   on sqmr.move_id = sm.id
-                    where  sqmr.quant_id in %(quant_ids)s and 
-                           sm.location_id = %(location_parent)s
+                select sm.id 
+                    from stock_move as sm
+                        join stock_quant_move_rel as sqmr   on sqmr.move_id = sm.id
+                        where  sqmr.quant_id in %(quant_ids)s and 
+                               picking_type_id  = %(picking_type_id)s and
+                               sm.location_id = %(location_parent)s
             """
             params = {
                 'quant_ids': tuple(quant_ids),
+
+                'picking_type_id': picking_type_out.id,
                 'location_parent': self.location_id.location_id.id,
             }
             self.env.cr.execute(query, params=params)
@@ -98,8 +150,8 @@ class MonthlyStockReport(models.TransientModel):
 
             if move_ids:
                 query = """
-                 update stock_move set location_id = %(location)s
-                 where id in %(move_ids)s
+                     update stock_move set location_id = %(location)s
+                     where id in %(move_ids)s
                 """
                 params = {
                     'location': self.location_id.id,
@@ -108,15 +160,19 @@ class MonthlyStockReport(models.TransientModel):
 
                 self.env.cr.execute(query, params=params)
 
+
+            # caut toate retururil
             query = """
                 select sm.id 
                     from stock_move as sm
                         join stock_quant_move_rel as sqmr   on sqmr.move_id = sm.id
                         where  sqmr.quant_id in %(quant_ids)s and 
+                              
                                sm.location_dest_id = %(location_parent)s
                 """
             params = {
                 'quant_ids': tuple(quant_ids),
+                'picking_type_id': picking_type_out.id,
                 'location_parent': self.location_id.location_id.id,
             }
             self.env.cr.execute(query, params=params)
@@ -136,10 +192,6 @@ class MonthlyStockReport(models.TransientModel):
                 }
 
                 self.env.cr.execute(query, params=params)
-
-
-
-
 
     @api.multi
     def do_execute(self):
@@ -166,7 +218,8 @@ class MonthlyStockReport(models.TransientModel):
     @api.multi
     def compute_data_for_report(self):
 
-        self.do_fix_stock_move_location_source()
+        if self.env.user.login == 'admin':
+            self.do_fix_stock_move_location_source()
 
         stock_init = {}
 
@@ -309,10 +362,6 @@ class MonthlyStockReport(models.TransientModel):
             }
         products |= self.env['product.product'].browse(product_ids)
 
-
-
-
-
         for product in products:
             line_value = {
                 'quantity_begin': 0.0,
@@ -339,7 +388,7 @@ class MonthlyStockReport(models.TransientModel):
                 'quantity_out']
             line_value['amount_finish'] = line_value['amount_begin'] + line_value['amount_in'] - line_value[
                 'amount_out']
-            if line_value['quantity_begin']  or line_value['quantity_in'] or  line_value['quantity_out']:
+            if line_value['quantity_begin'] or line_value['quantity_in'] or line_value['quantity_out']:
                 self.env['stock.monthly.report.line'].create(line_value)
 
     @api.multi
@@ -388,9 +437,9 @@ class MonthlyStockReportLine(models.TransientModel):
     amount_out = fields.Float('Amount Out')
     amount_finish = fields.Float('Amount Finish')
 
-    move_begin_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_begin')
-    move_in_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_in')
-    move_out_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_out')
+    move_begin_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_begin')
+    move_in_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_in')
+    move_out_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_out')
 
     @api.multi
     def action_move_begin_details(self):
