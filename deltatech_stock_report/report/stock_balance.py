@@ -60,27 +60,27 @@ class stock_balance(models.Model):
              FROM (
               SELECT min(sm.id) AS id,
                 sm.date  AS date,
-                sm.location_id, pt.categ_id, sm.product_id, pu.id AS product_uom,
+                sm.location_id, pt.categ_id, sm.product_id, pt.uom_id AS product_uom,
                 0 AS qty_in, 0 AS amount_in,
-                COALESCE(sum(((sm.product_qty * pu.factor) / pu2.factor)), 0.0) AS qty_out,
+                
+                sum(q.qty)  AS qty_out,
                 sum((q.qty * q.cost)) AS amount_out, sm.company_id
               FROM stock_move sm
                 LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
                 LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
                 LEFT JOIN product_product pp ON  sm.product_id = pp.id
                 LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
-                LEFT JOIN product_uom pu ON  pt.uom_id = pu.id
-                LEFT JOIN product_uom pu2 ON  sm.product_uom = pu2.id
+               
             
               WHERE ( sm.state  = 'done' )
-              GROUP BY pt.categ_id, sm.product_id, pu.id, sm.location_id, sm.date,
+              GROUP BY pt.categ_id, sm.product_id, pt.uom_id, sm.location_id, sm.date,
                   sm.company_id
                 UNION
                 SELECT min(- sm.id) AS id,
                     sm.date AS date,
                     sm.location_dest_id AS location_id, pt.categ_id, sm.product_id,
-                    pu.id AS product_uom,
-                    COALESCE(sum(((sm.product_qty*pu.factor)/pu2.factor)), 0.0) AS qty_in,
+                    pt.uom_id AS product_uom,
+                    sum(q.qty) AS qty_in,
                     sum((q.qty * q.cost)) AS amount_in,
                     0 AS qty_out, 0 AS amount_out, sm.company_id
                 FROM  stock_move sm
@@ -88,11 +88,10 @@ class stock_balance(models.Model):
                     LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
                     LEFT JOIN product_product pp ON  sm.product_id = pp.id
                     LEFT JOIN product_template pt ON  pp.product_tmpl_id = pt.id
-                    LEFT JOIN product_uom pu ON  pt.uom_id = pu.id
-                    LEFT JOIN product_uom pu2 ON  sm.product_uom = pu2.id
+                     
             
               WHERE ( sm.state   = 'done')
-              GROUP BY pt.categ_id, sm.product_id, pu.id, sm.location_dest_id, sm.date,
+              GROUP BY pt.categ_id, sm.product_id, pt.uom_id, sm.location_dest_id, sm.date,
                   sm.company_id) smg
              GROUP BY smg.date,  smg.categ_id, smg.product_id,
              smg.location_id, smg.product_uom, smg.company_id

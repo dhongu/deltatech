@@ -49,8 +49,46 @@ class MonthlyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_stop
 
+
+    @api.multi
+    def do_fix_stock_move_location_source(self):
+
+        query = """
+        select sm.id
+            from stock_pack_operation as so
+                join stock_move_operation_link as sol on so.id = sol.operation_id
+                join stock_move as sm on sm.id = sol.move_id
+                where sm.location_id <> so.location_id and 
+                      so.location_id = %(location)s
+        """
+        params = {'location': self.location_id.id}
+        self.env.cr.execute(query, params=params)
+
+        move_ids = []
+        res = self.env.cr.fetchall()
+        for row in res:
+            move_ids += [row[0]]
+
+
+
+        query = """
+         update stock_move set location_id = %(location)s
+         where id in %(move_ids)s
+        """
+        params = {
+            'location': self.location_id.id,
+            'move_ids': tuple(move_ids)
+        }
+
+        self.env.cr.execute(query, params=params)
+
+
+
+
+
     @api.multi
     def do_execute(self):
+
         domain = [
             ('location_id', '=', self.location_id.id),
             ('date_from', '=', self.date_from),
@@ -73,6 +111,8 @@ class MonthlyStockReport(models.TransientModel):
     @api.multi
     def compute_data_for_report(self):
 
+        self.do_fix_stock_move_location_source()
+
         stock_init = {}
 
         stock_in = {}
@@ -85,8 +125,8 @@ class MonthlyStockReport(models.TransientModel):
                 sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty*q.cost
                     ELSE q.qty*q.cost
                     END), 
-                sum(CASE WHEN sm.location_id = %(location)s THEN -1*product_qty
-                    ELSE product_qty
+                sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty
+                    ELSE q.qty
                     END), 
                 array_agg(sm.id) 
                 
@@ -128,14 +168,14 @@ class MonthlyStockReport(models.TransientModel):
                 sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty*q.cost
                     ELSE q.qty*q.cost
                     END), 
-                sum(CASE WHEN sm.location_id = %(location)s THEN -1*product_qty
-                    ELSE product_qty
+                sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty
+                    ELSE q.qty
                     END), 
             array_agg(sm.id) 
             FROM stock_move as sm  join stock_location as sl on sl.id = sm.location_id
                                    join stock_location as sld on sld.id = sm.location_dest_id
                                    LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
-                                    LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
+                                   LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
             WHERE  
                 sm.state = 'done' AND
                 sm.company_id = %(company)s and 
@@ -174,8 +214,8 @@ class MonthlyStockReport(models.TransientModel):
                         sum(CASE WHEN sm.location_id = %(location)s THEN 1*q.qty*q.cost
                             ELSE -1*q.qty*q.cost
                             END), 
-                        sum(CASE WHEN sm.location_id = %(location)s THEN 1*product_qty
-                            ELSE -product_qty
+                        sum(CASE WHEN sm.location_id = %(location)s THEN 1*q.qty
+                            ELSE -q.qty
                             END), 
                     array_agg(sm.id) 
                     FROM stock_move as sm  join stock_location as sl on sl.id = sm.location_id
