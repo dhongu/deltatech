@@ -82,8 +82,8 @@ class MonthlyStockReport(models.TransientModel):
         # determinare miscari pentru aceasta locatie care sunt pana la data de inceput
         query = """
             SELECT sm.product_id, 
-                sum(CASE WHEN sm.location_id = %(location)s THEN -1*sm.product_qty*sm.price_unit
-                    ELSE sm.product_qty*sm.price_unit
+                sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty*q.cost
+                    ELSE q.qty*q.cost
                     END), 
                 sum(CASE WHEN sm.location_id = %(location)s THEN -1*product_qty
                     ELSE product_qty
@@ -91,12 +91,14 @@ class MonthlyStockReport(models.TransientModel):
                 array_agg(sm.id) 
                 
             FROM stock_move as sm
+                LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
+                LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
             WHERE  
                 sm.state = 'done' AND
                 sm.company_id = %(company)s AND 
                 sm.date < %(date)s AND
               ( sm.location_id = %(location)s OR sm.location_dest_id = %(location)s)
-             GROUP BY product_id 
+             GROUP BY sm.product_id 
         """
 
         params = {
@@ -123,8 +125,8 @@ class MonthlyStockReport(models.TransientModel):
         # determinare care sunt intrari in stoc
         query = """
             SELECT sm.product_id, 
-                sum(CASE WHEN sm.location_id = %(location)s THEN -1*sm.product_qty*sm.price_unit
-                    ELSE sm.product_qty*sm.price_unit
+                sum(CASE WHEN sm.location_id = %(location)s THEN -1*q.qty*q.cost
+                    ELSE q.qty*q.cost
                     END), 
                 sum(CASE WHEN sm.location_id = %(location)s THEN -1*product_qty
                     ELSE product_qty
@@ -132,6 +134,8 @@ class MonthlyStockReport(models.TransientModel):
             array_agg(sm.id) 
             FROM stock_move as sm  join stock_location as sl on sl.id = sm.location_id
                                    join stock_location as sld on sld.id = sm.location_dest_id
+                                   LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
+                                    LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
             WHERE  
                 sm.state = 'done' AND
                 sm.company_id = %(company)s and 
@@ -167,8 +171,8 @@ class MonthlyStockReport(models.TransientModel):
         # se cosnidera iesire orice miscare care se duce intro locatie de client sau de productie
         query = """
                     SELECT sm.product_id, 
-                        sum(CASE WHEN sm.location_id = %(location)s THEN 1*sm.product_qty*sm.price_unit
-                            ELSE -sm.product_qty*sm.price_unit
+                        sum(CASE WHEN sm.location_id = %(location)s THEN 1*q.qty*q.cost
+                            ELSE -1*q.qty*q.cost
                             END), 
                         sum(CASE WHEN sm.location_id = %(location)s THEN 1*product_qty
                             ELSE -product_qty
@@ -176,6 +180,8 @@ class MonthlyStockReport(models.TransientModel):
                     array_agg(sm.id) 
                     FROM stock_move as sm  join stock_location as sl on sl.id = sm.location_id
                                            join stock_location as sld on sld.id = sm.location_dest_id
+                                           LEFT JOIN stock_quant_move_rel ON  stock_quant_move_rel.move_id = sm.id
+                                            LEFT JOIN stock_quant q ON  stock_quant_move_rel.quant_id = q.id
                     WHERE  
                        sm.state = 'done' AND
                        sm.company_id = %(company)s and 
