@@ -50,7 +50,6 @@ class MonthlyStockReport(models.TransientModel):
             self.date_from = self.date_range_id.date_start
             self.date_to = self.date_range_id.date_stop
 
-
     @api.multi
     def do_fix_stock_move_location_from_picking(self):
 
@@ -70,16 +69,14 @@ class MonthlyStockReport(models.TransientModel):
             'location': self.location_id.id,
             'date_from': self.date_from + ' 00:00:00',
             'date_to': self.date_to + ' 23:59:59',
-            'picking_type_id':picking_type_out.id
+            'picking_type_id': picking_type_out.id
         }
         self.env.cr.execute(query, params=params)
-
 
         move_ids = []
         res = self.env.cr.fetchall()
         for row in res:
             move_ids += [row[0]]
-
 
         if move_ids:
             query = """
@@ -92,9 +89,6 @@ class MonthlyStockReport(models.TransientModel):
             }
 
             self.env.cr.execute(query, params=params)
-
-
-
 
     @api.multi
     def do_fix_stock_move_location_source(self):
@@ -158,7 +152,6 @@ class MonthlyStockReport(models.TransientModel):
                 }
 
                 self.env.cr.execute(query, params=params)
-
 
             # caut toate retururil
             query = """
@@ -369,7 +362,8 @@ class MonthlyStockReport(models.TransientModel):
                 'categ_id': product.categ_id.id,
                 'amount_begin': 0.0,
                 'amount_in': 0.0,
-                'amount_out': 0.0
+                'amount_out': 0.0,
+                'amount_sale': 0.0
             }
 
             init_product = stock_init.get(product.id, False)
@@ -382,6 +376,19 @@ class MonthlyStockReport(models.TransientModel):
             out_product = stock_out.get(product.id, False)
             if out_product:
                 line_value.update(out_product)
+                # determinare pret de vanzare din liniile de comanda de vanzare:
+                # move_line.procurement_id.sale_line_id
+                moves = self.env['stock.move'].browse(out_product['move_out_ids'][0][2])
+                for move_line in moves:
+                    if move_line.procurement_id.sale_line_id:
+                        line = move_line.procurement_id.sale_line_id
+
+                        cur = line.order_id.pricelist_id.currency_id
+
+                        taxes = line.tax_id.compute_all(line.price_unit, move_line.product_uom_qty, line.product_id,
+                                                        line.order_id.partner_id)
+                        amount_sale = cur.compute(taxes['total'], self.env.user.company_id.currency_id)
+                        line_value['amount_sale'] += amount_sale
 
             line_value['quantity_finish'] = line_value['quantity_begin'] + line_value['quantity_in'] - line_value[
                 'quantity_out']
@@ -431,10 +438,11 @@ class MonthlyStockReportLine(models.TransientModel):
     quantity_out = fields.Float('Quantity Out')  # cantiatea iesita in aceasta luna
     quantity_finish = fields.Float('Quantity Finish')  # cantiatea la sfarsit de luna
 
-    amount_begin = fields.Float('Amount Begin')
-    amount_in = fields.Float('Amount In')
-    amount_out = fields.Float('Amount Out')
-    amount_finish = fields.Float('Amount Finish')
+    amount_begin = fields.Float('Amount Begin', help='Stock amount at the beginning of the period')
+    amount_in = fields.Float('Amount In', help='Stock amount in of the period.')
+    amount_out = fields.Float('Amount Out', help='Stock amount out of the period.')
+    amount_sale = fields.Float('Amount of the sale', help='Amount of the sale')
+    amount_finish = fields.Float('Amount Finish', help='Stock amount at end of period')
 
     move_begin_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_begin')
     move_in_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_in')
@@ -467,8 +475,8 @@ class MonthlyStockReportLine(models.TransientModel):
             'domain': [('id', 'in', move_ids.ids)]
         }
 
-        # tree_view_ref = self.env.ref('stock_account.view_stock_account_aml')
+        tree_view_ref = self.env.ref('stock.view_move_tree')
         # form_view_ref = self.env.ref('account.view_move_line_form')
-        # action['views'] = [(tree_view_ref.id, 'tree'), (form_view_ref.id, 'form')]
+        action['views'] = [(tree_view_ref.id, 'tree')] #, (form_view_ref.id, 'form')]
 
         return action

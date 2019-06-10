@@ -63,11 +63,12 @@
 
                 <field name="quantity_in" sum="1"/>
                 <field name="amount_in" sum="1"/>
-                <button name="action_move_in_details" type="object" icon="STOCK_INFO"/>
+                <button name="action_move_in_details" type="object" icon="gtk-jump-to"/>
 
                 <field name="quantity_out" sum="1"/>
                 <field name="amount_out" sum="1"/>
-                <button name="action_move_out_details" type="object" icon="STOCK_INFO"/>
+                <button name="action_move_out_details" type="object" icon="gtk-redo"/>
+                <field name="amount_sale" sum="1"/>
 
                 <field name="quantity_finish" sum="1"/>
                 <field name="amount_finish" sum="1"/>
@@ -90,6 +91,7 @@
                 <field name="amount_begin" type="measure"/>
                 <field name="amount_in" type="measure"/>
                 <field name="amount_out" type="measure"/>
+                <field name="amount_sale" type="measure"/>
                 <field name="amount_finish" type="measure"/>
             </graph>
         </field>

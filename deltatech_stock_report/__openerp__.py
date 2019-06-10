@@ -36,6 +36,7 @@
         "report/stock_picking_report.xml",
         'report/monthly_stock_report_view.xml',
         'report/stock_balance_view.xml',
+        'views/stock_view.xml'
     ],
     "active": False,
     "installable": True,
