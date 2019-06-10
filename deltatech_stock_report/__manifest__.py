@@ -23,23 +23,23 @@
 {
     "name": "Deltatech Stock Reports",
     "version": "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
-    Raport cu pozitii din liste de ridicare
-    """,
 
     "category": "Generic Modules",
-    "depends": ["base", "stock","stock_account" ],
+    "depends": ["base", "stock", "stock_account"],
 
-
-    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [ 'security/ir.model.access.csv',
-              "report/stock_picking_report.xml"],
+    "images": ['images/main_screenshot.png'],
+    "license": "LGPL-3",
+    "data": [
+        'security/ir.model.access.csv',
+        "report/stock_picking_report.xml",
+        'report/monthly_stock_report_view.xml',
+        'report/stock_balance_view.xml',
+        'views/stock_view.xml'
+    ],
     "active": False,
     "installable": True,
 }
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

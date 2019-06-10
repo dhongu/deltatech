@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-15 19:18+0000\n"
-"PO-Revision-Date: 2015-07-15 19:18+0000\n"
+"POT-Creation-Date: 2019-06-10 20:14+0000\n"
+"PO-Revision-Date: 2019-06-10 20:14+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,140 +16,412 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
-#: field:stock.picking.report,amount:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_amount
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_amount
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_tree
 msgid "Amount"
 msgstr "Valoare"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,categ_id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_amount_begin
+msgid "Amount Begin"
+msgstr "Valoare început"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_amount_finish
+msgid "Amount Finish"
+msgstr "Valoare sfârșit"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_amount_in
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_amount_in
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Amount In"
+msgstr "Valoare Intrată"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_amount_out
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_amount_out
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Amount Out"
+msgstr "Valoare Ieșită"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_amount_sale
+#: model:ir.model.fields,help:deltatech_stock_report.field_stock_monthly_report_line_amount_sale
+msgid "Amount of the sale"
+msgstr "Valoarea vânzării"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Balance"
+msgstr "Sold"
+
+#. module: deltatech_stock_report
+#: model:ir.actions.act_window,name:deltatech_stock_report.action_stock_balance
+#: model:ir.ui.menu,name:deltatech_stock_report.menu_stock_balance_tree
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_graph
+msgid "Balance for stock"
+msgstr "Balanța de stocuri"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_monthly_stock_report_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_categ_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_categ_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_categ_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Category"
 msgstr "Categorie"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,company_id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_commercial_partner_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Commercial Entity"
+msgstr "Entitate comercială"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_company_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_company_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_company_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Company"
 msgstr "Companie"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,date:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_create_uid
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_create_date
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_date
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_date
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Date"
 msgstr "Data"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_date_range_id
+msgid "Date range"
+msgstr "Perioadă"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_display_name
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_display_name
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_display_name
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_date_to
+msgid "End Date"
+msgstr "Dată sfârșit"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Extended Filters..."
 msgstr "Filtre extinse..."
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Group By..."
-msgstr "Grupează După..."
+msgstr "Grupează după..."
 
 #. module: deltatech_stock_report
-#: field:stock.picking.report,id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_id
 msgid "ID"
 msgstr "ID"
 
 #. module: deltatech_stock_report
-#: field:stock.picking.report,invoice_state:0
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Incoming"
+msgstr "Incoming"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Internal"
+msgstr "Intern"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Invoice Control"
 msgstr "Control facturare"
 
 #. module: deltatech_stock_report
-#: selection:stock.picking.report,invoice_state:0
-msgid "Invoiced"
-msgstr "Facturat"
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance___last_update
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report___last_update
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line___last_update
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report___last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,location_id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_write_uid
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_write_date
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_product_ids
+msgid "Line product ids"
+msgstr "Line product ids"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_location_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_location_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_location_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Location"
 msgstr "Locație"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,location_dest_id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_location_dest_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Location Destination"
 msgstr "Locație destinație"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: filter:stock.picking.report,year:0
-msgid "This Year"
-msgstr "Anul aceasta"
+#: code:addons/deltatech_stock_report/report/monthly_stock_report.py:411
+#, python-format
+msgid "Monthly Stock %s"
+msgstr "Stoc lunar %s"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: filter:stock.picking.report,month:0
-msgid "This Month"
-msgstr "Luna aceasta"
-
-
-#. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: filter:stock.picking.report,prev_month:0
-msgid "Previous Month"
-msgstr "Luna anterioara"
-
+#: model:ir.actions.act_window,name:deltatech_stock_report.action_monthly_stock_report
+#: model:ir.ui.menu,name:deltatech_stock_report.menu_monthly_stock_report
+msgid "Monthly Stock Report"
+msgstr "Stoc lunar"
 
 #. module: deltatech_stock_report
-#: selection:stock.picking.report,invoice_state:0
-msgid "Not Applicable"
-msgstr "Nefacturabil"
+#: model:ir.actions.act_window,name:deltatech_stock_report.action_monthly_stock_report_line
+msgid "Monthly Stock Report Lines"
+msgstr "Monthly Stock Report Lines"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,partner_id:0
+#: model:ir.model,name:deltatech_stock_report.model_stock_monthly_report
+msgid "MonthlyStockReport"
+msgstr "MonthlyStockReport"
+
+#. module: deltatech_stock_report
+#: model:ir.model,name:deltatech_stock_report.model_stock_monthly_report_line
+msgid "MonthlyStockReportLine"
+msgstr "MonthlyStockReportLine"
+
+#. module: deltatech_stock_report
+#: code:addons/deltatech_stock_report/report/monthly_stock_report.py:471
+#, python-format
+msgid "Move"
+msgstr "Move"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_move_begin_ids
+msgid "Move begin ids"
+msgstr "Move begin ids"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_move_in_ids
+msgid "Move in ids"
+msgstr "Move in ids"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_move_out_ids
+msgid "Move out ids"
+msgstr "Move out ids"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Outgoing"
+msgstr "Ieșire"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_partner_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Partner"
-msgstr "Partner"
+msgstr "Partener"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_picking_id
+msgid "Picking"
+msgstr "Ridicare"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.menu,name:deltatech_stock_report.menu_stock_picking_report_tree
+msgid "Picking Analysis"
+msgstr "Analiză riidicări"
+
+#. module: deltatech_stock_report
+#: model:ir.actions.act_window,name:deltatech_stock_report.action_stock_picking_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_tree
 msgid "Picking Report"
 msgstr "Raport operații stoc"
 
 #. module: deltatech_stock_report
-#: field:stock.picking.report,picking_type_id:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_picking_type_id
 msgid "Picking Type"
-msgstr "Tip operație"
+msgstr "Tip ridicare"
 
 #. module: deltatech_stock_report
-#: field:stock.picking.report,picking_type_code:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_picking_type_code
 msgid "Picking Type Code"
-msgstr "Cod operație"
+msgstr "Picking Type Code"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Picking type"
 msgstr "Tip operație"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
-#: field:stock.picking.report,product_id:0
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Previous Month"
+msgstr "Luna anterioara"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_price
+msgid "Price Unit"
+msgstr "Preț"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_product_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_product_id
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_product_id
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Product"
 msgstr "Produs"
 
- 
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Product_Qty"
+msgstr "Cant. produs"
 
 #. module: deltatech_stock_report
-#: field:stock.picking.report,product_qty:0
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_qty_in
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Qty In"
+msgstr "Cant Intrată"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_qty_out
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_tree
+msgid "Qty Out"
+msgstr "Cant Ieșită"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_product_qty
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_product_qty
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_tree
 msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_stock_report
-#: model:ir.ui.menu,name:deltatech_stock_report.menu_stock_picking_report_tree
-msgid "Ricking Analysis"
-msgstr "Analiză operații stoc"
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_quantity_begin
+msgid "Quantity Begin"
+msgstr "Cantitate început"
 
 #. module: deltatech_stock_report
-#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_quantity_finish
+msgid "Quantity Finish"
+msgstr "Cantitate final"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_quantity_in
+msgid "Quantity In"
+msgstr "Cantitate intrată"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_quantity_out
+msgid "Quantity Out"
+msgstr "Cantitate Ieșită"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_move_qty_sing
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_move_tree
+msgid "Quantity with Sing"
+msgstr "Cantitate cu semn"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_refresh_report
+msgid "Refresh Report"
+msgstr "Recalculare raport"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_line_report_id
+msgid "Report"
+msgstr "Report"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_monthly_stock_report_form
+msgid "Report Options"
+msgstr "Optiuni Raport"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_monthly_stock_report_line_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_balance_filter
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Search"
 msgstr "Caută"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_monthly_stock_report_form
+msgid "Show"
+msgstr "Afișează"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_monthly_report_date_from
+msgid "Start Date"
+msgstr "Dată început"
+
+#. module: deltatech_stock_report
+#: model:ir.model,name:deltatech_stock_report.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,help:deltatech_stock_report.field_stock_monthly_report_line_amount_finish
+msgid "Stock amount at end of period"
+msgstr "Valoare stoc la sfârșit de perioadă"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,help:deltatech_stock_report.field_stock_monthly_report_line_amount_begin
+msgid "Stock amount at the beginning of the period"
+msgstr "Valoare stoc la început de perioadă"
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,help:deltatech_stock_report.field_stock_monthly_report_line_amount_in
+msgid "Stock amount in of the period."
+msgstr "Valoare stoc intrată în perioadă."
+
+#. module: deltatech_stock_report
+#: model:ir.model.fields,help:deltatech_stock_report.field_stock_monthly_report_line_amount_out
+msgid "Stock amount out of the period."
+msgstr "Valoare stoc ieșită în perioadă."
 
 #. module: deltatech_stock_report
 #: model:ir.model,name:deltatech_stock_report.model_stock_picking_report
@@ -157,23 +429,42 @@ msgid "Stock picking report"
 msgstr "Raport operații stoc"
 
 #. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "This Month"
+msgstr "Luna aceasta"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
+msgid "This Year"
+msgstr "Anul acesta"
+
+#. module: deltatech_stock_report
+#: model:ir.actions.act_window,help:deltatech_stock_report.action_stock_balance
+msgid "This reporting allows you to analyse stock movements."
+msgstr "Acest raport vă permite să analizați mișcrile de stoc."
+
+#. module: deltatech_stock_report
 #: model:ir.actions.act_window,help:deltatech_stock_report.action_stock_picking_report
 msgid "This reporting allows you to analysis stock pickings."
-msgstr "cest raport vă permite să analizați operațiile de stoc."
+msgstr "Acest raport vă permite să analizați operațiile de stoc."
 
 #. module: deltatech_stock_report
-#: selection:stock.picking.report,invoice_state:0
-msgid "To Be Invoiced"
-msgstr "Va fi facturat"
-
-#. module: deltatech_stock_report
-#: field:stock.picking.report,product_uom:0
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_balance_product_uom
+#: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report_product_uom
 msgid "Unit of Measure"
-msgstr "UM"
+msgstr "Unitatea de măsură"
 
 #. module: deltatech_stock_report
-#: model:ir.actions.act_window,name:deltatech_stock_report.action_stock_picking_report
-msgid "Picking Report"
-msgstr "Raport operații stoc"
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_monthly_stock_report_form
+msgid "or"
+msgstr "sau"
 
+#. module: deltatech_stock_report
+#: model:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_graph
+msgid "picking_report for stock"
+msgstr "picking_report for stock"
 
+#. module: deltatech_stock_report
+#: model:ir.model,name:deltatech_stock_report.model_stock_balance
+msgid "stock Stock balance"
+msgstr "stock Stock balance"
