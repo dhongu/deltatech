@@ -11,15 +11,9 @@ from odoo.api import Environment
 class commission_users(models.Model):
     _name = 'commission.users'
     _description = "Users commission"
-    
+
     user_id = fields.Many2one('res.users', string='Salesperson', required=True)
     name = fields.Char(string='Name', related='user_id.name')
-    rate =  fields.Float(string="Rate", default=0.01) 
-    
-
-
-
-
-
+    rate = fields.Float(string="Rate", default=0.01)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
