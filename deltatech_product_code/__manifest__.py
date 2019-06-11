@@ -18,7 +18,7 @@
     "data": [
         "views/product_view.xml",
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 
 }
