@@ -21,10 +21,11 @@ class sale_order_line(models.Model):
                                   compute="_compute_purchase_price", store=True)
 
 
-    @api.one
+
     @api.depends('product_id')
     def _compute_purchase_price(self):
-        self.purchase_price = self._compute_margin(self.order_id, self.product_id, self.product_uom)
+        for line in self:
+            line.purchase_price = line._compute_margin(line.order_id, line.product_id, line.product_uom)
 
     @api.multi
     @api.onchange('product_id')

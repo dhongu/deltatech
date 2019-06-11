@@ -47,17 +47,13 @@ class commission_update_purchase_price(models.TransientModel):
                 for sale_line in invoice_line.sale_line_ids:
                     pickings |= sale_line.order_id.picking_ids
 
-            moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids),
-                                                   ('product_id', '=', invoice_line.product_id.id)])
+                # sont doar livrari ?
+                moves = self.env['stock.move'].search([('picking_id', 'in', pickings.ids),
+                                                       ('product_id', '=', invoice_line.product_id.id)])
 
-            qty = 0.0
-            amount = 0.0
-            for move in moves:
-                for quant in move.quant_ids:
-                    amount = amount + quant.inventory_value
-                    qty = qty + quant.qty
-                if qty > 0:
-                    purchase_price = amount / qty
+                price_unit_list = moves.mapped('price_unit')  # preturile din livare sunt negative
+                if price_unit_list:
+                    purchase_price = abs(sum(price_unit_list) / float(len(price_unit_list)))
 
             else:
                 if invoice_line.product_id:
