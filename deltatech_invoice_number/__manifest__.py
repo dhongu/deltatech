@@ -19,6 +19,6 @@
         'views/account_invoice_view.xml',
         'wizard/account_invoice_change_number_view.xml'
     ],
-
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
