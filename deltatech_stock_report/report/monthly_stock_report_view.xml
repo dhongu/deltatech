@@ -10,6 +10,7 @@
                     <group>
                         <field name="location_id"/>
                         <field name="refresh_report"/>
+<!--                        <field name="compute_sale"/>-->
                     </group>
                     <group name="date_range">
                         <field name="date_range_id"
