@@ -11,7 +11,7 @@ import openerp.addons.decimal_precision as dp
 class stock_move(models.Model):
     _inherit = 'stock.move'
 
-    qty_sing = fields.Float(string="Quantity with Sing", compute='_compute_qty_sing', store=True)
+    qty_sing = fields.Float(string="Quantity with Sing", compute='_compute_qty_sing')
 
 
     @api.depends('product_qty','location_id','location_dest_id')

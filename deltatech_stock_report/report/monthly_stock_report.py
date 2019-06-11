@@ -377,17 +377,19 @@ class MonthlyStockReport(models.TransientModel):
                 line_value.update(out_product)
                 # determinare pret de vanzare din liniile de comanda de vanzare:
                 # move_line.procurement_id.sale_line_id
-                moves = self.env['stock.move'].browse(out_product['move_out_ids'][0][2])
-                for move_line in moves:
-                    if move_line.procurement_id.sale_line_id:
-                        line = move_line.procurement_id.sale_line_id
+                # rutina este buna dar dureaza foarte mult
 
-                        cur = line.order_id.pricelist_id.currency_id
-
-                        taxes = line.tax_id.compute_all(line.price_unit, move_line.product_uom_qty, line.product_id,
-                                                        line.order_id.partner_id)
-                        amount_sale = cur.compute(taxes['total'], self.env.user.company_id.currency_id)
-                        line_value['amount_sale'] += amount_sale
+                # moves = self.env['stock.move'].browse(out_product['move_out_ids'][0][2])
+                # for move_line in moves:
+                #     if move_line.procurement_id.sale_line_id:
+                #         line = move_line.procurement_id.sale_line_id
+                #
+                #         cur = line.order_id.pricelist_id.currency_id
+                #
+                #         taxes = line.tax_id.compute_all(line.price_unit, move_line.product_uom_qty, line.product_id,
+                #                                         line.order_id.partner_id)
+                #         amount_sale = cur.compute(taxes['total'], self.env.user.company_id.currency_id)
+                #         line_value['amount_sale'] += amount_sale
 
             line_value['quantity_finish'] = line_value['quantity_begin'] + line_value['quantity_in'] - line_value[
                 'quantity_out']
