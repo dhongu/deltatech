@@ -210,8 +210,7 @@ class MonthlyStockReport(models.TransientModel):
     @api.multi
     def compute_data_for_report(self):
 
-        if self.env.user.login == 'admin':
-            self.do_fix_stock_move_location_source()
+        self.do_fix_stock_move_location_source()
 
         stock_init = {}
 
