@@ -29,3 +29,12 @@ class account_invoice_line(models.Model):
     @api.multi
     def set_checked(self, value):
         self.write({'checked': value})
+
+
+    @api.multi
+    def compute_taxes(self):
+        invoices = self.env['account.invoice']
+        for line in self:
+            invoices |= line.invoice_id
+
+        invoices.compute_taxes()
