@@ -21,21 +21,6 @@ class SaleOrderLine(models.Model):
 
         result = super(SaleOrderLine, self).product_id_change()
 
-        message = ''
-        if self.product_id:
-            # if self.product_id.standard_price == 0:
-            #     message += _('Cost price is zero')
-            if self.price_unit == 0:
-                message += _('You can not sell without price.')
-            # if self.price_unit < self.product_id.standard_price:
-            #     message += _('You can not sell below the purchase price.')
-
-
-        if message:
-            if 'warning' in result:
-                result['warning']['message'] += message
-            else:
-                result['warning'] = {'message':message}
 
         return result
 
