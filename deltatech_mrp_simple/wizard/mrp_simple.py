@@ -25,6 +25,9 @@ class MRPSimple(models.TransientModel):
     validation_consume = fields.Boolean()
     validation_receipt = fields.Boolean(default=True)
 
+    picking_in = fields.Many2one('stock.picking')
+    picking_out = fields.Many2one('stock.picking')
+
     @api.multi
     def do_transfer(self):
 
@@ -43,35 +46,17 @@ class MRPSimple(models.TransientModel):
             'date': self.date
         })
 
+        self.write({'picking_in': picking_in.id, 'picking_out': picking_out.id})
+
         for line in self.product_in_ids:
-            line.product_id.write({
-                'standard_price': line.price_unit,
-            })
-            self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
+            line.product_id.write({'standard_price': line.price_unit, })
+            self.add_picking_line(picking=picking_in, line=line, price_unit=line.price_unit)
 
         for line in self.product_out_ids:
-            self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.product_id.standard_price)
+            self.add_picking_line(picking=picking_out, line=line, price_unit=line.product_id.standard_price)
 
-        # se face consumul
-        if picking_out.move_lines:
-            picking_out.action_assign()
-            if self.validation_consume:
-                if picking_out.state == 'assigned':
-                    for move in picking_out.move_lines:
-                        for move_line in move.move_line_ids:
-                            move_line.qty_done = move_line.product_uom_qty
-                picking_out.button_validate()
-
-
-        # se face receptia
-        if picking_in.move_lines:
-            picking_in.action_assign()
-            if self.validation_receipt:
-                if picking_in.state == 'assigned':
-                    for move in picking_in.move_lines:
-                        for move_line in move.move_line_ids:
-                            move_line.qty_done = move_line.product_uom_qty
-                picking_in.button_validate()
+        self.do_consumption(picking_out)
+        self.do_reception(picking_in)
 
         return {
             'domain': [('id', 'in', [picking_in.id, picking_out.id])],
@@ -84,7 +69,36 @@ class MRPSimple(models.TransientModel):
             'type': 'ir.actions.act_window'
         }
 
-    def add_picking_line(self, picking, product, quantity, uom, price_unit):
+    def do_consumption(self, picking_out):
+        # se face consumul
+        if picking_out.move_lines:
+            picking_out.action_assign()
+            if self.validation_consume:
+                if picking_out.state == 'assigned':
+                    for move in picking_out.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
+                picking_out.button_validate()
+
+    def do_reception(self, picking_in):
+        # se face receptia
+        if picking_in.move_lines:
+            picking_in.action_assign()
+            if self.validation_receipt:
+                if picking_in.state == 'assigned':
+                    for move in picking_in.move_lines:
+                        for move_line in move.move_line_ids:
+                            move_line.qty_done = move_line.product_uom_qty
+                picking_in.button_validate()
+
+    def add_picking_line(self, picking, line=None, price_unit=None):
+        product = line.product_id
+        quantity = line.quantity
+        uom = line.uom_id
+        return self.add_picking_line_detail(picking, product, quantity, uom, price_unit)
+
+    def add_picking_line_detail(self, picking, product, quantity, uom, price_unit=None):
+
         move = self.env['stock.move'].search([('picking_id', '=', picking.id),
                                               ('product_id', '=', product.id),
                                               ('product_uom', '=', uom.id)])
@@ -100,11 +114,13 @@ class MRPSimple(models.TransientModel):
                 # 'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
-                'price_unit': price_unit,
+
                 'location_id': picking.picking_type_id.default_location_src_id.id,
                 'location_dest_id': picking.picking_type_id.default_location_dest_id.id,
                 'picking_type_id': picking.picking_type_id.id
             }
+            if price_unit:
+                values['price_unit'] = price_unit
 
             move = self.env['stock.move'].create(values)
         return move
