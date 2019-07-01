@@ -30,7 +30,7 @@ It offers the functionality of editing locations and routes on the goolge map
 
 For example see: deltatech_partner_gmap
 
-
+google_maps_api_key = request.env['ir.config_parameter'].sudo().get_param('google_maps_api_key')
 
 Bug Tracker
 ===========

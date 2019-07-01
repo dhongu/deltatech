@@ -45,7 +45,7 @@ class ProductTemplate(models.Model):
         for template in self:
             if 'standard_price' in vals and template.product_variant_count == 1:
                 product = template.product_variant_ids[0]
-                if vals['standard_price'] <> product.standard_price:
+                if vals['standard_price'] != product.standard_price:
                     product.write({'standard_price':vals['standard_price']})          
         return res
 

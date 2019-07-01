@@ -39,13 +39,30 @@ var GMapMarker = Widget.extend({
             this.mode = view.mode || "readonly";
             this.record = record;
             this.view = view;
+            var self = this;
+
+            self._rpc({
+                model: 'ir.config_parameter',
+                method: 'get_param',
+                args: ['google_maps_api_key']
+                }).then(function (key) {
+                    self.google_maps_api_key = key;
+
+                    $.getScript('https://maps.googleapis.com/maps/api/js?callback=ginit&key='+ self.google_maps_api_key);
+            });
+
+
+
+
         },
 
         start: function() {
             var self = this;
             if (typeof google== 'undefined') {
                 window.ginit = this.on_ready;
-                $.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
+                // maps.google.com/maps/api/js?key=#{google_maps_api_key}
+                //$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=ginit');
+
             }
             else {
                 setTimeout(function () { self.on_ready(); }, 1000);
