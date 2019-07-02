@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-		<report string="Package list" id="action_report_package" model="account.invoice" report_type="qweb-pdf" name="deltatech_stock_pack.report_package"
+		<report string="Package list" id="action_report_package"
+				model="account.invoice" report_type="qweb-pdf"
+				name="deltatech_stock_pack.report_package"
 			file="deltatech_stock_pack.report_package" />
 
 
@@ -12,6 +14,7 @@
 				</t>
 			</t>
 		</template>
+
 
 		<template id="report_package_document">
 			<t t-call="report.html_container">

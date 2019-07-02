@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report string="Consumptions" id="action_report_consumptions"
+                model="account.invoice"
+                report_type="qweb-pdf"
+                name="deltatech_stock_pack.report_consumptions"
+                file="deltatech_stock_pack.report_consumptions"/>
+
+
+        <template id="report_consumptions">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_consumptions_document')"/>
+                </t>
+            </t>
+        </template>
+
+
+        <template id="report_consumptions_document">
+
+            <t t-foreach="docs" t-as="o">
+                <t t-call="report.external_layout">
+                    <div class="page">
+
+                        <t t-set="components" t-value="o.package_ids.get_components()"/>
+                        <h2 style="text-align:center;">
+                            <span>Consumuri</span>
+                            :
+                            <span t-field="o.number1"/>
+                        </h2>
+                        <br/>
+
+                        <br/>
+
+                        <h3>Defalcat pe categorii de produse</h3>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <strong>NrCrt</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Quantity</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <t t-set="nr_crt" t-value="1"/>
+                            <tbody>
+                                <t t-foreach="components['by_categ']" t-as="categ_id">
+                                    <t t-set="by_categ" t-value="components['by_categ'][categ_id]"/>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <span t-field="by_categ['categ'].name"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="by_categ['components']" t-as="comp_id">
+                                        <t t-set="comp" t-value="by_categ['components'][comp_id]"/>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="nr_crt"/>
+                                                <t t-set="nr_crt" t-value="nr_crt + 1"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="comp['component'].name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="comp['qty']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                        <br/>
+
+                        <h3>Cumulat</h3>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <strong>NrCrt</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Product</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Quantity</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <t t-set="nr_crt" t-value="1"/>
+                            <tbody>
+
+                                    <t t-set="by_component" t-value="components['by_component'] "/>
+
+
+                                    <t t-foreach="by_component" t-as="comp_id">
+                                        <t t-set="comp" t-value="by_component[comp_id]"/>
+                                        <tr>
+                                            <td>
+                                                <t t-esc="nr_crt"/>
+                                                <t t-set="nr_crt" t-value="nr_crt + 1"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="comp['component'].name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="comp['qty']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </t>
+            </t>
+
+        </template>
+    </data>
+</openerp>

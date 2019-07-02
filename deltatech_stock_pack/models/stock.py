@@ -19,16 +19,13 @@
 #
 ##############################################################################
 
-
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from openerp.tools import float_compare
 import openerp.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
-
-from openerp.addons.product import _common
 
 _logger = logging.getLogger(__name__)
 
@@ -65,11 +62,10 @@ class stock_move(models.Model):
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
-
     @api.multi
     def do_transfer(self):
 
-        res  = super(stock_picking, self).do_transfer()
+        res = super(stock_picking, self).do_transfer()
         package = self.env['stock.quant.package']
         for picking in self:
             for operation in picking.pack_operation_ids:
@@ -96,23 +92,34 @@ class stock_package(models.Model):
 
     @api.multi
     def action_get_components(self):
+        categ_all = self.env.ref('product.product_category_all')
 
         for package in self.filtered(lambda x: not x.bom_id):
+            categ = False
+            bom = False
             product = self.env['product.product']
             for quant in package.quant_ids:
                 product = quant.product_id
-            bom = self.env['package.bom'].search([('categ_id', '=', product.categ_id.id)], limit=1)
+                categ = product.categ_id
 
-            if not bom:
+            if not product:
+                return
+            if not categ:
                 code = product.default_code.split(' ')[0]
                 categ = self.env['product.category'].search([('name', '=', code)], limit=1)
-                if categ:
-                    bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
+
+            if not categ:
+                categ = categ_all
+
+            if categ:
+                bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
 
             if bom:
                 package.write({'bom_id': bom.id})
+            else:
+                raise ValidationError('Nu se poate determina lista de matriale pentru %s' % product.categ_id.name)
 
-        for package in self.filtered(lambda x:  x.bom_id):
+        for package in self.filtered(lambda x: x.bom_id):
             qty = 0
             for quant in package.quant_ids:
                 qty += quant.qty
@@ -125,11 +132,48 @@ class stock_package(models.Model):
                     'product_qty': item.product_qty * coef
                 })
 
+    @api.multi
+    def get_components(self):
+        components = {'by_component': {}, 'by_categ': {}, 'by_product': {}}
+        for pack in self:
+            for quant in pack.quant_ids:
+                categ = quant.product_id.categ_id
+                product = quant.product_id
+
+            if categ.id not in components['by_categ']:
+                components['by_categ'][categ.id] = {'categ': categ, 'components': {}}
+            if product.id not in components['by_product']:
+                components['by_product'][product.id] = {'product': product, 'components': {}}
+
+            by_categ = components['by_categ'][categ.id]['components']
+            by_product = components['by_product'][product.id]['components']
+            by_component = components['by_component']
+
+            if not pack.component_ids:
+                pack.action_get_components()
+
+            for comp in pack.component_ids:
+                if comp.product_id.id not in by_categ:
+                    by_categ[comp.product_id.id] = {'component': comp.product_id, 'qty': 0.0}
+                by_categ[comp.product_id.id]['qty'] += comp.product_qty
+
+                if comp.product_id.id not in by_product:
+                    by_product[comp.product_id.id] = {'component': comp.product_id, 'qty': 0.0}
+                by_product[comp.product_id.id]['qty'] += comp.product_qty
+
+                if comp.product_id.id not in by_component:
+                    by_component[comp.product_id.id] = {'component': comp.product_id, 'qty': 0.0}
+                by_component[comp.product_id.id]['qty'] += comp.product_qty
+
+        print (components)
+        return components
+
 
 class stock_package_component(models.Model):
     _name = "stock.quant.package.component"
 
     package_id = fields.Many2one('stock.quant.package')
     product_id = fields.Many2one('product.product')
+    categ_id = fields.Many2one('product.category', related='product_id.categ_id')
     product_qty = fields.Float('Component Quantity', required=True)
     product_uom = fields.Many2one('product.uom', related='product_id.uom_id', readonly=True)

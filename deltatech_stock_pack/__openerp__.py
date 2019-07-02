@@ -43,6 +43,7 @@
         'views/product_view.xml',
         'views/account_invoice_view.xml',
         'views/report_invoice.xml',
+        'views/report_invoice_consumptions.xml',
         'views/bom_view.xml',
         'security/ir.model.access.csv',
     ],

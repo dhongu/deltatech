@@ -43,6 +43,21 @@
 
 
 
+		<record id="view_quant_package_component_tree" model="ir.ui.view">
+			<field name="name">stock.quant.package.component.tree</field>
+			<field name="model">stock.quant.package.component</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="package_id" />
+					<field name="categ_id" />
+					<field name="product_id" />
+					<field name="product_qty" />
+					<field name="product_uom"/>
+				</tree>
+			</field>
+		</record>
+
+
 
 	</data>
 </openerp>
