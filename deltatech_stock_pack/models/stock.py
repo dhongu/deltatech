@@ -115,6 +115,8 @@ class stock_package(models.Model):
 
             if categ:
                 bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
+                if not bom:
+                    bom = self.env['package.bom'].search([('name', 'like', categ.name)], limit=1)
 
             if bom:
                 package.write({'bom_id': bom.id})
@@ -172,9 +174,9 @@ class stock_package(models.Model):
 
             if not pack.component_ids:
                 pack.compute_components()
-            else:
-                # recalculez
-                pack.compute_components()
+            # else:
+            #     # recalculez
+            #     pack.compute_components()
 
             for comp in pack.component_ids:
                 if comp.product_id.id not in by_categ:
