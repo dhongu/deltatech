@@ -144,10 +144,11 @@
 ^FT706,49^A0R,78,48^FH\^FDSupplier Name: <t t-esc="o.company_id.name"/>^FS
 ^FT608,49^A0R,78,48^FH\^FD<t t-esc="o.partner_id.name.split(' ')[0]"/> Internal Code (SAP): <t t-esc="pack_operation.product_id.default_code"/>^FS
 ^FT510,49^A0R,78,48^FH\^FDDescription: <t t-esc="pack_operation.product_id.name[0:31]"/>^FS
-^FT412,49^A0R,78,48^FH\^FDQuantity: <t t-esc="pack_operation.product_qty"/>  pz^FS
+^FT420,49^A0R,78,48^FH\^FDQuantity: <t t-esc="pack_operation.product_qty"/>  pz^FS
 ^FT314,49^A0R,78,48^FH\^FDNet Weight: <t t-esc="round(pack_operation.result_package_id.weight,2)"/> Kg^FS
-^FT164,41^A0R,65,64^FR^FH\^FDORDER NUMBER:<t t-esc="o.sale_id.client_order_ref"/>/<t t-esc="so_date_day"/>.<t t-esc="so_date_month"/>.<t t-esc="so_date_year"/>^FS
-^FT82,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="delivery_date_day"/>.<t t-esc="delivery_date_month"/>.<t t-esc="delivery_date_year"/>^FS
+^FT180,41^A0R,65,64^FR^FH\^FDORDER NUMBER:<t t-esc="o.sale_id.client_order_ref"/>/<t t-esc="so_date_day"/>.<t t-esc="so_date_month"/>.<t t-esc="so_date_year"/>^FS
+^FT120,49^A0R,78,48^FH\^FDPOS: <t t-esc="pack_operation.ref"/>  pz^FS
+^FT70,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="delivery_date_day"/>.<t t-esc="delivery_date_month"/>.<t t-esc="delivery_date_year"/>^FS
 ^PQ1,0,1,Y^XZ
 </t>
 						<t t-set="box_nr" t-value="box_nr + 1"/>
