@@ -46,6 +46,9 @@
                                     <th class="text-right">
                                         <strong>Quantity</strong>
                                     </th>
+                                    <th>
+                                        UoM
+                                    </th>
                                 </tr>
                             </thead>
                             <t t-set="nr_crt" t-value="1"/>
@@ -75,6 +78,9 @@
                                             </td>
                                             <td class="text-right">
                                                 <span t-esc="comp['qty']"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="comp['component'].uom_id.name"/>
                                             </td>
                                         </tr>
                                     </t>
