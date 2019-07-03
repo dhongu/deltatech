@@ -56,9 +56,13 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <span t-field="by_categ['categ'].name"/>
+                                            <strong><span t-field="by_categ['categ'].name"/></strong>
+                                        </td>
+                                        <td >
+                                            <span t-if="not by_categ['components']"> Fara consumuri</span>
                                         </td>
                                     </tr>
+
                                     <t t-foreach="by_categ['components']" t-as="comp_id">
                                         <t t-set="comp" t-value="by_categ['components'][comp_id]"/>
                                         <tr>
