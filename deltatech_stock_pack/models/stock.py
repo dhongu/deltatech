@@ -92,6 +92,11 @@ class stock_package(models.Model):
 
     @api.multi
     def action_get_components(self):
+        self.compute_components(raise_if_not_found=True)
+
+
+    @api.multi
+    def compute_components(self, raise_if_not_found=False):
         categ_all = self.env.ref('product.product_category_all')
 
         for package in self.filtered(lambda x: not x.bom_id):
@@ -104,20 +109,20 @@ class stock_package(models.Model):
 
             if not product:
                 return
-            if not categ:
-                code = product.default_code.split(' ')[0]
-                categ = self.env['product.category'].search([('name', '=', code)], limit=1)
+            if not categ or categ.id == categ_all.id:
+                categ = self.generate_category(product)
 
-            if not categ:
-                categ = categ_all
 
             if categ:
                 bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
+                if not bom:
+                    bom = self.env['package.bom'].search([('name', 'like', categ.name)], limit=1)
 
             if bom:
                 package.write({'bom_id': bom.id})
             else:
-                raise ValidationError('Nu se poate determina lista de matriale pentru %s' % product.categ_id.name)
+                if raise_if_not_found:
+                    raise ValidationError('Nu se poate determina lista de matriale pentru %s' % product.categ_id.name)
 
         for package in self.filtered(lambda x: x.bom_id):
             qty = 0
@@ -132,13 +137,31 @@ class stock_package(models.Model):
                     'product_qty': item.product_qty * coef
                 })
 
+
+    def generate_category(self, product):
+        categ = False
+        if product.default_code:
+            code = product.default_code.split(' ')[0]
+            categ = self.env['product.category'].search([('name', '=', code)], limit=1)
+            if not categ:
+                categ = self.env['product.category'].create({'name': code})
+            product.write({'categ_id': categ.id})
+        return categ
+
     @api.multi
     def get_components(self):
+        categ_all = self.env.ref('product.product_category_all')
+
         components = {'by_component': {}, 'by_categ': {}, 'by_product': {}}
         for pack in self:
             for quant in pack.quant_ids:
                 categ = quant.product_id.categ_id
                 product = quant.product_id
+                if categ.id == categ_all.id:
+                    categ = self.generate_category(product)
+
+            if not categ:
+                continue
 
             if categ.id not in components['by_categ']:
                 components['by_categ'][categ.id] = {'categ': categ, 'components': {}}
@@ -150,7 +173,10 @@ class stock_package(models.Model):
             by_component = components['by_component']
 
             if not pack.component_ids:
-                pack.action_get_components()
+                pack.compute_components()
+            # else:
+            #     # recalculez
+            #     pack.compute_components()
 
             for comp in pack.component_ids:
                 if comp.product_id.id not in by_categ:
