@@ -61,6 +61,11 @@ class sale_order(models.Model):
                                         for attr_new_value in rule.to_product.attribute_value_ids:
                                             if attribute.attribute == attr_new_value.attribute_id:
                                                 attribute.value = attr_new_value
+                            # de schimbat product_id daca exista
+                            if article.product_id:
+                                product_obj = self.env['product.product']
+                                new_product_id = product_obj._product_find(article.product_template, article.product_attributes)
+                                article.product_id = new_product_id
                         else: #vedem cum facem in alte cazuri
                             if rule.type == 'Replace master':
                                 if rule.from_product == article.product_id:
