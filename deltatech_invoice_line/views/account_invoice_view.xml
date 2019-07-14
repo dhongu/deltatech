@@ -12,6 +12,9 @@
                 <button name="button_invoice_show_lines" string="Edit lines" type="object"
                         states="draft"
                         groups="account.group_account_invoice"/>
+                <button name="compute_taxes" string="Compute taxes" type="object"
+                        states="draft"
+                        groups="account.group_account_invoice"/>
             </field>
         </field>
     </record>
