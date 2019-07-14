@@ -11,7 +11,10 @@
 
 
     "category": "Sales",
-    "depends": ["sales_team"],
+    "depends": [
+        "sales_team",
+        "account"
+    ],
 
     "license": "LGPL-3",
     "data": [
