@@ -92,7 +92,7 @@ class stock_package(models.Model):
 
     @api.multi
     def action_get_components(self):
-        self.compute_components(raise_if_not_found=True)
+        self.compute_components(raise_if_not_found=False) # sa nu mai dea eroare  in mod implicti
 
     @api.multi
     def compute_components(self, raise_if_not_found=False):
