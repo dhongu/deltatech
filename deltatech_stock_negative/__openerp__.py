@@ -19,21 +19,15 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech No Negative Stock",
-    "version" : "1.0.1",
+    "name": "Deltatech No Negative Stock",
+    "version": "1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "description": """
- 
 
-
-    """,
-    "category" : "Generic Modules/Stock",
+    "category": "Generic Modules/Stock",
     "depends": ["base", "stock"],
     "license": "AGPL-3",
-    "data" : [ 'res_config_view.xml'],
+    "data": ['views/res_config_view.xml'],
     "active": False,
     "installable": True,
 }
-
-
