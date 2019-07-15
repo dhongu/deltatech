@@ -43,6 +43,9 @@
                                     <th>
                                         <strong>Product</strong>
                                     </th>
+                                    <th>
+
+                                    </th>
                                     <th class="text-right">
                                         <strong>Quantity</strong>
                                     </th>
@@ -57,13 +60,17 @@
                                     <t t-set="by_categ" t-value="components['by_categ'][categ_id]"/>
 
                                     <tr>
-                                        <td></td>
+                                        <td/>
                                         <td>
                                             <strong><span t-field="by_categ['categ'].name"/></strong>
                                         </td>
-                                        <td >
+                                        <td>
                                             <span t-if="not by_categ['components']"> Fara consumuri</span>
                                         </td>
+                                        <td class="text-right">
+                                           <strong t-esc="by_categ['qty']"/>
+                                        </td>
+                                        <td/>
                                     </tr>
 
                                     <t t-foreach="by_categ['components']" t-as="comp_id">
@@ -73,7 +80,7 @@
                                                 <t t-esc="nr_crt"/>
                                                 <t t-set="nr_crt" t-value="nr_crt + 1"/>
                                             </td>
-                                            <td>
+                                            <td colspan="2">
                                                 <span t-field="comp['component'].name"/>
                                             </td>
                                             <td class="text-right">
@@ -110,8 +117,6 @@
                             <tbody>
 
                                     <t t-set="by_component" t-value="components['by_component'] "/>
-
-
                                     <t t-foreach="by_component" t-as="comp_id">
                                         <t t-set="comp" t-value="by_component[comp_id]"/>
                                         <tr>

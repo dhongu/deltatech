@@ -94,7 +94,6 @@ class stock_package(models.Model):
     def action_get_components(self):
         self.compute_components(raise_if_not_found=True)
 
-
     @api.multi
     def compute_components(self, raise_if_not_found=False):
         categ_all = self.env.ref('product.product_category_all')
@@ -111,7 +110,6 @@ class stock_package(models.Model):
                 return
             if not categ or categ.id == categ_all.id:
                 categ = self.generate_category(product)
-
 
             if categ:
                 bom = self.env['package.bom'].search([('categ_id', '=', categ.id)], limit=1)
@@ -137,7 +135,6 @@ class stock_package(models.Model):
                     'product_qty': item.product_qty * coef
                 })
 
-
     def generate_category(self, product):
         categ = False
         if product.default_code:
@@ -154,19 +151,26 @@ class stock_package(models.Model):
 
         components = {'by_component': {}, 'by_categ': {}, 'by_product': {}}
         for pack in self:
+            qty = 0.0
+
             for quant in pack.quant_ids:
                 categ = quant.product_id.categ_id
                 product = quant.product_id
                 if categ.id == categ_all.id:
                     categ = self.generate_category(product)
+                qty += quant.qty
 
             if not categ:
                 continue
 
             if categ.id not in components['by_categ']:
-                components['by_categ'][categ.id] = {'categ': categ, 'components': {}}
+                components['by_categ'][categ.id] = {'categ': categ, 'qty': qty, 'components': {}}
+            else:
+                components['by_categ'][categ.id]['qty'] += qty
             if product.id not in components['by_product']:
-                components['by_product'][product.id] = {'product': product, 'components': {}}
+                components['by_product'][product.id] = {'product': product, 'qty': qty, 'components': {}}
+            else:
+                components['by_product'][product.id]['qty'] += qty
 
             by_categ = components['by_categ'][categ.id]['components']
             by_product = components['by_product'][product.id]['components']
