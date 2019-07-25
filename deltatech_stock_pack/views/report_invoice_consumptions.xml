@@ -58,7 +58,7 @@
                             <tbody>
                                 <t t-foreach="components['by_categ']" t-as="categ_id">
                                     <t t-set="by_categ" t-value="components['by_categ'][categ_id]"/>
-
+                                    <t t-set="prices" t-value="o._get_price_by_categ(by_categ['categ'])"/>
                                     <tr>
                                         <td/>
                                         <td>
@@ -70,6 +70,13 @@
                                         <td class="text-right">
                                            <strong t-esc="by_categ['qty']"/>
                                         </td>
+                                        <td/>
+                                    </tr>
+                                    <tr t-foreach="prices" t-as="p">
+                                        <td/>
+                                        <td/>
+                                        <td class="text-right">Pret:<strong t-esc="p"/></td>
+                                        <td class="text-right"><strong t-esc="prices[p]"/></td>
                                         <td/>
                                     </tr>
 

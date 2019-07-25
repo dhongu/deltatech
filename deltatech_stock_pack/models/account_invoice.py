@@ -38,3 +38,18 @@ class account_invoice(models.Model):
                     for quant in move.quant_ids:
                         package_ids |= quant.package_id
             invoice.package_ids = package_ids
+
+
+    #specifica client
+    @api.model
+    def _get_price_by_categ(self, categ):
+        res = {}
+        for invoice in self:
+            for line in invoice.invoice_line:
+                if line.product_id.categ_id.id == categ.id:
+                    if line.price_unit not in res:
+                        res[line.price_unit] = line.quantity
+                    else:
+                        res[line.price_unit] += line.quantity
+
+        return res

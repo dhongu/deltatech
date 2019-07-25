@@ -32,6 +32,7 @@ Contributors
 ------------
 
 * Dorin Hongu <dhongu@gmail.com>
+* Dan Stoica <danila@terrabit.ro>
 
 
 Maintainer
