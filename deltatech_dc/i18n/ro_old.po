@@ -1,0 +1,234 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* deltatech_dc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140106-002615\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-13 14:59+0000\n"
+"PO-Revision-Date: 2014-01-13 14:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+#. module: deltatech_dc
+#: view:product.product:0
+msgid "Quality Control"
+msgstr "Control de Calitate"
+
+
+
+#. module: deltatech_dc
+#: field:deltatech.dc,technical_specification:0
+#: field:product.product,technical_specification:0
+msgid "Technical Specification"
+msgstr "Specificație tehnică"
+
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,prodlot_id:0
+msgid "Lot Number"
+msgstr "Lot Number"
+
+
+#. module: deltatech_dc
+#: field:deltatech.dc,date:0
+msgid "Date of Declaration"
+msgstr "Data Declarație"
+
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,product_id:0
+#: model:ir.model,name:deltatech_dc.model_product_product
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_dc
+#: model:ir.model,name:deltatech_dc.model_deltatech_dc_standard
+msgid "Standard"
+msgstr "Standard"
+
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,production_id:0
+msgid "Production Order"
+msgstr "Production Order"
+
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,company_standard:0
+#: field:product.product,company_standard:0
+msgid "Standard of Company"
+msgstr "Standard de firmă"
+
+#. module: deltatech_dc
+#: field:deltatech.dc,standards:0
+#: field:product.product,standards:0
+msgid "Standards"
+msgstr "Standarde"
+
+ 
+#. module: deltatech_dc
+#: view:deltatech.dc:0
+#: model:ir.actions.act_window,name:deltatech_dc.action_deltatech_dc
+#: model:ir.actions.report.xml,name:deltatech_dc.report_dc_deltatech_lot
+#: model:ir.actions.report.xml,name:deltatech_dc.report_dc_deltatech_product
+#: model:ir.model,name:deltatech_dc.model_deltatech_dc
+#: model:ir.ui.menu,name:deltatech_dc.menu_deltatech_dc
+msgid "Declaration of Conformity"
+msgstr "Declarație de conformitate"
+
+ 
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,data_sheet:0
+#: field:product.product,data_sheet:0
+msgid "Data Sheet"
+msgstr "Fișa tehnică"
+
+ 
+
+#. module: deltatech_dc
+#: field:deltatech.dc,name:0
+msgid "Number"
+msgstr "Number"
+
+ 
+
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "DECLARATION OF CONFORMITY"
+msgstr "DECLARAȚIE DE CONFORMITATE"
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "We,"
+msgstr "Noi,"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid ", with dates the tax identification"
+msgstr ", cu datele de identificare fiscală"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid ", with its headquarters in"
+msgstr ", cu sediul în localitatea"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "street"
+msgstr "strada"
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid ", declare that the product:"
+msgstr ", declaram că produsul:"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "with lot"
+msgstr "cu lotul"
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "is made in accordance with:"
+msgstr "este realizat în conformitate cu:"
+
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "Standard of Company #:"
+msgstr "Standardul de firmă nr.:"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "Tehnical Data Sheet #:"
+msgstr "Fișa tehnică nr.:"
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "Tehnical Specification #:"
+msgstr "Specificația tehnică nr.:"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "Standards:"
+msgstr "Standarde:"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "Product Label"
+msgstr "Etichetă de pe ambalaj"
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "and controlled according to Quality Control Plan dated in"
+msgstr "și controlat în conformitate cu Planul de control al calității din data"
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory processing by yourselves."
+msgstr "Declarăm pe propria raspundere, conform prevederilor art. 5 din HG 1022/2002, privind regimul produselor și serviciilor care pot pune în pericol viața, sanatătea, securitatea muncii și protecția mediului, că produsul nu pune în pericol sanatătea utilizatorilor și nu este toxic pentru mediul înconjurător."
+
+
+#. module: deltatech_dc
+#: report:report.dc.deltatech:0
+#: report:report.dc.deltatech.invoice:0
+#: report:report.dc.deltatech.lot:0
+msgid "F(PP 7.5/4.4.6-01)03"
+msgstr "F(PP 7.5/4.4.6-01)03"
+
+
+

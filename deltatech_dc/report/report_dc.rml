@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<document filename="DeclaratieConformitate.pdf">
+ 
+	
+	<template pageSize="(21.0cm,29.7cm)" title="Declaration of Conformity" author="Dorin Hongu (dhongu@gmail.com)" allowSplitting="20">
+		<pageTemplate id="first">
+			<frame id="first" x1="2.5cm" y1="1.5cm" height="26.7cm" width="16.0cm"/>    
+		</pageTemplate>
+	</template>
+	
+	<stylesheet>
+
+		<initialize>
+			<paraStyle name="all" alignment="justify"/>
+		</initialize>
+		<paraStyle name="terp_default_8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_tblheader_General" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_tblheader_Details" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_default_Bold_8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_tblheader_General_Centre" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="CENTER" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_tblheader_General_Right" fontName="Helvetica-Bold" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_tblheader_Details_Centre" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="CENTER" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_tblheader_Details_Right" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="RIGHT" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_default_Right_8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="8.0" leading="10" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_Centre_8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="8.0" leading="10" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_header_Left" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="LEFT" spaceBefore="12.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_header_Centre" fontName="Helvetica-Bold" fontSize="12.0" leading="15" alignment="CENTER" spaceBefore="12.0" spaceAfter="6.0"/>
+		<paraStyle name="terp_default_address" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_9" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_Bold_9" rightIndent="0.0" leftIndent="-3.0" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_Centre_9" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="9.0" leading="11" alignment="CENTER" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_Right_9" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="9.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_Bold_Right_9" rightIndent="0.0" leftIndent="-3.0" fontName="Helvetica-Bold" fontSize="9.0" leading="11" alignment="RIGHT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_2" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<paraStyle name="terp_default_White_2" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="2.0" leading="3" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0" textColor="#ffffff"/>
+		<paraStyle name="terp_default_Note" rightIndent="0.0" leftIndent="9.0" fontName="Helvetica-Oblique" fontSize="8.0" leading="10" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0"/>
+		<images/>
+
+	</stylesheet>
+	<story>
+	 <pto>
+			 	
+			<para style="terp_default_8">[[ repeatIn(objects,'o') ]]  </para>
+
+			<para style="terp_header_Centre">DECLARATION OF CONFORMITY</para> 
+			<para style="terp_header_Centre">[[((not lot) or removeParentNode('para')) and '']] [[ o.name ]] / [[ formatLang(o.date,date=True) ]]</para>
+			<para style="terp_default_9">
+				<font color="white">.</font>
+			</para>
+			<para>We, <b>[[ company.partner_id.name ]]</b>, with dates the tax identification [[ (company.partner_id and company.partner_id.vat) or '' ]], [[ (company.partner_id and company.partner_id.nrc) or '']], with its headquarters in [[ ( company.partner_id.city) or '' ]] street [[ ( company.partner_id.street) or '' ]]  [[ ( company.partner_id.street2) or '' ]], declare that the product:
+			</para>
+			<para style="terp_default_9">
+				<font color="white">.</font>
+			</para>
+			<para style="terp_header_Left">[[ o.product_id.name ]]  <section> with lot number [[ (lot or removeParentNode('section')) and '']] [[ o.name ]] / [[ formatLang(o.date,date=True) ]] </section> </para>
+			<para style="terp_default_9">
+				<font color="white">.</font>
+			</para>
+			<para>is made in accordance with:</para>
+			<para leftIndent="20.0">
+				<li>Standard of Company #: [[ o.product_id.company_standard or '' ]]</li>
+			</para>
+			<para leftIndent="20.0">
+				<li>Tehnical Data Sheet #: [[ o.product_id.data_sheet or '']]</li>
+			</para>
+			<para leftIndent="20.0">
+				<li>Tehnical Specification #: [[ o.product_id.technical_specification or '' ]]</li>
+			</para>
+			<para leftIndent="20.0">
+				<li>Standards: [[ o.product_id.standards or '' ]]</li>
+			</para>
+			<para leftIndent="20.0">
+				<li>Product Label</li>
+			</para>
+			<para style="terp_default_9">
+				<font color="white">.</font>
+			</para>
+			<para>and controlled according to Quality Control Plan dated in  [[ formatLang(o.date,date=True) ]] </para>
+			<para style="terp_default_9">
+				<font color="white">.</font>
+			</para>
+			<para>
+				We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory processing by yourselves.
+			</para>
+			<para>
+				<font color="white">.</font>
+			</para>
+			<para>
+				<font color="white">.</font>
+			</para>
+			<para>Signature,</para>
+			<para>
+				<font color="white">.</font>
+			</para>
+			<para>
+				<font color="white">.</font>
+			</para>
+			<para>
+				<font color="white">.</font>
+			</para>
+			<para>
+				<font color="white">.</font>
+			</para>	 		 
+			<para style="terp_default_Centre_8">F(PP 7.5/4.4.6-01)03</para>
+		</pto>	
+	</story>
+
+</document>
