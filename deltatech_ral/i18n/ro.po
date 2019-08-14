@@ -1,0 +1,33 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* deltatech_ral
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20131210-002425\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creațion-Date: 2013-12-11 19:22+0000\n"
+"PO-Revision-Date: 2013-12-11 19:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_ral
+#: model:ir.model,name:deltatech_ral.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "Comanda de productie"
+
+#. module: deltatech_ral
+#: field:mrp.production,ral_id:0
+#: field:stock.production.lot,ral_id:0
+msgid "RAL"
+msgstr "RAL"
+
+#. module: deltatech_ral
+#: model:ir.model,name:deltatech_ral.model_stock_production_lot
+msgid "Serial Number"
+msgstr "Număr de lot"
+
