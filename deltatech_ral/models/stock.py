@@ -10,7 +10,7 @@ class stock_production_lot(models.Model):
     _inherit = 'stock.production.lot'
 
 
-    ral_id = fields.Many2one('product.product', 'RAL', select=True, domain=[('default_code','like','RAL%')])
+    ral_id = fields.Many2one('product.product', 'RAL', index=True, domain=[('default_code','like','RAL%')])
 
 
 
