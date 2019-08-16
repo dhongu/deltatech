@@ -13,7 +13,8 @@
 
     "license": "LGPL-3",
     "data": [
-
+        'report/deltatech_sale_report.xml',
+        'security/ir.model.access.csv'
     ],
     "images": ['images/main_screenshot.png'],
 
