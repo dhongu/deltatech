@@ -87,7 +87,7 @@ class account_payment(models.Model):
             for line in lines:
                 if line.name == '/':
                     line.write({'name': line.payment_id.name})
-        self.reconciliation_statement_line()
+        self.reconciliation_statement_line(raise_error=False)
         # for payment in self:
         #     for move_line in payment.move_line_ids:
         #         if not move_line.statement_id:
@@ -102,7 +102,7 @@ class account_payment(models.Model):
         return res
 
     @api.multi
-    def reconciliation_statement_line(self):
+    def reconciliation_statement_line(self,raise_error=True):
         for payment in self:
             if payment.move_reconciled:
                 for move_line in payment.move_line_ids:
@@ -112,7 +112,8 @@ class account_payment(models.Model):
                             'statement_line_id': payment.statement_line_id.id
                         })
             else:
-                raise UserError(_('Payment is not reconciled'))
+                if raise_error:
+                    raise UserError(_('Payment is not reconciled'))
 
     @api.multi
     def get_reconciled_statement_line(self):
