@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">mrp.workcenter.form</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='costing']" position="after">
+                    <group string="Storage capacity" name="costing">
+                        <field name="location_id"/>
+                        <field name="max_quantity"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="mrp_workcenter_kanban" model="ir.ui.view" >
+            <field name="name">mrp.workcenter.kanban</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="quantity"/>
+                    <field name="max_quantity"/>
+                    <field name="product_id"/>
+                </xpath>
+                <xpath expr="//div[hasclass('o_kanban_primary_left')]" position="inside">
+                    <field name="quantity" widget="gauge" options="{'max_field': 'max_quantity','label_field': 'product_id', 'style': 'width:160px; height: 100px;'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

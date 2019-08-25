@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_process_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <div class="row">
+                            <div class="col-7">
+                                <h2>
+                                    <span t-field="o.name"/>
+                                </h2>
+                            </div>
+                            <div class="col-5">
+                                <span class="text-right">
+
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row mt32 mb32">
+                            <div class="col-3" t-if="o.origin">
+                                <strong>Source Document:</strong>
+                                <br/>
+                                <span t-field="o.origin"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Responsible:</strong>
+                                <br/>
+                                <span t-field="o.user_id"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Tank:</strong>
+                                <br/>
+                                <span t-field="o.location_dest_id"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Scheduled Date:</strong>
+                                <br/>
+                                <span t-field="o.date_planned_start"/>
+                                <span t-if="o.date_planned_finished">-
+                                    <span t-field="o.date_planned_finished"/>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-3">
+                                <strong>Finished Product:</strong>
+                                <span t-field="o.product_id"/>
+                            </div>
+                            <div class="col-3">
+                                <strong>Quantity to Produce:</strong>
+                                <span t-field="o.product_qty"/>
+                                <span t-field="o.product_uom_id.name" groups="uom.group_uom"/>
+                            </div>
+                            <t t-foreach="o.move_finished_ids" t-as="line">
+                                <t t-foreach="line.move_line_ids" t-as="ml">
+                                    <div class="col-3">
+                                        <strong t-field="line.product_id"/>
+                                        <span t-esc="ml.product_uom_qty" t-if="ml.state !='done'"/>
+                                        <span t-esc="ml.qty_done" t-if="ml.state =='done'"/>
+                                        <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+                                    </div>
+                                    <div class="col-3">
+                                        <strong>Lot:</strong>
+                                        <span t-field="ml.lot_id"/>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+
+                        <div t-if="o.workorder_ids">
+                            <h3>
+                                <t>Operations</t>
+                            </h3>
+                        </div>
+
+                        <t t-foreach="o.workorder_ids" t-as="operation">
+                            <div class="row mt32 mb32">
+                                <div class="col-4">
+                                    <strong t-field="operation.name"/>
+                                </div>
+
+                                <div class="col-4" t-if="operation.state == 'done'">
+                                    <strong>Interval:</strong>
+                                    <span  t-field="operation.date_start"/>-
+                                    <span  t-field="operation.date_finished"/>
+                                </div>
+
+                                <div class="col-4">
+                                    <strong>Duration:</strong>
+                                    <span t-if="operation.state != 'done'" t-field="operation.duration_expected" t-options='{"widget": "float_time"}'/>
+                                    <span t-if="operation.state == 'done'" t-field="operation.duration" t-options='{"widget": "float_time"}'/>
+                                </div>
+
+                                 <t t-foreach="operation.parameter_value_ids" t-as="parameter_value">
+                                     <div class="col-4">
+                                        <strong t-field="parameter_value.parameter_id"/><strong>:</strong>
+                                        <span  t-field="parameter_value.value"/>
+                                    </div>
+                                 </t>
+                            </div>
+
+                            <table class="table table-sm" t-if="operation.move_raw_ids">
+
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Lot/Serial barcode</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <t t-set="lines" t-value="operation.move_raw_ids"/>
+                                    <t t-foreach="lines" t-as="line">
+                                        <t t-foreach="line.move_line_ids" t-as="ml">
+                                            <tr>
+                                                <td>
+                                                    <span t-field="line.product_id"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="ml.product_uom_qty" t-if="ml.state !='done'"/>
+                                                    <span t-esc="ml.qty_done" t-if="ml.state =='done'"/>
+                                                    <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="ml.lot_id"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </t>
+
+                                </tbody>
+                            </table>
+
+                        </t>
+
+
+                        <div class="oe_structure"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

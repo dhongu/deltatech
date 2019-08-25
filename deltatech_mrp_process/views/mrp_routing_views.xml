@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mrp_routing_workcenter_form_view" model="ir.ui.view">
+        <field name="name">mrp.routing.workcenter.view.form</field>
+        <field name="model">mrp.routing.workcenter</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_workcenter_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='workorder']" position="after">
+                <group>
+                    <field name="batch"/>
+                    <field name="batch_size" attrs="{'invisible': [('batch', '=', 'no')]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
