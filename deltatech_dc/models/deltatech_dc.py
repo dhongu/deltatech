@@ -11,14 +11,13 @@ class deltatech_dc(models.Model):
     _description = "Declaration of Conformity"
 
     name = fields.Char('Number', size=32, required=True, )
-    date = fields.Date('Date of Declaration', required=True, index=True )
-    product_id = fields.Many2one('product.product', 'Product', required=True, select=True, index=True,
+    date = fields.Date('Date of Declaration', required=True, index=True)
+    product_id = fields.Many2one('product.product', 'Product', required=True, index=True,
                                  domain=[('sale_ok', '=', 'True')])
-    company_standard = fields.Char(related='product_id.company_standard', string="Standard of Company",
-                                   store=False)
+    company_standard = fields.Char(related='product_id.company_standard', string="Standard of Company", store=False)
     data_sheet = fields.Integer(related='product_id.data_sheet', string="Data Sheet", store=False)
-    technical_specification = fields.Integer(related='product_id.technical_specification', string="Technical Specification",
-                                             store=False)
+    technical_specification = fields.Integer(related='product_id.technical_specification',
+                                             string="Technical Specification", store=False)
     standards = fields.Text(related='product_id.standards', string="Standards", store=False)
 
     @api.multi
