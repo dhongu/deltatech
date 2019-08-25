@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
 
     "category": "Generic Modules",
-    "depends": ["base", "stock", "stock_account"],
+    "depends": ["base", "stock", "stock_account", 'date_range'],
 
     "license": "LGPL-3",
     "data": [
