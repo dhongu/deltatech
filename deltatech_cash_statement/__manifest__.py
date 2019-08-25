@@ -5,15 +5,10 @@
 
 {
     "name": "Deltatech Cash Statement Extension",
-    "version": "2.0",
+    'version': '12.0.3.0.0',
     "author": "Dorin Hongu",
     "website": "",
-    "description": """
 
-Functionalitati:
- - actualizare automata sold la casa
-   
-    """,
 
     'category': 'Accounting & Finance',
     "depends": ["account"],
@@ -22,8 +17,6 @@ Functionalitati:
         'wizard/account_cash_update_balances_view.xml'
     ],
 
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
