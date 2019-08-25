@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_mrp_parameter_tree" model="ir.ui.view">
+            <field name="name">Parameters</field>
+            <field name="model">mrp.parameter</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_mrp_parameter_form" model="ir.ui.view">
+            <field name="name">Parameters</field>
+            <field name="model">mrp.parameter</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="value"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mrp_parameter" model="ir.actions.act_window">
+            <field name="name">Parameters</field>
+            <field name="res_model">mrp.parameter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Parameters" id="menu_mrp_parameter"
+                  action="action_mrp_parameter" parent="mrp.menu_mrp_configuration"  />
+
+
+    </data>
+</odoo>

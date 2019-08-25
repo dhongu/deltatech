@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="mrp_production_workorder_form_view_inherit">
+        <field name="name">mrp.production.work.order.form</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+        <field name="arch" type="xml">
+
+        <xpath expr="//button[@name='button_finish']" position="after">
+                <button name="button_copy_param" type="object" string="New Control"
+                        attrs="{'invisible': [ '|',('state', '!=', 'progress'),('parameter_value_ids','=',False) ]}" />
+
+            </xpath>
+            <xpath expr="//field[@name='move_raw_ids']" position="before">
+
+                <field name="parameter_value_ids" widget="one2many_list">
+                    <tree editable="bottom" create="0" delete="0">
+                        <field name="parameter_id"/>
+                        <field name="value"/>
+                        <field name="date"/>
+                    </tree>
+                </field>
+
+            </xpath>
+
+            <!--            <xpath expr="//notebook" position="inside">-->
+            <!--                <page string="Parameters">-->
+            <!--                    <field name="parameter_value_ids" widget="one2many_list">-->
+            <!--                        <tree editable="bottom">-->
+            <!--                            <field name="parameter_id"/>-->
+            <!--                            <field name="value"/>-->
+            <!--                            <field name="qty_min"/>-->
+            <!--                            <field name="qty_max"/>-->
+            <!--                        </tree>-->
+            <!--                    </field>-->
+            <!--                </page>-->
+
+            <!--            </xpath>-->
+        </field>
+    </record>
+</odoo>

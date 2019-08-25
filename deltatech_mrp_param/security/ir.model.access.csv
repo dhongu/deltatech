@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_parameter,access_mrp_parameter,model_mrp_parameter,,1,1,1,1
+access_mrp_parameter_value,access_mrp_parameter_value,model_mrp_parameter_value,,1,1,1,1
