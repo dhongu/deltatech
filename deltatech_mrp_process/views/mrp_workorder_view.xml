@@ -43,10 +43,10 @@
             </xpath>
 
 
-
             <xpath expr="//field[@name='active_move_line_ids']/.." position="attributes">
                 <attribute name="attrs">{'invisible': [ ('state', '=', 'done') ]}</attribute>
             </xpath>
+
             <xpath expr="//notebook" position="inside">
 
                 <page string="Consumed Materials">

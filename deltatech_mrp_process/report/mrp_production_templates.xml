@@ -45,24 +45,31 @@
                         </div>
 
                         <div class="row mt32 mb32">
-                            <div class="col-3">
-                                <strong>Finished Product:</strong>
-                                <span t-field="o.product_id"/>
-                            </div>
-                            <div class="col-3">
-                                <strong>Quantity to Produce:</strong>
-                                <span t-field="o.product_qty"/>
-                                <span t-field="o.product_uom_id.name" groups="uom.group_uom"/>
-                            </div>
+                            <t t-if="not o.move_finished_ids">
+                                <div class="col-3">
+                                    <strong>Finished Product:</strong>
+                                    <span t-field="o.product_id"/>
+                                </div>
+                                <div class="col-3">
+                                    <strong>Quantity to Produce:</strong>
+                                    <span t-field="o.product_qty"/>
+                                    <span t-field="o.product_uom_id.name" groups="uom.group_uom"/>
+                                </div>
+                            </t>
+
                             <t t-foreach="o.move_finished_ids" t-as="line">
                                 <t t-foreach="line.move_line_ids" t-as="ml">
-                                    <div class="col-3">
+                                    <div class="col-4">
+                                        <strong>Finished Product:</strong>
                                         <strong t-field="line.product_id"/>
+                                    </div>
+                                    <div class="col-4">
+                                        <strong>Quantity:</strong>
                                         <span t-esc="ml.product_uom_qty" t-if="ml.state !='done'"/>
                                         <span t-esc="ml.qty_done" t-if="ml.state =='done'"/>
                                         <span t-field="ml.product_uom_id" groups="uom.group_uom"/>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-4">
                                         <strong>Lot:</strong>
                                         <span t-field="ml.lot_id"/>
                                     </div>
@@ -93,12 +100,17 @@
                                     <span t-if="operation.state != 'done'" t-field="operation.duration_expected" t-options='{"widget": "float_time"}'/>
                                     <span t-if="operation.state == 'done'" t-field="operation.duration" t-options='{"widget": "float_time"}'/>
                                 </div>
-
+                            </div>
+                            <div class="row mt32 mb32">
                                  <t t-foreach="operation.parameter_value_ids" t-as="parameter_value">
                                      <div class="col-4">
                                         <strong t-field="parameter_value.parameter_id"/><strong>:</strong>
                                         <span  t-field="parameter_value.value"/>
-                                    </div>
+                                     </div>
+                                     <div class="col-4">
+                                         <strong>Date:</strong>
+                                         <span  t-field="parameter_value.date"/>
+                                     </div>
                                  </t>
                             </div>
 
