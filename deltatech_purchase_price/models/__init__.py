@@ -5,3 +5,4 @@
 
 from . import stock_account
 from . import purchase
+from . import product

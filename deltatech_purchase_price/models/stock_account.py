@@ -43,27 +43,36 @@ class StockMove(models.Model):
 
     @api.multi
     def product_price_update_before_done(self, forced_qty=None):
-        super(StockMove, self).product_price_update_before_done(forced_qty)
-        tmpl_dict = defaultdict(lambda: 0.0)
-        # adapt standard price on incomming moves if the product cost_method is 'average'
-        std_price_update = {}
-        for move in self.filtered(lambda move: move.location_id.usage in ('supplier', 'production') and move.product_id.cost_method == 'fifo'):
-            product_tot_qty_available = move.product_id.qty_available + tmpl_dict[move.product_id.id]
-            rounding = move.product_id.uom_id.rounding
+        # products = self.env['product.product']
+        # for move in self.filtered(lambda move: move._is_in() and move.product_id.cost_method == 'fifo'):
+        #     products |= move.product_id
+        #
+        # products.write({'cost_method':'average'})
 
-            qty_done = 0.0
-            if float_is_zero(product_tot_qty_available, precision_rounding=rounding):
-                new_std_price = move._get_price_unit()
-            elif float_is_zero(product_tot_qty_available + move.product_qty, precision_rounding=rounding):
-                new_std_price = move._get_price_unit()
-            else:
-                # Get the standard price
-                amount_unit = std_price_update.get((move.company_id.id, move.product_id.id)) or move.product_id.standard_price
-                qty_done = move.product_uom._compute_quantity(move.quantity_done, move.product_id.uom_id)
-                qty = forced_qty or qty_done
-                new_std_price = ((amount_unit * product_tot_qty_available) + (move._get_price_unit() * qty)) / (product_tot_qty_available + qty_done)
+        super(StockMove, self.with_context(force_fifo_to_average=True)).product_price_update_before_done(forced_qty)
 
-            tmpl_dict[move.product_id.id] += qty_done
-            # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
-            move.product_id.with_context(force_company=move.company_id.id).sudo().write({'standard_price': new_std_price})
-            std_price_update[move.company_id.id, move.product_id.id] = new_std_price
+        # products.write({'cost_method': 'fifo'})
+
+        # tmpl_dict = defaultdict(lambda: 0.0)
+        # # adapt standard price on incomming moves if the product cost_method is 'average'
+        # std_price_update = {}
+        # for move in self.filtered(lambda move: move.location_id.usage in ('supplier', 'production') and move.product_id.cost_method == 'fifo'):
+        #     product_tot_qty_available = move.product_id.qty_available + tmpl_dict[move.product_id.id]
+        #     rounding = move.product_id.uom_id.rounding
+        #
+        #     qty_done = 0.0
+        #     if float_is_zero(product_tot_qty_available, precision_rounding=rounding):
+        #         new_std_price = move._get_price_unit()
+        #     elif float_is_zero(product_tot_qty_available + move.product_qty, precision_rounding=rounding):
+        #         new_std_price = move._get_price_unit()
+        #     else:
+        #         # Get the standard price
+        #         amount_unit = std_price_update.get((move.company_id.id, move.product_id.id)) or move.product_id.standard_price
+        #         qty_done = move.product_uom._compute_quantity(move.quantity_done, move.product_id.uom_id)
+        #         qty = forced_qty or qty_done
+        #         new_std_price = ((amount_unit * product_tot_qty_available) + (move._get_price_unit() * qty)) / (product_tot_qty_available + qty_done)
+        #
+        #     tmpl_dict[move.product_id.id] += qty_done
+        #     # Write the standard price, as SUPERUSER_ID because a warehouse manager may not have the right to write on products
+        #     move.product_id.with_context(force_company=move.company_id.id).sudo().write({'standard_price': new_std_price})
+        #     std_price_update[move.company_id.id, move.product_id.id] = new_std_price
