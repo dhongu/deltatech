@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_account_cash_update_balances_form" model="ir.ui.view">
+			<field name="name">Cash Update Balances</field>
+			<field name="model">account.cash.update.balances</field>
+			<field name="arch" type="xml">
+				<form string="Cash Update Balances">
+					<group>
+						<field name="balance_start" />
+					</group>
+					<footer>
+						<button name="do_update_balance" string="_Apply" type="object" class="oe_highlight" />
+						or
+						<button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+
+		<act_window id="action_account_cash_update_balances" name="Cash Update Balances"
+			res_model="account.cash.update.balances" 
+			src_model="account.bank.statement"
+			view_mode="form"   
+			multi="False" target="new" key2="client_action_multi" />	
+
+	</data>
+</openerp>
