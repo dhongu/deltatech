@@ -12,8 +12,8 @@ from odoo.tools.translate import _
 class MrpWorkcenter(models.Model):
     _inherit = 'mrp.workcenter'
 
-    location_id = fields.Many2one('stock.location',  string='Tank', domain="[('usage','=','internal')]" )
-    product_id = fields.Many2one('product.product',compute='_compute_quantity')
+    location_id = fields.Many2one('stock.location', string='Tank', domain="[('usage','=','internal')]")
+    product_id = fields.Many2one('product.product', compute='_compute_quantity')
     quantity = fields.Float(string='Quantity', compute='_compute_quantity')
     max_quantity = fields.Float(string='Max Quantity')
 
@@ -33,3 +33,10 @@ class MrpWorkcenter(models.Model):
                 workcenter.product_id = products
             else:
                 workcenter.product_id = False
+
+    @api.multi
+    def show_stock(self):
+        if self.location_id:
+            action = self.env.ref('stock.location_open_quants').read()[0]
+            action['domain'] = [('location_id', '=', self.location_id.id)]
+            return action

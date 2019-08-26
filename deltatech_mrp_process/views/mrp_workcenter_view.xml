@@ -28,9 +28,11 @@
                     <field name="product_id"/>
                 </xpath>
                 <xpath expr="//div[hasclass('o_kanban_primary_left')]" position="inside">
-
+                    <a name="show_stock" type="object"  >
                     <field name="quantity" widget="gauge" options="{'max_field': 'max_quantity',  'style': 'width:160px; height: 100px;'}"/>
+                    </a>
                 </xpath>
+
             </field>
         </record>
     </data>
