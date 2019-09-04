@@ -142,6 +142,8 @@ class res_partner(models.Model):
                 name = name.replace('\n\n', '\n')
                 name = name.replace('\n\n', '\n')
                 res.append((record.id, name))
+            else:
+                res.append((record.id, ''))
         return res
 
     @api.model
