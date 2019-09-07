@@ -17,6 +17,11 @@ class MrpWorkcenter(models.Model):
     quantity = fields.Float(string='Quantity', compute='_compute_quantity')
     max_quantity = fields.Float(string='Max Quantity')
 
+
+    cleaning_date = fields.Date()
+    cleaning_note = fields.Text()
+
+
     @api.multi
     def _compute_quantity(self):
         for workcenter in self:
@@ -29,6 +34,7 @@ class MrpWorkcenter(models.Model):
                 products |= quant.product_id
 
             workcenter.quantity = qty
+
             if len(products) == 1:
                 workcenter.product_id = products
             else:

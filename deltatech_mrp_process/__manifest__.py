@@ -16,11 +16,13 @@
 
     "license": "LGPL-3",
     "data": [
+        'wizard/cleaning_view.xml',
         'views/mrp_workorder_view.xml',
         'views/mrp_routing_views.xml',
         'views/mrp_workcenter_view.xml',
         'report/mrp_production_templates.xml',
-        'report/mrp_report_views_main.xml'
+        'report/mrp_report_views_main.xml',
+
     ],
     "images": ['images/main_screenshot.png'],
     "installable": True,

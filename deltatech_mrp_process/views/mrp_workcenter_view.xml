@@ -26,13 +26,25 @@
                     <field name="quantity"/>
                     <field name="max_quantity"/>
                     <field name="product_id"/>
+                    <field name="cleaning_date"/>
                 </xpath>
                 <xpath expr="//div[hasclass('o_kanban_primary_left')]" position="inside">
                     <a name="show_stock" type="object"  >
                     <field name="quantity" widget="gauge" options="{'max_field': 'max_quantity',  'style': 'width:160px; height: 100px;'}"/>
                     </a>
                 </xpath>
-
+                <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">
+                    <div class="row">
+                        <div class="col-6">
+                            <a name="%(action_mrp_cleaning)d" type="action" >
+                                Cleaning
+                            </a>
+                        </div>
+                        <div class="col-6 text-right">
+                            <field name="cleaning_date"/>
+                        </div>
+                    </div>
+                </xpath>
             </field>
         </record>
     </data>
