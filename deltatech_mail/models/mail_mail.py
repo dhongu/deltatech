@@ -4,6 +4,9 @@
 
 from odoo import _, api, fields, models
 
+from email.utils import formataddr
+from odoo.exceptions import UserError
+
 
 class MailMail(models.Model):
     _inherit = 'mail.mail'
@@ -12,9 +15,17 @@ class MailMail(models.Model):
     def _send_prepare_values(self, partner=None):
 
         res = super(MailMail, self)._send_prepare_values(partner)
+
+        use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email")
+        if use_company_email:
+            if self.env.user.company_id.email:
+                self.write({'email_from': formataddr((self.env.user.company_id.name, self.env.user.company_id.email))})
+            else:
+                raise UserError(_("Unable to post message, please configure the company's email address."))
+
         model = self.model
         if model:
-            substitutions = self.env['mail.substitution'].search([('name', '=', model)])
+            substitutions = self.env['mail.substitution'].search(['|', ('name', '=', model), ('name', '=', False)])
         else:
             substitutions = self.env['mail.substitution'].search([])
 
