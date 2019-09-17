@@ -86,12 +86,12 @@ class deltatech_mrp_report(models.Model):
                     res[line.id]['consumed_raw_val'] = cost.amount
         return res
 
-    production_id = fields.Many2one('mrp.production', 'Production Order', select=True)
+    production_id = fields.Many2one('mrp.production', 'Production Order', index=True)
     date = fields.Date('Date', readonly=True)
 
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
-    product_uom = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True)
 
     product_qty = fields.Float('Qty Plan', digits=dp.get_precision('Product UoM'), readonly=True)
     product_val = fields.Float(compute='_get_product_val', string="Val Plan", readonly=True)
