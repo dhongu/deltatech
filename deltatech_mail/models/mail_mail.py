@@ -18,8 +18,8 @@ class MailMail(models.Model):
 
         use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email")
         if use_company_email:
-            if self.env.user.company_id.email:
-                self.write({'email_from': formataddr((self.env.user.company_id.name, self.env.user.company_id.email))})
+            if self.author_id.company_id.email:
+                self.write({'email_from': formataddr((self.author_id.company_id.name, self.author_id.company_id.email))})
             else:
                 raise UserError(_("Unable to post message, please configure the company's email address."))
 
