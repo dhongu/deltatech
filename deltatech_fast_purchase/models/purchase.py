@@ -20,6 +20,10 @@ class PurchaseOrder(models.Model):
             self.button_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
+            if picking.state == 'confirmed':
+                picking.action_assign()
+                if picking.state != 'assigned':
+                    raise UserError(_("Miscarea de stoc nu poate fi validata!"))
             if picking.state == 'assigned':
                 picking.write({'notice': False})
                 for move_line in picking.move_lines:
