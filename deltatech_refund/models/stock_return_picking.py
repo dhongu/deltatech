@@ -67,7 +67,7 @@ class stock_return_picking(models.TransientModel):
                         new_line['lot_id'] = quant.lot_id.id
                         new_line['quantity'] = quant.qty
                         new_moves.append(new_line)
-        if new_moves:
+        for new_line in new_moves:
             res['product_return_moves'].append(new_line)
         return res
 

@@ -11,7 +11,7 @@ Features:
  - Adaugate campuri in lista de ridicare pentru rambursare si pt documentul rambursat
  - La o rambursare se poate genera o noua rambursare in asteptare
  - Documentul de rambursare se poate inregistra in mod automat
- - La anularea unei factrui se va vor aula in mod automat si miscarile de stoc aferente.
+ - La anularea unei factrui se va vor anula in mod automat si miscarile de stoc aferente.
  - La stergerea unei facturi se va schimba si starea picking listului
  - dupa anularea unei facturi se poate actiona un buton pentru a rambursa operatiile de stoc
  - in lista de ridicari sunt afisate rambursarile cu gri si italic
