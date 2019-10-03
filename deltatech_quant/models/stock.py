@@ -162,6 +162,8 @@ class stock_move(models.Model):
                 if move.location_id.usage == 'supplier' and  move.location_dest_id.usage in  ['internal','customer' ]:
                     if move.picking_id.partner_id:
                         value['supplier_id'] = move.picking_id.partner_id.id
+                    if move.invoice_line_id:
+                        value['invoice_id'] = move.invoice_line_id.invoice_id.id
                     value['input_date'] = move.picking_id.date_done
                     value['input_price'] = move.price_unit
 
