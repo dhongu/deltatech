@@ -20,6 +20,8 @@ class product_template(models.Model):
     percent_gold = fields.Float(string="Gold Percent")
     percent_platinum = fields.Float(string="Platinum Percent")
 
+
+    #todo: de adus valorile din listele de preturi
     list_price_bronze = fields.Float(string="Bronze Price", compute="_compute_price", store=True, readonly=True,
                                      compute_sudo=True)
     list_price_silver = fields.Float(string="Silver Price", compute="_compute_price", store=True, readonly=True,
@@ -33,6 +35,14 @@ class product_template(models.Model):
     @api.depends('list_price_base', 'standard_price', 'list_price', 'percent_bronze', 'percent_silver', 'percent_gold',
                  'taxes_id')
     def _compute_price(self):
+
+        if not self.percent_bronze and not self.percent_silver and not self.percent_gold and not self.percent_platinum:
+            return
+        list_price_bronze = self.env.ref('deltatech_price_categ.list_price_bronze')
+        list_price_silver = self.env.ref('deltatech_price_categ.list_price_silver')
+        list_price_gold = self.env.ref('deltatech_price_categ.list_price_gold')
+        list_price_platinum = self.env.ref('deltatech_price_categ.list_price_platinum')
+
         for product in self:
 
             tax_inc = False
@@ -68,3 +78,22 @@ class product_template(models.Model):
                 product.list_price_gold = taxes['total_included']
                 taxes = taxe.compute_all(product.list_price_platinum, 1, force_excluded=True)
                 product.list_price_platinum = taxes['total_included']
+
+
+            price_list = [
+                {'field_price': product.list_price_bronze, 'list_price': list_price_bronze},
+                {'field_price': product.list_price_silver, 'list_price': list_price_silver},
+                {'field_price': product.list_price_gold, 'list_price': list_price_gold},
+                {'field_price': product.list_price_platinum, 'list_price': list_price_platinum},
+            ]
+            for item in price_list:
+                price_list_item = product.item_ids.filtered(lambda r: r.pricelist_id == item['list_price'])
+                if not price_list_item:
+                    product.item_ids.new({
+                        'pricelist_id': item['list_price'],
+                        'fixed_price': item['field_price'],
+                        'product_tmpl_id': product.id,
+                        'applied_on':'1_product'
+                    })
+                else:
+                    price_list_item.fixed_price = item['field_price']
