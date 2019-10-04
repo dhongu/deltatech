@@ -40,4 +40,4 @@ class website(models.Model):
     #     response =  super(website,self)._image(cr, uid, model, id, field, response, max_width, max_height, cache, context)
     #     return response
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

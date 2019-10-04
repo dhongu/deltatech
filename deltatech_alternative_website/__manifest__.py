@@ -5,10 +5,10 @@
 
 
 {
-    "name": "Deltatech Website alternative code",
+    "name": "Website alternative code",
     "version": "1.0",
-    "author": "Dorin Hongu",
-    "website": "",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
     "description": """
 
 Functionalitati:
@@ -18,9 +18,12 @@ Functionalitati:
     """,
 
     "category": "Website",
-    "depends": ["website_sale", "deltatech_alternative", 'l10n_ro_invoice_report'],
+    "depends": ["website_sale", "deltatech_alternative"],
 
-    'data': ['views/product_view.xml', 'views/templates.xml'],
+    'data': [
+        'views/product_view.xml',
+        'views/templates.xml'
+    ],
 
     "installable": True,
     'auto_install': False,
