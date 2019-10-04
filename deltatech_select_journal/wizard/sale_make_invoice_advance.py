@@ -10,33 +10,15 @@ from odoo import api, fields, models, _
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
-    # @api.model
-    # def _default_journal(self):
-    #
-    #     if self._context.get('default_journal_id', False):
-    #         return self.env['account.journal'].browse(self._context.get('default_journal_id'))
-    #
-    #     if not self._context.get('active_ids'):
-    #         return False
-    #
-    #     company_id = self._context.get('company_id', self.env.user.company_id.id)
-    #     domain = [('type', '=', 'sale'), ('company_id', '=', company_id)]
-    #
-    #     sale_obj = self.env['sale.order']
-    #     order = sale_obj.browse(self._context.get('active_ids'))[0]
-    #     if order and order.pricelist_id and order.pricelist_id.currency_id:
-    #         if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
-    #             domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
-    #
-    #     return self.env['account.journal'].search(domain, limit=1)
+
 
     journal_id = fields.Many2one('account.journal', string='Journal', domain="[('type', '=', 'sale')]")
     order_id = fields.Many2one('sale.order')
     payment_term_id = fields.Many2one('account.payment.term', string='Payment Terms')
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(SaleAdvancePaymentInv, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)
         if self._context.get('active_ids'):
 
             order = self.env['sale.order'].browse(self._context.get('active_ids'))[0]
@@ -85,18 +67,21 @@ class SaleAdvancePaymentInv(models.TransientModel):
             else:
                 for line in invoice.invoice_line_ids:
                     taxes = line.product_id.taxes_id or self.account_id.tax_ids
+                    price_w_taxes = 0.0
                     for tax in taxes:
                         price_w_taxes = self.amount / (1 + tax.amount / 100)
                     line.write({'price_unit': price_w_taxes})
                     price_unit_saleorder = to_currency.compute(self.amount, from_currency, round=False)
                     sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
+                    order_line_downpayment = False
                     for order in sale_orders:
                         order_lines = order.order_line
                         for order_line in order_lines:
                             if order_line.is_downpayment == True:
                                 # order_line.write({'price_unit': price_unit_saleorder})
                                 order_line_downpayment = order_line
-                    order_line_downpayment.write({'price_unit': price_unit_saleorder})
+                    if order_line_downpayment:
+                        order_line_downpayment.write({'price_unit': price_unit_saleorder})
 
                 invoice.compute_taxes()
 

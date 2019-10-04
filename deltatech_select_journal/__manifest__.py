@@ -9,14 +9,6 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     'summary': 'Selectie jurnal',
-    "description": """
-
-Functionalitati:
- - Selectie jurnal in momentul generarii facturii din comanda de vanzare
- -  
-   
-    """,
-
     'category': 'Sales',
     "depends": ['sale'],
 
@@ -24,6 +16,6 @@ Functionalitati:
         'wizard/sale_make_invoice_advance_views.xml',
     ],
 
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
