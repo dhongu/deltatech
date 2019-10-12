@@ -51,6 +51,8 @@ class crm_claim(models.Model):
     costs_total = fields.Float(string='Total costs', digits=dp.get_precision('Account'), store=True, readonly=True, compute='_compute_costs')
     user_uid = fields.Many2one('res.users', string="uid", compute = '_get_uid') 
     is_same_user = fields.Boolean(compute = '_is_same_user')
+    similar_affected = fields.Boolean(string='Are other similar products affected?')
+    similar_affected_ids = fields.One2many('crm.claim.product.affected', 'claim_id', string='Affected products')
     
     def _is_same_user(self):
         if self.user_id == self.user_uid:
@@ -112,5 +114,18 @@ class crm_claim_loc_detected(models.Model):
     _description = "CRM Location Detected"  
     
     name = fields.Char(string="Detected", required=True, translate=True)
+    
+class crm_claim_products_affected(models.Model):
+    _name = "crm.claim.product.affected"
+    _description = "Products affected"
+    
+    claim_id = fields.Many2one('crm.claim')
+    product_id = fields.Many2one('product.template', string='Product')
+    quantity = fields.Integer(string='Quantity affected')
+    
+# class ProductTemplate(models.Model):
+#     _inherit = "product.template"
+#
+#     claim_id = fields.Many2one('crm.claim')
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -62,6 +62,18 @@
 								</tree>
 							</field>
 						</group>
+						<group>
+							<field name="similar_affected"/>
+						</group>
+						<group colspan="2" col="2" attrs="{'invisible':[('similar_affected', '!=', True)]}">
+							<separator colspan="2" string="Products affected" />
+							<field name="similar_affected_ids" nolabel="1">
+								<tree editable="bottom">
+									<field name="product_id" />
+									<field name="quantity" />
+								</tree>
+							</field>
+						</group>
 						<group colspan="2" col="2">
 							<separator colspan="2" string="Root Causes" />
 							<field name="cause" colspan="2" nolabel="1" />
@@ -121,6 +133,11 @@
 
 						</group>
 					</page>
+				</xpath>
+				<xpath expr="//form/sheet/group[1]" position="before">
+					<group id="version">
+						<span>Version: 11.0.1.1</span>
+					</group>
 				</xpath>
 			</field>
 		</record>
