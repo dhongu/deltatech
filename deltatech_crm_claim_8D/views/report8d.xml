@@ -116,6 +116,32 @@
 										</tr>
 									</tbody>
 								</table>
+								<br />
+								<t t-if="o.similar_affected">
+									<span>Other similar products affected</span>
+									<table class="table table-condensed">
+										<thead>
+											<tr>
+												<th width="60%">
+													<span style="font-weight:bold">Product affected</span>
+												</th>
+												<th width="40%">
+													<span style="font-weight:bold">Quantity affected</span>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr t-foreach="o.similar_affected_ids" t-as="l">
+												<td>
+													<span t-field="l.product_id"/>
+												</td>
+												<td>
+													<span t-field="l.quantity"/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</t>
                                 <br/>
 								<div style="border-bottom: 1px solid black;"/>
                                 <br/>
