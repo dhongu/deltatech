@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ©  2008-2018 Deltatech
+# ©  2008-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -33,7 +33,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         sale_obj = self.env['sale.order']
         order = sale_obj.browse(self._context.get('active_ids'))[0]
 
-        generic_parnter = self.env.ref('base.partner_generic')
+        generic_parnter = self.env.ref('deltatech_print_bf.partner_generic',raise_if_not_found=False)
         if generic_parnter == order.partner_id:
             domain = [
                 ('type', '=', 'sale'),
