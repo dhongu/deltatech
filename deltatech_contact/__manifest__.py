@@ -9,7 +9,7 @@
     "author": "Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
-    "category": "Generic Modules/Base",
+    "category": "Administration",
     "depends": ["base"],
     "license": "LGPL-3",
     "data": [
