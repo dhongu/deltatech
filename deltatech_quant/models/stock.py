@@ -73,6 +73,7 @@ class stock_quant(models.Model):
 
     @api.one
     def _compute_name(self):
+        """ Forms complete name of location from parent location to child location. """
         super(stock_quant, self)._compute_name()
         if self.supplier_id:
             self.name = '[' + self.supplier_id.name + ']' + self.name
@@ -129,20 +130,20 @@ class stock_move(models.Model):
 
     @api.multi
     def update_quant_partner(self):
-        pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale')])
-        if pos_mod.state == 'uninstalled':
-            pos_mode_installed = False
-        else:
-            pos_mode_installed = True
+        pos_mod = self.env['ir.module.module'].search([('name', '=', 'point_of_sale'),('state', '=', 'installed')])
+
+
+
+
         for move in self:
             value = {}
             if move.picking_id:
 
                 value = {'origin': move.picking_id.origin}
-                if move.location_dest_id.usage == 'customer' and move.location_id.usage in ['internal','supplier']:
+                if move.location_dest_id.usage == 'customer' and move.location_id.usage in ['internal', 'supplier']:
                     if move.picking_id.partner_id:
                         value['customer_id'] = move.picking_id.partner_id.id
-                    value['output_date'] = move.picking_id.date_done
+                    value['output_date'] = move.date # move.picking_id.date_done
                     price_invoice = move.price_unit
                     sale_line = move.procurement_id.sale_line_id
                     if sale_line:
@@ -151,7 +152,7 @@ class stock_move(models.Model):
                             sale_line.order_id.currency_id, move.company_id.currency_id) * price_invoice
                     else:
                         # Vanzare din POS
-                        if pos_mode_installed:
+                        if pos_mod:
                             pos_order = self.env['pos.order'].search([('picking_id', '=', move.picking_id.id)])
                             if pos_order:
                                 for line in pos_order.lines:
@@ -159,14 +160,14 @@ class stock_move(models.Model):
                                         price_invoice = line.price_subtotal / line.qty
                     value['output_price'] = price_invoice
 
-                if move.location_id.usage == 'supplier' and  move.location_dest_id.usage in  ['internal','customer' ]:
+                if move.location_id.usage == 'supplier' and move.location_dest_id.usage in ['internal', 'customer']:
                     if move.picking_id.partner_id:
                         value['supplier_id'] = move.picking_id.partner_id.id
-                    value['input_date'] = move.picking_id.date_done
+                    value['input_date'] = move.date #move.picking_id.date_done
                     value['input_price'] = move.price_unit
 
                 if move.location_id.usage == 'inventory' and move.location_dest_id.usage == 'internal':
-                    value['input_date'] = move.picking_id.date_done
+                    value['input_date'] = move.date #move.picking_id.date_done
                     value['input_price'] = move.price_unit
                     if not move.price_unit and move.product_id.seller_ids:
                         value['input_price'] = move.product_id.seller_ids[0].price

@@ -30,6 +30,9 @@
                     <field name="invoice_id"/>
                     <field name="customer_id"/>
                     <field name="origin"/>
+                    <field name="output_amount"/>
+					<field name="output_price" />
+					<field name="output_date" />
 
                     <field name="tag_ids" widget="many2many_tags"/>
                     <field name="note"/>

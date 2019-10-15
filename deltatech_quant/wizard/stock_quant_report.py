@@ -1,6 +1,3 @@
-
-
-
 from openerp import models, fields, api, _
 from openerp.exceptions import except_orm, Warning, RedirectWarning
 import openerp.addons.decimal_precision as dp
@@ -10,13 +7,13 @@ class StockQuantReport(models.TransientModel):
     _name = 'stock.quant.report'
     _description = "Stock Quant Report"
 
-    location_id = fields.Many2one(  'stock.location', 'Source Location', required=True )
-    lines_ids = fields.One2many('stock.quant.report.value','report_id')
+    location_id = fields.Many2one('stock.location', string='Source Location', required=True)
+    refresh_report = fields.Boolean('Refresh Report')
+    lines_ids = fields.One2many('stock.quant.report.value', 'report_id')
 
     @api.multi
     def compute_data_for_report(self):
         self.ensure_one()
-
 
         query_inject = '''
         WITH
@@ -71,7 +68,6 @@ class StockQuantReport(models.TransientModel):
         self.lines_ids.refresh()
         self.lines_ids._compute_sale_value()
 
-
     def show_report(self):
         self.ensure_one()
         action = self.env.ref('deltatech_quant.action_stock_quant_report_value')
@@ -81,26 +77,38 @@ class StockQuantReport(models.TransientModel):
 
     @api.multi
     def do_execute(self):
-        self.compute_data_for_report()
+        domain = [('location_id', '=', self.location_id.id), ('id', '!=', self.id)]
+        if self.refresh_report:
+            report = self.env['stock.quant.report'].search(domain)
+            report.unlink()
+            report = False
+        else:
+            report = self.env['stock.quant.report'].search(domain, limit=1)
 
-        return self.show_report()
+        if not report:
+            self.compute_data_for_report()
+            report = self
+
+        return report.show_report()
 
 
 class StockQuantReportValue(models.TransientModel):
     _name = 'stock.quant.report.value'
     _description = "Stock Quant Report"
 
-    report_id = fields.Many2one('stock.quant.report', ondelete='cascade',)
-    product_id = fields.Many2one('product.product' , readonly=True)
+    report_id = fields.Many2one('stock.quant.report', ondelete='cascade', string='Report')
+    product_id = fields.Many2one('product.product', readonly=True, string='Product')
 
-    qty = fields.Float(  'Quantity', index=True, readonly=True, required=True,
-        help="Quantity of products in this quant, in the default unit of measure of the product")
-    product_uom_id = fields.Many2one( 'product.uom', string='Unit of Measure', related='product_id.uom_id', readonly=True)
+    qty = fields.Float('Quantity', index=True, readonly=True, required=True,
+                       help="Quantity of products in this quant, in the default unit of measure of the product")
+    product_uom_id = fields.Many2one('product.uom', string='Unit of Measure', related='product_id.uom_id',
+                                     readonly=True)
 
-    amount = fields.Float('Amount', readonly=True)
+    amount = fields.Float('Stock Amount', readonly=True)
+
     sale_value = fields.Float('Sale Value', compute='_compute_sale_value', store=True, readonly=True)
-    categ_id = fields.Many2one('product.category', string='Internal Category',  readonly=True)
-    manufacturer = fields.Many2one('res.partner', string='Manufacturer',   readonly=True)
+    categ_id = fields.Many2one('product.category', string='Internal Category', readonly=True)
+    manufacturer = fields.Many2one('res.partner', string='Manufacturer', readonly=True)
 
     @api.one
     def _compute_sale_value(self):
