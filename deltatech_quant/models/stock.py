@@ -73,7 +73,6 @@ class stock_quant(models.Model):
 
     @api.one
     def _compute_name(self):
-        """ Forms complete name of location from parent location to child location. """
         super(stock_quant, self)._compute_name()
         if self.supplier_id:
             self.name = '[' + self.supplier_id.name + ']' + self.name
@@ -163,6 +162,8 @@ class stock_move(models.Model):
                 if move.location_id.usage == 'supplier' and move.location_dest_id.usage in ['internal', 'customer']:
                     if move.picking_id.partner_id:
                         value['supplier_id'] = move.picking_id.partner_id.id
+                    if move.invoice_line_id:
+                        value['invoice_id'] = move.invoice_line_id.invoice_id.id
                     value['input_date'] = move.date #move.picking_id.date_done
                     value['input_price'] = move.price_unit
 
