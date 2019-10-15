@@ -53,13 +53,15 @@ def watermark(im, mark, opacity=1.0):
 class product_template(models.Model):
     _inherit = "product.template"
 
-    watermark_image = fields.Binary(string="Watermark image", compute="_get_watermark_image")
+    watermark_image = fields.Binary(string="Watermark image",
+                                    compute="_get_watermark_image", attachment=True,
+                                    store=True)
 
     @api.multi
     @api.depends('image')
     def _get_watermark_image(self):
         for product in self:
-            if self.env.user.company_id.watermark_image and product.image:
+            if  self.env.user.company_id.watermark_image and product.image:
                 image_base64 = product.with_context(bin_size=False).read(['image'])[0]
 
                 img = image_base64.get('image')
@@ -80,6 +82,9 @@ class product_template(models.Model):
             else:
                 product.watermark_image = product.image
 
+    @api.onchange('image')
+    def on_change_image(self):
+        self._set_watermark_image()
 
 class product_catalog(models.Model):
     _inherit = "product.catalog"

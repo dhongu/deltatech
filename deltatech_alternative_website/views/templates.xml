@@ -16,7 +16,7 @@
 			<xpath expr="//h1[@t-field='product.name']" position="after">
 				<div t-if="product.default_code">
 					<span>Code</span>
-					<span itemprop="productID" t-field="product.default_code" class="text-muted" />
+					<span itemprop="productID" t-field="product.default_code"  />
 				</div>
 			</xpath>
 		</template>
@@ -29,7 +29,7 @@
 					<hr t-if="product.alternative_code">
 						<div>
 							<span>Alternative code:</span>
-							<span itemprop="alternateName" t-field="product.alternative_code" class="text-muted" />
+							<span itemprop="alternateName" t-field="product.alternative_code"  />
 						</div>
 					</hr>
 					<hr/>

@@ -10,27 +10,26 @@ from odoo.http import request
 
 class website(models.Model):
     _inherit = 'website'
- 
+
     @api.multi
     def sale_product_domain(self):
-        domain = super(website,self).sale_product_domain()
-        search = request.params.get('search',False)
+        domain = super(website, self).sale_product_domain()
+        search = request.params.get('search', False)
         if search:
             product_ids = []
             alt_domain = []
             for srch in search.split(" "):
-                alt_domain += [ ('name', 'ilike', srch)]
-            alternative_ids =  self.env['product.alternative'].search(  alt_domain, limit=10 ) 
+                alt_domain += [('name', 'ilike', srch)]
+            alternative_ids = self.env['product.alternative'].search(alt_domain, limit=10)
             for alternative in alternative_ids:
                 product_ids += [alternative.product_tmpl_id.id]
             if product_ids:
-                if len(product_ids)==1:
-                    domain += ['|',('id','=', product_ids[0])]
+                if len(product_ids) == 1:
+                    domain += ['|', ('id', '=', product_ids[0])]
                 else:
-                    domain += ['|',('id','in', product_ids)]
-                         
-        return domain
+                    domain += ['|', ('id', 'in', product_ids)]
 
+        return domain
 
     # def _image(self, cr, uid, model, id, field, response, max_width=maxint, max_height=maxint, cache=None, context=None):
     #
@@ -39,6 +38,7 @@ class website(models.Model):
     #
     #     response =  super(website,self)._image(cr, uid, model, id, field, response, max_width, max_height, cache, context)
     #     return response
+
 
 class IrHttp(models.AbstractModel):
     _inherit = 'ir.http'
