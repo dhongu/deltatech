@@ -17,7 +17,7 @@
 Features:    
  - Check sale price if is bigger that the highest purchase price
  
- - Vezi si modulul sale_margin 
+ - Vezi si modulul deltatech_sale_margin 
  
 """,
     "data": [

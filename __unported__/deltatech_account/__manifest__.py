@@ -8,7 +8,7 @@
     "website" : "www.terrabit.ro",
     'category': 'Accounting & Finance',
     "depends" : ['account'],
-    "description": '',
+    "description": ' adaugare grup pentru butoane in factura ',
     "data" : [
 
         'views/account_invoice_view.xml'
