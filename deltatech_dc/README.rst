@@ -7,7 +7,8 @@ Declaration of Conformity
 
 
 Features:
-
+ - Intertinere declaratii de conformitate
+ - Tiparire declaratie de conformitate la facturare
 
 Bug Tracker
 ===========
