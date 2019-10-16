@@ -10,7 +10,6 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
 
-    @api.multi
     def action_view_invoice(self):
         if self.purchase_id:
 

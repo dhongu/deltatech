@@ -10,7 +10,7 @@ Deltatech
 deltatech
 ---------
 
-.. include:: deltatech/DESCRIPTION.rst
+It's a generic module, it does not do anything special.
 
 
 deltatech_alternative

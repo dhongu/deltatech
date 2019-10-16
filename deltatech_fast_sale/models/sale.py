@@ -15,7 +15,7 @@ import odoo.addons.decimal_precision as dp
 class sale_order(models.Model):
     _inherit = 'sale.order'
 
-    @api.multi
+
     def action_button_confirm_to_invoice(self):
         if self.state == 'draft':
             self.action_confirm()  # confirma comanda
@@ -40,7 +40,7 @@ class sale_order(models.Model):
 
 
 
-    @api.multi
+
     def action_button_confirm_notice(self):
 
         picking_ids = self.env['stock.picking']

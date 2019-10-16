@@ -10,7 +10,6 @@ from odoo import api, models
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
-    @api.multi
     def action_view_sale_invoice(self):
         if self.sale_id:
             action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')

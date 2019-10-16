@@ -5,12 +5,12 @@
 
 {
     "name": "Fast Sale",
-    'version': '12.0.1.0.0',
+    'version': '13.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
     "category": "Sales",
-    "depends": ["base", "sale", 'stock','sale_stock'],
+    "depends": ["base", "sale_management", 'stock','sale_stock'],
 
     "license": "LGPL-3",
     "data": ['views/sale_view.xml',

@@ -6,15 +6,14 @@
 
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
-from odoo.tools.translate import _
-from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
+from odoo.tools.float_utils import float_compare
+
 
 
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
-    @api.multi
+
     def action_button_confirm_to_invoice(self):
         if self.state == 'draft':
             self.button_confirm()  # confirma comanda
@@ -56,7 +55,7 @@ class PurchaseOrder(models.Model):
             action['res_id'] = new_invoice.id
         return action
 
-    @api.multi
+
     def action_button_confirm_notice(self):
         picking_ids = self.env['stock.picking']
         for picking in self.picking_ids:
@@ -82,16 +81,9 @@ class PurchaseOrder(models.Model):
             result['res_id'] = picking_ids.id
         return result
 
-    def action_button_create_invoice(self):
-        action = self.env.ref('account.action_invoice_tree2')
-        result = action.read()[0]
-
-        # override the context to get rid of the default filtering
+    def action_view_invoice(self):
+        action = super(PurchaseOrder, self).action_view_invoice()
         invoice_type = 'in_invoice'
-        result['context'] = {'default_purchase_id': self.id,
-                             'default_date_invoice': self.date_planned}
-
-
         for line in self.order_line:
             if line.product_id.purchase_method == 'purchase':
                 qty = line.product_qty - line.qty_invoiced
@@ -99,33 +91,23 @@ class PurchaseOrder(models.Model):
                 qty = line.qty_received - line.qty_invoiced
             if qty < 0:
                 invoice_type = 'in_refund'
+        action['context']['default_type'] = invoice_type
+        action['context']['default_date_invoice'] = self.date_planned
+        return action
 
-        result['context']['type'] = invoice_type
-        invoice_ids = self.invoice_ids.filtered(lambda r: r.type == invoice_type)
 
-        if not invoice_ids:
-            # Choose a default account journal in the same currency in case a new invoice is created
-            journal_domain = [
-                ('type', '=', 'purchase'),
-                ('company_id', '=', self.company_id.id),
-                ('currency_id', '=', self.currency_id.id),
-            ]
-            default_journal_id = self.env['account.journal'].search(journal_domain, limit=1)
-            if default_journal_id:
-                result['context']['default_journal_id'] = default_journal_id.id
-        else:
-            # Use the same account journal than a previous invoice
-            result['context']['default_journal_id'] = invoice_ids[0].journal_id.id
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
 
-        # choose the view_mode accordingly
-        # if len(invoice_ids) != 1:
-        #     result['domain'] = "[('id', 'in', " + str(invoice_ids.ids) + ")]"
-        # elif len(invoice_ids) == 1:
-        #     res = self.env.ref('account.invoice_supplier_form', False)
-        #     result['views'] = [(res and res.id or False, 'form')]
-        #     result['res_id'] = invoice_ids.id
-        # if not invoice_ids:
 
-        result['views'] = [[False, "form"]]
-        return result
-
+    def _prepare_account_move_line(self, move):
+        res = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
+        if move.type == 'in_refund':
+            if self.product_id.purchase_method == 'purchase':
+                qty = self.qty_invoiced - self.product_qty
+            else:
+                qty = self.qty_invoiced - self.qty_received
+            if float_compare(qty, 0.0, precision_rounding=self.product_uom.rounding) <= 0:
+                qty = 0.0
+            res['quantity'] = qty
+        return res
