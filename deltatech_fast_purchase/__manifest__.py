@@ -17,7 +17,8 @@
         "purchase_stock",
         "stock"
     ],
-
+    "price": 5.00,
+    "currency": "EUR",
     "license": "LGPL-3",
     "data": [
         'views/purchase_view.xml',
