@@ -11,6 +11,6 @@
     "depends": ["account"],
 
     "data": ['views/account_invoice_view.xml'],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }
