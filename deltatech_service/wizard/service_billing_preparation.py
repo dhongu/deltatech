@@ -50,6 +50,11 @@ class service_billing_preparation(models.TransientModel):
                         'group_id': agreement.group_id.id,
                     })
                     consumption = self.env['service.consumption'].create(cons_value)
+                    if consumption:
+                        if line.has_free_cycles and line.cycles_free > 0:
+                            new_cycles = line.cycles_free - 1
+                            line.write({'cycles_free': new_cycles}) # decrementing free cycle
+                            consumption.update({'with_free_cycle': True}) # noting that was created with free cycle - used to increment it back on delete
                     res.extend(line.after_create_consumption(consumption))
         self.agreement_ids.compute_totals()
         return {

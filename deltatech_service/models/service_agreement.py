@@ -244,6 +244,8 @@ class service_agreement_line(models.Model):
                                   domain=[('name', 'in', ['RON', 'EUR'])])
     company_id = fields.Many2one('res.company', string='Company',
                                  related='agreement_id.company_id', store=True, readonly=True, related_sudo=False)
+    has_free_cycles = fields.Boolean('Has free cycles')
+    cycles_free = fields.Integer(string='Free cycles', help='Free invoice cycles remaining')
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -271,9 +273,12 @@ class service_agreement_line(models.Model):
                 product_price, self.currency_id)
         else:
             price_unit = self.price_unit
+        quantity = self.quantity
+        if self.has_free_cycles and self.cycles_free > 0: # if there are free cycles available
+            quantity = 0
         cons_value = {
             'product_id': self.product_id.id,
-            'quantity': self.quantity,
+            'quantity': quantity,
             'price_unit': price_unit,
             'currency_id': self.currency_id.id
         }
