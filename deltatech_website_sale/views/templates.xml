@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+    <template id="deltatech_style" name="Deletatech Website Style" inherit_id="website.assets_frontend" >
+        <xpath expr="//link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/deltatech_website_sale/static/src/scss/website_fix.scss"/>
+        </xpath>
+    </template>
+
+		<!---
+
+		de utilizat simboluri pentru disponibilitate
+
+shopping-cart
+fa-times
+ fa-times-circle
+fa-ban
+
+-->
+
+		<template id="products_qty_available" inherit_id="website_sale.products_item" active="False" customize_show="True" name="Product Available">
+			<xpath expr="//div[hasclass('availability_messages')]" position="inside">
+				<t t-if="website.user_id != user_id">
+					<t t-if="product.is_qty_available=='stock' ">
+						<div class="badge badge-pill badge-success" contenteditable="false">In stock</div>
+					</t>
+					<t t-if="product.is_qty_available=='provider' ">
+						<div class="badge badge-pill badge-danger" contenteditable="false">In provider stock</div>
+					</t>
+					<t t-if="product.is_qty_available=='order' ">
+						<div class="badge badge-pill badge-warning" contenteditable="false">At order</div>
+					</t>
+				</t>
+			</xpath>
+		</template>
+
+
+		<template id="product_detail_qty_available" inherit_id="website_sale.product" active="False" customize_show="True" name="Product Available">
+
+			<xpath expr="//span[@itemprop='url']" position="before">
+				<t t-if="website.user_id != user_id">
+					<t t-if="product.is_qty_available=='stock' ">
+						<div class="badge badge-pill badge-success" contenteditable="false">In stock</div>
+					</t>
+					<t t-if="product.is_qty_available=='provider' ">
+						<div class="badge badge-pill badge-danger" contenteditable="false">In provider stock</div>
+					</t>
+					<t t-if="product.is_qty_available=='order' ">
+						<div class="badge badge-pill badge-warning" contenteditable="false">At order</div>
+					</t>
+				</t>
+			</xpath>
+		</template>
+
+
+	</data>
+</odoo>

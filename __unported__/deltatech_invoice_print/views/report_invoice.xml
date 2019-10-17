@@ -211,7 +211,7 @@
 		                    				<t t-set="group_unit_price" t-value="l.price_unit_without_taxes" />
 		                    				<t t-set="group_uom" t-value="l.uom_id" />
 		                    				<t t-set="group_value" t-value="group_value+l.price_subtotal" />
-		                    				<t t-set="group_taxes" t-value="group_taxes+l.price_taxes" />
+		                    				<t t-set="group_taxes" t-value="group_taxes+l.price_tax" />
 		                    			</t>
 		                    		</t>
 		                    		<td><t t-esc="nr_crt_group"/></td>
@@ -616,7 +616,7 @@
 		                    				<t t-set="group_unit_price" t-value="l.price_unit_without_taxes" />
 		                    				<t t-set="group_uom" t-value="l.uom_id" />
 		                    				<t t-set="group_value" t-value="group_value+l.price_subtotal" />
-		                    				<t t-set="group_taxes" t-value="group_taxes+l.price_taxes" />
+		                    				<t t-set="group_taxes" t-value="group_taxes+l.price_tax" />
 		                    			</t>
 		                    		</t>
 		                    		<td><t t-esc="nr_crt_group"/></td>

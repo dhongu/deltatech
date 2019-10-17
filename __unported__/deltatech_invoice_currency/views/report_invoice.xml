@@ -52,8 +52,8 @@
 			<xpath expr="//span[@id='price_subtotal']" position="before">
  				<t t-set="price_subtotal" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_subtotal,currency_id)" />
 			</xpath>
-			<xpath expr="//span[@id='price_taxes']" position="before">
- 				<t t-set="price_taxes" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)" />
+			<xpath expr="//span[@id='price_tax']" position="before">
+ 				<t t-set="price_tax" t-value="o.currency_id.with_context(date=o.date_invoice).compute(price_taxes,currency_id)" />
 			</xpath>
 			
 			<xpath expr="//span[@id='amount_untaxeds']" position="before">
