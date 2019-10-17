@@ -8,13 +8,13 @@
     "author": "Terrabit, Dorin Hongu",
 
 
-    "category": "Generic Modules/Other",
+    "category": "Manufacturing",
     "depends": ["base", "stock", "mrp"],
 
     "data": [
         "views/stock_view.xml",
         "views/mrp_view.xml"
     ],
-
+    "images": ['images/main_screenshot.png'],
     "installable": True,
 }

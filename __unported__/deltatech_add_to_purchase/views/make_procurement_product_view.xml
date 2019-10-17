@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--  Make Procurement -->
+
+        <record id="view_make_procurment_wizard" model="ir.ui.view">
+            <field name="name">Procurement Request</field>
+            <field name="model">make.procurement</field>
+            <field name="inherit_id" ref="stock.view_make_procurment_wizard"/>
+            <field name="arch" type="xml">
+                <field name="warehouse_id" position="after">
+                    <field name="supplier_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>

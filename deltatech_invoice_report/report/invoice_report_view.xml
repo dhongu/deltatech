@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+		<record id="view_account_invoice_report_search" model="ir.ui.view">
+        	<field name="name">account.invoice.report.search</field>
+			<field name="model">account.invoice.report</field>
+			<field name="inherit_id" ref="account.view_account_invoice_report_search" />
+			<field name="arch" type="xml">
+
+				<filter name="user" position="after">
+					<filter string="Product" name="product" context="{'group_by':'product_id','residual_invisible':True}"/>
+					<filter string="Region" name="region" domain="[]"	context="{'group_by':'state_id'}"  />
+				</filter>
+				
+			</field>
+		</record>
+
+
+</odoo>
