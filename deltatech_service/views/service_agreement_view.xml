@@ -157,8 +157,10 @@
                                 <field name="uom_id" groups="uom.group_uom"/>
                                 <field name="price_unit"/>
                                 <field name="currency_id" options="{'no_create': True}"/>
-                                <field name="quantity_free"/>
+                                <field name="quantity_free" attrs="{'readonly':['|',('has_free_cycles','=',True),('cycles_free','>',0)]}"/>
                                 <field name="company_id" invisible="1"/>
+                                <field name="has_free_cycles" attrs="{'readonly':[('quantity_free','>',0)]}"/>
+                                <field name="cycles_free" attrs="{'readonly':[('quantity_free','>',0)]}"/>
                             </tree>
                         </field>
                     </sheet>

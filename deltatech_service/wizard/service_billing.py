@@ -73,7 +73,7 @@ class service_billing(models.TransientModel):
             else:
                 key = cons.partner_id.id
 
-            if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0:
+            if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0 or cons.with_free_cycle:
 
                 invoice_line = {
                     'product_id': cons.product_id.id,
