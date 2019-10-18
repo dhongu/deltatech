@@ -7,9 +7,8 @@ Stock Date
 
 
 Features:
- - preluare data efectiva din trecut in documente
-
- - la validarea unei miscari transfer de stoc se foloeste data planificata sau data specificat de operator.
+ - The picking effective date can be changed when the picking is validated.
+ - All the stock moves will have the picking's effective date.
 
 
 Bug Tracker
