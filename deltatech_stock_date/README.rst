@@ -9,6 +9,8 @@ Stock Date
 Features:
  - preluare data efectiva din trecut in documente
 
+ - la validarea unei miscari transfer de stoc se foloeste data planificata sau data specificat de operator.
+
 
 Bug Tracker
 ===========
