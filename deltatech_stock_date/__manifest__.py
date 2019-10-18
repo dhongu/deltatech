@@ -8,7 +8,11 @@
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
+    "description":
+            """
+                The picking effective date can be changed when the picking is validated.
+                All the stock moves will have the picking's effective date.
+            """,
 
     "category": "Warehouse",
     "depends": ["base", "stock"],
