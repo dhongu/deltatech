@@ -43,7 +43,7 @@ class purchase_order_xls_parser(report_sxw.rml_parse):
         
         self.localcontext.update({
             'datetime': datetime,
-             'wanted_list': ['name','desc','unit','product_qty'],
+             'wanted_list': ['name','product_qty'],
             #'template_changes': template_changes,
             '_': self._,
         })
@@ -82,16 +82,16 @@ class purchase_order_xls(report_xls):
         
         self.col_specs_template = {
             'name': {
-                'header': [1, 12, 'text', _render("_('Item No.')")],
+                'header': [1, 12, 'text', _render("_('Code')")],
                 'lines': [1, 0, 'text', _render("line.product_id.default_code or ''")] },
-            'desc': {
-                'header': [1, 42, 'text', _render("_('Description')")],
-                'lines': [1, 0, 'text', _render("line.product_id.name_template or ''")] },
-            'unit': {
-                'header': [1, 20, 'text', _render("_('Unit of measure')")],
-                'lines': [1, 0, 'text', _render("'PCS'")] },
+            # 'desc': {
+            #     'header': [1, 42, 'text', _render("_('Description')")],
+            #     'lines': [1, 0, 'text', _render("line.product_id.name_template or ''")] },
+            # 'unit': {
+            #     'header': [1, 20, 'text', _render("_('Unit of measure')")],
+            #     'lines': [1, 0, 'text', _render("'PCS'")] },
             'product_qty': {
-                'header': [1, 10, 'text', _render("_('Quantity')"), None, self.rh_cell_style_right],
+                'header': [1, 10, 'text', _render("_('Qty')"), None, self.rh_cell_style_right],
                 'lines': [1, 0, 'number', _render("line.product_qty")] },
         }
 
@@ -132,22 +132,22 @@ class purchase_order_xls(report_xls):
                 row_pos = self.xls_write_row( ws, row_pos, row_data, row_style=self.aml_cell_style )
         
             #date romsystems
-            font0 = xlwt.Font()
-            font0.bold = True
-            style0 = xlwt.XFStyle()
-            style0.font = font0
-            ws.col(5).width = 256*20
-            ws.col(6).width = 256*25
-            ws.write(3, 5, _('Client Name'),style0)
-            ws.write(3, 6, order.company_id.name)
-            ws.write(4, 5, 'Cod Client',style0)
-            ws.write(4, 6, 'CL022842')
-            ws.write(5, 5, 'Mod Livrare',style0)
-            ws.write(6, 5, 'Observatii',style0)
-            if order.notes:
-                ws.write(6, 6, order.notes)
-            else:
-                ws.write(6, 6, '')
+            # font0 = xlwt.Font()
+            # font0.bold = True
+            # style0 = xlwt.XFStyle()
+            # style0.font = font0
+            # ws.col(5).width = 256*20
+            # ws.col(6).width = 256*25
+            # ws.write(3, 5, _('Client Name'),style0)
+            # ws.write(3, 6, order.company_id.name)
+            # ws.write(4, 5, 'Cod Client',style0)
+            # ws.write(4, 6, 'CL022842')
+            # ws.write(5, 5, 'Mod Livrare',style0)
+            # ws.write(6, 5, 'Observatii',style0)
+            # if order.notes:
+            #     ws.write(6, 6, order.notes)
+            # else:
+            #     ws.write(6, 6, '')
 purchase_order_xls('report.purchase.order.xls',
               'purchase.order',
               parser=purchase_order_xls_parser)
