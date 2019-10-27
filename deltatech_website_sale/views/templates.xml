@@ -20,7 +20,8 @@ fa-ban
 -->
 
 		<template id="products_qty_available" inherit_id="website_sale.products_item" active="False" customize_show="True" name="Product Available">
-			<xpath expr="//div[hasclass('availability_messages')]" position="inside">
+
+			<xpath expr="//div[@itemprop='offers']" position="before">
 				<t t-if="website.user_id != user_id">
 					<t t-if="product.is_qty_available=='stock' ">
 						<div class="badge badge-pill badge-success" contenteditable="false">In stock</div>
