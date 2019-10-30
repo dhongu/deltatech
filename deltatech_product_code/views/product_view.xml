@@ -43,6 +43,26 @@
 		</record>
 
 
-	</data>
+        <record id="action_find_duplicate" model="ir.actions.server">
+            <field name="name">Find Duplicate</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">action = model.show_not_unique()</field>
+            <field name="binding_model_id" ref="model_product_template"/>
+        </record>
+
+
+        <record id="action_force_new_code" model="ir.actions.server">
+            <field name="name">New internal code</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+			 <field name="code">action =  self.force_new_code(cr, uid, context.get('active_ids', []), context=context)</field>
+
+<!--            <field name="code">action = records.force_new_code()</field>-->
+
+<!--            <field name="binding_model_id" ref="model_product_template"/>-->
+        </record>
+
+    </data>
 </openerp>
 

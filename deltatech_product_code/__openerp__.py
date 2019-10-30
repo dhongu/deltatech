@@ -35,7 +35,7 @@ Features:
 """,
     "license": "AGPL-3",
     "data" : [
-        "product_view.xml",
+        "views/product_view.xml",
     ],
     "active": False,
     "installable": True,
