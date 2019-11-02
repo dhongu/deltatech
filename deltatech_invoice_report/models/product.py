@@ -9,11 +9,13 @@ import odoo.addons.decimal_precision as dp
 
 class product_invoice_history(models.TransientModel):
     _name = 'product.invoice.history'
+    _description = 'product.invoice.history'
 
     product_id = fields.Many2one('product.product')
     template_id = fields.Many2one('product.template')
     year = fields.Char(string='Year')
     qty = fields.Float(string='Qty')
+
 
 class product_template(models.Model):
     _inherit = 'product.template'
@@ -42,8 +44,6 @@ class product_template(models.Model):
                 })
             template.invoice_history = invoice_history
 
-
-
     @api.multi
     def _compute_invoice_count(self):
         products = self.env['product.product']
@@ -51,7 +51,7 @@ class product_template(models.Model):
             products = template.product_variant_ids
 
             domain = [
-                ('type', 'in', ['in_invoice', 'in_refund']),
+                ('type', 'in', ['out_invoice', 'out_refund']),
                 ('product_id', 'in', products.ids),
             ]
             product_qty = 0
@@ -81,7 +81,10 @@ class product_template(models.Model):
               'search_disable_custom_filters': True
              }"""
         #
-        action['domain'] = "[('product_id','in',[" + ','.join(map(str, products.ids)) + "])]"
+        action['domain'] = [
+            ('type', 'in', ['out_invoice', 'out_refund']),
+            ('product_id', 'in', products.ids)
+        ]
         return action
 
 
@@ -99,5 +102,5 @@ class product_product(models.Model):
               'search_disable_custom_filters': True
              }"""
         #
-        action['domain'] = "[('product_id','in',[" + ','.join(map(str, self.ids)) + "])]"
+        action['domain'] = [ ('type', 'in', ['out_invoice', 'out_refund']),('product_id','in', self.ids )]
         return action

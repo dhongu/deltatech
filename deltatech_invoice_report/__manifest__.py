@@ -2,7 +2,7 @@
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Invoice Report",
+    "name": "Invoice Report",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
