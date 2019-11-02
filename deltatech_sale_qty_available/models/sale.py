@@ -17,10 +17,13 @@ class sale_order(models.Model):
 
     is_ready = fields.Boolean(string='Is ready', compute="_compute_is_ready")
 
+    # aceasta functie poate sa fie consumatoare de resurse !
+    # trebuie sa scaneze stocurile pentru toate produsele din comenzile de vanzare afisate
     @api.multi
     def _compute_is_ready(self):
         for order in self:
-            is_ready = order.state in ['sent', 'sale', 'progress']
+            # daca comand este deja facturata ea nu poate sa mai fie si gata de livrare
+            is_ready = order.state in ['sent', 'sale', 'done'] and order.invoice_status  != 'invoiced'
             if is_ready:
                 for line in order.order_line:
                     is_ready = is_ready and (line.qty_available >= line.product_uom_qty)
@@ -34,6 +37,20 @@ class sale_order_line(models.Model):
     qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
     virtual_available = fields.Float(related='product_id.virtual_available', string='Forecast Quantity')
     qty_available_text = fields.Char(string="Available", compute='_compute_qty_available_text')
+
+    qty_to_deliver = fields.Float(compute='_compute_qty_to_deliver')
+    display_qty_widget = fields.Boolean(compute='_compute_qty_to_deliver')
+
+    @api.depends('product_id', 'product_uom_qty', 'qty_delivered', 'state')
+    def _compute_qty_to_deliver(self):
+        """Compute the visibility of the inventory widget."""
+        for line in self:
+            line.qty_to_deliver = line.product_uom_qty - line.qty_delivered
+            if line.state == 'draft' and line.product_id.type == 'product' and line.qty_to_deliver > 0:
+                line.display_qty_widget = True
+            else:
+                line.display_qty_widget = False
+
 
     @api.multi
     @api.depends('product_id', 'route_id')

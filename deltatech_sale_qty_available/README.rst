@@ -7,7 +7,8 @@ Sale Qty Available
 
 
 Features:
- - Afisare cantitate disponibila in comanda de vanzare
+ - Afisare cantitate disponibila in comanda de vanzare similar ca in versiunea 13.
+ - In lista de comenzi sunt afisare comenzile gata de livrare cu culoarea verde
 
 
 Bug Tracker
