@@ -11,15 +11,15 @@ import odoo.addons.decimal_precision as dp
 class StockImmediateTransfer(models.TransientModel):
     _inherit = 'stock.immediate.transfer'
 
-    date = fields.Datetime(string="Date")
+    date_done = fields.Datetime(string="Date")
 
     @api.model
     def default_get(self, fields_list):
         res = super(StockImmediateTransfer, self).default_get(fields_list)
-        res['date'] = self.env.context.get('force_period_date',fields.Datetime.now())
+        res['date_done'] = self.env.context.get('force_period_date',fields.Datetime.now())
         return res
 
     @api.multi
     def process(self):
-        self.pick_ids.write({'date': self.date, 'date_done': self.date})
-        return super(StockImmediateTransfer, self.with_context(force_period_date=self.date)).process()
+        self.pick_ids.write({'date': self.date_done, 'date_done': self.date_done})
+        return super(StockImmediateTransfer, self.with_context(force_period_date=self.date_done)).process()

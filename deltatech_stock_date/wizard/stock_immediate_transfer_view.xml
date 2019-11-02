@@ -9,7 +9,7 @@
                 <xpath expr="//footer" position="before">
                     <group>
                         <group>
-                            <field name="date"/>
+                            <field name="date_done"/>
                         </group>
 
                     </group>
