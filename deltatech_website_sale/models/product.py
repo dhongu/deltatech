@@ -26,6 +26,9 @@ class product_template(models.Model):
     inventory_availability = fields.Selection(default='threshold')
     available_threshold = fields.Float(default=1.0)
 
+    published_on_website = fields.Boolean(related='is_published' , readonly=False, string='Published')
+
+
     @api.multi
     @api.depends('qty_available','at_order')
     def _compute_available(self):
