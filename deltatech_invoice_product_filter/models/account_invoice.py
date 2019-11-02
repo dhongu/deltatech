@@ -13,6 +13,7 @@ from datetime import datetime
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    product_id = fields.Many2one('product.product', string='Product', related='invoice_line_ids.product_id')
+    # nu mai este necesar acest camp
+    #product_id = fields.Many2one('product.product', string='Product', related='invoice_line_ids.product_id')
 
 

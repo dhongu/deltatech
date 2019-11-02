@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="account.view_account_invoice_filter" />
 			<field name="arch" type="xml">
 				 <field name="user_id"  position="after">
-				 	<field name="product_id" />
+					 <field name="invoice_line_ids" string="Product" filter_domain="[('invoice_line_ids.product_id', 'ilike', self)]"/>
 				 </field>		
 			</field>
 		</record>		
