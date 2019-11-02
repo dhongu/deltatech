@@ -71,7 +71,7 @@ class ReportDCInvoicePrint(models.AbstractModel):
                     dc = self.env['deltatech.dc'].create({
                         'name': invoice.number,
                         'product_id': line.product_id.id,
-                        'date': invoice.date
+                        'date': invoice.date_invoice
                     })
                 declarations |= dc
 

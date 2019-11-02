@@ -11,7 +11,7 @@ class deltatech_dc(models.Model):
     _description = "Declaration of Conformity"
 
     name = fields.Char('Number', size=32, required=True, )
-    date = fields.Date('Date of Declaration', required=True, index=True)
+    date = fields.Date('Date of Declaration', required=True, index=True, default=fields.Date.context_today)
     product_id = fields.Many2one('product.product', 'Product', required=True, index=True,
                                  domain=[('sale_ok', '=', 'True')])
     company_standard = fields.Char(related='product_id.company_standard', string="Standard of Company", store=False)
