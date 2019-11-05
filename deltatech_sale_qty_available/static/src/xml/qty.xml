@@ -2,10 +2,10 @@
     <div t-name="deltatech_sale_qty_available.qtyAvailable">
         <div t-att-class="!widget.data.display_qty_widget ? 'd-none' : ''">
             <t t-if="widget.data.qty_available &lt; widget.data.qty_to_deliver  ">
-                <a tabindex="0" class="fa fa-info-circle text-danger"/>
+                <a tabindex="0" class="fa fa-info-circle text-danger o_list_button"/>
             </t>
             <t t-else="">
-                <a tabindex="0" class="fa fa-info-circle text-primary"/>
+                <a tabindex="0" class="fa fa-info-circle text-primary o_list_button"/>
             </t>
         </div>
     </div>

@@ -39,7 +39,7 @@
             <field name="arch" type="xml">
 
 
-                <xpath expr="//tree/field[@name='price_unit']" position="before">
+                <xpath expr="//tree/field[@name='product_uom_qty']" position="before">
 
                     <field name="qty_available" invisible="1"  />
                     <field name="virtual_available" invisible="1"  />
@@ -48,7 +48,8 @@
 
 
                     <field name="display_qty_widget" invisible="1"/>
-                    <widget name="qty_available_widget" width="0.1"/>
+
+                    <field name="display_qty_widget" widget="qty_available_widget" width="0.1"/>
                 </xpath>
             </field>
         </record>
