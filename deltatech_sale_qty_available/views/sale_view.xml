@@ -46,10 +46,7 @@
                     <field name="qty_to_deliver" invisible="1"  />
 
 
-
-                    <field name="display_qty_widget" invisible="1"/>
-
-                    <field name="display_qty_widget" widget="qty_available_widget" width="0.1"/>
+                    <field name="display_qty_widget" widget="qty_available" width="0.1" string=""/>
                 </xpath>
             </field>
         </record>
