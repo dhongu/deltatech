@@ -31,14 +31,18 @@ class sale_order(models.Model):
                         move_line.write({'quantity_done': move_line.product_uom_qty})
                     else:
                         move_line.unlink()
-                picking.action_done()
+                picking.with_context(force_period_date=self.date_order).action_done()
 
         action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
         action = action_obj.read()[0]
-
+        action['context'] = {'force_period_date' : self.date_order }
         return action
 
 
+    def _prepare_invoice(self):
+        invoice_vals = super(sale_order, self)._prepare_invoice()
+        invoice_vals['date_invoice'] = self.date_order.date()
+        return invoice_vals
 
 
     def action_button_confirm_notice(self):
