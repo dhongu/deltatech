@@ -8,7 +8,10 @@
 			<field name="model">sale.order</field>
 			<field name="inherit_id" ref="sale.view_order_form" />
 			<field name="arch" type="xml">
-
+				<xpath expr="//field[@name='payment_term_id']" position="after">
+					<field name="client_order_ref"/>
+					<field name="date_order"  />
+				</xpath>
 				<xpath expr="//header" position="inside">
 					<button name="action_button_confirm_to_invoice" states="draft,sent"
 							confirm="Are you sure you want to make the automatic delivery with the quantities and price from the sale order?"
