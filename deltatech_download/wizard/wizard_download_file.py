@@ -13,7 +13,7 @@ class WizardDownloadFile(models.TransientModel):
     file_name = fields.Char(string='File Name')
     data_file = fields.Binary(string='File')
 
-    @api.multi
+
     def do_download_file(self):
         return {
             'type': 'ir.actions.act_url',

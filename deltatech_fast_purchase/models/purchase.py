@@ -18,19 +18,25 @@ class PurchaseOrder(models.Model):
         if self.state == 'draft':
             self.button_confirm()  # confirma comanda
 
+        params = self.env['ir.config_parameter'].sudo()
+
+        validate_invoice = params.get_param('fast_purchase.validate_invoice', default='True')
+        validate_invoice = safe_eval(validate_invoice)
+
         for picking in self.picking_ids:
             if picking.state == 'confirmed':
                 picking.action_assign()
                 if picking.state != 'assigned':
-                    raise UserError(_("Miscarea de stoc nu poate fi validata!"))
+                    raise UserError(_("The stock transfer cannot be validated!"))
             if picking.state == 'assigned':
-                picking.write({'notice': False})
+                picking.write({'notice': False, 'origin': self.partner_ref or self.name})
                 for move_line in picking.move_lines:
                     if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                         move_line.write({'quantity_done': move_line.product_uom_qty})
                     else:
                         move_line.unlink()
-                picking.action_done()
+                # pentru a se prelua data din comanda de achizitie
+                picking.with_context(force_period_date=self.commitment_date).action_done()
 
         action = self.action_view_invoice()
 
@@ -38,12 +44,14 @@ class PurchaseOrder(models.Model):
             # result['target'] = 'new'
             if not action['context']:
                 action['context'] = {}
-            action['context']['default_date_invoice'] = self.date_order
+            # action['context']['default_date_invoice'] = self.date_order
             action['views'] = [[False, "form"]]
 
             vals = {
                 'purchase_id': self.id,
-                'type': action['context']['type']
+                'type': action['context']['type'],
+                'date_invoice': self.date_order.date(),
+                'reference': self.partner_ref
             }
             invoice = self.env['account.invoice'].with_context(action['context']).new(vals)
             invoice.purchase_order_change()
@@ -53,6 +61,9 @@ class PurchaseOrder(models.Model):
             res = self.env.ref('account.invoice_supplier_form', False)
             action['views'] = [(res and res.id or False, 'form')]
             action['res_id'] = new_invoice.id
+            if validate_invoice:
+                new_invoice.action_invoice_open()
+                action = False
         return action
 
 

@@ -5,7 +5,7 @@
 
 {
     "name": "Download File",
-    'version': '12.0.0.0.0',
+    'version': '13.0.0.0.0',
     "author": "Dorin Hongu",
     'summary': 'Generare fisier',
     "website": "https://www.terrabit.ro",
