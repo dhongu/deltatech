@@ -7,9 +7,7 @@ Product Catalogue
 
 
 Features:
-* Enables the option for printing the catalogue for single/multi products
-* Print Catalogue for Single product from the E-commerce website
-
+* Enables the option for printing the catalog for single/multi products
 
 
 Bug Tracker
@@ -33,7 +31,6 @@ Credits
 Contributors
 ------------
 
-* Sayooj A O
 * Dorin Hongu <dhongu@gmail.com>
 
 

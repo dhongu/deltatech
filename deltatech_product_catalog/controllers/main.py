@@ -9,16 +9,15 @@ from odoo.http import request
 
 class CataloguePrint(http.Controller):
     """This class includes the function which fetch the details
-    about the corresponding product and print catalogue in
-    PDF format"""
+    about the corresponding product and print catalog in PDF format"""
 
-    @http.route(['/report/pdf/catalogue_download'], type='http', auth='public')
-    def download_catalogue(self, product_id):
+    @http.route(['/report/pdf/catalog_download'], type='http', auth='public')
+    def download_catalog(self, product_id):
         """In this function we are calling the report template
         of the corresponding product and
-        downloads the catalogue in pdf format"""
-        pdf, _ = request.env.ref('deltatech_product_catalogue.action_report_product_catalog')\
+        downloads the catalog in pdf format"""
+        pdf, _ = request.env.ref('deltatech_product_catalog.action_report_product_catalog')\
             .sudo().render_qweb_pdf([int(product_id)])
         pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf)),
-                          ('Content-Disposition', 'catalogue' + '.pdf;')]
+                          ('Content-Disposition', 'catalog' + '.pdf;')]
         return request.make_response(pdf, headers=pdfhttpheaders)

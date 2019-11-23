@@ -5,7 +5,7 @@
             <xpath expr="//t[@t-call='website.layout']" position="inside">
                 <xpath expr="//div[@id='product_details']" position="after">
                     <div>
-                        <a t-att-href="'/report/pdf/catalogue_download?product_id=%s' % product.id">
+                        <a t-att-href="'/report/pdf/catalog_download?product_id=%s' % product.id">
                             <button type="button" class="btn btn-primary btn-lg mt8 js_check_product a-submit"
                                     style="margin-left: 847px;margin-bottom: 82px;">Download Catalogue
                             </button>

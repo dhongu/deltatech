@@ -18,7 +18,7 @@
                         <div style="display: flex">
                             <t t-foreach="docs" t-as="o">
                                 <div class="card card-product" >
-                                    <div class="card-img-top" t-field="o.image" t-options='{"widget": "image"}'/>
+                                    <div class="card-img-top" t-field="o.image_medium" t-options='{"widget": "image"}'/>
                                     <div class="card-body">
                                         <t t-if="o.default_code">
                                             <span class="card-text" t-field="o.default_code"/>
@@ -36,7 +36,7 @@
     </template>
 
     <template id="report_category_catalog" name="report_product_category_catalog">
-        <t t-call="deltatech_product_catalogue.report_product_catalog"/>
+        <t t-call="deltatech_product_catalog.report_product_catalog"/>
     </template>
 
 

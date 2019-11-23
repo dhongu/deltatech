@@ -6,9 +6,9 @@
 
 
 {
-    'name': "Product Catalogue",
+    'name': "Product Catalog",
     'version': '12.0.1.0.0',
-    'summary': """This module helps to print the catalogue of  the single/multi products""",
+    'summary': """This module helps to print the catalog of the multi products""",
 
     'category': 'Inventory',
     "author": "Terrabit, Dorin Hongu",
@@ -17,7 +17,7 @@
     'website': "https://www.terrabit.ro",
     'depends': ['base', 'stock', 'website_sale'],
     'data': [
-        'views/report_button_website.xml',
+
         'report/product_catalog_report.xml',
         'report/product_catalog_template.xml',
     ],
