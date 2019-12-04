@@ -126,7 +126,7 @@
                                     <t t-foreach="categ.product_ids" t-as="o">
                                         <div class="card card-product">
                                             <div class="card-img-top" t-field="o.image_medium"
-                                                 t-field-options='{"widget": "image"}'/>
+                                                 t-field-options="{&quot;widget&quot;: &quot;image&quot;, &quot;class&quot;: &quot;img-rounded&quot;}"/>
                                             <div class="card-body">
                                                 <t t-if="o.default_code">
                                                     <span class="card-text" t-field="o.default_code"/>
