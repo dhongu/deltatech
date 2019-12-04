@@ -145,7 +145,7 @@
 <!--                                                            <t t-set="alt_text" t-value="alt_text+' '+alt.name"/>-->
 <!--                                                        </t>-->
 <!--                                                    </t>-->
-                                                    <span t-esc="alternative_code"/>
+                                                    <span t-esc="o.alternative_code"/>
                                                 </t>
                                             </div>
                                         </div>
