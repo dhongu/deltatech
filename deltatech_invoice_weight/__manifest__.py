@@ -10,7 +10,7 @@
     "category": "Accounting",
     "depends": ["account"],
 
-    "data": ['views/account_invoice_view.xml'],
+    "data": ['views/account_invoice_view.xml','report/invoice_report_view.xml'],
     "images": ['images/main_screenshot.png'],
     "installable": True,
 }
