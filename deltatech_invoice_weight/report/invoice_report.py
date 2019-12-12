@@ -11,13 +11,10 @@ class account_invoice_report(models.Model):
     weight = fields.Float('Weight')
     weight_net = fields.Float('Net Weight')
     weight_package = fields.Float('Package Weight')
-    
+
     def _select(self):
-        return  super(account_invoice_report, self)._select() + ", sub.weight,    sub.weight_net, sub.weight_package "
-
+        return super(account_invoice_report, self)._select() + ""
+    
     def _sub_select(self):
-        return  super(account_invoice_report, self)._sub_select() + ", ai.weight as weight,    ai.weight_net as weight_net,    ai.weight_package as weight_package "
-
-   
-
+        return  super(account_invoice_report, self)._sub_select() + ""
 
