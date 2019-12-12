@@ -48,7 +48,7 @@ class export_datecs(models.TransientModel):
         invoice_id = defaults.get('invoice_id', self.env.context.get('active_id', False))        
         
         if invoice_id:
-            invoice = self.env['account.invoice'].browse(invoice_id)
+            invoice = self.env['account.invoice'].search([('id','=',invoice_id)])
             defaults['invoice_id'] = invoice.id
 
         
@@ -57,9 +57,11 @@ class export_datecs(models.TransientModel):
             
 
         out = False
-        result = self.env['report'].get_html(records=invoice, report_name='deltatech_datecs_print.report_invoice')
+        # result = self.env['report'].get_html(records=invoice, report_name='deltatech_datecs_print.report_invoice')
+        report = self.env.ref('deltatech_datecs_print.action_report_invoice')
+        result = report.render_qweb_html(invoice.id, data={'title': 'test'})
         if result:
-            result = html2text.html2text(result.decode('utf8','replace'))  
+            result = html2text.html2text(result[0].decode('utf8','replace'))
             result = result.replace(chr(13), '\n')
             result = result.replace('\n\n', '\r\n')
             out = base64.encodestring(result.encode('utf8'))
