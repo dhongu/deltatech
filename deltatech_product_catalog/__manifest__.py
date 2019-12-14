@@ -15,7 +15,7 @@
     'company': 'Terrabit',
     'maintainer': 'Terrabit',
     'website': "https://www.terrabit.ro",
-    'depends': ['base', 'stock', 'website_sale'],
+    'depends': ['product','deltatech_alternative','website_sale'],
     'data': [
 
         'report/product_catalog_report.xml',

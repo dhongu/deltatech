@@ -7,7 +7,7 @@ Product Catalogue
 
 
 Features:
-* Enables the option for printing the catalog for single/multi products
+ * Enables the option for printing the catalog for single/multi products
 
 
 Bug Tracker

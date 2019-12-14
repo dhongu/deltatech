@@ -8,20 +8,64 @@
             <t t-call="web.internal_layout">
                 <div class="page">
                     <style>
-                         .card-product {
+                        .card {
+                            position: relative;
+                            display: -ms-flexbox;
+                            display: flex;
+                            -ms-flex-direction: column;
+                            flex-direction: column;
+                            min-width: 0;
+                            word-wrap: break-word;
+                            background-color: #fff;
+                            background-clip: border-box;
+                            border: 1px solid rgba(0,0,0,.125);
+                            border-radius: .25rem;
+                        }
+                        card-img-top {
+                            width: 100%;
+                            border-top-left-radius: calc(.25rem - 1px);
+                            border-top-right-radius: calc(.25rem - 1px);
+                        }
+                        .card-body {
+                            -ms-flex: 1 1 auto;
+                            flex: 1 1 auto;
+                            padding: 1.25rem;
+                        }
+                        .card-text:last-child {
+                            margin-bottom: 0;
+                        }
+                        .card-product {
                             width: 18rem;
                             display: inline-block;
                             margin: 4px 8px;
+                            padding: 3%;
+                            text-align: center;
                         }
                     </style>
                     <div class="container">
                         <div style="display: flex">
                             <t t-foreach="docs" t-as="o">
-                                <div class="card card-product" >
+                                <div class="card card-product">
                                     <div class="card-img-top" t-field="o.image_medium" t-options='{"widget": "image"}'/>
                                     <div class="card-body">
                                         <t t-if="o.default_code">
                                             <span class="card-text" t-field="o.default_code"/>
+                                        </t>
+                                    </div>
+                                    <div class="card-body" style="margin-top:0px;">
+                                        <t t-if="o.name">
+                                            <span class="card-text" t-field="o.name"/>
+                                        </t>
+                                    </div>
+                                    <div class="card-body" style="margin-top:0px;">
+                                        <t t-if="o.alternative_ids">
+                                            <t t-set="alt_text" t-value="''"/>
+                                            <t t-foreach="o.alternative_ids" t-as="alt">
+                                                <t t-if="not alt.hide">
+                                                    <t t-set="alt_text" t-value="alt_text+' '+alt.name"/>
+                                                </t>
+                                            </t>
+                                            <span t-esc="alt_text[0:20]"/>
                                         </t>
                                     </div>
                                 </div>
@@ -39,6 +83,85 @@
         <t t-call="deltatech_product_catalog.report_product_catalog"/>
     </template>
 
+    <template id="report_category_catalogX" name="report_product_category_catalog">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <style>
+                        .card {
+                        position: relative;
+                        display: -ms-flexbox;
+                        display: flex;
+                        -ms-flex-direction: column;
+                        flex-direction: column;
+                        min-width: 0;
+                        word-wrap: break-word;
+                        background-color: #fff;
+                        background-clip: border-box;
+                        border: 1px solid rgba(0,0,0,.125);
+                        border-radius: .25rem;
+                        }
+                        card-img-top {
+                        width: 100%;
+                        border-top-left-radius: calc(.25rem - 1px);
+                        border-top-right-radius: calc(.25rem - 1px);
+                        }
+                        .card-body {
+                            -ms-flex: 1 1 auto;
+                            flex: 1 1 auto;
+                            padding: 1.25rem;
+                        }
+                        .card-text:last-child {
+                            margin-bottom: 0;
+                        }
+                        .card-product {
+                            width: 18rem;
+                            display: inline-block;
+                            margin: 4px 8px;
+                            padding: 3%;
+                            text-align: center;
+                        }
+                    </style>
+                    <div class="container">
+                        <div style="display: flex">
+                            <t t-foreach="docs" t-as="categ">
+                                <t t-foreach="categ.product_ids" t-as="o">
+                                    <div class="card card-product">
+                                        <img t-if="o.image_medium"
+                                             t-att-src="'data:image/png;base64,%s' % o.image_medium"
+                                             style="max-height: 200px;"/>
+                                        <div class="card-body">
+                                            <t t-if="o.default_code">
+                                                <span class="card-text" t-field="o.default_code"/>
+                                            </t>
+                                        </div>
+                                        <div class="card-body" style="margin-top:0px;">
+                                            <t t-if="o.name">
+                                                <span class="card-text" t-field="o.name"/>
+                                            </t>
+                                        </div>
+                                        <div class="card-body" style="margin-top:0px;">
+                                            <t t-if="o.alternative_code">
+                                                <!--                                                    <t t-set="alt_text" t-value="''"/>-->
+                                                <!--                                                    <t t-foreach="o.alternative_ids" t-as="alt">-->
+                                                <!--                                                        <t t-if="not alt.hide">-->
+                                                <!--                                                            <t t-set="alt_text" t-value="alt_text+' '+alt.name"/>-->
+                                                <!--                                                        </t>-->
+                                                <!--                                                    </t>-->
+                                                <span t-esc="o.alternative_code"/>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+
+        </t>
+    </template>
 
 
     <template id="catalog_layout">
