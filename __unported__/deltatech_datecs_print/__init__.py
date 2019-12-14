@@ -21,8 +21,9 @@
 
 
 
-import wizard
-import account_invoice
+from . import wizard
+from . import models
+# import account_invoice
  
 
 
