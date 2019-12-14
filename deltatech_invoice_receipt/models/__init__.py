@@ -3,4 +3,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from . import main
+
+from . import account_invoice
+from . import purchase
+# from . import stock

@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
 
-        <!--
-        <record id="account.act_open" model="workflow.activity">
-            <field name="wkf_id" ref="account.wkf"/>
-            <field name="name">open</field>
-            <field name="action">invoice_create_receipt()
-action_date_assign()
-action_move_create()
-action_number()
-invoice_validate()</field>
-            <field name="kind">function</field>
-        </record>
-        -->
+
 
         <record id="invoice_supplier_form" model="ir.ui.view">
             <field name="name">account.invoice.supplier.form</field>
@@ -38,18 +27,19 @@ invoice_validate()</field>
                 <field name="date_invoice" position="attributes">
                     <attribute name="required">1</attribute>
                 </field>
-                <field name="invoice_line_ids" position="attributes">
+<!--                <field name="invoice_line_ids" position="attributes">
                     <attribute name="context">{'partner_id': partner_id, 'price_type': context.get('price_type') or
                         False, 'type': type, 'date':date_invoice}
                     </attribute>
-                </field>
-                <xpath expr="//notebook" position="inside">
+                </field>-->
+    <!--            <xpath expr="//notebook" position="inside">
                     <page string="Picking List">
                        <field name="picking_ids"/>
                     </page>
-                </xpath>
+                </xpath>-->
             </field>
         </record>
+<!--
 
         <record id="invoice_form" model="ir.ui.view">
             <field name="name">account.invoice.form</field>
@@ -67,7 +57,8 @@ invoice_validate()</field>
             </field>
         </record>
 
+-->
 
     </data>
-</openerp>
+</odoo>
             

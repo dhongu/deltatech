@@ -1,29 +1,34 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-# Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# ©  2008-2019 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
 
 import time
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm
 from odoo.tools import DEFAULT_SERVER_TIME_FORMAT
+
+
+"""
+
+Features:
+
+ - Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri
+ - Nu se permite achizitia unui produs stocabil fara comanda aprovizionare (picking in asteptare).
+ - La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal
+ - Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
+ - Se permite generarea unei document de recepție pentru produsele care nu au comanda de achizitie
+ - Pretul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
+ - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
+
+ - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
+
+Antentie:
+ - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite!
+
+"""
 
 
 class account_invoice(models.Model):
@@ -62,7 +67,7 @@ class account_invoice(models.Model):
     @api.model
     def get_link(self, model):
         for model_id, model_name in model.name_get():
-            #link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name)
+            # link = "<a href='#id=%s&model=%s'>%s</a>" % (str(model_id), model._name, model_name)
             link = "<a href=# data-oe-model=%s data-oe-id=%d>%s</a>" % (model._name, model_id, model_name)
         return link
 
@@ -274,7 +279,7 @@ class account_invoice(models.Model):
                 if line['quantity'] > 0:
                     for op in operations:
                         if quantities[op.id] > 0 and line['quantity'] > 0 and op.product_id.id == line['product_id'].id:
-                            # am gasit o line de comanda din care se poate scade o cantitate  
+                            # am gasit o line de comanda din care se poate scade o cantitate
                             is_ok = True
                             if quantities[op.id] >= line['quantity']:
                                 new_picking_line.append({'picking': op.picking_id,
@@ -303,7 +308,7 @@ class account_invoice(models.Model):
             if line['quantity'] > 0:
                 raise except_orm(_('Picking not found!'),
                                  _('No purchase orders line from product %s in quantity of %s ') % (
-                                 line['product_id'].name, line['quantity']))
+                                     line['product_id'].name, line['quantity']))
 
         # sa incepem receptia
         processed_ids = []
@@ -378,13 +383,13 @@ class account_invoice(models.Model):
     """
     @api.model
     def create(self, vals):
-        
+
         defaults_value = self.default_get(['journal_id','currency_id'])
-        
+
         journal_id = vals.get('journal_id',defaults_value['journal_id'])
         currency_id = vals.get('currency_id',defaults_value['currency_id'])
-         
-        
+
+
         if journal_id  and currency_id:
             journal = self.env['account.journal'].browse(journal_id)
             to_currency = journal.currency or self.env.user.company_id.currency_id
@@ -401,11 +406,11 @@ class account_invoice(models.Model):
                                 l.price_unit  = from_currency.compute( l.price_unit,to_currency)
                         if isinstance(line, dict):
                             line['price_unit']  = from_currency.compute(  line['price_unit'] ,to_currency)
-                        
+
                     vals['currency_id'] = to_currency.id
-                    
+
         inv_id = super(account_invoice,self).create(vals)
-         
+
         return inv_id
     """
 
@@ -439,31 +444,30 @@ class account_invoice_line(models.Model):
         res = super(account_invoice_line, self).unlink()
         return res
 
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        res = super(account_invoice_line, self)._onchange_product_id()
+        invoice = self.invoice_id
+        currency = self.invoice_id.currency_id
+        partner = self.invoice_id.partner_id
+        if self.product_id:
+            product = self.product_id
+            qty = self.quantity
+            price_unit = self.price_unit
+            if invoice.type == 'out_invoice' and partner.property_product_pricelist:
 
-@api.onchange('product_id')
-def _onchange_product_id(self):
-    res = super(account_invoice_line, self)._onchange_product_id()
-    invoice = self.invoice_id
-    currency = self.invoice_id.currency_id
-    partner = self.invoice_id.partner_id
-    if self.product_id:
-        product = self.product_id
-        qty = self.quantity
-        price_unit = self.price_unit
-        if invoice.type == 'out_invoice' and partner.property_product_pricelist:
+                price_unit = partner.property_product_pricelist.get_product_price(product, qty, partner,
+                                                                                  date=invoice.date)  # price_get(product.id, qty, partner.id)[pricelist_id]
+                from_currency = partner.property_product_pricelist.currency_id or self.env.user.company_id.currency_id
 
-            price_unit = partner.property_product_pricelist.get_product_price(product, qty, partner,
-                                                                              date=invoice.date)  # price_get(product.id, qty, partner.id)[pricelist_id]
-            from_currency = partner.property_product_pricelist.currency_id or self.env.user.company_id.currency_id
+                if currency and from_currency:
+                    price_unit = from_currency.compute(price_unit, currency)
+                self.price_unit = price_unit
 
-            if currency and from_currency:
-                price_unit = from_currency.compute(price_unit, currency)
-            self.price_unit = price_unit
+            if invoice.type == 'in_invoice' and partner.property_purchase_currency_id:
+                from_currency = partner.property_purchase_currency_id or self.env.user.company_id.currency_id
+                if currency and from_currency:
+                    price_unit = from_currency.compute(price_unit, currency)
+                self.price_unit = price_unit
 
-        if invoice.type == 'in_invoice' and partner.property_purchase_currency_id:
-            from_currency = partner.property_purchase_currency_id or self.env.user.company_id.currency_id
-            if currency and from_currency:
-                price_unit = from_currency.compute(price_unit, currency)
-            self.price_unit = price_unit
-
-    return res
+        return res
