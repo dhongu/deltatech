@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <button name="button_plan" position="attributes">
+                    <attribute name="string">Plan</attribute>
+                    <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ('confirmed', 'planned')), '|',
+                        ('routing_id', '=', False), '|', ('date_planned_start_wo', '!=', False),
+                        ('date_planned_finished_wo', '!=', False)]}
+                    </attribute>
+                </button>
+                <button name="button_plan" position="after">
+                    <button name="button_unplan" type="object" string="Unplan"
+                            attrs="{'invisible': ['|', '|', ('state', '!=', 'planned'), ('date_planned_start_wo', '=', False), ('date_planned_finished_wo', '=', False)]}"/>
+                </button>
+                <field name="date_planned_finished" position="after">
+                    <label for="date_planned_start_wo" string="Scheduled Date"
+                           attrs="{'invisible': [('date_planned_start_wo', '=', False)]}"/>
+                    <div class="o_row" attrs="{'invisible': [('date_planned_start_wo', '=', False)]}">
+                        <field name="date_planned_start_wo" attrs="{'readonly': [('move_raw_ids', '!=', [])]}"/>
+                        <label for="date_planned_finished_wo" string="to"
+                               attrs="{'invisible': [('date_planned_finished_wo', '=', False)]}"/>
+                        <field name="date_planned_finished_wo" attrs="{'readonly': [('move_raw_ids', '!=', [])]}"/>
+                    </div>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
+
+
