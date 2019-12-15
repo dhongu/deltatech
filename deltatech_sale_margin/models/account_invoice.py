@@ -23,10 +23,10 @@ class account_invoice_line(models.Model):
     @api.depends('product_id')
     def _compute_purchase_price(self):
         for invoice_line in self:
-            if invoice_line.product_id:
-                to_cur = invoice_line.invoice_id.currency_id
+            if invoice_line.invoice_id.type in ['out_invoice','out_refund'] and  invoice_line.product_id:
+                to_cur = self.env.user.company_id.currency_id
                 product_uom = invoice_line.uom_id
-                date_invoice = invoice_line.invoice_id.date_invoice
+                date_invoice = invoice_line.invoice_id.date_invoice or fields.Date.today()
                 if invoice_line.sale_line_ids:
                     purchase_price = 0
                     for line in invoice_line.sale_line_ids:
@@ -41,8 +41,9 @@ class account_invoice_line(models.Model):
                     purchase_price = invoice_line.product_id.standard_price
                     purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
-                    purchase_price = frm_cur.with_context(date=date_invoice).compute(purchase_price, to_cur, round=False)
-
+                    #purchase_price = frm_cur._convert(purchase_price, to_cur, self.env.user.company_id, date_invoice , round=False)
+                if invoice_line.invoice_id.type == 'out_refund':
+                    purchase_price = -1*purchase_price
                 invoice_line.purchase_price = purchase_price
 
 
@@ -52,10 +53,9 @@ class account_invoice_line(models.Model):
             if invoice_line.invoice_id.type == 'out_invoice':
                 if not self.env['res.users'].has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
                     date_eval = invoice_line.invoice_id.date_invoice or fields.Date.context_today(invoice_line)
-                    if invoice_line.invoice_id.currency_id and invoice_line.invoice_id.currency_id.id != self.env.user.company_id.currency_id.id:
-                        from_currency = invoice_line.invoice_id.currency_id.with_context(date=date_eval)
-                        price_unit = from_currency.compute(invoice_line.price_unit, invoice_line.env.user.company_id.currency_id)
+                    if invoice_line.quantity != 0:
+                        price_unit = invoice_line.price_subtotal_signed / invoice_line.quantity
                     else:
-                        price_unit = invoice_line.price_unit
+                        price_unit = invoice_line.price_subtotal_signed
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.invoice_id.state in ['draft']:
                         raise Warning(_('You can not sell below the purchase price.'))

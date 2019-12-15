@@ -75,7 +75,7 @@ class sale_margin_report(models.Model):
                 END  AS indicator_profit,               
  
                 
-                sub.rate * (sale_val  - stock_val ) as commission_computed,
+                (sale_val  - stock_val ) as commission_computed,
                 commission,  
                 partner_id, commercial_partner_id, user_id,    sub.company_id,
                 type,  state ,  journal_id, 
@@ -103,13 +103,9 @@ class sale_margin_report(models.Model):
 
                     SUM(l.price_subtotal_signed) AS sale_val,
                           
-                    SUM(CASE
-                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                        THEN -(l.quantity * COALESCE( l.purchase_price, 0 ) )
-                        ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
-                    END) AS stock_val,
+                
 
-  
+                     SUM(l.quantity * COALESCE( l.purchase_price, 0 )) AS stock_val,
                    
                     
                                         
@@ -124,13 +120,7 @@ class sale_margin_report(models.Model):
                     s.type, s.state , s.journal_id, s.currency_id 
         """
 
-        x = """
-        SUM(CASE
-                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
-                        THEN -(l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-                        ELSE  (l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-                    END) AS sale_val,
-        """
+
         return select_str
 
     def _from(self):

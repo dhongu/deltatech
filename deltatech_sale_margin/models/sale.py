@@ -17,6 +17,7 @@ class sale_order_line(models.Model):
 
     # # pretul de achizitie in moneda documentului
     #todo: de actualizat acest pret cu valaorea produsului in momentul livarii
+    # oare de ce il fac camp caclulat ?
     purchase_price = fields.Float(string='Cost Price', digits=dp.get_precision('Product Price'),
                                   compute="_compute_purchase_price", store=True)
 
@@ -41,18 +42,18 @@ class sale_order_line(models.Model):
                     res['warning'] = warning
         return res
 
-    @api.multi
-    @api.onchange('price_unit')
-    def price_unit_change(self):
-        res = {}
-
-        if self.price_unit < self.purchase_price and self.purchase_price > 0:
-            warning = {
-                'title': _('Price Error!'),
-                'message': _('You can not sell below the purchase price.'),
-            }
-            res['warning'] = warning
-        return res
+    # @api.multi
+    # @api.onchange('price_unit')
+    # def price_unit_change(self):
+    #     res = {}
+    #
+    #     if self.price_unit < self.purchase_price and self.purchase_price > 0:
+    #         warning = {
+    #             'title': _('Price Error!'),
+    #             'message': _('You can not sell below the purchase price.'),
+    #         }
+    #         res['warning'] = warning
+    #     return res
 
     @api.one
     @api.constrains('price_unit', 'purchase_price')
