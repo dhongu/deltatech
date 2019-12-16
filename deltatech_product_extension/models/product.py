@@ -21,7 +21,7 @@
 
 import odoo.addons.decimal_precision as dp
 
-from odoo import models, fields
+from odoo import api, models, fields
 
 
 class product_template(models.Model):
@@ -34,38 +34,108 @@ class product_template(models.Model):
 
     manufacturer = fields.Many2one('res.partner', string='Manufacturer', domain=[('is_manufacturer', '=', True)])
 
+    def set_manufacturer(self, manufacturer):
+        if isinstance(manufacturer, int):
+            manufacturer = self.env['res.partner'].browse(manufacturer)
+            manufacturer = manufacturer.name
+        manufacturer_att = self.env['product.attribute'].search([('name', '=ilike', 'manufacturer')])
+        if not manufacturer_att:
+            manufacturer_att = self.env['product.attribute'].create({'name': 'manufacturer', 'create_variant': False})
 
-"""
-# nu este neceara merge cu %
+        domain = [('name', '=ilike', manufacturer), ('attribute_id', '=', manufacturer_att.id)]
+        manufacturer_value = self.env['product.attribute.value'].search(domain)
+        if not manufacturer_value:
+            manufacturer_value = self.env['product.attribute.value'].create({
+                'name': manufacturer,
+                'attribute_id': manufacturer_att.id
+            })
 
+        attribute_line = False
+        for line in self.attribute_line_ids:
+            if line.attribute_id == manufacturer_att:
+                attribute_line = line
 
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
+        if not attribute_line:
+            attribute_line = self.env['product.attribute.line'].create({
+                'attribute_id': manufacturer_att.id,
+                'product_tmpl_id': self.id
+            })
 
-    @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        attribute_line.write({'value_ids': [(6,0, [manufacturer_value.id])]})
 
-        words = name.split(' ')
-
-        for a in words:
-            if a == '':
-                words.remove('')
-        if len(words) > 1:
-            if not args:
-                args = []
-            domain = args
-            for word in words:
-                domain = expression.AND([[('name', 'ilike', word)], domain])
-
-            products = self.search(domain, limit=limit)
-            res = products.name_get()
-
-        else:
-            res = super(ProductProduct, self).name_search(name, args=args, operator=operator, limit=limit)
-
-        return res
-"""
+    # @api.multi
+    # def write(self, vals):
+    #     from_attribute_value = self.env.context.get('from_attribute_value',False)
+    #     if not from_attribute_value and 'manufacturer' in vals:
+    #         for prod in self:
+    #             prod.set_manufacturer(vals['manufacturer'])
+    #     return super(product_template, self).write(vals)
 
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class ProductAttributeLine(models.Model):
+    _inherit = "product.attribute.line"
+
+
+    # @api.model
+    # def create(self, vals):
+    #     res = super(ProductAttributeLine, self).create(vals)
+    #     res.set_manufacturer()
+    #     return res
+    #
+    # @api.multi
+    # def write(self, vals):
+    #     res = super(ProductAttributeLine, self).write(vals)
+    #     self.set_manufacturer()
+    #     return res
+
+    @api.multi
+    def set_manufacturer(self):
+        for line in self:
+            if line.value_ids:
+                manufacturer_partner = line.value_ids.set_manufacturer()
+                if manufacturer_partner:
+                    line.product_tmpl_id.with_context(from_attribute_value=True).write({'manufacturer' : manufacturer_partner.id})
+
+
+class ProductAttributeValue(models.Model):
+    _inherit = "product.attribute.value"
+
+
+    # @api.model
+    # def create(self, vals):
+    #     res = super(ProductAttributeValue, self).create(vals)
+    #     res.set_manufacturer()
+    #     return res
+
+    @api.multi
+    def set_manufacturer(self):
+        manufacturer_partner = False
+        manufacturer_att = self.env['product.attribute'].search([('name', '=ilike', 'manufacturer')])
+        if not manufacturer_att:
+            manufacturer_att = self.env['product.attribute'].create({'name': 'manufacturer', 'create_variant': False})
+
+        from_attribute_value = self.env.context.get('from_attribute_value', False)
+        if not from_attribute_value:
+            for val in self:
+                if val.attribute_id == manufacturer_att:
+                    manufacturer_name = val.name
+                    manufacturer_partner = self.env['res.partner'].search([('name', '=ilike', manufacturer_name)],limit=1)
+                    if not manufacturer_partner:
+                        manufacturer_partner = self.env['res.partner'].create({
+                            'name': manufacturer_name,
+                            'is_manufacturer': True
+                        })
+                    val.product_ids.with_context(from_attribute_value=True).write({'manufacturer': manufacturer_partner.id})
+
+        return manufacturer_partner
+
+
+    # @api.multi
+    # def write(self, vals):
+    #     res = super(ProductAttributeValue, self).write(vals)
+    #     self.set_manufacturer()
+    #     return res
+
+
+
