@@ -168,7 +168,7 @@ class procurement_order(models.Model):
                   ('location_id','=',order_point.location_id.id)]
         
         procurement_ids = self.env['procurement.order'].search(domain)
-        print procurement_ids
+        print (procurement_ids)
         for procurement in procurement_ids:
             if procurement.rule_id.action == 'buy':
                 qty += procurement.product_qty
