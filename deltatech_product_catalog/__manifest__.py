@@ -21,7 +21,7 @@
         'report/product_catalog_report.xml',
         'report/product_catalog_template.xml',
     ],
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
     'license': "AGPL-3",
     'installable': True,
     'application': False,
