@@ -17,7 +17,7 @@ class MailMail(models.Model):
         res = super(MailMail, self)._send_prepare_values(partner)
 
         use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email")
-        if use_company_email:
+        if eval(use_company_email):
             if self.author_id.company_id.email:
                 self.write({'email_from': formataddr((self.author_id.company_id.name, self.author_id.company_id.email))})
             else:
@@ -36,7 +36,7 @@ class MailMail(models.Model):
                     email_to += [substitution.email]
             else:
                 for substitution in substitutions:
-                    if substitution in self.message_id:
+                    if not substitution.name or substitution.name in self.message_id:
                         email_to += [substitution.email]
             if email_to:
                 res['email_to'] = email_to
