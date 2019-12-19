@@ -10,9 +10,9 @@
     "website": "https://www.terrabit.ro",
 
     "category": "Generic Modules",
-    "depends": [ "stock_account", 'date_range'],
+    "depends": ["stock_account", 'date_range'],
 
-
+    "license": "AGPL-3",
     "data": [
         'security/ir.model.access.csv',
         "report/stock_picking_report.xml",
