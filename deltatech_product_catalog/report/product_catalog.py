@@ -9,6 +9,7 @@ from odoo import api, models
 class ProductCatalogReport(models.AbstractModel):
     _name = "report.deltatech_product_catalog.report_product_catalog"
     _template = 'deltatech_product_catalog.report_product_catalog'
+    _description = 'ProductCatalogReport'
 
     @api.model
     def _get_report_values(self, docids, data=None):
@@ -27,6 +28,7 @@ class ProductCatalogReport(models.AbstractModel):
 class CategoryCatalogReport(models.AbstractModel):
     _name = "report.deltatech_product_catalog.report_category_catalog"
     _template = 'deltatech_product_catalog.report_category_catalog'
+    _description = 'CategoryCatalogReport'
 
     @api.model
     def _get_report_values(self, docids, data=None):
