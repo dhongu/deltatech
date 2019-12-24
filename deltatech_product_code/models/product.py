@@ -16,7 +16,7 @@ class product_category(models.Model):
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    default_code = fields.Char(required=True)
+    #default_code = fields.Char(required=True)  # nu trebuie sa fie obligatori pentru a se putea genera cod dupa creare
 
     _sql_constraints = [
         ('name_code', 'unique (default_code,active,company_id)', "Internal Reference already exists !"),
