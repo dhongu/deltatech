@@ -10,7 +10,7 @@
                     <field name="name" invisible="1"/>
                     <group states="choose" string="Export">
                         <group>
-                            <field name="domain"/>
+                            <field name="domain" widget="domain"/>
                         </group>
 
                     </group>

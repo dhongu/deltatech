@@ -1,12 +1,19 @@
-=========
-Deltatech
-=========
+====================
+Backup Attachments
+====================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
 
-It's a generic module, it does not do anything special.
+Backup attachments using domain filter
+
+Ex.
+ [("mimetype","not in",["image/png", "image/jpeg","application/pdf"])]
+
+ [('res_model','not ilike','product'),('res_model','!=','export.attachment'),('res_field','like','%')]
+
+
 
 Bug Tracker
 ===========

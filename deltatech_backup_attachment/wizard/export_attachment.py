@@ -23,7 +23,7 @@ class export_attachment(models.TransientModel):
     name = fields.Char(string='File Name', readonly=True)
     data_file = fields.Binary(string='File', readonly=True)
     state = fields.Selection([('choose', 'choose'), ('get', 'get')], default='choose')
-    domain = fields.Char(default='[("mimetype","not in",["image/png", "image/jpeg","application/pdf"])]')
+    domain = fields.Char(default='[]')
 
     @api.multi
     def do_export(self):
