@@ -16,6 +16,7 @@
         'account',
         'account_voucher',
         'product',
+        'deltatech_partner_generic'
         # 'l10n_ro', # este chiar necesar ?
         # 'l10n_ro_account_voucher_cash' # este chiar necesar ?
     ],

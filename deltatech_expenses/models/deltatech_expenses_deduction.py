@@ -203,6 +203,7 @@ class deltatech_expenses_deduction(models.Model):
         company_id = self._context.get('company_id', self.env.user.company_id.id)
         domain = [('type', '=', 'purchase'), ('company_id', '=', company_id), ]
         purchase_journal = self.env['account.journal'].search(domain, limit=1)
+        generic_parnter = self.env.ref('deltatech_partner_generic.partner_generic', raise_if_not_found=False)
 
         for expenses in self:
 
@@ -217,8 +218,10 @@ class deltatech_expenses_deduction(models.Model):
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
             for line in expenses.expenses_line_ids:
+                partner_id = line.partner_id or generic_parnter
+
                 voucher_value = {
-                    'partner_id': line.partner_id.id,
+                    'partner_id': partner_id,
                     'voucher_type': 'purchase',
                     'pay_now': 'pay_now',
                     'date': line.date,
@@ -239,7 +242,7 @@ class deltatech_expenses_deduction(models.Model):
                 payment_value = {'payment_type': 'outbound',
                                  'payment_date': line.date,
                                  'partner_type': 'supplier',
-                                 'partner_id': line.partner_id.id,
+                                 'partner_id': partner_id,
                                  'journal_id': expenses.journal_payment_id.id,
                                  'payment_method_id': payment_methods and payment_methods[0].id or False,
                                  'amount': line.amount,
@@ -511,7 +514,8 @@ class deltatech_expenses_deduction_line(models.Model):
     tax_amount = fields.Float(readonly=True, store=True, compute='_compute_subtotal')
     price_subtotal = fields.Float(readonly=True, store=True, compute='_compute_subtotal')
 
-    partner_id = fields.Many2one('res.partner', string='Partner', required=True)
+    #todo: de scos required si de acompletat cu partner_generic in situatia in care nu se completeaza nimic
+    partner_id = fields.Many2one('res.partner', string='Partner')
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   required=True, default=lambda self: self._get_currency())
 
@@ -538,7 +542,7 @@ class deltatech_expenses_deduction_line(models.Model):
         tax_amount = 0.0
         price_subtotal = self.amount
         if self.tax_ids:
-            tax_info = self.tax_ids.compute_all(self.amount, self.currency_id, 1, partner=self.partner_id)
+            tax_info = self.tax_ids.compute_all(self.amount, self.currency_id, quantity=1, partner=self.partner_id)
             tax_amount += sum([t.get('amount', 0.0) for t in tax_info.get('taxes', False)])
             price_subtotal = tax_info['total_excluded']
         self.tax_amount = tax_amount
