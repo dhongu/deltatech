@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-27 07:23+0000\n"
-"PO-Revision-Date: 2019-10-27 07:23+0000\n"
+"POT-Creation-Date: 2019-12-18 04:02+0000\n"
+"PO-Revision-Date: 2019-12-18 04:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,10 @@ msgstr "Dată"
 msgid "Display Name"
 msgstr "Nume afișat"
 
-
+#. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_website_user_search__id
+msgid "ID"
+msgstr ""
 
 #. module: deltatech_website_sale
 #: selection:product.template,is_qty_available:0
@@ -117,6 +120,12 @@ msgid "Product Template"
 msgstr "Șablon produs"
 
 #. module: deltatech_website_sale
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_product__published_on_website
+#: model:ir.model.fields,field_description:deltatech_website_sale.field_product_template__published_on_website
+msgid "Published"
+msgstr "Publicat"
+
+#. module: deltatech_website_sale
 #: model_terms:ir.ui.view,arch_db:deltatech_website_sale.view_website_user_search_filter
 msgid "Search"
 msgstr "Caută"
@@ -151,6 +160,11 @@ msgstr "Operator"
 #: model:ir.model,name:deltatech_website_sale.model_website_user_search
 #: model:ir.ui.menu,name:deltatech_website_sale.menu_website_user_search
 msgid "User search history"
+msgstr ""
+
+#. module: deltatech_website_sale
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale.product_template_form_view_inherit_website_sale_stock
+msgid "Website description"
 msgstr ""
 
 #. module: deltatech_website_sale

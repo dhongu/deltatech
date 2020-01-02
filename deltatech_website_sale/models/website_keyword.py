@@ -16,3 +16,5 @@ class website_user_search(models.Model):
     user_id = fields.Many2one('res.users', string='User')
     date = fields.Datetime(default=fields.Datetime.now)
     word = fields.Char()
+
+
