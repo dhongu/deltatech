@@ -46,7 +46,7 @@ class sale_order_line(models.Model):
         """Compute the visibility of the inventory widget."""
         for line in self:
             line.qty_to_deliver = line.product_uom_qty - line.qty_delivered
-            if line.state == 'draft' and line.product_id.type == 'product' and line.qty_to_deliver > 0:
+            if line.state in ['draft', 'sent'] and line.product_id.type == 'product' and line.qty_to_deliver > 0:
                 line.display_qty_widget = True
             else:
                 line.display_qty_widget = False
