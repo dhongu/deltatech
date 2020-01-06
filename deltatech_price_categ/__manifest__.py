@@ -12,7 +12,7 @@
 
 
     "category": "Generic Modules/Stock",
-    "depends": ["product", 'account'],
+    "depends": ["product", 'account','sale'],
 
     "license": "AGPL-3",
     "data": [
