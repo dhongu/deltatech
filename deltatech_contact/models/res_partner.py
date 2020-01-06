@@ -101,35 +101,54 @@ class res_partner(models.Model):
     # _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
-    @api.multi
-    def name_get(self):
+
+    def _get_name(self):
+        partner = self
         context = self.env.context
+        name = super(res_partner, self)._get_name()
 
-        res = []
-        for record in self:
-            name = record.name
-            if name:
-                if record.parent_id and not record.is_company and record.type != 'contact':
-                    name = "%s, %s" % (record.parent_name, name)
-                if context.get('show_address_only'):
-                    name = record._display_address(without_company=True)
-                if context.get('show_address'):
-                    name = name + "\n" + record._display_address(without_company=True)
-                if context.get('show_email') and record.email:
-                    name = "%s <%s>" % (name, record.email)
-                if context.get('show_phone') and record.phone:
-                    name = "%s\n<%s>" % (name, record.phone)
-                if context.get('show_category') and record.category_id:
-                    cat = []
-                    for category in record.category_id:
-                        cat.append(category.name)
-                    name = name + "\n[" + ','.join(cat) + "]"
-                name = name.replace('\n\n', '\n')
-                name = name.replace('\n\n', '\n')
-            res.append((record.id, name))
+        if context.get('show_phone'):
+            if partner.phone or partner.mobile:
+                name = "%s\n<%s>" % (name, partner.phone or partner.mobile)
+        if context.get('show_category') and partner.category_id:
+             cat = []
+             for category in partner.category_id:
+                 cat.append(category.name)
+             name = name + "\n[" + ','.join(cat) + "]"
+        if context.get('address_inline'):
+            name = name.replace('\n', ', ')
+        return name
 
 
-        return res
+    # @api.multi
+    # def name_get(self):
+    #     context = self.env.context
+    #
+    #     res = []
+    #     for record in self:
+    #         name = record.name
+    #         if name:
+    #             if record.parent_id and not record.is_company and record.type != 'contact':
+    #                 name = "%s, %s" % (record.parent_name, name)
+    #             if context.get('show_address_only'):
+    #                 name = record._display_address(without_company=True)
+    #             if context.get('show_address'):
+    #                 name = name + "\n" + record._display_address(without_company=True)
+    #             if context.get('show_email') and record.email:
+    #                 name = "%s <%s>" % (name, record.email)
+    #             if context.get('show_phone') and record.phone:
+    #                 name = "%s\n<%s>" % (name, record.phone)
+    #             if context.get('show_category') and record.category_id:
+    #                 cat = []
+    #                 for category in record.category_id:
+    #                     cat.append(category.name)
+    #                 name = name + "\n[" + ','.join(cat) + "]"
+    #             name = name.replace('\n\n', '\n')
+    #             name = name.replace('\n\n', '\n')
+    #         res.append((record.id, name))
+    #
+    #
+    #     return res
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
