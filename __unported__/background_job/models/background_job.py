@@ -20,7 +20,7 @@
 ##############################################################################
 
 # https://www.geeksforgeeks.org/python-different-ways-to-kill-a-thread/
-
+#https://pymotw.com/2/sys/tracing.html
 
 from odoo import api, fields, models, _
 import time
