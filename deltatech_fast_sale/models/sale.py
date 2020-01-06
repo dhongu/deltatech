@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -22,28 +21,33 @@ class sale_order(models.Model):
             self.action_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
-            if picking.state not in ['done','cancel']:
+            if picking.state not in ['done', 'cancel']:
                 picking.action_assign()  # verifica disponibilitate
                 if not all(move.state == 'assigned' for move in picking.move_lines):
                     raise UserError(_('Not all products are available.'))
 
                 for move_line in picking.move_lines:
-                    if move_line.product_uom_qty > 0 and move_line.quantity_done == 0 :
+                    if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                         move_line.write({'quantity_done': move_line.product_uom_qty})
                     else:
                         move_line.unlink()
                 picking.with_context(force_period_date=self.date_order).action_done()
 
-        action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
-        action = action_obj.read()[0]
-        action['context'] = {'force_period_date' : self.date_order }
-        return action
+        # action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
+        # action = action_obj.read()[0]
+        # action['context'] = {'force_period_date': self.date_order}
+        # return action
 
-    @api.multi
-    def _prepare_invoice(self):
-        invoice_vals = super(sale_order, self)._prepare_invoice()
-        invoice_vals['date_invoice'] = self.date_order.date()
-        return invoice_vals
+        wizard = self.env['sale.advance.payment.inv'].with_context(active_ids=self.ids, open_invoices=True)
+        wizard = wizard.new(wizard.default_get([]))
+        return wizard.create_invoices()
+
+    # data in factura trebuie sa fie data curenta nu data cand a fost facuta comanda de vanzare
+    # @api.multi
+    # def _prepare_invoice(self):
+    #     invoice_vals = super(sale_order, self)._prepare_invoice()
+    #     invoice_vals['date_invoice'] = self.date_order.date()
+    #     return invoice_vals
 
     @api.multi
     def action_button_confirm_notice(self):
@@ -71,4 +75,3 @@ class sale_order(models.Model):
             result['views'] = [(res and res.id or False, 'form')]
             result['res_id'] = picking_ids.id
         return result
-
