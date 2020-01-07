@@ -15,8 +15,8 @@ class StockInventory(models.Model):
     _inherit = 'stock.inventory'
 
     name = fields.Char(string='Name', default='/', copy=False)
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
-                           states={'draft': [('readonly', False)]})
+    date = fields.Datetime(string='Inventory Date', required=True, readonly=False,
+                           states={'done': [('readonly', True)]})
     note = fields.Text(string='Note')
     filterbyrack = fields.Char('Rack')
 
