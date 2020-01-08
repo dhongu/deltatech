@@ -44,7 +44,6 @@ class AccountInvoice(models.Model):
             if lines_without_purchase:
                 # trebuie sa verific daca sunt produse stocabile ?
 
-
                 if len(purchase_order) != 1:
                     purchase_order = self.env['purchase.order'].create({
                         'partner_id': invoice.partner_id.id,
@@ -52,6 +51,7 @@ class AccountInvoice(models.Model):
                         'partner_ref': invoice.reference,
                         'fiscal_position_id': invoice.fiscal_position_id.id,
                         'from_invoice_id': invoice.id,
+                        'currency_id': invoice.currency_id.id,  # Preluare Moneda in comanda de achizitie
                     })
 
                 for line in lines_without_purchase:
@@ -82,7 +82,7 @@ class AccountInvoice(models.Model):
                     invoice.message_post(body=message)
                     if not invoice.origin:
                         invoice.write({
-                            'origin':purchase_order.name
+                            'origin': purchase_order.name
                         })
 
     @api.multi
