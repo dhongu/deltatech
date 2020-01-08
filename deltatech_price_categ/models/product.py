@@ -19,7 +19,7 @@ class PricelistItem(models.Model):
         ('list_price_platinum', 'Platinum Price'),
     ])
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     list_price_base = fields.Selection([('list_price', 'List price'), ('standard_price', 'Cost Price')],
@@ -86,4 +86,14 @@ class product_template(models.Model):
             product.list_price_platinum = price * (1 + product.percent_platinum)
 
 
+    # aaaa
+    @api.multi
+    def _get_combination_info(self, combination=False, product_id=False, add_qty=1, pricelist=False, parent_combination=False, only_template=False):
 
+        combination_info = super(ProductTemplate, self)._get_combination_info(
+            combination=combination, product_id=product_id, add_qty=add_qty, pricelist=pricelist,
+            parent_combination=parent_combination, only_template=only_template)
+
+        combination_info['web_list_price'] = combination_info['list_price']
+
+        return combination_info

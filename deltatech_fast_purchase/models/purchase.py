@@ -15,6 +15,26 @@ from odoo.tools.safe_eval import safe_eval
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
+
+    @api.multi
+    def receipt_to_stock(self):
+        for purchase_order in self:
+            for picking in purchase_order.picking_ids:
+                if picking.state == 'confirmed':
+                    picking.action_assign()
+                    if picking.state != 'assigned':
+                        raise UserError(_("The stock transfer cannot be validated!"))
+                if picking.state == 'assigned':
+                    picking.write({'notice': False, 'origin': self.partner_ref})
+                    for move_line in picking.move_lines:
+                        if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                            move_line.write({'quantity_done': move_line.product_uom_qty})
+                        else:
+                            move_line.unlink()
+                    # pentru a se prelua data din comanda de achizitie
+                    picking.with_context(force_period_date=self.date_order).action_done()
+
+
     @api.multi
     def action_button_confirm_to_invoice(self):
         if self.state == 'draft':
@@ -25,20 +45,7 @@ class PurchaseOrder(models.Model):
         validate_invoice = params.get_param('fast_purchase.validate_invoice', default='True')
         validate_invoice = safe_eval(validate_invoice)
 
-        for picking in self.picking_ids:
-            if picking.state == 'confirmed':
-                picking.action_assign()
-                if picking.state != 'assigned':
-                    raise UserError(_("The stock transfer cannot be validated!"))
-            if picking.state == 'assigned':
-                picking.write({'notice': False, 'origin': self.partner_ref or self.name})
-                for move_line in picking.move_lines:
-                    if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                        move_line.write({'quantity_done': move_line.product_uom_qty})
-                    else:
-                        move_line.unlink()
-                # pentru a se prelua data din comanda de achizitie
-                picking.with_context(force_period_date=self.date_order).action_done()
+        self.receipt_to_stock()
 
         action = self.action_view_invoice()
 

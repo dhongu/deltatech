@@ -7,7 +7,7 @@ Price List Extension
 
 
 Features:
- - pretul de lista din datele de baza ala produsului poate sa fie in alta moneda
+ - pretul de lista din datele de baza ale produsului poate sa fie in alta moneda
 
 
 
