@@ -23,7 +23,8 @@
     "license": "LGPL-3",
     "data": [
         'wizard/account_invoice_export_bf_view.xml',
-        'views/res_config_settings_views.xml'
+        'views/res_config_settings_views.xml',
+        'views/pf_sale_views.xml',
         #'wizard/sale_make_invoice_advance_views.xml',
     ],
     "images": ['images/main_screenshot.png'],

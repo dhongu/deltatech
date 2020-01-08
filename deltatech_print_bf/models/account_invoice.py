@@ -37,3 +37,16 @@ class account_invoice(models.Model):
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    @api.model
+    def default_get(self, fields):
+        defaults = super(SaleOrder, self).default_get(fields)
+        is_bf = self.env.context.get('is_bf', False)
+        if is_bf:
+            defaults['partner_id'] = 4434
+        return defaults
+        
