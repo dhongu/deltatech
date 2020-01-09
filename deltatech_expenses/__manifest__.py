@@ -24,7 +24,9 @@
     'data': [
         #'views/account_voucher_view.xml',
         'views/deltatech_expenses_deduction_view.xml',
-        #'views/deltatech_expenses_deduction_report.xml',
+
+        'views/deltatech_expenses_deduction_report.xml',
+        'views/report_expenses.xml',
         #'wizard/expenses_deduction_from_account_voucher_view.xml',
         #"data/product_data.xml",
         "data/partner_data.xml",

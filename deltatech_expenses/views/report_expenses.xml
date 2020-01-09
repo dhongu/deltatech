@@ -4,9 +4,9 @@
 
 		<template id="report_deltatech_expenses_deduction">
 
-			<t t-call="report.html_container">
+			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
+					<t t-call="web.external_layout">
 						<div class="page">
 							<br />
 							<h3>
@@ -14,7 +14,7 @@
 								<span t-field="o.number" />/
 								<span t-field="o.date_expense" />
 							</h3>
-                             <t t-set="nr_docs" t-value="len(o.line_ids)"/>
+                             <t t-set="nr_docs" t-value="len(o.expenses_line_ids)"/>
                              <t t-if="o.days">
                                 <t t-set="nr_docs" t-value="nr_docs+1"/>
                              </t>
@@ -79,7 +79,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr t-foreach="o.line_ids" t-as="l">
+									<tr t-foreach="o.expenses_line_ids" t-as="l">
 
 										<td>
 											<span t-field="l.reference" />
