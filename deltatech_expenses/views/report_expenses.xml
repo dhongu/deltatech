@@ -82,7 +82,7 @@
 									<tr t-foreach="o.expenses_line_ids" t-as="l">
 
 										<td>
-											<span t-field="l.reference" />
+											<span t-field="l.name" />
 											<span t-field="l.partner_id" />
 										</td>
 										<td>
