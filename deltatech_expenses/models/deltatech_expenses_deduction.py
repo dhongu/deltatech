@@ -221,7 +221,7 @@ class deltatech_expenses_deduction(models.Model):
                 partner_id = line.partner_id or generic_parnter
 
                 voucher_value = {
-                    'partner_id': partner_id,
+                    'partner_id': partner_id.id,
                     'voucher_type': 'purchase',
                     'pay_now': 'pay_now',
                     'date': line.date,
@@ -242,7 +242,7 @@ class deltatech_expenses_deduction(models.Model):
                 payment_value = {'payment_type': 'outbound',
                                  'payment_date': line.date,
                                  'partner_type': 'supplier',
-                                 'partner_id': partner_id,
+                                 'partner_id': partner_id.id,
                                  'journal_id': expenses.journal_payment_id.id,
                                  'payment_method_id': payment_methods and payment_methods[0].id or False,
                                  'amount': line.amount,
