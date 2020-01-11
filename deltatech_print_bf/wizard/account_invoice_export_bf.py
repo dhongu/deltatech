@@ -26,7 +26,8 @@ ecr_commands = {
         'discount': '7;{type};1;1;0;{value};1\r\n',
         'amount': lambda value: value * 100,
         'qty': lambda value: value * 100000,
-        'stl':''
+        'stl':'',
+        'limit':18
     },
 
     'datecs': {
@@ -38,7 +39,8 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
-        'stl':''
+        'stl':'',
+        'limit':18
     },
 
     'datecs18': {
@@ -50,7 +52,8 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
-        'stl':'L,1,______,_,__;\r\n'
+        'stl':'L,1,______,_,__;\r\n',
+        'limit':72
     },
 }
 
@@ -77,7 +80,7 @@ class account_invoice_export_bf(models.TransientModel):
         if not invoice_id or invoice_id.type != 'out_invoice':
             raise Warning(_('Please select Customer Invoice %s') % invoice_id.name)
 
-        if not invoice_id.payment_ids:
+        if not  ( invoice_id.payment_ids  or invoice_id.state == 'paid') :
             raise Warning(_('Invoice %s is not paid') % invoice_id.name)
 
         # generare fisier pentru casa de marcat OPTIMA CR1020
@@ -113,10 +116,11 @@ class account_invoice_export_bf(models.TransientModel):
                 # if value > 0, print position
                 if price >= 0 and line.quantity >= 0:
                     # split name in 18-chars array
-                    prod_name = line.product_id.name.replace('\n', ' ')
+                    # todo: de pus un parametru in configuruare in functie de care sa se tipareasca codul produsului
+                    prod_name = line.product_id.display_name.replace('\n', ' ')
                     prod_name_array = []
-                    for start in range(0, len(prod_name), 18):
-                        prod_name_array.append(prod_name[start:start + 18])
+                    for start in range(0, len(prod_name), ecr_comm['limit']):
+                        prod_name_array.append(prod_name[start:start + ecr_comm['limit']])
 
                     prod_name = prod_name_array[-1]
 
@@ -126,7 +130,7 @@ class account_invoice_export_bf(models.TransientModel):
                         'qty': str(ecr_comm['qty'](line.quantity)),
                         'dep': '1',
                         'group': '1',
-                        'tax': '1',  # todo de terminat codul de taxa
+                        'tax': '1',  # todo: de determinat codul de taxa
                         'uom': ''
                     }
                     if (len(prod_name_array)) > 1: # printing the first lines
@@ -196,4 +200,3 @@ class account_invoice_export_bf(models.TransientModel):
 
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
