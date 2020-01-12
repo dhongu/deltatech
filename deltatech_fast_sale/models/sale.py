@@ -17,7 +17,7 @@ class sale_order(models.Model):
     @api.multi
     def action_button_confirm_to_invoice(self):
 
-        if self.state == 'draft':
+        if self.state in ['draft','sent'] :
             self.action_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
