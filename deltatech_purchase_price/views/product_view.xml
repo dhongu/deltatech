@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_supplierinfo_form_view" model="ir.ui.view">
+        <field name="name">product.supplierinfo.form.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <button string="update price" name="update_standard_price" type="object" class="oe_link oe_read_only"/>
+            </field>
+        </field>
+    </record>
+
+
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <group name="purchase" position="inside">
+                <button string="update price" name="update_standard_price" type="object" class="oe_link oe_read_only"/>
+            </group>
+        </field>
+    </record>
+</odoo>

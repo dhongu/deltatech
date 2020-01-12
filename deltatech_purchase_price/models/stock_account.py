@@ -35,14 +35,17 @@ class StockMove(models.Model):
                                 seller_price_unit = self.purchase_line_id.price_unit
                             else:
                                 seller_price_unit = self.env.user.company_id.currency_id.compute(price_unit,
-                                                                                                 seller.currency)
+                                                                                                 seller.currency_id)
                         else:
                             seller_price_unit = price_unit
                         if update_product_price:
+
                             seller.write({'price': seller_price_unit})
 
                         if update_product_standard_price:
-                            self.product_id.write({'standard_price':price_unit})
+                            if seller.currency_id:
+                                standard_price = seller.currency_id.compute(seller_price_unit, self.env.user.company_id.currency_id )
+                            self.product_id.write({'standard_price':standard_price})
 
 
             return price_unit
