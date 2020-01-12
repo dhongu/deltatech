@@ -1,5 +1,5 @@
 ===========================================
-Product Catalogue
+Invoice Receipt
 ===========================================
 .. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
@@ -8,7 +8,7 @@ Product Catalogue
 
 Features:
 
- - Generare de comanda de achizitie si de recepie in mod automat cand se face validarea unei facturi
+ - Generation of a purchase order and receipt automatically when validating a bill
 
 
 

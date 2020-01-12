@@ -17,10 +17,12 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
-        # inainte de a face notele contabile trebuie sa verifica daca toate pozitiile de stoc sunt legate de o comanda de aprovizonaoare
-        purchase_invoices = self.filtered(lambda inv: inv.type == 'in_invoice')
-        purchase_invoices.add_to_purchase()
-        purchase_invoices.receipt_to_stock()
+        # inainte de a face notele contabile trebuie sa verifica daca toate pozitiile din factura de achizitie
+        # sunt legate de o comanda de aprovizonaoare
+        if self.env.context.get('create_purchase_and_receipt',False):
+            purchase_invoices = self.filtered(lambda inv: inv.type == 'in_invoice')
+            purchase_invoices.add_to_purchase()
+            purchase_invoices.receipt_to_stock()
         return super(AccountInvoice, self).action_move_create()
 
     @api.multi

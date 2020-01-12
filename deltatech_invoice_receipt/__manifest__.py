@@ -18,6 +18,7 @@
 
     "data": [
        # 'account_invoice_view.xml'
+        'views/invoice_view.xml'
     ],
 
     "images": ['static/description/main_screenshot.png'],
