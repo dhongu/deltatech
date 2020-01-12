@@ -32,25 +32,25 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     defaults['advance_payment_method'] = 'percentage'
                     defaults['amount'] = order.payment_term_id.line_ids[0].value_amount
 
-            company_id = self._context.get('company_id', self.env.user.company_id.id)
-            domain = [('type', '=', 'sale'), ('company_id', '=', company_id)]
-            # de ce as pune default jurnalul in aceeasi valuta cu oferta? ca doar de aceea vreau sa-l schimb
-            # if order and order.pricelist_id and order.pricelist_id.currency_id:
-            #     if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
-            #         domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
-            journal = self.env['account.journal'].search(domain, limit=1)
-            if journal:
-                defaults['journal_id'] = journal.id
+        company_id = self._context.get('company_id', self.env.user.company_id.id)
+        domain = [('type', '=', 'sale'), ('company_id', '=', company_id)]
+        # de ce as pune default jurnalul in aceeasi valuta cu oferta? ca doar de aceea vreau sa-l schimb
+        # if order and order.pricelist_id and order.pricelist_id.currency_id:
+        #     if order.pricelist_id.currency_id != self.env.user.company_id.currency_id:
+        #         domain += [('currency_id', '=', order.pricelist_id.currency_id.id)]
+        journal = self.env['account.journal'].search(domain, limit=1)
+        if journal:
+            defaults['journal_id'] = journal.id
         return defaults
 
     @api.multi
     def create_invoices(self):
-        new_self = self.with_context(default_journal_id=self.journal_id)
+        new_self = self.with_context(default_journal_id=self.journal_id.id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
     @api.multi
     def _create_invoice(self, order, so_line, amount):
-        new_self = self.with_context(default_journal_id=self.journal_id)
+        new_self = self.with_context(default_journal_id=self.journal_id.id)
         invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
 
         to_currency = self.journal_id.currency_id or self.env.user.company_id.currency_id
