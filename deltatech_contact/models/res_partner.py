@@ -11,8 +11,26 @@ from odoo.api import Environment
 import time
 
 
-class res_partner(models.Model):
+class Partner(models.Model):
     _inherit = 'res.partner'
+
+
+
+    @api.model
+    def default_get(self, fields):
+        defaults = super(Partner, self).default_get(fields)
+        if 'parent_partner_id' in self.env.context:
+            defaults['parent_id'] = self.env.context['parent_partner_id']
+        return defaults
+
+    @api.model
+    def _fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        if (not view_id) and (view_type == 'form') and self._context.get('simple_form'):
+            view_id = self.env.ref('base.view_partner_simple_form').id
+        res = super(Partner, self)._fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+
+        return res
+
 
     @api.multi
     def check_cnp(self):
@@ -102,12 +120,20 @@ class res_partner(models.Model):
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
 
+    # nu se mai afiseaza compania la contacte
+    def _get_contact_name(self, partner, name):
+        if partner.type == 'contact':
+            return name
+        else:
+            return super(Partner, self)._get_contact_name(partner, name)
+
+
     def _get_name(self):
         partner = self
         context = self.env.context
-        name = super(res_partner, self)._get_name()
+        name = super(Partner, self)._get_name()
 
-        if context.get('show_phone'):
+        if context.get('show_phone',False):
             if partner.phone or partner.mobile:
                 name = "%s\n<%s>" % (name, partner.phone or partner.mobile)
         if context.get('show_category') and partner.category_id:
@@ -157,7 +183,7 @@ class res_partner(models.Model):
             partner_ids = self.search([('vat', 'ilike', name), ('is_company', '=', True)], limit=10)
             if partner_ids:
                 res_vat = partner_ids.name_get()
-        res = super(res_partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
+        res = super(Partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
     @api.model_create_multi
@@ -166,4 +192,4 @@ class res_partner(models.Model):
             if 'cnp' in values:
                 if not self.check_single_cnp(values['cnp']):
                     values['cnp'] = ''
-        return super(res_partner, self).create(vals_list)
+        return super(Partner, self).create(vals_list)

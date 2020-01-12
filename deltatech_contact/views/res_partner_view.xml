@@ -58,6 +58,7 @@
                         <field name='gender'/>
                         <field name='is_department' invisible="1"/>
                         <field name='is_company' invisible="1"/>
+                        <field name="mean_transp" />
                     </group>
                 </xpath>
 
@@ -83,6 +84,8 @@
                         <field name="birthdate"/>
                         <field name='gender'/>
                         <field name='is_department' invisible="1"/>
+
+                        <field name="mean_transp" />
                     </group>
                 </xpath>
             </field>
