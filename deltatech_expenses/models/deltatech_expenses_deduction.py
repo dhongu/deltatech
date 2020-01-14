@@ -326,6 +326,7 @@ class deltatech_expenses_deduction(models.Model):
                 expenses_vals['move_id'] = move.id
 
             expenses.write(expenses_vals)
+            expenses.write_to_statement_line()
 
     @api.multi
     def old_validate_expenses(self):
