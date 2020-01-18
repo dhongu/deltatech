@@ -49,7 +49,7 @@ class crm_claim_report(models.Model):
                          domain="[('team_id','=',team_id),\
                         ('object_id.model', '=', 'crm.claim')]", readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
+
     priority = fields.Selection(AVAILABLE_PRIORITIES, 'Priority')
     type_action = fields.Selection([('correction','Corrective Action'),('prevention','Preventive Action')], 'Action Type')
     date_closed = fields.Datetime('Close Date', readonly=True, index=True)

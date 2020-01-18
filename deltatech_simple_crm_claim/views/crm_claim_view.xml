@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<openerp>
+<odoo>
     <data>
 
 
@@ -102,7 +102,7 @@
                     <field name="stage_id" widget="statusbar" clickable="True"/>
                 </header>
                 <sheet string="Claims">
-                    <group>
+                    <group name="name_date">
                         <group>
                             <field name="name"/>
                             <field name="date"/>
@@ -192,21 +192,20 @@
             <field name="arch" type="xml">
                 <search string="Search Claims">
                     <field name="name" string="Claims"/>
-                    <separator/>
-                    <filter string="Unassigned Claims" icon="terp-personal-" domain="[('user_id','=', False)]" help="Unassigned Claims" />
+                    <filter string="Unassigned Claims" name="unassigned" domain="[('user_id','=', False)]" help="Unassigned Claims" />
                     <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
                     <field name="user_id"/>
-                    <group expand="0" string="Group By">
-                        <filter string="Partner" icon="terp-partner" domain="[]" help="Partner" context="{'group_by':'partner_id'}"/>
-                        <filter string="Responsible" icon="terp-personal" domain="[]" help="Responsible User" context="{'group_by':'user_id'}"/>
-                        <filter string="Stage" icon="terp-stage" domain="[]" context="{'group_by':'stage_id'}"/>
-                        <filter string="Type" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'categ_id'}"/>
-                        <filter string="Claim Month" icon="terp-go-month" domain="[]" help="Claim Date by Month" context="{'group_by':'date'}"/>
-                        <filter string="Deadline" icon="terp-go-month" domain="[]" context="{'group_by':'date_deadline'}"/>
-                        <filter string="Closure" icon="terp-go-month" domain="[]" help="Date Closed" context="{'group_by':'date_closed'}"  groups="base.group_no_one" invisible="1"/>
-                    </group>
+
+                        <filter string="Partner" name="partner" domain="[]" help="Partner" context="{'group_by':'partner_id'}"/>
+                        <filter string="Responsible" name="responsible" domain="[]" help="Responsible User" context="{'group_by':'user_id'}"/>
+                        <filter string="Stage" name="stage" domain="[]" context="{'group_by':'stage_id'}"/>
+                        <filter string="Type" name="type" domain="[]" context="{'group_by':'categ_id'}"/>
+                        <filter string="Claim Month" name="month" domain="[]" help="Claim Date by Month" context="{'group_by':'date'}"/>
+                        <filter string="Deadline" name="deadline" domain="[]" context="{'group_by':'date_deadline'}"/>
+                        <filter string="Closure" name="closure" domain="[]" help="Date Closed" context="{'group_by':'date_closed'}"  groups="base.group_no_one" invisible="1"/>
+
                 </search>
             </field>
         </record>
      </data>
-</openerp>
+</odoo>

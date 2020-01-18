@@ -21,23 +21,11 @@
 
 
 {
-    'name': 'Deletatech Simple Claims Management',
+    'name': 'Simple Claims Management',
     'version': '1.0',
     'category': 'Customer Relationship Management',
-    'description': """
 
-Manage Customer Claims.
-=======================
-This application allows you to track your customers/suppliers claims and grievances.
-
-It is fully integrated with the email gateway so that you can create
-automatically new claims based on incoming emails.
-
-Am eliminat dependenta de CRM
-Atentie: Nu se utilizeaza impreuna cu modulul de CRM
-
-    """,
-    'author': 'OpenERP SA',
+    'author': 'OpenERP SA, Terrabit',
     'website': 'https://www.odoo.com',
     'depends': ['sales_team'],
     'data': [
@@ -45,10 +33,11 @@ Atentie: Nu se utilizeaza impreuna cu modulul de CRM
         'views/crm_claim_menu.xml',
         'security/ir.model.access.csv',
         'report/crm_claim_report_view.xml',
-        'views/crm_claim_data.xml',
+        'data/crm_claim_data.xml',
         'views/res_partner_view.xml',
     ],
-    'demo': ['crm_claim_demo.xml'],
+    "images": ['images/main_screenshot.png'],
+    #'demo': ['data/crm_claim_demo.xml'],
     'test': [
         'test/process/claim.yml',
         'test/ui/claim_demo.yml'

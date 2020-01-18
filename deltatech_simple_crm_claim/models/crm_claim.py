@@ -97,8 +97,8 @@ class crm_claim(models.Model):
     date_closed = fields.Datetime('Closed', readonly=True)
     date = fields.Datetime('Claim Date', index=True, defalut=fields.Datetime.now)
 
-    # ref = fields.Char()
-    ref = fields.Reference(string='Reference', selection='_reference_models')
+    ref = fields.Char()
+    #ref = fields.Reference(string='Reference', selection='_reference_models')
     # ref = fields.Reference(string='Reference', selection=openerp.addons.base.res.res_request.referencable_models)
 
     categ_id = fields.Many2one('crm.case.categ', 'Category',
