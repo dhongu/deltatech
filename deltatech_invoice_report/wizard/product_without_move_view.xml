@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_product_without_move_form" model="ir.ui.view">
+            <field name="name">Products without move</field>
+            <field name="model">product.without.move</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button name="do_show_report" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_product_template_without_move" name="Products without move"
+                    res_model="product.without.move"
+                    src_model="product.template"
+                    key2="client_action_multi"
+                    multi="True"
+                    view_mode="form"
+                    target="new"/>
+
+        <act_window id="action_product_product_without_move" name="Products without move"
+                    res_model="product.without.move"
+                    src_model="product.product"
+                    key2="client_action_multi"
+                    multi="True"
+                    view_mode="form"
+                    target="new"/>
+
+
+        <record id="view_product_without_move_item_tree" model="ir.ui.view">
+            <field name="name">product.without.move.item.tree</field>
+            <field name="model">product.without.move.item</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name='product_id'/>
+                    <field name='qty'/>
+                    <field name='last_sale_date'/>
+                    <field name='days_last_sale'/>
+                    <field name='price'/>
+                    <field name='amount'/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>
