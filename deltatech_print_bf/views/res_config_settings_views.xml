@@ -25,6 +25,17 @@
         </field>
     </record>
 
-
+    <record id="journal_bf_form" model="ir.ui.view">
+        <field name="name">journal.bf.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/group/group[2]" position="after">
+                <group>
+                    <field name="cod_ecr"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
