@@ -61,4 +61,4 @@ class product_product(models.Model):
                                                            limit=1, order='id desc')
             if line:
                 line.set_last_last_inventory()
-            product.write({'last_inventory_date':fields.Date})
+            product.write({'last_inventory_date':fields.Date.today()})
