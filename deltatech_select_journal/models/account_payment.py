@@ -19,5 +19,7 @@ class account_payment(models.Model):
             if rec.partner_type == 'customer':
                 if not rec.name and rec.payment_type != 'transfer':
                     if self.journal_id:
-                        rec.name = self.journal_id.sequence_id.with_context(ir_sequence_date=rec.payment_date).next_by_id()
+                        self.journal_id.sequence_id.number_next = self.journal_id.sequence_id.number_next - 1 # conflicts with account.move sequence
+                        rec.name = self.journal_id.sequence_id.next_by_id()
+                        pass
         return super(account_payment, self).post()
