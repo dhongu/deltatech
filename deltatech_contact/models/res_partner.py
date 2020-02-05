@@ -5,16 +5,32 @@
 
 
 from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, RedirectWarning
-import odoo.addons.decimal_precision as dp
-from odoo.api import Environment
+
 import time
 
 
-class res_partner(models.Model):
+class Partner(models.Model):
     _inherit = 'res.partner'
 
-    @api.multi
+
+
+    @api.model
+    def default_get(self, fields):
+        defaults = super(Partner, self).default_get(fields)
+        if 'parent_partner_id' in self.env.context:
+            defaults['parent_id'] = self.env.context['parent_partner_id']
+        return defaults
+
+    @api.model
+    def _fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        if (not view_id) and (view_type == 'form') and self._context.get('simple_form'):
+            view_id = self.env.ref('base.view_partner_simple_form').id
+        res = super(Partner, self)._fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+
+        return res
+
+
+
     def check_cnp(self):
         # la import in fisiere sa nu mai faca validarea
         if 'install_mode' in self.env.context:
@@ -77,13 +93,13 @@ class res_partner(models.Model):
                 rest = suma % 11
             self.cnp = cnp + str(rest)
 
-    @api.one
     @api.depends('type', 'is_company')
     def _compute_is_department(self):
-        if self.is_company or self.type == 'contact':
-            self.is_department = False
-        else:
-            self.is_department = True
+        for partner in self:
+            if partner.is_company or partner.type == 'contact':
+                partner.is_department = False
+            else:
+                partner.is_department = True
 
     cnp = fields.Char(string='CNP', size=13)
 
@@ -101,35 +117,61 @@ class res_partner(models.Model):
     # _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
     _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
-    @api.multi
-    def name_get(self):
+
+    # nu se mai afiseaza compania la contacte
+    def _get_contact_name(self, partner, name):
+        if partner.type == 'contact':
+            return name
+        else:
+            return super(Partner, self)._get_contact_name(partner, name)
+
+
+    def _get_name(self):
+        partner = self
         context = self.env.context
+        name = super(Partner, self)._get_name()
 
-        res = []
-        for record in self:
-            name = record.name
-            if name:
-                if record.parent_id and not record.is_company and record.type != 'contact':
-                    name = "%s, %s" % (record.parent_name, name)
-                if context.get('show_address_only'):
-                    name = record._display_address(without_company=True)
-                if context.get('show_address'):
-                    name = name + "\n" + record._display_address(without_company=True)
-                if context.get('show_email') and record.email:
-                    name = "%s <%s>" % (name, record.email)
-                if context.get('show_phone') and record.phone:
-                    name = "%s\n<%s>" % (name, record.phone)
-                if context.get('show_category') and record.category_id:
-                    cat = []
-                    for category in record.category_id:
-                        cat.append(category.name)
-                    name = name + "\n[" + ','.join(cat) + "]"
-                name = name.replace('\n\n', '\n')
-                name = name.replace('\n\n', '\n')
-            res.append((record.id, name))
+        if context.get('show_phone',False):
+            if partner.phone or partner.mobile:
+                name = "%s\n<%s>" % (name, partner.phone or partner.mobile)
+        if context.get('show_category') and partner.category_id:
+             cat = []
+             for category in partner.category_id:
+                 cat.append(category.name)
+             name = name + "\n[" + ','.join(cat) + "]"
+        if context.get('address_inline'):
+            name = name.replace('\n', ', ')
+        return name
 
 
-        return res
+    # def name_get(self):
+    #     context = self.env.context
+    #
+    #     res = []
+    #     for record in self:
+    #         name = record.name
+    #         if name:
+    #             if record.parent_id and not record.is_company and record.type != 'contact':
+    #                 name = "%s, %s" % (record.parent_name, name)
+    #             if context.get('show_address_only'):
+    #                 name = record._display_address(without_company=True)
+    #             if context.get('show_address'):
+    #                 name = name + "\n" + record._display_address(without_company=True)
+    #             if context.get('show_email') and record.email:
+    #                 name = "%s <%s>" % (name, record.email)
+    #             if context.get('show_phone') and record.phone:
+    #                 name = "%s\n<%s>" % (name, record.phone)
+    #             if context.get('show_category') and record.category_id:
+    #                 cat = []
+    #                 for category in record.category_id:
+    #                     cat.append(category.name)
+    #                 name = name + "\n[" + ','.join(cat) + "]"
+    #             name = name.replace('\n\n', '\n')
+    #             name = name.replace('\n\n', '\n')
+    #         res.append((record.id, name))
+    #
+    #
+    #     return res
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -138,7 +180,7 @@ class res_partner(models.Model):
             partner_ids = self.search([('vat', 'ilike', name), ('is_company', '=', True)], limit=10)
             if partner_ids:
                 res_vat = partner_ids.name_get()
-        res = super(res_partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
+        res = super(Partner, self).name_search(name, args, operator=operator, limit=limit) + res_vat
         return res
 
     @api.model_create_multi
@@ -147,4 +189,4 @@ class res_partner(models.Model):
             if 'cnp' in values:
                 if not self.check_single_cnp(values['cnp']):
                     values['cnp'] = ''
-        return super(res_partner, self).create(vals_list)
+        return super(Partner, self).create(vals_list)
