@@ -92,7 +92,7 @@ class deltatech_expenses_deduction(models.Model):
     currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, required=True,
                                   default=_default_currency, compute="_compute_currency")
 
-    journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
+    journal_id = fields.Many2one('account.journal', string='Cash Journal', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]}, default=_default_journal)
     journal_payment_id = fields.Many2one('account.journal', string='Journal Expenses Deduction',
                                          required=True)  # readonly=True, states={'draft':[('readonly',False)]}),
@@ -135,7 +135,7 @@ class deltatech_expenses_deduction(models.Model):
         for expense in self:
             total = 0.0
             for line in expense.expenses_line_ids:
-                total += line.amount
+                total += line.tax_amount + line.price_subtotal
 
             expense.amount_vouchers = total
             expense.total_diem = expense.days * expense.diem
@@ -161,7 +161,9 @@ class deltatech_expenses_deduction(models.Model):
         moves = self.env['account.move']
         for expenses in self:
             if expenses.move_id:
-                moves += expenses.move_id
+                moves |= expenses.move_id
+            for voucher in expenses.voucher_ids:
+                moves |= voucher.move_id
 
         self.write({'state': 'draft', 'move_id': False})
         if moves:
@@ -170,16 +172,25 @@ class deltatech_expenses_deduction(models.Model):
             # delete the move this invoice was pointing to
             # Note that the corresponding move_lines and move_reconciles
             # will be automatically deleted too
+            for move in moves:
+                move.line_ids.remove_move_reconcile()
             moves.unlink()
 
         # anulare plati inregistrate
         for expenses in self:
+
+
+            expenses.voucher_ids.cancel_voucher()
+            expenses.voucher_ids.unlink()
+
             # expenses.payment_ids.cancel_voucher()
-            expenses.payment_ids.action_cancel_draft()
-            statement_lines = self.env['account.bank.statement.line'].search(
-                [('voucher_id', 'in', expenses.payment_ids.ids)])
-            if statement_lines:
-                statement_lines.unlink()
+            expenses.payment_ids.cancel()
+            expenses.payment_ids.action_draft()
+            # domain = [('voucher_id', 'in', expenses.payment_ids.ids)]
+            # statement_lines = self.env['account.bank.statement.line'].search(domain)
+            # if statement_lines:
+            #     statement_lines.unlink()
+            expenses.payment_ids.write({'move_name': False, 'state': 'draft'})
             expenses.payment_ids.unlink()
 
             # anulare postare chitante.
@@ -228,8 +239,10 @@ class deltatech_expenses_deduction(models.Model):
                     'name': line.name,
                     'reference': line.name,
                     'journal_id': purchase_journal.id,
+                    'payment_journal_id':expenses.journal_payment_id.id,  # plata prin jurnalu de decont chelturili
                     'expenses_deduction_id': expenses.id,
-                    'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
+                    #'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
+                    'account_id': partner_id.property_account_receivable_id.id,
                     # aici trebuie sa fie contul din care se face plata furnizorului
                     'line_ids': [(0, 0, {'name': line.name,
                                          'price_unit': line.price_subtotal,
@@ -239,17 +252,18 @@ class deltatech_expenses_deduction(models.Model):
                 vouchers |= self.env['account.voucher'].create(voucher_value)
                 payment_methods = expenses.journal_payment_id.outbound_payment_method_ids
 
-                payment_value = {'payment_type': 'outbound',
-                                 'payment_date': line.date,
-                                 'partner_type': 'supplier',
-                                 'partner_id': partner_id.id,
-                                 'journal_id': expenses.journal_payment_id.id,
-                                 'payment_method_id': payment_methods and payment_methods[0].id or False,
-                                 'amount': line.amount,
-                                 'expenses_deduction_id': expenses.id,
-                                 }
-                payments |= self.env['account.payment'].create(payment_value)
-            vouchers.proforma_voucher()  # validare
+                # payment_value = {
+                #     'payment_type': 'outbound',
+                #     'payment_date': line.date,
+                #     'partner_type': 'supplier',
+                #     'partner_id': partner_id.id,
+                #     'journal_id': expenses.journal_payment_id.id,
+                #     'payment_method_id': payment_methods and payment_methods[0].id or False,
+                #     'amount': line.tax_amount + line.price_subtotal ,
+                #     'expenses_deduction_id': expenses.id,
+                # }
+                # payments |= self.env['account.payment'].create(payment_value)
+            vouchers.with_context(expenses_deduction_id=expenses.id).proforma_voucher()  # validare
             payments.post()
 
             move_lines = self.env['account.move.line']
@@ -268,6 +282,7 @@ class deltatech_expenses_deduction(models.Model):
             line_ids = []
             # nota contabila prin care banii au iesit din casa
             if expenses.advance:
+                #todo: de ce nu tine cont de data avansului ?
                 move_line_dr = {'name': name or '/', 'debit': expenses.advance, 'credit': 0.0,
                                 'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
                                 'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
@@ -322,129 +337,12 @@ class deltatech_expenses_deduction(models.Model):
                 move = self.env['account.move'].create({'name': name or '/',
                                                         'journal_id': expenses.journal_id.id,
                                                         'date': expenses.date_expense,
-                                                        'ref': name or '', 'line_ids': line_ids, })
+                                                        'ref': name or '',
+                                                        'line_ids': line_ids, })
                 expenses_vals['move_id'] = move.id
 
             expenses.write(expenses_vals)
             expenses.write_to_statement_line()
-
-    @api.multi
-    def old_validate_expenses(self):
-        vouchers = self.env['account.voucher']
-        payments = self.env['account.payment']
-        for expenses in self:
-            for voucher in expenses.expenses_line_ids:
-                if voucher.state == 'draft':
-                    vouchers |= voucher
-
-            vouchers.proforma_voucher()
-            for voucher in expenses.expenses_line_ids:
-                if not voucher.paid:
-                    partner_id = self.env['res.partner']._find_accounting_partner(voucher.partner_id).id
-                    line_dr_ids = []
-                    line_cr_ids = []
-                    for line in voucher.move_ids:  # de regula este o singura linie
-                        if line.state == 'valid' and line.account_id.voucher_type == 'payable' and not line.reconcile_id:
-                            amount_unreconciled = abs(line.amount_residual_currency)
-                            rs = {'name': line.move_id.name, 'type': line.credit and 'dr' or 'cr',
-                                  'move_line_id': line.id, 'account_id': line.account_id.id,
-                                  'amount_original': abs(line.amount_currency), 'amount': amount_unreconciled,
-                                  'date_original': line.date, 'date_due': line.date_maturity,
-                                  'amount_unreconciled': amount_unreconciled, 'currency_id': voucher.currency_id.id,
-                                  'reconcile': True}
-                            if rs['type'] == 'cr':
-                                line_cr_ids.append([0, False, rs])
-                            else:
-                                line_dr_ids.append([0, False, rs])
-
-                    context = {'default_type': 'payment', 'type': 'payment', 'default_partner_id': partner_id,
-                               'default_partner_id': voucher.partner_id.id, 'default_amount': voucher.amount,
-                               'partner_id': voucher.partner_id.id, 'default_reference': voucher.reference}
-
-                    payment = payments.with_context(context).create({'journal_id': expenses.journal_payment_id.id,
-                                                                     'account_id': expenses.journal_payment_id.default_credit_account_id.id,
-                                                                     'type': 'payment',
-                                                                     # care este data platii ?????/
-                                                                     'date': voucher.date,
-                                                                     'partner_id': voucher.partner_id.id,
-                                                                     'reference': voucher.reference,
-                                                                     'amount': voucher.amount,
-                                                                     'line_dr_ids': line_dr_ids,
-                                                                     'line_cr_ids': line_cr_ids,
-                                                                     'expenses_deduction_id': expenses.id}, )
-                    payment.proforma_voucher()
-
-            # TODO: de adaugat platile ca refeninta de decont
-            if not expenses.number:
-                name = expenses.journal_id.sequence_id.next_by_id()
-            else:
-                name = expenses.number
-            # Create the account move record.
-            line_ids = []
-            # nota contabila prin care banii au iesit din casa 
-            if expenses.advance:
-                move_line_dr = {'name': name or '/', 'debit': expenses.advance, 'credit': 0.0,
-                                'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_advance, 'date_maturity': expenses.date_advance}
-                move_line_cr = {'name': name or '/', 'debit': 0.0, 'credit': expenses.advance,
-                                'account_id': expenses.journal_id.default_credit_account_id.id,  # 512
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_advance, 'date_maturity': expenses.date_advance}
-                line_ids.append([0, False, move_line_dr])
-                line_ids.append([0, False, move_line_cr])
-
-                # si acum scriu in registrul de casa valoarea   
-            # avansul trebuie trecut si in jurnalul de casa!
-
-            if expenses.difference < 0:
-                move_line_cr = {'name': name or '/', 'debit': 0.0, 'credit': abs(expenses.difference),
-                                'account_id': expenses.journal_payment_id.default_credit_account_id.id,
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_expense, 'date_maturity': expenses.date_expense}
-                move_line_dr = {'name': name or '/', 'debit': abs(expenses.difference), 'credit': 0.0,
-                                'account_id': expenses.journal_id.default_debit_account_id.id,
-                                'journal_id': expenses.journal_id.id,
-                                'partner_id': expenses.employee_id.id, 'date': expenses.date_expense,
-                                'date_maturity': expenses.date_expense}
-                line_ids.append([0, False, move_line_dr])
-                line_ids.append([0, False, move_line_cr])
-
-            if expenses.difference > 0:
-                move_line_dr = {'name': name or '/', 'debit': expenses.difference, 'credit': 0.0,
-                                'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_expense, 'date_maturity': expenses.date_expense}
-                move_line_cr = {'name': name or '/', 'debit': 0.0, 'credit': expenses.difference,
-                                'account_id': expenses.journal_id.default_credit_account_id.id,  # 512
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_expense, 'date_maturity': expenses.date_expense}
-                line_ids.append([0, False, move_line_dr])
-                line_ids.append([0, False, move_line_cr])
-
-            if expenses.total_diem:
-                move_line_dr = {'name': name or '/', 'debit': expenses.total_diem, 'credit': 0.0,
-                                'account_id': expenses.account_diem_id.id, 'journal_id': expenses.journal_id.id,
-                                'partner_id': expenses.employee_id.id, 'date': expenses.date_expense,
-                                'date_maturity': expenses.date_expense}
-                move_line_cr = {'name': name or '/', 'debit': 0.0, 'credit': expenses.total_diem,
-                                'account_id': expenses.journal_payment_id.default_credit_account_id.id,  # 542
-                                'journal_id': expenses.journal_id.id, 'partner_id': expenses.employee_id.id,
-                                'date': expenses.date_expense, 'date_maturity': expenses.date_expense}
-                line_ids.append([0, False, move_line_dr])
-                line_ids.append([0, False, move_line_cr])
-
-                # si e corect ca un element sa contina note contabile cu date diferite ????
-            move = self.env['account.move'].create(
-                {'name': name or '/', 'journal_id': expenses.journal_id.id, 'date': expenses.date_expense,
-                 'ref': name or '', 'line_id': line_ids, })
-            name = move.name
-            if payment:
-                payment.write({'state': 'posted'})
-            self.write({'state': 'done', 'move_id': move.id, 'number': name})
-
-        self.write_to_statement_line()
-        return True
 
     @api.multi
     def write_to_statement_line(self):
@@ -462,7 +360,7 @@ class deltatech_expenses_deduction(models.Model):
 
             if statement.state != 'open':
                 raise UserError(_('The cash statement of journal %s from date is not in open state, please open it \n'
-                                'to create the line in  it "%s".') % (journal_id.name, date))
+                                  'to create the line in  it "%s".') % (journal_id.name, date))
             return statement
 
         for expenses in self:
@@ -511,11 +409,11 @@ class deltatech_expenses_deduction_line(models.Model):
     name = fields.Text(string='Reference', required=True)
     tax_ids = fields.Many2many('account.tax', string='Tax', help="Only for tax excluded from price")
 
-    amount = fields.Float(string='Total')
+    amount = fields.Float(string='Total')  # e cu tot cu tva ?
     tax_amount = fields.Float(readonly=True, store=True, compute='_compute_subtotal')
-    price_subtotal = fields.Float(readonly=True, store=True, compute='_compute_subtotal')
+    price_subtotal = fields.Float(readonly=True, store=True, compute='_compute_subtotal') # valoare subtotal
 
-    #todo: de scos required si de acompletat cu partner_generic in situatia in care nu se completeaza nimic
+    # todo: de scos required si de acompletat cu partner_generic in situatia in care nu se completeaza nimic
     partner_id = fields.Many2one('res.partner', string='Partner')
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   required=True, default=lambda self: self._get_currency())
