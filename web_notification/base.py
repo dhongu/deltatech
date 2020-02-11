@@ -1,4 +1,4 @@
-from openerp import models, fields, api
+from openerp import models, fields, api, _
 from openerp.addons.base.res.res_users import res_users
 
 
@@ -22,3 +22,25 @@ class ResUsers(models.Model):
             'mode': mode,
         }
         return self.env['ir.notification'].create(vals)
+
+
+    @api.multi
+    def notify_danger(self, message):
+        vals = {
+            'subject': _('Warning'),
+            'body': message,
+            'user_ids': [(4, x.id) for x in self],
+            'mode': 'warn',
+        }
+        return self.env['ir.notification'].with_context(sticky=False).create(vals)
+
+
+    @api.multi
+    def notify_info(self, message):
+        vals = {
+            'subject': _('Info'),
+            'body': message,
+            'user_ids': [(4, x.id) for x in self],
+            'mode': 'notify',
+        }
+        return self.env['ir.notification'].with_context(sticky=False).create(vals)

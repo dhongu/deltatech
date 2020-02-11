@@ -23,7 +23,8 @@ class IrNotification(models.Model):
         bus = res.env['bus.bus']
         for user in res.user_ids:
             message = vals.copy()
-            message['sticky'] = user.notification_sticky
+            sticky = self.env.context.get('sticky',user.notification_sticky)
+            message['sticky'] = sticky
             bus.sendone('notify_res_user_%d' % user.id, message)
 
         return res
