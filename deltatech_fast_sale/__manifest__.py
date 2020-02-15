@@ -5,7 +5,7 @@
 
 {
     "name": "Fast Sale",
-    'version': '12.0.1.0.0',
+    'version': '12.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
