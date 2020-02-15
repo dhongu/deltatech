@@ -8,7 +8,7 @@ from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
+
 
 
 class sale_order(models.Model):
@@ -39,7 +39,9 @@ class sale_order(models.Model):
         # return action
 
         wizard = self.env['sale.advance.payment.inv'].with_context(active_ids=self.ids, open_invoices=True)
-        wizard = wizard.new(wizard.default_get([]))
+        defaults = wizard.default_get(['advance_payment_method','product_id','deposit_account_id'])
+
+        wizard = wizard.new(defaults)
         return wizard.create_invoices()
 
     # data in factura trebuie sa fie data curenta nu data cand a fost facuta comanda de vanzare
