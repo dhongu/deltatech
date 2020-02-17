@@ -5,18 +5,9 @@
 
 {
     "name": "MRP Planning",
-    'version': '12.0.1.0.0',
+    'version': '12.0.3.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
- - Calculeaza datele planificate pentru comanda de productie si pentru comenzile de lucru
- - Similar cu mrp_workorder
-
-
-    """,
-
     "category": "Manufacturing",
     "depends": ["mrp"],
 
