@@ -9,7 +9,7 @@
 
 {
     "name": "Merge Products",
-    "version": "12.0.0.0.7",
+    "version": "13.0.0.0.7",
     "author": "Vauxoo, Terrabit, Dorin Hongu",
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",

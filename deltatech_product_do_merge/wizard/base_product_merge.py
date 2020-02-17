@@ -22,8 +22,7 @@ from odoo import SUPERUSER_ID, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.tools import mute_logger
 
-import operator
-from odoo.osv.orm import browse_record
+
 
 _logger = logging.getLogger('base.product.merge')
 
@@ -455,7 +454,7 @@ class MergeProductAutomatic(models.TransientModel):
             reverse=True,
         )
 
-    @api.multi
+
     def _compute_models(self):
         """ Compute the different models needed by the system if you want to exclude some products. """
         model_mapping = {}
@@ -468,14 +467,14 @@ class MergeProductAutomatic(models.TransientModel):
     # Actions
     # ----------------------------------------
 
-    @api.multi
+
     def action_skip(self):
         """ Skip this wizard line. Don't compute any thing, and simply redirect to the new step."""
         if self.current_line_id:
             self.current_line_id.unlink()
         return self._action_next_screen()
 
-    @api.multi
+
     def _action_next_screen(self):
         """ return the action of the next screen ; this means the wizard is set to treat the
             next wizard line. Each line is a subset of product that can be merged together.
@@ -510,7 +509,7 @@ class MergeProductAutomatic(models.TransientModel):
             'target': 'new',
         }
 
-    @api.multi
+
     def _process_query(self, query):
         """ Execute the select request and write the result in this wizard
             :param query : the SQL query used to fill the wizard line
@@ -546,7 +545,7 @@ class MergeProductAutomatic(models.TransientModel):
 
         _logger.info("counter: %s", counter)
 
-    @api.multi
+
     def action_start_manual_process(self):
         """ Start the process 'Merge with Manual Check'. Fill the wizard according to the group_by and exclude
             options, and redirect to the first step (treatment of first wizard line). After, for each subset of
@@ -560,7 +559,7 @@ class MergeProductAutomatic(models.TransientModel):
         self._process_query(query)
         return self._action_next_screen()
 
-    @api.multi
+
     def action_start_automatic_process(self):
         """ Start the process 'Merge Automatically'. This will fill the wizard with the same mechanism as 'Merge
             with Manual Check', but instead of refreshing wizard with the current line, it will automatically process
@@ -585,7 +584,7 @@ class MergeProductAutomatic(models.TransientModel):
             'target': 'new',
         }
 
-    @api.multi
+
     def action_merge(self):
         """ Merge Product button. Merge the selected products, and redirect to
             the end screen (since there is no other wizard line to process.
