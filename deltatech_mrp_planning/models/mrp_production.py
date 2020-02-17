@@ -22,7 +22,7 @@ class MrpProduction(models.Model):
         tz_name = self._context.get('tz') or self.env.user.tz
         # todo: de facut planificarea inapoi!
         for production in self:
-            planned_date = self.date_planned_start  # la data asta trebuie sa inceapa
+            planned_date = production.date_planned_start  # la data asta trebuie sa inceapa
             production_values = {'date_planned_start_wo': False, 'date_planned_finished_wo': False}
             values = {}
             workorders = production.workorder_ids  # .sorted(key=id, reverse=True)
