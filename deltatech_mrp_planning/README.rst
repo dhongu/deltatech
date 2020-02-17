@@ -8,9 +8,8 @@ MRP Planning
 
 Features:
 
-
- - Calculeaza datele planificate pentru comanda de productie si pentru comenzile de lucru
- - Similar cu mrp_workorder
+ - Calculates the planned data for the production order and for the work orders
+ - Similar to mrp_workorder
 
 
 Bug Tracker
