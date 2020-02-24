@@ -14,16 +14,38 @@ from datetime import datetime
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
+    # daca fac campul calculat si stocat dureaza foarte mult instalarea lui pe o baza de date la care sunt deja date
     purchase_price = fields.Float(string='Cost Price',
-                                  compute="_compute_purchase_price", store=True,
+                                  # compute="_compute_purchase_price",
+                                  # store=True,
                                   digits=dp.get_precision('Product Price'))  # valoare stocului in moneda companiei
     commission = fields.Float(string="Commission", default=0.0)
 
+    def _compute_margin(self, invoice_id, product_id, product_uom_id):
+        frm_cur = self.env.user.company_id.currency_id
+        to_cur = invoice_id.currency_id
+        purchase_price = product_id.standard_price
+        if product_uom_id != product_id.uom_id:
+            purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
+        price = frm_cur._convert(
+            purchase_price, to_cur, invoice_id.company_id or self.env.user.company_id,
+                                    invoice_id.date_invoice or fields.Date.today(), round=False)
+        return price
+
+    @api.model
+    def create(self, vals):
+        if 'purchase_price' not in vals:
+            invoice_id = self.env['account.invoice'].browse(vals['invoice_id'])
+            product_id = self.env['product.product'].browse(vals['product_id'])
+            uom_id = self.env['uom.uom'].browse(vals['uom_id'])
+            vals['purchase_price'] = self._compute_margin(invoice_id, product_id, uom_id)
+
+        return super(account_invoice_line, self).create(vals)
 
     @api.depends('product_id')
     def _compute_purchase_price(self):
         for invoice_line in self:
-            if invoice_line.invoice_id.type in ['out_invoice','out_refund'] and  invoice_line.product_id:
+            if invoice_line.invoice_id.type in ['out_invoice', 'out_refund'] and invoice_line.product_id:
                 to_cur = self.env.user.company_id.currency_id
                 product_uom = invoice_line.uom_id
                 date_invoice = invoice_line.invoice_id.date_invoice or fields.Date.today()
@@ -41,11 +63,10 @@ class account_invoice_line(models.Model):
                     purchase_price = invoice_line.product_id.standard_price
                     purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
-                    #purchase_price = frm_cur._convert(purchase_price, to_cur, self.env.user.company_id, date_invoice , round=False)
+                    # purchase_price = frm_cur._convert(purchase_price, to_cur, self.env.user.company_id, date_invoice , round=False)
                 if invoice_line.invoice_id.type == 'out_refund':
-                    purchase_price = -1*purchase_price
+                    purchase_price = -1 * purchase_price
                 invoice_line.purchase_price = purchase_price
-
 
     @api.constrains('price_unit', 'purchase_price')
     def _check_sale_price(self):
