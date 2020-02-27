@@ -17,7 +17,7 @@ class sale_order(models.Model):
     @api.multi
     def action_button_confirm_to_invoice(self):
 
-        if self.state in ['draft','sent'] :
+        if self.state in ['draft', 'sent']:
             self.action_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
@@ -33,16 +33,16 @@ class sale_order(models.Model):
                         move_line.unlink()
                 picking.with_context(force_period_date=self.date_order).action_done()
 
-        # action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
-        # action = action_obj.read()[0]
-        # action['context'] = {'force_period_date': self.date_order}
-        # return action
-
-        wizard = self.env['sale.advance.payment.inv'].with_context(active_ids=self.ids, open_invoices=True)
-        defaults = wizard.default_get(['advance_payment_method','product_id','deposit_account_id'])
-
-        wizard = wizard.new(defaults)
-        return wizard.create_invoices()
+        if self.fiscal_position_id:
+            action_obj = self.env.ref('sale.action_view_sale_advance_payment_inv')
+            action = action_obj.read()[0]
+            action['context'] = {'force_period_date': self.date_order}
+            return action
+        else:
+            wizard = self.env['sale.advance.payment.inv'].with_context(active_ids=self.ids, open_invoices=True)
+            defaults = wizard.default_get(['advance_payment_method','product_id','deposit_account_id'])
+            wizard = wizard.new(defaults)
+            return wizard.create_invoices()
 
     # data in factura trebuie sa fie data curenta nu data cand a fost facuta comanda de vanzare
     # @api.multi
