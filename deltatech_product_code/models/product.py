@@ -35,7 +35,7 @@ class product_template(models.Model):
                     product.write(vals)
 
         action = self.env.ref('deltatech_product_code.action_force_new_code')
-        action.unlink_action()
+        action.sudo().unlink_action()
 
     def force_new_code(self):
         self.with_context(force_code=True).button_new_code()
