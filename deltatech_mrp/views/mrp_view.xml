@@ -59,6 +59,7 @@
 								<field name="amount"/>
 							</tree>
 						</field>
+						<button string="Update" name="recompute_cost_detail" type="object" class="oe_link"/>
 					</page>
 				</xpath>
 

@@ -4,7 +4,6 @@
 
 
 from odoo import api, models, fields, _, tools
-import odoo.addons.decimal_precision as dp
 
 
 class product_category(models.Model):

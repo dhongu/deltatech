@@ -93,9 +93,9 @@ class deltatech_mrp_report(models.Model):
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=True)
 
-    product_qty = fields.Float('Qty Plan', digits=dp.get_precision('Product UoM'), readonly=True)
+    product_qty = fields.Float('Qty Plan', digits=dp.get_precision('Product Unit of Measure'), readonly=True)
     product_val = fields.Float(compute='_get_product_val', string="Val Plan", readonly=True)
-    product_qty_ef = fields.Float('Qty Efective', digits=dp.get_precision('Product UoM'), readonly=True)
+    product_qty_ef = fields.Float('Qty Efective', digits=dp.get_precision('Product Unit of Measure'), readonly=True)
     product_val_ef = fields.Float('Val Efective', digits=dp.get_precision('Account'), readonly=True)
 
     consumed_val = fields.Float('Val Consumed', digits=dp.get_precision('Account'), readonly=True)

@@ -24,8 +24,8 @@ class deltatech_cost_detail(models.Model):
         tools.drop_view_if_exists(self.env.cr, 'deltatech_cost_detail')
         self.env.cr.execute("""
             create or replace view deltatech_cost_detail as (
- 
-                SELECT sm.raw_material_production_id AS id,
+
+                SELECT max(sm.id) AS id,
                     sm.raw_material_production_id AS production_id,
                     SUM (sm.value) AS amount,
                     pc.cost_categ
@@ -48,19 +48,30 @@ class mrp_production(models.Model):
 
     cost_detail_ids = fields.One2many('deltatech.cost.detail', 'production_id', compute="_compute_cost_detail")
 
+    @api.multi
+    def recompute_cost_detail(self):
+        for production in self:
+            production._compute_cost_detail()
+
+
+
     @api.one
     @api.depends('move_raw_ids')
     def _compute_cost_detail(self):
-        cost = {}
-        for move in self.move_raw_ids:
-            cost_categ = move.product_id.categ_id.cost_categ
-            cost[cost_categ] = cost.get(cost_categ, 0) + move.value
 
-        cost_detail_ids = self.env['deltatech.cost.detail']
-        for cost_categ, amount in cost.items():
-            values = {'production_id': self.id, 'cost_categ': cost_categ, 'amount': amount}
-            cost_detail_ids = cost_detail_ids + cost_detail_ids.new(values)
+        domain = [('production_id','=',self.id)]
+        cost_detail_ids = self.env['deltatech.cost.detail'].search(domain)
         self.cost_detail_ids = cost_detail_ids
+        # cost = {}
+        # for move in self.move_raw_ids:
+        #     cost_categ = move.product_id.categ_id.cost_categ
+        #     cost[cost_categ] = cost.get(cost_categ, 0) + move.value
+        #
+        # cost_detail_ids = self.env['deltatech.cost.detail']
+        # for cost_categ, amount in cost.items():
+        #     values = {'production_id': self.id, 'cost_categ': cost_categ, 'amount': amount}
+        #     cost_detail_ids = cost_detail_ids + cost_detail_ids.new(values)
+        # self.cost_detail_ids = cost_detail_ids
         # self.write({'cost_detail_ids':self.cost_detail_ids})
 
     '''
