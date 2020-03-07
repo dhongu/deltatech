@@ -62,7 +62,7 @@
 		<record id="view_deltatech_mrp_report_pivot" model="ir.ui.view">
 			<field name="name">deltatech.mrp.report.pivot</field>
 			<field name="model">deltatech.mrp.report</field>
-			<field name="type">graph</field>
+			<field name="type">pivot</field>
 			<field name="arch" type="xml">
 				<pivot string="Production Analysis"  >
 					<field name="product_id" type="row" />
@@ -149,7 +149,7 @@
 			<field name="name">Production Cost Analysis</field>
 			<field name="res_model">deltatech.mrp.report</field>
 			<field name="view_type">form</field>
-			<field name="view_mode">tree,pivot,graph</field>
+			<field name="view_mode">pivot,tree,graph</field>
 			<field name="view_id" ref="view_deltatech_mrp_report_tree" />
 			<field name="search_view_id" ref="view_deltatech_mrp_report_filter" />
 			<field name="help">This reporting allows you to analysis your manufacturing cost.</field>

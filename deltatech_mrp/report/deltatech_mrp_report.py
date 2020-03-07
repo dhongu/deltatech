@@ -34,7 +34,7 @@ class deltatech_mrp_report(models.Model):
 
                 for line_rec in lines:
                     if line_rec.product_id.cost_method == 'real':
-                        price = line_rec.price_unit_on_quant
+                        price = line_rec.price_unit_on_quant  # de unde e scos camoul asta
                     else:
                         if not line_rec.product_id.id in prod_dict:
                             prod_dict[line_rec.product_id.id] = line_rec.product_id.get_history_price(
@@ -105,7 +105,8 @@ class deltatech_mrp_report(models.Model):
 
     val_prod = fields.Float('Value production', digits=dp.get_precision('Account'), readonly=True)
 
-    standard_price = fields.Float(compute="_get_standard_price", string="Price Standard", readonly=True)
+    standard_price = fields.Float(compute="_get_standard_price", string="Price Standard", readonly=True,
+                                  group_operator="avg")
 
     actually_price = fields.Float('Actually Price', digits_=dp.get_precision('Account'), readonly=True,
                                   group_operator="avg")
@@ -145,7 +146,7 @@ SELECT s.id, s.id as production_id,
     sum(COALESCE(sub_consumed.consumed_sem_val, (0)::double precision)) AS consumed_sem_val,
 
     (sum(COALESCE(sub_consumed.consumed_val, (0)::double precision)) * (1.20)::double precision) AS val_prod,
-    ((sum(COALESCE(sub_consumed.consumed_val, (0)::double precision)) * (1.20)::double precision) / (COALESCE(sum(sub_prod_ef.product_qty_ef), 0.0000001))::double precision) AS actually_price,
+    ((sum(COALESCE(sub_consumed.consumed_val, (0)::double precision)) * (1.20)::double precision) / (sum(sub_prod_ef.product_qty_ef))::double precision) AS actually_price,
     s.company_id,
     ( SELECT 1) AS nbr,
     s.state
@@ -166,15 +167,15 @@ SELECT s.id, s.id as production_id,
 left join (
 SELECT 
     sm.raw_material_production_id AS production_id,
-   SUM (sm.value) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (sm.value) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (sm.value) else 0.0 end as  consumed_pak_val,
-        CASE WHEN pc.cost_categ='raw' THEN SUM (sm.value) else 0.0 end as  consumed_raw_val
+   SUM (-sm.value) AS consumed_val,
+      CASE WHEN pc.cost_categ='semi' THEN SUM (-sm.value) else 0.0 end as  consumed_sem_val,
+      CASE WHEN pc.cost_categ='pak' THEN SUM (-sm.value) else 0.0 end as  consumed_pak_val,
+      CASE WHEN pc.cost_categ='raw' THEN SUM (-sm.value) else 0.0 end as  consumed_raw_val
     FROM
         stock_move sm
-        LEFT JOIN product_product pr ON pr. ID = sm.product_id
-        LEFT JOIN product_template pt ON pt. ID = pr.product_tmpl_id
-        LEFT JOIN product_category pc ON pc. ID = pt.categ_id
+        LEFT JOIN product_product pr ON pr.id = sm.product_id
+        LEFT JOIN product_template pt ON pt.id = pr.product_tmpl_id
+        LEFT JOIN product_category pc ON pc.id = pt.categ_id
     WHERE
         raw_material_production_id IS NOT NULL
         AND sm.state = 'done' :: TEXT

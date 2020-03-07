@@ -27,13 +27,13 @@ class deltatech_cost_detail(models.Model):
 
                 SELECT max(sm.id) AS id,
                     sm.raw_material_production_id AS production_id,
-                    SUM (sm.value) AS amount,
+                    SUM (-sm.value) AS amount,
                     pc.cost_categ
                 FROM
                     stock_move sm
-                    LEFT JOIN product_product pr ON pr. ID = sm.product_id
-                    LEFT JOIN product_template pt ON pt. ID = pr.product_tmpl_id
-                    LEFT JOIN product_category pc ON pc. ID = pt.categ_id
+                    LEFT JOIN product_product pr ON pr.id = sm.product_id
+                    LEFT JOIN product_template pt ON pt.id = pr.product_tmpl_id
+                    LEFT JOIN product_category pc ON pc.id = pt.categ_id
                 WHERE
                      raw_material_production_id IS NOT NULL
                      AND sm.state = 'done' :: TEXT
