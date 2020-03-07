@@ -30,6 +30,8 @@ Rapoarte:
 deltatech.mrp.report
     - raport pt analiza costuri de productie
 
+Observatie:
+ - la costul materialelor se adauga si un coeficient de 20 % pentru costurile indirecte.
 
 
 

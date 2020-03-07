@@ -7,11 +7,7 @@
     "version": "2.0",
     "author": "Deltatech",
     "website": "",
-    "description": """
-    
 
-
-    """,
 
     "category": "Generic Modules/Production",
     "depends": ["base", "mrp", "stock", "sale", "product"],
