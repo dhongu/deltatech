@@ -17,9 +17,11 @@ class website(models.Model):
         search = request.params.get('search', False)
         if search:
             product_ids = []
-            alt_domain = []
-            for srch in search.split(" "):
-                alt_domain += [('name', 'ilike', srch)]
+            alt_domain = [('name', 'ilike', search)]
+            #alt_domain = []
+            # for srch in search.split(" "):
+            #     alt_domain += [('name', 'ilike', srch)]
+
             alternative_ids = self.env['product.alternative'].search(alt_domain, limit=10)
             for alternative in alternative_ids:
                 product_ids += [alternative.product_tmpl_id.id]
