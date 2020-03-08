@@ -50,7 +50,7 @@ class stock_move(models.Model):
                 else:
                     packs[key] +=1
         pack_str = ''
-        print packs
+
         for key in packs:
             pack_str += str(packs[key]) + ' x ' +str(key) + ';'  #+ move.product_uom.name +'; '         
         res['name'] +=  '\n' +  pack_str  
