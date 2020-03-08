@@ -1,5 +1,5 @@
 ==================================
-Products Alternative on eCommerce
+Products Watermark on eCommerce
 ==================================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,8 +7,8 @@ Products Alternative on eCommerce
 
 
 Features:
-    - cautare produs dupa cod echivalent
 
+    - afisare imagini produse in magazinul virtual cu watermark
 
 
 Bug Tracker

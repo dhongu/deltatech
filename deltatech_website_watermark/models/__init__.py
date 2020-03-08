@@ -4,9 +4,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo.addons.website_sale.controllers import main
+from . import product
+from . import website
 
-main.PPG = 80  # Products Per Page
-main.PPR = 5   # Products Per Row
 
 
