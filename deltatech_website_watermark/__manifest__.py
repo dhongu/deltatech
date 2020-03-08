@@ -5,7 +5,7 @@
 
 
 {
-    "name": "Website alternative code",
+    "name": "Website watermark image",
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
