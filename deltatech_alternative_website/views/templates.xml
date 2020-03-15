@@ -3,7 +3,7 @@
 	<data>
 
 
-		<template id="product_item_code" inherit_id="website_sale.products_item" name="Internal code">
+		<template id="product_item_code" inherit_id="website_sale.products_item" name="Internal code" customize_show="True">
 			<xpath expr="//div[@itemprop='offers']" position="before">
 				<div t-if="product.default_code">
 					<span itemprop="productID" t-field="product.default_code" class="text-muted" />
