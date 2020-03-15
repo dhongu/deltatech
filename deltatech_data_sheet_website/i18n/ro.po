@@ -20,7 +20,6 @@ msgstr ""
 msgid "Show Data Sheet"
 msgstr "Afișare Fișă Tehnică"
 
-
 #. module: deltatech_data_sheet_website
 #: model_terms:ir.ui.view,arch_db:deltatech_data_sheet_website.product_data_sheet
 msgid "Show Safety Data Sheet"

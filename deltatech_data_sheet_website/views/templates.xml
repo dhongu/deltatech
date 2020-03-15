@@ -2,8 +2,7 @@
 <odoo>
 
 
-    <template id="product_data_sheet" inherit_id="website_sale.product" active="True" customize_show="True"
-              name="Show Data Sheet">
+    <template id="product_data_sheet" inherit_id="website_sale.product"    name="Show Data Sheet">
         <xpath expr="//hr[@t-if='product.description_sale']" position="before">
             <hr t-if='product.data_sheet_id'>
                 <a role="button" class="btn btn-primary"
