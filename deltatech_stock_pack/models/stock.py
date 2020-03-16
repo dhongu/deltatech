@@ -55,7 +55,7 @@ class stock_move(models.Model):
 
                 res['name'] += '\n' + _('Ord.') + sale_line.order_id.client_order_ref + '/' + str_date
 
-                sale_line.order_id.date_order[:10]
+                ## sale_line.order_id.date_order[:10]  # oare ce e asta ?
         return res
 
 
