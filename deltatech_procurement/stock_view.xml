@@ -120,7 +120,7 @@
 								 ('date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]" />
 					<field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]" />
 					<field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]" />
-					<filter name="physical_transfer" string="To Do Physical Transfer" domain="[('physical_transfer','=','req')]" />
+					<filter name="physical_transfer" string="To Do Physical Transfer" domain="['&amp;',('physical_transfer','=','req'),('state','!=','cancel')]" />
 				</filter>
 
 
