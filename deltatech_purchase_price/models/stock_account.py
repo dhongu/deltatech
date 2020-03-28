@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ©  2015-2018 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -11,7 +11,7 @@ from odoo.tools import float_compare, float_round, float_is_zero, pycompat
 class StockMove(models.Model):
     _inherit = "stock.move"
 
-    @api.multi
+
     def _get_price_unit(self):
         """ Returns the unit price to store on the quant """
         if self.purchase_line_id:
@@ -41,7 +41,7 @@ class StockMove(models.Model):
 
 
 
-    @api.multi
+
     def product_price_update_before_done(self, forced_qty=None):
         # products = self.env['product.product']
         # for move in self.filtered(lambda move: move._is_in() and move.product_id.cost_method == 'fifo'):

@@ -5,7 +5,7 @@
 
 
 from odoo import models, fields, api, tools, _
-
+from odoo.exceptions import  ValidationError
 import time
 
 
@@ -30,7 +30,7 @@ class Partner(models.Model):
         return res
 
 
-
+    @api.constrains('cnp')
     def check_cnp(self):
         # la import in fisiere sa nu mai faca validarea
         if 'install_mode' in self.env.context:
@@ -38,7 +38,9 @@ class Partner(models.Model):
         res = True
         for contact in self:
             res = res and self.check_single_cnp(contact.cnp)
-        return res
+        if not res:
+            raise ValidationError(_('CNP invalid'))
+
 
     @api.model
     def check_single_cnp(self, cnp):
@@ -115,7 +117,6 @@ class Partner(models.Model):
                                ])
 
     # _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
-    _constraints = [(check_cnp, _("CNP invalid"), ["cnp"]), ]
 
 
     # nu se mai afiseaza compania la contacte

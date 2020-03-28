@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
 
-    @api.one
+
     @api.depends('property_cost_method', 'categ_id.property_cost_method')
     def _compute_cost_method(self):
         super(ProductTemplate, self)._compute_cost_method()
