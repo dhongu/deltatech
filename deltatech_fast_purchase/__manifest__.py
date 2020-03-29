@@ -11,7 +11,7 @@
     'summary': 'Achizitie rapida',
 
 
-    "category": "Generic Modules/Stock",
+    "category": "Purchases",
     "depends": [
         "base",
         "purchase_stock",
