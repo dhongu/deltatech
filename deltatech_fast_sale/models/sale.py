@@ -9,7 +9,7 @@ from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
+
 
 
 class sale_order(models.Model):
