@@ -17,7 +17,8 @@ class sale_order(models.Model):
 
 
     def action_button_confirm_to_invoice(self):
-        if self.state == 'draft':
+
+        if self.state in ['draft', 'sent']:
             self.action_confirm()  # confirma comanda
 
         for picking in self.picking_ids:
@@ -41,7 +42,7 @@ class sale_order(models.Model):
 
     def _prepare_invoice(self):
         invoice_vals = super(sale_order, self)._prepare_invoice()
-        invoice_vals['date_invoice'] = self.date_order.date()
+        invoice_vals['invoice_date'] = self.date_order.date()
         return invoice_vals
 
 
