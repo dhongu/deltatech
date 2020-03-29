@@ -323,23 +323,15 @@
 
 
 		<template id="report_inventory" inherit_id="stock.report_inventory">
-			<xpath expr="//table/thead/tr" position="inside">
-				<th>
-					<strong>Location</strong>
-				</th>
-			</xpath>
-			<xpath expr="//table/tbody/tr" position="inside">
-				<td>
-					<span t-field="o.location_id" />
-				</td>
-			</xpath>
 
-			<xpath expr="//table[2]/thead/tr" position="replace">
+
+
+			<xpath expr="//table/thead//tr" position="replace">
 				<t t-call="deltatech_stock_inventory.report_inventory_header" />
 				<t t-set="categ_id" t-value="0" />
 			</xpath>
 
-			<xpath expr="//table[2]/tbody/t" position="replace">
+			<xpath expr="//table/tbody/t" position="replace">
 				<t t-set="total_plus" t-value="0" />
 				<t t-set="total_minus" t-value="0" />
 				<t t-set="total_amount" t-value="0" />

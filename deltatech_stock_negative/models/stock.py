@@ -17,7 +17,7 @@ class stock_quant(models.Model):
     @api.model
     def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None):
 
-        if location_id.usage == 'internal':
+        if location_id.usage == 'internal' and (product_id.qty_available + quantity) < 0:
             if location_id.company_id.no_negative_stock:
                 raise UserError(_('You have chosen to avoid negative stock. \
                         %s pieces of %s are remaining in location %s  but you want to transfer  \

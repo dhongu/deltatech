@@ -20,7 +20,7 @@ class StockInventory(models.Model):
     note = fields.Text(string='Note')
     filterbyrack = fields.Char('Rack')
 
-    @api.multi
+
     def unlink(self):
         if any(inventory.state not in ('draft', 'cancel') for inventory in self):
             raise UserError(_('You can only delete draft inventory.'))
@@ -45,7 +45,7 @@ class StockInventory(models.Model):
             line['is_ok'] = False
         return lines
 
-    @api.multi
+
     def action_check(self):
         for inventory in self:
             date = inventory.date
@@ -61,7 +61,7 @@ class StockInventory(models.Model):
         res = super(StockInventory, self).action_check()
         return res
 
-    @api.multi
+
     def action_done(self, ):
         super(StockInventory, self).action_done()
         for inv in self:
@@ -70,13 +70,13 @@ class StockInventory(models.Model):
                     move.write({'date_expected': inv.date, 'date': inv.date})
         return True
 
-    @api.multi
+
     def action_remove_not_ok(self):
         for line in self.line_ids:
             if not line.is_ok:
                 line.unlink()
 
-    @api.multi
+
     def action_new_for_not_ok(self):
         new_inv = self.copy({'line_ids': False, 'state': 'confirm'})
         for line in self.line_ids:
@@ -169,7 +169,7 @@ class StockInventoryLine(models.Model):
         self.set_last_last_inventory()
         return moves
 
-    @api.multi
+
     def set_last_last_inventory(self):
         for inventory_line in self:
             prod_last_inventory_date = inventory_line.product_id.last_inventory_date
