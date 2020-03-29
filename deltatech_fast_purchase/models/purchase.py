@@ -106,7 +106,7 @@ class PurchaseOrder(models.Model):
             if qty < 0:
                 invoice_type = 'in_refund'
         action['context']['default_type'] = invoice_type
-        action['context']['default_date_invoice'] = self.date_planned
+        action['context']['default_invoice_date'] = self.date_planned
         return action
 
 
