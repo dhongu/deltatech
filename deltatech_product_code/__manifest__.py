@@ -6,7 +6,7 @@
 
 {
     "name": "Products Code",
-    'version': '12.0.1.0.0',
+    'version': '13.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 

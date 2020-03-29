@@ -20,7 +20,7 @@ class product_template(models.Model):
 
     # doto de adaugat o constingere ca default_code si active sa fie unic
 
-    @api.multi
+
     def button_new_code(self):
         self.ensure_one()
         if not self.default_code or self.default_code == '/' or self.default_code == 'auto':
@@ -32,7 +32,7 @@ class product_template(models.Model):
 class product_product(models.Model):
     _inherit = 'product.product'
 
-    @api.multi
+
     def button_new_code(self):
         self.ensure_one()
         if not self.default_code or self.default_code == '/' or self.default_code == 'auto':
