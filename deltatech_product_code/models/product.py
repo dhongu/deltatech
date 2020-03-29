@@ -13,7 +13,7 @@ class product_category(models.Model):
     sequence_id = fields.Many2one('ir.sequence', string='Code Sequence')
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     default_code = fields.Char(default='/')

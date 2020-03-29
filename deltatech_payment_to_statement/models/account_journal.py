@@ -15,7 +15,7 @@ class AccountJournal(models.Model):
     statement_sequence_id = fields.Many2one('ir.sequence', string='Statement Sequence', copy=False)
 
 
-    @api.multi
+
     def get_journal_dashboard_datas(self):
         currency = self.currency_id or self.company_id.currency_id
         amount_field = 'balance' if (not self.currency_id or self.currency_id == self.company_id.currency_id) else 'amount_currency'

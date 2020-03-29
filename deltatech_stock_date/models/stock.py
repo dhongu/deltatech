@@ -14,7 +14,7 @@ from odoo.tools.translate import _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 from odoo import SUPERUSER_ID, api
 
-import odoo.addons.decimal_precision as dp
+
 
 
 

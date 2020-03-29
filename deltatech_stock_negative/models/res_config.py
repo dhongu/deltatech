@@ -31,7 +31,7 @@ class ResConfigSettings(models.TransientModel):
     #     )
     #     return res
     #
-    # @api.multi
+
     # def set_values(self):
     #     super(ResConfigSettings, self).set_values()
     #     if not self.user_has_groups('stock.group_stock_manager'):

@@ -5,7 +5,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, RedirectWarning
 from odoo.tools import float_compare
-import odoo.addons.decimal_precision as dp
+
 
 
 class StockImmediateTransfer(models.TransientModel):

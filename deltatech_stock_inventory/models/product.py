@@ -8,7 +8,7 @@ from odoo import models, fields, api, _
 
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     loc_rack = fields.Char('Rack', size=16)

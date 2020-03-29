@@ -79,7 +79,7 @@
         <record id="action_product_catalog" model="ir.actions.act_window">
             <field name="name">Product Catalog</field>
             <field name="res_model">product.catalog</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
         </record>
 

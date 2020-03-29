@@ -33,7 +33,7 @@ class account_payment(models.Model):
                 }
                 self.statement_id = self.env['account.bank.statement'].create(values)
 
-    @api.multi
+
     def post(self):
         lines = self.env['account.bank.statement.line']
         statement_payment = {}
@@ -101,7 +101,7 @@ class account_payment(models.Model):
         #         payment.write({'state': 'reconciled'})
         return res
 
-    @api.multi
+
     def reconciliation_statement_line(self,raise_error=True):
         for payment in self:
             if payment.move_reconciled:
@@ -115,7 +115,7 @@ class account_payment(models.Model):
                 if raise_error:
                     raise UserError(_('Payment is not reconciled'))
 
-    @api.multi
+
     def get_reconciled_statement_line(self):
         for payment in self:
             for move_line in payment.move_line_ids:
@@ -125,7 +125,7 @@ class account_payment(models.Model):
                         'statement_line_id': move_line.statement_line_id.id
                     })
 
-    @api.multi
+
     def add_statement_line(self):
         lines = self.env['account.bank.statement.line']
         self.get_reconciled_statement_line()

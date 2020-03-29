@@ -19,7 +19,7 @@ class AccountBankStatement(models.Model):
                     vals['name'] = journal.statement_sequence_id.next_by_id()
         return super(AccountBankStatement, self).create(vals_list)
 
-    @api.multi
+
     def name_get(self):
         result = super(AccountBankStatement, self).name_get()
         for res in result:

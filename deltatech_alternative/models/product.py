@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# ©  2015-2018 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
+
 from odoo.exceptions import UserError, RedirectWarning
 
 
@@ -15,8 +15,8 @@ class product_catalog(models.Model):
     name = fields.Char(string='Name', index=True)
     code = fields.Char(string='Code', index=True)
     code_new = fields.Char(string='Code New', index=True)
-    list_price = fields.Float(string='Sale Price', required=True, digits=dp.get_precision('Product Price'))
-    purchase_price = fields.Float(string='Purchase Price', digits=dp.get_precision('Product Price'))
+    list_price = fields.Float(string='Sale Price', required=True, digits='Product Price')
+    purchase_price = fields.Float(string='Purchase Price', digits= 'Product Price')
     categ_id = fields.Many2one('product.category', string='Internal Category', required=True,
                                help="Select category for the current product")
     supplier_id = fields.Many2one('res.partner', string='Supplier')
@@ -26,7 +26,7 @@ class product_catalog(models.Model):
     list_price_currency_id = fields.Many2one('res.currency', string='Currency List Price',
                                              help="Currency for list price.")
 
-    @api.multi
+
     def create_product(self):
         prod = self.env['product.product']
         for prod_cat in self:
@@ -75,7 +75,7 @@ class product_catalog(models.Model):
 
         return prod
 
-    @api.multi
+
     def get_echiv(self):
         res = self.env['product.catalog']
         for prod_cat in self:
@@ -89,7 +89,7 @@ class product_catalog(models.Model):
     ]
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     alternative_code = fields.Char(string='Alternative Code', index=True, compute='_compute_alternative_code')
@@ -99,7 +99,7 @@ class product_template(models.Model):
     # uom_shelf_life = fields.Many2one('uom.uom', string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
     used_for = fields.Char(string="Used For")
 
-    @api.one
+
     @api.depends('alternative_ids')
     def _compute_alternative_code(self):
         codes = []
