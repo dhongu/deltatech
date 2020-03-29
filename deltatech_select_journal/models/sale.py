@@ -10,7 +10,7 @@ from odoo import api, fields, models, _
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    @api.multi
+
     def unlink(self):
         product_id = self.env['ir.config_parameter'].sudo().get_param('sale.default_deposit_product_id')
         for line in self:
