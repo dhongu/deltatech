@@ -25,6 +25,10 @@ class StockMove(models.Model):
                 update_product_standard_price = False
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
+            if update_product_standard_price:
+                # pretul asta oare in ce unitate de masura este ?
+                self.product_id.write({'standard_price': price_unit})
+
             self.write({'price_unit': price_unit}) #mai trebuie sa pun o conditie de status ?
             # update price form last receipt
             for seller in self.product_id.seller_ids:
@@ -42,10 +46,10 @@ class StockMove(models.Model):
 
                             seller.write({'price': seller_price_unit})
 
-                        if update_product_standard_price:
-                            if seller.currency_id:
-                                standard_price = seller.currency_id.compute(seller_price_unit, self.env.user.company_id.currency_id )
-                            self.product_id.write({'standard_price':standard_price})
+                        # if update_product_standard_price:
+                        #     if seller.currency_id:
+                        #         standard_price = seller.currency_id.compute(seller_price_unit, self.env.user.company_id.currency_id )
+                        #     self.product_id.write({'standard_price':standard_price})
 
 
             return price_unit
