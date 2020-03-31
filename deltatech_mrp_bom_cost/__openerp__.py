@@ -37,7 +37,13 @@ Obs: depinde si de mrp_product_variants
     """,
 
     "category": "Generic Modules/Production",
-    "depends": ['deltatech', "base", "mrp_hook", "product_variants_no_automatic_creation"],
+    "depends": [
+        'deltatech',
+        "base",
+        'mrp',
+       # "mrp_hook",
+       # "product_variants_no_automatic_creation"
+    ],
 
     "license": "AGPL-3",
     "data": [
@@ -49,6 +55,5 @@ Obs: depinde si de mrp_product_variants
     "active": False,
     "installable": True,
 }
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

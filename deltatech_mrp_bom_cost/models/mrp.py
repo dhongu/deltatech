@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp.exceptions import except_orm, Warning, RedirectWarning
+from openerp.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
 from openerp import SUPERUSER_ID, api
@@ -97,7 +97,7 @@ class mrp_production(models.Model):
                                                                 'date':production.date_planned,
                                                                 'origin':production.name})                    
                     move_list.write({'picking_id':picking.id})
-                    picking.get_account_move_lines()
+                    #picking.get_account_move_lines()  asta e in localizarea de Rom
      
         """
         Totate produsele receptionte  se vor reuni intr-un picking list?? 
@@ -275,7 +275,7 @@ class mrp_bom_line(models.Model):
 
     @api.multi
     def _calculate_price(self):
-
+        for bom_line in self:
             bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_id.product_tmpl_id.id,
                                                    product_id=bom_line.product_id.id, properties=bom_line.property_ids )
             if bom_id:
@@ -297,5 +297,5 @@ class mrp_bom_line(models.Model):
         
         
         
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
 
