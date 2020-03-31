@@ -28,6 +28,7 @@
                             background-clip: border-box;
                             border: 2px solid rgba(0,0,0,.25);
                             border-radius: .25rem;
+                            overflow: hidden;
                         }
                         card-img-top {
                             width: 100%;
@@ -38,6 +39,11 @@
                             -ms-flex: 1 1 auto;
                             flex: 1 1 auto;
                             padding: 0.25rem;
+                        }
+                        .card-text{
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                          overflow: hidden;
                         }
                         .card-text:last-child {
                             margin-bottom: 0;
@@ -89,16 +95,21 @@
 
                                     </div>
                                     <div class="card-body" style="margin-top:0px;">
+                                        <t t-set="alt_text" t-value="''"/>
                                         <t t-if="o.alternative_ids">
-                                            <t t-set="alt_text" t-value="''"/>
                                             <t t-foreach="o.alternative_ids" t-as="alt">
-                                                <t t-if="not alt.hide">
+                                                <t t-if="not alt.hide and alt.name">
                                                     <t t-set="alt_text" t-value="alt_text+' '+alt.name"/>
                                                 </t>
                                             </t>
-                                            <span t-esc="alt_text[0:20]"/>
-                                        </t>
 
+                                        </t>
+                                        <t t-if="alt_text">
+                                          <span class="card-text" t-esc="alt_text[0:20]"/>
+                                        </t>
+                                       <t t-else="">
+                                            <span class="card-text">_</span>
+                                        </t>
                                     </div>
                                 </div>
                             </t>
