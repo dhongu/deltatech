@@ -32,7 +32,7 @@ class CategoryCatalogReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        domain = [('public_categ_ids', 'in', docids)]
+        domain = [('public_categ_ids', 'child_of', docids)]
         products = self.env['product.template'].search(domain)
 
         report = self.env['ir.actions.report']._get_report_from_name(self._template)
