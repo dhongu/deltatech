@@ -22,7 +22,7 @@
 
 {
     "name": "Deltatech MRP BOM Cost",
-    "version": "2.0",
+    "version": "2.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
     "description": """
@@ -36,13 +36,13 @@ Obs: depinde si de mrp_product_variants
  
     """,
 
-    "category": "Generic Modules/Production",
+    "category": "Production",
     "depends": [
         'deltatech',
         "base",
         'mrp',
-       # "mrp_hook",
-       # "product_variants_no_automatic_creation"
+       # "mrp_hook",  # mai sunt oare necesare
+       # "product_variants_no_automatic_creation" # mai sunt oare necesare ?
     ],
 
     "license": "AGPL-3",
