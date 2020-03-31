@@ -3,12 +3,14 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, models
+from odoo import fields, api, models
 
 
 class ProductTemplate(models.Model):
     _name = 'product.template'
     _inherit = 'product.template'
+
+    standard_price = fields.Float(track_visibility='always')
 
     @api.one
     @api.depends('property_cost_method', 'categ_id.property_cost_method')

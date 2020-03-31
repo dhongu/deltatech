@@ -26,8 +26,7 @@ class StockMove(models.Model):
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             if update_product_standard_price:
-                # pretul asta oare in ce unitate de masura este ?
-                self.product_id.write({'standard_price': price_unit})
+                self.product_id.product_tmpl_id.write({'standard_price': price_unit})
 
             self.write({'price_unit': price_unit}) #mai trebuie sa pun o conditie de status ?
             # update price form last receipt
