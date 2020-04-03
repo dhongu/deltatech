@@ -8,7 +8,7 @@
     "version": "1.0",
     "author": "Deltatech",
     "website": "",
-
+    "license": "AGPL-3",
     "category": "Generic Modules/Other",
     "depends": ["base", "product", "sale", "mrp", "stock_picking_invoice_link"],
 
