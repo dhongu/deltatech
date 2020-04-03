@@ -46,23 +46,23 @@
 							</div>
 							<div class="col-md-11 col-md-offset-1">
 								<ul>
-									<li>
+									<li t-if="o.product_id.company_standard">
 										<span>Standard of Company #:</span>
 										<span t-field="o.product_id.company_standard" />
 									</li>
-									<li>
+									<li t-if="o.product_id.data_sheet">
 										<span>Technical Data Sheet #:</span>
 										<span t-field="o.product_id.data_sheet" />
 									</li>
-									<li>
+									<li t-if="o.product_id.technical_specification">
 										<span>Technical Specification #:</span>
 										<span t-field="o.product_id.technical_specification" />
 									</li>
-									<li>
+									<li t-if="o.product_id.standards">
 										<span>Standards:</span>
 										<span t-field="o.product_id.standards" />
 									</li>
-									<li>Product Label</li>
+
 								</ul>
 							</div>
 							<div>

@@ -57,7 +57,7 @@
         <record model="ir.actions.act_window" id="action_deltatech_dc">
             <field name="name">Declaration of Conformity</field>
             <field name="res_model">deltatech.dc</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem

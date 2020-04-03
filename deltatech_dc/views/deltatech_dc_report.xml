@@ -21,7 +21,7 @@
         <report 
             string="Declaration of Conformity" 
             id="action_report_dc_invoice" 
-            model="account.invoice"
+            model="account.move"
             report_type="qweb-pdf"
             name="deltatech_dc.report_dc_invoice" 
             file="deltatech_dc.report_dc_invoice"    />

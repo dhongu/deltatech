@@ -20,7 +20,7 @@ class deltatech_dc(models.Model):
                                              string="Technical Specification", store=False)
     standards = fields.Text(related='product_id.standards', string="Standards", store=False)
 
-    @api.multi
+
     def name_get(self):
         result = []
         for line in self:
