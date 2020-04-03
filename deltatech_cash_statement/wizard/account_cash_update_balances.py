@@ -7,14 +7,14 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
+
 
 class account_cash_update_balances(models.TransientModel):
     _name = 'account.cash.update.balances'
     _description = "Account Cash Update Balances"
 
 
-    balance_start = fields.Float(string='Starting Balance', digits=dp.get_precision('Account'))
+    balance_start = fields.Float(string='Starting Balance', digits= 'Account' )
 
     @api.model
     def default_get(self, fields): 
@@ -30,7 +30,7 @@ class account_cash_update_balances(models.TransientModel):
         return defaults
     
     
-    @api.multi
+
     def do_update_balance(self):
         active_ids = self.env.context.get('active_ids', False)
         statement = False
