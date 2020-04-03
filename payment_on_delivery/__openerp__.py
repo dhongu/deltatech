@@ -26,7 +26,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website" : "",
     "description": """
-    
+        "license": "AGPL-3",
 Functionalitati:
  - plata la livrare
 
