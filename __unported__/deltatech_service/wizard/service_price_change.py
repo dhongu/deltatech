@@ -44,7 +44,7 @@ class service_price_change(models.TransientModel):
         self.price_unit = self.env.user.company_id.currency_id.compute(price_unit, self.currency_id )
          
 
-    @api.multi
+
     def do_price_change(self):
         active_ids = self.env.context.get('active_ids', False)
 

@@ -29,9 +29,12 @@
 
 
 		<act_window id="action_commission_compute" name="Compute Commission"
-			res_model="commission.compute" 
-			src_model="sale.margin.report"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+			res_model="commission.compute"
+
+					binding_model="sale.margin.report"
+					binding_views="list"
+			view_mode="form"
+					target="new"  />
 
 
 		<menuitem name="Compute Commission" id="menu_commission_compute"

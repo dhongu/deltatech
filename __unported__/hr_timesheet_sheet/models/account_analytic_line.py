@@ -44,12 +44,12 @@ class AccountAnalyticLine(models.Model):
             ids.extend([row[0] for row in self._cr.fetchall()])
         return [('id', 'in', ids)]
 
-    @api.multi
+
     def write(self, values):
         self._check_state()
         return super(AccountAnalyticLine, self).write(values)
 
-    @api.multi
+
     def unlink(self):
         self._check_state()
         return super(AccountAnalyticLine, self).unlink()

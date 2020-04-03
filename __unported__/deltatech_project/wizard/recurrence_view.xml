@@ -38,7 +38,7 @@
 		
 	<act_window id="action_project_task_recurrence" name="Create Recurrence"
 			res_model="project.task.recurrence" src_model="project.task"
-			view_mode="form" multi="False" target="new" key2="client_action_multi" />
+			view_mode="form"   target="new" key2="client_action_multi" />
 		
 		
 	</data>

@@ -28,7 +28,7 @@
 
 		<act_window id="action_sale_add_margin" name="Add margin"
 			res_model="sale.add.margin" src_model="sale.order"
-			view_mode="form" multi="False" target="new" key2="client_action_multi" />
+			view_mode="form"  target="new" key2="client_action_multi" />
 
  
 

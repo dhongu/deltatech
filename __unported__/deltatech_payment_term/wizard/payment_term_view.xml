@@ -39,7 +39,7 @@
 
         <act_window id="action_account_payment_term_rate_wizard" name="Payment Term Rate Wizard"
                     res_model="account.payment.term.rate.wizard" src_model="account.invoice"
-                    view_mode="form" multi="False" target="new"/>
+                    view_mode="form"   target="new"/>
 
         <!--  menuitem name="Payment Term Rate Wizard" id="menu_service_billing_preparation"
             action="action_service_billing_preparation" parent="base.menu_service" sequence="101"/ -->

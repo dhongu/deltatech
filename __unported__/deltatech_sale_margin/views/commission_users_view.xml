@@ -17,7 +17,7 @@
 		<record id="action_commission_users" model="ir.actions.act_window">
 			<field name="name">Users Commission</field>
 			<field name="res_model">commission.users</field>
-			<field name="view_type">form</field>
+
 			<field name="view_mode">tree</field>
 		</record>
 

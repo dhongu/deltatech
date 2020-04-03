@@ -25,7 +25,7 @@
 
         <act_window id="action_sale_order_group" name="Group Sale Order"
                     res_model="sale.order.group" src_model="sale.order"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+                    view_mode="form"   target="new" key2="client_action_multi"/>
 
 
     </data>

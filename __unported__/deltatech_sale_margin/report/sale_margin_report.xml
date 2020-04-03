@@ -154,7 +154,7 @@
         <record id="action_sale_margin_report" model="ir.actions.act_window">
             <field name="name">Sale margin report</field>
             <field name="res_model">sale.margin.report</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,pivot</field>
             <field name="view_id" ref="view_sale_margin_report_tree"/>
             <field name="search_view_id" ref="view_sale_margin_report_filter"/>
@@ -182,7 +182,7 @@
         <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
             <field name="name">Commission</field>
             <field name="res_model">sale.margin.report</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_sale_margin_report_commission_tree"/>
             <field name="search_view_id" ref="view_sale_margin_report_filter"/>

@@ -31,7 +31,7 @@ class commission_update_purchase_price(models.TransientModel):
         defaults['invoice_line_ids'] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
-    @api.multi
+
     def do_compute(self):
         res = []
         if self.for_all:

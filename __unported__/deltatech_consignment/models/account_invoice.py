@@ -25,7 +25,7 @@ class AccountInvoice(models.Model):
                 if float_compare(qty, 0.0, precision_rounding=line.product_uom.rounding) <= 0:
                     qty = 0.0
 
-                data['price_unit'] = line.order_id.currency_id.with_context(date=self.date_invoice).compute(
+                data['price_unit'] = line.order_id.currency_id.with_context(date=self.invoice_date).compute(
                     line.price_unit, self.currency_id, round=False)
                 data['quantity'] = qty
 

@@ -16,7 +16,6 @@ class account_move_line(models.Model):
     payment_days = fields.Integer(string="Payment Days", compute="_compute_payment_days", store=True)
 
     @api.depends('date', 'full_reconcile_id') #   reconcile_id in 8, full_reconcile_id in 12
-    @api.multi
     def _compute_payment_days(self):
         for aml in self:
             if aml.full_reconcile_id and aml.journal_id.type in ['sale', 'purchase', 'sale_refund', 'purchase_refund']:

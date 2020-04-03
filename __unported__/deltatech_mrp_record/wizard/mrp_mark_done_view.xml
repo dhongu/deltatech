@@ -22,6 +22,6 @@
 
          <act_window id="action_mrp_mark_done" name="Mark as Done"
             res_model="mrp.mark.done" src_model="mrp.production"
-            view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+            view_mode="form"     key2="client_action_multi"/>
     </data>
 </odoo>

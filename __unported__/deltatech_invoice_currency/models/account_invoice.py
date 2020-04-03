@@ -24,9 +24,9 @@ class account_invoice(models.Model):
         else:
             self.base_rate = 0.0
 
-    @api.onchange('price_currency_id', 'date_invoice')
+    @api.onchange('price_currency_id', 'invoice_date')
     def onchange_price_currency_id(self):
-        date_eval = self.env.context.get('date', False) or self.date_invoice or fields.Date.context_today(self)
+        date_eval = self.env.context.get('date', False) or self.invoice_date or fields.Date.context_today(self)
         to_currency = self.currency_id or self.env.user.company_id.currency_id
         # from_currency = self.env.user.company_id.parallel_currency_id
         from_currency = self.price_currency_id
@@ -49,7 +49,7 @@ class account_invoice(models.Model):
         if not self.last_currency_rate:
             self.last_currency_rate = self.currency_rate
 
-    @api.multi
+
     def get_currency_rate(self):
         ''' La apasarea butonului de actualizare curs valutat'''
         for invoice in self:

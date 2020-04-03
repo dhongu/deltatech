@@ -21,11 +21,11 @@
 
         <act_window id="action_picking_product_location_select" name="Select products from location"
                     res_model="product.location.select" src_model="stock.picking"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+                    view_mode="form"   target="new" key2="client_action_multi"/>
 
         <act_window id="action_sale_product_location_select" name="Select products from location"
                     res_model="product.location.select" src_model="sale.order"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+                    view_mode="form"   target="new" key2="client_action_multi"/>
 
     </data>
 </openerp>

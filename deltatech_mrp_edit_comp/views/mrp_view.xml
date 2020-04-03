@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+
+        <record id="view_stock_move_raw_tree" model="ir.ui.view">
+            <field name="name">stock.move.raw.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="mrp.view_stock_move_raw_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quantity_done']" position="after">
+                    <button name="%(action_mrp_component_change)d" icon="fa-edit" string="Edit"
+                            type="action" states="draft,confirmed,partially_available,assigned"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--- mrp.view_stock_move_lots -->
+
+    </data>
+
+</odoo>
+

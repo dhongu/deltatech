@@ -13,7 +13,7 @@ class AccountMove(models.Model):
 
     amount_signed = fields.Monetary(compute='_amount_compute_signed', store=True)
 
-    @api.multi
+
     @api.depends('line_ids.debit', 'line_ids.credit')
     def _amount_compute_signed(self):
         for move in self:

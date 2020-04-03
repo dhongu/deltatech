@@ -14,7 +14,7 @@ class sale_margin_report(models.Model):
     _order = 'date desc'
 
     date = fields.Date('Date', readonly=True)
-    invoice_id = fields.Many2one('account.invoice', 'Invoice', readonly=True)
+    invoice_id = fields.Many2one('account.move', 'Invoice', readonly=True)
     categ_id = fields.Many2one('product.category', 'Category', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', readonly=True)
@@ -46,10 +46,7 @@ class sale_margin_report(models.Model):
                              ('in_refund', 'Vendor Refund'),
                              ], readonly=True)
     state = fields.Selection([('draft', 'Draft'),
-                              ('proforma', 'Pro-forma'),
-                              ('proforma2', 'Pro-forma'),
-                              ('open', 'Open'),
-                              ('paid', 'Done'),
+                              ('posted', 'Posted'),
                               ('cancel', 'Cancelled')
                               ], string='Invoice Status', readonly=True)
 
@@ -88,8 +85,8 @@ class sale_margin_report(models.Model):
         select_str = """
                 SELECT
                     min(l.id) as id,
-                    s.date_invoice as date,               
-                    l.invoice_id as invoice_id,                 
+                    s.invoice_date as date,               
+                    l.move_id as invoice_id,                 
                     t.categ_id as categ_id,                    
                     l.product_id as product_id,
                     t.uom_id as product_uom,
@@ -101,7 +98,7 @@ class sale_margin_report(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
-                    SUM(l.price_subtotal_signed) AS sale_val,
+                    SUM(l.price_subtotal) AS sale_val,
                           
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
@@ -109,16 +106,13 @@ class sale_margin_report(models.Model):
                         ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
                     END) AS stock_val,
 
-  
-                   
-                    
-                                        
+           
                     sum(l.commission) as commission,   
                     cu.rate,
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
-                    s.user_id as user_id,
+                    s.invoice_user_id as user_id,
 
                     s.company_id as company_id,
                     s.type, s.state , s.journal_id, s.currency_id 
@@ -135,13 +129,13 @@ class sale_margin_report(models.Model):
 
     def _from(self):
         from_str = """
-                    account_invoice s
-                    left join account_invoice_line l on (s.id=l.invoice_id)
+                    account_move s
+                    left join account_move_line l on (s.id=l.move_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
-                    left join uom_uom u on (u.id=l.uom_id)
+                    left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.user_id = cu.user_id)
+                    left join commission_users cu on (s.invoice_user_id = cu.user_id)
                     
         """
         return from_str
@@ -155,13 +149,13 @@ class sale_margin_report(models.Model):
     def _group_by(self):
         group_by_str = """
                     l.product_id,
-                    l.invoice_id,
+                    l.move_id,
                     t.uom_id,
                     t.categ_id,
-                    s.date_invoice,
+                    s.invoice_date,
                     s.partner_id,
                     s.commercial_partner_id,
-                    s.user_id,
+                    s.invoice_user_id,
                     cu.rate,
                     s.company_id,
 
@@ -209,7 +203,7 @@ class sale_margin_report(models.Model):
         self.env.cr.execute(sql)
     '''
 
-    @api.model_cr
+
     def init(self):
 
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -231,7 +225,7 @@ class sale_margin_report(models.Model):
             self._table, self.env['res.currency']._select_companies_rates(),
             self._select(), self._sub_select(), self._from(), self._where(), self._group_by()))
 
-    @api.multi
+
     def write(self, vals):
         invoice_line = self.env['account.invoice.line'].browse(self.id)
         value = {'commission': vals.get('commission', False)}

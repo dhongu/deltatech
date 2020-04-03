@@ -74,7 +74,7 @@
 
         <act_window id="action_mrp_record" name="Record Production" res_model="mrp.record"
                     src_model="mrp.production"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+                    view_mode="form"   target="new" key2="client_action_multi"/>
 
 
         <menuitem name="Record Production" id="menu_mrp_record" action="action_mrp_record"

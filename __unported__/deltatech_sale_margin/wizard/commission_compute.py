@@ -4,8 +4,7 @@
  
 
 from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-import odoo.addons.decimal_precision as dp
+
 
 class commission_compute(models.TransientModel):
     _name = 'commission.compute'
@@ -32,7 +31,7 @@ class commission_compute(models.TransientModel):
         return defaults   
      
 
-    @api.multi
+
     def do_compute(self):
         res = []
         for line in self.invoice_line_ids:
@@ -45,7 +44,7 @@ class commission_compute(models.TransientModel):
         return {
             'domain': "[('id','in', ["+','.join(map(str,res))+"])]",
             'name': _('Commission'),
-            'view_type': 'form',
+
             'view_mode': 'tree,form',
             'res_model': 'sale.margin.report',
             'view_id': False,
@@ -53,4 +52,3 @@ class commission_compute(models.TransientModel):
         }
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

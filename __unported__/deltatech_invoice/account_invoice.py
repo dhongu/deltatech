@@ -46,7 +46,7 @@ class account_invoice(models.Model):
     
     @api.onchange('price_currency_id')
     def onchange_price_currency_id(self):
-        date_eval = self.env.context.get('date',False) or self.date_invoice or fields.Date.context_today(self) 
+        date_eval = self.env.context.get('date',False) or self.invoice_date or fields.Date.context_today(self)
         to_currency = self.currency_id or self.env.user.company_id.currency_id
         #from_currency = self.env.user.company_id.parallel_currency_id
         from_currency = self.price_currency_id
@@ -61,10 +61,10 @@ class account_invoice(models.Model):
         else:
             self.currency_rate = self.base_rate
         
-    @api.multi
+
     def get_currency_rate(self):
         for invoice in self:
-            date_eval =  invoice.date_invoice or fields.Date.context_today(self) 
+            date_eval =  invoice.invoice_date or fields.Date.context_today(self)
             to_currency = invoice.currency_id or self.env.user.company_id.currency_id
             from_currency = invoice.price_currency_id
             
@@ -79,7 +79,7 @@ class account_invoice(models.Model):
             else:
                 invoice.currency_rate = 1            
            
-    @api.multi
+
     def onchange_partner_id(self, type, partner_id, date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):         
         res = super(account_invoice,self).onchange_partner_id(type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
         if partner_id:
@@ -93,7 +93,7 @@ class account_invoice(models.Model):
         
         return res
 
-    @api.multi
+
     def onchange_journal_id(self, journal_id=False):
         res = super(account_invoice,self).onchange_journal_id(journal_id)
         msg = self.check_data(journal_id=journal_id, date_invoice=self.date_invoice)
@@ -101,7 +101,7 @@ class account_invoice(models.Model):
             res['warning'] = {'title':_('Warning'),'message':msg}          
         return res
     
-    @api.multi
+
     def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):    
         res = super(account_invoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
         msg =  self.check_data(journal_id=self.journal_id.id, date_invoice=date_invoice)
@@ -109,7 +109,7 @@ class account_invoice(models.Model):
             res['warning'] = {'title':_('Warning'),'message':msg}
         return res
 
-    @api.multi    
+
     def check_data(self, journal_id=None, date_invoice=None):
         
         for obj_inv in self:
@@ -137,7 +137,7 @@ class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
   
-    @api.multi
+
     # pretul din factura se determina in functie de cursul de schimb din data facturii  
     def product_id_change(self, product, uom_id, qty=0, name='', type='out_invoice',
             partner_id=False, fposition_id=False, price_unit=False, currency_id=False,

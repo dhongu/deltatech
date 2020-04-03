@@ -6,7 +6,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, Warning, RedirectWarning
 from odoo.tools import float_compare
-import odoo.addons.decimal_precision as dp
+
 
 
 class service_change_invoice_date(models.TransientModel):

@@ -45,15 +45,15 @@ class AccountFiscalYear(models.Model):
             raise UserError('Error!\nThe start date of a fiscal year must precede its end date.')
         return True
 
-    @api.multi
+
     def create_period3(self):
         return self.create_periods(3)
 
-    @api.multi
+
     def create_period(self):
         return self.create_periods(interval=1)
 
-    @api.multi
+
     def create_periods(self, interval=1):
         period_obj = self.env['account.period']
         for fy in self:
@@ -145,14 +145,13 @@ class AccountPeriod(models.Model):
         ('name_company_uniq', 'unique(name, company_id)', 'The name of the period must be unique per company!'),
     ]
 
-    @api.multi
     def _check_duration(self):
         obj_period = self
         if obj_period.date_stop < obj_period.date_start:
             return False
         return True
 
-    @api.multi
+
     def _check_year_limit(self):
         for obj_period in self:
             if obj_period.special:
@@ -215,7 +214,7 @@ class AccountPeriod(models.Model):
 
     """
 
-    @api.multi
+
     def action_draft(self):
         mode = 'draft'
         for period in self:
@@ -238,7 +237,7 @@ class AccountPeriod(models.Model):
         res = self.search( expression.AND([domain, args]), limit=limit)
         return res.name_get()
 
-    @api.multi
+
     def write(self,  vals ):
         if 'company_id' in vals:
             move_lines = self.env['account.move.line'].search([('period_id', 'in', self.ids)])
@@ -247,7 +246,7 @@ class AccountPeriod(models.Model):
         return super(AccountPeriod, self).write( vals)
 
 
-    @api.multi
+
     def build_ctx_periods(self,  period_from_id, period_to_id):
         if period_from_id == period_to_id:
             return [period_from_id]

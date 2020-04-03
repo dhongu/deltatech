@@ -49,7 +49,7 @@ class service_billing(models.TransientModel):
         defaults['consumption_ids'] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
-    @api.multi
+
     def do_billing(self):
         pre_invoice = {}  # lista de facuri
         agreements = self.env['service.agreement']

@@ -159,7 +159,7 @@ class service_agreement(models.Model):
             order='date_invoice desc, id desc', limit=1)
 
         if self.last_invoice_id:
-            date_invoice = self.last_invoice_id.date_invoice
+            date_invoice = self.last_invoice_id.invoice_date
         else:
             date_invoice = self.date_agreement
 

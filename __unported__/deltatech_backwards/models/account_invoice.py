@@ -22,7 +22,7 @@ class AccountInvoice(models.Model):
                                 help="Keep empty to use the period of the validation(invoice) date.",
                                 readonly=True, states={'draft': [('readonly', False)]})
 
-    @api.multi
+
     def action_move_create(self):
         res = super(AccountInvoice, self).action_move_create()
         for inv in self:
@@ -34,7 +34,7 @@ class AccountInvoice(models.Model):
         return res
 
     '''
-    @api.multi
+
     def action_number(self):
         # TODO: not correct fix but required a fresh values before reading it.
         self.write({})
