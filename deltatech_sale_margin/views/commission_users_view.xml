@@ -7,8 +7,12 @@
 			<field name="model">commission.users</field>
 			<field name="arch" type="xml">
 				<tree string="Users Commission" editable="top">
+					<field name="journal_id" />
 					<field name="user_id" />
 					<field name="rate" />
+					<field name="manager_user_id" />
+					<field name="manager_rate" />
+
 				</tree>
 			</field>
 		</record>

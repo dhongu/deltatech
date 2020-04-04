@@ -25,10 +25,12 @@ class sale_margin_report(models.Model):
     stock_val = fields.Float("Stock value", readonly=True, help="Stock value in company currency")
     profit_val = fields.Float("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
     commission_computed = fields.Float("Commission Computed", readonly=True)
+    commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission = fields.Float("Commission")
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', 'Commercial Partner', readonly=True)
     user_id = fields.Many2one('res.users', 'Salesperson')
+    manager_user_id = fields.Many2one('res.users', 'Sale manager', readonly=True)
 
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
 
@@ -75,9 +77,10 @@ class sale_margin_report(models.Model):
                 END  AS indicator_profit,               
  
                 
-                (sale_val  - stock_val ) as commission_computed,
+                sub.rate*(sale_val  - stock_val ) as commission_computed,
+                sub.manager_rate * (sale_val    - stock_val )  as commission_manager_computed,
                 commission,  
-                partner_id, commercial_partner_id, user_id,    sub.company_id,
+                partner_id, commercial_partner_id, user_id, manager_user_id,   sub.company_id,
                 type,  state ,  journal_id, 
                 cr.rate as currency_rate,
                  sub.currency_id 
@@ -110,7 +113,7 @@ class sale_margin_report(models.Model):
                     
                                         
                     sum(l.commission) as commission,   
-                    cu.rate,
+                    cu.rate, cu.manager_rate, cu.manager_user_id,
                                                                                                   
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
@@ -153,6 +156,8 @@ class sale_margin_report(models.Model):
                     s.commercial_partner_id,
                     s.user_id,
                     cu.rate,
+                    cu.manager_rate,
+                    cu.manager_user_id,
                     s.company_id,
 
                     s.type,
