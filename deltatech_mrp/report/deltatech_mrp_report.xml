@@ -116,6 +116,10 @@
 								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
 							help="Production performed during previous month"  />
 
+					<filter string="Current - 3 Month" name="month-3"
+						domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-2, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=-1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+							help="Production performed during 3 months ago"  />
 
 					<separator />
 					<filter string="Current" name='current'  domain="[('state','in',('open','draft'))]" />
