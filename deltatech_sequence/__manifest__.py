@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
-# ©  2008-2018 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Barcode Sale",
+    "name": "Deltatech Sequence",
     'version': '11.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
-    'category': 'Sales',
-
-    "depends": ["sale",'barcodes'],
-
-
-    "license": "LGPL-3","data": [
-        'views/sale_views.xml'
+    'summary': 'Generic module',
+    "category": "Tools",
+    "depends": ['base'],
+    'data': [
+        'views/ir_sequence_view.xml'
     ],
+    "license": "LGPL-3",
     "images": ['images/main_screenshot.png'],
-    "active": False,
     "installable": True,
+    'application': False,
 
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

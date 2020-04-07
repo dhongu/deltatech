@@ -1,14 +1,20 @@
-=================================
-Barcode Picking
-=================================
-.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+===========================================
+MRP Component Edit
+===========================================
+
+
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+    :target: https://odoo-community.org/page/development-status
+    :alt: Beta
+.. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
+|badge1| |badge2|
+
 
 Features:
- * Adds products to picking using barcode scanner
- * Adds products to inventory
+ - De la versiunea 11 se poate "debloca" comanda de productie si se pot adauga componentele neplanificate.
 
 
 Bug Tracker
@@ -38,4 +44,4 @@ Maintainer
 
 This module is maintained by the Terrabit.
 
- 
+

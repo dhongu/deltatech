@@ -2,16 +2,6 @@
 <openerp>
     <data>
 
-        <!--
-
-        <record id="mrp.mrp_dummy_bom" medel="mrp.bom">
-
-        </record>
-
-        <record id="mrp.mrp_dummy_bom_line" medel="mrp.bom.line">
-
-        </record>
-        -->
 
         <record id="mrp_production_form_view" model="ir.ui.view">
             <field name="name">deltatech.mrp.production.form</field>
