@@ -27,6 +27,16 @@ class MRPSimple(models.TransientModel):
 
     picking_in = fields.Many2one('stock.picking')
     picking_out = fields.Many2one('stock.picking')
+    
+    price_in = fields.Float('Component price', compute="_compute_component_price")
+
+    @api.multi
+    @api.depends('product_out_ids')
+    def _compute_component_price(self):
+        sum = 0.0
+        for line in self.product_out_ids:
+            sum += line.product_id.standard_price * line.quantity
+        self.price_in = sum
 
     @api.multi
     def do_transfer(self):

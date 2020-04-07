@@ -18,6 +18,9 @@
                         <field name="picking_type_consume"/>
                         <field name="picking_type_receipt_production"/>
                     </group>
+                    <group>
+                        <field name="price_in"/>
+                    </group>
                 </group>
                 <group>
                     <group string="Consumption">
