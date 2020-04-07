@@ -16,8 +16,8 @@ class account_invoice_change_number(models.TransientModel):
     internal_number = fields.Char(string='Invoice Number')
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(account_invoice_change_number, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(account_invoice_change_number, self).default_get(fields_list)
         active_id = self.env.context.get('active_id', False)
         if active_id:
             invoice = self.env['account.invoice'].browse(active_id)
