@@ -12,7 +12,8 @@
     "depends": ["sale_stock", 'deltatech_sale_multiple'],
     "license": "LGPL-3",
     "data": [
-        'views/templates.xml'
+        'views/templates.xml',
+        'views/product_view.xml'
     ],
     "images": ['images/main_screenshot.png'],
     "installable": True,

@@ -1,0 +1,19 @@
+# -*- coding: utf-8 -*-
+# ©  2008-2020 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+from odoo.exceptions import UserError, RedirectWarning
+from odoo import models, fields, api, _
+
+
+
+class product_template(models.Model):
+    _inherit = 'product.template'
+
+
+    check_min_website = fields.Boolean(string='Check Qty', default=True,
+                                       help='Check minim & multiple quantity only for website')
+
+

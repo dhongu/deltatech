@@ -9,7 +9,6 @@ from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
-import odoo.addons.decimal_precision as dp
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
 
@@ -30,6 +29,9 @@ class SaleOrderLine(models.Model):
 
             if float_compare(qty, 0.0, precision_rounding=product_uom.rounding) > 0:
                 qty = float_round(qty, precision_rounding=product_uom.rounding)
+        if product.qty_minim and product.qty_minim > 0:
+            if qty < product.qty_minim:
+                qty = product.qty_minim
 
         return qty
 

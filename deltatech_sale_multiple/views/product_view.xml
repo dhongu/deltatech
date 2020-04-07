@@ -10,7 +10,8 @@
             <field name="arch" type="xml">
                 <group name="sale" position="inside">
                     <group string="Quantity" attrs="{'invisible': [('qty_multiple', '==', -1)]}">
-                        <field name="qty_multiple" />
+                        <field name="qty_multiple"/>
+                        <field name="qty_minim"/>
                     </group>
                 </group>
             </field>
@@ -24,13 +25,12 @@
             <field name="arch" type="xml">
                 <group name="codes" position="after">
                     <group string="Quantity">
-                        <field name="qty_multiple" />
+                        <field name="qty_multiple"/>
+                        <field name="qty_minim"/>
                     </group>
                 </group>
             </field>
         </record>
-
-
 
 
     </data>
