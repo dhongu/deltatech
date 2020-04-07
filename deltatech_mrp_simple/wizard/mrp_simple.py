@@ -101,7 +101,7 @@ class MRPSimple(models.TransientModel):
                             move_line.qty_done = move_line.product_uom_qty
                 picking_in.button_validate()
 
-    def add_picking_line(self, picking, line=None, price_unit=None):
+    def add_picking_line(self, picking, line=None, price_unit=None, product=None, quantity=None, uom=None):
         product = line.product_id
         quantity = line.quantity
         uom = line.uom_id
