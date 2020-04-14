@@ -96,6 +96,6 @@ class AccountInvoice(models.Model):
         for invoice in self:
             # trebuie sa determin care este cantitatea care trebuie sa fie receptionata
             for line in invoice.invoice_line_ids:
-                purchase_orders |= line.purchase_id
+                purchase_orders |= line.purchase_line_id.order_id
         # doar pentru comenzile generate din factura se face receptia
         purchase_orders.filtered(lambda order: order.from_invoice_id).receipt_to_stock()
