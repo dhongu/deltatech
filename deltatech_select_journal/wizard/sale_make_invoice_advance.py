@@ -45,12 +45,12 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
 
     def create_invoices(self):
-        new_self = self.with_context(default_journal_id=self.journal_id)
+        new_self = self.with_context(default_journal_id=self.journal_id.id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
 
     def _create_invoice(self, order, so_line, amount):
-        new_self = self.with_context(default_journal_id=self.journal_id)
+        new_self = self.with_context(default_journal_id=self.journal_id.id)
         invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
 
         to_currency = self.journal_id.currency_id or self.env.user.company_id.currency_id

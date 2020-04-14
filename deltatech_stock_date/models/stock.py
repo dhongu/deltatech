@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# ©  2015-2018 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -15,14 +15,8 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMA
 from odoo import SUPERUSER_ID, api
 
 
-
-
-
-
 class stock_quant(models.Model):
     _inherit = "stock.quant"
-
-
 
     @api.model
     def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None,
@@ -35,7 +29,6 @@ class stock_quant(models.Model):
 
 class stock_move(models.Model):
     _inherit = 'stock.move'
-
 
     def write(self, vals):
         date_fields = {'date', 'date_expected'}
@@ -72,15 +65,13 @@ class stock_move(models.Model):
 class Picking(models.Model):
     _inherit = "stock.picking"
 
-
     def button_validate(self):
         return super(Picking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
-
 
     def action_done(self):
         super(Picking, self).action_done()
         use_date = self.env.context.get('force_period_date', False)
         if use_date:
-            self.write({'date': use_date, 'date_done':use_date})
-            self.move_lines.write({ 'date': use_date})  # 'date_expected': use_date,
+            self.write({'date': use_date, 'date_done': use_date})
+            self.move_lines.write({'date': use_date})  # 'date_expected': use_date,
             self.move_line_ids.write({'date': use_date})

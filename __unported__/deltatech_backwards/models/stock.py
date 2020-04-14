@@ -8,7 +8,7 @@ from odoo.tools.misc import formatLang
 
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
-import odoo.addons.decimal_precision as dp
+
 
 
 

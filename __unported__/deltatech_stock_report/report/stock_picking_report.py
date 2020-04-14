@@ -4,7 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models, _
-import odoo.addons.decimal_precision as dp
+
 from odoo import tools
 
 

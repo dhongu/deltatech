@@ -6,7 +6,7 @@
 
 
 
-import odoo.addons.decimal_precision as dp
+
 
 from odoo import api, models, fields
 
