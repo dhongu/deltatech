@@ -85,10 +85,7 @@ class AccountInvoice(models.Model):
                         purchase_order.id) + ">" + purchase_order.name + "</a>"
                     message = _("The purchase order %s was generated.") % link
                     invoice.message_post(body=message)
-                    if not invoice.origin:
-                        invoice.write({
-                            'origin': purchase_order.name
-                        })
+
 
 
     def receipt_to_stock(self):
