@@ -4,11 +4,14 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, models
+from odoo import api, models, fields
+
 
 
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
+
+    notice = fields.Boolean()
 
     def action_view_sale_invoice(self):
         if self.sale_id:
