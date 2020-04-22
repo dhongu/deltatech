@@ -9,6 +9,7 @@ from odoo.tools.float_utils import float_compare
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
+    notice = fields.Boolean()
 
     def action_view_invoice(self):
         if self.purchase_id:

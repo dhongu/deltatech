@@ -80,19 +80,20 @@ class PurchaseOrder(models.Model):
         if not picking_ids:
             return
 
-        action = self.env.ref('stock.action_picking_tree')
-        result = action.read()[0]
-
-        result['context'] = {}
-
-        pick_ids = picking_ids.ids
-        # choose the view_mode accordingly
-        if len(pick_ids) > 1:
-            result['domain'] = "[('id','in',%s)]" % (pick_ids.ids)
-        elif len(pick_ids) == 1:
-            res = self.env.ref('stock.view_picking_form', False)
-            result['views'] = [(res and res.id or False, 'form')]
-            result['res_id'] = picking_ids.id
+        result = self.action_view_picking()
+        # action = self.env.ref('stock.action_picking_tree')
+        # result = action.read()[0]
+        #
+        # result['context'] = {}
+        #
+        # pick_ids = picking_ids.ids
+        # # choose the view_mode accordingly
+        # if len(pick_ids) > 1:
+        #     result['domain'] = "[('id','in',%s)]" % (pick_ids.ids)
+        # elif len(pick_ids) == 1:
+        #     res = self.env.ref('stock.view_picking_form', False)
+        #     result['views'] = [(res and res.id or False, 'form')]
+        #     result['res_id'] = picking_ids.id
         return result
 
     def action_view_invoice(self):
