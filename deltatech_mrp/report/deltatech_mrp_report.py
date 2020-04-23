@@ -64,7 +64,7 @@ class deltatech_mrp_report(models.Model):
     def _get_standard_price(self):
         res = {}
         for line in self:
-            res[line.id] = line.product_id.get_history_price(line.company_id.id, date=line.date)
+            res[line.id] = line.product_id.get_history_price(line.company_id.id, date=line.date) or line.product_id.get_history_price(line.company_id.id)
         return res
 
     def _get_product_val(self):

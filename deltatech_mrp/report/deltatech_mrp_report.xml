@@ -47,7 +47,7 @@
 			<field name="arch" type="xml">
 				<graph string="Production Analysis" stacked="True">
 					<field name="product_id" type="row" />
-					<field name="date" interval="month" type="row" />
+					<field name="date" interval="month" type="col" />
 					<field name="consumed_val" type="measure" />
 					<field name="consumed_raw_val" type="measure" />
 					<field name="consumed_pak_val" type="measure" />
@@ -120,6 +120,12 @@
 						domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-2, days=0)).strftime('%%Y-%%m-%%d')),
 								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=-1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
 							help="Production performed during 3 months ago"  />
+
+
+					<filter string="Current - 4 Month" name="month-4"
+						domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-3, days=0)).strftime('%%Y-%%m-%%d')),
+								 ('date','&lt;=', (context_today() + relativedelta(day=1, months=-2, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+							help="Production performed during 4 months ago"  />
 
 					<separator />
 					<filter string="Current" name='current'  domain="[('state','in',('open','draft'))]" />
