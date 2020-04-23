@@ -120,8 +120,8 @@
             <field name="name">Sale Profit</field>
             <field name="res_model">deltatech.sale.report</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,graph,pivot</field>
-            <field name="view_id" ref="view_deltatech_sale_report_tree"/>
+            <field name="view_mode">pivot,graph</field>
+
             <field name="search_view_id" ref="view_deltatech_sale_report_filter"/>
             <field name="help">This report performs analysis on your quotations and sales orders.</field>
             <field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':[]}</field>
