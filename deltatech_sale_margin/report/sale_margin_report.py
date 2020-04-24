@@ -134,7 +134,7 @@ class sale_margin_report(models.Model):
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join uom_uom u on (u.id=l.uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.user_id = cu.user_id)
+                    left join commission_users cu on ( s.user_id = cu.user_id and s.journal_id = cu.journal_id )
                     
         """
         return from_str

@@ -55,6 +55,10 @@ class commission_update_purchase_price(models.TransientModel):
                 if price_unit_list:
                     purchase_price = abs(sum(price_unit_list) / float(len(price_unit_list)))
 
+                if not purchase_price:
+                    if invoice_line.product_id:
+                        if invoice_line.product_id.standard_price > 0:
+                            purchase_price = invoice_line.product_id.standard_price
             else:
                 if invoice_line.product_id:
                     if invoice_line.product_id.standard_price > 0:

@@ -29,4 +29,5 @@
     "images": ['static/description/main_screenshot.png'],
     "active": False,
     "installable": True,
+    #'post_init_hook': 'set_purchase_price',
 }

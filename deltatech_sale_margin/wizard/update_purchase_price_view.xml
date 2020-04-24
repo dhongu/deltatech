@@ -39,7 +39,8 @@
 		</record>
 
 
-		<act_window id="action_commission_update_purchase_price" name="Update Purchase Price" res_model="commission.update.purchase.price"
+		<act_window id="action_commission_update_purchase_price" name="Update Purchase Price"
+					res_model="commission.update.purchase.price"
 			src_model="sale.margin.report" view_mode="form" multi="True" target="new" key2="client_action_multi" />
 
 
