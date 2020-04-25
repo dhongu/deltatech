@@ -73,7 +73,7 @@
             <field name="arch" type="xml">
                 <pivot string="Sale margin report"  >
                     <field name="categ_id" type="row"/>
-                    <field name="product_id" type="row"/>
+                    <field name="date" type="row"/>
                     <field name="product_uom_qty" type="measure"/>
                     <field name="sale_val" type="measure"/>
                     <field name="stock_val" type="measure"/>
@@ -121,9 +121,7 @@
                     <field name="commercial_partner_id"/>
                     <field name="product_id"/>
                     <field name="user_id"/>
-                    <!--
-                    <field name="period_id"/>
-                    -->
+                    <field name="invoice_id"/>
                     <field name="date"/>
 
                     <group expand="0" string="Extended Filters...">
@@ -159,7 +157,7 @@
             <field name="view_id" ref="view_sale_margin_report_tree"/>
             <field name="search_view_id" ref="view_sale_margin_report_filter"/>
             <field name="help">This report performs analysis on your invoices.</field>
-            <field name="context">{'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}</field>
+            <field name="context">{'search_default_year':1,'search_default_date':1,'group_by_no_leaf':1}</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">

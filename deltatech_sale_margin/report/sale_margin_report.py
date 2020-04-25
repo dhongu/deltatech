@@ -106,9 +106,13 @@ class sale_margin_report(models.Model):
 
                     SUM(l.price_subtotal_signed) AS sale_val,
                           
-                
 
-                     SUM(l.quantity * COALESCE( l.purchase_price, 0 )) AS stock_val,
+                   
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
+                        THEN -(l.quantity * COALESCE( l.purchase_price, 0 ))
+                        ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ))
+                    END) AS stock_val,
                    
                     
                                         
@@ -207,8 +211,9 @@ class sale_margin_report(models.Model):
     @api.model_cr
     def init(self):
 
+        #self.env.cr.execute('DROP MATERIALIZED VIEW IF EXISTS %s' % self._table)
         tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
+        self.env.cr.execute("""CREATE VIEW  %s as (
             WITH currency_rate AS (%s)
             %s
             FROM (
@@ -225,6 +230,9 @@ class sale_margin_report(models.Model):
         )""" % (
             self._table, self.env['res.currency']._select_companies_rates(),
             self._select(), self._sub_select(), self._from(), self._where(), self._group_by()))
+
+    # def refresh_view(self):
+    #     self.env.cr.execute('REFRESH MATERIALIZED VIEW %s' % self._table)
 
     @api.multi
     def write(self, vals):
