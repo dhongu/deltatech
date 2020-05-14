@@ -4,23 +4,18 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech Sale Order Report",
+    "name": "Deltatech Replenish",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
-
-    "category": "Sales",
-    "depends": [
-        "sale",
-        "l10n_ro_config",
-    ],
+    "category": "Purchase",
+    "depends": ["purchase_stock"],
 
     "license": "LGPL-3",
     "data": [
-        "views/sale_order.xml",
+        'wizard/product_replenish_views.xml'
     ],
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
 
     "installable": True,
 }
