@@ -1,5 +1,5 @@
 ===========================================
-Deltatech eCommerce extension
+Deltatech eCommerce City
 ===========================================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,8 +7,7 @@ Deltatech eCommerce extension
 
 
 Features:
- - adugata posbilitatea de a afisa daca produsul este dispoibil in stoc
- - inregistrare istoric cautari in magazinul online
+ - selectie locatilitate din lista
 
 
 

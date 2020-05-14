@@ -34,7 +34,7 @@ odoo.define('deltatech_website_city.portal', function (require) {
             var selectCity = $('select[name="city_id"] option:selected' );
             var zipcode = selectCity.attr('data-code');
 
-            $("input[name='zipcode']").val(zipcode)
+            $("input[name='zipcode']").val(zipcode);
             $("input[name='city']").val(selectCity.text());
 
         },
@@ -135,7 +135,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
             var selectCity = $('select[name="city_id"] option:selected' );
             var zipcode = selectCity.attr('data-code');
 
-            $("input[name='zipcode']").val(zipcode)
+            $("input[name='zipcode']").val(zipcode);
             $("input[name='city']").val(selectCity.text());
 
         },
