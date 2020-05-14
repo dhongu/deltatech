@@ -1,29 +1,22 @@
 # -*- coding: utf-8 -*-
-# ©  2015-2019 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Property Management",
+    "name": "Property Agreement",
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
     "category": "Property",
     "depends": [
-        'mail',
+        'deltatech_property',
+        'deltatech_service'
     ],
     "license": "LGPL-3",
     "data": [
-        'views/property_menu_view.xml',
-        'views/property_config_view.xml',
-        'views/property_land_view.xml',
-        'views/property_building_view.xml',
-        'views/property_room_view.xml',
-        'data/data.xml',
-        'data/res.country.state.csv',
-        'security/ir.model.access.csv'
-
+        'views/property_building_view.xml'
     ],
     'application': True,
     "images": ['static/description/main_screenshot.png'],

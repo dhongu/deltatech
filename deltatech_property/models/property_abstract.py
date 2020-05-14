@@ -30,6 +30,8 @@ class PropertyProperty(models.AbstractModel):
     active = fields.Boolean(default=True)
 
     owner_id = fields.Many2one('res.partner', string="Owner" )
+
+
     region_id = fields.Many2one('property.region', string="Region")
     asset_number = fields.Char(string="Asset Number", index=True)
 
@@ -79,8 +81,8 @@ class PropertyProperty(models.AbstractModel):
 
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(PropertyProperty, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(PropertyProperty, self).default_get(fields_list)
 
         defaults['country_id'] = self.env.user.company_id.partner_id.country_id.id
         return defaults

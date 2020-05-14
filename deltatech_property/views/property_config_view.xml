@@ -28,7 +28,6 @@
                             <field name="parent_id"/>
                         </group>
                     </group>
-
                 </form>
             </field>
         </record>
@@ -87,6 +86,9 @@
 
         <menuitem name="Room Usage" id="menu_property_room_usage"
                   action="action_property_room_usage" parent="base.menu_property_config"  sequence="301"/>
+
+
+
 
     </data>
 </odoo>

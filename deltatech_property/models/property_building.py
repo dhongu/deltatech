@@ -27,6 +27,9 @@ class PropertyBuilding(models.Model):
 
     data_pif = fields.Date(string="Data PIF")
 
+    parking_space = fields.Integer(string='Parking Space available')
+
+
     roof_structure = fields.Selection([
         ('tile', 'wood roofing structure, tile roofing'),
         ('metal', 'wood structure, sheet metal cover'),
@@ -96,6 +99,13 @@ class PropertyBuilding(models.Model):
                                           store=True)  # Scusi
     surface_cleaning_windows = fields.Float(string="Surface cleaning window", compute="_cleaning_windows",
                                             store=True)  # Scgeam
+
+
+    maintenance_team = fields.Selection([('internal','Internal'),('external','external')])
+    verification_date = fields.Date()
+    verification_note = fields.Char()
+
+
 
     @api.onchange('purpose_parent_id')
     def onchange_purpose_parent_id(self):
@@ -210,3 +220,4 @@ class PropertyFeatures(models.Model):
     ], string='Features')
 
     number = fields.Integer()
+    observation = fields.Char()

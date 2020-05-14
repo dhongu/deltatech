@@ -49,6 +49,7 @@
                             <group string="Identification">
                                 <field name="region_id"/>
                                 <field name="owner_id"/>
+
                                 <field name="asset_number"/>
                             </group>
 
@@ -75,6 +76,8 @@
                                         <field name="administrator_id"/>
                                         <field name="land_id"/>
                                         <field name="data_pif"/>
+                                        <field name="parking_space"/>
+
                                     </group>
                                     <group>
                                         <field name="type_prop"/>
@@ -84,6 +87,17 @@
                                 </group>
                                 <field name="note" class="oe_inline" placeholder="Note"/>
                                 <div class="oe_clear"/>
+                            </page>
+                            <page string="Maintenance">
+                                <group>
+                                    <group>
+                                        <field name="maintenance_team"/>
+                                    </group>
+                                    <group>
+                                        <field name="verification_date"/>
+                                        <field name="verification_note"/>
+                                    </group>
+                                </group>
                             </page>
                             <page string="Acquisition">
                                 <group>
@@ -120,6 +134,7 @@
                                     <tree editable="bootom">
                                         <field name="categ"/>
                                         <field name="number"/>
+                                        <field name="observation"/>
                                     </tree>
                                 </field>
                             </page>

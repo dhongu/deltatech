@@ -33,7 +33,7 @@ class service_cycle(models.Model):
             return relativedelta(years=+self.value)
 
 
-class service_agreement(models.Model):
+class ServiceAgreement(models.Model):
     _name = 'service.agreement'
     _description = "Service Agreement"
     _inherit = 'mail.thread'
@@ -54,6 +54,9 @@ class service_agreement(models.Model):
 
     partner_id = fields.Many2one('res.partner', string='Partner',
                                  required=True, readonly=True, states={'draft': [('readonly', False)]})
+
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env.user.company_id)
 
     agreement_line = fields.One2many('service.agreement.line', 'agreement_id', string='Agreement Lines',
                                      readonly=True, states={'draft': [('readonly', False)]}, copy=True)
@@ -100,9 +103,6 @@ class service_agreement(models.Model):
     total_consumption = fields.Float(string="Total consumption", readonly=True)
     group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True,
                                states={'draft': [('readonly', False)]})
-    company_id = fields.Many2one('res.company', string='Company', change_default=True,
-                                 required=True, readonly=True, states={'draft': [('readonly', False)]},
-                                 default=lambda self: self.env['res.company']._company_default_get('service.agreement'))
 
     doc_count = fields.Integer(string="Number of documents attached", compute='_get_attached_docs')
 
@@ -192,7 +192,7 @@ class service_agreement(models.Model):
                 sequence_agreement = self.env.ref('deltatech_service.sequence_agreement')
                 if sequence_agreement:
                     vals['name'] = sequence_agreement.next_by_id()
-        return super(service_agreement, self).create(vals_list)
+        return super(ServiceAgreement, self).create(vals_list)
 
     @api.multi
     def contract_close(self):
@@ -211,7 +211,7 @@ class service_agreement(models.Model):
         for item in self:
             if item.state not in ('draft'):
                 raise Warning(_('You cannot delete a service agreement which is not draft.'))
-        return super(service_agreement, self).unlink()
+        return super(ServiceAgreement, self).unlink()
 
     # CAT, CATG CATPG
 

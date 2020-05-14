@@ -6,7 +6,7 @@
 from odoo.exceptions import UserError, ValidationError
 from odoo import api, fields, models, _
 
-selection_level = [('p', 'P'), ('m', 'M'), ('s', 'S')] + [(num, str(num)) for num in range(1, 30)]
+selection_level = [('p', 'P'), ('m', 'M'), ('s', 'S')] + [(str(num), str(num)) for num in range(1, 30)]
 
 
 class PropertyRoom(models.Model):
