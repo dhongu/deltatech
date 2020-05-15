@@ -13,7 +13,7 @@
     "depends": [
         'mail',
     ],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         'views/property_menu_view.xml',
         'views/property_config_view.xml',
@@ -26,7 +26,7 @@
 
     ],
     'application': True,
-    "images": ['static/description/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.svg'],
     "installable": True,
 }
 

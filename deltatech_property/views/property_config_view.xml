@@ -34,7 +34,7 @@
 
 
         <record id="action_property_acquisition" model="ir.actions.act_window">
-            <field name="name">Acquisition</field>
+            <field name="name">Acquisition Mode</field>
             <field name="res_model">property.acquisition</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
@@ -43,7 +43,7 @@
                 (0, 0, {'view_mode': 'form', 'view_id': ref('view_property_nomenclature_form')})]"/>
         </record>
 
-        <menuitem name="Acquisition" id="menu_property_acquisition"
+        <menuitem name="Acquisition Mode" id="menu_property_acquisition"
                   action="action_property_acquisition" parent="base.menu_property_config"  sequence="101"/>
 
         <record id="action_property_building_purpose" model="ir.actions.act_window">

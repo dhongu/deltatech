@@ -100,7 +100,6 @@ class PropertyBuilding(models.Model):
     surface_cleaning_windows = fields.Float(string="Surface cleaning window", compute="_cleaning_windows",
                                             store=True)  # Scgeam
 
-
     maintenance_team = fields.Selection([('internal','Internal'),('external','external')])
     verification_date = fields.Date()
     verification_note = fields.Char()

@@ -4,19 +4,17 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, fields, api, _
+from odoo import models, tools, fields, api, _
 from datetime import datetime
 
 
 class PropertyProperty(models.AbstractModel):
     _name = 'property.property'
     _description = "Property"
-    _inherit = 'mail.thread'
-
+    _inherit =  ['mail.thread', 'mail.activity.mixin']
 
     def _default_company(self):
         return self.env['res.company']._company_default_get(self._name)
-
 
     name = fields.Char(string="Name")
 
@@ -29,21 +27,18 @@ class PropertyProperty(models.AbstractModel):
     company_id = fields.Many2one('res.company', 'Company', index=True, default=_default_company)
     active = fields.Boolean(default=True)
 
-    owner_id = fields.Many2one('res.partner', string="Owner" )
-
+    owner_id = fields.Many2one('res.partner', string="Owner")
 
     region_id = fields.Many2one('property.region', string="Region")
     asset_number = fields.Char(string="Asset Number", index=True)
 
-    type_prop = fields.Selection([('patrimony','Patrimony'),('rent','Rent'),
-                                  ('loan','Loan'),('concession','Concession')], string="Property Type")
-
+    type_prop = fields.Selection([('patrimony', 'Patrimony'), ('rent', 'Rent'),
+                                  ('loan', 'Loan'), ('concession', 'Concession')], string="Property Type")
 
     class_number = fields.Char(string="Class")
     class_code = fields.Char(string="Classification code")
-    cost_center_id = fields.Many2one('property.cost.center',string='Cost Center')
+    cost_center_id = fields.Many2one('property.cost.center', string='Cost Center')
     order_number = fields.Char(string='Order Number')
-
 
     acquisition_mode_id = fields.Many2one('property.acquisition', string="Acquisition Mode")
     date_acquisition = fields.Date(string="Acquisition Date")
@@ -55,6 +50,34 @@ class PropertyProperty(models.AbstractModel):
 
     doc_count = fields.Integer(string="Number of documents", compute='_get_attached_docs')
 
+
+    # image: all image fields are base64 encoded and PIL-supported
+    image = fields.Binary(
+        "Image", attachment=True,
+        help="This field holds the image used as image for the property, limited to 1024x1024px.")
+    image_medium = fields.Binary(
+        "Medium-sized image", attachment=True,
+        help="Medium-sized image of the product. It is automatically "
+             "resized as a 128x128px image, with aspect ratio preserved, "
+             "only when the image exceeds one of those sizes. Use this field in form views or some kanban views.")
+    image_small = fields.Binary(
+        "Small-sized image", attachment=True,
+        help="Small-sized image of the product. It is automatically "
+             "resized as a 64x64px image, with aspect ratio preserved. "
+             "Use this field anywhere a small image is required.")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+
+        # TDE FIXME: context brol
+        for vals in vals_list:
+            tools.image_resize_images(vals)
+        templates = super(PropertyProperty, self).create(vals_list)
+
+    @api.multi
+    def write(self, vals):
+        tools.image_resize_images(vals)
+        res = super(PropertyProperty, self).write(vals)
 
     @api.multi
     def _get_attached_docs(self):
@@ -76,9 +99,6 @@ class PropertyProperty(models.AbstractModel):
             'limit': 80,
             'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
         }
-
-
-
 
     @api.model
     def default_get(self, fields_list):

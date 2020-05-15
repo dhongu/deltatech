@@ -1,5 +1,5 @@
 ===========================================
-Sale Team Access
+Favorite Menu
 ===========================================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,7 +7,7 @@ Sale Team Access
 
 
 Features:
- - Company data in Quotation and Sale Order reports
+ -
 
 
 Bug Tracker
@@ -26,7 +26,6 @@ Contributors
 ------------
 
 * Dorin Hongu <dhongu@gmail.com>
-* Dan Stoica <danila@terrabit.ro>
 
 
 Maintainer
