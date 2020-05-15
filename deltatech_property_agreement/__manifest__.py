@@ -14,7 +14,7 @@
         'deltatech_property',
         'deltatech_service'
     ],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         'views/property_building_view.xml'
     ],
