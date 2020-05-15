@@ -1,5 +1,5 @@
 ====================
-Products Alternative
+Deltatech Account
 ====================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,7 +7,7 @@ Products Alternative
 
 
 Features:
-  Adaugare grup pentru butoane in factura de achizitie
+  Adaugare grup de butoane in ecranul de factura de achizitie
 
 
 Bug Tracker

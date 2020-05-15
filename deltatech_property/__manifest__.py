@@ -26,7 +26,7 @@
 
     ],
     'application': True,
-    "images": ['static/description/main_screenshot.svg'],
+    "images": ['static/description/main_screenshot.png','static/description/main_screenshot.svg'],
     "installable": True,
 }
 

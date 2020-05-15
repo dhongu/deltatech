@@ -66,21 +66,22 @@
 
 
     </defs>
-    <g>
-        <use x="350" y="40" width="80" height="80" xlink:href="#rotita">
-            <animateTransform attributeName="transform" attributeType="XML" type="rotate"
-                              from="0 390 80" to="360 390 80" dur="5s" repeatCount="indefinite"/>
-        </use>
 
-        <use x="420" y="10" width="60" height="60" xlink:href="#rotita">
-            <animateTransform attributeName="transform" attributeType="XML" type="rotate"
-                              from="0 450 40" to="-360 450 40" dur="5s" repeatCount="indefinite"/>
-        </use>
-    </g>
+<!--    <g>-->
+<!--        <use x="350" y="40" width="80" height="80" xlink:href="#rotita">-->
+<!--            <animateTransform attributeName="transform" attributeType="XML" type="rotate"-->
+<!--                              from="0 390 80" to="360 390 80" dur="5s" repeatCount="indefinite"/>-->
+<!--        </use>-->
+
+<!--        <use x="420" y="10" width="60" height="60" xlink:href="#rotita">-->
+<!--            <animateTransform attributeName="transform" attributeType="XML" type="rotate"-->
+<!--                              from="0 450 40" to="-360 450 40" dur="5s" repeatCount="indefinite"/>-->
+<!--        </use>-->
+<!--    </g>-->
 
     <use x="0" y="0" xlink:href="#logo"/>
     <!--    <use fill="#FFF" x="350" y="0" width="150" height="150" xlink:href="#rotite"/>-->
-    <!--    <image x="350" y="10" width="126" height="126" xlink:href="icon.png"/>-->
+        <image x="350" y="10" width="126" height="126" xlink:href="icon.png"/>
 
     <text x="300" y="160" font-size="25px" font-family="serif">Deltatech</text>
 

@@ -6,7 +6,7 @@ Invoice Edit Lines
    :alt: License: LGPL-3
 
 Features:
- - Cautare factura dupa produs
+ - Editare linii din factura
 
 Bug Tracker
 ===========

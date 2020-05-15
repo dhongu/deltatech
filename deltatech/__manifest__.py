@@ -18,9 +18,10 @@
         'views/base_view.xml'
     ],
     "license": "LGPL-3",
-    "images": ['/static/description/main_screenshot.svg'],
+    "images": ['static/description/main_screenshot.png'],
     "installable": True,
     'application': False,
 
 }
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
