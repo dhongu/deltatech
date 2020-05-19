@@ -167,7 +167,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 var selected = selectCities.data('value');
                 if (selectCities.data('init') === 0 || selectCities.find('option').length === 1) {
                     if (data.cities.length) {
-                        //$("input[name='city']").parent('div').hide();
+                        $("input[name='city']").parent('div').hide();
                         selectCities.html('');
                         _.each(data.cities, function (x) {
                             var opt = $('<option>').text(x[1])
@@ -180,7 +180,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                         selectCities.parent('div').show();
                     } else {
                         selectCities.val('').parent('div').hide();
-                        //$("input[name='city']").parent('div').show();
+                        $("input[name='city']").parent('div').show();
                     }
                     selectCities.data('init', 0);
                 } else {
