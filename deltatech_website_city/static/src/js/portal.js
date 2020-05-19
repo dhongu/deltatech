@@ -118,7 +118,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
 
         init: function () {
             this._super.apply(this, arguments);
-            this._changeState = _.debounce(this._changeState.bind(this), 500);
+            this._changeState = _.debounce(this._changeState.bind(this), 600);
             this.isWebsite = true;
         },
 
@@ -145,7 +145,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 return;
             }
             this._changeState();
-            this._onChangeCity();
+            //this._onChangeCity();
         },
 
         _changeState: function () {
@@ -164,20 +164,23 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 // populate states and display
                 var selectCities = $("select[name='city_id']");
                 // dont reload state at first loading (done in qweb)
+                var selected = selectCities.data('value');
                 if (selectCities.data('init') === 0 || selectCities.find('option').length === 1) {
                     if (data.cities.length) {
-                        $("input[name='city']").parent('div').hide();
+                        //$("input[name='city']").parent('div').hide();
                         selectCities.html('');
                         _.each(data.cities, function (x) {
                             var opt = $('<option>').text(x[1])
                                 .attr('value', x[0])
-                                .attr('data-code', x[2]);
+                                .attr('data-code', x[2])
+                                .attr('selected',  (x[0] == selected));
+                            //selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
                             selectCities.append(opt);
                         });
                         selectCities.parent('div').show();
                     } else {
                         selectCities.val('').parent('div').hide();
-                        $("input[name='city']").parent('div').show();
+                        //$("input[name='city']").parent('div').show();
                     }
                     selectCities.data('init', 0);
                 } else {

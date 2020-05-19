@@ -28,7 +28,7 @@
             </div>
             <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6">
                 <label class="col-form-label label-optional" for="city_id">City</label>
-                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}">
+                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}" data-init="1">
                     <option value="">select...</option>
                     <t t-foreach="cities or []" t-as="city">
                         <option t-att-value="city.id" style="display:none;" t-att-data-state_id="city.state_id.id" t-att-selected="city.id == partner.city_id.id">
@@ -68,13 +68,16 @@
                     </t>
                 </select>
             </div>
-            <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6">
+            <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6  div_city" >
                 <label class="col-form-label label-optional" for="city_id">City</label>
-                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}">
+                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+
+                        t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
+                        data-init="1">
                     <option value="">select...</option>
                     <t t-foreach="state and state.city_ids or []" t-as="city">
                         <option t-att-value="city.id" style="display:none;" t-att-data-state_id="city.state_id.id"
-                                t-att-selected="city.id == partner.city_id.id">
+                                t-att-selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
                             <t t-esc="city.name"/>
                         </option>
                     </t>
