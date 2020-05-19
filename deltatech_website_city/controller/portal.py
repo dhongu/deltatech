@@ -15,11 +15,12 @@ class CustomerPortalCity(CustomerPortal):
     MANDATORY_BILLING_FIELDS = ["name", "phone", "email", "street", "city", "country_id"]
     OPTIONAL_BILLING_FIELDS = ["zipcode", "state_id", "vat", "company_name", "city_id"]
 
-    # def _prepare_portal_layout_values(self):
-    #     values = super(CustomerPortalCity, self)._prepare_portal_layout_values()
-    #     cities = request.env['res.city'].sudo().search([])
-    #     values['cities'] = cities
-    #     return values
+    def _prepare_portal_layout_values(self):
+        values = super(CustomerPortalCity, self)._prepare_portal_layout_values()
+        # cities = request.env['res.city'].sudo().search([])
+        # values['cities'] = cities
+        values['city_id'] =  request.env.user.partner_id.city_id.id
+        return values
 
     @http.route(['/shop/state_infos/<model("res.country.state"):state>'], type='json', auth="public", methods=['POST'], website=True)
     def country_infos(self, state, mode, **kw):
