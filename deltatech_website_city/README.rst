@@ -7,7 +7,8 @@ Deltatech eCommerce City
 
 
 Features:
- - selectie locatilitate din lista
+ - select city from the list in website
+
 
 
 

@@ -59,6 +59,7 @@ odoo.define('deltatech_website_city.portal', function (require) {
 
                 // populate states and display
                 var selectCities = $("select[name='city_id']");
+                var selected = selectCities.data('value');
                 // dont reload state at first loading (done in qweb)
                 if (selectCities.data('init') === 0 || selectCities.find('option').length === 1) {
                     if (data.cities.length) {
@@ -67,7 +68,8 @@ odoo.define('deltatech_website_city.portal', function (require) {
                         _.each(data.cities, function (x) {
                             var opt = $('<option>').text(x[1])
                                 .attr('value', x[0])
-                                .attr('data-code', x[2]);
+                                .attr('data-code', x[2])
+                                .attr('selected', (x[0] == selected));
                             selectCities.append(opt);
                         });
                         selectCities.parent('div').show();
@@ -123,6 +125,24 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
         },
 
         start: function () {
+
+            // reordonare campuri
+            var div_country = $(".div_country");
+            var div_state = $(".div_state");
+            var div_city_id = $(".div_city_id");
+            var div_city = $(".div_city");
+            var div_zip = $(".div_zip");
+            var div_street = $(".div_street");
+            var div_street2 = $(".div_street2");
+
+
+            div_state.insertAfter(div_country);
+            div_city_id.insertAfter(div_state);
+            div_city.insertAfter(div_city_id);
+            div_zip.insertAfter(div_city);
+            div_street.insertAfter(div_zip);
+            div_street2.insertAfter(div_street);
+
             var def = this._super.apply(this, arguments);
             this.$('select[name="state_id"]').change();
             return def;
@@ -135,7 +155,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
             var selectCity = $('select[name="city_id"] option:selected' );
             var zipcode = selectCity.attr('data-code');
 
-            $("input[name='zipcode']").val(zipcode);
+            $("input[name='zip']").val(zipcode)
             $("input[name='city']").val(selectCity.text());
 
         },
@@ -145,6 +165,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 return;
             }
             this._changeState();
+            //this._onChangeCity();
         },
 
         _changeState: function () {
@@ -163,6 +184,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 // populate states and display
                 var selectCities = $("select[name='city_id']");
                 // dont reload state at first loading (done in qweb)
+                var selected = selectCities.data('value');
                 if (selectCities.data('init') === 0 || selectCities.find('option').length === 1) {
                     if (data.cities.length) {
                         $("input[name='city']").parent('div').hide();
@@ -170,7 +192,9 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                         _.each(data.cities, function (x) {
                             var opt = $('<option>').text(x[1])
                                 .attr('value', x[0])
-                                .attr('data-code', x[2]);
+                                .attr('data-code', x[2])
+                                .attr('selected', (x[0] == selected));
+                            //selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
                             selectCities.append(opt);
                         });
                         selectCities.parent('div').show();

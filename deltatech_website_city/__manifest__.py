@@ -21,7 +21,8 @@
         'views/portal.xml',
         'views/assets.xml'
     ],
-
+    "price": 1.00,
+    "currency": "EUR",
     "images": ['static/description/main_screenshot.png'],
     "installable": True,
 
