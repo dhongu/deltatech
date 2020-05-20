@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<odoo>
+	<data>
+
+<!--
+		<record id="view_service_agreement_form" model="ir.ui.view">
+			<field name="name">Service Agreement</field>
+			<field name="model">service.agreement</field>
+			<field name="inherit_id" ref="deltatech_service_equipment.view_service_agreement_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//button[@id='service_equipment']/div" position="replace">
+					<span class="o_stat_text">Apartments</span>
+				</xpath>
+
+			</field>
+		</record>
+-->
+
+
+		<menuitem name="Building" id="deltatech_service.menu_service_agreement_group"
+			action="deltatech_service.action_service_agreement_group" parent="base.menu_service" sequence="901" />
+
+
+	</data>
+</odoo>

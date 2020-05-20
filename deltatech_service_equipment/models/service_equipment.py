@@ -17,11 +17,21 @@ from datetime import date, datetime
 class service_equipment(models.Model):
     _name = 'service.equipment'
     _description = "Equipment"
-    #_inherits = {'maintenance.equipment': 'base_equipment_id'}
+    _inherits = {'maintenance.equipment': 'base_equipment_id'}
     _inherit = 'mail.thread'
 
 
-    #base_equipment_id = fields.Many2one('maintenance.equipment')
+    base_equipment_id = fields.Many2one('maintenance.equipment')
+
+    # campuri care se gasesc in echipament
+    #name = fields.Char(string='Name', index=True, required=True, copy=False)
+    display_name = fields.Char(compute='_compute_display_name')
+
+
+
+    # camp in echipament
+    #categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
+
 
     state = fields.Selection([('available', 'Available'), ('installed', 'Installed'),
                               ('backuped', 'Backuped')], default="available", string='Status', copy=False)
@@ -29,7 +39,9 @@ class service_equipment(models.Model):
     agreement_id = fields.Many2one('service.agreement', string='Contract Service', compute="_compute_agreement_id")
     agreement_type_id = fields.Many2one('service.agreement.type', string='Agreement Type',
                                         related='agreement_id.type_id')
-    user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
+
+    # se gaseste in echipmanet campul technician_user_id
+    #user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
 
     # proprietarul  echipamentului
     partner_id = fields.Many2one('res.partner', string='Customer', related='agreement_id.partner_id', store=True,
@@ -44,8 +56,8 @@ class service_equipment(models.Model):
     # contact_id = fields.Many2one('res.partner', string='Contact Person', track_visibility='onchange',
     #                              domain=[('type', '=', 'contact'), ('is_company', '=', False)])
 
-    name = fields.Char(string='Name', index=True, required=True, copy=False)
-    display_name = fields.Char(compute='_compute_display_name')
+
+
 
 
     total_revenues = fields.Float(string="Total Revenues",
@@ -60,13 +72,15 @@ class service_equipment(models.Model):
 
 
 
-    type_id = fields.Many2one('service.equipment.type', required=True, string='Type')
-    categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
+    type_id = fields.Many2one('service.equipment.type', required=False, string='Type')
+
 
     readings_status = fields.Selection([('', 'N/A'), ('unmade', 'Unmade'), ('done', 'Done')], string="Readings Status",
                                        compute="_compute_readings_status", store=True)
 
     group_id = fields.Many2one('service.agreement.group', string="Service Group")
+    internal_type = fields.Selection([('equipment','Equipment')], default='equipment')
+
 
     @api.model
     def create(self, vals):
@@ -211,12 +225,12 @@ class service_equipment(models.Model):
         else:
             raise Warning(_('The agreement %s is in state %s') % (self.agreement_id.name, self.agreement_id.state))
 
-
-class service_equipment_category(models.Model):
-    _name = 'service.equipment.category'
-    _description = "Service Equipment Category"
-
-    name = fields.Char(string='Category', translate=True)
+# se va utiliza maintenance.equipment.category
+# class service_equipment_category(models.Model):
+#     _name = 'service.equipment.category'
+#     _description = "Service Equipment Category"
+#
+#     name = fields.Char(string='Category', translate=True)
 
 
 
@@ -225,7 +239,7 @@ class service_equipment_type(models.Model):
     _description = "Service Equipment Type"
     name = fields.Char(string='Type', translate=True)
 
-    categ_id = fields.Many2one('service.equipment.category', string="Category")
+    categ_id = fields.Many2one('maintenance.equipment.category', string="Category")
 
     template_meter_ids = fields.One2many('service.template.meter', 'type_id')
 

@@ -13,6 +13,7 @@
     "category": "Services",
     "depends": [
         "deltatech_service",
+        "maintenance"
     ],
 
     "license": "AGPL-3",

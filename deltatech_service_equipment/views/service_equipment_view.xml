@@ -113,12 +113,12 @@
                                     <field name="partner_id"/>
                                     <field name="agreement_id"/>
                                     <field name="agreement_type_id"/>
-                                    <field name="user_id"/>
+                                    <field name="technician_user_id"/>
                                 </group>
                             </group>
                             <group string="Tehnical Details">
                                 <field name="group_id"/>
-                                <field name="type_id"/>
+                                <field name="type_id" required="1"/>
                                 <field name="start_date"/>
                             </group>
 
@@ -280,16 +280,16 @@
                   sequence="200"/>
 
 
-        <record id="action_service_equipment_category" model="ir.actions.act_window">
-            <field name="name">Services Equipment Category</field>
-            <field name="res_model">service.equipment.category</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+<!--        <record id="action_service_equipment_category" model="ir.actions.act_window">-->
+<!--            <field name="name">Services Equipment Category</field>-->
+<!--            <field name="res_model">service.equipment.category</field>-->
+<!--            <field name="view_type">form</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--        </record>-->
 
-        <menuitem name="Equipment Category" id="menu_service_equipment_category"
-                  action="action_service_equipment_category" parent="deltatech_service.menu_service_config"
-                  sequence="201"/>
+<!--        <menuitem name="Equipment Category" id="menu_service_equipment_category"-->
+<!--                  action="action_service_equipment_category" parent="deltatech_service.menu_service_config"-->
+<!--                  sequence="201"/>-->
 
 
     </data>

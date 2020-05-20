@@ -459,7 +459,7 @@ msgid "Remove from Agreement"
 msgstr "Elimină din contract"
 
 #. module: deltatech_service_equipment
-#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_user_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment_technician_user_id
 msgid "Responsible"
 msgstr "Responsabil"
 

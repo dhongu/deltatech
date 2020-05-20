@@ -12,7 +12,7 @@
     "category": "Property",
     "depends": [
         'deltatech_property',
-        'deltatech_service'
+        'deltatech_service_equipment'
     ],
     "license": "AGPL-3",
     "data": [

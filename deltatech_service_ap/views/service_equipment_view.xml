@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+
+
+        <record id="deltatech_service_equipment.action_service_equipment" model="ir.actions.act_window">
+            <field name="name">Apartments</field>
+        </record>
+
+        <record id="deltatech_service_equipment.menu_service_equipment" model="ir.ui.menu">
+            <field name="name">Apartment</field>
+        </record>
+
+
+        <record id="deltatech_service_equipment.action_service_equipment_type" model="ir.actions.act_window">
+            <field name="name">Apartment Type</field>
+        </record>
+
+        <record id="deltatech_service_equipment.menu_service_equipment_type" model="ir.ui.menu">
+            <field name="name">Apartment Type</field>
+        </record>
+
+
+        <record id="deltatech_service_equipment.action_service_equipment_category" model="ir.actions.act_window">
+            <field name="name">Apartment Category</field>
+        </record>
+
+        <record id="deltatech_service_equipment.menu_service_equipment_category" model="ir.ui.menu">
+            <field name="name">Apartment Category</field>
+        </record>
+
+        <record id="deltatech_service.menu_service_agreement_group" model="ir.ui.menu">
+            <field name="name">Building</field>
+        </record>
+
+        <!-- Run Scheduler -->
+        <function model="service.equipment" name="_update_labels"  eval="[[]]"/>/>
+    </data>
+</odoo>

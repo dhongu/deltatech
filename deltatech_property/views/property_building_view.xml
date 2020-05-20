@@ -91,7 +91,8 @@
                             <page string="Maintenance">
                                 <group>
                                     <group>
-                                        <field name="maintenance_team"/>
+                                        <field name="maintenance_team_type"/>
+                                        <field name="maintenance_team_id"/>
                                     </group>
                                     <group>
                                         <field name="verification_date"/>

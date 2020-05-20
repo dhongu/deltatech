@@ -12,6 +12,7 @@
     "category": "Property",
     "depends": [
         'mail',
+        'maintenance'
     ],
     "license": "AGPL-3",
     "data": [
