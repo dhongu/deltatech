@@ -13,7 +13,7 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     statement_sequence_id = fields.Many2one('ir.sequence', string='Statement Sequence', copy=False)
-
+    auto_statement = fields.Boolean('Auto Statement')
 
     @api.multi
     def get_journal_dashboard_datas(self):

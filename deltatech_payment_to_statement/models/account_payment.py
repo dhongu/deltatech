@@ -24,7 +24,7 @@ class account_payment(models.Model):
             self.statement_id = statement
         else:
             # daca tipul este numerar trebuie generat
-            if self.journal_id.type == 'cash':
+            if self.journal_id.auto_statement: #.type == 'cash':
                 name = False
                 values = {
                     'journal_id': self.journal_id.id,
@@ -65,7 +65,7 @@ class account_payment(models.Model):
                     'line': line
                 }
                 if payment.payment_type == 'transfer':
-                    if payment.destination_journal_id.type == 'cash':
+                    if payment.destination_journal_id.auto_statement: #.type == 'cash':
                         domain = [('date', '=', payment.payment_date),
                                   ('journal_id', '=', payment.destination_journal_id.id)]
                         detination_statement = self.env['account.bank.statement'].search(domain, limit=1)
@@ -131,7 +131,7 @@ class account_payment(models.Model):
         self.get_reconciled_statement_line()
         for payment in self:
 
-            if payment.journal_id.type == 'cash' and not payment.statement_id:
+            if payment.journal_id.auto_statement and not payment.statement_id: #type == 'cash'
                 domain = [('date', '=', self.payment_date), ('journal_id', '=', self.journal_id.id)]
                 statement = self.env['account.bank.statement'].search(domain, limit=1)
                 if not statement:
@@ -167,7 +167,7 @@ class account_payment(models.Model):
 
                 if payment.payment_type == 'transfer':
                     payment.write({'stare': 'reconciled'})
-                    if payment.destination_journal_id.type == 'cash':
+                    if payment.destination_journal_id.auto_statement: #type == 'cash':
                         domain = [('date', '=', payment.payment_date),
                                   ('journal_id', '=', payment.destination_journal_id.id)]
                         detination_statement = self.env['account.bank.statement'].search(domain, limit=1)

@@ -17,6 +17,8 @@ class AccountBankStatement(models.Model):
                 journal = self.env['account.journal'].browse(vals['journal_id'])
                 if journal.statement_sequence_id:
                     vals['name'] = journal.statement_sequence_id.next_by_id()
+                else:
+                    vals['name'] = _('Noname')
         return super(AccountBankStatement, self).create(vals_list)
 
     @api.multi

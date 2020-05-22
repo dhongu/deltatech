@@ -8,7 +8,7 @@
     'version': '12.0.1.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
+    "summary": "And payment to statement",
 
     "category": "Accounting",
     "depends": [
@@ -22,8 +22,9 @@
 
     ],
 
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
     "installable": True,
+    'post_init_hook': '_set_auto_auto_statement',
 }
 
 
