@@ -21,11 +21,11 @@
         </record>
 
 
-        <record id="deltatech_service_equipment.action_service_equipment_category" model="ir.actions.act_window">
+        <record id="maintenance.hr_equipment_category_action" model="ir.actions.act_window">
             <field name="name">Apartment Category</field>
         </record>
 
-        <record id="deltatech_service_equipment.menu_service_equipment_category" model="ir.ui.menu">
+        <record id="maintenance.menu_maintenance_cat" model="ir.ui.menu">
             <field name="name">Apartment Category</field>
         </record>
 

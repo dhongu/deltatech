@@ -18,7 +18,7 @@
 
 
 		<menuitem name="Building" id="deltatech_service.menu_service_agreement_group"
-			action="deltatech_service.action_service_agreement_group" parent="base.menu_service" sequence="901" />
+			action="deltatech_service.action_service_agreement_group" parent="deltatech_service.menu_service_app" sequence="901" />
 
 
 	</data>
