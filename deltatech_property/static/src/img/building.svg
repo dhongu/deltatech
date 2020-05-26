@@ -17,9 +17,9 @@
             <use xlink:href="#a"/>
         </mask>
         <g mask="url(#b)">
-            <path fill="url(#c)" d="M0 0H70V70H0z"/>
-            <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z"/>
-            <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z"/>
+<!--            <path fill="url(#c)" d="M0 0H70V70H0z"/>-->
+<!--            <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z"/>-->
+<!--            <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z"/>-->
 
 
             <svg fill="#FFF" x="14" y="9" width="55" height="55" viewBox="0 0 576 512">
@@ -34,3 +34,5 @@
         </g>
     </g>
 </svg>
+
+

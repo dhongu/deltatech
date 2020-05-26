@@ -3,9 +3,10 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api, _
+from odoo import models, fields, tools, api, _
 from datetime import datetime
-
+from odoo.modules import get_module_resource
+import base64
 
 class PropertyBuilding(models.Model):
     _name = 'property.building'
@@ -104,7 +105,37 @@ class PropertyBuilding(models.Model):
     verification_date = fields.Date()
     verification_note = fields.Char()
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if self.env.context.get('import_file'):
+            self._check_import_consistency(vals_list)
+        for vals in vals_list:
+            if not vals.get('image'):
+                vals['image'] = self._get_default_image()
+            tools.image_resize_images(vals, sizes={'image': (1024, None)})
 
+        buildings = super(PropertyBuilding, self).create(vals_list)
+
+        return buildings
+
+
+    @api.model
+    def _get_default_image(self):
+        if self._context.get('install_mode'):
+            return False
+
+        colorize, img_path, image = False, False, False
+
+        img_path = get_module_resource('deltatech_property', 'static/src/img', 'building.png')
+        colorize = True
+
+        if img_path:
+            with open(img_path, 'rb') as f:
+                image = f.read()
+        if image and colorize:
+            image = tools.image_colorize(image)
+
+        return tools.image_resize_image_big(base64.b64encode(image))
 
     @api.onchange('purpose_parent_id')
     def onchange_purpose_parent_id(self):
@@ -161,44 +192,45 @@ class PropertyBuilding(models.Model):
 
     @api.depends('room_ids.surface', 'surface_terraces', 'surface_cleaned_ext', 'surface_derating_ext')
     def _compute_all_surface(self):
-        surface = {'office': 0.0, 'meeting': 0.0, 'lobby': 0.0, 'staircase': 0.0, 'kitchens': 0.0, 'sanitary': 0.0,
-                   'laboratory': 0.0, 'it_endowments': 0.0, 'garage': 0.0, 'warehouse': 0.0, 'log_warehouse': 0.0,
-                   'archive': 0.0, 'cloakroom': 0.0, 'premises': 0.0, 'access': 0.0, }
 
-        for room in self.room_ids:
-            surface[room.usage] += room.surface
+        for building in self:
+            surface = {'office': 0.0, 'meeting': 0.0, 'lobby': 0.0, 'staircase': 0.0, 'kitchens': 0.0, 'sanitary': 0.0,
+                       'laboratory': 0.0, 'it_endowments': 0.0, 'garage': 0.0, 'warehouse': 0.0, 'log_warehouse': 0.0,
+                       'archive': 0.0, 'cloakroom': 0.0, 'premises': 0.0, 'access': 0.0, }
+            for room in building.room_ids:
+                surface[room.usage] += room.surface
 
-        self.surface_office = surface['office']
-        self.surface_meeting = surface['meeting']
-        self.surface_lobby = surface['lobby']
-        self.surface_staircase = surface['staircase']
-        self.surface_kitchens = surface['kitchens']
-        self.surface_sanitary = surface['sanitary']
-        self.surface_laboratory = surface['laboratory']
-        self.surface_it_endowments = surface['it_endowments']
-        self.surface_garage = surface['garage']
-        self.surface_warehouse = surface['warehouse']
-        self.surface_log_warehouse = surface['log_warehouse']
-        self.surface_archive = surface['archive']
-        self.surface_cloakroom = surface['cloakroom']
-        self.surface_premises = surface['premises']
-        self.surface_access = surface['access']
+            building.surface_office = surface['office']
+            building.surface_meeting = surface['meeting']
+            building.surface_lobby = surface['lobby']
+            building.surface_staircase = surface['staircase']
+            building.surface_kitchens = surface['kitchens']
+            building.surface_sanitary = surface['sanitary']
+            building.surface_laboratory = surface['laboratory']
+            building.surface_it_endowments = surface['it_endowments']
+            building.surface_garage = surface['garage']
+            building.surface_warehouse = surface['warehouse']
+            building.surface_log_warehouse = surface['log_warehouse']
+            building.surface_archive = surface['archive']
+            building.surface_cloakroom = surface['cloakroom']
+            building.surface_premises = surface['premises']
+            building.surface_access = surface['access']
 
-        self.surface_common = surface['meeting'] + surface['lobby'] + surface['staircase'] + \
-                              surface['kitchens'] + surface['sanitary'] + surface['access']
+            building.surface_common = surface['meeting'] + surface['lobby'] + surface['staircase'] + \
+                                  surface['kitchens'] + surface['sanitary'] + surface['access']
 
-        self.surface_useful = surface['office'] + self.surface_common + surface['laboratory'] + \
-                              surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
-                              surface['log_warehouse'] + surface['archive'] + \
-                              surface['cloakroom'] + surface['premises']
+            building.surface_useful = surface['office'] + building.surface_common + surface['laboratory'] + \
+                                  surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
+                                  surface['log_warehouse'] + surface['archive'] + \
+                                  surface['cloakroom'] + surface['premises']
 
-        self.surface_cleaned_adm = self.surface_common + surface['office']
-        self.surface_cleaned_ind = surface['garage'] + surface['cloakroom'] + self.surface_terraces
+            building.surface_cleaned_adm = building.surface_common + surface['office']
+            building.surface_cleaned_ind = surface['garage'] + surface['cloakroom'] + building.surface_terraces
 
-        self.surface_cleaned_tot = self.surface_cleaned_adm + self.surface_cleaned_ind + self.surface_cleaned_ext
+            building.surface_cleaned_tot = building.surface_cleaned_adm + building.surface_cleaned_ind + building.surface_cleaned_ext
 
-        self.surface_derating_int = self.surface_useful
-        self.surface_derating = self.surface_derating_ext + self.surface_derating_int
+            building.surface_derating_int = building.surface_useful
+            building.surface_derating = building.surface_derating_ext + building.surface_derating_int
 
 
 class PropertyFeatures(models.Model):

@@ -2,6 +2,36 @@
 <odoo>
     <data>
 
+        <record id="view_property_building_kanban" model="ir.ui.view">
+            <field name="name">property.building.kanban</field>
+            <field name="model">property.building</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('property.building', 'image', record.id.raw_value)"
+                                         alt="Logo"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name"/>
+                                    </strong>
+
+                                    <div>
+                                        <field name="street"/>
+                                        <field name="city"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
 
         <record id="view_property_building_tree" model="ir.ui.view">
             <field name="name">Buildings</field>
@@ -39,7 +69,7 @@
                                 <field string="Documente" name="doc_count" widget="statinfo"/>
                             </button>
                         </div>
-
+                        <field name="image" widget="image" class="oe_avatar"/>
                         <div class="oe_title oe_left">
                             <h1>
                                 <field name="name" placeholder="Name"/>
@@ -234,11 +264,11 @@
             <field name="name">Buildings</field>
             <field name="res_model">property.building</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,pivot</field>
+            <field name="view_mode">kanban,tree,form,pivot</field>
         </record>
 
         <menuitem name="Buildings" id="menu_property_building"
-                  action="action_property_building" parent="base.menu_property_info"/>
+                  action="action_property_building" parent="base.menu_property_info" sequence="10"/>
 
 
     </data>
