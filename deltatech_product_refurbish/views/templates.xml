@@ -14,7 +14,7 @@
             </hr>
 
         </xpath>
-        <xpath expr="//div[@id='product_full_description']" position="before">
+        <xpath expr="//section[@id='product_detail']" position="after">
             <div class="container collapse" id="refurbish_products">
 
                 <t t-foreach="product.refurbish_ids" t-as="refurbish">
