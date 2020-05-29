@@ -42,7 +42,8 @@
 
 
                     <div class="col-7">
-                        <div class="badge badge-success" t-field="refurbish.condition"/>
+                        <div class="badge badge-success" t-field="refurbish.condition"/> <div class="text-muted" t-field="refurbish.name"/>
+
                         <div t-field="refurbish.note"/>
                     </div>
                     <div class="col-2">
@@ -55,7 +56,7 @@
 
                     </div>
                     <div class="col-2">
-                        <button type="button" class="btn btn-outline-success a-submit d-block">
+                        <button type="submit" class="btn btn-outline-success a-submit d-block">
                             <i
                                     class="fa fa-shopping-cart"/>
                             Buy Refurbish

@@ -20,7 +20,7 @@ class ProductTemplate(models.Model):
             domain = domain_loc + [('product_id', 'in', product.product_variant_ids.ids)]
             quants = self.env['stock.quant'].search(domain)
             for quant in quants:
-                if quant.lot_id.condition == 'refurbish':
+                if quant.lot_id.condition == 'refurbish' and not quant.reserved_quantity:
                     refurbish_ids |= quant.lot_id
             product.refurbish_ids = refurbish_ids
             product.has_refurbish = bool(refurbish_ids)
