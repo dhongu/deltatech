@@ -15,6 +15,11 @@ class PropertyProperty(models.AbstractModel):
 
     _inherit =  ['mail.thread', 'mail.activity.mixin']
 
+    @api.model
+    def _default_currency(self):
+        return self.env.user.company_id.currency_id
+
+
     # def _default_company(self):
     #     return self.env['res.company']._company_default_get(self._name)
 
@@ -60,9 +65,12 @@ class PropertyProperty(models.AbstractModel):
     doc_count = fields.Integer(string="Number of documents", compute='_get_attached_docs')
 
 
-    image = fields.Binary(        "Image", attachment=True,
+    image = fields.Binary( "Image", attachment=True,
         help="This field holds the image used as image for the property, limited to 1024x1024px.")
 
+
+    price = fields.Monetary()
+    currency_id = fields.Many2one('res.currency', default=_default_currency)
 
 
 

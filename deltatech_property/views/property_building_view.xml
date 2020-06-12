@@ -107,7 +107,9 @@
                                         <field name="land_id"/>
                                         <field name="data_pif"/>
                                         <field name="parking_space"/>
-
+                                        <field name="occupants"/>
+                                        <field name="occupied_date"/>
+                                        <field name="finished"/>
                                     </group>
                                     <group>
                                         <field name="type_prop"/>
@@ -180,17 +182,17 @@
                             </page>
                             <page string="Surfaces">
                                 <group>
-                                    <group>
+                                    <group string="Surface Total">
                                         <field name="surface_built"/>
                                         <field name="surface_unfolded"/>
                                         <field name="surface_terraces"/>
                                     </group>
-                                    <group>
+                                    <group string="Surface Useful">
                                         <field name="surface_useful"/>
                                         <field name="surface_common"/>
                                         <field name="surface_flameproof"/>
                                     </group>
-                                    <group>
+                                    <group string="Cleaning surface">
                                         <field name="surface_cleaned_adm"/>
                                         <field name="surface_cleaned_ind"/>
                                         <field name="surface_cleaned_ext"/>
@@ -208,12 +210,14 @@
                                         <field name="surface_cleaning_doors"/>
                                         <field name="surface_cleaning_windows"/>
                                     </group>
-                                    <group>
+                                    <group string="Surface by type">
                                         <field name="surface_office"/>
+                                        <field name="surface_living"/>
+                                        <field name="surface_bedroom"/>
                                         <field name="surface_meeting"/>
                                         <field name="surface_lobby"/>
                                         <field name="surface_staircase"/>
-                                        <field name="surface_kitchens"/>
+                                        <field name="surface_kitchen"/>
                                         <field name="surface_sanitary"/>
                                         <field name="surface_laboratory"/>
                                         <field name="surface_it_endowments"/>

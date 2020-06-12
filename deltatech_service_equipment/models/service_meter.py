@@ -31,8 +31,8 @@ class service_meter_category(models.Model):
     _description = "Service Meter Category"
 
     name = fields.Char(string='Category')
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure', required=True)
-    bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure', required=True)
+    uom_id = fields.Many2one('uom.uom', string='Unit of Measure', required=True)
+    bill_uom_id = fields.Many2one('uom.uom', string='Billing Unit of Measure', required=True)
     type = fields.Selection([('counter', 'Counter'), ('collector', 'Collector')], string='Type', default='counter')
 
 
@@ -65,7 +65,7 @@ class service_meter(models.Model):
                                    compute='_compute_estimated_value')
 
 
-    uom_id = fields.Many2one('product.uom', string='Unit of Measure', required=True, index=True)
+    uom_id = fields.Many2one('uom.uom', string='Unit of Measure', required=True, index=True)
 
     value_a = fields.Float()
     value_b = fields.Float()

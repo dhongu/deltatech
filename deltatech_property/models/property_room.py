@@ -34,7 +34,7 @@ class PropertyRoom(models.Model):
     usage = fields.Selection([
         ('office', 'Office'),
         ('meeting', 'Meeting room'),
-        ('kitchens', 'Kitchens'),
+        ('kitchen', 'Kitchen'),
         ('laboratory','Laboratory'),
         ('garage','Garage'),
         ('archive', 'Archive'),
@@ -47,7 +47,11 @@ class PropertyRoom(models.Model):
         ('access', 'Access ways'),
         ('lobby', 'Lobby'),
         ('staircase', 'Staircase'),
-    ], string="Room usage", help="The purpose of using the room")
+
+        ('living', 'Living Room'),
+        ('bedroom', 'Bedroom'),
+        ('balcony', 'Balcony')
+    ], string="Room usage", help="The purpose of using the room", default='bedroom')
 
     rented_room = fields.Boolean()
     tenant_id = fields.Many2one('res.partner', string="Tenant")

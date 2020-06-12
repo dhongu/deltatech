@@ -16,7 +16,7 @@ from datetime import date, datetime
 
 class service_equipment(models.Model):
     _name = 'service.equipment'
-    _description = "Equipment"
+    _description = "Service Equipment"
     _inherits = {'maintenance.equipment': 'base_equipment_id'}
     _inherit = 'mail.thread'
 
@@ -252,7 +252,7 @@ class service_template_meter(models.Model):
     type_id = fields.Many2one('service.equipment.type', string="Type")
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null',  domain=[('type', '=', 'service')])
     meter_categ_id = fields.Many2one('service.meter.category', string="Meter category")
-    bill_uom_id = fields.Many2one('product.uom', string='Billing Unit of Measure')
+    bill_uom_id = fields.Many2one('uo,.uom', string='Billing Unit of Measure')
     currency_id = fields.Many2one('res.currency', string="Currency", required=True,
                                   domain=[('name', 'in', ['RON', 'EUR'])])
 

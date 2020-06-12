@@ -147,8 +147,14 @@
                             <page string="Surfaces">
                                 <group>
                                     <group>
-                                    <field name="surface"/>
-                                </group>
+                                        <field name="surface"/>
+                                        <label for="price"/>
+                                        <div class="o_row" name="price" >
+                                            <field name="price"/>
+                                            <span> / m³</span>
+                                        </div>
+                                        <field name="currency_id"/>
+                                    </group>
 
                                 </group>
 
