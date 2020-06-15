@@ -11,7 +11,7 @@
 
     'category': 'Purchase',
 
-    "depends": ['stock', 'stock_account', "purchase_stock", 'website_sale'],
+    "depends": ['stock', 'stock_account', "purchase_stock", 'website_sale_stock'],
 
 
     "license": "LGPL-3",
