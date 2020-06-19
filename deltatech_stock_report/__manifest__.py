@@ -18,7 +18,7 @@
     ]
     ,
 
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         'security/ir.model.access.csv',
         "report/stock_picking_report.xml",

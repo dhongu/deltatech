@@ -15,7 +15,8 @@
         "deltatech_service_equipment",
     ],
 
-    "license": "LGPL-3","data": [
+    "license": "AGPL-3",
+    "data": [
         'views/service_rent_view.xml',
         'views/service_equipment_view.xml',
     ],
