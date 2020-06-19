@@ -5,12 +5,18 @@
 
 {
     "name": "Stock Reports",
-    'version': '11.0.1.0.0',
+    'version': '11.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
     "category": "Generic Modules",
-    "depends": ["base", "stock", "stock_account"],
+    "depends": [
+        "base",
+        "stock",
+        "stock_account",
+        'date_range'
+    ]
+    ,
 
     "license": "LGPL-3",
     "data": [
