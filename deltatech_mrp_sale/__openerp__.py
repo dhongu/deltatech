@@ -46,7 +46,11 @@ Functionalitati:
     """,
     
     "category" : "Generic Modules/Production",
-    "depends" : ["mrp","sale",'mrp_product_variants','sale_product_variants',
+    "depends" :
+        ["mrp",
+         "sale",
+         'mrp_product_variants',
+         'sale_product_variants',
                  'deltatech',
                  'deltatech_mrp_bom_cost',
                  'deltatech_percent_qty'],
