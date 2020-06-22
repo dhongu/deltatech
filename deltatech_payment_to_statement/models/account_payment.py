@@ -39,33 +39,33 @@ class account_payment(models.Model):
         statement_payment = {}
 
         for payment in self:
-            detination_statement = False
-            if not payment.statement_line_id and payment.statement_id:
-                ref = ''
-                for invoice in payment.invoice_ids:
-                    ref += invoice.number
-                for invoice in payment.reconciled_invoice_ids:
-                    ref += invoice.number
-                values = {
-                    'name': payment.communication or '/',
-                    'statement_id': payment.statement_id.id,
-                    'date': payment.payment_date,
-                    'partner_id': payment.partner_id.id,
-                    'amount': payment.amount,
-                    'payment_id': payment.id,
-                    'ref':ref
-                }
-                if payment.payment_type in ['outbound', 'transfer']:
-                    values['amount'] = -1 * payment.amount
+            if payment.destination_journal_id.auto_statement:
+                detination_statement = False
+                if not payment.statement_line_id and payment.statement_id:
+                    ref = ''
+                    for invoice in payment.invoice_ids:
+                        ref += invoice.number
+                    for invoice in payment.reconciled_invoice_ids:
+                        ref += invoice.number
+                    values = {
+                        'name': payment.communication or '/',
+                        'statement_id': payment.statement_id.id,
+                        'date': payment.payment_date,
+                        'partner_id': payment.partner_id.id,
+                        'amount': payment.amount,
+                        'payment_id': payment.id,
+                        'ref':ref
+                    }
+                    if payment.payment_type in ['outbound', 'transfer']:
+                        values['amount'] = -1 * payment.amount
 
-                line = self.env['account.bank.statement.line'].create(values)
-                lines |= line
-                payment.write({'statement_line_id': line.id})
-                statement_payment[payment] = {
-                    'line': line
-                }
-                if payment.payment_type == 'transfer':
-                    if payment.destination_journal_id.auto_statement: #.type == 'cash':
+                    line = self.env['account.bank.statement.line'].create(values)
+                    lines |= line
+                    payment.write({'statement_line_id': line.id})
+                    statement_payment[payment] = {
+                        'line': line
+                    }
+                    if payment.payment_type == 'transfer':
                         domain = [('date', '=', payment.payment_date),
                                   ('journal_id', '=', payment.destination_journal_id.id)]
                         detination_statement = self.env['account.bank.statement'].search(domain, limit=1)
@@ -83,22 +83,15 @@ class account_payment(models.Model):
                         statement_payment[payment]['line_destination'] = line
 
         res = super(account_payment, self).post()
+
         if lines:
             for line in lines:
                 if line.name == '/':
                     line.write({'name': line.payment_id.name})
-        self.reconciliation_statement_line(raise_error=False)
-        # for payment in self:
-        #     for move_line in payment.move_line_ids:
-        #         if not move_line.statement_id:
-        #             if move_line.journal_id==payment.journal_id:
-        #                 line = statement_payment[payment]['line']
-        #             else:
-        #                 line = statement_payment[payment]['line_destination']
-        #             move_line.write({'statement_id': line.statement_id.id})
-        #             move_line.move_id.write({'statement_line_id': line.id})
-        #     if payment.payment_type == 'transfer':
-        #         payment.write({'state': 'reconciled'})
+        for payment in self:
+            if payment.destination_journal_id.auto_statement:
+                payment.reconciliation_statement_line(raise_error=False)
+
         return res
 
     @api.multi
