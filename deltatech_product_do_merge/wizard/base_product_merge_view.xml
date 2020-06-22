@@ -82,7 +82,7 @@
                         <button name='action_start_automatic_process'
                             string='Merge Automatically'
                             type='object' class='oe_highlight'
-                            confirm="Are you sure to execute the automatic merge of your contacts ?"
+                            confirm="Are you sure to execute the automatic merge of your products ?"
                             attrs="{'invisible': [('state', '!=', 'option')]}" />
                         <button name='action_update_all_process'
                             string='Merge Automatically all process'
