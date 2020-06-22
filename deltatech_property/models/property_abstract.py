@@ -59,6 +59,10 @@ class PropertyProperty(models.AbstractModel):
 
     surface = fields.Float(string="Surface")
 
+
+    latitude = fields.Float(string='Latitude', digits=(16, 5))
+    longitude = fields.Float(string='Longitude', digits=(16, 5))
+
     # exista in echipament
     #note = fields.Text()
 
@@ -73,6 +77,13 @@ class PropertyProperty(models.AbstractModel):
     currency_id = fields.Many2one('res.currency', default=_default_currency)
 
 
+    def show_map(self):
+        url = 'https://www.google.com/maps/search/?api=1&query=%s,%s' % (self.latitude, self.longitude)
+        return {
+            "type": "ir.actions.act_url",
+            "url": url,
+            "target": "new",
+        }
 
     @api.multi
     def _get_attached_docs(self):
