@@ -39,7 +39,8 @@ class account_payment(models.Model):
         statement_payment = {}
 
         for payment in self:
-            if payment.destination_journal_id.auto_statement:
+            auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
+            if auto_statement:
                 detination_statement = False
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ''
@@ -123,8 +124,8 @@ class account_payment(models.Model):
         lines = self.env['account.bank.statement.line']
         self.get_reconciled_statement_line()
         for payment in self:
-
-            if payment.journal_id.auto_statement and not payment.statement_id: #type == 'cash'
+            auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
+            if auto_statement and not payment.statement_id: #type == 'cash'
                 domain = [('date', '=', self.payment_date), ('journal_id', '=', self.journal_id.id)]
                 statement = self.env['account.bank.statement'].search(domain, limit=1)
                 if not statement:
