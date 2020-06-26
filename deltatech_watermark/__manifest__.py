@@ -5,7 +5,7 @@
 
 {
     "name": "Watermark",
-    'version': '13.0.1.0.0',
+    'version': '13.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
@@ -19,7 +19,7 @@
         'views/company_view.xml',
 
     ],
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
     "installable": True,
 }
 
