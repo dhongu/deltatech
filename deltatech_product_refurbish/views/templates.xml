@@ -46,7 +46,7 @@
 
                         <div t-field="refurbish.note"/>
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                         <div class="text-danger" style="text-decoration: line-through; white-space: nowrap;"
                              t-esc="combination_info['price']"
                              t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
@@ -55,10 +55,9 @@
                                 t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
 
                     </div>
-                    <div class="col-2">
+                    <div class="col">
                         <button type="submit" class="btn btn-outline-success a-submit d-block">
-                            <i
-                                    class="fa fa-shopping-cart"/>
+                            <i class="fa fa-shopping-cart"/>
                             Buy Refurbish
                         </button>
                     </div>
