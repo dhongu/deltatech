@@ -6,8 +6,14 @@
 from odoo import fields, api, models
 
 
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    standard_price = fields.Float(track_visibility='always')
+
+
+
 class ProductTemplate(models.Model):
-    _name = 'product.template'
     _inherit = 'product.template'
 
     standard_price = fields.Float(track_visibility='always')

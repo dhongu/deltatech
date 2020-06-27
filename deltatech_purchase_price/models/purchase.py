@@ -11,7 +11,8 @@ class PurchaseOrder(models.Model):
     @api.multi
     def _add_supplier_to_product(self):
         #todo: de adaugat parametru in configurare
-        add_supplier_to_product = self.env['ir.config_parameter'].sudo().get_param('purchase.add_supplier_to_product')
+        config_parameter = self.env['ir.config_parameter'].sudo()
+        add_supplier_to_product = config_parameter.get_param('purchase.add_supplier_to_product', default=True)
         if add_supplier_to_product == 'False':
             add_supplier_to_product = False
         if add_supplier_to_product:
