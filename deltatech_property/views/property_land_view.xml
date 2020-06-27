@@ -69,6 +69,9 @@
                                     icon="fa-files-o">
                                 <field string="Documente" name="doc_count" widget="statinfo"/>
                             </button>
+                               <button class="oe_stat_button" name="show_map" type="object"
+                                    icon="fa-location-arrow" string="Location">
+                            </button>
                         </div>
 
                          <field name="image" widget="image" class="oe_avatar"/>
@@ -96,6 +99,8 @@
                                     <field name="country_id" placeholder="Country" class="o_address_country"
                                            options='{"no_open": True, "no_create": True}'/>
                                 </div>
+                                <field name="latitude"/>
+                                <field name="longitude"/>
                             </group>
 
                         </group>
@@ -147,8 +152,14 @@
                             <page string="Surfaces">
                                 <group>
                                     <group>
-                                    <field name="surface"/>
-                                </group>
+                                        <field name="surface"/>
+                                        <label for="price"/>
+                                        <div class="o_row" name="price" >
+                                            <field name="price"/>
+                                            <span> / m³</span>
+                                        </div>
+                                        <field name="currency_id"/>
+                                    </group>
 
                                 </group>
 

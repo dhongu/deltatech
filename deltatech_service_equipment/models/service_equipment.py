@@ -16,7 +16,7 @@ from datetime import date, datetime
 
 class service_equipment(models.Model):
     _name = 'service.equipment'
-    _description = "Equipment"
+    _description = "Service Equipment"
     _inherits = {'maintenance.equipment': 'base_equipment_id'}
     _inherit = 'mail.thread'
 

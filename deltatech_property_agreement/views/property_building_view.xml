@@ -5,9 +5,18 @@
         <field name="model">property.building</field>
         <field name="inherit_id" ref="deltatech_property.view_property_building_form"/>
         <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button type="action" class="oe_stat_button" id="meter_button" icon="fa-slack"
+                        name="%(deltatech_service_equipment.action_service_meter)d"
+                        context="{'search_default_equipment_id': id,'default_equipment_id': service_equipment_id}">
+                    <span class="o_stat_text">Meters</span>
+                </button>
+            </div>
+
             <field name="owner_id" position="after">
                 <field name="tenant_id"/>
                 <field name="agreement_id"/>
+                <field name="service_equipment_id" invisible="1" required="0"/>
             </field>
         </field>
     </record>

@@ -290,7 +290,7 @@ class MergeProductAutomatic(models.TransientModel):
         if SUPERUSER_ID != self.env.uid and 'account.move.line' in self.env and self.env[
             'account.move.line'].sudo().search([('product_id', 'in', [product.id for product in src_products])]):
             raise UserError(_(
-                "Only the destination contact may be linked to existing Journal Items. Please ask the Administrator if you need to merge several contacts linked to existing Journal Items."))
+                "Only the destination product may be linked to existing Journal Items. Please ask the Administrator if you need to merge several contacts linked to existing Journal Items."))
 
         # call sub methods to do the merge
         self._update_foreign_keys(src_products, dst_product)

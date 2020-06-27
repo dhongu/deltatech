@@ -18,6 +18,8 @@ class AccountInvoice(models.Model):
     @api.onchange('journal_id')
     def _onchange_journal_id(self):
         res = super(AccountInvoice, self)._onchange_journal_id()
+        if not res:
+            res = {}
         msg = self.check_data(journal_id=self.journal_id.id, date_invoice=self.date_invoice)
         if msg != '':
             res['warning'] = {'title': _('Warning'), 'message': msg}

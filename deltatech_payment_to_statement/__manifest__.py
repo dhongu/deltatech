@@ -13,6 +13,7 @@
     "category": "Accounting",
     "depends": [
         "account",
+        "payment"
     ],
     "license": "LGPL-3",
     "data": [

@@ -28,8 +28,10 @@ class PropertyBuilding(models.Model):
 
     data_pif = fields.Date(string="Data PIF")
 
-    parking_space = fields.Integer(string='Parking Space available')
-
+    parking_space = fields.Integer(string='Parking Space', help='Parking Space Available')
+    occupants = fields.Integer(string='Occupants')
+    occupied_date = fields.Date(string='Date Occupied')
+    finished = fields.Boolean()
 
     roof_structure = fields.Selection([
         ('tile', 'wood roofing structure, tile roofing'),
@@ -52,11 +54,13 @@ class PropertyBuilding(models.Model):
                                   compute="_compute_all_surface", store=True)  # Scc
 
     surface_office = fields.Float(string="Surface office", compute="_compute_all_surface", store=True)  # Sbir
+    surface_living = fields.Float(string="Surface living", compute="_compute_all_surface", store=True)  #
+    surface_bedroom = fields.Float(string="Surface bedroom", compute="_compute_all_surface", store=True)  #
 
     surface_meeting = fields.Float(string="Surface meeting", compute="_compute_all_surface", store=True)  # Ssed
     surface_lobby = fields.Float(string="Surface lobby", compute="_compute_all_surface", store=True)  # Shol
     surface_staircase = fields.Float(string="Surface staircase", compute="_compute_all_surface", store=True)  # Scs
-    surface_kitchens = fields.Float(string="Surface kitchens", compute="_compute_all_surface", store=True)  # Sof
+    surface_kitchen = fields.Float(string="Surface kitchen", compute="_compute_all_surface", store=True)  # Sof
     surface_sanitary = fields.Float(string="Surface sanitary", compute="_compute_all_surface", store=True)  # Sgrs
 
     surface_laboratory = fields.Float(string="Surface laboratory", compute="_compute_all_surface", store=True)  # Slb
@@ -194,17 +198,21 @@ class PropertyBuilding(models.Model):
     def _compute_all_surface(self):
 
         for building in self:
-            surface = {'office': 0.0, 'meeting': 0.0, 'lobby': 0.0, 'staircase': 0.0, 'kitchens': 0.0, 'sanitary': 0.0,
+            surface = {'office': 0.0, 'living':0.0, 'bedroom':0.0,
+                       'meeting': 0.0, 'lobby': 0.0, 'staircase': 0.0, 'kitchen': 0.0, 'sanitary': 0.0,
                        'laboratory': 0.0, 'it_endowments': 0.0, 'garage': 0.0, 'warehouse': 0.0, 'log_warehouse': 0.0,
                        'archive': 0.0, 'cloakroom': 0.0, 'premises': 0.0, 'access': 0.0, }
             for room in building.room_ids:
                 surface[room.usage] += room.surface
 
             building.surface_office = surface['office']
+            building.surface_living = surface['living']
+            building.surface_bedroom = surface['bedroom']
+
             building.surface_meeting = surface['meeting']
             building.surface_lobby = surface['lobby']
             building.surface_staircase = surface['staircase']
-            building.surface_kitchens = surface['kitchens']
+            building.surface_kitchen = surface['kitchen']
             building.surface_sanitary = surface['sanitary']
             building.surface_laboratory = surface['laboratory']
             building.surface_it_endowments = surface['it_endowments']
@@ -217,14 +225,15 @@ class PropertyBuilding(models.Model):
             building.surface_access = surface['access']
 
             building.surface_common = surface['meeting'] + surface['lobby'] + surface['staircase'] + \
-                                  surface['kitchens'] + surface['sanitary'] + surface['access']
+                                  surface['kitchen'] + surface['sanitary'] + surface['access']
 
-            building.surface_useful = surface['office'] + building.surface_common + surface['laboratory'] + \
+            building.surface_useful = surface['office'] + surface['living'] + surface['bedroom']  + \
+                                      building.surface_common + surface['laboratory'] + \
                                   surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
                                   surface['log_warehouse'] + surface['archive'] + \
                                   surface['cloakroom'] + surface['premises']
 
-            building.surface_cleaned_adm = building.surface_common + surface['office']
+            building.surface_cleaned_adm = building.surface_common + surface['office'] + surface['living'] + surface['bedroom']
             building.surface_cleaned_ind = surface['garage'] + surface['cloakroom'] + building.surface_terraces
 
             building.surface_cleaned_tot = building.surface_cleaned_adm + building.surface_cleaned_ind + building.surface_cleaned_ext
