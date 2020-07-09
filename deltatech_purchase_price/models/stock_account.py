@@ -26,13 +26,17 @@ class StockMove(models.Model):
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             if update_product_standard_price:
+                product_template = self.product_id.product_tmpl_id
+                msg_body = "Update purchase price from PO %s:\nOld price: %s -> New price: %s" % (
+                self.purchase_line_id.order_id.name, product_template.standard_price, self.price_unit)
+                product_template.message_post(body=msg_body)
                 self.product_id.write({'standard_price': price_unit})
-
+                
             self.write({'price_unit': price_unit}) #mai trebuie sa pun o conditie de status ?
             # update price form last receipt
             for seller in self.product_id.seller_ids:
                 if seller.name == self.purchase_line_id.order_id.partner_id:
-                    if seller.min_qty == 0.0 and seller.date_start is False and seller.date_end is False:
+                    if seller.min_qty <= 1.0 and seller.date_start is False and seller.date_end is False:
                         if seller.currency_id:
                             if seller.currency_id == self.purchase_line_id.order_id.currency_id:
                                 seller_price_unit = self.purchase_line_id.price_unit
