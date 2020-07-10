@@ -7,7 +7,7 @@ Watermark
 
 
 Features:
- - adaugare camp Watermark
+ - define field watermark in the company
 
 
 Bug Tracker
