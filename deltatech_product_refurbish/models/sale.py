@@ -106,5 +106,6 @@ class SaleOrderLine(models.Model):
     def _action_launch_stock_rule(self, previous_product_uom_qty=False):
         super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
         if self.lot_id:
-            for move in self.move_ids:
-                move.move_line_ids.write({'lot_id': self.lot_id.id})
+            for orderline in self:
+                for move in orderline.move_ids:
+                    move.move_line_ids.write({'lot_id': orderline.lot_id.id})
