@@ -23,9 +23,15 @@ class SaleOrder(models.Model):
             order_line = self.env['sale.order.line'].sudo().browse(line_id)
             if order_line.lot_id:
                 values = {'line_id': order_line.id, 'quantity': 1 }
-        else:
+        elif line_id and not (add_qty  or set_qty  ):
+            order_line = self.env['sale.order.line'].sudo().browse(line_id)
+            discount = order_line.discount
             values = super(SaleOrder, self)._cart_update(product_id, line_id, add_qty, set_qty, **kwargs)
-        return values
+            # values['discount'] = discount
+            order_line.write({'discount': discount})
+            return values
+        else:
+            return super(SaleOrder, self)._cart_update(product_id, line_id, add_qty, set_qty, **kwargs)
 
     def _cart_refurbish_update(self, lot_id, line_id=None, add_qty=0, set_qty=0, **kwargs):
         self.ensure_one()
