@@ -113,6 +113,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
     sAnimations.registry.WebsiteSaleCity = sAnimations.Class.extend({
         selector: '.oe_website_sale',
         read_events: {
+            'change select[name="country_id"]': '_onChangeCountry',
             'change select[name="state_id"]': '_onChangeState',
             'change select[name="city_id"]': '_onChangeCity',
         },
@@ -151,6 +152,12 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
             return def;
         },
 
+        _onChangeCountry: function (ev) {
+            var selectCities = $("select[name='city_id']");
+            selectCities.parent('div').hide();
+            $("input[name='city']").parent('div').show();
+        },
+
         _onChangeCity: function (ev) {
             if (!$("select[name='city_id']").val()) {
                 return;
@@ -172,6 +179,8 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
         },
 
         _changeState: function () {
+            var selectCities = $("select[name='city_id']");
+
             if (!$("select[name='state_id']").val()) {
                 return;
             }
@@ -185,7 +194,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                 //$("input[name='phone']").attr('placeholder', data.phone_code !== 0 ? '+'+ data.phone_code : '');
 
                 // populate states and display
-                var selectCities = $("select[name='city_id']");
+
                 // dont reload state at first loading (done in qweb)
                 var selected = selectCities.data('value');
                 if (selectCities.data('init') === 0 || selectCities.find('option').length === 1) {
@@ -202,7 +211,7 @@ odoo.define('deltatech_website_city.website_sale', function (require) {
                         });
                         selectCities.parent('div').show();
                     } else {
-                        selectCities.val('').parent('div').hide();
+                        selectCities.parent('div').hide();
                         $("input[name='city']").parent('div').show();
                     }
                     selectCities.data('init', 0);
