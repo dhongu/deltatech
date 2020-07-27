@@ -3,7 +3,7 @@
 
 
     <template id="product_refurbish" inherit_id="website_sale.product" name="Refurbish">
-        <xpath expr="//div[@id='product_details']//form" position="after">
+        <xpath expr="//hr[@t-if='product.description_sale']" position="before">
             <hr t-if="product.has_refurbish">
                 <t t-set="refurbish" t-value="product.refurbish_ids[0]"/>
                 <t t-call="deltatech_product_refurbish.refurbish"/>
