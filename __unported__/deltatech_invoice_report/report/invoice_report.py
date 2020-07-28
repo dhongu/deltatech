@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
+
 
 class account_invoice_report(models.Model):
     _inherit = 'account.invoice.report'

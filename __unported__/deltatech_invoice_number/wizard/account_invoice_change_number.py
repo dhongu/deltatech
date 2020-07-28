@@ -25,7 +25,7 @@ class account_invoice_change_number(models.TransientModel):
 
         return defaults
 
-    @api.multi
+
     def do_change_number(self):
         active_id = self.env.context.get('active_id', False)
         if active_id:

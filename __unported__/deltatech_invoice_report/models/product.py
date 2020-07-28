@@ -4,7 +4,7 @@
 
 
 from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
+
 
 
 class product_invoice_history(models.TransientModel):

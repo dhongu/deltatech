@@ -5,7 +5,7 @@
 
 from odoo import fields, api, models
 from odoo import tools
-import odoo.addons.decimal_precision as dp
+
 
 
 class deltatech_sale_report(models.Model):

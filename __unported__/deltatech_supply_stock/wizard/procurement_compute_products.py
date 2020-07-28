@@ -9,7 +9,7 @@ import threading
 
 from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
-import odoo.addons.decimal_precision as dp
+
 from odoo.osv import expression
 from odoo.tools import float_is_zero
 

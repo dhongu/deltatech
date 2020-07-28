@@ -11,5 +11,6 @@ class IapAccount(models.Model):
     _inherit = 'iap.account'
 
 
-    user_name = fields.Char()
-    password = fields.Char()
+    endpoint = fields.Char()
+
+

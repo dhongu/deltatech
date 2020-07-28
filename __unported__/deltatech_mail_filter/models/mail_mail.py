@@ -20,7 +20,7 @@
 ##############################################################################
 
 from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
+
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 """

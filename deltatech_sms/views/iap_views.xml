@@ -6,8 +6,7 @@
         <field name="inherit_id" ref="iap.iap_account_view_form"/>
         <field name="arch" type="xml">
             <field name="account_token" position="after">
-                <field name="user_name"/>
-                <field name="password"/>
+                <field name="endpoint"/>
             </field>
 
         </field>
