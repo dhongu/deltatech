@@ -5,7 +5,7 @@
 
 {
     "name": "Deltatech SMS",
-    'version': '12.0.1.0.0',
+    'version': '13.0.1.0.0',
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
 
@@ -15,7 +15,7 @@
     "license": "LGPL-3",
     "data": [ 'views/iap_views.xml'],
 
-    "images": ['images/main_screenshot.png'],
+    "images": ['static/description/main_screenshot.png'],
     "installable": True,
 }
 
