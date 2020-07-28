@@ -4,7 +4,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, _
+from odoo import models, api
 
 import threading
 
@@ -12,11 +12,10 @@ import threading
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    def action_quotation_send(self):
-        res = super(SaleOrder, self).action_quotation_send()
+
+    def _send_order_confirmation_mail(self):
         if not getattr(threading.currentThread(), 'testing', False) and not self.env.registry.in_test_mode():
-            sales = self.filtered(
-                lambda p: p.company_id.sale_order_sms_post and (p.partner_id.mobile or p.partner_id.phone))
+            sales = self.filtered(lambda o: o.company_id.sale_order_sms_post and ( o.partner_id.mobile or o.partner_id.phone))
             for sale in sales:
                 # Sudo as the user has not always the right to read this sms template.
                 template = sale.company_id.sudo().sale_order_sms_post_template_id
@@ -25,8 +24,11 @@ class SaleOrder(models.Model):
                     partner_ids=sale.partner_id.ids,
                     put_in_queue=False
                 )
+        return super(SaleOrder, self)._send_order_confirmation_mail()
 
-        return res
+
+
+
 
     def action_confirm(self):
         res = super(SaleOrder, self).action_confirm()
