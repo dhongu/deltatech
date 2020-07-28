@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sms_template_data_sale_order" model="sms.template">
+            <field name="name">Sale Order: Send by SMS Text Message</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body">
+                    ${object.company_id.name}: We are glad to inform you that your order n° ${object.name} has been confirmed.
+            </field>
+        </record>
+    </data>
+</odoo>

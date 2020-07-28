@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_sale" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@id='confirmation_email_setting']" position="after">
+
+
+                <div class="col-12 col-lg-6 o_setting_box" id="sale_confirmation_sms">
+                    <div class="o_setting_left_pane">
+                        <field name="sale_order_sms_validation"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for='sale_order_sms_validation' string="SMS Sale Order"/>
+                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific."
+                              groups="base.group_multi_company"/>
+                        <div class="text-muted">
+                            Send an automatic confirmation SMS Text Message when Sale Order are confirmed
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt16" attrs="{'invisible': [('sale_order_sms_validation', '=', False)]}">
+                                <label for="sale_sms_confirmation_template_id" string="SMS Template"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="sale_sms_confirmation_template_id" class="oe_inline"
+                                       attrs="{'required': [('sale_order_sms_validation', '=', True)]}"
+                                       context="{'default_model': 'sale.order'}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
