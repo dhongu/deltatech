@@ -13,12 +13,12 @@ class ProductTemplate(models.Model):
     refurbish_ids = fields.Many2many('stock.production.lot', compute='_get_refurbish')
 
     def _get_refurbish(self):
-        domain_loc = self.env['product.product']._get_domain_locations()[0]
+        domain_loc = self.env['product.product'].sudo()._get_domain_locations()[0]
 
         for product in self:
             refurbish_ids = self.env['stock.production.lot']
             domain = domain_loc + [('product_id', 'in', product.product_variant_ids.ids)]
-            quants = self.env['stock.quant'].search(domain)
+            quants = self.env['stock.quant'].sudo().search(domain)
             for quant in quants:
                 if quant.lot_id.condition == 'refurbish' and not quant.reserved_quantity:
                     refurbish_ids |= quant.lot_id
