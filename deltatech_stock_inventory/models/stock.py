@@ -161,7 +161,7 @@ class StockInventoryLine(models.Model):
         use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
         use_inventory_price = eval(use_inventory_price)
         for inventory_line in self:
-            if inventory_line.product_id.cost_method == 'fifo' and use_inventory_price:
+            if (inventory_line.product_id.cost_method == 'fifo' or inventory_line.product_id.cost_method == 'average') and use_inventory_price:
                 inventory_line.product_id.write({
                     'standard_price': inventory_line.standard_price
                 })  # actualizare pret in produs
