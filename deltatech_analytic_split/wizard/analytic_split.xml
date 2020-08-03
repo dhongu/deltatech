@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<odoo>
+	<data>
+        <record id="view_account_analytic_transfer_form" model="ir.ui.view">
+            <field name="name">analytic.line.split</field>
+            <field name="model">analytic.line.split</field>
+            <field name="arch" type="xml">
+                <form string="Split...">
+                    <group>
+                        <group>
+                            <field name="from_analytic_line" invisible="1"/>
+                            <field name="from_analytic"/>
+                        </group>
+                        <group>
+                            <field name="from_amount"/>
+                        </group>
+                    </group>
+                    <field name="to_analytics">
+                        <tree editable="bottom">
+                            <field name="date"/>
+                            <field name="description"/>
+                            <field name="analytic_account"/>
+                            <field name="amount"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="do_transfer" string="_Apply" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window id="action_account_analytic_split" name="Transfer amount"
+            res_model="analytic.line.split"
+            src_model="account.analytic.line"
+            view_mode="form"
+            target="new"/>
+    </data>
+</odoo>
