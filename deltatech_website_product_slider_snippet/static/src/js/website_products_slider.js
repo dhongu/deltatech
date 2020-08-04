@@ -11,9 +11,7 @@ var sAnimation = require('website.content.snippets.animation');
 var wUtils = require('website.utils');
 
 var _t = core._t;
-var rpc = require('web.rpc');
-var weContext = require('web_editor.context');
-var options = require('web_editor.snippets.options');
+
 
 
 var qweb = core.qweb;
@@ -242,36 +240,6 @@ sAnimation.registry.productsSliderUpdate = sAnimation.Class.extend({
 
 
 
-options.registry.edit_product_list = options.Class.extend({
-    select_product_list: function (previewMode, value) {
-        var self = this;
-        return wUtils.prompt({
-            id: "editor_product_list_slider",
-            window_title: _t("Select a Product List"),
-            select: _t("Product List"),
-            init: function (field) {
-                return rpc.query({
-                        model: 'product.list',
-                        method: 'name_search',
-                        args: ['', []],
-                        context: weContext.get(), // TODO use this._rpc
-                    });
-            },
-        }).then(function (product_list_id) {
-            self.$target.attr("data-id", product_list_id);
-        });
-    },
-    onBuilt: function () {
-        var self = this;
-        this._super();
-        this.select_product_list("click").fail(function () {
-            self.getParent().removeSnippet();
-        });
-    },
-    cleanForSave: function () {
-        this.$target.addClass('d-none');
-    },
-});
 
 
 

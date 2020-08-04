@@ -1,5 +1,7 @@
-# Copyright 2015, 2017 Jairo Llopis <jairo.llopis@tecnativa.com>
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# -*- coding: utf-8 -*-
+# ©  2015-2020 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo.http import request, route
 from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
@@ -16,7 +18,6 @@ class WebsiteSale(Base):
         """
         Returns list of  products according to snippet settings
         """
-        print(list_id)
         max_number_of_product_for_carousel = 12
         product_list = request.env['product.list'].sudo().browse(list_id)
         if not product_list:

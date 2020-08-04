@@ -17,7 +17,7 @@ class StockSimpleTransfer(models.TransientModel):
     date = fields.Date(string='Date', default=fields.Date.today, required=True)
 
     quantity = fields.Float(string="Quantity", digits= dp.get_precision('Product Unit of Measure'), required=True)
-    uom_id = fields.Many2one('product.uom', 'Unit of Measure', required=True)
+    uom_id = fields.Many2one('uom.uom', 'Unit of Measure', required=True)
 
 
     @api.onchange('product_id')
