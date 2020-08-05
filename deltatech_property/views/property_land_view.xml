@@ -84,6 +84,7 @@
                             <group string="Identification">
                                 <field name="region_id"/>
                                 <field name="owner_id"/>
+                                <field name="responsible_id"/>
                                 <field name="asset_number"/>
                             </group>
 

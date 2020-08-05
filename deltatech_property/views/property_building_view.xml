@@ -110,18 +110,26 @@
                             <page string="General">
                                 <group>
                                     <group>
-                                        <field name="administrator_id"/>
+<!--                                        <field name="administrator_id"/>-->
+                                        <field name="responsible_id"/>
                                         <field name="land_id"/>
                                         <field name="data_pif"/>
                                         <field name="parking_space"/>
                                         <field name="occupants"/>
                                         <field name="occupied_date"/>
                                         <field name="finished"/>
+                                        <field name="furniture_at_occupation"/>
                                     </group>
                                     <group>
                                         <field name="type_prop"/>
                                         <field name="purpose_parent_id"/>
                                         <field name="purpose_id"/>
+                                        <field name="market_rent_value"/>
+                                        <field name="reevaluation_date"/>
+                                        <field name="reevaluation_value"/>
+                                        <field name="martket_similar_value"/>
+                                        <field name="monthly_average_winter"/>
+                                        <field name="monthly_average_summer"/>
                                     </group>
                                 </group>
                                 <field name="note" class="oe_inline" placeholder="Note"/>
@@ -238,6 +246,16 @@
                                     </group>
                                 </group>
                             </page>
+                             <page string="History">
+                                 <field name="history_ids">
+                                     <tree editable="bottom">
+                                         <field name="owner_id"/>
+                                         <field name="from_date"/>
+                                         <field name="to_date"/>
+                                         <field name="note"/>
+                                     </tree>
+                                 </field>
+                             </page>
                         </notebook>
 
 

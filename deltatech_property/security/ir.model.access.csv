@@ -11,3 +11,4 @@ access_property_cost_center,access_property_cost_center,model_property_cost_cent
 access_property_region,access_property_region,model_property_region,,1,1,1,1
 
 access_property_features,access_property_features,model_property_features,,1,1,1,1
+access_property_history,access_property_history,deltatech_property.model_building_history,,1,1,1,1

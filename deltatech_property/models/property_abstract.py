@@ -41,7 +41,7 @@ class PropertyProperty(models.AbstractModel):
     # active = fields.Boolean(default=True)
 
     owner_id = fields.Many2one('res.partner', string="Owner")
-
+    responsible_id = fields.Many2one('res.partner', string="Responsible")
     region_id = fields.Many2one('property.region', string="Region")
     asset_number = fields.Char(string="Asset Number", index=True)
 
@@ -75,6 +75,7 @@ class PropertyProperty(models.AbstractModel):
 
     price = fields.Monetary()
     currency_id = fields.Many2one('res.currency', default=_default_currency)
+    property_value_at_purchase = fields.Monetary()
 
 
     def show_map(self):

@@ -8,6 +8,7 @@ from datetime import datetime
 from odoo.modules import get_module_resource
 import base64
 
+
 class PropertyBuilding(models.Model):
     _name = 'property.building'
     _description = "Building"
@@ -19,7 +20,7 @@ class PropertyBuilding(models.Model):
     room_ids = fields.One2many('property.room', 'building_id', string="Rooms")
     features_ids = fields.One2many('property.features', 'building_id', string="Features")
 
-    administrator_id = fields.Many2one('res.partner', string="Administrator", domain=[('is_company', '=', False)])
+    # administrator_id = fields.Many2one('res.partner', string="Administrator", domain=[('is_company', '=', False)])
 
     purpose_parent_id = fields.Many2one('property.building.purpose', string="Purpose building",
                                         domain=[('parent_id', '=', False)])
@@ -105,9 +106,22 @@ class PropertyBuilding(models.Model):
     surface_cleaning_windows = fields.Float(string="Surface cleaning window", compute="_cleaning_windows",
                                             store=True)  # Scgeam
 
-    maintenance_team_type = fields.Selection([('internal','Internal'),('external','external')])
+    maintenance_team_type = fields.Selection([('internal', 'Internal'), ('external', 'external')])
     verification_date = fields.Date()
     verification_note = fields.Char()
+    
+    history_ids = fields.One2many('building.history', 'building_id')
+    market_rent_value = fields.Monetary()
+    reevaluation_date = fields.Date()
+    reevaluation_value = fields.Monetary()
+    monthly_average_winter = fields.Monetary('Monthly utilities average - winter')
+    monthly_average_summer = fields.Monetary('Monthly utilities average - summer')
+    furniture_at_occupation = fields.Selection([
+        ('Full', 'Full'),
+        ('Semi', 'Semi'),
+        ('None', 'None'),
+    ])
+    martket_similar_value = fields.Monetary('Market value for similar property')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -121,7 +135,6 @@ class PropertyBuilding(models.Model):
         buildings = super(PropertyBuilding, self).create(vals_list)
 
         return buildings
-
 
     @api.model
     def _get_default_image(self):
@@ -198,7 +211,7 @@ class PropertyBuilding(models.Model):
     def _compute_all_surface(self):
 
         for building in self:
-            surface = {'office': 0.0, 'living':0.0, 'bedroom':0.0,
+            surface = {'office': 0.0, 'living': 0.0, 'bedroom': 0.0,
                        'meeting': 0.0, 'lobby': 0.0, 'staircase': 0.0, 'kitchen': 0.0, 'sanitary': 0.0,
                        'laboratory': 0.0, 'it_endowments': 0.0, 'garage': 0.0, 'warehouse': 0.0, 'log_warehouse': 0.0,
                        'archive': 0.0, 'cloakroom': 0.0, 'premises': 0.0, 'access': 0.0, }
@@ -227,7 +240,7 @@ class PropertyBuilding(models.Model):
             building.surface_common = surface['meeting'] + surface['lobby'] + surface['staircase'] + \
                                   surface['kitchen'] + surface['sanitary'] + surface['access']
 
-            building.surface_useful = surface['office'] + surface['living'] + surface['bedroom']  + \
+            building.surface_useful = surface['office'] + surface['living'] + surface['bedroom'] + \
                                       building.surface_common + surface['laboratory'] + \
                                   surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
                                   surface['log_warehouse'] + surface['archive'] + \
@@ -240,7 +253,6 @@ class PropertyBuilding(models.Model):
 
             building.surface_derating_int = building.surface_useful
             building.surface_derating = building.surface_derating_ext + building.surface_derating_int
-
 
 class PropertyFeatures(models.Model):
     _name = 'property.features'
@@ -261,3 +273,13 @@ class PropertyFeatures(models.Model):
 
     number = fields.Integer()
     observation = fields.Char()
+
+class BuildingHistory(models.Model):
+    _name = 'building.history'
+    _description = 'Building History'
+
+    building_id = fields.Many2one('property.building', string='Building', required=True, ondelete='cascade')
+    owner_id = fields.Many2one('res.partner', string="Owner")
+    from_date = fields.Date(string="From date")
+    to_date = fields.Date(string="To date")
+    note = fields.Char()
