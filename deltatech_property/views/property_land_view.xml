@@ -129,6 +129,7 @@
                                         <field name="acquisition_mode_id"/>
                                         <field name="date_acquisition"/>
                                         <field name="doc_acquisition"/>
+                                        <field name="property_value_at_purchase"/>
                                     </group>
                                     <group>
                                         <field name="categ_id"/>
