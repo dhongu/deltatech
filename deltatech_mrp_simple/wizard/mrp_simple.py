@@ -117,7 +117,7 @@ class MRPSimpleLine(models.TransientModel):
     product_id = fields.Many2one('product.product')
     quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
     price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Product Price'))
-    uom_id = fields.Many2one('product.uom', 'Unit of Measure')
+    uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),
         ('receipt', 'Receipt from production')], string='Type'
