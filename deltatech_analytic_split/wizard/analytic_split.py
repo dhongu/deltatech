@@ -46,6 +46,7 @@ class AnalyticLineSplit(models.TransientModel):
         
         values = []
         original_amount = self.from_amount
+        to_decrease = 0.0
         note = _('Split from line amount %s:<br/>' % self.from_amount)
         for line in self.to_analytics:
             values.append({
@@ -59,10 +60,11 @@ class AnalyticLineSplit(models.TransientModel):
             })
             
             # decrease amount
-            new_value = original_amount - line.amount
-            self.from_analytic_line.update({'amount': new_value})
-            original_amount -= line.amount
+            # new_value = original_amount - line.amount
+            # self.from_analytic_line.update({'amount': new_value})
             
+            original_amount -= line.amount
+            to_decrease += line.amount
             # add to note
             note += _('%s: %s<br/>' % (line.description, line.amount))
             
@@ -71,6 +73,9 @@ class AnalyticLineSplit(models.TransientModel):
 
         # create lines
         self.env['account.analytic.line'].create(values)
+        reverse_analytic = self.from_analytic_line.copy()
+        
+        reverse_analytic.update({'amount': -to_decrease})
         
         return True
         # return {
