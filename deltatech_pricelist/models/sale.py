@@ -15,6 +15,7 @@ class SaleOrderLine(models.Model):
 
     # este rescrisa metoda standard doar pentru linia
     #  product_currency = product.currency_id
+    # commitul 3f3db89ece3f8df9bfa58e278843d07a84c66741 rezolva aceasta problema
     def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
         """Retrieve the price before applying the pricelist
             :param obj product: object of current product record
