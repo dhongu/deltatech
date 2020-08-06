@@ -6,7 +6,7 @@
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 import odoo.addons.decimal_precision as dp
-
+from odoo.exceptions import UserError
 
 class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
@@ -108,6 +108,8 @@ class MRPSimple(models.TransientModel):
 
             move = self.env['stock.move'].create(values)
         return move
+    
+    
 
 
 class MRPSimpleLine(models.TransientModel):
@@ -116,7 +118,7 @@ class MRPSimpleLine(models.TransientModel):
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
     quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
-    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Product Price'))
+    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Product Price'), compute='compute_outprice')
     uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
     type = fields.Selection([
         ('consumption', 'Consumption in production'),
@@ -126,3 +128,20 @@ class MRPSimpleLine(models.TransientModel):
     @api.onchange('product_id')
     def onchange_product_id(self):
         self.uom_id = self.product_id.uom_id
+        mrpsimple = self.mrp_simple_id
+        price = 0.0
+        for line in mrpsimple.product_out_ids:
+            price += line.product_id.standard_price * line.quantity
+        for line in mrpsimple.product_in_ids:
+            line.price_unit = price / line.quantity
+
+    @api.multi
+    @api.onchange('quantity')
+    def compute_finit_price(self):
+        mrpsimple = self.mrp_simple_id
+        price = 0.0
+        for line in mrpsimple.product_out_ids:
+            price += line.product_id.standard_price * line.quantity
+        for line in mrpsimple.product_in_ids:
+            line.price_unit = price / line.quantity
+    
