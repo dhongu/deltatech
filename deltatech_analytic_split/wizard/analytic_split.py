@@ -44,50 +44,19 @@ class AnalyticLineSplit(models.TransientModel):
         if abs(line_amount) > abs(self.from_amount):
             raise Warning(_("Amount error: amounts exceeds original line amount"))
         
-        values = []
-        original_amount = self.from_amount
-        to_decrease = 0.0
         note = _('Split from line amount %s:<br/>' % self.from_amount)
         for line in self.to_analytics:
-            values.append({
-                'name': line.description,
-                'account_id': line.analytic_account.id,
-                'date': line.date,
-                'amount': line.amount,
-                'tag_ids': self.from_analytic_line.tag_ids.ids,
-                'ref': self.from_analytic_line.ref,
-                'partner_id': self.from_analytic_line.partner_id.id,
-            })
-            
-            # decrease amount
-            # new_value = original_amount - line.amount
-            # self.from_analytic_line.update({'amount': new_value})
-            
-            original_amount -= line.amount
-            to_decrease += line.amount
+            newline = self.from_analytic_line.copy()
+            newline.update({'amount': line.amount, 'account_id': line.analytic_account.id})
+            reverse_analytic = newline.copy()
+            reverse_analytic.update({'amount': -line.amount, 'account_id': self.from_analytic_line.account_id})
             # add to note
             note += _('%s: %s<br/>' % (line.description, line.amount))
             
         # post notes
         self.from_analytic_line.message_post(body=note)
 
-        # create lines
-        self.env['account.analytic.line'].create(values)
-        reverse_analytic = self.from_analytic_line.copy()
-        
-        reverse_analytic.update({'amount': -to_decrease})
-        
         return True
-        # return {
-        #     'domain': "[('id','=', " + str(new_line.id) + ")]",
-        #     'name': _('New'),
-        #     'view_type': 'form',
-        #     'view_mode': 'tree,form',
-        #     'res_model': 'account.analytic.line',
-        #     'view_id': False,
-        #     'type': 'ir.actions.act_window',
-        #
-        # }
 
         
 class AnalyticLineSplitLines(models.TransientModel):
