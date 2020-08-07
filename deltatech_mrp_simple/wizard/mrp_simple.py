@@ -11,10 +11,8 @@ from odoo.exceptions import UserError
 class MRPSimple(models.TransientModel):
     _name = 'mrp.simple'
 
-    product_in_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                     domain=[('type', '=', 'receipt')], context={'default_type': 'receipt'})
-    product_out_ids = fields.One2many('mrp.simple.line', 'mrp_simple_id',
-                                      domain=[('type', '=', 'consumption')], context={'default_type': 'consumption'})
+    product_in_ids = fields.One2many('mrp.simple.line.in', 'mrp_simple_id')
+    product_out_ids = fields.One2many('mrp.simple.line.out', 'mrp_simple_id')
 
     picking_type_consume = fields.Many2one('stock.picking.type', string="Picking type consume", required=True, )
     picking_type_receipt_production = fields.Many2one('stock.picking.type', string="Picking type receipt",
@@ -44,10 +42,13 @@ class MRPSimple(models.TransientModel):
         })
 
         for line in self.product_in_ids:
-            line.product_id.write({
-                'standard_price': line.price_unit,
-            })
-            self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
+            if line.price_unit:
+                line.product_id.write({
+                    'standard_price': line.price_unit,
+                })
+                self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
+            else:
+                raise UserError('Price 0 for result product!')
 
         for line in self.product_out_ids:
             self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.product_id.standard_price)
@@ -112,28 +113,51 @@ class MRPSimple(models.TransientModel):
     
 
 
-class MRPSimpleLine(models.TransientModel):
-    _name = 'mrp.simple.line'
+# class MRPSimpleLine(models.TransientModel):
+#     _name = 'mrp.simple.line'
+#
+#     mrp_simple_id = fields.Many2one('mrp.simple')
+#     product_id = fields.Many2one('product.product')
+#     quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
+#     price_unit = fields.Float('Unit Price', digits=dp.get_precision('Product Price'))
+#     uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
+#     type = fields.Selection([
+#         ('consumption', 'Consumption in production'),
+#         ('receipt', 'Receipt from production')], string='Type'
+#     )
+
+    # @api.onchange('product_id')
+    # def onchange_product_id(self):
+    #     self.uom_id = self.product_id.uom_id
+        # mrpsimple = self.mrp_simple_id
+        # price = 0.0
+        # for line in mrpsimple.product_out_ids:
+        #     price += line.product_id.standard_price * line.quantity
+        # for line in mrpsimple.product_in_ids:
+        #     line.price_unit = price / line.quantity
+
+    # @api.multi
+    # @api.onchange('quantity')
+    # def compute_finit_price(self):
+    #     mrpsimple = self.mrp_simple_id
+    #     price = 0.0
+    #     for line in mrpsimple.product_out_ids:
+    #         price += line.product_id.standard_price * line.quantity
+    #     for line in mrpsimple.product_in_ids:
+    #         line.price_unit = price / line.quantity
+
+class MRPSimpleLineIn(models.TransientModel):
+    _name = 'mrp.simple.line.in'
 
     mrp_simple_id = fields.Many2one('mrp.simple')
     product_id = fields.Many2one('product.product')
     quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
-    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Product Price'))
+    price_unit = fields.Float('Unit Price', digits=dp.get_precision('Product Price'))
     uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
-    type = fields.Selection([
-        ('consumption', 'Consumption in production'),
-        ('receipt', 'Receipt from production')], string='Type'
-    )
 
     @api.onchange('product_id')
     def onchange_product_id(self):
         self.uom_id = self.product_id.uom_id
-        mrpsimple = self.mrp_simple_id
-        price = 0.0
-        for line in mrpsimple.product_out_ids:
-            price += line.product_id.standard_price * line.quantity
-        for line in mrpsimple.product_in_ids:
-            line.price_unit = price / line.quantity
 
     @api.multi
     @api.onchange('quantity')
@@ -145,3 +169,18 @@ class MRPSimpleLine(models.TransientModel):
         for line in mrpsimple.product_in_ids:
             line.price_unit = price / line.quantity
     
+class MRPSimpleLineOut(models.TransientModel):
+    _name = 'mrp.simple.line.out'
+
+    mrp_simple_id = fields.Many2one('mrp.simple')
+    product_id = fields.Many2one('product.product')
+    quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), default=1)
+    price_unit = fields.Float('Unit Price', digits=dp.get_precision('Product Price'))
+    uom_id = fields.Many2one('uom.uom', 'Unit of Measure')
+
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        self.uom_id = self.product_id.uom_id
+
+    
+   
