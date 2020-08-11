@@ -8,7 +8,7 @@ Cash Statement Extension
 
 Features:
  * actualizare automata sold la casa
-
+ auto update balance for cash journal
 
 Bug Tracker
 ===========
