@@ -7,7 +7,7 @@ Stock Transfer
 
 
 Features:
- - Wizard pt transfer produse dintr-o locatie in alta
+ - Wizard for product transfer from one location to another
 
 
 Bug Tracker

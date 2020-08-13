@@ -7,8 +7,7 @@ Sale Qty Multiple
 
 
 Features:
- - Vanzare de multiplu de cantitate
-
+ - Sale of multiple quantity
 
 Bug Tracker
 ===========

@@ -7,9 +7,9 @@ Products Code
 
 
 Features:
- - Generare cod de produs
- - Verificare consistenta codificare produse
- - Codificarea in masa a produselor
+ - Generate product code
+ - Consistence verification at product codifying
+ - Mass coding of products
 
 
 

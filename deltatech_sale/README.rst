@@ -7,7 +7,7 @@ Sale Extension
 
 
 Features:
- - Eroare la selectie produs in comanda fara client.
+ - Error selecting product in order without customer.
  - Sales report presents the profitability analysis.
 
 
