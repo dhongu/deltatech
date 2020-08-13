@@ -9,7 +9,12 @@ Fast Purchase
 Features:
  - Buton in comanda de aprovizionare pentru a face pasii de confirmare, receptie si facturare
  - Buton in repetie pentru a introduce direct factura
- - Buton in camoanda de aprovizonare pentru generare de receptie in baza unui aviz
+ - Buton in comanda de aprovizonare pentru generare de receptie in baza unui aviz
+
+
+ - Button in command of supplying in order to make the steps of confirmation, reception and billing
+ - Button in repetition in order to introduce the bill directly
+ - Button command of supplying in order to generate the reception based on notice
 
 
 

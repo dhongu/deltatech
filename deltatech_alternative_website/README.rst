@@ -9,6 +9,7 @@ Products Alternative on eCommerce
 Features:
     - cautare produs dupa cod echivalent
 
+    - searching product using the equivalent code
 
 
 Bug Tracker

@@ -9,6 +9,7 @@ Contact
 Features:
  * Adaugare campuri suplimentare in datele de contact: birthdate, CNP,  nr carte de identitate
 
+ * This module adds aditional fields in contacts: birthdate, CNP, identity card number
 
 Bug Tracker
 ===========

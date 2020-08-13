@@ -7,6 +7,7 @@ Invoice Product Filter
 
 Features:
  - Cautare factura dupa produs
+ - Searching invoice using product
 
 Bug Tracker
 ===========
