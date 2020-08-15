@@ -14,4 +14,4 @@ class ProductList(models.Model):
     name = fields.Char(string='Name', required=True)
     products_domain = fields.Char(string="Products", default=[['sale_ok', '=', True]])
     active = fields.Boolean(default=True)
-    limit = fields.Integer(string='Limit', defualt=80, required=True)
+    limit = fields.Integer(string='Limit', default=80, required=True)

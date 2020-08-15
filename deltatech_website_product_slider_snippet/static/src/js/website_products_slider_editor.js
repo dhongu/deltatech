@@ -31,7 +31,7 @@ options.registry.edit_product_list = options.Class.extend({
                 });
             },
         }).then(function (result) {
-            self.$target.attr("data-id", result.val);
+            self.$target.attr("data-id", result);
         });
     },
     onBuilt: function () {

@@ -158,6 +158,7 @@ sAnimation.registry.productsSliderSnippet = sAnimation.Class.extend({
                 add_qty: 1
             },
         }).then(function (data) {
+            /*
             wSaleUtils.updateCartNavBar(data);
             var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_cart');
             var fetch = self._fetch();
@@ -165,6 +166,7 @@ sAnimation.registry.productsSliderSnippet = sAnimation.Class.extend({
             Promise.all([fetch, animation]).then(function (values) {
                 self._render(values[0]);
             });
+            */
         });
     },
 
