@@ -3,7 +3,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    'name': 'eCommerce Country',
+    'name': 'eCommerce Checkout Confirm Order',
     'category': 'Website',
     'summary': 'eCommerce extension',
 
