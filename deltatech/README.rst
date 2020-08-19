@@ -16,6 +16,11 @@ Bugs are tracked on `GitHub Issues
 check there if your issue has already been reported. If you spotted it first,
 help us smash it by providing detailed and welcomed feedback.
 
+
+License
+=======
+GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (LGPLv3) (http://www.gnu.org/licenses/lgpl-3.0-standalone.html)
+
 Credits
 =======
 
@@ -29,7 +34,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 
