@@ -8,6 +8,7 @@
 				<form string="Cash Update Balances">
 					<group>
 						<field name="balance_start" />
+						<field name="date" />
 					</group>
 					<footer>
 						<button name="do_update_balance" string="_Apply" type="object" class="oe_highlight" />
