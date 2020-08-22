@@ -10,7 +10,8 @@
     "depends": ['account'],
 
     "data": [
-        'views/account_invoice_view.xml'
+        'views/account_invoice_view.xml',
+        'views/res_config_settings_views.xml'
     ],
     "images": ['images/main_screenshot.png'],
     "installable": True,
