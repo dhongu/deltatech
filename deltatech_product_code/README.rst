@@ -8,7 +8,7 @@ Products Code
 
 Features:
  - Generate product code
- - Consistence verification at product codifying
+ - Check consistence of product coding
  - Mass coding of products
 
 
