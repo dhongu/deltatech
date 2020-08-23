@@ -7,7 +7,7 @@ Stock Reports
 
 
 Features:
- - Report with positions from lifting lists
+ - Report with positions from picking lists
 
 
 Bug Tracker
