@@ -7,7 +7,7 @@ Products Code
 
 
 Features:
- - Product Category per company
+ - Product category per company
 
 
 

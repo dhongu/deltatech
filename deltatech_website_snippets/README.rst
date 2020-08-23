@@ -7,8 +7,8 @@ Deltatech Snippets
 
 
 Features:
- - adugata posbilitatea de a afisa daca produsul este dispoibil in stoc
- - inregistrare istoric cautari in magazinul online
+ - adds the posibilty to display if the product is available in stock.
+ - registration search istoric in online store
 
 
 

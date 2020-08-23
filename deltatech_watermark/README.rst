@@ -7,7 +7,7 @@ Watermark
 
 
 Features:
- - adaugare camp Watermark
+ - Adding Watermark camp.
 
 
 Bug Tracker
