@@ -9,6 +9,9 @@ Fast Sale
 Features:
  - Buton in comanda de vanzare pentru a face pasii de confirmare, livrare si facturare
 
+ - Button in command of selling in order to make the steps of confirmation, delivery and billing
+
+
 
 
 Bug Tracker

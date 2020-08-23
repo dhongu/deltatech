@@ -8,6 +8,7 @@ Payment Term Rate Wizard
 
 Features:
  - Generare rate
+ - Rate generation
 
 
 Bug Tracker
