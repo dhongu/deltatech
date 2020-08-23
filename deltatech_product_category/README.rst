@@ -7,7 +7,7 @@ Products Code
 
 
 Features:
- - Generate code for product
+ - Product category per company
 
 
 

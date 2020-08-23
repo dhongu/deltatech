@@ -15,8 +15,9 @@ This application allows you to track your customers/suppliers claims and grievan
 It is fully integrated with the email gateway so that you can create
 automatically new claims based on incoming emails.
 
-Am eliminat dependenta de CRM
-Atentie: Nu se utilizeaza impreuna cu modulul de CRM
+I removed the CRM dependency
+Atention: Not used together with CRM module
+
 
 Bug Tracker
 ===========

@@ -7,8 +7,7 @@ Stock Inventory
 
 
 Features:
- - Afisare coloana de pret de stoc la inventariere
-
+ - Display stock price column at inventory
 
 Bug Tracker
 ===========

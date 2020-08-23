@@ -9,6 +9,7 @@ Picking Number
 Features:
  * Numerotare liste de ridicare (avize) la cerere
 
+
 Bug Tracker
 ===========
 

@@ -7,7 +7,7 @@ Invoice Delivery / Reception
 
 
 Features:
- - Adugare buton in factura pt afisare receptie sau livrare
+ - Adding buttong in invoice for display reception or delivery
 
 
 Bug Tracker

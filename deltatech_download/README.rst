@@ -9,6 +9,7 @@ Download File
 Features:
  * Descarcare fisiere
 
+ * Downloading files
 
 Bug Tracker
 ===========

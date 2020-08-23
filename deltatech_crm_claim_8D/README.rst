@@ -9,6 +9,8 @@ Claim 8D
 Features:
  *  Raportare 8D
 
+ * 8D Reporting
+
   https://en.wikipedia.org/wiki/Eight_Disciplines_Problem_Solving
 
 Bug Tracker

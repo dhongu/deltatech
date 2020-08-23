@@ -7,7 +7,7 @@ Stock Reports
 
 
 Features:
- - Raport cu pozitii din liste de ridicare
+ - Report with positions from picking lists
 
 
 Bug Tracker

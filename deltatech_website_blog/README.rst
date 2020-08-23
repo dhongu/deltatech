@@ -7,8 +7,7 @@ Deltatech Blog extension
 
 
 Features:
- - ordonare dupa data de postare
-
+ - sort by posting date
 
 
 

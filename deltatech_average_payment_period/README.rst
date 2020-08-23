@@ -13,6 +13,7 @@ Average Payment Period
 Features:
  - durata medie de incasare
 
+ - it computes average duration of cash accounting
 
 Bug Tracker
 ===========

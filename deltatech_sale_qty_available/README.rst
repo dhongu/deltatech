@@ -7,8 +7,8 @@ Sale Qty Available
 
 
 Features:
- - Afisare cantitate disponibila in comanda de vanzare similar ca in versiunea 13.
- - In lista de comenzi sunt afisare comenzile gata de livrare cu culoarea verde
+ - Display quantity available in the sales order similar to version 13.
+ - In the order list are displayed the orders ready for delivery in green color.
 
 
 Bug Tracker

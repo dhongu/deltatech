@@ -7,8 +7,7 @@ Products Weight
 
 
 Features:
- - Parametrul de sistem product.weight_uom permite alegerea unei unitati de masura
-
+ - System parameter product.weight_uom allows the choice of a unit of measurement
 
 
 Bug Tracker

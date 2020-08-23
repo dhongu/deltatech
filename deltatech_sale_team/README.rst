@@ -7,7 +7,7 @@ Sale Team Access
 
 
 Features:
- - Restrictionare acces pe echipe de vazare
+ - Restricting acces to sales team
 
 
 Bug Tracker

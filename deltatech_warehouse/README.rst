@@ -7,9 +7,9 @@ MRP Warehouse
 
 
 Features:
- - definire  camp scrap (pierderi)
- - definire furnizor implicit
- - definire depozit implicit
+ - defining camp scrap (losses)
+ - defining implicit provider
+ - defining implicit deposit
 
 
 Bug Tracker

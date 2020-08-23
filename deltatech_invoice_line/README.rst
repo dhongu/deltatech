@@ -8,6 +8,8 @@ Invoice Edit Lines
 Features:
  - Editare linii din factura
 
+ - Editing lines from invoice
+
 Bug Tracker
 ===========
 
