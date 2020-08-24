@@ -7,8 +7,7 @@ eCommerce Sale Short Description
 
 
 Features:
- - adugata posbilitatea de a afisa daca produsul este dispoibil in stoc
- - inregistrare istoric cautari in magazinul online
+ -
 
 
 
@@ -34,7 +33,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 
