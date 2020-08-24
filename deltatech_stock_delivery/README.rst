@@ -7,7 +7,7 @@ Invoice Delivery / Reception
 
 
 Features:
- - Adugare buton in factura pt afisare receptie sau livrare
+ - Adding buttong in invoice for display reception or delivery
 
 
 Bug Tracker
@@ -31,7 +31,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

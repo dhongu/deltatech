@@ -13,8 +13,8 @@ Features:
  - Warning/Error on sale order if sale price is below the purchase price
  - Warning/Error on customer invoice if sale price is below the purchase price
  - New report for analysis profitability
- - Calcul comisione de vanzari
- - Pretul de vanzare este fara TVA calculat prin modulul l10n_ro_invoice_report
+ - Calculation of sales commissions
+ - The sale price is without TVA calculated by the l10n_ro_invoice_report module
 
 
 Bug Tracker
@@ -38,7 +38,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

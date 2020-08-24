@@ -13,6 +13,7 @@ Average Payment Period
 Features:
  - durata medie de incasare
 
+ - it computes average duration of cash accounting
 
 Bug Tracker
 ===========
@@ -35,7 +36,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

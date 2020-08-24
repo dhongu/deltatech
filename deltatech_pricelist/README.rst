@@ -8,6 +8,7 @@ Price List Extension
 
 Features:
  - pretul de lista din datele de baza ale produsului poate sa fie in alta moneda
+ - list price from basic data of the product can be in another currency
 
 
 
@@ -32,7 +33,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

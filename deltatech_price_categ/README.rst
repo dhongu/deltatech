@@ -13,6 +13,11 @@ Features:
     3. pret gold
     4. pret platinum
 
+ - Thid module adds 4 new fields in product for 4 categories of price:
+    1. Bronze Price
+    2. Silver Price
+    3. Gold Price
+    4. Platinum price
 
 
 Bug Tracker
@@ -36,7 +41,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

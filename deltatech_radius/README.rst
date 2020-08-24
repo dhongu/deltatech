@@ -10,9 +10,9 @@ Features:
  -  RADIUS  "Remote Authentication Dial In User Service"
 
 Todo:
-   - trebuie converite campurile din tipul text in varchar
-   - coloana pass din radpostauth trebuie modificata in password
-   - coloana radacctid din radacct trebuie modificata in id
+   - must be converted text fields in varchar
+   - pass column from radpostauth must be modified in password
+   - radacctid column from radacct must be modified in id
 
 
 
@@ -37,7 +37,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

@@ -7,7 +7,10 @@ Deltatech Account
 
 
 Features:
-  Adaugare grup de butoane in ecranul de factura de achizitie
+    Adaugare grup de butoane in ecranul de factura de achizitie
+
+    This module adds a group of button in the screen of purchase invoice
+
 
 
 Bug Tracker
@@ -31,7 +34,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

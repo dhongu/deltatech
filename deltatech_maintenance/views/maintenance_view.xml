@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="hr_equipment_request_view_form" model="ir.ui.view">
+        <field name="name">maintenance.request.form</field>
+        <field name="model">maintenance.request</field>
+
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+
+            <field name="stage_id" position="before">
+                <button name="new_transfer_button" type="object" string="New Transfer"   />
+            </field>
+
+
+
+            <field name="description" position="before">
+                <notebook>
+                    <page string="Components">
+                        <field name="component_ids">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                <field name="product_uom"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Operations">
+                        <field name="operation_ids">
+                            <tree editable="bottom">
+                                <field name="operation_id"/>
+                                <field name="duration"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="maintenance_team_view_form" model="ir.ui.view">
+        <field name="name">maintenance.team.form</field>
+        <field name="model">maintenance.team</field>
+        <field name="inherit_id" ref="maintenance.maintenance_team_view_form"/>
+        <field name="arch" type="xml">
+            <field name="member_ids" position="after">
+                <field name="picking_type_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

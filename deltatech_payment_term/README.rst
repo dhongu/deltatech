@@ -8,6 +8,7 @@ Payment Term Rate Wizard
 
 Features:
  - Generare rate
+ - Rate generation
 
 
 Bug Tracker
@@ -31,7 +32,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

@@ -1,0 +1,71 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-22 04:17+0000\n"
+"PO-Revision-Date: 2020-08-22 04:17+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_account
+#: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
+msgid "<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" role=\"img\" aria-label=\"Values set here are company-specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+
+#. module: deltatech_account
+#: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
+msgid "<span class=\"o_form_label\">Inter-Banks Transfers</span>"
+msgstr ""
+
+#. module: deltatech_account
+#: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
+msgid "Account used when transferring between banks"
+msgstr "Cont utilizat pentru transfer bancar "
+
+#. module: deltatech_account
+#: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
+#: model:ir.ui.menu,name:account.menu_finance"
+msgid "Accounting"
+msgstr "Contabilitate"
+
+#. module: deltatech_account
+#: model:ir.model.fields,field_description:deltatech_account.field_res_config_settings__use_anglo_saxon
+msgid "Anglo-Saxon Accounting"
+msgstr ""
+
+#. module: deltatech_account
+#: model:ir.model,name:deltatech_account.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_account
+#: model:ir.model.fields,help:deltatech_account.field_res_config_settings__transfer_account_id
+msgid "Intermediary account used when moving money from a liquidity account to another"
+msgstr "Cont intermediar utilizat când sunt mutați banii dintr-un cont de lichitități în altul"
+
+#. module: deltatech_account
+#: model_terms:ir.ui.view,arch_db:deltatech_account.res_config_settings_view_form
+msgid "Record cost of goods sold in your journal entries"
+msgstr ""
+
+#. module: deltatech_account
+#: model:ir.model.fields,field_description:deltatech_account.field_res_config_settings__transfer_account_id
+msgid "Transfer Account"
+msgstr ""
+
+
+#. module: account
+#: code:addons/account/models/account_payment.py:370
+#: model:ir.actions.act_window,name:account.action_account_payments
+#: model:ir.ui.menu,name:account.menu_action_account_payments_receivable
+#, python-format
+msgid "Incoming Payments"
+msgstr "Încasări"

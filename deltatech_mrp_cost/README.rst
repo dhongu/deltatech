@@ -12,7 +12,10 @@ Features:
  - Inregistrare costuri de servicii prestate de terti
  - variantele au acelasi pret
 
-
+ - Computes price of production as being the real price of the components
+ - Asigns a picking for consumed materials and one for the receptioned ones
+ - Registration of services costs provided by third parties
+ - the variants have the same price
 
 Bug Tracker
 ===========
@@ -35,7 +38,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

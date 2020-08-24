@@ -10,6 +10,11 @@ Features:
  - adaugare nume la fiecare componenta din ldm
  - adugare buton pentru accesare rapida sub-LDM
 
+ - This module adds name at each componenet from ldm
+ - adds button for quick access of sub-LDM
+
+
+
 
 Bug Tracker
 ===========
@@ -32,7 +37,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

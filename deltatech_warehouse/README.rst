@@ -7,9 +7,9 @@ MRP Warehouse
 
 
 Features:
- - definire  camp scrap (pierderi)
- - definire furnizor implicit
- - definire depozit implicit
+ - defining camp scrap (losses)
+ - defining implicit provider
+ - defining implicit deposit
 
 
 Bug Tracker
@@ -33,7 +33,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

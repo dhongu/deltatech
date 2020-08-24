@@ -9,6 +9,7 @@ Products Alternative on eCommerce
 Features:
     - cautare produs dupa cod echivalent
 
+    - searching product using the equivalent code
 
 
 Bug Tracker
@@ -32,7 +33,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

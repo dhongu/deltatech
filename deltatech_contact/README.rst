@@ -9,6 +9,7 @@ Contact
 Features:
  * Adaugare campuri suplimentare in datele de contact: birthdate, CNP,  nr carte de identitate
 
+ * This module adds aditional fields in contacts: birthdate, CNP, identity card number
 
 Bug Tracker
 ===========
@@ -31,7 +32,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

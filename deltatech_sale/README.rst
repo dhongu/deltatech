@@ -7,7 +7,7 @@ Sale Extension
 
 
 Features:
- - Eroare la selectie produs in comanda fara client.
+ - Error selecting product in order without customer.
  - Sales report presents the profitability analysis.
 
 
@@ -32,7 +32,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

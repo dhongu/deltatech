@@ -7,7 +7,7 @@ Stock Transfer
 
 
 Features:
- - Wizard pt transfer produse dintr-o locatie in alta
+ - Wizard for product transfer from one location to another
 
 
 Bug Tracker
@@ -31,7 +31,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

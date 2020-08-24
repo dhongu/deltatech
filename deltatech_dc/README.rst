@@ -7,8 +7,11 @@ Declaration of Conformity
 
 
 Features:
- - Intertinere declaratii de conformitate
+ - Intretinere declaratii de conformitate
  - Tiparire declaratie de conformitate la facturare
+
+ - Declaration of Conformity maintenance
+ - Declaration of Conformity printing at billing
 
 Bug Tracker
 ===========
@@ -31,7 +34,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

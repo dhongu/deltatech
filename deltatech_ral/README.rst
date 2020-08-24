@@ -8,14 +8,13 @@ RAL
 
 Features:
 
-Permite selectarea unui pigment (RAL) in comanda de productie.
+Allows the selection of a pigment (RAL) in production order.
 
-Pigmentul este un material care are codul ce incepe cu RAL.
+The pigment is a material wich have code that starts with RAL.
 
-Daca in BOM este folosit pigmentul RAL 0000 acesta va fi inlocuit cu pigmentul  din comanda de productie.
+If in BOM it is used the pigment RAL 0000 it will be replaced with the pigment from production order.
 
-Lotul se va crea in mod automat la confirmarea comenzi si va avea pigmentul din comanda de productie
-
+The batch will be created automatically upon order confirmation and will have the pigment from production order.
 
 Bug Tracker
 ===========
@@ -38,7 +37,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

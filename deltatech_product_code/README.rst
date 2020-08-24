@@ -7,9 +7,9 @@ Products Code
 
 
 Features:
- - Generare cod de produs
- - Verificare consistenta codificare produse
- - Codificarea in masa a produselor
+ - Generate product code
+ - Check consistence of product coding
+ - Mass coding of products
 
 
 
@@ -34,7 +34,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

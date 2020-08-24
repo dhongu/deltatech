@@ -7,7 +7,7 @@ Products Code
 
 
 Features:
- - Product Category per company
+ - Product category per company
 
 
 
@@ -18,6 +18,12 @@ Bugs are tracked on `GitHub Issues
 <https://github.com/dhongu/deltatech/issues>`_. In case of trouble, please
 check there if your issue has already been reported. If you spotted it first,
 help us smash it by providing detailed and welcomed feedback.
+
+License
+=======
+GNU AFFERO GENERAL PUBLIC LICENSE, Version 3 (AGPLv3)
+(http://www.gnu.org/licenses/agpl.html)
+
 
 Credits
 =======
@@ -32,7 +38,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 
