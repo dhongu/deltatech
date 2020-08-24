@@ -20,7 +20,9 @@ class service_billing(models.TransientModel):
 
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection([('partner', 'Group by partner'),
-                                      ('agreement', 'Group by agreement')], string="Group invoice", default='agreement')
+                                      ('agreement', 'Group by agreement'),
+                                      ('agreement_line', 'Split by agreement line')
+                                      ], string="Group invoice", default='agreement')
 
     # indica daca liniile din facura sunt insumate dupa servicu
 
@@ -68,10 +70,17 @@ class service_billing(models.TransientModel):
                 if cons.agreement_id.invoice_mode == 'detail' or not self.group_service:
                     name += cons.name
 
+
+            if self.group_invoice == 'partner':
+                key = cons.partner_id.id
+
             if self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail':
                 key = cons.agreement_id.id
-            else:
-                key = cons.partner_id.id
+
+            if self.group_invoice == 'agreement_line':
+                key = cons.agreement_line_id.id
+
+
 
             if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0 or cons.with_free_cycle:
 
@@ -171,4 +180,3 @@ class service_billing(models.TransientModel):
         action['domain'] = "[('id','in', [" + ','.join(map(str, res)) + "])]"
         return action
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
