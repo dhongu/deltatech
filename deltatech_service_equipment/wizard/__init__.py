@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 # import estimate
-# import enter_readings
+from . import enter_readings
 # import service_equi_operation
 from . import service_equi_agreement
 

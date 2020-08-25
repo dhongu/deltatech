@@ -35,8 +35,8 @@ class service_agreement(models.Model):
 class service_agreement_line(models.Model):
     _inherit = 'service.agreement.line'
 
-    equipment_id = fields.Many2one('service.equipment', string='Equipment', index=True)
-    meter_id = fields.Many2one('service.meter', string='Meter')
+    equipment_id = fields.Many2one('service.equipment', string='Equipment', index=True, ondelete='restrict')
+    meter_id = fields.Many2one('service.meter', string='Meter', ondelete='restrict')
 
     # de adaugat constringerea ca unitatea de masura de la linie sa fi la fel ca si cea de la meter
 

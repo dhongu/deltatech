@@ -70,7 +70,7 @@
                                 <span class="o_stat_text">Invoiced</span>
                             </button>
 
-
+<!--
                             <button type="action" class="oe_stat_button" id="consumption_button"
                                     icon="fa-line-chart"
                                     name="%(deltatech_service.action_service_consumption)d"
@@ -98,6 +98,7 @@
                                     <span class="o_stat_text">Costs</span>
                                 </div>
                             </button>
+                            -->
                         </div>
                         <div class="oe_title">
                             <h1>

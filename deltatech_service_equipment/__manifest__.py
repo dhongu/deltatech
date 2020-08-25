@@ -28,7 +28,7 @@
         'security/ir.model.access.csv',
         #
         # 'wizard/estimate_view.xml',
-        # 'wizard/enter_readings_view.xml',
+        'wizard/enter_readings_view.xml',
         # 'wizard/service_equi_operation_view.xml',
         'wizard/service_equi_agreement_view.xml',
 
