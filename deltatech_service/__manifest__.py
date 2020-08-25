@@ -17,7 +17,7 @@
         "date_range"
     ],
 
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         'data/data.xml',
         'security/service_security.xml',

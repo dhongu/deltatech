@@ -64,7 +64,7 @@ msgstr "Dată contract"
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_consumption__agreement_line_id
 msgid "Agreement Line"
-msgstr "Linie Contract"
+msgstr "Linie contract"
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__agreement_line
@@ -201,7 +201,8 @@ msgstr "Zile"
 #: model:ir.model.fields,help:deltatech_service.field_service_agreement__invoice_day
 msgid "Day of the month, set -1 for the last day of the month.\n"
 "                                 If it's positive, it gives the day of the month. Set 0 for net days ."
-msgstr ""
+msgstr "Ziua din lună, setați -1 pentru ultima zi din lună.\n"
+"                                 Dacă este pozitivă va returna ziua din lună. Setați 0 pentu a nu influența."
 
 #. module: deltatech_service
 #: model:ir.model.fields,field_description:deltatech_service.field_service_agreement__description

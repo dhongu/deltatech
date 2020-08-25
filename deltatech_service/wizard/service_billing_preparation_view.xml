@@ -22,7 +22,7 @@
 					</group>
 					<footer>
 						<button name="do_billing_preparation" string="_Apply" type="object"
-							class="oe_highlight" />
+								class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
 					</footer>
@@ -31,13 +31,18 @@
 		</record>
 
 
-		<act_window id="action_service_billing_preparation" name="Billing Preparation"
-			res_model="service.billing.preparation" src_model="service.agreement"
-			view_mode="form"   target="new" key2="client_action_multi" />
+		<act_window id="action_service_billing_preparation"
+					name="Billing Preparation"
+					res_model="service.billing.preparation"
+					binding_model="service.agreement"
+					view_mode="form" target="new" />
 
 
-		<menuitem name="Billing Preparation" id="menu_service_billing_preparation"
-			action="action_service_billing_preparation" parent="menu_service_agr" sequence="101"/>
+		<menuitem name="Billing Preparation"
+				  id="menu_service_billing_preparation"
+				  action="action_service_billing_preparation"
+				  parent="menu_service_agr"
+				  sequence="101"/>
 
 	</data>
 </odoo>

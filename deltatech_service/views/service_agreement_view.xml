@@ -2,8 +2,8 @@
 <odoo>
     <data>
         <record id="view_account_invoice_filter" model="ir.ui.view">
-            <field name="name">account.invoice.select</field>
-            <field name="model">account.invoice</field>
+            <field name="name">account.move.select</field>
+            <field name="model">account.move</field>
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
                 <filter name="unpaid" position="after">
@@ -16,9 +16,8 @@
         </record>
 
         <record id="action_service_invoice" model="ir.actions.act_window">
-            <field name="name">Service Invoices</field>
-            <field name="res_model">account.invoice</field>
-            <field name="view_type">form</field>
+            <field name="name">Service Moves</field>
+            <field name="res_model">account.move</field>
             <field name="view_mode">tree,form</field>
             <field eval="False" name="view_id"/>
             <field name="domain">[('type','=','out_invoice')]</field>
@@ -37,7 +36,7 @@
         <record id="action_service_invoice_form_view" model="ir.actions.act_window.view">
             <field eval="2" name="sequence"/>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="account.invoice_form"/>
+            <field name="view_id" ref="account.view_move_form"/>
             <field name="act_window_id" ref="action_service_invoice"/>
         </record>
 
@@ -51,8 +50,7 @@
             <field name="name">Services Agreements</field>
             <field name="model">service.agreement</field>
             <field name="arch" type="xml">
-                <tree string="Services Agreements" fonts="bold:message_unread==True"
-                      colors="grey:state in ('cancel','closed')">
+                <tree string="Services Agreements">
                     <field name="name"/>
                     <field name="date_agreement"/>
                     <field name="partner_id"/>
@@ -105,7 +103,7 @@
                                     icon="fa-line-chart"
                                     name="%(action_service_consumption)d"
                                     context="{'search_default_agreement_id': id,
-										 
+
 										  'search_default_done': 1,
 										  'default_agreement_id': id,
 										  'default_partner_id': partner_id }">
@@ -157,8 +155,10 @@
                                 <field name="uom_id" groups="uom.group_uom"/>
                                 <field name="price_unit"/>
                                 <field name="currency_id" options="{'no_create': True}"/>
-                                <field name="quantity_free"/>
+                                <field name="quantity_free" attrs="{'readonly':['|',('has_free_cycles','=',True),('cycles_free','>',0)]}"/>
                                 <field name="company_id" invisible="1"/>
+                                <field name="has_free_cycles" attrs="{'readonly':[('quantity_free','>',0)]}"/>
+                                <field name="cycles_free" attrs="{'readonly':[('quantity_free','>',0)]}"/>
                             </tree>
                         </field>
                     </sheet>
@@ -174,7 +174,6 @@
         <record id="view_service_agreement_filter" model="ir.ui.view">
             <field name="name">service.agreement.select</field>
             <field name="model">service.agreement</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="partner_id"/>
@@ -194,7 +193,6 @@
         <record id="action_service_agreement" model="ir.actions.act_window">
             <field name="name">Services Agreements</field>
             <field name="res_model">service.agreement</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -223,7 +221,6 @@
         <record id="action_service_agreement_type" model="ir.actions.act_window">
             <field name="name">Services Agreements Type</field>
             <field name="res_model">service.agreement.type</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -235,7 +232,6 @@
         <record id="action_service_agreement_group" model="ir.actions.act_window">
             <field name="name">Services Group</field>
             <field name="res_model">service.agreement.group</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
@@ -247,7 +243,6 @@
         <record id="action_service_cycle" model="ir.actions.act_window">
             <field name="name">Service Cycle</field>
             <field name="res_model">service.cycle</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 

@@ -40,9 +40,11 @@
 
 
 
-		<act_window id="action_service_distribution" name="Distribution"
-			res_model="service.distribution" src_model="service.consumption"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+		<act_window id="action_service_distribution"
+					name="Distribution"
+					res_model="service.distribution"
+					binding_model="service.consumption"
+					view_mode="form" target="new"/>
 
 <!-- 
 		<menuitem name="Distribution" id="menu_service_distribution"

@@ -20,7 +20,7 @@
 					</group>
 					<footer>
 						<button name="do_change" string="_Apply" type="object"
-							class="oe_highlight" />
+								class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
 					</footer>
@@ -31,14 +31,16 @@
 
 
 
-		<act_window id="action_service_change_invoice_date" name="Change Invoice Date"
-			res_model="service.change.invoice.date" src_model="service.consumption"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+		<act_window id="action_service_change_invoice_date"
+					name="Change Invoice Date"
+					res_model="service.change.invoice.date"
+					binding_model="service.consumption"
+					view_mode="form"  target="new"/>
 
-<!-- 
-		<menuitem name="Price Change" id="menu_service_price_change"
-			action="action_service_price_change" parent="base.menu_sales" />
- -->
+		<!--
+                <menuitem name="Price Change" id="menu_service_price_change"
+                    action="action_service_price_change" parent="base.menu_sales" />
+         -->
 
 
 	</data>
