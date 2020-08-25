@@ -7,11 +7,11 @@
     'category': 'Website',
     'summary': 'eCommerce extension',
 
-    'version': '13.0.1.0.0',
+    'version': '12.0.1.0.0',
 
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
+    "license": "AGPL-3",
     'depends': ['website_sale','deltatech_product_list'],
     'data': [
         'views/templates.xml',
