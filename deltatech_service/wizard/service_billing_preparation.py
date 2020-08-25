@@ -48,6 +48,7 @@ class service_billing_preparation(models.TransientModel):
                         'agreement_line_id': line.id,
                         'date_invoice': agreement.next_date_invoice,
                         'group_id': agreement.group_id.id,
+                        'analytic_account_id': line.analytic_account_id.id,
                     })
                     consumption = self.env['service.consumption'].create(cons_value)
                     if consumption:

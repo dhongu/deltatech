@@ -9,23 +9,23 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
-
     "category": "Services",
     "depends": [
         "deltatech_service",
+        "analytic",
         "maintenance"
     ],
 
     "license": "AGPL-3",
     "data": [
-         'data/data.xml',
+        'data/data.xml',
         #
         'views/service_rent_view.xml',
         #
         # 'service_efficiency_report.xml',
         # 'stock_view.xml',
-         'security/service_security.xml',
-         'security/ir.model.access.csv',
+        'security/service_security.xml',
+        'security/ir.model.access.csv',
         #
         # 'wizard/estimate_view.xml',
         # 'wizard/enter_readings_view.xml',

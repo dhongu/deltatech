@@ -14,6 +14,7 @@
         "base",
         "product",
         "account",
+        "analytic",
         "date_range"
     ],
 

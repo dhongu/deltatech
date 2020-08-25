@@ -247,6 +247,10 @@ class service_agreement_line(models.Model):
     has_free_cycles = fields.Boolean('Has free cycles')
     cycles_free = fields.Integer(string='Free cycles', help='Free invoice cycles remaining')
 
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic',    ondelete="restrict" )
+
+
+
     @api.onchange('product_id')
     def onchange_product_id(self):
         price_unit = self.product_id.list_price

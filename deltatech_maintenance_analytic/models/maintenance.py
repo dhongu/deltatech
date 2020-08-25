@@ -11,7 +11,7 @@ class MaintenanceEquipment(models.Model):
 
     analytic_account_id = fields.Many2one(
         'account.analytic.account', string='Analytic',
-        help="Link this project to an analytic account if you need financial management on equipment. ",
+        help="Link this equipment to an analytic account if you need financial management on equipment. ",
         ondelete="restrict", required=False, auto_join=True)
 
 

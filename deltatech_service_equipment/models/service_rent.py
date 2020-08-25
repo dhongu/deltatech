@@ -44,6 +44,7 @@ class service_agreement_line(models.Model):
     def onchange_equipment_id(self):
         if self.equipment_id:
             self.meter_id = self.equipment_id.meter_ids[0]
+            self.analytic_account_id = self.equipment_id.analytic_account_id
 
     @api.onchange('meter_id')
     def onchange_meter_id(self):
@@ -81,9 +82,9 @@ class service_agreement_line(models.Model):
                 # se selecteaza citirile care nu sunt facturate
                 # se selecteaza citirile care sunt anterioare sfarsitului de perioada, e pozibil ca sa mai fie citiri in perioada anterioara nefacturate
 
-                readings = meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and
-                                                                      r.date <= consumption.period_id.date_stop and
-                                                                      r.date >= de_la_data)  # sa fie dupa data de instalare si dupa ultima citire facturata
+                readings = meter.meter_reading_ids.filtered(
+                    lambda r: not r.consumption_id and consumption.period_id.date_stop >= r.date >= de_la_data
+                )  # sa fie dupa data de instalare si dupa ultima citire facturata
                 # se selecteaza citirile pentru intervalul in care echipamentul era instalat la client
 
                 if readings:
@@ -95,8 +96,10 @@ class service_agreement_line(models.Model):
 
                 # print start_date, end_date, readings
                 # de ce mai determin citirile cand : pentru a scoate citirile care au facuta cand echipamentul era dezinstalat sau backup
-                domain = [('id', 'in', readings.ids),
-                          ('equipment_history_id.address_id', 'child_of', self.agreement_id.partner_id.id)]
+                domain = [
+                    ('id', 'in', readings.ids),
+                    ('equipment_history_id.address_id', 'child_of', self.agreement_id.partner_id.id)
+                ]
 
                 readings = self.env['service.meter.reading'].search(domain)
                 quantity = 0
@@ -118,7 +121,7 @@ class service_agreement_line(models.Model):
                     first_reading = readings[-1]
                     last_reading = readings[0]
                     name += _('Old index: %s, New index:%s') % (
-                    first_reading.previous_counter_value, last_reading.counter_value)
+                        first_reading.previous_counter_value, last_reading.counter_value)
                     if self.invoice_description != '' and self.invoice_description != False:
                         name = self.invoice_description
                     readings.write({'consumption_id': consumption.id})
@@ -184,9 +187,6 @@ class service_agreement_line(models.Model):
             de_la_data = consumption.agreement_id.date_agreement  # si eventual de pus data de instalare
             if meter:
 
-
-
-
                 # se citesc inregistrarile la care a fost generat cosnumul
                 readings = meter.meter_reading_ids.filtered(lambda r: r.consumption_id)
                 if readings:
@@ -195,11 +195,9 @@ class service_agreement_line(models.Model):
                 # se selecteaza citirile care nu sunt facturate
                 # se selecteaza citirile care sunt anterioare sfarsitului de perioada, e pozibil ca sa mai fie citiri in perioada anterioara nefacturate
 
-                readings = meter.meter_reading_ids.filtered(lambda r: not r.consumption_id and
-                                                                      r.date <= consumption.period_id.date_end and
-                                                                      r.date >= de_la_data)  # sa fie dupa data de instalare si dupa ultima citire facturata
-
-
+                readings = meter.meter_reading_ids.filtered(
+                    lambda r: not r.consumption_id and consumption.period_id.date_end >= r.date >= de_la_data
+                )  # sa fie dupa data de instalare si dupa ultima citire facturata
 
                 if readings:
                     end_date = max(readings[0].date, consumption.period_id.date_end)
@@ -207,7 +205,6 @@ class service_agreement_line(models.Model):
                 else:
                     end_date = consumption.period_id.date_start
                     start_date = consumption.period_id.date_end
-
 
                 quantity = 0
 
@@ -226,7 +223,8 @@ class service_agreement_line(models.Model):
                 if readings:
                     first_reading = readings[-1]
                     last_reading = readings[0]
-                    name += _('Old index: %s, New index:%s') % (first_reading.previous_counter_value, last_reading.counter_value)
+                    name += _('Old index: %s, New index:%s') % (
+                        first_reading.previous_counter_value, last_reading.counter_value)
 
                     readings.write({'consumption_id': consumption.id})
 
@@ -238,8 +236,10 @@ class service_agreement_line(models.Model):
 
 
             else:  # echipament fara contor
-                consumption.write({'name': self.equipment_id.display_name,
-                                   'equipment_id': equipment.id})
+                consumption.write({
+                    'name': self.equipment_id.display_name,
+                    'equipment_id': equipment.id
+                })
         return res
 
 
@@ -252,5 +252,3 @@ class service_consumption(models.Model):
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id,equipment_id)',
          'Agreement line in period already exist!'),
     ]
-
-

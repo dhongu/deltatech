@@ -81,6 +81,7 @@ class service_equipment(models.Model):
     group_id = fields.Many2one('service.agreement.group', string="Service Group")
     internal_type = fields.Selection([('equipment','Equipment')], default='equipment')
 
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic', ondelete="restrict")
 
     @api.model
     def create(self, vals):

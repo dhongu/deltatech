@@ -49,6 +49,8 @@ class service_consumption(models.Model):
                                    copy=False, index=True)
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True,
                                         ondelete='restrict', copy=False)
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic', ondelete="restrict")
+
     invoice_id = fields.Many2one('account.invoice', string='Invoice Reference', ondelete='set default', readonly=True,
                                  copy=False, index=True)
 
