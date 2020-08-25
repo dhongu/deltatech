@@ -21,6 +21,14 @@ class AccountBankStatement(models.Model):
                     vals['name'] = _('Noname')
         return super(AccountBankStatement, self).create(vals_list)
 
+    # numeroteaza inregistrarile vechi
+    def write(self, vals):
+        if vals.get('name') == '/':
+            if self.journal_id.statement_sequence_id:
+                vals['name'] = self.journal_id.statement_sequence_id.next_by_id()
+        return super(AccountBankStatement, self).write(vals)
+
+
     @api.multi
     def name_get(self):
         result = super(AccountBankStatement, self).name_get()

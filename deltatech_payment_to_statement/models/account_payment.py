@@ -13,7 +13,7 @@ class account_payment(models.Model):
     statement_id = fields.Many2one('account.bank.statement', string='Statement',
                                    domain="[('journal_id','=',journal_id)]")
 
-    statement_line_id = fields.Many2one('account.bank.statement.line', string='Statement Line', readonly=True,
+    statement_line_id = fields.Many2one('account.bank.statement.line', string='Statement Line',
                                         domain="[('statement_id','=',statement_id)]")
 
     @api.onchange('payment_date', 'journal_id')
@@ -24,7 +24,7 @@ class account_payment(models.Model):
             self.statement_id = statement
         else:
             # daca tipul este numerar trebuie generat
-            if self.journal_id.auto_statement: #.type == 'cash':
+            if self.journal_id.auto_statement:  # .type == 'cash':
                 name = False
                 values = {
                     'journal_id': self.journal_id.id,
@@ -55,7 +55,7 @@ class account_payment(models.Model):
                         'partner_id': payment.partner_id.id,
                         'amount': payment.amount,
                         'payment_id': payment.id,
-                        'ref':ref
+                        'ref': ref
                     }
                     if payment.payment_type in ['outbound', 'transfer']:
                         values['amount'] = -1 * payment.amount
@@ -90,13 +90,14 @@ class account_payment(models.Model):
                 if line.name == '/':
                     line.write({'name': line.payment_id.name})
         for payment in self:
-            if payment.destination_journal_id.auto_statement:
+            auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
+            if auto_statement:
                 payment.reconciliation_statement_line(raise_error=False)
 
         return res
 
     @api.multi
-    def reconciliation_statement_line(self,raise_error=True):
+    def reconciliation_statement_line(self, raise_error=True):
         for payment in self:
             if payment.move_reconciled:
                 for move_line in payment.move_line_ids:
@@ -125,7 +126,7 @@ class account_payment(models.Model):
         self.get_reconciled_statement_line()
         for payment in self:
             auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
-            if auto_statement and not payment.statement_id: #type == 'cash'
+            if auto_statement and not payment.statement_id:  # type == 'cash'
                 domain = [('date', '=', self.payment_date), ('journal_id', '=', self.journal_id.id)]
                 statement = self.env['account.bank.statement'].search(domain, limit=1)
                 if not statement:
@@ -150,7 +151,7 @@ class account_payment(models.Model):
                     'partner_id': payment.partner_id.id,
                     'amount': payment.amount,
                     'payment_id': payment.id,
-                    'ref':ref
+                    'ref': ref
                 }
                 if payment.payment_type in ['outbound', 'transfer']:
                     values['amount'] = -1 * payment.amount
@@ -161,7 +162,7 @@ class account_payment(models.Model):
 
                 if payment.payment_type == 'transfer':
                     payment.write({'stare': 'reconciled'})
-                    if payment.destination_journal_id.auto_statement: #type == 'cash':
+                    if payment.destination_journal_id.auto_statement:  # type == 'cash':
                         domain = [('date', '=', payment.payment_date),
                                   ('journal_id', '=', payment.destination_journal_id.id)]
                         detination_statement = self.env['account.bank.statement'].search(domain, limit=1)
