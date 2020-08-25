@@ -21,8 +21,8 @@ class service_enter_reading(models.TransientModel):
     items = fields.One2many('service.enter.reading.item', 'enter_reading_id')
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(service_enter_reading, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(service_enter_reading, self).default_get(fields_list)
 
         active_ids = self.env.context.get('active_ids', False)
         domain = [('equipment_id', 'in', active_ids)]
@@ -40,17 +40,14 @@ class service_enter_reading(models.TransientModel):
     def onchange_date(self):
         meters = self.env['service.meter']
         for item in self.items:
-            meters |= item.meter_id
-        items = []
-        for meter in meters:
+            meter = item.meter_id
+
             if meter.type == 'counter':
                 meter = meter.with_context({'date': self.date})
-                items += [(0, 0, {'meter_id': meter.id,
-                                  'equipment_id': meter.equipment_id.id,
-                                  'counter_value': meter.estimated_value})]
+                item.counter_value = meter.estimated_value
 
-        items = self._convert_to_cache({'items': items}, validate=False)
-        self.update(items)
+
+
 
     @api.multi
     def do_enter(self):
