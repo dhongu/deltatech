@@ -12,7 +12,9 @@
                                     <div class="o_carousel_product_card card h-100">
                                         <input type="hidden" name="product-id" t-att-data-product-id="product.id"/>
                                         <a class="o_carousel_product_img_link" t-att-href="product.website_url">
-                                            <img class="o_carousel_product_card_img_top card-img-top" t-attf-src="/web/image/product.product/#{product.id}#{productFrame == 1 ? '/image_small' : '/image_medium'}" t-att-alt="product.display_name"/>
+                                            <img class="o_carousel_product_card_img_top card-img-top"
+                                                 t-attf-src="/web/image/product.product/#{product.id}#{productFrame == 1 ? '/image' : '/image'}"
+                                                 t-att-alt="product.display_name"/>
                                         </a>
 
                                         <div class="o_carousel_product_card_body card-body border-top">
