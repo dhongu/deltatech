@@ -8,6 +8,7 @@ Payment to Statement
 
 Features:
  - Adugare platilor in extrasele de banca
+ - Adding the payments in the bank statements
 
  This module added features on customer/supplier payments to allow account user to link
  payment with bank statement direct through payment menu or customer/supplier invoices register payment option.
