@@ -49,13 +49,14 @@ class service_consumption(models.Model):
                                    copy=False, index=True)
     agreement_line_id = fields.Many2one('service.agreement.line', string='Agreement Line', readonly=True,
                                         ondelete='restrict', copy=False)
-    invoice_id = fields.Many2one('account.invoice', string='Invoice Reference', ondelete='set default', readonly=True,
+    invoice_id = fields.Many2one('account.move', string='Invoice Reference', ondelete='set default', readonly=True,
                                  copy=False, index=True)
 
     uom_id = fields.Many2one('uom.uom', string='Unit of Measure', related='agreement_line_id.uom_id', readonly=True,
                              copy=False)
 
     date_invoice = fields.Date(string='Invoice Date', readonly=True)
+    with_free_cycle = fields.Boolean('Created with free cycle')
 
     _sql_constraints = [
         ('agreement_line_period_uniq', 'unique(period_id,agreement_line_id)',
@@ -64,11 +65,15 @@ class service_consumption(models.Model):
     group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True, ondelete='restrict',
                                copy=False, index=True)
 
-    @api.multi
     def unlink(self):
         for item in self:
             if item.state == 'done':
                 raise Warning(_('You cannot delete a service consumption which is invoiced.'))
+            if item.with_free_cycle:
+                # incrementing the free cycle on agreement line
+                cycles_free = item.agreement_line_id.cycles_free + 1
+                item.agreement_line_id.write({'cycles_free': cycles_free})
+
         return super(service_consumption, self).unlink()
 
         # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

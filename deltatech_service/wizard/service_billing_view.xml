@@ -23,7 +23,7 @@
 					</group>
 					<footer>
 						<button name="do_billing" string="_Apply" type="object"
-							class="oe_highlight" />
+								class="oe_highlight" />
 						or
 						<button string="Cancel" class="oe_link" special="cancel" />
 					</footer>
@@ -34,13 +34,15 @@
 
 
 
-		<act_window id="action_service_billing" name="Billing"
-			res_model="service.billing" src_model="service.consumption"
-			view_mode="form" multi="True" target="new" key2="client_action_multi" />
+		<act_window id="action_service_billing"
+					name="Billing"
+					res_model="service.billing"
+					binding_model="service.consumption"
+					view_mode="form" target="new"  />
 
 
 		<menuitem name="Billing" id="menu_service_billing" action="action_service_billing"
-			parent="menu_service_agr" sequence="103" />
+				  parent="menu_service_agr" sequence="103" />
 
 
 

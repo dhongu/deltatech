@@ -56,7 +56,6 @@
 		<record id="view_service_consumption_filter" model="ir.ui.view">
 			<field name="name">service.consumption.select</field>
 			<field name="model">service.consumption</field>
-			<field name="type">search</field>
 			<field name="arch" type="xml">
 				<search string="Search">
 					
@@ -94,7 +93,6 @@
 		<record id="action_service_consumption" model="ir.actions.act_window">
 			<field name="name">Services Consumption</field>
 			<field name="res_model">service.consumption</field>
-			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 			<field name="context">{"search_default_draft":1}</field>
 		</record>

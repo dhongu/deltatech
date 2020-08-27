@@ -9,14 +9,12 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 class invoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
     
     
     penalty = fields.Float(string='Penalty',  digits=dp.get_precision('Account'), compute='_compute_penalty' )
 
-
-    @api.one
-    @api.depends('payment_term','date_invoice','amount_untaxed')
+    @api.depends('payment_term','date_move','amount_untaxed')
     def _compute_penalty(self):
         self.penalty =  0.0
         if self.date_due:

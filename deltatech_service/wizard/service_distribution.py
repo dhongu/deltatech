@@ -37,7 +37,6 @@ class service_distribution(models.TransientModel):
                 defaults['amount'] += consumption.quantity * consumption.price_unit
         return defaults
 
-    @api.multi
     def do_distribution(self):
 
         active_ids = self.env.context.get('active_ids', False)

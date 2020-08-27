@@ -4,7 +4,7 @@
 
 {
     "name": "Services",
-    'version': '12.0.2.0.0',
+    'version': '13.0.2.0.0',
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
@@ -17,7 +17,7 @@
         "date_range"
     ],
 
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         'data/data.xml',
         'security/service_security.xml',

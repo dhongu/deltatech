@@ -20,7 +20,9 @@ class service_billing(models.TransientModel):
 
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection([('partner', 'Group by partner'),
-                                      ('agreement', 'Group by agreement')], string="Group invoice", default='agreement')
+                                      ('agreement', 'Group by agreement'),
+                                      ('agreement_line', 'Split by agreement line')
+                                      ], string="Group invoice", default='agreement')
 
     # indica daca liniile din facura sunt insumate dupa servicu
 
@@ -49,7 +51,6 @@ class service_billing(models.TransientModel):
         defaults['consumption_ids'] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
-
     def do_billing(self):
         pre_invoice = {}  # lista de facuri
         agreements = self.env['service.agreement']
@@ -68,12 +69,19 @@ class service_billing(models.TransientModel):
                 if cons.agreement_id.invoice_mode == 'detail' or not self.group_service:
                     name += cons.name
 
-            if self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail':
-                key = cons.agreement_id.id
-            else:
+
+            if self.group_invoice == 'partner':
                 key = cons.partner_id.id
 
-            if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0:
+            if self.group_invoice == 'agreement' or cons.agreement_id.invoice_mode == 'detail':
+                key = cons.agreement_id.id
+
+            if self.group_invoice == 'agreement_line':
+                key = cons.agreement_line_id.id
+
+
+
+            if cons.quantity > cons.agreement_line_id.quantity_free or cons.quantity < 0 or cons.with_free_cycle:
 
                 invoice_line = {
                     'product_id': cons.product_id.id,
@@ -82,7 +90,7 @@ class service_billing(models.TransientModel):
                     'uos_id': cons.agreement_line_id.uom_id.id,
                     'name': name,
                     # todo: de determinat contul
-                    'account_id': self.env['account.invoice.line'].get_invoice_line_account('out_invoice', cons.product_id, '', self.env.user.company_id).id,
+                    'account_id': self.env['account.move.line'].get_invoice_line_account('out_invoice', cons.product_id, '', self.env.user.company_id).id,
                     'invoice_line_tax_ids': [(6, 0, ([rec.id for rec in cons.product_id.taxes_id]))],
                     'agreement_line_id': cons.agreement_line_id.id,
                 }
@@ -159,7 +167,7 @@ class service_billing(models.TransientModel):
                     'comment': comment,
                     # 'agreement_id':pre_invoice[key]['agreement_id'],
                 }
-                invoice_id = self.env['account.invoice'].create(invoice_value)
+                invoice_id = self.env['account.move'].create(invoice_value)
                 # todo: de determinat care e butonul de calcul tva
                 # invoice_id.button_compute(True)
                 pre_invoice[date_invoice][key]['cons'].write({'invoice_id': invoice_id.id})
@@ -171,4 +179,3 @@ class service_billing(models.TransientModel):
         action['domain'] = "[('id','in', [" + ','.join(map(str, res)) + "])]"
         return action
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

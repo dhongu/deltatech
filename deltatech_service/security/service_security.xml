@@ -29,7 +29,7 @@
 
 		<record id="service_invoice_personal_rule" model="ir.rule">
 			<field name="name">Personal service invoice</field>
-			<field name="model_id" ref="account.model_account_invoice" />
+			<field name="model_id" ref="account.model_account_move" />
 			<field name="domain_force"> ['|', ('commercial_partner_id','=',[user.commercial_partner_id.id] ),
 				('message_follower_ids','child_of',[user.commercial_partner_id.id]) ]
 			</field>
@@ -38,7 +38,7 @@
 
 		<record id="service_invoice_see_all_rule" model="ir.rule">
 			<field name="name">All service invoices</field>
-			<field name="model_id" ref="account.model_account_invoice" />
+			<field name="model_id" ref="account.model_account_move" />
 			<field name="domain_force">[(1,'=',1)]</field>
 			<field name="groups" eval="[(4, ref('group_service_user'))]" />
 		</record>

@@ -33,7 +33,7 @@ class service_cycle(models.Model):
             return relativedelta(years=+self.value)
 
 
-class service_agreement(models.Model):
+class ServiceAgreement(models.Model):
     _name = 'service.agreement'
     _description = "Service Agreement"
     _inherit = 'mail.thread'
@@ -54,6 +54,9 @@ class service_agreement(models.Model):
 
     partner_id = fields.Many2one('res.partner', string='Partner',
                                  required=True, readonly=True, states={'draft': [('readonly', False)]})
+
+    company_id = fields.Many2one('res.company', string='Company', required=True,
+                                 default=lambda self: self.env.user.company_id)
 
     agreement_line = fields.One2many('service.agreement.line', 'agreement_id', string='Agreement Lines',
                                      readonly=True, states={'draft': [('readonly', False)]}, copy=True)
@@ -86,7 +89,7 @@ class service_agreement(models.Model):
     cycle_id = fields.Many2one('service.cycle', string='Billing Cycle', required=True, readonly=True,
                                states={'draft': [('readonly', False)]})
 
-    last_invoice_id = fields.Many2one('account.invoice', string='Last Invoice', compute="_compute_last_invoice_id")
+    last_invoice_id = fields.Many2one('account.move', string='Last Invoice', compute="_compute_last_invoice_id")
 
     invoice_day = fields.Integer(string='Invoice Day', readonly=True, states={'draft': [('readonly', False)]},
                                  help="""Day of the month, set -1 for the last day of the month.
@@ -100,9 +103,6 @@ class service_agreement(models.Model):
     total_consumption = fields.Float(string="Total consumption", readonly=True)
     group_id = fields.Many2one('service.agreement.group', string="Service Group", readonly=True,
                                states={'draft': [('readonly', False)]})
-    company_id = fields.Many2one('res.company', string='Company', change_default=True,
-                                 required=True, readonly=True, states={'draft': [('readonly', False)]},
-                                 default=lambda self: self.env['res.company']._company_default_get('service.agreement'))
 
     doc_count = fields.Integer(string="Number of documents attached", compute='_get_attached_docs')
 
@@ -110,13 +110,11 @@ class service_agreement(models.Model):
         ('name_uniq', 'unique(name, company_id)', 'Reference must be unique per Company!'),
     ]
 
-    @api.multi
     def _get_attached_docs(self):
         for task in self:
             task.doc_count = self.env['ir.attachment'].search_count(
                 [('res_model', '=', 'service.agreement'), ('res_id', '=', task.id)])
 
-    @api.multi
     def attachment_tree_view(self):
 
         domain = ['&', ('res_model', '=', 'service.agreement'), ('res_id', 'in', self.ids)]
@@ -133,13 +131,12 @@ class service_agreement(models.Model):
             'context': "{'default_res_model': '%s','default_res_id': %s}" % (self._name, self.id)
         }
 
-    @api.multi
     def compute_totals(self):
         for agreement in self:
             total_consumption = 0.0
             total_invoiced = 0.0
             consumptions = self.env['service.consumption'].search([('agreement_id', '=', agreement.id)])
-            invoices = self.env['account.invoice']
+            invoices = self.env['account.move']
             for consumption in consumptions:
                 if consumption.state == 'done':
                     total_consumption += consumption.currency_id.compute(consumption.price_unit * consumption.quantity,
@@ -152,14 +149,13 @@ class service_agreement(models.Model):
                              'total_consumption': total_consumption})
 
     # TODO: de legat acest contract la un cont analitic ...
-    @api.one
     def _compute_last_invoice_id(self):
-        self.last_invoice_id = self.env['account.invoice'].search(
+        self.last_invoice_id = self.env['account.move'].search(
             [('agreement_id', '=', self.id), ('state', 'in', ['open', 'paid'])],
-            order='date_invoice desc, id desc', limit=1)
+            order='date desc, id desc', limit=1)
 
         if self.last_invoice_id:
-            date_invoice = self.last_invoice_id.invoice_date
+            date_invoice = self.last_invoice_id.date_invoice
         else:
             date_invoice = self.date_agreement
 
@@ -173,7 +169,6 @@ class service_agreement(models.Model):
 
             self.next_date_invoice = fields.Date.to_string(next_date)
 
-    @api.one
     @api.depends('name', 'date_agreement')
     def _compute_display_name(self):
         crt_lang = self.env.user.lang
@@ -192,26 +187,22 @@ class service_agreement(models.Model):
                 sequence_agreement = self.env.ref('deltatech_service.sequence_agreement')
                 if sequence_agreement:
                     vals['name'] = sequence_agreement.next_by_id()
-        return super(service_agreement, self).create(vals_list)
+        return super(ServiceAgreement, self).create(vals_list)
 
-    @api.multi
     def contract_close(self):
         return self.write({'state': 'closed'})
 
-    @api.multi
     def contract_open(self):
         return self.write({'state': 'open'})
 
-    @api.multi
     def contract_draft(self):
         return self.write({'state': 'draft'})
 
-    @api.multi
     def unlink(self):
         for item in self:
             if item.state not in ('draft'):
                 raise Warning(_('You cannot delete a service agreement which is not draft.'))
-        return super(service_agreement, self).unlink()
+        return super(ServiceAgreement, self).unlink()
 
     # CAT, CATG CATPG
 
@@ -235,7 +226,7 @@ class service_agreement_line(models.Model):
 
     agreement_id = fields.Many2one('service.agreement', string='Contract Services', ondelete='cascade')
     product_id = fields.Many2one('product.product', string='Service', ondelete='set null',
-                                 domain=[('type', '=', 'service')], required=True, )
+                                 domain=[('type', '=', 'service')], required=False, )
     quantity = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'))
     quantity_free = fields.Float(string='Quantity Free', digits=dp.get_precision('Product Unit of Measure'))
     uom_id = fields.Many2one('uom.uom', string='Unit of Measure', ondelete='set null')
@@ -244,6 +235,8 @@ class service_agreement_line(models.Model):
                                   domain=[('name', 'in', ['RON', 'EUR'])])
     company_id = fields.Many2one('res.company', string='Company',
                                  related='agreement_id.company_id', store=True, readonly=True, related_sudo=False)
+    has_free_cycles = fields.Boolean('Has free cycles')
+    cycles_free = fields.Integer(string='Free cycles', help='Free invoice cycles remaining')
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -257,7 +250,7 @@ class service_agreement_line(models.Model):
             list_price_currency_id = price_type.currency_id
         else:
             list_price_currency_id = self.env.user.company_id.currency_id
-            
+
         self.price_unit = list_price_currency_id.compute(price_unit, self.currency_id )
         """
 
@@ -271,9 +264,12 @@ class service_agreement_line(models.Model):
                 product_price, self.currency_id)
         else:
             price_unit = self.price_unit
+        quantity = self.quantity
+        if self.has_free_cycles and self.cycles_free > 0:  # if there are free cycles available
+            quantity = 0
         cons_value = {
             'product_id': self.product_id.id,
-            'quantity': self.quantity,
+            'quantity': quantity,
             'price_unit': price_unit,
             'currency_id': self.currency_id.id
         }
@@ -284,14 +280,13 @@ class service_agreement_line(models.Model):
         return [consumption.id]
 
 
-# e posibil ca o factura sa contina mai multe contracte 
+# e posibil ca o factura sa contina mai multe contracte
 class account_invoice(models.Model):
-    _inherit = 'account.invoice'
+    _inherit = 'account.move'
 
     agreement_id = fields.Many2one('service.agreement', string='Service Agreement',
                                    related='invoice_line_ids.agreement_line_id.agreement_id')
 
-    @api.multi
     def action_cancel(self):
         res = super(account_invoice, self).action_cancel()
         consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
@@ -302,7 +297,6 @@ class account_invoice(models.Model):
                 consumption.agreement_id.compute_totals()
         return res
 
-    @api.multi
     def unlink(self):
         consumptions = self.env['service.consumption'].search([('invoice_id', 'in', self.ids)])
         if consumptions:
@@ -311,7 +305,6 @@ class account_invoice(models.Model):
                 consumption.agreement_id.compute_totals()
         return super(account_invoice, self).unlink()
 
-    @api.multi
     def invoice_validate(self):
         res = super(account_invoice, self).invoice_validate()
         agreements = self.env['service.agreement']
@@ -323,6 +316,6 @@ class account_invoice(models.Model):
 
 
 class account_invoice_line(models.Model):
-    _inherit = 'account.invoice.line'
+    _inherit = 'account.move.line'
 
     agreement_line_id = fields.Many2one('service.agreement.line', string='Service Agreement Line')
