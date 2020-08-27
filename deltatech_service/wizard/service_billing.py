@@ -93,6 +93,7 @@ class service_billing(models.TransientModel):
                     'account_id': self.env['account.move.line'].get_invoice_line_account('out_invoice', cons.product_id, '', self.env.user.company_id).id,
                     'invoice_line_tax_ids': [(6, 0, ([rec.id for rec in cons.product_id.taxes_id]))],
                     'agreement_line_id': cons.agreement_line_id.id,
+                    'analytic_account_id': cons.analytic_account_id.id,
                 }
 
                 # este pt situatia in care se doreste stornarea unei pozitii
