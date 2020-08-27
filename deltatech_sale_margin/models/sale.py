@@ -34,6 +34,12 @@ class sale_order_line(models.Model):
                     'message': _('Do not sell below the purchase price.'),
                 }
                 res['warning'] = warning
+            if self.price_unit:
+                warning = {
+                    'title': _('Price Error!'),
+                    'message': _('Do not sell without price.'),
+                }
+                res['warning'] = warning
         return res
 
 
@@ -68,6 +74,13 @@ class sale_order_line(models.Model):
     @api.one
     @api.constrains('price_unit', 'purchase_price')
     def _check_sale_price(self):
+        if self.price_unit == 0:
+            if not self.env['res.users'].has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
+                raise Warning(_('You can not sell without price.'))
+            else:
+                message = _('Sale %s without price.') % self.product_id.name
+                self.order_id.message_post(body=message)
+
         if self.price_unit < self.purchase_price:
             if not self.env['res.users'].has_group('deltatech_sale_margin.group_sale_below_purchase_price'):
                 raise Warning(_('You can not sell below the purchase price.'))
