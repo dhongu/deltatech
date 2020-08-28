@@ -24,6 +24,7 @@
 
     "images": ['images/main_screenshot.png'],
     "installable": True,
+    'post_init_hook': '_set_auto_auto_statement',
 }
 
 

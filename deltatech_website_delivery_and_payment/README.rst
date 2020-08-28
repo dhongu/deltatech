@@ -1,5 +1,5 @@
 ===========================================
-Payment to Statement
+eCommerce Delivery and Payment
 ===========================================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,12 +7,11 @@ Payment to Statement
 
 
 Features:
- - Adugare platilor in extrasele de banca
- - Adding the payments in the bank statements
+ - Delivery and Payment constrains
 
- This module added features on customer/supplier payments to allow account user to link
- payment with bank statement direct through payment menu or customer/supplier invoices register payment option.
- After selecting and validating payment, module will add bank statement line on selected bank statement.
+
+
+
 
 
 Bug Tracker

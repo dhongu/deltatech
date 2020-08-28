@@ -10,7 +10,7 @@
                 <xpath expr="//field[@name='refund_sequence']" position="before">
 
                         <field name="statement_sequence_id"/>
-
+                        <field name="auto_statement"/>
                 </xpath>
             </field>
         </record>
@@ -19,6 +19,14 @@
             <field name="name">Incoming payments</field>
         </record>
 
+        <record id="account.action_account_payments_payable" model="ir.actions.act_window">
+            <field name="name">Payments</field>
+        </record>
+
+
+        <record id="account.action_account_payments" model="ir.actions.act_window">
+            <field name="name">Incoming payments</field>
+        </record>
 
     </data>
 </odoo>

@@ -1,18 +1,16 @@
 ===========================================
-Payment to Statement
+Services
 ===========================================
-.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
-   :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-   :alt: License: LGPL-3
+.. image:: https://img.shields.io/badge/license-AGPL--3-blue.png
+   :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
+   :alt: License: AGPL-3
 
 
 Features:
- - Adugare platilor in extrasele de banca
- - Adding the payments in the bank statements
-
- This module added features on customer/supplier payments to allow account user to link
- payment with bank statement direct through payment menu or customer/supplier invoices register payment option.
- After selecting and validating payment, module will add bank statement line on selected bank statement.
+ - Ofera posibilitatea de a defini contracte de servicii.
+    - in contract se pot specifica: moneda, data de facturare, recurenta
+ - Periodic in baza acestor contracte se genereaza facturi
+    - consumurile se servicii planificate se pot actualiza cu cele efective inainte de facturare
 
 
 Bug Tracker
