@@ -15,7 +15,7 @@
                     <field name="readings_status"/>
                     <field name="total_revenues" sum="total"/>
                     <field name="total_costs" sum="total"/>
-
+                    <field name="analytic_account_id"/>
                     <field name="message_unread" invisible="1"/>
                 </tree>
             </field>
@@ -121,7 +121,9 @@
                                 <field name="type_id" required="1"/>
                                 <field name="start_date"/>
                             </group>
-
+                            <group>
+                                <field name="analytic_account_id"/>
+                            </group>
 
                         </group>
                         <notebook>

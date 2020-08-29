@@ -81,6 +81,7 @@ class service_equipment(models.Model):
     group_id = fields.Many2one('service.agreement.group', string="Service Group")
     internal_type = fields.Selection([('equipment','Equipment')], default='equipment')
 
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic', ondelete="restrict")
 
     @api.model
     def create(self, vals):
@@ -152,6 +153,7 @@ class service_equipment(models.Model):
     def _compute_agreement_id(self):
         for equipment in self:
             if isinstance(equipment.id, models.NewId):
+                equipment.agreement_id = False
                 return
             agreements = self.env['service.agreement']
             agreement_line = self.env['service.agreement.line'].search([('equipment_id', '=', equipment.id)])
