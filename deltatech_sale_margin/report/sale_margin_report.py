@@ -49,7 +49,7 @@ class sale_margin_report(models.Model):
                              ], readonly=True)
     state = fields.Selection([('draft', 'Draft'),
                               ('proforma', 'Pro-forma'),
-                              ('proforma2', 'Pro-forma'),
+
                               ('open', 'Open'),
                               ('paid', 'Done'),
                               ('cancel', 'Cancelled')
