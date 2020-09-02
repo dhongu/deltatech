@@ -82,5 +82,5 @@ class account_invoice_line(models.Model):
                         price_unit = invoice_line.price_subtotal_signed
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.invoice_id.state in ['draft']:
                         raise Warning(_('You can not sell below the purchase price.'))
-                    if price_unit == 0.0 and invoice_line.invoice_id.state in ['draft']:
-                        raise Warning(_('You can not sell without price.'))
+                    # if price_unit == 0.0 and invoice_line.invoice_id.state in ['draft']:
+                    #     raise Warning(_('You can not sell without price.'))

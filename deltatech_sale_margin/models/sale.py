@@ -34,12 +34,12 @@ class sale_order_line(models.Model):
                     'message': _('Do not sell below the purchase price.'),
                 }
                 res['warning'] = warning
-            if not self.price_unit:
-                warning = {
-                    'title': _('Price Error!'),
-                    'message': _('Do not sell without price.'),
-                }
-                res['warning'] = warning
+            # if not self.price_unit:
+            #     warning = {
+            #         'title': _('Price Error!'),
+            #         'message': _('Do not sell without price.'),
+            #     }
+            #     res['warning'] = warning
         return res
 
 
