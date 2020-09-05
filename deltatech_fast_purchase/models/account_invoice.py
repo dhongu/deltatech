@@ -1,18 +1,15 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, _
-from odoo.tools.float_utils import float_compare
-
+from odoo import models
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
-
-    # in 13 nu mai exista aceasta metoda - functionalitatea a fost mutata in modeulul puchase.line in metoda _prepare_account_move_line
+    # in 13 nu mai exista aceasta metoda - functionalitatea a fost mutata i
+    # n modeulul puchase.line in metoda _prepare_account_move_line
     # def _prepare_invoice_line_from_po_line(self, line):
     #     res = super(AccountMove, self)._prepare_invoice_line_from_po_line(line)
     #     if self.type == 'in_refund':
