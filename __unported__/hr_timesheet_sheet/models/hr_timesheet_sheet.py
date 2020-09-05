@@ -48,14 +48,14 @@ class HrTimesheetSheet(models.Model):
     employee_id = fields.Many2one('hr.employee', string='Employee', default=_default_employee, required=True)
     user_id = fields.Many2one('res.users', related='employee_id.user_id', string='User', store=True, readonly=True)
     date_from = fields.Date(string='Date From', default=_default_date_from, required=True,
-        index=True, readonly=True, states={'new': [('readonly', False)]})
+                            index=True, readonly=True, states={'new': [('readonly', False)]})
     date_to = fields.Date(string='Date To', default=_default_date_to, required=True,
-        index=True, readonly=True, states={'new': [('readonly', False)]})
+                          index=True, readonly=True, states={'new': [('readonly', False)]})
     timesheet_ids = fields.One2many('account.analytic.line', 'sheet_id',
-        string='Timesheet lines',
-        readonly=True, states={
-            'draft': [('readonly', False)],
-            'new': [('readonly', False)]})
+                                    string='Timesheet lines',
+                                    readonly=True, states={
+                                        'draft': [('readonly', False)],
+                                        'new': [('readonly', False)]})
     # state is created in 'new', automatically goes to 'draft' when created. Then 'new' is never used again ...
     # (=> 'new' is completely useless)
     state = fields.Selection([
@@ -67,8 +67,10 @@ class HrTimesheetSheet(models.Model):
         help=' * The \'Open\' status is used when a user is encoding a new and unconfirmed timesheet. '
              '\n* The \'Waiting Approval\' status is used to confirm the timesheet by user. '
              '\n* The \'Approved\' status is used when the users timesheet is accepted by his/her senior.')
-    account_ids = fields.One2many('hr_timesheet_sheet.sheet.account', 'sheet_id', string='Analytic accounts', readonly=True)
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get())
+    account_ids = fields.One2many('hr_timesheet_sheet.sheet.account', 'sheet_id',
+                                  string='Analytic accounts', readonly=True)
+    company_id = fields.Many2one('res.company', string='Company',
+                                 default=lambda self: self.env['res.company']._company_default_get())
     department_id = fields.Many2one('hr.department', string='Department')
 
     @api.constrains('date_to', 'date_from', 'employee_id')
@@ -82,9 +84,10 @@ class HrTimesheetSheet(models.Model):
                     WHERE (date_from <= %s and %s <= date_to)
                         AND user_id=%s
                         AND id <> %s''',
-                    (sheet.date_to, sheet.date_from, new_user_id, sheet.id))
+                                    (sheet.date_to, sheet.date_from, new_user_id, sheet.id))
                 if any(self.env.cr.fetchall()):
-                    raise ValidationError(_('You cannot have 2 timesheets that overlap!\nPlease use the menu \'My Current Timesheet\' to avoid this problem.'))
+                    raise ValidationError(
+                        _('You cannot have 2 timesheets that overlap!\nPlease use the menu \'My Current Timesheet\' to avoid this problem.'))
 
     @api.onchange('employee_id')
     def onchange_employee_id(self):
@@ -140,7 +143,7 @@ class HrTimesheetSheet(models.Model):
     def name_get(self):
         # week number according to ISO 8601 Calendar
         return [(r['id'], _('Week ') + str(datetime.strptime(r['date_from'], '%Y-%m-%d').isocalendar()[1]))
-            for r in self.read(['date_from'], load='_classic_write')]
+                for r in self.read(['date_from'], load='_classic_write')]
 
     @api.multi
     def unlink(self):

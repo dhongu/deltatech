@@ -5,4 +5,3 @@
 
 from . import res_company_settings
 from . import account
-

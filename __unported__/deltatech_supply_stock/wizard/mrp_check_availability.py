@@ -8,6 +8,7 @@ from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import threading
 
+
 class MrpCheckAvailability(models.TransientModel):
     _name = 'mrp.check.availability'
     _description = 'Check Availability'
@@ -36,4 +37,3 @@ class MrpCheckAvailability(models.TransientModel):
             productions.action_assign()
             new_cr.commit()
             new_cr.close()
-

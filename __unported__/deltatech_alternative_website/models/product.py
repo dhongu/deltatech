@@ -40,7 +40,7 @@ def watermark(im, mark, opacity=1.0):
     layer = Image.new('RGBA', im.size, (0, 0, 0, 0))
 
     # scale, but preserve the aspect ratio
-    ratio = min(        float(im.size[0]) / mark.size[0], float(im.size[1]) / mark.size[1])
+    ratio = min(float(im.size[0]) / mark.size[0], float(im.size[1]) / mark.size[1])
     w = int(mark.size[0] * ratio)
     h = int(mark.size[1] * ratio)
     mark = mark.resize((w, h))
@@ -61,30 +61,31 @@ class product_template(models.Model):
     @api.depends('image')
     def _get_watermark_image(self):
         for product in self:
-            if  self.env.user.company_id.watermark_image and product.image:
+            if self.env.user.company_id.watermark_image and product.image:
                 image_base64 = product.with_context(bin_size=False).read(['image'])[0]
 
                 img = image_base64.get('image')
-                image_stream = BytesIO( codecs.decode(img, 'base64'))
+                image_stream = BytesIO(codecs.decode(img, 'base64'))
                 image = Image.open(image_stream)
 
                 image_base64 = self.env.user.company_id.with_context(bin_size=False).read(['watermark_image'])[0]
 
                 img = image_base64.get('watermark_image')
-                mark_stream = BytesIO( codecs.decode(img, 'base64'))
+                mark_stream = BytesIO(codecs.decode(img, 'base64'))
                 mark_image = Image.open(mark_stream)
                 watermark_image = watermark(image, mark_image, 0.2)
 
                 background_stream = BytesIO()
                 watermark_image.save(background_stream, 'PNG')
 
-                product.watermark_image =  codecs.encode(background_stream.getvalue(), 'base64')
+                product.watermark_image = codecs.encode(background_stream.getvalue(), 'base64')
             else:
                 product.watermark_image = product.image
 
     @api.onchange('image')
     def on_change_image(self):
         self._set_watermark_image()
+
 
 class product_catalog(models.Model):
     _inherit = "product.catalog"

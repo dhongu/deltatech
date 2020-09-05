@@ -11,8 +11,7 @@
     "category": "Manufacturing",
     "depends": [
         "stock"
-    ]
-    ,
+    ],
 
     "license": "LGPL-3",
     "data": [

@@ -7,7 +7,6 @@ from odoo import api, models, fields, _, tools
 import odoo.addons.decimal_precision as dp
 
 
-
 class deltatech_cost_detail(models.Model):
     _name = 'deltatech.cost.detail'
     _description = "Cost Detail"
@@ -40,7 +39,7 @@ class deltatech_cost_detail(models.Model):
                 GROUP BY
                     sm.raw_material_production_id, pc.cost_categ
         )"""
-        )
+                            )
 
 
 class mrp_production(models.Model):

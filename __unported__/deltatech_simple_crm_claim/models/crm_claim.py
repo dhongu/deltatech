@@ -106,11 +106,12 @@ class crm_claim(models.Model):
     priority = fields.Selection([('0', 'Low'), ('1', 'Normal'), ('2', 'High')], 'Priority', default='1')
     type_action = fields.Selection([('correction', 'Corrective Action'), ('prevention', 'Preventive Action')],
                                    'Action Type')
-    user_id = fields.Many2one('res.users', 'Responsible', track_visibility='always', default=lambda self: self.env.user.id)
+    user_id = fields.Many2one('res.users', 'Responsible', track_visibility='always',
+                              default=lambda self: self.env.user.id)
     user_fault = fields.Char('Trouble Responsible')
-    team_id = fields.Many2one('crm.team', 'Sales Team', \
-                              index=True, help="Responsible sales team." \
-                                               " Define Responsible user and Email account for" \
+    team_id = fields.Many2one('crm.team', 'Sales Team',
+                              index=True, help="Responsible sales team."
+                                               " Define Responsible user and Email account for"
                                                " mail gateway.")
 
     company_id = fields.Many2one('res.company', 'Company',

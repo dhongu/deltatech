@@ -17,10 +17,8 @@ class MrpWorkcenter(models.Model):
     quantity = fields.Float(string='Quantity', compute='_compute_quantity')
     max_quantity = fields.Float(string='Max Quantity')
 
-
     cleaning_date = fields.Date()
     cleaning_note = fields.Text()
-
 
     @api.multi
     def _compute_quantity(self):

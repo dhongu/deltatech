@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Refund",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Refund",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
 
@@ -38,23 +38,21 @@ Functionalitati:
  - in lista de ridicari sunt afisate rambursarile cu gri si italic
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "base",
-                 "stock",
-                 "purchase",
-                 "sale",
-                 'account',
-                 'deltatech_stock_report'],
- 
-    "data" : [ 
-              'views/stock_return_picking_view.xml',
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech',
+                "base",
+                "stock",
+                "purchase",
+                "sale",
+                'account',
+                'deltatech_stock_report'],
+
+    "data": [
+        'views/stock_return_picking_view.xml',
               'views/stock_view.xml',
               'views/account_invoice_view.xml',
               'views/res_config_view.xml',
-              ],
+    ],
     "active": False,
     "installable": True,
 }
-
-

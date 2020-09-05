@@ -4,13 +4,12 @@
 from odoo import api, fields, models, tools, registry
 
 
-
 class RediusDisconnect(models.TransientModel):
     _name = 'radius.disconnect'
     _description = 'Redius Disconnect'
 
-    user_ids =  fields.Many2many("radius.radcheck")
-    operation = fields.Selection([('d','disconnect'),('r','reconnect')], default='d')
+    user_ids = fields.Many2many("radius.radcheck")
+    operation = fields.Selection([('d', 'disconnect'), ('r', 'reconnect')], default='d')
 
     @api.model
     def default_get(self, fields):
@@ -18,7 +17,7 @@ class RediusDisconnect(models.TransientModel):
         active_model = self.env.context.get('active_model', False)
         active_ids = self.env.context.get('active_ids', False)
 
-        user_ids  = self.env["radius.radcheck"]
+        user_ids = self.env["radius.radcheck"]
 
         if active_model == 'account.move.line':
             partners = self.env['res.partner']
@@ -26,7 +25,7 @@ class RediusDisconnect(models.TransientModel):
             for move in move_lines:
                 partners |= move.partner_id
 
-            user_ids = self.env["radius.radcheck"].search([('partner_id','in',partners.ids)])
+            user_ids = self.env["radius.radcheck"].search([('partner_id', 'in', partners.ids)])
 
         if active_model == 'account.invoice':
             partners = self.env['res.partner']
@@ -34,8 +33,7 @@ class RediusDisconnect(models.TransientModel):
             for invoice in invoices:
                 partners |= invoice.partner_id
 
-            user_ids = self.env["radius.radcheck"].search([('partner_id','in',partners.ids)])
-
+            user_ids = self.env["radius.radcheck"].search([('partner_id', 'in', partners.ids)])
 
         if active_model == 'radius.radcheck':
             user_ids = self.env[active_model].browse(active_ids)
@@ -48,9 +46,8 @@ class RediusDisconnect(models.TransientModel):
         for user in self.user_ids:
             if self.operation == 'd':
                 if user.radusergroup_id.groupname != 'disconnected':
-                    user.write({'groupname':user.radusergroup_id.groupname})
-                    user.radusergroup_id.write({'groupname':'disconnected'})
+                    user.write({'groupname': user.radusergroup_id.groupname})
+                    user.radusergroup_id.write({'groupname': 'disconnected'})
             else:
                 if user.radusergroup_id.groupname == 'disconnected' and user.groupname:
                     user.radusergroup_id.write({'groupname': user.groupname})
-

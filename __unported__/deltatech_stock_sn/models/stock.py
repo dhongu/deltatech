@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
@@ -30,17 +29,16 @@ class stock_location(models.Model):
 
 class stock_production_lot(models.Model):
     _inherit = 'stock.production.lot'
-      
-    active = fields.Boolean(string='Active', compute="_compute_stock_available", store = True,
+
+    active = fields.Boolean(string='Active', compute="_compute_stock_available", store=True,
                             help="By unchecking the active field, you may hide an Lot Number without deleting it.", defualt=True)
 
-    stock_available =  fields.Float( string="Available", compute="_compute_stock_available", store = True,
-            help="Current quantity of products with this Serial Number available in company warehouses",
-            digits=dp.get_precision('Product Unit of Measure'))
-
+    stock_available = fields.Float(string="Available", compute="_compute_stock_available", store=True,
+                                   help="Current quantity of products with this Serial Number available in company warehouses",
+                                   digits=dp.get_precision('Product Unit of Measure'))
 
     @api.multi
-    @api.depends('quant_ids.quantity','quant_ids.location_id')
+    @api.depends('quant_ids.quantity', 'quant_ids.location_id')
     def _compute_stock_available(self):
 
         for lot in self:
@@ -56,4 +54,3 @@ class stock_production_lot(models.Model):
             else:
                 lot.active = False
             lot.stock_available = available
-    

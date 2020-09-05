@@ -20,14 +20,13 @@ class PropertyRoom(models.Model):
 
     height = fields.Float()
     perimeter = fields.Float()
-    surface_disinsection = fields.Float(string="Area of disinsection", compute="_compute_surface_disinsection", store=True)
+    surface_disinsection = fields.Float(string="Area of disinsection",
+                                        compute="_compute_surface_disinsection", store=True)
 
     surface = fields.Float("Surface area")
     surface_cleaning_floor = fields.Float(string="Surface cleaning floor")
     surface_cleaning_doors = fields.Float(string="Surface cleaning doors")
     surface_cleaning_windows = fields.Float(string="Surface cleaning window")
-
-
 
     floor_type = fields.Selection([('c', 'Carpet'), ('l', 'Linoleum'), ('w', 'Wood')])
 
@@ -35,8 +34,8 @@ class PropertyRoom(models.Model):
         ('office', 'Office'),
         ('meeting', 'Meeting room'),
         ('kitchens', 'Kitchens'),
-        ('laboratory','Laboratory'),
-        ('garage','Garage'),
+        ('laboratory', 'Laboratory'),
+        ('garage', 'Garage'),
         ('archive', 'Archive'),
         ('warehouse', 'Warehouse'),
         ('log_warehouse', 'Logistics warehouse'),
@@ -53,12 +52,8 @@ class PropertyRoom(models.Model):
     tenant_id = fields.Many2one('res.partner', string="Tenant")
 
     last_maintenance = fields.Date()
-    technical_condition = fields.Selection([(0,'Missing'),(1,'Unsatisfactory'),(3,'good'),(5,'very good')],
+    technical_condition = fields.Selection([(0, 'Missing'), (1, 'Unsatisfactory'), (3, 'good'), (5, 'very good')],
                                            group_operator='avg')
-
-
-
-
 
     @api.multi
     @api.depends('surface', 'height', 'perimeter')
@@ -70,6 +65,3 @@ class PropertyRoom(models.Model):
     def _check_cleaning_surface(self):
         if self.cleaning_surface > self.surface:
             raise ValidationError(_('Cleaning surface most by lower that surface area'))
-
-
-

@@ -7,6 +7,7 @@
 from odoo import api, models, _
 from odoo.exceptions import UserError, ValidationError
 
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -16,7 +17,7 @@ class SaleOrder(models.Model):
         route_manufacture = self.env.ref('mrp.route_warehouse0_manufacture', raise_if_not_found=False)
         for order in self:
             for line in order.order_line:
-                if route_manufacture and  route_manufacture.id in line.product_id.route_ids.ids:
+                if route_manufacture and route_manufacture.id in line.product_id.route_ids.ids:
                     bom = self.env['mrp.bom'].search(['|', ('product_id', '=', line.product_id.id),
                                                       ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id)])
                     if not bom:
@@ -24,7 +25,7 @@ class SaleOrder(models.Model):
                 else:
                     if route_buy and route_buy.id in line.product_id.route_ids.ids:
                         if not line.product_id.seller_ids:
-                            raise UserError(_('Product %s without vendor')  % line.product_id.name)
+                            raise UserError(_('Product %s without vendor') % line.product_id.name)
 
         return super(SaleOrder, self).action_confirm()
 

@@ -30,15 +30,14 @@ class RegistryOfficSolution(models.TransientModel):
         docs = self.env['registry.office.doc'].browse(active_ids)
         docs.filtered(lambda r: r.user_id == self.env.user.id and r.state == 'progress')
 
-
         # determianre user responsabil in functie de departament
 
         for doc in docs:
             values = {'state': self.state}
             if self.with_shipment:
                 values.update({
-                    'shipment_pertner_id':self.shipment_pertner_id,
-                    'shipment_note':self.shipment_note,
-                    'shipment_id':self.shipment_id,
+                    'shipment_pertner_id': self.shipment_pertner_id,
+                    'shipment_note': self.shipment_note,
+                    'shipment_id': self.shipment_id,
                 })
             doc.write(values)

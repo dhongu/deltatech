@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
@@ -29,19 +28,18 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
 from odoo.osv.fields import related
- 
-_logger = logging.getLogger(__name__)
 
+_logger = logging.getLogger(__name__)
 
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
-    
+
     @api.multi
     def action_quotation_is_ready(self):
-        rfq_ids = self.env['sale.rfq'].search([('order_id','=',self.id)])
+        rfq_ids = self.env['sale.rfq'].search([('order_id', '=', self.id)])
         if not rfq_ids:
             raise Warning(_('RFQ not found'))
         rfq_ids.quotation_ready()
-    
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

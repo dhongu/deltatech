@@ -38,7 +38,7 @@ that would need such functionality.
     'author': 'Dorin Hongu',
     'depends': ['hw_proxy'],
     'external_dependencies': {
-        'python' : ['usb.core','serial','qrcode'],
+        'python': ['usb.core', 'serial', 'qrcode'],
     },
     'test': [
     ],

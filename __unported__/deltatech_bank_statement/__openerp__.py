@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,30 +19,28 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Bank Statement Extension",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Bank Statement Extension",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
  - preluare nr de factura in extrasul de banca dupa reconciliere
    
     """,
-    
+
     'category': 'Accounting & Finance',
-    "depends" : ['deltatech',"account" ],
+    "depends": ['deltatech', "account"],
 
 
- 
-    "data" : [ 
-              ],
-    
+
+    "data": [
+    ],
+
     "active": False,
     "installable": True,
 }
 
 
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

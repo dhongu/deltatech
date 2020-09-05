@@ -6,7 +6,7 @@
 {
     "name": "MRP Cost",
     'version': '12.0.2.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
 
 

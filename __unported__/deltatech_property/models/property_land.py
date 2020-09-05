@@ -24,5 +24,4 @@ class PropertyLand(models.Model):
     utr = fields.Char(string="UTR")
     categ_id = fields.Many2one('property.land.categ', string="Category")
 
-
     cod = fields.Char()

@@ -19,7 +19,7 @@ class AccountInvoice(models.Model):
                 for move in line.move_ids:
                     remaining_qty += move.remaining_qty
 
-                #todo: de covertit in unitatea de achizitie
+                # todo: de covertit in unitatea de achizitie
 
                 qty = line.qty_received - remaining_qty - line.qty_invoiced
                 if float_compare(qty, 0.0, precision_rounding=line.product_uom.rounding) <= 0:
@@ -31,10 +31,9 @@ class AccountInvoice(models.Model):
 
         return data
 
-
     @api.onchange('purchase_id')
     def purchase_order_change(self):
         res = super(AccountInvoice, self).purchase_order_change()
         for line in self.invoice_line_ids:
-            if line.quantity == 0 :
+            if line.quantity == 0:
                 self.invoice_line_ids -= line

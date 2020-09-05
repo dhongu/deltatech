@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -37,13 +37,13 @@ class MrpProduction(models.Model):
     def button_plan(self):
         res = super(MrpProduction, self).button_plan()
         tz_name = self._context.get('tz') or self.env.user.tz
-        #todo: de facut planificarea inapoi!
+        # todo: de facut planificarea inapoi!
         for production in self:
             planned_date = fields.Datetime.from_string(self.date_planned_start)  # la data asta trbuie sa inceapa
             production_values = {'date_planned_start_wo': False,
                                  'date_planned_finished_wo': False}
             values = {}
-            workorders = production.workorder_ids  #.sorted(key=id, reverse=True)
+            workorders = production.workorder_ids  # .sorted(key=id, reverse=True)
             for workorder in workorders:
 
                 date_start = planned_date
@@ -56,7 +56,7 @@ class MrpProduction(models.Model):
                     date_start = intervals and intervals[0][0] or date_start
                     date_end = intervals and intervals[-1][1] or date_end
 
-                    #if tz_name:
+                    # if tz_name:
                     #    date_start = date_start.astimezone(pytz.UTC)
                     #    date_end = date_end.astimezone(pytz.UTC)
 

@@ -15,7 +15,7 @@ class account_invoice_line(models.Model):
     _inherit = "account.move.line"
 
     purchase_price = fields.Float(string='Cost Price',
-                                  #compute="_compute_purchase_price", store=True,
+                                  # compute="_compute_purchase_price", store=True,
                                   digits='Product Price')  # valoare stocului in moneda companiei
     commission = fields.Float(string="Commission", default=0.0)
 
@@ -27,7 +27,7 @@ class account_invoice_line(models.Model):
             purchase_price = product_id.uom_id._compute_price(purchase_price, product_uom_id)
         price = frm_cur._convert(
             purchase_price, to_cur, invoice_id.company_id or self.env.user.company_id,
-                                    invoice_id.invoice_date or fields.Date.today(), round=False)
+            invoice_id.invoice_date or fields.Date.today(), round=False)
         return price
 
     @api.model
@@ -61,7 +61,8 @@ class account_invoice_line(models.Model):
                     purchase_price = invoice_line.product_id.standard_price
                     purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
-                    purchase_price = frm_cur.with_context(date=date_invoice).compute(purchase_price, to_cur, round=False)
+                    purchase_price = frm_cur.with_context(date=date_invoice).compute(
+                        purchase_price, to_cur, round=False)
                 if invoice_line.invoice_id.type == 'out_refund':
                     purchase_price = -1 * purchase_price
                 invoice_line.purchase_price = purchase_price
@@ -74,7 +75,8 @@ class account_invoice_line(models.Model):
                     date_eval = invoice_line.move_id.invoice_date or fields.Date.context_today(invoice_line)
                     if invoice_line.move_id.currency_id and invoice_line.move_id.currency_id.id != self.env.user.company_id.currency_id.id:
                         from_currency = invoice_line.move_id.currency_id.with_context(date=date_eval)
-                        price_unit = from_currency.compute(invoice_line.price_unit, invoice_line.env.user.company_id.currency_id)
+                        price_unit = from_currency.compute(
+                            invoice_line.price_unit, invoice_line.env.user.company_id.currency_id)
                     else:
                         price_unit = invoice_line.price_unit
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.move_id.state in ['draft']:

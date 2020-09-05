@@ -10,9 +10,8 @@
 
     "category": "Manufacturing",
     "depends": [
-        "mrp",'deltatech_mrp_param'
-    ]
-    ,
+        "mrp", 'deltatech_mrp_param'
+    ],
 
     "license": "LGPL-3",
     "data": [

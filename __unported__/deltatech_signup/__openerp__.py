@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,21 +19,19 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Signup Extension ",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Signup Extension ",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati: 
  
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"base","auth_signup"],
- 
-    "data" : ['views/auth_signup_login.xml'],
+    "category": "Generic Modules/Other",
+    "depends": ['deltatech', "base", "auth_signup"],
+
+    "data": ['views/auth_signup_login.xml'],
     "active": False,
     "installable": True,
 }
-
-

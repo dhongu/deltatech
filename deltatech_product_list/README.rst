@@ -7,7 +7,7 @@ Product List
 
 
 Features:
- * definire de liste de produse
+ * defining product lists
 
 
 Bug Tracker

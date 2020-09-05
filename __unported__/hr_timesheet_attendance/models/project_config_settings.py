@@ -3,7 +3,9 @@
 
 from odoo import fields, models
 
+
 class HrTimesheetConfiguration(models.TransientModel):
     _inherit = 'project.config.settings'
 
-    timesheet_max_difference = fields.Float(related='company_id.timesheet_max_difference', string="Timesheet allowed difference(Hours) *")
+    timesheet_max_difference = fields.Float(
+        related='company_id.timesheet_max_difference', string="Timesheet allowed difference(Hours) *")

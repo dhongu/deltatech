@@ -91,7 +91,6 @@ class MrpWorkRecord(models.TransientModel):
         if scann['type'] == 'error':
             values['error_message'] = _('Invalid bar code %s') % barcode
 
-
         elif scann['type'] == 'mrp_operation':
             workorder_domain = [('code', '=', barcode),
                                 ('state', 'in', ['ready', 'progress'])]
@@ -160,7 +159,6 @@ class MrpWorkRecord(models.TransientModel):
                 (channel, message) = ((self._cr.dbname, 'mrp.record', True), ('refresh', True))
                 self.env['bus.bus'].sendone(channel, message)
 
-
         elif scann['type'] == 'product':
             domain = ['|', ('default_code', '=', scann['code']), ('barcode', '=', scann['code'])]
             product = self.env['product.product'].search(domain, limit=1)
@@ -182,7 +180,6 @@ class MrpWorkRecord(models.TransientModel):
                 else:
                     values['work_order_ids'] = work_orders.ids
                     values['work_order_limit_ids'] = work_orders.ids[:10]
-
 
         elif scann['type'] == 'mrp_group':
             domain = [('name', '=', scann['code'])]

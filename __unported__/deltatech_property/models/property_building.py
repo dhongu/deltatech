@@ -176,12 +176,12 @@ class PropertyBuilding(models.Model):
         self.surface_access = surface['access']
 
         self.surface_common = surface['meeting'] + surface['lobby'] + surface['staircase'] + \
-                              surface['kitchens'] + surface['sanitary'] + surface['access']
+            surface['kitchens'] + surface['sanitary'] + surface['access']
 
         self.surface_useful = surface['office'] + self.surface_common + surface['laboratory'] + \
-                              surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
-                              surface['log_warehouse'] + surface['archive'] + \
-                              surface['cloakroom'] + surface['premises']
+            surface['it_endowments'] + surface['garage'] + surface['warehouse'] + \
+            surface['log_warehouse'] + surface['archive'] + \
+            surface['cloakroom'] + surface['premises']
 
         self.surface_cleaned_adm = self.surface_common + surface['office']
         self.surface_cleaned_ind = surface['garage'] + surface['cloakroom'] + self.surface_terraces

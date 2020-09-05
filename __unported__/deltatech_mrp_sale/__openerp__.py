@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech MRP Sale",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech MRP Sale",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
@@ -41,31 +41,30 @@ Functionalitati:
  - se permite adaugarea unei margini pe fiecare pozitie 
 
     """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ["mrp","sale",'mrp_product_variants','sale_product_variants',
-                 'deltatech',
-                 'deltatech_mrp_bom_cost',
-                 'deltatech_percent_qty'],
+
+    "category": "Generic Modules/Production",
+    "depends": ["mrp", "sale", 'mrp_product_variants', 'sale_product_variants',
+                'deltatech',
+                'deltatech_mrp_bom_cost',
+                'deltatech_percent_qty'],
 
 
-    "data" : [  'wizard/take_bom_view.xml',
-                'wizard/sale_add_margin_view.xml',
-                'mrp_sale_view.xml',
-                'mrp_view.xml' ,
-                'product_view.xml',
-                'views/report_saleorder.xml',
-                'views/report_saleorder_v1.xml',
-                'views/report_saleorder_v2.xml',
-                'views/report_saleorder_v3.xml',
-                'security/ir.model.access.csv',
+    "data": ['wizard/take_bom_view.xml',
+             'wizard/sale_add_margin_view.xml',
+             'mrp_sale_view.xml',
+             'mrp_view.xml',
+             'product_view.xml',
+             'views/report_saleorder.xml',
+             'views/report_saleorder_v1.xml',
+             'views/report_saleorder_v2.xml',
+             'views/report_saleorder_v3.xml',
+             'security/ir.model.access.csv',
              ],
-    
-    
+
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

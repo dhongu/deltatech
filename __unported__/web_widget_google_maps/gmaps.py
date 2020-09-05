@@ -6,12 +6,12 @@
 from odoo import models, fields, api, _
 
 import odoo.addons.base as base
- 
+
 
 GEO_VIEW = ('gmaps', 'GMaps')
 
 if 'gmaps' not in base.models.ir_actions.VIEW_TYPES:
-    base.models.ir_actions.VIEW_TYPES.append(GEO_VIEW )
+    base.models.ir_actions.VIEW_TYPES.append(GEO_VIEW)
 
 
 class IrUIView(models.Model):
@@ -24,4 +24,3 @@ class IrActionsActWindowView(models.Model):
     _inherit = 'ir.actions.act_window.view'
 
     view_mode = fields.Selection(selection_add=[GEO_VIEW])
-

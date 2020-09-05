@@ -8,7 +8,7 @@ class MrpRework(models.Model):
     _description = "Mrp rework"
     _inherit = 'mail.thread'
 
-    name = fields.Char(string='Name', index=True, default='/', readonly=True,  copy=False)
+    name = fields.Char(string='Name', index=True, default='/', readonly=True, copy=False)
     production_id = fields.Many2one('mrp.production', string='Manufacturing Order', index=True,
                                     ondelete='cascade', required=True,
                                     readonly=True, states={'draft': [('readonly', False)]})
@@ -26,7 +26,7 @@ class MrpRework(models.Model):
         for rework in self:
             for order in rework.order_ids:
                 order.write({'qty_rework': order.qty_rework + rework.qty_rework,
-                             'qty_produced':order.qty_produced -  rework.qty_rework})
+                             'qty_produced': order.qty_produced - rework.qty_rework})
         return self.write({'state': 'posted'})
 
     @api.multi
@@ -34,7 +34,7 @@ class MrpRework(models.Model):
         for rework in self:
             for order in rework.order_ids:
                 order.write({'qty_rework': order.qty_rework - rework.qty_rework,
-                             'qty_produced':order.qty_produced + rework.qty_rework})
+                             'qty_produced': order.qty_produced + rework.qty_rework})
         return self.write({'state': 'draft'})
 
     @api.model

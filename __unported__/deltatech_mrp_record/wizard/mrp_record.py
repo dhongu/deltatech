@@ -23,7 +23,7 @@ class MrpRecord(models.TransientModel):
                                     domain=[('state', 'in', ['planned', 'progress'])])
 
     procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
-                                              related='production_id.procurement_group_id')
+                                           related='production_id.procurement_group_id')
 
     product_id = fields.Many2one('product.product', 'Product', related='production_id.product_id', readonly=True)
     # worker_id = fields.Many2one('res.partner', string="Worker", domain=[('is_company', '=', False)])
@@ -37,10 +37,10 @@ class MrpRecord(models.TransientModel):
                                    domain="[('state', 'not in', ['done', 'cancel']), ('production_id','=',production_id) ]")
 
     qty_production = fields.Float('Original Production Quantity', readonly=True,
-                                  related = 'production_id.product_qty' )
+                                  related='production_id.product_qty')
 
     qty_ready_prod = fields.Float('Quantity Ready for Production', readonly=True,
-                                  related = 'workorder_id.qty_ready_prod' )
+                                  related='workorder_id.qty_ready_prod')
 
     qty_produced = fields.Float('Quantity', readonly=True, related='workorder_id.qty_produced')
     qty_producing = fields.Float('Currently Produced Quantity', related='workorder_id.qty_producing')
@@ -50,9 +50,6 @@ class MrpRecord(models.TransientModel):
     error_message = fields.Char(string="Error Message", readonly=True)
     success_message = fields.Char(string="Success Message", readonly=True)
     info_message = fields.Char(string="Info Message", readonly=True)
-
-
-
 
     """
     @api.depends('workorder_id', 'qty_producing','date_end','date_start')
@@ -147,7 +144,7 @@ class MrpRecord(models.TransientModel):
 
     @api.onchange('qty_producing')
     def onchange_qty_producing(self):
-        if ( self.qty_producing + self.qty_produced ) > self.qty_ready_prod:
+        if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
             self.qty_producing = self.qty_ready_prod - self.qty_produced
 
     def get_workers(self, workorder_id, worker=False):
@@ -223,13 +220,12 @@ class MrpRecord(models.TransientModel):
                     if self.code and not workorder:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', self.code),
-                                            ('state', 'not in', [  'cancel'])]
+                                            ('state', 'not in', ['cancel'])]
 
                         workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
                         if not workorder:
                             self.error_message = _('Operation with code %s not found') % self.code
                             workorder = False
-
 
                 if scann['type'] == 'mrp_operation':
                     # nu trebuie facuta incrementarea de cantitate daca se rescanreaza codul operatiei
@@ -243,11 +239,10 @@ class MrpRecord(models.TransientModel):
                     code = scann['code']
                     self.code = scann['code']
 
-
                     if production:
                         workorder_domain = [('production_id', '=', production.id),
                                             ('code', '=', code),
-                                            ('state', 'not in', [ 'cancel'])]
+                                            ('state', 'not in', ['cancel'])]
                         workorder = self.env['mrp.workorder'].search(workorder_domain, limit=1)
                         if not workorder:
                             self.error_message = _('Operation with code %s not found') % code
@@ -256,9 +251,6 @@ class MrpRecord(models.TransientModel):
                             self.info_message = _('Operation %s was scanned') % workorder.name
                     else:
                         self.info_message = _('Operation %s was scanned') % code
-
-
-
 
                 if scann['type'] == 'mrp_worker':
                     if worker_module == 'res.partner':
@@ -276,10 +268,8 @@ class MrpRecord(models.TransientModel):
                                 worker.name, workorder.workcenter_id.name)
 
                         #  trimite mesaj de refresh
-                        (channel, message) = ( (self._cr.dbname, 'mrp.record', False), ('refresh', False))
+                        (channel, message) = ((self._cr.dbname, 'mrp.record', False), ('refresh', False))
                         self.env['bus.bus'].sendone(channel, message)
-
-
 
         if workorder and self.workorder_id != workorder and workorder.workcenter_id.partial_record:
             if workorder.qty_produced < workorder.qty_ready_prod:
@@ -319,14 +309,11 @@ class MrpRecord(models.TransientModel):
         workorder.qty_producing = qty_producing  # de ce nu merge la onchange ????
 
         if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
-            raise UserError( _('It is not possible to increase the quantity'))
+            raise UserError(_('It is not possible to increase the quantity'))
 
-
-
-
-        time_ids = workorder.time_ids.filtered(lambda x: (x.user_id.id == self.env.user.id) and
-                                                         (not x.date_end) and (
-                                                             x.loss_type in ('productive', 'performance')))
+        time_ids = workorder.time_ids.filtered(lambda x: (x.user_id.id == self.env.user.id)
+                                               and (not x.date_end) and (
+            x.loss_type in ('productive', 'performance')))
         if time_ids:
             time_values = {'worker_id': worker.id,
                            'qty_produced': qty_producing,
@@ -349,7 +336,6 @@ class MrpRecord(models.TransientModel):
         workorder.end_previous()
         if workorder.state == 'progress':  # daca nu a fost finalizata comanda
             workorder.button_start()
-
 
         workorder.write({'qty_producing': workorder.qty_producing,
                          'qty_produced': workorder.qty_produced})

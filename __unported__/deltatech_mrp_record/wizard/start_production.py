@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, RedirectWarning
 from odoo.tools import float_compare
@@ -56,7 +55,6 @@ class mrp_production_start(models.TransientModel):
         for production in self.production_ids:
             if production.state == 'confirmed':
                 production.button_plan()
-
 
         action = self.env.ref('mrp.mrp_production_action').read()[0]
         action['domain'] = "[('id','in', [" + ','.join(map(str, self.production_ids.ids)) + "])]"

@@ -4,14 +4,12 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields,models
+from odoo import api, fields, models
 from odoo.tools import float_compare
 
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
-
-
 
     @api.multi
     def button_plan(self):
@@ -19,8 +17,6 @@ class MrpProduction(models.Model):
         for production in self:
             production.generate_finished_lot_ids()
         return res
-
-
 
     def generate_finished_lot_ids(self):
         """ Generate stock move lots """
@@ -43,7 +39,7 @@ class MrpProduction(models.Model):
                             'quantity': min(1, qty),
                             'production_id': self.id,
                             'product_id': move.product_id.id,
-                            #'done_wo': False,
+                            # 'done_wo': False,
                         })
                         qty -= 1
                 else:
@@ -57,5 +53,5 @@ class MrpProduction(models.Model):
                         'quantity': qty,
                         'product_id': move.product_id.id,
                         'production_id': self.id,
-                        #'done_wo': False,
+                        # 'done_wo': False,
                     })

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,21 +19,21 @@
 #
 ##############################################################################
 {
-    "name" : "Background job",
+    "name": "Background job",
     'version': '10.0.1.0.0',
-    "author" : "Dorin Hongu",
-    "category" : "Base",
-    "depends" : [],
-    "description" : """
+    "author": "Dorin Hongu",
+    "category": "Base",
+    "depends": [],
+    "description": """
 
 
 """,
-    "data" : [
-            "views/background_job_view.xml",    
-            'security/ir.model.access.csv'       
+    "data": [
+            "views/background_job_view.xml",
+            'security/ir.model.access.csv'
     ],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

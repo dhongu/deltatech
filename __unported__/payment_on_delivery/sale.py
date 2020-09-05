@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
- 
+
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
@@ -33,16 +33,15 @@ class sale_order(models.Model):
     #payment_acquirer_id = fields.Many2one('payment.acquirer', string='Payment Acquirer', on_delete='set null', copy=False)
     #payment_tx_id = fields.Many2one('payment.transaction', string='Transaction', on_delete='set null', copy=False)
 
-
     @api.model
     def _prepare_invoice(self, order, lines, context=None):
-        
+
         if context is None:
             context = {}
-        if order.payment_acquirer_id: 
+        if order.payment_acquirer_id:
             context['default_payment_acquirer_id'] = order.payment_acquirer_id.id
-        res = super(sale_order,self)._prepare_invoice(cr, uid, order, lines, context)
-        
+        res = super(sale_order, self)._prepare_invoice(cr, uid, order, lines, context)
+
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

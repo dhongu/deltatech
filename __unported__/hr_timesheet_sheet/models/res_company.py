@@ -8,4 +8,4 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     timesheet_range = fields.Selection([('week', 'Week'), ('month', 'Month')],
-            default='week', string='Timesheet range', help="Periodicity on which you validate your timesheets.")
+                                       default='week', string='Timesheet range', help="Periodicity on which you validate your timesheets.")

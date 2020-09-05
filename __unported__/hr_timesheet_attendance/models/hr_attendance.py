@@ -15,7 +15,7 @@ class HrAttendance(models.Model):
     _inherit = "hr.attendance"
 
     sheet_id_computed = fields.Many2one('hr_timesheet_sheet.sheet', string='Sheet', compute='_compute_sheet', index=True, ondelete='cascade',
-        search='_search_sheet')
+                                        search='_search_sheet')
     sheet_id = fields.Many2one('hr_timesheet_sheet.sheet', compute='_compute_sheet', string='Sheet', store=True)
 
     @api.depends('employee_id', 'check_in', 'check_out', 'sheet_id_computed.date_to', 'sheet_id_computed.date_from', 'sheet_id_computed.employee_id')
@@ -93,7 +93,8 @@ class HrAttendance(models.Model):
         if sheet:
             att_tz_date_str = self._get_attendance_employee_tz(vals.get('employee_id'), date=vals.get('check_in'))
             if sheet.state not in ('draft', 'new'):
-                raise UserError(_('You can not enter an attendance in a submitted timesheet. Ask your manager to reset it before adding attendance.'))
+                raise UserError(
+                    _('You can not enter an attendance in a submitted timesheet. Ask your manager to reset it before adding attendance.'))
             elif sheet.date_from > att_tz_date_str or sheet.date_to < att_tz_date_str:
                 raise UserError(_('You can not enter an attendance date outside the current timesheet dates.'))
         return super(HrAttendance, self).create(vals)

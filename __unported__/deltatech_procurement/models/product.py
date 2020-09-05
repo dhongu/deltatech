@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,19 +20,18 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning, ValidationError
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 
 
 class product_template(models.Model):
-    _inherit = 'product.template' 
+    _inherit = 'product.template'
 
     @api.one
-    @api.constrains('seller_ids','purchase_ok')
+    @api.constrains('seller_ids', 'purchase_ok')
     def _check_description(self):
-        if self.purchase_ok  and self.type == 'product':
+        if self.purchase_ok and self.type == 'product':
             if not self.seller_ids:
                 raise ValidationError(_("No defined a supplier of this product"))
 

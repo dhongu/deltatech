@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Procurement",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Procurement",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
  
@@ -47,18 +47,18 @@ Features:
 
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "base",
-                 "stock",
-                 "purchase",
-                 'procurement',
-                 'deltatech_required',
-                 'deltatech_show_quant',
-                 'deltatech_refund'],
- 
-    "data" : ['views/purchase_view.xml',
-              #'required_product_view.xml',
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech',
+                "base",
+                "stock",
+                "purchase",
+                'procurement',
+                'deltatech_required',
+                'deltatech_show_quant',
+                'deltatech_refund'],
+
+    "data": ['views/purchase_view.xml',
+              # 'required_product_view.xml',
               'views/sale_view.xml',
               'views/stock_view.xml',
               'views/procurement_view.xml',
@@ -67,5 +67,3 @@ Features:
     "active": False,
     "installable": True,
 }
-
-

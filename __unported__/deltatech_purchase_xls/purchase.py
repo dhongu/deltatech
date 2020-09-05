@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
 
 
 from odoo.exceptions import except_orm, Warning, RedirectWarning
- 
+
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
@@ -29,13 +29,5 @@ from odoo import SUPERUSER_ID, api
 
 import odoo.addons.decimal_precision as dp
 
-
-
-
-
-
-
-
- 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

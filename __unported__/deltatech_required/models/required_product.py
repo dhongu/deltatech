@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 
 
 from odoo.exceptions import except_orm, Warning, RedirectWarning
@@ -40,10 +39,8 @@ class required_order(models.Model):
     _description = "Required Products Order"
     _inherit = 'mail.thread'
 
-
-
     name = fields.Char(string='Reference', index=True, readonly=True, states={'draft': [('readonly', False)]},
-                       default=lambda self:  self.env['ir.sequence'].next_by_code('required.order'),
+                       default=lambda self: self.env['ir.sequence'].next_by_code('required.order'),
                        copy=False)
     date = fields.Date(string='Date', required=True, readonly=True, states={'draft': [('readonly', False)]},
                        default=fields.Date.today())
@@ -183,9 +180,6 @@ class required_order(models.Model):
             action['res_id'] = procurement_ids and procurement_ids[0] or False
         return action
 
-
-
-
     @api.multi
     def _track_subtype(self, init_values):
         self.ensure_one()
@@ -194,8 +188,6 @@ class required_order(models.Model):
         elif 'state' in init_values and self.state == 'done':
             return 'deltatech_required.mt_order_done'
         return super(required_order, self)._track_subtype(init_values)
-
-
 
 
 class required_order_line(models.Model):
@@ -211,8 +203,8 @@ class required_order_line(models.Model):
     qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
     virtual_available = fields.Float(related='product_id.virtual_available', string='Quantity Available')
 
-    date_planned = fields.Datetime(string='Scheduled Date', readonly=True, states={'draft': [('readonly', False)]}
-                                   , compute='_compute_date_planned', store=True)
+    date_planned = fields.Datetime(string='Scheduled Date', readonly=True, states={
+                                   'draft': [('readonly', False)]}, compute='_compute_date_planned', store=True)
 
     @api.depends('required_id.date', 'product_id')
     def _compute_date_planned(self):

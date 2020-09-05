@@ -1,25 +1,16 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
     "name": "Purchase Price",
-    'version': '13.0.1.0.0',
+    "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "website": "https://www.terrabit.ro",
-
-    'category': 'Purchase',
-
-    "depends": ['stock', 'stock_account', "purchase_stock"],
-
-
     "license": "LGPL-3",
-    "data": [
-    ],
-    "images": ['images/main_screenshot.png'],
-    "active": False,
+    "website": "https://www.terrabit.ro",
+    "category": "Purchase",
+    "depends": ["stock", "stock_account", "purchase_stock"],
+    "data": [],
+    "images": ["images/main_screenshot.png"],
     "installable": True,
-
 }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

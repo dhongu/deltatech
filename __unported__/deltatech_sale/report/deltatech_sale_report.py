@@ -7,7 +7,6 @@ from odoo import fields, api, models
 from odoo import tools
 
 
-
 class deltatech_sale_report(models.Model):
     _name = "deltatech.sale.report"
     _description = "Deltatech sale report"
@@ -75,7 +74,6 @@ class deltatech_sale_report(models.Model):
         for line in self:
             price_unit = line.product_id.product_tmpl_id.get_history_price(line.company_id.id, date=line.date)
             line.stock_val = line.product_uom_qty * price_unit
-
 
     def _get_profit_val(self):
         for line in self:

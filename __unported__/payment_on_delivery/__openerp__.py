@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,31 +21,30 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Payment On Delivery",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Payment On Delivery",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
  - plata la livrare
 
     """,
-    
-    "category" : "Sales Management",
-    "depends" : ['deltatech','sale','payment','delivery','website_sale'],
+
+    "category": "Sales Management",
+    "depends": ['deltatech', 'sale', 'payment', 'delivery', 'website_sale'],
 
 
-    "data" : [  'views/on_delivery.xml','data.xml',
-              'sale_view.xml',
-              'payment_view.xml','account_invoice_view.xml',
+    "data": ['views/on_delivery.xml', 'data.xml',
+             'sale_view.xml',
+             'payment_view.xml', 'account_invoice_view.xml',
              ],
-    
-    
+
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

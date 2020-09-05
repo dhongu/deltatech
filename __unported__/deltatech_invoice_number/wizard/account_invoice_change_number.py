@@ -4,8 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
-
 from odoo import models, fields, api
 
 
@@ -25,7 +23,6 @@ class account_invoice_change_number(models.TransientModel):
 
         return defaults
 
-
     def do_change_number(self):
         active_id = self.env.context.get('active_id', False)
         if active_id:
@@ -36,5 +33,3 @@ class account_invoice_change_number(models.TransientModel):
             invoice.write(values)
             if invoice.state == 'open':
                 invoice.action_number()
-
-

@@ -26,4 +26,3 @@ Functionalitati:
     "active": False,
     "installable": True,
 }
-

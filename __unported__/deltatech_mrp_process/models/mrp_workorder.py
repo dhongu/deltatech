@@ -51,7 +51,6 @@ class MrpWorkorder(models.Model):
                 'res_id': self.next_work_order_id.id
             }
 
-
         else:
             action = {
                 'type': 'ir.actions.act_window',
@@ -83,7 +82,8 @@ class MrpWorkorder(models.Model):
 
         move_lines = self.active_move_line_ids
         for move_line in move_lines:
-            line = move_line.move_id.move_line_ids.filtered(lambda line: line.lot_id != False and line.product_id == move_line.product_id)
+            line = move_line.move_id.move_line_ids.filtered(
+                lambda line: line.lot_id != False and line.product_id == move_line.product_id)
             if line:
                 line = line[0]
                 move_line.write({'lot_id': line.lot_id.id})

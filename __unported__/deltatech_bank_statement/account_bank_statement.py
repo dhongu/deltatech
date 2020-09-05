@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,17 +20,14 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
 from odoo import SUPERUSER_ID, api
 
 
-
 class account_bank_statement_line(models.Model):
-    _inherit = "account.bank.statement.line"  
-     
+    _inherit = "account.bank.statement.line"
 
     def process_reconciliation(self, cr, uid, id, mv_line_dicts, context=None):
         st_line = self.browse(cr, uid, id, context=context)
@@ -40,10 +37,9 @@ class account_bank_statement_line(models.Model):
                 if 'counterpart_move_line_id' in line:
                     name += [line['name']]
             ref = ','.join(name)
-            self.write(cr, uid, id, {'ref':ref}, context)
-        res = super(account_bank_statement_line, self).process_reconciliation( cr, uid, id, mv_line_dicts, context)
+            self.write(cr, uid, id, {'ref': ref}, context)
+        res = super(account_bank_statement_line, self).process_reconciliation(cr, uid, id, mv_line_dicts, context)
         return res
 
-    
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

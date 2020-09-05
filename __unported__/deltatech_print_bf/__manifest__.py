@@ -11,7 +11,7 @@
     'summary': 'Generare fisier pentu casa de marcat',
 
     'category': 'Generic Modules',
-    "depends": ["account", "web", 'sale' , 'deltatech_download'],
+    "depends": ["account", "web", 'sale', 'deltatech_download'],
 
     "license": "LGPL-3",
     "data": ['wizard/account_invoice_export_bf_view.xml',

@@ -18,7 +18,7 @@ Shared chart of account in multi-company
 
     "data": [
         'views/res_config_settings_views.xml',
-       # 'views/account_invoice_views.xml'
+        # 'views/account_invoice_views.xml'
     ],
     'application': False,
     "active": False,

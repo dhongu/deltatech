@@ -24,12 +24,11 @@ class account_invoice(models.Model):
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
 
-    checked = fields.Selection([('ok', 'OK'), ('not_ok', 'NOT OK'), ], string='Checked' )
+    checked = fields.Selection([('ok', 'OK'), ('not_ok', 'NOT OK'), ], string='Checked')
 
     @api.multi
     def set_checked(self, value):
         self.write({'checked': value})
-
 
     @api.multi
     def compute_taxes(self):

@@ -9,8 +9,3 @@ from . import property_land
 from . import property_building
 from . import property_room
 from . import res_partner
-
-
-
-
-

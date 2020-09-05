@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ©  2013 Vauxoo (info@vauxoo.com)
 #              Sabrina Romero (sabrina@vauxoo.com)
@@ -14,26 +13,7 @@
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
-    "depends": [
-        "base",
-        "stock"
-    ],
-    "demo": [],
-    "license": "LGPL-3",
-
-    "data": [
-        "security/res_groups.xml",
-        "wizard/base_product_merge_view.xml"
-    ],
-    "images": ['images/main_screenshot.png'],
-    "test": [],
-    "js": [],
-    "css": [],
-    "qweb": [],
-    "installable": True,
-    "auto_install": False,
+    "depends": ["base", "stock"],
+    "data": ["security/res_groups.xml", "wizard/base_product_merge_view.xml"],
+    "images": ["images/main_screenshot.png"],
 }
-
-
-
-

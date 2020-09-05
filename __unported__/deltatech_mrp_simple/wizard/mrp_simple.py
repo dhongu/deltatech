@@ -47,10 +47,12 @@ class MRPSimple(models.TransientModel):
             line.product_id.write({
                 'standard_price': line.price_unit,
             })
-            self.add_picking_line(picking=picking_in, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
+            self.add_picking_line(picking=picking_in, product=line.product_id,
+                                  quantity=line.quantity, uom=line.uom_id, price_unit=line.price_unit)
 
         for line in self.product_out_ids:
-            self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity, uom=line.uom_id, price_unit=line.product_id.standard_price)
+            self.add_picking_line(picking=picking_out, product=line.product_id, quantity=line.quantity,
+                                  uom=line.uom_id, price_unit=line.product_id.standard_price)
 
         # se face consumul
         if picking_out.move_lines:
@@ -61,7 +63,6 @@ class MRPSimple(models.TransientModel):
                         for move_line in move.move_line_ids:
                             move_line.qty_done = move_line.product_uom_qty
                 picking_out.button_validate()
-
 
         # se face receptia
         if picking_in.move_lines:

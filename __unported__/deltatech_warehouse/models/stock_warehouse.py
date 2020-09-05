@@ -4,10 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
-
-
-
 from odoo import api, models, fields
 
 import logging
@@ -22,5 +18,3 @@ class Warehouse(models.Model):
                                                 help="Picking type consume in production")
     pick_type_prod_receipt_id = fields.Many2one('stock.picking.type', string='Type prod receipt',
                                                 help="Picking type receipt from production")
-
-

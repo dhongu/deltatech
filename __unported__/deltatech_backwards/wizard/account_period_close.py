@@ -23,6 +23,7 @@ from odoo import api, fields, models, _
 from odoo.tools.translate import _
 from odoo.exceptions import UserError, RedirectWarning, ValidationError
 
+
 class account_period_close(models.TransientModel):
     """
         close period
@@ -44,7 +45,7 @@ class account_period_close(models.TransientModel):
         for form in self.read:
             if form['sure']:
                 for id in self.env.context['active_ids']:
-                    account_move_ids = account_move_obj.search([('period_id', '=', id), ('state', '=', "draft")] )
+                    account_move_ids = account_move_obj.search([('period_id', '=', id), ('state', '=', "draft")])
                     if account_move_ids:
                         raise UserError(_('In order to close a period, you must first post related journal entries.'))
 

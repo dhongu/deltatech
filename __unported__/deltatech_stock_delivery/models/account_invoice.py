@@ -6,16 +6,16 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
+
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
     @api.multi
     def invoice_print_delivery(self):
 
+        result = self.env.ref('stock.action_picking_tree_all')[0]
 
-        result = self.env.ref( 'stock.action_picking_tree_all')[0]
-
-        #compute the number of delivery orders to display
+        # compute the number of delivery orders to display
         pickings = self.env['stock.picking']
         for invoice in self:
             #pick_ids += [picking.id for picking in invoice.picking_ids]
@@ -28,7 +28,7 @@ class account_invoice(models.Model):
                     for move in line.purchase_line_id.move_ids:
                         if move.picking_id.state == 'done':
                             pickings |= move.picking_id
-        
+
         if not pickings:
             raise UserError(_('This invoice has no deliveries'))
 
@@ -44,6 +44,3 @@ class account_invoice(models.Model):
                 action['views'] = form_view
             action['res_id'] = pickings.id
         return action
-        
-
-
