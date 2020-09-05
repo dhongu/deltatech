@@ -1,19 +1,18 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, _
-from odoo.tools.float_utils import float_compare
+from odoo import fields, models
+
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
     notice = fields.Boolean()
 
     def action_view_invoice(self):
         if self.purchase_id:
-            return self.purchase_id.with_context(create_bill=True).action_view_invoice()
+            return self.purchase_id.with_context(create_bill=True, notice=self.notice).action_view_invoice()
 
             # action = self.env.ref('account.action_move_in_invoice_type')
             # result = action.read()[0]
