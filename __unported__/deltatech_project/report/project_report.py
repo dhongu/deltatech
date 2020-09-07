@@ -50,26 +50,24 @@ class ReportProjectAbstract(models.AbstractModel):
         }
 
 
-
-
-
 class report_project(models.AbstractModel):
     _name = 'report.deltatech_project.report_project'
     _inherit = 'report.abstract_report.project'
     _template = 'deltatech_project.report_project'
+
 
 class report_project_do_today(models.AbstractModel):
     _name = 'report.deltatech_project.report_project_do_today'
     _inherit = 'report.abstract_report.project'
     _template = 'deltatech_project.report_project_do_today'
 
-    
+
 class report_project_do_tomorrow(models.AbstractModel):
     _name = 'report.deltatech_project.report_project_do_tomorrow'
     _inherit = 'report.abstract_report.project'
     _template = 'deltatech_project.report_project_do_tomorrow'
 
-    
+
 class report_project_do_on_date(models.AbstractModel):
     _name = 'report.deltatech_project.report_project_do_on_date'
     _inherit = 'report.abstract_report.project'

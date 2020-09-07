@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,11 +19,11 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Products Alternative On Invoice",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "category" : "Generic Modules/Inventory Control",
-    "depends" : ['deltatech',"deltatech_alternative","l10n_ro_invoice_report"],
+    "name": "Deltatech Products Alternative On Invoice",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "category": "Generic Modules/Inventory Control",
+    "depends": ['deltatech', "deltatech_alternative", "l10n_ro_invoice_report"],
 
 
     "description": """
@@ -32,12 +32,12 @@ Features:
  
  
 """,
-    "data" : [
-        "views/report_invoice.xml" ,    
+    "data": [
+        "views/report_invoice.xml",
 
     ],
     "active": False,
     "installable": True,
-   
+
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

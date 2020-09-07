@@ -63,15 +63,10 @@ class IrMailServer(models.Model):
 """
 
 
-
-
-
-
 class MailMail(models.Model):
     """ Model holding RFC2822 email messages to send. This model also provides
         facilities to queue and send new email messages.  """
     _inherit = 'mail.mail'
-
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -83,7 +78,6 @@ class MailMail(models.Model):
                     values.update({'email_to': always_mail_to,
                                    'recipient_ids': [(5, False, False)]})
         return super(MailMail, self).create(vals_list)
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

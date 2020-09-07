@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,62 +28,60 @@ import odoo.addons.decimal_precision as dp
 
 
 class sale_order(models.Model):
-    _inherit = 'sale.order' 
-    
-    
-    procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
-    invoiced_rate = fields.Float(  compute='_compute_invoiced_rate' )  # string='Invoiced Ratio', exista acest camp dar este suprascris pt a apela alta metoda de calcul
-    invoiced = fields.Boolean(compute='_compute_invoiced' )
+    _inherit = 'sale.order'
+
+    procurement_count = fields.Integer(string='Procurements', compute='_compute_procurement_count')
+    # string='Invoiced Ratio', exista acest camp dar este suprascris pt a apela alta metoda de calcul
+    invoiced_rate = fields.Float(compute='_compute_invoiced_rate')
+    invoiced = fields.Boolean(compute='_compute_invoiced')
     deliveriy_note = fields.Text(string="Delivery note")
 
     @api.one
-    @api.depends('order_line.procurement_ids' )
-    def _compute_procurement_count(self):           
-        value = 0 
+    @api.depends('order_line.procurement_ids')
+    def _compute_procurement_count(self):
+        value = 0
         procurements = self.env['procurement.order']
         for sale in self:
             for line in sale.order_line:
                 for procurement in line.procurement_ids:
-                    procurements = procurements | procurement 
-                 
-        self.procurement_count = len(procurements)
+                    procurements = procurements | procurement
 
+        self.procurement_count = len(procurements)
 
     @api.one
     @api.depends('invoice_ids.amount_untaxed', 'amount_untaxed')
-    def _compute_invoiced_rate(self):   
+    def _compute_invoiced_rate(self):
         if self.currency_id:
             to_currency = self.currency_id
         else:
             to_currency = self.env.user.company_id.currency_id
- 
-        if self.amount_untaxed:   
-            invoice_tot = 0.0     
+
+        if self.amount_untaxed:
+            invoice_tot = 0.0
             for invoice in self.invoice_ids:
-                if invoice.state not in ('draft','cancel'):
+                if invoice.state not in ('draft', 'cancel'):
                     if invoice.currency_id:
                         from_currency = invoice.currency_id.with_context(date=invoice.date_invoice)
-                    else:    
+                    else:
                         from_currency = self.env.user.company_id.currency_id.with_context(date=invoice.date_invoice)
                     value = invoice.amount_untaxed
-                    if  invoice.type == 'out_refund' :
+                    if invoice.type == 'out_refund':
                         value = -value
-                          
-                    invoice_tot += from_currency.compute(value, to_currency )
-                    
-            self.invoiced_rate =   min(100.00, invoice_tot * 100.0 / (self.amount_untaxed or 1.00))
+
+                    invoice_tot += from_currency.compute(value, to_currency)
+
+            self.invoiced_rate = min(100.00, invoice_tot * 100.0 / (self.amount_untaxed or 1.00))
         else:
             self.invoiced_rate = 0.0
-        
+
     # todo: sa tina cont si de facturile rambursate
     @api.one
     @api.depends('invoice_ids')
     def _compute_invoiced(self):
         self.invoiced = False
         for invoice in self.invoice_ids:
-            if invoice.state =='paid' and not (invoice.origin_refund_invoice_id or  invoice.refund_invoice_id):
+            if invoice.state == 'paid' and not (invoice.origin_refund_invoice_id or invoice.refund_invoice_id):
                 self.invoiced = True
-
 
     @api.multi
     def view_procurement(self):
@@ -100,9 +97,8 @@ class sale_order(models.Model):
             for line in order.order_line:
                 procurement_ids |= line.procurement_ids
 
-
         result['context'] = {}
-         
+
         if len(procurement_ids) > 1:
             result['domain'] = "[('id','in',[" + ','.join(map(str, procurement_ids.ids)) + "])]"
         else:
@@ -138,7 +134,6 @@ class sale_order(models.Model):
             result['res_id'] = move_ids and move_ids[0] or False
         return result
 
-
     """ Cod mutat in show_quant
     @api.multi
     def view_current_stock(self):
@@ -153,32 +148,31 @@ class sale_order(models.Model):
         return action 
     """
 
-    
     def action_ship_create(self, cr, uid, ids, context=None):
         """
          from https://github.com/aliomattux/auto_check_availability/blob/master/models/stock.py
         """
         picking_obj = self.pool.get('stock.picking')
         res = super(sale_order, self).action_ship_create(cr, uid, ids, context=context)
-        
+
         for order in self.browse(cr, uid, ids):
             for picking in order.picking_ids:
                 if picking.state == 'confirmed':
                     picking_obj.action_assign(cr, uid, picking.id)
-            order.picking_ids.write({'note':order.deliveriy_note})
+            order.picking_ids.write({'note': order.deliveriy_note})
 
         return res
 
     @api.multi
     def open_sale_order(self):
-        
-        url =  "web?=#id="+str(self.id)+"&view_type=form&model=sale.order"
-        
+
+        url = "web?=#id=" + str(self.id) + "&view_type=form&model=sale.order"
+
         return {
             "type": "ir.actions.act_url",
             "url": url,
             "target": "new",
-            }
+        }
 
     """
     mutat in fast_sale
@@ -198,12 +192,13 @@ class sale_order(models.Model):
         action['context'] =  {'active_ids': self.picking_ids.ids, 'active_id': self.picking_ids[0].id  } 
         return   action
     """
-        
+
+
 class sale_order_line(models.Model):
-    _inherit = 'sale.order.line' 
-    
-    qty_available =  fields.Float( related= 'product_id.qty_available',string='Quantity On Hand')
-    virtual_available = fields.Float(  related= 'product_id.virtual_available' , string='Quantity Available' )     
+    _inherit = 'sale.order.line'
+
+    qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
+    virtual_available = fields.Float(related='product_id.virtual_available', string='Quantity Available')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

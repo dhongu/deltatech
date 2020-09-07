@@ -5,11 +5,11 @@
 
 from odoo import models, fields, api
 
+
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
     parameter_value_ids = fields.One2many('mrp.parameter.value', 'workorder_id', string='Parameter')
-
 
     @api.multi
     def button_copy_param(self):

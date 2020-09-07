@@ -10,13 +10,11 @@ from odoo.exceptions import ValidationError
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-
-
-    @api.onchange('price_unit','product_uom','discount')
+    @api.onchange('price_unit', 'product_uom', 'discount')
     def onchange_price_unit(self):
         if self.product_id:
             highest_price = 0.0
-            to_currency = self.order_id.pricelist_id.currency_id or  self.env.user.company_id.currency_id
+            to_currency = self.order_id.pricelist_id.currency_id or self.env.user.company_id.currency_id
             for seller in self.product_id.seller_ids:
                 from_currency = seller.currency_id or self.env.user.company_id.currency_id
 
@@ -26,7 +24,7 @@ class SaleOrderLine(models.Model):
 
             highest_price = self.product_id.uom_po_id._compute_price(highest_price, self.product_uom)
             if self.discount:
-                unit_price = self.price_unit-self.price_unit*self.discount/100
+                unit_price = self.price_unit - self.price_unit * self.discount / 100
             else:
                 unit_price = self.price_unit
 

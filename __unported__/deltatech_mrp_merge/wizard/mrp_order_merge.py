@@ -39,7 +39,6 @@ class MrpOrderMerge(models.TransientModel):
         # produsul din antet trebui inlocuit cu unul dummy
         # comanda nu mai trebuie sa aiba lista de materiale
 
-
         raw_picking = main_production.move_raw_ids[0].picking_id
         finished_picking = main_production.move_finished_ids[0].picking_id
         raw_value = {'raw_material_production_id': main_production.id}
@@ -62,7 +61,7 @@ class MrpOrderMerge(models.TransientModel):
         if raw_picking:
             raw_picking.recheck_availability()
 
-        #if finished_picking:
+        # if finished_picking:
         #    finished_picking.do_propare_partial()
 
         main_production.write({'state': 'progress',

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,13 +22,12 @@
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   Warning, RedirectWarning
- 
+from odoo.exceptions import Warning, RedirectWarning
+
 
 class account_invoice(models.Model):
     _name = "account.invoice"
     _inherit = ['account.invoice', 'crm.tracking.mixin']
-
 
 
 class crm_tracking_campaign(models.Model):
@@ -40,19 +39,19 @@ class crm_tracking_campaign(models.Model):
 
     @api.one
     def _compute_image_qr_html(self):
-        self.image_qr_html = "<img src='/report/barcode/?type=%s&value=%s&width=%s&height=%s'/>" %   ('QR', self.text_qr, 100, 100)
-        
+        self.image_qr_html = "<img src='/report/barcode/?type=%s&value=%s&width=%s&height=%s'/>" % (
+            'QR', self.text_qr, 100, 100)
 
     @api.multi
     def show_qr(self):
-        
-        #<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %   ('QR', o.name, 200, 200)"/>
-        url =  '/report/barcode/?type=%s&value=%s&width=%s&height=%s' %   ('QR', self.text_qr, 200, 200)
-        
+
+        # <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %   ('QR', o.name, 200, 200)"/>
+        url = '/report/barcode/?type=%s&value=%s&width=%s&height=%s' % ('QR', self.text_qr, 200, 200)
+
         return {
             "type": "ir.actions.act_url",
             "url": url,
             "target": "new",
-            }
+        }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

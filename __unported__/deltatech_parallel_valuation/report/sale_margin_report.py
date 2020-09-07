@@ -24,33 +24,32 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 import odoo.addons.decimal_precision as dp
 from odoo.api import Environment
 
+
 class sale_margin_report(models.Model):
     _inherit = "sale.margin.report"
 
-    parallel_stock_value = fields.Float(string="Parallel Stock Value", digits= dp.get_precision('Product Price'), readonly=True,
-                                        help="Stock value in parallel currency evaluated at purchasing")     
-    parallel_line_value = fields.Float(string="Parallel Line Value", digits= dp.get_precision('Product Price'), readonly=True,
-                                        help="Sale value in parallel currency evaluated at invoicing" )   
-    parallel_profit= fields.Float(string="Parallel Profit", digits= dp.get_precision('Product Price'), readonly=True,
-                                       help="Profit obtained at invoicing in parallel currency" )
-
+    parallel_stock_value = fields.Float(string="Parallel Stock Value", digits=dp.get_precision('Product Price'), readonly=True,
+                                        help="Stock value in parallel currency evaluated at purchasing")
+    parallel_line_value = fields.Float(string="Parallel Line Value", digits=dp.get_precision('Product Price'), readonly=True,
+                                       help="Sale value in parallel currency evaluated at invoicing")
+    parallel_profit = fields.Float(string="Parallel Profit", digits=dp.get_precision('Product Price'), readonly=True,
+                                   help="Profit obtained at invoicing in parallel currency")
 
     def _select(self):
-        select_str = super(sale_margin_report,self)._select()
-        select_str = select_str +   """
+        select_str = super(sale_margin_report, self)._select()
+        select_str = select_str + """
             ,  parallel_stock_value  ,   parallel_line_value , parallel_profit
-        """ 
-        return select_str   
-
+        """
+        return select_str
 
     def _sub_select(self):
-        select_str = super(sale_margin_report,self)._sub_select()
-        select_str = select_str +   """
+        select_str = super(sale_margin_report, self)._sub_select()
+        select_str = select_str + """
             , sum(parallel_stock_value) as parallel_stock_value 
             , sum(parallel_line_value) as parallel_line_value
             , sum(parallel_line_value-parallel_stock_value) as parallel_profit
-        """ 
- 
-        return select_str   
+        """
+
+        return select_str
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

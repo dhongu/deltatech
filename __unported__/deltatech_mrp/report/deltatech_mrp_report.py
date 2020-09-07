@@ -195,5 +195,3 @@ SELECT
  pt.categ_id, pt.uom_id,  s.id, s.state, s.company_id
                                                
             )""")
-
-

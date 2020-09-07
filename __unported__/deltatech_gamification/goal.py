@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,25 +19,24 @@
 #
 ##############################################################################
 
- 
+
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
- 
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_TIME_FORMAT
 
 
 class gamification_goal_definition(models.Model):
-    _inherit =  'gamification.goal.definition' 
+    _inherit = 'gamification.goal.definition'
     inverse_value = fields.Boolean(string='Inverse value')
 
-    
+
 class gamification_goal(models.Model):
-    _inherit =  'gamification.goal' 
+    _inherit = 'gamification.goal'
 
     def _get_write_values(self, cr, uid, goal, new_value, context=None):
         if goal.definition_id.inverse_value:
-            new_value = -new_value           
-        res = super(gamification_goal,self)._get_write_values(cr, uid, goal, new_value, context)
-        return res 
+            new_value = -new_value
+        res = super(gamification_goal, self)._get_write_values(cr, uid, goal, new_value, context)
+        return res
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

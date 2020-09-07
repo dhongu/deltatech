@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
@@ -29,11 +28,9 @@ import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 from datetime import datetime, date, timedelta
 import logging
- 
+
 _logger = logging.getLogger(__name__)
 
-
- 
 
 class sale_order(models.Model):
     _inherit = 'sale.order'
@@ -44,9 +41,7 @@ class sale_order(models.Model):
             # exista pozitii cu unitatea de masura %
             for line in order.order_line:
                 if line.product_uom.name == '%':
-                    line.calc_price_percent()                   
-          
-                
+                    line.calc_price_percent()
 
     """
     @api.multi
@@ -58,26 +53,22 @@ class sale_order(models.Model):
 
 class sale_order_line(models.Model):
     _inherit = 'sale.order.line'
-    
+
     @api.multi
     def calc_price_percent(self):
         self.ensure_one()
-        domain  = eval( self.product_id.percent_domain )
-        domain.extend([('order_id','=',self.order_id.id),('id','!=',self.id)])
-        
+        domain = eval(self.product_id.percent_domain)
+        domain.extend([('order_id', '=', self.order_id.id), ('id', '!=', self.id)])
+
         lines = self.env['sale.order.line'].search(domain)
         total_amount = 0
         for line in lines:
             total_amount += line.price_subtotal
-            
-        total_amount =  total_amount / 100 
-        
-        if not float_is_zero(self.price_unit -  total_amount, precision_digits=2): 
-            self.write({'price_unit':total_amount})
-            
-     
-        
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4: 
- 
-    
+        total_amount = total_amount / 100
+
+        if not float_is_zero(self.price_unit - total_amount, precision_digits=2):
+            self.write({'price_unit': total_amount})
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -4,6 +4,7 @@
 
 from odoo import _, api, fields, models
 
+
 class MailSubstitution(models.Model):
     _name = 'mail.substitution'
     _description = 'Mail Substitution'

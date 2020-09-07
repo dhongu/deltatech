@@ -20,5 +20,3 @@ class OnDeliveryController(http.Controller):
         _logger.info('Beginning form_feedback with post data %s', pprint.pformat(post))  # debug
         request.registry['payment.transaction'].form_feedback(cr, uid, post, 'on_delivery', context)
         return werkzeug.utils.redirect(post.pop('return_url', '/'))
-
-

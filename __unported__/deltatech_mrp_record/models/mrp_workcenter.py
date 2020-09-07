@@ -33,6 +33,4 @@ class MrpWorkcenterWorkers(models.Model):
     from_date = fields.Date(string="Form Date", default=lambda *a: fields.Date.today())
     to_date = fields.Date(string="To Date", default='2099-12-31')
 
-
-    #todo: de verificat daca un muncitor se gaseste  in doua inregistrari care au intervalele suprapuse
-
+    # todo: de verificat daca un muncitor se gaseste  in doua inregistrari care au intervalele suprapuse

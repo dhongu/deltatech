@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -36,7 +36,7 @@ Functionalitati:
     "category": "Accounting",
     "depends": ["account", "l10n_ro_invoice_report", 'sale'],
 
-    "data": [ 'views/report_invoice.xml'],
+    "data": ['views/report_invoice.xml'],
     "active": False,
     "installable": True,
 }

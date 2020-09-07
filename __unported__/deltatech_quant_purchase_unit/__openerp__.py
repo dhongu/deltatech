@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,26 +21,24 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Quant Purchase Unit",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Quant Purchase Unit",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
  - afisarea in pozitiile de stoc a cantitatii si in unitatea de masura de aprovizionare
 
     """,
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech','stock'],
+
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', 'stock'],
 
 
-    "data" : [   'stock_view.xml' ],
-    
-    
+    "data": ['stock_view.xml'],
+
+
     "active": False,
     "installable": True,
 }
-
-

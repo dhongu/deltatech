@@ -4,9 +4,7 @@
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   UserError, RedirectWarning
-
-
+from odoo.exceptions import UserError, RedirectWarning
 
 
 # class ProductProduct(models.Model):

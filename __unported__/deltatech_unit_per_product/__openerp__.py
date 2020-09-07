@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,10 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Unit Of Measure per Product",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Unit Of Measure per Product",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
@@ -33,19 +33,18 @@ Functionalitati:
     se definieste o categorie noua pentru fiecare produs daca este necesare conversia din 
 
     """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ['deltatech','product'],
+
+    "category": "Generic Modules/Production",
+    "depends": ['deltatech', 'product'],
 
 
-    "data" : [   'product_view.xml'
+    "data": ['product_view.xml'
              ],
-    
-    
+
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

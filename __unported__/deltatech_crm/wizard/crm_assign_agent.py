@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,32 +20,29 @@
 ##############################################################################
 
 
-
- 
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
 import odoo.addons.decimal_precision as dp
 
 
-
 class crm_assign_agent(models.TransientModel):
     _name = 'crm.assign.agent'
     _description = "CRM Assign agent"
-    
-    user_id =  fields.Many2one('res.users', string='Salesperson')
+
+    user_id = fields.Many2one('res.users', string='Salesperson')
 
     @api.multi
     def do_assign(self):
         active_ids = self.env.context.get('active_ids', False)
-        
-        domain=[('type', '=', 'lead'),('user_id','=', False),('id','in', active_ids )] 
-        
+
+        domain = [('type', '=', 'lead'), ('user_id', '=', False), ('id', 'in', active_ids)]
+
         leads = self.env['crm.lead'].search(domain)
         if leads:
-            leads.write({'user_id':self.user_id.id})
-        
+            leads.write({'user_id': self.user_id.id})
+
         return True
-        
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

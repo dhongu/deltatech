@@ -26,7 +26,6 @@ class AccountFiscalPosition(models.Model):
             domain = [('store_company_id', operator, operand)]
         return domain
 
-
     def _compute_company_id(self):
         account_rule = self.env.ref('account.account_comp_rule')  # account.account_fiscal_position_comp_rule
         company_share_account = not bool(account_rule.active)
@@ -35,7 +34,6 @@ class AccountFiscalPosition(models.Model):
                 account.company_id = account.store_company_id
             else:
                 account.company_id = self.env.user.company_id
-
 
     def _set_company_id(self):
         for account in self.sudo():
@@ -62,7 +60,6 @@ class AccountAccount(models.Model):
             domain = [('store_company_id', operator, operand)]
         return domain
 
-
     def _compute_company_id(self):
         account_rule = self.env.ref('account.account_comp_rule')
         company_share_account = not bool(account_rule.active)
@@ -71,7 +68,6 @@ class AccountAccount(models.Model):
                 account.company_id = account.store_company_id
             else:
                 account.company_id = self.env.user.company_id
-
 
     def _set_company_id(self):
         for account in self.sudo():
@@ -101,7 +97,6 @@ class AccountTax(models.Model):
             domain = [('store_company_id', operator, operand)]
         return domain
 
-
     def _compute_company_id(self):
         account_tax_rule = self.env.ref('account.tax_comp_rule')
         vat_subjected = self.env.user.company_id.partner_id.vat_subjected
@@ -111,8 +106,6 @@ class AccountTax(models.Model):
                 tax.company_id = self.env.user.company_id
             else:
                 tax.company_id = tax.store_company_id
-
-
 
     def _set_company_id(self):
         for tax in self.sudo():

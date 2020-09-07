@@ -5,4 +5,3 @@
 from . import mail_mail
 from . import mail_substitution
 from . import mail_message
-

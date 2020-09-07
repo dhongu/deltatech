@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,26 +19,22 @@
 #
 ##############################################################################
 
- 
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
- 
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_TIME_FORMAT
 
- 
 
 class res_users_gamification_group(models.Model):
-    _inherit =  'res.users' 
+    _inherit = 'res.users'
 
-    def _serialised_goals_summary(self, cr, uid, user_id, excluded_categories=None, context=None):        
+    def _serialised_goals_summary(self, cr, uid, user_id, excluded_categories=None, context=None):
         if context is None:
             context = {}
             user = self.browse(cr, uid, uid, context=context)
-            context['lang'] =  user.lang
-        return super(res_users_gamification_group,self)._serialised_goals_summary(cr, uid, user_id, excluded_categories, context) 
-
+            context['lang'] = user.lang
+        return super(res_users_gamification_group, self)._serialised_goals_summary(cr, uid, user_id, excluded_categories, context)
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

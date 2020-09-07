@@ -11,7 +11,7 @@
 
     'category': 'Sales',
 
-    "depends": ["sale",'purchase'],
+    "depends": ["sale", 'purchase'],
 
     "description": """
 Features:    

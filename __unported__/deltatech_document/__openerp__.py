@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,31 +19,29 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Document",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Document",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
  -  
     """,
-    
+
     'category': 'Knowledge Management',
-    "depends" : ['deltatech',"document"],
+    "depends": ['deltatech', "document"],
 
 
- 
-    "data" : [  'security/ir.model.access.csv',
-              'document_view.xml'
-              
-              ],
-    
+
+    "data": ['security/ir.model.access.csv',
+             'document_view.xml'
+
+             ],
+
     "active": False,
     "installable": True,
 }
 
 
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

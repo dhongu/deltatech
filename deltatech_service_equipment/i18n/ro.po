@@ -2,6 +2,7 @@
 # This file contains the translation of the following modules:
 #	* deltatech_service_equipment
 #
+
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"

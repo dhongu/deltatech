@@ -1,7 +1,6 @@
 # coding=utf-8
 
 
-
 from datetime import datetime
 
 from dateutil.relativedelta import relativedelta
@@ -33,8 +32,8 @@ class AccountFiscalYear(models.Model):
     period_ids = fields.One2many('account.period', 'fiscalyear_id', 'Periods')
     state = fields.Selection([('draft', 'Open'), ('done', 'Closed')], 'Status', readonly=True, copy=False,
                              default='draft')
-    end_journal_period_id = fields.Many2one(  'account.journal.period', 'End of Year Entries Journal',
-        readonly=True, copy=False)
+    end_journal_period_id = fields.Many2one('account.journal.period', 'End of Year Entries Journal',
+                                            readonly=True, copy=False)
 
     _order = "date_start, id"
 
@@ -45,14 +44,11 @@ class AccountFiscalYear(models.Model):
             raise UserError('Error!\nThe start date of a fiscal year must precede its end date.')
         return True
 
-
     def create_period3(self):
         return self.create_periods(3)
 
-
     def create_period(self):
         return self.create_periods(interval=1)
-
 
     def create_periods(self, interval=1):
         period_obj = self.env['account.period']
@@ -105,7 +101,8 @@ class AccountFiscalYear(models.Model):
             if exception:
                 model, action_id = self.env['ir.model.data'].get_object_reference('deltatech_backwards',
                                                                                   'action_account_fiscalyear')
-                msg = _( 'There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
+                msg = _(
+                    'There is no period defined for this date: %s.\nPlease go to Configuration/Periods and configure a fiscal year.') % dt
                 raise RedirectWarning(msg, action_id, _('Go to the configuration panel'))
             else:
                 return []
@@ -151,16 +148,15 @@ class AccountPeriod(models.Model):
             return False
         return True
 
-
     def _check_year_limit(self):
         for obj_period in self:
             if obj_period.special:
                 continue
 
             if obj_period.fiscalyear_id.date_stop < obj_period.date_stop or \
-                            obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
-                            obj_period.fiscalyear_id.date_start > obj_period.date_start or \
-                            obj_period.fiscalyear_id.date_start > obj_period.date_stop:
+                    obj_period.fiscalyear_id.date_stop < obj_period.date_start or \
+                    obj_period.fiscalyear_id.date_start > obj_period.date_start or \
+                    obj_period.fiscalyear_id.date_start > obj_period.date_stop:
                 return False
 
             pids = self.search([('date_stop', '>=', obj_period.date_start), ('date_start', '<=', obj_period.date_stop),

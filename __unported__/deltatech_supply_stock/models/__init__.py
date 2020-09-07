@@ -7,8 +7,3 @@
 from . import procurement
 from . import sale_order
 from . import product
-
-
-
-
-

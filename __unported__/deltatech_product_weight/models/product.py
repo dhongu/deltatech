@@ -51,7 +51,6 @@ class ProductTemplate(models.Model):
     #     if len(self.product_variant_ids) == 1:
     #         self.product_variant_ids.weight = self.weight
 
-
     # @api.depends('product_variant_ids', 'product_variant_ids.weight')
     # def _compute_weight_uom(self):
     #     unique_variants = self.filtered(lambda template: len(template.product_variant_ids) == 1)

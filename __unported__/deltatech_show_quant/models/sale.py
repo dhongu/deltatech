@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,21 +28,19 @@ import odoo.addons.decimal_precision as dp
 
 
 class sale_order(models.Model):
-    _inherit = 'sale.order' 
-    
-     
+    _inherit = 'sale.order'
+
     @api.multi
     def view_current_stock(self):
-        action = self.env.ref('stock.product_open_quants').read()[0]  
+        action = self.env.ref('stock.product_open_quants').read()[0]
         product_ids = []
         for order in self:
             product_ids += [line.product_id.id for line in order.order_line]
-        action['context'] = {'search_default_internal_loc': 1, 
-                             'search_default_locationgroup':1}
-        
-        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"            
-        return action 
- 
+        action['context'] = {'search_default_internal_loc': 1,
+                             'search_default_locationgroup': 1}
+
+        action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
+        return action
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

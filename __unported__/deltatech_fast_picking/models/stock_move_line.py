@@ -5,8 +5,6 @@
 from odoo import api, fields, models, _
 
 
-
-
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
 
@@ -15,4 +13,3 @@ class StockMoveLine(models.Model):
         for vals in vals_list:
             vals['qty_done'] = vals.get('product_uom_qty')
         return super(StockMoveLine, self).create(vals_list)
-

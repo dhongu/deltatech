@@ -5,7 +5,6 @@
 from odoo import models, fields, api, _
 
 
-
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 

@@ -29,4 +29,3 @@ Features:
     "installable": True,
     'application': True,
 }
-

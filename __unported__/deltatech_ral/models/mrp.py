@@ -35,10 +35,6 @@ class mrp_production(models.Model):
 
         return picking_id
 
-
-
-
-
     @api.onchange('ral_id')
     def onchange_ral_id(self):
         if self.ral_id:
@@ -50,6 +46,7 @@ class mrp_production(models.Model):
     def _generate_moves(self):
         super(mrp_production, self)._generate_moves()
         self.onchange_ral_id()
+
 
 class MrpProductProduce(models.TransientModel):
     _inherit = 'mrp.product.produce'
@@ -67,8 +64,8 @@ class MrpProductProduce(models.TransientModel):
         production = self.env['mrp.production'].browse(self._context['active_id'])
 
         prodlot_id = None
-        if production.ral_id and production.product_id.tracking == 'lot'  :
-            produce_move = production.move_finished_ids.filtered(lambda x: x.product_id == production.product_id.id )
+        if production.ral_id and production.product_id.tracking == 'lot':
+            produce_move = production.move_finished_ids.filtered(lambda x: x.product_id == production.product_id.id)
             for move in produce_move:
                 for move_line in produce_move.move_line_ids:
                     if move_line.lot_id:
@@ -82,8 +79,6 @@ class MrpProductProduce(models.TransientModel):
                     'date': production.date_planned_start
                 })
 
-
         return prodlot_id
 
     lot_id = fields.Many2one('stock.production.lot', default=_get_lot_id)
-

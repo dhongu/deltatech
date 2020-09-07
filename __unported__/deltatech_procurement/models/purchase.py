@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,48 +28,47 @@ import odoo.addons.decimal_precision as dp
 
 
 class purchase_order(models.Model):
-    _inherit = 'purchase.order' 
+    _inherit = 'purchase.order'
 
-    procurement_count =  fields.Integer(string='Procurements',  compute='_compute_procurement_count')
-    invoiced_rate = fields.Float(compute='_compute_invoiced_rate' ) # string='Invoiced Ratio', 
-    invoiced = fields.Boolean(compute='_compute_invoiced' )
-    
-    
+    procurement_count = fields.Integer(string='Procurements', compute='_compute_procurement_count')
+    invoiced_rate = fields.Float(compute='_compute_invoiced_rate')  # string='Invoiced Ratio',
+    invoiced = fields.Boolean(compute='_compute_invoiced')
+
     @api.one
-    @api.depends('order_line.procurement_ids' )
-    def _compute_procurement_count(self):           
-        value = 0 
+    @api.depends('order_line.procurement_ids')
+    def _compute_procurement_count(self):
+        value = 0
         procurements = self.env['procurement.order']
         for po in self:
             for line in po.order_line:
                 for procurement in line.procurement_ids:
-                    procurements = procurements | procurement                  
+                    procurements = procurements | procurement
         self.procurement_count = len(procurements)
 
     @api.one
     @api.depends('invoice_ids.amount_untaxed', 'amount_untaxed')
-    def _compute_invoiced_rate(self):   
+    def _compute_invoiced_rate(self):
 
         if self.currency_id:
             to_currency = self.currency_id
         else:
             to_currency = self.env.user.company_id.currency_id
- 
-        if self.amount_untaxed:   
-            invoice_tot = 0.0     
+
+        if self.amount_untaxed:
+            invoice_tot = 0.0
             for invoice in self.invoice_ids:
-                if invoice.state not in ('draft','cancel'):
+                if invoice.state not in ('draft', 'cancel'):
                     if invoice.currency_id:
                         from_currency = invoice.currency_id.with_context(date=invoice.date_invoice)
-                    else:    
+                    else:
                         from_currency = self.env.user.company_id.currency_id.with_context(date=invoice.date_invoice)
-                    
+
                     value = invoice.amount_untaxed
-                    if  invoice.type == 'in_refund' :
-                        value = -value                         
-                    invoice_tot += from_currency.compute(value, to_currency )
-                    
-            self.invoiced_rate =   min(100.00, invoice_tot * 100.0 / (self.amount_untaxed or 1.00))
+                    if invoice.type == 'in_refund':
+                        value = -value
+                    invoice_tot += from_currency.compute(value, to_currency)
+
+            self.invoiced_rate = min(100.00, invoice_tot * 100.0 / (self.amount_untaxed or 1.00))
         else:
             self.invoiced_rate = 0.0
 
@@ -80,7 +78,7 @@ class purchase_order(models.Model):
     def _compute_invoiced(self):
         self.invoiced = False
         for invoice in self.invoice_ids:
-            if invoice.state =='paid' and not (invoice.origin_refund_invoice_id or  invoice.refund_invoice_id):
+            if invoice.state == 'paid' and not (invoice.origin_refund_invoice_id or invoice.refund_invoice_id):
                 self.invoiced = True
 
     @api.multi
@@ -119,10 +117,10 @@ class purchase_order(models.Model):
         for order in self:
             for line in order.order_line:
                 for procurement in line.procurement_ids:
-                    move_ids += [move.id for move in procurement.move_ids if move.state in ['assigned','waiting','confirmed'] ]
+                    move_ids += [move.id for move in procurement.move_ids if move.state in ['assigned', 'waiting', 'confirmed']]
 
         result['context'] = {}
-         
+
         if len(move_ids) >= 1:
             result['domain'] = "[('id','in',[" + ','.join(map(str, move_ids)) + "])]"
         else:
@@ -130,7 +128,6 @@ class purchase_order(models.Model):
             result['views'] = [(res and res.id or False, 'form')]
             result['res_id'] = move_ids and move_ids[0] or False
         return result
-
 
     """ Cod mutat in show_quant
     @api.multi
@@ -145,8 +142,6 @@ class purchase_order(models.Model):
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
         return action
     """
-
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

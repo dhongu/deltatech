@@ -3,7 +3,6 @@
 from . import account_average_payment
 
 
-
 from odoo import models, fields, api, _
 from odoo import tools
 
@@ -46,14 +45,14 @@ class account_average_payment_report(models.Model):
             if 'amount' not in new_fields:
                 new_fields.append('amount')
 
-        res = super(account_average_payment_report, self).read_group(  domain, new_fields, groupby,
-                                                                     offset=offset, limit=limit,  orderby=orderby, lazy=lazy)
+        res = super(account_average_payment_report, self).read_group(domain, new_fields, groupby,
+                                                                     offset=offset, limit=limit, orderby=orderby, lazy=lazy)
 
         # new_res = self.read_group(cr, uid, domain, new_fields, groupby, offset, limit, context, orderby, lazy)
         if 'payment_days' in fields:
             for line in res:
-                pondere = line.get('pondere',0.0)
-                amount = line.get('amount',0.0)
+                pondere = line.get('pondere', 0.0)
+                amount = line.get('amount', 0.0)
                 if line['amount'] != 0.0 and pondere and amount:
 
                     line['payment_days'] = pondere / amount

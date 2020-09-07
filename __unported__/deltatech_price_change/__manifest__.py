@@ -15,7 +15,7 @@
     "depends": ["base", "stock", "product", "sale"],
     "license": "LGPL-3",
     "data": [
-         "views/product_view.xml",
+        "views/product_view.xml",
 
         "views/product_price_change_view.xml",
         # "views/purchase_report.xml",

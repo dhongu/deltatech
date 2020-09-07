@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech CRM Survey",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech CRM Survey",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -32,19 +32,17 @@ Functionalitati:
 
    
     """,
-    
+
     'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm","survey","deltatech_crm","deltatech_mail"],
+    "depends": ['deltatech', "crm", "survey", "deltatech_crm", "deltatech_mail"],
 
 
- 
-    "data" : [  "wizard/crm_new_survey_view.xml", 'crm_view.xml'],
-    
+
+    "data": ["wizard/crm_new_survey_view.xml", 'crm_view.xml'],
+
     "active": False,
     "installable": True,
 }
 
 
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

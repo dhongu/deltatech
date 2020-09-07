@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,7 +22,7 @@
 {
     "name": "Deltatech Sale Ref",
     "version": "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
 
@@ -39,7 +39,7 @@ Functionalitati:
                 "sale",
                 "account",
                 'stock'
-                ],
+    ],
 
     "data": [
         "views/sale_view.xml",

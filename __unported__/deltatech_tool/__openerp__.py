@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,26 +21,25 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Tool",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Tool",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
  - dezinstalare module fara stergere de campuri din baza de date.
 
     """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base"],
+
+    "category": "Generic Modules",
+    "depends": ["base"],
 
 
- 
+
     "installable": True,
     'auto_install': False,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

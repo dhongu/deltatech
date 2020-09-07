@@ -20,16 +20,16 @@ class StockMove(models.Model):
             for rule in route.pull_ids:
                 rule_action += [rule.action]
 
-        #if route_manufacture.id in self.product_id.route_ids.ids:
+        # if route_manufacture.id in self.product_id.route_ids.ids:
         if 'manufacture' in rule_action:
             domain = [('state', 'not in', ['done', 'cancel']), ('product_id', '=', self.product_id.id)]
             production_ids = self.env['mrp.production'].search(domain)
-            if  production_ids:
+            if production_ids:
                 action = self.env.ref('mrp.mrp_production_action').read()[0]
                 action['domain'] = "[('id','in', " + str(production_ids.ids) + ")]"
                 return action
 
-        #if route_buy.id in self.product_id.route_ids.ids:
+        # if route_buy.id in self.product_id.route_ids.ids:
         if 'buy' in rule_action:
             domain = [('state', 'in', ['draft']), ('product_id', '=', self.product_id.id)]
             purchase_line = self.env['purchase.order.line'].search(domain)
@@ -41,7 +41,3 @@ class StockMove(models.Model):
                 action = self.env.ref('purchase.purchase_rfq').read()[0]
                 action['domain'] = "[('id','in', " + str(purchase_ids.ids) + ")]"
                 return action
-
-
-
-

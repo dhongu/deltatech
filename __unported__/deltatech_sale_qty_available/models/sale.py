@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -25,7 +24,6 @@ class sale_order(models.Model):
                 for line in order.order_line:
                     is_ready = is_ready and (line.qty_available >= line.product_uom_qty)
             order.is_ready = is_ready
-
 
 
 class sale_order_line(models.Model):

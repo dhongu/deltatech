@@ -11,25 +11,22 @@ from odoo.exceptions import UserError
 import math
 
 
-
 class ChangeProductionQty(models.TransientModel):
     _inherit = 'change.production.qty'
-
 
     @api.model
     def _update_product_to_produce(self, production, qty):
         if production.product_id:
             return super(ChangeProductionQty, self)._update_product_to_produce(production, qty)
 
-        production_move = production.move_finished_ids.filtered(lambda x:x.product_id.product_tmpl_id.id == production.product_tmpl_id.id and x.state not in ('done', 'cancel'))
+        production_move = production.move_finished_ids.filtered(
+            lambda x: x.product_id.product_tmpl_id.id == production.product_tmpl_id.id and x.state not in ('done', 'cancel'))
 
         if not production_move:
             production_move = production._generate_finished_moves()
 
         for move in production_move:
             move.write({'product_uom_qty': qty * move.unit_factor})
-
-
 
 
 class MrpProduction(models.Model):
@@ -63,8 +60,6 @@ class MrpProduction(models.Model):
                 self.product_uom_id = self.product_tmpl_id.uom_id.id
                 return {'domain': {'product_uom_id': [('category_id', '=', self.product_tmpl_id.uom_id.category_id.id)]}}
 
-
-
     def _generate_finished_moves(self):
         if self.product_id:
             return super(MrpProduction, self)._generate_finished_moves()
@@ -73,8 +68,8 @@ class MrpProduction(models.Model):
         else:
             qty_inc = 0.0
 
-        product_qty = qty_inc + self.product_qty - qty_inc*self.product_tmpl_id.product_variant_count
-        for product_id in  self.product_tmpl_id.product_variant_ids:
+        product_qty = qty_inc + self.product_qty - qty_inc * self.product_tmpl_id.product_variant_count
+        for product_id in self.product_tmpl_id.product_variant_ids:
 
             move = self.env['stock.move'].create({
                 'name': self.name,
@@ -108,8 +103,8 @@ class MrpProduction(models.Model):
             if any([x.state not in ('done', 'cancel') for x in production.workorder_ids]):
                 wo_done = False
             production.check_to_done = production.is_locked and done_moves and (
-                        qty_produced >= production.product_qty) and (
-                                                   production.state not in ('done', 'cancel')) and wo_done
+                qty_produced >= production.product_qty) and (
+                production.state not in ('done', 'cancel')) and wo_done
             production.qty_produced = qty_produced
         return True
 
@@ -120,7 +115,7 @@ class MrpProduction(models.Model):
             self.write({'product_id': product_id.id})
         res = super(MrpProduction, self)._generate_raw_moves(exploded_lines)
         if product_id:
-            self.write({'product_id':False})
+            self.write({'product_id': False})
         return res
 
     # #metoda standard a fost inlocuita doar pentru a putea prelua locatia de la product_tmpl_id

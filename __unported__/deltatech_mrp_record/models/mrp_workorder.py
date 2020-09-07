@@ -19,12 +19,9 @@ worker_module = 'hr.employee'
 class MrpWorkorder(models.Model):
     _inherit = 'mrp.workorder'
 
-
-
     code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
     # procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
     #                                           related='production_id.procurement_group_id')
-
 
     barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
     qty_rework = fields.Float('Rework Quantity', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
@@ -42,12 +39,11 @@ class MrpWorkorder(models.Model):
             else:
                 work_order.qty_ready_prod = product_qty
 
-
     def _compute_barcode_image(self):
         for workorder in self:
             if workorder.code:
                 barcode_image = self.env['ir.actions.report'].barcode('Code128', workorder.code, width=600, height=200,
-                                                           humanreadable=0)
+                                                                      humanreadable=0)
 
                 image_stream = BytesIO(barcode_image)
                 img = Image.open(image_stream)
@@ -80,25 +76,21 @@ class MrpWorkorder(models.Model):
 
     @api.multi
     def button_start(self):
-        if  self.production_availability != 'assigned' and not self.workcenter_id.start_without_stock:
+        if self.production_availability != 'assigned' and not self.workcenter_id.start_without_stock:
             raise ValidationError(_('It is not possible to start work without materials'))
         return super(MrpWorkorder, self).button_start()
+
 
 class MrpWorkcenterProductivity(models.Model):
     _inherit = "mrp.workcenter.productivity"
 
-
     worker_id = fields.Many2one(worker_module, string="Worker",
                                 )
-                                                #domain="[('id', 'in', possible_worker_ids.ids)]")
-                                                #domain="[('id', 'in', possible_worker_ids[0][2])]")
+    # domain="[('id', 'in', possible_worker_ids.ids)]")
+    # domain="[('id', 'in', possible_worker_ids[0][2])]")
     possible_worker_ids = fields.Many2many(worker_module, compute='_get_possible_worker_ids')
 
-
     qty_produced = fields.Float('Quantity', readonly=True)
-
-
-
 
     @api.depends('workcenter_id')
     def _get_possible_worker_ids(self):

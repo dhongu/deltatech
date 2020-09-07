@@ -6,8 +6,7 @@
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   UserError, RedirectWarning
-
+from odoo.exceptions import UserError, RedirectWarning
 
 
 class SaleOrderLine(models.Model):
@@ -43,7 +42,7 @@ class SaleOrderLine(models.Model):
             currency_id = pricelist_item.pricelist_id.currency_id
 
         product_currency = product_currency or (
-                    product.company_id and product.company_id.currency_id) or self.env.user.company_id.currency_id
+            product.company_id and product.company_id.currency_id) or self.env.user.company_id.currency_id
         if not currency_id:
             currency_id = product_currency
             cur_factor = 1.0

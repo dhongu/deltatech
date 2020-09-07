@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,7 @@
 ##############################################################################
 
 
-
+from lxml import html
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _, tools
 from odoo.tools.translate import _
@@ -30,7 +30,6 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 import logging
 _logger = logging.getLogger(__name__)
-from lxml import html
 
 
 class crm_lead(models.Model):
@@ -41,25 +40,24 @@ class crm_lead(models.Model):
     # CRM Actions
     last_activity_id = fields.Many2one("crm.activity", string="Last Activity", select=True)
     next_activity_id = fields.Many2one("crm.activity", string="Next Activity", select=True)
-    next_activity_1 = fields.Char(related="last_activity_id.activity_1_id.name",  string="Next Activity 1")
-    next_activity_2 = fields.Char(related="last_activity_id.activity_2_id.name",  string="Next Activity 2")
-    next_activity_3 = fields.Char(related="last_activity_id.activity_3_id.name",  string="Next Activity 3")
-     
-
+    next_activity_1 = fields.Char(related="last_activity_id.activity_1_id.name", string="Next Activity 1")
+    next_activity_2 = fields.Char(related="last_activity_id.activity_2_id.name", string="Next Activity 2")
+    next_activity_3 = fields.Char(related="last_activity_id.activity_3_id.name", string="Next Activity 3")
 
     @api.multi
     def action_send_email(self):
         '''
         This function opens a window to compose an email, with the template message loaded by default
         '''
-        
+
         self.ensure_one()
-        
+
         template_id = self.stage_id.template_id.id
         try:
-            compose_form_id = self.env['ir.model.data'].get_object_reference( 'mail', 'email_compose_message_wizard_form')[1]
+            compose_form_id = self.env['ir.model.data'].get_object_reference(
+                'mail', 'email_compose_message_wizard_form')[1]
         except ValueError:
-            compose_form_id = False 
+            compose_form_id = False
         ctx = dict()
         ctx.update({
             'default_model': 'crm.lead',
@@ -80,143 +78,129 @@ class crm_lead(models.Model):
             'context': ctx,
         }
 
-
-
     @api.model
-    def message_new(self,  msg_dict, custom_values=None):
-              
-        
-        _logger.info("Procesare taguri")    
+    def message_new(self, msg_dict, custom_values=None):
+
+        _logger.info("Procesare taguri")
         if custom_values is None:
-            custom_values = {} 
-        
-        
-        try:    
+            custom_values = {}
+
+        try:
             xml_body = html.fromstring(msg_dict['body'])
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:  
+
+        try:
             element = xml_body.xpath("//*[@itemprop='addressLocality']")
-            if  element:
-                custom_values['city'] =  element[0].text
+            if element:
+                custom_values['city'] = element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:  
+
+        try:
             element = xml_body.xpath("//*[@itemprop='telephone']")
-            if  element:
-                custom_values['phone'] =  element[0].text
+            if element:
+                custom_values['phone'] = element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
+
         try:
             element = xml_body.xpath("//*[@itemprop='streetAddress']")
-            if  element:
-                custom_values['street'] =  element[0].text
+            if element:
+                custom_values['street'] = element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:            
+
+        try:
             element = xml_body.xpath("//*[@itemprop='addressRegion']")
-            if  element:
+            if element:
                 region = self.env['res.country.state'].name_search(element[0].text)
                 if region:
-                    custom_values['state_id'] =  region.id
-                    custom_values['country_id'] =  region.country_id.id
+                    custom_values['state_id'] = region.id
+                    custom_values['country_id'] = region.country_id.id
                 else:
                     custom_values['street'] += element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:    
+
+        try:
             element = xml_body.xpath("//*[@itemprop='addressCountry']")
-            if  element:
+            if element:
                 country = self.env['res.country'].name_search(element[0].text)
                 if country:
-                    custom_values['country_id'] =  country.id
+                    custom_values['country_id'] = country.id
                 else:
                     if not custom_values['country_id']:
                         custom_values['street'] += element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:         
+
+        try:
             element = xml_body.xpath("//address//*[@itemprop='name']")
-            if  element:
-                custom_values['contact_name'] =  element[0].text
+            if element:
+                custom_values['contact_name'] = element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:         
+
+        try:
             element = xml_body.xpath("//address//*[@itemprop='email']")
-            if  element:
-                custom_values['email_from'] =  element[0].text
+            if element:
+                custom_values['email_from'] = element[0].text
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-        try:         
+
+        try:
             element = xml_body.xpath("//*[@itemprop='maildomain']")
-            if  element:
-                medium = self.env['crm.tracking.medium'].search([('name','like',element[0].text)])
+            if element:
+                medium = self.env['crm.tracking.medium'].search([('name', 'like', element[0].text)])
                 if medium:
-                    custom_values['medium_id'] =  medium.id
+                    custom_values['medium_id'] = medium.id
         except Exception as e:
             _logger.warning(str(e))
-            
-        
-         
-        res = super(crm_lead,self).message_new(  msg_dict, custom_values)
-                       
+
+        res = super(crm_lead, self).message_new(msg_dict, custom_values)
+
         return res
 
     @api.multi
-    def show_quotation(self): 
+    def show_quotation(self):
         self.ensure_one()
         if not self.ref:
             return True
-        
-        if not self.ref._name=='sale.order':
+
+        if not self.ref._name == 'sale.order':
             return True
-  
+
         ##action_obj = self.env.ref('sale.action_orders')
         ##action = action_obj.read()[0]
- 
-        action = {
-                 'domain': str([('id', 'in', self.ref.id)]),
-                 'view_type': 'form',
-                 'view_mode': 'form',
-                 'res_model': 'sale.order',
-                 'view_id': False,
-                 'type': 'ir.actions.act_window',
-                 'name' : _('Quotation'),
-                 'res_id': self.ref.id
-             }
 
-        return   action
+        action = {
+            'domain': str([('id', 'in', self.ref.id)]),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'name': _('Quotation'),
+            'res_id': self.ref.id
+        }
+
+        return action
 
     @api.multi
     def log_next_activity_1(self):
-        return self.set_next_activity( next_activity_name='activity_1_id')
+        return self.set_next_activity(next_activity_name='activity_1_id')
 
     @api.multi
     def log_next_activity_2(self):
-        return self.set_next_activity( next_activity_name='activity_2_id')
+        return self.set_next_activity(next_activity_name='activity_2_id')
 
     @api.multi
     def log_next_activity_3(self):
-        return self.set_next_activity( next_activity_name='activity_3_id')
+        return self.set_next_activity(next_activity_name='activity_3_id')
 
     @api.multi
-    def set_next_activity(self,  next_activity_name):
+    def set_next_activity(self, next_activity_name):
         for lead in self:
             if not lead.last_activity_id:
                 continue
@@ -224,7 +208,8 @@ class crm_lead(models.Model):
             if next_activity:
                 date_action = False
                 if next_activity.days:
-                    date_action = (datetime.now() + timedelta(days=next_activity.days)).strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT),
+                    date_action = (datetime.now() + timedelta(days=next_activity.days)
+                                   ).strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT),
                 lead.write({
                     'next_activity_id': next_activity.id,
                     'date_action': date_action,
@@ -232,13 +217,13 @@ class crm_lead(models.Model):
                 })
         return True
 
+    # todo: de utilizat un tamplate pentru email
 
-    #todo: de utilizat un tamplate pentru email
     @api.multi
     def log_next_activity_done(self):
         to_clear_ids = self.env['crm.lead']
         for lead in self:
-            
+
             if not lead.next_activity_id:
                 continue
             body_html = """<div><b>${object.next_activity_id.name}</b></div>
@@ -248,7 +233,7 @@ class crm_lead(models.Model):
             body_html = self.env['email.template'].render_template(body_html, 'crm.lead', lead.id)
             msg_id = lead.message_post(body_html, subtype_id=lead.next_activity_id.subtype_id.id)
             msg = self.env['mail.message'].browse(msg_id)
-            msg.write({'subtype_id':lead.next_activity_id.subtype_id.id})
+            msg.write({'subtype_id': lead.next_activity_id.subtype_id.id})
             to_clear_ids |= lead
             lead.write({'last_activity_id': lead.next_activity_id.id})
 
@@ -258,7 +243,7 @@ class crm_lead(models.Model):
 
     @api.multi
     def cancel_next_activity(self):
-        return self.write( {
+        return self.write({
             'next_activity_id': False,
             'date_action': False,
             'title_action': False,
@@ -276,7 +261,8 @@ class crm_lead(models.Model):
         activity = self.pool['crm.activity'].browse(cr, uid, next_activity_id, context=context)
         date_action = False
         if activity.days:
-            date_action = (datetime.now() + timedelta(days=activity.days)).strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
+            date_action = (datetime.now() + timedelta(days=activity.days)
+                           ).strftime(tools.DEFAULT_SERVER_DATETIME_FORMAT)
         return {'value': {
             'next_activity_1': activity.activity_1_id and activity.activity_1_id.name or False,
             'next_activity_2': activity.activity_2_id and activity.activity_2_id.name or False,
@@ -284,7 +270,7 @@ class crm_lead(models.Model):
             'title_action': activity.description,
             'date_action': date_action,
             'last_activity_id': False,
-        }}    
+        }}
 
     """
     "" nu este ok ca in context nu am active_id

@@ -8,5 +8,3 @@ from odoo.addons.website_sale.controllers import main
 
 main.PPG = 80  # Products Per Page
 main.PPR = 5   # Products Per Row
-
-

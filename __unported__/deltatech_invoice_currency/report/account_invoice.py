@@ -8,10 +8,10 @@ import time
 from odoo import api, models
 from odoo.tools import formatLang
 
-class ReportInvoicePrint(models.AbstractModel):
-    _name =  'report.deltatech_invoice_currency.report_invoice_0'
-    _template = None
 
+class ReportInvoicePrint(models.AbstractModel):
+    _name = 'report.deltatech_invoice_currency.report_invoice_0'
+    _template = None
 
     @api.model
     def _get_report_values(self, docids, data=None):
@@ -34,11 +34,8 @@ class ReportInvoicePrint(models.AbstractModel):
         docargs = self._get_report_values()
         return report_obj.render(self._template, docargs)
 
-
-
     def _formatLang(self, value, *args):
         return formatLang(self.env, value, *args)
-
 
     def _with_discount(self, invoice):
         res = False
@@ -46,7 +43,6 @@ class ReportInvoicePrint(models.AbstractModel):
             if line.discount != 0.0:
                 res = True
         return res
-
 
 
 class report_invoice_1(ReportInvoicePrint):
@@ -59,5 +55,3 @@ class report_invoice_2(ReportInvoicePrint):
     _name = 'report.deltatech_invoice_currency.report_invoice_2'
     _inherit = 'report.deltatech_invoice_currency.report_invoice_0'
     _template = 'deltatech_invoice_currency.report_invoice_2'
-
-

@@ -153,7 +153,7 @@ deltatech_document
 deltatech_expenses
 ==================
 - gestionarea decontului de cheltuieli
-- Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie 
+- Introducerea decontului de cheltuieli intr-un document distict ce genereaza automat chitante de achizitie
 - Validarea documentului duce la generarea notelor contabile de avans si inegistrarea platilor
 - permite tiparirea decontului
 
@@ -200,20 +200,20 @@ deltatech_invoice_product_filter
 
 deltatech_invoice_receipt
 --------------------------------
- - Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri  
+ - Adaugare buton nou in factura de receptie care  genereaza document de receptie stocuri
  - Nu se permite achizitia unui produs stocabil fara comanda aprovizionare (picking in asteptare).
- - La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal 
+ - La creare factura din picking se face ajustarea automata a monedei de facturare in conformitate cu moneda din jurnal
  - Adaugat buton pentru a genera un picking in asteptare in conformitate cu liniile din factura
  - Se permite generarea unei document de receptie pentru produsele care nu au comanda de achizitie
  - Pretul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
- - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie 
+ - Furnizorul produselor se actualizeaza automat pentru receptiile fara comanda de achizitie
  - Calcul pret produs in functie de lista de preturi aferenta clientului/furnizorului
  - buton in factura pentru afisarea stocului pentru produsele din factura
 Antentie:
  - la inregistrarea facturilor in care sunt un produs apare de mai multe ori cu preturi diferite! Ia doar unul!
- 
- 
- 
+
+
+
 deltatech_invoice_report
 --------------------------------
 - Adaugare in raportul de analiza facturi a campurilor: judet, nr de factura si furnizor
@@ -237,22 +237,22 @@ deltatech_mail
  - Trimite email orice document din sistem
  - parternerii sunt automat adaugati la urmaritori dupa trimiterea e-mail-ului daca se selecteaz acest lucru
  - Setare documente ca citite
- - Setare documente ca necitite 
+ - Setare documente ca necitite
  - Se permite trimiterea de email doar la persoanele selectate
  - Notificare la primire mesaj
  - posibilitate de a bloca trimiterea de mail-uri in afara sistemului
  - Deschiderea unui document nu il marcheaza ca citit
  - la compunera unui email  sistemul ataseaza automat toate atasamentele documentului. Se pot elimina manual
  - Marcheaza cu culoarea rosie mesajele primite din afara sistemului in istoricul documentului
- 
- 
- 
+
+
+
 deltatech_mail_automatically
 ----------------------------
  - Se permite trimiterea automata de e-mail-uri la o lista de persoane configurabila, la validarea unei facturi si la validarea unui transfer
 
- 
- 
+
+
 deltatech_mentor
 ----------------
  - Permite exportul de facturi si parteneri pentru WinMentor
@@ -264,47 +264,47 @@ deltatech_mrp_bom_cost
  - Permite calculul automat al pretului BOM-ului
  - Permite definirea unui cost indirect procentual
  - Grupeaza miscarile de stoc pentru o comanda de productie intr-un picking
- 
- 
- 
+
+
+
 deltatech_mrp_cost
------------------- 
+------------------
  - Calculeaza automat pretul de productie ca fiind pretul real al componentelor
  - Simplifica lista de materiale
- 
- 
+
+
 
 deltatech_mrp_edit_comp
 -----------------------
  - Permite modificarea in comanda de productie a listei de materiale
- 
- 
- 
+
+
+
 deltatech_mrp_operations
 ------------------------
  - Permite alocarea de operatori la centrele de lucru
  - Confirmarea comenzilor de productie prin scanarea de coduri de bare.
         Se inreagistreaza activitatile pe operatori
- 
- 
- 
+
+
+
 deltatech_mrp_sale
 ------------------
  - Se permite intocmirea unei liste de produse in comanda de vanzare
  - In lista de produse se pot defini atribute
  - se face explozia listei initiale in a lista de componente
  - se calculeaza pretul si marginea
- 
+
  - se permite ca in lista de materiale sa existe cantitati negative (recuperari)
- 
+
  - se permite editarea manuala a atibutelor unui produs
  - se pot defini valori implicite la atribute - preluate in comanda de vanzare
- 
- - se permite adaugarea unei margini pe fiecare pozitie 
+
+ - se permite adaugarea unei margini pe fiecare pozitie
  - se va muta in alt repo
- 
- 
- 
+
+
+
 deltatech_parallel_valuation
 ----------------------------
  - Definire moneda paralela de evaluare si raportare
@@ -316,51 +316,51 @@ deltatech_parallel_valuation
  - Nume/referinta factura  editabil si in cazul in care factura este in starea proforma
  - In raportul standard de analiza facturi au foat adaugate doua colone cu valoarea stocului in moneda paralela si cu valoarea liniei in moneda paralela
  - Pretul de cost este afisat doar la manager depozit
- 
- 
- 
+
+
+
 deltatech_payment_term
 ----------------------
  - Permite generarea de termene de plata din comanda de vanzare, pentru vanzarea in rate
  - Afisarea in rapoarte daca comanda de vanzare/factura este in rate
- 
- 
- 
+
+
+
 deltatech_percent_qty
 ---------------------
  - Introduce unitatea de masura %
  - Daca in comanda de vanzare se utilizeaza un produs care are unitatea de masura procent atunci pretul este calculat prin suma valorilor liniilor din comanda filtrate cu ajutorul domeniului definit la produs
  - Camp nou in produs in care se poate specifica un domeniul pentru care se calculeaza pretul
  - Actualizarea pretului se face manual (buton)
- 
- 
- 
+
+
+
 deltatech_picking_number
 ------------------------
- - Numerotare liste de ridicare la cerere 
+ - Numerotare liste de ridicare la cerere
  - Gama de numere se configureaza pentru fiecare tip de operatie
- 
- 
- 
+
+
+
 deltatech_price_categ
 ---------------------
  - Adaugare a 3 campuri in produs pentru 3 categorii de pret: bronze, silver, gold
- 
- 
- 
+
+
+
 deltatech_pricelist
 -------------------
  - Acces din meniu la pozitii din listele de preturi
  - Camp nou pt afisare text calcul pret
  - Camp nou pt cod lista de preturi
- 
- 
- 
+
+
+
 deltatech_procurement
 ---------------------
  - Afisare procent de facturare in comanda de vanzare/achizitie
  - Buton in comanda de vanzare/achizitie pentru afisare comanda de aprovizionare (necesarului de stoc)
- - Posibilitate de introducere de catre utilizatori a unei cereri de achizitie, care dupa aprobarea lor creeaza comenzi de aprovizionare 
+ - Posibilitate de introducere de catre utilizatori a unei cereri de achizitie, care dupa aprobarea lor creeaza comenzi de aprovizionare
  - Trecerea de la make_to_order la make_to_stock in cazul transferurilor interne
  - Afisare campuri de cantitate disponibila in comanda de vanzare
  - Daca produsul se cumpara atunci trebuie definit obligatoriu un furnizor
@@ -370,17 +370,17 @@ deltatech_procurement
  - Adugare buton in comanda de vanzare,comanda de achzitie si lista de ridicare pentru consultare pozitii de stoc cu produsele din document
  - Butonul Scrap Products este afisat doar la manager stoc
  - Anularea in masa a aprovizionarilor
- - Buton nou in lista de ridicare pentru validare (de catre alt utilizator, daca e necesar) operare transfer fizic 
+ - Buton nou in lista de ridicare pentru validare (de catre alt utilizator, daca e necesar) operare transfer fizic
  - Camap nou in comanda de vanzare pentru specificare date de livrare, date care sunt preluate in picking
- 
- 
- 
+
+
+
 deltatech_product_code
 ----------------------
  - Generare automata cod intern la produse
- 
- 
- 
+
+
+
 deltatech_product_extension
 ---------------------------
  - Adaugare campuri in produs: dimensiuni, durata de viata si unitate de masura pt. durata de viata
@@ -394,38 +394,38 @@ deltatech_project
  - Posibilitate de definire de task-uri recurente
  - Posibilitatea de adaugare atasamente la proiect/task
  - Rapoarte cu task-urile pentru azi, maine, alta data
- 
- 
- 
+
+
+
 deltatech_purchase_xls
 ----------------------
  - Export comanda de achizitie in format Excel
- 
- 
- 
+
+
+
 deltatech_qr_invoice
 --------------------
  - Adaugare cod QR pe factura
- 
- 
- 
+
+
+
 deltatech_quant
 ---------------
  - Afisare coloana de categorie produs in lista de pozitii de stoc
  - Adaugare client pentru pozitiile de stoc livrate care un partener
  - Adaugare furnizor pentru pozitiile de stoc achizitionate
- - Coloana cu numarul facturii de achiztiei 
+ - Coloana cu numarul facturii de achiztiei
  - Ofera posibilitatea de a modifica lotul unei pozitii de stoc
  - Permite impartirea unei pozitii de stoc
- 
- 
- 
+
+
+
 deltatech_quant_purchase_unit
 -----------------------------
  - afisarea in pozitiile de stoc si a cantitatii in unitatea de masura de aprovizionare
- 
- 
- 
+
+
+
 deltatech_rec_access
 --------------------
  - Restrictionare acces la transfer stoc
@@ -433,16 +433,15 @@ deltatech_rec_access
  - Afisare stoc personal (dezactivat)
  - Afisare miscari personale (dezactivat)
  - Afisare quanturi proprii (dezactivat)
- 
- 
- 
+
+
+
 deltatech_refund
 ----------------
  - Adaugare de campuri in factura pentru a face legatura dintre factura stornata si factura initiala
  - Adaugare de campuri in picking pentru a face legatura dintre picking-ul stornat/rambursat si picking-ul initial
  - La anularea unei facturi se va vor anula in mod automat si miscarile de stoc aferente, in functie de configurare (companie). Anularea se face prin apasarea unui buton
  - La o rambursare se poate genera un nou picking in asteptare
- - Documentul de rambursare se poate transfera in mod automat 
+ - Documentul de rambursare se poate transfera in mod automat
  - La stergerea unei facturi se va schimba si starea picking listului (in de facturat)
  - In lista de ridicari sunt afisate rambursarile cu gri si italic
- 

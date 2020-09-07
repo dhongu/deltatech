@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,27 +21,23 @@
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
-from odoo.exceptions import   Warning, RedirectWarning
-
+from odoo.exceptions import Warning, RedirectWarning
 
 
 class product_template(models.Model):
     _inherit = 'product.template'
 
-    percent_domain = fields.Char(string='Domain for Percent', default="[]" )
+    percent_domain = fields.Char(string='Domain for Percent', default="[]")
     percent_not_in = fields.Boolean('Not In')
-    percent_product_list = fields.Many2many('product.product') 
+    percent_product_list = fields.Many2many('product.product')
 
-
-
-    @api.onchange('percent_product_list','percent_not_in')
+    @api.onchange('percent_product_list', 'percent_not_in')
     def on_percent_product_list(self):
         if self.percent_product_list:
             if self.percent_not_in:
                 self.percent_domain = "[('product_id','not in',%s)]" % self.percent_product_list.ids
             else:
                 self.percent_domain = "[('product_id','in',%s)]" % self.percent_product_list.ids
-        
-        
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

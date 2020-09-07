@@ -9,6 +9,7 @@ from datecs import *
 from exceptions import *
 from time import sleep
 
+
 class Usb(Datecs):
     """ Define USB printer """
 
@@ -23,11 +24,11 @@ class Usb(Datecs):
 
         self.errorText = ""
 
-        self.idVendor  = idVendor
+        self.idVendor = idVendor
         self.idProduct = idProduct
         self.interface = interface
-        self.in_ep     = in_ep
-        self.out_ep    = out_ep
+        self.in_ep = in_ep
+        self.out_ep = out_ep
         self.open()
 
     def open(self):
@@ -37,7 +38,7 @@ class Usb(Datecs):
             raise NoDeviceError()
         try:
             if self.device.is_kernel_driver_active(self.interface):
-                self.device.detach_kernel_driver(self.interface) 
+                self.device.detach_kernel_driver(self.interface)
             self.device.set_configuration()
             usb.util.claim_interface(self.device, self.interface)
         except usb.core.USBError as e:
@@ -58,7 +59,7 @@ class Usb(Datecs):
                 i += 1
                 if i > 10:
                     return False
-        
+
             sleep(0.1)
 
     def _raw(self, msg):
@@ -66,15 +67,12 @@ class Usb(Datecs):
         if len(msg) != self.device.write(self.out_ep, msg, self.interface):
             self.device.write(self.out_ep, self.errorText, self.interface)
             raise TicketNotPrinted()
-    
-
 
     def __del__(self):
         """ Release USB interface """
         if self.device:
             self.close()
         self.device = None
-
 
 
 class Serial(Datecs):
@@ -87,27 +85,25 @@ class Serial(Datecs):
         @param bytesize : Serial buffer size
         @param timeout  : Read/Write timeout
         """
-        self.devfile  = devfile
+        self.devfile = devfile
         self.baudrate = baudrate
         self.bytesize = bytesize
-        self.timeout  = timeout
+        self.timeout = timeout
         self.open()
-
 
     def open(self):
         """ Setup serial port and set is as datecs device """
-        self.device = serial.Serial(port=self.devfile, baudrate=self.baudrate, bytesize=self.bytesize, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=self.timeout, dsrdtr=True)
+        self.device = serial.Serial(port=self.devfile, baudrate=self.baudrate, bytesize=self.bytesize,
+                                    parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=self.timeout, dsrdtr=True)
 
         if self.device is not None:
             print "Serial printer enabled"
         else:
             print "Unable to open serial printer on: %s" % self.devfile
 
-
     def _raw(self, msg):
         """ Print any command sent in raw format """
         self.device.write(msg)
-
 
     def __del__(self):
         """ Close Serial interface """
@@ -115,11 +111,10 @@ class Serial(Datecs):
             self.device.close()
 
 
-
 class Network(Datecs):
     """ Define Network printer """
 
-    def __init__(self,host,port=9100):
+    def __init__(self, host, port=9100):
         """
         @param host : Printer's hostname or IP address
         @param port : Port to write to
@@ -127,7 +122,6 @@ class Network(Datecs):
         self.host = host
         self.port = port
         self.open()
-
 
     def open(self):
         """ Open TCP socket and set it as datecs device """
@@ -137,12 +131,9 @@ class Network(Datecs):
         if self.device is None:
             print "Could not open socket for %s" % self.host
 
-
     def _raw(self, msg):
         self.device.send(msg)
-
 
     def __del__(self):
         """ Close TCP connection """
         self.device.close()
-

@@ -6,7 +6,8 @@
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 
-#todo: de verificat ca sunt utilizate corect unitatile de masura!
+# todo: de verificat ca sunt utilizate corect unitatile de masura!
+
 
 class MonthlyStockReport(models.TransientModel):
     _name = 'stock.monthly.report'
@@ -233,7 +234,7 @@ class MonthlyStockReport(models.TransientModel):
                 'quantity_out']
             line_value['amount_finish'] = line_value['amount_begin'] + line_value['amount_in'] - line_value[
                 'amount_out']
-            if line_value['quantity_begin']  or line_value['quantity_in'] or  line_value['quantity_out']:
+            if line_value['quantity_begin'] or line_value['quantity_in'] or line_value['quantity_out']:
                 self.env['stock.monthly.report.line'].create(line_value)
 
     def button_show(self):
@@ -280,9 +281,9 @@ class MonthlyStockReportLine(models.TransientModel):
     amount_out = fields.Float('Amount Out')
     amount_finish = fields.Float('Amount Finish')
 
-    move_begin_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_begin')
-    move_in_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_in')
-    move_out_ids = fields.Many2many('stock.move',relation='stock_monthly_report_move_out')
+    move_begin_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_begin')
+    move_in_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_in')
+    move_out_ids = fields.Many2many('stock.move', relation='stock_monthly_report_move_out')
 
     def action_move_begin_details(self):
         self.ensure_one()

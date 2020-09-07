@@ -6,7 +6,6 @@
 from odoo import models, fields, api, _
 
 
-
 class product_invoice_history(models.TransientModel):
     _name = 'product.invoice.history'
 
@@ -14,6 +13,7 @@ class product_invoice_history(models.TransientModel):
     template_id = fields.Many2one('product.template')
     year = fields.Char(string='Year')
     qty = fields.Float(string='Qty')
+
 
 class product_template(models.Model):
     _inherit = 'product.template'
@@ -41,8 +41,6 @@ class product_template(models.Model):
                     'qty': item['product_qty']
                 })
             template.invoice_history = invoice_history
-
-
 
     @api.multi
     def _compute_invoice_count(self):

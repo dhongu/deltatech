@@ -30,7 +30,7 @@ class StockProfitReport(models.Model):
 
     profit = fields.Float(string="Profit", readonly=True)
 
-    sale_value = fields.Float('Sale Value',  readonly=True)
+    sale_value = fields.Float('Sale Value', readonly=True)
 
     def _select(self):
         select_str = """

@@ -11,15 +11,12 @@ import odoo.addons.decimal_precision as dp
 class PickingType(models.Model):
     _inherit = "stock.picking.type"
 
-
     def get_action_stock_simple_transfer(self):
         action = self._get_action('deltatech_stock_transfer.action_stock_simple_transfer')
         action['context'] = {
-                    'search_default_picking_type_id': self.id,
-                    'default_picking_type_id': self.id,
-                    'contact_display': 'partner_address',
-                    'search_default_available': 1,
-            }
+            'search_default_picking_type_id': self.id,
+            'default_picking_type_id': self.id,
+            'contact_display': 'partner_address',
+            'search_default_available': 1,
+        }
         return action
-
-

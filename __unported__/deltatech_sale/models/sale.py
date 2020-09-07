@@ -7,10 +7,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 
-
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-
 
     @api.multi
     @api.onchange('product_id')
@@ -21,6 +19,4 @@ class SaleOrderLine(models.Model):
 
         result = super(SaleOrderLine, self).product_id_change()
 
-
         return result
-

@@ -12,7 +12,7 @@
     "depends": [
         "sale_margin",
         'account',
-        #'l10n_ro_invoice_report'
+        # 'l10n_ro_invoice_report'
     ],
 
     "license": "LGPL-3",

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,28 +28,26 @@ import odoo.addons.decimal_precision as dp
 
 
 class crm_case_stage(models.Model):
-    _inherit = "crm.case.stage"  
+    _inherit = "crm.case.stage"
     survey_id = fields.Many2one('survey.survey', string='Survey')
-
 
 
 class crm_case_categ(models.Model):
-    _inherit = "crm.case.categ"  
+    _inherit = "crm.case.categ"
     survey_id = fields.Many2one('survey.survey', string='Survey')
-    
+
 
 class crm_lead(models.Model):
     _inherit = "crm.lead"
-    
-    survey_results = fields.One2many('survey.user_input', 'lead_id', string="Survey Results")
 
+    survey_results = fields.One2many('survey.user_input', 'lead_id', string="Survey Results")
 
     @api.multi
     def make_survey(self):
         self.ensure_one()
-        
+
         template_id = self.stage_id.template_id.id
-    
+
         # o fi mai bine daca modelul  este survey.survey?
         ctx.update({
             'default_model': 'crm.lead',
@@ -60,26 +57,21 @@ class crm_lead(models.Model):
             'default_composition_mode': 'comment',
             'mark_so_as_sent': True
         })
-         
+
         action = {
-             'domain': False,
-             'context': ctx,
-             'view_type': 'form',
-             'view_mode': 'form',
-             'res_model': 'crm.new.survey',
-              'target' : "new",
-             'view_id': False,
-             'type': 'ir.actions.act_window',
-             'name' : _('New Survey Record'),
-             'res_id': False
-         }
-        
-        return   action
+            'domain': False,
+            'context': ctx,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'crm.new.survey',
+            'target': "new",
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'name': _('New Survey Record'),
+            'res_id': False
+        }
 
+        return action
 
-
-
-
-    
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

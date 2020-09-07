@@ -4,17 +4,17 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
+
 
 class product_template(models.Model):
     _inherit = 'product.template'
 
     qty_multiple = fields.Float(
         'Qty Multiple', digits=dp.get_precision('Product Unit of Measure'),
-        default=1,    compute='_compute_qty_multiple',
+        default=1, compute='_compute_qty_multiple',
         inverse='_set_qty_multiple', store=True,
         help="The sale quantity will be rounded up to this multiple.  If it is 0, the exact quantity will be used.")
 
@@ -32,7 +32,6 @@ class product_template(models.Model):
             self.product_variant_ids.qty_multiple = self.qty_multiple
 
 
-
 class product_product(models.Model):
     _inherit = 'product.product'
 
@@ -40,5 +39,3 @@ class product_product(models.Model):
         'Qty Multiple', digits=dp.get_precision('Product Unit of Measure'),
         default=1,
         help="The sale quantity will be rounded up to this multiple.  If it is 0, the exact quantity will be used.")
-
-

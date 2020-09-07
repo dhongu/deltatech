@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -31,11 +30,11 @@ import odoo.addons.decimal_precision as dp
 class procurement_change_status(models.TransientModel):
     _name = 'procurement.order.change.status'
     _description = 'Compute all schedulers'
-    
-    flag_cancel_no_check =  fields.Boolean(string="Cancel procurement without check")
-    flag_cancel =  fields.Boolean(string="Cancel procurement")
-    flag_run =  fields.Boolean(string="Run procurement")
-    flag_check =  fields.Boolean(string="Check procurement")
+
+    flag_cancel_no_check = fields.Boolean(string="Cancel procurement without check")
+    flag_cancel = fields.Boolean(string="Cancel procurement")
+    flag_run = fields.Boolean(string="Run procurement")
+    flag_check = fields.Boolean(string="Check procurement")
 
     @api.multi
     def change_status(self):
@@ -51,16 +50,12 @@ class procurement_change_status(models.TransientModel):
             for procurement in procurement_ids:
                 for move in procurement.move_ids:
                     move.action_cancel()
-            procurement_ids.write( {'state': 'cancel'} )
-            
+            procurement_ids.write({'state': 'cancel'})
+
         return {'type': 'ir.actions.act_window_close'}
-        
-        
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
-
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

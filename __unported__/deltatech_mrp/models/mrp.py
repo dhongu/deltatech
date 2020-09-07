@@ -187,7 +187,7 @@ class mrp_production(models.Model):
                                 self.write(cr,uid,production.id,{'move_lines':[(4,new_id)]})
                                 required = required - lot.stock_available
                                 move_obj.write(cr, uid, [move.id], {'product_qty':required},context=context )
-                                
+
                     if len(lot_ids) == 1:
                         prodlot_name = lot_obj.browse(cr,uid,lot_ids[0]).name
                   """
@@ -238,4 +238,4 @@ class mrp_production_product_line(models.Model):
             return {'value': v}
         return {}
 
-    qty_available = fields.Float(related='product_id.qty_available', string="Real Stock", store=False,       readonly=True)
+    qty_available = fields.Float(related='product_id.qty_available', string="Real Stock", store=False, readonly=True)

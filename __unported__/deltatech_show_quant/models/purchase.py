@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,9 +28,7 @@ import odoo.addons.decimal_precision as dp
 
 
 class purchase_order(models.Model):
-    _inherit = 'purchase.order' 
-
-
+    _inherit = 'purchase.order'
 
     @api.multi
     def view_current_stock(self):
@@ -44,9 +41,6 @@ class purchase_order(models.Model):
 
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
         return action
-
-
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

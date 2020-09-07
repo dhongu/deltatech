@@ -56,13 +56,11 @@ class ResConfigSettings(models.TransientModel):
                                 for prop in properties:
                                     prop.copy({'company_id': self.company_id.id})
 
-
         super(ResConfigSettings, self).set_values()
         account_rule = self.env.ref('account.account_comp_rule')
         account_rule.write({'active': not bool(self.company_share_account)})
         account_tax_rule = self.env.ref('account.tax_comp_rule')
         account_tax_rule.write({'active': not bool(self.company_share_account_tax)})
-
 
     @api.depends('company_id')
     def _compute_has_chart_of_accounts(self):

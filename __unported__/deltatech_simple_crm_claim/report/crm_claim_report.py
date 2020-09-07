@@ -23,9 +23,9 @@ from odoo import models, fields, api, _
 from odoo import tools
 
 AVAILABLE_PRIORITIES = [
-   ('0', 'Low'),
-   ('1', 'Normal'),
-   ('2', 'High')
+    ('0', 'Low'),
+    ('1', 'Normal'),
+    ('2', 'High')
 ]
 
 
@@ -36,31 +36,31 @@ class crm_claim_report(models.Model):
     _auto = False
     _description = "CRM Claim Report"
 
-
     user_id = fields.Many2one('res.users', 'User', readonly=True)
-    team_id  =fields.Many2one('crm.team', 'Section', readonly=True)
+    team_id = fields.Many2one('crm.team', 'Section', readonly=True)
     nbr = fields.Integer('# of Claims', readonly=True)  # TDE FIXME master: rename into nbr_claims
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     create_date = fields.Datetime('Create Date', readonly=True, index=True)
     claim_date = fields.Datetime('Claim Date', readonly=True)
-    delay_close = fields.Float('Delay to close', digits=(16,2),readonly=True, group_operator="avg",help="Number of Days to close the case")
-    stage_id = fields.Many2one ('crm.claim.stage', 'Stage', readonly=True,domain="[('team_ids','=',team_id)]")
-    categ_id = fields.Many2one('crm.case.categ', 'Category',\
-                         domain="[('team_id','=',team_id),\
+    delay_close = fields.Float('Delay to close', digits=(16, 2), readonly=True,
+                               group_operator="avg", help="Number of Days to close the case")
+    stage_id = fields.Many2one('crm.claim.stage', 'Stage', readonly=True, domain="[('team_ids','=',team_id)]")
+    categ_id = fields.Many2one('crm.case.categ', 'Category',
+                               domain="[('team_id','=',team_id),\
                         ('object_id.model', '=', 'crm.claim')]", readonly=True)
     partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     priority = fields.Selection(AVAILABLE_PRIORITIES, 'Priority')
-    type_action = fields.Selection([('correction','Corrective Action'),('prevention','Preventive Action')], 'Action Type')
+    type_action = fields.Selection([('correction', 'Corrective Action'),
+                                    ('prevention', 'Preventive Action')], 'Action Type')
     date_closed = fields.Datetime('Close Date', readonly=True, index=True)
     date_deadline = fields.Date('Deadline', readonly=True, index=True)
-    delay_expected = fields.Float('Overpassed Deadline',digits=(16,2),readonly=True, group_operator="avg")
+    delay_expected = fields.Float('Overpassed Deadline', digits=(16, 2), readonly=True, group_operator="avg")
     email = fields.Integer('# Emails', size=128, readonly=True)
     subject = fields.Char('Claim Subject', readonly=True)
 
     @api.model_cr
     def init(self):
-
         """ Display Number of cases And Section Name
         @param cr: the current row, from the database cursor,
          """

@@ -11,8 +11,7 @@
     "category": "Stock",
     "depends": [
         "stock"
-    ]
-    ,
+    ],
 
     "license": "LGPL-3",
 
