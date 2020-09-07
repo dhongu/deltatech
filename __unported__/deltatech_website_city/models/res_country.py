@@ -1,4 +1,7 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# ©  2015-2020 Deltatech
+# See README.rst file on addons root folder for license details
+
+
 
 from odoo import fields, models
 
