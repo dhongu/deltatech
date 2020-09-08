@@ -1,6 +1,5 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
-import odoo
+# ©  2015-2020 Deltatech
+# See README.rst file on addons root folder for license detailsimport odoo
 
 odoo.release.version_info = odoo.release.version_info[:5] + ("e",)
 if "+e" not in odoo.release.version:  # not already patched by packaging
