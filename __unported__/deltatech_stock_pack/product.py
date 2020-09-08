@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
@@ -30,18 +29,15 @@ from datetime import datetime, date, timedelta
 import logging
 
 
-
 _logger = logging.getLogger(__name__)
 
 
- 
 class product_template(models.Model):
     _inherit = 'product.template'
-    
+
     pack_items = fields.Integer(string="Items per package")
-    pack_weight = fields.Float('Package Gross Weight', digits=dp.get_precision('Stock Weight'), help="The gross weight per package in Kg.")
-
-
+    pack_weight = fields.Float('Package Gross Weight', digits=dp.get_precision(
+        'Stock Weight'), help="The gross weight per package in Kg.")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -51,4 +50,3 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_roun
 #         res = super(SaleOrder, self)._cart_update(product_id=product_id, line_id=line_id, add_qty=add_qty,
 #                                                   set_qty=set_qty, **kwargs)
 #         return res
-

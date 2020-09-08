@@ -13,11 +13,12 @@ class PricelistItem(models.Model):
     _inherit = "product.pricelist.item"
 
     base = fields.Selection(selection_add=[
-        ('list_price_bronze','Bronze Price'),
+        ('list_price_bronze', 'Bronze Price'),
         ('list_price_silver', 'Silver Price'),
         ('list_price_gold', 'Gold Price'),
         ('list_price_platinum', 'Platinum Price'),
     ])
+
 
 class product_template(models.Model):
     _inherit = 'product.template'
@@ -30,22 +31,20 @@ class product_template(models.Model):
     percent_gold = fields.Float(string="Gold Percent")
     percent_platinum = fields.Float(string="Platinum Percent")
 
-
-    #todo: de adus valorile din listele de preturi
+    # todo: de adus valorile din listele de preturi
     list_price_bronze = fields.Float(string="Bronze Price", compute="_compute_price_list", store=True, readonly=True,
-                                        compute_sudo=True)
+                                     compute_sudo=True)
     list_price_silver = fields.Float(string="Silver Price", compute="_compute_price_list", store=True, readonly=True,
-                                         compute_sudo=True)
+                                     compute_sudo=True)
     list_price_gold = fields.Float(string="Gold Price", compute="_compute_price_list", store=True, readonly=True,
-                                    compute_sudo=True)
+                                   compute_sudo=True)
     list_price_platinum = fields.Float(string="Platinum Price", compute="_compute_price_list", store=True, readonly=True,
-                                        compute_sudo=True)
+                                       compute_sudo=True)
 
     @api.multi
     @api.depends('list_price_base', 'standard_price', 'list_price', 'percent_bronze', 'percent_silver', 'percent_gold',
                  'taxes_id')
     def _compute_price_list(self):
-
 
         for product in self:
 
@@ -72,7 +71,6 @@ class product_template(models.Model):
                     taxes = taxe.compute_all(product.list_price)
                     price = taxes['total_excluded']
 
-
             if tax_inc:
                 tax_value = 0.0
                 for tax in taxe.sorted(key=lambda r: r.sequence):
@@ -84,6 +82,3 @@ class product_template(models.Model):
             product.list_price_silver = price * (1 + product.percent_silver)
             product.list_price_gold = price * (1 + product.percent_gold)
             product.list_price_platinum = price * (1 + product.percent_platinum)
-
-
-

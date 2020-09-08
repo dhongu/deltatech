@@ -36,7 +36,7 @@ class ProcurementRule(models.Model):
         seller = product_id._select_seller(
             partner_id=supplier.name,
             quantity=procurement_uom_po_qty,
-            date=po.date_order ,
+            date=po.date_order,
             uom_id=product_id.uom_po_id)
 
         if procurement_uom_po_qty < supplier.min_qty:

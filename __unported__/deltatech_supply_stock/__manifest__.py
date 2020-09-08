@@ -20,7 +20,7 @@ Functionalitati:
     "depends": ['sale_stock', 'mrp', 'deltatech_warehouse'],
 
     "data": [
-        #'wizard/procurement_compute_wizard_view.xml',
+        # 'wizard/procurement_compute_wizard_view.xml',
         'wizard/procurement_compute_products_view.xml',
         'wizard/mrp_check_availability_view.xml',
 
@@ -29,5 +29,3 @@ Functionalitati:
     "active": False,
     "installable": True,
 }
-
-

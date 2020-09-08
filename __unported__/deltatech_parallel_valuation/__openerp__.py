@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Parallel Valuation",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Parallel Valuation",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -36,20 +36,19 @@ Functionalitati:
  - in raportul standard de analiza facturi au foat adaugate doua colone cu valoarea stocului in moneda paralela si cu valoarea liniei in moneda paralela
  - Pretul de cost este afisat doar la manager depozit 
     """,
-    
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"account","stock_account",'l10n_ro_stock_account','deltatech_sale_margin','l10n_ro_invoice_report'],
- 
-    "data" : [ 'res_config_view.xml',
+
+
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', "account", "stock_account", 'l10n_ro_stock_account', 'deltatech_sale_margin', 'l10n_ro_invoice_report'],
+
+    "data": ['res_config_view.xml',
                'stock_valuation_history_view.xml',
                'stock_view.xml',
                'views/invoice_report.xml',
                'product_view.xml',
                'account_invoice_view.xml'
-               ],
-    
+             ],
+
     "active": False,
     "installable": True,
 }
- 

@@ -40,4 +40,3 @@ email
 fax
 posta recomandata, posta confirmare de primire, posta strainatate 
 """
-

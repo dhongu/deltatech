@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,25 +25,17 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 class res_company(models.Model):
     _inherit = 'res.company'
-    _name = 'res.company'   
-    parallel_currency_id = fields.Many2one('res.currency',  
-                                 string='Parallel company currency', help="Parallel currency of the company.", 
-                                 default=lambda self: self.env.ref('base.RON'))
-        
+    _name = 'res.company'
+    parallel_currency_id = fields.Many2one('res.currency',
+                                           string='Parallel company currency', help="Parallel currency of the company.",
+                                           default=lambda self: self.env.ref('base.RON'))
+
 
 class account_config_settings(models.TransientModel):
     _inherit = 'account.config.settings'
     _name = 'account.config.settings'
     parallel_currency_id = fields.Many2one('res.currency', related='company_id.parallel_currency_id',
-                                 string='Parallel company currency', help="Parallel currency of the company." )
-
- 
-
+                                           string='Parallel company currency', help="Parallel currency of the company.")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-
-
-
-

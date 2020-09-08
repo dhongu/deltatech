@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,10 +19,10 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech CRM",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech CRM",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati:
@@ -30,28 +30,26 @@ Functionalitati:
  - Preluare functionalitati din Odoo9 legate de activitati
    
     """,
-    
+
     'category': 'Customer Relationship Management',
-    "depends" : ['deltatech',"crm", "deltatech_mail"],
+    "depends": ['deltatech', "crm", "deltatech_mail"],
 
 
- 
-    "data" : [ 'crm_activity_view.xml',
-              'crm_lead_view.xml',
-              'security/ir.model.access.csv',
-              #'sale_crm_view.xml',
-              'crm_view.xml',
-              'data/crm_action_data.xml',
-              
-              'report/crm_activity_report_view.xml',
-              'wizard/crm_assign_agent_view.xml'
-              ],
-    
+
+    "data": ['crm_activity_view.xml',
+               'crm_lead_view.xml',
+               'security/ir.model.access.csv',
+               # 'sale_crm_view.xml',
+               'crm_view.xml',
+               'data/crm_action_data.xml',
+
+               'report/crm_activity_report_view.xml',
+               'wizard/crm_assign_agent_view.xml'
+             ],
+
     "active": False,
     "installable": True,
 }
 
 
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

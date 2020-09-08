@@ -6,13 +6,12 @@
 
 from odoo import models, fields, api, _
 
+
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
 
     raw_product_id = fields.Many2one('product.product', string='Raw product', store=True, index=True,
                                      compute='_compute_raw_product_id')
-
-
 
     @api.depends('bom_id')
     @api.multi
@@ -20,7 +19,3 @@ class MrpProduction(models.Model):
         productions = self.filtered(lambda x: x.bom_id is not False)
         for production in productions:
             production.raw_product_id = production.bom_id.bom_line_ids[0].product_id
-
-
-
-

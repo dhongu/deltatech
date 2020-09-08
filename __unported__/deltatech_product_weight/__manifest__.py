@@ -11,12 +11,12 @@
 
     'category': 'Sales',
 
-    "depends": ["product","stock"],
+    "depends": ["product", "stock"],
 
 
     "license": "LGPL-3",
     "data": [
-       # "views/product_view.xml"
+        # "views/product_view.xml"
     ],
     "images": ['static/description/main_screenshot.png'],
     "active": False,

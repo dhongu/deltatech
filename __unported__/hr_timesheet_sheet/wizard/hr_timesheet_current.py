@@ -13,9 +13,9 @@ class HrTimesheetCurrentOpen(models.TransientModel):
         view_type = 'form,tree'
 
         sheets = self.env['hr_timesheet_sheet.sheet'].search([('user_id', '=', self._uid),
-                                                           ('state', 'in', ('draft', 'new')),
-                                                           ('date_from', '<=', fields.Date.today()),
-                                                           ('date_to', '>=', fields.Date.today())])
+                                                              ('state', 'in', ('draft', 'new')),
+                                                              ('date_from', '<=', fields.Date.today()),
+                                                              ('date_to', '>=', fields.Date.today())])
         if len(sheets) > 1:
             view_type = 'tree,form'
             domain = "[('id', 'in', " + str(sheets.ids) + "),('user_id', '=', uid)]"

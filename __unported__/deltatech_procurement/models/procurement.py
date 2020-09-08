@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,17 +28,18 @@ import odoo.addons.decimal_precision as dp
 import odoo
 from psycopg2 import OperationalError
 
+
 class procurement_order(models.Model):
-    _inherit = 'procurement.order' 
+    _inherit = 'procurement.order'
 
     required_id = fields.Many2one('required.order', string='Required Products Order', index=True)
-    proc_src_ids = fields.One2many('procurement.order', string='Source Procurement', compute='_compute_source_procurement'  )
-    sale_id  = fields.Many2one('sale.order', related='sale_line_id.order_id',   string='Sale Order')
-    
+    proc_src_ids = fields.One2many('procurement.order', string='Source Procurement',
+                                   compute='_compute_source_procurement')
+    sale_id = fields.Many2one('sale.order', related='sale_line_id.order_id', string='Sale Order')
+
     @api.one
-    def _compute_source_procurement(self):    
+    def _compute_source_procurement(self):
         self.proc_src_ids = self.search([('move_dest_id', 'in', [x.id for x in self.move_ids])])
-        
 
     """
     def run(self, cr, uid, ids, autocommit=False, context=None):
@@ -58,61 +58,59 @@ class procurement_order(models.Model):
         return
     """
 
- 
-
     @api.model
     def _get_po_line_values_from_proc(self, procurement, partner, company, schedule_date):
         res = super(procurement_order, self)._get_po_line_values_from_proc(procurement, partner, company, schedule_date)
-        
+
         seller_qty = procurement.product_id.seller_qty
         qty = procurement.product_qty
         if seller_qty and seller_qty > qty:
-            msg = _("Required %s, but the Minimum order quantity is %s") % ( str(qty) , str(seller_qty) )
-            procurement.message_post( body= msg)
-        
+            msg = _("Required %s, but the Minimum order quantity is %s") % (str(qty), str(seller_qty))
+            procurement.message_post(body=msg)
+
         return res
 
     @api.model
-    def _check(self,   procurement):
+    def _check(self, procurement):
         if procurement.rule_id and procurement.rule_id.action == 'buy' and procurement.state == "running" and not procurement.purchase_id:
             msg = _("Purchase order was deleted")
-            procurement.message_post( body= msg)
-            procurement.write ({'state': 'cancel'} )
+            procurement.message_post(body=msg)
+            procurement.write({'state': 'cancel'})
             return False
 
         picking_type_internal = self.env.ref('stock.picking_type_internal')
-        
+
         # transferurile interne se vor forta pentru a fi cu make_to_stock
         msg = ''
         for move in procurement.move_ids:
-            if move.picking_type_id and  move.picking_type_id.id == picking_type_internal.id:
-                if move.procure_method=='make_to_order' and move.availability >= 0:
-                    move.write({'procure_method':  'make_to_stock',
-                                'state':'confirmed',
-                                'move_orig_ids':[(6,0,[])]})   # nu se mai asteapata alte miscari si se va face transferul
-                    msg = msg + _('Quantity %s is available from %s .\n') % (move.availability, move.product_qty  )
-                    move.action_assign() 
+            if move.picking_type_id and move.picking_type_id.id == picking_type_internal.id:
+                if move.procure_method == 'make_to_order' and move.availability >= 0:
+                    move.write({'procure_method': 'make_to_stock',
+                                'state': 'confirmed',
+                                'move_orig_ids': [(6, 0, [])]})   # nu se mai asteapata alte miscari si se va face transferul
+                    msg = msg + _('Quantity %s is available from %s .\n') % (move.availability, move.product_qty)
+                    move.action_assign()
         if msg:
-            procurement.message_post( subject=_("Internal stock transfer"), body= msg)           
+            procurement.message_post(subject=_("Internal stock transfer"), body=msg)
 
-        res = super(procurement_order, self)._check( procurement) 
-        
+        res = super(procurement_order, self)._check(procurement)
+
         if not res:
             if procurement.move_ids:
                 done = True
                 for move in procurement.move_ids:
                     done = done and (move.state == 'done')
                 if done:
-                    return True  
+                    return True
             else:
                 if procurement.move_dest_id and procurement.move_dest_id.state == 'done':
                     return True
-        if procurement.required_id:         
+        if procurement.required_id:
             procurement.required_id.check_order_done()
         return res
- 
-    @api.multi 
-    def make_po(self):      
+
+    @api.multi
+    def make_po(self):
         res = super(procurement_order, self).make_po()
         uom_obj = self.pool.get('uom.uom')
         for procurement_id, po_line_id in res.iteritems():
@@ -121,17 +119,18 @@ class procurement_order(models.Model):
             seller_qty = po_line.product_id.seller_qty
             locations = self.env['stock.location']
             for procurement in po_line.procurement_ids:
-                qty +=  uom_obj._compute_qty(self.env.cr, self.env.uid, from_uom_id=procurement.product_uom.id,
-                                                              qty=procurement.product_qty, to_uom_id=procurement.product_id.uom_po_id.id)
-                
-            procurement = self.browse(procurement_id)    
-            disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[procurement.product_id.id]['qty_available']
-            msg = _("It is necessary quantity %s and in stock is %s.") %   (str(qty), str(disp))  
-            procurement.message_post( body= msg)  
-            if  po_line.order_id.date_order < fields.Date.today() :
-                msg = _("Acquisition should be done in the past at %s") %   (po_line.order_id.date_order)  
-                procurement.message_post( body= msg)    
-                po_line.order_id.write({'date_order':fields.Datetime.now()})                   
+                qty += uom_obj._compute_qty(self.env.cr, self.env.uid, from_uom_id=procurement.product_uom.id,
+                                            qty=procurement.product_qty, to_uom_id=procurement.product_id.uom_po_id.id)
+
+            procurement = self.browse(procurement_id)
+            disp = procurement.product_id.with_context({'location': procurement.location_id.id})._product_available()[
+                procurement.product_id.id]['qty_available']
+            msg = _("It is necessary quantity %s and in stock is %s.") % (str(qty), str(disp))
+            procurement.message_post(body=msg)
+            if po_line.order_id.date_order < fields.Date.today():
+                msg = _("Acquisition should be done in the past at %s") % (po_line.order_id.date_order)
+                procurement.message_post(body=msg)
+                po_line.order_id.write({'date_order': fields.Datetime.now()})
             """
             if disp > qty:
                 po_line.unlink()
@@ -157,26 +156,24 @@ class procurement_order(models.Model):
             """
         return res
 
-    
     @api.model
     def _product_virtual_get(self, order_point):
-        ''' trebuie sa scad toate comenzile de aprovizionare deschise'''  
-        qty = super(procurement_order,self)._product_virtual_get(order_point)
-        
-        domain = [('product_id','=',order_point.product_id.id),
-                  ('state','=','running'),
-                  ('location_id','=',order_point.location_id.id)]
-        
+        ''' trebuie sa scad toate comenzile de aprovizionare deschise'''
+        qty = super(procurement_order, self)._product_virtual_get(order_point)
+
+        domain = [('product_id', '=', order_point.product_id.id),
+                  ('state', '=', 'running'),
+                  ('location_id', '=', order_point.location_id.id)]
+
         procurement_ids = self.env['procurement.order'].search(domain)
 
         for procurement in procurement_ids:
             if procurement.rule_id.action == 'buy':
                 qty += procurement.product_qty
-         
+
         return qty
 
-
-    def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False, company_id = False, context=None):
+    def _procure_orderpoint_confirm(self, cr, uid, use_new_cursor=False, company_id=False, context=None):
 
         old_cr = cr
         if context is None:
@@ -188,14 +185,14 @@ class procurement_order(models.Model):
         procurement_obj = self.pool.get('procurement.order')
         dom = company_id and [('company_id', '=', company_id)] or []
         orderpoint_ids = orderpoint_obj.search(cr, uid, dom)
-         
-         
+
         while orderpoint_ids:
             ids = orderpoint_ids[:100]
-            
+
             del orderpoint_ids[:100]
             try:
-                procurement_ids = procurement_obj.search(cr, uid, [('orderpoint_id','in',ids),('state','=','exception')])
+                procurement_ids = procurement_obj.search(
+                    cr, uid, [('orderpoint_id', 'in', ids), ('state', '=', 'exception')])
                 procurement_obj.cancel(cr, uid, procurement_ids)
                 if use_new_cursor:
                     cr.commit()
@@ -205,14 +202,14 @@ class procurement_order(models.Model):
                     continue
                 else:
                     raise
-            
-        res = super(procurement_order, self)._procure_orderpoint_confirm(old_cr, uid, use_new_cursor, company_id, context)
-        
- 
+
+        res = super(procurement_order, self)._procure_orderpoint_confirm(
+            old_cr, uid, use_new_cursor, company_id, context)
+
         if use_new_cursor:
             cr.commit()
-            cr.close()         
-        
-        return res        
+            cr.close()
+
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

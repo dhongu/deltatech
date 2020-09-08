@@ -8,6 +8,7 @@ Payment to Statement
 
 Features:
  - Adugare platilor in extrasele de banca
+ - Adding the payments in the bank statements
 
  This module added features on customer/supplier payments to allow account user to link
  payment with bank statement direct through payment menu or customer/supplier invoices register payment option.
@@ -35,7 +36,7 @@ Contributors
 Maintainer
 ----------
 
-.. image:: https://apps.odoo.com/apps/modules/12.0/deltatech/logo-terrabit.png
+.. image:: https://terrabit.ro/images/logo-terrabit.png
    :alt: Terrabit
    :target: https://terrabit.ro
 

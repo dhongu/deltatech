@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,26 +21,25 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Website Style",
-    "version" : "1.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "name": "Deltatech Website Style",
+    "version": "1.0",
+    "author": "Deltatech",
+    "website": "",
     "description": """
 
 Functionalitati:
  -   
  
     """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["website_sale" ],
+
+    "category": "Generic Modules",
+    "depends": ["website_sale"],
 
 
-    "data" : ['views/website.xml', 'data/data.xml' ],
+    "data": ['views/website.xml', 'data/data.xml'],
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

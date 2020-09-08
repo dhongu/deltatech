@@ -20,7 +20,7 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": ['web','bus', 'mrp', 'hr_attendance','deltatech_mrp_group','deltatech_mrp_cost'],
+    "depends": ['web', 'bus', 'mrp', 'hr_attendance', 'deltatech_mrp_group', 'deltatech_mrp_cost'],
 
     "data": [
 

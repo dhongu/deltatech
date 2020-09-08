@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,29 +21,28 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Variant Price",
-    "version" : "2.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Variant Price",
+    "version": "2.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
     
 Functionalitati:
  
 
     """,
-    
-    "category" : "Generic Modules/Production",
-    "depends" : ['deltatech','product'],
+
+    "category": "Generic Modules/Production",
+    "depends": ['deltatech', 'product'],
 
 
-    "data" : [   
-             ],
-    
-    
+    "data": [
+    ],
+
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

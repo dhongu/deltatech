@@ -13,8 +13,6 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-
-
     @api.onchange('journal_id')
     def _onchange_journal_id(self):
         res = super(AccountInvoice, self)._onchange_journal_id()
@@ -45,7 +43,7 @@ class AccountInvoice(models.Model):
                 new_name = sequence.with_context(ir_sequence_date=invoice.date_invoice).next_by_id()
             else:
                 raise UserError(_('Please define a sequence on the journal.'))
-            invoice.write({'move_name':new_name})
+            invoice.write({'move_name': new_name})
 
     @api.multi
     def check_data(self, journal_id=None, date_invoice=None):
@@ -67,7 +65,7 @@ class AccountInvoice(models.Model):
                     lang = self.env['res.lang'].search([('code', '=', self.env.user.lang)])
                     # date_invoice = fields.Datetime.from_string
                     date_invoice = res.date_invoice
-                    #date_invoice = datetime.strptime(res.date_invoice, DEFAULT_SERVER_DATE_FORMAT).strftime(
+                    # date_invoice = datetime.strptime(res.date_invoice, DEFAULT_SERVER_DATE_FORMAT).strftime(
                     #    lang.date_format.encode('utf-8'))
                     return _('Post the invoice with a greater date than %s') % date_invoice
         return ''
@@ -80,14 +78,12 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self).action_move_create()
         return True
 
-
     @api.multi
     def action_number(self):
-        #TODO: not correct fix but required a fresh values before reading it.
+        # TODO: not correct fix but required a fresh values before reading it.
         self.write({})
 
         for inv in self:
-
 
             if inv.type in ('in_invoice', 'in_refund'):
                 if not inv.reference:
@@ -98,19 +94,19 @@ class AccountInvoice(models.Model):
                 ref = inv.number
 
             self._cr.execute(""" UPDATE account_move SET name=%s
-                                       WHERE id=%s  """,  (inv.number, inv.move_id.id))
+                                       WHERE id=%s  """, (inv.number, inv.move_id.id))
 
             self._cr.execute(""" UPDATE account_move SET ref=%s
                            WHERE id=%s AND (ref IS NULL OR ref = '')""",
-                        (ref, inv.move_id.id))
+                             (ref, inv.move_id.id))
             self._cr.execute(""" UPDATE account_move_line SET ref=%s
                            WHERE move_id=%s AND (ref IS NULL OR ref = '')""",
-                        (ref, inv.move_id.id))
+                             (ref, inv.move_id.id))
             self._cr.execute(""" UPDATE account_analytic_line SET ref=%s
                            FROM account_move_line
                            WHERE account_move_line.move_id = %s AND
                                  account_analytic_line.move_id = account_move_line.id""",
-                        (ref, inv.move_id.id))
+                             (ref, inv.move_id.id))
             self.invalidate_cache()
 
         return True

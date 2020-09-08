@@ -29,7 +29,7 @@ class CrmActivity(models.Model):
     sequence = fields.Integer('Sequence', default=0)
     #team_id = fields.Many2one('crm.team', string='Sales Team')
     team_id = fields.Many2one('crm.case.section', string='Sales Team')
-    
+
     subtype_id = fields.Many2one('mail.message.subtype', string='Message Subtype', required=True, ondelete='cascade')
     activity_1_id = fields.Many2one('crm.activity', string="Next Activity 1")
     activity_2_id = fields.Many2one('crm.activity', string="Next Activity 2")

@@ -6,14 +6,11 @@
 from odoo import models, fields, api, _
 
 
-
-
 class MrpBomLine(models.Model):
     _inherit = 'mrp.bom.line'
     _rec_name = "name"
 
     name = fields.Char(string="Name")
-
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -26,7 +23,7 @@ class MrpBomLine(models.Model):
         if 'name' not in vals:
             product = self.env['product.product'].browse(vals['product_id'])
             vals['name'] = product.name
-        return super(MrpBomLine,self).create(vals)
+        return super(MrpBomLine, self).create(vals)
 
     @api.multi
     def open_bom(self):

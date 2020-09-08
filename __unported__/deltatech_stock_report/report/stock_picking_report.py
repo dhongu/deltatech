@@ -94,5 +94,3 @@ class stock_picking_report(models.Model):
             %s
             %s
         )""" % (self._table, self._select(), self._from(), self._where(), self._group_by()))
-
-

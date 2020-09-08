@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 from odoo import api, fields, models
 
 
@@ -21,7 +20,6 @@ class AccountInvoice(models.Model):
                                 domain=[('state', '!=', 'done')], copy=False,
                                 help="Keep empty to use the period of the validation(invoice) date.",
                                 readonly=True, states={'draft': [('readonly', False)]})
-
 
     def action_move_create(self):
         res = super(AccountInvoice, self).action_move_create()

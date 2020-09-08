@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from . import procurement
 from . import mrp_production
 from . import mrp_workorder

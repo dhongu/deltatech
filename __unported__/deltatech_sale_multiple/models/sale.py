@@ -4,7 +4,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
 from odoo.exceptions import UserError, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -13,11 +12,8 @@ import odoo.addons.decimal_precision as dp
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 
 
-
-
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
-
 
     @api.model
     def fix_qty_multiple(self, product, product_uom, qty):
@@ -33,12 +29,10 @@ class SaleOrderLine(models.Model):
 
         return qty
 
-
     @api.onchange('product_uom_qty')
     def _onchange_product_uom_qty(self):
-        self.product_uom_qty = self.fix_qty_multiple(self.product_id, self.product_uom, self.product_uom_qty )
+        self.product_uom_qty = self.fix_qty_multiple(self.product_id, self.product_uom, self.product_uom_qty)
         super(SaleOrderLine, self)._onchange_product_uom_qty()
-
 
     @api.multi
     def write(self, vals):
@@ -54,7 +48,3 @@ class SaleOrderLine(models.Model):
             vals['product_uom_qty'] = self.fix_qty_multiple(product, product_uom, vals['product_uom_qty'])
 
         super(SaleOrderLine, self).write(vals)
-
-
-
-

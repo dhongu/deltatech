@@ -17,9 +17,9 @@ class account_config_settings(models.TransientModel):
         config = self
         # config.default_sale_tax  self.default_sale_tax_id:
         # config.default_purchase_tax self.default_purchase_tax_id:
-        print ("setez noile cote de TVA")
+        print("setez noile cote de TVA")
         products = self.env['product.template'].search([])
-        print ("Nr prod", len(products))
+        print("Nr prod", len(products))
         products.write({
             'taxes_id': [(6, 0, [config.default_sale_tax_id.id])],
             'supplier_taxes_id': [(6, 0, [config.default_purchase_tax_id.id])]
@@ -31,7 +31,7 @@ class account_config_settings(models.TransientModel):
         # de recalculat totalul din comenzile de vanzare
         # comenzi de vanzare deschise
         order_lines = self.env['sale.order.line'].search([('state', 'not in', ['done', 'cancel'])])
-        print (" Linii de comenzi de vanzare", len(order_lines))
+        print(" Linii de comenzi de vanzare", len(order_lines))
         order_lines.write({'tax_id': [(6, 0, [config.default_sale_tax_id.id])]})
 
     @api.multi
@@ -40,5 +40,5 @@ class account_config_settings(models.TransientModel):
         # de recalculat totalul din comenzile de achizitie
         # comenzi de achizitie deschise
         order_lines = self.env['purchase.order.line'].search([('state', 'not in', ['done', 'cancel'])])
-        print (" Linii de comenzi de achizitie", len(order_lines))
+        print(" Linii de comenzi de achizitie", len(order_lines))
         order_lines.write({'taxes_id': [(6, 0, [config.default_purchase_tax_id.id])]})

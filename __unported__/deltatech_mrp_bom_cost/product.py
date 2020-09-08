@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 
 
 from odoo import models, fields, api, _
@@ -38,43 +37,38 @@ _logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-
     @api.multi
     def write(self, vals):
-        res = super(ProductTemplate,self).write(vals)
+        res = super(ProductTemplate, self).write(vals)
         for template in self:
             if 'standard_price' in vals and template.product_variant_count == 1:
                 product = template.product_variant_ids[0]
                 if vals['standard_price'] != product.standard_price:
-                    product.write({'standard_price':vals['standard_price']})          
+                    product.write({'standard_price': vals['standard_price']})
         return res
 
-    
- 
+
 class ProductProduct(models.Model):
     _inherit = 'product.product'
-    
-    bom_price = fields.Float(digits= dp.get_precision('Account'), string='BOM Price')
+
+    bom_price = fields.Float(digits=dp.get_precision('Account'), string='BOM Price')
     standard_price = fields.Float()
-    
-    
 
-
-    @api.onchange('product_attributes','bom_ids')
-    def _calculate_bom_price(self ):
-        bom_id = self.env['mrp.bom']._bom_find( product_id = self.id)
+    @api.onchange('product_attributes', 'bom_ids')
+    def _calculate_bom_price(self):
+        bom_id = self.env['mrp.bom']._bom_find(product_id=self.id)
         if bom_id:
             bom = self.env['mrp.bom'].browse(bom_id)
             # trebuie facut update si la lista de atribute daca aceasta lipseste
-            if  not self.product_attributes and self.attribute_value_ids:
-                self.product_attributes = self._get_product_attributes_values_dict() 
-            
+            if not self.product_attributes and self.attribute_value_ids:
+                self.product_attributes = self._get_product_attributes_values_dict()
+
             self.bom_price = bom.with_context(production=self).calculate_price
-            #self.standard_price = self.bom_price 
+            #self.standard_price = self.bom_price
         else:
             self.bom_price = self.standard_price or self.product_tmpl_id.standard_price
-        
-        #print self.name, self.bom_price
+
+        # print self.name, self.bom_price
 
     @api.multi
     def update_bom_price(self):
@@ -84,24 +78,23 @@ class ProductProduct(models.Model):
     @api.multi
     def button_update_bom_price(self):
         for product in self:
-            bom_id = self.env['mrp.bom']._bom_find( product_id = product.id)
+            bom_id = self.env['mrp.bom']._bom_find(product_id=product.id)
             if bom_id:
                 bom = self.env['mrp.bom'].browse(bom_id)
-                for line in bom.bom_line_ids:  
+                for line in bom.bom_line_ids:
                     if line.product_id:
-                        line.product_id.update_bom_price()                
+                        line.product_id.update_bom_price()
                 # trebuie facut update si la lista de atribute daca aceasta lipseste
-                if  not product.product_attributes and product.attribute_value_ids:
-                    product.product_attributes = product._get_product_attributes_values_dict() 
-                
+                if not product.product_attributes and product.attribute_value_ids:
+                    product.product_attributes = product._get_product_attributes_values_dict()
+
                 product.bom_price = bom.with_context(production=product).calculate_price
-                 
+
             else:
                 product.bom_price = product.standard_price or product.product_tmpl_id.standard_price
-                
-            
-    
-    #am redefini metoda pentru a afisa toate bom-urile
+
+    # am redefini metoda pentru a afisa toate bom-urile
+
     def action_view_bom(self, cr, uid, ids, context=None):
         tmpl_obj = self.pool.get("product.template")
         products = set()
@@ -111,12 +104,13 @@ class ProductProduct(models.Model):
         # bom specific to this variant or global to template
         domain = [
             '|',
-                ('product_id', 'in', ids),
-                '&',
-                    #('product_id', '=', False),
-                    ('product_tmpl_id', 'in', list(products)),
+            ('product_id', 'in', ids),
+            '&',
+            #('product_id', '=', False),
+            ('product_tmpl_id', 'in', list(products)),
         ]
-        result['context'] = "{'default_product_id': active_id, 'search_default_product_id': active_id, 'default_product_tmpl_id': %s}" % (len(products) and products.pop() or 'False')
+        result['context'] = "{'default_product_id': active_id, 'search_default_product_id': active_id, 'default_product_tmpl_id': %s}" % (
+            len(products) and products.pop() or 'False')
         result['domain'] = str(domain)
         return result
 

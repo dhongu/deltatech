@@ -35,7 +35,7 @@ class deltatech_expenses_deduction(models.Model):
     def _default_account_diem(self):
         account_pool = self.env['account.account']
         try:
-            account_id = account_pool.search([('code', '=ilike', '625%')], limit=1)  ## Cheltuieli cu deplasari
+            account_id = account_pool.search([('code', '=ilike', '625%')], limit=1)  # Cheltuieli cu deplasari
         except:
             try:
                 account_id = account_pool.search(
@@ -377,7 +377,7 @@ class deltatech_expenses_deduction(models.Model):
                 name = expenses.number
             # Create the account move record.
             line_ids = []
-            # nota contabila prin care banii au iesit din casa 
+            # nota contabila prin care banii au iesit din casa
             if expenses.advance:
                 move_line_dr = {'name': name or '/', 'debit': expenses.advance, 'credit': 0.0,
                                 'account_id': expenses.journal_payment_id.default_debit_account_id.id,  # 542
@@ -390,7 +390,7 @@ class deltatech_expenses_deduction(models.Model):
                 line_ids.append([0, False, move_line_dr])
                 line_ids.append([0, False, move_line_cr])
 
-                # si acum scriu in registrul de casa valoarea   
+                # si acum scriu in registrul de casa valoarea
             # avansul trebuie trecut si in jurnalul de casa!
 
             if expenses.difference < 0:
@@ -458,7 +458,7 @@ class deltatech_expenses_deduction(models.Model):
 
             if statement.state != 'open':
                 raise UserError(_('The cash statement of journal %s from date is not in open state, please open it \n'
-                                'to create the line in  it "%s".') % (journal_id.name, date))
+                                  'to create the line in  it "%s".') % (journal_id.name, date))
             return statement
 
         for expenses in self:
@@ -496,7 +496,7 @@ class deltatech_expenses_deduction_line(models.Model):
     @api.model
     def _default_expense_account(self):
         account_pool = self.env['account.account']
-        account = account_pool.search([('code', '=ilike', '623%')], limit=1)  ## cheltuieli de protocol
+        account = account_pool.search([('code', '=ilike', '623%')], limit=1)  # cheltuieli de protocol
         if not account:
             account = account_pool.search([('user_type_id.name', '=', 'expense'),
                                            ('internal_type', '!=', 'view')], limit=1)

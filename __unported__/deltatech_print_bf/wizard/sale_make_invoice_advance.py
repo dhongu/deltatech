@@ -12,8 +12,6 @@ from odoo.exceptions import UserError
 # mapping invoice type to journal type
 
 
-
-
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
@@ -26,14 +24,12 @@ class SaleAdvancePaymentInv(models.TransientModel):
         if not self._context.get('active_ids'):
             return False
 
-
         company_id = self._context.get('company_id', self.env.user.company_id.id)
-
 
         sale_obj = self.env['sale.order']
         order = sale_obj.browse(self._context.get('active_ids'))[0]
 
-        generic_parnter = self.env.ref('deltatech_print_bf.partner_generic',raise_if_not_found=False)
+        generic_parnter = self.env.ref('deltatech_print_bf.partner_generic', raise_if_not_found=False)
         if generic_parnter == order.partner_id:
             domain = [
                 ('type', '=', 'sale'),
@@ -47,15 +43,11 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 ('code', '!=', 'BF')
             ]
 
-
         return self.env['account.journal'].search(domain, limit=1)
-
 
     journal_id = fields.Many2one('account.journal', string='Journal',
                                  default=_default_journal,
-                                 domain="[('type', '=', 'sale')]") # de adaugat si ('company_id', '=', company_id)
-
-
+                                 domain="[('type', '=', 'sale')]")  # de adaugat si ('company_id', '=', company_id)
 
     @api.multi
     def create_invoices(self):

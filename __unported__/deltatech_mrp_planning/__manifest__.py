@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
 {
     "name": "MRP Planning",
     "version": "2.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
     
@@ -35,7 +35,7 @@ Functionalitati:
     """,
 
     "category": "Manufacturing",
-    "depends": [ "mrp"],
+    "depends": ["mrp"],
 
     "data": [
         "views/mrp_production_view.xml"

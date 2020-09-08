@@ -32,5 +32,3 @@ class Website(Website):
             for r in request.session.get('report_view_ids', []):
                 res += super(Website, self).customize_template_get(r.get('xml_id'), full=full, bundles=bundles)
         return res
-
-

@@ -42,8 +42,6 @@ class stock_balance(models.Model):
     amount = fields.Float('Amount', digits=dp.get_precision('Account'), readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
 
-
-
     @api.model_cr
     def init(self):
 
@@ -106,6 +104,3 @@ class stock_balance(models.Model):
         )""")
 
         # amount_in era calculat din sum((q.quantity * q.cost)) AS amount_in
-
-
-

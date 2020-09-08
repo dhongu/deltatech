@@ -12,7 +12,6 @@ from odoo.tools import float_round
 class AccountPaymentTerm(models.Model):
     _inherit = "account.payment.term"
 
-
     @api.one
     def compute(self, value, date_ref=False):
         date_ref = date_ref or fields.Date.today()
@@ -33,7 +32,7 @@ class AccountPaymentTerm(models.Model):
             if amt:
                 next_date = fields.Date.from_string(date_ref)
                 if line.option == 'day_of_month':
-                    next_date += relativedelta(months=int(line.days/30))
+                    next_date += relativedelta(months=int(line.days / 30))
                     if line.days2 < 0:
                         next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
                         next_date = next_first_date + relativedelta(days=line.days2)
@@ -65,7 +64,4 @@ class AccountPaymentTermLine(models.Model):
 
     option = fields.Selection(selection_add=[('day_of_month', 'Day of the Month')])
     days2 = fields.Integer('Day of the Month', required=True,
-                            help="Day of the month, set -1 for the last day of the current month. If it's positive, it gives the day of the next month. Set 0 for net days (otherwise it's based on the beginning of the month).")
-
-
-
+                           help="Day of the month, set -1 for the last day of the current month. If it's positive, it gives the day of the next month. Set 0 for net days (otherwise it's based on the beginning of the month).")

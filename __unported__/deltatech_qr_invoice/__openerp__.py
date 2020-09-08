@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,27 +19,25 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech QR on invoice",
-    "version" : "1.0",
-    "category" : "Sales Management",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech QR on invoice",
+    "version": "1.0",
+    "category": "Sales Management",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
  
 Features:
  
 
     """,
-    
-    "depends" : ['deltatech',"account",'crm'],
- 
-    "data" : [
-              "crm_view.xml",
+
+    "depends": ['deltatech', "account", 'crm'],
+
+    "data": [
+        "crm_view.xml",
               'views/invoice_report.xml',
-              ],
-              
+    ],
+
     "active": False,
     "installable": True,
 }
-
-

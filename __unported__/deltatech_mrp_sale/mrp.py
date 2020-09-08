@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 
 
 from odoo import models, fields, api, _
@@ -37,12 +36,12 @@ from itertools import groupby
 _logger = logging.getLogger(__name__)
 
 
-ITEM_CATEG = [('primary','Primary'),
-              ('normal','Normal'),
-              ('optional','Optional'),
-              ('service','Service'),
+ITEM_CATEG = [('primary', 'Primary'),
+              ('normal', 'Normal'),
+              ('optional', 'Optional'),
+              ('service', 'Service'),
               ('labor', 'Labor'),
-              ('opt_serv','Optional Service')]
+              ('opt_serv', 'Optional Service')]
 
 
 """    
@@ -70,7 +69,7 @@ class mrp_dummy_attribute_value(models.TransientModel):
     attribute = fields.Many2one('product.attribute', string='Attribute')
     value = fields.Many2one( 'product.attribute.value', string='Value')
 """
-    
+
 
 class mrp_bom(models.Model):
     _inherit = 'mrp.bom'
@@ -79,15 +78,11 @@ class mrp_bom(models.Model):
     product_id = fields.Many2one(index=True)
     bom_line_ids = fields.One2many(track_visibility='always')
 
-     
-
-
     @api.model
     def _factor(self, factor, product_efficiency, product_rounding):
         factor = factor / (product_efficiency or 1.0)
         factor = _common.ceiling(factor, product_rounding)
         return factor
-
 
     @api.model
     def _prepare_consume_line(self, bom_line, quantity, factor=1):
@@ -96,9 +91,8 @@ class mrp_bom(models.Model):
         # daca unitatea de masura este % atunci cantitatea trebuie sa ramana cea din BOM
         if bom_line.product_uom.name == '%':
             res['product_qty'] = bom_line.product_qty
-         
-        return res
 
+        return res
 
     def _check_attribute_in_list(self, check_attribs, component_attribs):
         """ Check if component is suitable for given attributes
@@ -110,19 +104,16 @@ class mrp_bom(models.Model):
         for key, group in groupby(component_attribs, getattr):
             if set(check_attribs).intersection([x.id for x in group]):
                 return True
-        return False    
-
-
-
-
+        return False
 
     # metoda a fost redefinita pentru a selecta o linie daca exista cel putin un atribut
+
     def _skip_bom_line(self, line, product):
-        
+
         today = fields.Date.context_today(self)
-        if (line.date_start and
-                line.date_start > today or
-                line.date_stop and (line.date_stop < today)):
+        if (line.date_start
+                and line.date_start > today
+                or line.date_stop and (line.date_stop < today)):
             return True
         # all bom_line_id variant values must be in the product
         if line.attribute_value_ids:
@@ -136,26 +127,23 @@ class mrp_bom(models.Model):
                         line.attribute_value_ids):
                     return True
             else:
-                if isinstance( product, int ):   # de fact cred ca e integer totdeauna
-                    product = self.env['product.product'].browse(product)  
+                if isinstance(product, int):   # de fact cred ca e integer totdeauna
+                    product = self.env['product.product'].browse(product)
 
                 if not product or not self._check_product_suitable(
-                    product.attribute_value_ids.ids,
-                    line.attribute_value_ids):
+                        product.attribute_value_ids.ids,
+                        line.attribute_value_ids):
                     return True
         if not line.product_id:
             if not product and self.env.context.get('production'):
                 production = self.env.context['production']
-                product_attributes = ( line.product_template._get_product_attributes_inherit_dict( production.product_attributes))
-                comp_product = self.env['product.product']._product_find( line.product_template, product_attributes)
+                product_attributes = (line.product_template._get_product_attributes_inherit_dict(
+                    production.product_attributes))
+                comp_product = self.env['product.product']._product_find(line.product_template, product_attributes)
                 if not comp_product:
                     return True
         return False
 
-
-
-        
- 
     def _bom_find(self, cr, uid, product_tmpl_id=None, product_id=None, properties=None, context=None):
         """ Finds BoM for particular product and product uom.
         @param product_tmpl_id: Selected product.
@@ -169,24 +157,25 @@ class mrp_bom(models.Model):
             properties = []
         if product_id:
             if not product_tmpl_id:
-                product_tmpl_id = self.pool['product.product'].browse(cr, uid, product_id, context=context).product_tmpl_id.id
+                product_tmpl_id = self.pool['product.product'].browse(
+                    cr, uid, product_id, context=context).product_tmpl_id.id
             domain = [
                 '|',
-                    ('product_id', '=', product_id),
-                    '&',
-                        ('product_id', '=', False),
-                        ('product_tmpl_id', '=', product_tmpl_id)
+                ('product_id', '=', product_id),
+                '&',
+                ('product_id', '=', False),
+                ('product_tmpl_id', '=', product_tmpl_id)
             ]
         elif product_tmpl_id:
             #domain = [('product_id', '=', False), ('product_tmpl_id', '=', product_tmpl_id)]
-            domain = [ ('product_tmpl_id', '=', product_tmpl_id)]
+            domain = [('product_tmpl_id', '=', product_tmpl_id)]
         else:
             # neither product nor template, makes no sense to search
             return False
         if context.get('company_id'):
             domain = domain + [('company_id', '=', context['company_id'])]
-        domain = domain + [ '|', ('date_start', '=', False), ('date_start', '<=', time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
-                            '|', ('date_stop', '=', False), ('date_stop', '>=', time.strftime(DEFAULT_SERVER_DATE_FORMAT))]
+        domain = domain + ['|', ('date_start', '=', False), ('date_start', '<=', time.strftime(DEFAULT_SERVER_DATE_FORMAT)),
+                           '|', ('date_stop', '=', False), ('date_stop', '>=', time.strftime(DEFAULT_SERVER_DATE_FORMAT))]
         # order to prioritize bom with product_id over the one without
         ids = self.search(cr, uid, domain, order='sequence, product_id', context=context)
         # Search a BoM which has all properties specified, or if you can not find one, you could
@@ -200,73 +189,71 @@ class mrp_bom(models.Model):
                     bom_empty_prop = bom.id
         return bom_empty_prop
 
-
     # redefinesc metoda pentru ca trebuie sa tin cont si de variante si atribute
+
     @api.multi
     def button_set_standard_price(self):
         for bom in self:
             if bom.product_id:
-                bom.product_id.write({'standard_price':bom.calculate_price, 'bom_price':bom.calculate_price})
-                bom.product_id.product_tmpl_id.write({'standard_price':bom.calculate_price})
+                bom.product_id.write({'standard_price': bom.calculate_price, 'bom_price': bom.calculate_price})
+                bom.product_id.product_tmpl_id.write({'standard_price': bom.calculate_price})
             else:
-                bom.product_tmpl_id.write({'standard_price':bom.calculate_price})
+                bom.product_tmpl_id.write({'standard_price': bom.calculate_price})
                 for product in bom.product_tmpl_id.product_variant_ids:
-                    if  not product.product_attributes:
-                         product.product_attributes = product._get_product_attributes_values_dict() 
-                    items, work = bom.with_context(production=product)._bom_explode(product=None, factor=1)   ## in exploxie e problema
-                    #print 'Items:', items 
+                    if not product.product_attributes:
+                        product.product_attributes = product._get_product_attributes_values_dict()
+                    items, work = bom.with_context(production=product)._bom_explode(
+                        product=None, factor=1)  # in exploxie e problema
+                    # print 'Items:', items
                     amount = 0.0
                     for item in items:
-                                      
+
                         product_qty = item['product_qty']
                         line_product = self.env['product.product'].browse(item['product_id'])
                         #price = line_product.standard_price  or line_product.product_tmpl_id.standard_price
                         price = line_product.bom_price
-                        #print "Line:", line_product.name, price
-                        amount +=  price * product_qty
-                        
-                    price = amount / bom.product_qty + amount/bom.product_qty*bom.value_overhead
-                    #print product.name, price
-                    product.write({'standard_price':price,'bom_price': price})
+                        # print "Line:", line_product.name, price
+                        amount += price * product_qty
 
-
+                    price = amount / bom.product_qty + amount / bom.product_qty * bom.value_overhead
+                    # print product.name, price
+                    product.write({'standard_price': price, 'bom_price': price})
 
 
 class mrp_bom_line(models.Model):
-    _inherit = 'mrp.bom.line'   
-    
+    _inherit = 'mrp.bom.line'
+
     item_categ = fields.Selection(ITEM_CATEG, default='normal', string='Item Category')
-    child_bom_id = fields.Many2one('mrp.bom',string="Child BOM", compute="_compute_child_bom", store=True)
-    calculate_price = fields.Float(compute='_calculate_price') 
+    child_bom_id = fields.Many2one('mrp.bom', string="Child BOM", compute="_compute_child_bom", store=True)
+    calculate_price = fields.Float(compute='_calculate_price')
     standard_price = fields.Float(compute='_calculate_standard_price')
-    
 
     @api.multi
-    @api.depends('product_template','product_id')
+    @api.depends('product_template', 'product_id')
     def _compute_child_bom(self):
         for bom_line in self:
-           bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_template.id,
-                                                   product_id=bom_line.product_id.id, 
-                                                   properties=bom_line.property_ids )
-           bom_line.child_bom_id = self.env['mrp.bom'].browse( bom_id )
-             
-    
-    # am redefini metoda pentru a utiliza campul product_template in loc de product_tmpl_id
-    @api.multi
-    @api.depends('product_template','product_id')
-    def _calculate_standard_price(self): 
-        for bom_line in self:
-            if bom_line.product_id:
-                bom_line.standard_price = bom_line.product_id.standard_price  
-            else:
-                bom_line.standard_price = bom_line.product_template.standard_price 
-            
+            bom_id = self.env['mrp.bom']._bom_find(product_tmpl_id=bom_line.product_template.id,
+                                                   product_id=bom_line.product_id.id,
+                                                   properties=bom_line.property_ids)
+            bom_line.child_bom_id = self.env['mrp.bom'].browse(bom_id)
 
     # am redefini metoda pentru a utiliza campul product_template in loc de product_tmpl_id
+
     @api.multi
-    @api.depends('product_template','product_id','child_bom_id')
+    @api.depends('product_template', 'product_id')
+    def _calculate_standard_price(self):
+        for bom_line in self:
+            if bom_line.product_id:
+                bom_line.standard_price = bom_line.product_id.standard_price
+            else:
+                bom_line.standard_price = bom_line.product_template.standard_price
+
+    # am redefini metoda pentru a utiliza campul product_template in loc de product_tmpl_id
+
+    @api.multi
+    @api.depends('product_template', 'product_id', 'child_bom_id')
     def _calculate_price(self):
-        for bom_line in self:    
+        for bom_line in self:
             if bom_line.product_id:
                 price = bom_line.product_id.bom_price or bom_line.product_id.standard_price
             else:
@@ -280,8 +267,8 @@ class mrp_bom_line(models.Model):
                     amount = 0.0
                     for variant in bom_line.product_template.product_variant_ids:
                         amount += variant.bom_price or bom_line.product_id.standard_price
-                    price =   amount  / bom_line.product_template.product_variant_count
-                    #print bom_line.product_template.name, price
+                    price = amount / bom_line.product_template.product_variant_count
+                    # print bom_line.product_template.name, price
             """
             if bom_line.child_bom_id:
                 price = bom_line.child_bom_id.calculate_price
@@ -299,9 +286,6 @@ class mrp_bom_line(models.Model):
                         #print bom_line.product_template.name, price
             """
             bom_line.calculate_price = price
-            
-    
-        
 
     def _get_child_bom_lines(self, cr, uid, ids, field_name, arg, context=None):
         """If the BOM line refers to a BOM, return the ids of the child BOM lines"""
@@ -309,63 +293,61 @@ class mrp_bom_line(models.Model):
         res = {}
         for bom_line in self.browse(cr, uid, ids, context=context):
             bom_id = bom_obj._bom_find(cr, uid,
-                product_tmpl_id=bom_line.product_template.id,
-                product_id=bom_line.product_id.id, context=context)
+                                       product_tmpl_id=bom_line.product_template.id,
+                                       product_id=bom_line.product_id.id, context=context)
             if bom_id:
                 child_bom = bom_obj.browse(cr, uid, bom_id, context=context)
                 res[bom_line.id] = [x.id for x in child_bom.bom_line_ids]
             else:
                 res[bom_line.id] = False
-        return res   
-    
+        return res
+
     _sql_constraints = [
         ('bom_qty_zero', 'CHECK (1=1)', 'Error'),
-    ]    
+    ]
 
     @api.multi
     def open_bom(self):
         self.ensure_one()
         if self.child_bom_id:
-            #print "Deschid sublista de materiale"
+            # print "Deschid sublista de materiale"
             return {
                 'res_id': self.child_bom_id.id,
-                'domain': "[('id','=', "+str(self.child_bom_id.id)+")]",
+                'domain': "[('id','=', " + str(self.child_bom_id.id) + ")]",
                 'name': _('BOM'),
                 'view_type': 'form',
                 'view_mode': 'form,tree',
                 'res_model': 'mrp.bom',
                 'view_id': False,
                 'target': 'current',
-                'nodestroy': True,   
-               'type': 'ir.actions.act_window'             
+                'nodestroy': True,
+                'type': 'ir.actions.act_window'
             }
-  
+
     @api.multi
     def check_line(self):
         for line in self:
             if not line.product_id:
                 if line.product_template.product_variant_count == 1:
                     for product in line.product_template.product_variant_ids:
-                        line.write({'product_id':product.id})
-                        
-    
+                        line.write({'product_id': product.id})
+
     @api.multi
     def write(self, vals):
-        if 'product_id' in vals or 'product_qty' in vals  or 'product_template' in vals :         
+        if 'product_id' in vals or 'product_qty' in vals or 'product_template' in vals:
             message = _("BOM was change:")
             if 'product_template' in vals:
                 pt = self.env['product.template'].browse(vals['product_template'])
-                message += "Product: %s -> %s "  % (self.product_template, pt.name )
+                message += "Product: %s -> %s " % (self.product_template, pt.name)
             if 'product_id' in vals:
                 pp = self.env['product.product'].browse(vals['product_id'])
-                message += "Variant: %s -> %s "  % (self.product_id.name, pp.name )
-            
+                message += "Variant: %s -> %s " % (self.product_id.name, pp.name)
+
             if 'product_qty' in vals:
-                message += "Qty: %s -> %s "  % (self.product_qty, vals['product_qty'] )
-                
+                message += "Qty: %s -> %s " % (self.product_qty, vals['product_qty'])
+
             self.bom_id.message_post(body=message)
-       
-            
-        return super(mrp_bom_line,self).write( vals)
-    
+
+        return super(mrp_bom_line, self).write(vals)
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

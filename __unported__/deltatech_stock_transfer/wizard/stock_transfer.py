@@ -16,9 +16,8 @@ class StockSimpleTransfer(models.TransientModel):
     picking_type_id = fields.Many2one('stock.picking.type', string="Picking type", required=True)
     date = fields.Date(string='Date', default=fields.Date.today, required=True)
 
-    quantity = fields.Float(string="Quantity", digits= dp.get_precision('Product Unit of Measure'), required=True)
+    quantity = fields.Float(string="Quantity", digits=dp.get_precision('Product Unit of Measure'), required=True)
     uom_id = fields.Many2one('product.uom', 'Unit of Measure', required=True)
-
 
     @api.onchange('product_id')
     def onchange_product_id(self):
@@ -27,19 +26,14 @@ class StockSimpleTransfer(models.TransientModel):
     @api.multi
     def do_transfer(self):
 
-
-
         context = {'default_picking_type_id': self.picking_type_id.id}
         picking = self.env['stock.picking'].with_context(context).create({
             'picking_type_id': self.picking_type_id.id,
             'date': self.date,
-            'partner_id':self.partner_id,
+            'partner_id': self.partner_id,
         })
 
-
-
-        self.add_picking_line(picking=picking, product= self.product_id, quantity=self.quantity, uom=self.uom_id)
-
+        self.add_picking_line(picking=picking, product=self.product_id, quantity=self.quantity, uom=self.uom_id)
 
         if picking.move_lines:
             picking.action_assign()
@@ -49,8 +43,6 @@ class StockSimpleTransfer(models.TransientModel):
                     for move_line in move.move_line_ids:
                         move_line.qty_done = move_line.product_uom_qty
             picking.action_done()
-
-
 
         return {
             'domain': [('id', 'in', [picking.id])],
@@ -76,7 +68,7 @@ class StockSimpleTransfer(models.TransientModel):
                 'product_id': product.id,
                 'product_uom': uom.id,
                 'product_uom_qty': quantity,
-               # 'quantity_done': quantity,  # o fi bine >???
+                # 'quantity_done': quantity,  # o fi bine >???
                 'name': product.name,
                 'picking_id': picking.id,
                 'location_id': picking.picking_type_id.default_location_src_id.id,

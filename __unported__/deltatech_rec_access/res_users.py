@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,13 +28,11 @@ import odoo.addons.decimal_precision as dp
 
 
 class res_users(models.Model):
-    _inherit = 'res.users' 
+    _inherit = 'res.users'
 
     @api.multi
     def revoke_rights(self):
-        self.write({'groups_id':[(5,False,False)]})
+        self.write({'groups_id': [(5, False, False)]})
 
- 
-    
-        
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

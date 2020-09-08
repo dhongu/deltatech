@@ -34,7 +34,7 @@ class account_payment_term_rate_wizard(models.TransientModel):
             defaults['term_id'] = active_id
             defaults['name'] = term.name
             if term.line_ids:
-                defaults['rate'] = len(term.line_ids)-1
+                defaults['rate'] = len(term.line_ids) - 1
         return defaults
 
     @api.one
@@ -97,7 +97,7 @@ class account_payment_term_rate_wizard(models.TransientModel):
                 }
                 line_ids.append((0, 0, norm_rate))
 
-        line_ids[-1] = ( 0, 0, {
+        line_ids[-1] = (0, 0, {
             'value': 'balance',
             'days': 30 * (self.rate),
             'day_of_the_month': self.day_of_the_month,

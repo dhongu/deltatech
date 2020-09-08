@@ -49,7 +49,6 @@ class account_invoice(models.Model):
         if not self.last_currency_rate:
             self.last_currency_rate = self.currency_rate
 
-
     def get_currency_rate(self):
         ''' La apasarea butonului de actualizare curs valutat'''
         for invoice in self:
@@ -58,7 +57,7 @@ class account_invoice(models.Model):
             to_currency = invoice.currency_id or self.env.user.company_id.currency_id
             from_currency = invoice.price_currency_id
 
-            
+
             if to_currency and from_currency:
                 invoice.currency_rate = from_currency.with_context(date=date_eval).compute(1, to_currency, round=False)
             else:
@@ -68,7 +67,8 @@ class account_invoice(models.Model):
                 last_rate = invoice.currency_rate or 1.0
             else:
                 last_rate = invoice.last_currency_rate
-            advance_payment_product_id = self.env['ir.config_parameter'].sudo().get_param('sale.default_deposit_product_id',False)
+            advance_payment_product_id = self.env['ir.config_parameter'].sudo(
+            ).get_param('sale.default_deposit_product_id', False)
             for line in invoice.invoice_line_ids:
                 if advance_payment_product_id and line.product_id.id != int(advance_payment_product_id):
                     line.price_unit = line.price_unit * invoice.currency_rate / last_rate

@@ -1,29 +1,21 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
     "name": "Deltatech SMS Sale",
-    'version': '13.0.1.0.0',
+    "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
-
-    'category': 'Hidden',
-    'depends': ['sale', 'sales_team', 'sms'],
-
+    "category": "Hidden",
+    "depends": ["sale", "sales_team", "sms"],
     "license": "LGPL-3",
     "data": [
-        'data/sms_data.xml',
-        'views/res_config_settings_views.xml',
-
-        'security/ir.model.access.csv',
-        'security/sms_security.xml',
+        "data/sms_data.xml",
+        "views/res_config_settings_views.xml",
+        "security/ir.model.access.csv",
+        "security/sms_security.xml",
     ],
-
-    "images": ['static/description/main_screenshot.png'],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
 }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

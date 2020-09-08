@@ -28,10 +28,7 @@ class MrpProduction(models.Model):
                                   inverse='_set_service_amount', store=True)
     acc_move_line_ids = fields.One2many('account.move.line', 'production_id', string='Account move lines')
 
-
-
-
-    @api.depends('move_raw_ids.quantity_done','move_raw_ids.product_qty')
+    @api.depends('move_raw_ids.quantity_done', 'move_raw_ids.product_qty')
     def _compute_service_amount(self):
         for production in self:
             service_amount = 0.0
@@ -48,9 +45,9 @@ class MrpProduction(models.Model):
             if move.product_id.type != 'product':
                 service_product |= move.product_id
                 qty = move.quantity_done or move.product_qty
-        if len(service_product) == 1 and qty:    
+        if len(service_product) == 1 and qty:
             price = service_amount / qty
-            service_product.write({'standard_price':price})
+            service_product.write({'standard_price': price})
 
     @api.multi
     def _calculate_amount(self):
@@ -88,9 +85,9 @@ class MrpProduction(models.Model):
                     time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
 
                     cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
-                    duration_expected = (operation.workcenter_id.time_start +
-                                         operation.workcenter_id.time_stop +
-                                         cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
+                    duration_expected = (operation.workcenter_id.time_start
+                                         + operation.workcenter_id.time_stop
+                                         + cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency)
 
                     amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
 
@@ -106,7 +103,7 @@ class MrpProduction(models.Model):
 
         self._calculate_amount()  # refac calculul
         price_unit = production.calculate_price
-        self.move_finished_ids.write({'price_unit':price_unit})
+        self.move_finished_ids.write({'price_unit': price_unit})
         # functia standard nu permite si de aceea am facut o modificare in deltatech_purchase_price
         self.move_finished_ids.product_price_update_before_done()
 
@@ -191,7 +188,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    #picking.action_assign()
+                    # picking.action_assign()
 
             # nota de predare
             move_list = self.env['stock.move']
@@ -213,7 +210,7 @@ class MrpProduction(models.Model):
                                                                     'location_dest_id': picking_type.default_location_dest_id.id,
                                                                     'origin': production.name})
                     move_list.write({'picking_id': picking.id})
-                    #picking.action_assign()
+                    # picking.action_assign()
         return
 
     @api.multi
@@ -231,7 +228,6 @@ class MrpProduction(models.Model):
         else:
             action = False
         return action
-
 
     def _generate_raw_move(self, bom_line, line_data):
         move = super(MrpProduction, self)._generate_raw_move(bom_line, line_data)
@@ -266,5 +262,3 @@ class MrpProduction(models.Model):
             name,
             values)
         return True
-
-

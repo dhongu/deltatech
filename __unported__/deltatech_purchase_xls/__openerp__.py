@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,22 +19,20 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Purchase XLS",
-    "version" : "1.0",
-    "author" : "Dorin Hongu",
-    "website" : "",
+    "name": "Deltatech Purchase XLS",
+    "version": "1.0",
+    "author": "Dorin Hongu",
+    "website": "",
     "description": """
 
 Functionalitati: 
  - Send Excel file from purchase order
 
     """,
-    "category" : "Generic Modules/Other",
-    "depends" : ['deltatech',"purchase","report_xls"],
- 
-    "data" : [ 'report/purchase_xls.xml'],
+    "category": "Generic Modules/Other",
+    "depends": ['deltatech', "purchase", "report_xls"],
+
+    "data": ['report/purchase_xls.xml'],
     "active": False,
     "installable": True,
 }
-
-

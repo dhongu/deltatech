@@ -22,23 +22,18 @@
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT,DEFAULT_SERVER_TIME_FORMAT
-import time 
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_TIME_FORMAT
+import time
 from datetime import datetime
 
 
 class stock_picking_report(models.Model):
     _inherit = "stock.picking.report"
- 
 
     def _where(self):
-        where_str = super(stock_picking_report, self)._where() + " and  (sp.origin_refund_picking_id is Null and sp.refund_picking_id is Null)"
+        where_str = super(stock_picking_report, self)._where() + \
+            " and  (sp.origin_refund_picking_id is Null and sp.refund_picking_id is Null)"
         return where_str
-            
-        
-        
-
- 
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

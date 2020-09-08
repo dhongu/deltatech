@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,28 +21,27 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Website Hover Effect Ideas",
-    "version" : "1.0",
-    "author" : "Deltatech",
-    "website" : "",
+    "name": "Deltatech Website Hover Effect Ideas",
+    "version": "1.0",
+    "author": "Deltatech",
+    "website": "",
     "description": """
 
 Based on 
 https://github.com/codrops/HoverEffectIdeas
  
     """,
-    
-    "category" : "Website",
-    "depends" : ["website" ],
+
+    "category": "Website",
+    "depends": ["website"],
 
 
-    "data" : ['views/website.xml',
+    "data": ['views/website.xml',
               'views/snippets.xml'
-               ],
+             ],
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

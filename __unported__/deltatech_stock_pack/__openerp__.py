@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,9 +21,9 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Stock Pack",
+    "name": "Deltatech Stock Pack",
     'version': '10.0.1.2.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
     
@@ -35,24 +35,23 @@ Functionalitati:
     
 
     """,
-    
-    "category" : "Generic Modules/Stock",
-    "depends" : [ 'stock', "sale","account"],
+
+    "category": "Generic Modules/Stock",
+    "depends": ['stock', "sale", "account"],
 
 
-    "data" : [ 
-                'wizard/pack_transfer_view.xml',
+    "data": [
+        'wizard/pack_transfer_view.xml',
                # 'wizard/stock_transfer_details_view.xml',
-                  'stock_view.xml', 
-                  'product_view.xml',
-                'views/report_invoice.xml'
-             ],
-    
-    
+        'stock_view.xml',
+        'product_view.xml',
+        'views/report_invoice.xml'
+    ],
+
+
     "active": False,
     "installable": True,
 }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

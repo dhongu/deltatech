@@ -7,8 +7,6 @@ from odoo import models, fields, api
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-
-
     @api.multi
     def _compute_currency_id(self):
         main_company = self.env['res.company']._get_main_company()

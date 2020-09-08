@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Location Value Limit",
+    "name": "Deltatech Location Value Limit",
     'version': '10.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
  
@@ -29,12 +29,10 @@ Functionalitati:
  - Limitare valoare stoc pe locatii
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',"base","stock"],
- 
-    "data" : [ 'views/stock_view.xml'],
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech', "base", "stock"],
+
+    "data": ['views/stock_view.xml'],
     "active": False,
     "installable": True,
 }
-
-

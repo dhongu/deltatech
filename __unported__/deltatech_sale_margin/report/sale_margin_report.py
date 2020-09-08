@@ -203,7 +203,6 @@ class sale_margin_report(models.Model):
         self.env.cr.execute(sql)
     '''
 
-
     def init(self):
 
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -224,7 +223,6 @@ class sale_margin_report(models.Model):
         )""" % (
             self._table, self.env['res.currency']._select_companies_rates(),
             self._select(), self._sub_select(), self._from(), self._where(), self._group_by()))
-
 
     def write(self, vals):
         invoice_line = self.env['account.invoice.line'].browse(self.id)

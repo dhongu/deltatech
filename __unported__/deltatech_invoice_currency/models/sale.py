@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
 
         date_invoice = date_invoice or fields.Date.context_today(self)
         from_currency = self.pricelist_id.currency_id.with_context(date=date_invoice)
-        invoice_vals['currency_rate'] = from_currency.compute(1,  currency_id, round=False)
+        invoice_vals['currency_rate'] = from_currency.compute(1, currency_id, round=False)
         invoice_vals['last_currency_rate'] = invoice_vals['currency_rate']
         invoice_vals['date_invoice'] = date_invoice
         # cu obtin data ultimului aviz ?
@@ -45,11 +45,9 @@ class SaleOrderLine(models.Model):
         to_currency = invoice.journal_id.currency_id or self.env.user.company_id.currency_id
         from_currency = self.order_id.pricelist_id.currency_id
 
-
         date_invoice = invoice.date_invoice or fields.Date.context_today(self)
         for line in invoice_lines:
             price_unit = from_currency.with_context(date=date_invoice).compute(line.price_unit, to_currency)
             line.write({'price_unit': price_unit})
 
         return invoice_lines
-

@@ -35,8 +35,6 @@ class MailMail(models.Model):
         facilities to queue and send new email messages.  """
     _inherit = 'mail.mail'
 
-
-
     @api.multi
     def _send_in_thread(self, auto_commit=False, raise_exception=False):
         with api.Environment.manage():
@@ -57,8 +55,7 @@ class MailMail(models.Model):
 
     @api.multi
     def send(self, auto_commit=False, raise_exception=False):
-        threaded_calculation = threading.Thread(target=self._send_in_thread, args=(auto_commit,raise_exception))
+        threaded_calculation = threading.Thread(target=self._send_in_thread, args=(auto_commit, raise_exception))
         threaded_calculation.start()
 
         return True
-

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com 
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #                    Kyle Waid  <kyle.waid(@)gcotech(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -32,8 +31,8 @@ import odoo.addons.decimal_precision as dp
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
-    
-    physical_transfer = fields.Selection([('none','Not required'),('req','Required'),('done','Done')], string="Status Physical Transfer", default='none')
+    physical_transfer = fields.Selection(
+        [('none', 'Not required'), ('req', 'Required'), ('done', 'Done')], string="Status Physical Transfer", default='none')
 
     """
     @api.model
@@ -73,65 +72,62 @@ class stock_picking(models.Model):
             if picking.location_id.user_id:
                 new_follower_ids += [picking.location_id.user_id.partner_id.id]
                 if picking.location_id.user_id.id != self.env.user.id:
-                    msg = _('Please confirm transfer from %s to %s') % (picking.location_id.name, picking.location_dest_id.name)
+                    msg = _('Please confirm transfer from %s to %s') % (
+                        picking.location_id.name, picking.location_dest_id.name)
             if picking.location_dest_id.user_id:
-                new_follower_ids += [picking.location_dest_id.user_id.partner_id.id]                
+                new_follower_ids += [picking.location_dest_id.user_id.partner_id.id]
             if new_follower_ids:
                 picking.message_subscribe(new_follower_ids)
-            
-            if msg and not self.env.context.get('no_message',False):
-                #picking.message_post(body=msg,type='comment',subtype='mt_comment')
+
+            if msg and not self.env.context.get('no_message', False):
+                # picking.message_post(body=msg,type='comment',subtype='mt_comment')
                 document = picking
-                message = self.env['mail.message'].with_context({'default_starred':True}).create({
+                message = self.env['mail.message'].with_context({'default_starred': True}).create({
                     'model': 'stock.picking',
                     'res_id': document.id,
                     'record_name': document.name_get()[0][1],
-                    'email_from': self.env['mail.message']._get_default_from( ),
-                    'reply_to': self.env['mail.message']._get_default_from( ),
-                    #'subject': _('Invoice %s') % ( document.name_get()[0][1]),
-                    #'body': '%s' % wizard.message,
+                    'email_from': self.env['mail.message']._get_default_from(),
+                    'reply_to': self.env['mail.message']._get_default_from(),
+                    # 'subject': _('Invoice %s') % ( document.name_get()[0][1]),
+                    # 'body': '%s' % wizard.message,
                     'subject': _('Transfer'),
                     'body': msg,
-                     
-                    'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
-                    'partner_ids': [(4, id) for id in new_follower_ids],
-                    #'notified_partner_ids': [(4, id) for id in new_follower_ids]
-                })
-                
-                
-        super(stock_picking, self).action_confirm()
-        
 
+                    'message_id': self.env['mail.message']._get_message_id({'no_auto_thread': True}),
+                    'partner_ids': [(4, id) for id in new_follower_ids],
+                    # 'notified_partner_ids': [(4, id) for id in new_follower_ids]
+                })
+
+        super(stock_picking, self).action_confirm()
 
     @api.multi
     def action_direct_transfer(self):
         for picking in self:
-            picking.with_context({'no_message':True}).action_confirm()
+            picking.with_context({'no_message': True}).action_confirm()
             picking.action_assign()   # verifica disponibilitate
             if not all(move.state == 'assigned' for move in picking.move_lines):
-                raise Warning(_('Not all products are available. ')   )
+                raise Warning(_('Not all products are available. '))
             picking.do_transfer()
 
     @api.multi
     def confirm_physical_transfer(self):
-        msg = _("Physical transfer was made")   
-        self.message_post( body= msg)
-        self.write({'physical_transfer':'done'})
+        msg = _("Physical transfer was made")
+        self.message_post(body=msg)
+        self.write({'physical_transfer': 'done'})
 
     @api.multi
     def todo_physical_transfer(self):
-        msg = _("It is required Physical Transfer")   
-        self.message_post( body= msg)
-        self.write({'physical_transfer':'req'})
-        
-           
+        msg = _("It is required Physical Transfer")
+        self.message_post(body=msg)
+        self.write({'physical_transfer': 'req'})
+
     @api.multi
     def rereserve_pick(self):
         res = super(stock_picking, self).rereserve_pick()
         for picking in self:
             msg = ''
             for move in picking.move_lines:
-                if move.procure_method=='make_to_order' and move.availability >= 0:  #move.state == 'waiting' 
+                if move.procure_method == 'make_to_order' and move.availability >= 0:  # move.state == 'waiting'
                     """
                     if round(move.availability, 2) < round(move.product_qty, 2):
                         move_new_id = self.env['stock.move'].split( move=move, qty=move.availability)  
@@ -139,15 +135,16 @@ class stock_picking(models.Model):
                         move.write({'availability':  0})
                     else:
                     """
-                   
-                    msg = msg + _('Quantity %s of product %s has bring to order.\n') % ( move.product_qty, move.product_id.name)
-                                        
-                    move.write({'procure_method':  'make_to_stock',
-                                'state':'confirmed',
-                                'move_orig_ids':[(6,0,[])]})
-                    #move.do_unreserve()
+
+                    msg = msg + _('Quantity %s of product %s has bring to order.\n') % (move.product_qty,
+                                                                                        move.product_id.name)
+
+                    move.write({'procure_method': 'make_to_stock',
+                                'state': 'confirmed',
+                                'move_orig_ids': [(6, 0, [])]})
+                    # move.do_unreserve()
                     move.action_assign()
-            self.message_post( subject=_("Rereserve stock"), body= msg)                                                
+            self.message_post(subject=_("Rereserve stock"), body=msg)
         return res
 
     """
@@ -157,16 +154,14 @@ class stock_picking(models.Model):
         self.message_post( body= msg)
         super(stock_picking,self).rereserve_pick()
     """
-    
-    
+
     @api.cr_uid_ids_context
     def do_enter_receipt_details(self, cr, uid, picking, context=None):
-        return self.do_enter_transfer_details(cr,uid,picking, context )
-        
+        return self.do_enter_transfer_details(cr, uid, picking, context)
+
     @api.cr_uid_ids_context
     def do_enter_delivery_details(self, cr, uid, picking, context=None):
-        return self.do_enter_transfer_details(cr,uid,picking, context )
-
+        return self.do_enter_transfer_details(cr, uid, picking, context)
 
     @api.multi
     def do_print_picking(self):
@@ -179,10 +174,7 @@ class stock_picking(models.Model):
             - Intrare marfa in stoc ???
 
         '''
-        return super(stock_picking,self).do_print_picking()
-
-
-
+        return super(stock_picking, self).do_print_picking()
 
     def view_current_stock(self, cr, uid, ids, context=None):
         '''
@@ -197,28 +189,28 @@ class stock_picking(models.Model):
         product_ids = []
         for picking in self.browse(cr, uid, ids, context=context):
             product_ids += [move.product_id.id for move in picking.move_lines]
-        
-        action['context'] = {'search_default_internal_loc': 1, 
-                        #     'search_default_product_id': product_ids and product_ids[0] or Falses, 
-                             'search_default_locationgroup':1}
-        
+
+        action['context'] = {'search_default_internal_loc': 1,
+                             #     'search_default_product_id': product_ids and product_ids[0] or Falses,
+                             'search_default_locationgroup': 1}
+
         action['domain'] = "[('product_id','in',[" + ','.join(map(str, product_ids)) + "])]"
 
-        return action  
+        return action
 
 
 class stock_move(models.Model):
     _inherit = 'stock.move'
-    
+
     @api.model
     def default_get(self, fields):
-        defaults = super(stock_move, self).default_get(fields)  
+        defaults = super(stock_move, self).default_get(fields)
         picking_type_id = self.env.context.get('default_picking_type_id', False)
         if picking_type_id:
             central_location = self.env.ref('stock.stock_location_stock')
-            my_location = self.env['stock.location'].search([('usage','=','internal'),
-                                                             ('user_id','=',self.env.user.id),
-                                                             ('id','!=',central_location.id)],
+            my_location = self.env['stock.location'].search([('usage', '=', 'internal'),
+                                                             ('user_id', '=', self.env.user.id),
+                                                             ('id', '!=', central_location.id)],
                                                             limit=1)
             my_location = my_location and my_location[0] or False
 
@@ -226,34 +218,31 @@ class stock_move(models.Model):
                 picking_type_internal = self.env.ref('stock.picking_type_internal')
                 picking_type_consume = self.env.ref('stock.picking_type_consume')
                 picking_type_outgoing_not2binvoiced = self.env.ref('stock.picking_type_outgoing_not2binvoiced')
-                
-                
+
                 if picking_type_internal and picking_type_id == picking_type_internal.id:
                     defaults['location_dest_id'] = my_location.id
-                    
-                if picking_type_consume and picking_type_id == picking_type_consume.id:
-                    defaults['location_id'] = my_location.id       
-    
-                if picking_type_outgoing_not2binvoiced and picking_type_id == picking_type_outgoing_not2binvoiced.id:
-                    defaults['location_id'] = my_location.id       
 
-                     
-        return defaults   
-    
+                if picking_type_consume and picking_type_id == picking_type_consume.id:
+                    defaults['location_id'] = my_location.id
+
+                if picking_type_outgoing_not2binvoiced and picking_type_id == picking_type_outgoing_not2binvoiced.id:
+                    defaults['location_id'] = my_location.id
+
+        return defaults
+
     @api.multi
     def do_make_to_stock(self):
         for move in self:
             if move.product_qty > 0 and move.procure_method == 'make_to_order' and round(move.availability, 2) >= round(move.product_qty, 2):
-                procurement = self.env['procurement.order'].search([('move_dest_id','=',move.id)])
+                procurement = self.env['procurement.order'].search([('move_dest_id', '=', move.id)])
                 if procurement:
-                    procurement.cancel() 
+                    procurement.cancel()
                 move.procure_method = 'make_to_stock'
 
     @api.multi
     def action_assign(self):
         #self.do_make_to_stock(cr, uid, ids, context)
         return super(stock_move, self).action_assign()
-
 
     @api.multi
     def action_confirm(self):
@@ -263,25 +252,25 @@ class stock_move(models.Model):
         #self.do_make_to_stock(cr, uid, ids, context)
         return super(stock_move, self).action_confirm()
 
-    
     def _prepare_procurement_from_move(self, cr, uid, move, context=None):
         move_obj = self.pool.get('stock.move')
+
         def get_parent_move(move_id):
             move = move_obj.browse(cr, uid, move_id)
             if move.move_dest_id:
                 return get_parent_move(move.move_dest_id.id)
             return move_id
-        
-        res = super(stock_move,self)._prepare_procurement_from_move(cr, uid, move, context)
+
+        res = super(stock_move, self)._prepare_procurement_from_move(cr, uid, move, context)
         parent_move_line = get_parent_move(move.id)
         if parent_move_line:
             move = move_obj.browse(cr, uid, parent_move_line)
             partner_name = move.sale_line_id and move.sale_line_id.order_id.partner_id.name or False
             name = move.sale_line_id and move.sale_line_id.order_id.name or False
             if partner_name:
-                res['origin'] = name + ':' +partner_name
+                res['origin'] = name + ':' + partner_name
         return res
-    
+
     """
     def _create_procurement(self, cr, uid, move, context=None):
         procurement_id = super(stock_move,self)._create_procurement(cr, uid, move, context)
@@ -292,7 +281,6 @@ class stock_move(models.Model):
        
         return procurement_id
     """
-
 
 
 """

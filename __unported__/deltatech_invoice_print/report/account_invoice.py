@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
-
 import time
 from odoo import api, models
 from odoo.tools import formatLang
-
 
 
 class ReportInvoicePrint(models.AbstractModel):
@@ -27,10 +25,8 @@ class ReportInvoicePrint(models.AbstractModel):
         }
         return report_obj.render(self._template, docargs)
 
-
     def formatLang(self, value, *args):
         return formatLang(self.env, value, *args)
-
 
     def _with_discount(self, invoice):
         res = False
@@ -38,7 +34,6 @@ class ReportInvoicePrint(models.AbstractModel):
             if line.discount != 0.0:
                 res = True
         return res
-
 
 
 class ReportInvoicePrint1(models.AbstractModel):
@@ -51,5 +46,3 @@ class ReportInvoicePrint2(models.AbstractModel):
     _name = 'report.deltatech_invoice_print.report_invoice_2'
     _inherit = 'report.deltatech_invoice_print.report_invoice'
     _template = 'deltatech_invoice_print.report_invoice_2'
-
-

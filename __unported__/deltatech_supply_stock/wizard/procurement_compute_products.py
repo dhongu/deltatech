@@ -118,10 +118,9 @@ class ProcurementComputeProducts(models.TransientModel):
                     if line.product_id.id in qty:
                         qty[line.product_id.id] -= line.product_qty
 
-
         for product in products:
             product = product.with_context({'location': location.ids})
-            if product.id in  qty_reserved:
+            if product.id in qty_reserved:
                 qty_available = qty_reserved[product.id]
             else:
                 qty_available = product.qty_available
@@ -129,8 +128,8 @@ class ProcurementComputeProducts(models.TransientModel):
             virtual_available = qty_available + product.incoming_qty
             qty[product.id] -= virtual_available
 
-            #if virtual_available < 0.0:
-            #todo: se verificat daca cantitatea care este dispobibila (sau in comanda de achiztie) este pentru aceasta comanda
+            # if virtual_available < 0.0:
+            # todo: se verificat daca cantitatea care este dispobibila (sau in comanda de achiztie) este pentru aceasta comanda
             # if 'group_id' in defaults:
             #     qty[product.id] = min([-1 * product.virtual_available, qty[product.id]])
             # else:
@@ -209,7 +208,7 @@ class ProcurementComputeProducts(models.TransientModel):
 
                 if rule.action == 'buy':
                     if rule.group_propagation_option != 'propagate':
-                        rule.write({'group_propagation_option':'propagate'})
+                        rule.write({'group_propagation_option': 'propagate'})
                     if not self.make_purch:
                         continue
                 elif rule.action == 'manufacture':
@@ -228,7 +227,6 @@ class ProcurementComputeProducts(models.TransientModel):
                 #     msg = ('Necesar %s + scrap %s = %s.') % (item.qty, item.qty * item.product_id.scrap, qty)
                 # else:
                 #     msg = ('Necesar %s ') % (qty)
-
 
                 orderpoint = item.orderpoint_id
 

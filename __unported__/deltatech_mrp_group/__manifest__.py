@@ -11,12 +11,12 @@
 
 
     "category": "Manufacturing",
-    "depends": ["mrp","sale_stock","purchase",'sale_management'],
+    "depends": ["mrp", "sale_stock", "purchase", 'sale_management'],
     "license": "LGPL-3",
     "data": [
         "views/mrp_production_view.xml",
         "views/sale_view.xml",
-       # "views/procurement_views.xml",
+        # "views/procurement_views.xml",
         "wizard/mrp_order_group_view.xml",
         "wizard/sale_order_group_view.xml",
         "wizard/mrp_workorder_group_view.xml",

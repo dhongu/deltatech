@@ -23,4 +23,3 @@ Obsolete, use deltatech_mrp_record
     "active": False,
     "installable": True,
 }
-

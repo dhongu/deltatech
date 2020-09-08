@@ -122,18 +122,18 @@ class URI(object):
 # what follows are the guts of extracting the Items from a DOM
 
 property_values = {
-    'meta':     'content',
-    'audio':    'src',
-    'embed':    'src',
-    'iframe':   'src',
-    'img':      'src',
-    'source':   'src',
-    'video':    'src',
-    'a':        'href',
-    'area':     'href',
-    'link':     'href',
-    'object':   'data',
-    'time':     'datetime',
+    'meta': 'content',
+    'audio': 'src',
+    'embed': 'src',
+    'iframe': 'src',
+    'img': 'src',
+    'source': 'src',
+    'video': 'src',
+    'a': 'href',
+    'area': 'href',
+    'link': 'href',
+    'object': 'data',
+    'time': 'datetime',
 }
 
 
@@ -259,15 +259,13 @@ Mesaj: <span itemprop="message">[mesaj]</span><br />
     
     """
 
+    from lxml import html
 
-    from lxml import html    
-     
     htm = html.fromstring(test)
-    
-    addressLocality = htm.xpath("//*[@itemprop='addressLocality']")
-    if  addressLocality:
-        print addressLocality[0].text
 
+    addressLocality = htm.xpath("//*[@itemprop='addressLocality']")
+    if addressLocality:
+        print addressLocality[0].text
 
     if len(sys.argv) < 2:
         print("Usage: %s URL [...]" % sys.argv[0])

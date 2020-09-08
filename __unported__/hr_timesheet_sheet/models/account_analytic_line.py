@@ -9,7 +9,7 @@ class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
     sheet_id_computed = fields.Many2one('hr_timesheet_sheet.sheet', string='Sheet', compute='_compute_sheet', index=True, ondelete='cascade',
-        search='_search_sheet')
+                                        search='_search_sheet')
     sheet_id = fields.Many2one('hr_timesheet_sheet.sheet', compute='_compute_sheet', string='Sheet', store=True)
 
     @api.depends('date', 'user_id', 'project_id', 'sheet_id_computed.date_to', 'sheet_id_computed.date_from', 'sheet_id_computed.employee_id')
@@ -44,11 +44,9 @@ class AccountAnalyticLine(models.Model):
             ids.extend([row[0] for row in self._cr.fetchall()])
         return [('id', 'in', ids)]
 
-
     def write(self, values):
         self._check_state()
         return super(AccountAnalyticLine, self).write(values)
-
 
     def unlink(self):
         self._check_state()

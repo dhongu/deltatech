@@ -3,7 +3,7 @@
 {
     "name": "Stock Picking Wave Extension",
     'version': '10.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
     
@@ -15,7 +15,7 @@ Functionalitati:
     """,
 
     "category": "Generic Modules/Stock",
-    "depends": ['stock_picking_wave','delivery','stock'],
+    "depends": ['stock_picking_wave', 'delivery', 'stock'],
 
     "data": [
         'views/stock_picking_wave_view.xml'

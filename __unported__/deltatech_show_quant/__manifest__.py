@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,9 +19,9 @@
 #
 ##############################################################################
 {
-    "name" : "Deltatech Show Quant",
+    "name": "Deltatech Show Quant",
     'version': '10.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
  
@@ -30,17 +30,15 @@ Features:
  - Afisare stoc direct din comanda de aprovizionare
 
     """,
-    "category" : "Generic Modules/Stock",
-    "depends" : ['deltatech',
-                 "sale",'purchase'
-                  ],
- 
-    "data" : [
+    "category": "Generic Modules/Stock",
+    "depends": ['deltatech',
+                "sale", 'purchase'
+                ],
+
+    "data": [
         'views/sale_view.xml',
         'views/purchase_view.xml'
     ],
     "active": False,
     "installable": True,
 }
-
-

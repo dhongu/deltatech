@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,7 +20,6 @@
 ##############################################################################
 
 
-
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo import models, fields, api, _
 from odoo.tools.translate import _
@@ -29,16 +28,15 @@ import odoo.addons.decimal_precision as dp
 
 
 class sale_order(models.Model):
-    _inherit = 'sale.order' 
+    _inherit = 'sale.order'
 
     @api.multi
     def action_button_confirm(self):
-        group_ext_id = 'deltatech_rec_access.group_sale_order_no_confirm' 
-        res =  self.env['res.users'].has_group(group_ext_id)
+        group_ext_id = 'deltatech_rec_access.group_sale_order_no_confirm'
+        res = self.env['res.users'].has_group(group_ext_id)
         if res:
             raise Warning(_('You can not have authorization to confirm sale order.'))
-        return super(sale_order,self).action_button_confirm()
- 
-    
-        
+        return super(sale_order, self).action_button_confirm()
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

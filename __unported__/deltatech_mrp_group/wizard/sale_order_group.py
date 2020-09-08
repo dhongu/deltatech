@@ -15,8 +15,6 @@ class SaleOrderGroup(models.TransientModel):
     sale_order_ids = fields.Many2many('sale.order', string='Production Order')
     date_planned = fields.Datetime(related="group_id.date_planned")
 
-
-
     @api.model
     def default_get(self, fields_list):
         defaults = super(SaleOrderGroup, self).default_get(fields_list)
@@ -34,8 +32,6 @@ class SaleOrderGroup(models.TransientModel):
 
         defaults['sale_order_ids'] = [(6, 0, [rec.id for rec in res])]
         return defaults
-
-
 
     @api.multi
     def do_group(self):

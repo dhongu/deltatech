@@ -26,7 +26,7 @@ ecr_commands = {
         'discount': '7;{type};1;1;0;{value};1\r\n',
         'amount': lambda value: value * 100,
         'qty': lambda value: value * 100000,
-        'stl':''
+        'stl': ''
     },
 
     'datecs': {
@@ -38,7 +38,7 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
-        'stl':''
+        'stl': ''
     },
 
     'datecs18': {
@@ -50,7 +50,7 @@ ecr_commands = {
         'discount': 'C,1,______,_,__;{type};{value};;;;\r\n',
         'amount': lambda value: round(value, 2),
         'qty': lambda value: round(value, 3),
-        'stl':'L,1,______,_,__;\r\n'
+        'stl': 'L,1,______,_,__;\r\n'
     },
 }
 
@@ -93,7 +93,7 @@ class account_invoice_export_bf(models.TransientModel):
             buf.write(ecr_comm['print'].format(text=_('Ref:' + invoice_id.number)))
             # initial values for negative total test
             negative_price = 0.0
-            total_price = 0.0;
+            total_price = 0.0
             for line in invoice_id.invoice_line_ids:
 
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
@@ -129,8 +129,8 @@ class account_invoice_export_bf(models.TransientModel):
                         'tax': '1',  # todo de terminat codul de taxa
                         'uom': ''
                     }
-                    if (len(prod_name_array)) > 1: # printing the first lines
-                        for extra_lines in prod_name_array[0:len(prod_name_array)-1]:
+                    if (len(prod_name_array)) > 1:  # printing the first lines
+                        for extra_lines in prod_name_array[0:len(prod_name_array) - 1]:
                             buf.write(ecr_comm['print'].format(text=extra_lines))
                     buf.write(ecr_comm['sale'].format(**data))
                     # buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
@@ -140,18 +140,18 @@ class account_invoice_export_bf(models.TransientModel):
 
                     total_price += price * line.quantity
 
-            # if total value is negaive        
+            # if total value is negaive
             if total_price + negative_price < 0:
                 raise Warning(_('Nu se poate emite bon cu valoare negativa!!!'))
 
-            # if discount exists, print it   
+            # if discount exists, print it
             if negative_price < 0:
                 negative_price = -negative_price
                 #negative_price = negative_price * 100
-                negative_price_string =  str(ecr_comm['amount'](negative_price))
+                negative_price_string = str(ecr_comm['amount'](negative_price))
                 # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
                 buf.write(ecr_comm['stl'])
-                buf.write(ecr_comm['discount'].format(type='3', value=negative_price_string)) #discount valoric
+                buf.write(ecr_comm['discount'].format(type='3', value=negative_price_string))  # discount valoric
 
             for payment in invoice_id.payment_ids:
                 # if payment.payment_method_code == 'manual':
@@ -179,21 +179,18 @@ class account_invoice_export_bf(models.TransientModel):
 
             defaults['text_data'] = buf.getvalue()
             #out = base64.encodestring(buf.getvalue())
-            out =  buf.getvalue()
+            out = buf.getvalue()
             out = base64.b64encode(out.encode())
 
         filename = 'ONLINE_' + invoice_id.number
         filename = "".join(i for i in filename if i not in "\/:*?<>|")
 
-
-        extension =  self.env['ir.config_parameter'].sudo().get_param('account_invoice.ecr_extension', 'inp')
+        extension = self.env['ir.config_parameter'].sudo().get_param('account_invoice.ecr_extension', 'inp')
 
         defaults['name'] = "%s.%s" % (filename, extension)
         defaults['data_file'] = out
 
         return defaults
-
-
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,40 +20,37 @@
 #
 ##############################################################################
 
- 
+
 from odoo import models, fields, api, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
 
 
-
 class account_invoice(models.Model):
     _inherit = "account.invoice"
- 
-    
+
     payment_acquirer_id = fields.Many2one('payment.acquirer', string='Payment Acquirer', on_delete='set null',
-                                           copy=False, readonly=True, states={'draft': [('readonly', False)]})
- 
+                                          copy=False, readonly=True, states={'draft': [('readonly', False)]})
+
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
-        move_lines =  super(account_invoice,self).finalize_invoice_move_lines(move_lines)
-        # sper ca e doar o factura 
+        move_lines = super(account_invoice, self).finalize_invoice_move_lines(move_lines)
+        # sper ca e doar o factura
         if self.type in ('out_invoice'):
             if self.payment_acquirer_id and self.payment_acquirer_id.account_debit:
                 for move in move_lines:
                     if move[2]['debit'] <> 0.0:
                         new_move = dict(move[2])
-                        new_move['credit']=new_move['debit']
+                        new_move['credit'] = new_move['debit']
                         new_move['debit'] = 0.0
-                        move_lines += [(0,0,new_move)]
-                        
+                        move_lines += [(0, 0, new_move)]
+
                         new_move = dict(move[2])
                         new_move['partner_id'] = self.payment_acquirer_id.partner_id.id
-                        new_move['account_id'] = self.payment_acquirer_id.account_debit.id                        
-                        move_lines += [(0,0,new_move)]                       
+                        new_move['account_id'] = self.payment_acquirer_id.account_debit.id
+                        move_lines += [(0, 0, new_move)]
                         break
         return move_lines
-        
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

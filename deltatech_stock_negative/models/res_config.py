@@ -1,26 +1,27 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, RedirectWarning
+from odoo import fields, models
 
 
-class res_company(models.Model):
-    _inherit = 'res.company'
+class ResCompany(models.Model):
+    _inherit = "res.company"
 
-    no_negative_stock = fields.Boolean(string='No negative stock', default=True,
-                                       help='Allows you to prohibit negative stock quantities.')
+    no_negative_stock = fields.Boolean(
+        string="No negative stock", default=True, help="Allows you to prohibit negative stock quantities."
+    )
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
-    no_negative_stock = fields.Boolean(related='company_id.no_negative_stock',
-                                       string='No negative stock', readonly=False,
-                                       help='Allows you to prohibit negative stock quantities.')
-
+    no_negative_stock = fields.Boolean(
+        related="company_id.no_negative_stock",
+        string="No negative stock",
+        readonly=False,
+        help="Allows you to prohibit negative stock quantities.",
+    )
 
     #
     # @api.model

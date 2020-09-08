@@ -31,7 +31,7 @@ class CreateUser(models.TransientModel):
                 vals = {
                     'partner_id': da.partner_id.id,
                     'login': da.login,
-                    #'groups_id': da.groups_ids
+                    # 'groups_id': da.groups_ids
                 }
                 self.env['res.users'].create(vals)
 

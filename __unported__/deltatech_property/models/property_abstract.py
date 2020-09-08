@@ -13,10 +13,8 @@ class PropertyProperty(models.AbstractModel):
     _description = "Property"
     _inherit = 'mail.thread'
 
-
     def _default_company(self):
         return self.env['res.company']._company_default_get(self._name)
-
 
     name = fields.Char(string="Name")
 
@@ -29,19 +27,17 @@ class PropertyProperty(models.AbstractModel):
     company_id = fields.Many2one('res.company', 'Company', index=True, default=_default_company)
     active = fields.Boolean(default=True)
 
-    owner_id = fields.Many2one('res.partner', string="Owner" )
+    owner_id = fields.Many2one('res.partner', string="Owner")
     region_id = fields.Many2one('property.region', string="Region")
     asset_number = fields.Char(string="Asset Number", index=True)
 
-    type_prop = fields.Selection([('patrimony','Patrimony'),('rent','Rent'),
-                                  ('loan','Loan'),('concession','Concession')], string="Property Type")
-
+    type_prop = fields.Selection([('patrimony', 'Patrimony'), ('rent', 'Rent'),
+                                  ('loan', 'Loan'), ('concession', 'Concession')], string="Property Type")
 
     class_number = fields.Char(string="Class")
     class_code = fields.Char(string="Classification code")
-    cost_center_id = fields.Many2one('property.cost.center',string='Cost Center')
+    cost_center_id = fields.Many2one('property.cost.center', string='Cost Center')
     order_number = fields.Char(string='Order Number')
-
 
     acquisition_mode_id = fields.Many2one('property.acquisition', string="Acquisition Mode")
     date_acquisition = fields.Date(string="Acquisition Date")
@@ -52,7 +48,6 @@ class PropertyProperty(models.AbstractModel):
     note = fields.Text()
 
     doc_count = fields.Integer(string="Number of documents", compute='_get_attached_docs')
-
 
     @api.multi
     def _get_attached_docs(self):
@@ -74,9 +69,6 @@ class PropertyProperty(models.AbstractModel):
             'limit': 80,
             'context': "{'default_res_model': '%s','default_res_id': %d}" % (self._name, self.id)
         }
-
-
-
 
     @api.model
     def default_get(self, fields):

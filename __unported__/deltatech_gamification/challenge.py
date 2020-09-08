@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,23 +19,21 @@
 #
 ##############################################################################
 
- 
 
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 from odoo.exceptions import except_orm, Warning, RedirectWarning
- 
 
- 
+
 class gamification_challenge_line(models.Model):
-    _inherit =  'gamification.challenge.line' 
+    _inherit = 'gamification.challenge.line'
 
     @api.multi
-    def write(self,  vals ):
-        write_res = super(gamification_challenge_line, self).write(  vals )
+    def write(self, vals):
+        write_res = super(gamification_challenge_line, self).write(vals)
         if 'target_goal' in vals:
-            goals =  self.env['gamification.goal'].search([('line_id','in', self.ids)])
-            goals.write({'target_goal':vals['target_goal']})
+            goals = self.env['gamification.goal'].search([('line_id', 'in', self.ids)])
+            goals.write({'target_goal': vals['target_goal']})
         return write_res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

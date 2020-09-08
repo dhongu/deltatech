@@ -6,10 +6,10 @@ from odoo import api, fields, models, tools, registry
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
 import threading
 
+
 class MrpMarkDone(models.TransientModel):
     _name = 'mrp.mark.done'
     _description = 'MRP Mark Done'
-
 
     @api.multi
     def do_mark_done(self):
@@ -30,4 +30,3 @@ class MrpMarkDone(models.TransientModel):
                     production.button_mark_done()
             new_cr.commit()
             new_cr.close()
-
