@@ -10,7 +10,12 @@
     "category": "Accounting",
     "depends": ["account"],
     "license": "LGPL-3",
-    "data": ["views/account_payment_view.xml", "views/account_view.xml", "views/account_journal_dashboard_view.xml"],
+    "data": [
+        "views/account_payment_view.xml",
+        "views/account_view.xml",
+        "views/account_journal_dashboard_view.xml",
+        "wizard/merge_statement_view.xml",
+    ],
     "images": ["images/main_screenshot.png"],
     "post_init_hook": "_set_auto_auto_statement",
 }
