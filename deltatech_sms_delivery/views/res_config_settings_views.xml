@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.delivery.stock</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='stock']//div[@id='delivery']" position="before">
+                <div class="col-12 col-lg-6 o_setting_box" id="delivery_preparation_sms">
+                    <div class="o_setting_left_pane">
+                        <field name="delivery_sms_preparation" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for='delivery_sms_preparation' string="SMS delivery preparation" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">
+                            Send a manual SMS Text Message when the Delivery is in preparation
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt16" attrs="{'invisible': [('delivery_sms_preparation', '=', False)]}">
+                                <label
+                                    for="delivery_sms_preparation_template_id"
+                                    string="SMS Template"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field
+                                    name="delivery_sms_preparation_template_id"
+                                    class="oe_inline"
+                                    attrs="{'required': [('delivery_sms_preparation', '=', True)]}"
+                                    context="{'default_model': 'stock.picking'}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box" id="delivery_ready_sms">
+                    <div class="o_setting_left_pane">
+                        <field name="delivery_sms_ready" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for='delivery_sms_ready' string="SMS Delivery ready" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">
+                            Send a manual SMS Text Message when the Delivery in ready to pickup.
+                        </div>
+                        <div class="content-group">
+                            <div class="row mt16" attrs="{'invisible': [('delivery_sms_ready', '=', False)]}">
+                                <label
+                                    for="delivery_sms_ready_template_id"
+                                    string="SMS Template"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field
+                                    name="delivery_sms_ready_template_id"
+                                    class="oe_inline"
+                                    attrs="{'required': [('delivery_sms_ready', '=', True)]}"
+                                    context="{'default_model': 'stock.picking'}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
