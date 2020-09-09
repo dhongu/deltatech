@@ -4,7 +4,7 @@
 
 {
     "name": "Watermark",
-    "version": "13.0.2.0.0",
+    "version": "14.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
