@@ -4,16 +4,12 @@
 
 {
     "name": "Payment to Statement",
-    'version': '12.0.1.0.0',
+    "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "And payment to statement",
-
     "category": "Accounting",
-    "depends": [
-        "account",
-        "payment"
-    ],
+    "depends": ["account", "payment"],
     "license": "LGPL-3",
     "data": [
         "views/account_payment_view.xml",
@@ -21,8 +17,6 @@
         "views/account_journal_dashboard_view.xml",
         "wizard/merge_statement_view.xml",
     ],
-
-    "images": ['static/description/main_screenshot.png'],
-
-    'post_init_hook': '_set_auto_auto_statement',
+    "images": ["static/description/main_screenshot.png"],
+    "post_init_hook": "_set_auto_auto_statement",
 }

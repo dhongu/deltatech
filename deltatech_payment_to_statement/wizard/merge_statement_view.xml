@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <record id="merge_statement_wizard_form" model="ir.ui.view">
         <field name='name'>merge.statement.wizard.form</field>
         <field name='model'>merge.statement.wizard</field>
@@ -8,11 +9,11 @@
                 <sheet>
                     <field name="state" invisible="1" />
                     <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
-                            Select the list of fields used to search for
-                            duplicated records. If you select several fields,
-                            Odoo will propose you to merge only those having
-                            all these fields in common. (not one of the fields).
-                        </p>
+                        Select the list of fields used to search for
+                        duplicated records. If you select several fields,
+                        Odoo will propose you to merge only those having
+                        all these fields in common. (not one of the fields).
+                    </p>
                     <group
                         attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}"
                     >
@@ -34,11 +35,11 @@
                     />
                     <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
                         <p class="oe_grey">
-                                Selected statements will be merged together.
-                                All documents linked to one of these statements
-                                will be redirected to the destination statement.
-                                You can remove statements from this list to avoid merging them.
-                            </p>
+                            Selected statements will be merged together.
+                            All documents linked to one of these statements
+                            will be redirected to the destination statement.
+                            You can remove statements from this list to avoid merging them.
+                        </p>
                         <group col="2">
                             <field
                                 name="dst_object_id"
@@ -63,15 +64,7 @@
                         type='object'
                         attrs="{'invisible': [('state', '!=', 'selection')]}"
                     />
-                    <!--                        <button name='action_start_manual_process'-->
-                    <!--                            string='Merge with Manual Check'-->
-                    <!--                            type='object'  class='oe_highlight'-->
-                    <!--                            attrs="{'invisible': [('state', '!=', 'option')]}" />-->
-                    <!--                        <button name='action_start_automatic_process'-->
-                    <!--                            string='Merge Automatically'-->
-                    <!--                            type='object' class='oe_highlight'-->
-                    <!--                            confirm="Are you sure to execute the automatic merge of your statements ?"-->
-                    <!--                            attrs="{'invisible': [('state', '!=', 'option')]}" />-->
+
                     <button
                         special="cancel"
                         string="Cancel"
@@ -90,11 +83,13 @@
             </form>
         </field>
     </record>
+
+
     <act_window
         id="action_statement_merge"
         res_model="merge.statement.wizard"
-        binding_model="account.bank.statement"
-        binding_views="list"
+        src_model="account.bank.statement"
+        key2="client_action_multi"
         target="new"
         view_mode="form"
         name="Merge"
