@@ -15,8 +15,8 @@ addons:
 
 branches:
   only:
-  - "13.0"
-  - "14.0"
+    - "13.0"
+    - "14.0"
 
 stages:
   - linting
