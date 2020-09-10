@@ -1,6 +1,3 @@
-
-
-
 Deltatech
 ==========
 
@@ -21,8 +18,9 @@ Deltatech
     :alt: codecov
 
 
-
 |badge1| |badge2| |badge3| |badge4|
+
+
 deltatech
 ---------
 
