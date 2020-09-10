@@ -13,6 +13,11 @@ addons:
     packages:
       - expect-dev # provides unbuffer utility
 
+branches:
+  only:
+  - "13.0"
+  - "14.0"
+
 stages:
   - linting
   - test
