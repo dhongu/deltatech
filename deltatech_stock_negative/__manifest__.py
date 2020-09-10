@@ -3,7 +3,7 @@
 
 {
     "name": "No Negative Stock",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
