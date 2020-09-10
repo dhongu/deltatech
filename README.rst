@@ -3,10 +3,26 @@
 
 Deltatech
 ==========
-.. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
-   :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
-   :alt: License: LGPL-3
 
+.. |badge1| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
+    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
+    :alt: License: LGPL-3
+
+.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+    :target: https://github.com/dhongu/deltatech
+    :alt: dhongu/deltatech
+
+.. |badge3| image:: https://travis-ci.org/dhongu/deltatech.svg?branch=14.0
+    :target: https://travis-ci.org/dhongu/deltatech
+    :alt: build
+
+.. |badge4| image:: https://codecov.io/gh/dhongu/deltatech/branch/14.0/graph/badge.svg
+    :target: https://codecov.io/gh/dhongu/deltatech
+    :alt: codecov
+
+
+
+|badge1| |badge2| |badge3| |badge4|
 deltatech
 ---------
 
