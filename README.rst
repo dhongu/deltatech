@@ -12,13 +12,17 @@ Deltatech
     :target: https://github.com/dhongu/deltatech
     :alt: dhongu/deltatech
 
-
 .. |badge3| image:: https://travis-ci.org/dhongu/deltatech.svg?branch=13.0
     :target: https://travis-ci.org/dhongu/deltatech
     :alt: build
 
+.. |badge4| image:: https://codecov.io/gh/dhongu/deltatech/branch/13.0/graph/badge.svg
+    :target: https://codecov.io/gh/dhongu/deltatech
+    :alt: codecov
 
-|badge1| |badge2|  |badge3|
+
+
+|badge1| |badge2| |badge3| |badge4|
 
 
 deltatech
