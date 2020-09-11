@@ -19,8 +19,4 @@
 ##############################################################################
 
 
-from . import account_invoice_export_bf
-from . import sale_make_invoice_advance
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import account_invoice_export_bf, sale_make_invoice_advance

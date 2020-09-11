@@ -25,7 +25,7 @@ import odoo.addons.decimal_precision as dp
 from odoo.api import Environment
 
 
-class stock_history(models.Model):
+class StockHistory(models.Model):
     _inherit = "stock.history"
 
     @api.one
@@ -44,7 +44,7 @@ class stock_history(models.Model):
     
      
     def read_group(self, cr, uid, domain, fields, groupby, offset=0, limit=None, context=None, orderby=False, lazy=True):
-        res = super(stock_history, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
+        res = super(StockHistory, self).read_group(cr, uid, domain, fields, groupby, offset=offset, limit=limit, context=context, orderby=orderby, lazy=lazy)
 
         if 'parallel_inventory_value' in fields and 'inventory_value' in fields:
             context['date'] = context.get('history_date')

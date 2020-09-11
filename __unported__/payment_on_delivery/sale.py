@@ -26,7 +26,7 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
 
 
-class sale_order(models.Model):
+class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     # cmpurile sunt in modulul website_sale
@@ -41,7 +41,7 @@ class sale_order(models.Model):
             context = {}
         if order.payment_acquirer_id: 
             context['default_payment_acquirer_id'] = order.payment_acquirer_id.id
-        res = super(sale_order,self)._prepare_invoice(cr, uid, order, lines, context)
+        res = super(SaleOrder,self)._prepare_invoice(cr, uid, order, lines, context)
         
         return res
 

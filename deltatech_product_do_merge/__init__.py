@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ©  2013 Vauxoo (info@vauxoo.com)
 #              Sabrina Romero (sabrina@vauxoo.com)

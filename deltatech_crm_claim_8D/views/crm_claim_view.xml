@@ -1,151 +1,131 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <odoo>
-	<data>
-
-
-		<record id="crm_case_claims_tree_view" model="ir.ui.view">
-			<field name="name">CRM - Claims Tree</field>
-			<field name="model">crm.claim</field>
-			<field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_tree_view" />
-			<field name="arch" type="xml">
-				<xpath expr="//field[@name='date_action_next']" position="replace">
-					<field name="date_action_next_comp" />
-
-				</xpath>
-				<xpath expr="//field[@name='action_next']" position="replace">
-
-					<field name="action_next_comp" />
-					<field name="costs_total" sum="Total costs" />
-				</xpath>
-			</field>
-		</record>
-
-
-		<record model="ir.ui.view" id="crm_case_claims_form_view">
-			<field name="name">CRM - Claims Form</field>
-			<field name="model">crm.claim</field>
-			<field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_form_view" />
-			<field name="arch" type="xml">
-				<xpath expr="//group[@name='name_date']" position="after">
-						<field name="user_ids" widget="many2many_tags" />
-					<group colspan="4" col="6">
-						<field name="product_id" />
-						<field name="quantity" />
-						<field name="quantity_claimed" />
-						<field name="value" />
-					</group>
-					<group colspan="4" col="6">
-						<field name="costs_management" />
-						<field name="costs_selection" />
-						<field name="costs_logistic" />
-						<field name="costs_other" />
-						<field name="costs_total" />
-					</group>
-					</xpath>
-
-
-
-
-
-				<xpath expr="//field[@name='date_deadline']" position="after">
-					<field name="loc_detected" />
-				</xpath>
-
-				<xpath expr="//page[@id='follow_up']" position="replace">
-
-					<page string="Follow Up">
-						<group colspan="2" col="2">
-							<separator colspan="2" string="Containment actions" />
-							<field name="action_containment_ids" nolabel="1" context="{'default_type':'containment'}">
-								<tree editable="bottom">
-									<field name="name" />
-									<field name="user_id" />
-									<field name="date_deadline" />
-									<field name="state" />
-									<field name="type" invisible="1" />
-								</tree>
-							</field>
-						</group>
-						<group>
-							<field name="similar_affected"/>
-						</group>
-						<group colspan="2" col="2" attrs="{'invisible':[('similar_affected', '!=', True)]}">
-							<separator colspan="2" string="Products affected" />
-							<field name="similar_affected_ids" nolabel="1">
-								<tree editable="bottom">
-									<field name="product_id" />
-									<field name="quantity" />
-								</tree>
-							</field>
-						</group>
-						<group colspan="2" col="2">
-							<separator colspan="2" string="Root Causes" />
-							<field name="cause" colspan="2" nolabel="1" />
-						</group>
-						<group colspan="2" col="2">
-							<separator colspan="2" string="Permanent Corrective Actions" />
-							<field name="action_corrective_ids" nolabel="1" context="{'default_type':'corrective'}">
-								<tree editable="bottom">
-									<field name="name" />
-									<field name="user_id" />
-									<field name="date_deadline" />
-									<field name="state" />
-									<field name="type" invisible="1" />
-								</tree>
-							</field>
-							<separator colspan="2" string="Effectiveness verification" />
-							<field name="action_verification_ids" nolabel="1" context="{'default_type':'verification'}">
-								<tree editable="bottom">
-									<field name="name" />
-									<field name="user_id" />
-									<field name="date_deadline" />
-									<field name="state" />
-									<field name="type" invisible="1" />
-								</tree>
-							</field>
-							<separator colspan="2" string="Preventive actions" />
-							<field name="action_preventive_ids" nolabel="1" context="{'default_type':'preventive'}">
-								<tree editable="bottom">
-									<field name="name" />
-									<field name="user_id" />
-									<field name="date_deadline" />
-									<field name="state" />
-									<field name="type" invisible="1" />
-								</tree>
-							</field>
-						</group>
-						<group colspan="2" col="2">
-							<separator colspan="2" string="Comments" />
-							<field name="comments" />
-							<field name="is_same_user" invisible="1" />
-						</group>
-						
-						<!-- <group colspan="2" col="2" context="{'userid': user.id}" attrs="{'invisible':[('user_id','!=','')]}"> -->
-						<group colspan="2" col="2" attrs="{'invisible':[('is_same_user','!=',True)]}">
-							<separator colspan="2" string="Dates" />
-							<group>
-								<field name="create_date" />
-								<field name="write_date" />
-
-							</group>
-							<group>
-								<field name="date_closed" />
-								<field name="closed_by_user_id" />
-							</group>
-
-
-
-						</group>
-					</page>
-				</xpath>
-				<xpath expr="//form/sheet/group[1]" position="before">
-					<group id="version">
-						<span>Version: 12.0.1.1</span>
-					</group>
-				</xpath>
-			</field>
-		</record>
-
-
-	</data>
+    <data>
+        <record id="crm_case_claims_tree_view" model="ir.ui.view">
+            <field name="name">CRM - Claims Tree</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_tree_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_action_next']" position="replace">
+                    <field name="date_action_next_comp" />
+                </xpath>
+                <xpath expr="//field[@name='action_next']" position="replace">
+                    <field name="action_next_comp" />
+                    <field name="costs_total" sum="Total costs" />
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="crm_case_claims_form_view">
+            <field name="name">CRM - Claims Form</field>
+            <field name="model">crm.claim</field>
+            <field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='name_date']" position="after">
+                    <field name="user_ids" widget="many2many_tags" />
+                    <group colspan="4" col="6">
+                        <field name="product_id" />
+                        <field name="quantity" />
+                        <field name="quantity_claimed" />
+                        <field name="value" />
+                    </group>
+                    <group colspan="4" col="6">
+                        <field name="costs_management" />
+                        <field name="costs_selection" />
+                        <field name="costs_logistic" />
+                        <field name="costs_other" />
+                        <field name="costs_total" />
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="after">
+                    <field name="loc_detected" />
+                </xpath>
+                <xpath expr="//page[@id='follow_up']" position="replace">
+                    <page string="Follow Up">
+                        <group colspan="2" col="2">
+                            <separator colspan="2" string="Containment actions" />
+                            <field name="action_containment_ids" nolabel="1" context="{'default_type':'containment'}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="user_id" />
+                                    <field name="date_deadline" />
+                                    <field name="state" />
+                                    <field name="type" invisible="1" />
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="similar_affected" />
+                        </group>
+                        <group colspan="2" col="2" attrs="{'invisible':[('similar_affected', '!=', True)]}">
+                            <separator colspan="2" string="Products affected" />
+                            <field name="similar_affected_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                </tree>
+                            </field>
+                        </group>
+                        <group colspan="2" col="2">
+                            <separator colspan="2" string="Root Causes" />
+                            <field name="cause" colspan="2" nolabel="1" />
+                        </group>
+                        <group colspan="2" col="2">
+                            <separator colspan="2" string="Permanent Corrective Actions" />
+                            <field name="action_corrective_ids" nolabel="1" context="{'default_type':'corrective'}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="user_id" />
+                                    <field name="date_deadline" />
+                                    <field name="state" />
+                                    <field name="type" invisible="1" />
+                                </tree>
+                            </field>
+                            <separator colspan="2" string="Effectiveness verification" />
+                            <field name="action_verification_ids" nolabel="1" context="{'default_type':'verification'}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="user_id" />
+                                    <field name="date_deadline" />
+                                    <field name="state" />
+                                    <field name="type" invisible="1" />
+                                </tree>
+                            </field>
+                            <separator colspan="2" string="Preventive actions" />
+                            <field name="action_preventive_ids" nolabel="1" context="{'default_type':'preventive'}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="user_id" />
+                                    <field name="date_deadline" />
+                                    <field name="state" />
+                                    <field name="type" invisible="1" />
+                                </tree>
+                            </field>
+                        </group>
+                        <group colspan="2" col="2">
+                            <separator colspan="2" string="Comments" />
+                            <field name="comments" />
+                            <field name="is_same_user" invisible="1" />
+                        </group>
+                        <!-- <group colspan="2" col="2" context="{'userid': user.id}" attrs="{'invisible':[('user_id','!=','')]}"> -->
+                        <group colspan="2" col="2" attrs="{'invisible':[('is_same_user','!=',True)]}">
+                            <separator colspan="2" string="Dates" />
+                            <group>
+                                <field name="create_date" />
+                                <field name="write_date" />
+                            </group>
+                            <group>
+                                <field name="date_closed" />
+                                <field name="closed_by_user_id" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//form/sheet/group[1]" position="before">
+                    <group id="version">
+                        <span>Version: 12.0.1.1</span>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>

@@ -7,10 +7,8 @@ Stock Date
 
 
 Features:
-
-    - The picking effective date can be changed when the picking is validated.
-    - All the stock moves will have the picking's effective date.
-
+ - The picking effective date can be changed when the picking is validated.
+ - All the stock moves will have the picking's effective date.
 
 
 Bug Tracker

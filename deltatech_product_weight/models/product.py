@@ -1,20 +1,18 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api, _
-from odoo.addons import decimal_precision as dp
+from odoo import api, fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     # def _get_default_weight_uom_id(self):
     #     uom_kg = self.env.ref('product.product_uom_kgm')
     #     return uom_kg.id
 
-    weight_uom = fields.Float('Weight', related='weight', readonly=False)
+    weight_uom = fields.Float("Weight", related="weight", readonly=False)
 
     # weight_uom = fields.Float('Weight UoM', compute='_compute_weight_uom', digits=dp.get_precision('Stock Weight'),
     #     inverse='_set_weight_uom', store=True,
@@ -27,14 +25,14 @@ class ProductTemplate(models.Model):
     #
     @api.model
     def _get_weight_uom_id_from_ir_config_parameter(self):
-        get_param = self.env['ir.config_parameter'].sudo().get_param
-        product_weight_uom_param = get_param('product.weight_uom')
-        if product_weight_uom_param == '1':
-            return self.env.ref('uom.product_uom_lb')
-        elif product_weight_uom_param == 'gram':
-            return self.env.ref('uom.product_uom_gram')
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        product_weight_uom_param = get_param("product.weight_uom")
+        if product_weight_uom_param == "1":
+            return self.env.ref("uom.product_uom_lb")
+        elif product_weight_uom_param == "gram":
+            return self.env.ref("uom.product_uom_gram")
         else:
-            return self.env.ref('uom.product_uom_kgm')
+            return self.env.ref("uom.product_uom_kgm")
 
     #
     #
@@ -50,7 +48,6 @@ class ProductTemplate(models.Model):
     # def _set_weight(self):
     #     if len(self.product_variant_ids) == 1:
     #         self.product_variant_ids.weight = self.weight
-
 
     # @api.depends('product_variant_ids', 'product_variant_ids.weight')
     # def _compute_weight_uom(self):
@@ -84,6 +81,7 @@ class ProductTemplate(models.Model):
     #     if related_vals:
     #         template.write(related_vals)
     #     return template
+
 
 # class ProductProduct(models.Model):
 #     _inherit = 'product.product'

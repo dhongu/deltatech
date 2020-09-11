@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="add_category_list_into_bar" inherit_id="website.snippets" name="Place category into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t
+                t-snippet="deltatech_website_snippets.snippet_category_list"
+                t-thumbnail="/deltatech_website_snippets/static/src/img/snippets_thumbs/s_quote.png"
+            />
+        </xpath>
+    </template>
+    <template id="snippet_category_list" name="Category snippet">
+        <section class="s_category_list pt16 pb16">
+            <div class="container">
+                <h2 class="text-center">Category</h2>
+                <div
+                    class="row s_col_no_bgcolor js_get_category"
+                    data-loading="true"
+                    data-template="deltatech_website_snippets.s_category_list_template"
+                />
+            </div>
+        </section>
+    </template>
+    <template id="s_category_list_template">
+        <div id="myCarousel_category">
+            <div class="container">
+                <t t-foreach="categories" t-as="category">
+                    <div class="col-md-3 s_category_list">
+                        <div class="thumbnail">
+                            <a t-att-href="'/shop/category/%s' %slug(category)">
+                                <span
+                                    itemprop="image"
+                                    t-attf-content="{{request.httprequest.url_root}}web/image/product.category/{{category.id}}/image/"
+                                    t-field="category.image"
+                                    t-options="{'widget': 'image', 'resize':'300x200'}"
+                                    t-att-alt="category.name"
+                                />
+                            </a>
+                            <div class="caption">
+                                <a
+                                    t-field="category.name"
+                                    class="categ_name"
+                                    t-att-href="'/shop/category/%s' %slug(category)"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </template>
+    <template id="s_category_list_template2">
+        <!-- Carousel
+            ================================================== -->
+        <div id="myCarousel" class="carousel slide">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide11" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide12" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide13" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide14" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide21" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide22" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide23" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide24" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide31" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide32" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide33" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="thumbnail">
+                                <img src="http://placehold.it/300x200/" alt="Slide34" />
+                                <div class="caption">
+                                    <h3>Product label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+                                        tempor
+                                    </p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button">12,99 €</a>
+                                        <a href="#" class="btn btn-default" role="button">Wishlist</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <i class="fa fa-chevron-left fa-2x" />
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <i class="fa fa-chevron-right fa-2x" />
+            </a>
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active" />
+                <li data-target="#myCarousel" data-slide-to="1" />
+                <li data-target="#myCarousel" data-slide-to="2" />
+            </ol>
+        </div>
+        <!-- End Carousel -->
+    </template>
+</odoo>

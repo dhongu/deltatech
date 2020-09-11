@@ -13,7 +13,7 @@ from datetime import datetime, date, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-class mrp_production_start(models.TransientModel):
+class MrpProductionStart(models.TransientModel):
     _name = 'mrp.production.start'
     _description = "Start Production"
 
@@ -42,7 +42,7 @@ class mrp_production_start(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        defaults = super(mrp_production_start, self).default_get(fields)
+        defaults = super(MrpProductionStart, self).default_get(fields)
 
         active_ids = self.env.context.get('active_ids', False)
 

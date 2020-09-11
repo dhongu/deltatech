@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
+    <template id="snippet_style" name="snippet style" inherit_id="website.assets_frontend">
+        <xpath expr="link[last()]" position="after">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/deltatech_website_snippets/static/src/scss/s_two_column.scss"
+            />
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/deltatech_website_snippets/static/src/scss/s_carousel_multi_item.scss"
+            />
+        </xpath>
+    </template>
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Blog Front-end assets">
+        <xpath expr="." position="inside">
+            <script
+                type="text/javascript"
+                src="/deltatech_website_snippets/static/src/js/s_category_list_frontend.js"
+            />
+            <script
+                type="text/javascript"
+                src="/deltatech_website_snippets/static/src/js/s_carousel_multi_item_frontend.js"
+            />
+        </xpath>
+    </template>
 </odoo>

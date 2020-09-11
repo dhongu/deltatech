@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Print Invoice to ECR",
-    "version": "1.0",
+    "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generare fisier pentu casa de marcat",
@@ -22,10 +22,6 @@
         "wizard/account_invoice_export_bf_view.xml",
         "views/res_config_settings_views.xml",
         "views/pf_sale_views.xml",
-        #'wizard/sale_make_invoice_advance_views.xml',
     ],
     "images": ["images/main_screenshot.png"],
-    "installable": True,
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

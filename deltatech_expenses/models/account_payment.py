@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
+from odoo import fields, models
 
 
-from odoo import fields, models, api, _
-
-
-class account_payment(models.Model):
+class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-
-    expenses_deduction_id = fields.Many2one('deltatech.expenses.deduction', string='Expenses Deduction', required=False)
+    expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)

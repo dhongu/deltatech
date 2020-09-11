@@ -56,9 +56,9 @@ deltatech_alternative
 - se defineste modelul product_alternative
 - se poate cauta un produs dupa alternativa
 - in product.template sunt definite campurile:
-	- alternative_code - concatenarea tuturor codurilor alternative
-	- alternative_ids - lista de produse alternative
-	- used_for - la ce este utilizat produsul (text)
+    - alternative_code - concatenarea tuturor codurilor alternative
+    - alternative_ids - lista de produse alternative
+    - used_for - la ce este utilizat produsul (text)
 
 
 
@@ -99,11 +99,11 @@ deltatech_contact
 --------------------------------
 - adaugare campuri suplimentare in datele de contact: data nasterii, CNP, carte de identitate, mijloc de transport, daca este departament
 - este redefinita metoda de afisare a numelui partenerului, cu posibilitatea de trimitere in context a parametrilor:
-	- show_address_only - pentru afisare doar a adresei
-	- show_address - afiseaza si adresa
-	- show_email - afiseaza e-mail-ul
-	- show_phone - afiseaza telefonul
-	- show_category - afiseaza etichetele
+    - show_address_only - pentru afisare doar a adresei
+    - show_address - afiseaza si adresa
+    - show_email - afiseaza e-mail-ul
+    - show_phone - afiseaza telefonul
+    - show_category - afiseaza etichetele
 - cautare directa partener dupa VAT
 
 
@@ -155,14 +155,14 @@ deltatech_document
 --------------------------------
 - nr document automat dat de sistem, din categoria documentului
 - campuri noi:
-	- Description
-	- Turtle reference
-	- tipuri document Procedure, Template, Work Instruction
-	- Departament
-	- Reasons
-	- Issued by: automat numele celui care creaza doc, numai administratorul poate avea acces de editare (asta daca vrea sa emite un doc in numele altei persoane)
-	- Inform: in acest camp sa se poata selecta mai multi utilizatori care vor fi informati de noul document, revizie sau alte modificari.
-	- Approved by : sa se poat selecta cel putin 1 utilizator care trebuie sa aprobe
+    - Description
+    - Turtle reference
+    - tipuri document Procedure, Template, Work Instruction
+    - Departament
+    - Reasons
+    - Issued by: automat numele celui care creaza doc, numai administratorul poate avea acces de editare (asta daca vrea sa emite un doc in numele altei persoane)
+    - Inform: in acest camp sa se poata selecta mai multi utilizatori care vor fi informati de noul document, revizie sau alte modificari.
+    - Approved by : sa se poat selecta cel putin 1 utilizator care trebuie sa aprobe
 - Documentul se inregistreaza in arhiva numai dupa ce a fost aprobat
 - Documentele in stand by le pot vedea doar emitentii si cei care trebuie sa-l aprobe
 

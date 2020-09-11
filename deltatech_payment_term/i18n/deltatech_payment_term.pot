@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_payment_term
+#    * deltatech_payment_term
 #
 msgid ""
 msgstr ""

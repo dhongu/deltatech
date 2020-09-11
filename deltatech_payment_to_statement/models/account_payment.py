@@ -26,7 +26,7 @@ class AccountPayment(models.Model):
         else:
             # daca tipul este numerar trebuie generat
             if self.journal_id.auto_statement:  # .type == 'cash':
-                name = False
+                # name = False
                 values = {"journal_id": self.journal_id.id, "date": self.payment_date, "name": "/"}
                 self.statement_id = self.env["account.bank.statement"].create(values)
 
@@ -38,7 +38,7 @@ class AccountPayment(models.Model):
         for payment in self:
             auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
             if auto_statement:
-                detination_statement = False
+                # detination_statement = False
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ""
                     for invoice in payment.invoice_ids:

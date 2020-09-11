@@ -1,16 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <template>
-	<t t-name="gmap_marker" >
-		<div name="gmap" style="padding-top: 100%;" />
-	</t>
-	<t t-name="gmap_markers" >
-		<div name="gmap" style="padding-top: 100%;" />
-	</t>	
-	<t t-name="gmap_route">
-		<div name="gmap" style="padding-top: 100%;" />
-	</t>	
-	 
-	 <div t-name="gmaps" t-att-id="elem_id" style="padding-top: 100%; position:absolute; top:0; bottom:0; right:0; left:0; margin: 0; padding: 0; overflow: hidden;">
-          <div id="the_map"></div>
+    <t t-name="gmap_marker">
+        <div name="gmap" style="padding-top: 100%;" />
+    </t>
+    <t t-name="gmap_markers">
+        <div name="gmap" style="padding-top: 100%;" />
+    </t>
+    <t t-name="gmap_route">
+        <div name="gmap" style="padding-top: 100%;" />
+    </t>
+    <div
+        t-name="gmaps"
+        t-att-id="elem_id"
+        style="padding-top: 100%; position:absolute; top:0; bottom:0; right:0; left:0; margin: 0; padding: 0; overflow: hidden;"
+    >
+        <div id="the_map" />
     </div>
 </template>

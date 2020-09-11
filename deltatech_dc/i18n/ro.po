@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_dc
+#    * deltatech_dc
 #
 msgid ""
 msgstr ""
@@ -200,7 +200,7 @@ msgstr "Specificație tehnică"
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the\n"
-"								requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory\n"
-"								processing by yourselves."
+"                                requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory\n"
+"                                processing by yourselves."
 msgstr "Declarăm pe propria raspundere, conform prevederilor art. 5 din HG 1022/2002, privind regimul produselor și serviciilor care pot pune în pericol viața, sanatătea, securitatea muncii și protecția mediului, că produsul nu pune în pericol sanatătea utilizatorilor și nu este toxic pentru mediul înconjurător."
 

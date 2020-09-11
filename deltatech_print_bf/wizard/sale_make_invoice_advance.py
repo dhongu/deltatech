@@ -2,12 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import time
-
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
-
-import odoo.addons.decimal_precision as dp
+from odoo import api, models
 
 # mapping invoice type to journal type
 
@@ -23,7 +18,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             return self.env["account.journal"].browse(self._context.get("default_journal_id"))
 
         if self._context.get("active_ids"):
-            company_id = self._context.get("company_id", self.env.user.company_id.id)
+            # company_id = self._context.get("company_id", self.env.user.company_id.id)
             sale_obj = self.env["sale.order"]
             order = sale_obj.browse(self._context.get("active_ids"))[0]
 

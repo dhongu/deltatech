@@ -1,14 +1,14 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
 from email.utils import formataddr
-from odoo.exceptions import UserError, AccessError
+
+from odoo import _, api, models
+from odoo.exceptions import UserError
 
 
 class Message(models.Model):
-    _inherit = 'mail.message'
+    _inherit = "mail.message"
 
     @api.model
     def _get_default_from(self):

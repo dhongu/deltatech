@@ -7,13 +7,11 @@ import contextlib
 from io import StringIO
 
 from odoo import _, api, fields, models
-from odoo.exceptions import RedirectWarning, Warning, except_orm
-
-import odoo.addons.decimal_precision as dp
+from odoo.exceptions import Warning
 
 try:
     import html2text
-except:
+except Exception:
     from odoo.addons.mail.models import html2text
 
 ecr_commands = {
@@ -56,7 +54,7 @@ ecr_commands = {
 }
 
 
-class account_invoice_export_bf(models.TransientModel):
+class AccountInvoiceExportBf(models.TransientModel):
     _name = "account.invoice.export.bf"
     _description = "Export Datecs"
 
@@ -67,7 +65,7 @@ class account_invoice_export_bf(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        defaults = super(account_invoice_export_bf, self).default_get(fields)
+        defaults = super(AccountInvoiceExportBf, self).default_get(fields)
         invoice_id = False
         active_id = defaults.get("invoice_id", self.env.context.get("active_id", False))
 

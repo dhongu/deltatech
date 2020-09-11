@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
-
-
         <record model="ir.actions.act_window" id="base_task_merge_automatic_act">
             <field name="name">Duplicate tasks</field>
             <field name="res_model">base.task.merge.automatic.wizard</field>
@@ -11,93 +9,127 @@
             <field name="target">new</field>
             <field name="context">{'active_test': False}</field>
         </record>
-
-
-
         <record model='ir.ui.view' id='base_task_merge_automatic_wizard_form'>
             <field name='name'>base.task.merge.automatic.wizard.form</field>
             <field name='model'>base.task.merge.automatic.wizard</field>
             <field name='arch' type='xml'>
-                <form string='Automatic Merge Wizard' >
-
+                <form string='Automatic Merge Wizard'>
                     <sheet>
-
-                            <group attrs="{'invisible': [('state', '!=', 'finished')]}" col="1">
-                                <h2>There is no more tasks to merge for this request...</h2>
-                                <button name="%(base_task_merge_automatic_act)d" string="Deduplicate the other Tasks" class="oe_highlight"
-                                type="action"/>
-                            </group>
-                            <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
+                        <group attrs="{'invisible': [('state', '!=', 'finished')]}" col="1">
+                            <h2>There is no more tasks to merge for this request...</h2>
+                            <button
+                                name="%(base_task_merge_automatic_act)d"
+                                string="Deduplicate the other Tasks"
+                                class="oe_highlight"
+                                type="action"
+                            />
+                        </group>
+                        <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
                                 Select the list of fields used to search for
                                 duplicated records. If you select several fields,
                                 Odoo will propose you to merge only those having
                                 all these fields in common. (not one of the fields).
                             </p>
-                            <group attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}">
-                                <field name="state" invisible="1" />
-                                <field name="number_group"/>
-                            </group>
-
-                            <separator string="Options" attrs="{'invisible': [('state', 'not in', ('option',))]}"/>
-                            <group attrs="{'invisible': [('state', 'not in', ('option','finished'))]}">
-                                <field name='maximum_group' attrs="{'readonly': [('state', 'in', ('finished'))]}"/>
-                            </group>
-                            <separator string="Merge the following tasks"
-                                attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}"/>
-                            <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
-                                <p class="oe_grey">
+                        <group
+                            attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}"
+                        >
+                            <field name="state" invisible="1" />
+                            <field name="number_group" />
+                        </group>
+                        <separator string="Options" attrs="{'invisible': [('state', 'not in', ('option',))]}" />
+                        <group attrs="{'invisible': [('state', 'not in', ('option','finished'))]}">
+                            <field name='maximum_group' attrs="{'readonly': [('state', 'in', ('finished'))]}" />
+                        </group>
+                        <separator
+                            string="Merge the following tasks"
+                            attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}"
+                        />
+                        <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
+                            <p class="oe_grey">
                                 The selected tasks will be merged together. All
                                 documents linking to one of these tasks will be
                                 redirected to the aggregated task. You can remove
                                 tasks from this list to avoid merging them.
                                 </p>
-                                <group col="2">
-                                <field name="dst_task_id" domain="[('id', 'in', task_ids or False)]" attrs="{'required': [('state', '=', 'selection')]}"/>
+                            <group col="2">
+                                <field
+                                    name="dst_task_id"
+                                    domain="[('id', 'in', task_ids or False)]"
+                                    attrs="{'required': [('state', '=', 'selection')]}"
+                                />
                             </group>
-                                  <field name="task_ids" nolabel="1">
+                            <field name="task_ids" nolabel="1">
                                 <tree string="Tasks">
                                     <field name="id" />
                                     <field name="name" />
                                 </tree>
                             </field>
-                            </group>
-
+                        </group>
                     </sheet>
                     <footer>
-                        <button name='action_merge' string='Merge Tasks'
+                        <button
+                            name='action_merge'
+                            string='Merge Tasks'
                             class='oe_highlight'
                             type='object'
-                            attrs="{'invisible': [('state', 'in', ('option', 'finished' ))]}" />
-                        <button name='action_skip' string='Skip these tasks'
+                            attrs="{'invisible': [('state', 'in', ('option', 'finished' ))]}"
+                        />
+                        <button
+                            name='action_skip'
+                            string='Skip these tasks'
                             type='object'
-                            attrs="{'invisible': [('state', '!=', 'selection')]}" />
-                        <button name='action_start_manual_process'
+                            attrs="{'invisible': [('state', '!=', 'selection')]}"
+                        />
+                        <button
+                            name='action_start_manual_process'
                             string='Merge with Manual Check'
-                            type='object'  class='oe_highlight'
-                            attrs="{'invisible': [('state', '!=', 'option')]}" />
-                        <button name='action_start_automatic_process'
+                            type='object'
+                            class='oe_highlight'
+                            attrs="{'invisible': [('state', '!=', 'option')]}"
+                        />
+                        <button
+                            name='action_start_automatic_process'
                             string='Merge Automatically'
-                            type='object' class='oe_highlight'
+                            type='object'
+                            class='oe_highlight'
                             confirm="Are you sure to execute the automatic merge of your task ?"
-                            attrs="{'invisible': [('state', '!=', 'option')]}" />
-                        <button name='action_update_all_process'
+                            attrs="{'invisible': [('state', '!=', 'option')]}"
+                        />
+                        <button
+                            name='action_update_all_process'
                             string='Merge Automatically all process'
                             type='object'
                             confirm="Are you sure to execute the list of automatic merges of your tasks ?"
-                            attrs="{'invisible': [('state', '!=', 'option')]}" />
-                        <button special="cancel" string="Cancel" type="object" class="btn btn-default oe_inline" attrs="{'invisible': [('state', '=', 'finished')]}"/>
-                        <button special="cancel" string="Close" type="object" class="btn btn-default oe_inline" attrs="{'invisible': [('state', '!=', 'finished')]}"/>
+                            attrs="{'invisible': [('state', '!=', 'option')]}"
+                        />
+                        <button
+                            special="cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn btn-default oe_inline"
+                            attrs="{'invisible': [('state', '=', 'finished')]}"
+                        />
+                        <button
+                            special="cancel"
+                            string="Close"
+                            type="object"
+                            class="btn btn-default oe_inline"
+                            attrs="{'invisible': [('state', '!=', 'finished')]}"
+                        />
                     </footer>
                 </form>
             </field>
         </record>
-
-
-        <act_window id="action_task_merge" res_model="base.task.merge.automatic.wizard" src_model="project.task"
-            target="new" multi="True" key2="client_action_multi" view_mode="form" name="Merge Task" groups='res_group_task_do_merge'/>
-
-
-
-
+        <act_window
+            id="action_task_merge"
+            res_model="base.task.merge.automatic.wizard"
+            src_model="project.task"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            view_mode="form"
+            name="Merge Task"
+            groups='res_group_task_do_merge'
+        />
     </data>
 </odoo>

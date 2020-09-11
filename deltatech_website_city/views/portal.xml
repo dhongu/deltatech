@@ -1,36 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="portal_my_details" inherit_id="portal.portal_my_details">
         <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-xl-6" position="before">
             <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6 div_city_id">
                 <label class="col-form-label label-optional" for="city_id">City</label>
-                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
-                        t-att-data-value="city_id"
-                        data-init="1">
+                <select
+                    name="city_id"
+                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+                    t-att-data-value="city_id"
+                    data-init="1"
+                >
                     <option value="">select...</option>
                     <t t-foreach="cities or []" t-as="city">
-                        <option t-att-value="city.id" style="display:none;" t-att-data-state_id="city.state_id.id"
-                                t-att-selected="city.id == partner.city_id.id">
-                            <t t-esc="city.name"/>
+                        <option
+                            t-att-value="city.id"
+                            style="display:none;"
+                            t-att-data-state_id="city.state_id.id"
+                            t-att-selected="city.id == partner.city_id.id"
+                        >
+                            <t t-esc="city.name" />
                         </option>
                     </t>
                 </select>
             </div>
         </div>
-
     </template>
-
-
     <template id="address" inherit_id="website_sale.address">
         <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-md-8 div_city" position="before">
             <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6 div_city_id">
                 <label class="col-form-label label-optional" for="city_id">City</label>
-                <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
-
-                        t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
-                        data-init="1">
+                <select
+                    name="city_id"
+                    t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
+                    t-att-data-value="'city_id' in checkout and  checkout['city_id'] != '' and  int(checkout['city_id'])"
+                    data-init="1"
+                >
                     <option value="">select...</option>
-         <!--           <t t-foreach="state and state.city_ids or []" t-as="city">
+                    <!--           <t t-foreach="state and state.city_ids or []" t-as="city">
                         <option t-att-value="city.id" style="display:none;" t-att-data-state_id="city.state_id.id"
                                 t-att-selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
                             <t t-esc="city.name"/>
@@ -39,8 +45,5 @@
                 </select>
             </div>
         </div>
-
     </template>
-
-
 </odoo>

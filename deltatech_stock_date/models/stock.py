@@ -1,56 +1,43 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from datetime import date, datetime
-from dateutil import relativedelta
 
-import time
-from odoo.exceptions import UserError, RedirectWarning
-
-from odoo import models, fields, api, _
-from odoo.tools.translate import _
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
-from odoo import SUPERUSER_ID, api
-
-import odoo.addons.decimal_precision as dp
+from odoo import api, fields, models
 
 
-
-
-class stock_quant(models.Model):
+class StockQuant(models.Model):
     _inherit = "stock.quant"
 
-
-
     @api.model
-    def _update_available_quantity(self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None,
-                                   in_date=None):
-        res = super(stock_quant, self)._update_available_quantity(product_id, location_id, quantity, lot_id, package_id,
-                                                                  owner_id, in_date)
+    def _update_available_quantity(
+        self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
+    ):
+        res = super(StockQuant, self)._update_available_quantity(
+            product_id, location_id, quantity, lot_id, package_id, owner_id, in_date
+        )
 
         return res
 
 
-class stock_move(models.Model):
-    _inherit = 'stock.move'
+class StockMove(models.Model):
+    _inherit = "stock.move"
 
     @api.multi
     def write(self, vals):
-        date_fields = {'date', 'date_expected'}
-        use_date = self.env.context.get('force_period_date', False)
+        date_fields = {"date", "date_expected"}
+        use_date = self.env.context.get("force_period_date", False)
         if date_fields.intersection(vals):
             if not use_date:
 
                 for move in self:
                     today = fields.Date.today()
-                    if 'date' in vals:
-                        if move.date_expected.date() < today and move.date_expected < vals['date']:
-                            vals['date'] = move.date_expected
-                        if move.date.date() < today and move.date < vals['date']:
-                            vals['date'] = move.date
-                        move.move_line_ids.write({'date': vals['date']})
+                    if "date" in vals:
+                        if move.date_expected.date() < today and move.date_expected < vals["date"]:
+                            vals["date"] = move.date_expected
+                        if move.date.date() < today and move.date < vals["date"]:
+                            vals["date"] = move.date
+                        move.move_line_ids.write({"date": vals["date"]})
                         # move.quant_ids.write({'in_date': vals['date']})
 
                     # if 'date_expected' in vals:
@@ -61,26 +48,26 @@ class stock_move(models.Model):
                     #         vals['date_expected'] = move_date
             else:
 
-                if 'date' in vals:
-                    vals['date'] = use_date
+                if "date" in vals:
+                    vals["date"] = use_date
                 # if 'date_expected' in vals:
                 #     vals['date_expected'] = use_date
 
-        return super(stock_move, self).write(vals)
+        return super(StockMove, self).write(vals)
 
 
-class Picking(models.Model):
+class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     @api.multi
     def button_validate(self):
-        return super(Picking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+        return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
 
     @api.multi
     def action_done(self):
-        super(Picking, self).action_done()
-        use_date = self.env.context.get('force_period_date', False)
+        super(StockPicking, self).action_done()
+        use_date = self.env.context.get("force_period_date", False)
         if use_date:
-            self.write({'date': use_date, 'date_done':use_date})
-            self.move_lines.write({ 'date': use_date})  # 'date_expected': use_date,
-            self.move_line_ids.write({'date': use_date})
+            self.write({"date": use_date, "date_done": use_date})
+            self.move_lines.write({"date": use_date})  # 'date_expected': use_date,
+            self.move_line_ids.write({"date": use_date})

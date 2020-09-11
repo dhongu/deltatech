@@ -27,12 +27,12 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
  
 
  
-class gamification_challenge_line(models.Model):
+class GamificationChallengeLine(models.Model):
     _inherit =  'gamification.challenge.line' 
 
     @api.multi
     def write(self,  vals ):
-        write_res = super(gamification_challenge_line, self).write(  vals )
+        write_res = super(GamificationChallengeLine, self).write(  vals )
         if 'target_goal' in vals:
             goals =  self.env['gamification.goal'].search([('line_id','in', self.ids)])
             goals.write({'target_goal':vals['target_goal']})

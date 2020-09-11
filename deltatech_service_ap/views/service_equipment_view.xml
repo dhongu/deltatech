@@ -34,6 +34,6 @@
         </record>
 
         <!-- Run Scheduler -->
-        <function model="service.equipment" name="_update_labels"  eval="[[]]"/>/>
+        <function model="service.equipment" name="_update_labels" eval="[[]]" />/>
     </data>
 </odoo>
