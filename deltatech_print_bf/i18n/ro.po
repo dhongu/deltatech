@@ -113,6 +113,11 @@ msgid "Print Bon Fiscal"
 msgstr "Print Bon Fiscal"
 
 #. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.invoice_form
+msgid "Are you sure you want to print the receipt?"
+msgstr "Ești sigur că dorești tipărirea bonului fiscal"
+
+#. module: deltatech_print_bf
 #: model:ir.model,name:deltatech_print_bf.model_sale_advance_payment_inv
 msgid "Sales Advance Payment Invoice"
 msgstr "Factura Vânzare cu Plată în Avans"
