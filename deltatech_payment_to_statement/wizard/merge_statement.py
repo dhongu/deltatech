@@ -2,11 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-import logging
-
 from odoo import fields, models
-
-_logger = logging.getLogger("merge.object")
 
 
 class MergeStatement(models.TransientModel):

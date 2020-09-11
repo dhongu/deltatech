@@ -8,7 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
-    "depends": ["account"],
+    "depends": ["account", "deltatech_merge"],
     "license": "LGPL-3",
     "data": [
         "views/account_payment_view.xml",
