@@ -26,7 +26,7 @@ class SaleOrder(models.Model):
                         move_line.write({"quantity_done": move_line.product_uom_qty})
                     else:
                         move_line.unlink()
-                picking.with_context(force_period_date=self.date_order).action_done()
+                picking.with_context(force_period_date=self.date_order)._action_done()
 
         action_obj = self.env.ref("sale.action_view_sale_advance_payment_inv")
         action = action_obj.read()[0]
