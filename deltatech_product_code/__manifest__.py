@@ -5,7 +5,7 @@
 
 {
     "name": "Products Code",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
