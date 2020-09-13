@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, tools
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models, tools
 
 
 class StockPickingReport(models.Model):
@@ -84,15 +84,13 @@ class StockPickingReport(models.Model):
 
     @api.model_cr
     def init(self):
-
         tools.drop_view_if_exists(self.env.cr, self._table)
-
-        self.env.cr.execute(
-            """CREATE or REPLACE VIEW %s as (
+        query = """
+        CREATE or REPLACE VIEW %s as (
             %s
             %s
             %s
             %s
-        )"""
-            % (self._table, self._select(), self._from(), self._where(), self._group_by())
         )
+        """
+        self.env.cr.execute(query, (self._table, self._select(), self._from(), self._where(), self._group_by()))

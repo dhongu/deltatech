@@ -1,9 +1,9 @@
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools.translate import _
+from odoo.tools import safe_eval
 
 # TODO: de adaugat pretul si in wizardul ce permite modificarea stocului
 
@@ -147,7 +147,7 @@ class StockInventoryLine(models.Model):
     def _generate_moves(self):
         config_parameter = self.env["ir.config_parameter"].sudo()
         use_inventory_price = config_parameter.get_param(key="stock.use_inventory_price", default="True")
-        use_inventory_price = eval(use_inventory_price)
+        use_inventory_price = safe_eval(use_inventory_price)
         for inventory_line in self:
             if (
                 inventory_line.product_id.cost_method == "fifo" or inventory_line.product_id.cost_method == "average"

@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, tools
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models, tools
 
 
 class DeltatechCostDetail(models.Model):
@@ -52,32 +52,9 @@ class MrpProduction(models.Model):
         for production in self:
             production._compute_cost_detail()
 
-    @api.one
     @api.depends("move_raw_ids")
     def _compute_cost_detail(self):
-
-        domain = [("production_id", "=", self.id)]
-        cost_detail_ids = self.env["deltatech.cost.detail"].search(domain)
-        self.cost_detail_ids = cost_detail_ids
-        # cost = {}
-        # for move in self.move_raw_ids:
-        #     cost_categ = move.product_id.categ_id.cost_categ
-        #     cost[cost_categ] = cost.get(cost_categ, 0) + move.value
-        #
-        # cost_detail_ids = self.env['deltatech.cost.detail']
-        # for cost_categ, amount in cost.items():
-        #     values = {'production_id': self.id, 'cost_categ': cost_categ, 'amount': amount}
-        #     cost_detail_ids = cost_detail_ids + cost_detail_ids.new(values)
-        # self.cost_detail_ids = cost_detail_ids
-        # self.write({'cost_detail_ids':self.cost_detail_ids})
-
-    """
-    ca sa functioneze treaba asta am modificat metoda din fields:
-
-    def convert_to_read(self, value, use_name_get=True):
-        if all(value._ids):
-            return value.ids
-        else:
-            # this is useful for computed fields that use new records as values
-            return self.convert_to_write(value)
-    """
+        for production in self:
+            domain = [("production_id", "=", production.id)]
+            cost_detail_ids = self.env["deltatech.cost.detail"].search(domain)
+            production.cost_detail_ids = cost_detail_ids

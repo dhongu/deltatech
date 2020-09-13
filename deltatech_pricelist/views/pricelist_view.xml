@@ -4,6 +4,7 @@
         <record id="product_pricelist_item_tree_view" model="ir.ui.view">
             <field name="name">product.pricelist.item.tree</field>
             <field name="model">product.pricelist.item</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="product.product_pricelist_item_tree_view" />
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="attributes">

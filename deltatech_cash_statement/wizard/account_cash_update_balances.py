@@ -3,10 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
-from odoo.exceptions import Warning
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountCashUpdateBalances(models.TransientModel):
@@ -29,7 +29,7 @@ class AccountCashUpdateBalances(models.TransientModel):
                 defaults["balance_start"] = statement.balance_start
                 defaults["date"] = statement.date
         if not statement:
-            raise Warning(_("Please select cash statement"))
+            raise UserError(_("Please select cash statement"))
         return defaults
 
     @api.multi

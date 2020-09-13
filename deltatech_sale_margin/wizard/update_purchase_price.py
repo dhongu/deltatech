@@ -36,7 +36,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
 
     @api.multi
     def do_compute(self):
-        res = []
+
         if self.for_all:
             lines = self.env["sale.margin.report"].search([])
         else:

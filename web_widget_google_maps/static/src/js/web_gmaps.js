@@ -1,39 +1,30 @@
 odoo.define("web_widget_google_maps", function(require) {
     "use strict";
 
-    var fieldsToGather;
+    // Var fieldsToGather;
     var core = require("web.core");
-    var QWeb = core.qweb;
-    var _t = core._t;
+
     var _lt = core._lt;
     var Widget = require("web.Widget");
-    var FormView = require("web.FormView");
 
     var view_registry = require("web.view_registry");
-    var registry = require("web.field_registry");
     var widgetRegistry = require("web.widget_registry");
 
     var BasicView = require("web.BasicView");
     var BasicController = require("web.BasicController");
     var BasicRenderer = require("web.BasicRenderer");
 
-    var AbstractView = require("web.AbstractView");
     var AbstractModel = require("web.AbstractModel");
-    var AbstractController = require("web.AbstractController");
-    var AbstractRenderer = require("web.AbstractRenderer");
 
-    var ajax = require("web.ajax");
-
-    var map;
-    var key;
+    var map = {};
     var odoo_markers = [];
-    var GMapRoute;
-    var GMapMarker;
-    var GMaps;
+    var GMapRoute = {};
+    var GMapMarker = {};
+    var GMaps = {};
 
-    var GMapsModel;
-    var GMapsController;
-    var GMapsRenderer;
+    // Var GMapsModel = {};
+    var GMapsController = {};
+    var GMapsRenderer = {};
 
     GMapMarker = Widget.extend({
         jsLibs: [],
@@ -44,7 +35,6 @@ odoo.define("web_widget_google_maps", function(require) {
             // if (typeof google == 'undefined') {
             //     this.jsLibs.push('http://maps.googleapis.com/maps/api/js?key=' + key)
             // }
-            var self = this;
 
             this._super.apply(this, arguments);
 
@@ -110,7 +100,7 @@ odoo.define("web_widget_google_maps", function(require) {
             var lng = this.data[this.field_lng];
 
             var myLatlng = new google.maps.LatLng(lat, lng);
-            var bounds = new google.maps.LatLngBounds();
+            // Var bounds = new google.maps.LatLngBounds();
 
             var mapOptions = {
                 zoom: 8,
@@ -179,7 +169,7 @@ odoo.define("web_widget_google_maps", function(require) {
         template: "gmap_route",
 
         init: function(view, record, node) {
-            var self = this;
+            // Var self = this;
             this._super(view, record);
             this.field_from_lat = node.attrs.from_lat;
             this.field_from_lng = node.attrs.from_lng;
@@ -222,18 +212,18 @@ odoo.define("web_widget_google_maps", function(require) {
         },
 
         on_ready: function() {
-            var rendererOptions;
+            var rendererOptions = "";
             var self = this;
 
             var from_lat = this.data[this.field_from_lat];
             var from_lng = this.data[this.field_from_lng];
-            var to_lat = this.data[this.field_to_lat];
-            var to_lng = this.data[this.field_to_lng];
+            // Var to_lat = this.data[this.field_to_lat];
+            // var to_lng = this.data[this.field_to_lng];
 
             var div_gmap = this.$el[0];
 
             var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
-            var to_Latlng = new google.maps.LatLng(to_lat, to_lng);
+            // Var to_Latlng = new google.maps.LatLng(to_lat, to_lng);
 
             var mapOptions = {
                 zoom: 8,
@@ -269,7 +259,6 @@ odoo.define("web_widget_google_maps", function(require) {
         },
 
         display_result: function() {
-            var request;
             if (this.updating) {
                 return;
             }
@@ -285,7 +274,7 @@ odoo.define("web_widget_google_maps", function(require) {
             }
             var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
             var to_Latlng = new google.maps.LatLng(to_lat, to_lng);
-            request = {
+            var request = {
                 origin: from_Latlng,
                 destination: to_Latlng,
                 travelMode: google.maps.TravelMode.DRIVING,
@@ -302,7 +291,7 @@ odoo.define("web_widget_google_maps", function(require) {
         },
 
         computeTotal: function(result) {
-            var self = this;
+            // Var self = this;
             var distance = 0;
             var duration = 0;
             var myroute = result.routes[0];
@@ -354,18 +343,14 @@ odoo.define("web_widget_google_maps", function(require) {
 
     // ///////////////////////////////////////////////
     // gather the fields to get
-    fieldsToGather = ["lat", "lng"];
+    // fieldsToGather = ["lat", "lng"];
 
-    GMapsModel = AbstractModel.extend({});
+    // var GMapsModel = AbstractModel.extend({});
 
     GMapsController = BasicController.extend({});
 
     GMapsRenderer = BasicRenderer.extend({
         template: "gmaps",
-
-        init: function(parent, state, params) {
-            this._super.apply(this, arguments);
-        },
 
         willStart: function() {
             var self = this;
@@ -386,10 +371,10 @@ odoo.define("web_widget_google_maps", function(require) {
         },
 
         on_ready: function() {
-            var mapOptions;
-            var self = this;
+            // Var mapOptions;
+            // Var self = this;
             var myLatlng = new google.maps.LatLng(46, 25);
-            mapOptions = {
+            var mapOptions = {
                 zoom: 8,
                 center: myLatlng,
             };
@@ -434,11 +419,11 @@ odoo.define("web_widget_google_maps", function(require) {
         },
 
         do_add_item: function(item, data) {
-            var request;
+            // Var request;
             var self = this;
-            var marker;
-            var myLatlng;
-            var title;
+            var marker = "";
+            var myLatlng = {};
+            var title = "";
 
             if (item.tag === "widget" && item.attrs.name === "gmap_marker") {
                 myLatlng = new google.maps.LatLng(data[item.attrs.lat], data[item.attrs.lng]);
@@ -470,7 +455,7 @@ odoo.define("web_widget_google_maps", function(require) {
 
                 var from_Latlng = new google.maps.LatLng(from_lat, from_lng);
                 var to_Latlng = new google.maps.LatLng(to_lat, to_lng);
-                request = {
+                var request = {
                     origin: from_Latlng,
                     destination: to_Latlng,
                     travelMode: google.maps.TravelMode.DRIVING,
@@ -501,11 +486,11 @@ odoo.define("web_widget_google_maps", function(require) {
 
         // JsLibs: ['http://maps.googleapis.com/maps/api/js'],
 
-        init: function(viewInfo, params) {
+        init: function(viewInfo) {
             this._super.apply(this, arguments);
             var arch = viewInfo.arch;
-            var fields = viewInfo.fields;
-            var attrs = arch.attrs;
+            // Var fields = viewInfo.fields;
+            // var attrs = arch.attrs;
         },
 
         willStart: function() {
@@ -526,7 +511,7 @@ odoo.define("web_widget_google_maps", function(require) {
             });
         },
 
-        on_ready: function() {},
+        // On_ready: function() {},
 
         init_old: function(parent, dataset, view_id, options) {
             this._super(parent);

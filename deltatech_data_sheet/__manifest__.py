@@ -3,11 +3,12 @@
 
 {
     "name": "Product Data Sheet",
-    "version": "1.0",
+    "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["product"],
+    "license": "AGPL-3",
     "data": ["views/product_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

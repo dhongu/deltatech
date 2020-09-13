@@ -17,7 +17,8 @@ class AccountInvoiceReport(models.Model):
         return (
             super(AccountInvoiceReport, self)._from()
             + """
-         LEFT JOIN ( select product_tmpl_id, min(name) as name from product_supplierinfo group by product_tmpl_id ) supplier ON pt.id = supplier.product_tmpl_id
+         LEFT JOIN ( select product_tmpl_id, min(name) as name
+         from product_supplierinfo group by product_tmpl_id ) supplier ON pt.id = supplier.product_tmpl_id
         """
         )
 

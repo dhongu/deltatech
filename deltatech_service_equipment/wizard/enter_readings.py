@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models
 
 
 class ServiceEnterReading(models.TransientModel):
@@ -43,7 +43,7 @@ class ServiceEnterReading(models.TransientModel):
 
     @api.onchange("date")
     def onchange_date(self):
-        meters = self.env["service.meter"]
+
         for item in self.items:
             meter = item.meter_id
 

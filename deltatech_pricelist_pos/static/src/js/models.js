@@ -1,7 +1,7 @@
 odoo.define("deltatech_pricelist_pos.model", function(require) {
     "use strict";
 
-    var posmodel;
+    var posmodel = {};
     var models = require("point_of_sale.models");
     var utils = require("web.utils");
     var round_pr = utils.round_precision;
@@ -13,7 +13,7 @@ odoo.define("deltatech_pricelist_pos.model", function(require) {
     models.PosModel = models.PosModel.extend({
         initialize: function(session, attributes) {
             _super_pos.initialize.call(this, session, attributes);
-            var self = this;
+
             posmodel = this;
             this.fix_model_currency();
         },
@@ -53,8 +53,7 @@ odoo.define("deltatech_pricelist_pos.model", function(require) {
 
         get_price: function(pricelist, quantity) {
             var self = this;
-            var price;
-            price = _super_product.get_price.call(this, pricelist, quantity);
+            var price = _super_product.get_price.call(this, pricelist, quantity);
             if (self.currency_id[0] === posmodel.price_currency.id) {
                 var conversion_rate = posmodel.currency.rate / posmodel.price_currency.rate;
                 price = round_pr(price * conversion_rate, posmodel.currency.rounding);

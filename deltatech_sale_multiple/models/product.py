@@ -16,7 +16,7 @@ class ProductTemplate(models.Model):
         digits=dp.get_precision("Product Unit of Measure"),
         default=1,
         compute="_compute_qty_multiple",
-        inverse="_set_qty_multiple",
+        inverse="_inverse_qty_multiple",
         store=True,
         help="The sale quantity will be rounded up to this multiple.  If it is 0, the exact quantity will be used.",
     )
@@ -25,7 +25,7 @@ class ProductTemplate(models.Model):
         digits=dp.get_precision("Product Unit of Measure"),
         default=1,
         compute="_compute_qty_multiple",
-        inverse="_set_qty_minim",
+        inverse="_inverse_qty_minim",
         store=True,
         help="The minim sale quantity will.  If it is 0, the exact quantity will be used.",
     )
@@ -40,15 +40,15 @@ class ProductTemplate(models.Model):
             template.qty_multiple = "-1"
             template.qty_minim = "-1"
 
-    @api.one
-    def _set_qty_multiple(self):
-        if len(self.product_variant_ids) == 1:
-            self.product_variant_ids.qty_multiple = self.qty_multiple
+    def _inverse_qty_multiple(self):
+        for product in self:
+            if len(product.product_variant_ids) == 1:
+                product.product_variant_ids.qty_multiple = product.qty_multiple
 
-    @api.one
-    def _set_qty_minim(self):
-        if len(self.product_variant_ids) == 1:
-            self.product_variant_ids.qty_minim = self.qty_minim
+    def _inverse_qty_minim(self):
+        for product in self:
+            if len(product.product_variant_ids) == 1:
+                product.product_variant_ids.qty_minim = product.qty_minim
 
 
 class ProductProduct(models.Model):

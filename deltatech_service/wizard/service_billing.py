@@ -135,7 +135,6 @@ class ServiceBilling(models.TransientModel):
             else:  # cons.quantity < cons.agreement_line_id.quantity_free:
                 cons.write({"state": "none"})
 
-
     @api.multi
     def do_billing(self):
         pre_invoice = {}  # lista de facuri

@@ -69,8 +69,6 @@ class ServiceEquipment(models.Model):
     start_date = fields.Date(string="Start Date")
 
     meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
-    # meter_reading_ids = fields.One2many('service.meter.reading', 'equipment_id',
-    # string='Meter Reading',   copy=False) # mai trebuie ??
 
     type_id = fields.Many2one("service.equipment.type", required=False, string="Type")
 
@@ -135,7 +133,7 @@ class ServiceEquipment(models.Model):
         from_date = fields.Date.to_string(from_date)
         to_date = fields.Date.to_string(to_date)
 
-        current_month = [("date", ">=", from_date), ("date", "<=", to_date)]
+        # current_month = [("date", ">=", from_date), ("date", "<=", to_date)]
         for equi in self:
             equi.readings_status = "done"
             for meter in equi.meter_ids:
@@ -165,7 +163,7 @@ class ServiceEquipment(models.Model):
                     agreements = agreements | line.agreement_id
             if len(agreements) > 1:
                 msg = _("Equipment %s assigned to many agreements.")
-                # equipment.message_post(body=msg)
+                equipment.message_post(body=msg)
 
             # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
             if not agreements:

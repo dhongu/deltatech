@@ -8,6 +8,12 @@ from odoo.exceptions import UserError
 from odoo.tools.translate import _
 
 
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
+
+    notice = fields.Boolean()
+
+
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 

@@ -4,8 +4,9 @@
 
 {
     "name": "Invoice Delivery / Reception",
-    "version": "1.0",
+    "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
     "category": "Generic Modules/Other",
     "depends": [
         "account",

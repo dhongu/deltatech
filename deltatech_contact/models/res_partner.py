@@ -91,13 +91,13 @@ class Partner(models.Model):
                 rest = suma % 11
             self.cnp = cnp + str(rest)
 
-    @api.one
     @api.depends("type", "is_company")
     def _compute_is_department(self):
-        if self.is_company or self.type == "contact":
-            self.is_department = False
-        else:
-            self.is_department = True
+        for partner in self:
+            if partner.is_company or partner.type == "contact":
+                partner.is_department = False
+            else:
+                partner.is_department = True
 
     cnp = fields.Char(string="CNP", size=13)
 

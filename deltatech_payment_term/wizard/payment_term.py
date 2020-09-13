@@ -1,11 +1,11 @@
 # ©  2018 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+import odoo.addons.decimal_precision as dp
+
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools import float_round
-
-import odoo.addons.decimal_precision as dp
 
 
 class AccountPaymentTermRateWizard(models.TransientModel):
@@ -39,17 +39,15 @@ class AccountPaymentTermRateWizard(models.TransientModel):
                 defaults["rate"] = len(term.line_ids) - 1
         return defaults
 
-    @api.one
     @api.constrains("rate")
     def _check_rate(self):
         if self.rate < 1:
-            raise ValidationError("Rate must be greater than 1")
+            raise ValidationError(_("Rate must be greater than 1"))
 
-    @api.one
     @api.constrains("advance")
     def _check_advance(self):
         if self.value == "percent" and (self.advance < 0.0 or self.advance > 100.0):
-            raise ValidationError("Percentages for Advance must be between 0 and 100.")
+            raise ValidationError(_("Percentages for Advance must be between 0 and 100."))
 
     @api.multi
     def do_create_rate(self):

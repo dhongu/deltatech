@@ -3,10 +3,11 @@
 # See README.rst file on addons root folder for license details
 
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-import odoo.addons.decimal_precision as dp
 
 # todo: de facut legatura cu listele de preturi
 
@@ -16,12 +17,6 @@ class ProductPriceChange(models.Model):
     _description = "Product Price Change"
     _inherit = ["mail.thread"]
     _order = "date desc"
-
-    def _get_price_change(self, cr, uid, ids, context=None):
-        result = {}
-        for line in self.pool.get("product.price.change.line").browse(cr, uid, ids, context=context):
-            result[line.price_change_id.id] = True
-        return result.keys()
 
     name = fields.Char(
         "Number",
@@ -124,7 +119,7 @@ class ProductPriceChange(models.Model):
                             )
 
                     if len(new_lines) > 0:
-                        change_id = self.create(
+                        self.create(
                             {
                                 "name": change.name,
                                 "parent_id": change.id,

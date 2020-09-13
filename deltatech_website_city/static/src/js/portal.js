@@ -26,7 +26,7 @@ odoo.define("deltatech_website_city.portal", function(require) {
             return def;
         },
 
-        _onChangeCity: function(ev) {
+        _onChangeCity: function() {
             if (!$("select[name='city_id']").val()) {
                 return;
             }
@@ -37,7 +37,7 @@ odoo.define("deltatech_website_city.portal", function(require) {
             $("input[name='city']").val(selectCity.text());
         },
 
-        _onChangeState: function(ev) {
+        _onChangeState: function() {
             this._changeState();
         },
 
@@ -121,7 +121,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
 
         init: function() {
             this._super.apply(this, arguments);
-            this._changeState = _.debounce(this._changeState.bind(this), 500);
+            this._changeState = _.debounce(this._changeState.bind(this), 600);
             this.isWebsite = true;
         },
 

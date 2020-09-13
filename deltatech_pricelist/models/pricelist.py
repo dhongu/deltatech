@@ -4,14 +4,14 @@ from odoo import api, fields, models
 class ProductPricelistItem(models.Model):
     _inherit = "product.pricelist.item"
 
-    @api.one
+    price_text = fields.Char(string="Text Price", readonly=True, compute="_compute_text_price")
+
     @api.depends("base", "price_discount", "price_surcharge")
     def _compute_text_price(self):
         # todo: de convertit in format local
-        value = 1 + self.price_discount
+        for item in self:
+            value = 1 + item.price_discount
 
-        self.price_text = self._price_field_get()[self.base - 1][1] + " * " + str(value)
-        if self.price_surcharge:
-            self.price_text += str(self.price_surcharge)
-
-    price_text = fields.Char(string="Text Price", readonly=True, compute="_compute_text_price")
+            item.price_text = item._price_field_get()[item.base - 1][1] + " * " + str(value)
+            if item.price_surcharge:
+                item.price_text += str(item.price_surcharge)

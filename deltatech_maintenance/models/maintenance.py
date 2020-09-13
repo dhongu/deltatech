@@ -1,9 +1,9 @@
 # ©  2008-2020  Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models
 
 
 class MaintenanceTeam(models.Model):
@@ -36,7 +36,7 @@ class MaintenanceRequest(models.Model):
 
         if self.component_ids:
 
-            picking = self.env["stock.picking"].with_context(context)
+            # picking = self.env["stock.picking"].with_context(context)
 
             context["default_move_ids_without_package"] = []
 
@@ -121,10 +121,10 @@ class MaintenanceOperation(models.Model):
             result.append((record.id, self.display_name))
         return result
 
-    @api.one
     @api.depends("name", "code")  # this definition is recursive
     def _compute_display_name(self):
-        if self.code:
-            self.display_name = "[%s] %s" % (self.code, self.name)
-        else:
-            self.display_name = self.name
+        for operation in self:
+            if operation.code:
+                operation.display_name = "[%s] %s" % (operation.code, operation.name)
+            else:
+                operation.display_name = operation.name

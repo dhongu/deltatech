@@ -6,7 +6,7 @@
 from odoo import api, fields, models
 
 
-class res_company(models.Model):
+class ResCompany(models.Model):
     _inherit = "res.company"
 
     warehouse_id = fields.Many2one("stock.warehouse", string="Default Warehouse")

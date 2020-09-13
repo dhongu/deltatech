@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import _, api, fields, models
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 
 class AnalyticLineSplit(models.TransientModel):
@@ -26,7 +26,7 @@ class AnalyticLineSplit(models.TransientModel):
             analytic_line = self.env["account.analytic.line"].browse(active_id)
             res["from_amount"] = analytic_line.amount
         else:
-            raise Warning(_("Please select a record"))
+            raise UserError(_("Please select a record"))
         return res
 
     @api.multi
@@ -39,10 +39,10 @@ class AnalyticLineSplit(models.TransientModel):
             line_amount += line.amount
             # check signs
             if abs(self.from_amount + line.amount) != abs(self.from_amount) + abs(line.amount):
-                raise Warning(_("Amount error: different signs"))
+                raise UserError(_("Amount error: different signs"))
         # check value
         if abs(line_amount) > abs(self.from_amount):
-            raise Warning(_("Amount error: amounts exceeds original line amount"))
+            raise UserError(_("Amount error: amounts exceeds original line amount"))
 
         note = _("Split from line amount %s:<br/>" % self.from_amount)
         for line in self.to_analytics:

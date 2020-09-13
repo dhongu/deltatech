@@ -2,14 +2,15 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo.http import request
-
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+
+from odoo.http import request
 
 
 class WebsiteSaleCity(WebsiteSale):
 
-    # pentru tarile in care nu avam nomencator de localitati nu se poate face aceste campuri obligatori
+    # pentru tarile in care nu avem nomencator de localitati nu se poate face acest camp obligatori
+
     # def _get_mandatory_billing_fields(self):
     #     res = super(WebsiteSaleCity, self)._get_mandatory_billing_fields()
     #     res += ['city_id']

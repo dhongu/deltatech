@@ -6,7 +6,7 @@
 from odoo import fields, models
 
 
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     check_min_website = fields.Boolean(

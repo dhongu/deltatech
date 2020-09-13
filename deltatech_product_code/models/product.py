@@ -69,7 +69,8 @@ class ProductProduct(models.Model):
             if product.default_code in [False, "/", "auto"] or self.env.context.get("force_code", False):
                 if product.categ_id.sequence_id:
                     default_code = product.categ_id.sequence_id.next_by_id()
+                    vals = {"default_code": default_code}
                     if product.default_code:
                         vals["alternative_ids"] = [(0, False, {"name": product.default_code})]
-                    vals = {"default_code": default_code}
+
                     product.write(vals)

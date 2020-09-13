@@ -5,17 +5,17 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
     var QWeb = core.qweb;
 
     var Widget = require("web.Widget");
-    var Context = require("web.Context");
-    var data_manager = require("web.data_manager");
+    // Var Context = require("web.Context");
+    // var data_manager = require("web.data_manager");
     var widget_registry = require("web.widget_registry");
     var field_registry = require("web.field_registry");
 
-    var config = require("web.config");
+    // Var config = require("web.config");
 
     var _t = core._t;
-    var time = require("web.time");
+    // Var time = require("web.time");
     var AbstractField = require("web.AbstractField");
-    var ListRenderer = require("web.ListRenderer");
+    // Var ListRenderer = require("web.ListRenderer");
 
     var QtyAvailableField = AbstractField.extend({
         template: "deltatech_sale_qty_available.qtyAvailable",
@@ -33,20 +33,18 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
         },
 
         _setPopOver: function() {
-            var options;
-            var $content;
-            var self = this;
+            // Var self = this;
             this.data = this.record.data;
             if (!this.data.product_id) {
                 return;
             }
-            $content = $(
+            var $content = $(
                 QWeb.render("deltatech_sale_qty_available.QtyDetailPopOver", {
                     data: this.data,
                 })
             );
 
-            options = {
+            var options = {
                 content: $content,
                 html: true,
                 placement: "left",
@@ -104,19 +102,19 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
          * quantity.
          */
         _setPopOver: function() {
-            var $content;
-            var options;
-            var self = this;
+            // Var $content;
+            // var options;
+            // var self = this;
             if (!this.data.product_id) {
                 return;
             }
-            $content = $(
+            var $content = $(
                 QWeb.render("deltatech_sale_qty_available.QtyDetailPopOver", {
                     data: this.data,
                 })
             );
 
-            options = {
+            var options = {
                 content: $content,
                 html: true,
                 placement: "left",

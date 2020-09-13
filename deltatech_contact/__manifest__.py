@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Contacts",
     "version": "12.0.1.3.0",
-    "author": "Dorin Hongu",
+    "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
     "depends": ["base"],

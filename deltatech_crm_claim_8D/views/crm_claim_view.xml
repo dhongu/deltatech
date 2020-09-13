@@ -4,6 +4,7 @@
         <record id="crm_case_claims_tree_view" model="ir.ui.view">
             <field name="name">CRM - Claims Tree</field>
             <field name="model">crm.claim</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_tree_view" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='date_action_next']" position="replace">
@@ -18,6 +19,7 @@
         <record model="ir.ui.view" id="crm_case_claims_form_view">
             <field name="name">CRM - Claims Form</field>
             <field name="model">crm.claim</field>
+            <field name="priority">99</field>
             <field name="inherit_id" ref="deltatech_simple_crm_claim.crm_case_claims_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='name_date']" position="after">

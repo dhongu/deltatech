@@ -6,7 +6,7 @@
 from odoo import fields, models
 
 
-class product_category(models.Model):
+class ProductCategory(models.Model):
     _inherit = "product.category"
 
     def _get_default_company_id(self):

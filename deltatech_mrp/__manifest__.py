@@ -3,9 +3,10 @@
 
 {
     "name": "MRP Extension",
-    "version": "2.0",
-    "author": "Deltatech",
-    "website": "",
+    "version": "12.0.1.0.0",
+    "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
+    "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Production",
     "depends": ["base", "mrp", "stock", "sale", "product"],
     "data": [

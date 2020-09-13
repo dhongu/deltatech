@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import models
 from odoo.tools.float_utils import float_compare
 
 

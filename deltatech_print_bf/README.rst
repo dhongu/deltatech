@@ -6,7 +6,7 @@ Print Invoice to ECR
    :alt: License: LGPL-3
 
 
-Features::
+Features:
  - Generare fisier pentru program de tiparit Bon Fiscal
  - definire client generic pentru care se fac in mod automat Bonuri fiscale
 

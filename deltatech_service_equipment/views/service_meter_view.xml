@@ -4,7 +4,6 @@
         <record id="action_service_meter_reading" model="ir.actions.act_window">
             <field name="name">Meter Reading</field>
             <field name="res_model">service.meter.reading</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
@@ -89,7 +88,6 @@
         <record id="view_service_meter_filter" model="ir.ui.view">
             <field name="name">service.meter.select</field>
             <field name="model">service.meter</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="meter_categ_id" />
@@ -104,7 +102,6 @@
         <record id="action_service_meter" model="ir.actions.act_window">
             <field name="name">Meter</field>
             <field name="res_model">service.meter</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
@@ -164,7 +161,6 @@
         <record id="view_service_meter_reading_filter" model="ir.ui.view">
             <field name="name">service.meter.reading.select</field>
             <field name="model">service.meter.reading</field>
-            <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="equipment_id" />
@@ -194,7 +190,6 @@
         <record id="action_service_meter_category" model="ir.actions.act_window">
             <field name="name">Services Meter Category</field>
             <field name="res_model">service.meter.category</field>
-            <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem

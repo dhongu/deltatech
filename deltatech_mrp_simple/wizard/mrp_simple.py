@@ -2,10 +2,10 @@
 # See README.rst file on addons root folder for license details
 
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-import odoo.addons.decimal_precision as dp
 
 
 class MRPSimple(models.TransientModel):
@@ -55,7 +55,7 @@ class MRPSimple(models.TransientModel):
                     price_unit=line.price_unit,
                 )
             else:
-                raise UserError("Price 0 for result product!")
+                raise UserError(_("Price 0 for result product!"))
 
         for line in self.product_out_ids:
             self.add_picking_line(

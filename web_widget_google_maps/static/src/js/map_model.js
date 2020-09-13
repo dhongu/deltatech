@@ -149,14 +149,14 @@ odoo.define("web_map.MapModel", function(require) {
         _addPartnerToRecord: function() {
             this.data.records.forEach(record => {
                 this.data.partners.forEach(partner => {
-                    var recordPartnerId;
+                    var recordPartnerId = "";
                     if (this.model === "res.partner" && this.resPartnerField === "id") {
                         recordPartnerId = record.id;
                     } else {
                         recordPartnerId = record[this.resPartnerField][0];
                     }
 
-                    if (recordPartnerId == partner.id) {
+                    if (recordPartnerId === partner.id) {
                         record.partner = partner;
                         this.numberOfLocatedRecords++;
                     }

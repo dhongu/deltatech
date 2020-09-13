@@ -2,9 +2,9 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models
 
 
 class ProductCatalog(models.Model):
@@ -111,16 +111,16 @@ class ProductTemplate(models.Model):
     # string='Unit of Measure Shelf Life', help="Unit of Measurer for Shelf Life" )
     used_for = fields.Char(string="Used For")
 
-    @api.one
     @api.depends("alternative_ids")
     def _compute_alternative_code(self):
-        codes = []
-        for cod in self.alternative_ids:
-            if cod.name and not cod.hide:
-                codes += [cod.name]
+        for product in self:
+            codes = []
+            for cod in product.alternative_ids:
+                if cod.name and not cod.hide:
+                    codes += [cod.name]
 
-        code = "; ".join(codes)
-        self.alternative_code = code
+            code = "; ".join(codes)
+            product.alternative_code = code
 
 
 class ProductProduct(models.Model):

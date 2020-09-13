@@ -1,11 +1,11 @@
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
-
-import odoo.addons.decimal_precision as dp
 
 
 class DeltatechExpensesDeduction(models.Model):
@@ -322,7 +322,7 @@ class DeltatechExpensesDeduction(models.Model):
                     ],
                 }
                 vouchers |= self.env["account.voucher"].create(voucher_value)
-                payment_methods = expenses.journal_payment_id.outbound_payment_method_ids
+                # payment_methods = expenses.journal_payment_id.outbound_payment_method_ids
 
                 # payment_value = {
                 #     'payment_type': 'outbound',
@@ -583,14 +583,16 @@ class DeltatechExpensesDeductionLine(models.Model):
     def _get_company(self):
         return self._context.get("company_id", self.env.user.company_id.id)
 
-    @api.one
     @api.depends("amount", "tax_ids")
     def _compute_subtotal(self):
-        tax_amount = 0.0
-        price_subtotal = self.amount
-        if self.tax_ids:
-            tax_info = self.tax_ids.compute_all(self.amount, self.currency_id, quantity=1, partner=self.partner_id)
-            tax_amount += sum([t.get("amount", 0.0) for t in tax_info.get("taxes", False)])
-            price_subtotal = tax_info["total_excluded"]
-        self.tax_amount = tax_amount
-        self.price_subtotal = price_subtotal
+        for expenses in self:
+            tax_amount = 0.0
+            price_subtotal = expenses.amount
+            if expenses.tax_ids:
+                tax_info = expenses.tax_ids.compute_all(
+                    expenses.amount, expenses.currency_id, quantity=1, partner=expenses.partner_id
+                )
+                tax_amount += sum([t.get("amount", 0.0) for t in tax_info.get("taxes", False)])
+                price_subtotal = tax_info["total_excluded"]
+            expenses.tax_amount = tax_amount
+            expenses.price_subtotal = price_subtotal

@@ -5,6 +5,7 @@
     "name": "Maintenance Extension",
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
     "website": "",
     "category": "Human Resources",
     "depends": ["maintenance", "stock"],

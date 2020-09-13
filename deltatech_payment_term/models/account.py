@@ -4,13 +4,12 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountPaymentTerm(models.Model):
     _inherit = "account.payment.term"
 
-    @api.one
     def compute(self, value, date_ref=False):
         date_ref = date_ref or fields.Date.today()
         amount = value

@@ -16,7 +16,7 @@ class MrpProduction(models.Model):
     @api.multi
     def button_plan(self):
         res = super(MrpProduction, self).button_plan()
-        tz_name = self._context.get("tz") or self.env.user.tz
+
         # todo: de facut planificarea inapoi!
         for production in self:
             planned_date = production.date_planned_start  # la data asta trebuie sa inceapa
@@ -36,12 +36,6 @@ class MrpProduction(models.Model):
                 date_end = workcenter.resource_calendar_id.plan_hours(
                     workorder.duration_expected / 60.0, date_start, compute_leaves=True, resource=workcenter.resource_id
                 )
-
-                # if workorder.workcenter_id.resource_id:
-                #     calendar = workorder.workcenter_id.resource_calendar_id
-                #     intervals = calendar.plan_hours(hours=workorder.duration_expected / 60, day_dt=date_start)
-                #     date_start = intervals and intervals[0][0] or date_start
-                #     date_end = intervals and intervals[-1][1] or date_end
 
                 if not production_values["date_planned_start_wo"]:
                     production_values["date_planned_start_wo"] = date_start

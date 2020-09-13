@@ -9,7 +9,6 @@
     "complexity": "easy",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "images": [""],
     "depends": [
         "account",
         "account_voucher",

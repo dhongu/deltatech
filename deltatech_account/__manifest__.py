@@ -4,6 +4,7 @@
     "name": "Deltatech Account",
     "version": "12.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
     "website": "www.terrabit.ro",
     "category": "Accounting & Finance",
     "depends": ["account"],

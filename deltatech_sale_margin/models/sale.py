@@ -3,7 +3,7 @@
 
 
 from odoo import _, api, models
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 
 class SaleOrderLine(models.Model):
@@ -66,14 +66,14 @@ class SaleOrderLine(models.Model):
     def _check_sale_price(self):
         if self.price_unit == 0:
             if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                raise Warning(_("You can not sell without price."))
+                raise UserError(_("You can not sell without price."))
             else:
                 message = _("Sale %s without price.") % self.product_id.name
                 self.order_id.message_post(body=message)
 
         if self.price_unit < self.purchase_price:
             if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                raise Warning(_("You can not sell below the purchase price."))
+                raise UserError(_("You can not sell below the purchase price."))
             else:
                 message = _("Sale %s under the purchase price.") % self.product_id.name
                 self.order_id.message_post(body=message)

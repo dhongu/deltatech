@@ -1,10 +1,7 @@
 odoo.define("deltatech_website_snippets.s_carousel_multi_item_frontend", function(require) {
     "use strict";
 
-    var core = require("web.core");
     var sAnimation = require("website.content.snippets.animation");
-
-    var _t = core._t;
 
     sAnimation.registry.js_carousel_multi_item = sAnimation.Class.extend({
         selector: ".js_carousel_multi_item",

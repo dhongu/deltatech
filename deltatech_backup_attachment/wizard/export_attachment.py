@@ -7,6 +7,7 @@ from io import BytesIO
 from os import path
 
 from odoo import api, fields, models
+from odoo.tools import safe_eval
 
 
 class ExportAttachment(models.TransientModel):
@@ -22,12 +23,10 @@ class ExportAttachment(models.TransientModel):
     def do_export(self):
         buff = BytesIO()
 
-        files = []
-
         # This is my zip file
         zip_archive = zipfile.ZipFile(buff, mode="w")
 
-        domain = eval(self.domain)
+        domain = safe_eval(self.domain)
         attachments = self.env["ir.attachment"].search(domain)
         for attachment in attachments:
             if attachment.store_fname:

@@ -3,11 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 
+import odoo.addons.decimal_precision as dp
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-
-import odoo.addons.decimal_precision as dp
 
 
 class ProductWithoutMove(models.TransientModel):
@@ -51,9 +50,9 @@ class ProductWithoutMove(models.TransientModel):
         """
 
         if len(products) == 1:
-            self.env.cr.execute(sql % (self.id, "(%s)" % products.id))
+            self.env.cr.execute(sql, (self.id, "(%s)" % products.id))
         else:
-            self.env.cr.execute(sql % (self.id, tuple(products.ids)))
+            self.env.cr.execute(sql, (self.id, tuple(products.ids)))
 
         query_results = self.env.cr.dictfetchall()
 

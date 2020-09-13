@@ -2,10 +2,10 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
-from odoo.exceptions import Warning
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountInvoiceLine(models.Model):
@@ -61,7 +61,7 @@ class AccountInvoiceLine(models.Model):
                         purchase_price += price
                     purchase_price = purchase_price / len(invoice_line.sale_line_ids)
                 else:
-                    self.env.user.company_id.currency_id
+                    # self.env.user.company_id.currency_id
 
                     purchase_price = invoice_line.product_id.standard_price
                     purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
@@ -78,12 +78,12 @@ class AccountInvoiceLine(models.Model):
         for invoice_line in self:
             if invoice_line.invoice_id.type == "out_invoice":
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    ivoice_line.invoice_id.date_invoice or fields.Date.context_today(invoice_line)
+                    invoice_line.invoice_id.date_invoice or fields.Date.context_today(invoice_line)
                     if invoice_line.quantity != 0:
                         price_unit = invoice_line.price_subtotal_signed / invoice_line.quantity
                     else:
                         price_unit = invoice_line.price_subtotal_signed
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.invoice_id.state in ["draft"]:
-                        raise Warning(_("You can not sell below the purchase price."))
+                        raise UserError(_("You can not sell below the purchase price."))
                     # if price_unit == 0.0 and invoice_line.invoice_id.state in ['draft']:
-                    #     raise Warning(_('You can not sell without price.'))
+                    #     raise UserError(_('You can not sell without price.'))

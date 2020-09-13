@@ -7,12 +7,12 @@ import contextlib
 from io import StringIO
 
 from odoo import _, api, fields, models
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
-try:
-    import html2text
-except Exception:
-    from odoo.addons.mail.models import html2text
+# try:
+#     import html2text
+# except Exception:
+#     from odoo.addons.mail.models import html2text
 
 ecr_commands = {
     "optima": {
@@ -63,21 +63,23 @@ class AccountInvoiceExportBf(models.TransientModel):
     text_data = fields.Text(string="Text", readonly=True)
     invoice_id = fields.Many2one("account.invoice")
 
+    def check_invoice(self, invoice_id):
+        if not invoice_id or invoice_id.type != "out_invoice":
+            raise UserError(_("Please select Customer Invoice %s") % invoice_id.name)
+
+        if not (invoice_id.payment_ids or invoice_id.state == "paid"):
+            raise UserError(_("Invoice %s is not paid") % invoice_id.name)
+
     @api.model
-    def default_get(self, fields):
-        defaults = super(AccountInvoiceExportBf, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(AccountInvoiceExportBf, self).default_get(fields_list)
         invoice_id = False
         active_id = defaults.get("invoice_id", self.env.context.get("active_id", False))
 
-        if active_id:
-            invoice_id = self.env["account.invoice"].browse(active_id)
-            defaults["invoice_id"] = invoice_id.id
+        invoice_id = self.env["account.invoice"].browse(active_id)
+        defaults["invoice_id"] = invoice_id.id
 
-        if not invoice_id or invoice_id.type != "out_invoice":
-            raise Warning(_("Please select Customer Invoice %s") % invoice_id.name)
-
-        if not (invoice_id.payment_ids or invoice_id.state == "paid"):
-            raise Warning(_("Invoice %s is not paid") % invoice_id.name)
+        self.check_invoice(invoice_id)
 
         # generare fisier pentru casa de marcat OPTIMA CR1020
         currency = invoice_id.currency_id or None
@@ -88,7 +90,7 @@ class AccountInvoiceExportBf(models.TransientModel):
         with contextlib.closing(StringIO()) as buf:
 
             # printing reference
-            # buf.write('2;%s\r\n' % _('Ref:' + invoice_id.number))
+
             buf.write(ecr_comm["print"].format(text=_("Ref:" + invoice_id.number)))
             # initial values for negative total test
             negative_price = 0.0
@@ -105,7 +107,7 @@ class AccountInvoiceExportBf(models.TransientModel):
 
                 # if value <0, add to to discount
                 if price < 0 or line.quantity < 0:
-                    # raise Warning(_('Price can not be negative '))
+                    # raise UserError(_('Price can not be negative '))
                     negative_price += price * line.quantity
 
                 # if value > 0, print position
@@ -132,54 +134,39 @@ class AccountInvoiceExportBf(models.TransientModel):
                         for extra_lines in prod_name_array[0 : len(prod_name_array) - 1]:
                             buf.write(ecr_comm["print"].format(text=extra_lines))
                     buf.write(ecr_comm["sale"].format(**data))
-                    # buf.write('1;%s;1;1;%s;%s\r\n' % (prod_name,
-                    #                                   str(int(price * 100.0)),
-                    #                                   str(int(line.quantity * 100000.0))
-                    #                                   ))
 
                     total_price += price * line.quantity
 
             # if total value is negaive
             if total_price + negative_price < 0:
-                raise Warning(_("Nu se poate emite bon cu valoare negativa!!!"))
+                raise UserError(_("Nu se poate emite bon cu valoare negativa!!!"))
 
             # if discount exists, print it
             if negative_price < 0:
                 negative_price = -negative_price
-                # negative_price = negative_price * 100
+
                 negative_price_string = str(ecr_comm["amount"](negative_price))
-                # buf.write('7;1;1;1;0;%s;1\r\n' % negative_price_string)
+
                 buf.write(ecr_comm["stl"])
                 buf.write(ecr_comm["discount"].format(type="3", value=negative_price_string))  # discount valoric
 
-            for payment in invoice_id.payment_ids:
-                # if payment.payment_method_code == 'manual':
-                if payment.journal_id.type == "cash":
-                    if payment.journal_id.code == "VOUC" or payment.journal_id.code == "VOUPR":
-                        buf.write(ecr_comm["print"].format(text=_("Voucher:") + payment.communication))
+            for payment in invoice_id.payment_ids.filtered(lambda p: p.journal_id.type == "cash"):
+                if payment.journal_id.code == "VOUC" or payment.journal_id.code == "VOUPR":
+                    buf.write(ecr_comm["print"].format(text=_("Voucher:") + payment.communication))
 
             # print payments
-            for payment in invoice_id.payment_ids:
-                # if payment.payment_method_code == 'manual':
-                # if payment.journal_id.type == 'cash':
-                #     if payment.journal_id.code == 'VOUC' or payment.journal_id.code == "VOUPR":
-                #         buf.write('5;%s;5;1;0\r\n' % str(int(payment.amount * 100.0)))
-                #     else:
-                #         buf.write('5;%s;1;1;0\r\n' % str(int(payment.amount * 100.0)))
-                # else:
-                #     buf.write('5;%s;3;1;0\r\n' % str(int(payment.amount * 100.0)))
-
-                if payment.state != "draft":
-                    data = {"type": payment.journal_id.cod_ecr, "amount": str(ecr_comm["amount"](payment.amount))}
-                    buf.write(ecr_comm["total"].format(**data))
+            for payment in invoice_id.payment_ids.filtered(lambda p: p.state != "draft"):
+                data = {"type": payment.journal_id.cod_ecr, "amount": str(ecr_comm["amount"](payment.amount))}
+                buf.write(ecr_comm["total"].format(**data))
 
             defaults["text_data"] = buf.getvalue()
-            # out = base64.encodestring(buf.getvalue())
+
             out = buf.getvalue()
             out = base64.b64encode(out.encode())
 
         filename = "ONLINE_" + invoice_id.number
-        filename = "".join(i for i in filename if i not in "\/:*?<>|")
+        filename = filename.replace("\\", "")
+        filename = "".join(i for i in filename if i not in "/:*?<>|")
 
         extension = self.env["ir.config_parameter"].sudo().get_param("account_invoice.ecr_extension", "inp")
 

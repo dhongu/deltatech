@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
-
 import odoo.addons.decimal_precision as dp
+
+from odoo import api, fields, models
 
 
 class CrmClaim(models.Model):
@@ -56,29 +56,33 @@ class CrmClaim(models.Model):
     costs_total = fields.Float(
         string="Total costs", digits=dp.get_precision("Account"), store=True, readonly=True, compute="_compute_costs"
     )
-    user_uid = fields.Many2one("res.users", string="uid", compute="_get_uid")
-    is_same_user = fields.Boolean(compute="_is_same_user")
+    user_uid = fields.Many2one("res.users", string="uid", compute="_compute_uid")
+    is_same_user = fields.Boolean(compute="_compute_is_same_user")
     similar_affected = fields.Boolean(string="Are other similar products affected?")
     similar_affected_ids = fields.One2many("crm.claim.product.affected", "claim_id", string="Affected products")
 
-    def _is_same_user(self):
-        if self.user_id == self.user_uid:
-            self.is_same_user = True
-        else:
-            self.is_same_user = False
+    def _compute_is_same_user(self):
+        for claim in self:
+            if claim.user_id == claim.user_uid:
+                claim.is_same_user = True
+            else:
+                claim.is_same_user = False
 
-    def _get_uid(self):
-        self.user_uid = self.env.user.id
+    def _compute_uid(self):
+        for claim in self:
+            claim.user_uid = claim.env.user.id
 
-    @api.one
     @api.depends("product_id", "quantity")
     def _compute_value(self):
-        self.value = self.quantity * self.product_id.lst_price
+        for claim in self:
+            claim.value = claim.quantity * claim.product_id.lst_price
 
-    @api.one
     @api.depends("costs_management", "costs_selection", "costs_logistic", "costs_other")
     def _compute_costs(self):
-        self.costs_total = self.costs_management + self.costs_selection + self.costs_logistic + self.costs_other
+        for claim in self:
+            claim.costs_total = (
+                claim.costs_management + claim.costs_selection + claim.costs_logistic + claim.costs_other
+            )
 
     @api.multi
     @api.depends("action_ids")

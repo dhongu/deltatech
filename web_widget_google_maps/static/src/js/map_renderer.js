@@ -92,17 +92,19 @@ odoo.define("web_map.MapRenderer", function(require) {
             var mapContainer = document.createElement("div");
             mapContainer.classList.add("o_map_container", "col-md-12", "col-lg-10");
             this.el.appendChild(mapContainer);
-            this.leafletMap = L.map(mapContainer, {
-                maxBounds: [L.latLng(180, -180), L.latLng(-180, 180)],
+            this.leafletMap = google.map(mapContainer, {
+                maxBounds: [google.latLng(180, -180), google.latLng(-180, 180)],
             });
-            L.tileLayer(this.apiTilesRoute, {
-                attribution:
-                    'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                minZoom: 2,
-                maxZoom: 19,
-                id: "mapbox.streets",
-                accessToken: this.mapBoxToken,
-            }).addTo(this.leafletMap);
+            google
+                .tileLayer(this.apiTilesRoute, {
+                    attribution:
+                        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    minZoom: 2,
+                    maxZoom: 19,
+                    id: "mapbox.streets",
+                    accessToken: this.mapBoxToken,
+                })
+                .addTo(this.leafletMap);
         },
 
         /**
@@ -115,13 +117,13 @@ odoo.define("web_map.MapRenderer", function(require) {
             var tabLatLng = [];
             this.state.records.forEach(function(record) {
                 if (record.partner && record.partner.partner_latitude && record.partner.partner_longitude) {
-                    tabLatLng.push(L.latLng(record.partner.partner_latitude, record.partner.partner_longitude));
+                    tabLatLng.push(google.latLng(record.partner.partner_latitude, record.partner.partner_longitude));
                 }
             });
             if (!tabLatLng.length) {
                 return false;
             }
-            return L.latLngBounds(tabLatLng);
+            return google.latLngBounds(tabLatLng);
         },
 
         /**
@@ -175,20 +177,20 @@ odoo.define("web_map.MapRenderer", function(require) {
                         openButton.remove();
                     }
 
-                    var marker;
-                    var offset;
+                    var marker = {};
+                    var offset = {};
                     if (self.numbering) {
-                        var number = L.divIcon({
+                        var number = google.divIcon({
                             className: "o_numbered_marker",
                             html: '<p class ="o_number_icon">' + (self.state.records.indexOf(record) + 1) + "</p>",
                         });
-                        marker = L.marker([record.partner.partner_latitude, record.partner.partner_longitude], {
+                        marker = google.marker([record.partner.partner_latitude, record.partner.partner_longitude], {
                             icon: number,
                         });
-                        offset = new L.Point(0, -35);
+                        offset = new google.Point(0, -35);
                     } else {
-                        marker = L.marker([record.partner.partner_latitude, record.partner.partner_longitude]);
-                        offset = new L.Point(0, 0);
+                        marker = google.marker([record.partner.partner_latitude, record.partner.partner_longitude]);
+                        offset = new google.Point(0, 0);
                     }
                     marker.addTo(self.leafletMap).bindPopup(
                         function() {
@@ -237,15 +239,17 @@ odoo.define("web_map.MapRenderer", function(require) {
                 var latLngs = [];
                 leg.steps.forEach(function(step) {
                     step.geometry.coordinates.forEach(function(coordinate) {
-                        latLngs.push(L.latLng(coordinate[1], coordinate[0]));
+                        latLngs.push(google.latLng(coordinate[1], coordinate[0]));
                     });
                 });
 
-                var polyline = L.polyline(latLngs, {
-                    color: "blue",
-                    weight: 5,
-                    opacity: 0.3,
-                }).addTo(self.leafletMap);
+                var polyline = google
+                    .polyline(latLngs, {
+                        color: "blue",
+                        weight: 5,
+                        opacity: 0.3,
+                    })
+                    .addTo(self.leafletMap);
 
                 polyline.on("click", function() {
                     self.polylines.forEach(function(poly) {
@@ -270,7 +274,7 @@ odoo.define("web_map.MapRenderer", function(require) {
             ev.preventDefault();
             this.leafletMap.panTo(ev.target.dataset, {animate: true});
             var marker = this.markers.find(m => {
-                return m._latlng.lat == ev.target.dataset.lat && m._latlng.lng == ev.target.dataset.lng;
+                return m._latlng.lat === ev.target.dataset.lat && m._latlng.lng === ev.target.dataset.lng;
             });
             if (marker) {
                 marker.openPopup();

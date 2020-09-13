@@ -5,10 +5,10 @@
 import logging
 from datetime import datetime
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-import odoo.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
@@ -109,38 +109,38 @@ class ServiceMeter(models.Model):
             if categ:
                 meter.meter_categ_id = categ.id
 
-    @api.one
     @api.depends("name", "uom_id")
     def _compute_display_name(self):
-        if self.name:
-            self.display_name = "%s [%s]" % (self.name, self.uom_id.name)
-        else:
-            self.display_name = self.uom_id.name
+        for meter in self:
+            if meter.name:
+                meter.display_name = "%s [%s]" % (meter.name, meter.uom_id.name)
+            else:
+                meter.display_name = meter.uom_id.name
 
     @api.onchange("meter_categ_id")
     def onchange_meter_categ_id(self):
         if self.meter_categ_id:
             self.uom_id = self.meter_categ_id.uom_id
 
-    @api.one
     @api.depends("meter_reading_ids", "meter_reading_ids.counter_value", "meter_ids")
     def _compute_last_meter_reading(self):
-        total_counter_value = 0
-        if self.type == "counter":
-            if self.meter_reading_ids:
-                self.last_meter_reading_id = self.meter_reading_ids[0]
-                self.write({"last_reading_date": self.meter_reading_ids[0].date})
-                total_counter_value = self.last_meter_reading_id.counter_value
-        else:
-            for meter in self.meter_ids:
-                total_counter_value += meter.meter_reading_ids[0].counter_value
+        for meter in self:
+            total_counter_value = 0
+            if meter.type == "counter":
+                if meter.meter_reading_ids:
+                    meter.last_meter_reading_id = meter.meter_reading_ids[0]
+                    meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
+                    total_counter_value = self.last_meter_reading_id.counter_value
+            else:
+                for meter in meter.meter_ids:
+                    total_counter_value += meter.meter_reading_ids[0].counter_value
 
-        self.total_counter_value = total_counter_value
+            meter.total_counter_value = total_counter_value
 
-    @api.one
     def _compute_estimated_value(self):
         date = self.env.context.get("date", fields.Date.today())
-        self.estimated_value = self.get_forcast(date)
+        for meter in self:
+            meter.estimated_value = meter.get_forcast(date)
 
     @api.multi
     def calc_forcast_coef(self):
@@ -266,34 +266,36 @@ class ServiceMeterReading(models.Model):
 
     # todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
 
-    @api.one
     @api.depends("date", "meter_id", "equipment_id")
     def _compute_previous_counter_value(self):
-        self.previous_counter_value = self.meter_id.start_value
-        if self.date and self.meter_id:
-            previous = self.env["service.meter.reading"].search(
-                [("meter_id", "=", self.meter_id.id), ("date", "<", self.date)], limit=1, order="date desc, id desc"
-            )
-            if previous:
-                self.previous_counter_value = previous.counter_value
-                self.difference = self.counter_value - self.previous_counter_value
-                # self.invalidate_cache() # asta e solutia ?
+        for reading in self:
+            reading.previous_counter_value = reading.meter_id.start_value
+            if reading.date and reading.meter_id:
+                previous = self.env["service.meter.reading"].search(
+                    [("meter_id", "=", reading.meter_id.id), ("date", "<", reading.date)],
+                    limit=1,
+                    order="date desc, id desc",
+                )
+                if previous:
+                    reading.previous_counter_value = previous.counter_value
+                    reading.difference = reading.counter_value - reading.previous_counter_value
+                    # self.invalidate_cache() # asta e solutia ?
 
-    @api.one
     @api.depends("counter_value", "previous_counter_value")
     def _compute_difference(self):
-        self.difference = self.counter_value - self.previous_counter_value
-        next_reading = self.env["service.meter.reading"].search(
-            [("meter_id", "=", self.meter_id.id), ("date", ">", self.date)], limit=1, order="date, id"
-        )
-        if next_reading and next_reading.previous_counter_value != self.counter_value:
-            next_reading.write(
-                {
-                    "previous_counter_value": self.counter_value,
-                    "difference": (next_reading.counter_value - self.counter_value),
-                }
+        for reading in self:
+            reading.difference = reading.counter_value - reading.previous_counter_value
+            next_reading = self.env["service.meter.reading"].search(
+                [("meter_id", "=", reading.meter_id.id), ("date", ">", reading.date)], limit=1, order="date, id"
             )
-            # next._compute_difference()
+            if next_reading and next_reading.previous_counter_value != reading.counter_value:
+                next_reading.write(
+                    {
+                        "previous_counter_value": reading.counter_value,
+                        "difference": (next_reading.counter_value - reading.counter_value),
+                    }
+                )
+                # next._compute_difference()
 
     @api.onchange("meter_id")
     def onchange_meter_id(self):

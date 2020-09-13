@@ -51,29 +51,22 @@ class RadiusNas(models.Model):
     community = fields.Char("Nas Community", size=64)
     description = fields.Text("Nas Description")
 
-
-"""
--- ----------------------------
--- Table structure for nas
--- ----------------------------
-DROP TABLE IF EXISTS "public"."nas";
-CREATE TABLE "public"."nas" (
-"id" int4 DEFAULT nextval('nas_id_seq'::regclass) NOT NULL,
-"nasname" text COLLATE "default" NOT NULL,
-"shortname" text COLLATE "default" NOT NULL,
-"type" text COLLATE "default" DEFAULT 'other'::text NOT NULL,
-"ports" int4,
-"secret" text COLLATE "default" NOT NULL,
-"server" text COLLATE "default",
-"community" text COLLATE "default",
-"description" text COLLATE "default"
-)
-WITH (OIDS=FALSE)
-
-;
-
-
-"""
+    # -- ----------------------------
+    # -- Table structure for nas
+    # -- ----------------------------
+    # DROP TABLE IF EXISTS "public"."nas";
+    # CREATE TABLE "public"."nas" (
+    # "id" int4 DEFAULT nextval('nas_id_seq'::regclass) NOT NULL,
+    # "nasname" text COLLATE "default" NOT NULL,
+    # "shortname" text COLLATE "default" NOT NULL,
+    # "type" text COLLATE "default" DEFAULT 'other'::text NOT NULL,
+    # "ports" int4,
+    # "secret" text COLLATE "default" NOT NULL,
+    # "server" text COLLATE "default",
+    # "community" text COLLATE "default",
+    # "description" text COLLATE "default"
+    # )
+    # WITH (OIDS=FALSE)
 
 
 # ----------------------------------------------------------
@@ -117,41 +110,34 @@ class RadiusRadacct(models.Model):
     acctstartdelay = fields.Integer("Acct start delay")  # new
     acctstopdelay = fields.Integer("Acct stop delay")  # new
 
-
-"""
-CREATE TABLE "public"."radacct" (
-"radacctid" int8 DEFAULT nextval('radacct_radacctid_seq'::regclass) NOT NULL,
-"acctsessionid" text COLLATE "default" NOT NULL,
-"acctuniqueid" text COLLATE "default" NOT NULL,
-"username" text COLLATE "default",
-"groupname" text COLLATE "default",
-"realm" text COLLATE "default",
-"nasipaddress" inet NOT NULL,
-"nasportid" text COLLATE "default",
-"nasporttype" text COLLATE "default",
-"acctstarttime" timestamptz(6),
-"acctupdatetime" timestamptz(6),
-"acctstoptime" timestamptz(6),
-"acctinterval" int8,
-"acctsessiontime" int8,
-"acctauthentic" text COLLATE "default",
-"connectinfo_start" text COLLATE "default",
-"connectinfo_stop" text COLLATE "default",
-"acctinputoctets" int8,
-"acctoutputoctets" int8,
-"calledstationid" text COLLATE "default",
-"callingstationid" text COLLATE "default",
-"acctterminatecause" text COLLATE "default",
-"servicetype" text COLLATE "default",
-"framedprotocol" text COLLATE "default",
-"framedipaddress" inet
-)
-WITH (OIDS=FALSE)
-
-;
-
-
-"""
+    # CREATE TABLE "public"."radacct" (
+    # "radacctid" int8 DEFAULT nextval('radacct_radacctid_seq'::regclass) NOT NULL,
+    # "acctsessionid" text COLLATE "default" NOT NULL,
+    # "acctuniqueid" text COLLATE "default" NOT NULL,
+    # "username" text COLLATE "default",
+    # "groupname" text COLLATE "default",
+    # "realm" text COLLATE "default",
+    # "nasipaddress" inet NOT NULL,
+    # "nasportid" text COLLATE "default",
+    # "nasporttype" text COLLATE "default",
+    # "acctstarttime" timestamptz(6),
+    # "acctupdatetime" timestamptz(6),
+    # "acctstoptime" timestamptz(6),
+    # "acctinterval" int8,
+    # "acctsessiontime" int8,
+    # "acctauthentic" text COLLATE "default",
+    # "connectinfo_start" text COLLATE "default",
+    # "connectinfo_stop" text COLLATE "default",
+    # "acctinputoctets" int8,
+    # "acctoutputoctets" int8,
+    # "calledstationid" text COLLATE "default",
+    # "callingstationid" text COLLATE "default",
+    # "acctterminatecause" text COLLATE "default",
+    # "servicetype" text COLLATE "default",
+    # "framedprotocol" text COLLATE "default",
+    # "framedipaddress" inet
+    # )
+    # WITH (OIDS=FALSE)
 
 
 # ----------------------------------------------------------

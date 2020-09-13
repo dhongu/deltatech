@@ -4,11 +4,8 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
     var concurrency = require("web.concurrency");
     var config = require("web.config");
     var core = require("web.core");
-    // Var publicWidget = require('web.public.widget');
     var utils = require("web.utils");
-    var wSaleUtils = require("website_sale.utils");
     var sAnimation = require("website.content.snippets.animation");
-    var wUtils = require("website.utils");
 
     var qweb = core.qweb;
 
@@ -150,7 +147,6 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
          * @param {Event} ev
          */
         _onAddToCart: function(ev) {
-            var self = this;
             var $card = $(ev.currentTarget).closest(".card");
             this._rpc({
                 route: "/shop/cart/update_json",
@@ -158,18 +154,6 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
                     product_id: $card.find("input[data-product-id]").data("product-id"),
                     add_qty: 1,
                 },
-            }).then(function(data) {
-                /*
-            WSaleUtils.updateCartNavBar(data);
-            var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_cart');
-            var fetch = self._fetch();
-            var animation = wSaleUtils.animateClone(
-            $navButton, $(ev.currentTarget).parents('.o_carousel_product_card'), 25, 40
-            );
-            Promise.all([fetch, animation]).then(function (values) {
-                self._render(values[0]);
-            });
-            */
             });
         },
     });

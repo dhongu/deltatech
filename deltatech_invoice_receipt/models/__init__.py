@@ -4,5 +4,3 @@
 
 
 from . import account_invoice, purchase
-
-# from . import stock

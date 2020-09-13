@@ -6,7 +6,7 @@ Partener Generic
    :alt: License: LGPL-3
 
 
-Features::
+Features:
  - definire partener generic
  - defining generic partner
 
