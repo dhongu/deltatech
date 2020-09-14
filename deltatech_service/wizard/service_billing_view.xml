@@ -35,7 +35,6 @@
             binding_model="service.consumption"
             view_mode="form"
             target="new"
-            view_type="form"
         />
         <menuitem
             name="Billing"

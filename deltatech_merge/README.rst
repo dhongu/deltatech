@@ -1,5 +1,5 @@
 ===========================================
-Deltatech SMS Sale
+Merge Objects
 ===========================================
 .. image:: https://img.shields.io/badge/license-LGPL--3-blue.png
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
@@ -7,8 +7,7 @@ Deltatech SMS Sale
 
 
 Features:
- -
-
+ - Abstract model for merge
 
 Bug Tracker
 ===========
@@ -26,7 +25,7 @@ Contributors
 ------------
 
 * Dorin Hongu <dhongu@gmail.com>
-* Dan Stoica
+
 
 Maintainer
 ----------

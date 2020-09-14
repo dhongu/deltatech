@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form.view</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[last()]" position="after">
+                    <button
+                        name="action_sms_preparation"
+                        string="SMS Preparation"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', 'not in', ('assigned')), ('show_validate', '=', False)]}"
+                        groups="stock.group_stock_user"
+                    />
+                    <button
+                        name="action_sms_ready"
+                        string="SMS Ready"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', 'not in', ('done', 'confirmed'))]}"
+                        groups="stock.group_stock_user"
+                    />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
