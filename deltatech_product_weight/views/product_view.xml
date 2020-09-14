@@ -5,6 +5,7 @@
             <field name="name">product.template.stock.property.form.inherit</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="priority">99</field>
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='weight']" position="replace">
                     <div class="o_row" name="weight">
@@ -19,6 +20,7 @@
             <field name="name">product.product.view.form.easy</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+            <field name="priority">99</field>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='weight']" position="replace">
                     <group

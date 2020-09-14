@@ -43,11 +43,11 @@ class MrpOrderGroup(models.TransientModel):
         for production in self.production_ids:
             group_ids |= production.procurement_group_id
 
-        """
-        move_ids = self.env['stock.move'].search([('group_id', 'in', group_ids.ids),
-                                                  ('production_id', 'in', self.production_ids.ids)])
-        move_ids.write({'group_id': self.group_id.id})
-        """
+        # """
+        # move_ids = self.env['stock.move'].search([('group_id', 'in', group_ids.ids),
+        #                                           ('production_id', 'in', self.production_ids.ids)])
+        # move_ids.write({'group_id': self.group_id.id})
+        # """
 
         move_ids = self.env["stock.move"].search(
             [("group_id", "in", group_ids.ids), ("raw_material_production_id", "in", self.production_ids.ids)]
@@ -57,15 +57,15 @@ class MrpOrderGroup(models.TransientModel):
             # move.procurement_id.write({'group_id': self.group_id.id})
             move.picking_id.write({"group_id": self.group_id.id})
 
-        """
-        pickings = self.env['stock.picking'].search([('group_id', 'in', group_ids.ids)])
-        pickings.write({'group_id': self.group_id.id})
-        """
-
-        """
-        procurement_orders = self.env["procurement.order"].search([('group_id', 'in', group_ids.ids)])
-        procurement_orders.write({'group_id': self.group_id.id})
-        """
+        # """
+        # pickings = self.env['stock.picking'].search([('group_id', 'in', group_ids.ids)])
+        # pickings.write({'group_id': self.group_id.id})
+        # """
+        #
+        # """
+        # procurement_orders = self.env["procurement.order"].search([('group_id', 'in', group_ids.ids)])
+        # procurement_orders.write({'group_id': self.group_id.id})
+        # """
 
         self.production_ids.write({"procurement_group_id": self.group_id.id})
         return

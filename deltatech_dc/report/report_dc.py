@@ -82,16 +82,16 @@ class ReportDCInvoicePrint(models.AbstractModel):
             "lot": False,
         }
 
-    """
-    def set_context(self, objects, data, ids, report_type=None):
-        new_ids = []
-        for invoice in self.pool.get('account.invoice').browse(self.cr, self.uid, ids):
-            for picking in invoice.picking_ids:
-                for move in picking.move_lines:
-                    for quant in move.quant_ids:
-                        if quant.lot_id:
-                            new_ids.append(quant.lot_id.id)
-
-        objects = self.pool.get('stock.production.lot').browse(self.cr, self.uid, new_ids)
-        return super(ReportDCInvoicePrint, self).set_context(objects, data, new_ids, report_type=report_type)
-    """
+    # """
+    # def set_context(self, objects, data, ids, report_type=None):
+    #     new_ids = []
+    #     for invoice in self.pool.get('account.invoice').browse(self.cr, self.uid, ids):
+    #         for picking in invoice.picking_ids:
+    #             for move in picking.move_lines:
+    #                 for quant in move.quant_ids:
+    #                     if quant.lot_id:
+    #                         new_ids.append(quant.lot_id.id)
+    #
+    #     objects = self.pool.get('stock.production.lot').browse(self.cr, self.uid, new_ids)
+    #     return super(ReportDCInvoicePrint, self).set_context(objects, data, new_ids, report_type=report_type)
+    # """

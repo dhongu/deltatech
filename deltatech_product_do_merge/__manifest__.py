@@ -9,7 +9,6 @@
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
     "depends": ["base", "stock", "deltatech_merge"],
-    "license": "LGPL-3",
     "data": ["security/res_groups.xml", "wizard/product_merge_view.xml"],
     "images": ["images/main_screenshot.png"],
 }

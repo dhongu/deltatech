@@ -399,11 +399,11 @@ class RadiusRadusergroup(models.Model):
     _rec_name = "groupname"
 
     def _get_groupname(self):
-        list = []
+        group_list = []
         groupname = self.env["radius.groups"].search([])
         for item in groupname:
-            list += [(item.name, item.name)]
-        return list
+            group_list += [(item.name, item.name)]
+        return group_list
 
     groupname = fields.Selection(_get_groupname, string="Group Name")
 

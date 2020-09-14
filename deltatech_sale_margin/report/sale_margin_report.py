@@ -170,41 +170,41 @@ class SaleMarginReport(models.Model):
         """
         return group_by_str
 
-    '''
-    @api.model_cr
-    def init(self):
-        # self._table = sale_report
-        tools.drop_view_if_exists(self.env.cr, self._table)
-        # CREATE MATERIALIZED VIEW
-        # CREATE or REPLACE VIEW
-        sql = """CREATE or REPLACE VIEW %s as (
-            WITH currency_rate (currency_id, rate, date_start, date_end) AS (
-                SELECT r.currency_id, r.rate, r.name AS date_start,
-                    (SELECT name FROM res_currency_rate r2
-                     WHERE r2.name > r.name AND
-                           r2.currency_id = r.currency_id
-                     ORDER BY r2.name ASC
-                     LIMIT 1) AS date_end
-                FROM res_currency_rate r
-            )
-            %s
-            FROM
-            (
-                %s
-                FROM %s
-                WHERE %s
-                GROUP BY %s
-            ) AS sub
-            JOIN currency_rate cr ON
-                (cr.currency_id = sub.currency_id AND
-                 cr.date_start <= COALESCE(sub.date, NOW()) AND
-                 (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
-        )"""
-        sql = sql % (self._table,
-                     self._select(), self._sub_select(), self._from(), self._where(), self._group_by())
-        # print sql
-        self.env.cr.execute(sql)
-    '''
+    # '''
+    # @api.model_cr
+    # def init(self):
+    #     # self._table = sale_report
+    #     tools.drop_view_if_exists(self.env.cr, self._table)
+    #     # CREATE MATERIALIZED VIEW
+    #     # CREATE or REPLACE VIEW
+    #     sql = """CREATE or REPLACE VIEW %s as (
+    #         WITH currency_rate (currency_id, rate, date_start, date_end) AS (
+    #             SELECT r.currency_id, r.rate, r.name AS date_start,
+    #                 (SELECT name FROM res_currency_rate r2
+    #                  WHERE r2.name > r.name AND
+    #                        r2.currency_id = r.currency_id
+    #                  ORDER BY r2.name ASC
+    #                  LIMIT 1) AS date_end
+    #             FROM res_currency_rate r
+    #         )
+    #         %s
+    #         FROM
+    #         (
+    #             %s
+    #             FROM %s
+    #             WHERE %s
+    #             GROUP BY %s
+    #         ) AS sub
+    #         JOIN currency_rate cr ON
+    #             (cr.currency_id = sub.currency_id AND
+    #              cr.date_start <= COALESCE(sub.date, NOW()) AND
+    #              (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
+    #     )"""
+    #     sql = sql % (self._table,
+    #                  self._select(), self._sub_select(), self._from(), self._where(), self._group_by())
+    #     # print sql
+    #     self.env.cr.execute(sql)
+    # '''
 
     @api.model_cr
     def init(self):
@@ -254,4 +254,5 @@ class SaleMarginReport(models.Model):
         if "user_id" in vals:
             invoice = self.env["account.invoice"].browse(self.invoice_id)
             invoice.write({"user_id": vals["user_id"]})
+        super(SaleMarginReport, self).write(vals)
         return True

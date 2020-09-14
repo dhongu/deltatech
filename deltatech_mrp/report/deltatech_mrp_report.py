@@ -1,9 +1,10 @@
 # ©  2008-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import api, fields, models, tools
 
-import odoo.addons.decimal_precision as dp
 
 # TODO: de citit coeficientul  din BOM
 
@@ -50,15 +51,15 @@ class DeltatechMrpReport(models.Model):
                     standard_price += price
                     product_val += line_rec.product_qty * price
                     itmes += 1
-                """
-                for cost in  line_rec.production_id.cost_detail_ids:
-                    if cost.cost_categ == 'semi':
-                        consumed_sem_val += cost.amount
-                    elif cost.cost_categ == 'pak':
-                        consumed_pak_val += cost.amount
-                    else:
-                        consumed_raw_val += cost.amount
-                """
+                # """
+                # for cost in  line_rec.production_id.cost_detail_ids:
+                #     if cost.cost_categ == 'semi':
+                #         consumed_sem_val += cost.amount
+                #     elif cost.cost_categ == 'pak':
+                #         consumed_pak_val += cost.amount
+                #     else:
+                #         consumed_raw_val += cost.amount
+                # """
                 if itmes > 0:
                     line["standard_price"] = standard_price / itmes
                     line["product_val"] = product_val
@@ -68,32 +69,28 @@ class DeltatechMrpReport(models.Model):
                 # line['consumed_raw_val'] = consumed_raw_val
         return res
 
-    def _get_standard_price(self):
-        res = {}
+    def _compute_standard_price(self):
         for line in self:
-            res[line.id] = line.product_id.get_history_price(
+            line.standard_price = line.product_id.get_history_price(
                 line.company_id.id, date=line.date
             ) or line.product_id.get_history_price(line.company_id.id)
-        return res
 
-    def _get_product_val(self):
-        res = {}
+    def _compute_product_val(self):
         for line in self:
-            res[line.id] = line.product_qty * line.product_id.get_history_price(line.company_id.id, date=line.date)
-        return res
+            line.product_val = line.product_qty * line.product_id.get_history_price(line.company_id.id, date=line.date)
 
-    def _get_consumed(self):
-        res = {}
+    def _compute_consumed(self):
         for line in self:
-            res[line.id] = {"consumed_raw_val": 0.0, "consumed_pak_val": 0.0, "consumed_sem_val": 0.0}
+            line.consumed_raw_val = 0.0
+            line.consumed_pak_val = 0.0
+            line.consumed_sem_val = 0.0
             for cost in line.production_id.cost_detail_ids:
                 if cost.cost_categ == "semi":
-                    res[line.id]["consumed_sem_val"] = cost.amount
+                    line.consumed_sem_val += cost.amount
                 elif cost.cost_categ == "pak":
-                    res[line.id]["consumed_pak_val"] = cost.amount
+                    line.consumed_pak_val += cost.amount
                 else:
-                    res[line.id]["consumed_raw_val"] = cost.amount
-        return res
+                    line.consumed_raw_val += cost.amount
 
     production_id = fields.Many2one("mrp.production", "Production Order", index=True)
     date = fields.Date("Date", readonly=True)
@@ -103,7 +100,7 @@ class DeltatechMrpReport(models.Model):
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", required=True)
 
     product_qty = fields.Float("Qty Plan", digits=dp.get_precision("Product Unit of Measure"), readonly=True)
-    product_val = fields.Float(compute="_get_product_val", string="Val Plan", readonly=True)
+    product_val = fields.Float(compute="_compute_product_val", string="Val Plan", readonly=True)
     product_qty_ef = fields.Float("Qty Efective", digits=dp.get_precision("Product Unit of Measure"), readonly=True)
     product_val_ef = fields.Float("Val Efective", digits=dp.get_precision("Account"), readonly=True)
 
@@ -115,7 +112,7 @@ class DeltatechMrpReport(models.Model):
     val_prod = fields.Float("Value production", digits=dp.get_precision("Account"), readonly=True)
 
     standard_price = fields.Float(
-        compute="_get_standard_price", string="Price Standard", readonly=True, group_operator="avg"
+        compute="_compute_standard_price", string="Price Standard", readonly=True, group_operator="avg"
     )
 
     actually_price = fields.Float(

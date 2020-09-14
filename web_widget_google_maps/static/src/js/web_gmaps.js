@@ -14,7 +14,7 @@ odoo.define("web_widget_google_maps", function(require) {
     var BasicController = require("web.BasicController");
     var BasicRenderer = require("web.BasicRenderer");
 
-    var AbstractModel = require("web.AbstractModel");
+    // Var AbstractModel = require("web.AbstractModel");
 
     var map = {};
     var odoo_markers = [];
@@ -305,7 +305,7 @@ odoo.define("web_widget_google_maps", function(require) {
 
             var changes = {};
 
-            if (result.request.origin.location !== undefined) {
+            if (result.request.origin.location) {
                 changes[this.field_from_lat] = result.request.origin.location.lat();
                 changes[this.field_from_lng] = result.request.origin.location.lng();
             } else {
@@ -313,7 +313,7 @@ odoo.define("web_widget_google_maps", function(require) {
                 changes[this.field_from_lng] = result.request.origin.lng();
             }
 
-            if (result.request.destination.location !== undefined) {
+            if (result.request.destination.location) {
                 changes[this.field_to_lat] = result.request.destination.location.lat();
                 changes[this.field_to_lng] = result.request.destination.location.lng();
             } else {
@@ -486,12 +486,12 @@ odoo.define("web_widget_google_maps", function(require) {
 
         // JsLibs: ['http://maps.googleapis.com/maps/api/js'],
 
-        init: function(viewInfo) {
-            this._super.apply(this, arguments);
-            var arch = viewInfo.arch;
-            // Var fields = viewInfo.fields;
-            // var attrs = arch.attrs;
-        },
+        // init: function(viewInfo) {
+        //     this._super.apply(this, arguments);
+        //     var arch = viewInfo.arch;
+        //     // Var fields = viewInfo.fields;
+        //     // var attrs = arch.attrs;
+        // },
 
         willStart: function() {
             var self = this;

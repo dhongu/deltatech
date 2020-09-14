@@ -46,15 +46,6 @@ class DeltatechExpensesDeduction(models.Model):
                 account_id = False
         return account_id
 
-    """
-    def name_get(self, cr, uid, ids, context=None):
-        if not ids:
-            return []
-        if context is None: context = {}
-        return [(r['id'], (r['number'] + str("%.2f" % r['amount']) or ''))
-                for r in self.read(cr, uid, ids, ['number','amount'], context, load='_classic_write')]
-    """
-
     number = fields.Char(string="Number", size=32, readonly=True,)
     state = fields.Selection(
         [("draft", "Draft"), ("done", "Done"), ("cancel", "Cancelled")],

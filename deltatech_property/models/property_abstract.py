@@ -63,7 +63,7 @@ class PropertyProperty(models.AbstractModel):
     # exista in echipament
     # note = fields.Text()
 
-    doc_count = fields.Integer(string="Number of documents", compute="_get_attached_docs")
+    doc_count = fields.Integer(string="Number of documents", compute="_compute_attached_docs")
 
     image = fields.Binary(
         "Image",
@@ -84,7 +84,7 @@ class PropertyProperty(models.AbstractModel):
         }
 
     @api.multi
-    def _get_attached_docs(self):
+    def _compute_attached_docs(self):
         for record in self:
             domain = [("res_model", "=", self._name), ("res_id", "=", record.id)]
             record.doc_count = self.env["ir.attachment"].search_count(domain)

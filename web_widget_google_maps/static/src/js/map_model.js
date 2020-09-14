@@ -195,14 +195,6 @@ odoo.define("web_map.MapModel", function(require) {
             });
         },
 
-        /**
-         * Handles the case where the selected api is MapBox.
-         * Iterates on all the partners and fetches their coordinates when they're not set.
-         * @private
-         * @return {Promise<routeResult> | Promise<>} if there's more than 2 located records and the routing option is activated it returns a promise that fetches the route
-         * resultResult is an object that contains the computed route
-         * or if either of these conditions are not respected it returns an empty promise
-         */
         _maxBoxAPI: function() {
             var self = this;
             var promises = [];

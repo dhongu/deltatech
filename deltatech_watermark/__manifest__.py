@@ -1,4 +1,4 @@
-# ©  2015-2019 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -11,6 +11,6 @@
     "depends": [],
     "license": "LGPL-3",
     "data": ["views/company_view.xml"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
 }

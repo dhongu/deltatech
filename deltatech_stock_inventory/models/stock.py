@@ -110,39 +110,39 @@ class StockInventoryLine(models.Model):
         #         #price = self.product_id.with_context(to_date=self.accounting_date).stock_value / self.theoretical_qty
         return price
 
-    # TODO: de gasit noua metoda
-
-    """
-    @api.model
-    def _resolve_inventory_line(self, inventory_line):
-
-        product_qty = inventory_line.product_qty
-        if inventory_line.product_id.cost_method == 'real':
-            price = inventory_line.get_price()
-
-            if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2):
-                # se completeaza o line de inventar cu cantitate zero si cu vechiul pret
-                line_price = inventory_line.standard_price
-                inventory_line.write({'standard_price': price, 'product_qty': 0.0})
-                inventory_line.product_id.product_tmpl_id.write({'standard_price': price})
-                move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
-
-                inventory_line.write(
-                    {'standard_price': line_price,
-                     'product_qty': product_qty + inventory_line.theoretical_qty})
-
-            inventory_line.product_id.product_tmpl_id.write(
-                {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
-
-        move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
-        if product_qty <> inventory_line.product_qty:
-            inventory_line.write({'product_qty': product_qty})
-        if move_id:
-            move = self.env['stock.move'].browse(move_id)
-            move.action_done()
-
-        return move_id
-    """
+    # # TODO: de gasit noua metoda
+    #
+    # """
+    # @api.model
+    # def _resolve_inventory_line(self, inventory_line):
+    #
+    #     product_qty = inventory_line.product_qty
+    #     if inventory_line.product_id.cost_method == 'real':
+    #         price = inventory_line.get_price()
+    #
+    #         if not float_is_zero(abs(inventory_line.standard_price - price), precision_digits=2):
+    #             # se completeaza o line de inventar cu cantitate zero si cu vechiul pret
+    #             line_price = inventory_line.standard_price
+    #             inventory_line.write({'standard_price': price, 'product_qty': 0.0})
+    #             inventory_line.product_id.product_tmpl_id.write({'standard_price': price})
+    #             move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
+    #
+    #             inventory_line.write(
+    #                 {'standard_price': line_price,
+    #                  'product_qty': product_qty + inventory_line.theoretical_qty})
+    #
+    #         inventory_line.product_id.product_tmpl_id.write(
+    #             {'standard_price': inventory_line.standard_price})  # acutlizare pret in produs
+    #
+    #     move_id = super(StockInventoryLine, self)._resolve_inventory_line(inventory_line)
+    #     if product_qty <> inventory_line.product_qty:
+    #         inventory_line.write({'product_qty': product_qty})
+    #     if move_id:
+    #         move = self.env['stock.move'].browse(move_id)
+    #         move.action_done()
+    #
+    #     return move_id
+    # """
 
     def _generate_moves(self):
         config_parameter = self.env["ir.config_parameter"].sudo()

@@ -5,10 +5,10 @@
 
 import math
 
+import odoo.addons.decimal_precision as dp
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-import odoo.addons.decimal_precision as dp
 
 
 class AccountMoveLine(models.Model):
@@ -20,18 +20,18 @@ class AccountMoveLine(models.Model):
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
 
-    amount = fields.Float(digits=dp.get_precision("Account"), string="Production Amount", compute="_calculate_amount")
+    amount = fields.Float(digits=dp.get_precision("Account"), string="Production Amount", compute="_compute_amount")
     calculate_price = fields.Float(
-        digits=dp.get_precision("Account"), string="Calculate Price", compute="_calculate_amount"
+        digits=dp.get_precision("Account"), string="Calculate Price", compute="_compute_amount"
     )
     service_amount = fields.Float(
         digits=dp.get_precision("Account"),
         string="Service Amount",
         compute="_compute_service_amount",
-        inverse="_set_service_amount",
+        inverse="_inverse_service_amount",
         store=True,
     )
-    overhead_amount = fields.Float(string="Overhead", compute="_calculate_amount", default="0.0")
+    overhead_amount = fields.Float(string="Overhead", compute="_compute_amount", default="0.0")
     acc_move_line_ids = fields.One2many("account.move.line", "production_id", string="Account move lines")
 
     @api.depends("move_raw_ids.quantity_done", "move_raw_ids.product_qty")
@@ -44,7 +44,7 @@ class MrpProduction(models.Model):
                     service_amount += move.price_unit * qty
             production.service_amount = service_amount
 
-    def _set_service_amount(self):
+    def _inverse_service_amount(self):
         service_amount = self.service_amount
         service_product = self.env["product.product"]
         for move in self.move_raw_ids:
@@ -56,7 +56,7 @@ class MrpProduction(models.Model):
             service_product.write({"standard_price": price})
 
     @api.multi
-    def _calculate_amount(self):
+    def _compute_amount(self):
         for production in self:
             # calculate_price = 0.0
             amount = 0.0

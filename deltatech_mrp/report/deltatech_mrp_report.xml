@@ -11,7 +11,6 @@
                     colors="blue:state in ('draft');black:state in ('picking_except','confirmed','ready','in_production');gray:state in ('done','cancel') "
                     string="Production"
                 >
-                    <field name="production_id" invisible="1" />
                     <field name="date" invisible="1" />
                     <field name="product_id" invisible="0" />
                     <field name="categ_id" invisible="1" />
