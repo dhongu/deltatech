@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Select Journal",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
