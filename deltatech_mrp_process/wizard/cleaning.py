@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class MRPCleaning(models.TransientModel):
     _name = "mrp.cleaning"
+    _description = "MRP Cleaning"
 
     cleaning_date = fields.Date()
     cleaning_note = fields.Text()

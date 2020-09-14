@@ -3,4 +3,5 @@
 
 
 # from . import mrp
-from . import mrp_cost, product
+from . import product
+from . import mrp_cost

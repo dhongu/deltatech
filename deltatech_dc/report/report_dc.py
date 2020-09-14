@@ -1,11 +1,4 @@
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
-#
-#    This program is free software: you can redistribute it and/or modify
-# -*- coding: utf-8 -*-
-# ©  2015-2019 Deltatech
+# ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
 import time
