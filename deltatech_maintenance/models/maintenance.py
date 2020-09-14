@@ -1,9 +1,9 @@
 # ©  2008-2020  Deltatech
 # See README.rst file on addons root folder for license details
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import api, fields, models
+
+import odoo.addons.decimal_precision as dp
 
 
 class MaintenanceTeam(models.Model):

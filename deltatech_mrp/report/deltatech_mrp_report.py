@@ -1,10 +1,9 @@
 # ©  2008-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import api, fields, models, tools
 
+import odoo.addons.decimal_precision as dp
 
 # TODO: de citit coeficientul  din BOM
 

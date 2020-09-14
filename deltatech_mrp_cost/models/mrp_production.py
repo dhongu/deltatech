@@ -5,10 +5,10 @@
 
 import math
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+import odoo.addons.decimal_precision as dp
 
 
 class AccountMoveLine(models.Model):

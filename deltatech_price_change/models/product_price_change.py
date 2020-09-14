@@ -3,11 +3,10 @@
 # See README.rst file on addons root folder for license details
 
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+import odoo.addons.decimal_precision as dp
 
 # todo: de facut legatura cu listele de preturi
 

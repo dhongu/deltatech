@@ -5,10 +5,10 @@
 import logging
 from datetime import datetime
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+import odoo.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 

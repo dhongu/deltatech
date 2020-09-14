@@ -1,11 +1,11 @@
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
+
+import odoo.addons.decimal_precision as dp
 
 
 class DeltatechExpensesDeduction(models.Model):

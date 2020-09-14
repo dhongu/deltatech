@@ -4,9 +4,9 @@
 
 from datetime import datetime
 
-import odoo.addons.decimal_precision as dp
-
 from odoo import api, fields, models
+
+import odoo.addons.decimal_precision as dp
 
 
 class Invoice(models.Model):
