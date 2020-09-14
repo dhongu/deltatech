@@ -11,6 +11,7 @@
                     <group>
                         <field
                             name="data_sheet_id"
+                            string="Data Sheet"
                             context="{'default_public':True,'default_res_model':'ir.ui.view'}"
                         />
                         <field

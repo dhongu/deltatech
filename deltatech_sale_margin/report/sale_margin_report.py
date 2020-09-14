@@ -211,8 +211,11 @@ class SaleMarginReport(models.Model):
 
         # self.env.cr.execute('DROP MATERIALIZED VIEW IF EXISTS %s' % self._table)
         tools.drop_view_if_exists(self.env.cr, self._table)
+
+        # pylint: disable=E8103
         self.env.cr.execute(
-            """CREATE VIEW  %s as (
+            """
+        CREATE VIEW  %s as (
             WITH currency_rate AS (%s)
             %s
             FROM (
@@ -226,8 +229,8 @@ class SaleMarginReport(models.Model):
                  cr.company_id = sub.company_id AND
                  cr.date_start <= COALESCE(sub.date, NOW()) AND
                  (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
-        )""",
-            (
+        )"""
+            % (
                 self._table,
                 self.env["res.currency"]._select_companies_rates(),
                 self._select(),
@@ -235,7 +238,7 @@ class SaleMarginReport(models.Model):
                 self._from(),
                 self._where(),
                 self._group_by(),
-            ),
+            )
         )
 
     # def refresh_view(self):

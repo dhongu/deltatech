@@ -9,7 +9,9 @@ class ProductTemplate(models.Model):
 
     # {'default_public':True,'default_res_model':'ir.ui.view'}
     data_sheet_id = fields.Many2one(
-        "ir.attachment", string="Data Sheet", domain=[("mimetype", "=", "application/pdf"), ("public", "=", True)]
+        "ir.attachment",
+        string="Data Sheet Attachment",
+        domain=[("mimetype", "=", "application/pdf"), ("public", "=", True)],
     )
 
     safety_data_sheet_id = fields.Many2one(

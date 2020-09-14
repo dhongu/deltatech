@@ -164,7 +164,7 @@ class ProductPriceChangeLine(models.Model):
 
     old_price = fields.Float(
         "Old Sale Price",
-        compute="_compute_old_amount",
+        compute="_compute_old_price",
         digits=dp.get_precision("Sale Price"),
         readonly=True,
         store=True,
@@ -209,6 +209,13 @@ class ProductPriceChangeLine(models.Model):
     def _compute_old_amount(self):
         for line in self:
             line.old_amount = line.old_price * line.quantity
+
+    @api.multi
+    @api.depends("old_amount", "quantity")
+    def _compute_old_price(self):
+        for line in self:
+            quantity = line.quantity or 1
+            line.old_price = line.old_amount / quantity
 
     @api.multi
     @api.depends("new_price", "quantity")
