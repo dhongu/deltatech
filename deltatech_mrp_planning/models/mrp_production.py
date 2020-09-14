@@ -10,8 +10,8 @@ from odoo import api, fields, models
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
 
-    date_planned_start_wo = fields.Datetime(string="Scheduled Start Date", index=True)
-    date_planned_finished_wo = fields.Datetime(string="Scheduled Start Date", index=True)
+    date_planned_start_wo = fields.Datetime(string="Planned Start Date", index=True)
+    date_planned_finished_wo = fields.Datetime(string="Planned Finished date", index=True)
 
     @api.multi
     def button_plan(self):

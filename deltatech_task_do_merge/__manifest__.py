@@ -13,7 +13,7 @@
     "license": "LGPL-3",
     "depends": ["project", "deltatech_merge"],
     "demo": [],
-    "data": ["security/res_groups.xml", "wizard/base_task_merge_view.xml"],
+    "data": ["security/res_groups.xml", "wizard/task_merge_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "auto_install": False,

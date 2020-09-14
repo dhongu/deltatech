@@ -10,6 +10,7 @@ import odoo.addons.decimal_precision as dp
 
 class MRPSimple(models.TransientModel):
     _name = "mrp.simple"
+    _description = "MRP Simple"
 
     product_in_ids = fields.One2many("mrp.simple.line.in", "mrp_simple_id")
     product_out_ids = fields.One2many("mrp.simple.line.out", "mrp_simple_id")
@@ -159,6 +160,7 @@ class MRPSimple(models.TransientModel):
 
 class MRPSimpleLineIn(models.TransientModel):
     _name = "mrp.simple.line.in"
+    _description = "MRP Simple Line IN"
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
@@ -183,6 +185,7 @@ class MRPSimpleLineIn(models.TransientModel):
 
 class MRPSimpleLineOut(models.TransientModel):
     _name = "mrp.simple.line.out"
+    _description = "MRP Simple Line OUT"
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")

@@ -47,7 +47,7 @@ class RadiusNas(models.Model):
     )
     ports = fields.Integer("Nas Ports")
     secret = fields.Char("Nas Secret", size=64, required=True)
-    server = fields.Char("Nas Secret", size=64)
+    server = fields.Char("Nas server", size=64)
     community = fields.Char("Nas Community", size=64)
     description = fields.Text("Nas Description")
 

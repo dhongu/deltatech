@@ -9,8 +9,8 @@ class MrpParameter(models.Model):
     _name = "mrp.parameter"
     _description = "Mrp Parameter"
 
-    display_name = fields.Char(string="Name", compute="_compute_display_name")
-    name = fields.Char()
+    display_name = fields.Char(string="Display Name", compute="_compute_display_name")
+    name = fields.Char(string="Name")
     code = fields.Char(index=True, required=True)
     value_ids = fields.One2many("mrp.parameter.value", "parameter_id", string="Values")
     value = fields.Float("Default Value", required=True, default=0.0)
