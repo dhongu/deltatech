@@ -3,13 +3,13 @@
 
 {
     "name": "No Negative Stock",
-    "version": "13.0.1.0.0",
+    "version": "13.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
     "depends": ["stock"],
     "license": "LGPL-3",
     "data": ["views/res_config_view.xml"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png", "views/stock_location_view.xml"],
     "installable": True,
 }
