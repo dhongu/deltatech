@@ -9,6 +9,7 @@ import odoo.addons.decimal_precision as dp
 
 class StockSimpleTransfer(models.TransientModel):
     _name = "stock.simple.transfer"
+    _description = "Simple Stock Transfer"
 
     product_id = fields.Many2one("product.product", string="Product", required=True)
     partner_id = fields.Many2one("res.partner", string="Partner")

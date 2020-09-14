@@ -327,11 +327,8 @@ odoo.define("web_map.MapModel", function(require) {
             });
         },
 
-        /**
-         * Writes partner_longitude and partner_latitude of the res.partner model
-         * @returns {Promise}
-         */
         _writeCoordinatesUsers: function() {
+            var self = this;
             if (this.partnerToCache.length) {
                 this._rpc({
                     model: "res.partner",
