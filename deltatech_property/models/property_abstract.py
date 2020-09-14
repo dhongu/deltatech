@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class PropertyProperty(models.AbstractModel):
@@ -20,7 +20,7 @@ class PropertyProperty(models.AbstractModel):
     # def _default_company(self):
     #     return self.env['res.company']._company_default_get(self._name)
 
-    base_equipment_id = fields.Many2one("maintenance.equipment")
+    base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="restrict")
 
     # exista deja in echipament
     # name = fields.Char(string="Name")
@@ -36,7 +36,7 @@ class PropertyProperty(models.AbstractModel):
     # company_id = fields.Many2one('res.company', 'Company', index=True, default=_default_company)
     # active = fields.Boolean(default=True)
 
-    owner_id = fields.Many2one("res.partner", string="Owner")
+    owner_id = fields.Many2one("res.partner", string="Partner Owner")
     responsible_id = fields.Many2one("res.partner", string="Responsible")
     region_id = fields.Many2one("property.region", string="Region")
     asset_number = fields.Char(string="Asset Number", index=True)
@@ -93,7 +93,7 @@ class PropertyProperty(models.AbstractModel):
     def attachment_tree_view(self):
         domain = [("res_model", "=", self._name), ("res_id", "in", self.ids)]
         return {
-            "name": "Documente",
+            "name": _("Documents"),
             "domain": domain,
             "res_model": "ir.attachment",
             "type": "ir.actions.act_window",

@@ -12,7 +12,7 @@ class PropertyBuilding(models.Model):
     tenant_id = fields.Many2one("res.partner", string="Tenant")
     agreement_id = fields.Many2one("service.agreement", string="Agreement")
 
-    service_equipment_id = fields.Many2one("service.equipment", ondelete="restrict")
+    service_equipment_id = fields.Many2one("service.equipment")
 
     @api.model_create_multi
     def create(self, vals_list):

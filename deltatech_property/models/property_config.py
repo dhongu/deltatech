@@ -9,17 +9,17 @@ from odoo import api, fields, models
 class PropertyNomenclature(models.AbstractModel):
     _name = "property.nomenclature"
     _description = "Nomenclature"
-    _rec_name = "display_name"
+    # _rec_name = "display_name"
     _order = "cod"
 
-    display_name = fields.Char(string="Name", compute="_compute_display_name", store=True, index=True)
+    display_name = fields.Char(string="Display Name", compute="_compute_display_name", store=True, index=True)
     cod = fields.Char(string="Cod rand")
     name = fields.Char()
     categ = fields.Char(string="Category")
     parent_id = fields.Char(string="Parent")
 
     @api.multi
-    @api.depends("cod")
+    @api.depends("cod", "name")
     def _compute_display_name(self):
         for item in self:
             if self.cod:

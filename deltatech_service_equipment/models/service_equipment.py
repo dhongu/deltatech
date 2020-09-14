@@ -16,7 +16,7 @@ class ServiceEquipment(models.Model):
     _inherits = {"maintenance.equipment": "base_equipment_id"}
     _inherit = "mail.thread"
 
-    base_equipment_id = fields.Many2one("maintenance.equipment")
+    base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="restrict")
 
     # campuri care se gasesc in echipament
     # name = fields.Char(string='Name', index=True, required=True, copy=False)

@@ -32,7 +32,6 @@ class ServiceMeterCategory(models.Model):
 class ServiceMeter(models.Model):
     _name = "service.meter"
     _description = "Meter"
-    _rec_name = "display_name"
 
     name = fields.Char(string="Name")
     display_name = fields.Char(compute="_compute_display_name")
