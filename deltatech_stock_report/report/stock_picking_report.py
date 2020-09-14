@@ -20,13 +20,13 @@ class StockPickingReport(models.Model):
 
     date = fields.Datetime("Date", readonly=True)
 
-    """
-
-    invoice_state = fields.Selection([("invoiced", "Invoiced"),
-                                      ("2binvoiced", "To Be Invoiced"),
-                                      ("none", "Not Applicable")
-                                      ], string="Invoice Control", readonly=True)
-    """
+    # """
+    #
+    # invoice_state = fields.Selection([("invoiced", "Invoiced"),
+    #                                   ("2binvoiced", "To Be Invoiced"),
+    #                                   ("none", "Not Applicable")
+    #                                   ], string="Invoice Control", readonly=True)
+    # """
     company_id = fields.Many2one("res.company", "Company", readonly=True)
 
     categ_id = fields.Many2one("product.category", "Category", readonly=True)
@@ -85,7 +85,9 @@ class StockPickingReport(models.Model):
     @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
-        query = """
+        # pylint: disable=E8103
+        self.env.cr.execute(
+            """
         CREATE or REPLACE VIEW %s as (
             %s
             %s
@@ -93,4 +95,5 @@ class StockPickingReport(models.Model):
             %s
         )
         """
-        self.env.cr.execute(query, (self._table, self._select(), self._from(), self._where(), self._group_by()))
+            % (self._table, self._select(), self._from(), self._where(), self._group_by())
+        )
