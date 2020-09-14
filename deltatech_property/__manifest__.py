@@ -17,7 +17,7 @@
         "views/property_building_view.xml",
         "views/property_room_view.xml",
         "data/data.xml",
-        "data/res.country.state.csv",
+        # "data/res.country.state.csv",
         "security/ir.model.access.csv",
     ],
     "application": True,

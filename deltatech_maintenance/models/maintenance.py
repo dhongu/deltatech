@@ -68,7 +68,7 @@ class MaintenanceRequest(models.Model):
             "type": "ir.actions.act_window",
         }
 
-    @api.onchange("operation_ids.duration")
+    @api.onchange("operation_ids")
     def onchange_operation_ids(self):
         if self.operation_ids:
             duration = 0

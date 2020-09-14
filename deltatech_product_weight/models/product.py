@@ -12,7 +12,7 @@ class ProductTemplate(models.Model):
     #     uom_kg = self.env.ref('product.product_uom_kgm')
     #     return uom_kg.id
 
-    weight_uom = fields.Float("Weight", related="weight", readonly=False)
+    weight_uom = fields.Float("Weight ", related="weight", readonly=False)
 
     # weight_uom = fields.Float('Weight UoM', compute='_compute_weight_uom', digits=dp.get_precision('Stock Weight'),
     #     inverse='_set_weight_uom', store=True,
