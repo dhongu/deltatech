@@ -4,7 +4,7 @@
 
 {
     "name": "MRP Edit Components",
-    "version": "13.0.4.0.0",
+    "version": "14.0.4.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
