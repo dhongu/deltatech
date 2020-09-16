@@ -22,4 +22,6 @@
     "demo": ["data/radius_data.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

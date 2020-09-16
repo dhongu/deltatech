@@ -14,4 +14,6 @@
         # "views/product_view.xml"
     ],
     "images": ["static/description/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

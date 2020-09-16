@@ -13,4 +13,6 @@
     "data": ["views/iap_views.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

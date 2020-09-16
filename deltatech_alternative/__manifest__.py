@@ -17,4 +17,6 @@
     "license": "LGPL-3",
     "data": ["views/product_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

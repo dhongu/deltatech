@@ -18,4 +18,6 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "application": False,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

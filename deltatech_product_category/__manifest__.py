@@ -14,4 +14,6 @@
     "data": ["views/product_view.xml", "views/res_config_settings_views.xml", "security/product_security.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

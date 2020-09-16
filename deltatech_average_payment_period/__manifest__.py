@@ -17,4 +17,6 @@
     "data": ["views/account_view.xml", "report/account_average_payment_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

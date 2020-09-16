@@ -17,4 +17,6 @@
     ],
     "data": ["views/account_invoice_view.xml"],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

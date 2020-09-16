@@ -18,4 +18,6 @@
     "application": False,
     "bootstrap": True,
     "auto_install": False,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

@@ -14,4 +14,6 @@
     "data": ["wizard/sale_make_invoice_advance_views.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

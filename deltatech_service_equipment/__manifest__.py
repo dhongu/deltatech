@@ -33,4 +33,6 @@
         # # 'service.meter.reading.csv'
     ],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

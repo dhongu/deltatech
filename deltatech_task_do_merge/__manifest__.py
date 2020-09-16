@@ -16,5 +16,6 @@
     "data": ["security/res_groups.xml", "wizard/task_merge_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
-    "auto_install": False,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

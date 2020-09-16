@@ -12,4 +12,6 @@
     "data": ["views/templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

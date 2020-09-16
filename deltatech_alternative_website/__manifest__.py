@@ -16,4 +16,6 @@
     "depends": ["website_sale", "deltatech_alternative"],
     "data": ["views/product_view.xml", "views/templates.xml"],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

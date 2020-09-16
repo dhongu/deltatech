@@ -13,4 +13,6 @@
     "data": ["report/deltatech_sale_report.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

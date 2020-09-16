@@ -13,4 +13,6 @@
     "license": "LGPL-3",
     "data": ["data/data.xml", "views/res_config_settings_views.xml"],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

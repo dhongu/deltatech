@@ -16,4 +16,6 @@
     "data": ["data/data.xml", "views/stock_view.xml", "views/product_view.xml", "views/report_stockinventory.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

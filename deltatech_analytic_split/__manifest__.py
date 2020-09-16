@@ -11,4 +11,6 @@
     "summary": "Split analytic line into multiple lines",
     "license": "AGPL-3",
     "data": ["wizard/analytic_split.xml"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

@@ -16,4 +16,6 @@
     "data": ["wizard/account_cash_update_balances_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

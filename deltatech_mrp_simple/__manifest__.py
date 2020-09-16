@@ -3,7 +3,7 @@
 {
     "name": "Simple MRP",
     "version": "12.0.1.0.0",
-    "author": "Terrabit, Dorin Hongu",
+    "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ["stock"],
@@ -11,4 +11,6 @@
     "data": ["wizard/mrp_simple_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

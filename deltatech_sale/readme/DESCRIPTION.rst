@@ -1,0 +1,3 @@
+Features:
+ - Error selecting product in order without customer.
+ - Sales report presents the profitability analysis.

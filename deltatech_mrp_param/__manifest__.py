@@ -20,4 +20,6 @@
     ],
     "installable": True,
     "images": [],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

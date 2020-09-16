@@ -12,4 +12,6 @@
     "license": "AGPL-3",
     "data": ["views/service_rent_view.xml", "views/service_equipment_view.xml"],
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

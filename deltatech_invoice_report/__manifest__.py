@@ -11,4 +11,6 @@
     "data": ["report/invoice_report_view.xml", "views/product_view.xml", "wizard/product_without_move_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }
