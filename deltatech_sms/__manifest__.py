@@ -14,5 +14,5 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "stable",
-    "maintainers": ["terrabit-ro"],
+    "maintainers": ["dhongu"],
 }

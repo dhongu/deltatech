@@ -18,4 +18,6 @@
     ],
     "images": ["images/main_screenshot.png"],
     "post_init_hook": "_set_auto_auto_statement",
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

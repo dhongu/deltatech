@@ -177,9 +177,6 @@ addon | version | summary
 
 Maintainer
 ----------
+[![terrabit](https://terrabit.ro/images/logo-terrabit.png)](https://terrabit.ro)
 
-.. image:: https://terrabit.ro/images/logo-terrabit.png
-   :alt: Terrabit
-   :target: https://terrabit.ro
-
-This module is maintained by the Terrabit.
+This modules is maintained by the Terrabit.

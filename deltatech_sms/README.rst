@@ -59,13 +59,13 @@ Do not contact contributors directly about support or help with technical issues
 Maintainers
 ~~~~~~~~~~~
 
-.. |maintainer-terrabit-ro| image:: https://github.com/terrabit-ro.png?size=40px
-    :target: https://github.com/terrabit-ro
-    :alt: terrabit-ro
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
 
 Current maintainer:
 
-|maintainer-terrabit-ro| 
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/13.0/deltatech_sms>`_ project on GitHub.
 

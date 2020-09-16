@@ -12,4 +12,6 @@
     "data": ["views/res_config_view.xml"],
     "images": ["static/description/main_screenshot.png", "views/stock_location_view.xml"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

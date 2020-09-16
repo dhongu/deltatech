@@ -13,4 +13,6 @@
     "data": ["views/delivery_view.xml", "views/assets.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }
