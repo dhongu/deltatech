@@ -43,7 +43,6 @@ Usage
     :align: center
     :alt: Settings Location
 
-
 Bug Tracker
 ===========
 
