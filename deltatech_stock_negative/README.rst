@@ -25,6 +25,25 @@ Features:
 .. contents::
    :local:
 
+Usage
+=====
+
+
+- Inventory -> Configuration -> Settings
+- Traceability -> Negative Stock
+
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_stock_negative/static/description/settings.png
+    :align: center
+    :alt: Settings
+
+
+- Inventory -> Configuration -> Location
+
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_stock_negative/static/description/settings_location.png
+    :align: center
+    :alt: Settings Location
+
+
 Bug Tracker
 ===========
 
