@@ -22,6 +22,7 @@ addon | version | summary
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
+[deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
@@ -71,7 +72,6 @@ addon | version | summary
 [deltatech_invoice_number](__unported__/deltatech_invoice_number/) | 12.0.1.0.0 (unported) | Invoice Number
 [deltatech_invoice_print](__unported__/deltatech_invoice_print/) | 10.0.1.0.0 (unported) | Invoice Print
 [deltatech_invoice_product_filter](__unported__/deltatech_invoice_product_filter/) | 12.0.1.0.0 (unported) | Invoice Product Filter
-[deltatech_invoice_receipt](__unported__/deltatech_invoice_receipt/) | 13.0.1.0.0 (unported) | Deltatech Invoice Receipt
 [deltatech_invoice_report](__unported__/deltatech_invoice_report/) | 1.0 (unported) | Deltatech Invoice Report
 [deltatech_invoice_weight](__unported__/deltatech_invoice_weight/) | 1.0 (unported) | Invoice Weight
 [deltatech_mail](__unported__/deltatech_mail/) | 12.0.1.0.0 (unported) | Mail Extension
