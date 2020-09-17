@@ -73,10 +73,17 @@ class service_consumable_item(models.Model):
         if equipment_id:
             eff = self.env['service.efficiency.report']
             domain = [('product_id', '=', self.product_id.id), ('equipment_id', '=', equipment_id)]
-            fields = ['equipment_id', 'product_id', 'usage', 'shelf_life']
-            groupby = ['equipment_id', 'product_id']
+            fields = ['equipment_id', 'product_id', 'location_dest_id', 'usage', 'shelf_life']
+            groupby = ['equipment_id', 'product_id', 'location_dest_id']
             res = eff.read_group(domain=domain, fields=fields, groupby=groupby, lazy=False)
+            quantity = 0.0
             for line in res:
-                self.quantity += line['shelf_life'] - line['usage']
+                location_destination_id = self.env['stock.location'].browse(line['location_dest_id'][0])
+                if location_destination_id.usage == 'internal':
+                    quantity +=  line['usage']
+                else:
+                    quantity +=  -line['usage']
+            if quantity:
+                self.quantity = self.shelf_life + quantity
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
