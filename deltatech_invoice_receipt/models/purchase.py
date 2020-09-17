@@ -37,4 +37,4 @@ class PurchaseOrder(models.Model):
                         else:
                             move_line.unlink()
                     # pentru a se prelua data din comanda de achizitie
-                    picking.with_context(force_period_date=purchase_order.date_order).action_done()
+                    picking.with_context(force_period_date=purchase_order.date_order)._action_done()
