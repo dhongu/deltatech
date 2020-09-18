@@ -16,4 +16,6 @@
     "data": ["views/purchase_view.xml", "views/stock_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

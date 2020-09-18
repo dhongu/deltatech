@@ -21,6 +21,7 @@ addon | version | summary
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
+[deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
@@ -67,7 +68,6 @@ addon | version | summary
 [deltatech_download](__unported__/deltatech_download/) | 13.0.0.0.0 (unported) | Generare fisier
 [deltatech_expenses](__unported__/deltatech_expenses/) | 12.0.1.0.0 (unported) | Expenses Deduction & Disposition of Cashing
 [deltatech_fast_picking](__unported__/deltatech_fast_picking/) | 12.0.1.0.0 (unported) | Trasnfer rapid
-[deltatech_fast_purchase](__unported__/deltatech_fast_purchase/) | 14.0.1.0.0 (unported) | Achizitie rapida
 [deltatech_gamification](__unported__/deltatech_gamification/) | 1.0 (unported) | Deltatech Gamification extension
 [deltatech_invoice_currency](__unported__/deltatech_invoice_currency/) | 11.0.1.0.0 (unported) | Invoice Currency
 [deltatech_invoice_line](__unported__/deltatech_invoice_line/) | 12.0.1.0.0 (unported) | Invoice Line
