@@ -23,9 +23,11 @@ addon | version | summary
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
+[deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
+[deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.0.0 | Purchase Price
 [deltatech_select_journal](deltatech_select_journal/) | 14.0.1.0.0 | Selectie jurnal
 [deltatech_sms](deltatech_sms/) | 14.0.1.0.0 | Deltatech SMS
 [deltatech_sms_sale](deltatech_sms_sale/) | 14.0.1.0.0 | Deltatech SMS Sale
@@ -71,7 +73,6 @@ addon | version | summary
 [deltatech_invoice_number](__unported__/deltatech_invoice_number/) | 12.0.1.0.0 (unported) | Invoice Number
 [deltatech_invoice_print](__unported__/deltatech_invoice_print/) | 10.0.1.0.0 (unported) | Invoice Print
 [deltatech_invoice_product_filter](__unported__/deltatech_invoice_product_filter/) | 12.0.1.0.0 (unported) | Invoice Product Filter
-[deltatech_invoice_receipt](__unported__/deltatech_invoice_receipt/) | 13.0.1.0.0 (unported) | Deltatech Invoice Receipt
 [deltatech_invoice_report](__unported__/deltatech_invoice_report/) | 1.0 (unported) | Deltatech Invoice Report
 [deltatech_invoice_weight](__unported__/deltatech_invoice_weight/) | 1.0 (unported) | Invoice Weight
 [deltatech_mail](__unported__/deltatech_mail/) | 12.0.1.0.0 (unported) | Mail Extension
@@ -118,7 +119,6 @@ addon | version | summary
 [deltatech_product_weight](__unported__/deltatech_product_weight/) | 12.0.2.0.0 (unported) | Products Weight
 [deltatech_project](__unported__/deltatech_project/) | 1.10 (unported) | Deltatech Project Extension
 [deltatech_property](__unported__/deltatech_property/) | 12.0.1.0.0 (unported) | Property Management
-[deltatech_purchase_price](__unported__/deltatech_purchase_price/) | 13.0.1.0.0 (unported) | Purchase Price
 [deltatech_purchase_xls](__unported__/deltatech_purchase_xls/) | 1.0 (unported) | Deltatech Purchase XLS
 [deltatech_qr_invoice](__unported__/deltatech_qr_invoice/) | 1.0 (unported) | Deltatech QR on invoice
 [deltatech_quant](__unported__/deltatech_quant/) | 1.0 (unported) | Deltatech Pozitii Stoc

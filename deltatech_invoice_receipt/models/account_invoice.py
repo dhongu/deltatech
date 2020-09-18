@@ -14,7 +14,7 @@ class AccountInvoice(models.Model):
         # inainte de a face notele contabile trebuie sa verifica daca toate pozitiile din factura de achizitie
         # sunt legate de o comanda de aprovizonaoare
 
-        purchase_invoices = self.filtered(lambda inv: inv.type == "in_invoice")
+        purchase_invoices = self.filtered(lambda inv: inv.move_type == "in_invoice")
         if purchase_invoices:
             purchase_invoices.add_to_purchase()
             purchase_invoices.receipt_to_stock()
@@ -43,6 +43,7 @@ class AccountInvoice(models.Model):
                 # trebuie sa verific daca sunt produse stocabile ?
 
                 if len(purchase_order) != 1:
+
                     purchase_order = self.env["purchase.order"].create(
                         {
                             "partner_id": invoice.partner_id.id,
@@ -51,6 +52,7 @@ class AccountInvoice(models.Model):
                             "fiscal_position_id": invoice.fiscal_position_id.id,
                             "from_invoice_id": invoice.id,
                             "currency_id": invoice.currency_id.id,  # Preluare Moneda in comanda de achizitie
+                            # "group_id": procurement_group.id
                         }
                     )
 
@@ -76,7 +78,8 @@ class AccountInvoice(models.Model):
                         }
                     )
                 if purchase_order.from_invoice_id:
-                    purchase_order.button_confirm()  # confirma comanda de achizitie
+                    # am eliminat contextul pentru ca se timitea move_type in  procurement.group
+                    purchase_order.with_context({}).button_confirm()  # confirma comanda de achizitie
                     purchase_order.message_post_with_view(
                         "mail.message_origin_link",
                         values={"self": purchase_order, "origin": invoice},
