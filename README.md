@@ -89,7 +89,6 @@ addon | version | summary
 [deltatech_mrp_confirmation](__unported__/deltatech_mrp_confirmation/) | 11.0.2.0.0 (unported) | MRP Confirmation
 [deltatech_mrp_cost](__unported__/deltatech_mrp_cost/) | 12.0.2.0.0 (unported) | MRP Cost
 [deltatech_mrp_dimension](__unported__/deltatech_mrp_dimension/) | 1.0 (unported) | MRP Bom Dimension
-[deltatech_mrp_edit_comp](__unported__/deltatech_mrp_edit_comp/) | 13.0.4.0.0 (unported) | MRP Edit Components
 [deltatech_mrp_group](__unported__/deltatech_mrp_group/) | 12.0.1.0.0 (unported) | MRP Group Production Order
 [deltatech_mrp_merge](__unported__/deltatech_mrp_merge/) | 1.0 (unported) | MRP Merge Production Order
 [deltatech_mrp_param](__unported__/deltatech_mrp_param/) | 12.0.1.0.0 (unported) | MRP Parameter
