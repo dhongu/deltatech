@@ -25,6 +25,8 @@ addon | version | summary
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
+[deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
+[deltatech_payment_to_statement](deltatech_payment_to_statement/) | 13.0.1.0.0 | Payment to Statement
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
@@ -102,7 +104,6 @@ addon | version | summary
 [deltatech_parallel_valuation](__unported__/deltatech_parallel_valuation/) | 1.0 (unported) | Deltatech Parallel Valuation
 [deltatech_partner_gmap](__unported__/deltatech_partner_gmap/) | 11.0.1.0.0 (unported) | Partner Map
 [deltatech_payment_term](__unported__/deltatech_payment_term/) | 12.0.2.0.0 (unported) | Payment Term Rate Wizard
-[deltatech_payment_to_statement](__unported__/deltatech_payment_to_statement/) | 13.0.1.0.0 (unported) | Payment to Statement
 [deltatech_percent_qty](__unported__/deltatech_percent_qty/) | 2.0 (unported) | Deltatech Percent Quantity
 [deltatech_picking_number](__unported__/deltatech_picking_number/) | 12.0.2.0.0 (unported) | Picking Number
 [deltatech_pos_customer](__unported__/deltatech_pos_customer/) | 1.0 (unported) | Required customer

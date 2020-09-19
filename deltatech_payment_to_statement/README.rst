@@ -14,7 +14,7 @@ Payment to Statement
     :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_payment_to_statement
     :alt: dhongu/deltatech
 
-|badge1| |badge2|
+|badge1| |badge2| 
 
 Features:
 
@@ -57,7 +57,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_payment_to_statement>`_ project on GitHub.
 
