@@ -338,7 +338,7 @@ class BuildingHistory(models.Model):
     _description = "Building History"
 
     building_id = fields.Many2one("property.building", string="Building", required=True, ondelete="cascade")
-    owner_id = fields.Many2one("res.partner", string="Owner")
+    tenant_id = fields.Many2one("res.partner", string="Tenant")
     from_date = fields.Date(string="From date")
     to_date = fields.Date(string="To date")
     note = fields.Char()

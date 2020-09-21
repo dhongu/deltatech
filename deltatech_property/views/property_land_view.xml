@@ -106,8 +106,14 @@
                                         options='{"no_open": True, "no_create": True}'
                                     />
                                 </div>
-                                <field name="latitude" />
-                                <field name="longitude" />
+                            </group>
+                            <group>
+                                <label for="latitude" string="Coord" class="oe_inline" />
+                                <div>
+                                    <field name="latitude" placeholder="latitude" class="oe_inline" />
+                                    <span string="-" class="oe_inline" />
+                                    <field name="longitude" placeholder="longitude" class="oe_inline" />
+                                </div>
                             </group>
                         </group>
                         <notebook>
@@ -143,10 +149,6 @@
                             </page>
                             <page string="Organization">
                                 <group>
-                                    <group>
-                                        <field name="cost_center_id" />
-                                        <field name="order_number" />
-                                    </group>
                                     <group>
                                         <field name="class_number" />
                                         <field name="class_code" />

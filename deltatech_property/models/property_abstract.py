@@ -48,8 +48,8 @@ class PropertyProperty(models.AbstractModel):
 
     class_number = fields.Char(string="Class")
     class_code = fields.Char(string="Classification code")
-    cost_center_id = fields.Many2one("property.cost.center", string="Cost Center")
-    order_number = fields.Char(string="Order Number")
+    # cost_center_id = fields.Many2one("property.cost.center", string="Cost Center")
+    # order_number = fields.Char(string="Order Number")
 
     acquisition_mode_id = fields.Many2one("property.acquisition", string="Acquisition Mode")
     date_acquisition = fields.Date(string="Acquisition Date")

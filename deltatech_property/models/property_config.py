@@ -63,10 +63,10 @@ class PropertyBuildingPurpose(models.Model):
     parent_id = fields.Many2one("property.building.purpose")
 
 
-class PropertyCostCenter(models.Model):
-    _name = "property.cost.center"
-    _description = "Property Cost Center"
-    _inherit = "property.nomenclature"
+# class PropertyCostCenter(models.Model):
+#     _name = "property.cost.center"
+#     _description = "Property Cost Center"
+#     _inherit = "property.nomenclature"
 
 
 class PropertyRegion(models.Model):
