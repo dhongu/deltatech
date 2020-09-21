@@ -18,7 +18,9 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[deltatech](deltatech/) | 14.0.1.0.0 | Generic module
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
+[deltatech_alternative_website](deltatech_alternative_website/) | 1.0 | Website alternative code
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
@@ -26,7 +28,6 @@ addon | version | summary
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
 [deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
-[deltatech_payment_to_statement](deltatech_payment_to_statement/) | 13.0.1.0.0 | Payment to Statement
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
@@ -48,13 +49,10 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[background_job](__unported__/background_job/) | 10.0.1.0.0 (unported) | Background job
-[deltatech](__unported__/deltatech/) | 13.0.1.0.0 (unported) | Generic module
 [deltatech_account](__unported__/deltatech_account/) | 2.0 (unported) | Deltatech Account
 [deltatech_account_signed](__unported__/deltatech_account_signed/) | 11.0.1.0.0 (unported) | Deltatech Account Signed
 [deltatech_add_to_purchase](__unported__/deltatech_add_to_purchase/) | 1.0 (unported) | Deltatech Add To Purchase
 [deltatech_alternative_inv](__unported__/deltatech_alternative_inv/) | 1.0 (unported) | Deltatech Products Alternative On Invoice
-[deltatech_alternative_website](__unported__/deltatech_alternative_website/) | 1.0 (unported) | Website alternative code
 [deltatech_average_payment_period](__unported__/deltatech_average_payment_period/) | 12.0.1.0.0 (unported) | Deltatech Average Payment Period
 [deltatech_backwards](__unported__/deltatech_backwards/) | 10.0.1.0.0 (unported) | Deltatech Backwards
 [deltatech_bank_statement](__unported__/deltatech_bank_statement/) | 1.0 (unported) | Deltatech Bank Statement Extension
@@ -104,6 +102,7 @@ addon | version | summary
 [deltatech_parallel_valuation](__unported__/deltatech_parallel_valuation/) | 1.0 (unported) | Deltatech Parallel Valuation
 [deltatech_partner_gmap](__unported__/deltatech_partner_gmap/) | 11.0.1.0.0 (unported) | Partner Map
 [deltatech_payment_term](__unported__/deltatech_payment_term/) | 12.0.2.0.0 (unported) | Payment Term Rate Wizard
+[deltatech_payment_to_statement](__unported__/deltatech_payment_to_statement/) | 13.0.1.0.0 (unported) | Payment to Statement
 [deltatech_percent_qty](__unported__/deltatech_percent_qty/) | 2.0 (unported) | Deltatech Percent Quantity
 [deltatech_picking_number](__unported__/deltatech_picking_number/) | 12.0.2.0.0 (unported) | Picking Number
 [deltatech_pos_customer](__unported__/deltatech_pos_customer/) | 1.0 (unported) | Required customer
