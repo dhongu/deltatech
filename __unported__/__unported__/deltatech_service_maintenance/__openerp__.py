@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -21,9 +21,9 @@
 ##############################################################################
 
 {
-    "name" : "Deltatech Services Maintenance",
-    "version" : "1.0",
-    "author" : "Terrabit, Dorin Hongu",
+    "name": "Deltatech Services Maintenance",
+    "version": "1.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "description": """
 
@@ -37,40 +37,35 @@ Functionalitati:
 
 
 
- 
+
     """,
-    
-    "category" : "Generic Modules",
-    "depends" : ["base","mail",
-                 "deltatech",
-                 "deltatech_service",
-                 "deltatech_service_equipment",
-                 #"deltatech_procurement",
-                 "deltatech_product_extension",
-                 #"deltatech_stock_report",
-                 #"web_notification",   #pentru afisare mesaje procese lansate in background
-                 ],
 
-
-    "data" : [ 'data.xml',
-
-               'service_notification_view.xml',
-               'service_order_view.xml',
-               'service_plan_view.xml',
-
-               'service_equipment_view.xml',
-               
-               'security/service_security.xml',
-               'security/ir.model.access.csv',
-               
-               'wizard/rescheduling_view.xml',
-
-                            
+    "category": "Generic Modules",
+    "depends": ["base", "mail",
+                "deltatech",
+                "deltatech_service",
+                "deltatech_service_equipment",
+                # "deltatech_procurement",
+                "deltatech_product_extension",
+                # "deltatech_stock_report",
+                # "web_notification",   #pentru afisare mesaje procese lansate in background
                 ],
+
+    "data": ['data.xml',
+
+             'service_notification_view.xml',
+             'service_order_view.xml',
+             'service_plan_view.xml',
+
+             'service_equipment_view.xml',
+
+             'security/service_security.xml',
+             'security/ir.model.access.csv',
+
+             'wizard/rescheduling_view.xml',
+
+             ],
     "active": False,
     "installable": True,
 }
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
 
