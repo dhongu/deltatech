@@ -18,6 +18,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[deltatech](deltatech/) | 14.0.1.0.0 | Generic module
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
 [deltatech_alternative_website](deltatech_alternative_website/) | 1.0 | Website alternative code
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
@@ -48,8 +49,6 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[background_job](__unported__/background_job/) | 10.0.1.0.0 (unported) | Background job
-[deltatech](__unported__/deltatech/) | 13.0.1.0.0 (unported) | Generic module
 [deltatech_account](__unported__/deltatech_account/) | 2.0 (unported) | Deltatech Account
 [deltatech_account_signed](__unported__/deltatech_account_signed/) | 11.0.1.0.0 (unported) | Deltatech Account Signed
 [deltatech_add_to_purchase](__unported__/deltatech_add_to_purchase/) | 1.0 (unported) | Deltatech Add To Purchase

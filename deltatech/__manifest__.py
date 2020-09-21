@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
@@ -13,4 +13,6 @@
     "data": ["views/base_view.xml"],
     "license": "LGPL-3",
     "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }
