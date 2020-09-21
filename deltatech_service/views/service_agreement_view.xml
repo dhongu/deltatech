@@ -14,6 +14,8 @@
                 </field>
             </field>
         </record>
+
+
         <record id="action_service_invoice" model="ir.actions.act_window">
             <field name="name">Service Invoices</field>
             <field name="res_model">account.invoice</field>
@@ -30,13 +32,21 @@
             <field eval="1" name="sequence" />
             <field name="view_mode">tree</field>
             <field name="act_window_id" ref="action_service_invoice" />
+            <field name="view_id" ref="account.invoice_tree_with_onboarding"/>
+
         </record>
+
+
         <record id="action_service_invoice_form_view" model="ir.actions.act_window.view">
             <field eval="2" name="sequence" />
             <field name="view_mode">form</field>
             <field name="view_id" ref="account.invoice_form" />
             <field name="act_window_id" ref="action_service_invoice" />
         </record>
+
+
+
+
         <menuitem
             name="Service Invoice"
             id="menu_service_invoice"
