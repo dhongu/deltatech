@@ -19,12 +19,14 @@ Available addons
 addon | version | summary
 --- | --- | ---
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
+[deltatech_alternative_website](deltatech_alternative_website/) | 1.0 | Website alternative code
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
+[deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
@@ -52,7 +54,6 @@ addon | version | summary
 [deltatech_account_signed](__unported__/deltatech_account_signed/) | 11.0.1.0.0 (unported) | Deltatech Account Signed
 [deltatech_add_to_purchase](__unported__/deltatech_add_to_purchase/) | 1.0 (unported) | Deltatech Add To Purchase
 [deltatech_alternative_inv](__unported__/deltatech_alternative_inv/) | 1.0 (unported) | Deltatech Products Alternative On Invoice
-[deltatech_alternative_website](__unported__/deltatech_alternative_website/) | 1.0 (unported) | Website alternative code
 [deltatech_average_payment_period](__unported__/deltatech_average_payment_period/) | 12.0.1.0.0 (unported) | Deltatech Average Payment Period
 [deltatech_backwards](__unported__/deltatech_backwards/) | 10.0.1.0.0 (unported) | Deltatech Backwards
 [deltatech_bank_statement](__unported__/deltatech_bank_statement/) | 1.0 (unported) | Deltatech Bank Statement Extension
