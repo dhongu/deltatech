@@ -18,6 +18,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[deltatech](deltatech/) | 14.0.1.0.0 | Generic module
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
@@ -25,6 +26,7 @@ addon | version | summary
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
+[deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
@@ -46,8 +48,6 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[background_job](__unported__/background_job/) | 10.0.1.0.0 (unported) | Background job
-[deltatech](__unported__/deltatech/) | 13.0.1.0.0 (unported) | Generic module
 [deltatech_account](__unported__/deltatech_account/) | 2.0 (unported) | Deltatech Account
 [deltatech_account_signed](__unported__/deltatech_account_signed/) | 11.0.1.0.0 (unported) | Deltatech Account Signed
 [deltatech_add_to_purchase](__unported__/deltatech_add_to_purchase/) | 1.0 (unported) | Deltatech Add To Purchase
