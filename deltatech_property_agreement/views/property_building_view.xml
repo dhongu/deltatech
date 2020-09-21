@@ -12,7 +12,7 @@
                     id="meter_button"
                     icon="fa-slack"
                     name="%(deltatech_service_equipment.action_service_meter)d"
-                    context="{'search_default_equipment_id': id,'default_equipment_id': service_equipment_id}"
+                    context="{'search_default_equipment_id': service_equipment_id,'default_equipment_id': service_equipment_id}"
                 >
                     <span class="o_stat_text">Meters</span>
                 </button>
