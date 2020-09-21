@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
-
         <record id="view_mrp_check_availability_wizard" model="ir.ui.view">
             <field name="name">Check Availability</field>
             <field name="model">mrp.check.availability</field>
@@ -12,22 +10,29 @@
                        Check Availability
                     </p>
                     <group>
-                        <field name="background"/>
+                        <field name="background" />
                     </group>
-
                     <footer>
-                        <button name="do_check_availability" string="Check Availability" type="object" class="btn-primary"/>
+                        <button
+                            name="do_check_availability"
+                            string="Check Availability"
+                            type="object"
+                            class="btn-primary"
+                        />
                         <button string="Cancel" class="btn-default" special="cancel" />
                     </footer>
                 </form>
             </field>
         </record>
-
-
-
-
-         <act_window id="action_mrp_check_availability" name="Check Availability"
-            res_model="mrp.check.availability" src_model="mrp.production"
-            view_mode="form" multi="False" target="new" key2="client_action_multi"/>
+        <act_window
+            id="action_mrp_check_availability"
+            name="Check Availability"
+            res_model="mrp.check.availability"
+            src_model="mrp.production"
+            view_mode="form"
+            multi="False"
+            target="new"
+            key2="client_action_multi"
+        />
     </data>
 </odoo>

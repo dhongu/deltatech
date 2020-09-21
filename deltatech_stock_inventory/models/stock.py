@@ -1,37 +1,35 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
-from odoo import api
-from odoo import models, fields
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
-
 
 # TODO: de adaugat pretul si in wizardul ce permite modificarea stocului
 
 
 class StockInventory(models.Model):
-    _inherit = 'stock.inventory'
+    _inherit = "stock.inventory"
 
-    name = fields.Char(string='Name', default='/', copy=False)
-    date = fields.Datetime(string='Inventory Date', required=True, readonly=True,
-                           states={'draft': [('readonly', False)]})
-    note = fields.Text(string='Note')
-    filterbyrack = fields.Char('Rack')
+    name = fields.Char(string="Name", default="/", copy=False)
+    date = fields.Datetime(
+        string="Inventory Date", required=True, readonly=True, states={"draft": [("readonly", False)]}
+    )
+    note = fields.Text(string="Note")
+    filterbyrack = fields.Char("Rack")
 
     @api.multi
     def unlink(self):
-        if any(inventory.state not in ('draft', 'cancel') for inventory in self):
-            raise UserError(_('You can only delete draft inventory.'))
+        if any(inventory.state not in ("draft", "cancel") for inventory in self):
+            raise UserError(_("You can only delete draft inventory."))
         return super(StockInventory, self).unlink()
 
     def _get_inventory_lines_values(self):
         lines = super(StockInventory, self)._get_inventory_lines_values()
         for line in lines:
-            product = self.env['product.product'].browse(line['product_id'])
+            product = self.env["product.product"].browse(line["product_id"])
             price = product.standard_price
-            line['standard_price'] = price
+            line["standard_price"] = price
         # res = []
         # if self.filterbyrack:
         #     for line in lines:
@@ -42,18 +40,18 @@ class StockInventory(models.Model):
         #     lines = res
 
         for line in lines:
-            line['is_ok'] = False
+            line["is_ok"] = False
         return lines
 
     @api.multi
     def action_check(self):
         for inventory in self:
             date = inventory.date
-            values = {'date': date}
-            if inventory.name == '/':
-                sequence = self.env.ref('deltatech_stock_inventory.sequence_inventory_doc')
+            values = {"date": date}
+            if inventory.name == "/":
+                sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
                 if sequence:
-                    values['name'] = sequence.next_by_id()
+                    values["name"] = sequence.next_by_id()
 
             inventory.write(values)
             # for line in inventory.line_ids:
@@ -62,12 +60,12 @@ class StockInventory(models.Model):
         return res
 
     @api.multi
-    def action_done(self, ):
+    def action_done(self,):
         super(StockInventory, self).action_done()
         for inv in self:
             for move in inv.move_ids:
                 if move.date_expected != inv.date or move.date != inv.date:
-                    move.write({'date_expected': inv.date, 'date': inv.date})
+                    move.write({"date_expected": inv.date, "date": inv.date})
         return True
 
     @api.multi
@@ -78,24 +76,24 @@ class StockInventory(models.Model):
 
     @api.multi
     def action_new_for_not_ok(self):
-        new_inv = self.copy({'line_ids': False, 'state': 'confirm'})
+        new_inv = self.copy({"line_ids": False, "state": "confirm"})
         for line in self.line_ids:
             if not line.is_ok:
-                line.write({'inventory_id': new_inv.id})
+                line.write({"inventory_id": new_inv.id})
 
 
 class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"
     _order = "inventory_id, location_name, categ_id, product_code, product_name, prodlot_name"
 
-    categ_id = fields.Many2one('product.category', string="Category", related="product_id.categ_id", store=True)
-    standard_price = fields.Float(string='Price')
-    loc_rack = fields.Char('Rack', size=16, related="product_id.loc_rack", store=True)
-    loc_row = fields.Char('Row', size=16, related="product_id.loc_row", store=True)
-    loc_case = fields.Char('Case', size=16, related="product_id.loc_case", store=True)
-    is_ok = fields.Boolean('Is Ok', default=True)
+    categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
+    standard_price = fields.Float(string="Price")
+    loc_rack = fields.Char("Rack", size=16, related="product_id.loc_rack", store=True)
+    loc_row = fields.Char("Row", size=16, related="product_id.loc_row", store=True)
+    loc_case = fields.Char("Case", size=16, related="product_id.loc_case", store=True)
+    is_ok = fields.Boolean("Is Ok", default=True)
 
-    @api.onchange('product_id')
+    @api.onchange("product_id")
     def onchange_product(self):
         res = super(StockInventoryLine, self).onchange_product()
         self.standard_price = self.get_price()
@@ -157,14 +155,15 @@ class StockInventoryLine(models.Model):
     """
 
     def _generate_moves(self):
-        use_inventory_price = self.env['ir.config_parameter'].sudo().get_param(key="stock.use_inventory_price",
-                                                                               default="True")
+        use_inventory_price = (
+            self.env["ir.config_parameter"].sudo().get_param(key="stock.use_inventory_price", default="True")
+        )
         use_inventory_price = eval(use_inventory_price)
         for inventory_line in self:
-            if inventory_line.product_id.cost_method == 'fifo' and use_inventory_price:
-                inventory_line.product_id.write({
-                    'standard_price': inventory_line.standard_price
-                })  # actualizare pret in produs
+            if inventory_line.product_id.cost_method == "fifo" and use_inventory_price:
+                inventory_line.product_id.write(
+                    {"standard_price": inventory_line.standard_price}
+                )  # actualizare pret in produs
         moves = super(StockInventoryLine, self)._generate_moves()
         self.set_last_last_inventory()
         return moves
@@ -173,16 +172,27 @@ class StockInventoryLine(models.Model):
     def set_last_last_inventory(self):
         for inventory_line in self:
 
-            if not inventory_line.product_id.last_inventory_date or \
-                    inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date:
-                inventory_line.product_id.write({'last_inventory_date': inventory_line.inventory_id.date,
-                                                 'last_inventory_id': inventory_line.inventory_id.id})
-                if not inventory_line.product_id.product_tmpl_id.last_inventory_date or \
-                        inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date:
+            if (
+                not inventory_line.product_id.last_inventory_date
+                or inventory_line.product_id.last_inventory_date < inventory_line.inventory_id.date
+            ):
+                inventory_line.product_id.write(
+                    {
+                        "last_inventory_date": inventory_line.inventory_id.date,
+                        "last_inventory_id": inventory_line.inventory_id.id,
+                    }
+                )
+                if (
+                    not inventory_line.product_id.product_tmpl_id.last_inventory_date
+                    or inventory_line.product_id.product_tmpl_id.last_inventory_date < inventory_line.inventory_id.date
+                ):
                     inventory_line.product_id.product_tmpl_id.write(
-                        {'last_inventory_date': inventory_line.inventory_id.date,
-                         'last_inventory_id': inventory_line.inventory_id.id})
+                        {
+                            "last_inventory_date": inventory_line.inventory_id.date,
+                            "last_inventory_id": inventory_line.inventory_id.id,
+                        }
+                    )
 
-    @api.onchange('product_qty')
+    @api.onchange("product_qty")
     def onchange_product_qty(self):
         self.is_ok = True

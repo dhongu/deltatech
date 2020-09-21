@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
@@ -8,15 +7,11 @@
     "version": "3.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
-
     "category": "Manufacturing",
     "depends": ["mrp"],
-
     "license": "LGPL-3",
     "data": [
-       # "views/mrp_view.xml"
-
+        # "views/mrp_view.xml"
     ],
     "active": False,
     "installable": True,

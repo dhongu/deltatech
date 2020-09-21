@@ -1,142 +1,165 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
-        <menuitem name="Registry Office" id="menu_registry_office"/>
-        <menuitem name="Documents" id="menu_registry_office_docs" parent="menu_registry_office"/>
-        <menuitem name="New Document" sequence="2" id="menu_registry_office_doc_new"
-                  parent="menu_registry_office_docs"/>
-        <menuitem name="Config" id="menu_registry_office_config" parent="menu_registry_office"/>
-
-
+        <menuitem name="Registry Office" id="menu_registry_office" />
+        <menuitem name="Documents" id="menu_registry_office_docs" parent="menu_registry_office" />
+        <menuitem
+            name="New Document"
+            sequence="2"
+            id="menu_registry_office_doc_new"
+            parent="menu_registry_office_docs"
+        />
+        <menuitem name="Config" id="menu_registry_office_config" parent="menu_registry_office" />
         <record id="view_registry_office_doc_tree" model="ir.ui.view">
             <field name="name">registry.office.doc.tree</field>
             <field name="model">registry.office.doc</field>
             <field name="arch" type="xml">
-                <tree decoration-info="state=='assigned'" decoration-danger="state=='unfavorable'"
-                      decoration-success="state=='favorable'">
-                    <field name="name"/>
-                    <field name="date"/>
-                    <field name="state" invisible="1"/>
-                    <field name="sender_id"/>
-                    <field name="recipient_id"/>
-                    <field name="type_id"/>
+                <tree
+                    decoration-info="state=='assigned'"
+                    decoration-danger="state=='unfavorable'"
+                    decoration-success="state=='favorable'"
+                >
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="state" invisible="1" />
+                    <field name="sender_id" />
+                    <field name="recipient_id" />
+                    <field name="type_id" />
                 </tree>
             </field>
         </record>
-
-
         <record id="view_registry_office_doc_form" model="ir.ui.view">
             <field name="name">registry.office.doc.form</field>
             <field name="model">registry.office.doc</field>
-            <field name="priority" eval="10"/>
+            <field name="priority" eval="10" />
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name='action_receipt' string="Receipt" type="object"/>
-                        <button name='action_barcode' string="Barcode" type="object"/>
-                        <button name='action_start' class="btn-info" string="Operate" type="object"
-                                states="new,assigned"/>
-
-
-                        <button name="%(action_solution)d" class="btn-primary" string="Send" states="progress"
-                                type="action" context="{'default_state':'assigned'}"/>
-                        <button name='%(action_solution)d' class="btn-success" string="Favorable" states="progress"
-                                type="action" context="{'default_state':'favorable'}"/>
-                        <button name='%(action_solution)d' class="btn-danger" string="Unfavorable" states="progress"
-                                type="action" context="{'default_state':'unfavorable'}"/>
-
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="new,assigned,progress,favorable"
-                               statusbar_colors='{"favorable":"green","unfavorable":"red","partial":"yellow"}'/>
-
+                        <button name='action_receipt' string="Receipt" type="object" />
+                        <button name='action_barcode' string="Barcode" type="object" />
+                        <button
+                            name='action_start'
+                            class="btn-info"
+                            string="Operate"
+                            type="object"
+                            states="new,assigned"
+                        />
+                        <button
+                            name="%(action_solution)d"
+                            class="btn-primary"
+                            string="Send"
+                            states="progress"
+                            type="action"
+                            context="{'default_state':'assigned'}"
+                        />
+                        <button
+                            name='%(action_solution)d'
+                            class="btn-success"
+                            string="Favorable"
+                            states="progress"
+                            type="action"
+                            context="{'default_state':'favorable'}"
+                        />
+                        <button
+                            name='%(action_solution)d'
+                            class="btn-danger"
+                            string="Unfavorable"
+                            states="progress"
+                            type="action"
+                            context="{'default_state':'unfavorable'}"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="new,assigned,progress,favorable"
+                            statusbar_colors='{"favorable":"green","unfavorable":"red","partial":"yellow"}'
+                        />
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="action_get_attachment_view"
-                                    class="oe_stat_button"
-                                    icon="fa-book">
-                                <field string="Attachments" name="attachment_count" widget="statinfo"/>
+                            <button name="action_get_attachment_view" class="oe_stat_button" icon="fa-book">
+                                <field string="Attachments" name="attachment_count" widget="statinfo" />
                             </button>
                         </div>
                         <div class="oe_title">
                             <h1>
-                                <field name="name" readonly="1"/>/
-                                <field name="date" readonly="1"/>
+                                <field name="name" readonly="1" />/
+                                <field name="date" readonly="1" />
                             </h1>
                         </div>
                         <group>
                             <group>
-                                <field name="sender_id"/>
-                                <field name="is_company" invisible="1"/>
-                                <field name="category"/>
-                                <field name="recipient_id"/>
+                                <field name="sender_id" />
+                                <field name="is_company" invisible="1" />
+                                <field name="category" />
+                                <field name="recipient_id" />
                             </group>
                             <group>
-                                <field name="vat" attrs="{'invisible': [('is_company','=',False)]}"/>
-                                <field name="cnp" attrs="{'invisible': [('is_company','=',True)]}"/>
+                                <field name="vat" attrs="{'invisible': [('is_company','=',False)]}" />
+                                <field name="cnp" attrs="{'invisible': [('is_company','=',True)]}" />
                             </group>
                             <group>
-                                <field name="type_id"/>
+                                <field name="type_id" />
                             </group>
                         </group>
                         <notebook>
                             <page string="Document information">
                                 <group col="4" colspan="2" attrs="{'invisible': [('category','!=','E')]}">
-                                    <field name="external_number"/>
-                                    <field name="external_date"/>
+                                    <field name="external_number" />
+                                    <field name="external_date" />
                                 </group>
-
                                 <group col="4" colspan="2">
-                                    <field name="name"/>
-                                    <field name="date"/>
+                                    <field name="name" />
+                                    <field name="date" />
                                 </group>
-
-
                                 <group id="address" attrs="{'invisible': [('category','!=','E')]}">
-                                    <label for="street" string="Address"/>
+                                    <label for="street" string="Address" />
                                     <div class="o_address_format">
-                                        <field name="street" placeholder="Street..." class="o_address_street"/>
-                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                        <field name="city" placeholder="City" class="o_address_city"/>
-                                        <field name="state_id" class="o_address_state" placeholder="State"
-                                               options="{&quot;no_open&quot;: True}"
-                                               context="{'country_id': country_id, 'zip': zip}"/>
-                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                        <field name="country_id" placeholder="Country" class="o_address_country"
-                                               options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                        <field name="street" placeholder="Street..." class="o_address_street" />
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street" />
+                                        <field name="city" placeholder="City" class="o_address_city" />
+                                        <field
+                                            name="state_id"
+                                            class="o_address_state"
+                                            placeholder="State"
+                                            options="{&quot;no_open&quot;: True}"
+                                            context="{'country_id': country_id, 'zip': zip}"
+                                        />
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                        <field
+                                            name="country_id"
+                                            placeholder="Country"
+                                            class="o_address_country"
+                                            options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+                                        />
                                     </div>
                                 </group>
-
                                 <group id="phone_email" col="4" colspan="2">
-                                    <field name="phone"/>
-                                    <field name="email"/>
+                                    <field name="phone" />
+                                    <field name="email" />
                                 </group>
-
                                 <group>
-                                    <field name="description"/>
+                                    <field name="description" />
                                 </group>
                                 <group>
                                     <group>
-                                        <field name="related_doc_id"/>
-                                        <field name="solution_deadline"/>
+                                        <field name="related_doc_id" />
+                                        <field name="solution_deadline" />
                                     </group>
                                     <group>
-                                        <field name="tabs_number"/>
-                                        <field name="folder_id"/>
+                                        <field name="tabs_number" />
+                                        <field name="folder_id" />
                                     </group>
                                 </group>
-
-
                                 <group id="other">
-                                     <field name="user_id"/>
+                                    <field name="user_id" />
                                 </group>
                             </page>
                             <page string="Circulation">
 
                             </page>
                             <page string="Related">
-                                  <field name="doc_ids"/>
+                                <field name="doc_ids" />
                             </page>
                             <page string="Comments">
 
@@ -151,121 +174,120 @@
 
                             </page>
                         </notebook>
-
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..."/>
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
                     </div>
                 </form>
             </field>
         </record>
-
         <record id="view_registry_office_doc_new_form" model="ir.ui.view">
             <field name="name">registry.office.doc.form</field>
             <field name="model">registry.office.doc</field>
-            <field name="priority" eval="90"/>
+            <field name="priority" eval="90" />
             <field name="arch" type="xml">
                 <form>
-
                     <sheet>
-                        <field name="state" invisible="1"/>
-                        <field name="category" invisible="1"/>
+                        <field name="state" invisible="1" />
+                        <field name="category" invisible="1" />
                         <group>
                             <group>
-                                <field name="sender_id"/>
-                                <field name="is_company" invisible="1"/>
+                                <field name="sender_id" />
+                                <field name="is_company" invisible="1" />
                             </group>
                             <group>
-                                <field name="vat" attrs="{'invisible': [('is_company','=',False)]}"/>
-                                <field name="cnp" attrs="{'invisible': [('is_company','=',True)]}"/>
+                                <field name="vat" attrs="{'invisible': [('is_company','=',False)]}" />
+                                <field name="cnp" attrs="{'invisible': [('is_company','=',True)]}" />
                             </group>
-
-
                             <group col="4" colspan="2" attrs="{'invisible': [('category','!=','E')]}">
-                                <field name="external_number"/>
-                                <field name="external_date"/>
+                                <field name="external_number" />
+                                <field name="external_date" />
                             </group>
-
                             <group col="4" colspan="2">
-                                <field name="name"/>
-                                <field name="date"/>
+                                <field name="name" />
+                                <field name="date" />
                             </group>
-
                             <group id="address" attrs="{'invisible': [('category','!=','E')]}">
-                                <label for="street" string="Address"/>
+                                <label for="street" string="Address" />
                                 <div class="o_address_format">
-                                    <field name="street" placeholder="Street..." class="o_address_street"/>
-                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
-                                    <field name="city" placeholder="City" class="o_address_city"/>
-                                    <field name="state_id" class="o_address_state" placeholder="State"
-                                           options="{&quot;no_open&quot;: True}"
-                                           context="{'country_id': country_id, 'zip': zip}"/>
-                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
-                                    <field name="country_id" placeholder="Country" class="o_address_country"
-                                           options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                    <field name="street" placeholder="Street..." class="o_address_street" />
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street" />
+                                    <field name="city" placeholder="City" class="o_address_city" />
+                                    <field
+                                        name="state_id"
+                                        class="o_address_state"
+                                        placeholder="State"
+                                        options="{&quot;no_open&quot;: True}"
+                                        context="{'country_id': country_id, 'zip': zip}"
+                                    />
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                    <field
+                                        name="country_id"
+                                        placeholder="Country"
+                                        class="o_address_country"
+                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+                                    />
                                 </div>
                             </group>
                             <group id="address" attrs="{'invisible': [('category','=','E')]}">
-                                <field name="recipient_id"/>
+                                <field name="recipient_id" />
                             </group>
                             <group id="phone_email">
-                                <field name="phone"/>
-                                <field name="email"/>
+                                <field name="phone" />
+                                <field name="email" />
                             </group>
                             <group>
-                                <field name="type_id"/>
-                                <field name="description"/>
-
-
+                                <field name="type_id" />
+                                <field name="description" />
                             </group>
                             <group>
-                                <field name="related_doc_id"/>
-                                <field name="solution_deadline"/>
-                                <field name="tabs_number"/>
-                                <field name="recipient_id" string="Send to"
-                                       attrs="{'invisible': [('state','!=','new'),('category','!=','E')]}"/>
+                                <field name="related_doc_id" />
+                                <field name="solution_deadline" />
+                                <field name="tabs_number" />
+                                <field
+                                    name="recipient_id"
+                                    string="Send to"
+                                    attrs="{'invisible': [('state','!=','new'),('category','!=','E')]}"
+                                />
                             </group>
                             <group>
-                                <field name="folder_id"/>
+                                <field name="folder_id" />
                             </group>
                         </group>
                         <group id="other">
 
                         </group>
                     </sheet>
-
                 </form>
             </field>
         </record>
-
-
         <!-- Search note -->
         <record id="view_registry_office_doc_filter" model="ir.ui.view">
             <field name="name">registry.office.doc.search</field>
             <field name="model">registry.office.doc</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="sender_id"/>
-                    <field name="recipient_id"/>
-                    <field name="state"/>
-                    <field name="external_number"/>
+                    <field name="sender_id" />
+                    <field name="recipient_id" />
+                    <field name="state" />
+                    <field name="external_number" />
                 </search>
             </field>
         </record>
-
-
         <record id="action_registry_office_doc" model="ir.actions.act_window">
             <field name="name">Documents</field>
             <field name="res_model">registry.office.doc</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-
         </record>
-
-        <menuitem name="Documents" sequence="1" id="menu_registry_office_doc" action="action_registry_office_doc"
-                  parent="menu_registry_office_docs"/>
-
+        <menuitem
+            name="Documents"
+            sequence="1"
+            id="menu_registry_office_doc"
+            action="action_registry_office_doc"
+            parent="menu_registry_office_docs"
+        />
         <record id="action_registry_office_doc_op" model="ir.actions.act_window">
             <field name="name">Operates documents</field>
             <field name="res_model">registry.office.doc</field>
@@ -273,13 +295,13 @@
             <field name="view_mode">tree,form</field>
             <field name="domain">[('state','in',['new','assigned','progress'])]</field>
         </record>
-
         <!-- Opereaza documente -->
-        <menuitem name="Operates documents" id="menu_registry_office_doc_op"
-                  action="action_registry_office_doc_op"
-                  parent="menu_registry_office_docs"/>
-
-
+        <menuitem
+            name="Operates documents"
+            id="menu_registry_office_doc_op"
+            action="action_registry_office_doc_op"
+            parent="menu_registry_office_docs"
+        />
         <record id="action_registry_office_doc_exp" model="ir.actions.act_window">
             <field name="name">Ships Documents</field>
             <field name="res_model">registry.office.doc</field>
@@ -289,69 +311,69 @@
                 [('state','in',['favorable','unfavorable','partial','decline']),('is_send','=',False)]
             </field>
         </record>
-
         <!-- Expediaza Documente -->
-        <menuitem name="Ships Documents" id="menu_registry_office_doc_exp"
-                  action="action_registry_office_doc_exp"
-                  parent="menu_registry_office_docs"/>
-
-
+        <menuitem
+            name="Ships Documents"
+            id="menu_registry_office_doc_exp"
+            action="action_registry_office_doc_exp"
+            parent="menu_registry_office_docs"
+        />
         <record id="action_registry_office_doc_in_new_action" model="ir.actions.act_window">
             <field name="name">Entry document</field>
             <field name="res_model">registry.office.doc</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="context" eval="{'default_category':'E'}"/>
-            <field name="view_id" ref="view_registry_office_doc_new_form"/>
+            <field name="context" eval="{'default_category':'E'}" />
+            <field name="view_id" ref="view_registry_office_doc_new_form" />
             <field name="target">new</field>
         </record>
-
-        <menuitem name="Entry document" id="menu_registry_office_doc_in_new"
-                  action="action_registry_office_doc_in_new_action"
-                  parent="menu_registry_office_doc_new"/>
-
-
+        <menuitem
+            name="Entry document"
+            id="menu_registry_office_doc_in_new"
+            action="action_registry_office_doc_in_new_action"
+            parent="menu_registry_office_doc_new"
+        />
         <record id="action_registry_office_doc_out_new_action" model="ir.actions.act_window">
             <field name="name">Output document</field>
             <field name="res_model">registry.office.doc</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="context" eval="{'default_category':'O'}"/>
-            <field name="view_id" ref="view_registry_office_doc_new_form"/>
-
+            <field name="context" eval="{'default_category':'O'}" />
+            <field name="view_id" ref="view_registry_office_doc_new_form" />
             <field name="target">new</field>
         </record>
-
-        <menuitem name="Output document" id="menu_registry_office_doc_out_new"
-                  action="action_registry_office_doc_out_new_action"
-                  parent="menu_registry_office_doc_new"/>
-
-
+        <menuitem
+            name="Output document"
+            id="menu_registry_office_doc_out_new"
+            action="action_registry_office_doc_out_new_action"
+            parent="menu_registry_office_doc_new"
+        />
         <record id="action_registry_office_doc_int_new_action" model="ir.actions.act_window">
             <field name="name">Internal document</field>
             <field name="res_model">registry.office.doc</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="context" eval="{'default_category':'I'}"/>
-            <field name="view_id" ref="view_registry_office_doc_new_form"/>
+            <field name="context" eval="{'default_category':'I'}" />
+            <field name="view_id" ref="view_registry_office_doc_new_form" />
             <field name="target">new</field>
         </record>
-
-        <menuitem name="Internal document" id="menu_registry_office_doc_int_new"
-                  action="action_registry_office_doc_int_new_action"
-                  parent="menu_registry_office_doc_new"/>
-
-
+        <menuitem
+            name="Internal document"
+            id="menu_registry_office_doc_int_new"
+            action="action_registry_office_doc_int_new_action"
+            parent="menu_registry_office_doc_new"
+        />
         <record id="action_registry_office_doc_type_action" model="ir.actions.act_window">
             <field name="name">Document type</field>
             <field name="res_model">registry.office.doc_type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-        <menuitem name="Document type" id="menu_registry_office_doc_type"
-                  action="action_registry_office_doc_type_action"
-                  parent="menu_registry_office_config"/>
-
+        <menuitem
+            name="Document type"
+            id="menu_registry_office_doc_type"
+            action="action_registry_office_doc_type_action"
+            parent="menu_registry_office_config"
+        />
     </data>
 </odoo>

@@ -1,69 +1,72 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2017 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-import odoo.addons.decimal_precision as dp
-
-from odoo import api, models, fields, _
-from odoo.exceptions import UserError
 import math
 
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+import odoo.addons.decimal_precision as dp
 
 
 class ChangeProductionQty(models.TransientModel):
-    _inherit = 'change.production.qty'
-
+    _inherit = "change.production.qty"
 
     @api.model
     def _update_product_to_produce(self, production, qty):
         if production.product_id:
             return super(ChangeProductionQty, self)._update_product_to_produce(production, qty)
 
-        production_move = production.move_finished_ids.filtered(lambda x:x.product_id.product_tmpl_id.id == production.product_tmpl_id.id and x.state not in ('done', 'cancel'))
+        production_move = production.move_finished_ids.filtered(
+            lambda x: x.product_id.product_tmpl_id.id == production.product_tmpl_id.id
+            and x.state not in ("done", "cancel")
+        )
 
         if not production_move:
             production_move = production._generate_finished_moves()
 
         for move in production_move:
-            move.write({'product_uom_qty': qty * move.unit_factor})
-
-
+            move.write({"product_uom_qty": qty * move.unit_factor})
 
 
 class MrpProduction(models.Model):
-    _inherit = 'mrp.production'
+    _inherit = "mrp.production"
 
-    product_id = fields.Many2one('product.product', required=False)
+    product_id = fields.Many2one("product.product", required=False)
 
-    product_tmpl_id = fields.Many2one('product.template',
-                                      domain=[('type', 'in', ['product', 'consu'])],
-                                      readonly=True, required=True,
-                                      states={'confirmed': [('readonly', False)]}, related=False)
+    product_tmpl_id = fields.Many2one(
+        "product.template",
+        domain=[("type", "in", ["product", "consu"])],
+        readonly=True,
+        required=True,
+        states={"confirmed": [("readonly", False)]},
+        related=False,
+    )
 
-    @api.onchange('product_id', 'picking_type_id', 'company_id')
+    @api.onchange("product_id", "picking_type_id", "company_id")
     def onchange_product_id(self):
         self.product_tmpl_id = self.product_id.product_tmpl_id
         return super(MrpProduction, self).onchange_product_id()
 
-    @api.onchange('product_tmpl_id')
+    @api.onchange("product_tmpl_id")
     def onchange_product_tmpl_id(self):
         if self.product_tmpl_id:
             if self.product_tmpl_id.product_variant_count == 1:
                 self.product_id = self.product_tmpl_id.product_variant_id
             else:
-                bom = self.env['mrp.bom']._bom_find(product_tmpl=self.product_tmpl_id,
-                                                    picking_type=self.picking_type_id,
-                                                    company_id=self.company_id.id)
-                if bom.type == 'normal':
+                bom = self.env["mrp.bom"]._bom_find(
+                    product_tmpl=self.product_tmpl_id, picking_type=self.picking_type_id, company_id=self.company_id.id
+                )
+                if bom.type == "normal":
                     self.bom_id = bom.id
                 else:
                     self.bom_id = False
                 self.product_uom_id = self.product_tmpl_id.uom_id.id
-                return {'domain': {'product_uom_id': [('category_id', '=', self.product_tmpl_id.uom_id.category_id.id)]}}
-
-
+                return {
+                    "domain": {"product_uom_id": [("category_id", "=", self.product_tmpl_id.uom_id.category_id.id)]}
+                }
 
     def _generate_finished_moves(self):
         if self.product_id:
@@ -73,43 +76,50 @@ class MrpProduction(models.Model):
         else:
             qty_inc = 0.0
 
-        product_qty = qty_inc + self.product_qty - qty_inc*self.product_tmpl_id.product_variant_count
-        for product_id in  self.product_tmpl_id.product_variant_ids:
+        product_qty = qty_inc + self.product_qty - qty_inc * self.product_tmpl_id.product_variant_count
+        for product_id in self.product_tmpl_id.product_variant_ids:
 
-            move = self.env['stock.move'].create({
-                'name': self.name,
-                'date': self.date_planned_start,
-                'date_expected': self.date_planned_start,
-                'product_id': product_id.id,
-                'product_uom': self.product_uom_id.id,
-                'product_uom_qty': product_qty,
-                'location_id': product_id.property_stock_production.id,
-                'location_dest_id': self.location_dest_id.id,
-                'company_id': self.company_id.id,
-                'production_id': self.id,
-                'origin': self.name,
-                'group_id': self.procurement_group_id.id,
-                'unit_factor': product_qty / self.product_qty,
-                'propagate': self.propagate,
-                'move_dest_ids': [(4, x.id) for x in self.move_dest_ids],
-            })
+            move = self.env["stock.move"].create(
+                {
+                    "name": self.name,
+                    "date": self.date_planned_start,
+                    "date_expected": self.date_planned_start,
+                    "product_id": product_id.id,
+                    "product_uom": self.product_uom_id.id,
+                    "product_uom_qty": product_qty,
+                    "location_id": product_id.property_stock_production.id,
+                    "location_dest_id": self.location_dest_id.id,
+                    "company_id": self.company_id.id,
+                    "production_id": self.id,
+                    "origin": self.name,
+                    "group_id": self.procurement_group_id.id,
+                    "unit_factor": product_qty / self.product_qty,
+                    "propagate": self.propagate,
+                    "move_dest_ids": [(4, x.id) for x in self.move_dest_ids],
+                }
+            )
             product_qty = qty_inc
             move._action_confirm()
         return move
 
     @api.multi
-    @api.depends('workorder_ids.state', 'move_finished_ids', 'is_locked')
+    @api.depends("workorder_ids.state", "move_finished_ids", "is_locked")
     def _get_produced_qty(self):
         for production in self:
             done_moves = production.move_finished_ids.filtered(
-                lambda x: x.state != 'cancel' and x.product_id.product_tmpl_id.id == production.product_tmpl_id.id)
-            qty_produced = sum(done_moves.mapped('quantity_done'))
+                lambda x: x.state != "cancel" and x.product_id.product_tmpl_id.id == production.product_tmpl_id.id
+            )
+            qty_produced = sum(done_moves.mapped("quantity_done"))
             wo_done = True
-            if any([x.state not in ('done', 'cancel') for x in production.workorder_ids]):
+            if any([x.state not in ("done", "cancel") for x in production.workorder_ids]):
                 wo_done = False
-            production.check_to_done = production.is_locked and done_moves and (
-                        qty_produced >= production.product_qty) and (
-                                                   production.state not in ('done', 'cancel')) and wo_done
+            production.check_to_done = (
+                production.is_locked
+                and done_moves
+                and (qty_produced >= production.product_qty)
+                and (production.state not in ("done", "cancel"))
+                and wo_done
+            )
             production.qty_produced = qty_produced
         return True
 
@@ -117,10 +127,10 @@ class MrpProduction(models.Model):
         product_id = False
         if not self.product_id:
             product_id = self.product_tmpl_id.product_variant_id
-            self.write({'product_id': product_id.id})
+            self.write({"product_id": product_id.id})
         res = super(MrpProduction, self)._generate_raw_moves(exploded_lines)
         if product_id:
-            self.write({'product_id':False})
+            self.write({"product_id": False})
         return res
 
     # #metoda standard a fost inlocuita doar pentru a putea prelua locatia de la product_tmpl_id

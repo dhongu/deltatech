@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,14 +18,9 @@
 #
 ##############################################################################
 
-from odoo import models, fields, api, _
-from odoo import tools
+from odoo import _, api, fields, models, tools
 
-AVAILABLE_PRIORITIES = [
-   ('0', 'Low'),
-   ('1', 'Normal'),
-   ('2', 'High')
-]
+AVAILABLE_PRIORITIES = [("0", "Low"), ("1", "Normal"), ("2", "High")]
 
 
 class crm_claim_report(models.Model):
@@ -36,27 +30,34 @@ class crm_claim_report(models.Model):
     _auto = False
     _description = "CRM Claim Report"
 
-
-    user_id = fields.Many2one('res.users', 'User', readonly=True)
-    team_id  =fields.Many2one('crm.team', 'Section', readonly=True)
-    nbr = fields.Integer('# of Claims', readonly=True)  # TDE FIXME master: rename into nbr_claims
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
-    create_date = fields.Datetime('Create Date', readonly=True, index=True)
-    claim_date = fields.Datetime('Claim Date', readonly=True)
-    delay_close = fields.Float('Delay to close', digits=(16,2),readonly=True, group_operator="avg",help="Number of Days to close the case")
-    stage_id = fields.Many2one ('crm.claim.stage', 'Stage', readonly=True,domain="[('team_ids','=',team_id)]")
-    categ_id = fields.Many2one('crm.case.categ', 'Category',\
-                         domain="[('team_id','=',team_id),\
-                        ('object_id.model', '=', 'crm.claim')]", readonly=True)
-    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
-    priority = fields.Selection(AVAILABLE_PRIORITIES, 'Priority')
-    type_action = fields.Selection([('correction','Corrective Action'),('prevention','Preventive Action')], 'Action Type')
-    date_closed = fields.Datetime('Close Date', readonly=True, index=True)
-    date_deadline = fields.Date('Deadline', readonly=True, index=True)
-    delay_expected = fields.Float('Overpassed Deadline',digits=(16,2),readonly=True, group_operator="avg")
-    email = fields.Integer('# Emails', size=128, readonly=True)
-    subject = fields.Char('Claim Subject', readonly=True)
+    user_id = fields.Many2one("res.users", "User", readonly=True)
+    team_id = fields.Many2one("crm.team", "Section", readonly=True)
+    nbr = fields.Integer("# of Claims", readonly=True)  # TDE FIXME master: rename into nbr_claims
+    company_id = fields.Many2one("res.company", "Company", readonly=True)
+    create_date = fields.Datetime("Create Date", readonly=True, index=True)
+    claim_date = fields.Datetime("Claim Date", readonly=True)
+    delay_close = fields.Float(
+        "Delay to close", digits=(16, 2), readonly=True, group_operator="avg", help="Number of Days to close the case"
+    )
+    stage_id = fields.Many2one("crm.claim.stage", "Stage", readonly=True, domain="[('team_ids','=',team_id)]")
+    categ_id = fields.Many2one(
+        "crm.case.categ",
+        "Category",
+        domain="[('team_id','=',team_id),\
+                        ('object_id.model', '=', 'crm.claim')]",
+        readonly=True,
+    )
+    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
+    company_id = fields.Many2one("res.company", "Company", readonly=True)
+    priority = fields.Selection(AVAILABLE_PRIORITIES, "Priority")
+    type_action = fields.Selection(
+        [("correction", "Corrective Action"), ("prevention", "Preventive Action")], "Action Type"
+    )
+    date_closed = fields.Datetime("Close Date", readonly=True, index=True)
+    date_deadline = fields.Date("Deadline", readonly=True, index=True)
+    delay_expected = fields.Float("Overpassed Deadline", digits=(16, 2), readonly=True, group_operator="avg")
+    email = fields.Integer("# Emails", size=128, readonly=True)
+    subject = fields.Char("Claim Subject", readonly=True)
 
     @api.model_cr
     def init(self):
@@ -65,8 +66,9 @@ class crm_claim_report(models.Model):
         @param cr: the current row, from the database cursor,
          """
 
-        tools.drop_view_if_exists(self.env.cr, 'crm_claim_report')
-        self.env.cr.execute("""
+        tools.drop_view_if_exists(self.env.cr, "crm_claim_report")
+        self.env.cr.execute(
+            """
             create or replace view crm_claim_report as (
                 select
                     min(c.id) as id,
@@ -93,7 +95,8 @@ class crm_claim_report(models.Model):
                         c.user_id,c.team_id, c.stage_id,
                         c.categ_id,c.partner_id,c.company_id,c.create_date,
                         c.priority,c.type_action,c.date_deadline,c.date_closed,c.id
-            )""")
+            )"""
+        )
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

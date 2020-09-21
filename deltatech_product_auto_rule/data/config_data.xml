@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
         <record id="deltatech_product_auto_rule.default_rule_warehouse_id" model="ir.config_parameter">

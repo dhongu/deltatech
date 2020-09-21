@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2008 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,11 +21,11 @@
 
 
 {
-    'name': 'Expenses Deduction & Disposition of Cashing',
-    'version': '10.0.1.0.0',
-    "category": 'Accounting & Finance',
-    'complexity': "easy",
-    'description': """
+    "name": "Expenses Deduction & Disposition of Cashing",
+    "version": "10.0.1.0.0",
+    "category": "Accounting & Finance",
+    "complexity": "easy",
+    "description": """
 
 Expenses Deduction & Disposition of Cashing
 -------------------------------------------
@@ -36,34 +35,30 @@ Expenses Deduction & Disposition of Cashing
 
 Este necesar sa fie definit un jurnal nou pentru decontul de cheltuieli la care se aloca contul 542
 
-- 
-		
+-
+
     """,
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    'images': [''],
-    'depends': [
-        'account',
-        'account_voucher',
-        'product',
+    "images": [""],
+    "depends": [
+        "account",
+        "account_voucher",
+        "product",
         # 'l10n_ro', # este chiar necesar ?
         # 'l10n_ro_account_voucher_cash' # este chiar necesar ?
     ],
-    'data': [
+    "data": [
         #'views/account_voucher_view.xml',
-        'views/deltatech_expenses_deduction_view.xml',
+        "views/deltatech_expenses_deduction_view.xml",
         #'views/deltatech_expenses_deduction_report.xml',
         #'wizard/expenses_deduction_from_account_voucher_view.xml',
-        #"data/product_data.xml",
+        # "data/product_data.xml",
         "data/partner_data.xml",
         #'views/report_expenses.xml',
-        'security/ir.model.access.csv'
-
+        "security/ir.model.access.csv",
     ],
-    "images": ['images/main_screenshot.png'],
-
-    'installable': True,
-    'active': False,
+    "images": ["images/main_screenshot.png"],
+    "installable": True,
+    "active": False,
 }
-
-

@@ -1,13 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="report_mrporder" inherit_id="mrp.report_mrporder">
-
-
         <xpath expr="//span[@t-field='o.product_id']" position="replace">
-             <span t-field="o.product_tmpl_id"/>
+            <span t-field="o.product_tmpl_id" />
         </xpath>
-
-
-
     </template>
 </odoo>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2017 Deltatech All Rights Reserved
@@ -23,12 +22,11 @@
     "version": "1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
-    'category': 'Discuss',
-    "depends": ['base', 'mail'],
-
-    "license": "LGPL-3","data": [],
-    "images": ['images/main_screenshot.png'],
+    "category": "Discuss",
+    "depends": ["base", "mail"],
+    "license": "LGPL-3",
+    "data": [],
+    "images": ["images/main_screenshot.png"],
     "active": False,
     "installable": True,
 }

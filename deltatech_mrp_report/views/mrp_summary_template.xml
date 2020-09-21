@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <template id="report_mrp_summary">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.internal_layout">
                     <div class="page">
-                        <t t-call="deltatech_mrp_report.report_mrp_summary_doc" t-lang='user.lang'/>
+                        <t t-call="deltatech_mrp_report.report_mrp_summary_doc" t-lang='user.lang' />
                     </div>
                 </t>
             </t>
         </t>
     </template>
-
     <template id="report_mrp_summary_doc">
         <h3 class="text-center mb32">Production Summary
             Analyze from
-            <span t-field="doc.date_from"/>
+            <span t-field="doc.date_from" />
             to
-            <span t-field="doc.date_to"/>
+            <span t-field="doc.date_to" />
 
         </h3>
         <strong>Consumed</strong>
@@ -30,27 +28,25 @@
                     <th>Qty</th>
                     <th>Price</th>
                     <th>Amount</th>
-
                 </tr>
             </thead>
             <t t-foreach="doc.line_ids.filtered(lambda l: l.type == 'consumed')" t-as="line">
                 <tr>
                     <td>
-                        <span t-field="line.product_id"/>
+                        <span t-field="line.product_id" />
                     </td>
                     <td>
-                        <span t-field="line.product_id.uom_id"/>
+                        <span t-field="line.product_id.uom_id" />
                     </td>
                     <td>
-                        <span t-esc="line.consumed "/>
+                        <span t-esc="line.consumed " />
                     </td>
                     <td>
-                        <span t-esc="line.amount/line.qty "/>
+                        <span t-esc="line.amount/line.qty " />
                     </td>
                     <td>
-                        <span t-esc="-1 * line.amount "/>
+                        <span t-esc="-1 * line.amount " />
                     </td>
-
                 </tr>
             </t>
         </table>
@@ -70,25 +66,25 @@
             <t t-foreach="doc.line_ids.filtered(lambda l: l.type == 'obtained')" t-as="line">
                 <tr>
                     <td>
-                        <span t-field="line.product_id"/>
+                        <span t-field="line.product_id" />
                     </td>
                     <td>
-                        <span t-field="line.product_id.uom_id"/>
+                        <span t-field="line.product_id.uom_id" />
                     </td>
                     <td>
-                        <span t-esc="line.obtained "/>
+                        <span t-esc="line.obtained " />
                     </td>
                     <td>
-                        <span t-esc="line.amount/line.qty"/>
+                        <span t-esc="line.amount/line.qty" />
                     </td>
                     <td>
-                        <span t-esc="line.amount "/>
+                        <span t-esc="line.amount " />
                     </td>
                     <td>
-                        <span t-field="line.product_id.list_price"/>
+                        <span t-field="line.product_id.list_price" />
                     </td>
                     <td>
-                        <span t-esc="line.qty*line.product_id.list_price"/>
+                        <span t-esc="line.qty*line.product_id.list_price" />
                     </td>
                 </tr>
             </t>

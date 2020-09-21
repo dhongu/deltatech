@@ -1,86 +1,92 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields
-from odoo import models, api
-from odoo import tools
+from odoo import api, fields, models, tools
 
 
 class sale_margin_report(models.Model):
     _name = "sale.margin.report"
     _description = "Sale Margin Report"
     _auto = False
-    _order = 'date desc'
+    _order = "date desc"
 
-    date = fields.Date('Date', readonly=True)
-    invoice_id = fields.Many2one('account.invoice', 'Invoice', readonly=True)
-    categ_id = fields.Many2one('product.category', 'Category', readonly=True)
-    product_id = fields.Many2one('product.product', 'Product', readonly=True)
-    product_uom = fields.Many2one('product.uom', 'Unit of Measure', readonly=True)
-    product_uom_qty = fields.Float('Quantity', readonly=True)
+    date = fields.Date("Date", readonly=True)
+    invoice_id = fields.Many2one("account.invoice", "Invoice", readonly=True)
+    categ_id = fields.Many2one("product.category", "Category", readonly=True)
+    product_id = fields.Many2one("product.product", "Product", readonly=True)
+    product_uom = fields.Many2one("product.uom", "Unit of Measure", readonly=True)
+    product_uom_qty = fields.Float("Quantity", readonly=True)
     # 'purchase_price = fields.float('Purchase price', readonly=True )
-    sale_val = fields.Float('Sale value', readonly=True, help="Sale value in company currency")
+    sale_val = fields.Float("Sale value", readonly=True, help="Sale value in company currency")
 
     stock_val = fields.Float("Stock value", readonly=True, help="Stock value in company currency")
     profit_val = fields.Float("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission = fields.Float("Commission")
-    partner_id = fields.Many2one('res.partner', 'Partner', readonly=True)
-    commercial_partner_id = fields.Many2one('res.partner', 'Commercial Partner', readonly=True)
-    user_id = fields.Many2one('res.users', 'Salesperson')
+    partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
+    commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
+    user_id = fields.Many2one("res.users", "Salesperson")
 
-    company_id = fields.Many2one('res.company', 'Company', readonly=True)
+    company_id = fields.Many2one("res.company", "Company", readonly=True)
 
-    #period_id = fields.Many2one('account.period', 'Period', readonly=True)
-    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator='avg')
-    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator='avg')
+    # period_id = fields.Many2one('account.period', 'Period', readonly=True)
+    indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
+    indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
 
-    journal_id = fields.Many2one('account.journal', 'Journal', readonly=True)
-    currency_id = fields.Many2one('res.currency', 'Currency', readonly=True)
-    currency_rate = fields.Float('Currency Rate', readonly=True)
+    journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
+    currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
+    currency_rate = fields.Float("Currency Rate", readonly=True)
 
-    type = fields.Selection([('out_invoice', 'Customer Invoice'),
-                             ('in_invoice', 'Vendor Bill'),
-                             ('out_refund', 'Customer Refund'),
-                             ('in_refund', 'Vendor Refund'),
-                             ], readonly=True)
-    state = fields.Selection([('draft', 'Draft'),
-                              ('proforma', 'Pro-forma'),
-                              ('proforma2', 'Pro-forma'),
-                              ('open', 'Open'),
-                              ('paid', 'Done'),
-                              ('cancel', 'Cancelled')
-                              ], string='Invoice Status', readonly=True)
+    type = fields.Selection(
+        [
+            ("out_invoice", "Customer Invoice"),
+            ("in_invoice", "Vendor Bill"),
+            ("out_refund", "Customer Refund"),
+            ("in_refund", "Vendor Refund"),
+        ],
+        readonly=True,
+    )
+    state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("proforma", "Pro-forma"),
+            ("proforma2", "Pro-forma"),
+            ("open", "Open"),
+            ("paid", "Done"),
+            ("cancel", "Cancelled"),
+        ],
+        string="Invoice Status",
+        readonly=True,
+    )
 
     def _select(self):
 
         select_str = """
-            SELECT 
-                id, date, invoice_id, categ_id, product_id, product_uom, product_uom_qty , 
+            SELECT
+                id, date, invoice_id, categ_id, product_id, product_uom, product_uom_qty ,
                 sale_val ,
-                stock_val  as stock_val, 
+                stock_val  as stock_val,
                 (sale_val  - stock_val ) as profit_val,
-                
+
                 CASE
                      WHEN (stock_val ) = 0
                       THEN 0
                       ELSE  100 * (sale_val    - stock_val ) / stock_val
-                END  AS indicator_supplement,  
-                
+                END  AS indicator_supplement,
+
                 CASE
                      WHEN (sale_val  ) = 0
                       THEN 0
                       ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
-                END  AS indicator_profit,               
- 
-                
+                END  AS indicator_profit,
+
+
                 sub.rate * (sale_val  - stock_val ) as commission_computed,
-                commission,  
+                commission,
                 partner_id, commercial_partner_id, user_id,    sub.company_id,
-                type,  state ,  journal_id, 
+                type,  state ,  journal_id,
                 cr.rate as currency_rate,
-                 sub.currency_id 
+                 sub.currency_id
         """
         return select_str
 
@@ -88,12 +94,12 @@ class sale_margin_report(models.Model):
         select_str = """
                 SELECT
                     min(l.id) as id,
-                    s.date_invoice as date,               
-                    l.invoice_id as invoice_id,                 
-                    t.categ_id as categ_id,                    
+                    s.date_invoice as date,
+                    l.invoice_id as invoice_id,
+                    t.categ_id as categ_id,
                     l.product_id as product_id,
                     t.uom_id as product_uom,
-                    
+
 
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
@@ -102,26 +108,26 @@ class sale_margin_report(models.Model):
                     END) AS product_uom_qty,
 
                     SUM(l.price_subtotal_signed) AS sale_val,
-                          
+
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
                         THEN -(l.quantity * COALESCE( l.purchase_price, 0 ) )
                         ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
                     END) AS stock_val,
 
-  
-                   
-                    
-                                        
-                    sum(l.commission) as commission,   
+
+
+
+
+                    sum(l.commission) as commission,
                     cu.rate,
-                                                                                                  
+
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
                     s.user_id as user_id,
 
                     s.company_id as company_id,
-                    s.type, s.state , s.journal_id, s.currency_id 
+                    s.type, s.state , s.journal_id, s.currency_id
         """
 
         x = """
@@ -142,7 +148,7 @@ class sale_margin_report(models.Model):
                     left join product_uom u on (u.id=l.uom_id)
                     left join product_uom u2 on (u2.id=t.uom_id)
                     left join commission_users cu on (s.user_id = cu.user_id)
-                    
+
         """
         return from_str
 
@@ -169,7 +175,7 @@ class sale_margin_report(models.Model):
                     s.state,
                     s.journal_id,
                     s.currency_id
-                    
+
         """
         return group_by_str
 
@@ -178,8 +184,8 @@ class sale_margin_report(models.Model):
     def init(self):
         # self._table = sale_report
         tools.drop_view_if_exists(self.env.cr, self._table)
-        # CREATE MATERIALIZED VIEW      
-        # CREATE or REPLACE VIEW  
+        # CREATE MATERIALIZED VIEW
+        # CREATE or REPLACE VIEW
         sql = """CREATE or REPLACE VIEW %s as (
             WITH currency_rate (currency_id, rate, date_start, date_end) AS (
                 SELECT r.currency_id, r.rate, r.name AS date_start,
@@ -193,9 +199,9 @@ class sale_margin_report(models.Model):
             %s
             FROM
             (
-                %s 
-                FROM %s 
-                WHERE %s 
+                %s
+                FROM %s
+                WHERE %s
                 GROUP BY %s
             ) AS sub
             JOIN currency_rate cr ON
@@ -213,7 +219,8 @@ class sale_margin_report(models.Model):
     def init(self):
 
         tools.drop_view_if_exists(self.env.cr, self._table)
-        self.env.cr.execute("""CREATE or REPLACE VIEW %s as (
+        self.env.cr.execute(
+            """CREATE or REPLACE VIEW %s as (
             WITH currency_rate AS (%s)
             %s
             FROM (
@@ -227,21 +234,29 @@ class sale_margin_report(models.Model):
                  cr.company_id = sub.company_id AND
                  cr.date_start <= COALESCE(sub.date, NOW()) AND
                  (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
-        )""" % (
-            self._table, self.env['res.currency']._select_companies_rates(),
-            self._select(), self._sub_select(), self._from(), self._where(), self._group_by()))
+        )"""
+            % (
+                self._table,
+                self.env["res.currency"]._select_companies_rates(),
+                self._select(),
+                self._sub_select(),
+                self._from(),
+                self._where(),
+                self._group_by(),
+            )
+        )
 
     @api.multi
     def write(self, vals):
-        invoice_line = self.env['account.invoice.line'].browse(self.id)
-        value = {'commission': vals.get('commission', False)}
+        invoice_line = self.env["account.invoice.line"].browse(self.id)
+        value = {"commission": vals.get("commission", False)}
         if invoice_line.purchase_price == 0 and invoice_line.product_id:
             if invoice_line.product_id.standard_price > 0:
-                value['purchase_price'] = invoice_line.product_id.standard_price
+                value["purchase_price"] = invoice_line.product_id.standard_price
         # if 'purchase_price' in vals:
         #    value['purchase_price'] = vals['purchase_price']
         invoice_line.write(value)
-        if 'user_id' in vals:
-            invoice = self.env['account.invoice'].browse(self.invoice_id)
-            invoice.write({'user_id': vals['user_id']})
+        if "user_id" in vals:
+            invoice = self.env["account.invoice"].browse(self.invoice_id)
+            invoice.write({"user_id": vals["user_id"]})
         return True

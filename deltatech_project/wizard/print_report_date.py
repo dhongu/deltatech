@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2015 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,36 +18,34 @@
 #
 ##############################################################################
 
- 
- 
- 
-from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
-from odoo.tools import float_compare
-import odoo.addons.decimal_precision as dp
-from datetime import datetime, date, timedelta
+
+from datetime import date, datetime, timedelta
+
 from dateutil.relativedelta import relativedelta
 
+from odoo import _, api, fields, models
+from odoo.exceptions import RedirectWarning, Warning, except_orm
+from odoo.tools import float_compare
+
+import odoo.addons.decimal_precision as dp
 
 
 class project_print_report_date(models.TransientModel):
-    _name = 'project.print.report.date'
+    _name = "project.print.report.date"
     _description = "Project Print Report Date"
- 
 
-    for_date = fields.Date(string="For Date",default=lambda * a:fields.Date.today())
+    for_date = fields.Date(string="For Date", default=lambda *a: fields.Date.today())
 
     @api.multi
-    def do_print(self):  
+    def do_print(self):
         data = {}
-        data['for_date'] = self.for_date
-        project_id = self.env.context.get('active_id', False)
-        
-        project = self.env['project.project'].browse(project_id)
-        return self.env['report'].get_action( records = project, report_name='deltatech_project.report_project_do_on_date', data=data )
-         
+        data["for_date"] = self.for_date
+        project_id = self.env.context.get("active_id", False)
 
-            
-    
+        project = self.env["project.project"].browse(project_id)
+        return self.env["report"].get_action(
+            records=project, report_name="deltatech_project.report_project_do_on_date", data=data
+        )
+
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

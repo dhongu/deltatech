@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -21,10 +20,10 @@
 
 
 {
-    'name': 'Simple Claims Management',
-    'version': '1.0',
-    'category': 'Customer Relationship Management',
-    'description': """
+    "name": "Simple Claims Management",
+    "version": "1.0",
+    "category": "Customer Relationship Management",
+    "description": """
 
 Manage Customer Claims.
 =======================
@@ -37,25 +36,22 @@ Am eliminat dependenta de CRM
 Atentie: Nu se utilizeaza impreuna cu modulul de CRM
 
     """,
-    'author': 'OpenERP SA',
-    'website': 'https://www.odoo.com',
-    'depends': ['sales_team'],
-    'data': [
-        'views/crm_claim_view.xml',
-        'views/crm_claim_menu.xml',
-        'security/ir.model.access.csv',
-        'report/crm_claim_report_view.xml',
-        'views/crm_claim_data.xml',
-        'views/res_partner_view.xml',
+    "author": "OpenERP SA",
+    "website": "https://www.odoo.com",
+    "depends": ["sales_team"],
+    "data": [
+        "views/crm_claim_view.xml",
+        "views/crm_claim_menu.xml",
+        "security/ir.model.access.csv",
+        "report/crm_claim_report_view.xml",
+        "views/crm_claim_data.xml",
+        "views/res_partner_view.xml",
     ],
-    "images": ['images/main_screenshot.png'],
-    'demo': ['crm_claim_demo.xml'],
-    'test': [
-        'test/process/claim.yml',
-        'test/ui/claim_demo.yml'
-    ],
-    'installable': True,
-    'auto_install': False,
+    "images": ["images/main_screenshot.png"],
+    "demo": ["crm_claim_demo.xml"],
+    "test": ["test/process/claim.yml", "test/ui/claim_demo.yml"],
+    "installable": True,
+    "auto_install": False,
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

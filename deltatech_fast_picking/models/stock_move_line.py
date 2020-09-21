@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, _
-
-
+from odoo import _, api, fields, models
 
 
 class StockMoveLine(models.Model):
@@ -12,6 +9,5 @@ class StockMoveLine(models.Model):
 
     @api.model
     def create(self, vals):
-        vals['qty_done'] = vals.get('product_uom_qty')
+        vals["qty_done"] = vals.get("product_uom_qty")
         return super(StockMoveLine, self).create(vals)
-

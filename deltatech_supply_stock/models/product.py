@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, registry, _
+from odoo import _, api, fields, models, registry
 from odoo.tools import float_is_zero
 
 
@@ -16,7 +15,6 @@ class ProductTemplate(models.Model):
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
-
 
     @api.multi
     def _select_seller(self, partner_id=False, quantity=0.0, date=None, uom_id=False):

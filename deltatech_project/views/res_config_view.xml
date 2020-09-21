@@ -1,44 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-	<data>
-<!--		<record id="view_config_settings" model="ir.ui.view">
+    <data>
+        <!--		<record id="view_config_settings" model="ir.ui.view">
 			<field name="name">project settings</field>
 			<field name="model">project.config.settings</field>
-			 <field name="inherit_id" ref="project.view_config_settings"/> 
+			 <field name="inherit_id" ref="project.view_config_settings"/>
 			<field name="arch" type="xml">
 				<xpath expr="//group[@name='timesheets']" position="after">
 					<group name="project_compute">
                             <div>
                                 <field name="use_equal_distribution_percentage" class="oe_inline"/>
                                 <label for="use_equal_distribution_percentage" />
-                            </div>		
+                            </div>
 					</group>
 				</xpath>
 			</field>
 		</record>-->
-
-		<record id="res_config_settings_view_form" model="ir.ui.view">
+        <record id="res_config_settings_view_form" model="ir.ui.view">
             <field name="name">res.config.settings.view.form.inherit.project</field>
             <field name="model">res.config.settings</field>
             <field name="inherit_id" ref="project.res_config_settings_view_form" />
             <field name="arch" type="xml">
-				 <xpath expr="//div[@data-key='project']" position="inside">
-					 <h2>Percentage Calculation</h2>
-                        <div class="row mt16 o_settings_container">
-                            <div class="col-xs-12 col-md-6 o_setting_box">
-                                <div class="o_setting_left_pane">
-                                    <field name="use_equal_distribution_percentage"/>
-                                </div>
-                                <div class="o_setting_right_pane">
-                                    <label for="use_equal_distribution_percentage"/>
-                                    <div class="text-muted">
+                <xpath expr="//div[@data-key='project']" position="inside">
+                    <h2>Percentage Calculation</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-xs-12 col-md-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="use_equal_distribution_percentage" />
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="use_equal_distribution_percentage" />
+                                <div class="text-muted">
                                         Use the equal distribution percentage between task
                                     </div>
-                                    <div class="content-group" id="msg_module_rating_project"/>
-                                </div>
+                                <div class="content-group" id="msg_module_rating_project" />
                             </div>
-
-<!--                            <div class="col-xs-12 col-md-6 o_setting_box">
+                        </div>
+                        <!--                            <div class="col-xs-12 col-md-6 o_setting_box">
                                 <div class="o_setting_left_pane">
                                     <field name="use_equal_distribution_percentage"/>
                                 </div>
@@ -54,10 +52,9 @@
 
                                 </div>
                             </div>-->
-                        </div>
-				 </xpath>
-			</field>
-		</record>
-	</data>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>
-           

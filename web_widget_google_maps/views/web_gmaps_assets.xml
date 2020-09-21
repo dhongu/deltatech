@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
         <template id="assets_backend" name="im assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-
-                <t t-set="google_maps_api_key" t-value="request.env['ir.config_parameter'].sudo().get_param('google.api_key_geocode')"/>
-
+                <t
+                    t-set="google_maps_api_key"
+                    t-value="request.env['ir.config_parameter'].sudo().get_param('google.api_key_geocode')"
+                />
                 <!--
                 <t t-if="google_maps_api_key">
                     <script t-att-async="'async'" t-att-defer="'defer'" t-attf-src="https://maps.googleapis.com/maps/api/js?v=quarterly&amp;key=#{google_maps_api_key}"></script>
@@ -15,11 +15,9 @@
                     <script t-att-async="'async'" t-att-defer="'defer'" t-attf-src="https://maps.googleapis.com/maps/api/js?v=quarterly"></script>
                 </t>
                 -->
-
-
-             	<link rel='stylesheet' href='/web_widget_google_maps/static/src/css/web_gmaps.css'/>
-                <script type="text/javascript" src="/web_widget_google_maps/static/src/js/web_gmaps.js"></script>
-             </xpath>
+                <link rel='stylesheet' href='/web_widget_google_maps/static/src/css/web_gmaps.css' />
+                <script type="text/javascript" src="/web_widget_google_maps/static/src/js/web_gmaps.js" />
+            </xpath>
         </template>
     </data>
 </odoo>

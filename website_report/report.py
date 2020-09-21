@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,31 +18,34 @@
 #
 ##############################################################################
 
+from odoo import _, api, fields, models
 from odoo.http import request
-from odoo import api, fields, models, _
+
 
 class Report(models.Model):
-    _inherit = 'report'
+    _inherit = "report"
 
     @api.model
-    def translate_doc(self,  doc_id, model, lang_field, template, values):
-        if request and hasattr(request, 'website'):
+    def translate_doc(self, doc_id, model, lang_field, template, values):
+        if request and hasattr(request, "website"):
             if request.website is not None:
                 v = request.website.get_template(template)
-                request.session['report_view_ids'].append({
-                    'name': v.name,
-                    'id': v.id,
-                    'xml_id': v.xml_id,
-                    'key':v.xml_id,
-                    'inherit_id': v.inherit_id.id,
-                    'header': False,
-                    'active': v.active,
-                })
-        return super(Report, self).translate_doc( doc_id, model, lang_field, template, values)
+                request.session["report_view_ids"].append(
+                    {
+                        "name": v.name,
+                        "id": v.id,
+                        "xml_id": v.xml_id,
+                        "key": v.xml_id,
+                        "inherit_id": v.inherit_id.id,
+                        "header": False,
+                        "active": v.active,
+                    }
+                )
+        return super(Report, self).translate_doc(doc_id, model, lang_field, template, values)
 
     @api.multi
     def render(self, template, values=None):
-        if request and hasattr(request, 'website'):
+        if request and hasattr(request, "website"):
             if request.website is not None:
-                request.session['report_view_ids'] = []
-        return super(Report, self).render( template, values=values)
+                request.session["report_view_ids"] = []
+        return super(Report, self).render(template, values=values)

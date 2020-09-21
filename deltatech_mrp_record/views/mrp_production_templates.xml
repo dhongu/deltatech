@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="report_mrporder" inherit_id="mrp.report_mrporder">
-
-
         <xpath expr="//div[@t-if='o.workorder_ids']" position="replace">
             <div t-if="o.workorder_ids">
                 <strong>Work Orders</strong>
@@ -17,16 +15,16 @@
                     <tr>
                         <t t-foreach="o.workorder_ids" t-as="wkorder">
                             <td>
-                                <img style="width:60px; height:200px;" t-att-src="'data:image/png;base64,%s' % wkorder.barcode_image" />
+                                <img
+                                    style="width:60px; height:200px;"
+                                    t-att-src="'data:image/png;base64,%s' % wkorder.barcode_image"
+                                />
                             </td>
-                            <td style="width:9%;height:250px;"></td>
+                            <td style="width:9%;height:250px;" />
                         </t>
                     </tr>
                 </table>
             </div>
         </xpath>
-
-
-
     </template>
 </odoo>

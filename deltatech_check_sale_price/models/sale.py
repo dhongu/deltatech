@@ -1,22 +1,19 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, api, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
 class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
-
-
-    @api.onchange('price_unit','product_uom','discount')
+    @api.onchange("price_unit", "product_uom", "discount")
     def onchange_price_unit(self):
         if self.product_id:
             highest_price = 0.0
-            to_currency = self.order_id.pricelist_id.currency_id or  self.env.user.company_id.currency_id
+            to_currency = self.order_id.pricelist_id.currency_id or self.env.user.company_id.currency_id
             for seller in self.product_id.seller_ids:
                 from_currency = seller.currency_id or self.env.user.company_id.currency_id
 
@@ -26,7 +23,7 @@ class SaleOrderLine(models.Model):
 
             highest_price = self.product_id.uom_po_id._compute_price(highest_price, self.product_uom)
             if self.discount:
-                unit_price = self.price_unit-self.price_unit*self.discount/100
+                unit_price = self.price_unit - self.price_unit * self.discount / 100
             else:
                 unit_price = self.price_unit
 
@@ -35,6 +32,8 @@ class SaleOrderLine(models.Model):
                 # self.price_unit = highest_price
                 self.discount = 0
                 return {
-                    'warning': {'title': "Warning",
-                                'message': _('It is not allowed to sell below the price %s') % str(highest_price)},
+                    "warning": {
+                        "title": "Warning",
+                        "message": _("It is not allowed to sell below the price %s") % str(highest_price),
+                    },
                 }

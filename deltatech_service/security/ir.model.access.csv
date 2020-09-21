@@ -27,5 +27,3 @@ access_service_agreement_client,access_service_agreement,model_service_agreement
 access_service_agreement_type_client,access_service_agreement_type,model_service_agreement_type,base.group_service_client,0,0,0,0
 access_service_agreement_group_client,access_service_agreement_group,model_service_agreement_group,base.group_service_client,0,0,0,0
 access_service_cycle_client,access_service_cycle,model_service_cycle,base.group_service_client,1,0,0,0
-
-

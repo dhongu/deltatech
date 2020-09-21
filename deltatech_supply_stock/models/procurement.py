@@ -1,12 +1,15 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, registry, _
-from odoo.tools import float_is_zero
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
+from odoo import _, api, fields, models, registry
+from odoo.tools import (
+    DEFAULT_SERVER_DATETIME_FORMAT,
+    float_compare,
+    float_is_zero,
+    float_round,
+)
 
 
 class Orderpoint(models.Model):
@@ -22,13 +25,13 @@ class ProcurementGroup(models.Model):
     # sa se ruleze aprovizionarea doar pentru produsele specificate
     def _get_orderpoint_domain(self, company_id=False):
         domain = super(ProcurementGroup, self)._get_orderpoint_domain(company_id)
-        if 'product_ids' in self.env.context:
-            domain += [('product_id', 'in', self.env.context['product_ids'])]
+        if "product_ids" in self.env.context:
+            domain += [("product_id", "in", self.env.context["product_ids"])]
         return domain
 
 
 class ProcurementRule(models.Model):
-    _inherit = 'procurement.rule'
+    _inherit = "procurement.rule"
 
     @api.multi
     def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, values, po, supplier):
@@ -37,18 +40,23 @@ class ProcurementRule(models.Model):
             partner_id=supplier.name,
             quantity=procurement_uom_po_qty,
             date=po.date_order and po.date_order[:10],
-            uom_id=product_id.uom_po_id)
+            uom_id=product_id.uom_po_id,
+        )
 
         if procurement_uom_po_qty < supplier.min_qty:
-            msg = 'Cantitatea %s este mai mica decat %s impusa de furnizorul %s' % (procurement_uom_po_qty,
-                                                                                    supplier.min_qty,
-                                                                                    supplier.name.name)
+            msg = "Cantitatea %s este mai mica decat %s impusa de furnizorul %s" % (
+                procurement_uom_po_qty,
+                supplier.min_qty,
+                supplier.name.name,
+            )
             po.message_post(body=msg)
             product_qty = product_id.uom_po_id._compute_quantity(supplier.min_qty, product_uom)
 
-        res = super(ProcurementRule, self)._prepare_purchase_order_line(product_id, product_qty, product_uom, values,
-                                                                        po, supplier)
+        res = super(ProcurementRule, self)._prepare_purchase_order_line(
+            product_id, product_qty, product_uom, values, po, supplier
+        )
         return res
+
 
 #     @api.model
 #     def run_scheduler(self, use_new_cursor=False, company_id=False):

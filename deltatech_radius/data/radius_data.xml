@@ -10,7 +10,6 @@
         <record model="radius.groups" id="d500M">
             <field name="name">dynamic-500M</field>
         </record>
-
         <record model="radius.groups" id="n50M">
             <field name="name">nated-50M</field>
         </record>
@@ -20,11 +19,8 @@
         <record model="radius.groups" id="n500M">
             <field name="name">nated-500M</field>
         </record>
-
         <record model="radius.groups" id="disconected">
             <field name="name">disconected</field>
         </record>
     </data>
-
 </openerp>
-

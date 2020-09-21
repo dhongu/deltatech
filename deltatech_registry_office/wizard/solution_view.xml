@@ -1,50 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
-
         <record id="view_registry_office_solution_wizard" model="ir.ui.view">
             <field name="name">Solution</field>
             <field name="model">registry.office.solution</field>
             <field name="arch" type="xml">
                 <form string="Solution">
                     <group>
-                        <field name="state"/>
+                        <field name="state" />
                     </group>
                     <group>
-                        <field name="recipient_id" states="assigned" required="1"/>
-                        <field name="resolution"/>
-                        <field name="with_shipment"/>
+                        <field name="recipient_id" states="assigned" required="1" />
+                        <field name="resolution" />
+                        <field name="with_shipment" />
                     </group>
                     <group attrs="{'invisible': [('with_shipment','=',False)]}">
-                        <field name="shipment_pertner_id"/>
-                        <field name="shipment_id"/>
-                        <field name="shipment_note"/>
+                        <field name="shipment_pertner_id" />
+                        <field name="shipment_id" />
+                        <field name="shipment_note" />
                     </group>
                     <footer>
-
-                        <button name='do_solution' class="btn-primary" string="Send" type="object" states="assigned"/>
-                        <button name='do_solution' class="btn-success" string="Favorable" type="object"
-                                states="favorable"/>
-                        <button name='do_solution' class="btn-danger" string="Unfavorable" type="object"
-                                states="unfavorable"/>
-                        <button name='do_solution' class="btn-warning"  string="Partial" type="object" states="partial"/>
-                        <button name='do_solution' class="btn-warning"  string="Declined Competence" type="object" states="decline"/>
-                        <button name='do_solution' string="Internal" type="object" states="internal"/>
-
-
-                        <button string="Cancel" class="btn-default" special="cancel"/>
+                        <button name='do_solution' class="btn-primary" string="Send" type="object" states="assigned" />
+                        <button
+                            name='do_solution'
+                            class="btn-success"
+                            string="Favorable"
+                            type="object"
+                            states="favorable"
+                        />
+                        <button
+                            name='do_solution'
+                            class="btn-danger"
+                            string="Unfavorable"
+                            type="object"
+                            states="unfavorable"
+                        />
+                        <button
+                            name='do_solution'
+                            class="btn-warning"
+                            string="Partial"
+                            type="object"
+                            states="partial"
+                        />
+                        <button
+                            name='do_solution'
+                            class="btn-warning"
+                            string="Declined Competence"
+                            type="object"
+                            states="decline"
+                        />
+                        <button name='do_solution' string="Internal" type="object" states="internal" />
+                        <button string="Cancel" class="btn-default" special="cancel" />
                     </footer>
                 </form>
             </field>
         </record>
-
-        <act_window id="action_solution" name="Solution"
-                    res_model="registry.office.solution" src_model="registry.office.doc"
-                    view_mode="form" multi="True" target="new"
-                    context="{  'default_state': 'new',  }"
+        <act_window
+            id="action_solution"
+            name="Solution"
+            res_model="registry.office.solution"
+            src_model="registry.office.doc"
+            view_mode="form"
+            multi="True"
+            target="new"
+            context="{  'default_state': 'new',  }"
         />
-
-
     </data>
 </odoo>

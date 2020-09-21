@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, fields, api, _
-from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo import _, api, fields, models
+from odoo.exceptions import RedirectWarning, Warning, except_orm
 
 from . import registry_office_common
 
 
 class RegistryOfficDocType(models.Model):
-    _name = 'registry.office.doc_type'
+    _name = "registry.office.doc_type"
     _description = "Document Type"
 
     name = fields.Char()
@@ -19,7 +18,7 @@ class RegistryOfficDocType(models.Model):
 
 
 class RegistryOfficFolder(models.Model):
-    _name = 'registry.office.folder'
+    _name = "registry.office.folder"
     _description = "Folder"
 
     name = fields.Char()
@@ -27,7 +26,7 @@ class RegistryOfficFolder(models.Model):
 
 # mod de expediere
 class RegistryOfficShipment(models.Model):
-    _name = 'registry.office.shipment'
+    _name = "registry.office.shipment"
     _description = "Mode of shipment"
 
     name = fields.Char()
@@ -38,6 +37,5 @@ curier
 direct
 email
 fax
-posta recomandata, posta confirmare de primire, posta strainatate 
+posta recomandata, posta confirmare de primire, posta strainatate
 """
-

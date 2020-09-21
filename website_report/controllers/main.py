@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -19,18 +18,16 @@
 #
 ##############################################################################
 
-from odoo.addons.website.controllers.main import Website
 from odoo.http import request, route
+
+from odoo.addons.website.controllers.main import Website
 
 
 class Website(Website):
-
     @route()
     def customize_template_get(self, key, full=False, bundles=False):
         res = super(Website, self).customize_template_get(key=key, full=full, bundles=bundles)
         if full:
-            for r in request.session.get('report_view_ids', []):
-                res += super(Website, self).customize_template_get(r.get('xml_id'), full=full, bundles=bundles)
+            for r in request.session.get("report_view_ids", []):
+                res += super(Website, self).customize_template_get(r.get("xml_id"), full=full, bundles=bundles)
         return res
-
-

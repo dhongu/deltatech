@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import logging
 import os
 
@@ -12,7 +11,7 @@ _logger = logging.getLogger(__name__)
 _graph_validator = None
 
 
-@view_validation.validate('graph')
+@view_validation.validate("graph")
 def schema_graph(arch):
     """ Check the graph view against its schema
 
@@ -23,7 +22,7 @@ def schema_graph(arch):
     _graph_validator = view_validation._validators
 
     if _graph_validator is None:
-        with misc.file_open(os.path.join('deltatech_graph', 'views', 'graph_view.rng')) as f:
+        with misc.file_open(os.path.join("deltatech_graph", "views", "graph_view.rng")) as f:
             _grid_validator = etree.RelaxNG(etree.parse(f))
 
     if _graph_validator.validate(arch):
@@ -32,5 +31,3 @@ def schema_graph(arch):
     for error in _graph_validator.error_log:
         _logger.error(ustr(error))
     return False
-
-

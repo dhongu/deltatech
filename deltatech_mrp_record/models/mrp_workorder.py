@@ -1,40 +1,36 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
-
+import base64
 import sys
 from io import BytesIO
-import base64
 
 from PIL import Image
 
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
 # worker_module = 'res.partner'
-worker_module = 'hr.employee'
+worker_module = "hr.employee"
 
 
 class MrpWorkorder(models.Model):
-    _inherit = 'mrp.workorder'
+    _inherit = "mrp.workorder"
 
-
-
-    code = fields.Char(string="Code", index=True, related='operation_id.code', readonly=True)
+    code = fields.Char(string="Code", index=True, related="operation_id.code", readonly=True)
     # procurement_group_id = fields.Many2one('procurement.group', 'Procurement Group',
     #                                           related='production_id.procurement_group_id')
 
+    barcode_image = fields.Binary(string="Barcode Image", compute="_compute_barcode_image")
+    qty_rework = fields.Float("Rework Quantity", states={"done": [("readonly", True)], "cancel": [("readonly", True)]})
+    qty_ready_prod = fields.Float("Quantity Ready for Production", compute="_compute_prev_work_order")
+    prev_work_order_id = fields.Many2one("mrp.workorder", "Previous Work Order", compute="_compute_prev_work_order")
 
-    barcode_image = fields.Binary(string='Barcode Image', compute="_compute_barcode_image")
-    qty_rework = fields.Float('Rework Quantity', states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
-    qty_ready_prod = fields.Float('Quantity Ready for Production', compute="_compute_prev_work_order")
-    prev_work_order_id = fields.Many2one('mrp.workorder', "Previous Work Order", compute="_compute_prev_work_order")
-
-    @api.depends('state')
+    @api.depends("state")
     def _compute_prev_work_order(self):
         for work_order in self:
-            prev_work_order = self.search([('next_work_order_id', '=', work_order.id)], limit=1)
+            prev_work_order = self.search([("next_work_order_id", "=", work_order.id)], limit=1)
             work_order.prev_work_order_id = prev_work_order
             product_qty = work_order.production_id.product_qty
             if prev_work_order:
@@ -42,17 +38,17 @@ class MrpWorkorder(models.Model):
             else:
                 work_order.qty_ready_prod = product_qty
 
-
     def _compute_barcode_image(self):
         for workorder in self:
             if workorder.code:
-                barcode_image = self.env['ir.actions.report'].barcode('Code128', workorder.code, width=600, height=200,
-                                                           humanreadable=0)
+                barcode_image = self.env["ir.actions.report"].barcode(
+                    "Code128", workorder.code, width=600, height=200, humanreadable=0
+                )
 
                 image_stream = BytesIO(barcode_image)
                 img = Image.open(image_stream)
 
-                img = img.convert('RGBA')
+                img = img.convert("RGBA")
                 pixdata = img.load()
                 width, height = img.size
                 for y in range(height):
@@ -62,14 +58,14 @@ class MrpWorkorder(models.Model):
 
                 img = img.rotate(90, expand=True)
                 image_stream = BytesIO()
-                img.save(image_stream, 'PNG')
+                img.save(image_stream, "PNG")
                 barcode_image = base64.b64encode(image_stream.getvalue())
                 workorder.barcode_image = barcode_image
 
     @api.multi
     def record_production(self):
         if (self.qty_producing + self.qty_produced) > self.qty_ready_prod:
-            raise ValidationError(_('It is not possible to produce more that %s') % self.qty_ready_prod)
+            raise ValidationError(_("It is not possible to produce more that %s") % self.qty_ready_prod)
         res = super(MrpWorkorder, self).record_production()
 
         # se verifica daca se poate inchide comanda
@@ -80,27 +76,22 @@ class MrpWorkorder(models.Model):
 
     @api.multi
     def button_start(self):
-        if  self.production_availability != 'assigned' and not self.workcenter_id.start_without_stock:
-            raise ValidationError(_('It is not possible to start work without materials'))
+        if self.production_availability != "assigned" and not self.workcenter_id.start_without_stock:
+            raise ValidationError(_("It is not possible to start work without materials"))
         return super(MrpWorkorder, self).button_start()
+
 
 class MrpWorkcenterProductivity(models.Model):
     _inherit = "mrp.workcenter.productivity"
 
+    worker_id = fields.Many2one(worker_module, string="Worker",)
+    # domain="[('id', 'in', possible_worker_ids.ids)]")
+    # domain="[('id', 'in', possible_worker_ids[0][2])]")
+    possible_worker_ids = fields.Many2many(worker_module, compute="_get_possible_worker_ids")
 
-    worker_id = fields.Many2one(worker_module, string="Worker",
-                                )
-                                                #domain="[('id', 'in', possible_worker_ids.ids)]")
-                                                #domain="[('id', 'in', possible_worker_ids[0][2])]")
-    possible_worker_ids = fields.Many2many(worker_module, compute='_get_possible_worker_ids')
+    qty_produced = fields.Float("Quantity", readonly=True)
 
-
-    qty_produced = fields.Float('Quantity', readonly=True)
-
-
-
-
-    @api.depends('workcenter_id')
+    @api.depends("workcenter_id")
     def _get_possible_worker_ids(self):
         workers = self.env[worker_module]
         for item in self:
@@ -116,5 +107,5 @@ class MrpWorkcenterProductivity(models.Model):
             if not work.worker_id:
                 if len(work.possible_worker_ids) == 1:
                     worker_id = work.possible_worker_ids[0]
-                    work.write({'worker_id': worker_id.id})
+                    work.write({"worker_id": worker_id.id})
         return True

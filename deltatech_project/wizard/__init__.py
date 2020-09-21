@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2016 Deltatech All Rights Reserved
-#                    Dorin Hongu <dhongu(@)gmail(.)com       
+#                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -25,4 +24,3 @@ from . import print_report_date
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

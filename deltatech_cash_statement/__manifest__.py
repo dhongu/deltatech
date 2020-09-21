@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
@@ -8,17 +7,11 @@
     "version": "2.0",
     "author": "Dorin Hongu",
     "website": "",
-
-
-    'category': 'Accounting & Finance',
+    "category": "Accounting & Finance",
     "depends": ["account"],
-
     "license": "LGPL-3",
-    "data": [
-        'wizard/account_cash_update_balances_view.xml'
-    ],
-    "images": ['images/main_screenshot.png'],
-
+    "data": ["wizard/account_cash_update_balances_view.xml"],
+    "images": ["images/main_screenshot.png"],
     "active": False,
     "installable": True,
 }

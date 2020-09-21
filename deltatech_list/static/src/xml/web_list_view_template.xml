@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
-
     <t t-extend="ListView.buttons">
         <t t-jquery="button.o_list_button_discard" t-operation="after">
             <t t-if="widget.is_action_enabled('info')">
-
-
-            <button class="btn btn-sm btn-default fa fa-info o_list_button_info" type="button" title="Legend"
-                    data-toggle="modal" data-target="#Info"/>
+                <button
+                    class="btn btn-sm btn-default fa fa-info o_list_button_info"
+                    type="button"
+                    title="Legend"
+                    data-toggle="modal"
+                    data-target="#Info"
+                />
             </t>
-
             <div class="modal fade" id="Info" tabindex="-1" role="dialog" aria-labelledby="InfoTitle">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -33,5 +33,4 @@
             </div>
         </t>
     </t>
-
 </templates>

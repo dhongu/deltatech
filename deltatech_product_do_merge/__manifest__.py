@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ©  2013 Vauxoo (info@vauxoo.com)
 #              Sabrina Romero (sabrina@vauxoo.com)
@@ -14,16 +13,11 @@
     "category": "Generic Modules",
     "website": "http://www.vauxoo.com/",
     "license": "LGPL-3",
-    "depends": [
-        "base",
-        "stock"
-    ],
+    "depends": ["base", "stock"],
     "demo": [],
-    "license": "LGPL-3","data": [
-        "security/res_groups.xml",
-        "wizard/base_product_merge_view.xml"
-    ],
-    "images": ['images/main_screenshot.png'],
+    "license": "LGPL-3",
+    "data": ["security/res_groups.xml", "wizard/base_product_merge_view.xml"],
+    "images": ["images/main_screenshot.png"],
     "test": [],
     "js": [],
     "css": [],

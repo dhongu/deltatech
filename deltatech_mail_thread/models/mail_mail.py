@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 # Copyright (c) 2017 Deltatech All Rights Reserved
@@ -22,10 +21,11 @@
 import logging
 import threading
 
-from odoo import api, fields, models, tools, registry
-from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
-import odoo.addons.decimal_precision as dp
+from odoo import api, fields, models, registry, tools
 from odoo.osv import expression
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, float_compare, float_round
+
+import odoo.addons.decimal_precision as dp
 
 _logger = logging.getLogger(__name__)
 
@@ -33,9 +33,8 @@ _logger = logging.getLogger(__name__)
 class MailMail(models.Model):
     """ Model holding RFC2822 email messages to send. This model also provides
         facilities to queue and send new email messages.  """
-    _inherit = 'mail.mail'
 
-
+    _inherit = "mail.mail"
 
     @api.multi
     def _send_in_thread(self, auto_commit=False, raise_exception=False):
@@ -57,8 +56,7 @@ class MailMail(models.Model):
 
     @api.multi
     def send(self, auto_commit=False, raise_exception=False):
-        threaded_calculation = threading.Thread(target=self._send_in_thread, args=(auto_commit,raise_exception))
+        threaded_calculation = threading.Thread(target=self._send_in_thread, args=(auto_commit, raise_exception))
         threaded_calculation.start()
 
         return True
-
