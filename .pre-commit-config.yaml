@@ -23,7 +23,7 @@ repos:
           - --addons-dir=.
           - --org-name=dhongu
           - --repo-name=deltatech
-          - --branch=13.0
+          - --branch=12.0
 
       # This job could easily produce conflicts when it runs on every commit,
       # so it's added as a manual job. If you automate it, beware.

@@ -71,7 +71,7 @@ addon | version | summary
 [deltatech_product_extension](deltatech_product_extension/) | 12.0.1.0.0 | Deltatech Products Extension
 [deltatech_product_list](deltatech_product_list/) | 12.0.1.0.0 | Product List
 [deltatech_product_weight](deltatech_product_weight/) | 12.0.2.0.0 | Products Weight
-[deltatech_property](deltatech_property/) | 12.0.1.0.0 | Property Management
+[deltatech_property](deltatech_property/) | 12.0.1.0.1 | Property Management
 [deltatech_property_agreement](deltatech_property_agreement/) | 12.0.1.0.0 | Property Agreement
 [deltatech_purchase_price](deltatech_purchase_price/) | 12.0.1.0.0 | Purchase Price
 [deltatech_radius](deltatech_radius/) | 12.0.1.0.0 | Radius Interface
