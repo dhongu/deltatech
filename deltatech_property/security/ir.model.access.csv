@@ -7,7 +7,7 @@ access_property_room,access_property_room,model_property_room,,1,1,1,1
 access_property_land_categ,access_property_land_categ,model_property_land_categ,,1,1,1,1
 access_property_building_categ,access_property_building_categ,model_property_building_categ,,1,1,1,1
 access_property_building_purpose,access_property_building_purpose,model_property_building_purpose,,1,1,1,1
-access_property_cost_center,access_property_cost_center,model_property_cost_center,,1,1,1,1
+
 access_property_region,access_property_region,model_property_region,,1,1,1,1
 
 access_property_features,access_property_features,model_property_features,,1,1,1,1
