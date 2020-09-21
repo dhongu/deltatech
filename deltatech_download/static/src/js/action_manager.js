@@ -56,8 +56,8 @@ odoo.define("deltatech_pos.ActionManager", function(require) {
                 framework.redirect(url);
                 return $.Deferred(); // The action is finished only when the redirection is done
             }
-                window.open(url, "_blank");
-                options.on_close();
+            window.open(url, "_blank");
+            options.on_close();
 
             return $.when();
         },

@@ -1,5 +1,3 @@
-
-
 from odoo import _, api, fields, models, registry
 from odoo.tools import float_is_zero
 

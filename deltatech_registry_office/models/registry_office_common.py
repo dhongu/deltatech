@@ -1,4 +1,3 @@
-
 selection_solution = [
     ("assigned", "Assigned"),  # trimis catre  - T
     ("favorable", "Favorable"),  # rezolvat (favorabil )       F

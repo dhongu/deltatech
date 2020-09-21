@@ -2,7 +2,7 @@
     "name": "Website Report",
     "category": "Website",
     "summary": "Website Editor on reports",
-    "version": "1.0",
+    "version": "11.0.1.0.0",
     "description": """
 Use the website editor to customize your reports.
         """,

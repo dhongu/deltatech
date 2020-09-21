@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Cash Statement Extension",
-    "version": "2.0",
+    "version": "11.0.2.0.0",
     "author": "Dorin Hongu",
     "website": "",
     "category": "Accounting & Finance",

@@ -1,4 +1,3 @@
-
 from odoo import _, api, fields, models, tools
 from odoo.api import Environment
 from odoo.exceptions import RedirectWarning, UserError

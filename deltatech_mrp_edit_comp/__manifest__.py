@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech MRP Edit Components",
-    "version": "3.0",
+    "version": "11.0.3.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",

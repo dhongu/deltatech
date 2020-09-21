@@ -1,5 +1,3 @@
-
-
 from odoo import api, fields, models, registry, tools
 
 

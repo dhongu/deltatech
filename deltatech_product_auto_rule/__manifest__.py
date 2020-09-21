@@ -4,7 +4,7 @@
 
 {
     "name": "Products Auto Reordering Rules",
-    "version": "1.0",
+    "version": "11.0.1.0.0",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",

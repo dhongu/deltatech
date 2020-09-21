@@ -4,7 +4,7 @@
 
 {
     "name": "Print Invoice to ECR",
-    "version": "1.0",
+    "version": "11.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generare fisier pentu casa de marcat",

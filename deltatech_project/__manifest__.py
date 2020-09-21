@@ -4,7 +4,7 @@
 
 {
     "name": "Project Extension",
-    "version": "1.10",
+    "version": "11.0.1.0.10",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Project Management",

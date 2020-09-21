@@ -1,5 +1,3 @@
-
-
 from odoo import SUPERUSER_ID, _, api, fields, models
 from odoo.exceptions import RedirectWarning, UserError
 from odoo.tools.translate import _

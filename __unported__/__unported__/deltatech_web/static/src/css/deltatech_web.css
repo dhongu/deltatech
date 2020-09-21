@@ -1,0 +1,96 @@
+@charset "utf-8";
+.openerp .oe_form_sheet_width {
+  min-width: 50%;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.openerp .oe_highlight {
+  color: white;
+  background: #DC5F59;
+}
+.openerp button.oe_highlight {
+  background-color: #5382b9;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#729fcf), to(#3465a4));
+  background-image: -webkit-linear-gradient(top, #729fcf, #3465a4);
+  background-image: -moz-linear-gradient(top, #729fcf, #3465a4);
+  background-image: -ms-linear-gradient(top, #729fcf, #3465a4);
+  background-image: -o-linear-gradient(top, #729fcf, #3465a4);
+  background-image: linear-gradient(to bottom, #729fcf, #3465a4);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+}
+.openerp button.oe_highlight:hover {
+  background-color: #3a699f;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#4c85c2), to(#284d7d));
+  background-image: -webkit-linear-gradient(top, #4c85c2, #284d7d);
+  background-image: -moz-linear-gradient(top, #4c85c2, #284d7d);
+  background-image: -ms-linear-gradient(top, #4c85c2, #284d7d);
+  background-image: -o-linear-gradient(top, #4c85c2, #284d7d);
+  background-image: linear-gradient(to bottom, #4c85c2, #284d7d);
+}
+.openerp button.oe_highlight:active {
+  background-color: #5d8cc3;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#81a9d4), to(#396fb3));
+  background-image: -webkit-linear-gradient(top, #81a9d4, #396fb3);
+  background-image: -moz-linear-gradient(top, #81a9d4, #396fb3);
+  background-image: -ms-linear-gradient(top, #81a9d4, #396fb3);
+  background-image: -o-linear-gradient(top, #81a9d4, #396fb3);
+  background-image: linear-gradient(to bottom, #81a9d4, #396fb3);
+}
+
+.openerp .oe_form .oe_title h1, .openerp .oe_form h1 {
+  font-size: 24px;
+}
+.openerp .oe_form .oe_title h2, .openerp .oe_form h2 {
+  font-size: 22px;
+}
+.openerp .oe_form .oe_title h3, .openerp .oe_form h3 {
+  font-size: 20px;
+}
+
+/* titlul standard are 305px */
+.openerp .oe_title .oe_left {
+ width:45%;
+}
+
+/*
+.openerp .oe_form .oe_title h4, .openerp .oe_form h4 {
+  font-size: 18px;
+}
+*/
+
+.openerp .oe_form label {
+  padding: 2px 2px 2px 0px;
+} 
+
+/*
+.openerp .oe_form .oe_form_field{
+ vertical-align:initial;
+}
+*/
+
+
+
+/*
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 22px;
+}
+h3 {
+  font-size: 20px;
+}
+h4 {
+  font-size: 18px;
+}
+
+address {
+  margin-bottom: 5px;
+}
+
+*/
+
+

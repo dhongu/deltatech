@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Claim 8D",
-    "version": "1.1",
+    "version": "11.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales Management",
