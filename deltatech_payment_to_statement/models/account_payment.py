@@ -110,7 +110,10 @@ class AccountPayment(models.Model):
     #         for move_line in payment.move_line_ids:
     #             if move_line.statement_id and move_line.statement_line_id:
     #                 payment.write(
-    #                     {"statement_id": move_line.statement_id.id, "statement_line_id": move_line.statement_line_id.id}
+    #                     {
+    #                     "statement_id": move_line.statement_id.id,
+    #                     "statement_line_id": move_line.statement_line_id.id
+    #                     }
     #                 )
 
     def add_statement_line(self):
