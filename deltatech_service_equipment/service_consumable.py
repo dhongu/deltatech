@@ -69,21 +69,49 @@ class service_consumable_item(models.Model):
     @api.one
     def _compute_quantity(self):
         equipment_id = self.env.context.get('equipment_id', False)
-        self.quantity = 0.0
         if equipment_id:
+            # old method - to delete if new method ok:
+            # self.quantity = 0.0
+            # if equipment_id:
+            #     eff = self.env['service.efficiency.report']
+            #     domain = [('product_id', '=', self.product_id.id), ('equipment_id', '=', equipment_id)]
+            #     fields = ['equipment_id', 'product_id', 'location_dest_id', 'usage', 'shelf_life']
+            #     groupby = ['equipment_id', 'product_id', 'location_dest_id']
+            #     res = eff.read_group(domain=domain, fields=fields, groupby=groupby, lazy=False)
+            #     quantity = 0.0
+            #     for line in res:
+            #         location_destination_id = self.env['stock.location'].browse(line['location_dest_id'][0])
+            #         if location_destination_id.usage == 'internal':
+            #             quantity +=  line['usage']
+            #         else:
+            #             quantity +=  -line['usage']
+            #     if quantity:
+            #         self.quantity = self.shelf_life + quantity
+            picking_type_id = self.sudo().env.ref('stock.picking_type_outgoing_not2binvoiced').id
+            pickings = self.env['stock.picking'].sudo().search(
+                [('equipment_id', '=', equipment_id),
+                 ('picking_type_id', '=', picking_type_id), ('state', '=', 'done')])
+            move_lines = self.env['stock.move'].sudo().search([('picking_id', 'in', pickings.ids), ('product_id', '=', self.product_id.id)])
+            move_qtys = 0.0
+            for move in move_lines:
+                if move.location_dest_id.usage == 'internal':
+                    move_qtys += - move.product_id.shelf_life * move.product_uom_qty
+                else:
+                    move_qtys += move.product_id.shelf_life * move.product_uom_qty
+            
             eff = self.env['service.efficiency.report']
             domain = [('product_id', '=', self.product_id.id), ('equipment_id', '=', equipment_id)]
             fields = ['equipment_id', 'product_id', 'location_dest_id', 'usage', 'shelf_life']
             groupby = ['equipment_id', 'product_id', 'location_dest_id']
             res = eff.read_group(domain=domain, fields=fields, groupby=groupby, lazy=False)
-            quantity = 0.0
+            usage = 0.0
             for line in res:
-                location_destination_id = self.env['stock.location'].browse(line['location_dest_id'][0])
-                if location_destination_id.usage == 'internal':
-                    quantity +=  line['usage']
-                else:
-                    quantity +=  -line['usage']
-            if quantity:
-                self.quantity = self.shelf_life + quantity
+                # location_destination_id = self.env['stock.location'].browse(line['location_dest_id'][0])
+                # if location_destination_id.usage != 'internal':
+                usage = line['usage']
+            self.quantity = move_qtys - usage
+        
+        
+        
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
