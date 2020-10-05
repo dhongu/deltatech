@@ -18,14 +18,20 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
+[deltatech](deltatech/) | 14.0.1.0.0 | Generic module
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
+[deltatech_alternative_website](deltatech_alternative_website/) | 1.0 | Website alternative code
 [deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
 [deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
+[deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
+[deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
+[deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
 [deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
+[deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.0.0 | Purchase Price
 [deltatech_select_journal](deltatech_select_journal/) | 14.0.1.0.0 | Selectie jurnal
 [deltatech_sms](deltatech_sms/) | 14.0.1.0.0 | Deltatech SMS
 [deltatech_sms_sale](deltatech_sms_sale/) | 14.0.1.0.0 | Deltatech SMS Sale
@@ -43,13 +49,10 @@ Unported addons
 ---------------
 addon | version | summary
 --- | --- | ---
-[background_job](__unported__/background_job/) | 10.0.1.0.0 (unported) | Background job
-[deltatech](__unported__/deltatech/) | 13.0.1.0.0 (unported) | Generic module
 [deltatech_account](__unported__/deltatech_account/) | 2.0 (unported) | Deltatech Account
 [deltatech_account_signed](__unported__/deltatech_account_signed/) | 11.0.1.0.0 (unported) | Deltatech Account Signed
 [deltatech_add_to_purchase](__unported__/deltatech_add_to_purchase/) | 1.0 (unported) | Deltatech Add To Purchase
 [deltatech_alternative_inv](__unported__/deltatech_alternative_inv/) | 1.0 (unported) | Deltatech Products Alternative On Invoice
-[deltatech_alternative_website](__unported__/deltatech_alternative_website/) | 1.0 (unported) | Website alternative code
 [deltatech_average_payment_period](__unported__/deltatech_average_payment_period/) | 12.0.1.0.0 (unported) | Deltatech Average Payment Period
 [deltatech_backwards](__unported__/deltatech_backwards/) | 10.0.1.0.0 (unported) | Deltatech Backwards
 [deltatech_bank_statement](__unported__/deltatech_bank_statement/) | 1.0 (unported) | Deltatech Bank Statement Extension
@@ -65,7 +68,6 @@ addon | version | summary
 [deltatech_download](__unported__/deltatech_download/) | 13.0.0.0.0 (unported) | Generare fisier
 [deltatech_expenses](__unported__/deltatech_expenses/) | 12.0.1.0.0 (unported) | Expenses Deduction & Disposition of Cashing
 [deltatech_fast_picking](__unported__/deltatech_fast_picking/) | 12.0.1.0.0 (unported) | Trasnfer rapid
-[deltatech_fast_purchase](__unported__/deltatech_fast_purchase/) | 14.0.1.0.0 (unported) | Achizitie rapida
 [deltatech_gamification](__unported__/deltatech_gamification/) | 1.0 (unported) | Deltatech Gamification extension
 [deltatech_invoice_currency](__unported__/deltatech_invoice_currency/) | 11.0.1.0.0 (unported) | Invoice Currency
 [deltatech_invoice_line](__unported__/deltatech_invoice_line/) | 12.0.1.0.0 (unported) | Invoice Line
@@ -87,7 +89,6 @@ addon | version | summary
 [deltatech_mrp_confirmation](__unported__/deltatech_mrp_confirmation/) | 11.0.2.0.0 (unported) | MRP Confirmation
 [deltatech_mrp_cost](__unported__/deltatech_mrp_cost/) | 12.0.2.0.0 (unported) | MRP Cost
 [deltatech_mrp_dimension](__unported__/deltatech_mrp_dimension/) | 1.0 (unported) | MRP Bom Dimension
-[deltatech_mrp_edit_comp](__unported__/deltatech_mrp_edit_comp/) | 13.0.4.0.0 (unported) | MRP Edit Components
 [deltatech_mrp_group](__unported__/deltatech_mrp_group/) | 12.0.1.0.0 (unported) | MRP Group Production Order
 [deltatech_mrp_merge](__unported__/deltatech_mrp_merge/) | 1.0 (unported) | MRP Merge Production Order
 [deltatech_mrp_param](__unported__/deltatech_mrp_param/) | 12.0.1.0.0 (unported) | MRP Parameter
@@ -118,7 +119,6 @@ addon | version | summary
 [deltatech_product_weight](__unported__/deltatech_product_weight/) | 12.0.2.0.0 (unported) | Products Weight
 [deltatech_project](__unported__/deltatech_project/) | 1.10 (unported) | Deltatech Project Extension
 [deltatech_property](__unported__/deltatech_property/) | 12.0.1.0.0 (unported) | Property Management
-[deltatech_purchase_price](__unported__/deltatech_purchase_price/) | 13.0.1.0.0 (unported) | Purchase Price
 [deltatech_purchase_xls](__unported__/deltatech_purchase_xls/) | 1.0 (unported) | Deltatech Purchase XLS
 [deltatech_qr_invoice](__unported__/deltatech_qr_invoice/) | 1.0 (unported) | Deltatech QR on invoice
 [deltatech_quant](__unported__/deltatech_quant/) | 1.0 (unported) | Deltatech Pozitii Stoc
