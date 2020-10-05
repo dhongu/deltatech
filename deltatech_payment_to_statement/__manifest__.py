@@ -11,12 +11,13 @@
     "depends": ["account", "deltatech_merge"],
     "license": "LGPL-3",
     "data": [
+        "security/ir.model.access.csv",
         "views/account_payment_view.xml",
         "views/account_view.xml",
         "views/account_journal_dashboard_view.xml",
-        "wizard/merge_statement_view.xml",
+        "wizard/merge_statement_view.xml"
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "post_init_hook": "_set_auto_auto_statement",
     "development_status": "stable",
     "maintainers": ["dhongu"],
