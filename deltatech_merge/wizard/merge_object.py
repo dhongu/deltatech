@@ -118,7 +118,7 @@ class MergeObject(models.TransientModel):
         Object = self.env[self._model_merge]
         relations = self._get_fk_on(self._table_merge)
 
-        self.flush()
+
 
         for table, column in relations:
             if "merge_object_" in table:  # ignore two tables
