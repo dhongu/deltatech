@@ -2,16 +2,16 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "eCommerce Product Slider",
+    "name": "eCommerce Product Link",
     "category": "Website",
-    "summary": "eCommerce extension",
+    "summary": "Alternative product url",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["website_sale", "deltatech_product_list"],
-    "data": ["views/templates.xml", "views/snippets.xml"],
-    "images": ["static/description/main_screenshot.png"],
+    "depends": ["website_sale"],
+    "data": ["views/product_template_view.xml"],
+    "images": [],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
     "development_status": "stable",
