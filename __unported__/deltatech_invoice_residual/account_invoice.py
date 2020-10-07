@@ -22,7 +22,7 @@
 from odoo import models, fields, api, _
 
 
-class account_invoice(models.Model):
+class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
  
@@ -33,7 +33,7 @@ class account_invoice(models.Model):
 
     def _compute_residual(self):
         for invoice in self:
-            super(account_invoice,invoice)._compute_residual()
+            super(AccountInvoice,invoice)._compute_residual()
             if invoice.amount_total_signed < 0.0:
                 if invoice.residual_signed > 0.0 :
                     invoice.residual_signed = -1 * invoice.residual_signed

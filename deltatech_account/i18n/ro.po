@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_account
+#    * deltatech_account
 #
 msgid ""
 msgstr ""
@@ -69,3 +69,4 @@ msgstr ""
 #, python-format
 msgid "Incoming Payments"
 msgstr "Încasări"
+

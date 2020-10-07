@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="add_carousel_multi_item_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t
+                t-snippet="deltatech_website_snippets.snippet_carousel_multi_item"
+                t-thumbnail="/deltatech_website_snippets/static/src/img/snippets_thumbs/s_three_columns.png"
+            />
+        </xpath>
+    </template>
+    <template id="snippet_carousel_multi_item" name="Carousel Multi Item">
+        <section class="s_carousel_multi_item">
+            <div class="container">
+                <div class="row">
+                    <!-- Top content -->
+                    <div class="top-content">
+                        <div class="container-fluid">
+                            <div
+                                id="carousel-example"
+                                class="carousel slide js_carousel_multi_item"
+                                data-ride="carousel"
+                            >
+                                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/1.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img1"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/2.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img2"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/3.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img3"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/4.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img4"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/5.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img5"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/6.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img6"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/7.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img7"
+                                        />
+                                    </div>
+                                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                                        <img
+                                            src="/deltatech_website_snippets/static/src/img/8.jpg"
+                                            class="img-fluid mx-auto d-block"
+                                            alt="img8"
+                                        />
+                                    </div>
+                                </div>
+                                <a
+                                    class="carousel-control-prev"
+                                    href="#carousel-example"
+                                    role="button"
+                                    data-slide="prev"
+                                >
+                                    <span class="carousel-control-prev-icon" aria-hidden="true" />
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a
+                                    class="carousel-control-next"
+                                    href="#carousel-example"
+                                    role="button"
+                                    data-slide="next"
+                                >
+                                    <span class="carousel-control-next-icon" aria-hidden="true" />
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+</odoo>

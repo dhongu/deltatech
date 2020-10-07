@@ -29,7 +29,7 @@ import time
 from datetime import datetime
 
 
-class account_invoice(models.Model):
+class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     @api.model
@@ -45,7 +45,7 @@ class account_invoice(models.Model):
 
     @api.multi
     def onchange_payment_term_date_invoice(self, payment_term_id, date_invoice):
-        res = super(account_invoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
+        res = super(AccountInvoice,self).onchange_payment_term_date_invoice(payment_term_id, date_invoice)
         res['value']['currency_rate'] = self.with_context(date=date_invoice)._get_default_currency_rate() 
         return res
     
@@ -63,7 +63,7 @@ class account_invoice(models.Model):
                                'proforma2':[('readonly', False)]})    
     
 
-class account_invoice_line(models.Model):
+class AccountInvoiceLine(models.Model):
     _inherit = "account.invoice.line"
  
     @api.one

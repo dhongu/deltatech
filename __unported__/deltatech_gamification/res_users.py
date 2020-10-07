@@ -29,7 +29,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMA
 
  
 
-class res_users_gamification_group(models.Model):
+class ResUsersGamificationGroup(models.Model):
     _inherit =  'res.users' 
 
     def _serialised_goals_summary(self, cr, uid, user_id, excluded_categories=None, context=None):        
@@ -37,7 +37,7 @@ class res_users_gamification_group(models.Model):
             context = {}
             user = self.browse(cr, uid, uid, context=context)
             context['lang'] =  user.lang
-        return super(res_users_gamification_group,self)._serialised_goals_summary(cr, uid, user_id, excluded_categories, context) 
+        return super(ResUsersGamificationGroup,self)._serialised_goals_summary(cr, uid, user_id, excluded_categories, context) 
 
 
 

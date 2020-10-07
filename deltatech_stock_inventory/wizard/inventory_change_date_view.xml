@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_stock_inventory_change_date_form" model="ir.ui.view">
+            <field name="name">Change invoice number</field>
+            <field name="model">stock.inventory.change.date</field>
+            <field name="arch" type="xml">
+                <form string="Change inventory date">
+                    <group>
+                        <field name="date" />
+                    </group>
+                    <footer>
+                        <button name="do_change" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window
+            id="action_account_invoice_change_number"
+            name="Change inventory date"
+            res_model="stock.inventory.change.date"
+            src_model="stock.inventory"
+            view_mode="form"
+            groups='group_change_inventory_date'
+            target="new"
+        />
+    </data>
+</odoo>

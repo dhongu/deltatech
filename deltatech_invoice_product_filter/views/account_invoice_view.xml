@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-	<data>
-	
+    <data>
         <record id="view_account_invoice_filter" model="ir.ui.view">
             <field name="name">account.invoice.select</field>
-            <field name="model">account.invoice</field>		
+            <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.view_account_invoice_filter" />
-			<field name="arch" type="xml">
-				 <field name="user_id"  position="after">
-					 <field name="invoice_line_ids" string="Product" filter_domain="[('invoice_line_ids.product_id', 'ilike', self)]"/>
-				 </field>		
-			</field>
-		</record>		
-			
-		
-	</data>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field
+                        name="invoice_line_ids"
+                        string="Product"
+                        filter_domain="[('invoice_line_ids.product_id', 'ilike', self)]"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
 </odoo>
-            

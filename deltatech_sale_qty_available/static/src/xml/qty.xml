@@ -2,31 +2,38 @@
     <div t-name="deltatech_sale_qty_available.qtyAvailable">
         <div t-att-class="!widget.data.display_qty_widget ? 'd-none' : ''">
             <t t-if="widget.data.qty_available &lt; widget.data.qty_to_deliver  ">
-                <a tabindex="0" class="fa fa-info-circle text-danger o_list_button"/>
+                <a tabindex="0" class="fa fa-info-circle text-danger o_list_button" />
             </t>
             <t t-else="">
-                <a tabindex="0" class="fa fa-info-circle text-primary o_list_button"/>
+                <a tabindex="0" class="fa fa-info-circle text-primary o_list_button" />
             </t>
         </div>
     </div>
-
     <div t-name="deltatech_sale_qty_available.QtyDetailPopOver">
         <table>
             <tbody>
-
                 <tr>
-                    <td><strong>Forecasted Stock</strong><br /></td>
-                    <td><t t-esc='data.virtual_available'/>
-                    <t t-esc='data.product_uom.data.display_name'/></td>
+                    <td>
+                        <strong>Forecasted Stock</strong>
+                        <br />
+                    </td>
+                    <td>
+                        <t t-esc='data.virtual_available' />
+                        <t t-esc='data.product_uom.data.display_name' />
+                    </td>
                 </tr>
                 <tr>
-                    <td><strong>Available</strong><br /><small>All planned operations included</small></td>
-                    <td><t t-esc='data.qty_available'/>
-                    <t t-esc='data.product_uom.data.display_name'/></td>
+                    <td>
+                        <strong>Available</strong>
+                        <br />
+                        <small>All planned operations included</small>
+                    </td>
+                    <td>
+                        <t t-esc='data.qty_available' />
+                        <t t-esc='data.product_uom.data.display_name' />
+                    </td>
                 </tr>
-
             </tbody>
         </table>
-
     </div>
 </templates>

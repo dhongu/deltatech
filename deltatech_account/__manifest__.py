@@ -1,20 +1,15 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 # See README.rst file on addons root folder for license details
 {
     "name": "Deltatech Account",
-    "version": "2.0",
+    "version": "12.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "license": "LGPL-3",
     "website": "www.terrabit.ro",
-    'category': 'Accounting & Finance',
-    "depends": ['account'],
-
-    "data": [
-        'views/account_invoice_view.xml',
-        'views/res_config_settings_views.xml'
-    ],
-    "images": ['images/main_screenshot.png'],
-    "installable": True,
-    'application': False,
-
+    "category": "Accounting & Finance",
+    "depends": ["account"],
+    "data": ["views/account_invoice_view.xml", "views/res_config_settings_views.xml"],
+    "images": ["images/main_screenshot.png"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

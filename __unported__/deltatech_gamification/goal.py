@@ -27,17 +27,17 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMA
  
 
 
-class gamification_goal_definition(models.Model):
+class GamificationGoalDefinition(models.Model):
     _inherit =  'gamification.goal.definition' 
     inverse_value = fields.Boolean(string='Inverse value')
 
     
-class gamification_goal(models.Model):
+class GamificationGoal(models.Model):
     _inherit =  'gamification.goal' 
 
     def _get_write_values(self, cr, uid, goal, new_value, context=None):
         if goal.definition_id.inverse_value:
             new_value = -new_value           
-        res = super(gamification_goal,self)._get_write_values(cr, uid, goal, new_value, context)
+        res = super(GamificationGoal,self)._get_write_values(cr, uid, goal, new_value, context)
         return res 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

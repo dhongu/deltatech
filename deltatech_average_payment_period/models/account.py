@@ -1,25 +1,22 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models, fields, api, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import Warning, RedirectWarning
+from odoo import api, fields, models
 
 
-class account_move_line(models.Model):
+class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
     payment_date = fields.Date(string="Payment Date", compute="_compute_payment_days", store=True)
     payment_days = fields.Integer(string="Payment Days", compute="_compute_payment_days", store=True)
 
-    @api.depends('date', 'full_reconcile_id') #   reconcile_id in 8, full_reconcile_id in 12
+    @api.depends("date", "full_reconcile_id")
     @api.multi
     def _compute_payment_days(self):
         for aml in self:
-            if aml.full_reconcile_id and aml.journal_id.type in ['sale', 'purchase', 'sale_refund', 'purchase_refund']:
+            if aml.full_reconcile_id and aml.journal_id.type in ["sale", "purchase", "sale_refund", "purchase_refund"]:
                 if aml.debit > 0:
                     for line in aml.full_reconcile_id.reconciled_line_ids:
                         if line.credit > 0:

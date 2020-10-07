@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_print_bf
+#    * deltatech_print_bf
 #
 msgid ""
 msgstr ""
@@ -111,6 +111,11 @@ msgstr "Slectați vă rog o facrură de vânzare %s"
 #: model_terms:ir.ui.view,arch_db:deltatech_print_bf.invoice_form
 msgid "Print Bon Fiscal"
 msgstr "Print Bon Fiscal"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.invoice_form
+msgid "Are you sure you want to print the receipt?"
+msgstr "Ești sigur că dorești tipărirea bonului fiscal"
 
 #. module: deltatech_print_bf
 #: model:ir.model,name:deltatech_print_bf.model_sale_advance_payment_inv

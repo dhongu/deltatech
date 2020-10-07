@@ -28,7 +28,7 @@ from odoo import SUPERUSER_ID, api
 import odoo.addons.decimal_precision as dp
 
 
-class document_file(models.Model):
+class DocumentFile(models.Model):
     _inherit = 'ir.attachment'
 
     """
@@ -103,7 +103,7 @@ class document_file(models.Model):
 
 
 
-class docuemt_category(models.Model):
+class DocuemtCategory(models.Model):
     _name = 'document.category'
     _description = 'Document category'
     _order = 'name'

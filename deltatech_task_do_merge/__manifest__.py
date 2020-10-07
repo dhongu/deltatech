@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # ©  2019 Deltatech
 #              Dorin Hongu (dhongu@gmail.com)
@@ -12,22 +11,11 @@
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
-    "depends": [
-
-        "project"
-    ],
+    "depends": ["project", "deltatech_merge"],
     "demo": [],
-    "license": "LGPL-3",
-
-    "data": [
-        "security/res_groups.xml",
-        "wizard/base_task_merge_view.xml"
-    ],
-    "images": ['images/main_screenshot.png'],
+    "data": ["security/res_groups.xml", "wizard/task_merge_view.xml"],
+    "images": ["images/main_screenshot.png"],
     "installable": True,
-    "auto_install": False,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }
-
-
-
-

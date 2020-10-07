@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2018 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
@@ -8,19 +7,15 @@
 
 {
     "name": "Stock Inventory",
-    'version': '12.0.1.0.0',
-    "author" : "Terrabit, Dorin Hongu",
+    "version": "12.0.1.0.0",
+    "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-
     "category": "Warehouse",
-    "depends": [ 'deltatech_stock_date', "stock_account"],
+    "depends": ["deltatech_stock_date", "stock_account"],
     "license": "LGPL-3",
-    "data": [
-        'data/data.xml',
-        'views/stock_view.xml',
-        'views/product_view.xml',
-        'views/report_stockinventory.xml'
-    ],
-    "images": ['images/main_screenshot.png'],
+    "data": ["data/data.xml", "views/stock_view.xml", "views/product_view.xml", "views/report_stockinventory.xml"],
+    "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

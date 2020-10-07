@@ -27,7 +27,7 @@ from odoo.api import Environment
  
 
 
-class stock_quant(models.Model):
+class StockQuant(models.Model):
     _inherit = "stock.quant"   
 
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="snippet_two_columns" name="Two Columns">
+        <section class="s_two_columns bg-200 pt32 pb32">
+            <div class="container">
+                <div class="row grid">
+                    <div class="col-lg-6 s_col_no_bgcolor pt16 pb16">
+                        <figure class="effect effect-lily">
+                            <img src="/web/image/website.library_image_11" alt="img12" />
+                            <figcaption>
+                                <div>
+                                    <h2>Nice
+                                        <span>Lily</span>
+                                    </h2>
+                                    <p>Lily likes to play with crayons and pencils</p>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <div class="col-lg-6 s_col_no_bgcolor pt16 pb16">
+                        <figure class="effect effect-lily">
+                            <img src="/web/image/website.library_image_13" alt="img13" />
+                            <figcaption>
+                                <div>
+                                    <h2>Nice
+                                        <span>Lily</span>
+                                    </h2>
+                                    <p>Lily likes to play with crayons and pencils</p>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="add_snippet_two_columns_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t
+                t-snippet="deltatech_website_snippets.snippet_two_columns"
+                t-thumbnail="/deltatech_website_snippets/static/src/img/snippets_thumbs/s_two_columns.png"
+            />
+        </xpath>
+    </template>
+    <template id="snippet_two_columns_opt" name="Snippet Options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='background']" position="after">
+            <div data-selector=".effect">
+                <!-- Options group -->
+                <li class="dropdown-submenu">
+                    <a tabindex="-2" href="#" class="dropdown-item"><i class="fa fa-magic" />Effect</a>
+                    <div class="dropdown-menu" role="menu">
+                        <!-- Options list -->
+                        <a href="#" class="dropdown-item" data-select-class="effect-lily">Lily</a>
+                        <a href="#" class="dropdown-item" data-select-class="effect-sadie">Sadie</a>
+                        <a href="#" class="dropdown-item" data-select-class="effect-layla">Layla</a>
+                        <a href="#" class="dropdown-item" data-select-class="effect-oscar">Oscar</a>
+                        <a href="#" class="dropdown-item" data-select-class="">None</a>
+                    </div>
+                </li>
+            </div>
+        </xpath>
+    </template>
+</odoo>

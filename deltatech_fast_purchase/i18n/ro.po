@@ -1,5 +1,5 @@
 # This file contains the translation of the following modules:
-#	* deltatech_fast_purchase
+#    * deltatech_fast_purchase
 #
 msgid ""
 msgstr ""

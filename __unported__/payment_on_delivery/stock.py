@@ -27,13 +27,13 @@ from odoo.tools import float_compare
 
 
 
-class stock_picking(models.Model):
+class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
    
     @api.model 
     def _create_invoice_from_picking(self,  picking, vals):        
-        invoice_id = super(stock_picking, self)._create_invoice_from_picking( picking, vals)
+        invoice_id = super(StockPicking, self)._create_invoice_from_picking( picking, vals)
         
         if picking.sale_id and  picking.sale_id.payment_acquirer_id:
             invoice = self.env['account.invoice'].browse(invoice_id)

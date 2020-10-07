@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="snippet_blockquote" name="Blockquote snippet">
+        <blockquote class="blockquote">
+            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+            </p>
+            <footer class="blockquote-footer">Someone famous in
+                <cite title="Source Title">Source Title</cite>
+            </footer>
+        </blockquote>
+    </template>
+    <template id="add_blockquote_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_content']/div[@class='o_panel_body']" position="inside">
+            <t
+                t-snippet="deltatech_website_snippets.snippet_blockquote"
+                t-thumbnail="/deltatech_website_snippets/static/src/img/snippets_thumbs/s_quote.png"
+            />
+        </xpath>
+    </template>
+</odoo>

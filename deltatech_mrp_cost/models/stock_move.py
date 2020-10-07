@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ©  2015-2017 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
@@ -7,9 +6,9 @@ from odoo import api, fields, models
 
 
 class StockMove(models.Model):
-    _inherit = 'stock.move'
+    _inherit = "stock.move"
 
-    qty_available = fields.Float(related='product_id.qty_available', string='Quantity On Hand')
+    qty_available = fields.Float(related="product_id.qty_available", string="Quantity On Hand")
 
     @api.multi
     def action_done(self):

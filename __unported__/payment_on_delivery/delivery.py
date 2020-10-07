@@ -26,7 +26,7 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.tools import float_compare
 
 
-class delivery_carrier(models.Model):
+class DeliveryCarrier(models.Model):
     _inherit = "delivery.carrier"
 
  

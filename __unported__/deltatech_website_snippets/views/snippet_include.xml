@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="dummy">
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor</p>
+    </template>
+    <template id="snippet_include" name="Include snippet">
+        <section class="s_include">
+            <div class="container">
+                <div class="row">
+                    <t t-call="deltatech_website_snippets.dummy" />
+                </div>
+            </div>
+        </section>
+    </template>
+    <template id="add_include_into_bar" inherit_id="website.snippets" name="Place into bar">
+        <xpath expr="//div[@id='snippet_structure']/div[@class='o_panel_body']" position="inside">
+            <t
+                t-snippet="deltatech_website_snippets.snippet_include"
+                t-thumbnail="/deltatech_website_snippets/static/src/img/snippets_thumbs/s_include.png"
+            />
+        </xpath>
+    </template>
+</odoo>

@@ -36,7 +36,7 @@ def get_var_by_id(id_val):
     return
 
 
-class background_job(models.Model):
+class BackgroundJob(models.Model):
     _name = 'background.job'
     _description = "Background job"
 

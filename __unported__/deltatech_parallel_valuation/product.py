@@ -26,7 +26,7 @@ from odoo.api import Environment
 
     
     
-class product_template(models.Model):
+class ProductTemplate(models.Model):
     _inherit = "product.template"   
  
          

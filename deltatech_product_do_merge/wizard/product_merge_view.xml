@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="merge_product_wizard_form" model="ir.ui.view">
+        <field name='name'>merge.product.wizard.form</field>
+        <field name='model'>merge.product.wizard</field>
+        <field name='arch' type='xml'>
+            <form string='Merge Wizard'>
+                <sheet>
+                    <field name="state" invisible="1" />
+                    <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
+                        Select the list of fields used to search for
+                        duplicated records. If you select several fields,
+                        Odoo will propose you to merge only those having
+                        all these fields in common. (not one of the fields).
+                    </p>
+                    <group
+                        attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}"
+                    >
+                        <field name="number_group" />
+                    </group>
+                    <group
+                        string="Search duplicates based on duplicated data in"
+                        attrs="{'invisible': [('state', 'not in', ('option',))]}"
+                    >
+                        <field name='group_by_name' />
+                    </group>
+                    <separator string="Options" attrs="{'invisible': [('state', 'not in', ('option',))]}" />
+                    <group attrs="{'invisible': [('state', 'not in', ('option','finished'))]}">
+                        <field name='maximum_group' attrs="{'readonly': [('state', 'in', ('finished'))]}" />
+                    </group>
+                    <separator
+                        string="Merge the following products"
+                        attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}"
+                    />
+                    <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
+                        <p class="oe_grey">
+                            Selected products will be merged together.
+                            All documents linked to one of these products
+                            will be redirected to the destination product.
+                            You can remove products from this list to avoid merging them.
+                        </p>
+                        <group col="2">
+                            <field
+                                name="dst_object_id"
+                                domain="[('id', 'in', object_ids or False)]"
+                                attrs="{'required': [('state', '=', 'selection')]}"
+                            />
+                        </group>
+                        <field name="object_ids" nolabel="1" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name='action_merge'
+                        string='Merge Products'
+                        class='oe_highlight'
+                        type='object'
+                        attrs="{'invisible': [('state', 'in', ('option', 'finished' ))]}"
+                    />
+                    <button
+                        name='action_skip'
+                        string='Skip these products'
+                        type='object'
+                        attrs="{'invisible': [('state', '!=', 'selection')]}"
+                    />
+                    <button
+                        special="cancel"
+                        string="Cancel"
+                        type="object"
+                        class="btn btn-secondary oe_inline"
+                        attrs="{'invisible': [('state', '=', 'finished')]}"
+                    />
+                    <button
+                        special="cancel"
+                        string="Close"
+                        type="object"
+                        class="btn btn-secondary oe_inline"
+                        attrs="{'invisible': [('state', '!=', 'finished')]}"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <act_window
+        id="action_product_merge"
+        res_model="merge.product.wizard"
+        src_model="product.product"
+        target="new"
+        multi="True"
+        key2="client_action_multi"
+        view_mode="form"
+        name="Merge"
+        groups='res_group_product_do_merge'
+    />
+    <act_window
+        id="action_product_template_merge"
+        res_model="merge.product.wizard"
+        src_model="product.template"
+        target="new"
+        multi="True"
+        key2="client_action_multi"
+        view_mode="form"
+        name="Merge"
+        groups='res_group_product_do_merge'
+    />
+</odoo>

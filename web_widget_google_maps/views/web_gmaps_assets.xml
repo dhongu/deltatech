@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
         <template id="assets_backend" name="im assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <link rel='stylesheet' href='/web_widget_google_maps/static/src/css/web_gmaps.css'/>
-                <script type="text/javascript" src="/web_widget_google_maps/static/src/js/web_gmaps.js"></script>
+                <link rel='stylesheet' href='/web_widget_google_maps/static/src/css/web_gmaps.css' />
+                <script type="text/javascript" src="/web_widget_google_maps/static/src/js/web_gmaps.js" />
             </xpath>
         </template>
-
-<!--        <template id="layout_map" name="Web layout with google map" inherit_id="web.layout">
+        <!--        <template id="layout_map" name="Web layout with google map" inherit_id="web.layout">
             <xpath expr="//script" position="before">
                 <script t-attf-src="//maps.google.com/maps/api/js?key=#{google_maps_api_key}"></script>
             </xpath>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
         <record id="view_mrp_workorder_group_form" model="ir.ui.view">
@@ -8,28 +8,28 @@
                 <form>
                     <group string="Group Work Order">
                         <group>
-                            <field name="group_id" placeholder="Leave empty to create a new group"/>
-                            <field name="date_planned"/>
+                            <field name="group_id" placeholder="Leave empty to create a new group" />
+                            <field name="date_planned" />
                         </group>
-
                     </group>
-
-
-                    <field name="workorder_ids"/>
-
+                    <field name="workorder_ids" />
                     <footer>
-                        <button name="do_group" string="_Apply" type="object" class="oe_highlight"/>
+                        <button name="do_group" string="_Apply" type="object" class="oe_highlight" />
                         or
-                        <button string="Cancel" class="oe_link" special="cancel"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                 </form>
             </field>
         </record>
-
-        <act_window id="action_mrp_workorder_group" name="Group Work Order"
-                    res_model="mrp.workorder.group" src_model="mrp.workorder"
-                    view_mode="form" multi="False" target="new" key2="client_action_multi"/>
-
-
+        <act_window
+            id="action_mrp_workorder_group"
+            name="Group Work Order"
+            res_model="mrp.workorder.group"
+            src_model="mrp.workorder"
+            view_mode="form"
+            multi="False"
+            target="new"
+            key2="client_action_multi"
+        />
     </data>
 </odoo>

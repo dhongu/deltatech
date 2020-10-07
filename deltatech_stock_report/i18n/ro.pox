@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_stock_report
+#    * deltatech_stock_report
 #
 msgid ""
 msgstr ""
@@ -133,7 +133,7 @@ msgstr "Tip operație"
 msgid "Product"
 msgstr "Produs"
 
- 
+
 
 #. module: deltatech_stock_report
 #: field:stock.picking.report,product_qty:0
@@ -175,5 +175,3 @@ msgstr "UM"
 #: model:ir.actions.act_window,name:deltatech_stock_report.action_stock_picking_report
 msgid "Picking Report"
 msgstr "Raport operații stoc"
-
-

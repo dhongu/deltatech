@@ -23,7 +23,7 @@ from odoo import models, fields, api, tools, _
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 
 
-class res_company(models.Model):
+class ResCompany(models.Model):
     _inherit = 'res.company'
     _name = 'res.company'   
     parallel_currency_id = fields.Many2one('res.currency',  
@@ -31,7 +31,7 @@ class res_company(models.Model):
                                  default=lambda self: self.env.ref('base.RON'))
         
 
-class account_config_settings(models.TransientModel):
+class AccountConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
     _name = 'account.config.settings'
     parallel_currency_id = fields.Many2one('res.currency', related='company_id.parallel_currency_id',

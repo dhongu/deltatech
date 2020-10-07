@@ -1,45 +1,36 @@
-# -*- coding: utf-8 -*-
 # ©  2008-2019 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import time
-
-from odoo import api, fields, models, _
-import odoo.addons.decimal_precision as dp
-from odoo.exceptions import UserError
+from odoo import api, models
 
 # mapping invoice type to journal type
-
-
 
 
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
-
     @api.model
     def default_get(self, fields_list):
         defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)
 
-        if self._context.get('default_journal_id', False):
-            return self.env['account.journal'].browse(self._context.get('default_journal_id'))
+        if self._context.get("default_journal_id", False):
+            return self.env["account.journal"].browse(self._context.get("default_journal_id"))
 
-        if self._context.get('active_ids'):
-            company_id = self._context.get('company_id', self.env.user.company_id.id)
-            sale_obj = self.env['sale.order']
-            order = sale_obj.browse(self._context.get('active_ids'))[0]
+        if self._context.get("active_ids"):
+            # company_id = self._context.get("company_id", self.env.user.company_id.id)
+            sale_obj = self.env["sale.order"]
+            order = sale_obj.browse(self._context.get("active_ids"))[0]
 
-
-            generic_parnter_id = self.env['ir.config_parameter'].sudo().get_param('sale.partner_generic_id')
-            generic_parnter =  self.env['res.partner'].browse(int(generic_parnter_id)).exists()
+            generic_parnter_id = self.env["ir.config_parameter"].sudo().get_param("sale.partner_generic_id")
+            generic_parnter = self.env["res.partner"].browse(int(generic_parnter_id)).exists()
             if generic_parnter == order.partner_id:
-                journal_bf_id = self.env['ir.config_parameter'].sudo().get_param('sale.journal_bf_id')
-                journal_bf = self.env['account.journal'].browse(int(journal_bf_id)).exists()
+                journal_bf_id = self.env["ir.config_parameter"].sudo().get_param("sale.journal_bf_id")
+                journal_bf = self.env["account.journal"].browse(int(journal_bf_id)).exists()
                 if journal_bf:
-                    defaults['journal_id'] = journal_bf.id
+                    defaults["journal_id"] = journal_bf.id
 
-            #generic_parnter = self.env.ref('deltatech_partner_generic.partner_generic',raise_if_not_found=False)
+            # generic_parnter = self.env.ref('deltatech_partner_generic.partner_generic',raise_if_not_found=False)
             # if generic_parnter == order.partner_id:
             #     domain = [
             #         ('type', '=', 'sale'),
@@ -56,9 +47,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
             # if journal:
             #     defaults['journal_id'] = journal.id
 
-
         return defaults
-
 
     # @api.model
     # def _default_journal(self):
@@ -97,8 +86,6 @@ class SaleAdvancePaymentInv(models.TransientModel):
     # journal_id = fields.Many2one('account.journal', string='Journal',
     #                              default=_default_journal,
     #                              domain="[('type', '=', 'sale')]") # de adaugat si ('company_id', '=', company_id)
-
-
 
     # @api.multi
     # def create_invoices(self):

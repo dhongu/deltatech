@@ -22,17 +22,17 @@
 from odoo import models, fields, api, _
 import odoo.addons.decimal_precision as dp
 
-class account_invoice_report(models.Model):
+class AccountInvoiceReport(models.Model):
     _inherit = 'account.invoice.report'
 
     parallel_stock_value = fields.Float(string="Parallel Stock Value", digits= dp.get_precision('Product Price'), readonly=True, )       
     parallel_line_value = fields.Float(string="Parallel Line Value", digits= dp.get_precision('Product Price'), readonly=True, )  
 
     def _select(self):
-        return  super(account_invoice_report, self)._select() + ", parallel_stock_value, parallel_line_value "
+        return  super(AccountInvoiceReport, self)._select() + ", parallel_stock_value, parallel_line_value "
 
     def _sub_select(self):
-        return  super(account_invoice_report, self)._sub_select() +  """,
+        return  super(AccountInvoiceReport, self)._sub_select() +  """,
                         SUM(CASE
                          WHEN ai.type::text = ANY (ARRAY['out_refund'::character varying::text, 'in_invoice'::character varying::text])
                             THEN - COALESCE( parallel_stock_value, parallel_line_value )

@@ -1,6 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* deltatech_ral
+#    * deltatech_ral
 #
 msgid ""
 msgstr ""
@@ -30,4 +30,3 @@ msgstr "RAL"
 #: model:ir.model,name:deltatech_ral.model_stock_production_lot
 msgid "Serial Number"
 msgstr "Număr de lot"
-
