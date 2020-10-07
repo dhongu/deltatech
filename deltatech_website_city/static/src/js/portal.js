@@ -122,7 +122,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
 
         init: function() {
             this._super.apply(this, arguments);
-            this._changeState = _.debounce(this._changeState.bind(this), 600);
+            this._changeState = _.debounce(this._changeState.bind(this), 100);
             this.isWebsite = true;
         },
 
@@ -173,7 +173,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
                 return;
             }
             this._changeState();
-            // This._onChangeCity();
+            this._onChangeCity();
         },
 
         _changeState: function() {

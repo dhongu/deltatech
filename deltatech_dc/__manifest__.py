@@ -22,4 +22,6 @@
         "views/report_dc.xml",
         "security/ir.model.access.csv",
     ],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

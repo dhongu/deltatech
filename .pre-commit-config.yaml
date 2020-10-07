@@ -14,6 +14,27 @@ exclude: |
 default_language_version:
   python: python3
 repos:
+  - repo: https://github.com/OCA/maintainer-tools
+    rev: master # This is just an example; you must use a tag/commit instead!
+    hooks:
+      # Use each script's `--help` to understand the args
+      - id: oca-gen-addon-readme
+        args:
+          - --addons-dir=.
+          - --org-name=dhongu
+          - --repo-name=deltatech
+          - --branch=13.0
+
+      # This job could easily produce conflicts when it runs on every commit,
+      # so it's added as a manual job. If you automate it, beware.
+      # See https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
+      - id: oca-gen-addons-table
+        stages: [manual]
+
+      #- id: oca-gen-addon-icon
+      #  args:
+      #    - --addons-dir=.
+
   - repo: https://github.com/psf/black
     rev: 19.10b0
     hooks:

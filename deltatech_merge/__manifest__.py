@@ -12,4 +12,6 @@
     "license": "LGPL-3",
     "data": [],
     "images": ["static/description/main_screenshot.png"],
+    "development_status": "beta",
+    "maintainers": ["dhongu"],
 }
