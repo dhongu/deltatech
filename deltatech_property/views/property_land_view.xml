@@ -10,10 +10,12 @@
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
-                                <div class="o_kanban_image">
+<!--                                <div class="o_kanban_image">-->
+                                <div class="pull-left">
                                     <img
                                         t-att-src="kanban_image('property.land', 'image', record.id.raw_value)"
                                         alt="Logo"
+                                        style="max-width:200px;"
                                     />
                                 </div>
                                 <div class="oe_kanban_details">
@@ -74,7 +76,7 @@
                             >
                             </button>
                         </div>
-                        <field name="image" widget="image" class="oe_avatar" />
+                        <field name="image" widget="image" class="float-left" style="max-width:200px;" />
                         <div class="oe_title oe_left">
                             <h1>
                                 <field name="name" placeholder="Name" />
@@ -162,8 +164,9 @@
                                         <label for="price" />
                                         <div class="o_row" name="price">
                                             <field name="price" />
-                                            <span> / m³</span>
+                                            <span> / m²</span>
                                         </div>
+                                        <field name="total_price"/>
                                         <field name="currency_id" />
                                     </group>
                                 </group>

@@ -54,14 +54,14 @@ class PropertyBuilding(models.Model):
     surface_useful = fields.Float(
         string="Useful surface",
         help="∑ Sbir + Scc +  Slb + Sit + Sgar + Smag + Slog + Sarh + Sves + Steh ",
-        compute="_compute_all_surface",
+        # compute="_compute_all_surface",
         store=True,
     )  # Su
 
     surface_common = fields.Float(
         string="Common surface",
         help="The common area of the building ∑ Ssed + Shol + Scs + Sof + Sgrs + Sacc",
-        compute="_compute_all_surface",
+        # compute="_compute_all_surface",
         store=True,
     )  # Scc
 
@@ -229,84 +229,86 @@ class PropertyBuilding(models.Model):
 
     @api.depends("room_ids.surface", "surface_terraces", "surface_cleaned_ext", "surface_derating_ext")
     def _compute_all_surface(self):
+        # TODO: de refacut calculele dinamic, in functie de room.usage
+        pass
 
-        for building in self:
-            surface = {
-                "office": 0.0,
-                "living": 0.0,
-                "bedroom": 0.0,
-                "meeting": 0.0,
-                "lobby": 0.0,
-                "staircase": 0.0,
-                "kitchen": 0.0,
-                "sanitary": 0.0,
-                "laboratory": 0.0,
-                "it_endowments": 0.0,
-                "garage": 0.0,
-                "warehouse": 0.0,
-                "log_warehouse": 0.0,
-                "archive": 0.0,
-                "cloakroom": 0.0,
-                "premises": 0.0,
-                "access": 0.0,
-            }
-            for room in building.room_ids:
-                surface[room.usage] += room.surface
-
-            building.surface_office = surface["office"]
-            building.surface_living = surface["living"]
-            building.surface_bedroom = surface["bedroom"]
-
-            building.surface_meeting = surface["meeting"]
-            building.surface_lobby = surface["lobby"]
-            building.surface_staircase = surface["staircase"]
-            building.surface_kitchen = surface["kitchen"]
-            building.surface_sanitary = surface["sanitary"]
-            building.surface_laboratory = surface["laboratory"]
-            building.surface_it_endowments = surface["it_endowments"]
-            building.surface_garage = surface["garage"]
-            building.surface_warehouse = surface["warehouse"]
-            building.surface_log_warehouse = surface["log_warehouse"]
-            building.surface_archive = surface["archive"]
-            building.surface_cloakroom = surface["cloakroom"]
-            building.surface_premises = surface["premises"]
-            building.surface_access = surface["access"]
-
-            building.surface_common = (
-                surface["meeting"]
-                + surface["lobby"]
-                + surface["staircase"]
-                + surface["kitchen"]
-                + surface["sanitary"]
-                + surface["access"]
-            )
-
-            building.surface_useful = (
-                surface["office"]
-                + surface["living"]
-                + surface["bedroom"]
-                + building.surface_common
-                + surface["laboratory"]
-                + surface["it_endowments"]
-                + surface["garage"]
-                + surface["warehouse"]
-                + surface["log_warehouse"]
-                + surface["archive"]
-                + surface["cloakroom"]
-                + surface["premises"]
-            )
-
-            building.surface_cleaned_adm = (
-                building.surface_common + surface["office"] + surface["living"] + surface["bedroom"]
-            )
-            building.surface_cleaned_ind = surface["garage"] + surface["cloakroom"] + building.surface_terraces
-
-            building.surface_cleaned_tot = (
-                building.surface_cleaned_adm + building.surface_cleaned_ind + building.surface_cleaned_ext
-            )
-
-            building.surface_derating_int = building.surface_useful
-            building.surface_derating = building.surface_derating_ext + building.surface_derating_int
+        # for building in self:
+        #     surface = {
+        #         "office": 0.0,
+        #         "living": 0.0,
+        #         "bedroom": 0.0,
+        #         "meeting": 0.0,
+        #         "lobby": 0.0,
+        #         "staircase": 0.0,
+        #         "kitchen": 0.0,
+        #         "sanitary": 0.0,
+        #         "laboratory": 0.0,
+        #         "it_endowments": 0.0,
+        #         "garage": 0.0,
+        #         "warehouse": 0.0,
+        #         "log_warehouse": 0.0,
+        #         "archive": 0.0,
+        #         "cloakroom": 0.0,
+        #         "premises": 0.0,
+        #         "access": 0.0,
+        #     }
+        #     # for room in building.room_ids:
+        #     #     surface[room.usage] += room.surface
+        #
+        #     building.surface_office = surface["office"]
+        #     building.surface_living = surface["living"]
+        #     building.surface_bedroom = surface["bedroom"]
+        #
+        #     building.surface_meeting = surface["meeting"]
+        #     building.surface_lobby = surface["lobby"]
+        #     building.surface_staircase = surface["staircase"]
+        #     building.surface_kitchen = surface["kitchen"]
+        #     building.surface_sanitary = surface["sanitary"]
+        #     building.surface_laboratory = surface["laboratory"]
+        #     building.surface_it_endowments = surface["it_endowments"]
+        #     building.surface_garage = surface["garage"]
+        #     building.surface_warehouse = surface["warehouse"]
+        #     building.surface_log_warehouse = surface["log_warehouse"]
+        #     building.surface_archive = surface["archive"]
+        #     building.surface_cloakroom = surface["cloakroom"]
+        #     building.surface_premises = surface["premises"]
+        #     building.surface_access = surface["access"]
+        #
+        #     building.surface_common = (
+        #         surface["meeting"]
+        #         + surface["lobby"]
+        #         + surface["staircase"]
+        #         + surface["kitchen"]
+        #         + surface["sanitary"]
+        #         + surface["access"]
+        #     )
+        #
+        #     building.surface_useful = (
+        #         surface["office"]
+        #         + surface["living"]
+        #         + surface["bedroom"]
+        #         + building.surface_common
+        #         + surface["laboratory"]
+        #         + surface["it_endowments"]
+        #         + surface["garage"]
+        #         + surface["warehouse"]
+        #         + surface["log_warehouse"]
+        #         + surface["archive"]
+        #         + surface["cloakroom"]
+        #         + surface["premises"]
+        #     )
+        #
+        #     building.surface_cleaned_adm = (
+        #         building.surface_common + surface["office"] + surface["living"] + surface["bedroom"]
+        #     )
+        #     building.surface_cleaned_ind = surface["garage"] + surface["cloakroom"] + building.surface_terraces
+        #
+        #     building.surface_cleaned_tot = (
+        #         building.surface_cleaned_adm + building.surface_cleaned_ind + building.surface_cleaned_ext
+        #     )
+        #
+        #     building.surface_derating_int = building.surface_useful
+        #     building.surface_derating = building.surface_derating_ext + building.surface_derating_int
 
 
 class PropertyFeatures(models.Model):
