@@ -74,7 +74,7 @@
                             >
                             </button>
                         </div>
-                        <field name="image" widget="image" class="float-left" style="max-width:200px;margin:3px;"/>
+                        <field name="image" widget="image" class="float-left" style="max-width:200px;margin:3px;" />
                         <div class="oe_title oe_left">
                             <h1>
                                 <field name="name" placeholder="Name" />
@@ -214,40 +214,40 @@
                                         <field name="surface_common" />
                                         <field name="surface_flameproof" />
                                     </group>
-<!--                                    <group string="Cleaning surface">-->
-<!--                                        <field name="surface_cleaned_adm" />-->
-<!--                                        <field name="surface_cleaned_ind" />-->
-<!--                                        <field name="surface_cleaned_ext" />-->
-<!--                                        <field name="surface_cleaned_tot" />-->
-<!--                                        <field name="surface_derating_ext" />-->
-<!--                                        <field name="surface_derating_int" />-->
-<!--                                        <field name="surface_derating" />-->
-<!--                                        <field name="surface_disinsection" />-->
-<!--                                        <field name="surface_cleaning_carpet" />-->
-<!--                                        <field name="surface_cleaning_linoleum" />-->
-<!--                                        <field name="surface_cleaning_wood" />-->
-<!--                                        <field name="surface_cleaning_doors" />-->
-<!--                                        <field name="surface_cleaning_windows" />-->
-<!--                                    </group>-->
-<!--                                    <group string="Surface by type">-->
-<!--                                        <field name="surface_office" />-->
-<!--                                        <field name="surface_living" />-->
-<!--                                        <field name="surface_bedroom" />-->
-<!--                                        <field name="surface_meeting" />-->
-<!--                                        <field name="surface_lobby" />-->
-<!--                                        <field name="surface_staircase" />-->
-<!--                                        <field name="surface_kitchen" />-->
-<!--                                        <field name="surface_sanitary" />-->
-<!--                                        <field name="surface_laboratory" />-->
-<!--                                        <field name="surface_it_endowments" />-->
-<!--                                        <field name="surface_garage" />-->
-<!--                                        <field name="surface_warehouse" />-->
-<!--                                        <field name="surface_log_warehouse" />-->
-<!--                                        <field name="surface_archive" />-->
-<!--                                        <field name="surface_cloakroom" />-->
-<!--                                        <field name="surface_premises" />-->
-<!--                                        <field name="surface_access" />-->
-<!--                                    </group>-->
+                                    <!--                                    <group string="Cleaning surface">-->
+                                    <!--                                        <field name="surface_cleaned_adm" />-->
+                                    <!--                                        <field name="surface_cleaned_ind" />-->
+                                    <!--                                        <field name="surface_cleaned_ext" />-->
+                                    <!--                                        <field name="surface_cleaned_tot" />-->
+                                    <!--                                        <field name="surface_derating_ext" />-->
+                                    <!--                                        <field name="surface_derating_int" />-->
+                                    <!--                                        <field name="surface_derating" />-->
+                                    <!--                                        <field name="surface_disinsection" />-->
+                                    <!--                                        <field name="surface_cleaning_carpet" />-->
+                                    <!--                                        <field name="surface_cleaning_linoleum" />-->
+                                    <!--                                        <field name="surface_cleaning_wood" />-->
+                                    <!--                                        <field name="surface_cleaning_doors" />-->
+                                    <!--                                        <field name="surface_cleaning_windows" />-->
+                                    <!--                                    </group>-->
+                                    <!--                                    <group string="Surface by type">-->
+                                    <!--                                        <field name="surface_office" />-->
+                                    <!--                                        <field name="surface_living" />-->
+                                    <!--                                        <field name="surface_bedroom" />-->
+                                    <!--                                        <field name="surface_meeting" />-->
+                                    <!--                                        <field name="surface_lobby" />-->
+                                    <!--                                        <field name="surface_staircase" />-->
+                                    <!--                                        <field name="surface_kitchen" />-->
+                                    <!--                                        <field name="surface_sanitary" />-->
+                                    <!--                                        <field name="surface_laboratory" />-->
+                                    <!--                                        <field name="surface_it_endowments" />-->
+                                    <!--                                        <field name="surface_garage" />-->
+                                    <!--                                        <field name="surface_warehouse" />-->
+                                    <!--                                        <field name="surface_log_warehouse" />-->
+                                    <!--                                        <field name="surface_archive" />-->
+                                    <!--                                        <field name="surface_cloakroom" />-->
+                                    <!--                                        <field name="surface_premises" />-->
+                                    <!--                                        <field name="surface_access" />-->
+                                    <!--                                    </group>-->
                                 </group>
                             </page>
                             <page string="History">

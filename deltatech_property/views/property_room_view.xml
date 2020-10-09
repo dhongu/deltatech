@@ -10,7 +10,7 @@
                     <field name="name" />
                     <field name="building_id" />
                     <field name="usage_id" />
-                    <field name="usage" invisible="1"/>
+                    <field name="usage" invisible="1" />
                     <field name="surface" sum="surface" />
                 </tree>
             </field>
@@ -56,7 +56,7 @@
                                     <group>
                                         <field name="floor_type" />
                                         <field name="usage_id" />
-                                        <field name="usage" invisible="1"/>
+                                        <field name="usage" invisible="1" />
                                         <field name="rented_room" />
                                     </group>
                                     <group>
@@ -88,7 +88,7 @@
                 <search string="Search">
                     <field name="building_id" />
                     <field name="usage_id" />
-                    <field name="usage" invisible="1"/>
+                    <field name="usage" invisible="1" />
                     <separator />
                     <filter name="groupby_usage" context="{'group_by' : 'usage_id'}" string="Usage" />
                 </search>
