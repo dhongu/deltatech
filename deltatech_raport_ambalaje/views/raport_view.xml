@@ -1,0 +1,51 @@
+<odoo>
+    <menuitem id="menu_raport_app" name="Raport" />
+    <record id="action_list_raports" model="ir.actions.act_window">
+        <field name="name">Raport ambalaje</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+    <menuitem
+        id="menu_raports"
+        parent="menu_raport_app"
+        name="Raport ambalaje"
+        sequence="10"
+        action="action_list_raports"
+    />
+    <record id="view_raport_tree" model="ir.ui.view">
+        <field name="name">raport.tree_view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr='//field[@name="name"]' position="after">
+                <field name="hartie" />
+                <field name="lemn" />
+                <field name="plastic" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_raport_form" model="ir.ui.view">
+        <field name="name">raport.form_view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view" />
+        <field name="priority" eval="16" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='inventory']/group" position="inside">
+                <group name="packaging" string="Packaging">
+                    <field name="hartie" attrs="{'invisible': [ ('hartie','=',False)]}" />
+                    <field name="plastic" attrs="{'invisible': [ ('plastic','=',False)]}" />
+                    <field name="lemn" attrs="{'invisible': [ ('lemn','=',False)]}" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_raport_kanban" model="ir.ui.view">
+        <field name="name">raport.kanban_view</field>
+        <field name="inherit_id" ref="product.product_kanban_view" />
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <kanban>
+            </kanban>
+        </field>
+    </record>
+</odoo>
