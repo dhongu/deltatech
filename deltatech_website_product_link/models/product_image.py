@@ -24,7 +24,7 @@ class ProductImage(models.Model):
             image_file_name = vals["name"]
             parsed_url = urlparse(image_file_name)
             if parsed_url.scheme:
-                data = self.load_image_from_url(image_file_name)
+                data = self.product_tmpl_id.load_image_from_url(image_file_name)
                 if data:
                     vals["name"] = image_file_name.split("/")[-1]
                     vals["image_1920"] = data
