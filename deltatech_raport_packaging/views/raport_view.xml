@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_raport_form" model="ir.ui.view">
+        <field name="name">raport.form_view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='inventory']/group" position="inside">
+                <group name="packaging" string="Packaging">
+                    <field name="paper"/>
+                    <field name="plastic"/>
+                    <field name="wood"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

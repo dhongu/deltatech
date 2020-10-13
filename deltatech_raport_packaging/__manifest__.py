@@ -1,0 +1,15 @@
+{
+    "name": "Raport Packaging",
+    "category": "Product",
+    "summary": "",
+    "version": "12.0.1.0.0",
+    "author": "Terrabit",
+    "license": "LGPL-3",
+    "website": "https://www.terrabit.ro",
+    "data": ["views/raport_view.xml", "wizard/raport_wizard_view.xml", "security/ir.model.access.csv"],
+    "depends": ["account", "base", "product"],
+    "images": ["static/icon.png"],
+    "installable": True,
+    "development_status": "stable",
+    "maintainers": ["CDaniel"],
+}
