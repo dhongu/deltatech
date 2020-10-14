@@ -19,4 +19,4 @@ class Raportwizard1(models.TransientModel):
                 else:
                     qty[product.id] = item.quantity
 
-    active_ids = fields.Many2many("account.move", string="Active_ids", default=_get_default_product_id)
+    active_ids = fields.Many2many("account.move", string="Active_ids")
