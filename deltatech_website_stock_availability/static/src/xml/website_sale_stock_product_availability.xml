@@ -27,18 +27,28 @@
                 <t t-esc="uom_name" />
                 in your cart
             </div>
-            <div
-                t-if="virtual_available lte 0"
-                t-attf-class="availability_message_#{product_template} text-danger mt16"
-            >
-                <t t-if="custom_message">
-                    <t t-esc="custom_message" />
-                </t>
-                <t t-else="">
+            <div t-if="virtual_available lte 0 or cart_qty gt virtual_available">
+                <div t-attf-class="availability_message_#{product_template} text-warning mt16">
                     <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning" />
-                    Temporarily out of stock
-                </t>
+                    In the supplier's stock
+                </div>
             </div>
         </t>
+    </t>
+    <t t-name="deltatech_website_stock_availability.lead_time">
+        <div t-attf-class="lead_time_#{product_template} ">
+            <i class="fa fa-calendar" />
+            <t t-set="po" t-value="0" />
+            <t t-if="virtual_available lte 0 or cart_qty+selected_qty gt virtual_available">
+                <t t-set="po" t-value="purchase_lead_time" />
+            </t>
+            <span>
+                Delivery in
+                <t t-esc="sale_delay+po" />
+                -
+                <t t-esc="sale_delay+sale_delay_safety+po" /> days
+            </span>
+            <!--            <i class="fa fa-info-circle"/>-->
+        </div>
     </t>
 </templates>

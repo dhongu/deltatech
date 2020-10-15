@@ -42,6 +42,18 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function(requir
                 $("div.availability_messages").html($message);
             });
         }
+        var qty = $parent.find('input[name="add_qty"]').val();
+        combination.selected_qty = qty;
+        if (combination.product_type === "product") {
+            xml_load.then(function() {
+                $(".oe_website_sale")
+                    .find(".lead_time_messages_" + combination.product_template)
+                    .remove();
+
+                var $message = $(QWeb.render("deltatech_website_stock_availability.lead_time", combination));
+                $("div.lead_time_messages").html($message);
+            });
+        }
     };
 
     publicWidget.registry.WebsiteSale.include({
