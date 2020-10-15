@@ -12,6 +12,13 @@
                     attrs="{'invisible': ['|', ('type', 'in', ['service', 'consu']), ('inventory_availability', 'not in', ['threshold','preorder'])], 'required': [('inventory_availability', 'in', ['threshold','preorder']), ('type', '=', 'product')]}"
                 />
             </xpath>
+            <xpath expr="//group[@name='operations']" position="inside">
+                <label for="sale_delay_safety" attrs="{'invisible': [('sale_ok', '=', False)]}" />
+                <div attrs="{'invisible': [('sale_ok', '=', False)]}">
+                    <field name="sale_delay_safety" class="oe_inline" style="vertical-align:baseline" />
+                    days
+                </div>
+            </xpath>
         </field>
     </record>
 </odoo>

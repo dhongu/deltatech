@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
@@ -11,6 +11,8 @@ class ProductTemplate(models.Model):
     inventory_availability = fields.Selection(
         selection_add=[("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
     )
+
+    sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
 
     def _get_combination_info(
         self,
@@ -35,7 +37,17 @@ class ProductTemplate(models.Model):
 
         if combination_info["product_id"]:
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
-            if product.type == "product" and product.inventory_availability in ["preorder"]:
-                combination_info["custom_message"] = _("Info stock: in %d days") % (product.sale_delay or 1)
+            company_lead_time = self.env.company.po_lead
+            supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
+
+            combination_info["sale_delay"] = product.sale_delay
+            combination_info["sale_delay_safety"] = product.sale_delay_safety
+            combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
+
+            # if product.type == "product" and product.inventory_availability in ["preorder"]:
+            #     lead_min = company_lead_time + supplier_lead_time + product.sale_delay
+            #     lead_max = lead_min + product.sale_delay_safety
+            #     interval = '%d - %s' % (lead_min, lead_max)
+            #     combination_info["custom_message"] = _("Delivery in %s days") % interval
 
         return combination_info
