@@ -35,6 +35,7 @@ class ProductTemplate(models.Model):
         if not self.env.context.get("website_sale_stock_get_quantity"):
             return combination_info
 
+        combination_info["lead_time"] = 0
         if combination_info["product_id"]:
             product = self.env["product.product"].sudo().browse(combination_info["product_id"])
             company_lead_time = self.env.company.po_lead

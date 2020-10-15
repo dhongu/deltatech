@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     website_rewrite_id = fields.Many2one("website.rewrite")
-    alternative_link = fields.Char(compute="_compute_alternative_link", inverse="_inverse_alternative_link")
+    alternative_link = fields.Char(compute="_compute_alternative_link", inverse="_inverse_alternative_link", store=True)
     image_file_name = fields.Char(string="Image File Name")
     legacy_id = fields.Integer(string="Legacy ID")
 
