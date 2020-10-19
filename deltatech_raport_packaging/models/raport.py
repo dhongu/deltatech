@@ -12,5 +12,5 @@ class ProductPackagingMaterial(models.Model):
     _description = "Model for one2many: products_ids"
 
     product_tmpl_id = fields.Many2one("product.template")
-    type = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])
+    materials_selection = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])
     qty = fields.Float(string="Quantity", default=0)
