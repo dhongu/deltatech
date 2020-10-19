@@ -215,9 +215,12 @@ class MergeObject(models.TransientModel):
         update_records = functools.partial(update_records)
 
         for scr_object in src_objects:
-            update_records("calendar", src=scr_object, field_model="model_id.model")
+            update_records("calendar.event", src=scr_object, field_model="res_model")
             update_records("ir.attachment", src=scr_object, field_model="res_model")
             update_records("mail.followers", src=scr_object, field_model="res_model")
+
+            update_records("portal.share", src=scr_object, field_model="res_model")
+            update_records("rating.rating", src=scr_object, field_model="res_model")
             update_records("mail.activity", src=scr_object, field_model="res_model")
             update_records("mail.message", src=scr_object)
             update_records("ir.model.data", src=scr_object)
