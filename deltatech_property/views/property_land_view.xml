@@ -10,7 +10,7 @@
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
-<!--                                <div class="o_kanban_image">-->
+                                <!--                                <div class="o_kanban_image">-->
                                 <div class="pull-left">
                                     <img
                                         t-att-src="kanban_image('property.land', 'image', record.id.raw_value)"
@@ -166,7 +166,7 @@
                                             <field name="price" />
                                             <span> / m²</span>
                                         </div>
-                                        <field name="total_price"/>
+                                        <field name="total_price" />
                                         <field name="currency_id" />
                                     </group>
                                 </group>
