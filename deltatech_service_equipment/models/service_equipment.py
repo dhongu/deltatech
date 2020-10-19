@@ -254,6 +254,7 @@ class ServiceTemplateMeter(models.Model):
     currency_id = fields.Many2one(
         "res.currency", string="Currency", required=True, domain=[("name", "in", ["RON", "EUR"])]
     )
+    analytic_account_id = fields.Many2one("account.analytic.account", string="Analytic")
 
     @api.onchange("meter_categ_id")
     def onchange_meter_categ_id(self):
