@@ -2,16 +2,16 @@
     <data>
         <record id="raport_packaging_wizard" model="ir.ui.view">
             <field name="name">Raport packaging wizard</field>
-            <field name="model">raport_wizard</field>
+            <field name="model">raport_packaging_materials</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <footer>
-                            <button name="raport_wizard" type="object" string="Raport wizard" class="oe_highlight"/>
-                            <button special="cancel" string="Cancel"/>
-                        </footer>
+                        <button name="do_raport" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
                     </sheet>
-
                 </form>
             </field>
         </record>
@@ -20,9 +20,8 @@
         id="raport_packaging_wizard"
         name="Raport packaging list"
         binding_model="account.move"
-        res_model="raport_wizard"
+        res_model="raport_packaging_materials"
         view_mode="form"
         target="new"
     />
-
 </odoo>

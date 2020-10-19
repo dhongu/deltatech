@@ -11,5 +11,5 @@
     "images": ["static/icon.png"],
     "installable": True,
     "development_status": "stable",
-    "maintainers": ["CDaniel"],
+    "maintainers": ["cojocariudaniel1"],
 }

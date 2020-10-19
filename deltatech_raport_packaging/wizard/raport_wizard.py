@@ -1,12 +1,11 @@
-from odoo import _, api, fields, models
+from odoo import models
 
 
-class Raportwizard1(models.TransientModel):
-    _name = "raport_wizard"
+class RaportPackaging(models.TransientModel):
+    _name = "raport_packaging_materials"
     _description = "Wizard"
 
-    @api.model
-    def _get_default_product_id(self):
+    def do_raport(self):
         active_ids = self.env.context.get("active_ids", False)
         products = self.env["product.product"]
         qty = {}
@@ -18,5 +17,3 @@ class Raportwizard1(models.TransientModel):
                     qty[product.id] += item.quantity
                 else:
                     qty[product.id] = item.quantity
-
-    active_ids = fields.Many2many("account.move", string="Active_ids")
