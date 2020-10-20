@@ -10,7 +10,7 @@
     "category": "Property",
     "depends": ["deltatech_property", "deltatech_service_equipment"],
     "license": "AGPL-3",
-    "data": ["views/property_building_view.xml"],
+    "data": ["views/property_building_view.xml", "security/ir.model.access.csv"],
     "application": True,
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
