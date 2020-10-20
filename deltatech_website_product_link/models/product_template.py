@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 import base64
-from urllib.parse import urlparse
 
 import requests
+import werkzeug
 
 from odoo import api, fields, models
 from odoo.tools import image
@@ -53,7 +53,7 @@ class ProductTemplate(models.Model):
 
     @api.onchange("image_file_name")
     def onchange_image_file_name(self):
-        parsed_url = urlparse(self.image_file_name)
+        parsed_url = werkzeug.urls.url_parse(self.image_file_name)
         if parsed_url.scheme:
             data = self.load_image_from_url(self.image_file_name)
             if data:
@@ -63,7 +63,7 @@ class ProductTemplate(models.Model):
     def write(self, vals):
         if "image_file_name" in vals:
             image_file_name = vals["image_file_name"]
-            parsed_url = urlparse(image_file_name)
+            parsed_url = werkzeug.urls.url_parse(image_file_name)
             if parsed_url.scheme:
                 data = self.load_image_from_url(image_file_name)
                 if data:

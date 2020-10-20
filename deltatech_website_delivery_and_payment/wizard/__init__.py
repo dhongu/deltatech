@@ -2,6 +2,5 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-# from . import product_template
-# from . import product_image
-from . import product
+from . import models
+from . import controllers

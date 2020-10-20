@@ -2,7 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from urllib.parse import urlparse
+
+import werkzeug
 
 from odoo import api, models
 
@@ -12,7 +13,7 @@ class ProductImage(models.Model):
 
     @api.onchange("name")
     def onchange_name(self):
-        parsed_url = urlparse(self.name)
+        parsed_url = werkzeug.urls.url_parse(self.name)
         if parsed_url.scheme:
             data = self.product_tmpl_id.load_image_from_url(self.name)
             if data:
@@ -22,7 +23,7 @@ class ProductImage(models.Model):
     def write(self, vals):
         if "name" in vals:
             image_file_name = vals["name"]
-            parsed_url = urlparse(image_file_name)
+            parsed_url = werkzeug.urls.url_parse(image_file_name)
             if parsed_url.scheme:
                 data = self.product_tmpl_id.load_image_from_url(image_file_name)
                 if data:

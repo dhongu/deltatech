@@ -2,7 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Services",
+    "name": "Services Agreement",
+    "summary": "Manage Services Agreement",
     "version": "13.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

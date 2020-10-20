@@ -9,6 +9,7 @@ from odoo.http import request
 from odoo.addons.web.controllers.main import Binary
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
+
 class WebsiteSaleAlternativeLink(WebsiteSale):
     @http.route(["/<category>"], type="http", auth="public", website=True, sitemap=False)
     def shop_category(self, page=0, category=None, search="", ppg=False, **post):
@@ -17,8 +18,8 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             category = Category.search([("alternative_link", "=", category)], limit=1)
             if category:
                 return self.shop(page=page, category=category.id, search=search, ppg=ppg, **post)
-
         raise request.not_found()
+
 
 class BinaryAlternativeLink(Binary):
     @http.route(
