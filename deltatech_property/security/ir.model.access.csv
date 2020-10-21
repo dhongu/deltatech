@@ -12,3 +12,5 @@ access_property_region,access_property_region,model_property_region,,1,1,1,1
 
 access_property_features,access_property_features,model_property_features,,1,1,1,1
 access_property_history,access_property_history,deltatech_property.model_building_history,,1,1,1,1
+
+access_property_room_usage_obj,access_property_room_usage_obj,deltatech_property.model_room_usage,deltatech_service.group_service_manager,1,1,1,1
