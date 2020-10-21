@@ -17,7 +17,7 @@ Delivery and Payment
 |badge1| |badge2| 
 
 Features:
- -
+ - restrict payment selection by delivery method
 
 **Table of contents**
 

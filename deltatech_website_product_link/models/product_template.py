@@ -53,12 +53,13 @@ class ProductTemplate(models.Model):
 
     @api.onchange("image_file_name")
     def onchange_image_file_name(self):
-        parsed_url = werkzeug.urls.url_parse(self.image_file_name)
-        if parsed_url.scheme:
-            data = self.load_image_from_url(self.image_file_name)
-            if data:
-                self.image_file_name = self.image_file_name.split("/")[-1]
-                self.image_1920 = data
+        if self.image_file_name:
+            parsed_url = werkzeug.urls.url_parse(self.image_file_name)
+            if parsed_url.scheme:
+                data = self.load_image_from_url(self.image_file_name)
+                if data:
+                    self.image_file_name = self.image_file_name.split("/")[-1]
+                    self.image_1920 = data
 
     def write(self, vals):
         if "image_file_name" in vals:

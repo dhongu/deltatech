@@ -7,7 +7,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
 
 
 class WebsiteSale(Base):
-    @route("/shop/carrier_acquirer_check", type="json")
+    @route("/shop/carrier_acquirer_check", type="json", website=True, sitemap=False)
     def carrier_acquirer_check(self, carrier_id, acquirer_id, **kw):
         result = {"status": False}
         carrier = request.env["delivery.carrier"].sudo().browse(int(carrier_id))
@@ -17,4 +17,9 @@ class WebsiteSale(Base):
                     result = {"status": True}
             else:
                 result = {"status": True}
+        if result["status"]:
+            order = request.website.sale_get_order()
+            acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
+            if acquirer.value_limit and order.amount_total > acquirer.value_limit:
+                result = {"status": False}
         return result
