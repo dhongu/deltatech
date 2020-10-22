@@ -22,4 +22,7 @@ class WebsiteSale(Base):
             acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
             if acquirer.value_limit and order.amount_total > acquirer.value_limit:
                 result = {"status": False}
+            label_ids = list(set(order.partner_id.category_id.ids) & set(acquirer.restrict_label_ids.ids))
+            if label_ids:
+                result = {"status": False}
         return result

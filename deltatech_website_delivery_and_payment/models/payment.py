@@ -13,3 +13,4 @@ class PaymentAcquirer(models.Model):
     _inherit = "payment.acquirer"
 
     value_limit = fields.Float()
+    restrict_label_ids = fields.Many2many("res.partner.category")

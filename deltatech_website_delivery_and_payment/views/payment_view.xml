@@ -8,6 +8,12 @@
             <xpath expr='//group[@name="acquirer"]' position='after'>
                 <group>
                     <field name="value_limit" />
+                    <field
+                        name="restrict_label_ids"
+                        widget="many2many_tags"
+                        options="{'color_field': 'color', 'no_create_edit': True}"
+                        placeholder="Tags..."
+                    />
                 </group>
             </xpath>
         </field>
