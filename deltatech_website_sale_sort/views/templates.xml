@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="sort" inherit_id="website_sale.sort" priority="99">
+        <xpath expr="//t[@t-set='website_sale_sortable_current']" position="before">
+            <t t-set="sale_desc_label">Best sale</t>
+            <t
+                t-set="website_sale_sortable"
+                t-value="website_sale_sortable + [
+                (sale_desc_label, 'sales_count desc'),
+            ]"
+            />
+        </xpath>
+    </template>
+</odoo>
