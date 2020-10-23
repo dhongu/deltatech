@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="invoice_status" position="after">
+                <field name="payment_status" optional="show" />
+            </field>
+        </field>
+    </record>
+    <record id="view_sales_order_filter" model="ir.ui.view">
+        <field name="name">sale.order.list.select</field>
+        <field name="model">sale.order</field>
+        <field name="priority">50</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter" />
+        <field name="arch" type="xml">
+            <filter name="my_sale_orders_filter" position="before">
+                <filter
+                    string="Payment initiated"
+                    name="payment_initiated"
+                    domain="[('payment_status', '=', 'initiated')]"
+                />
+            </filter>
+        </field>
+    </record>
+    <record id="website_sale.action_view_unpaid_quotation_tree" model="ir.actions.act_window">
+        <field
+            name="domain"
+        >[('state', 'in', ['sent','sale']), ('website_id', '!=', False),('payment_status','!=','done')]</field>
+    </record>
+</odoo>
