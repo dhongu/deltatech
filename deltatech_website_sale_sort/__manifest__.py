@@ -10,7 +10,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
-    "data": ["views/templates.xml"],
+    "data": ["views/templates.xml", "data/ir_cron_data.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "beta",
