@@ -33,15 +33,13 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
+                        <group string="Filter" id="filter">
                             <field
                                 name="products_domain"
                                 placeholder="Select product"
                                 widget="domain"
                                 options="{'model': 'product.product', 'in_dialog': true}"
                             />
-                        </group>
-                        <group>
                             <field name="limit" />
                         </group>
                     </group>

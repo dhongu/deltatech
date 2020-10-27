@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="confirmation" inherit_id="website_sale.confirmation">
+        <xpath expr="//div[@id='wrap']" position="after">
+            <iframe
+                height='1'
+                width='1'
+                scrolling='no'
+                marginheight='0'
+                marginwidth='0'
+                frameborder='0'
+                t-attf-src='https://event.2performant.com/events/salecheck?amount=#{order.amount_total}&amp;campaign_unique=#{order.company_id.campaign_unique_2p}&amp;confirm==#{order.company_id.confirm_2p}&amp;description=#{order.name}&amp;transaction_id=#{payment_tx_id.display_name}'
+            >
+             </iframe>
+        </xpath>
+    </template>
+</odoo>

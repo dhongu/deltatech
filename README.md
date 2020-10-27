@@ -45,7 +45,7 @@ addon | version | summary
 [deltatech_stock_date](deltatech_stock_date/) | 13.0.1.0.0 | Stock Date
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 13.0.1.0.0 | Stock Inventory
 [deltatech_stock_negative](deltatech_stock_negative/) | 13.0.2.0.0 | No Negative Stock
-[deltatech_watermark](deltatech_watermark/) | 13.0.2.0.0 | Watermark
+[deltatech_watermark](deltatech_watermark/) | 13.0.3.0.0 | Watermark field
 [deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 13.0.1.0.0 | eCommerce extension
 [deltatech_website_city](deltatech_website_city/) | 13.0.1.0.0 | City extension
 [deltatech_website_country](deltatech_website_country/) | 13.0.1.0.0 | eCommerce extension

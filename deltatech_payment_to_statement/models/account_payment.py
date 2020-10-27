@@ -42,9 +42,9 @@ class AccountPayment(models.Model):
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ""
                     for invoice in payment.invoice_ids:
-                        ref += invoice.number
+                        ref += invoice.name
                     for invoice in payment.reconciled_invoice_ids:
-                        ref += invoice.number
+                        ref += invoice.name
                     values = {
                         "name": payment.communication or "/",
                         "statement_id": payment.statement_id.id,

@@ -3,6 +3,7 @@
 
 {
     "name": "Merge Products",
+    "summary": "Merge products",
     "version": "13.0.0.0.7",
     "author": "Vauxoo, Terrabit, Dorin Hongu",
     "category": "Generic Modules",

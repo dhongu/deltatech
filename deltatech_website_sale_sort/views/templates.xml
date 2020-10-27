@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="sort" inherit_id="website_sale.sort" name="Additional Sort by">
+        <xpath expr="//t[@t-set='website_sale_sortable_current']" position="before">
+            <t t-set="sale_desc_label">Best sellers</t>
+            <t t-set="discount_desc_label">Best discount</t>
+            <t t-set="visited_desc_label">Most Visited</t>
+            <t t-set="review_desc_label">Reviews</t>
+            <t t-set="best_review_desc_label">Best Review</t>
+            <t
+                t-set="website_sale_sortable"
+                t-value="website_sale_sortable + [
+                 (sale_desc_label, 'sales_count2 desc'),
+                 (visited_desc_label, 'visit_count desc'),
+                  (review_desc_label, 'rating_count2 desc'),
+                  (best_review_desc_label, 'rating_avg2 desc'),
+            ]"
+            />
+        </xpath>
+    </template>
+</odoo>

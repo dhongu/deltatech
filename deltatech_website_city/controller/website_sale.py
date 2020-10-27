@@ -9,7 +9,8 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 class WebsiteSaleCity(WebsiteSale):
 
-    # pentru tarile in care nu avam nomencator de localitati nu se poate face acest camp obligatori
+    # pentru tarile in care nu avem nomencator de localitati nu se poate face acest camp obligatori
+
     # def _get_mandatory_billing_fields(self):
     #     res = super(WebsiteSaleCity, self)._get_mandatory_billing_fields()
     #     res += ['city_id']

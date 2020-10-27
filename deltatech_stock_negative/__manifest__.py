@@ -3,6 +3,7 @@
 
 {
     "name": "No Negative Stock",
+    "summary": "Negative stocks are not allowed",
     "version": "13.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
