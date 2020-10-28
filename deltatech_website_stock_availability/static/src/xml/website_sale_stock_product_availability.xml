@@ -40,14 +40,28 @@
             <i class="fa fa-calendar" />
             <t t-set="po" t-value="0" />
             <t t-if="virtual_available lte 0 or cart_qty+selected_qty gt virtual_available">
-                <t t-set="po" t-value="purchase_lead_time" />
+                <t t-if="purchase_lead_time">
+                    <span>
+                        Delivery in
+                        <t t-esc="sale_delay+purchase_lead_time" />
+                        -
+                        <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
+                        days
+                    </span>
+                </t>
+                <t t-else="">
+                    <span>Delivery time unknown</span>
+                </t>
             </t>
-            <span>
-                Delivery in
-                <t t-esc="sale_delay+po" />
-                -
-                <t t-esc="sale_delay+sale_delay_safety+po" /> days
-            </span>
+            <t t-else="">
+                <span>
+                    Delivery in
+                    <t t-esc="sale_delay" />
+                    -
+                    <t t-esc="sale_delay+sale_delay_safety" />
+                    days
+                </span>
+            </t>
             <!--            <i class="fa fa-info-circle"/>-->
         </div>
     </t>
