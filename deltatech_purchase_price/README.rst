@@ -14,7 +14,7 @@ Purchase Price
     :target: https://github.com/dhongu/deltatech/tree/13.0/deltatech_purchase_price
     :alt: dhongu/deltatech
 
-|badge1| |badge2|
+|badge1| |badge2| 
 
 Features:
  - Update purchase price after receipt
@@ -58,7 +58,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu|
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/13.0/deltatech_purchase_price>`_ project on GitHub.
 
