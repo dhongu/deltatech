@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Simple MRP",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",

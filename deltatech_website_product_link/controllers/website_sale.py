@@ -17,7 +17,8 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             Category = request.env["product.public.category"]
             category = Category.search([("alternative_link", "=", category)], limit=1)
             if category:
-                return self.shop(page=page, category=category.id, search=search, ppg=ppg, **post)
+                res = self.shop(page=page, category=category.id, search=search, ppg=ppg, **post)
+                return res
         raise request.not_found()
 
 

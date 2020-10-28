@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Website City",
-    "category": "Website",
+    "category": "Website/Website",
     "summary": "City extension",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
