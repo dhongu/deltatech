@@ -33,7 +33,7 @@ class StockMove(models.Model):
                         else:
                             seller_price_unit = price_unit
                         if update_product_price:
-                            seller.write({"price": seller_price_unit})
+                            self.product_id.write({"standard_price": seller_price_unit})
 
             return price_unit
 

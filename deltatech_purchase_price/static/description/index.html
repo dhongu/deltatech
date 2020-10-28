@@ -372,6 +372,18 @@ ul.auto-toc {
 <dt>Features:</dt>
 <dd><ul class="first last simple">
 <li>Update purchase price after receipt</li>
+<li>If the product has average cost, the cost will be overwritten (if parameter set to True)</li>
+<li><dl class="first docutils">
+<dt>Depends on system parameters:</dt>
+<dd><ul class="first last">
+<li><em>purchase.update_product_price</em> - if set to False, the product price will not be modified, if set to True, the
+product price will be allways overwritten</li>
+<li><em>purchase.add_supplier_to_product</em> - if set to True, the supplier and the price will be automatically added to the
+supplier info of the product, if set to False, no modifications will be made in the supplier info of the product</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>
