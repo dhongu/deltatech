@@ -28,6 +28,12 @@ msgid "Buy now, get in 2 days"
 msgstr "Livrare în 2 zile"
 
 #. module: deltatech_website_stock_availability
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.website_sale_stock_product_lead_time
+msgid "Delivery time unknown"
+msgstr "Timp de livrare necunoscut"
+
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__sale_delay_safety
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_template__sale_delay_safety
 msgid "Customer Safety Lead Time"
