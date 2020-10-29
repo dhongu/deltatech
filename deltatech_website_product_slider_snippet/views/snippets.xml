@@ -34,7 +34,7 @@
                 data-selector=".s_wsale_products_slider"
                 data-drop-near="p, h1, h2, h3, blockquote, .card"
             >
-                <a class="dropdown-item" data-select_product_list="" data-no-preview="true">Change Product List</a>
+                <we-button data-select_product_list="" data-no-preview="true">Change Product List</we-button>
             </div>
         </xpath>
     </template>

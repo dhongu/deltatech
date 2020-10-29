@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="deltatech_website_category_snippet.categoryCard">
+        <div t-att-id="uniqueId" class="o_not_editable" data-interval="false">
+            <div class="row category-list">
+                <t t-foreach="categories" t-as="category">
+                    <div class="category-item col-6 col-sm-4 col-md-3 col-lg-2">
+                        <a t-att-href="category.website_url">
+                            <div class="p-2 text-center">
+                                <img
+                                    class="category-image"
+                                    t-attf-src="/web/image/product.public.category/#{category.id}/image_256"
+                                    t-att-alt="category.display_name"
+                                />
+                            </div>
+                            <div class="category-text">
+                                <span t-raw="category.name" />
+                            </div>
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>
