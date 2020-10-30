@@ -1,4 +1,4 @@
-odoo.define("deltatech_badge.badge_fields", function(require) {
+odoo.define("deltatech_widget_badge.badge_fields", function(require) {
     "use strict";
     // Var AbstractField = require("web.AbstractField");
     var basic_fields = require("web.basic_fields");

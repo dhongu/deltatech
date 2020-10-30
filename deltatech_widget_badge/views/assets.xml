@@ -3,8 +3,8 @@
     <data>
         <template id="assets_backend" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <link rel='stylesheet' href='/deltatech_badge/static/src/scss/badge.scss' />
-                <script type="text/javascript" src="/deltatech_badge/static/src/js/badge.js" />
+                <link rel='stylesheet' href='/deltatech_widget_badge/static/src/scss/badge.scss' />
+                <script type="text/javascript" src="/deltatech_widget_badge/static/src/js/badge.js" />
             </xpath>
         </template>
     </data>
