@@ -5,6 +5,7 @@
 
 {
     "name": "Deltatech Invoice Receipt",
+    "summary": "Create receipt form invoice",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",

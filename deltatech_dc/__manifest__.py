@@ -4,6 +4,7 @@
 
 {
     "name": "Declaration of Conformity",
+    "summary": "Print Declaration of Conformity",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",

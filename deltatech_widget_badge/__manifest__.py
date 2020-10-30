@@ -1,3 +1,6 @@
+# ©  2015-2020 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 {
     "name": "Badge Widget",
     "summary": "Badge widget like on Odoo 14.0",
@@ -10,4 +13,6 @@
     "data": ["views/assets.xml"],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

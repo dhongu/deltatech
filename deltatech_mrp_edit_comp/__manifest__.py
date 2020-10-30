@@ -4,6 +4,7 @@
 
 {
     "name": "MRP Edit Components",
+    "summary": "Edit components in production order",
     "version": "13.0.4.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
