@@ -13,6 +13,7 @@ globals:
   jQuery: readonly
   moment: readonly
   odoo: readonly
+  py: readonly
   openerp: readonly
   Promise: readonly
 

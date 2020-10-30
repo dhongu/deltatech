@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel='stylesheet' href='/deltatech_badge/static/src/scss/badge.scss' />
+                <script type="text/javascript" src="/deltatech_badge/static/src/js/badge.js" />
+            </xpath>
+        </template>
+    </data>
+</odoo>
