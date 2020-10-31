@@ -5,17 +5,17 @@
 
 {
     "name": "Product List",
+    "summary": "Define products lists",
     "version": "12.0.1.0.0",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
+    "license": "AGPL-3",
     "company": "Terrabit",
     "maintainer": "Terrabit",
     "website": "https://www.terrabit.ro",
     "depends": ["product", "sale"],
     "data": ["views/product_list_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
-    "license": "AGPL-3",
-    "installable": True,
     "development_status": "stable",
     "maintainers": ["dhongu"],
 }
