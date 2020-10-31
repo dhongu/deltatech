@@ -4,13 +4,14 @@
 
 {
     "name": "Watermark",
-    "version": "12.0.1.0.0",
+    "summary": "Watermark field",
+    "version": "12.0.3.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
-    "depends": [],
+    "depends": ["base_setup", "web"],
     "license": "LGPL-3",
-    "data": ["views/company_view.xml"],
+    "data": ["views/res_config_settings_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "stable",
