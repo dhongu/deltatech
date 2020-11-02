@@ -15,6 +15,7 @@
     "price": 1.00,
     "currency": "EUR",
     "license": "LGPL-3",
+    "qweb": ["static/src/xml/*.xml"],
     "development_status": "stable",
     "maintainers": ["dhongu"],
 }
