@@ -25,6 +25,6 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).action_done()
         for picking in self:
             if picking.state == "done" and not picking.carrier_id:
-                picking.write({"delivery_state": "done"})
+                picking.write({"delivery_state": "delivered"})
 
         return res
