@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-15 08:57+0000\n"
-"PO-Revision-Date: 2020-10-15 08:57+0000\n"
+"POT-Creation-Date: 2020-11-02 08:10+0000\n"
+"PO-Revision-Date: 2020-11-02 08:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -36,10 +36,10 @@ msgstr "Timp de sigurantă "
 #. module: deltatech_website_stock_availability
 #. openerp-web
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #, python-format
 msgid "Delivery in"
 msgstr "Livrare în"
-
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
@@ -47,7 +47,6 @@ msgstr "Livrare în"
 #, python-format
 msgid "Delivery time unknown"
 msgstr "Timp de livrare necunoscut"
-
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
@@ -106,7 +105,8 @@ msgstr "disponibil"
 #. module: deltatech_website_stock_availability
 #. openerp-web
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_template_form_view
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.view_template_property_form
 #, python-format
 msgid "days"
 msgstr "zile"
