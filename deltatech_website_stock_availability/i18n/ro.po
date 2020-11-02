@@ -40,6 +40,15 @@ msgstr "Timp de sigurantă "
 msgid "Delivery in"
 msgstr "Livrare în"
 
+
+#. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "Delivery time unknown"
+msgstr "Timp de livrare necunoscut"
+
+
 #. module: deltatech_website_stock_availability
 #. openerp-web
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
