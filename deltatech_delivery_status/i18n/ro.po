@@ -48,16 +48,7 @@ msgstr "Avizat"
 #. module: deltatech_delivery_status
 #: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
 msgid "State"
-msgstr "Stare	Administrator	7.521,99 lei	Ofertă	In Process	Without
-￼​
-￼​
-SO15645	09.10.2020 02:39:14		30.10.2020 10:54:08	Necunoscut		Administrator	1.270,92 lei	Ofertă	In Process	Without
-￼​
-￼​
-SO15644	09.10.2020 02:39:14		30.10.2020 10:54:08	GEORGIANA BOBE		Administrator	236,81 lei	Ofertă	In Process	Without
-￼​
-￼​
-SO15643	09.10.2020 02:39:14		30.10.2020 10:54:08	Lupsa Alina	"
+msgstr "Stare"
 
 #. module: deltatech_delivery_status
 #: model:ir.model,name:deltatech_delivery_status.model_stock_picking
