@@ -13,15 +13,20 @@ class SaleOrder(models.Model):
 
     stage = fields.Selection(
         [
-            ("placed", "Placed"),
-            ("in_process", "In Process"),
-            ("delivered", "Delivered"),
-            ("on_delivery", "On Delivery"),
+            ("placed", "Placed"),  # comanda plasta pe website
+            ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
+            ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
+            ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
+            ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
+            ("delivered", "Delivered"),  # comanda a fost livrata la client
             ("canceled", "Canceled"),
             ("returned", "Returned"),
         ],
         default="placed",
         string="Stage",
+        copy=False,
+        index=True,
+        tracking=True,
         compute="_compute_stage",
         store=True,
     )
@@ -33,7 +38,7 @@ class SaleOrder(models.Model):
         store=True,
     )
 
-    @api.depends("state", "website_id")
+    @api.depends("state", "website_id", "picking_ids.state")
     def _compute_stage(self):
         for order in self:
             order.stage = "in_process"
@@ -46,12 +51,19 @@ class SaleOrder(models.Model):
 
             if order.stage == "in_process" and order.state == "sale":
                 qty_to_deliver = 0
+                order.stage = "delivered"
                 for line in order.order_line:
                     qty_to_deliver += line.qty_to_deliver
                 if qty_to_deliver != 0:
-                    order.stage = "on_delivery"
+                    order.stage = "to_be_delivery"
                 else:
-                    order.stage = "delivered"
+                    for picking in order.picking_ids:
+                        if picking.delivery_state not in ["draft", "delivered"]:
+                            order.stage = "in_delivery"
+
+                for picking in order.picking_ids:
+                    if picking.state in ["waiting", "confirmed"]:
+                        order.stage = "waiting"
 
     @api.depends("transaction_ids", "invoice_ids")
     def _compute_payment_status(self):

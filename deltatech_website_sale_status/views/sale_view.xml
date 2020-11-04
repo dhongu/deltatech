@@ -9,10 +9,10 @@
                 <field
                     name="stage"
                     widget="badge"
-                    decoration-info="stage == 'on_delivery'"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage == 'placed'"
-                    decoration-danger="stage == 'canceled'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting']"
                     decoration-success="stage == 'delivered'"
                 />
                 <field name="payment_status" optional="show" />
@@ -32,10 +32,10 @@
                 <field
                     name="stage"
                     widget="badge"
-                    decoration-info="stage == 'on_delivery'"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage == 'placed'"
-                    decoration-danger="stage == 'canceled'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting']"
                     decoration-success="stage == 'delivered'"
                 />
                 <field name="payment_status" optional="show" />
@@ -55,10 +55,10 @@
                 <field
                     name="stage"
                     widget="badge"
-                    decoration-info="stage == 'on_delivery'"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage == 'placed'"
-                    decoration-danger="stage == 'canceled'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting']"
                     decoration-success="stage == 'delivered'"
                 />
             </field>
@@ -73,6 +73,11 @@
             <filter name="my_sale_orders_filter" position="before">
                 <filter string="Placed" name="stage_placed" domain="[('stage', '=', 'placed')]" />
                 <filter string="In process" name="stage_in_process" domain="[('stage', '=', 'in_process')]" />
+                <filter
+                    string="To Be Delivery"
+                    name="stage_to_be_delivery"
+                    domain="[('stage', '=', 'to_be_delivery')]"
+                />
                 <filter
                     string="Payment initiated"
                     name="payment_initiated"
