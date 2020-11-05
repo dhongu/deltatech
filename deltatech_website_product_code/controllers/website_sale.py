@@ -19,16 +19,28 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
 
     @http.route(["/shop/products-json"], type="json", auth="public", website=True, sitemap=False)
     def products_json_by_code(self, search="", **kwargs):
-        res = self._search_products_by_code()
+        res = self._search_products_by_code(search)
         return res
 
     @http.route(["/shop/products-search"], type="http", auth="public", website=True, sitemap=False)
     def products_search_by_code(self, search="", **kwargs):
-        res = self._search_products_by_code()
+        res = self._search_products_by_code(search)
         return str(res)
 
-    def _search_products_by_code(self):
+    def _search_products_by_code(self, search):
         domain = request.website.sale_product_domain()
+        if search:
+            for srch in search.split(" "):
+                domain += [
+                    "|",
+                    "|",
+                    "|",
+                    ("name", "ilike", srch),
+                    ("description", "ilike", srch),
+                    ("description_sale", "ilike", srch),
+                    ("product_variant_ids.default_code", "ilike", srch),
+                ]
+
         products = request.env["product.template"].sudo().search(domain, limit=100)
         res = []
         alternative_code_mod = (
