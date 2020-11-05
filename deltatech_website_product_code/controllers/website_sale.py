@@ -31,8 +31,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         domain = request.website.sale_product_domain()
         products = request.env["product.template"].sudo().search(domain, limit=100)
         res = []
-        alternative_code_mod = request.env["ir.module.module"].search(
-            [("name", "=", "deltatech_alternative"), ("state", "=", "installed")]
+        alternative_code_mod = (
+            request.env["ir.module.module"]
+            .sudo()
+            .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
 
         for product in products:
