@@ -41,7 +41,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                     ("product_variant_ids.default_code", "ilike", srch),
                 ]
 
-        products = request.env["product.template"].sudo().search(domain, limit=100)
+        products = request.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=100)
         res = []
         alternative_code_mod = (
             request.env["ir.module.module"]
@@ -49,7 +49,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
         pricelist = request.website.get_current_pricelist()
-
+        base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
         for product in products:
             combination_info = product._get_combination_info(pricelist=pricelist)
             values = {
@@ -57,7 +57,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                 "default_code": product.default_code,
                 "price": combination_info["price"],
                 "list_price": combination_info["list_price"],
-                "image": product.image,
+                "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image/",
             }
             if alternative_code_mod:
                 alternative_code = []
