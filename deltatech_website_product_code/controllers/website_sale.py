@@ -48,9 +48,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             .sudo()
             .search([("name", "=", "deltatech_alternative"), ("state", "=", "installed")])
         )
+        pricelist = request.website.get_current_pricelist()
 
         for product in products:
-            combination_info = product._get_combination_info()
+            combination_info = product._get_combination_info(pricelist=pricelist)
             values = {
                 "name": combination_info["display_name"],
                 "default_code": product.default_code,
