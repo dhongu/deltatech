@@ -42,8 +42,11 @@ class SaleOrder(models.Model):
     def _compute_stage(self):
         for order in self:
             order.stage = "in_process"
+
             if order.state == "sent" and order.website_id:
                 order.stage = "placed"
+            if order.state == "draft" and order.website_id:
+                order.stage = False
             elif order.state == "cancel":
                 order.stage = "canceled"
             else:
@@ -89,7 +92,7 @@ class SaleOrder(models.Model):
     def _compute_is_ready(self):
         for order in self:
 
-            is_ready = order.state in ["sent", "sale", "done"] and order.invoice_status != "invoiced"
+            is_ready = order.state in ["draft", "sent", "sale", "done"] and order.invoice_status != "invoiced"
             if is_ready:
                 for line in order.order_line:
                     is_ready = is_ready and (line.qty_available_today >= line.product_uom_qty)
