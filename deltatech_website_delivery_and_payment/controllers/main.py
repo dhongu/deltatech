@@ -7,7 +7,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as Base
 
 
 class WebsiteSale(Base):
-    @route("/shop/carrier_acquirer_check", type="json", website=True, sitemap=False)
+    @route("/shop/carrier_acquirer_check", type="json", auth="public", website=True, sitemap=False)
     def carrier_acquirer_check(self, carrier_id, acquirer_id, **kw):
         result = {"status": False}
         carrier = request.env["delivery.carrier"].sudo().browse(int(carrier_id))
