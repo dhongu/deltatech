@@ -24,6 +24,11 @@ class WebsiteSaleAttribute(WebsiteSale):
         value_ids = request.env["product.attribute.value"].search(domain)
         # for line in attribute_lines:
         #     value_ids |= line.value_ids
+        if category:
+            # se ascund restul de caterorii
+            # categories = request.env['product.public.category'].search([('id','child_of',category.id)])
+            categories = category
+            response.qcontext.update(categories=categories)
 
         response.qcontext.update(value_ids=value_ids)
 
