@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-
-
-
+    <!--    Sequence for cash receiving only-->
+    <record id="sequence_cash_in" model="ir.sequence">
+        <field name="name">Cash in sequence</field>
+        <field name="code">CSIN</field>
+        <field name="implementation">no_gap</field>
+        <field name="prefix">CSIN/%(range_year)s/</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+        <field name="number_next_actual">1</field>
+        <field name="use_date_range">False</field>
+    </record>
 </odoo>

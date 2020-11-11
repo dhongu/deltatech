@@ -10,6 +10,8 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     statement_sequence_id = fields.Many2one("ir.sequence", string="Statement Sequence", copy=False)
+    cash_in_sequence_id = fields.Many2one("ir.sequence", string="Sequence for cash in")
+    cash_out_sequence_id = fields.Many2one("ir.sequence", string="Sequence for cash out")
     auto_statement = fields.Boolean("Auto Statement")
 
     def get_journal_dashboard_datas(self):
