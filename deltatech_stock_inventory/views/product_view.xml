@@ -75,7 +75,7 @@
                                             string="Update"
                                             name="get_last_inventory_date"
                                             type="object"
-                                            class="oe_link"
+                                            class="oe_link oe_edit_only"
                                         />
                                     </group>
                                 </group>
