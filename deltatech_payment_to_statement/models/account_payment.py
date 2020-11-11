@@ -37,7 +37,7 @@ class AccountPayment(models.Model):
             if payment.partner_type == "customer" and payment.journal_id.type == "cash":
                 if payment.journal_id.cash_in_sequence_id and payment.payment_type == "inbound":
                     payment.name = payment.journal_id.cash_in_sequence_id.next_by_id()
-                if payment.journal_id.cash_in_sequence_id and payment.payment_type == "outbound":
+                if payment.journal_id.cash_out_sequence_id and payment.payment_type == "outbound":
                     payment.name = payment.journal_id.cash_out_sequence_id.next_by_id()
 
     @api.multi
