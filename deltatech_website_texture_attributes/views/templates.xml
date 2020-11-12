@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="variants" inherit_id="sale.variants">
+        <xpath expr="//strong[@t-field='ptal.attribute_id.name']" position="after">
+            <t t-if="ptal.attribute_id.display_type == 'texture'">
+                <ul
+                    t-att-data-attribute_id="ptal.attribute_id.id"
+                    t-attf-class="list-inline  #{'d-none' if single_and_custom else ''}"
+                >
+                    <li t-foreach="ptal.product_template_value_ids._only_active()" t-as="ptav" class="list-inline-item">
+                        <label
+                            t-attf-style="background-image:url('/web/image/product.attribute.value/#{ptav.product_attribute_value_id.id}/texture/29x29')"
+                            t-attf-class="css_attribute_color #{'active' if ptav in combination else ''} #{'custom_value' if ptav.is_custom else ''}"
+                        >
+                            <input
+                                type="radio"
+                                t-attf-class="js_variant_change  #{ptal.attribute_id.create_variant}"
+                                t-att-checked="ptav in combination"
+                                t-att-name="'ptal-%s' % ptal.id"
+                                t-att-value="ptav.id"
+                                t-att-title="ptav.name"
+                                t-att-data-value_id="ptav.id"
+                                t-att-data-value_name="ptav.name"
+                                t-att-data-attribute_name="ptav.attribute_id.name"
+                                t-att-data-is_custom="ptav.is_custom"
+                                t-att-data-is_single_and_custom="single_and_custom"
+                            />
+                        </label>
+                    </li>
+                </ul>
+            </t>
+        </xpath>
+    </template>
+    <template id="products_attributes" inherit_id="website_sale.products_attributes">
+        <xpath expr="//li/div" position="after">
+            <t t-if="a.display_type == 'texture'">
+                <t t-foreach="a.value_ids" t-as="v">
+                    <label
+                        t-attf-style="background-image:url('/web/image/product.attribute.value/#{v.id}/texture/29x29')"
+                        t-attf-class="css_attribute_color #{'active' if v.id in attrib_set else ''}"
+                    >
+                        <input
+                            type="checkbox"
+                            name="attrib"
+                            t-att-value="'%s-%s' % (a.id,v.id)"
+                            t-att-checked="'checked' if v.id in attrib_set else None"
+                            t-att-title="v.name"
+                        />
+                    </label>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>
