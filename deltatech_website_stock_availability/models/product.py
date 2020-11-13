@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class ProductTemplate(models.Model):
@@ -19,10 +19,10 @@ class ProductTemplate(models.Model):
     def _compute_availability_text(self):
         for product in self.sudo():
             if product.qty_available > 0 or product.inventory_availability == "never":
-                product.availability_text = "In stock"
+                product.availability_text = _("In stock")
             else:
                 if product.inventory_availability != "preorder":
-                    product.availability_text = "Not in stock"
+                    product.availability_text = _("Not in stock")
                 else:
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
 
@@ -30,11 +30,11 @@ class ProductTemplate(models.Model):
                         d1 = product.sale_delay + supplier_lead_time
                         d2 = d1 + product.sale_delay_safety
                         if d1 == d2:
-                            product.availability_text = "At order in %s days" % int(d1)
+                            product.availability_text = _("At order in %s days") % int(d1)
                         else:
-                            product.availability_text = "At order in %s - %s days" % (int(d1), int(d2))
+                            product.availability_text = _("At order in %s - %s days") % (int(d1), int(d2))
                     else:
-                        product.availability_text = "At order"
+                        product.availability_text = _("At order")
 
     def _get_combination_info(
         self,
