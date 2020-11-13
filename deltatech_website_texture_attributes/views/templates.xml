@@ -32,7 +32,7 @@
         </xpath>
     </template>
     <template id="products_attributes" inherit_id="website_sale.products_attributes">
-        <xpath expr="//li/div" position="after">
+        <xpath expr="//t[contains(@t-if,'color')]" position="after">
             <t t-if="a.display_type == 'texture'">
                 <t t-foreach="a.value_ids" t-as="v">
                     <label
