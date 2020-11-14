@@ -71,6 +71,11 @@
         <field name="inherit_id" ref="sale.view_sales_order_filter" />
         <field name="arch" type="xml">
             <filter name="my_sale_orders_filter" position="before">
+                <field
+                    name="partner_id"
+                    string="Phone"
+                    filter_domain="['|',('partner_id.phone', 'ilike', self),('partner_id.mobile', 'ilike', self)]"
+                />
                 <filter string="Placed" name="stage_placed" domain="[('stage', '=', 'placed')]" />
                 <filter string="In process" name="stage_in_process" domain="[('stage', '=', 'in_process')]" />
                 <filter
