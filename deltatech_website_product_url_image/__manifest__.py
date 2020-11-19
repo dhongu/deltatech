@@ -2,15 +2,15 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "eCommerce Product Link",
+    "name": "eCommerce Product URL Link",
     "category": "Website/Website",
-    "summary": "Alternative product url",
+    "summary": "Load image for product from URL",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["website_sale", "deltatech_website_product_url_image"],
-    "data": ["views/product_template_view.xml", "views/product_view.xml"],
+    "depends": ["website_sale"],
+    "data": ["views/product_template_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "stable",
     "maintainers": ["dhongu"],
