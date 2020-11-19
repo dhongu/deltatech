@@ -32,9 +32,12 @@ class SmsApi(models.AbstractModel):
         for number in numbers:
             params["to"] = number
             # result = requests.post(endpoint+'/send',params)
-            result = requests.get(endpoint + "&recipients=" + params["to"] + "&sms=" + params["content"])
+            if account.user_name != "sms.4pay.ro":
+                result = requests.get(endpoint + "&recipients=" + params["to"] + "&sms=" + params["content"])
+            else:
+                result = requests.get(endpoint + "&msg_dst=" + params["to"] + "&msg_text=" + params["content"])
             response = result.content.decode("utf-8")
-            if '{code:0, reason:"OK"}' not in response:
+            if "OK" not in response:
                 raise UserError("URL: " + result.url + "RESPONSE:" + response)
             else:
                 _logger.info("SMS sent: " + result.url)
