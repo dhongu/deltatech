@@ -4,12 +4,12 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    product_ids = fields.One2many("product.packaging.material", "product_tmpl_id", string="Packaging materials")
+    packaging_material_ids = fields.One2many("product.packaging_material", "product_tmpl_id", string="Packaging materials")
 
 
 class ProductPackagingMaterial(models.Model):
-    _name = "product.packaging.material"
-    _description = "Model for one2many: products_ids"
+    _name = "product.packaging_material"
+    _description = "Model for one2many: packaging_materials_ids"
 
     product_tmpl_id = fields.Many2one("product.template")
     materials_selection = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])

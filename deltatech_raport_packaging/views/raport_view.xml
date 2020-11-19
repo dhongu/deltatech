@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='inventory']/group" position="inside">
                 <group name="packaging" string="Packaging materials">
-                    <field name="product_ids">
+                    <field name="packaging_material_ids">
                         <tree editable="bottom">
                             <field name="materials_selection" />
                             <field name="qty" />
