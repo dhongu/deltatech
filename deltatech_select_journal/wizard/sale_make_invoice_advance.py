@@ -49,7 +49,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
         invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
 
         to_currency = self.journal_id.currency_id or self.env.user.company_id.currency_id
-        date_eval = invoice.date_invoice or fields.Date.context_today(self)
+        date_eval = invoice.invoice_date or fields.Date.context_today(self)
         from_currency = invoice.currency_id.with_context(date=date_eval)
 
         if from_currency != to_currency:
@@ -81,10 +81,10 @@ class SaleAdvancePaymentInv(models.TransientModel):
                 invoice.compute_taxes()
 
         if self.advance_payment_method == "percentage":
-            invoice.write({"payment_term_id": False})
+            invoice.write({"invoice_payment_term_id": False})
         else:
-            invoice.write({"payment_term_id": self.payment_term_id.id})
-            invoice.write({"date_invoice": False})
+            invoice.write({"invoice_payment_term_id": self.payment_term_id.id})
+            invoice.write({"invoice_date": False})
 
         return invoice
 
