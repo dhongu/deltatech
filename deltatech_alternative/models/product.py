@@ -106,13 +106,14 @@ class ProductTemplate(models.Model):
 
     @api.depends("alternative_ids")
     def _compute_alternative_code(self):
-        codes = []
-        for cod in self.alternative_ids:
-            if cod.name and not cod.hide:
-                codes += [cod.name]
+        for product in self:
+            codes = []
+            for cod in product.alternative_ids:
+                if cod.name and not cod.hide:
+                    codes += [cod.name]
 
-        code = "; ".join(codes)
-        self.alternative_code = code
+            code = "; ".join(codes)
+            product.alternative_code = code
 
 
 class ProductProduct(models.Model):
