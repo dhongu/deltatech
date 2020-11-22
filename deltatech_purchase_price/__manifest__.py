@@ -4,6 +4,7 @@
 
 {
     "name": "Purchase Price",
+    "summary": "Update vendor price after reception",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
@@ -13,4 +14,6 @@
     "data": [],
     "images": ["images/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

@@ -1,4 +1,4 @@
-- Login as Administrator
+
 - Inventory -> Configuration -> Settings
 - Traceability -> Negative Stock
 

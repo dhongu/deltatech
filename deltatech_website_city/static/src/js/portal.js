@@ -173,7 +173,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
                 return;
             }
             this._changeState();
-            // This._onChangeCity();
+            this._onChangeCity();
         },
 
         _changeState: function() {

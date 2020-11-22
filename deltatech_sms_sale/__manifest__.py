@@ -4,6 +4,7 @@
 
 {
     "name": "Deltatech SMS Sale",
+    "summary": "send SMS at sale order confirmation",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
@@ -18,4 +19,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

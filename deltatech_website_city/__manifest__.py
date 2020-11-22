@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Website City",
-    "category": "Website",
+    "category": "Website/Website",
     "summary": "City extension",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
@@ -11,6 +11,10 @@
     "website": "https://www.terrabit.ro",
     "depends": ["portal", "website_sale", "base_address_city"],
     "data": ["views/portal.xml", "views/assets.xml"],
+    "price": 1.00,
+    "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
+    "development_status": "stable",
+    "maintainers": ["dhongu"],
 }

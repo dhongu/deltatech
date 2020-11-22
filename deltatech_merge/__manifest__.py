@@ -4,6 +4,7 @@
 
 {
     "name": "Merge Objects",
+    "summary": "Base module for merging",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
