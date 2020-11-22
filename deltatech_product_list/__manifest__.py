@@ -16,6 +16,6 @@
     "depends": ["product", "sale"],
     "data": ["views/product_list_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

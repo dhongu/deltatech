@@ -7,6 +7,7 @@
     "summary": "Print Declaration of Conformity",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
     "license": "AGPL-3",
     "category": "Generic Modules/Other",
     "depends": [
@@ -23,6 +24,6 @@
         "views/report_dc.xml",
         "security/ir.model.access.csv",
     ],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

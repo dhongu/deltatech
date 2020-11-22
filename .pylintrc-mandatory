@@ -3,7 +3,7 @@ load-plugins=pylint_odoo
 score=n
 
 [ODOOLINT]
-#readme_template_url="https://github.com/OCA/maintainer-tools/blob/master/template/module/README.rst"
+readme_template_url="https://github.com/OCA/maintainer-tools/blob/master/template/module/README.rst"
 manifest_required_authors=Terrabit
 manifest_required_keys=license,summary,development_status
 manifest_deprecated_keys=description,active
@@ -21,6 +21,7 @@ enable=anomalous-backslash-in-string,
     class-camelcase,
     dangerous-default-value,
     dangerous-view-replace-wo-priority,
+    development-status-allowed,
     duplicate-id-csv,
     duplicate-key,
     duplicate-xml-fields,
@@ -38,8 +39,6 @@ enable=anomalous-backslash-in-string,
     method-inverse,
     method-required-super,
     method-search,
-    missing-import-error,
-    missing-manifest-dependency,
     openerp-exception-warning,
     pointless-statement,
     pointless-string-statement,

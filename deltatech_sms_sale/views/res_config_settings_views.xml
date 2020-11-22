@@ -17,9 +17,7 @@
                             title="Values set here are company-specific."
                             groups="base.group_multi_company"
                         />
-                        <div class="text-muted">
-                            Send an automatic SMS Text Message when the Sale Order is posted.
-                        </div>
+                        <div class="text-muted">Send an automatic SMS Text Message when the Sale Order is posted.</div>
                         <div class="content-group">
                             <div class="row mt16" attrs="{'invisible': [('sale_order_sms_post', '=', False)]}">
                                 <label
