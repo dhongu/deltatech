@@ -5,6 +5,7 @@
 
 {
     "name": "Website alternative code",
+    "summary": "Show alternative code in website",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
@@ -16,6 +17,6 @@
     "depends": ["website_sale", "deltatech_alternative"],
     "data": ["views/product_view.xml", "views/templates.xml"],
     "images": ["images/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

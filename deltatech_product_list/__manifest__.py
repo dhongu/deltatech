@@ -5,6 +5,7 @@
 
 {
     "name": "Product List",
+    "summary": "Define products lists",
     "version": "14.0.1.0.0",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
@@ -15,6 +16,6 @@
     "depends": ["product", "sale"],
     "data": ["views/product_list_view.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
