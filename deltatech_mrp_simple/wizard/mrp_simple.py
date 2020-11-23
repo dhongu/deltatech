@@ -5,8 +5,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-import odoo.addons.decimal_precision as dp
-
 
 class MRPSimple(models.TransientModel):
     _name = "mrp.simple"
@@ -129,8 +127,8 @@ class MRPSimpleLineIn(models.TransientModel):
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
-    quantity = fields.Float(string="Quantity", digits=dp.get_precision("Product Unit of Measure"), default=1)
-    price_unit = fields.Float("Unit Price", digits=dp.get_precision("Product Price"))
+    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
+    price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
 
     @api.onchange("product_id")
@@ -153,8 +151,8 @@ class MRPSimpleLineOut(models.TransientModel):
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
-    quantity = fields.Float(string="Quantity", digits=dp.get_precision("Product Unit of Measure"), default=1)
-    price_unit = fields.Float("Unit Price", digits=dp.get_precision("Product Price"))
+    quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
+    price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
 
     @api.onchange("product_id")
