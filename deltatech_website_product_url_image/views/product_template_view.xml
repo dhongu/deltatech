@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="website_sale.product_template_form_view" />
             <field name="arch" type="xml">
                 <group name="shop" position="inside">
-                    <group name='links' string="Links">
+                    <group name='link' string="Links">
                         <field name='image_file_name' />
                     </group>
                 </group>
