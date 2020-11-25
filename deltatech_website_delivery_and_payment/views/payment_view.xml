@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="acquirer_form_on_delivery" model="ir.ui.view">
+        <field name="name">on_delivery.form.authorize</field>
+        <field name="model">payment.acquirer</field>
+        <field name="inherit_id" ref="payment.acquirer_form" />
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="acquirer"]' position='after'>
+                <group>
+                    <field name="value_limit" />
+                    <field
+                        name="restrict_label_ids"
+                        widget="many2many_tags"
+                        options="{'color_field': 'color', 'no_create_edit': True}"
+                        placeholder="Tags..."
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
