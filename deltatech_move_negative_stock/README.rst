@@ -17,7 +17,7 @@ Replenish negative stock
     :target: https://github.com/dhongu/deltatech/tree/13.0/deltatech_move_negative_stock
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 Features:
  - Button in picking to populate a transfer with all negative qty's found in destination location
@@ -56,7 +56,7 @@ Usage
     :align: center
     :alt: Button
 
-- You products will be added to the picking:
+- Your negative stock products will be added to the picking:
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_move_negative_stock/static/description/picking3.png
     :align: center
@@ -88,13 +88,13 @@ Authors
 Maintainers
 ~~~~~~~~~~~
 
-.. |maintainer-danila| image:: https://github.com/danila.png?size=40px
+.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
     :target: https://github.com/danila
     :alt: danila
 
 Current maintainer:
 
-|maintainer-danila| 
+|maintainer-danila12|
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/13.0/deltatech_move_negative_stock>`_ project on GitHub.
 
