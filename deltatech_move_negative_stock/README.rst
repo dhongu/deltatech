@@ -88,9 +88,10 @@ Authors
 Maintainers
 ~~~~~~~~~~~
 
-.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
-    :target: https://github.com/danila
-    :alt: danila
+.. |maintainer-danila12| image:: https://github.com/danila12.png
+    :width: 40
+    :target: https://github.com/danila12
+    :alt: danila12
 
 Current maintainer:
 
