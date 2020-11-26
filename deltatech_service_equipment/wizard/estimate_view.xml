@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Meter Reading Estimate">
                     <group string="Meter Reading Estimate">
-                        <div class="oe_grey">
-                            For the selected meters will generate estimate readings
-                        </div>
+                        <div class="oe_grey">For the selected meters will generate estimate readings</div>
                     </group>
                     <group>
                         <field name="period_id" options="{'no_create': True}" />

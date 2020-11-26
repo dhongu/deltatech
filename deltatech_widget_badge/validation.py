@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 def custom_relaxng(view_type):
     """
-        Inherit the rng validation process to include custom rng files which include our custom attributes.
+    Inherit the rng validation process to include custom rng files which include our custom attributes.
     """
     rng_name = os.path.join("base", "rng", "%s_view.rng" % view_type)
     if view_type == "tree":

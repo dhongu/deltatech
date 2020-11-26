@@ -178,7 +178,7 @@ class AccountInvoiceExportBf(models.TransientModel):
 
         extension = self.env["ir.config_parameter"].sudo().get_param("account_invoice.ecr_extension", "inp")
 
-        defaults["name"] = "%s.%s" % (filename, extension)
+        defaults["name"] = "{}.{}".format(filename, extension)
         defaults["data_file"] = out
 
         return defaults

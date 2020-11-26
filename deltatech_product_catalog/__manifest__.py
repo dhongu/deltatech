@@ -17,6 +17,6 @@
     "images": ["static/description/main_screenshot.png"],
     "license": "AGPL-3",
     "installable": True,
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

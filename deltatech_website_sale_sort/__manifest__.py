@@ -13,6 +13,6 @@
     "data": ["views/templates.xml", "data/ir_cron_data.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

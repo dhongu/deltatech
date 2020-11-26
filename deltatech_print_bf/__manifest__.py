@@ -24,6 +24,6 @@
         "views/pf_sale_views.xml",
     ],
     "images": ["images/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

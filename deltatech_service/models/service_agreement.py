@@ -165,7 +165,7 @@ class ServiceAgreement(models.Model):
             "view_mode": "kanban,tree,form",
             "view_type": "form",
             "limit": 80,
-            "context": "{'default_res_model': '%s','default_res_id': %s}" % (self._name, self.id),
+            "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
 
     def compute_totals(self):
@@ -263,7 +263,11 @@ class ServiceAgreementLine(models.Model):
 
     agreement_id = fields.Many2one("service.agreement", string="Contract Services", ondelete="cascade")
     product_id = fields.Many2one(
-        "product.product", string="Service", ondelete="set null", domain=[("type", "=", "service")], required=False,
+        "product.product",
+        string="Service",
+        ondelete="set null",
+        domain=[("type", "=", "service")],
+        required=False,
     )
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure")
     quantity_free = fields.Float(string="Quantity Free", digits="Product Unit of Measure")

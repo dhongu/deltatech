@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_city.portal", function(require) {
+odoo.define("deltatech_website_city.portal", function (require) {
     "use strict";
 
     require("web.dom_ready");
@@ -14,19 +14,19 @@ odoo.define("deltatech_website_city.portal", function(require) {
             'change select[name="city_id"]': "_onChangeCity",
         },
 
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this._changeState = _.debounce(this._changeState.bind(this), 500);
             this.isWebsite = true;
         },
 
-        start: function() {
+        start: function () {
             var def = this._super.apply(this, arguments);
             this.$('select[name="state_id"]').change();
             return def;
         },
 
-        _onChangeCity: function() {
+        _onChangeCity: function () {
             if (!$("select[name='city_id']").val()) {
                 return;
             }
@@ -37,11 +37,11 @@ odoo.define("deltatech_website_city.portal", function(require) {
             $("input[name='city']").val(selectCity.text());
         },
 
-        _onChangeState: function() {
+        _onChangeState: function () {
             this._changeState();
         },
 
-        _changeState: function() {
+        _changeState: function () {
             var state_id = $("select[name='state_id']");
             if (!state_id.val()) {
                 return;
@@ -51,7 +51,7 @@ odoo.define("deltatech_website_city.portal", function(require) {
                 params: {
                     mode: "shipping",
                 },
-            }).then(function(data) {
+            }).then(function (data) {
                 // Placeholder phone_code
                 // $("input[name='phone']").attr('placeholder', data.phone_code !== 0 ? '+'+ data.phone_code : '');
 
@@ -61,11 +61,9 @@ odoo.define("deltatech_website_city.portal", function(require) {
                 // Dont reload state at first loading (done in qweb)
                 if (selectCities.data("init") === 0 || selectCities.find("option").length === 1) {
                     if (data.cities.length) {
-                        $("input[name='city']")
-                            .parent("div")
-                            .hide();
+                        $("input[name='city']").parent("div").hide();
                         selectCities.html("");
-                        _.each(data.cities, function(x) {
+                        _.each(data.cities, function (x) {
                             var opt = $("<option>")
                                 .text(x[1])
                                 .attr("value", x[0])
@@ -75,13 +73,8 @@ odoo.define("deltatech_website_city.portal", function(require) {
                         });
                         selectCities.parent("div").show();
                     } else {
-                        selectCities
-                            .val("")
-                            .parent("div")
-                            .hide();
-                        $("input[name='city']")
-                            .parent("div")
-                            .show();
+                        selectCities.val("").parent("div").hide();
+                        $("input[name='city']").parent("div").show();
                     }
                     selectCities.data("init", 0);
                 } else {
@@ -106,7 +99,7 @@ odoo.define("deltatech_website_city.portal", function(require) {
     */
 });
 
-odoo.define("deltatech_website_city.website_sale", function(require) {
+odoo.define("deltatech_website_city.website_sale", function (require) {
     "use strict";
 
     require("website_sale.website_sale");
@@ -120,13 +113,13 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
             'change select[name="city_id"]': "_onChangeCity",
         },
 
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this._changeState = _.debounce(this._changeState.bind(this), 100);
             this.isWebsite = true;
         },
 
-        start: function() {
+        start: function () {
             // Reordonare campuri
             var div_country = $(".div_country");
             var div_state = $(".div_state");
@@ -149,15 +142,13 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
             return def;
         },
 
-        _onChangeCountry: function() {
+        _onChangeCountry: function () {
             var selectCities = $("select[name='city_id']");
             selectCities.parent("div").hide();
-            $("input[name='city']")
-                .parent("div")
-                .show();
+            $("input[name='city']").parent("div").show();
         },
 
-        _onChangeCity: function() {
+        _onChangeCity: function () {
             if (!$("select[name='city_id']").val()) {
                 return;
             }
@@ -168,7 +159,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
             $("input[name='city']").val(selectCity.text());
         },
 
-        _onChangeState: function() {
+        _onChangeState: function () {
             if (!this.$(".checkout_autoformat").length) {
                 return;
             }
@@ -176,7 +167,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
             this._onChangeCity();
         },
 
-        _changeState: function() {
+        _changeState: function () {
             var selectCities = $("select[name='city_id']");
             var selectState = $("select[name='state_id']");
 
@@ -188,7 +179,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
                 params: {
                     mode: "shipping",
                 },
-            }).then(function(data) {
+            }).then(function (data) {
                 // Placeholder phone_code
                 // $("input[name='phone']").attr('placeholder', data.phone_code !== 0 ? '+'+ data.phone_code : '');
 
@@ -198,11 +189,9 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
                 var selected = selectCities.data("value");
                 if (selectCities.data("init") === 0 || selectCities.find("option").length === 1) {
                     if (data.cities.length) {
-                        $("input[name='city']")
-                            .parent("div")
-                            .hide();
+                        $("input[name='city']").parent("div").hide();
                         selectCities.html("");
-                        _.each(data.cities, function(x) {
+                        _.each(data.cities, function (x) {
                             var opt = $("<option>")
                                 .text(x[1])
                                 .attr("value", x[0])
@@ -214,9 +203,7 @@ odoo.define("deltatech_website_city.website_sale", function(require) {
                         selectCities.parent("div").show();
                     } else {
                         selectCities.parent("div").hide();
-                        $("input[name='city']")
-                            .parent("div")
-                            .show();
+                        $("input[name='city']").parent("div").show();
                     }
                     selectCities.data("init", 0);
                 } else {

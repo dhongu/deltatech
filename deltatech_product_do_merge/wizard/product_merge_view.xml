@@ -8,11 +8,11 @@
                 <sheet>
                     <field name="state" invisible="1" />
                     <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
-                            Select the list of fields used to search for
+                        Select the list of fields used to search for
                             duplicated records. If you select several fields,
                             Odoo will propose you to merge only those having
                             all these fields in common. (not one of the fields).
-                        </p>
+                    </p>
                     <group
                         attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}"
                     >
@@ -34,11 +34,11 @@
                     />
                     <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
                         <p class="oe_grey">
-                                Selected products will be merged together.
+                            Selected products will be merged together.
                                 All documents linked to one of these products
                                 will be redirected to the destination product.
                                 You can remove products from this list to avoid merging them.
-                            </p>
+                        </p>
                         <group col="2">
                             <field
                                 name="dst_object_id"

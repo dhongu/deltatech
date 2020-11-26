@@ -13,6 +13,6 @@
     "data": ["views/product_attribute_views.xml", "views/templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

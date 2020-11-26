@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Billing">
                     <group string="Billing">
-                        <div class="oe_grey">
-                            For the selected services will generate invoices
-                        </div>
+                        <div class="oe_grey">For the selected services will generate invoices</div>
                     </group>
                     <group>
                         <field name="journal_id" domain="[('type','=','sale')]" />

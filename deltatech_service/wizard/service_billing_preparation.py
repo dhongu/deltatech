@@ -9,7 +9,11 @@ class ServiceBillingPreparation(models.TransientModel):
     _name = "service.billing.preparation"
     _description = "Service Billing Preparation"
 
-    period_id = fields.Many2one("date.range", string="Period", required=True,)
+    period_id = fields.Many2one(
+        "date.range",
+        string="Period",
+        required=True,
+    )
     agreement_ids = fields.Many2many(
         "service.agreement",
         "service_billing_agreement",
