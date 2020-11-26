@@ -15,7 +15,8 @@
                 <div
                     t-if="virtual_available gt available_threshold"
                     t-attf-class="availability_message_#{product_template} text-success mt16"
-                >In stock
+                >
+                    In stock
                 </div>
             </t>
             <div
