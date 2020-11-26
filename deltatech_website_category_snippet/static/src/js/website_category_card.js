@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_category_snippet.category_card", function(require) {
+odoo.define("deltatech_website_category_snippet.category_card", function (require) {
     "use strict";
 
     var concurrency = require("web.concurrency");
@@ -16,7 +16,7 @@ odoo.define("deltatech_website_category_snippet.category_card", function(require
         /**
          * @class
          */
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this._dp = new concurrency.DropPrevious();
             this.uniqueId = _.uniqueId("o_category_list_card_");
@@ -25,7 +25,7 @@ odoo.define("deltatech_website_category_snippet.category_card", function(require
         /**
          * @override
          */
-        start: function() {
+        start: function () {
             this._dp.add(this._fetch()).then(this._render.bind(this));
             $(window).resize(() => {
                 this._onResizeChange();
@@ -35,19 +35,19 @@ odoo.define("deltatech_website_category_snippet.category_card", function(require
         /**
          * @override
          */
-        destroy: function() {
+        destroy: function () {
             this._super(...arguments);
             this.$el.addClass("d-none");
             this.$el.find(".subcategory_list").html("");
         },
 
-        _fetch: function() {
+        _fetch: function () {
             return this._rpc({
                 route: "/shop/category/card",
                 params: {
                     category_id: this.$target.data("id"),
                 },
-            }).then(res => {
+            }).then((res) => {
                 var categories = res.categories;
 
                 // In edit mode, if the current visitor has no recently viewed
@@ -75,7 +75,7 @@ odoo.define("deltatech_website_category_snippet.category_card", function(require
             });
         },
 
-        _render: function(res) {
+        _render: function (res) {
             var categories = res.categories;
 
             this.webList = $(
@@ -91,10 +91,8 @@ odoo.define("deltatech_website_category_snippet.category_card", function(require
          * Add the right carousel depending on screen size.
          * @private
          */
-        _addList: function() {
-            this.$(".subcategory_list")
-                .html(this.webList)
-                .css("display", "");
+        _addList: function () {
+            this.$(".subcategory_list").html(this.webList).css("display", "");
         },
     });
 });

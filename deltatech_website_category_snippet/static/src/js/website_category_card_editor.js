@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_category_snippet.category_card_editor", function(require) {
+odoo.define("deltatech_website_category_snippet.category_card_editor", function (require) {
     "use strict";
 
     var core = require("web.core");
@@ -9,14 +9,14 @@ odoo.define("deltatech_website_category_snippet.category_card_editor", function(
     var _t = core._t;
 
     options.registry.edit_category_card = options.Class.extend({
-        select_category: function() {
+        select_category: function () {
             var self = this;
             return wUtils
                 .prompt({
                     id: "editor_category_card",
                     window_title: _t("Select a Category"),
                     select: _t("Category"),
-                    init: function() {
+                    init: function () {
                         return self._rpc({
                             model: "product.public.category",
                             method: "name_search",
@@ -24,18 +24,18 @@ odoo.define("deltatech_website_category_snippet.category_card_editor", function(
                         });
                     },
                 })
-                .then(function(result) {
+                .then(function (result) {
                     self.$target.attr("data-id", result.val);
                 });
         },
-        onBuilt: function() {
+        onBuilt: function () {
             var self = this;
             this._super();
-            this.select_category("click").guardedCatch(function() {
+            this.select_category("click").guardedCatch(function () {
                 self.getParent().removeSnippet();
             });
         },
-        cleanForSave: function() {
+        cleanForSave: function () {
             this.$target.addClass("d-none");
         },
     });

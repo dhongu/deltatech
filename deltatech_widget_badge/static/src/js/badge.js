@@ -1,4 +1,4 @@
-odoo.define("deltatech_widget_badge.badge_fields", function(require) {
+odoo.define("deltatech_widget_badge.badge_fields", function (require) {
     "use strict";
     // Var AbstractField = require("web.AbstractField");
     var basic_fields = require("web.basic_fields");
@@ -17,7 +17,7 @@ odoo.define("deltatech_widget_badge.badge_fields", function(require) {
         //   _setDecorationClasses
         _applyDecorations() {
             var self = this;
-            this.attrs.decorations.forEach(function(dec) {
+            this.attrs.decorations.forEach(function (dec) {
                 var isToggled = py.PY_isTrue(py.evaluate(dec.expression, self.record.evalContext));
                 var className = `badge-${dec.className.split("-")[1]}`;
                 self.$el.toggleClass(className, isToggled);

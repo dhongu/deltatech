@@ -11,7 +11,8 @@
                 frameborder='0'
                 t-attf-src='https://event.2performant.com/events/salecheck?amount=#{order.amount_total}&amp;campaign_unique=#{order.company_id.campaign_unique_2p}&amp;confirm==#{order.company_id.confirm_2p}&amp;description=#{order.name}&amp;transaction_id=#{payment_tx_id.display_name}'
             >
-             </iframe>
+
+            </iframe>
         </xpath>
     </template>
 </odoo>

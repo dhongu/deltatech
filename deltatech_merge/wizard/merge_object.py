@@ -36,9 +36,9 @@ class MergeObjectLine(models.TransientModel):
 
 class MergeObject(models.TransientModel):
     """
-        The idea behind this wizard is to create a list of potential objects to
-        merge. We use two objects, the first one is the wizard for the end-user.
-        And the second will contain the object list to merge.
+    The idea behind this wizard is to create a list of potential objects to
+    merge. We use two objects, the first one is the wizard for the end-user.
+    And the second will contain the object list to merge.
     """
 
     _name = "merge.object.wizard"
@@ -81,9 +81,9 @@ class MergeObject(models.TransientModel):
     # ----------------------------------------
 
     def _get_fk_on(self, table):
-        """ return a list of many2one relation with the given table.
-            :param table : the name of the sql table to return relations
-            :returns a list of tuple 'table name', 'column name'.
+        """return a list of many2one relation with the given table.
+        :param table : the name of the sql table to return relations
+        :returns a list of tuple 'table name', 'column name'.
         """
         query = """
             SELECT cl1.relname as table, att1.attname as column
@@ -106,9 +106,9 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def _update_foreign_keys(self, src_objects, dst_object):
-        """ Update all foreign key from the src_object to dst_object. All many2one fields will be updated.
-            :param src_objects : merge source res.object recordset (does not include destination one)
-            :param dst_object : record of destination res.object
+        """Update all foreign key from the src_object to dst_object. All many2one fields will be updated.
+        :param src_objects : merge source res.object recordset (does not include destination one)
+        :param dst_object : record of destination res.object
         """
         _logger.debug(
             "_update_foreign_keys for dst_object: %s for src_objects: %s", dst_object.id, str(src_objects.ids)
@@ -162,7 +162,13 @@ class MergeObject(models.TransientModel):
                 try:
                     with mute_logger("odoo.sql_db"), self._cr.savepoint():
                         query = 'UPDATE "%(table)s" SET "%(column)s" = %%s WHERE "%(column)s" IN %%s' % query_dic
-                        self._cr.execute(query, (dst_object.id, tuple(src_objects.ids),))
+                        self._cr.execute(
+                            query,
+                            (
+                                dst_object.id,
+                                tuple(src_objects.ids),
+                            ),
+                        )
 
                         # handle the recursivity with parent relation
                         if column == Object._parent_name and table == self._table_merge:
@@ -192,9 +198,9 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def _update_reference_fields(self, src_objects, dst_object):
-        """ Update all reference fields from the src_object to dst_object.
-            :param src_objects : merge source res.object recordset (does not include destination one)
-            :param dst_object : record of destination res.object
+        """Update all reference fields from the src_object to dst_object.
+        :param src_objects : merge source res.object recordset (does not include destination one)
+        :param dst_object : record of destination res.object
         """
         _logger.debug("_update_reference_fields for dst_object: %s for src_objects: %r", dst_object.id, src_objects.ids)
 
@@ -247,15 +253,14 @@ class MergeObject(models.TransientModel):
         self.flush()
 
     def _get_summable_fields(self):
-        """ Returns the list of fields that should be summed when merging objects
-        """
+        """Returns the list of fields that should be summed when merging objects"""
         return []
 
     @api.model
     def _update_values(self, src_objects, dst_object):
-        """ Update values of dst_object with the ones from the src_objects.
-            :param src_objects : recordset of source res.object
-            :param dst_object : record of destination res.object
+        """Update values of dst_object with the ones from the src_objects.
+        :param src_objects : recordset of source res.object
+        :param dst_object : record of destination res.object
         """
         _logger.debug("_update_values for dst_object: %s for src_objects: %r", dst_object.id, src_objects.ids)
 
@@ -293,10 +298,10 @@ class MergeObject(models.TransientModel):
                 )
 
     def _merge(self, object_ids, dst_object=None, extra_checks=True):
-        """ private implementation of merge object
-            :param object_ids : ids of object to merge
-            :param dst_object : record of destination res.object
-            :param extra_checks: pass False to bypass extra sanity check (e.g. email address)
+        """private implementation of merge object
+        :param object_ids : ids of object to merge
+        :param dst_object : record of destination res.object
+        :param extra_checks: pass False to bypass extra sanity check (e.g. email address)
         """
 
         Object = self.env[self._model_merge]
@@ -348,9 +353,9 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def _generate_query(self, fields, maximum_group=100):
-        """ Build the SQL query on res.object table to group them according to given criteria
-            :param fields : list of column names to group by the objects
-            :param maximum_group : limit of the query
+        """Build the SQL query on res.object table to group them according to given criteria
+        :param fields : list of column names to group by the objects
+        :param maximum_group : limit of the query
         """
         # make the list of column to group by in sql query
         sql_fields = []
@@ -368,7 +373,7 @@ class MergeObject(models.TransientModel):
         for field in fields:
             if field in ["email", "name", "vat"]:
                 filters.append((field, "IS NOT", "NULL"))
-        criteria = " AND ".join("%s %s %s" % (field, operator, value) for field, operator, value in filters)
+        criteria = " AND ".join("{} {} {}".format(field, operator, value) for field, operator, value in filters)
 
         # build the query
         text = [
@@ -382,14 +387,16 @@ class MergeObject(models.TransientModel):
         text.extend(["GROUP BY %s" % group_fields, "HAVING COUNT(*) >= 2", "ORDER BY min(id)"])
 
         if maximum_group:
-            text.append("LIMIT %s" % maximum_group,)
+            text.append(
+                "LIMIT %s" % maximum_group,
+            )
 
         return " ".join(text)
 
     @api.model
     def _compute_selected_groupby(self):
-        """ Returns the list of field names the object can be grouped (as merge
-            criteria) according to the option checked on the wizard
+        """Returns the list of field names the object can be grouped (as merge
+        criteria) according to the option checked on the wizard
         """
         groups = []
         group_by_prefix = "group_by_"
@@ -406,21 +413,24 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def _object_use_in(self, aggr_ids, models):
-        """ Check if there is no occurence of this group of object in the selected model
-            :param aggr_ids : stringified list of object ids separated with a comma (sql array_agg)
-            :param models : dict mapping a model name with its foreign key with res_object table
+        """Check if there is no occurence of this group of object in the selected model
+        :param aggr_ids : stringified list of object ids separated with a comma (sql array_agg)
+        :param models : dict mapping a model name with its foreign key with res_object table
         """
         return any(self.env[model].search_count([(field, "in", aggr_ids)]) for model, field in models.items())
 
     @api.model
     def _get_ordered_object(self, object_ids):
-        """ Helper : returns a `res.object` recordset ordered by create_date/active fields
-            :param object_ids : list of object ids to sort
+        """Helper : returns a `res.object` recordset ordered by create_date/active fields
+        :param object_ids : list of object ids to sort
         """
         return (
             self.env[self._model_merge]
             .browse(object_ids)
-            .sorted(key=lambda p: (p.create_date or datetime.datetime(1970, 1, 1)), reverse=True,)
+            .sorted(
+                key=lambda p: (p.create_date or datetime.datetime(1970, 1, 1)),
+                reverse=True,
+            )
         )
 
     def _compute_models(self):
@@ -440,9 +450,9 @@ class MergeObject(models.TransientModel):
         return self._action_next_screen()
 
     def _action_next_screen(self):
-        """ return the action of the next screen ; this means the wizard is set to treat the
-            next wizard line. Each line is a subset of object that can be merged together.
-            If no line left, the end screen will be displayed (but an action is still returned).
+        """return the action of the next screen ; this means the wizard is set to treat the
+        next wizard line. Each line is a subset of object that can be merged together.
+        If no line left, the end screen will be displayed (but an action is still returned).
         """
         self.invalidate_cache()  # FIXME: is this still necessary?
         values = {}
@@ -472,8 +482,8 @@ class MergeObject(models.TransientModel):
         }
 
     def _process_query(self, query):
-        """ Execute the select request and write the result in this wizard
-            :param query : the SQL query used to fill the wizard line
+        """Execute the select request and write the result in this wizard
+        :param query : the SQL query used to fill the wizard line
         """
         self.ensure_one()
         model_mapping = self._compute_models()
@@ -500,11 +510,11 @@ class MergeObject(models.TransientModel):
         _logger.info("counter: %s", counter)
 
     def action_start_manual_process(self):
-        """ Start the process 'Merge with Manual Check'. Fill the wizard according to the group_by and exclude
-            options, and redirect to the first step (treatment of first wizard line). After, for each subset of
-            object to merge, the wizard will be actualized.
-                - Compute the selected groups (with duplication)
-                - If the user has selected the 'exclude_xxx' fields, avoid the objects
+        """Start the process 'Merge with Manual Check'. Fill the wizard according to the group_by and exclude
+        options, and redirect to the first step (treatment of first wizard line). After, for each subset of
+        object to merge, the wizard will be actualized.
+            - Compute the selected groups (with duplication)
+            - If the user has selected the 'exclude_xxx' fields, avoid the objects
         """
         self.ensure_one()
         groups = self._compute_selected_groupby()
@@ -513,9 +523,9 @@ class MergeObject(models.TransientModel):
         return self._action_next_screen()
 
     def action_start_automatic_process(self):
-        """ Start the process 'Merge Automatically'. This will fill the wizard with the same mechanism as 'Merge
-            with Manual Check', but instead of refreshing wizard with the current line, it will automatically process
-            all lines by merging object grouped according to the checked options.
+        """Start the process 'Merge Automatically'. This will fill the wizard with the same mechanism as 'Merge
+        with Manual Check', but instead of refreshing wizard with the current line, it will automatically process
+        all lines by merging object grouped according to the checked options.
         """
         self.ensure_one()
         self.action_start_manual_process()  # here we don't redirect to the next screen, since it is automatic process
@@ -545,8 +555,8 @@ class MergeObject(models.TransientModel):
         return self._action_next_screen()
 
     def action_merge(self):
-        """ Merge Object button. Merge the selected objects, and redirect to
-            the end screen (since there is no other wizard line to process.
+        """Merge Object button. Merge the selected objects, and redirect to
+        the end screen (since there is no other wizard line to process.
         """
         if not self.object_ids:
             self.write({"state": "finished"})

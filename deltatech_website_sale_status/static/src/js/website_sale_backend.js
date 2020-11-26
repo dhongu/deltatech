@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_sale_status.backend", function(require) {
+odoo.define("deltatech_website_sale_status.backend", function (require) {
     "use strict";
 
     var WebsiteBackend = require("website.backend.dashboard");

@@ -23,6 +23,6 @@
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

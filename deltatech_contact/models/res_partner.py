@@ -127,7 +127,7 @@ class Partner(models.Model):
 
         if context.get("show_phone", False):
             if partner.phone or partner.mobile:
-                name = "%s\n<%s>" % (name, partner.phone or partner.mobile)
+                name = "{}\n<{}>".format(name, partner.phone or partner.mobile)
         if context.get("show_category") and partner.category_id:
             cat = []
             for category in partner.category_id:

@@ -12,6 +12,6 @@
     "depends": ["base", "stock", "deltatech_merge"],
     "data": ["security/res_groups.xml", "wizard/product_merge_view.xml"],
     "images": ["images/main_screenshot.png"],
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

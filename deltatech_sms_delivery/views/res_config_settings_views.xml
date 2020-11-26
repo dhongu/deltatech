@@ -17,9 +17,7 @@
                             title="Values set here are company-specific."
                             groups="base.group_multi_company"
                         />
-                        <div class="text-muted">
-                            Send a manual SMS Text Message when the Delivery is in preparation
-                        </div>
+                        <div class="text-muted">Send a manual SMS Text Message when the Delivery is in preparation</div>
                         <div class="content-group">
                             <div class="row mt16" attrs="{'invisible': [('delivery_sms_preparation', '=', False)]}">
                                 <label

@@ -17,9 +17,7 @@
                     </div>
                     <div class="o_setting_right_pane">
                         <label for="has_2performant" />
-                        <div class="text-muted">
-                            Track the sales generated through 2Performant
-                        </div>
+                        <div class="text-muted">Track the sales generated through 2Performant</div>
                         <div class="content-group" attrs="{'invisible': [('has_2performant', '=', False)]}">
                             <div class="row mt16">
                                 <label

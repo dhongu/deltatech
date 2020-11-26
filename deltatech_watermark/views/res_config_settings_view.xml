@@ -17,9 +17,7 @@
                             aria-label="Values set here are company-specific."
                             groups="base.group_multi_company"
                         />
-                        <div class="text-muted">
-                            If set, watermark will can use in website or documents.
-                        </div>
+                        <div class="text-muted">If set, watermark will can use in website or documents.</div>
                         <field name="watermark_image" widget="image" class="w-25 mt-2" />
                     </div>
                 </div>

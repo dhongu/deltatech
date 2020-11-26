@@ -14,6 +14,6 @@
     "price": 1.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

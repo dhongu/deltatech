@@ -14,6 +14,6 @@
     "data": ["views/res_config_settings_view.xml", "views/templates.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

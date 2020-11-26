@@ -108,7 +108,7 @@ class ServiceMeter(models.Model):
     @api.depends("name", "uom_id")
     def _compute_display_name(self):
         if self.name:
-            self.display_name = "%s [%s]" % (self.name, self.uom_id.name)
+            self.display_name = "{} [{}]".format(self.name, self.uom_id.name)
         else:
             self.display_name = self.uom_id.name
 

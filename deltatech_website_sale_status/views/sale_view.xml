@@ -92,9 +92,8 @@
         </field>
     </record>
     <record id="website_sale.action_view_unpaid_quotation_tree" model="ir.actions.act_window">
-        <field
-            name="domain"
-        >[('state', 'in', ['sent','sale']), ('website_id', '!=', False),('payment_status','!=','done')]
+        <field name="domain">
+            [('state', 'in', ['sent','sale']), ('website_id', '!=', False),('payment_status','!=','done')]
         </field>
     </record>
 </odoo>

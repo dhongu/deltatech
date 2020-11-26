@@ -13,7 +13,11 @@ class MRPSimple(models.TransientModel):
     product_in_ids = fields.One2many("mrp.simple.line.in", "mrp_simple_id")
     product_out_ids = fields.One2many("mrp.simple.line.out", "mrp_simple_id")
 
-    picking_type_consume = fields.Many2one("stock.picking.type", string="Picking type consume", required=True,)
+    picking_type_consume = fields.Many2one(
+        "stock.picking.type",
+        string="Picking type consume",
+        required=True,
+    )
     picking_type_receipt_production = fields.Many2one(
         "stock.picking.type", string="Picking type receipt", required=True
     )

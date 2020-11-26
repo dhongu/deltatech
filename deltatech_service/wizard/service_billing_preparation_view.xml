@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Service Billing Preparation">
                     <group string="Service Billing Preparation">
-                        <div class="oe_grey">
-                            For the selected agreement will generate estimate consumptions
-                        </div>
+                        <div class="oe_grey">For the selected agreement will generate estimate consumptions</div>
                     </group>
                     <group>
                         <field name="period_id" options="{'no_create': True}" />

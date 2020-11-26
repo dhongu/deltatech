@@ -25,6 +25,6 @@
     ],
     "images": ["images/main_screenshot.png"],
     "application": True,
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

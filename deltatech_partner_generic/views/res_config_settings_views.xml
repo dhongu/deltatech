@@ -9,9 +9,7 @@
                 <div class="col-12 col-lg-6 o_setting_box" title="Generic partner">
                     <div class="o_setting_right_pane">
                         <label for="generic_partner_id" />
-                        <div class="text-muted">
-                                Generic partner
-                            </div>
+                        <div class="text-muted">Generic partner</div>
                         <div class="content-group">
                             <div class="mt16">
                                 <field name="generic_partner_id" class="o_light_label" />

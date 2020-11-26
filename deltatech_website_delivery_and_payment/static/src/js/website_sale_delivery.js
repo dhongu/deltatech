@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_delivery_and_payment.checkout", function(require) {
+odoo.define("deltatech_website_delivery_and_payment.checkout", function (require) {
     "use strict";
 
     var publicWidget = require("web.public.widget");
@@ -13,11 +13,11 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function(require)
         /**
          * @override
          */
-        start: function() {
+        start: function () {
             return this._super.apply(this, arguments);
         },
 
-        _handleCarrierCheckResult: function(result) {
+        _handleCarrierCheckResult: function (result) {
             var $payButton = $("#o_payment_form_pay");
             if (result.status === true) {
                 $payButton.data("disabled_reasons").acquirer_selection = false;
@@ -25,7 +25,7 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function(require)
             }
         },
 
-        _doCheckSelection: function() {
+        _doCheckSelection: function () {
             var self = this;
             var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
             var carrier_id = $carrier.val();
@@ -49,11 +49,11 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function(require)
             }).then(self._handleCarrierCheckResult.bind(self));
         },
 
-        _onCarrierClick: function() {
+        _onCarrierClick: function () {
             this._doCheckSelection();
         },
 
-        _onAcquirerClick: function() {
+        _onAcquirerClick: function () {
             this._doCheckSelection();
         },
     });

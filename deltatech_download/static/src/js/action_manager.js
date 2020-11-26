@@ -1,4 +1,4 @@
-odoo.define("deltatech_download.ActionManager", function(require) {
+odoo.define("deltatech_download.ActionManager", function (require) {
     "use strict";
 
     var ActionManager = require("web.ActionManager");
@@ -6,7 +6,7 @@ odoo.define("deltatech_download.ActionManager", function(require) {
     var framework = require("web.framework");
 
     ActionManager.include({
-        ir_actions_act_url: function(action, options) {
+        ir_actions_act_url: function (action, options) {
             var url = action.url;
             if (session.debug && url && url.length && url[0] === "/") {
                 url = $.param.querystring(url, {debug: session.debug});
@@ -23,7 +23,7 @@ odoo.define("deltatech_download.ActionManager", function(require) {
             return $.when();
         },
 
-        _triggerDownload: function(action, options, type) {
+        _triggerDownload: function (action, options, type) {
             var self = this;
 
             if (!type === "pdf") {

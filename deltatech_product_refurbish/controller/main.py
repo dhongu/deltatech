@@ -16,9 +16,7 @@ class WebsiteSaleProductRefurbish(WebsiteSale):
             request.session["sale_order_id"] = None
             sale_order = request.website.sale_get_order(force_create=True)
 
-        sale_order._cart_refurbish_update(
-            lot_id=int(kw.get("lot_id")), add_qty=add_qty, set_qty=set_qty,
-        )
+        sale_order._cart_refurbish_update(lot_id=int(kw.get("lot_id")), add_qty=add_qty, set_qty=set_qty)
 
         if kw.get("express"):
             return request.redirect("/shop/checkout?express=1")
