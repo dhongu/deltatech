@@ -13,6 +13,6 @@
     "data": ["views/stock_picking_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "stable",
+    "development_status": "Beta",
     "maintainers": ["danila"],
 }
