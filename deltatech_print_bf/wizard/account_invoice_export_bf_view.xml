@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_export_datecs_form" model="ir.ui.view">
+            <field name="name">Export BF</field>
+            <field name="model">account.invoice.export.bf</field>
+            <field name="arch" type="xml">
+                <form string="Export BF">
+                    <field name="name" invisible="1" />
+                    <h2>
+                        File BF:
+                        <field name="data_file" readonly="1" filename="name" />
+                    </h2>
+                    <field name="text_data" />
+                    <footer>
+                        <button name="act_getfile" string="Export" type="object" class="btn-primary" />
+                        <button string="_Close" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--
+        <act_window id="action_export_bf" name="Export Bon Fiscal" res_model="account.invoice.export.bf"
+                    src_model="account.invoice" view_mode="form" target="new" />
+        -->
+        <record id="view_move_form" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <field name="state" position="before">
+                    <button
+                        name="print_bf"
+                        attrs="{'invisible':['|',  ('state', '!=', 'posted'),  ('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                        string="Print Bon Fiscal"
+                        groups="base.group_user"
+                        type="object"
+                        confirm="Are you sure you want to print the receipt?"
+                    />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

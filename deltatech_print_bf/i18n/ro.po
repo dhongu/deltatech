@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_print_bf
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-29 07:32+0000\n"
+"PO-Revision-Date: 2020-11-29 07:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_move_form
+msgid "Are you sure you want to print the receipt?"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_bank_statement_import_journal_creation__cod_ecr
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_journal__cod_ecr
+msgid "Cod ECR"
+msgstr "Cod ECR"
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__display_name
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_journal__display_name
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_advance_payment_inv__display_name
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+msgid "Export"
+msgstr "Exportă"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+msgid "Export BF"
+msgstr "Exportă BF"
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_account_invoice_export_bf
+msgid "Export Datecs"
+msgstr "Export Datecs"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__data_file
+msgid "File"
+msgstr "Fișier"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+msgid "File BF:"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__name
+msgid "File Name"
+msgstr "Nume fișier"
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/models/account_invoice.py:0
+#, python-format
+msgid "Fisier Bon Fiscal  %s generat"
+msgstr "Fisier Bon Fiscal  %s generat"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__id
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_journal__id
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_advance_payment_inv__id
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Invoice %s is not paid"
+msgstr "Factura %s nu este plătită"
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_res_config_settings__journal_bf_id
+msgid "Journal Bon Fiscal"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.res_config_settings_view_form
+msgid "Journal Bon fiscal"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf____last_update
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_journal____last_update
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_advance_payment_inv____last_update
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Nu se poate emite bon cu valoare negativa!!!"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Please select Customer Invoice %s"
+msgstr "Slectați vă rog o facrură de vânzare %s"
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_move_form
+msgid "Print Bon Fiscal"
+msgstr "Tipărire bon fiscal"
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Ref:"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Factura Vânzare cu Plată în Avans"
+
+#. module: deltatech_print_bf
+#: model:ir.model,name:deltatech_print_bf.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_print_bf
+#: model:ir.model.fields,field_description:deltatech_print_bf.field_account_invoice_export_bf__text_data
+msgid "Text"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.actions.act_window,name:deltatech_print_bf.action_sale_bf
+msgid "Vanzare BF"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model:ir.ui.menu,name:deltatech_print_bf.menu_sale_bf
+msgid "Vanzare PF"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: code:addons/deltatech_print_bf/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Voucher:"
+msgstr ""
+
+#. module: deltatech_print_bf
+#: model_terms:ir.ui.view,arch_db:deltatech_print_bf.view_export_datecs_form
+msgid "_Close"
+msgstr "În_chide"
