@@ -22,14 +22,14 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function (requi
         var isMainProduct =
             combination.product_id &&
             ($parent.is(".js_main_product") || $parent.is(".main_product")) &&
-            combination.product_id === parseInt(product_id);
+            combination.product_id === parseInt(product_id, 10);
 
         if (!this.isWebsite || !isMainProduct) {
             return;
         }
 
         if (combination.product_type === "product" && combination.inventory_availability === "preorder") {
-            combination.virtual_available -= parseInt(combination.cart_qty);
+            combination.virtual_available -= parseInt(combination.cart_qty, 10);
             if (combination.virtual_available < 0) {
                 combination.virtual_available = 0;
             }
