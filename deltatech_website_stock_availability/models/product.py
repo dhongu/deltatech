@@ -28,7 +28,7 @@ class ProductTemplate(models.Model):
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
                     if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
                         weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7
-                        product.availability_text = _("Delivery in %s weeks") + weeks
+                        product.availability_text = _("Delivery in %s weeks") % weeks
                     elif supplier_lead_time:
                         d1 = product.sale_delay + supplier_lead_time
                         d2 = d1 + product.sale_delay_safety
@@ -67,6 +67,9 @@ class ProductTemplate(models.Model):
             combination_info["sale_delay"] = product.sale_delay
             combination_info["sale_delay_safety"] = product.sale_delay_safety
             combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
+            if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
+                days = (product.seller_ids[0].date_start - fields.Date.today()).days
+                combination_info["purchase_lead_time"] += days
 
             # if product.type == "product" and product.inventory_availability in ["preorder"]:
             #     lead_min = company_lead_time + supplier_lead_time + product.sale_delay
