@@ -18,6 +18,7 @@
         "views/sale_order_views.xml",
         "views/templates.xml",
     ],
+    "external_dependencies": {"python": ["html2text"]},
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
