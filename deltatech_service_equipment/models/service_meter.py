@@ -79,7 +79,7 @@ class ServiceMeter(models.Model):
     _sql_constraints = [
         (
             "equipment_uom_uniq",
-            "unique(equipment_id,uom_id)",
+            "unique(equipment_id,uom_id,meter_categ_id)",
             "Two meter for one equipment with the same unit of measure? Impossible!",
         )
     ]
