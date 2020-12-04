@@ -1,0 +1,21 @@
+<odoo>
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form_view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="priority" eval="16" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='inventory']/group" position="inside">
+                <group name="packaging" string="Packaging materials">
+                    <field name="packaging_material_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="material_type" />
+                            <field name="qty" />
+                            <field name="product_tmpl_id" invisible="1" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

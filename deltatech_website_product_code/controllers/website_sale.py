@@ -51,20 +51,21 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         pricelist = request.website.get_current_pricelist()
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
         for product in products:
-            combination_info = product._get_combination_info(pricelist=pricelist)
-            values = {
-                "name": combination_info["display_name"],
-                "default_code": product.default_code,
-                "price": combination_info["price"],
-                "list_price": combination_info["list_price"],
-                "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image/",
-            }
-            if alternative_code_mod:
-                alternative_code = []
-                for alternative in product.alternative_ids:
-                    alternative_code += [{"name": alternative.name, "hide": alternative.hide}]
-                values["alternative_code"] = alternative_code
+            if product.is_published:
+                combination_info = product._get_combination_info(pricelist=pricelist)
+                values = {
+                    "name": combination_info["display_name"],
+                    "default_code": product.default_code,
+                    "price": combination_info["price"],
+                    "list_price": combination_info["list_price"],
+                    "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image/",
+                }
+                if alternative_code_mod:
+                    alternative_code = []
+                    for alternative in product.alternative_ids:
+                        alternative_code += [{"name": alternative.name, "hide": alternative.hide}]
+                    values["alternative_code"] = alternative_code
 
-            res += [values]
+                res += [values]
 
         return res
