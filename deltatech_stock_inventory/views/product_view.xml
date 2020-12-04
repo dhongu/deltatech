@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_template_property_form" model="ir.ui.view">
+            <field name="name">product.template.stock.property.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.view_template_property_form" />
+            <field name="arch" type="xml">
+                <group name="group_lots_and_weight" position="after">
+                    <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
+
+                        <label for="loc_rack" string="Location" />
+                        <div class="o_row">
+                            <field name="loc_rack" placeholder="Rack" />
+                            <field name="loc_row" placeholder="Row" />
+                            <field name="loc_case" placeholder="Case" />
+                        </div>
+                        <label for="loc_rack" string="Inventory" />
+                        <div class="o_row">
+                            <field name="last_inventory_date" />
+                            <field name="last_inventory_id" />
+                            <button
+                                string="Update"
+                                name="get_last_inventory_date"
+                                type="object"
+                                class="oe_link oe_edit_only"
+                            />
+                        </div>
+
+
+                    </group>
+                </group>
+            </field>
+        </record>
+        <record id="view_product_template_warehouse_form" model="ir.ui.view">
+            <field name="name">product.template.warehouse.form</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Update Stock" name="get_last_inventory_date" type="object" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                type="object"
+                                name="action_open_quants"
+                                attrs="{'invisible':[('type', '!=', 'product')]}"
+                                class="oe_stat_button"
+                                icon="fa-building-o"
+                            >
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value" widget="statinfo">
+                                        <field name="qty_available" widget="statinfo" nolabel="1" class="mr4" />
+                                        <field name="uom_name" />
+                                    </span>
+                                    <span class="o_stat_text">On Hand</span>
+                                </div>
+                            </button>
+                        </div>
+                        <field
+                            name="image_1920"
+                            widget="image"
+                            class="oe_avatar"
+                            options="{'preview_image': 'image_128'}"
+                        />
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Product Name" />
+                            <h1>
+                                <field name="name" placeholder="Product Name" />
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Inventory" name="inventory">
+                                <group>
+                                    <group>
+                                        <field name="type" />
+                                        <field name="default_code" />
+                                        <field name="qty_available" />
+                                    </group>
+                                    <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
+                                        <label for="loc_rack" string="Location" />
+                                        <div class="o_row">
+                                            <field name="loc_rack" placeholder="Rack" />
+                                            <field name="loc_row" placeholder="Row" />
+                                            <field name="loc_case" placeholder="Case" />
+                                        </div>
+                                        <label for="loc_rack" string="Inventory" />
+                                        <div class="o_row">
+                                            <field name="last_inventory_date" />
+                                            <field name="last_inventory_id" />
+                                            <button
+                                                string="Update"
+                                                name="get_last_inventory_date"
+                                                type="object"
+                                                class="oe_link oe_edit_only"
+                                            />
+                                        </div>
+
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_template_warehouse_tree" model="ir.ui.view">
+            <field name="name">product.template.warehouse.tree</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="default_code" />
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_template_warehouse" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="stock.product_template_search_form_view_stock" />
+            <field
+                name="view_ids"
+                eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_product_template_warehouse_tree')}),
+                (0, 0, {'view_mode': 'kanban'}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_product_template_warehouse_form')}) ]"
+            />
+            <field name="context">{ 'default_type': 'product'}</field>
+        </record>
+        <menuitem
+            id="menu_product_template_warehouse"
+            name="Warehouse Products"
+            action="action_product_template_warehouse"
+            parent="stock.menu_stock_inventory_control"
+            sequence="1"
+        />
+    </data>
+</odoo>

@@ -28,29 +28,15 @@ class StockMove(models.Model):
         use_date = self.env.context.get("force_period_date", False)
         if date_fields.intersection(vals):
             if not use_date:
-
                 for move in self:
                     today = fields.Date.today()
                     if "date" in vals:
-                        if move.date_expected.date() < today and move.date_expected < vals["date"]:
-                            vals["date"] = move.date_expected
-                        if move.date.date() < today and move.date < vals["date"]:
+                        if move.date.date() < today and move.date.date() < vals["date"]:
                             vals["date"] = move.date
                         move.move_line_ids.write({"date": vals["date"]})
-                        # move.quant_ids.write({'in_date': vals['date']})
-
-                    # if 'date_expected' in vals:
-                    #     if isinstance(vals['date_expected'], str):  # de unde ajunge aici cu string ?
-                    #         vals['date_expected'] = fields.Datetime.to_datetime(vals['date_expected'])
-                    #     move_date = vals.get('date', move.date)
-                    #     if move_date.date() < today and move_date < vals['date_expected']:
-                    #         vals['date_expected'] = move_date
             else:
-
                 if "date" in vals:
                     vals["date"] = use_date
-                # if 'date_expected' in vals:
-                #     vals['date_expected'] = use_date
 
         return super(StockMove, self).write(vals)
 
