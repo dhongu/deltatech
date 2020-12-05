@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_invoice_change_number_form" model="ir.ui.view">
+        <field name="name">Change invoice number</field>
+        <field name="model">account.invoice.change.number</field>
+        <field name="arch" type="xml">
+            <form string="Change invoice number">
+                <group>
+                    <field name="internal_number" />
+                </group>
+                <footer>
+                    <button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_account_invoice_change_number" model="ir.actions.act_window">
+        <field name="name">Change invoice number</field>
+        <field name="res_model">account.invoice.change.number</field>
+        <field name="binding_model_id" ref="model_account_move" />
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="groups_id" eval="[(4, ref('deltatech_invoice_number.group_change_invoice_number'))]" />
+    </record>
+
+</odoo>

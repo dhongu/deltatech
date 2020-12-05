@@ -15,7 +15,7 @@ class MailMail(models.Model):
 
         res = super(MailMail, self)._send_prepare_values(partner)
 
-        use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email")
+        use_company_email = self.env["ir.config_parameter"].sudo().get_param("mail.use_company_email", "False")
         if safe_eval(use_company_email):
             if self.author_id.company_id.email:
                 self.write(

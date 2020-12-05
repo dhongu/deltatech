@@ -36,3 +36,15 @@ class ProductTemplate(models.Model):
             else:
                 if product.website_rewrite_id:
                     product.website_rewrite_id.unlink()
+
+    def _compute_website_url(self):
+        record = super(ProductTemplate, self)._compute_website_url()
+        origin = self.env.context.get("origin", False)
+        if not origin:
+            for product in self:
+                if product.alternative_link:
+                    website_url = product.alternative_link
+                    if website_url[0] != "/":
+                        website_url = "/" + website_url
+                    product.website_url = website_url
+        return record
