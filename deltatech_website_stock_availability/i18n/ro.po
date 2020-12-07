@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 13.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-30 02:14+0000\n"
-"PO-Revision-Date: 2020-11-30 02:14+0000\n"
+"POT-Creation-Date: 2020-12-07 16:34+0000\n"
+"PO-Revision-Date: 2020-12-07 16:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -57,6 +57,8 @@ msgstr "Timp de sigurantă "
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
 #, python-format
@@ -169,3 +171,11 @@ msgstr "zile"
 #, python-format
 msgid "in your cart"
 msgstr "în coșul tău"
+
+#. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "weeks"
+msgstr "săptămâni"
