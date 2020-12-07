@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Delivery Status",
     "summary": "Carrier status on picking",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
