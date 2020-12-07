@@ -6,8 +6,18 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="after">
+                    <widget
+                        name="web_ribbon"
+                        title="Stopped"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('stopped', '=', False)]}"
+                    />
+                </xpath>
+
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="delivery_state" attrs="{'invisible':[('state','!=','done')]}" />
+                     <field name="stopped" />
                 </xpath>
             </field>
         </record>
