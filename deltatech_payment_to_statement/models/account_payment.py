@@ -45,6 +45,8 @@ class AccountPayment(models.Model):
                         ref += invoice.name
                     for invoice in payment.reconciled_invoice_ids:
                         ref += invoice.name
+                    if payment.statement_id.state == "confirm":
+                        payment.statement_id.button_reopen()
                     values = {
                         "name": payment.communication or "/",
                         "statement_id": payment.statement_id.id,
