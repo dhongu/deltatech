@@ -90,8 +90,18 @@ class AccountPayment(models.Model):
             auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
             if auto_statement:
                 payment.reconciliation_statement_line(raise_error=False)
+            payment.force_cash_sequence()
 
         return res
+
+    def force_cash_sequence(self):
+        # force cash in/out sequence
+        for payment in self:
+            if payment.partner_type == "customer" and payment.journal_id.type == "cash":
+                if payment.journal_id.cash_in_sequence_id and payment.payment_type == "inbound":
+                    payment.name = payment.journal_id.cash_in_sequence_id.next_by_id()
+                if payment.journal_id.cash_out_sequence_id and payment.payment_type == "outbound":
+                    payment.name = payment.journal_id.cash_out_sequence_id.next_by_id()
 
     def reconciliation_statement_line(self, raise_error=True):
         for payment in self:
