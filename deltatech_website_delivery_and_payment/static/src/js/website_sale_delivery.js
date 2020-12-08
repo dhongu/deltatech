@@ -23,6 +23,27 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
                 $payButton.data("disabled_reasons").acquirer_selection = false;
                 $payButton.prop("disabled", _.contains($payButton.data("disabled_reasons"), true));
             }
+            var $acquirers = $('#payment_method input[name="pm_id"]');
+            if (result.all_acquirer === false) {
+                $acquirers.each(function (index, acquirer) {
+                    var acquirer_id = $(acquirer).data("acquirer-id");
+                    if (result.acquirer_allowed_ids.includes(acquirer_id)) {
+                        $(acquirer).parent().parent().show();
+                        $(acquirer).parent().show();
+                        $(acquirer).show();
+                    } else {
+                        $(acquirer).parent().parent().hide();
+                        $(acquirer).parent().hide();
+                        $(acquirer).hide();
+                    }
+                });
+            } else {
+                $acquirers.each(function (index, acquirer) {
+                    $(acquirer).parent().parent().show();
+                    $(acquirer).parent().show();
+                    $(acquirer).show();
+                });
+            }
         },
 
         _doCheckSelection: function () {
@@ -50,6 +71,9 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
         },
 
         _onCarrierClick: function () {
+            var $acquirer = $('#payment_method input[name="pm_id"]').filter(":checked");
+            $acquirer.prop("checked", false);
+
             this._doCheckSelection();
         },
 
