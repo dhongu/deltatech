@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- path_to_your_module/views/assets.xml -->
+<odoo>
+    <data>
+        <template id="assets_pos_backend" name="pos assets" inherit_id="point_of_sale.assets">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/deltatech_pricelist_pos/static/src/js/models.js" />
+            </xpath>
+        </template>
+    </data>
+</odoo>

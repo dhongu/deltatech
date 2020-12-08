@@ -10,3 +10,13 @@ class ProductPublicCategory(models.Model):
     _inherit = "product.public.category"
 
     alternative_link = fields.Char()
+
+    def _compute_website_url(self):
+        record = super(ProductPublicCategory, self)._compute_website_url()
+        for category in self:
+            if category.alternative_link:
+                website_url = category.alternative_link
+                if website_url[0] != "/":
+                    website_url = "/" + website_url
+                category.website_url = website_url
+        return record

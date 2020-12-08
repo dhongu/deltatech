@@ -38,7 +38,7 @@ class SaleOrder(models.Model):
         store=True,
     )
 
-    @api.depends("state", "website_id", "picking_ids.state")
+    @api.depends("state", "website_id", "picking_ids.state", "picking_ids.delivery_state")
     def _compute_stage(self):
         for order in self:
             order.stage = "in_process"

@@ -1,19 +1,24 @@
 # ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    stopped = fields.Boolean(
+        string="Stopped",
+        states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
+    )
     delivery_state = fields.Selection(
         [
             ("draft", "Draft"),
-            ("pre_advice", "Pre advice"),
-            ("in_transit", "In Transit"),
-            ("in_warehouse", "In Warehouse"),
-            ("in_delivery", "In delivery"),
+            ("pre_advice", "Pre advice"),  # awb generat
+            ("in_transit", "In Transit"),  # colet ridicat de curier
+            ("in_warehouse", "In Warehouse"),  # colet in depozitul curierului
+            ("in_delivery", "In delivery"),  # coletul este livrare
             ("delivered", "Delivered"),
         ],
         string="State",
@@ -28,3 +33,17 @@ class StockPicking(models.Model):
                 picking.write({"delivery_state": "delivered"})
 
         return res
+
+    @api.depends("move_type", "immediate_transfer", "move_lines.state", "move_lines.picking_id", "stopped")
+    def _compute_state(self):
+        super(StockPicking, self)._compute_state()
+        for picking in self.filtered(lambda p: p.state == "assigned"):
+            if picking.stopped:
+                picking.state = "waiting"
+
+    def button_validate(self):
+        for picking in self:
+            if picking.stopped:
+                raise UserError(_("The transfer %s is stopped") % picking.name)
+
+        return super(StockPicking, self).button_validate()
