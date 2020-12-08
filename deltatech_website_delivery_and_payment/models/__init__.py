@@ -4,3 +4,4 @@
 
 from . import delivery
 from . import payment
+from . import sale

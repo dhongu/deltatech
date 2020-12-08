@@ -2,13 +2,19 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
     "use strict";
 
     var publicWidget = require("web.public.widget");
+    require("website_sale_delivery.checkout");
+    var websiteSaleDelivery = publicWidget.registry.websiteSaleDelivery;
 
-    publicWidget.registry.websiteSaleDeliveryConstrain = publicWidget.Widget.extend({
+    var concurrency = require("web.concurrency");
+    var dp = new concurrency.DropPrevious();
+
+    // PublicWidget.registry.websiteSaleDeliveryConstrain = publicWidget.Widget.extend({
+    websiteSaleDelivery.include({
         selector: ".oe_website_sale",
-        events: {
-            "click #delivery_carrier .o_delivery_carrier_select": "_onCarrierClick",
-            "click #payment_method .o_payment_acquirer_select": "_onAcquirerClick",
-        },
+        events: _.extend({}, websiteSaleDelivery.prototype.events, {
+            //   "click #delivery_carrier .o_delivery_carrier_select": "_onCarrierClick",
+            "click #payment_method .o_payment_acquirer_select": "_onAcquirerClickCheck",
+        }),
 
         /**
          * @override
@@ -71,14 +77,26 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
         },
 
         _onCarrierClick: function () {
+            this._super.apply(this, arguments);
             var $acquirer = $('#payment_method input[name="pm_id"]').filter(":checked");
             $acquirer.prop("checked", false);
 
             this._doCheckSelection();
         },
 
-        _onAcquirerClick: function () {
+        _onAcquirerClickCheck: function () {
             this._doCheckSelection();
+
+            var $carrier = $('#delivery_carrier input[name="delivery_type"]').filter(":checked");
+            var carrier_id = $carrier.val();
+            dp.add(
+                this._rpc({
+                    route: "/shop/update_carrier",
+                    params: {
+                        carrier_id: carrier_id,
+                    },
+                })
+            ).then(this._handleCarrierUpdateResult.bind(this));
         },
     });
 });
