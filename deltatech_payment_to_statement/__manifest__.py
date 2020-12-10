@@ -4,6 +4,7 @@
 
 {
     "name": "Payment to Statement",
+    "summary": "Add payment to cash statement",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -15,10 +16,10 @@
         "views/account_payment_view.xml",
         "views/account_view.xml",
         "views/account_journal_dashboard_view.xml",
-        "wizard/merge_statement_view.xml"
+        "wizard/merge_statement_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "post_init_hook": "_set_auto_auto_statement",
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

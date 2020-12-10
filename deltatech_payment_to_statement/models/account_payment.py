@@ -1,9 +1,8 @@
-# ©  2018 Deltatech
+# ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
 class AccountPayment(models.Model):
@@ -28,7 +27,7 @@ class AccountPayment(models.Model):
             self.statement_id = statement
         else:
             # daca tipul este numerar trebuie generat
-            if self.journal_id.auto_statement:  # .type == 'cash':
+            if self.journal_id.auto_statement:
                 values = {"journal_id": self.journal_id.id, "date": self.date, "name": "/"}
                 self.statement_id = self.env["account.bank.statement"].sudo().create(values)
 
@@ -38,7 +37,8 @@ class AccountPayment(models.Model):
 
         for payment in self:
             auto_statement = payment.journal_id.auto_statement
-            if auto_statement:
+            if auto_statement and not payment.reconciled_statement_ids:
+
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ""
                     for invoice in payment.reconciled_bill_ids:
@@ -46,14 +46,15 @@ class AccountPayment(models.Model):
                     for invoice in payment.reconciled_invoice_ids:
                         ref += invoice.number
                     values = {
-                       # "name": payment.name or "/",
+                        # "name": payment.name or "/",
                         "statement_id": payment.statement_id.id,
                         "date": payment.date,
                         "partner_id": payment.partner_id.id,
                         "amount": payment.amount,
-                        "payment_id": payment.id,
+                        # "payment_id": payment.id,
                         "ref": ref,
-                        "payment_ref": ppayment.name ,
+                        "payment_ref": payment.name,
+                        # "payment_ids":[(4, payment.id, 0)]
                     }
                     if payment.payment_type == "outbound":
                         values["amount"] = -1 * payment.amount
@@ -84,20 +85,30 @@ class AccountPayment(models.Model):
         return lines
 
     def action_post(self):
-        lines = self._add_payment_to_statement()
-
         res = super(AccountPayment, self).action_post()
-
-        if lines:
-            for line in lines:
-                if line.name == "/":
-                    line.write({"name": line.payment_id.name})
+        self._add_payment_to_statement()
+        # lines = self._add_payment_to_statement()
+        # if lines:
+        #     for line in lines:
+        #         if line.name == "/":
+        #             line.write({"name": line.payment_id.name})
         for payment in self:
-            auto_statement =  payment.journal_id.auto_statement
+            auto_statement = payment.journal_id.auto_statement
             if auto_statement:
                 payment.reconciliation_statement_line(raise_error=False)
 
+        self.force_cash_sequence()
+
         return res
+
+    def force_cash_sequence(self):
+        # force cash in/out sequence
+        for payment in self:
+            if payment.partner_type == "customer" and payment.journal_id.type == "cash":
+                if payment.journal_id.cash_in_sequence_id and payment.payment_type == "inbound":
+                    payment.name = payment.journal_id.cash_in_sequence_id.next_by_id()
+                if payment.journal_id.cash_out_sequence_id and payment.payment_type == "outbound":
+                    payment.name = payment.journal_id.cash_out_sequence_id.next_by_id()
 
     def reconciliation_statement_line(self, raise_error=True):
         pass
@@ -117,10 +128,7 @@ class AccountPayment(models.Model):
             for move_line in payment.reconciled_statement_ids:
                 if move_line.statement_id and move_line.statement_line_id:
                     payment.write(
-                        {
-                        "statement_id": move_line.statement_id.id,
-                        "statement_line_id": move_line.statement_line_id.id
-                        }
+                        {"statement_id": move_line.statement_id.id, "statement_line_id": move_line.statement_line_id.id}
                     )
 
     def add_statement_line(self):
@@ -128,7 +136,7 @@ class AccountPayment(models.Model):
         self.get_reconciled_statement_line()
         for payment in self:
             auto_statement = payment.journal_id.auto_statement
-            if auto_statement and not payment.statement_id:  # type == 'cash'
+            if auto_statement and not payment.statement_id and not payment.reconciled_statement_ids:
                 domain = [("date", "=", self.date), ("journal_id", "=", self.journal_id.id)]
                 statement = self.env["account.bank.statement"].search(domain, limit=1)
                 if not statement:
@@ -143,7 +151,7 @@ class AccountPayment(models.Model):
                 for invoice in payment.reconciled_invoice_ids:
                     ref += invoice.number
                 values = {
-                    #"name": payment.communication or payment.name,
+                    # "name": payment.communication or payment.name,
                     "statement_id": payment.statement_id.id,
                     "date": payment.date,
                     "partner_id": payment.partner_id.id,
