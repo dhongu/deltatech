@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <group name="group_lots_and_weight" position="after">
+                <group name="palletizing" string="Palletizing">
+                    <field name="pallet_product_id" />
+                    <field name="pallet_qty_min" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+
+
+
+</odoo>

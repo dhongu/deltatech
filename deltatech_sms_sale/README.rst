@@ -7,9 +7,9 @@ Deltatech SMS Sale
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -49,6 +49,14 @@ Authors
 
 Maintainers
 ~~~~~~~~~~~
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_sms_sale>`_ project on GitHub.
 

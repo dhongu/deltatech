@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record id="invoice_form" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="after">
+                    <field
+                        name="purchase_price"
+                        force_save="1"
+                        groups="deltatech_sale_margin.group_sale_margin"
+                        readonly="1"
+                    />
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- daca fac campul de pret readonly nu se mai salveaza valoarea  -->
+
+        <record id="invoice_form_no_change_price" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+
+            <field name="groups_id" eval="[(6, 0, [ref('deltatech_sale_margin.group_sale_no_change_price') ])]" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line_ids']/tree//field[@name='price_unit']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

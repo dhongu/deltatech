@@ -27,7 +27,6 @@ class SmsApi(models.AbstractModel):
 
             endpoint = account.endpoint
             endpoint = endpoint.format(**message)
-
             result = requests.get(endpoint)
             response = result.content.decode("utf-8")
             res_value = {"state": "success", "res_id": message["res_id"]}

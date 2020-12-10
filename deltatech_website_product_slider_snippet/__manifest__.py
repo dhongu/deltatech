@@ -11,9 +11,9 @@
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale", "deltatech_product_list"],
     "data": ["views/templates.xml", "views/snippets.xml"],
-    "images": ["/static/description/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

@@ -12,11 +12,15 @@ class StockMove(models.Model):
     def _get_price_unit(self):
         """ Returns the unit price to store on the quant """
         if self.purchase_line_id:
-            update_product_price = (
-                self.env["ir.config_parameter"].sudo().get_param("purchase.update_product_price", default=True)
-            )
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            update_product_price = get_param("purchase.update_product_price", default=True)
             if update_product_price == "False":
                 update_product_price = False
+
+            update_standard_price = get_param("purchase.update_standard_price", default=False)
+            if update_standard_price == "False":
+                update_standard_price = False
+
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
@@ -34,6 +38,9 @@ class StockMove(models.Model):
                             seller_price_unit = price_unit
                         if update_product_price:
                             seller.write({"price": seller_price_unit})
+            # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pentru a se utliza ultimul pret
+            if update_standard_price:
+                self.product_id.write({"standard_price": price_unit})
 
             return price_unit
 

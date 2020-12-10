@@ -7,9 +7,9 @@ No Negative Stock
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -20,7 +20,8 @@ No Negative Stock
 |badge1| |badge2| |badge3| 
 
 Features:
- - No negative stock
+ - No negative stock for internal location
+ - Allows negative stock at certain locations
 
 **Table of contents**
 
@@ -30,13 +31,20 @@ Features:
 Usage
 =====
 
-- Login as Administrator
+
 - Inventory -> Configuration -> Settings
 - Traceability -> Negative Stock
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_stock_negative/static/description/settings.png
     :align: center
     :alt: Settings
+
+
+- Inventory -> Configuration -> Location
+
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_stock_negative/static/description/settings_location.png
+    :align: center
+    :alt: Settings Location
 
 Bug Tracker
 ===========
@@ -59,6 +67,14 @@ Authors
 
 Maintainers
 ~~~~~~~~~~~
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_stock_negative>`_ project on GitHub.
 

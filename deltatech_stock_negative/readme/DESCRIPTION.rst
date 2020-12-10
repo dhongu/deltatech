@@ -1,2 +1,3 @@
 Features:
- - No negative stock
+ - No negative stock for internal location
+ - Allows negative stock at certain locations

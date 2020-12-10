@@ -5,7 +5,7 @@
 
 from odoo import _, models
 from odoo.exceptions import UserError
-from odoo.tools import safe_eval
+from odoo.tools.safe_eval import safe_eval
 
 
 class PurchaseOrder(models.Model):
@@ -53,6 +53,6 @@ class PurchaseOrder(models.Model):
         if not picking_ids:
             return
 
-        result = self.action_create_invoice()
+        result = self.action_view_picking()
 
         return result
