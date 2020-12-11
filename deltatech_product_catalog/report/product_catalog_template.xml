@@ -74,11 +74,7 @@
                         <div class='row mt32 mb32'>
                             <t t-foreach="docs" t-as="o">
                                 <div class="card-catalog card-product">
-                                    <div
-                                        class="card-img-top"
-                                        t-field="o.image_medium"
-                                        t-options='{"widget": "image"}'
-                                    />
+                                    <div class="card-img-top" t-field="o.image_1024" t-options='{"widget": "image"}' />
                                     <div class="card-body">
                                         <t t-if="o.default_code">
                                             <span class="card-text" t-field="o.default_code" />
