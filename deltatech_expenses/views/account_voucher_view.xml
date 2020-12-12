@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="deltatech_view_purchase_receipt_tree">
+            <field name="name">deltatech.account.voucher.tree</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree
+                    editable="bottom"
+                    colors="blue:state == 'draft';gray:state == 'cancel';red:audit"
+                    string="Purchase Expenses"
+                >
+                    <field name="date" string="Bill Date" />
+                    <field name="reference" />
+                    <field name="amount" sum="Total Amount" />
+                    <field name="pay_now" invisible="1" />
+                    <field name="account_id" domain="[('internal_type','=','other')]" invisible="True" />
+                    <field name="number" invisible="1" />
+                    <field
+                        name="partner_id"
+                        domain="[('supplier','=',True)]"
+                        string="Supplier"
+                        context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
+                    />
+                    <field
+                        name="journal_id"
+                        invisible="1"
+                        domain="[('type','in',['purchase','purchase_refund'])]"
+                        widget="selection"
+                        groups="account.group_account_user"
+                    />
+                    <field name="period_id" invisible="context.get('visible', True)" />
+                    <field name="voucher_type" invisible="context.get('visible', True)" />
+                    <field
+                        name="expense_account_id"
+                        widget="selection"
+                        domain="[('user_type_id.name','=','expense'), ('internal_type','!=','view')]"
+                        groups="account.group_account_user"
+                    />
+                    <field name="state" />
+                    <field name="company_id" widget="selection" groups="base.group_multi_company" />
+                    <field name="line_ids" context="{'journal_id':journal_id,'partner_id':partner_id}" invisible="1" />
+                    <field
+                        name="tax_ids"
+                        invisible="1"
+                        widget="selection"
+                        nolabel="1"
+                        placeholder="Tax"
+                        domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"
+                    />
+                    <field name="currency_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <record id="deltatech_action_purchase_receipt" model="ir.actions.act_window">
+            <field name="name">Purchase Expenses</field>
+            <field name="res_model">account.voucher</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']),
+                ('voucher_type','=','purchase')]
+            </field>
+            <field name="context">{'default_voucher_type': 'purchase', 'voucher_type': 'purchase'}</field>
+            <field name="view_id" eval="False" />
+            <field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor" />
+            <field name="target">current</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to register a purchase receipt.
+                </p>
+                <p>
+                    When the purchase receipt is confirmed, you can record the
+                    supplier payment related to this purchase receipt.
+                </p>
+            </field>
+        </record>
+        <record id="action_account_voucher_confirm" model="ir.actions.server">
+            <field name="name">Confirm Voucher</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_account_voucher" />
+            <field name="state">code</field>
+            <field name="code">obj.confirm_voucher(context=context)</field>
+        </record>
+        <record id="id_action_account_voucher_confirm" model="ir.values">
+            <field name="name">Confirm Voucher</field>
+            <field name="action_id" ref="action_account_voucher_confirm" />
+            <field name="value" eval="'ir.actions.server,' + str(ref('action_account_voucher_confirm'))" />
+            <field name="key">action</field>
+            <field name="model_id" ref="model_account_voucher" />
+            <field name="model">account.voucher</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="deltatech_action_purchase_receipt_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="deltatech_view_purchase_receipt_tree" />
+            <field name="act_window_id" ref="deltatech_action_purchase_receipt" />
+        </record>
+        <record id="deltatech_action_purchase_receipt_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_voucher.view_purchase_receipt_form" />
+            <field name="act_window_id" ref="deltatech_action_purchase_receipt" />
+        </record>
+        <menuitem
+            id="deltatech_menu_purchase_receipt"
+            action="deltatech_action_purchase_receipt"
+            parent="account.menu_finance_payables"
+            sequence="10"
+        />
+    </data>
+</odoo>
