@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "eCommerce Category Snipped",
-    "category": "Website/Website",
+    "category": "Website",
     "summary": "eCommerce extension Category Snipped",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",

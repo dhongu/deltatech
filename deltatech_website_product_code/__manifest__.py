@@ -4,7 +4,7 @@
 {
     "name": "eCommerce Product Code",
     "summary": "Afisare pagina produs in functie de cod",
-    "category": "Website/Website",
+    "category": "Website",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",

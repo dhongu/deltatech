@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "eCommerce Product Link",
-    "category": "Website/Website",
+    "category": "Website",
     "summary": "Alternative product url",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "eCommerce Attribute values ",
-    "category": "Website/Website",
+    "category": "Website",
     "summary": "Attribute values for products displayed",
     "version": "13.0.1.0.0",
     "license": "LGPL-3",

@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "eCommerce Product sort",
-    "category": "Website/Website",
+    "category": "Website",
     "summary": "Additional sorting criteria ",
     "version": "13.0.1.0.0",
     "license": "LGPL-3",
