@@ -81,9 +81,9 @@ class StockInventoryLine(models.Model):
     loc_case = fields.Char("Case", size=16, related="product_id.loc_case", store=True)
     is_ok = fields.Boolean("Is Ok", default=True)
 
-    @api.onchange("product_id")
-    def _onchange_product(self):
-        res = super(StockInventoryLine, self)._onchange_product()
+    @api.onchange("product_id", "location_id", "product_uom_id", "prod_lot_id", "partner_id", "package_id")
+    def _onchange_quantity_context(self):
+        res = super(StockInventoryLine, self)._onchange_quantity_context()
         self.standard_price = self.get_price()
         return res
 
