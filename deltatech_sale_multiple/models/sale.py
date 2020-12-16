@@ -27,9 +27,10 @@ class SaleOrderLine(models.Model):
 
         return qty
 
-    @api.onchange("product_uom_qty")
+    @api.onchange("product_uom_qty", "product_id")
     def _onchange_product_uom_qty(self):
-        self.product_uom_qty = self.fix_qty_multiple(self.product_id, self.product_uom, self.product_uom_qty)
+        product_uom = self.product_uom or self.product_id.uom_id
+        self.product_uom_qty = self.fix_qty_multiple(self.product_id, product_uom, self.product_uom_qty)
         super(SaleOrderLine, self)._onchange_product_uom_qty()
 
     def write(self, vals):
