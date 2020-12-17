@@ -30,5 +30,5 @@ class SaleOrder(models.Model):
         defaults = super(SaleOrder, self).default_get(fields)
         is_bf = self.env.context.get("is_bf", False)
         if is_bf:
-            defaults["partner_id"] = 4434
+            defaults["partner_id"] = self.env.ref("deltatech_partner_generic.partner_generic").id
         return defaults
