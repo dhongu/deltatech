@@ -40,7 +40,10 @@
                                             <span t-field="o.date" />
                                         </td>
                                         <td>
-                                            <span t-field="o.location_id" />
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -153,7 +156,9 @@
                                             <span t-field="o.date" />
                                         </td>
                                         <td>
-                                            <span t-field="o.location_id" />
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
                                         </td>
                                     </tr>
                                 </tbody>
