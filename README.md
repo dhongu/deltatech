@@ -20,27 +20,42 @@ addon | version | summary
 --- | --- | ---
 [deltatech](deltatech/) | 14.0.1.0.0 | Generic module
 [deltatech_alternative](deltatech_alternative/) | 14.0.1.0.0 | Alternative product codes
-[deltatech_alternative_website](deltatech_alternative_website/) | 1.0 | Website alternative code
-[deltatech_contact](deltatech_contact/) | 14.0.1.0.0 | Deltatech Contacts
-[deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Declaration of Conformity
+[deltatech_alternative_website](deltatech_alternative_website/) | 14.0.1.0.0 | Show alternative code in website
+[deltatech_contact](deltatech_contact/) | 14.0.1.4.0 | New fields in partner
+[deltatech_dc](deltatech_dc/) | 14.0.1.0.0 | Print Declaration of Conformity
+[deltatech_delivery_status](deltatech_delivery_status/) | 14.0.2.0.0 | Carrier status on picking
+[deltatech_download](deltatech_download/) | 14.0.0.0.0 | Generare fisier
+[deltatech_expenses](deltatech_expenses/) | 14.0.1.0.0 | Expenses Deduction & Disposition of Cashing
 [deltatech_fast_purchase](deltatech_fast_purchase/) | 14.0.1.0.0 | Achizitie rapida
 [deltatech_fast_sale](deltatech_fast_sale/) | 14.0.1.0.0 | Vanzare rapida
-[deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Deltatech Invoice Receipt
-[deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Merge Objects
-[deltatech_mrp_edit_comp](deltatech_mrp_edit_comp/) | 14.0.4.0.0 | MRP Edit Components
+[deltatech_invoice_number](deltatech_invoice_number/) | 14.0.1.0.0 | Renumbering invoice
+[deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.1.0.0 | Create receipt form invoice
+[deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Base module for merging
+[deltatech_no_quick_create](deltatech_no_quick_create/) | 14.0.1.0.0 | disable quick_create
+[deltatech_partner_generic](deltatech_partner_generic/) | 14.0.1.0.0 | Gneric partner
+[deltatech_payment_to_statement](deltatech_payment_to_statement/) | 14.0.1.0.0 | Add payment to cash statement
+[deltatech_print_bf](deltatech_print_bf/) | 14.0.1.0.0 | Generare fisier pentu casa de marcat
 [deltatech_product_catalog](deltatech_product_catalog/) | 14.0.1.0.0 | This module helps to print the catalog of the multi products
-[deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Products Code
-[deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Product List
-[deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.0.0 | Purchase Price
+[deltatech_product_code](deltatech_product_code/) | 14.0.1.0.0 | Product codification internal
+[deltatech_product_dimension](deltatech_product_dimension/) | 14.0.1.0.0 | Product dimension
+[deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Define products lists
+[deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.0.0 | Update vendor price after reception
+[deltatech_sale_commission](deltatech_sale_commission/) | 14.0.1.0.0 | Compute sale commission
+[deltatech_sale_margin](deltatech_sale_margin/) | 14.0.1.0.0 | Check price in sale order
+[deltatech_sale_pallet](deltatech_sale_pallet/) | 14.0.1.0.0 | Sale pallet
+[deltatech_sale_payment](deltatech_sale_payment/) | 14.0.1.0.0 | Payment button in sale order
 [deltatech_select_journal](deltatech_select_journal/) | 14.0.1.0.0 | Selectie jurnal
-[deltatech_sms](deltatech_sms/) | 14.0.1.0.0 | Deltatech SMS
-[deltatech_sms_sale](deltatech_sms_sale/) | 14.0.1.0.0 | Deltatech SMS Sale
-[deltatech_stock_date](deltatech_stock_date/) | 14.0.1.0.0 | Stock Date
-[deltatech_stock_negative](deltatech_stock_negative/) | 14.0.1.0.0 | No Negative Stock
-[deltatech_watermark](deltatech_watermark/) | 14.0.2.0.0 | Watermark
+[deltatech_sms](deltatech_sms/) | 14.0.1.0.0 | Send SMS to custom endpoint
+[deltatech_sms_sale](deltatech_sms_sale/) | 14.0.1.0.0 | send SMS at sale order confirmation
+[deltatech_stock_date](deltatech_stock_date/) | 14.0.1.0.0 | Set posting date for stock move
+[deltatech_stock_inventory](deltatech_stock_inventory/) | 14.0.2.0.0 | Inventory enhancements
+[deltatech_stock_negative](deltatech_stock_negative/) | 14.0.1.0.1 | Negative stocks are not allowed
+[deltatech_watermark](deltatech_watermark/) | 14.0.3.0.0 | Watermark field
+[deltatech_website_breadcrumb](deltatech_website_breadcrumb/) | 14.0.1.0.0 | eCommerce extension Category Breadcrumb
 [deltatech_website_checkout_confirm](deltatech_website_checkout_confirm/) | 14.0.1.0.0 | eCommerce extension
 [deltatech_website_city](deltatech_website_city/) | 14.0.1.0.0 | City extension
 [deltatech_website_country](deltatech_website_country/) | 14.0.1.0.0 | eCommerce extension
+[deltatech_website_delivery_and_payment](deltatech_website_delivery_and_payment/) | 14.0.2.0.0 | eCommerce Delivery and Payment constrains
 [deltatech_website_product_slider_snippet](deltatech_website_product_slider_snippet/) | 14.0.1.0.0 | eCommerce extension
 [deltatech_website_short_description](deltatech_website_short_description/) | 14.0.1.0.0 | eCommerce short description
 
@@ -66,12 +81,10 @@ addon | version | summary
 [deltatech_document](__unported__/deltatech_document/) | 1.0 (unported) | Deltatech Document
 [deltatech_document_background](__unported__/deltatech_document_background/) | 13.0.1.0.0 (unported) | Set background for external documents
 [deltatech_download](__unported__/deltatech_download/) | 13.0.0.0.0 (unported) | Generare fisier
-[deltatech_expenses](__unported__/deltatech_expenses/) | 12.0.1.0.0 (unported) | Expenses Deduction & Disposition of Cashing
 [deltatech_fast_picking](__unported__/deltatech_fast_picking/) | 12.0.1.0.0 (unported) | Trasnfer rapid
 [deltatech_gamification](__unported__/deltatech_gamification/) | 1.0 (unported) | Deltatech Gamification extension
 [deltatech_invoice_currency](__unported__/deltatech_invoice_currency/) | 11.0.1.0.0 (unported) | Invoice Currency
 [deltatech_invoice_line](__unported__/deltatech_invoice_line/) | 12.0.1.0.0 (unported) | Invoice Line
-[deltatech_invoice_number](__unported__/deltatech_invoice_number/) | 12.0.1.0.0 (unported) | Invoice Number
 [deltatech_invoice_print](__unported__/deltatech_invoice_print/) | 10.0.1.0.0 (unported) | Invoice Print
 [deltatech_invoice_product_filter](__unported__/deltatech_invoice_product_filter/) | 12.0.1.0.0 (unported) | Invoice Product Filter
 [deltatech_invoice_report](__unported__/deltatech_invoice_report/) | 1.0 (unported) | Deltatech Invoice Report
@@ -89,6 +102,7 @@ addon | version | summary
 [deltatech_mrp_confirmation](__unported__/deltatech_mrp_confirmation/) | 11.0.2.0.0 (unported) | MRP Confirmation
 [deltatech_mrp_cost](__unported__/deltatech_mrp_cost/) | 12.0.2.0.0 (unported) | MRP Cost
 [deltatech_mrp_dimension](__unported__/deltatech_mrp_dimension/) | 1.0 (unported) | MRP Bom Dimension
+[deltatech_mrp_edit_comp](__unported__/deltatech_mrp_edit_comp/) | 14.0.4.0.0 (unported) | MRP Edit Components
 [deltatech_mrp_group](__unported__/deltatech_mrp_group/) | 12.0.1.0.0 (unported) | MRP Group Production Order
 [deltatech_mrp_merge](__unported__/deltatech_mrp_merge/) | 1.0 (unported) | MRP Merge Production Order
 [deltatech_mrp_param](__unported__/deltatech_mrp_param/) | 12.0.1.0.0 (unported) | MRP Parameter
@@ -102,7 +116,6 @@ addon | version | summary
 [deltatech_parallel_valuation](__unported__/deltatech_parallel_valuation/) | 1.0 (unported) | Deltatech Parallel Valuation
 [deltatech_partner_gmap](__unported__/deltatech_partner_gmap/) | 11.0.1.0.0 (unported) | Partner Map
 [deltatech_payment_term](__unported__/deltatech_payment_term/) | 12.0.2.0.0 (unported) | Payment Term Rate Wizard
-[deltatech_payment_to_statement](__unported__/deltatech_payment_to_statement/) | 13.0.1.0.0 (unported) | Payment to Statement
 [deltatech_percent_qty](__unported__/deltatech_percent_qty/) | 2.0 (unported) | Deltatech Percent Quantity
 [deltatech_picking_number](__unported__/deltatech_picking_number/) | 12.0.2.0.0 (unported) | Picking Number
 [deltatech_pos_customer](__unported__/deltatech_pos_customer/) | 1.0 (unported) | Required customer
@@ -130,7 +143,6 @@ addon | version | summary
 [deltatech_registry_office](__unported__/deltatech_registry_office/) | 11.0.1.0.0 (unported) | Deltatech Registry Office
 [deltatech_required](__unported__/deltatech_required/) | 1.0 (unported) | Deltatech Required
 [deltatech_sale](__unported__/deltatech_sale/) | 12.0.1.0.0 (unported) | Sale Extension
-[deltatech_sale_margin](__unported__/deltatech_sale_margin/) | 12.0.1.0.0 (unported) | Sale Margin
 [deltatech_sale_multiple](__unported__/deltatech_sale_multiple/) | 12.0.1.0.0 (unported) | Sale Qty Multiple
 [deltatech_sale_multiple_website](__unported__/deltatech_sale_multiple_website/) | 12.0.1.0.0 (unported) | eCommerce Qty Multiple
 [deltatech_sale_qty_available](__unported__/deltatech_sale_qty_available/) | 12.0.1.0.0 (unported) | Sale Qty Available
@@ -144,7 +156,6 @@ addon | version | summary
 [deltatech_signup](__unported__/deltatech_signup/) | 1.0 (unported) | Deltatech Signup Extension
 [deltatech_simple_crm_claim](__unported__/deltatech_simple_crm_claim/) | 1.0 (unported) | Deletatech Simple Claims Management
 [deltatech_stock_delivery](__unported__/deltatech_stock_delivery/) | 1.0 (unported) | Invoice Delivery / Reception
-[deltatech_stock_inventory](__unported__/deltatech_stock_inventory/) | 14.0.1.0.0 (unported) | Stock Inventory
 [deltatech_stock_loc_val_lim](__unported__/deltatech_stock_loc_val_lim/) | 10.0.1.0.0 (unported) | Deltatech Location Value Limit
 [deltatech_stock_pack](__unported__/deltatech_stock_pack/) | 10.0.1.2.0 (unported) | Deltatech Stock Pack
 [deltatech_stock_picking_wave](__unported__/deltatech_stock_picking_wave/) | 10.0.1.0.0 (unported) | Stock Picking Wave Extension
@@ -158,7 +169,6 @@ addon | version | summary
 [deltatech_warehouse](__unported__/deltatech_warehouse/) | 12.0.1.0.0 (unported) | MRP Warehouse
 [deltatech_web](__unported__/deltatech_web/) | 1.0 (unported) | Deltatech Web Style
 [deltatech_website_datatables](__unported__/deltatech_website_datatables/) | 1.0 (unported) | Deltatech Website DataTables
-[deltatech_website_delivery_and_payment](__unported__/deltatech_website_delivery_and_payment/) | 13.0.1.0.0 (unported) | eCommerce Delivery and Payment constrains
 [deltatech_website_hover](__unported__/deltatech_website_hover/) | 1.0 (unported) | Deltatech Website Hover Effect Ideas
 [deltatech_website_sale](__unported__/deltatech_website_sale/) | 13.0.3.0.0 (unported) | eCommerce extension
 [deltatech_website_style](__unported__/deltatech_website_style/) | 1.0 (unported) | Deltatech Website Style
