@@ -10,10 +10,6 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSalePhoneValidation(WebsiteSale):
-    @http.route(auth="user")
-    def checkout(self, **post):
-        return super().checkout(**post)
-
     def checkout_form_validate(self, mode, all_form_values, data):
 
         error = dict()
