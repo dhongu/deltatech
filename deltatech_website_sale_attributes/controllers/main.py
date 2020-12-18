@@ -26,7 +26,7 @@ class WebsiteSaleAttribute(WebsiteSale):
 
             # value_ids = request.env["product.attribute.value"]
             # products = response.qcontext.get("products")
-            products = request.env["product.template"].search(domain)
+            products = request.env["product.template"].with_context(prefetch_fields=False).search(domain)
 
             domain = [("product_tmpl_id", "in", products.ids)]
             attribute_lines = request.env["product.template.attribute.line"].search(domain)
