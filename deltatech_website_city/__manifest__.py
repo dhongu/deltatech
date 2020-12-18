@@ -10,7 +10,7 @@
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["portal", "website_sale", "base_address_city"],
-    "data": ["views/portal.xml", "views/assets.xml"],
+    "data": ["views/portal.xml", "views/assets.xml", "data/data.xml"],
     "price": 1.00,
     "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
