@@ -23,4 +23,28 @@
             />
         </xpath>
     </template>
+
+
+    <template
+        id="product_category"
+        inherit_id="website_sale.products"
+        active="True"
+        customize_show="True"
+        name="Subcategory List"
+    >
+        <xpath expr="//div[@id='category_header']" position="before">
+          <section
+                class="s_wsale_category_card pt24 pb24 d-none"
+                style="min-height: 200px;"
+                t-att-data-id="category.id"
+                data-object="product.public.category"
+                data-name="Category Card"
+            >
+            <div class="container">
+              <div class="subcategory_list o_not_editable" />
+            </div>
+          </section>
+        </xpath>
+    </template>
+
 </odoo>
