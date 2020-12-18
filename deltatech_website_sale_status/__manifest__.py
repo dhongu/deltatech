@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "eCommerce Sale Order status",
-    "category": "Website/Website",
+    "category": "Website",
     "summary": "Additional filters sales orders by status ",
     "version": "13.0.1.0.0",
     "license": "LGPL-3",
