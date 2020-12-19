@@ -27,7 +27,7 @@ class WebsiteSale(Base):
             res_category = {
                 "id": category.id,
                 "name": category.name,
-                "website_url": "/shop/category/" + str(category.id),
+                "website_url": category.website_url,
             }
 
             res["categories"].append(res_category)

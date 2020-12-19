@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["website_sale"],
+    "depends": ["website_sale", "deltatech_website_category"],
     "data": ["views/templates.xml", "views/snippets.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

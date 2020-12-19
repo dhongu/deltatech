@@ -23,16 +23,20 @@ class IrHttp(models.AbstractModel):
             # Requests at this point have no user, must remove `env` to force
             # Odoo recompute it next time a controller needs it, with its user
             # del request._env
-
             try:
-                # Redirect user to SEO version of this URL if possible
-                return wsr.redirect_auto()
-            except NoRedirectionError:
-                try:
-                    # Make Odoo believe it is in the original controller
-                    return cls.reroute(wsr.find_origin())
-                except NoOriginError:
-                    pass
+                # Make Odoo believe it is in the original controller
+                return cls.reroute(wsr.find_origin())
+            except NoOriginError:
+                pass
+            # try:
+            #     # Redirect user to SEO version of this URL if possible
+            #     return wsr.redirect_auto()
+            # except NoRedirectionError:
+            #     try:
+            #         # Make Odoo believe it is in the original controller
+            #         return cls.reroute(wsr.find_origin())
+            #     except NoOriginError:
+            #         pass
 
         return super(IrHttp, cls)._dispatch()
 
@@ -66,7 +70,7 @@ class IrHttp(models.AbstractModel):
 
         # match = self.search([("origin", "=", path)])
         Category = request.env["product.public.category"]
-        match = Category.search([("alternative_link", "=", path)], limit=1)
+        match = Category.search([("website_url", "=", path)], limit=1)
         # if not match:
         #     Product = self.env['product.template']
         #     match = Product.search([("alternative_link", "=", path)], limit=1)
@@ -110,4 +114,4 @@ class IrHttp(models.AbstractModel):
             match = Product.search([("alternative_link", "=", path)], limit=1)
         if not match:
             raise NoOriginError(_("No origin found for this redirection."))
-        return match.website_url
+        return match.with_context(origin=True).website_url

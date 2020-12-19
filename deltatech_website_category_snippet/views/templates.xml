@@ -33,17 +33,28 @@
         name="Subcategory List"
     >
         <xpath expr="//div[@id='category_header']" position="before">
-          <section
-                class="s_wsale_category_card pt24 pb24 d-none"
-                style="min-height: 200px;"
-                t-att-data-id="category.id"
-                data-object="product.public.category"
-                data-name="Category Card"
-            >
-            <div class="container">
-              <div class="subcategory_list o_not_editable" />
-            </div>
-          </section>
+            <section t-if="category.child_id" class=" pt24 pb24 " style="min-height: 200px;" data-name="Category Card">
+                <div class="container">
+                    <div class="row category-list">
+                        <t t-foreach="category.child_id" t-as="c">
+                            <div class="category-item col-6 col-sm-4 col-md-3 col-lg-2">
+                                <a t-att-href="c.website_url">
+                                    <div class="p-2 text-center">
+                                        <img
+                                            class="category-image"
+                                            t-attf-src="/web/image/product.public.category/#{c.id}/image_256"
+                                            t-att-alt="c.display_name"
+                                        />
+                                    </div>
+                                    <div class="category-text">
+                                        <span t-raw="c.name" />
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
         </xpath>
     </template>
 

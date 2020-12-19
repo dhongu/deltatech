@@ -12,11 +12,12 @@ class ProductPublicCategory(models.Model):
     alternative_link = fields.Char()
 
     def _compute_website_url(self):
-        record = super(ProductPublicCategory, self)._compute_website_url()
-        for category in self:
-            if category.alternative_link:
-                website_url = category.alternative_link
-                if website_url[0] != "/":
-                    website_url = "/" + website_url
-                category.website_url = website_url
-        return record
+        super(ProductPublicCategory, self)._compute_website_url()
+        origin = self.env.context.get("origin", False)
+        if not origin:
+            for category in self:
+                if category.alternative_link:
+                    website_url = category.alternative_link
+                    if website_url[0] != "/":
+                        website_url = "/" + website_url
+                    category.website_url = website_url
