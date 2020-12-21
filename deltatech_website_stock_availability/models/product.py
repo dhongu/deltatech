@@ -67,7 +67,11 @@ class ProductTemplate(models.Model):
             combination_info["sale_delay"] = product.sale_delay
             combination_info["sale_delay_safety"] = product.sale_delay_safety
             combination_info["purchase_lead_time"] = company_lead_time + supplier_lead_time
-            if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
+            if (
+                product.seller_ids
+                and product.seller_ids[0].date_start
+                and product.seller_ids[0].date_start > fields.Date.today()
+            ):
                 days = (product.seller_ids[0].date_start - fields.Date.today()).days
                 combination_info["purchase_lead_time"] += days
 
