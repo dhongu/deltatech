@@ -94,6 +94,11 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="alternative_ids" />
+                    <field
+                        name="variant_seller_ids"
+                        string="Vendor Code"
+                        filter_domain="[('seller_ids.product_code', 'ilike', self)]"
+                    />
                 </field>
             </field>
         </record>
