@@ -8,12 +8,26 @@
             <field name="arch" type="xml">
                 <group name="group_lots_and_weight" position="after">
                     <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
-                        <field name="loc_rack" />
-                        <field name="loc_row" />
-                        <field name="loc_case" />
-                        <field name="last_inventory_date" />
-                        <field name="last_inventory_id" />
-                        <button string="Update" name="get_last_inventory_date" type="object" class="oe_link" />
+
+                        <label for="loc_rack" string="Location" />
+                        <div class="o_row">
+                            <field name="loc_rack" placeholder="Rack" />
+                            <field name="loc_row" placeholder="Row" />
+                            <field name="loc_case" placeholder="Case" />
+                        </div>
+                        <label for="loc_rack" string="Inventory" />
+                        <div class="o_row">
+                            <field name="last_inventory_date" />
+                            <field name="last_inventory_id" />
+                            <button
+                                string="Update"
+                                name="get_last_inventory_date"
+                                type="object"
+                                class="oe_link oe_edit_only"
+                            />
+                        </div>
+
+
                     </group>
                 </group>
             </field>
@@ -66,17 +80,25 @@
                                         <field name="qty_available" />
                                     </group>
                                     <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
-                                        <field name="loc_rack" />
-                                        <field name="loc_row" />
-                                        <field name="loc_case" />
-                                        <field name="last_inventory_date" />
-                                        <field name="last_inventory_id" />
-                                        <button
-                                            string="Update"
-                                            name="get_last_inventory_date"
-                                            type="object"
-                                            class="oe_link oe_edit_only"
-                                        />
+                                        <label for="loc_rack" string="Location" />
+                                        <div class="o_row">
+                                            <field name="loc_rack" placeholder="Rack" />
+                                            <field name="loc_row" placeholder="Row" />
+                                            <field name="loc_case" placeholder="Case" />
+                                        </div>
+                                        <label for="loc_rack" string="Inventory" />
+                                        <div class="o_row">
+                                            <field name="last_inventory_date" />
+                                            <field name="last_inventory_id" />
+                                            <button
+                                                string="Update"
+                                                name="get_last_inventory_date"
+                                                type="object"
+                                                class="oe_link oe_edit_only"
+                                            />
+                                        </div>
+
+
                                     </group>
                                 </group>
                             </page>
