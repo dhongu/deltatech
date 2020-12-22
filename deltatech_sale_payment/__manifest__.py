@@ -1,4 +1,4 @@
-# ©  2015-2019 Deltatech
+# ©  2017-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
 {
@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "payment"],
     "license": "LGPL-3",
-    "data": ["views/sale_view.xml"],
+    "data": ["views/sale_view.xml", "wizard/sale_confirm_payment_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],

@@ -18,11 +18,15 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
 
+<!--
             <xpath expr="//button[@id='action_confirm']" position="before">
                 <button name="action_payment_link" string="Payment Link" type="object" />
             </xpath>
+-->
+
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="acquirer_id" />
+                <field name="payment_amount" />
             </xpath>
 
 
