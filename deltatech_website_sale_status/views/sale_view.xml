@@ -12,7 +12,7 @@
                     decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
                     decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
                 <field name="payment_status" optional="show" />
@@ -35,7 +35,7 @@
                     decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
                     decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
                 <field name="payment_status" optional="show" />
@@ -58,9 +58,10 @@
                     decoration-info="stage in ['in_delivery','to_be_delivery']"
                     decoration-warning="stage == 'in_process'"
                     decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
+                <field name="payment_status" optional="show" />
             </field>
         </field>
     </record>

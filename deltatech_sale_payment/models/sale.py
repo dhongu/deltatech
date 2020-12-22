@@ -7,7 +7,7 @@ from odoo import fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    acquirer_id = fields.Many2one("payment.acquirer", related="transaction_ids.acquirer_id")
+    acquirer_id = fields.Many2one("payment.acquirer", related="transaction_ids.acquirer_id", store=True)
 
     def action_payment_link(self):
         payment_link = self.env["payment.link.wizard"].create(

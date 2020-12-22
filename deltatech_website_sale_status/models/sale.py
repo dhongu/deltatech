@@ -16,6 +16,7 @@ class SaleOrder(models.Model):
             ("placed", "Placed"),  # comanda plasta pe website
             ("in_process", "In Process"),  # comanda in procesare de catre agentul de vanzare
             ("waiting", "Waiting availability"),  # nu sunt in stoc toate produsele din comanda
+            ("postponed", "Postponed"),  # livrarea a fost amanata
             ("to_be_delivery", "To Be Delivery"),  # comanda este de livrat
             ("in_delivery", "In Delivery"),  # marfa a fost predata la curier
             ("delivered", "Delivered"),  # comanda a fost livrata la client
@@ -32,13 +33,19 @@ class SaleOrder(models.Model):
     )
 
     payment_status = fields.Selection(
-        [("without", "Without"), ("initiated", "Initiated"), ("authorized", "Authorized"), ("done", "Done")],
+        [
+            ("without", "Without"),
+            ("initiated", "Initiated"),
+            ("authorized", "Authorized"),
+            ("partial", "Partial"),
+            ("done", "Done"),
+        ],
         default="without",
         compute="_compute_payment_status",
         store=True,
     )
 
-    @api.depends("state", "website_id", "picking_ids.state", "picking_ids.delivery_state")
+    @api.depends("state", "website_id", "picking_ids.state", "picking_ids.delivery_state", "postponed_delivery")
     def _compute_stage(self):
         for order in self:
             order.stage = "in_process"
@@ -51,6 +58,9 @@ class SaleOrder(models.Model):
                 order.stage = "canceled"
             else:
                 order.stage = "in_process"
+
+            if order.stage == "in_process" and self.postponed_delivery:
+                order.stage = "postponed"
 
             if order.stage == "in_process" and order.state == "sale":
                 qty_to_deliver = 0
@@ -68,7 +78,7 @@ class SaleOrder(models.Model):
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
 
-    @api.depends("transaction_ids", "invoice_ids")
+    @api.depends("transaction_ids", "invoice_ids.invoice_payment_state")
     def _compute_payment_status(self):
         for order in self:
             order.payment_status = "without"

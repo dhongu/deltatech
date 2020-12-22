@@ -45,6 +45,12 @@ msgstr "În livrare"
 msgid "In Process"
 msgstr "În procesare"
 
+
+#. module: deltatech_website_sale_status
+#: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__stage__in_process
+msgid "Postponed"
+msgstr "Amânată"
+
 #. module: deltatech_website_sale_status
 #: model_terms:ir.ui.view,arch_db:deltatech_website_sale_status.view_sales_order_filter
 msgid "In process"
@@ -54,6 +60,8 @@ msgstr "În procesare"
 #: model:ir.model.fields.selection,name:deltatech_website_sale_status.selection__sale_order__payment_status__initiated
 msgid "Initiated"
 msgstr "Inițiată"
+
+
 
 #. module: deltatech_website_sale_status
 #: model:ir.model.fields,field_description:deltatech_website_sale_status.field_sale_order__is_ready
