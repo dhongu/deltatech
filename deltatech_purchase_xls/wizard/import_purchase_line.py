@@ -24,6 +24,7 @@ class ImportPurchaseLine(models.TransientModel):
     data_file = fields.Binary(string="File", required=True)
     filename = fields.Char("File Name")
     new_product = fields.Boolean("Create missing product")
+    is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
 
     @api.model
@@ -69,7 +70,10 @@ class ImportPurchaseLine(models.TransientModel):
 
             product_id = False
             quantity = float(quantity)
-            price = float(price)
+            if self.is_amount and quantity:
+                price = float(price) / quantity
+            else:
+                price = float(price)
             domain = [("product_code", "=", product_code)]
             supplierinfo = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
             if not supplierinfo:

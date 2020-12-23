@@ -16,6 +16,7 @@
                     </group>
                     <group>
                         <field name="new_product" />
+                        <field name="is_amount" />
                     </group>
                 </group>
                 <footer>
