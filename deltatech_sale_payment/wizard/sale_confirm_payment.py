@@ -40,6 +40,9 @@ class SaleConfirmPayment(models.TransientModel):
         active_id = self.env.context.get("active_id", False)
         order = self.env["sale.order"].browse(active_id)
 
+        if self.amount <= 0:
+            raise UserError(_("Then amount must be positive"))
+
         if self.transaction_id and self.transaction_id.amount == self.amount:
             transaction = self.transaction_id
         else:
@@ -60,4 +63,7 @@ class SaleConfirmPayment(models.TransientModel):
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_transaction_pending()
             transaction._set_transaction_done()
-            transaction._reconcile_after_transaction_done()
+            transaction._post_process_after_done()
+
+            # transaction._reconcile_after_transaction_done()
+            # transaction.write({'is_processed':True})

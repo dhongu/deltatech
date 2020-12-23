@@ -15,7 +15,7 @@
                     decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
-                <field name="payment_status" optional="show" />
+
                 <field name="is_ready" invisible="1" />
             </field>
             <xpath expr="//tree" position="attributes">
@@ -38,7 +38,6 @@
                     decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
-                <field name="payment_status" optional="show" />
                 <field name="is_ready" invisible="1" />
             </field>
             <xpath expr="//tree" position="attributes">
@@ -61,7 +60,6 @@
                     decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
-                <field name="payment_status" optional="show" />
             </field>
         </field>
     </record>
@@ -84,11 +82,8 @@
                     name="stage_to_be_delivery"
                     domain="[('stage', '=', 'to_be_delivery')]"
                 />
-                <filter
-                    string="Payment initiated"
-                    name="payment_initiated"
-                    domain="[('payment_status', '=', 'initiated')]"
-                />
+
+
             </filter>
         </field>
     </record>

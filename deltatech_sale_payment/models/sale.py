@@ -1,14 +1,27 @@
 # ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     acquirer_id = fields.Many2one("payment.acquirer", related="transaction_ids.acquirer_id", store=True)
-    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment_amount")
+    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment")
+
+    payment_status = fields.Selection(
+        [
+            ("without", "Without"),
+            ("initiated", "Initiated"),
+            ("authorized", "Authorized"),
+            ("partial", "Partial"),
+            ("done", "Done"),
+        ],
+        default="without",
+        compute="_compute_payment",
+        store=True,
+    )
 
     def action_payment_link(self):
         payment_link = self.env["payment.link.wizard"].create(
@@ -29,8 +42,10 @@ class SaleOrder(models.Model):
             "target": "new",
         }
 
-    def _compute_payment_amount(self):
+    @api.depends("transaction_ids", "invoice_ids.invoice_payment_state")
+    def _compute_payment(self):
         for order in self:
+
             amount = 0
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
             for invoice in order.invoice_ids:
@@ -39,3 +54,27 @@ class SaleOrder(models.Model):
             for transaction in transactions:
                 amount += transaction.amount
             order.payment_amount = amount
+            if amount:
+                if amount < order.amount_total:
+                    order.payment_status = "partial"
+                else:
+                    order.payment_status = "done"
+
+            if not amount:
+                order.payment_status = "without"
+                if order.transaction_ids:
+                    order.payment_status = "initiated"
+                    authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
+                    if authorized_transaction_ids:
+                        order.payment_status = "authorized"
+                    # done_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "done")
+                    # if done_transaction_ids:
+                    #     order.payment_status = "done"
+                # if order.payment_status != "done" and order.invoice_ids:
+                #     paid = True
+                #     for invoice in order.invoice_ids:
+                #         if invoice.invoice_payment_state != "paid":
+                #             paid = False
+                #             break
+                #     if paid:
+                #         order.payment_status = "done"

@@ -32,19 +32,6 @@ class SaleOrder(models.Model):
         store=True,
     )
 
-    payment_status = fields.Selection(
-        [
-            ("without", "Without"),
-            ("initiated", "Initiated"),
-            ("authorized", "Authorized"),
-            ("partial", "Partial"),
-            ("done", "Done"),
-        ],
-        default="without",
-        compute="_compute_payment_status",
-        store=True,
-    )
-
     @api.depends("state", "website_id", "picking_ids.state", "picking_ids.delivery_state", "postponed_delivery")
     def _compute_stage(self):
         for order in self:
@@ -77,27 +64,6 @@ class SaleOrder(models.Model):
                 for picking in order.picking_ids:
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
-
-    @api.depends("transaction_ids", "invoice_ids.invoice_payment_state")
-    def _compute_payment_status(self):
-        for order in self:
-            order.payment_status = "without"
-            if order.transaction_ids:
-                order.payment_status = "initiated"
-                authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
-                if authorized_transaction_ids:
-                    order.payment_status = "authorized"
-                done_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "done")
-                if done_transaction_ids:
-                    order.payment_status = "done"
-            if order.payment_status != "done" and order.invoice_ids:
-                paid = True
-                for invoice in order.invoice_ids:
-                    if invoice.invoice_payment_state != "paid":
-                        paid = False
-                        break
-                if paid:
-                    order.payment_status = "done"
 
     def _compute_is_ready(self):
         for order in self:
