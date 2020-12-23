@@ -92,7 +92,7 @@ class ImportPurchaseLine(models.TransientModel):
                 if supplierinfo.product_id:
                     product_id = supplierinfo.product_id
                 else:
-                    product_id = supplierinfo.product_tmpl_id
+                    product_id = supplierinfo.product_tmpl_id.product_variant_id
 
             product_uom = product_id.uom_po_id or product_id.uom_id
             if uom_name and uom_name != product_uom.name:
