@@ -14,7 +14,9 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <h2>Stock Inventory by position</h2>
+                            <h2>
+                                Stock Inventory by position
+                            </h2>
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -38,7 +40,10 @@
                                             <span t-field="o.date" />
                                         </td>
                                         <td>
-                                            <span t-field="o.location_id" />
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -125,7 +130,9 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <h2>Stock Inventory</h2>
+                            <h2>
+                                Stock Inventory
+                            </h2>
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
@@ -149,7 +156,9 @@
                                             <span t-field="o.date" />
                                         </td>
                                         <td>
-                                            <span t-field="o.location_id" />
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
                                         </td>
                                     </tr>
                                 </tbody>
