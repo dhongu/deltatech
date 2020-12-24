@@ -62,7 +62,7 @@
                                 <t t-set="plus" t-value="0" />
                                 <t t-set="minus" t-value="0" />
                                 <t
-                                    t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))"
+                                    t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case, r.product_id.name))"
                                     t-as="line"
                                 >
                                     <t
@@ -342,7 +342,7 @@
                 <t t-set="plus" t-value="0" />
                 <t t-set="minus" t-value="0" />
                 <!-- t t-foreach="o.line_ids" t-as="line" -->
-                <t t-foreach="o.line_ids.sorted(key=lambda r: r.categ_id)" t-as="line">
+                <t t-foreach="o.line_ids.sorted(key=lambda r: (r.categ_id, r.product_id.name))" t-as="line">
                     <t t-if="categ_id!=line.categ_id.id">
                         <t t-if="plus or minus">
                             <tr>
