@@ -11,13 +11,11 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
-        # inainte de a face notele contabile trebuie sa verifica daca toate pozitiile din factura de achizitie
-        # sunt legate de o comanda de aprovizonaoare
-
         purchase_invoices = self.filtered(lambda inv: inv.type == "in_invoice")
         if purchase_invoices:
             purchase_invoices.add_to_purchase()
             purchase_invoices.receipt_to_stock()
+
         return super(AccountInvoice, self).action_post()
 
     def add_to_purchase(self):
@@ -40,7 +38,6 @@ class AccountInvoice(models.Model):
             # doar pentru prousele stocabile
             lines_without_purchase = lines_without_purchase.filtered(lambda line: line.product_id.type == "product")
             if lines_without_purchase:
-                # trebuie sa verific daca sunt produse stocabile ?
 
                 if len(purchase_order) != 1:
                     purchase_order = self.env["purchase.order"].create(
