@@ -182,3 +182,6 @@ class AccountInvoiceExportBf(models.TransientModel):
         defaults["data_file"] = out
 
         return defaults
+
+    def act_getfile(self):
+        pass
