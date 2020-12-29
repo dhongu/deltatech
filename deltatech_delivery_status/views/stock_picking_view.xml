@@ -9,15 +9,15 @@
                 <xpath expr="//div[@name='button_box']" position="after">
                     <widget
                         name="web_ribbon"
-                        title="Stopped"
-                        bg_color="bg-danger"
-                        attrs="{'invisible': [('stopped', '=', False)]}"
+                        title="Postponed"
+                        bg_color="bg-warning"
+                        attrs="{'invisible': [('postponed', '=', False)]}"
                     />
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
                     <field name="delivery_state" attrs="{'invisible':[('state','!=','done')]}" />
-                     <field name="stopped" />
+                     <field name="postponed" />
                 </xpath>
             </field>
         </record>
