@@ -31,15 +31,19 @@ class AccountInvoice(models.Model):
             if lines_without_sale:
 
                 if len(sale_order) != 1:
-                    sale_order = self.env["sale.order"].create(
-                        {
-                            "partner_id": invoice.partner_id.id,
-                            "date_order": invoice.invoice_date or fields.Date.context_today(invoice),
-                            "client_order_ref": invoice.ref,
-                            "fiscal_position_id": invoice.fiscal_position_id.id,
-                            "from_invoice_id": invoice.id,
-                            "currency_id": invoice.currency_id.id,  # Preluare Moneda in comanda de achizitie
-                        }
+                    sale_order = (
+                        self.env["sale.order"]
+                        .with_context(default_move_type=False)
+                        .create(
+                            {
+                                "partner_id": invoice.partner_id.id,
+                                "date_order": invoice.invoice_date or fields.Date.context_today(invoice),
+                                "client_order_ref": invoice.ref,
+                                "fiscal_position_id": invoice.fiscal_position_id.id,
+                                "from_invoice_id": invoice.id,
+                                "currency_id": invoice.currency_id.id,  # Preluare Moneda in comanda de achizitie
+                            }
+                        )
                     )
 
                 for line in lines_without_sale:
@@ -87,4 +91,5 @@ class AccountInvoice(models.Model):
                     sale_orders |= sale_line.order_id
 
         # doar pentru comenzile generate din factura se face receptia
-        sale_orders.filtered(lambda order: order.from_invoice_id).delivery_from_stock()
+        sale_orders = sale_orders.filtered(lambda order: order.from_invoice_id)
+        sale_orders.with_context(default_move_type=False, default_journal_id=False).delivery_from_stock()

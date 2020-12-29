@@ -74,6 +74,7 @@ class SaleOrderLine(models.Model):
                     "location_dest_id": rule.location_src_id.id,
                     "sale_id": line.order_id.id,
                     "state": "draft",
+                    "move_type": "one",
                 }
             )
             self.env["stock.move"].create(
