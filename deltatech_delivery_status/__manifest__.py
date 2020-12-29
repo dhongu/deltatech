@@ -9,7 +9,7 @@
     "support": "odoo@terrabit.ro",
     "category": "Warehouse",
     "depends": ["delivery"],
-    "data": ["views/stock_picking_view.xml"],
+    "data": ["views/stock_picking_view.xml", "views/sale_view.xml"],
     "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
