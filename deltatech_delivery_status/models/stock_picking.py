@@ -26,8 +26,8 @@ class StockPicking(models.Model):
         readonly=False,
     )
 
-    def action_done(self):
-        res = super(StockPicking, self).action_done()
+    def _action_done(self):
+        res = super(StockPicking, self)._action_done()
         for picking in self:
             if picking.state == "done" and not picking.carrier_id:
                 picking.write({"delivery_state": "delivered"})
