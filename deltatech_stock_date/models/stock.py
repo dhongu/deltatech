@@ -47,8 +47,8 @@ class StockPicking(models.Model):
     def button_validate(self):
         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
 
-    def action_done(self):
-        super(StockPicking, self).action_done()
+    def _action_done(self):
+        super(StockPicking, self)._action_done()
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             self.write({"date": use_date, "date_done": use_date})
