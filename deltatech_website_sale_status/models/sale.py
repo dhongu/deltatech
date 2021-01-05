@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
             else:
                 order.stage = "in_process"
 
-            if order.stage == "in_process" and self.postponed_delivery:
+            if order.stage == "in_process" and order.postponed_delivery:
                 order.stage = "postponed"
 
             if order.stage == "in_process" and order.state == "sale":
