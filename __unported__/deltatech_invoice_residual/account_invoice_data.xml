@@ -1,5 +1,0 @@
-<openerp>
-  <data>
-       <function model="account.invoice" name="recompute_residual"/>
-  </data>
-</openerp>
