@@ -8,8 +8,9 @@ from odoo.exceptions import UserError
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    stopped = fields.Boolean(
-        string="Stopped",
+    postponed = fields.Boolean(
+        string="Postponed",
+        tracking=True,
         states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
     )
     delivery_state = fields.Selection(
@@ -26,24 +27,24 @@ class StockPicking(models.Model):
         readonly=False,
     )
 
-    def action_done(self):
-        res = super(StockPicking, self).action_done()
+    def _action_done(self):
+        res = super(StockPicking, self)._action_done()
         for picking in self:
             if picking.state == "done" and not picking.carrier_id:
                 picking.write({"delivery_state": "delivered"})
 
         return res
 
-    @api.depends("move_type", "immediate_transfer", "move_lines.state", "move_lines.picking_id", "stopped")
+    @api.depends("move_type", "immediate_transfer", "move_lines.state", "move_lines.picking_id", "postponed")
     def _compute_state(self):
         super(StockPicking, self)._compute_state()
         for picking in self.filtered(lambda p: p.state == "assigned"):
-            if picking.stopped:
+            if picking.postponed:
                 picking.state = "waiting"
 
     def button_validate(self):
         for picking in self:
-            if picking.stopped:
-                raise UserError(_("The transfer %s is stopped") % picking.name)
+            if picking.postponed:
+                raise UserError(_("The transfer %s is postponed") % picking.name)
 
         return super(StockPicking, self).button_validate()

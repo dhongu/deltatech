@@ -31,8 +31,10 @@ class StockMove(models.Model):
                 for move in self:
                     today = fields.Date.today()
                     if "date" in vals:
-                        if move.date.date() < today and move.date.date() < vals["date"]:
-                            vals["date"] = move.date
+                        date = fields.Date.to_date(vals["date"])
+                        move_date = fields.Date.to_date(move.date)
+                        if move_date < today and move_date < date:
+                            vals["date"] = move_date
                         move.move_line_ids.write({"date": vals["date"]})
             else:
                 if "date" in vals:
@@ -47,8 +49,8 @@ class StockPicking(models.Model):
     def button_validate(self):
         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
 
-    def action_done(self):
-        super(StockPicking, self).action_done()
+    def _action_done(self):
+        super(StockPicking, self)._action_done()
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             self.write({"date": use_date, "date_done": use_date})
