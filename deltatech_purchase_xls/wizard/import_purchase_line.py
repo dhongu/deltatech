@@ -23,6 +23,7 @@ class ImportPurchaseLine(models.TransientModel):
 
     data_file = fields.Binary(string="File", required=True)
     filename = fields.Char("File Name")
+    has_header = fields.Boolean("Header row")
     new_product = fields.Boolean("Create missing product")
     is_amount = fields.Boolean("Is amount")
     purchase_id = fields.Many2one("purchase.order")
@@ -55,8 +56,8 @@ class ImportPurchaseLine(models.TransientModel):
 
         if not table_values:
             return
-
-        table_values.pop(0)
+        if self.has_header:
+            table_values.pop(0)
 
         lines = []
         for row in table_values:
