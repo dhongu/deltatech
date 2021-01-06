@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_quant_tag_manager,stock.quant tag manager,model_stock_quant_tag,stock.group_stock_manager,1,1,1,1
-access_stock_profit_report,access_stock_profit_report,model_stock_profit_report,stock.group_stock_manager,1,0,0,0
-
