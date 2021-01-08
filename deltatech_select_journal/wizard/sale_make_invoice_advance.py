@@ -44,6 +44,15 @@ class SaleAdvancePaymentInv(models.TransientModel):
         new_self = self.with_context(default_journal_id=self.journal_id.id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
+    def _get_advance_details(self, order):
+        amount, name = super(SaleAdvancePaymentInv, self)._get_advance_details(order)
+
+        # de determinat tipul de tva
+        if self.advance_payment_method != "percentage":
+            amount = order.amount_untaxed * amount / order.amount_total
+
+        return amount, name
+
     def _create_invoice(self, order, so_line, amount):
         new_self = self.with_context(default_journal_id=self.journal_id.id)
         invoice = super(SaleAdvancePaymentInv, new_self)._create_invoice(order, so_line, amount)
