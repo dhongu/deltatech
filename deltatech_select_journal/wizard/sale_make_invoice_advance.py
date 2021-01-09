@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class SaleAdvancePaymentInv(models.TransientModel):
@@ -43,6 +43,17 @@ class SaleAdvancePaymentInv(models.TransientModel):
     def create_invoices(self):
         new_self = self.with_context(default_journal_id=self.journal_id.id)
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
+
+    def _get_advance_details(self, order):
+        amount, name = super(SaleAdvancePaymentInv, self)._get_advance_details(order)
+
+        line_tax_type = self.env["ir.config_parameter"].sudo().get_param("account.show_line_subtotals_tax_selection")
+        # de determinat tipul de tva
+        if self.advance_payment_method == "percentage" and line_tax_type == "tax_included":
+            amount = order.amount_total * self.amount / 100
+            name = _("Down payment of %s%%") % (self.amount)
+
+        return amount, name
 
     def _create_invoice(self, order, so_line, amount):
         new_self = self.with_context(default_journal_id=self.journal_id.id)
