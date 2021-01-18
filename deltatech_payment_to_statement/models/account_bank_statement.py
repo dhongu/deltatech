@@ -33,7 +33,7 @@ class AccountReconciliation(models.AbstractModel):
 
     @api.model
     def _prepare_move_lines(self, move_lines, target_currency=False, target_date=False, recs_count=0):
-        move_lines = move_lines.sorted(key=lambda r: r.date_maturity)
+        move_lines = move_lines.sorted(key=lambda r: (r.date_maturity or r.date))
         return super(AccountReconciliation, self)._prepare_move_lines(
             move_lines, target_currency, target_date, recs_count
         )
