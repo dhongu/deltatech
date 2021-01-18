@@ -7,6 +7,7 @@
             <field name="inherit_id" ref="account.view_account_journal_form" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='refund_sequence']" position="before">
+                    <field name="journal_sequence_id" />
                     <field name="statement_sequence_id" />
                     <field name="auto_statement" />
                     <field name="cash_in_sequence_id" />
