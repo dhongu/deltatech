@@ -181,3 +181,17 @@ class AccountPayment(models.Model):
                         lines |= line
 
                 payment.reconciliation_statement_line()
+
+
+class PosBoxOut(models.TransientModel):
+    _inherit = "cash.box.out"
+
+    def _calculate_values_for_statement_line(self, record):
+        values = super(PosBoxOut, self)._calculate_values_for_statement_line(record=record)
+        if values["amount"] > 0:
+            if record.journal_id.cash_in_sequence_id:
+                values["name"] = record.journal_id.cash_in_sequence_id.next_by_id()
+        else:
+            if record.journal_id.cash_out_sequence_id:
+                values["name"] = record.journal_id.cash_out_sequence_id.next_by_id()
+        return values
