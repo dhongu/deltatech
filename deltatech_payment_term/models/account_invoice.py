@@ -12,7 +12,7 @@ class AccountInvoice(models.Model):
 
     def view_rate(self):
         action = self.env.ref("deltatech_payment_term.action_account_moves_sale").read()[0]
-        action["domain"] = "['|',('invoice_id','='," + str(self.id) + " ),('name','ilike','" + str(self.number) + "')]"
+        action["domain"] = "['|',('move_id','='," + str(self.id) + " ),('name','ilike','" + str(self.name) + "')]"
         return action
 
     @api.depends("invoice_payment_term_id")

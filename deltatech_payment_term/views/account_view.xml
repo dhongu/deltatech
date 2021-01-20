@@ -1,12 +1,13 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
+
         <record id="view_move_line_form" model="ir.ui.view">
             <field name="name">account.move.line.form</field>
             <field name="model">account.move.line</field>
             <field eval="2" name="priority" />
             <field name="arch" type="xml">
-                <form string="Journal Item">
+                <form>
                     <sheet>
                         <group>
                             <group>
@@ -33,7 +34,7 @@
                                         <field name="quantity" readonly="1" />
                                     </group>
                                     <group string="Accounting Documents">
-                                        <field name="invoice_id" readonly="True" />
+
                                         <field name="move_id" readonly="True" required="False" />
                                         <field name="statement_id" readonly="True" />
                                     </group>
@@ -56,7 +57,6 @@
                                     </group>
                                     <group string="Reconciliation">
                                         <field name="full_reconcile_id" />
-                                        <!-- <field name="reconcile_partial_id"/>-->
                                     </group>
                                     <group string="States">
                                         <field name="parent_state" />
@@ -69,22 +69,22 @@
                                         />
                                     </group>
                                 </group>
-                                <field name="narration" colspan="4" nolabel="1" placeholder="Add an internal note..." />
+
                             </page>
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
+
+
         <record id="view_move_line_tree" model="ir.ui.view">
             <field name="name">account.move.line.tree</field>
             <field name="model">account.move.line</field>
             <field eval="99" name="priority" />
             <field name="arch" type="xml">
                 <tree>
-                    <!--decoration-danger="parent_state == 'draft'"  string="Journal Items" create="false" on_write="on_create_write">-->
                     <field name="journal_id" options='{"no_open":True}' />
-                    <field name="invoice_id" />
                     <field name="date" />
                     <field
                         name="date_maturity"
@@ -99,13 +99,11 @@
                         on_change="onchange_partner_id(move_id, partner_id, account_id, debit, credit, date, journal_id)"
                     />
                     <field name="account_id" invisible="1" />
-                    <!--<field name="account_tax_id" invisible="1" />-->
                     <field name="analytic_account_id" invisible="1" />
                     <field name="move_id" required="0" invisible="1" />
                     <field name="debit" sum="Total Debit" />
                     <field name="credit" sum="Total Credit" />
                     <field name="amount_residual" string="Restanta" />
-                    <!--<field name="reconcile_ref" invisible="1"/>-->
                     <field name="amount_currency" readonly="True" invisible="not context.get('currency',False)" />
                     <field name="currency_id" readonly="True" invisible="not context.get('currency',False)" />
                     <field name="parent_state" invisible="1" />
@@ -113,11 +111,12 @@
                 </tree>
             </field>
         </record>
+
         <record id="view_account_move_line_filter" model="ir.ui.view">
             <field name="name">Journal Items</field>
             <field name="model">account.move.line</field>
             <field name="arch" type="xml">
-                <search string="Search Journal Items">
+                <search>
                     <field
                         name="name"
                         filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]"
@@ -125,28 +124,26 @@
                     />
                     <field name="date" />
                     <filter
-                        icon="terp-document-new"
+                        name="unbalanced"
                         string="Unbalanced"
                         domain="[('parent_state','=','draft')]"
                         help="Unbalanced Journal Items"
                     />
                     <separator />
                     <filter
-                        icon="terp-document-new"
+                        name="unposted"
                         string="Unposted"
                         domain="[('parent_state','=','draft')]"
                         help="Unposted Journal Items"
                     />
                     <filter
                         name="posted"
-                        icon="terp-camera_test"
                         string="Posted"
                         domain="[('parent_state','=','posted')]"
                         help="Posted Journal Items"
                     />
                     <separator />
                     <filter
-                        icon="terp-dolar_ok!"
                         string="Unreconciled"
                         domain="[('full_reconcile_id','=',False), ('account_id.reconcile','=',True)]"
                         help="Unreconciled Journal Items"
@@ -172,53 +169,64 @@
                     <field name="name" />
                     <field name="ref" />
                     <field name="journal_id" context="{'journal_name':self}" widget="selection" />
-                    <group expand="0" string="Group By">
-                        <filter string="Partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}" />
+                    <group string="Group By">
                         <filter
+                            name='group_by_partner'
+                            string="Partner"
+                            domain="[]"
+                            context="{'group_by':'partner_id'}"
+                        />
+                        <filter
+                            name="group_by_journal"
                             string="Journal"
                             icon="terp-folder-orange"
                             domain="[]"
                             context="{'group_by':'journal_id'}"
                         />
-                        <filter string="Account" icon="terp-folder-green" context="{'group_by':'account_id'}" />
+                        <filter name='group_by_account' string="Account" context="{'group_by':'account_id'}" />
                     </group>
                 </search>
             </field>
         </record>
-        <record id="action_account_moves_all_tree" model="ir.actions.act_window">
-            <field name="name">Journal Items</field>
-            <field name="res_model">account.move.line</field>
-            <field name="context">{'search_default_partner_id': [active_id], 'default_partner_id': active_id}</field>
-            <field name="view_id" ref="view_move_line_tree" />
-        </record>
-        <record id="action_account_moves_sale" model="ir.actions.act_window">
-            <!--<field name="context">{'journal_type':'sale','search_default_sale_journal':True,'search_default_unreconciled':True}</field>-->
-            <field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
-            <field name="name">Open Journal Items</field>
-            <field name="res_model">account.move.line</field>
-            <field name="view_id" ref="view_move_line_tree" />
-            <field name="search_view_id" ref="view_account_move_line_filter" />
-            <field name="view_mode">tree,form</field>
-        </record>
-        <record id="action_account_moves_sale_tree" model="ir.actions.act_window.view">
-            <field eval="1" name="sequence" />
-            <field name="view_mode">tree</field>
-            <field name="view_id" ref="view_move_line_tree" />
-            <field name="act_window_id" ref="action_account_moves_sale" />
-        </record>
-        <record id="action_account_moves_sale_form" model="ir.actions.act_window.view">
-            <field eval="2" name="sequence" />
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_move_line_form" />
-            <field name="act_window_id" ref="action_account_moves_sale" />
-        </record>
-        <menuitem
+
+
+
+             <record id="action_account_moves_all_tree" model="ir.actions.act_window">
+                 <field name="name">Journal Items</field>
+                 <field name="res_model">account.move.line</field>
+                 <field
+                name="context"
+            >{'search_default_partner_id': [active_id], 'default_partner_id': active_id}</field>
+                 <field name="view_id" ref="view_move_line_tree" />
+             </record>
+             <record id="action_account_moves_sale" model="ir.actions.act_window">
+                 <field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
+                 <field name="name">Open Journal Items</field>
+                 <field name="res_model">account.move.line</field>
+                 <field name="view_id" ref="view_move_line_tree" />
+                 <field name="search_view_id" ref="view_account_move_line_filter" />
+                 <field name="view_mode">tree,form</field>
+             </record>
+             <record id="action_account_moves_sale_tree" model="ir.actions.act_window.view">
+                 <field eval="1" name="sequence" />
+                 <field name="view_mode">tree</field>
+                 <field name="view_id" ref="view_move_line_tree" />
+                 <field name="act_window_id" ref="action_account_moves_sale" />
+             </record>
+             <record id="action_account_moves_sale_form" model="ir.actions.act_window.view">
+                 <field eval="2" name="sequence" />
+                 <field name="view_mode">form</field>
+                 <field name="view_id" ref="view_move_line_form" />
+                 <field name="act_window_id" ref="action_account_moves_sale" />
+             </record>
+             <menuitem
             action="action_account_moves_sale"
-            icon="STOCK_JUSTIFY_FILL"
             id="menu_action_account_moves_all"
             parent="account.menu_finance_entries"
             sequence="1"
             groups="account.group_account_user"
         />
+
+
     </data>
 </odoo>
