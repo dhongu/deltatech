@@ -6,8 +6,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-import odoo.addons.decimal_precision as dp
-
 
 class PromissoryNote(models.Model):
     _name = "promissory.note"
@@ -45,18 +43,18 @@ class PromissoryNote(models.Model):
         "res.partner", string="Beneficiary", readonly=True, states={"not_cashed": [("readonly", False)]}, required=True
     )
 
-    invoice_id = fields.Many2one("account.invoice", string="Invoice")
+    invoice_id = fields.Many2one("account.move", string="Invoice", domain=[("type", "!=", "entry")])
 
     amount = fields.Float(
         string="Amount",
-        digits=dp.get_precision("Account"),
+        digits="Account",
         default="",
         readonly=True,
         states={"not_cashed": [("readonly", False)]},
         required=True,
     )
 
-    cashed_amount = fields.Float(string="Cashed Amount", digits=dp.get_precision("Account"))
+    cashed_amount = fields.Float(string="Cashed Amount", digits="Account")
     cashed_date = fields.Date(string="Cashed Date")
 
     currency_id = fields.Many2one(
