@@ -5,5 +5,9 @@
             <field name="name">Allow to change inventory date</field>
             <field name="category_id" ref="base.module_category_hidden" />
         </record>
+        <record id="group_view_inventory_button" model="res.groups">
+            <field name="name">View inventory button in product</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
     </data>
 </odoo>

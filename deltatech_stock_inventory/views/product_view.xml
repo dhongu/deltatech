@@ -13,7 +13,13 @@
                         <field name="loc_case" />
                         <field name="last_inventory_date" />
                         <field name="last_inventory_id" />
-                        <button string="Update" name="get_last_inventory_date" type="object" class="oe_link" />
+                        <button
+                            string="Update"
+                            name="get_last_inventory_date"
+                            type="object"
+                            class="oe_link"
+                            groups="deltatech_stock_inventory.group_view_inventory_button"
+                        />
                     </group>
                 </group>
             </field>
@@ -114,5 +120,16 @@
             parent="stock.menu_stock_inventory_control"
             sequence="1"
         />
+        <!-- remove inventory button for others than defined group-->
+        <record id="view_template_inventory_button" model="ir.ui.view">
+            <field name="name">view.template.inventory.button</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button" />
+            <field name="arch" type="xml">
+                <button name="action_update_quantity_on_hand" position="attributes">
+                    <attribute name="groups">deltatech_stock_inventory.group_view_inventory_button</attribute>
+                </button>
+            </field>
+        </record>
     </data>
 </odoo>
