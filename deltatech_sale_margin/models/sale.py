@@ -32,16 +32,19 @@ class SaleOrderLine(models.Model):
 
     @api.constrains("price_unit", "purchase_price")
     def _check_sale_price(self):
-        if self.price_unit == 0:
-            if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                raise UserError(_("You can not sell without price."))
-            else:
-                message = _("Sale %s without price.") % self.product_id.name
-                self.order_id.message_post(body=message)
+        for line in self:
+            if line.display_type:
+                continue
+            if line.price_unit == 0:
+                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                    raise UserError(_("You can not sell without price."))
+                else:
+                    message = _("Sale %s without price.") % line.product_id.name
+                    self.order_id.message_post(body=message)
 
-        if self.price_unit < self.purchase_price:
-            if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                raise UserError(_("You can not sell below the purchase price."))
-            else:
-                message = _("Sale %s under the purchase price.") % self.product_id.name
-                self.order_id.message_post(body=message)
+            if line.price_unit < line.purchase_price:
+                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                    raise UserError(_("You can not sell below the purchase price."))
+                else:
+                    message = _("Sale %s under the purchase price.") % line.product_id.name
+                    self.order_id.message_post(body=message)
