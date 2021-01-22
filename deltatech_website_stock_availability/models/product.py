@@ -28,7 +28,11 @@ class ProductTemplate(models.Model):
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
                     if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
                         weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7
-                        product.availability_text = _("Delivery in %s weeks") % weeks
+                        if weeks > 2:
+                            product.availability_text = _("Delivery in %s weeks") % weeks
+                        else:
+                            days = (product.seller_ids[0].date_start - fields.Date.today()).days
+                            product.availability_text = _("Delivery in %s days") % days
                     elif supplier_lead_time:
                         d1 = product.sale_delay + supplier_lead_time
                         d2 = d1 + product.sale_delay_safety
