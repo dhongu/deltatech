@@ -10,4 +10,4 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     pallet_product_id = fields.Many2one("product.product")
-    pallet_qty_min = fields.Integer()  # cantitatea minima pe palet
+    pallet_qty_min = fields.Float(digits="Product Unit of Measure")  # cantitatea minima pe palet
