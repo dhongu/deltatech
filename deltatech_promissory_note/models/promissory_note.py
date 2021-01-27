@@ -3,15 +3,22 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 import odoo.addons.decimal_precision as dp
 
+# Get the logger
+_logger = logging.getLogger(__name__)
+
 
 class PromissoryNote(models.Model):
     _name = "promissory.note"
     _description = "Promissory Note"
+    _inherit = ["mail.thread"]
+
     _order = "date_due"
 
     state = fields.Selection(
@@ -84,6 +91,8 @@ class PromissoryNote(models.Model):
 
     note = fields.Text(string="Note")
 
+    is_last_bo = fields.Boolean("Ultimul BO", default=False)
+
     @api.onchange("type")
     def onchange_type(self):
         if self.type == "customer":
@@ -114,10 +123,6 @@ class PromissoryNote(models.Model):
             self.acc_beneficiary = False
 
     @api.multi
-    def action_cashed(self):
-        self.write({"state": "cashed"})
-
-    @api.multi
     def action_not_cashed(self):
         self.write({"state": "not_cashed"})
 
@@ -126,3 +131,39 @@ class PromissoryNote(models.Model):
         for promissory in self:
             if promissory.amount <= 0.0:
                 raise UserError(_("Campul <Valoare> trebuie sa fie mai mare decat 0!"))
+
+    @api.multi
+    def action_cashed(self):
+        self.write({"state": "cashed"})
+        if self.is_last_bo:
+            users = self.env["res.users"].search([])
+            for user in users:
+                if user.has_group("deltatech_promissory_note.bo_notifications"):
+                    document = self
+                    subject = _("BO - ultimul - %s pentru %s a fost incasat") % (self.name, self.issuer_id.name)
+                    msg = _("Ultimul BO incasat: %s, data: %s. Emitent: %s, suma: %s, contract: %s") % (
+                        self.name,
+                        self.date_due,
+                        self.issuer_id.name,
+                        self.cashed_amount,
+                        self.agreement,
+                    )
+                    partner_id = user.partner_id.id
+                    mail_message = self.env["mail.message"].with_context(
+                        {"default_starred": True, "mail_notify_noemail": False}
+                    )
+                    mail_message.create(
+                        {
+                            "model": "promissory.note",
+                            "res_id": document.id,
+                            "record_name": document.name_get()[0][1],
+                            "email_from": self.env["mail.message"]._get_default_from(),
+                            "reply_to": self.env["mail.message"]._get_default_from(),
+                            "subject": subject,
+                            "body": msg,
+                            "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
+                            "partner_ids": [(4, partner_id)],
+                        }
+                    )
+
+                    _logger.info("BO_LOG: mail sent for BO %s" % self.name)

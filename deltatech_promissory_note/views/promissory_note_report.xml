@@ -416,6 +416,10 @@
                     <table style="width:100%;">
                         <tbody class="default">
                             <tr>
+                                <t t-set="nr_crt" t-value="1" />
+                                <td>
+                                    <span>Nr. crt</span>
+                                </td>
                                 <td>
                                     <span>SERIE SI NR. BO</span>
                                 </td>
@@ -433,6 +437,10 @@
                                 </td>
                             </tr>
                             <tr t-foreach="docs" t-as="o">
+                                <td>
+                                    <span t-esc="nr_crt" />
+                                    <t t-set="nr_crt" t-value="nr_crt+1" />
+                                </td>
                                 <td>
                                     <span t-field="o.name" />
                                 </td>

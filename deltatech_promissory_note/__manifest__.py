@@ -10,7 +10,12 @@
     "category": "Generic Modules/Stock",
     "depends": ["account"],
     "license": "AGPL-3",
-    "data": ["views/promissory_note_view.xml", "views/promissory_note_report.xml", "security/ir.model.access.csv"],
+    "data": [
+        "views/promissory_note_view.xml",
+        "views/promissory_note_report.xml",
+        "security/promissory_note_security.xml",
+        "security/ir.model.access.csv",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],
 }
