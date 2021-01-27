@@ -42,9 +42,9 @@ class AccountPayment(models.Model):
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ""
                     for invoice in payment.reconciled_bill_ids:
-                        ref += invoice.number
+                        ref += invoice.name
                     for invoice in payment.reconciled_invoice_ids:
-                        ref += invoice.number
+                        ref += invoice.name
                     values = {
                         # "name": payment.name or "/",
                         "statement_id": payment.statement_id.id,
@@ -147,9 +147,9 @@ class AccountPayment(models.Model):
             if payment.state == "posted" and not payment.statement_line_id and payment.statement_id:
                 ref = ""
                 for invoice in payment.reconciled_bill_ids:
-                    ref += invoice.number
+                    ref += invoice.name
                 for invoice in payment.reconciled_invoice_ids:
-                    ref += invoice.number
+                    ref += invoice.name
                 values = {
                     # "name": payment.communication or payment.name,
                     "statement_id": payment.statement_id.id,
