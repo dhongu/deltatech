@@ -4,7 +4,7 @@
 
 
 from odoo import _, api, fields, models
-from odoo.exceptions import Warning
+from odoo.exceptions import UserError
 
 import odoo.addons.decimal_precision as dp
 
@@ -125,4 +125,4 @@ class PromissoryNote(models.Model):
     def _check_values(self):
         for promissory in self:
             if promissory.amount <= 0.0:
-                raise Warning(_("Campul <Valoare> trebuie sa fie mai mare decat 0!"))
+                raise UserError(_("Campul <Valoare> trebuie sa fie mai mare decat 0!"))
