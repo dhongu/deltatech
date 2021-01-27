@@ -86,7 +86,8 @@ class AccountPayment(models.Model):
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
-        self._add_payment_to_statement()
+        # self._add_payment_to_statement()
+        self.add_statement_line()
         # lines = self._add_payment_to_statement()
         # if lines:
         #     for line in lines:
@@ -117,7 +118,8 @@ class AccountPayment(models.Model):
         #         for move_line in payment.move_line_ids:
         #             if not move_line.statement_id and not move_line.reconciled:
         #                 move_line.write(
-        #                     {"statement_id": payment.statement_id.id, "statement_line_id": payment.statement_line_id.id}
+        #                     {"statement_id": payment.statement_id.id,
+        #                     "statement_line_id": payment.statement_line_id.id}
         #                 )
         #     else:
         #         if raise_error:
