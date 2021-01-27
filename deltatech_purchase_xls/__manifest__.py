@@ -1,0 +1,15 @@
+# ©  2015-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+
+{
+    "name": "Deltatech Purchase XLS",
+    "version": "12.0.1.0.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "www.terrabit.ro",
+    "category": "Generic Modules/Other",
+    "depends": ["deltatech", "purchase", "report_xlsx"],
+    "license": "AGPL-3",
+    "data": ["report/purchase_xls.xml"],
+}
