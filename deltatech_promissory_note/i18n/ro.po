@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0+ec\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-27 18:21+0000\n"
-"PO-Revision-Date: 2021-01-27 18:21+0000\n"
+"POT-Creation-Date: 2021-01-28 06:12+0000\n"
+"PO-Revision-Date: 2021-01-28 06:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -129,18 +129,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__agreement
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Agreement"
-msgstr ""
+msgstr "Contract"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__agreement
 msgid ""
 "Agrement with date and number of rate. Ex:  CTR. 422 S / 30.05.2017  12 RATE"
-msgstr ""
+msgstr "Contract cu data si nr. rate. Ex: CTR. 422 S / 30.05.2017  12 RATE"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__amount
 msgid "Amount"
-msgstr ""
+msgstr "Suma"
 
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
@@ -169,28 +169,28 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__acc_beneficiary
 msgid "Bank Account Beneficiary"
-msgstr ""
+msgstr "Cont beneficiar"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__acc_issuer
 msgid "Bank Account Issuer"
-msgstr ""
+msgstr "Cont emitent"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__bank_beneficiary
 msgid "Bank Beneficiary"
-msgstr ""
+msgstr "Banca beneficiar"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__bank_issuer
 msgid "Bank Issuer"
-msgstr ""
+msgstr "Banca emitent"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__beneficiary_id
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Beneficiary"
-msgstr ""
+msgstr "Beneficiar"
 
 #. module: deltatech_promissory_note
 #: code:addons/deltatech_promissory_note/models/promissory_note.py:0
@@ -209,17 +209,22 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__state__cashed
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Cashed"
-msgstr ""
+msgstr "Încasat"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__cashed_amount
 msgid "Cashed Amount"
-msgstr ""
+msgstr "Suma încasată"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__cashed_date
 msgid "Cashed Date"
 msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__note
+msgid "Comments"
+msgstr "Note"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__create_uid
@@ -235,13 +240,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__currency_id
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Currency"
-msgstr ""
+msgstr "Moneda"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__type__customer
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Customer"
-msgstr ""
+msgstr "Client"
 
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
@@ -282,7 +287,7 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Date Due"
-msgstr ""
+msgstr "Data scadenței"
 
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
@@ -299,7 +304,7 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__date_due
 msgid "Due Date"
-msgstr ""
+msgstr "Data scadenței"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_follower_ids
@@ -357,7 +362,7 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__invoice_id
 msgid "Invoice"
-msgstr ""
+msgstr "Factura"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_is_follower
@@ -368,7 +373,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__issuer_id
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Issuer"
-msgstr ""
+msgstr "Emitent"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note____last_update
@@ -384,6 +389,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__is_last_bo
+msgid "Last note"
+msgstr "Ultimul BO"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_main_attachment_id
@@ -409,12 +419,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__state__not_cashed
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Not Cashed"
-msgstr ""
-
-#. module: deltatech_promissory_note
-#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__note
-msgid "Note"
-msgstr ""
+msgstr "Neîncasat"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_needaction_counter
@@ -449,7 +454,7 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Previous Month"
-msgstr ""
+msgstr "Luna precedentă"
 
 #. module: deltatech_promissory_note
 #: model:res.groups,name:deltatech_promissory_note.bo_notifications
@@ -514,12 +519,12 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_form
 msgid "Set Cashed"
-msgstr ""
+msgstr "Setează încasat"
 
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_form
 msgid "Set Not Cashed"
-msgstr ""
+msgstr "Setează neîncasat"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__state
@@ -534,18 +539,13 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "This Month"
-msgstr ""
+msgstr "Luna curentă"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__type
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Type"
-msgstr ""
-
-#. module: deltatech_promissory_note
-#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__is_last_bo
-msgid "Ultimul BO"
-msgstr ""
+msgstr "Tip"
 
 #. module: deltatech_promissory_note
 #: code:addons/deltatech_promissory_note/models/promissory_note.py:0
@@ -572,7 +572,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__type__vendor
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
 msgid "Vendor"
-msgstr ""
+msgstr "Furnizor"
 
 #. module: deltatech_promissory_note
 #: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__website_message_ids
@@ -587,10 +587,9 @@ msgstr ""
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
 msgid "amount"
-msgstr ""
+msgstr "Suma"
 
 #. module: deltatech_promissory_note
 #: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
 msgid "cashed_amount"
-msgstr ""
-
+msgstr "Suma încasată"

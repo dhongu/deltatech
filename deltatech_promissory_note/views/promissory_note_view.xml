@@ -66,6 +66,7 @@
                             <group>
                                 <field name="cashed_amount" />
                                 <field name="cashed_date" />
+                                <field name="is_last_bo" />
                             </group>
                             <group>
                                 <field name="issuer_id" />

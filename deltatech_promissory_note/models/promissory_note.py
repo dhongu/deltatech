@@ -50,7 +50,7 @@ class PromissoryNote(models.Model):
         "res.partner", string="Beneficiary", readonly=True, states={"not_cashed": [("readonly", False)]}, required=True
     )
 
-    invoice_id = fields.Many2one("account.move", string="Invoice", domain=[("type", "!=", "entry")])
+    invoice_id = fields.Many2one("account.move", string="Invoice", domain=[("move_type", "!=", "entry")])
 
     amount = fields.Float(
         string="Amount",
@@ -87,9 +87,9 @@ class PromissoryNote(models.Model):
         "Bank Beneficiary", size=64, readonly=True, states={"not_cashed": [("readonly", False)]}, required=False
     )
 
-    note = fields.Text(string="Note")
+    note = fields.Text(string="Comments")
 
-    is_last_bo = fields.Boolean("Ultimul BO", default=False)
+    is_last_bo = fields.Boolean("Last note", default=False)
 
     @api.onchange("type")
     def onchange_type(self):
