@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_promissory_note_tree" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="arch" type="xml">
+                <tree string="Promissory Notes">
+                    <field name="name" />
+                    <field name="issuer_id" />
+                    <field name="beneficiary_id" />
+                    <field name="agreement" />
+                    <field name="date_due" />
+                    <field name="amount" sum="amount" string="Valoare cu TVA" />
+                    <field name="currency_id" />
+                    <field name="cashed_date" />
+                    <field name="is_last_bo" />
+                    <field name="cashed_amount" sum="cashed_amount" string="Suma incasata RON cu TVA" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_promissory_note_form" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="arch" type="xml">
+                <form string="Promissory Note">
+                    <header>
+                        <button
+                            name="action_cashed"
+                            states="not_cashed"
+                            type="object"
+                            class="oe_highlight"
+                            string="Set Cashed"
+                        />
+                        <button
+                            name="action_not_cashed"
+                            states="cashed"
+                            type="object"
+                            class="oe_highlight"
+                            string="Set Not Cashed"
+                        />
+                        <field name="state" widget="statusbar" statusbar_visible="not_cashed,cashed" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Promissory Note" />
+                            <h1>
+                                <field name="name" required="1" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="type" />
+                                <field name="agreement" />
+                                <field name="date_due" />
+                            </group>
+                            <group>
+                                <field name="amount" />
+                                <field name="currency_id" />
+                                <field name="invoice_id" />
+                            </group>
+                            <group>
+                                <field name="cashed_amount" />
+                                <field name="cashed_date" />
+                                <field name="is_last_bo" />
+                            </group>
+                            <group>
+                                <field name="issuer_id" />
+                                <field name="beneficiary_id" />
+                            </group>
+                            <group>
+                                <field name="acc_issuer" required="1" />
+                                <field name="acc_beneficiary" required="1" />
+                            </group>
+                            <group>
+                                <field name="bank_issuer" required="1" />
+                                <field name="bank_beneficiary" required="1" />
+                            </group>
+                        </group>
+                        <field name="note" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_promissory_note_filter" model="ir.ui.view">
+            <field name="name">Promissory Notes</field>
+            <field name="model">promissory.note</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" />
+                    <field name="agreement" />
+                    <field name="issuer_id" />
+                    <field name="beneficiary_id" />
+                    <separator />
+                    <filter name="vendor" string="Vendor" domain="[('type','=','vendor')]" />
+                    <filter name="customer" string="Customer" domain="[('type','=','customer')]" />
+                    <separator />
+                    <filter
+                        string="This Month"
+                        name="month"
+                        domain="[('date_due','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+                                 ('date_due','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <filter
+                        string="Previous Month"
+                        name="prev_month"
+                        domain="[('date_due','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+                                 ('date_due','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <filter
+                        string="Next Month"
+                        name="next_month"
+                        domain="[('date_due','&gt;=', (context_today() + relativedelta(day=1, months=1, days=0)).strftime('%%Y-%%m-%%d')),
+                                 ('date_due','&lt;=', (context_today() + relativedelta(day=1, months=2, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <separator />
+                    <filter name="not_cashed" string="Not Cashed" domain="[('state','=','not_cashed')]" />
+                    <filter name="cashed" string="Cashed" domain="[('state','=','cashed')]" />
+                    <group expand="1" string="Group By...">
+                        <filter string="Type" name="group_by_type" context="{'group_by':'type'}" />
+                        <filter string="Issuer" name="group_by_issuer" context="{'group_by':'issuer_id'}" />
+                        <filter
+                            string="Beneficiary"
+                            name="group_by_beneficiary"
+                            context="{'group_by':'beneficiary_id'}"
+                        />
+                        <filter string="Agreement" name="group_by_agreement" context="{'group_by':'agreement'}" />
+                        <filter string="Currency" name="group_by_currency_id" context="{'group_by':'currency_id'}" />
+                        <filter string="Date Due" name="group_by_date_due" context="{'group_by':'date_due:month'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_promissory_note" model="ir.actions.act_window">
+            <field name="name">Promissory Notes</field>
+            <field name="res_model">promissory.note</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{ 'search_default_not_cashed': 1}</field>
+        </record>
+        <menuitem
+            name="Promissory Notes"
+            id="menu_promissory_note"
+            action="action_promissory_note"
+            parent="account.menu_finance_entries"
+            sequence="100"
+        />
+    </data>
+</odoo>
