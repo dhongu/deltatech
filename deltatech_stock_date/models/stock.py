@@ -46,6 +46,10 @@ class StockMove(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    def action_toggle_is_locked(self):
+        # se suprascrie metoda standard petnru a nu mai permite editarea
+        return False
+
     def button_validate(self):
         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
 
