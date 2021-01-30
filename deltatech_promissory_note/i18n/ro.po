@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_promissory_note
+#   * deltatech_promissory_note
 #
 msgid ""
 msgstr ""
@@ -195,7 +195,7 @@ msgstr "Stare"
 #. module: deltatech_promissory_note
 #: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter
 msgid "This Month"
-msgstr "Luna aceasta"
+msgstr "Luna curentă"
 
 #. module: deltatech_promissory_note
 #: view:promissory.note:deltatech_promissory_note.view_promissory_note_filter

@@ -3,7 +3,7 @@
     <data noupdate="0">
         <!--Definire grup pentru atentionari BO-->
         <record id="bo_notifications" model="res.groups">
-            <field name="name">Primeste atentionari BO</field>
+            <field name="name">Receive alerts BO</field>
             <field name="category_id" ref="base.module_category_hidden" />
         </record>
     </data>

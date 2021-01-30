@@ -13,7 +13,7 @@
     "data": [
         "data/data.xml",
         #
-        "views/service_rent_view.xml",
+        "views/service_agreement_view.xml",
         #
         # 'service_efficiency_report.xml',
         # 'stock_view.xml',

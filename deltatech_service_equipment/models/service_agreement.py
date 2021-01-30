@@ -8,6 +8,8 @@ from odoo import _, api, fields, models
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
 
+    meter_reading_status = fields.Boolean(default=False, string="Readings done", track_visibility="onchange")
+
     @api.multi
     def service_equipment(self):
         equipments = self.env["service.equipment"]

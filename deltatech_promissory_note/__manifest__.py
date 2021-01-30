@@ -4,6 +4,7 @@
 
 {
     "name": "Deltatech Promissory Note",
+    "summary": "gestionare bilete la ordin",
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -17,5 +18,6 @@
         "security/ir.model.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
+    "development_status": "Production/Stable",
     "maintainers": ["danila12"],
 }

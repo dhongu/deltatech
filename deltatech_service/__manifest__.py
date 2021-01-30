@@ -21,6 +21,7 @@
         "wizard/service_price_change_view.xml",
         "wizard/service_change_invoice_date_view.xml",
         # "views/account_invoice_penalty_view.xml",
+        "views/res_partner_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "application": True,
