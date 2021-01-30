@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2008 Deltatech All Rights Reserved
+# Copyright (c) 2015 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,16 @@
 #
 ##############################################################################
 
-from . import  models
-import wizard
 
-#import account_invoice_penalty
+import service_config
+import service_notification
+import service_order
+import service_plan
+
+import service_equipment
 
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+import stock
+import sale
+import required_product
+

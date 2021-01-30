@@ -21,16 +21,5 @@
 ##############################################################################
 
 
-import service_config
-import service_notification
-import service_order
-import service_plan
-
-import service_equipment
-
-import wizard
-import stock
-import sale
-import required_product
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+from . import models
+from . import wizard

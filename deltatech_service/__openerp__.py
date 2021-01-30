@@ -39,11 +39,11 @@ Functionalitati:
 
     "license": "AGPL-3",
     "data": [
-        'data.xml',
-        'service_config_view.xml',
-        "service_consumption_view.xml",
-        "service_agreement_view.xml",
-        "res_partner_view.xml",
+        'data/data.xml',
+        'views/service_config_view.xml',
+        "views/service_consumption_view.xml",
+        "views/service_agreement_view.xml",
+        "views/res_partner_view.xml",
         "wizard/service_billing_preparation_view.xml",
         "wizard/service_billing_view.xml",
         "wizard/service_distribution_view.xml",

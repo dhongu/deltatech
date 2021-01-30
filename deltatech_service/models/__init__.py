@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2017 Deltatech All Rights Reserved
+# Copyright (c) 2008 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com       
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,27 +17,17 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+#
 ##############################################################################
-{
-    "name": "Deltatech Delivery Carrier",
-    "version": "1.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
-    "description": """
- 
-Features:
- - Carrier can be mandatory at picking validation. Option can be set in picking type
- - Verificare la validarea unui picking list
- 
 
 
-    """,
-    "category": "Generic Modules/Stock",
-    "depends": ['delivery'],
 
-    "license": "AGPL-3",
+import service_consumption
+import service_agreement
+import service_config
 
-    "data": ['stock_view.xml'],
-    "active": False,
-    "installable": True,
-}
+
+#import account_invoice_penalty
+
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

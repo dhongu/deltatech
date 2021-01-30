@@ -21,20 +21,7 @@
 ##############################################################################
 
 
-import service_config
 
-import service_rent
- 
-import stock
+from . import models
+from . import wizard
 
-
-import service_equipment
-import service_meter
-import service_consumable
-
-
-import wizard
-
-import service_efficiency_report
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
