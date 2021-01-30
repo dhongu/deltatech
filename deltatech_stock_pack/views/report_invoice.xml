@@ -1,137 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<report string="Package list" id="action_report_package"
-				model="account.invoice" report_type="qweb-pdf"
-				name="deltatech_stock_pack.report_package"
-			file="deltatech_stock_pack.report_package" />
+   <data>
+      <report string="Package list" id="action_report_package"
+            model="account.invoice" report_type="qweb-pdf"
+            name="deltatech_stock_pack.report_package"
+         file="deltatech_stock_pack.report_package" />
 
 
-		<template id="report_package">
-			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_document')" />
-				</t>
-			</t>
-		</template>
+      <template id="report_package">
+         <t t-call="report.html_container">
+            <t t-foreach="doc_ids" t-as="doc_id">
+               <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_document')" />
+            </t>
+         </t>
+      </template>
 
 
-		<template id="report_package_document">
-			<t t-call="report.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
-						<div class="page">
-							<h2 style="text-align:center;">
+      <template id="report_package_document">
+         <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+               <t t-call="report.external_layout">
+                  <div class="page">
+                     <h2 style="text-align:center;">
                                     <span>D.D.T. n. </span>
                                     <span t-field="o.nr_packing_list"/>
                             </h2>
-							<h2 style="text-align:center;">
-								<span>Package list for invoice</span>
-								:
-								<span t-field="o.number1"/>
-							</h2>
-							<t t-set="total_weight" t-value="0"/>
-			                <t t-foreach="o.picking_ids" t-as="picking">
-		                    	<t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
-		                        	<t t-set="total_weight" t-value="total_weight + pack_operation.result_package_id.weight"/>
-		                        </t>
-				            </t>
-							<br />
-							<br />
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<th>
-											<strong>NR SCAT</strong>
-										</th>
-										<th>
-											<strong>Product</strong>
-										</th>
-										<th class="text-right">
-											<strong>Quantity</strong>
-										</th>
-										<th class="text-right">
-											<strong>Gross Weight</strong>
-										</th>
+                     <h2 style="text-align:center;">
+                        <span>Package list for invoice</span>
+                        :
+                        <span t-field="o.number1"/>
+                     </h2>
+                     <t t-set="total_weight" t-value="0"/>
+                         <t t-foreach="o.picking_ids" t-as="picking">
+                             <t t-foreach="picking.pack_operation_ids" t-as="pack_operation">
+                                 <t t-set="total_weight" t-value="total_weight + pack_operation.result_package_id.weight"/>
+                              </t>
+                        </t>
+                     <br />
+                     <br />
+                     <table class="table table-condensed">
+                        <thead>
+                           <tr>
+                              <th>
+                                 <strong>NR SCAT</strong>
+                              </th>
+                              <th>
+                                 <strong>Product</strong>
+                              </th>
+                              <th class="text-right">
+                                 <strong>Quantity</strong>
+                              </th>
+                              <th class="text-right">
+                                 <strong>Gross Weight</strong>
+                              </th>
 
-									</tr>
-								</thead>
-								<t t-set="nr_crt" t-value="1"/>
-								<tbody>
-									<tr t-foreach="o.package_ids" t-as="package">
-										<td>
-											<t t-esc="nr_crt"/>
-											<t t-set="nr_crt" t-value="nr_crt + 1"/>
-										</td>
-										<td>
-											<t t-foreach="package.quant_ids" t-as="quant">
-												<span t-field="quant.product_id" /><br />
-											</t>
-										</td>
-										<td>
-											<t t-foreach="package.quant_ids" t-as="quant">
-												<span t-field="quant.qty" /><br />
-											</t>
-										</td>
-										<td class="text-right">
-											<span t-field="package.weight" />
-										</td>
-									</tr>
-								</tbody>
-							</table>
-							<div>
-								<span style="font-weight:bold;">PESO NETTO = </span>
-								<span style="font-weight:bold;"><t t-esc="total_weight"/></span>
-								<span style="font-weight:bold;">KG / PESO LORDO = </span>
-								<span style="font-weight:bold;"><span t-field="o.weight" /></span>
-								<span style="font-weight:bold;"> KG</span>
-							</div>
-							<table style="width:100%">
-								<tbody>
-									<tr>
-										<td width="50%">
-											<span>DATE:</span>
-											<span t-field="o.date_invoice"/> 
-										</td>
-										<td width="50%">
-											<span>STAMP</span>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</t>
-				</t>
-			</t>
-		</template>
-
-
-		<report string="Package list Label" id="action_report_package_label"
-				model="stock.picking"
-				report_type="prn"
-				name="deltatech_stock_pack.report_package_label"
-			    file="deltatech_stock_pack.report_package_label" />
+                           </tr>
+                        </thead>
+                        <t t-set="nr_crt" t-value="1"/>
+                        <tbody>
+                           <tr t-foreach="o.package_ids" t-as="package">
+                              <td>
+                                 <t t-esc="nr_crt"/>
+                                 <t t-set="nr_crt" t-value="nr_crt + 1"/>
+                              </td>
+                              <td>
+                                 <t t-foreach="package.quant_ids" t-as="quant">
+                                    <span t-field="quant.product_id" /><br />
+                                 </t>
+                              </td>
+                              <td>
+                                 <t t-foreach="package.quant_ids" t-as="quant">
+                                    <span t-field="quant.qty" /><br />
+                                 </t>
+                              </td>
+                              <td class="text-right">
+                                 <span t-field="package.weight" />
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <div>
+                        <span style="font-weight:bold;">PESO NETTO = </span>
+                        <span style="font-weight:bold;"><t t-esc="total_weight"/></span>
+                        <span style="font-weight:bold;">KG / PESO LORDO = </span>
+                        <span style="font-weight:bold;"><span t-field="o.weight" /></span>
+                        <span style="font-weight:bold;"> KG</span>
+                     </div>
+                     <table style="width:100%">
+                        <tbody>
+                           <tr>
+                              <td width="50%">
+                                 <span>DATE:</span>
+                                 <span t-field="o.date_invoice"/>
+                              </td>
+                              <td width="50%">
+                                 <span>STAMP</span>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </t>
+            </t>
+         </t>
+      </template>
 
 
-		<template id="report_package_label">
+      <report string="Package list Label" id="action_report_package_label"
+            model="stock.picking"
+            report_type="prn"
+            name="deltatech_stock_pack.report_package_label"
+             file="deltatech_stock_pack.report_package_label" />
 
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_label_document')" />
-				</t>
 
-		</template>
+      <template id="report_package_label">
 
-		<template id="report_package_label_document">
-			<t t-foreach="docs" t-as="o">
-<!--				 <t t-foreach="o.picking_ids" t-as="picking">-->
-					 <t t-set="box_nr" t-value="1"/>
-					<t t-set="so_date_year" t-value="o.sale_id.date_order[0:4]"/>
-					<t t-set="so_date_month" t-value="o.sale_id.date_order[5:7]"/>
-					<t t-set="so_date_day" t-value="o.sale_id.date_order[8:10]"/>
-					<t t-set="delivery_date_year" t-value="o.min_date[0:4]"/>
-					<t t-set="delivery_date_month" t-value="o.min_date[5:7]"/>
-					<t t-set="delivery_date_day" t-value="o.min_date[8:10]"/>
-					<t t-foreach="o.pack_operation_ids" t-as="pack_operation">
+            <t t-foreach="doc_ids" t-as="doc_id">
+               <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_stock_pack.report_package_label_document')" />
+            </t>
+
+      </template>
+
+      <template id="report_package_label_document">
+         <t t-foreach="docs" t-as="o">
+<!--             <t t-foreach="o.picking_ids" t-as="picking">-->
+                <t t-set="box_nr" t-value="1"/>
+               <t t-set="so_date_year" t-value="o.sale_id.date_order[0:4]"/>
+               <t t-set="so_date_month" t-value="o.sale_id.date_order[5:7]"/>
+               <t t-set="so_date_day" t-value="o.sale_id.date_order[8:10]"/>
+               <t t-set="delivery_date_year" t-value="o.min_date[0:4]"/>
+               <t t-set="delivery_date_month" t-value="o.min_date[5:7]"/>
+               <t t-set="delivery_date_day" t-value="o.min_date[8:10]"/>
+               <t t-foreach="o.pack_operation_ids" t-as="pack_operation">
 
 <t t-translation="off">
 ^XA~TA000~JSN^LT0^MNW^MTT^PON^PMN^LH0,0^JMA^PR4,4~SD15^JUS^LRN^CI0^XZ
@@ -151,12 +151,12 @@
 ^FT70,41^A0R,65,64^FR^FH\^FDDate of Delivery: <t t-esc="delivery_date_day"/>.<t t-esc="delivery_date_month"/>.<t t-esc="delivery_date_year"/>^FS
 ^PQ1,0,1,Y^XZ
 </t>
-						<t t-set="box_nr" t-value="box_nr + 1"/>
-					</t>
-<!--				 </t>-->
-			</t>
+                  <t t-set="box_nr" t-value="box_nr + 1"/>
+               </t>
+<!--             </t>-->
+         </t>
 
-		</template>
+      </template>
 
-	</data>
+   </data>
 </openerp>

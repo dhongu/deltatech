@@ -105,8 +105,8 @@
                             <button type="action" class="oe_stat_button" id="invoice_button" icon="fa-pencil-square-o"
                                     name="%(action_service_invoice)d"
                                     context="{'search_default_agreement_id': id,
-										  'default_agreement_id': id,
-										  'default_partner_id': partner_id }" groups="account.group_account_invoice">
+                                'default_agreement_id': id,
+                                'default_partner_id': partner_id }" groups="account.group_account_invoice">
                                 <div>
                                     <strong>
                                         <field name="total_invoiced" widget="monetary"/>
@@ -119,10 +119,10 @@
                             <button type="action" class="oe_stat_button" id="consumption_button" icon="fa-line-chart"
                                     name="%(action_service_consumption)d"
                                     context="{'search_default_agreement_id': id,
-										 
-										  'search_default_done': 1,
-										  'default_agreement_id': id,
-										  'default_partner_id': partner_id }">
+
+                                'search_default_done': 1,
+                                'default_agreement_id': id,
+                                'default_partner_id': partner_id }">
                                 <div>
                                     <strong>
                                         <field name="total_consumption" widget="monetary"/>
@@ -204,7 +204,7 @@
                     <newline/>
                     <!--<filter string="Whitout invoice in this month" name="month"-->
                             <!--domain="['|',('last_invoice_date','&lt;', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),-->
-								 <!--('last_invoice_date','&gt;', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"/>-->
+                         <!--('last_invoice_date','&gt;', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"/>-->
                     <filter string="Readings done" name="meter_reading_status" domain="[('meter_reading_status','=',True)]" />
                     <filter string="Without readings" name="meter_reading_status" domain="[('meter_reading_status','=',False)]" />
                     <group expand="1" string="Group By...">

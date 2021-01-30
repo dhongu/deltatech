@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
-		<!--
+      <!--
         Product categories
         -->
         <record id="cat_expense" model="product.category">
@@ -251,7 +251,7 @@
         Products
         -->
 
-		<record id="product_chelt_apa" model="product.product">
+      <record id="product_chelt_apa" model="product.product">
             <field name="default_code">APA</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -265,7 +265,7 @@
             <field name="name">Cheltuieli apa</field>
             <field name="categ_id" ref="cat_chelt_utilitati"/>
         </record>
-		<record id="product_chelt_chirie" model="product.product">
+      <record id="product_chelt_chirie" model="product.product">
             <field name="default_code">CHIRIE</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -279,7 +279,7 @@
             <field name="name">Cheltuieli chirie spatiu</field>
             <field name="categ_id" ref="cat_chelt_chirii"/>
         </record>
-		<record id="product_chelt_consult" model="product.product">
+      <record id="product_chelt_consult" model="product.product">
             <field name="default_code">CONSULTANT</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -293,7 +293,7 @@
             <field name="name">Cheltuieli servicii de consultanta</field>
             <field name="categ_id" ref="cat_chelt_servicii"/>
         </record>
-		<record id="product_chelt_contab" model="product.product">
+      <record id="product_chelt_contab" model="product.product">
             <field name="default_code">CONTABIL</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -307,7 +307,7 @@
             <field name="name">Cheltuieli servicii de contabilitate</field>
             <field name="categ_id" ref="cat_chelt_servicii"/>
         </record>
-		<record id="product_chelt_energ" model="product.product">
+      <record id="product_chelt_energ" model="product.product">
             <field name="default_code">ENERGIE</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -321,7 +321,7 @@
             <field name="name">Cheltuieli energie electrica</field>
             <field name="categ_id" ref="cat_chelt_utilitati"/>
         </record>
-		<record id="product_chelt_gaz" model="product.product">
+      <record id="product_chelt_gaz" model="product.product">
             <field name="default_code">GAZ</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -335,7 +335,7 @@
             <field name="name">Cheltuieli gaz</field>
             <field name="categ_id" ref="cat_chelt_utilitati"/>
         </record>
-		<record id="product_chelt_nestoc" model="product.product">
+      <record id="product_chelt_nestoc" model="product.product">
             <field name="default_code">NESTOCABIL</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -349,7 +349,7 @@
             <field name="name">Cheltuieli alte materiale nestocabile</field>
             <field name="categ_id" ref="cat_chelt_nestocabile"/>
         </record>
-		<record id="product_chelt_public" model="product.product">
+      <record id="product_chelt_public" model="product.product">
             <field name="default_code">PUBLICITATE</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -363,7 +363,7 @@
             <field name="name">Cheltuieli cu publicitate</field>
             <field name="categ_id" ref="cat_chelt_publicitate"/>
         </record>
-		<record id="product_chelt_penal" model="product.product">
+      <record id="product_chelt_penal" model="product.product">
             <field name="default_code">PENALITATI</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -377,7 +377,7 @@
             <field name="name">Cheltuieli cu penalitatile</field>
             <field name="categ_id" ref="cat_chelt_penalitati"/>
         </record>
-		<record id="product_chelt_repar" model="product.product">
+      <record id="product_chelt_repar" model="product.product">
             <field name="default_code">REPAR</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -391,7 +391,7 @@
             <field name="name">Cheltuieli de reparatii</field>
             <field name="categ_id" ref="cat_chelt_intretinere"/>
         </record>
-		<record id="product_chelt_salub" model="product.product">
+      <record id="product_chelt_salub" model="product.product">
             <field name="default_code">SALUBRITATE</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -405,7 +405,7 @@
             <field name="name">Cheltuieli de salubritate</field>
             <field name="categ_id" ref="cat_chelt_intretinere"/>
         </record>
-		<record id="product_chelt_terti" model="product.product">
+      <record id="product_chelt_terti" model="product.product">
             <field name="default_code">TERTI</field>
             <field name="supply_method">buy</field>
             <field name="type">service</field>
@@ -416,7 +416,7 @@
             <field name="cost_method" eval="'average'"/>
             <field name="uom_id" ref="product.product_uom_unit"/>
             <field name="uom_po_id" ref="product.product_uom_unit"/>
-            <field name="name">Cheltuieli servicii diverse executate de terti	</field>
+            <field name="name">Cheltuieli servicii diverse executate de terti   </field>
             <field name="categ_id" ref="cat_chelt_servicii"/>
         </record>
 

@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
 
-		<record id="view_quant_package_form" model="ir.ui.view">
-			<field name="name">stock.quant.package.form</field>
-			<field name="model">stock.quant.package</field>
-			<field name="inherit_id" ref="stock.view_quant_package_form" />
-			<field name="arch" type="xml">
-				<button name="unpack" position="replace" />
-				<sheet position="before">
-					<header>
-						<button name="%(action_pack_transfer)d" string="Transfer" type="action" groups="base.group_user" />
-						<button name="unpack" string="Unpack" type="object" confirm="You are going to unpack. Are you sure?" />
-						<button name="action_get_components" string="Compute components" type="object" />
-					</header>
-				</sheet>
-				<xpath expr="//notebook" position="before">
-					<group>
-						<group>
-							<field name="weight" />
-							<field name="weight_net" />
-						</group>
-					</group>
-				</xpath>
-				<xpath expr="//notebook" position="inside">
-					<page string="Components">
-						<group>
-							<field name="bom_id"/>
-						</group>
-						<field name="component_ids">
-							<tree>
-								<field name="product_id"/>
-								<field name="product_qty"/>
-								<field name="product_uom"/>
-							</tree>
-						</field>
-					</page>
-				</xpath>
-			</field>
-		</record>
-
-
-
-		<record id="view_quant_package_component_tree" model="ir.ui.view">
-			<field name="name">stock.quant.package.component.tree</field>
-			<field name="model">stock.quant.package.component</field>
-			<field name="arch" type="xml">
-				<tree>
-					<field name="package_id" />
-					<field name="categ_id" />
-					<field name="product_id" />
-					<field name="product_qty" />
-					<field name="product_uom"/>
-				</tree>
-			</field>
-		</record>
+      <record id="view_quant_package_form" model="ir.ui.view">
+         <field name="name">stock.quant.package.form</field>
+         <field name="model">stock.quant.package</field>
+         <field name="inherit_id" ref="stock.view_quant_package_form" />
+         <field name="arch" type="xml">
+            <button name="unpack" position="replace" />
+            <sheet position="before">
+               <header>
+                  <button name="%(action_pack_transfer)d" string="Transfer" type="action" groups="base.group_user" />
+                  <button name="unpack" string="Unpack" type="object" confirm="You are going to unpack. Are you sure?" />
+                  <button name="action_get_components" string="Compute components" type="object" />
+               </header>
+            </sheet>
+            <xpath expr="//notebook" position="before">
+               <group>
+                  <group>
+                     <field name="weight" />
+                     <field name="weight_net" />
+                  </group>
+               </group>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+               <page string="Components">
+                  <group>
+                     <field name="bom_id"/>
+                  </group>
+                  <field name="component_ids">
+                     <tree>
+                        <field name="product_id"/>
+                        <field name="product_qty"/>
+                        <field name="product_uom"/>
+                     </tree>
+                  </field>
+               </page>
+            </xpath>
+         </field>
+      </record>
 
 
 
-	</data>
+      <record id="view_quant_package_component_tree" model="ir.ui.view">
+         <field name="name">stock.quant.package.component.tree</field>
+         <field name="model">stock.quant.package.component</field>
+         <field name="arch" type="xml">
+            <tree>
+               <field name="package_id" />
+               <field name="categ_id" />
+               <field name="product_id" />
+               <field name="product_qty" />
+               <field name="product_uom"/>
+            </tree>
+         </field>
+      </record>
+
+
+
+   </data>
 </openerp>

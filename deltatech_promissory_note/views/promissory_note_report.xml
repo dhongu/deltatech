@@ -394,24 +394,24 @@
             <t t-call="report.html_container">
 
                     <div class="page">
-	                    <style type="text/css">
-	                            tbody.default td {
-	                            border: 1px solid black;
-	                            text-align: center;
-	                            vertical-align:middle;
-	                            font-size: 100%;
-	                            }
-	                        </style>
-	                    <div style="font-weight:bold;font-size:150%;text-align:center;">
-	                        <p>PROCES VERBAL PREDARE PRIMIRE BILETE LA ORDIN</p>
-	                        <p><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/> </p>
-	                    </div>
-	                    <p>SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO 15437993, Nr. Reg. Com. J04/535/2003  , </p>
-	                    <p style="font-weight:bold;">A  PREDAT  CATRE </p>
-	                    <p>SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu   </p>
-	                    <p style="font-weight:bold;">BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI , <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>: </p>
-	                    <table style="width:100%;">
-	                        <tbody class="default">
+                       <style type="text/css">
+                               tbody.default td {
+                               border: 1px solid black;
+                               text-align: center;
+                               vertical-align:middle;
+                               font-size: 100%;
+                               }
+                           </style>
+                       <div style="font-weight:bold;font-size:150%;text-align:center;">
+                           <p>PROCES VERBAL PREDARE PRIMIRE BILETE LA ORDIN</p>
+                           <p><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/> </p>
+                       </div>
+                       <p>SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO 15437993, Nr. Reg. Com. J04/535/2003  , </p>
+                       <p style="font-weight:bold;">A  PREDAT  CATRE </p>
+                       <p>SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu   </p>
+                       <p style="font-weight:bold;">BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI , <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>: </p>
+                       <table style="width:100%;">
+                           <tbody class="default">
                             <tr>
                                 <td>
                                     <span>SERIE SI NR. BO</span>
@@ -447,19 +447,19 @@
                                 </td>
                             </tr>
                         </tbody>
-	                    </table>
-	                    <br />
-	                    <table style="width:100%;">
-	                        <tr>
-	                            <td style="width:60%;">
-	                                <strong>SC  ROMSYSTEMS  SRL</strong>
-	                            </td>
-	                            <td style="width:40%;">
-	                                <strong>SUCURSALA BACAU BCR  </strong>
-	                            </td>
-	                        </tr>
-	                    </table>
-	                </div>
+                       </table>
+                       <br />
+                       <table style="width:100%;">
+                           <tr>
+                               <td style="width:60%;">
+                                   <strong>SC  ROMSYSTEMS  SRL</strong>
+                               </td>
+                               <td style="width:40%;">
+                                   <strong>SUCURSALA BACAU BCR  </strong>
+                               </td>
+                           </tr>
+                       </table>
+                   </div>
 
             </t>
         </template>

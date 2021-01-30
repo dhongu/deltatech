@@ -18,11 +18,11 @@
                     <group>
                         <field name="quant_ids" options="{'no_create': True}" nolabel="1">
                           <tree>
-								<field name="product_id" />
-								<field name="qty" />
-								<field name="lot_id" />
+                        <field name="product_id" />
+                        <field name="qty" />
+                        <field name="lot_id" />
                                 <field name="location_id" />
-							</tree>
+                     </tree>
                         </field>
                     </group>
                     <footer>

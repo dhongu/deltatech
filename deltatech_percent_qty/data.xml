@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data noupdate="1">
-		<record id="product.product_uom_percent" model="product.uom">
-			<field name="category_id" ref="product.product_uom_categ_unit" />
-			<field name="name">%</field>
-			<field name="factor" eval="1.0" />
-			<field name="rounding" eval="0.001" />
-		</record>
-		<record id="product.product_uom_percent_double" model="product.uom">
-			<field name="category_id" ref="product.product_uom_categ_unit"/>
-			<field name="name">%%</field>
-			<field name="factor" eval="1.0"/>
-			<field name="rounding" eval="0.001"/>
-		</record>
-	</data>
+   <data noupdate="1">
+      <record id="product.product_uom_percent" model="product.uom">
+         <field name="category_id" ref="product.product_uom_categ_unit" />
+         <field name="name">%</field>
+         <field name="factor" eval="1.0" />
+         <field name="rounding" eval="0.001" />
+      </record>
+      <record id="product.product_uom_percent_double" model="product.uom">
+         <field name="category_id" ref="product.product_uom_categ_unit"/>
+         <field name="name">%%</field>
+         <field name="factor" eval="1.0"/>
+         <field name="rounding" eval="0.001"/>
+      </record>
+   </data>
 </openerp>

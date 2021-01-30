@@ -29,7 +29,7 @@
                    '',
 
     "data" : [],
-"license": "AGPL-3",
+    "license": "AGPL-3",
     "active": False,
     "installable": True,
     'application': True,

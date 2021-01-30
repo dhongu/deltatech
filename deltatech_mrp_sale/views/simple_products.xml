@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
         <record id="view_simple_products" model="ir.ui.view">
-			<field name="name">view.simple.products</field>
-			<field name="model">product.product</field>
+         <field name="name">view.simple.products</field>
+         <field name="model">product.product</field>
             <field name= "arch" type = "xml">
                     <tree editable="top" create="1">
                         <field name="name" readonly="1"/>
@@ -15,8 +15,8 @@
         </record>
 
         <record id="view_simple_products_form" model="ir.ui.view">
-			<field name="name">view.simple.products</field>
-			<field name="model">product.product</field>
+         <field name="name">view.simple.products</field>
+         <field name="model">product.product</field>
             <field name= "arch" type = "xml">
                 <form>
                     <field name="name" readonly="1"/>
@@ -27,16 +27,16 @@
         </record>
 
         <record id="deltatech_mrp_sale.action_sale_mrp_simple_products" model="ir.actions.act_window">
-			<field name="name">Simple products</field>
-			<field name="res_model">product.product</field>
+         <field name="name">Simple products</field>
+         <field name="res_model">product.product</field>
             <field name="view_id" ref="view_simple_products"/>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-			<field name="domain">[('is_simple_product','=',True)]</field>
+         <field name="domain">[('is_simple_product','=',True)]</field>
             <field name="limit">250</field>
-		</record>
+      </record>
 
-		<menuitem name="Produse simple" id="menu_sale_mrp_simple_products" action="action_sale_mrp_simple_products"  parent="base.menu_product" sequence="40" groups="mrp.group_mrp_manager" />
+      <menuitem name="Produse simple" id="menu_sale_mrp_simple_products" action="action_sale_mrp_simple_products"  parent="base.menu_product" sequence="40" groups="mrp.group_mrp_manager" />
 
 
 

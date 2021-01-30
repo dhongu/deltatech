@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <form string="Create Expenses Deduction" version="7.0">
                     <group>
-						<field name="date_expense"/>
+                  <field name="date_expense"/>
                     </group>
                     <footer>
                         <button string="Create" name="create_expenses_deduction" type="object" class="oe_highlight"/>

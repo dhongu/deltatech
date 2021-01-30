@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<record id="view_take_bom_form" model="ir.ui.view">
-			<field name="name">Take List</field>
-			<field name="model">sale.mrp.take.bom</field>
-			<field name="arch" type="xml">
-				<form>
+   <data>
+      <record id="view_take_bom_form" model="ir.ui.view">
+         <field name="name">Take List</field>
+         <field name="model">sale.mrp.take.bom</field>
+         <field name="arch" type="xml">
+            <form>
 
-					<group>
-						<field name="product_id" />
-						<field name="bom_id" domain="[('article_list','=',True)]" />
-					</group>
+               <group>
+                  <field name="product_id" />
+                  <field name="bom_id" domain="[('article_list','=',True)]" />
+               </group>
 
-					<footer>
-						<button name="take" string="_Apply" type="object"
-							class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-					</footer>
-				</form>
-			</field>
-		</record>
-
-
+               <footer>
+                  <button name="take" string="_Apply" type="object"
+                     class="oe_highlight" />
+                  or
+                  <button string="Cancel" class="oe_link" special="cancel" />
+               </footer>
+            </form>
+         </field>
+      </record>
 
 
-		<act_window id="action_take_bom" name="Take List"
-			res_model="sale.mrp.take.bom" src_model="sale.order"
-			view_mode="form"   target="new"   />
+
+
+      <act_window id="action_take_bom" name="Take List"
+         res_model="sale.mrp.take.bom" src_model="sale.order"
+         view_mode="form"   target="new"   />
 
  
 
-	</data>
+   </data>
 </openerp>

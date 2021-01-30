@@ -4,15 +4,15 @@
 <openerp>
     <data>
     <template id="auth_signup_fields" inherit_id="auth_signup.fields">
-		<div class="form-group field-name" position='after'>
-	
-		      <div class="form-group field-vat">
+      <div class="form-group field-name" position='after'>
+
+            <div class="form-group field-vat">
                 <label for="vat" class="control-label">VAT</label>
                 <input type="text" name="vat" t-att-value="vat" id="vat" class="form-control" placeholder="RO12345678"
                     required="required"  />
             </div>
-	
-		</div>    
+
+      </div>
     </template>
     </data>
 </openerp>

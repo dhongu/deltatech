@@ -25,8 +25,8 @@
                     <t t-call="report.external_layout">
                         <div class="page">
                             <!--
-							<t t-call="l10n_ro_stock_picking_report.report_address" />
-							-->
+                     <t t-call="l10n_ro_stock_picking_report.report_address" />
+                     -->
                             <h3>
                                 <span>Reception:</span>
 
@@ -129,13 +129,13 @@
                                 </tbody>
                             </table>
                             <!--
-							<t t-call="l10n_ro_stock_picking_report.report_totals" />
-							<t t-call="l10n_ro_stock_picking_report.report_reception_sign" />
+                     <t t-call="l10n_ro_stock_picking_report.report_totals" />
+                     <t t-call="l10n_ro_stock_picking_report.report_reception_sign" />
 
-							<div t-if="o.note">
-								<span t-field="o.note" />
-							</div>
-							-->
+                     <div t-if="o.note">
+                        <span t-field="o.note" />
+                     </div>
+                     -->
                             <div class="oe_structure"/>
                         </div>
                     </t>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
         <report 
             string="Declaration of Conformity" 
@@ -27,5 +27,5 @@
             name="deltatech_dc.report_dc_invoice" 
             file="deltatech_dc.report_dc_invoice"    />
 
-	</data>
+   </data>
 </openerp>

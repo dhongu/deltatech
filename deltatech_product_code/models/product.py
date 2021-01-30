@@ -39,6 +39,7 @@ class product_template(models.Model):
         ('name_code', 'unique (default_code,active,company_id)', "Internal Reference already exists !"),
     ]
 
+
     @api.multi
     def button_new_code(self):
         for product in self:

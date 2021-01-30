@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
         <act_window id="calculate_bom_prices_action" name="Calculeaza pret BOM" res_model="calculate_bom_prices"
         src_model="product.product" view_mode="form" target="new"/>

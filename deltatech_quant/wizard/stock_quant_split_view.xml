@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<record id="view_stock_quant_split_form" model="ir.ui.view">
-			<field name="name">Stock Quant Split</field>
-			<field name="model">stock.quant.split</field>
-			<field name="arch" type="xml">
-				<form>
-					<group>
-						<field name="parts" />
-					</group>
-					<footer>
-						<button name="do_split" string="_Apply" type="object" class="oe_highlight" />
-						or
-						<button string="Cancel" class="oe_link" special="cancel" />
-					</footer>
-				</form>
-			</field>
-		</record>
+   <data>
+      <record id="view_stock_quant_split_form" model="ir.ui.view">
+         <field name="name">Stock Quant Split</field>
+         <field name="model">stock.quant.split</field>
+         <field name="arch" type="xml">
+            <form>
+               <group>
+                  <field name="parts" />
+               </group>
+               <footer>
+                  <button name="do_split" string="_Apply" type="object" class="oe_highlight" />
+                  or
+                  <button string="Cancel" class="oe_link" special="cancel" />
+               </footer>
+            </form>
+         </field>
+      </record>
 
 
 
-		<act_window id="action_stock_quant_split" 
-			name="Split" 
-			res_model="stock.quant.split" 
-			src_model="stock.quant"
-			view_mode="form" 
-		
-			target="new" />
+      <act_window id="action_stock_quant_split"
+         name="Split"
+         res_model="stock.quant.split"
+         src_model="stock.quant"
+         view_mode="form"
+
+         target="new" />
 
 
 
 
-	</data>
+   </data>
 </openerp>

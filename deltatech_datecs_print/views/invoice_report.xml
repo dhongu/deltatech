@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<report string="Print Datecs" id="action_report_invoice" model="account.invoice" report_type="qweb-pdf" name="deltatech_datecs_print.report_invoice"
-			file="deltatech_datecs_print.report_invoice" />
+   <data>
+      <report string="Print Datecs" id="action_report_invoice" model="account.invoice" report_type="qweb-pdf" name="deltatech_datecs_print.report_invoice"
+         file="deltatech_datecs_print.report_invoice" />
 
 
-		<template id="report_invoice">
-			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_datecs_print.report_invoice_datecs')" />
-				</t>
-			</t>
-		</template>
+      <template id="report_invoice">
+         <t t-call="report.html_container">
+            <t t-foreach="doc_ids" t-as="doc_id">
+               <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_datecs_print.report_invoice_datecs')" />
+            </t>
+         </t>
+      </template>
 
-		<template id="report_invoice_datecs">
-
-
-			<t t-foreach="o.invoice_line" t-as="line">
-
-				<t t-set='line_value' t-value='"P,1,______,_,__;"+line.product_id.name+";;;;;"' />
-				<div t-esc='line_value' />
-				<t t-set='line_value' t-value='"S,1,______,_,__;"+line.product_id.default_code+";"+str(line.price_unit)+";"+str(line.quantity)+";1;2;1;0;0;"' />
-				<div t-esc='line_value' />
-
-			</t>
-			<!--Verificare plati si defalcare pe registru numerar/banca-->
-			<t t-if="o.payment_ids">
-				<t t-foreach="o.payment_ids" t-as="payment">
-					<t t-if="payment.journal_id.type=='bank'">
-						<t t-set='line_total' t-value='"T,1,______,_,__;1;"+str(payment.credit)+";;;;"' />
-						<div t-esc='line_total' />
-					</t>
-					<t t-if="payment.journal_id.type=='cash'">
-						<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(payment.credit)+";;;;"' />
-						<div t-esc='line_total' />
-					</t>
-				</t>
-			</t>
-
-			<!--<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(o.amount_total)+";;;;"' />-->
-			<!--<div t-esc='line_total' />-->
+      <template id="report_invoice_datecs">
 
 
+         <t t-foreach="o.invoice_line" t-as="line">
 
-		</template>
-	</data>
+            <t t-set='line_value' t-value='"P,1,______,_,__;"+line.product_id.name+";;;;;"' />
+            <div t-esc='line_value' />
+            <t t-set='line_value' t-value='"S,1,______,_,__;"+line.product_id.default_code+";"+str(line.price_unit)+";"+str(line.quantity)+";1;2;1;0;0;"' />
+            <div t-esc='line_value' />
+
+         </t>
+         <!--Verificare plati si defalcare pe registru numerar/banca-->
+         <t t-if="o.payment_ids">
+            <t t-foreach="o.payment_ids" t-as="payment">
+               <t t-if="payment.journal_id.type=='bank'">
+                  <t t-set='line_total' t-value='"T,1,______,_,__;1;"+str(payment.credit)+";;;;"' />
+                  <div t-esc='line_total' />
+               </t>
+               <t t-if="payment.journal_id.type=='cash'">
+                  <t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(payment.credit)+";;;;"' />
+                  <div t-esc='line_total' />
+               </t>
+            </t>
+         </t>
+
+         <!--<t t-set='line_total' t-value='"T,1,______,_,__;0;"+str(o.amount_total)+";;;;"' />-->
+         <!--<div t-esc='line_total' />-->
+
+
+
+      </template>
+   </data>
 </openerp>   

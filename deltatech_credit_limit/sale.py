@@ -44,7 +44,7 @@ class sale_order(models.Model):
         for invoice in  draft_invoices:
             draft_invoices_amount += invoice.currency_id.compute(invoice.amount_total,self.env.user.company_id.currency_id)
         
-        print self.partner_id.credit_limit ,   self.partner_id.credit ,   none_invoiced_amount , draft_invoices_amount
+        print (self.partner_id.credit_limit ,   self.partner_id.credit ,   none_invoiced_amount , draft_invoices_amount)
 
         available_credit = self.partner_id.credit_limit -   self.partner_id.credit -   none_invoiced_amount - draft_invoices_amount
 

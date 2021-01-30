@@ -1,54 +1,54 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
+   <data>
 
-		<record id="product_normal_form_view" model="ir.ui.view">
-			<field name="name">product.product.form</field>
-			<field name="model">product.product</field>
-			<field name="type">tree</field>
-			<field name="inherit_id" ref="product.product_normal_form_view" />
-			<field name="arch" type="xml">
-			 	<group name="general" position="inside">
-				 
-					<label for="bom_price" />
-					<div>
-						<field name="bom_price" class="oe_inline" />
-						<button name="button_update_bom_price" string="Update" type="object" class="oe_edit_only oe_inline" />
-					</div>
-					<field name="is_simple_product"/>
-				</group>
-			</field>
-		</record>
+      <record id="product_normal_form_view" model="ir.ui.view">
+         <field name="name">product.product.form</field>
+         <field name="model">product.product</field>
+         <field name="type">tree</field>
+         <field name="inherit_id" ref="product.product_normal_form_view" />
+         <field name="arch" type="xml">
+             <group name="general" position="inside">
 
-		<record id="product_product_tree_view" model="ir.ui.view">
-			<field name="name">product.product.tree</field>
-			<field name="model">product.product</field>
-			<field name="type">tree</field>
-			<field name="inherit_id" ref="product.product_product_tree_view" />
-			<field name="arch" type="xml">
-				<field name="price" position="after">
-					<field name="standard_price" />
-					<field name="bom_price" />
-					<field name="is_simple_product"/>
-				</field>
-			</field>
-		</record>
-		
-		<record id="action_update_product_bom_price" model="ir.actions.server">
-			<field name="name">Update BOM Price</field>
-			<field name="model_id" ref="model_product_product" />
-			<field name="state">code</field>
-			<field name="code">action = self.update_bom_price(cr, uid, context.get('active_ids', []), context=context)</field>
-		</record>
+               <label for="bom_price" />
+               <div>
+                  <field name="bom_price" class="oe_inline" />
+                  <button name="button_update_bom_price" string="Update" type="object" class="oe_edit_only oe_inline" />
+               </div>
+               <field name="is_simple_product"/>
+            </group>
+         </field>
+      </record>
 
-		<record id="more_item_update_product_bom_price" model="ir.values">
-			<field name="key2" eval="'client_action_multi'" />
-			<field name="model" eval="'product.product'" />
-			<field name="name">Update BOM Price</field>
-			<field name="value" eval="'ir.actions.server,%d'%action_update_product_bom_price" />
-		</record>
-		
-		
-		
-	</data>
+      <record id="product_product_tree_view" model="ir.ui.view">
+         <field name="name">product.product.tree</field>
+         <field name="model">product.product</field>
+         <field name="type">tree</field>
+         <field name="inherit_id" ref="product.product_product_tree_view" />
+         <field name="arch" type="xml">
+            <field name="price" position="after">
+               <field name="standard_price" />
+               <field name="bom_price" />
+               <field name="is_simple_product"/>
+            </field>
+         </field>
+      </record>
+
+      <record id="action_update_product_bom_price" model="ir.actions.server">
+         <field name="name">Update BOM Price</field>
+         <field name="model_id" ref="model_product_product" />
+         <field name="state">code</field>
+         <field name="code">action = self.update_bom_price(cr, uid, context.get('active_ids', []), context=context)</field>
+      </record>
+
+      <record id="more_item_update_product_bom_price" model="ir.values">
+         <field name="key2" eval="'client_action_multi'" />
+         <field name="model" eval="'product.product'" />
+         <field name="name">Update BOM Price</field>
+         <field name="value" eval="'ir.actions.server,%d'%action_update_product_bom_price" />
+      </record>
+
+
+
+   </data>
 </openerp>

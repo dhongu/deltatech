@@ -49,23 +49,23 @@
 
                     <filter string="Input This Month" name="in_month"
                             domain="[('input_date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								     ('input_date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                             ('input_date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
 
                     <filter string="Input in Previous Month" name="in_prev_month"
                             domain="[('input_date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-							     	 ('input_date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                              ('input_date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
 
 
                     <filter string="Output This Month" name="out_month"
                             domain="[('output_date','&gt;=', (context_today() + relativedelta(day=01, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-								     ('output_date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                             ('output_date','&lt;=', (context_today() + relativedelta(day=01, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
 
                     <filter string="Output in Previous Month" name="out_prev_month"
                             domain="[('output_date','&gt;=', (context_today() + relativedelta(day=01, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-							    	 ('output_date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                             ('output_date','&lt;=', (context_today() + relativedelta(day=01, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
                     />
 
 
