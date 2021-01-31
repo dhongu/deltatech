@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright (c) 2016 Deltatech All Rights Reserved
+# Copyright (c) 2017 Deltatech All Rights Reserved
 #                    Dorin Hongu <dhongu(@)gmail(.)com
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -17,20 +17,22 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#
 ##############################################################################
 
 
 
-
-from . import models
-# from . import report
+from odoo import models, fields, api, _
 
 
 
+class PackOperationLot(models.Model):
+    _inherit = "stock.pack.operation.lot"
+
+    @api.model
+    def create(self, vals):
+        if vals.get('lot_name', False) == '/':
+            vals['lot_name'] = self.env['ir.sequence'].next_by_code('stock.lot.serial')
+        return super(PackOperationLot, self).create(vals)
 
 
 
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

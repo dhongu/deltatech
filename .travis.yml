@@ -20,21 +20,6 @@ branches:
     - "13.0"
     - "14.0"
 
-stages:
-  - linting
-  - test
-
-jobs:
-  include:
-    - stage: linting
-      name: "pre-commit"
-      before_install:
-      install: pip install pre-commit
-      script: pre-commit run --all --show-diff-on-failure --verbose --color always
-      after_success:
-    - stage: test
-      env:
-        - TESTS="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
 
 env:
   global:
