@@ -1,17 +1,8 @@
 # ©  2017-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-
-import time
-from datetime import datetime
-
 from odoo import _, api, fields, models
-from odoo.exceptions import RedirectWarning, Warning, except_orm
-from odoo.tools import (
-    DEFAULT_SERVER_DATE_FORMAT,
-    DEFAULT_SERVER_DATETIME_FORMAT,
-    DEFAULT_SERVER_TIME_FORMAT,
-)
+from odoo.exceptions import Warning
 
 import odoo.addons.decimal_precision as dp
 
@@ -67,5 +58,12 @@ class account_invoice_line(models.Model):
                         )
                     else:
                         price_unit = invoice_line.price_unit
+                        if invoice_line.sale_line_ids:
+                            if invoice_line.sale_line_ids[0].currency_id != invoice_line.currency_id:
+                                from_currency = invoice_line.sale_line_ids[0].currency_id
+                                to_cur = invoice_line.invoice_id.currency_id
+                                price_unit = from_currency.with_context(date=date_eval).compute(price_unit, to_cur,
+                                                                                                round=False)
+
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.invoice_id.state in ["draft"]:
                         raise Warning(_("You can not sell below the purchase price."))
