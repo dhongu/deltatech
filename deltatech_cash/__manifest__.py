@@ -13,5 +13,6 @@
     "depends": ["account"],
     "data": ["wizard/cash_box_view.xml"],
     "development_status": "Beta",
+    "images": ["static/description/main_screenshot.png"],
     "maintainers": ["dhongu"],
 }
