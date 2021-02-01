@@ -91,6 +91,7 @@
                                     <field
                                         name="partner_id"
                                         string="Supplier"
+                                        attrs="{'required': [('type','!=', 'expenses')]}"
                                         context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
                                     />
                                     <field
@@ -98,6 +99,7 @@
                                         groups="account.group_account_user"
                                         optional="hide"
                                     />
+                                    <field name="type" />
                                     <field name="state" optional="hide" />
                                     <field name="currency_id" invisible="1" />
                                 </tree>
