@@ -3,6 +3,7 @@
     <template id="assets_frontend" inherit_id="web.assets_frontend" name="Portal Assets" priority="16">
         <xpath expr="//script[last()]" position="after">
             <script type="text/javascript" src="/deltatech_website_city/static/src/js/portal.js" />
+            <script type="text/javascript" src="/deltatech_website_city/static/src/js/website_sale.js" />
         </xpath>
     </template>
 </odoo>
