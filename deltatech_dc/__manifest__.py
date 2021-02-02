@@ -24,6 +24,7 @@
         "views/report_dc.xml",
         "security/ir.model.access.csv",
     ],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
