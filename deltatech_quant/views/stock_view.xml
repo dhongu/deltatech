@@ -6,7 +6,7 @@
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.view_stock_quant_tree" />
             <field name="arch" type="xml">
-                <field name="qty" position="after">
+                <field name="quantity" position="after">
                     <field name="categ_id" />
                     <field name="supplier_id" />
                     <field name="customer_id" />
@@ -20,7 +20,7 @@
             <field name="model">stock.quant</field>
             <field name="inherit_id" ref="stock.view_stock_quant_form" />
             <field name="arch" type="xml">
-                <field name="qty" position="after">
+                <field name="quantity" position="after">
                     <field name="categ_id" />
                     <field name="supplier_id" />
                     <field name="invoice_id" />
@@ -50,7 +50,7 @@
                 </filter>
             </field>
         </record>
-        <record id="view_move_tree" model="ir.ui.view">
+        <!--        <record id="view_move_tree" model="ir.ui.view">
             <field name="name">stock.move.tree</field>
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="stock.view_move_tree" />
@@ -61,17 +61,17 @@
                         string="Picking"
                         type="object"
                         groups="stock.group_stock_user"
-                        icon="terp-stock_symbol-selection"
+
                     />
                     <button
                         name="show_invoice"
                         string="Invoice"
                         type="object"
                         groups="stock.group_stock_user"
-                        icon="STOCK_INFO"
+
                     />
                 </field>
             </field>
-        </record>
+        </record>-->
     </data>
 </odoo>

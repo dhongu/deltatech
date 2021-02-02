@@ -33,7 +33,11 @@
                             context="{'group_by':'product_id','set_visible':True}"
                         />
                         <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
-                        <filter string="Manufacturer of Product" context="{'group_by':'manufacturer'}" />
+                        <filter
+                            string="Manufacturer of Product"
+                            name="manufacturer"
+                            context="{'group_by':'manufacturer'}"
+                        />
                     </group>
                 </search>
             </field>

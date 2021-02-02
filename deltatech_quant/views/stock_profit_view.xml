@@ -17,18 +17,18 @@
                 </tree>
             </field>
         </record>
-        <record id="view_stock_profit_report_graph" model="ir.ui.view">
-            <field name="name">stock.profit.report.graph</field>
+        <record id="view_stock_profit_report_pivot" model="ir.ui.view">
+            <field name="name">stock.profit.report.pivot</field>
             <field name="model">stock.profit.report</field>
             <field name="arch" type="xml">
-                <graph string="Stock profit report" type="pivot" stacked="True">
+                <pivot string="Stock profit report" stacked="True">
                     <field name="manufacturer" type="row" />
                     <field name="input_qty" type="measure" />
                     <field name="output_qty" type="measure" />
                     <field name="input_amount" type="measure" />
                     <field name="output_amount" type="measure" />
                     <field name="profit" type="measure" />
-                </graph>
+                </pivot>
             </field>
         </record>
         <record id="view_stock_profit_report_filter" model="ir.ui.view">
@@ -97,16 +97,16 @@
             <field name="name">Stock profit report</field>
             <field name="res_model">stock.profit.report</field>
             <field name="view_type">form</field>
-            <field name="view_mode">pivot,graph</field>
+            <field name="view_mode">pivot,tree</field>
             <field name="view_id" ref="view_stock_profit_report_tree" />
             <field name="search_view_id" ref="view_stock_profit_report_filter" />
             <field name="help">This report performs analysis on your stock.</field>
             <field name="context">{'default_search_out_prev_month':1 }</field>
         </record>
-        <record model="ir.actions.act_window.view" id="action_stock_profit_report_graph">
+        <record model="ir.actions.act_window.view" id="action_stock_profit_report_pivot">
             <field name="sequence" eval="1" />
-            <field name="view_mode">graph</field>
-            <field name="view_id" ref="view_stock_profit_report_graph" />
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_stock_profit_report_pivot" />
             <field name="act_window_id" ref="action_stock_profit_report" />
         </record>
         <record model="ir.actions.act_window.view" id="action_stock_profit_report_tree">
