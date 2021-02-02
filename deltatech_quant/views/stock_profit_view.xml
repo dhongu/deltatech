@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_stock_profit_report_tree" model="ir.ui.view">
+            <field name="name">stock.profit.report.tree</field>
+            <field name="model">stock.profit.report</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Stock profit report" create="false">
+                    <field name="product_id" />
+                    <field name="input_qty" sum="Input Qty" />
+                    <field name="output_qty" sum="Output Qty" />
+                    <field name="input_amount" sum="Input amount" />
+                    <field name="output_amount" sum="Output amount" />
+                    <field name="profit" sum="Profit" />
+                    <field name="qty_available" sum="Output amount" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_stock_profit_report_graph" model="ir.ui.view">
+            <field name="name">stock.profit.report.graph</field>
+            <field name="model">stock.profit.report</field>
+            <field name="arch" type="xml">
+                <graph string="Stock profit report" type="pivot" stacked="True">
+                    <field name="manufacturer" type="row" />
+                    <field name="input_qty" type="measure" />
+                    <field name="output_qty" type="measure" />
+                    <field name="input_amount" type="measure" />
+                    <field name="output_amount" type="measure" />
+                    <field name="profit" type="measure" />
+                </graph>
+            </field>
+        </record>
+        <record id="view_stock_profit_report_filter" model="ir.ui.view">
+            <field name="name">stock.profit.report.select</field>
+            <field name="model">stock.profit.report</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="output_date" />
+                    <field name="input_date" />
+                    <filter
+                        string="Input This Month"
+                        name="in_month"
+                        domain="[('input_date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+                             ('input_date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <filter
+                        string="Input in Previous Month"
+                        name="in_prev_month"
+                        domain="[('input_date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+                              ('input_date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <filter
+                        string="Output This Month"
+                        name="out_month"
+                        domain="[('output_date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
+                             ('output_date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <filter
+                        string="Output in Previous Month"
+                        name="out_prev_month"
+                        domain="[('output_date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
+                             ('output_date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
+                    />
+                    <separator />
+                    <field name="product_id" />
+                    <field name="categ_id" />
+                    <field name="manufacturer" />
+                    <group expand="1" string="Group By...">
+                        <filter
+                            string="Product"
+                            name="product"
+                            context="{'group_by':'product_id','set_visible':True}"
+                        />
+                        <filter string="Category of Product" name="category" context="{'group_by':'categ_id'}" />
+                        <filter
+                            string="Manufacturer of Product"
+                            name="group_by_manufacturer"
+                            context="{'group_by':'manufacturer'}"
+                        />
+                        <filter
+                            string="Date Input"
+                            name="group_by_input_date"
+                            context="{'group_by':'input_date:month'}"
+                        />
+                        <filter
+                            string="Date Output"
+                            name="group_by_output_date"
+                            context="{'group_by':'output_date:month'}"
+                        />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_stock_profit_report" model="ir.actions.act_window">
+            <field name="name">Stock profit report</field>
+            <field name="res_model">stock.profit.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_id" ref="view_stock_profit_report_tree" />
+            <field name="search_view_id" ref="view_stock_profit_report_filter" />
+            <field name="help">This report performs analysis on your stock.</field>
+            <field name="context">{'default_search_out_prev_month':1 }</field>
+        </record>
+        <record model="ir.actions.act_window.view" id="action_stock_profit_report_graph">
+            <field name="sequence" eval="1" />
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_stock_profit_report_graph" />
+            <field name="act_window_id" ref="action_stock_profit_report" />
+        </record>
+        <record model="ir.actions.act_window.view" id="action_stock_profit_report_tree">
+            <field name="sequence" eval="2" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_stock_profit_report_tree" />
+            <field name="act_window_id" ref="action_stock_profit_report" />
+        </record>
+        <menuitem
+            action="action_stock_profit_report"
+            id="menu_stock_profit_report_tree"
+            parent="stock.menu_warehouse_report"
+        />
+    </data>
+</odoo>
