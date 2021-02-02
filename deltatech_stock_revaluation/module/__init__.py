@@ -20,40 +20,18 @@
 #
 ##############################################################################
 
-{
-    "name" : "Deltatech Stock Revaluation",
-    "version" : "2.0",
-    "author": "Terrabit, Dorin Hongu",
-    "website" : "www.terrabit.ro",
-    "description": """
-    
-Functionalitati:
 
-    - reevaluare stoc
-    
 
-    """,
-    
-    "category" : "Generic Modules/Stock",
-    "depends": ['stock'],
 
-    "license": "AGPL-3",
+import stock
+import stock_revaluation
 
-    "data" : [ 
-                  'views/stock_view.xml',
-                  'views/stock_revaluation_view.xml',
-                  'data/stock_revaluation_data.xml',
-                  'security/stock_revaluation_security.xml',
-                  'security/ir.model.access.csv',
-                  'views/deltatech_stock_revaluation.xml',
-                  
-             ],
-    
-    
-    "active": False,
-    "installable": True,
-}
+
+
+
+
+
+
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
