@@ -209,7 +209,7 @@ class RequiredOrderLine(models.Model):
 
     def launch_replenishment(self):
         uom_reference = self.product_id.uom_id
-        self.quantity = self.product_uom_id._compute_quantity(self.product_qty, uom_reference)
+        self.product_qty = self.product_uom_id._compute_quantity(self.product_qty, uom_reference)
         try:
             self.env["procurement.group"].with_context(clean_context(self.env.context)).run(
                 [
