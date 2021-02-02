@@ -42,3 +42,52 @@ class ServiceEquipment(models.Model):
     equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment actual location", copy=False)
 
     equipment_history_ids = fields.One2many("service.equipment.history", "equipment_id", string="Equipment History")
+
+    common_history_ids = fields.One2many("common.history", "equipment_id", string="Equipment History")
+
+    @api.multi
+    def common_history_button(self):
+        common_histories = self.common_history_ids
+        # context = {
+        #     'default_equipment_id': self.id,
+        #     'default_partner_id': self.partner_id.id,
+        #     'default_agreement_id': self.agreement_id.id,
+        #     'default_address_id': self.address_id.id,
+        #     'default_contact_id': self.contact_id.id,
+        # }
+        return {
+            "domain": "[('id','in', [" + ",".join(map(str, common_histories.ids)) + "])]",
+            "name": "Istoric",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "common.history",
+            "view_id": False,
+            # 'context': context,
+            "type": "ir.actions.act_window",
+        }
+
+    @api.multi
+    def remove_from_agreement_button(self):
+        counters = ""
+        if self.meter_ids:
+            for meter in self.meter_ids:
+                counters += str(meter.uom_id.name) + ": " + str(meter.total_counter_value) + "\r\n"
+        emplacement = self.emplacement or ""
+        values = {
+            "name": "Scoatere din contract",
+            "equipment_id": self.id,
+            "agreement_id": self.agreement_id.id,
+            # 'description': 'Scoatere din contract.\r\nlContori:' + counters
+            "description": "Scoatere din contract nr "
+            + str(self.agreement_id.name)
+            + ", Partener "
+            + str(self.partner_id.name)
+            + ", punct de lucru "
+            + str(self.address_id.name)
+            + ", amplasament "
+            + emplacement
+            + ".\r\nContori:"
+            + counters,
+        }
+        self.env["common.history"].create(values)
+        return super(ServiceEquipment, self).remove_from_agreement_button()

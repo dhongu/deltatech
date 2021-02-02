@@ -11,7 +11,7 @@
     "category": "Services",
     "depends": ["deltatech_service_equipment"],
     "license": "AGPL-3",
-    "data": [],
+    "data": ["views/common_history_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
     "development_status": "stable",
     "maintainers": ["dhongu"],
