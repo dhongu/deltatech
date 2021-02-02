@@ -1,0 +1,595 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_promissory_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-28 07:16+0000\n"
+"PO-Revision-Date: 2021-01-28 07:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "*Prezentul BORDEROU va fi completat in 4 exemplare"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Anexa nr. 3</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Banca beneficiarului</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Banca platitorului</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<span>DATA SCADENTEI</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<span>EMITENT</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>IBAN Beneficiar</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>IBAN platitor</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Nume/Denumire Beneficiar</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Nume/Denumire Platitor</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>ROMSYSTEMS S.R.L.</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<span>SERIE SI NR. BO</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<span>SUMA</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Seria si numar ID</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>Suma</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<span>VALUTA</span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "<span>VALUTA<sup>1</sup></span>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<strong>SC  ROMSYSTEMS  SRL</strong>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "<strong>SUCURSALA BACAU BCR  </strong>"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "A  PREDAT  CATRE"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__agreement
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Agreement"
+msgstr "Contract"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__agreement
+msgid ""
+"Agrement with date and number of rate. Ex:  CTR. 422 S / 30.05.2017  12 RATE"
+msgstr "Contract cu data si nr. rate. Ex: CTR. 422 S / 30.05.2017  12 RATE"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Anexez documentele justificative stabilite in conformitate cu prevederile Circularei\n"
+"                                    BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de\n"
+"                                    debit de tipul cecului, cambiei si biletului la ordin in format vechi"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI ,"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+#, python-format
+msgid "BO - ultimul - %s pentru %s a fost incasat"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__acc_beneficiary
+msgid "Bank Account Beneficiary"
+msgstr "Cont beneficiar"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__acc_issuer
+msgid "Bank Account Issuer"
+msgstr "Cont emitent"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__bank_beneficiary
+msgid "Bank Beneficiary"
+msgstr "Banca beneficiar"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__bank_issuer
+msgid "Bank Issuer"
+msgstr "Banca emitent"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__beneficiary_id
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Beneficiary"
+msgstr "Beneficiar"
+
+#. module: deltatech_promissory_note
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+#, python-format
+msgid "Campul <Valoare> trebuie sa fie mai mare decat 0!"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Campul va fi completat de banca beneficiarului la primirea ID si va fi confirmat\n"
+"                                    prin aplicarea semnaturii si stampilei functionarului bancar"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__state__cashed
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Cashed"
+msgstr "Încasat"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__cashed_amount
+msgid "Cashed Amount"
+msgstr "Suma încasată RON"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__cashed_date
+msgid "Cashed Date"
+msgstr "Data încasării"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__note
+msgid "Comments"
+msgstr "Note"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__currency_id
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__type__customer
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Customer"
+msgstr "Client"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru\n"
+"                                    decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in\n"
+"                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca\n"
+"                                    platitorului in T-1 in data prezentarii la plata"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Data receptiei in Centrul de Procesare<sup>4</sup>........................"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "Data receptiei<sup>2</sup>........................"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Data remiterii pe circuit a ID = Data "
+"receptiei<sup>3</sup>........................"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Data remiterii pe circuit intrabancar catre Centrul de Procesare a ID este data\n"
+"                                    receptiei, daca ID au fost depuse in unitati pana la ora 13:00 si daca sunt\n"
+"                                    indeplinite toate conditiile de forma, continut si mandat (semnatura) ale\n"
+"                                    borderoului si ID"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Date Due"
+msgstr "Data scadenței"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre\n"
+"                                    incasare cu acest borderou"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__date_due
+msgid "Due Date"
+msgstr "Data scadenței"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Group By..."
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"ID va fi incasat/refuzat in 11 zile lucratoare de la data receptiei daca a fost\n"
+"                                    depus pana la ora 13:00. In cazul in care sunt prezentate ID la termene ce determina\n"
+"                                    pierderea dreptului de protest si regres clientul este responsabil si imputerniceste\n"
+"                                    banca sa transmita spre incasare ID luand la cunostinta si acceptand acest risc"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_needaction
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_has_error
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid ""
+"Instructez BCR sa procedeze conform prevederilor legale si informatiilor mentionate\n"
+"                                    la punctele 1, 2, 3, 4, 5, 6 din prezentul borderou."
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__issuer_id
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Issuer"
+msgstr "Emitent"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__is_last_bo
+msgid "Last note"
+msgstr "Ultimul BO"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Next Month"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__state__not_cashed
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Not Cashed"
+msgstr "Neîncasat"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "PROCES VERBAL PREDARE PRIMIRE BILETE LA ORDIN"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Previous Month"
+msgstr "Luna precedentă"
+
+#. module: deltatech_promissory_note
+#: model:res.groups,name:deltatech_promissory_note.bo_notifications
+msgid "Primeste atentionari BO"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model,name:deltatech_promissory_note.model_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_form
+msgid "Promissory Note"
+msgstr "Bilet la ordin"
+
+#. module: deltatech_promissory_note
+#: model:ir.actions.report,name:deltatech_promissory_note.action_report_promissory_note
+msgid "Promissory Note Bill"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.actions.report,name:deltatech_promissory_note.action_report_promissory_note_content
+msgid "Promissory Note Content"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.actions.act_window,name:deltatech_promissory_note.action_promissory_note
+#: model:ir.ui.menu,name:deltatech_promissory_note.menu_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
+msgid "Promissory Notes"
+msgstr "Bilete la ordin"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid ""
+"SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO "
+"15437993, Nr. Reg. Com. J04/535/2003  ,"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note
+msgid "SEMNATURA POSESOR"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.report_promissory_note_content
+msgid "SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Search"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__name
+msgid "Series and number"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_form
+msgid "Set Cashed"
+msgstr "Setează încasat"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_form
+msgid "Set Not Cashed"
+msgstr "Setează neîncasat"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__state
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
+msgid "Suma incasata RON cu TVA"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "This Month"
+msgstr "Luna curentă"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__type
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_promissory_note
+#: code:addons/deltatech_promissory_note/models/promissory_note.py:0
+#, python-format
+msgid "Ultimul BO incasat: %s, data: %s. Emitent: %s, suma: %s, contract: %s"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
+msgid "Valoare cu TVA"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields.selection,name:deltatech_promissory_note.selection__promissory_note__type__vendor
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_filter
+msgid "Vendor"
+msgstr "Furnizor"
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,field_description:deltatech_promissory_note.field_promissory_note__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model:ir.model.fields,help:deltatech_promissory_note.field_promissory_note__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
+msgid "amount"
+msgstr "Suma"
+
+#. module: deltatech_promissory_note
+#: model_terms:ir.ui.view,arch_db:deltatech_promissory_note.view_promissory_note_tree
+msgid "cashed_amount"
+msgstr "Suma încasată RON"

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!--Definire grup pentru atentionari BO-->
+        <record id="bo_notifications" model="res.groups">
+            <field name="name">Primeste atentionari BO</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+    </data>
+</odoo>

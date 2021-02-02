@@ -139,7 +139,7 @@ class AccountPayment(models.Model):
         for payment in self:
             auto_statement = payment.journal_id.auto_statement
             if auto_statement and not payment.statement_id and not payment.reconciled_statement_ids:
-                domain = [("date", "=", self.date), ("journal_id", "=", self.journal_id.id)]
+                domain = [("date", "=", payment.date), ("journal_id", "=", payment.journal_id.id)]
                 statement = self.env["account.bank.statement"].search(domain, limit=1)
                 if not statement:
                     values = {"journal_id": payment.journal_id.id, "date": payment.date, "name": "/"}
@@ -165,7 +165,7 @@ class AccountPayment(models.Model):
                 if payment.payment_type == "outbound":
                     values["amount"] = -1 * payment.amount
 
-                line = self.env["account.bank.statement.line"].create(values)
+                line = payment.env["account.bank.statement.line"].create(values)
                 lines |= line
                 payment.write({"statement_line_id": line.id})
 
