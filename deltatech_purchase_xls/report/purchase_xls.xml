@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report
+        string="Export Excel Purchase Order"
+        id="action_purchase_order_xls"
+        model="purchase.order"
+        report_type="xlsx"
+        file='PurchaseOrder.xlsx'
+        name="report_xlsx.purchase_order_xlsx"
+    />
+</odoo>
