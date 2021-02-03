@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<!--    <data noupdate="1">
+        <record id="seq_picking_consume" model="ir.sequence">
+            <field name="name">Sequence Consume</field>
+            <field name="code">stock.picking</field>
+            <field name="prefix">CONS/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="seq_picking_outgoing_not2binvoiced" model="ir.sequence">
+            <field name="name">Stock Outgoing not invoice</field>
+            <field name="code">stock.picking</field>
+            <field name="prefix">OUT/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="picking_type_consume" model="stock.picking.type">
+            <field name="name">Consume</field>
+            <field name="code">internal</field>
+            <field name="sequence_id" ref="seq_picking_consume" />
+            <field name="default_location_src_id" ref="stock.stock_location_stock" />
+            <field name="default_location_dest_id" ref="stock.location_production" />
+        </record>
+        <record id="picking_type_outgoing_not2binvoiced" model="stock.picking.type">
+            <field name="name">Stock Outgoing not invoice</field>
+            <field name="code">outgoing</field>
+            <field name="sequence_id" ref="seq_picking_outgoing_not2binvoiced" />
+            <field name="default_location_src_id" ref="stock.stock_location_stock" />
+            <field name="default_location_dest_id" ref="stock.stock_location_customers" />
+        </record>
+    </data>-->
+</odoo>
