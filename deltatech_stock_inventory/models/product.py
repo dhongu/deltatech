@@ -37,6 +37,19 @@ class ProductTemplate(models.Model):
             template.last_inventory_date = last_inventory_date
             template.last_inventory_id = last_inventory_id
 
+    def action_update_quantity_on_hand(self):
+        action = super(ProductTemplate, self).action_update_quantity_on_hand()
+        action_inventory_form = self.env.ref("stock.action_inventory_form").read()[0]
+        action["name"] = action_inventory_form["name"]
+        action["res_model"] = action_inventory_form["res_model"]
+        action["view_id"] = action_inventory_form["view_id"]
+        action["domain"] = []
+        action["views"] = [(False, "form")]
+        action["context"] = {"default_product_ids": self.product_variant_ids.ids}
+        action["target"] = "new"
+        action["res_id"] = False
+        return action
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
