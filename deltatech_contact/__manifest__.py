@@ -16,7 +16,7 @@
         # 'security/partner_security.xml',
         # 'security/ir.model.access.csv'
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
