@@ -1,0 +1,163 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="seq_required_order_resource" model="ir.sequence">
+            <field name="name">Required Products Orders</field>
+            <field name="code">required.order</field>
+            <field name="prefix">PR</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False" />
+        </record>
+    </data>
+
+
+    <data>
+
+
+        <record id="mt_order_confirmed" model="mail.message.subtype">
+            <field name="name">Required Products Order</field>
+            <field name="res_model">required.order</field>
+            <field name="default" eval="False" />
+            <field name="description">Required Products Order Confirmed</field>
+        </record>
+
+        <record id="mt_order_done" model="mail.message.subtype">
+            <field name="name">Required Products Order</field>
+            <field name="res_model">required.order</field>
+            <field name="default" eval="False" />
+            <field name="description">Required Products Order Done</field>
+        </record>
+        <record id="view_required_order_tree" model="ir.ui.view">
+            <field name="name">Required Products Orders</field>
+            <field name="model">required.order</field>
+            <field name="arch" type="xml">
+                <tree string="Required Products Orders">
+                    <field name="name" />
+                    <field name="location_id" />
+                    <field name="group_id" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_required_order_form" model="ir.ui.view">
+            <field name="name">required order</field>
+            <field name="model">required.order</field>
+            <field name="arch" type="xml">
+                <form string="Required Order">
+                    <header>
+                        <button
+                            name="order_confirm"
+                            states="draft"
+                            type="object"
+                            class="oe_highlight"
+                            string="Confirm"
+                        />
+                        <button
+                            name="check_order_done"
+                            states="progress"
+                            type="object"
+                            class="oe_highlight"
+                            string="Check status"
+                        />
+                        <button
+                            name="action_cancel"
+                            states="progress"
+                            string="Cancel Order"
+                            type="object"
+                            groups="base.group_user"
+                        />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,done" />
+                    </header>
+                    <sheet>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" />
+                        <h1><field name="name" placeholder="Name" /></h1>
+                    </div>
+
+
+                        <div class="oe_right oe_button_box" name="buttons">
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" />
+                                <field name="date_planned" groups="stock.group_stock_manager" />
+                                <field name="group_id" groups="stock.group_stock_manager" />
+                                <field name="route_id" groups="stock.group_stock_manager" />
+                                <field name="comment" />
+                            </group>
+                            <group>
+                                <field name="warehouse_id" groups="stock.group_stock_manager" />
+                                <field
+                                    name="location_id"
+                                    domain="[('usage','=','internal')]"
+                                    groups="stock.group_locations"
+                                />
+                            </group>
+                        </group>
+
+                        <field name="required_line">
+                            <tree string="Lines" editable="bottom">
+                                <field name="product_id" />
+                                <field name="product_qty" />
+                                <field name="product_uom_id" />
+                                <field name="qty_available" />
+                                <field name="virtual_available" />
+                                <field name="note" />
+                            </tree>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_required_order_filter" model="ir.ui.view">
+            <field name="name">required.order.select</field>
+            <field name="model">required.order</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="location_id" />
+                     <field
+                        name="required_line"
+                        string="Product"
+                        filter_domain="[('required_line.product_id', 'ilike', self)]"
+                    />
+<!--                    <filter name="my" string="My" domain="[('location_id.user_id.id','=',uid) ]" />-->
+                    <newline />
+                    <group expand="1" string="Group By...">
+                        <filter string="Location" name="location" context="{'group_by':'location_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="action_required_order" model="ir.actions.act_window">
+            <field name="name">Required Orders</field>
+            <field name="res_model">required.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context" eval="{
+            'search_default_my': 1,
+            }" />
+        </record>
+
+        <menuitem
+            name="Required Orders"
+            id="menu_required_order"
+            action="action_required_order"
+            parent="stock.menu_stock_warehouse_mgmt"
+            sequence="500"
+        />
+
+
+    </data>
+</odoo>

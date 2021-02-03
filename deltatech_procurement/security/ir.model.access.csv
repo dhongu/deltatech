@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_required_order,access_required_order,model_required_order,stock.group_stock_user,1,1,1,0
+access_required_order_line,access_required_order_line,model_required_order_line,stock.group_stock_user,1,1,1,0
+access_required_order_manager,access_required_order_manager,model_required_order,stock.group_stock_manager,1,1,1,1
+access_required_order_line_manager,access_required_order_line_manager,model_required_order_line,stock.group_stock_manager,1,1,1,1
