@@ -85,17 +85,27 @@ odoo.define("deltatech_website_city.website_sale", function (require) {
                 // populate states and display
 
                 // dont reload state at first loading (done in qweb)
-                var selected = selectCities.data("value");
+                // var selected = selectCities.data("value");
+
                 if (selectCities.data("init") === 0 || selectCities.find("option").length === 1) {
                     if (data.cities.length) {
                         $("input[name='city']").parent("div").hide();
                         selectCities.html("");
+
+                        var opt = $("<option>")
+                            .text("Select City...")
+                            .attr("value", 0)
+                            .attr("data-code", 0)
+                            .attr("selected", true);
+                        // Selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
+                        selectCities.append(opt);
+
                         _.each(data.cities, function (x) {
                             var opt = $("<option>")
                                 .text(x[1])
                                 .attr("value", x[0])
                                 .attr("data-code", x[2])
-                                .attr("selected", x[0] === selected);
+                                .attr("selected", false);
                             // Selected="city.id == ('city_id' in checkout   and checkout['city_id'] != '' and int(checkout['city_id']))">
                             selectCities.append(opt);
                         });
