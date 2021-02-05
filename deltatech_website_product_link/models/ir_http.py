@@ -110,7 +110,7 @@ class IrHttp(models.AbstractModel):
         Category = request.env["product.public.category"]
         match = Category.search([("alternative_link", "=", path)], limit=1)
         if not match:
-            Product = self.env["product.template"].with_context(origin=True)
+            Product = self.env["product.template"].with_context(origin=True, active_test=False)
             match = Product.search([("alternative_link", "=", path)], limit=1)
         if not match:
             raise NoOriginError(_("No origin found for this redirection."))
