@@ -191,6 +191,14 @@ class AccountPayment(models.Model):
 
                 payment.reconciliation_statement_line()
 
+    def unlink(self):
+        statement_line_ids = self.env["account.bank.statement.line"]
+        for payment in self:
+            statement_line_ids |= payment.statement_line_id
+        res = super().unlink()
+        statement_line_ids.unlink()
+        return res
+
 
 class PosBoxOut(models.TransientModel):
     _inherit = "cash.box.out"

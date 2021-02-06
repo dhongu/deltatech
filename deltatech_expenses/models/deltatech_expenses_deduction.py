@@ -190,8 +190,6 @@ class DeltatechExpensesDeduction(models.Model):
         for expenses in self:
             if expenses.move_id:
                 moves |= expenses.move_id
-            for voucher in expenses.voucher_ids:
-                moves |= voucher.move_id
 
         self.write({"state": "draft", "move_id": False})
         if moves:
@@ -202,22 +200,23 @@ class DeltatechExpensesDeduction(models.Model):
             # will be automatically deleted too
             for move in moves:
                 move.line_ids.remove_move_reconcile()
-            moves.unlink()
+            moves.with_context(force_delete=True).unlink()
 
         # anulare plati inregistrate
         for expenses in self:
-            expenses.voucher_ids.cancel_voucher()
-            expenses.voucher_ids.unlink()
+            expenses.voucher_ids.button_cancel()
 
             # expenses.payment_ids.cancel_voucher()
-            expenses.payment_ids.cancel()
+            # expenses.payment_ids.cancel()
             expenses.payment_ids.action_draft()
+            expenses.payment_ids.action_cancel()
             # domain = [('voucher_id', 'in', expenses.payment_ids.ids)]
             # statement_lines = self.env['account.bank.statement.line'].search(domain)
             # if statement_lines:
             #     statement_lines.unlink()
-            expenses.payment_ids.write({"move_name": False, "state": "draft"})
+            # expenses.payment_ids.write({"move_name": False, "state": "draft"})
             expenses.payment_ids.unlink()
+            expenses.voucher_ids.with_context(force_delete=True).unlink()
 
             # anulare postare chitante.
 
