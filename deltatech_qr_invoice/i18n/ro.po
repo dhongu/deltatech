@@ -1,0 +1,83 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * deltatech_qr_invoice
+# 
+# Translators:
+# Dorin Hongu <dhongu@gmail.com>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-11 17:08+0000\n"
+"PO-Revision-Date: 2017-03-11 17:08+0000\n"
+"Last-Translator: Dorin Hongu <dhongu@gmail.com>, 2017\n"
+"Language-Team: Romanian (https://www.transifex.com/terrabit/teams/72608/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_qr_invoice
+#: field:account.invoice,campaign_id:0
+#: model:ir.model,name:deltatech_qr_invoice.model_crm_tracking_campaign
+msgid "Campaign"
+msgstr "Campanie"
+
+#. module: deltatech_qr_invoice
+#: field:account.invoice,medium_id:0
+msgid "Channel"
+msgstr "Channel"
+
+#. module: deltatech_qr_invoice
+#: model:ir.model,name:deltatech_qr_invoice.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_qr_invoice
+#: field:crm.tracking.campaign,image_qr_html:0
+msgid "QR image"
+msgstr "QR image"
+
+#. module: deltatech_qr_invoice
+#: field:crm.tracking.campaign,short_text_qr:0
+msgid "Short text QR"
+msgstr "Short text QR"
+
+#. module: deltatech_qr_invoice
+#: view:crm.tracking.campaign:deltatech_qr_invoice.crm_tracking_campaign_form
+msgid "Show QR"
+msgstr "Show QR"
+
+#. module: deltatech_qr_invoice
+#: field:account.invoice,source_id:0
+msgid "Source"
+msgstr "Source"
+
+#. module: deltatech_qr_invoice
+#: field:crm.tracking.campaign,text_qr:0
+msgid "Text QR"
+msgstr "Text QR"
+
+#. module: deltatech_qr_invoice
+#: help:account.invoice,campaign_id:0
+msgid ""
+"This is a name that helps you keep track of your different campaign efforts "
+"Ex: Fall_Drive, Christmas_Special"
+msgstr ""
+"This is a name that helps you keep track of your different campaign efforts "
+"Ex: Fall_Drive, Christmas_Special"
+
+#. module: deltatech_qr_invoice
+#: help:account.invoice,medium_id:0
+msgid "This is the method of delivery. Ex: Postcard, Email, or Banner Ad"
+msgstr "This is the method of delivery. Ex: Postcard, Email, or Banner Ad"
+
+#. module: deltatech_qr_invoice
+#: help:account.invoice,source_id:0
+msgid ""
+"This is the source of the link Ex: Search Engine, another domain, or name of"
+" email list"
+msgstr ""
+"This is the source of the link Ex: Search Engine, another domain, or name of"
+" email list"

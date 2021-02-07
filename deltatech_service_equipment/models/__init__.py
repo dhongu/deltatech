@@ -4,4 +4,4 @@
 
 from . import service_equipment
 from . import service_meter
-from . import service_rent
+from . import service_agreement

@@ -1,0 +1,313 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_service_notification_tree" model="ir.ui.view">
+        <field name="name">notification</field>
+        <field name="model">service.notification</field>
+        <field name="arch" type="xml">
+            <tree string="Services notification" default_order='date DESC'>
+                <field name="name" />
+                <field name="date" />
+                <field name="type" />
+                <field name="category" />
+                <field name="equipment_id" />
+                <field name="partner_id" />
+                <field name="subject" />
+                <field name="user_id" />
+                <field name="contact_id" />
+                <field name='state' />
+                <field name="message_unread" invisible="1" />
+            </tree>
+        </field>
+    </record>
+
+
+            <record id="view_service_notification_form" model="ir.ui.view">
+                <field name="name">notification</field>
+                <field name="model">service.notification</field>
+                <field name="arch" type="xml">
+                    <form string="Services Notification">
+                        <header>
+                            <span
+                        attrs="{'invisible': ['|','|', ('piking_id','!=',False ),('sale_order_id','!=',False),('required_order_id','!=',False)]}"
+                    >
+                                <button
+                            name="new_delivery_button"
+                            type="object"
+                            string="New Delivery"
+                            attrs="{'invisible': [('category','!=','delivery' )]}"
+                        />
+                                <button
+                            name="new_transfer_button"
+                            type="object"
+                            string="New Transfer"
+                            attrs="{'invisible': [('category','!=','transfer' )]}"
+                        />
+                                <button
+                            name="new_sale_order_button"
+                            type="object"
+                            string="New Sale Order"
+                            attrs="{'invisible': [('category','!=','sale'     )]}"
+                        />
+                                <button
+                            name="new_required_order_button"
+                            type="object"
+                            string="New Required Order"
+                            attrs="{'invisible': [('category','!=','required')]}"
+                        />
+                            </span>
+                            <button
+                        name="action_assing"
+                        type="object"
+                        string="Assign"
+                        class="oe_highlight"
+                        states="new"
+                    />
+                            <button name="action_taking" type="object" string="Taking " states="new" />
+                            <button
+                        name="action_start"
+                        type="object"
+                        string="Start"
+                        class="oe_highlight"
+                        states="assigned"
+                    />
+                            <button
+                        name="action_cancel_assing"
+                        type="object"
+                        string="Assign Cancel"
+                        states="assigned,progress"
+                    />
+                            <button
+                        name="action_order"
+                        type="object"
+                        string="Service Order"
+                        states="progress"
+                        attrs="{'invisible': [('order_id','!=',False)]}"
+                    />
+                            <button
+                        name="action_done"
+                        type="object"
+                        class="oe_highlight"
+                        string="Done"
+                        states="progress"
+                    />
+                            <field name="state" widget="statusbar" />
+                        </header>
+                        <sheet>
+                            <h1>
+                                <field
+                            name="name"
+                            class="oe_inline"
+                            attrs="{'invisible': [('name','=','/')]}"
+                            readonly="1"
+                        />
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="date" />
+                                    <field name="type" />
+                                    <field name="category" />
+                                    <field name="user_id" />
+                                    <field name="order_id" />
+                                    <field
+                                name="piking_id"
+                                attrs="{'invisible': [('piking_id','=',False ),'|',('category','!=','delivery' ),('category','!=','transfer' )]}"
+                            />
+                                    <field
+                                name="sale_order_id"
+                                attrs="{'invisible': [('category','!=','sale' ),('sale_order_id','=',False)]}"
+                            />
+                                    <field
+                                name="required_order_id"
+                                attrs="{'invisible': [('category','!=','required' ),('required_order_id','=',False)]}"
+                            />
+                                </group>
+                                <group>
+                                    <field
+                                name="contact_id"
+                                context="{'search_default_customer':1,   'show_phone':1}"
+                                options="{'always_reload': True}"
+                            />
+                                    <field
+                                name="equipment_id"
+                                attrs="{'required': [('category','in',('delivery') )]}"
+                            />
+                                    <field
+                                name="partner_id"
+                                attrs="{'required': [('category','in',('delivery','sale') )]}"
+                            />
+                                    <field
+                                name="address_id"
+                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                                context="{'search_default_customer':1, 'show_address': 1 }"
+                                options="{'always_reload': True}"
+                            />
+                                    <field name="agreement_id" />
+                                    <field name="equipment_history_id" invisible="1" />
+                                </group>
+                                <group>
+                                    <field name="priority" widget="priority" />
+                                    <field name="subject" />
+                                    <field name="description" />
+                                </group>
+                                <group>
+                                    <field name="date_assing" />
+                                    <field name="date_start" />
+                                    <field name="date_done" />
+                                </group>
+                            </group>
+                            <field name="item_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id" />
+                                    <field name="quantity" />
+                                    <field name="product_uom" />
+                                    <field name="note" />
+                                </tree>
+                            </field>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                            <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                        </div>
+                    </form>
+                </field>
+            </record>
+            <!--
+
+            <record id="view_service_notification_kanban" model="ir.ui.view">
+                <field name="name">notification</field>
+                <field name="model">service.notification</field>
+                <field name="arch" type="xml">
+                    <kanban default_group_by="user_id" edit='false' attrs="{'edit': [('state','=','new')]}" quick_create="0"
+                        class="oe_notes oe_kanban_quickcreate_textarea">
+                        <field name="color" />
+                        <field name="name" />
+                        <field name="date" />
+                        <field name="partner_id" />
+                        <field name="subject" />
+                        <field name="state" />
+                        <field name="description" />
+                        <field name="message_follower_ids" />
+                        <templates>
+                            <t t-name="kanban-box">
+                                <t t-if="record.state.raw_value=='new'">
+                                    <t t-set="drag" t-value="'oe_kanban_draghandle'" />
+                                </t>
+                                <t t-if="record.state.raw_value!='new'">
+                                    <t t-set="drag" t-value="''" />
+                                </t>
+                                <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click #{drag}">
+                                    <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                        <span class="oe_e">í</span>
+                                        <ul class="oe_dropdown_menu">
+                                            <t t-if="widget.view.is_action_enabled('edit')">
+                                                <li>
+                                                    <a type="edit">Edit...</a>
+                                                </li>
+                                            </t>
+
+                                            <li>
+                                                <a name="action_assing" type="object" states="new">Assign</a>
+                                            </li>
+                                            <li>
+                                                <a name="action_cancel_assing" type="object" states="assigned">Assign Cancel</a>
+                                            </li>
+
+                                            <li>
+                                                <ul class="oe_kanban_colorpicker" data-field="color" />
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="oe_kanban_content">
+                                        <div>
+
+                                            <a name="action_assing" type="object" states="new" title="Lock allocation">
+                                                <i class="fa fa-unlock" />
+                                            </a>
+                                            <a name="action_cancel_assing" type="object" states="assigned">
+                                                <i class="fa fa-lock" />
+                                            </a>
+                                            <b>
+                                                <field name="name" />
+                                            </b>
+                                        </div>
+                                        <div>
+                                            <field name="subject" />
+                                        </div>
+                                        <div>
+                                            <field name="description" />
+                                        </div>
+                                        <div class="oe_kanban_bottom_right">
+                                            <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24"
+                                                height="24" class="oe_kanban_avatar pull-right" />
+                                        </div>
+                                    </div>
+
+                                    <div class="oe_clear"></div>
+                                </div>
+
+                            </t>
+                        </templates>
+                    </kanban>
+                </field>
+            </record>
+    -->
+            <!-- Search note -->
+            <record id="view_service_notification_filter" model="ir.ui.view">
+                <field name="name">notification.search</field>
+                <field name="model">service.notification</field>
+                <field name="arch" type="xml">
+                    <search string="Notification">
+                        <field name="subject" />
+                        <field name="user_id" />
+                        <field name="partner_id" />
+                        <field name="equipment_id" />
+                        <separator />
+                        <filter name="new" string="New" domain="[('state', '=', 'new')]" />
+                        <filter name='assigned' string="Assigned" domain="[('state', '=', 'assigned')]" />
+                        <filter name='progress' string="In Progress" domain="[('state', '=', 'progress')]" />
+                        <filter name='done' string="Done" domain="[('state', '=', 'done')]" />
+                        <separator />
+                        <filter
+                    name='my'
+                    string="My"
+                    domain="[('user_id','=',uid)]"
+                    help="Notifications that are assigned to me"
+                />
+                        <filter name="unassigned" string="Unassigned" domain="[('user_id','=', False)]" />
+                        <group expand="0" string="Group By">
+                            <filter name="group_by_user_id" string="Responsible" context="{'group_by':'user_id'}" />
+                            <filter name="group_by_state" string="State" context="{'group_by':'state'}" />
+                            <filter
+                        name="group_by_equipment_id"
+                        string="Equipment"
+                        context="{'group_by':'equipment_id'}"
+                    />
+                        </group>
+                    </search>
+                </field>
+            </record>
+            <record id="action_service_notification" model="ir.actions.act_window">
+                <field name="name">Services Notification</field>
+                <field name="res_model">service.notification</field>
+                <field name="view_mode">tree,form,kanban</field>
+            </record>
+            <menuitem
+        name="Notification"
+        id="menu_service_notification"
+        action="action_service_notification"
+        parent="deltatech_service.menu_service"
+    />
+            <record id="action_service_notification_type" model="ir.actions.act_window">
+                <field name="name">Services Notification Type</field>
+                <field name="res_model">service.notification.type</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+            <menuitem
+        name="Notification Type"
+        id="menu_service_notification_type"
+        action="action_service_notification_type"
+        parent="deltatech_service.menu_service_config"
+    />
+
+</odoo>
