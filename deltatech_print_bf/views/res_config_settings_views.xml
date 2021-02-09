@@ -25,7 +25,7 @@
         <field name="model">account.journal</field>
         <field name="inherit_id" ref="account.view_account_journal_form" />
         <field name="arch" type="xml">
-            <xpath expr="//notebook/page/group/group[2]" position="after">
+            <xpath expr="//page[@name='journal_entries']/group" position="inside">
                 <group>
                     <field name="cod_ecr" />
                 </group>
