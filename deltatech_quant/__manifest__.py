@@ -10,7 +10,7 @@
     "summary": "Generic module",
     "category": "Administration",
     "depends": ["web", "base", "stock", "deltatech_product_extension"],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "data": [
         "views/stock_view.xml",
