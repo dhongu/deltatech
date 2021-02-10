@@ -6,7 +6,7 @@
     "category": "Website",
     "summary": "Additional filters sales orders by status ",
     "version": "13.0.2.0.0",
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale_stock", "deltatech_delivery_status", "deltatech_widget_badge"],
