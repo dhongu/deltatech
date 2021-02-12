@@ -51,22 +51,23 @@ class stock_picking(models.Model):
     @api.multi
     def send_automatically_mail(self):
         for picking in self:
-            mail_auto = self.env['mail.automatically'].search([('type','=','picking'),('picking_type_id','=',picking.picking_type_id.id)])
-            if mail_auto:
-                # de eliminat utilizatorii care deja sunt in list ????   
-                new_follower_ids = [p.id for p in mail_auto.partner_ids]                   
-                picking.message_subscribe(new_follower_ids)                 
-                message = self.env['mail.message'].with_context({'default_starred':True}).create({
-                    'model': 'stock.picking',
-                    'res_id': picking.id,
-                    'record_name': picking.name_get()[0][1],
-                    'email_from': self.env['mail.message']._get_default_from( ),
-                    'reply_to': self.env['mail.message']._get_default_from( ),
-                    'subject': mail_auto.subject or '',
-                    'body': mail_auto.message or mail_auto.subject,
-                    'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
-                    'partner_ids': [(4, id) for id in new_follower_ids],
-                })        
+            mails_auto = self.env['mail.automatically'].search([('type','=','picking'),('picking_type_id','=',picking.picking_type_id.id)])
+            if mails_auto:
+                for mail_auto in mails_auto:
+                    # de eliminat utilizatorii care deja sunt in list ????
+                    new_follower_ids = [p.id for p in mail_auto.partner_ids]
+                    picking.message_subscribe(new_follower_ids)
+                    message = self.env['mail.message'].with_context({'default_starred':True}).create({
+                        'model': 'stock.picking',
+                        'res_id': picking.id,
+                        'record_name': picking.name_get()[0][1],
+                        'email_from': self.env['mail.message']._get_default_from( ),
+                        'reply_to': self.env['mail.message']._get_default_from( ),
+                        'subject': mail_auto.subject or '',
+                        'body': mail_auto.message or mail_auto.subject,
+                        'message_id': self.env['mail.message']._get_message_id(  {'no_auto_thread': True} ),
+                        'partner_ids': [(4, id) for id in new_follower_ids],
+                    })
 
     
 
