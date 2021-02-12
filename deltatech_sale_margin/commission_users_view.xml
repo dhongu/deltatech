@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
-		<record id="view_commission_users_tree" model="ir.ui.view">
-			<field name="name">Users Commission</field>
-			<field name="model">commission.users</field>
-			<field name="arch" type="xml">
-				<tree string="Users Commission" editable="top">
-					<field name="journal_id" />
-					<field name="user_id" />
-					<field name="rate" />
-					<field name="manager_user_id" />
-					<field name="manager_rate" />
+      <record id="view_commission_users_tree" model="ir.ui.view">
+         <field name="name">Users Commission</field>
+         <field name="model">commission.users</field>
+         <field name="arch" type="xml">
+            <tree string="Users Commission" editable="top">
+               <field name="journal_id" />
+               <field name="user_id" />
+               <field name="rate" />
+               <field name="manager_user_id" />
+               <field name="manager_rate" />
 
-				</tree>
-			</field>
-		</record>
+            </tree>
+         </field>
+      </record>
 
 
-		<record id="action_commission_users" model="ir.actions.act_window">
-			<field name="name">Users Commission</field>
-			<field name="res_model">commission.users</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
+      <record id="action_commission_users" model="ir.actions.act_window">
+         <field name="name">Users Commission</field>
+         <field name="res_model">commission.users</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">tree,form</field>
+      </record>
 
-		<menuitem name="Users Commission" id="menu_commission_users"
-			action="action_commission_users" parent="base.menu_base_config" groups="base.group_sale_manager"/>
+      <menuitem name="Users Commission" id="menu_commission_users"
+         action="action_commission_users" parent="base.menu_base_config" groups="base.group_sale_manager"/>
 
-	
+
  
-	
-	</data>
+
+   </data>
 </openerp>
-	

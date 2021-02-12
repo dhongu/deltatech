@@ -57,12 +57,12 @@ Functionalitati:
     "license": "AGPL-3",
 
 
-    "data": ['data.xml',
-             'service_config_view.xml',
-             'service_rent_view.xml',
+    "data": ['data/data.xml',
+             'views/service_config_view.xml',
+             'views/service_rent_view.xml',
 
-             'service_efficiency_report.xml',
-             'stock_view.xml',
+             'views/service_efficiency_report.xml',
+             'views/stock_view.xml',
              'security/service_security.xml',
              'security/ir.model.access.csv',
 
@@ -72,14 +72,14 @@ Functionalitati:
              'wizard/service_equi_agreement_view.xml',
              'wizard/new_equi_from_quant_view.xml',
 
-             'service_meter_view.xml',
-             'service_equipment_view.xml',
+             'views/service_meter_view.xml',
+             'views/service_equipment_view.xml',
              #  'service_consumable_view.xml',
 
-             'demo.xml',
+             'data/demo.xml',
              'views/deltatech_equipment_counters.xml',
              'views/delivery_equipment.xml'
-             # 'service.meter.reading.csv'
+             # 'data/service.meter.reading.csv'
 
              ],
     "active": False,

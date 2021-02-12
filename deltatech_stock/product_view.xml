@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="product_category_form_view" model="ir.ui.view">
+            <field name="name">product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+               <field name="type" position="after">
+                         <field name="sequence_id" required="0"/>
+                        <newline/>
+            </field>
+            </field>
+        </record>
+
+       
+    </data>
+</openerp>

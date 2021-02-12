@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
-		<template id="snippet_hover" inherit_id="website.snippets" name="Hover Effect">
-			<xpath expr="//div[@id='snippet_content']" position="inside">
-				<div>
-					<div class="oe_snippet_thumbnail">
-						<img class="oe_snippet_thumbnail_img" src="/deltatech_website_hover/static/src/img/hover.png" />
-						<span class="oe_snippet_thumbnail_title">Hover Effect</span>
-					</div>
-					<div class="oe_snippet_body panel">
-						 
-							<div class="grid">
-								<figure class="effect-lily ">
-									<img class="img img-responsive" src="/deltatech_website_hover/static/src/img/1.jpg" alt="img1"/>
-									<figcaption>
-										<div class="content">
-											<h2>Nice <span>Title</span></h2>
-											<p class="icon-links">
-												<a href="#"><span class="fa fa-heart"></span></a>
-												<a href="#"><span class="fa fa-eye"></span></a>
-												<a href="#"><span class="fa fa-paperclip"></span></a>
-											</p>
-											<p class="description">Short description</p>
-										</div>
-									</figcaption>			
-								</figure>
-							</div>
-						 
-					</div>
-				</div>
-			</xpath>
-		</template>
+      <template id="snippet_hover" inherit_id="website.snippets" name="Hover Effect">
+         <xpath expr="//div[@id='snippet_content']" position="inside">
+            <div>
+               <div class="oe_snippet_thumbnail">
+                  <img class="oe_snippet_thumbnail_img" src="/deltatech_website_hover/static/src/img/hover.png" />
+                  <span class="oe_snippet_thumbnail_title">Hover Effect</span>
+               </div>
+               <div class="oe_snippet_body panel">
+
+                     <div class="grid">
+                        <figure class="effect-lily ">
+                           <img class="img img-responsive" src="/deltatech_website_hover/static/src/img/1.jpg" alt="img1"/>
+                           <figcaption>
+                              <div class="content">
+                                 <h2>Nice <span>Title</span></h2>
+                                 <p class="icon-links">
+                                    <a href="#"><span class="fa fa-heart"></span></a>
+                                    <a href="#"><span class="fa fa-eye"></span></a>
+                                    <a href="#"><span class="fa fa-paperclip"></span></a>
+                                 </p>
+                                 <p class="description">Short description</p>
+                              </div>
+                           </figcaption>
+                        </figure>
+                     </div>
+
+               </div>
+            </div>
+         </xpath>
+      </template>
 
 
 <template id="snippet_hover_opt" name="Snippet Hover Effect Options" inherit_id="website.snippet_options">
@@ -67,5 +67,5 @@
 
 
 
-	</data>
+   </data>
 </openerp>

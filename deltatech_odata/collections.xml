@@ -1,83 +1,83 @@
 <service xmlns:atom="http://www.w3.org/2005/Atom" >
-	<workspace>
-		<atom:title>Default</atom:title>
-		<collection href="Categories">
-			<atom:title>Categories</atom:title>
-		</collection>
-		<collection href="CustomerDemographics">
-			<atom:title>CustomerDemographics</atom:title>
-		</collection>
-		<collection href="Customers">
-			<atom:title>Customers</atom:title>
-		</collection>
-		<collection href="Employees">
-			<atom:title>Employees</atom:title>
-		</collection>
-		<collection href="Order_Details">
-			<atom:title>Order_Details</atom:title>
-		</collection>
-		<collection href="Orders">
-			<atom:title>Orders</atom:title>
-		</collection>
-		<collection href="Products">
-			<atom:title>Products</atom:title>
-		</collection>
-		<collection href="Regions">
-			<atom:title>Regions</atom:title>
-		</collection>
-		<collection href="Shippers">
-			<atom:title>Shippers</atom:title>
-		</collection>
-		<collection href="Suppliers">
-			<atom:title>Suppliers</atom:title>
-		</collection>
-		<collection href="Territories">
-			<atom:title>Territories</atom:title>
-		</collection>
-		<collection href="Alphabetical_list_of_products">
-			<atom:title>Alphabetical_list_of_products</atom:title>
-		</collection>
-		<collection href="Category_Sales_for_1997">
-			<atom:title>Category_Sales_for_1997</atom:title>
-		</collection>
-		<collection href="Current_Product_Lists">
-			<atom:title>Current_Product_Lists</atom:title>
-		</collection>
-		<collection href="Customer_and_Suppliers_by_Cities">
-			<atom:title>Customer_and_Suppliers_by_Cities</atom:title>
-		</collection>
-		<collection href="Invoices">
-			<atom:title>Invoices</atom:title>
-		</collection>
-		<collection href="Order_Details_Extendeds">
-			<atom:title>Order_Details_Extendeds</atom:title>
-		</collection>
-		<collection href="Order_Subtotals">
-			<atom:title>Order_Subtotals</atom:title>
-		</collection>
-		<collection href="Orders_Qries">
-			<atom:title>Orders_Qries</atom:title>
-		</collection>
-		<collection href="Product_Sales_for_1997">
-			<atom:title>Product_Sales_for_1997</atom:title>
-		</collection>
-		<collection href="Products_Above_Average_Prices">
-			<atom:title>Products_Above_Average_Prices</atom:title>
-		</collection>
-		<collection href="Products_by_Categories">
-			<atom:title>Products_by_Categories</atom:title>
-		</collection>
-		<collection href="Sales_by_Categories">
-			<atom:title>Sales_by_Categories</atom:title>
-		</collection>
-		<collection href="Sales_Totals_by_Amounts">
-			<atom:title>Sales_Totals_by_Amounts</atom:title>
-		</collection>
-		<collection href="Summary_of_Sales_by_Quarters">
-			<atom:title>Summary_of_Sales_by_Quarters</atom:title>
-		</collection>
-		<collection href="Summary_of_Sales_by_Years">
-			<atom:title>Summary_of_Sales_by_Years</atom:title>
-		</collection>
-	</workspace>
+   <workspace>
+      <atom:title>Default</atom:title>
+      <collection href="Categories">
+         <atom:title>Categories</atom:title>
+      </collection>
+      <collection href="CustomerDemographics">
+         <atom:title>CustomerDemographics</atom:title>
+      </collection>
+      <collection href="Customers">
+         <atom:title>Customers</atom:title>
+      </collection>
+      <collection href="Employees">
+         <atom:title>Employees</atom:title>
+      </collection>
+      <collection href="Order_Details">
+         <atom:title>Order_Details</atom:title>
+      </collection>
+      <collection href="Orders">
+         <atom:title>Orders</atom:title>
+      </collection>
+      <collection href="Products">
+         <atom:title>Products</atom:title>
+      </collection>
+      <collection href="Regions">
+         <atom:title>Regions</atom:title>
+      </collection>
+      <collection href="Shippers">
+         <atom:title>Shippers</atom:title>
+      </collection>
+      <collection href="Suppliers">
+         <atom:title>Suppliers</atom:title>
+      </collection>
+      <collection href="Territories">
+         <atom:title>Territories</atom:title>
+      </collection>
+      <collection href="Alphabetical_list_of_products">
+         <atom:title>Alphabetical_list_of_products</atom:title>
+      </collection>
+      <collection href="Category_Sales_for_1997">
+         <atom:title>Category_Sales_for_1997</atom:title>
+      </collection>
+      <collection href="Current_Product_Lists">
+         <atom:title>Current_Product_Lists</atom:title>
+      </collection>
+      <collection href="Customer_and_Suppliers_by_Cities">
+         <atom:title>Customer_and_Suppliers_by_Cities</atom:title>
+      </collection>
+      <collection href="Invoices">
+         <atom:title>Invoices</atom:title>
+      </collection>
+      <collection href="Order_Details_Extendeds">
+         <atom:title>Order_Details_Extendeds</atom:title>
+      </collection>
+      <collection href="Order_Subtotals">
+         <atom:title>Order_Subtotals</atom:title>
+      </collection>
+      <collection href="Orders_Qries">
+         <atom:title>Orders_Qries</atom:title>
+      </collection>
+      <collection href="Product_Sales_for_1997">
+         <atom:title>Product_Sales_for_1997</atom:title>
+      </collection>
+      <collection href="Products_Above_Average_Prices">
+         <atom:title>Products_Above_Average_Prices</atom:title>
+      </collection>
+      <collection href="Products_by_Categories">
+         <atom:title>Products_by_Categories</atom:title>
+      </collection>
+      <collection href="Sales_by_Categories">
+         <atom:title>Sales_by_Categories</atom:title>
+      </collection>
+      <collection href="Sales_Totals_by_Amounts">
+         <atom:title>Sales_Totals_by_Amounts</atom:title>
+      </collection>
+      <collection href="Summary_of_Sales_by_Quarters">
+         <atom:title>Summary_of_Sales_by_Quarters</atom:title>
+      </collection>
+      <collection href="Summary_of_Sales_by_Years">
+         <atom:title>Summary_of_Sales_by_Years</atom:title>
+      </collection>
+   </workspace>
 </service>

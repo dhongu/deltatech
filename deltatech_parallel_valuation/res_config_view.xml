@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<record id="view_account_config_settings" model="ir.ui.view">
-			<field name="name">account settings</field>
-			<field name="model">account.config.settings</field>
-			<field name="inherit_id" ref="account.view_account_config_settings" />
-			<field name="arch" type="xml">
-				<div name="group_multi_currency" position="after">
-					<div>
-						<label for="parallel_currency_id" />
-						<field name="parallel_currency_id" class="oe_inline" />
-					</div>
-				</div>
-			</field>
-		</record>
-	</data>
+   <data>
+      <record id="view_account_config_settings" model="ir.ui.view">
+         <field name="name">account settings</field>
+         <field name="model">account.config.settings</field>
+         <field name="inherit_id" ref="account.view_account_config_settings" />
+         <field name="arch" type="xml">
+            <div name="group_multi_currency" position="after">
+               <div>
+                  <label for="parallel_currency_id" />
+                  <field name="parallel_currency_id" class="oe_inline" />
+               </div>
+            </div>
+         </field>
+      </record>
+   </data>
 </openerp>
             

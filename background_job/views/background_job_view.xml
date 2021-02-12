@@ -1,68 +1,68 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
-		<record id="view_background_job_form" model="ir.ui.view">
-			<field name="name">Background Job</field>
-			<field name="model">background.job</field>
-			<field name="arch" type="xml">
-				<form string="Change Product Price">
-					<header>
-						<button name="action_start" states="draft" string="Start"
-							type="object" class="oe_highlight" />
-						<button name="action_stop" states="running" string="Stop"
-							type="object" class="oe_highlight" />
-						<button name="action_pause" states="running" string="Pause"
-							type="object" class="oe_highlight" />
-						<button name="action_resume" states="pause" string="Resume"
-							type="object" class="oe_highlight" />
+   <data>
+      <record id="view_background_job_form" model="ir.ui.view">
+         <field name="name">Background Job</field>
+         <field name="model">background.job</field>
+         <field name="arch" type="xml">
+            <form string="Change Product Price">
+               <header>
+                  <button name="action_start" states="draft" string="Start"
+                     type="object" class="oe_highlight" />
+                  <button name="action_stop" states="running" string="Stop"
+                     type="object" class="oe_highlight" />
+                  <button name="action_pause" states="running" string="Pause"
+                     type="object" class="oe_highlight" />
+                  <button name="action_resume" states="pause" string="Resume"
+                     type="object" class="oe_highlight" />
 
-						<field name="state" widget="statusbar" statusbar_visible="draft,running,finalized" />
+                  <field name="state" widget="statusbar" statusbar_visible="draft,running,finalized" />
 
-					</header>
-					<sheet>
-					<field name="name" />
-					<group>
-						<field name="start_time" />
-						<field name="end_time" />
-						<field name="thread_addres" />
-					</group>
-					</sheet>
-					
-				</form>
+               </header>
+               <sheet>
+               <field name="name" />
+               <group>
+                  <field name="start_time" />
+                  <field name="end_time" />
+                  <field name="thread_addres" />
+               </group>
+               </sheet>
 
-			</field>
-		</record>
+            </form>
 
-
-		<record id="view_background_job_tree" model="ir.ui.view">
-			<field name="name">Background Job</field>
-			<field name="model">background.job</field>
-			<field name="arch" type="xml">
-				<tree string="Background Job">
-					<field name="name" />
-					<field name="start_time" />
-					<field name="end_time" />
-					<field name="thread_addres" />
-					
-				</tree>
-			</field>
-		</record>
+         </field>
+      </record>
 
 
-		<record model="ir.actions.act_window" id="action_background_job" >
-			<field name="name">Background Job</field>
-			<field name="res_model">background.job</field>
-			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-		</record>
+      <record id="view_background_job_tree" model="ir.ui.view">
+         <field name="name">Background Job</field>
+         <field name="model">background.job</field>
+         <field name="arch" type="xml">
+            <tree string="Background Job">
+               <field name="name" />
+               <field name="start_time" />
+               <field name="end_time" />
+               <field name="thread_addres" />
+
+            </tree>
+         </field>
+      </record>
+
+
+      <record model="ir.actions.act_window" id="action_background_job" >
+         <field name="name">Background Job</field>
+         <field name="res_model">background.job</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">tree,form</field>
+      </record>
 
 
 
 
-		<menuitem name="Background Job" id="menu_background_job"
-			action="action_background_job" parent="base.next_id_6" />
+      <menuitem name="Background Job" id="menu_background_job"
+         action="action_background_job" parent="base.next_id_6" />
 
 
-	</data>
+   </data>
 </openerp>
 

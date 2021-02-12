@@ -40,8 +40,8 @@ Functionalitati:
     "license": "AGPL-3",
 
     "data" : [ 
-                  'stock_view.xml', 
-                  'stock_revaluation_view.xml',
+                  'views/stock_view.xml',
+                  'views/stock_revaluation_view.xml',
                   'data/stock_revaluation_data.xml',
                   'security/stock_revaluation_security.xml',
                   'security/ir.model.access.csv',

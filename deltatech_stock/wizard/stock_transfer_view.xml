@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+      <record id="view_stock_transfer_form" model="ir.ui.view">
+         <field name="name">Stock Transfer</field>
+         <field name="model">deltatech.stock.transfer</field>
+         <field name="arch" type="xml">
+            <form string="Stock Transfer" version="7.0">
+               <group>
+                  <group>
+                     <field name="location_id" domain="[('usage','=','internal')]" />
+                     <field name="date"/>
+                     <field name="picking_type_id"/>
+                  </group>
+                  <separator/>
+                  <group string="Origin">
+                     <field name="product_id" on_change="onchange_product_id(product_id,lot_id,location_id,date)"/>
+                     <field name="lot_id" domain="[('product_id','=',product_id)]" quick_create="false"  on_change="onchange_product_id(product_id,lot_id,location_id,date)"/>
+                  </group>
+                  <group string="Destination">
+                     <field name="product_dest_id"/>
+                     <field name="lot_dest_id" domain="[('product_id','=',product_dest_id)]"  context="{'product_id': product_dest_id} "/>
+                  </group>
+
+                  <group>
+                     <label for="product_qty"/>
+                     <div>
+                        <field name="product_qty" class="oe_inline" />
+                        <field name="product_uom" class="oe_inline" />
+                     </div>
+                  </group>
+
+               </group>
+               <footer>
+                  <button name="do_transfer" string="_Apply" type="object" class="oe_highlight"/>
+                  or
+                  <button string="Cancel" class="oe_link" special="cancel" />
+               </footer>
+            </form>
+         </field>
+      </record>
+      <record id="action_view_stock_transfer" model="ir.actions.act_window">
+         <field name="name">Stock Transfer</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="res_model">deltatech.stock.transfer</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">form</field>
+         <field name="view_id" ref="view_stock_transfer_form"/>
+         <field name="target">new</field>
+      </record>
+      <menuitem id="menu_stock_transfer" name="Stock Transfer" parent="stock.menu_stock_warehouse_mgmt" sequence="3"/>
+      <menuitem action="action_view_stock_transfer" id="menu_action_view_stock_transfer"   sequence="2" parent="menu_stock_transfer"/>
+
+
+   </data>
+</openerp>

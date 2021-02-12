@@ -36,17 +36,17 @@ _logger = logging.getLogger(__name__)
 class stock_transfer_details_items(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
 
-    ref = fields.Char(string="Reference", related="packop_id.ref")
+    ref = fields.Char(string="Reference", related="packop_id.ref" , copy=True)  #related=False
 
 class stock_pack_operation(models.Model):
     _inherit = "stock.pack.operation"
     
-    ref = fields.Char(string="Reference")
+    ref = fields.Char(string="Reference", copy=True)
  
 class stock_move(models.Model):
     _inherit = "stock.move"
 
-    ref = fields.Char(string="Reference", related='procurement_id.sale_line_id.ref')
+    ref = fields.Char(string="Reference", related='procurement_id.sale_line_id.ref', copy=True)
 
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
@@ -151,7 +151,7 @@ class stock_picking(models.Model):
                 cont = False
                 for move1 in picking.move_lines:
                     for move2 in picking.move_lines:
-                        if move1.id <> move2.id and move1.product_id.id == move2.product_id.id:
+                        if move1.id != move2.id and move1.product_id.id == move2.product_id.id:
                             cont = True
                             if not sec_picking:
                                 sec_picking = picking.copy({'backorder_id':picking.id,'move_lines':False})

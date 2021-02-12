@@ -14,9 +14,9 @@
             <div class="oe_snippet_body js_product"
                       data-id="0"
                       data-object="product.template">
-				<div>
-					Product
-				</div>
+            <div>
+               Product
+            </div>
             </div>
 
         </div>

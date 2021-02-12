@@ -23,8 +23,7 @@
 
 
 
-import stock
-import stock_revaluation
+import module
 import wizard
 
 

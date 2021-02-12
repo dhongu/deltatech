@@ -52,16 +52,16 @@ Functionalitati:
     "data": [
 
         'security/service_security.xml',
-        'data.xml',
+        'data/data.xml',
 
-        'service_config_view.xml',
-        'service_notification_view.xml',
-        'service_order_view.xml',
-        'service_plan_view.xml',
+        'views/service_config_view.xml',
+        'views/service_notification_view.xml',
+        'views/service_order_view.xml',
+        'views/service_plan_view.xml',
 
-        'service_equipment_view.xml',
-        'stock_view.xml',
-        'sale_view.xml',
+        'views/service_equipment_view.xml',
+        'views/stock_view.xml',
+        'views/sale_view.xml',
         'security/ir.model.access.csv',
 
     ],

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	
 
-	
-	<data noupdate="1">	
-			
-	     <record id="sequence_packing_doc" model="ir.sequence">
+
+
+   <data noupdate="1">
+
+        <record id="sequence_packing_doc" model="ir.sequence">
             <field name="name">Packing Doc</field>
             <field name="prefix">PK/</field>
             <field name="padding">5</field>
@@ -13,7 +13,7 @@
             <field name="number_increment">1</field>
         </record>
 
-	     <record id="sequence_packing_item" model="ir.sequence">
+        <record id="sequence_packing_item" model="ir.sequence">
             <field name="name">Packing Item</field>
             <field name="prefix"></field>
             <field name="padding">5</field>
@@ -23,12 +23,12 @@
  
  
  
-	</data>
-	
+   </data>
 
 
-	
-	
+
+
+
 </openerp>
         
      

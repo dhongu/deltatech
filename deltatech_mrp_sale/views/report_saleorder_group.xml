@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
 
 
 <!-- Begin Document specification 3 -->
 <template id="report_saleorder_document_group">
   <t t-name="deltatech_mrp_sale.report_saleorder_document_group">
-  	<t t-call="report.external_layout">
+     <t t-call="report.external_layout">
       <div class="page">
         <!--begin header-->
         <div class="headerFirstPage">
@@ -33,34 +33,34 @@
         </div>
         <!--end header-->
         <p style="font-weight: bold;">KIT</p>
-    	<t t-set="kit_value" t-value="0"/>
+       <t t-set="kit_value" t-value="0"/>
         <t t-set="kit_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	       <!-- <t t-foreach="o.resource_ids" t-as="a"> -->
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+          <!-- <t t-foreach="o.resource_ids" t-as="a"> -->
                 <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'KIT'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <t t-if="a.product_id.other_categ_id.name == 'KIT'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="kit_value" t-value="kit_value+a.amount"/>
                     <t t-set="kit_purchase" t-value="kit_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -69,39 +69,39 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="kit_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja kit: <strong t-esc="kit_value-kit_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
 
         <br/>
         <br/>
         <p style="font-weight: bold;">INDIRECTE</p>
-    	<t t-set="ind_value" t-value="0"/>
+       <t t-set="ind_value" t-value="0"/>
         <t t-set="ind_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'INDIRECTE'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="a.product_id.other_categ_id.name == 'INDIRECTE'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="ind_value" t-value="ind_value+a.amount"/>
                     <t t-set="ind_purchase" t-value="ind_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -110,40 +110,40 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="ind_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja indirecte: <strong t-esc="ind_value-ind_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
 
 
         <br/>
         <br/>
         <p style="font-weight: bold;">Montaj KIT</p>
-		<t t-set="kit_m_value" t-value="0"/>
+      <t t-set="kit_m_value" t-value="0"/>
         <t t-set="kit_m_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'MONTAJ KIT'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="a.product_id.other_categ_id.name == 'MONTAJ KIT'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="kit_m_value" t-value="kit_m_value+a.amount"/>
                     <t t-set="kit_m_purchase" t-value="kit_m_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -152,38 +152,38 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="kit_m_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja montaj kit: <strong t-esc="kit_m_value-kit_m_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
         <br/>
         <br/>
         <p style="font-weight: bold;">PROFIT</p>
-    	<t t-set="profit_value" t-value="0"/>
+       <t t-set="profit_value" t-value="0"/>
         <t t-set="profit_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'PROFIT'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="a.product_id.other_categ_id.name == 'PROFIT'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="profit_value" t-value="kit_m_value+a.amount"/>
                     <t t-set="profit_purchase" t-value="kit_m_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -192,7 +192,7 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="profit_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja profit: <strong t-esc="profit_value-profit_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
         <br/>
         <br/>
@@ -200,30 +200,30 @@
         <t t-set="iz_value" t-value="0"/>
         <t t-set="iz_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'IZOLATII'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="a.product_id.other_categ_id.name == 'IZOLATII'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="iz_value" t-value="iz_value+a.amount"/>
                     <t t-set="iz_purchase" t-value="iz_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -232,7 +232,7 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="iz_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja izolatii: <strong t-esc="iz_value-iz_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
         <br/>
         <br/>
@@ -240,30 +240,30 @@
         <t t-set="fol_value" t-value="0"/>
         <t t-set="fol_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="a.product_id.other_categ_id.name == 'FOLII'">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="a.product_id.other_categ_id.name == 'FOLII'">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="fol_value" t-value="fol_value+a.amount"/>
                     <t t-set="fol_purchase" t-value="fol_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -272,7 +272,7 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="fol_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja folii: <strong t-esc="fol_value-fol_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
         <br/>
         <br/>
@@ -280,30 +280,30 @@
         <t t-set="other_value" t-value="0"/>
         <t t-set="other_purchase" t-value="0"/>
         <table style="border: 1px solid gray;padding: 15px;width:100%">
-        	<tr>
-        		<th style="border-bottom: 1px solid black;">Produs</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
+           <tr>
+              <th style="border-bottom: 1px solid black;">Produs</th>
+              <th style="border-bottom: 1px solid black;text-align:center;">Cantitate</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Val. achizitie (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Pret vanzare (EUR)</th>
                 <th style="border-bottom: 1px solid black;text-align:center;">Valoare (EUR)</th>
-        		<th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
-        	</tr>
-	        <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
-	        	<t t-if="not a.product_id.other_categ_id.name or not a.product_id.other_categ_id">
-	        		<tr>
-	        			<td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
+              <th style="border-bottom: 1px solid black;text-align:center;">Categorie</th>
+           </tr>
+           <t t-foreach="o.resource_ids.sorted(key=lambda r: r.name)" t-as="a">
+              <t t-if="not a.product_id.other_categ_id.name or not a.product_id.other_categ_id">
+                 <tr>
+                    <td style="width:300px;border-bottom: 1px solid #ddd;"><span t-field="a.product_id"/></td>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_uom_qty"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_price"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.purchase_amount"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.price_unit"/></td>
                         <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.amount"/></td>
-	        			<td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
-	        		</tr>
+                    <td style="border: 1px solid #ddd; text-align:center;"><span t-field="a.product_id.other_categ_id.name"/></td>
+                 </tr>
                     <t t-set="other_value" t-value="other_value+a.amount"/>
                     <t t-set="other_purchase" t-value="other_purchase+a.purchase_amount"/>
-	        	</t>
-	        </t>
+              </t>
+           </t>
             <tr>
                 <td/>
                 <td/>
@@ -312,29 +312,29 @@
                 <td/>
                 <td style="border: 1px solid #ddd; text-align:center;"><strong t-esc="other_value"/></td>
                 <td style="border: 1px solid #ddd; text-align:center;">Marja altele: <strong t-esc="other_value-other_purchase"/></td>
-	        </tr>
+           </tr>
         </table>
 
       </div>
     </t>
   </t>
 
-			
+
 </template>
 <!-- End Document specification 3 -->
 
 
 
-		<template id="report_group">
-			<t t-call="report.html_container">
-				<t t-foreach="doc_ids" t-as="doc_id">
-					<t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_group')" />
-				</t>
-			</t>
-		</template>
+      <template id="report_group">
+         <t t-call="report.html_container">
+            <t t-foreach="doc_ids" t-as="doc_id">
+               <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_group')" />
+            </t>
+         </t>
+      </template>
 
-		
-		
 
-	</data>
+
+
+   </data>
 </openerp>

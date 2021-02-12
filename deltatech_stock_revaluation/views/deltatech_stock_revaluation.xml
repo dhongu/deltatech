@@ -27,25 +27,25 @@
                     <!-- HEADER -->
                     <h3>ROMSYSTEMS SRL</h3>
                     
-			        <div class="row zero_min_height">
-			            <div class="col-xs-12">
-			                <div style="border-bottom: 1px solid black;"/>
-			            </div>
-			        </div>
-			        <div class="row">
-			            <div class="col-xs-6">
-			                <div>
-			                    <p>Str. Abatorului nr. 4 Bacau    
-			                    Tel: 0334 401 939     
-			                    CIF: RO15437993    
-			                    NRC: J04/535/2003    
-			                    Capital social: 200.00    
-			                    E-mail: office@romsystem.ro
-			                    </p>
-			                </div>
-			            </div>
-			        </div>
-			        <!-- END HEADER -->
+                 <div class="row zero_min_height">
+                     <div class="col-xs-12">
+                         <div style="border-bottom: 1px solid black;"/>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-xs-6">
+                         <div>
+                             <p>Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- END HEADER -->
                     <div class="row">
                         <!-- <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3> -->
                         <h3 style="text-align:center;font-weight:bold;"><span t-field="o.title" /></h3>
@@ -98,10 +98,10 @@
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
                                 <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
                                 <t t-if="crt_reval_int==0" >
-	                                <t t-set="months_passed" t-value="47"/>
+                                   <t t-set="months_passed" t-value="47"/>
                                 </t>
                                 <t t-if="crt_reval_int!=0" >
-	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
+                                   <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
                                 </t>
                                 <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
                                 <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
@@ -161,11 +161,11 @@
                                 </td>
                                 <!-- 
                                 <td>
-	                                <t t-if="l.mentor_rates">
-	                                    <span t-field="l.mentor_rates"/>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
                                     </t>
                                     <t t-if="not l.mentor_rates">
-	                                    <span>0</span>
+                                       <span>0</span>
                                     </t>
                                 </td>
                                  -->
@@ -251,25 +251,25 @@
                     <!-- HEADER -->
                     <h3>ROMSYSTEMS SRL</h3>
                     
-			        <div class="row zero_min_height">
-			            <div class="col-xs-12">
-			                <div style="border-bottom: 1px solid black;"/>
-			            </div>
-			        </div>
-			        <div class="row">
-			            <div class="col-xs-6">
-			                <div>
-			                    <p>Str. Abatorului nr. 4 Bacau    
-			                    Tel: 0334 401 939     
-			                    CIF: RO15437993    
-			                    NRC: J04/535/2003    
-			                    Capital social: 200.00    
-			                    E-mail: office@romsystem.ro
-			                    </p>
-			                </div>
-			            </div>
-			        </div>
-			        <!-- END HEADER -->
+                 <div class="row zero_min_height">
+                     <div class="col-xs-12">
+                         <div style="border-bottom: 1px solid black;"/>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-xs-6">
+                         <div>
+                             <p>Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- END HEADER -->
                     <div class="row">
                         <h3 style="text-align:center;font-weight:bold;"><span t-field="o.title" /></h3>
                     </div>
@@ -321,10 +321,10 @@
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
                                 <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
                                 <t t-if="crt_reval_int==0" >
-	                                <t t-set="months_passed" t-value="59"/>
+                                   <t t-set="months_passed" t-value="59"/>
                                 </t>
                                 <t t-if="crt_reval_int!=0" >
-	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
+                                   <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
                                 </t>
                                 <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
                                 <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
@@ -384,11 +384,11 @@
                                 </td>
                                 <!-- 
                                 <td>
-	                                <t t-if="l.mentor_rates">
-	                                    <span t-field="l.mentor_rates"/>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
                                     </t>
                                     <t t-if="not l.mentor_rates">
-	                                    <span>0</span>
+                                       <span>0</span>
                                     </t>
                                 </td>
                                  -->
@@ -474,25 +474,25 @@
                     <!-- HEADER -->
                     <h3>ROMSYSTEMS SRL</h3>
                     
-			        <div class="row zero_min_height">
-			            <div class="col-xs-12">
-			                <div style="border-bottom: 1px solid black;"/>
-			            </div>
-			        </div>
-			        <div class="row">
-			            <div class="col-xs-6">
-			                <div>
-			                    <p>Str. Abatorului nr. 4 Bacau    
-			                    Tel: 0334 401 939     
-			                    CIF: RO15437993    
-			                    NRC: J04/535/2003    
-			                    Capital social: 200.00    
-			                    E-mail: office@romsystem.ro
-			                    </p>
-			                </div>
-			            </div>
-			        </div>
-			        <!-- END HEADER -->
+                 <div class="row zero_min_height">
+                     <div class="col-xs-12">
+                         <div style="border-bottom: 1px solid black;"/>
+                     </div>
+                 </div>
+                 <div class="row">
+                     <div class="col-xs-6">
+                         <div>
+                             <p>Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+                 <!-- END HEADER -->
                     <div class="row">
                         <h3 style="text-align:center;font-weight:bold;"><span t-field="o.title" /></h3>
                     </div>
@@ -544,10 +544,10 @@
                                 <t t-set="crt_reval" t-value="l.old_value-l.new_value"/>
                                 <t t-set="crt_reval_int" t-value="int(crt_reval)"/>
                                 <t t-if="crt_reval_int==0" >
-	                                <t t-set="months_passed" t-value="71"/>
+                                   <t t-set="months_passed" t-value="71"/>
                                 </t>
                                 <t t-if="crt_reval_int!=0" >
-	                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
+                                   <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/>
                                 </t>
                                 <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
                                 <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
@@ -607,11 +607,11 @@
                                 </td>
                                 <!-- 
                                 <td>
-	                                <t t-if="l.mentor_rates">
-	                                    <span t-field="l.mentor_rates"/>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
                                     </t>
                                     <t t-if="not l.mentor_rates">
-	                                    <span>0</span>
+                                       <span>0</span>
                                     </t>
                                 </td>
                                  -->

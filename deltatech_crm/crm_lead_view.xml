@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
+   <data>
 
 
 
@@ -9,16 +9,16 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_form_view_leads" />
         <field name="arch" type="xml">
-			  	<field name="stage_id" position="before">
-			  		<button name="action_send_email" string="Send Email" type="object" class="oe_highlight" groups="base.group_user"/>
-			  	</field>  
-			  	<field name="type" position="before"> 
+              <field name="stage_id" position="before">
+                 <button name="action_send_email" string="Send Email" type="object" class="oe_highlight" groups="base.group_user"/>
+              </field>
+              <field name="type" position="before">
                             <group colspan="2">
                                 <field name="last_activity_id" invisible="1"/>
                                 <label for="next_activity_id"/>
                                 <div>
                                     <div class="o_row mr16 oe_inline">
-                                   		<field name="team_id" invisible="1"/>
+                                         <field name="team_id" invisible="1"/>
                                         <field name="next_activity_id" class="oe_inline"
                                                options="{'no_create': True, 'no_open': True}"
                                                domain="['|',('team_id','=',False),('team_id','=',team_id)]"
@@ -51,7 +51,7 @@
                                 </div>
                                  
                             </group>
-			  	</field>     
+              </field>
         </field>
         </record>
 
@@ -59,20 +59,20 @@
         <record id="crm_lead_form_view_oppor" model="ir.ui.view" >
             <field name="name">Opportunities</field>
             <field name="model">crm.lead</field>
-			<field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
-			<field name="arch" type="xml">
-			  	<field name="stage_id" position="before">
-			  		<button name="action_send_email" string="Send Email" type="object" class="oe_highlight" groups="base.group_user"/>
-			  	</field>
-			
-				<xpath expr="//label[@for='title_action']/parent::group" position="replace">
+         <field name="inherit_id" ref="crm.crm_case_form_view_oppor" />
+         <field name="arch" type="xml">
+              <field name="stage_id" position="before">
+                 <button name="action_send_email" string="Send Email" type="object" class="oe_highlight" groups="base.group_user"/>
+              </field>
+
+            <xpath expr="//label[@for='title_action']/parent::group" position="replace">
 
                             <group>
                                 <field name="last_activity_id" invisible="1"/>
                                 <label for="next_activity_id"/>
                                 <div>
                                     <div class="o_row mr16 oe_inline">
-                                   		<field name="team_id" invisible="1"/>
+                                         <field name="team_id" invisible="1"/>
                                         <field name="next_activity_id" class="oe_inline"
                                                options="{'no_create': True, 'no_open': True}"
                                                domain="['|',('team_id','=',False),('team_id','=',team_id)]"
@@ -106,10 +106,10 @@
                                 <field name="date_deadline"/>
                             </group>
 
-				
-				</xpath>
-			
-			</field>
-		</record>
-	</data>
+
+            </xpath>
+
+         </field>
+      </record>
+   </data>
 </openerp>

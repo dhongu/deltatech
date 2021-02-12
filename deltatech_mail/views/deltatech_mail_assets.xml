@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
+   <data>
 
-		<template id="assets_backend" name="Deltatech mail assets backend" inherit_id="web.assets_backend">
-			<xpath expr="." position="inside">
-				<link rel="stylesheet" href="/deltatech_mail/static/src/css/mail.css"/>
-				<script type="text/javascript" src="/deltatech_mail/static/src/js/mail_send_to.js"></script>
-			</xpath>
-		</template>
+      <template id="assets_backend" name="Deltatech mail assets backend" inherit_id="web.assets_backend">
+         <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/deltatech_mail/static/src/css/mail.css"/>
+            <script type="text/javascript" src="/deltatech_mail/static/src/js/mail_send_to.js"></script>
+         </xpath>
+      </template>
 
  
-	
-	</data>
+
+   </data>
 </openerp>
 
- 	
+

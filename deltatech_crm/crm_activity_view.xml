@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
+   <data>
     <record id="crm_activity_view_search" model="ir.ui.view">
         <field name="name">crm.activity.view.search</field>
         <field name="model">crm.activity</field>
@@ -144,5 +144,5 @@
       <menuitem id="crm_lead_menu_activities" name="Lead Activities" sequence="4"
         parent="base.menu_sales" action="crm_lead_action_activities" />  
         
-	</data>
+   </data>
 </openerp>

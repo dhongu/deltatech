@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+      <record id="view_stock_revaluation_tree" model="ir.ui.view">
+         <field name="name">Stock Revaluations</field>
+         <field name="model">stock.revaluation</field>
+         <field name="arch" type="xml">
+            <tree>
+               <field name="name" />
+               <field name="date" />
+               <field name="state" />
+               <field name="value_type"/>
+            </tree>
+         </field>
+      </record>
+
+
+      <record id="view_stock_revaluation_form" model="ir.ui.view">
+         <field name="name">Stock Revaluation</field>
+         <field name="model">stock.revaluation</field>
+         <field name="arch" type="xml">
+            <form string="Stock Revaluation">
+               <header invisible="context.get('from_quants',False)" >
+                  <button state="draft" name="do_revaluation" states="draft"  string="Confirm" type="object" class="oe_highlight" />
+                  <field name="state" widget="statusbar" statusbar_visible="draft,posted" />
+               </header>
+               <sheet>
+                  <h1>
+                     <label for="title" />
+                     <field class="oe_inline" name="title" style="min-width: 600px;"/>
+                  </h1>
+                  <h1>
+                     <label for="name" />
+                     <field class="oe_inline" name="name" />
+                  </h1>
+                  <group>
+                     <group>
+                        <field name="date" />
+                        <field name="type" />
+                        <field name="account_symbol" />
+                     </group>
+                     <group>
+                        <field name="value_type"/>
+                                <field name="location_id"/>
+                                <field name="percent" attrs="{'invisible':[('value_type','=','value')]}"/>
+                                <field name="value" attrs="{'invisible':[('value_type','=','percent')]}"/>
+                     </group>
+                  </group>
+                  <notebook>
+                     <page string="Lines">
+                        <field name="line_ids" nolabel="1">
+                           <tree editable="bottom">
+                              <field name="quant_id" />
+                              <field name="product_id" />
+                              <field name="init_value" />
+                              <field name="old_value" />
+                              <field name="new_value" />
+                              <field name="mentor_rates"/>
+                           </tree>
+                        </field>
+
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                           <field name="old_amount_total" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                           <div class="oe_subtotal_footer_separator oe_inline">
+                              <label for="new_amount_total" />
+                              <button name="do_update" states="draft" string="(update)" type="object" class="oe_edit_only oe_link" />
+                           </div>
+                           <field name="new_amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                        </group>
+                        <div class="oe_clear" />
+                     </page>
+                  </notebook>
+               </sheet>
+               <footer invisible="not context.get('from_quants',False)" >
+                  <button name="do_update" string="Save" type="object" class="oe_highlight" />
+                  or
+                  <button name="do_revaluation" string="Confirm" type="object" class="oe_highlight" />
+                  or
+                  <button string="Cancel" class="oe_link" special="cancel" />
+               </footer>
+               <div class="oe_chatter" invisible="context.get('from_quants',False)" >
+                  <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                  <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+               </div>
+            </form>
+         </field>
+      </record>
+
+      <record id="action_stock_revaluation" model="ir.actions.act_window">
+         <field name="name">Stock Revaluation</field>
+         <field name="res_model">stock.revaluation</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">tree,form</field>
+      </record>
+
+      <act_window id="action_stock_revaluation_from_quants"
+          name="Stock Revaluation" res_model="stock.revaluation" src_model="stock.quant"
+         context="{'from_quants':True}" view_mode="form"
+         multi="False" target="new"
+         key2="client_action_multi" />
+
+        <act_window id="action_stock_revaluation_from_loc"
+                    name="Stock Revaluation" res_model="stock.revaluation" src_model="stock.location"
+                    context="{'from_quants':True}" view_mode="form"
+                    multi="False" target="new"
+                    key2="client_action_multi"/>
+
+
+      <menuitem action="action_stock_revaluation" id="menu_stock_revaluation" parent="stock.menu_stock_inventory_control" groups="stock_account.group_inventory_valuation" />
+
+
+        <record id="view_stock_revaluation_line_tree" model="ir.ui.view">
+            <field name="name">Inventory Revaluation Line</field>
+            <field name="model">stock.revaluation.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="revaluation_id"/>
+                    <field name="date"/>
+                    <field name="quant_id"/>
+                    <field name="product_id"/>
+                    <field name="init_value"/>
+                    <field name="old_value"/>
+                    <field name="new_value"/>
+                    <field name="mentor_rates"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_revaluation_line" model="ir.actions.act_window">
+            <field name="name">Inventory Revaluation Line</field>
+            <field name="res_model">stock.revaluation.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <report
+         id="stock_revaluation"
+            model="stock.revaluation"
+            string="Stock revaluation"
+            report_type="qweb-pdf"
+            name="deltatech_stock_revaluation.report_stock_revaluation"
+            attachment_use="False"
+            file="deltatech_stock_revaluation.report_stock_revaluation"
+      />
+      <report
+         id="stock_revaluation2"
+            model="stock.revaluation"
+            string="Stock revaluation - 60 luni"
+            report_type="qweb-pdf"
+            name="deltatech_stock_revaluation.report_stock_revaluation2"
+            attachment_use="False"
+            file="deltatech_stock_revaluation.report_stock_revaluation2"
+      />
+
+      <report
+         id="stock_revaluation3"
+            model="stock.revaluation"
+            string="Stock revaluation - 72 luni"
+            report_type="qweb-pdf"
+            name="deltatech_stock_revaluation.report_stock_revaluation3"
+            attachment_use="False"
+            file="deltatech_stock_revaluation.report_stock_revaluation3"
+      />
+
+   </data>
+</openerp>

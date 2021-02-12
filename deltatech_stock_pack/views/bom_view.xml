@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-	<data>
+   <data>
 
         <record id="package_bom_tree_view" model="ir.ui.view">
             <field name="name">package.bom.tree</field>

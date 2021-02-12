@@ -23,7 +23,7 @@
                             <field name="product_ids"
                                 nolabel="1" colspan="2">
                                 <tree create="false" edit="false" delete="false">
-                                	<field name="default_code"/>
+                                   <field name="default_code"/>
                                     <field name="name"/>
                                 </tree>
                             </field>

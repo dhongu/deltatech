@@ -1,0 +1,294 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* deltatech_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20131210-002425\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creațion-Date: 2013-12-11 19:23+0000\n"
+"PO-Revision-Date: 2013-12-11 19:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale
+#: field:deltatech.sale.report,categ_id:0
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "In Progress"
+msgstr "În Progres"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,stock_val:0
+msgid "Stock value"
+msgstr "Valoare stoc"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Group By..."
+msgstr "Grupează După..."
+
+#. module: deltatech_sale
+#: model:ir.actions.act_window,name:deltatech_sale.action_deltatech_sale_report
+#: model:ir.ui.menu,name:deltatech_sale.menu_deltatech_sale_report_tree
+msgid "Sale report"
+msgstr "Raport vânzari"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Ordered Year of the sales order"
+msgstr "Anul comandat din comenzile de vânzare"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Waiting Schedule"
+msgstr "Așteaptă planificarea"
+
+#. module: deltatech_sale
+#: field:deltatech.sale.report,product_uom:0
+msgid "Unit of Measure"
+msgstr "UM"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "# of Qty"
+msgstr "# de cant"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Status"
+msgstr "Status"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "March"
+msgstr "Martie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "August"
+msgstr "August"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "May"
+msgstr "Mai"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,company_id:0
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "June"
+msgstr "Iunie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Invoice Exception"
+msgstr "Factură în excepție"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,user_id:0
+msgid "Salesperson"
+msgstr "Agent de vânzări"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "My Sales"
+msgstr "Vânzările mele"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "July"
+msgstr "Iulie"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Extended Filters..."
+msgstr "Filtre extinse..."
+
+#. module: deltatech_sale
+#: model:ir.model,name:deltatech_sale.model_deltatech_sale_report
+msgid "Deltatech sale report"
+msgstr "Deltatech raport vânzări"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Quotațion"
+msgstr "Cotație"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,sale_val:0
+msgid "Sale value"
+msgstr "Valoare vânzare"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "February"
+msgstr "Februarie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "October"
+msgstr "Octombrie"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Sale_report"
+msgstr "Sale_report"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "January"
+msgstr "Ianuarie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "April"
+msgstr "Aprilie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Manual In Progress"
+msgstr "Manual In Progress"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Reference Unit of Measure"
+msgstr "UM de referință"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Cancelled"
+msgstr "Anulate"
+
+#. module: deltatech_sale
+#: model:ir.actions.act_window,help:deltatech_sale.action_deltatech_sale_report
+msgid "This report performs analysis on your quotațions and sales orders."
+msgstr "Acest raport vă permite să analizați cotațiile și comenzile de vânazre."
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Quotațions"
+msgstr "Cotații"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "November"
+msgstr "Noiembrie"
+
+#. module: deltatech_sale
+#: field:deltatech.sale.report,product_uom_qty:0
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,shop_id:0
+msgid "Shop"
+msgstr "Magazin"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Ordered month of the sales order"
+msgstr "Luna comandată din comenzile de vânzare"
+
+#. module: deltatech_sale
+#: field:deltatech.sale.report,state:0
+msgid "Order Status"
+msgstr "Statre comandă"
+
+#. module: deltatech_sale
+#: field:deltatech.sale.report,pricelist_id:0
+msgid "Pricelist"
+msgstr "Listă prețuri"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "September"
+msgstr "Septembrie"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,month:0
+msgid "December"
+msgstr "Decembrie"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Sales"
+msgstr "Vânzări"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,month:0
+msgid "Month"
+msgstr "Luna"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,nbr:0
+msgid "# of Lines"
+msgstr "# de linii"
+
+#. module: deltatech_sale
+#: selection:deltatech.sale.report,state:0
+msgid "Done"
+msgstr "Gata"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Category of Product"
+msgstr "Categoria de produs"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Picked"
+msgstr "Ridicat"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,year:0
+msgid "Year"
+msgstr "Anul"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+#: field:deltatech.sale.report,partner_id:0
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_sale
+#: view:deltatech.sale.report:0
+msgid "Ordered date of the sales order"
+msgstr "Data comandată din comenzile de vânzare"
+

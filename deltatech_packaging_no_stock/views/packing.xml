@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-		<template id="report_packing">
+   <data>
+      <template id="report_packing">
 
-			<t t-call="report.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-call="report.external_layout">
-						<div class="page">
-							<div class="row">
-							
-							</div>
-						</div>
-					</t>
-				</t>
-			</t>
-		</template>
-		
-		
-		  <report 
+         <t t-call="report.html_container">
+            <t t-foreach="docs" t-as="o">
+               <t t-call="report.external_layout">
+                  <div class="page">
+                     <div class="row">
+
+                     </div>
+                  </div>
+               </t>
+            </t>
+         </t>
+      </template>
+
+
+        <report
             string="Packing" 
             id="action_report_packing" 
             model="packing.doc" 
             report_type="qweb-pdf"
             name="deltatech_packaging_no_stock.report_packing" 
             file="deltatech_packaging_no_stock.report_packing"    />
-		
-	</data>
+
+   </data>
 </openerp>

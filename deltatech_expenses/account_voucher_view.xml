@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-    	
+
         <record model="ir.ui.view" id="deltatech_view_purchase_receipt_tree">
             <field name="name">deltatech.account.voucher.tree</field>
             <field name="model">account.voucher</field>
             <field name="arch" type="xml">
                 <tree editable="bottom" colors="blue:state == 'draft';gray:state == 'cancel';red:audit" string="Purchase Expenses">
-                	<field name="date" string="Bill Date" on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
-                	<field name="reference"/>
-                	<field name="amount" sum="Total Amount"/>
-                	
-                	
-                	<field name="pay_now" invisible="1"/>
+                   <field name="date" string="Bill Date" on_change="onchange_date(date, currency_id, currency_id, amount, company_id, context)"/>
+                   <field name="reference"/>
+                   <field name="amount" sum="Total Amount"/>
+
+
+                   <field name="pay_now" invisible="1"/>
                     <field name="account_id" domain="[('type','=','other')]"  invisible="True"/>
                     
                     
@@ -42,7 +42,7 @@
                     <field name="tax_id"  invisible="1"
                                         on_change="onchange_price(line_dr_ids, tax_id, partner_id)"
                                         widget="selection" nolabel="1"
-										placeholder="Tax" 
+                              placeholder="Tax"
 
                                         domain="[('type_tax_use','in',('purchase','all')), ('parent_id', '=', False)]"/>
                     <field name="currency_id" invisible="1"/>

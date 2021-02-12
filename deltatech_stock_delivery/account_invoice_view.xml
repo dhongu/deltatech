@@ -8,9 +8,9 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_form"/>
     <field name="arch" type="xml">
-    	<button name="invoice_print" position = "before">
-    		<button name="invoice_print_delivery" string="Delivery" type="object" attrs="{'invisible':[('picking_ids','=',False)]}" groups="base.group_user"/>
-    	</button>
+       <button name="invoice_print" position = "before">
+          <button name="invoice_print_delivery" string="Delivery" type="object" attrs="{'invisible':[('picking_ids','=',False)]}" groups="base.group_user"/>
+       </button>
 
     </field>
 </record>
@@ -20,9 +20,9 @@
     <field name="model">account.invoice</field>
     <field name="inherit_id" ref="account.invoice_supplier_form"/>
     <field name="arch" type="xml">
-    	<button name="invoice_open" position = "before">
-    		<button name="invoice_print_delivery" string="Reception" type="object" attrs="{'invisible':[('picking_ids','=',False)]}" groups="base.group_user"/>
-    	</button> 
+       <button name="invoice_open" position = "before">
+          <button name="invoice_print_delivery" string="Reception" type="object" attrs="{'invisible':[('picking_ids','=',False)]}" groups="base.group_user"/>
+       </button>
     </field>
 </record>
 
