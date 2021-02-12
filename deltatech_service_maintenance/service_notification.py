@@ -319,7 +319,7 @@ class service_notification(models.Model):
 
 
     @api.multi
-    def new_delivery_button(self):         
+    def new_delivery_button(self):
         context = {'default_equipment_id': self.equipment_id.id,
                    'default_agreement_id': self.agreement_id.id,
                    'default_origin': self.name,
