@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">deltatech.mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button
+                        class="oe_stat_button"
+                        string="Picking"
+                        name="action_see_picking"
+                        type="object"
+                        icon="fa-arrows-v"
+                    />
+                </div>
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Costs">
+                        <group>
+                            <group>
+                                <field name="amount" />
+                                <field
+                                    name="service_amount"
+                                    attrs="{'readonly': [('state', 'in', ['done','cancel'])]}"
+                                />
+                                <field name="calculate_price" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+    <record id="mrp_production_acc_form_view" model="ir.ui.view">
+        <field name="name">deltatech.mrp.production.form</field>
+        <field name="model">mrp.production</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="groups_id" eval="[ (4, ref('account.group_account_user'))]" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Accounting Entries">
+                    <field nolabel="1" name="acc_move_line_ids" readonly="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

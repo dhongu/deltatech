@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_mrporder" inherit_id="mrp.report_mrporder">
+        <xpath expr="//table[@t-if='o.move_raw_ids']//thead/tr" position="inside">
+            <th class="text-right">
+                <strong>Effective Quantity</strong>
+            </th>
+            <th class="text-right">
+                <strong>Price</strong>
+            </th>
+            <th class="text-right">
+                <strong>Amount</strong>
+            </th>
+        </xpath>
+        <!--
+        <xpath expr="//table[@t-if='o.move_raw_ids']//tbody/t//tr" position="replace">
+        </xpath>
+        -->
+        <xpath expr="//table[@t-if='o.move_raw_ids']//tbody//tr" position="inside">
+            <td class="text-right">
+                <span t-field="line.quantity_done" />
+                <span t-field="line.product_uom.name" groups="uom.group_uom" />
+            </td>
+            <td class="text-right">
+                <span t-field="line.price_unit" />
+            </td>
+            <td class="text-right">
+                <span t-field="line.value" />
+            </td>
+        </xpath>
+        <xpath expr="//div[@t-if='o.workorder_ids']" position="after">
+            <h3 t-if="o.move_finished_ids">Finished Products</h3>
+            <table class="table table-condensed" t-if="o.move_finished_ids">
+                <thead>
+                    <tr>
+                        <th>
+                            <strong>Product</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Quantity</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Effective Quantity</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Price</strong>
+                        </th>
+                        <th class="text-right">
+                            <strong>Amount</strong>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-if="o.move_finished_ids">
+                        <tr t-foreach="o.move_finished_ids" t-as="line">
+                            <td>
+                                <span t-field="line.product_id" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.product_uom_qty" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.quantity_done" />
+                                <span t-field="line.product_uom.name" groups="uom.group_uom" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.price_unit" />
+                            </td>
+                            <td class="text-right">
+                                <span t-field="line.value" />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>
