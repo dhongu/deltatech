@@ -1,0 +1,278 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_account_invoice_filter" model="ir.ui.view">
+            <field name="name">account.move.select</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter" />
+            <field name="arch" type="xml">
+                <filter name="unpaid" position="after">
+                    <filter name="service" string="Services Agreements" domain="[('agreement_id','!=',False)]" />
+                </filter>
+                <field name="date" position="after">
+                    <field name="agreement_id" />
+                </field>
+            </field>
+        </record>
+        <record id="action_service_invoice" model="ir.actions.act_window">
+            <field name="name">Service Moves</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id" />
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">
+                {'search_default_service':1, 'default_type':'out_invoice', 'type':'out_invoice',
+                'journal_type': 'sale'}
+            </field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter" />
+        </record>
+        <record id="action_service_invoice_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="act_window_id" ref="action_service_invoice" />
+        </record>
+        <record id="action_service_invoice_form_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account.view_move_form" />
+            <field name="act_window_id" ref="action_service_invoice" />
+        </record>
+        <menuitem
+            name="Service Invoice"
+            id="menu_service_invoice"
+            action="action_service_invoice"
+            groups="group_service_user"
+            parent="menu_service_agr"
+            sequence="110"
+        />
+        <record id="view_service_agreement_tree" model="ir.ui.view">
+            <field name="name">Services Agreements</field>
+            <field name="model">service.agreement</field>
+            <field name="arch" type="xml">
+                <tree string="Services Agreements">
+                    <field name="name" />
+                    <field name="date_agreement" />
+                    <field name="partner_id" />
+                    <field name="description" />
+                    <field name="state" />
+                    <field name="type_id" />
+                    <field name="group_id" string="Service Group" />
+                    <field name="total_consumption" sum="consumption" />
+                    <field name="total_invoiced" sum="invoiced" />
+                    <field name="message_unread" invisible="1" />
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_service_agreement_form" model="ir.ui.view">
+            <field name="name">Service Agreement</field>
+            <field name="model">service.agreement</field>
+            <field name="arch" type="xml">
+                <form string="Service Agreement">
+                    <header>
+                        <button
+                            name="contract_close"
+                            states="open"
+                            type="object"
+                            class="oe_highlight"
+                            string="Terminate Contract"
+                        />
+                        <button
+                            name="contract_open"
+                            states="draft"
+                            type="object"
+                            class="oe_highlight"
+                            string="Set In Progress"
+                        />
+                        <button
+                            name="contract_draft"
+                            states="closed"
+                            type="object"
+                            class="oe_highlight"
+                            string="Set Draft"
+                        />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,quote" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                type="action"
+                                class="oe_stat_button"
+                                id="invoice_button"
+                                icon="fa-pencil-square-o"
+                                name="%(action_service_invoice)d"
+                                context="{'search_default_agreement_id': id,
+  'default_agreement_id': id,
+  'default_partner_id': partner_id }"
+                                groups="account.group_account_invoice"
+                            >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field string="Invoices" name="total_invoiced" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Invoiced</span>
+                                </div>
+                            </button>
+                            <button
+                                type="action"
+                                class="oe_stat_button"
+                                id="consumption_button"
+                                icon="fa-line-chart"
+                                name="%(action_service_consumption)d"
+                                context="{'search_default_agreement_id': id,
+
+ 'search_default_done': 1,
+  'default_agreement_id': id,
+  'default_partner_id': partner_id }"
+                            >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field string="Revenues" name="total_consumption" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Revenues</span>
+                                </div>
+                            </button>
+                            <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
+                                <field string="Documents" name="doc_count" widget="statinfo" />
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Agreement" class="oe_inline" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_agreement" />
+                                <field name="final_date" />
+                                <field name="type_id" />
+                                <field name="group_id" string="Service Group" />
+                                <field name="partner_id" />
+                                <field name="description" />
+                                <field name="currency_id" options="{'no_create': True}" />
+                            </group>
+                            <group>
+                                <field name="cycle_id" />
+                                <field name="invoice_mode" />
+                                <field name="last_invoice_id" />
+                                <field name="invoice_day" />
+                                <field name="next_date_invoice" />
+                                <field name="payment_term_id" />
+                            </group>
+                            <group>
+                                <field
+                                    name="company_id"
+                                    options="{'no_create': True}"
+                                    groups="base.group_multi_company"
+                                />
+                            </group>
+                        </group>
+                        <field name="agreement_line" context="{'default_currency_id':currency_id}">
+                            <tree string="Agreement Lines" editable="bottom">
+                                <field name="product_id" context="{'default_type':'service'}" />
+                                <field name="quantity" />
+                                <field name="uom_id" groups="uom.group_uom" />
+                                <field name="price_unit" />
+                                <field name="currency_id" options="{'no_create': True}" />
+                                <field
+                                    name="quantity_free"
+                                    attrs="{'readonly':['|',('has_free_cycles','=',True),('cycles_free','>',0)]}"
+                                />
+                                <field name="company_id" invisible="1" />
+                                <field name="has_free_cycles" attrs="{'readonly':[('quantity_free','>',0)]}" />
+                                <field name="cycles_free" attrs="{'readonly':[('quantity_free','>',0)]}" />
+                            </tree>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_service_agreement_filter" model="ir.ui.view">
+            <field name="name">service.agreement.select</field>
+            <field name="model">service.agreement</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="partner_id" />
+                    <field name="type_id" />
+                    <field name="group_id" />
+                    <newline />
+                    <group expand="1" string="Group By...">
+                        <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
+                        <filter string="Type" name="type" context="{'group_by':'type_id'}" />
+                        <filter string="Group" name="group" context="{'group_by':'group_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_service_agreement" model="ir.actions.act_window">
+            <field name="name">Services Agreements</field>
+            <field name="res_model">service.agreement</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Services Agreements"
+            id="menu_service_agreement"
+            groups="group_service_user"
+            action="action_service_agreement"
+            parent="menu_service_agr"
+            sequence="100"
+        />
+        <record id="action_update_revenues" model="ir.actions.server">
+            <field name="name">Update Revenues</field>
+            <field name="model_id" ref="model_service_agreement" />
+            <field name="state">code</field>
+            <field name="code">action = records.compute_totals()</field>
+            <field name="binding_model_id" ref="model_service_agreement" />
+        </record>
+        <!--
+        <record id="more_item_update_revenues" model="ir.values">
+        <field name="key2" eval="'client_action_multi'" />
+        <field name="model" eval="'service.agreement'" />
+        <field name="name">Update Revenues</field>
+        <field name="value" eval="'ir.actions.server,%d'%action_update_revenues" />
+        </record>
+        -->
+        <record id="action_service_agreement_type" model="ir.actions.act_window">
+            <field name="name">Services Agreements Type</field>
+            <field name="res_model">service.agreement.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Services Agreement Type"
+            id="menu_service_agreement_type"
+            groups="group_service_manager"
+            action="action_service_agreement_type"
+            parent="menu_service_config"
+            sequence="100"
+        />
+        <record id="action_service_agreement_group" model="ir.actions.act_window">
+            <field name="name">Services Group</field>
+            <field name="res_model">service.agreement.group</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Service Group"
+            id="menu_service_agreement_group"
+            groups="group_service_manager"
+            action="action_service_agreement_group"
+            parent="menu_service_config"
+            sequence="101"
+        />
+        <record id="action_service_cycle" model="ir.actions.act_window">
+            <field name="name">Service Cycle</field>
+            <field name="res_model">service.cycle</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Cycle"
+            id="menu_service_cycle"
+            groups="group_service_manager"
+            action="action_service_cycle"
+            parent="menu_service_config"
+        />
+    </data>
+</odoo>

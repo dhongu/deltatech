@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_service_enter_reading_form" model="ir.ui.view">
+            <field name="name">Enter Meter Readings</field>
+            <field name="model">service.enter.reading</field>
+            <field name="arch" type="xml">
+                <form string="Enter Meter Readings">
+                    <group string="Enter Meter Readings">
+                        <div class="oe_grey">For the selected meters please enter readings</div>
+                    </group>
+                    <group>
+                        <field name="date" />
+                        <field name="read_by" />
+                        <field name="items">
+                            <tree editable="bootom" create="0" delete="0">
+                                <field name="equipment_id" />
+                                <field name="meter_id" />
+                                <field name="counter_value" />
+                            </tree>
+                        </field>
+                        <field name="note" />
+                    </group>
+                    <footer>
+                        <button name="do_enter" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window
+            id="action_service_enter_reading"
+            name="Enter Meter Readings"
+            res_model="service.enter.reading"
+            binding_model="service.equipment"
+            view_mode="form"
+            target="new"
+        />
+    </data>
+</odoo>

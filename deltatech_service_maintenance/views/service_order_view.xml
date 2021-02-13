@@ -1,0 +1,234 @@
+<?xml version="1.0" ?>
+<odoo>
+
+        <record id="view_service_order_tree" model="ir.ui.view">
+            <field name="name">Order</field>
+            <field name="model">service.order</field>
+            <field name="arch" type="xml">
+                <tree string="Services Order">
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="equipment_id" />
+                    <field name='state' />
+                    <field name='city' />
+                    <field name='user_id' />
+                    <field name="message_unread" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_service_order_form" model="ir.ui.view">
+            <field name="name">Order</field>
+            <field name="model">service.order</field>
+            <field name="arch" type="xml">
+                <form string="Services Order">
+                    <header>
+                        <button name="action_acknowledge" type="object" string="Acknowledge" states="draft" />
+                        <button
+                        name="action_start_on_way"
+                        type="object"
+                        string="Start Treveling"
+                        states="acknowledge"
+                    />
+                        <button
+                        name="action_start"
+                        type="object"
+                        string="Start Work"
+                        states="draft,acknowledge,on_way"
+                    />
+                        <button name="action_work_done" type="object" string="Work Done" states="progress" />
+                        <button name="action_work_again" type="object" string="Work Again" states="rejected" />
+                        <button name="action_done" type="object" string="Done" states="work_done" />
+                        <button name="action_cancel" type="object" string="Cancel Order" states="progress,rejected" />
+                        <button
+                        name="new_piking_button"
+                        type="object"
+                        states="progress"
+                        string="Delivery for service"
+                    />
+                        <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,acknowledge,on_way,progress,work_done,done"
+                    />
+                    </header>
+                    <sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                                <label for='name' string="Order" />
+                                <field
+                                name="name"
+                                class="oe_inline"
+                                attrs="{'invisible': [('name','=','/')]}"
+                                readonly="1"
+                            />
+                            </h1>
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons">
+                            <button type="object" class="oe_stat_button" icon="fa-ticket" name="open_order_on_website">
+                                <div>Frontend</div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date" />
+                                <field name="type_id" />
+                                <field name="notification_id" />
+                                <field name="user_id" />
+                                <field name="plan_call_id" />
+                            </group>
+                            <group>
+                                <field
+                                name="contact_id"
+                                context="{'search_default_customer':1,   'show_phone':1}"
+                                options="{'always_reload': True}"
+                            />
+                                <field name="equipment_id" />
+                                <field name="partner_id" />
+                                <field
+                                name="address_id"
+                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                                context="{'search_default_customer':1, 'show_address': 1 }"
+                                options="{'always_reload': True}"
+                            />
+                                <field name="agreement_id" />
+                                <field name="equipment_history_id" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="reason_id" />
+                                <field name="parameter_ids" widget="many2many_checkboxes" />
+                            </group>
+                            <group>
+                                <field name="eta" />
+                                <field name="dist_traveled" />
+                                <field name="date_start_travel" />
+                                <field name="date_start" />
+                                <field name="date_done" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Components">
+                                <field name="component_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id" />
+                                        <field name="quantity" />
+                                        <field name="product_uom" />
+                                        <field name="note" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Operations">
+                                <field name="operation_ids">
+                                    <tree editable="bottom">
+                                        <field name="operation_id" />
+                                        <field name="duration" widget="float_time" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Meater Reading">
+<!--                                <field-->
+<!--                                    name="meter_reading_ids"-->
+<!--                                    domain="[('equipment_id','=',equipment_id),   ('date','=',date) ]"-->
+<!--                                    context="{'default_equipment_id':equipment_id,'default_date':date }"-->
+<!--                                >-->
+<!--                                    <tree>-->
+<!--                                        <field name="meter_id" />-->
+<!--                                        <field name="previous_counter_value" />-->
+<!--                                        <field name="counter_value" />-->
+<!--                                        <field name="difference" />-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+                            </page>
+                        </notebook>
+                        <div class="oe_clear" />
+                        <field name="description" class="oe_inline" placeholder="Notes..." />
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="action_service_order" model="ir.actions.act_window">
+            <field name="name">Services Order</field>
+            <field name="res_model">service.order</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Order"
+        id="menu_service_order"
+        action="action_service_order"
+        parent="deltatech_service.menu_service"
+    />
+        <record id="action_service_order_type" model="ir.actions.act_window">
+            <field name="name">Services Order Type</field>
+            <field name="res_model">service.order.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Order" id="menu_service_config_order" parent="deltatech_service.menu_service_config" />
+        <menuitem
+        name="Order Type"
+        id="menu_service_order_type"
+        action="action_service_order_type"
+        parent="menu_service_config_order"
+    />
+        <record id="action_service_order_reason" model="ir.actions.act_window">
+            <field name="name">Services Order Reason</field>
+            <field name="res_model">service.order.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Reasons"
+        id="menu_service_order_reason"
+        action="action_service_order_reason"
+        parent="menu_service_config_order"
+    />
+        <record id="view_service_operation_tree" model="ir.ui.view">
+            <field name="name">Order</field>
+            <field name="model">service.operation</field>
+            <field name="arch" type="xml">
+                <tree string="Services Operation">
+                    <field name="code" />
+                    <field name="name" />
+                    <field name="duration" widget="float_time" />
+                </tree>
+            </field>
+        </record>
+        <record id="view_service_operation_form" model="ir.ui.view">
+            <field name="name">Order</field>
+            <field name="model">service.operation</field>
+            <field name="arch" type="xml">
+                <form string="Services Operation">
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="duration" widget="float_time" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="action_service_operation" model="ir.actions.act_window">
+            <field name="name">Services Operation</field>
+            <field name="res_model">service.operation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Operation"
+        id="menu_service_operation"
+        action="action_service_operation"
+        parent="menu_service_config_order"
+    />
+        <record id="action_service_operating_parameter" model="ir.actions.act_window">
+            <field name="name">Service Operating Parameter</field>
+            <field name="res_model">service.operating.parameter</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+        name="Operating Parameter"
+        id="menu_service_operating_parameter"
+        action="action_service_operating_parameter"
+        parent="menu_service_config_order"
+    />
+
+</odoo>

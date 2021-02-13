@@ -87,16 +87,12 @@
                                 <field name="date" />
                                 <field name="date_planned" groups="stock.group_stock_manager" />
                                 <field name="group_id" groups="stock.group_stock_manager" />
-                                <field name="route_id" groups="sale_stock.group_route_so_lines" />
+                                <field name="route_id" />
                                 <field name="comment" />
                             </group>
                             <group>
                                 <field name="warehouse_id" groups="stock.group_stock_manager" />
-                                <field
-                                    name="location_id"
-                                    domain="[('usage','=','internal')]"
-                                    groups="stock.group_locations"
-                                />
+                                <field name="location_id" domain="[('usage','=','internal')]" />
                             </group>
                         </group>
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="common_history_form" model="ir.ui.view">
+        <field name="model">common.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1" string="Tip" />
+                        <field name="date" readonly="1" string="Data" />
+                        <field name="equipment_id" readonly="1" string="Echipament" />
+                        <field name="agreement_id" readonly="1" string="Contract" />
+                        <field name="description" widget="text" string="Detalii" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="common_history_tree" model="ir.ui.view">
+        <field name="model">common.history</field>
+        <field name="arch" type="xml">
+            <tree string="History">
+                <field name="name" string="Tip" />
+                <field name="date" string="Data" />
+                <field name="equipment_id" string="Echipament" />
+                <field name="agreement_id" string="Contract" />
+                <field name="description" string="Detalii" />
+            </tree>
+        </field>
+    </record>
+    <record id="common_history_search" model="ir.ui.view">
+        <field name="model">common.history</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="name" string="Tip" />
+                <field name="date" string="Data" />
+                <field name="equipment_id" string="Echipament" />
+                <field name="agreement_id" string="Contract" />
+                <field name="description" string="Detalii" />
+                <group expand="1" string="Group By...">
+                    <filter string="Tip" name="tip" context="{'group_by':'name'}" />
+                    <filter string="Data" name="date" context="{'group_by':'date'}" />
+                    <filter string="Echipament" name="equipment" context="{'group_by':'equipment_id'}" />
+                    <filter string="Contract" name="agreement" context="{'group_by':'agreement_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="common_history_action" model="ir.actions.act_window">
+        <field name="name">History</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">common.history</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <!-- Common history menu-->
+    <menuitem
+        id="common_history_menu"
+        name="Istoric echipamente/contracte"
+        parent="deltatech_service.menu_service"
+        action="common_history_action"
+        sequence="1001"
+    />
+    <record id="view_equipment_common_history" model="ir.ui.view">
+        <field name="name">Service equipment history</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment.view_service_equipment_form" />
+        <field name="arch" type="xml">
+              <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="common_history_button"
+                    icon="fa-book"
+                    name="common_history_button"
+                >
+                    <div>History</div>
+                </button>
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="picking_button"
+                    icon="fa-sign-out"
+                    name="movelines_button"
+                >
+                    <div>
+<!--                                    <strong>-->
+<!--                                        <field name="total_costs" widget="monetary"/>-->
+<!--                                    </strong>-->
+<!--                                    <br/>-->
+                                    Produse livrate
+                                </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_agreement_common_history" model="ir.ui.view">
+        <field name="name">Service agreement history</field>
+        <field name="model">service.agreement</field>
+        <field name="inherit_id" ref="deltatech_service.view_service_agreement_form" />
+        <field name="arch" type="xml">
+           <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="common_history_button"
+                    icon="fa-book"
+                    name="common_history_button"
+                >
+                    <div>History</div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,313 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_service_equipment_tree" model="ir.ui.view">
+            <field name="name">Services equipment</field>
+            <field name="model">service.equipment</field>
+            <field name="arch" type="xml">
+                <tree string="Services Equipment">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="group_id" />
+                    <field name="agreement_type_id" />
+                    <field name="readings_status" />
+                    <field name="total_revenues" sum="total" />
+                    <field name="total_costs" sum="total" />
+                    <field name="analytic_account_id" />
+                    <field name="message_unread" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <record id="mt_equipment_change_status" model="mail.message.subtype">
+            <field name="name">Change status</field>
+            <field name="res_model">service.equipment</field>
+            <field name="default" eval="False" />
+            <field name="description">Equipment change status</field>
+        </record>
+        <record id="view_service_equipment_form" model="ir.ui.view">
+            <field name="name">Service equipment</field>
+            <field name="model">service.equipment</field>
+            <field name="arch" type="xml">
+                <form string="Service Equipment">
+                    <header>
+                        <button
+                            name="create_meters_button"
+                            type="object"
+                            string="Create Meters"
+                            attrs="{'invisible':['|',('meter_ids','!=',[])]}"
+                        />
+                        <button
+                            name="%(action_service_equi_agreement)d"
+                            type="action"
+                            string="Add to Agreement"
+                            state="installed"
+                            attrs="{'invisible':['|',('agreement_id','!=',False)]}"
+                        />
+                        <button
+                            name="remove_from_agreement_button"
+                            type="object"
+                            string="Remove from Agreement"
+                            state="available"
+                            attrs="{'invisible':['|',('agreement_id','==',False)]}"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="available,installed"
+                            statusbar_colors='{"backuped":"red"}'
+                        />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button
+                                type="action"
+                                class="oe_stat_button"
+                                id="meter_button"
+                                icon="fa-slack"
+                                name="%(action_service_meter)d"
+                                context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                            >
+                                <span class="o_stat_text">Meters</span>
+                            </button>
+                            <button
+                                type="action"
+                                class="oe_stat_button"
+                                id="meter_reading_button"
+                                icon="fa-tachometer"
+                                name="%(action_service_meter_reading)d"
+                                context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                            >
+                                <span class="o_stat_text">Meter Readings</span>
+                            </button>
+                            <button
+                                type="object"
+                                class="oe_stat_button"
+                                id="invoice_button"
+                                icon="fa-pencil-square-o"
+                                name="invoice_button"
+                                groups="account.group_account_invoice"
+                            >
+                                <span class="o_stat_text">Invoiced</span>
+                            </button>
+                            <button
+                                type="action"
+                                class="oe_stat_button"
+                                id="consumption_button"
+                                icon="fa-line-chart"
+                                name="%(deltatech_service.action_service_consumption)d"
+                                context="{'search_default_equipment_id': id,
+
+  'search_default_done': 1,
+
+  'default_partner_id': partner_id }"
+                            >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field string="Revenues" name="total_revenues" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Revenues</span>
+                                </div>
+                            </button>
+                            <button
+                                type="object"
+                                class="oe_stat_button"
+                                id="picking_button"
+                                icon="fa-sign-out"
+                                name="picking_button"
+                            >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field string="Costs" name="total_costs" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Costs</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" class="oe_inline" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group col="1">
+                                <group string="Agreement">
+                                    <!--<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}"-->
+                                    <!--options="{'always_reload': True}"/>-->
+                                    <field name="partner_id" />
+                                    <field name="agreement_id" />
+                                    <field name="agreement_type_id" />
+                                    <field name="technician_user_id" />
+                                </group>
+                            </group>
+                            <group string="Tehnical Details">
+                                <field name="group_id" />
+                                <field name="type_id" required="1" />
+                                <field name="start_date" />
+                            </group>
+                            <group>
+                                <field name="analytic_account_id" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page id='meters' string="Meters">
+                                <field name="meter_ids" mode="kanban,tree">
+                                    <tree string="Meters" editable="bottom">
+                                        <field name="name" />
+                                        <field name="meter_categ_id" />
+                                        <field name="uom_id" />
+                                        <field name="total_counter_value" />
+                                        <field name="estimated_value" />
+                                    </tree>
+                                    <kanban class="o_kanban">
+                                        <field name="name" />
+                                        <field name="meter_categ_id" />
+                                        <field name="uom_id" />
+                                        <field name="total_counter_value" />
+                                        <field name="estimated_value" />
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                    <div class="row">
+                                                        <div class="col-xs-8">
+                                                            <strong>
+                                                                <span>
+                                                                    <t t-esc="record.meter_categ_id.value" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-xs-4">
+                                                            <strong>
+                                                                <span class="pull-right text-right">
+                                                                    <t t-esc="record.total_counter_value.value" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                        <field name="note" />
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_service_equipment_filter" model="ir.ui.view">
+            <field name="name">service.equipment.select</field>
+            <field name="model">service.equipment</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="partner_id" />
+                    <field name="group_id" />
+                    <field name="agreement_type_id" />
+                    <newline />
+                    <group expand="1" string="Group By...">
+                        <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="view_service_equipment_graph" model="ir.ui.view">
+            <field name="name">service.equipment.graph</field>
+            <field name="model">service.equipment</field>
+            <field name="arch" type="xml">
+                <graph type="pivot">
+                    <field name="partner_id" type="row" />
+                    <field name="readings_status" />
+                    <field name="total_revenues" type="measure" />
+                    <field name="total_costs" type="measure" />
+                </graph>
+            </field>
+        </record>
+        <record id="action_service_equipment" model="ir.actions.act_window">
+            <field name="name">Equipments</field>
+            <field name="res_model">service.equipment</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+        <menuitem
+            name="Equipment"
+            id="menu_service_equipment"
+            action="action_service_equipment"
+            parent="deltatech_service.menu_service"
+            sequence="500"
+        />
+        <!-- <record id="action_update_meter_status" model="ir.values" > <field name="name">Update Meter Status</field> <field name="model_id" eval="'service.equipment'"/>
+            <field name="model">service.equipment</field> <field name="key">action</field> <field name="key2">client_action_multi</field> <field name="value" eval="'self.update_meter_status()'"/>
+            </record> -->
+        <!--	<record id="action_update_meter_status" model="ir.actions.server">
+                <field name="name">Update Meter Status</field>
+                <field name="model_id" ref="model_service_equipment" />
+                <field name="state">code</field>
+                <field name="code">action = self._compute_readings_status(cr, uid, context.get('active_ids', []), context=context)</field>
+            </record>
+
+            <record id="more_item_update_meter_status" model="ir.values">
+                <field name="key2" eval="'client_action_multi'" />
+                <field name="model" eval="'service.equipment'" />
+                <field name="name">Update Meter Status</field>
+                <field name="value" eval="'ir.actions.server,%d'%action_update_meter_status" />
+            </record>
+
+            <record id="action_update_costs_and_revenues" model="ir.actions.server">
+                <field name="name">Update Costs And Revenues</field>
+                <field name="model_id" ref="model_service_equipment" />
+                <field name="state">code</field>
+                <field name="code">action = self.costs_and_revenues(cr, uid, context.get('active_ids', []), context=context)</field>
+            </record>
+
+            <record id="more_item_update_costs_and_revenues" model="ir.values">
+                <field name="key2" eval="'client_action_multi'" />
+                <field name="model" eval="'service.equipment'" />
+                <field name="name">Update Costs And Revenues</field>
+                <field name="value" eval="'ir.actions.server,%d'%action_update_costs_and_revenues" />
+            </record>
+    -->
+        <record id="view_service_equipment_type_form" model="ir.ui.view">
+            <field name="name">Services Equipment Type</field>
+            <field name="model">service.equipment.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" />
+                        <field name="categ_id" />
+                    </group>
+                    <field name="template_meter_ids">
+                        <tree editable="bottom">
+                            <field name="product_id" />
+                            <field name="meter_categ_id" />
+                            <field name="currency_id" />
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+        <record id="action_service_equipment_type" model="ir.actions.act_window">
+            <field name="name">Services Equipment Type</field>
+            <field name="res_model">service.equipment.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Equipment Type"
+            id="menu_service_equipment_type"
+            action="action_service_equipment_type"
+            parent="deltatech_service.menu_service_config"
+            sequence="200"
+        />
+        <!--        <record id="action_service_equipment_category" model="ir.actions.act_window">-->
+        <!--            <field name="name">Services Equipment Category</field>-->
+        <!--            <field name="res_model">service.equipment.category</field>-->
+        <!--            <field name="view_type">form</field>-->
+        <!--            <field name="view_mode">tree,form</field>-->
+        <!--        </record>-->
+        <!--        <menuitem name="Equipment Category" id="menu_service_equipment_category"-->
+        <!--                  action="action_service_equipment_category" parent="deltatech_service.menu_service_config"-->
+        <!--                  sequence="201"/>-->
+    </data>
+</odoo>
