@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button
+                        class="oe_inline oe_stat_button"
+                        string="Rate"
+                        name="view_rate"
+                        type="object"
+                        icon="fa fa-money"
+                    />
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
