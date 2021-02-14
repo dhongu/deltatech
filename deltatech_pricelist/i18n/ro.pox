@@ -50,4 +50,3 @@ msgstr "Căutare Elemente liste de prețuri"
 #: view:product.pricelist.item:deltatech_pricelist.product_pricelist_item_tree_view
 msgid "price_version_id,sequence"
 msgstr "price_version_id,sequence"
-

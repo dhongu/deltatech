@@ -20,7 +20,7 @@
                 </button>
             </button>
             <page id="meters" position="after">
-                <page string="Plans" groups="base.group_use_service_plan">
+                <page string="Plans" groups="deltatech_service_maintenance.group_use_service_plan">
                     <field name="plan_ids" nolabel="1" context="{'default_equipment_id':id  }">
                         <tree string="Plans">
                             <field name="name" />

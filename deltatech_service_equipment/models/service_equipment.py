@@ -38,7 +38,7 @@ class ServiceEquipment(models.Model):
     )
 
     # se gaseste in echipmanet campul technician_user_id
-    # user_id = fields.Many2one('res.users', string='Responsible', track_visibility='onchange')
+    # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
 
     # proprietarul  echipamentului
     partner_id = fields.Many2one(
@@ -57,7 +57,7 @@ class ServiceEquipment(models.Model):
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
 
-    # contact_id = fields.Many2one('res.partner', string='Contact Person', track_visibility='onchange',
+    # contact_id = fields.Many2one('res.partner', string='Contact Person',tracking=True,
     #                              domain=[('type', '=', 'contact'), ('is_company', '=', False)])
 
     total_revenues = fields.Float(
@@ -210,6 +210,9 @@ class ServiceEquipment(models.Model):
         pass
 
     def movelines_button(self):
+        pass
+
+    def do_agreement(self):
         pass
 
 

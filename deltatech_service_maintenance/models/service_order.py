@@ -68,7 +68,7 @@ class ServiceOrder(models.Model):
         "service.agreement", string="Service Agreement", related="equipment_history_id.agreement_id", readonly=True
     )
 
-    contact_id = fields.Many2one("res.partner", string="Contact person", track_visibility="onchange")
+    contact_id = fields.Many2one("res.partner", string="Contact person", tracking=True)
 
     city = fields.Char(string="City", related="address_id.city")
 

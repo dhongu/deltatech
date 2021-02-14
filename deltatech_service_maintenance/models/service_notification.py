@@ -37,7 +37,7 @@ class ServiceNotification(models.Model):
         [("new", "New"), ("assigned", "Assigned"), ("progress", "In Progress"), ("done", "Done")],
         default="new",
         string="Status",
-        track_visibility="always",
+        tracking=True,
     )
 
     equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
