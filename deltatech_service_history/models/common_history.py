@@ -8,6 +8,7 @@ from odoo import fields, models
 
 class CommonHistory(models.Model):
     _name = "common.history"
+    _description = "Service Equipment History"
 
     name = fields.Char()
     date = fields.Date(required=True, index=True, default=fields.Date.context_today)

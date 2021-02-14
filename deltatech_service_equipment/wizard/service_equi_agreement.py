@@ -32,7 +32,6 @@ class ServiceEquiAgreement(models.TransientModel):
             raise UserError(_("Please select equipment."))
         return defaults
 
-    @property
     def do_agreement(self):
         if not self.agreement_id:
             cycle = self.env.ref("deltatech_service.cycle_monthly")

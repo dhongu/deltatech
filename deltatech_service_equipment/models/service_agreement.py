@@ -29,6 +29,9 @@ class ServiceAgreement(models.Model):
             "type": "ir.actions.act_window",
         }
 
+    def do_agreement(self):
+        pass
+
 
 class ServiceAgreementLine(models.Model):
     _inherit = "service.agreement.line"
