@@ -248,7 +248,7 @@ class ServiceMeterReading(models.Model):
     )
     consumption_id = fields.Many2one("service.consumption", string="Consumption", readonly=True)
     read_by = fields.Many2one("res.partner", string="Read by", domain=[("is_company", "=", False)])
-    note = fields.Text(String="Notes")
+    note = fields.Text(string="Notes")
 
     # todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
 
