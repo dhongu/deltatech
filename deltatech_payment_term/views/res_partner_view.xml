@@ -7,13 +7,11 @@
             <field name="inherit_id" ref="base.view_partner_form" />
             <field name="arch" type="xml">
                 <div name="button_box" position="inside">
-                    <button
-                        class="oe_inline oe_stat_button"
-                        string="Rate"
-                        name="view_rate"
-                        type="object"
-                        icon="fa fa-money"
-                    />
+                    <button class="oe_stat_button" name="view_rate" type="object" icon="fa-money">
+                        <span class="o_stat_text">Rates</span>
+                    </button>
+
+
                 </div>
             </field>
         </record>

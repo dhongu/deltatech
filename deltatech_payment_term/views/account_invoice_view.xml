@@ -15,9 +15,8 @@
                         icon="fa-money"
                         attrs="{'invisible':[('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
                     >
-                    <div class="o_form_field o_stat_info">
-                        <span class="o_stat_text">Rates</span>
-                    </div>
+                    <span class="o_stat_text">Rates</span>
+
                 </button>
 
 
