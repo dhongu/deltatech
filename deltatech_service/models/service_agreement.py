@@ -212,10 +212,11 @@ class ServiceAgreement(models.Model):
         lang = self.env["res.lang"].search([("code", "=", crt_lang)])
         lang.ensure_one()
         date_format = lang.date_format
-        if self.date_agreement:
-            self.display_name = self.name + " / " + self.date_agreement.strftime(date_format)
-        else:
-            self.display_name = self.name
+        for agreement in self:
+            if agreement.date_agreement:
+                agreement.display_name = agreement.name + " / " + agreement.date_agreement.strftime(date_format)
+            else:
+                agreement.display_name = agreement.name
 
     @api.model_create_multi
     def create(self, vals_list):

@@ -107,10 +107,11 @@ class ServiceMeter(models.Model):
 
     @api.depends("name", "uom_id")
     def _compute_display_name(self):
-        if self.name:
-            self.display_name = "{} [{}]".format(self.name, self.uom_id.name)
-        else:
-            self.display_name = self.uom_id.name
+        for meter in self:
+            if meter.name:
+                meter.display_name = "{} [{}]".format(meter.name, meter.uom_id.name)
+            else:
+                meter.display_name = meter.uom_id.name
 
     @api.onchange("meter_categ_id")
     def onchange_meter_categ_id(self):
@@ -119,21 +120,23 @@ class ServiceMeter(models.Model):
 
     @api.depends("meter_reading_ids", "meter_reading_ids.counter_value", "meter_ids")
     def _compute_last_meter_reading(self):
-        total_counter_value = 0
-        if self.type == "counter":
-            if self.meter_reading_ids:
-                self.last_meter_reading_id = self.meter_reading_ids[0]
-                self.write({"last_reading_date": self.meter_reading_ids[0].date})
-                total_counter_value = self.last_meter_reading_id.counter_value
-        else:
-            for meter in self.meter_ids:
-                total_counter_value += meter.meter_reading_ids[0].counter_value
+        for meter in self:
+            total_counter_value = 0
+            if meter.type == "counter":
+                if meter.meter_reading_ids:
+                    meter.last_meter_reading_id = meter.meter_reading_ids[0]
+                    meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
+                    total_counter_value = meter.last_meter_reading_id.counter_value
+            else:
+                for child_meter in meter.meter_ids:
+                    total_counter_value += child_meter.meter_reading_ids[0].counter_value
 
-        self.total_counter_value = total_counter_value
+            meter.total_counter_value = total_counter_value
 
     def _compute_estimated_value(self):
-        date = self.env.context.get("date", fields.Date.today())
-        self.estimated_value = self.get_forcast(date)
+        for meter in self:
+            date = self.env.context.get("date", fields.Date.today())
+            meter.estimated_value = meter.get_forcast(date)
 
     def calc_forcast_coef(self):
         def linreg(X, Y):

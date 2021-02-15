@@ -34,21 +34,21 @@
                             name="create_meters_button"
                             type="object"
                             string="Create Meters"
-                            attrs="{'invisible':['|',('meter_ids','!=',[])]}"
+                            attrs="{'invisible':[('meter_ids','!=',[])]}"
                         />
                         <button
                             name="%(action_service_equi_agreement)d"
                             type="action"
                             string="Add to Agreement"
                             state="installed"
-                            attrs="{'invisible':['|',('agreement_id','!=',False)]}"
+                            attrs="{'invisible':[('agreement_id','!=',False)]}"
                         />
                         <button
                             name="remove_from_agreement_button"
                             type="object"
                             string="Remove from Agreement"
                             state="available"
-                            attrs="{'invisible':['|',('agreement_id','==',False)]}"
+                            attrs="{'invisible':[('agreement_id','==',False)]}"
                         />
                         <field
                             name="state"

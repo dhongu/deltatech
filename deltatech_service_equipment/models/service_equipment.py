@@ -57,8 +57,12 @@ class ServiceEquipment(models.Model):
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
 
-    # contact_id = fields.Many2one('res.partner', string='Contact Person',tracking=True,
-    #                              domain=[('type', '=', 'contact'), ('is_company', '=', False)])
+    contact_id = fields.Many2one(
+        "res.partner",
+        string="Contact Person",
+        tracking=True,
+        domain=[("type", "=", "contact"), ("is_company", "=", False)],
+    )
 
     total_revenues = fields.Float(
         string="Total Revenues", readonly=True
@@ -142,6 +146,8 @@ class ServiceEquipment(models.Model):
 
     def _compute_agreement_id(self):
         for equipment in self:
+            equipment.agreement_id = False
+
             if isinstance(equipment.id, models.NewId):
                 equipment.agreement_id = False
                 return
