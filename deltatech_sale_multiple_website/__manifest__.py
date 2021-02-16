@@ -4,7 +4,7 @@
 {
     "name": "eCommerce Qty Multiple",
     "summary": "Quantity multiple on website",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
