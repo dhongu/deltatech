@@ -17,7 +17,7 @@
         "sale",
         "stock",
     ],
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     "data": [
         "security/service_security.xml",
         "data/data.xml",

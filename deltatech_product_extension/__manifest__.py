@@ -6,7 +6,7 @@
     "name": "Deltatech Products Extension",
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["product", "account"],
