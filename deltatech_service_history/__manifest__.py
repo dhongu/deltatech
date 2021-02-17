@@ -5,6 +5,7 @@
 
 {
     "name": "Services Equipment History",
+    "summary": "Services Equipment History",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -35,37 +35,42 @@ Usage
       - Sales -> Products -> Product list
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img1.png
-    :align: center
+    :width: 90%
+    :class: img-responsive center-block
     :alt: Product list
 
 - Create a new product list and define domain :
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img2.png
-    :align: center
+    :width: 90%
+    :class: img-responsive center-block
     :alt: Product list details
 
 - Insert snipped in webpage
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img3.png
-    :align: center
+    :class: img-responsive center-block
     :alt: Insert snipped
 
 - Select product list:
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img4.png
-    :align: center
+    :width: 90%
+    :class: img-responsive center-block
     :alt: Select list
 
 - Edit description for product list in website:
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img5.png
-    :align: center
+    :width: 90%
+    :class: img-responsive center-block
     :alt: Edit
 
 - Save page:
 
 .. figure:: https://raw.githubusercontent.com/dhongu/deltatech/13.0/deltatech_website_product_slider_snippet/static/description/img6.png
-    :align: center
+    :width: 90%
+    :class: img-responsive center-block
     :alt: Result
 
 Bug Tracker

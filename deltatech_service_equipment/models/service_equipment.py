@@ -65,7 +65,7 @@ class ServiceEquipment(models.Model):
     )  # se va calcula din suma consumurilor de servicii
     total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
 
-    note = fields.Text(String="Notes")
+    note = fields.Text(string="Notes")
     start_date = fields.Date(string="Start Date")
 
     meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
