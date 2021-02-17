@@ -11,7 +11,6 @@
     "category": "Administration",
     "depends": ["web", "base", "stock", "deltatech_product_extension"],
     "license": "AGPL-3",
-    "images": ["static/description/main_screenshot.png"],
     "data": [
         "views/stock_view.xml",
         "wizard/stock_quant_report_view.xml",
@@ -20,6 +19,7 @@
         "wizard/stock_quant_split_view.xml",
         "security/ir.model.access.csv",
     ],
-    "development_status": "Production/Stable",
+    "images": ["static/description/main_screenshot.png"],
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

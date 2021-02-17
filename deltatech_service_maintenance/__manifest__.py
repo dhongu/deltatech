@@ -29,6 +29,7 @@
         "views/sale_view.xml",
         "security/ir.model.access.csv",
     ],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
