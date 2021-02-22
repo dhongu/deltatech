@@ -34,9 +34,11 @@ Functionalitati:
 
     """,
     "category": "Accounting",
-    "depends": ["account", "l10n_ro_invoice_report", 'sale'],
+    "depends": ["account",
+                #"l10n_ro_invoice_report",
+                'sale'],
 
     "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [ 'views/report_invoice.xml'],
-    "active": False,
+
     "installable": True,
 }

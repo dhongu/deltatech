@@ -38,7 +38,9 @@ Features:
 
     """,
     
-    "depends" : ['deltatech',"sale_margin",'account','l10n_ro_invoice_report'],
+    "depends" : ['deltatech',"sale_margin",'account',
+                 #'l10n_ro_invoice_report'
+                 ],
  
     "data" : ['security/sale_security.xml',
               'security/ir.model.access.csv',
