@@ -8,8 +8,6 @@
 # See README.rst file on addons root folder for license details
 
 
-
-
 from __future__ import absolute_import
 from ast import literal_eval
 import functools
@@ -52,9 +50,7 @@ class MergeProductAutomatic(models.TransientModel):
     group_by_categ_id = fields.Boolean('Category')
     group_by_uom_id = fields.Boolean('Unit of measure')
     state = fields.Selection(
-        [('option', 'Option'),
-         ('selection', 'Selection'),
-         ('finished', 'Finished')],
+        [('option', 'Option'), ('selection', 'Selection'), ('finished', 'Finished')],
         'State', readonly=True, default='option', required=True
     )
     number_group = fields.Integer("Group of Products", readonly=True)
@@ -64,14 +60,11 @@ class MergeProductAutomatic(models.TransientModel):
     current_line_id = fields.Many2one('base.product.merge.line', 'Current Line')
     line_ids = fields.One2many('base.product.merge.line', 'wizard_id', 'Lines')
     dst_product_id = fields.Many2one('product.product', string='Destination product')
-    product_ids = fields.Many2many(
-        'product.product', 'product_rel', 'product_merge_id',
-        'product_id', string="Products to merge"
-    )
+    product_ids = fields.Many2many('product.product', 'product_rel', 'product_merge_id', 'product_id',
+                                   string="Products to merge")
     maximum_group = fields.Integer("Maximum of Group of Products")
     exclude_journal_item = fields.Boolean('Journal Items associated to the product')
-
-
+    merge_only_template = fields.Boolean('Merge Only Template')
 
     @api.model
     def default_get(self, fields):
@@ -94,7 +87,6 @@ class MergeProductAutomatic(models.TransientModel):
     # ----------------------------------------
     # Update method. Core methods to merge steps
     # ----------------------------------------
-
 
     def _get_fk_on(self, table):
         """ return a list of many2one relation with the given table.
@@ -120,7 +112,57 @@ class MergeProductAutomatic(models.TransientModel):
         return self._cr.fetchall()
 
     @api.model
-    def _update_foreign_keys(self, src_products, dst_product):
+    def _update_foreign_keys(self, src, dest):
+
+        relations = self._get_fk_on(src._table)
+        _logger.debug('_update_foreign_keys for : %s for : %s', dest.id, str(src.ids))
+        for table, column in relations:
+            if 'base_product_merge_' in table:  # ignore two tables
+                continue
+                # get list of columns of current table (exept the current fk column)
+            query = "SELECT column_name FROM information_schema.columns WHERE table_name LIKE '%s'" % (table)
+            self._cr.execute(query, ())
+            columns = []
+            for data in self._cr.fetchall():
+                if data[0] != column:
+                    columns.append(data[0])
+
+            # do the update for the current table/column in SQL
+            query_dic = {
+                'table': table,
+                'column': column,
+                'value': columns[0],
+            }
+            if len(columns) <= 1:
+                # unique key treated
+                query = """
+                       UPDATE "%(table)s" as ___tu
+                       SET "%(column)s" = %%s
+                       WHERE
+                           "%(column)s" = %%s AND
+                           NOT EXISTS (
+                               SELECT 1
+                               FROM "%(table)s" as ___tw
+                               WHERE
+                                   "%(column)s" = %%s AND
+                                   ___tu.%(value)s = ___tw.%(value)s
+                           )""" % query_dic
+                for item in src:
+                    self._cr.execute(query, (dest.id, item.id, dest.id))
+            else:
+                try:
+                    with mute_logger('odoo.sql_db'), self._cr.savepoint():
+                        query = 'UPDATE "%(table)s" SET "%(column)s" = %%s WHERE "%(column)s" IN %%s' % query_dic
+                        self._cr.execute(query, (dest.id, tuple(src.ids),))
+
+                except psycopg2.Error:
+                    # updating fails, most likely due to a violated unique constraint
+                    # keeping record with nonexistent product_id is useless, better delete it
+                    query = 'DELETE FROM "%(table)s" WHERE "%(column)s" IN %%s' % query_dic
+                    self._cr.execute(query, (tuple(src.ids),))
+
+    @api.model
+    def _update_foreign_keys_product(self, src_products, dst_product):
         """ Update all foreign key from the src_products to dst_product. All many2one fields will be updated.
             :param src_products : merge source product.product recordset (does not include destination one)
             :param dst_product : record of destination product.product
@@ -180,7 +222,58 @@ class MergeProductAutomatic(models.TransientModel):
                     self._cr.execute(query, (tuple(src_products.ids),))
 
     @api.model
-    def _update_reference_fields(self, src_products, dst_product):
+    def _update_reference_fields(self, src, dest):
+        """ Update all reference fields from the src_products to dst_product.
+            :param src_products : merge source product.product recordset (does not include destination one)
+            :param dst_product : record of destination product.product
+        """
+
+        _logger.debug('_update_reference_fields for : %s for : %s', dest.id, str(src.ids))
+        model_name = src._name  # care pate fi product.product sau product.template
+
+        def update_records(model, src, field_model='model', field_id='res_id'):
+            Model = self.env[model] if model in self.env else None
+            if Model is None:
+                return
+            records = Model.sudo().search([(field_model, '=', model_name), (field_id, '=', src.id)])
+            try:
+                with mute_logger('odoo.sql_db'), self._cr.savepoint():
+                    return records.sudo().write({field_id: dest.id})
+            except psycopg2.Error:
+                # updating fails, most likely due to a violated unique constraint
+                # keeping record with nonexistent product_id is useless, better delete it
+                return records.sudo().unlink()
+
+        update_records = functools.partial(update_records)
+
+        for item in src:
+            update_records('ir.translation', src=item, field_model='module')
+            update_records('ir.attachment', src=item, field_model='res_model')
+            update_records('mail.followers', src=item, field_model='res_model')
+            update_records('mail.message', src=item)
+            update_records('ir.model.data', src=item)
+
+        records = self.env['ir.model.fields'].search([('ttype', '=', 'reference')])
+        for record in records.sudo():
+            try:
+                Model = self.env[record.model]
+                field = Model._fields[record.name]
+            except KeyError:
+                # unknown model or field => skip
+                continue
+
+            if field.compute is not None:
+                continue
+
+            for item in src:
+                records_ref = Model.sudo().search([(record.name, '=', '%s,%d' % (model_name, item.id))])
+                values = {
+                    record.name: '%s,%d' % (model_name, dest.id),
+                }
+                records_ref.sudo().write(values)
+
+    @api.model
+    def _update_reference_fields_product(self, src_products, dst_product):
         """ Update all reference fields from the src_products to dst_product.
             :param src_products : merge source product.product recordset (does not include destination one)
             :param dst_product : record of destination product.product
@@ -204,6 +297,7 @@ class MergeProductAutomatic(models.TransientModel):
         update_records = functools.partial(update_records)
 
         for product in src_products:
+            update_records('ir.translation', src=product, field_model='module')
             update_records('ir.attachment', src=product, field_model='res_model')
             update_records('mail.followers', src=product, field_model='res_model')
             update_records('mail.message', src=product)
@@ -229,7 +323,42 @@ class MergeProductAutomatic(models.TransientModel):
                 records_ref.sudo().write(values)
 
     @api.model
-    def _update_values(self, src_products, dst_product):
+    def _update_values(self, src, dest):
+        """ Update values of dst_product with the ones from the src_products.
+            :param src_products : recordset of source product.product
+            :param dst_product : record of destination product.product
+        """
+        _logger.debug('_update_values for : %s for : %r', dest.id, src.ids)
+
+        model_fields = dest.fields_get().keys()
+
+        def write_serializer(item):
+            if isinstance(item, models.BaseModel):
+                return item.id
+            else:
+                return item
+
+        # get all fields that are not computed or x2many
+        values = dict()
+        for column in model_fields:
+            field = dest._fields[column]
+            if field.type not in ('many2many', 'one2many') and field.compute is None:
+                for item in itertools.chain(src, [dest]):
+                    if item[column]:
+                        values[column] = write_serializer(item[column])
+        # remove fields that can not be updated (id and parent_id)
+        values.pop('id', None)
+        parent_id = values.pop('parent_id', None)
+        dest.write(values)
+        # try to update the parent_id
+        if parent_id and parent_id != dest.id:
+            try:
+                dest.write({'parent_id': parent_id})
+            except ValidationError:
+                _logger.info('Skip recursive product hierarchies for parent_id %s of product: %s', parent_id, dest.id)
+
+    @api.model
+    def _update_values_product(self, src_products, dst_product):
         """ Update values of dst_product with the ones from the src_products.
             :param src_products : recordset of source product.product
             :param dst_product : record of destination product.product
@@ -274,10 +403,6 @@ class MergeProductAutomatic(models.TransientModel):
         if len(product_ids) < 2:
             return
 
-        if len(product_ids) > 3:
-            raise UserError(_(
-                "For safety reasons, you cannot merge more than 3 product together. You can re-open the wizard several times if needed."))
-
         # remove dst_product from products to merge
         if dst_product and dst_product in product_ids:
             src_products = product_ids - dst_product
@@ -291,19 +416,40 @@ class MergeProductAutomatic(models.TransientModel):
         if SUPERUSER_ID != self.env.uid and 'account.move.line' in self.env and self.env[
             'account.move.line'].sudo().search([('product_id', 'in', [product.id for product in src_products])]):
             raise UserError(_(
-                "Only the destination contact may be linked to existing Journal Items. Please ask the Administrator if you need to merge several contacts linked to existing Journal Items."))
+                "Only the destination contact may be linked to existing Journal Items. Please ask the Administrator if you need to merge several products linked to existing Journal Items."))
 
-        # call sub methods to do the merge
-        self._update_foreign_keys(src_products, dst_product)
-        self._update_reference_fields(src_products, dst_product)
-        self._update_values(src_products, dst_product)
+        dest_template = dst_product.product_tmpl_id
+        src_template = self.env['product.template']
+        for product in src_products:
+            src_template |= product.product_tmpl_id
 
-        _logger.info('(uid = %s) merged the products %r with %s', self._uid, src_products.ids, dst_product.id)
-        dst_product.message_post(body='%s %s' % (_("Merged with the following products:"), ", ".join(
-            '%s  (ID %s)' % (p.name,  p.id) for p in src_products)))
+        if len(src_template) > 3:
+            raise UserError(_(
+                "For safety reasons, you cannot merge more than 3 product together. You can re-open the wizard several times if needed."))
 
-        # delete source product, since they are merged
-        src_products.unlink()
+        self._update_foreign_keys(src_template, dest_template)
+        self._update_reference_fields(src_template, dest_template)
+        self._update_values(src_template, dest_template)
+
+        _logger.info('(uid = %s) merged the products template %r with %s', self._uid, src_template.ids,
+                     dest_template.id)
+        dest_template.message_post(body='%s %s' % (_("Merged with the following products:"), ", ".join(
+            '%s  (ID %s)' % (p.name, p.id) for p in src_template)))
+
+        if not self.merge_only_template:
+            # call sub methods to do the merge
+            self._update_foreign_keys(src_products, dst_product)
+            self._update_reference_fields(src_products, dst_product)
+            self._update_values(src_products, dst_product)
+
+            _logger.info('(uid = %s) merged the products %r with %s', self._uid, src_products.ids, dst_product.id)
+            dst_product.message_post(body='%s %s' % (_("Merged with the following products:"), ", ".join(
+                '%s  (ID %s)' % (p.name, p.id) for p in src_products)))
+
+            # delete source product, since they are merged
+            src_products.unlink()
+        else:
+            src_template.unlink()
 
         # ----------------------------------------
         # Helpers

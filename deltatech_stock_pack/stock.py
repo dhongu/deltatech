@@ -39,6 +39,7 @@ class stock_move(models.Model):
 
 
     # metoda nu mai exista in versiunea 10
+    """
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         packs = {}
@@ -59,7 +60,8 @@ class stock_move(models.Model):
             if sale_line.order_id.client_order_ref:
                 res['name'] +=  '\n' + _('Ord.') +  sale_line.order_id.client_order_ref + '/'+sale_line.order_id.date_order[10:] 
         return res
- 
+    """
+
 class stock_package(models.Model):
     _inherit = "stock.quant.package"
     

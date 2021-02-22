@@ -339,9 +339,11 @@ class MonthlyStockReport(models.TransientModel):
         self.env.cr.execute(query, params=params)
 
         product_ids = []
+        move_out_ids = []
         res = self.env.cr.fetchall()
         for row in res:
             product_ids += [row[0]]
+            move_out_ids += list(row[3])
             stock_out[row[0]] = {
                 'report_id': self.id,
                 'product_id': row[0],
@@ -350,6 +352,34 @@ class MonthlyStockReport(models.TransientModel):
                 'move_out_ids': [(6, 0, list(row[3]))]
             }
         products |= self.env['product.product'].browse(product_ids)
+
+
+        # determinare valoare de vanzare
+        query = """ SELECT  sol.id
+                               
+                            
+                           FROM stock_move as sm  
+                                    join procurement_order as po on sm.procurement_id = po.id
+                                    join sale_order_line as sol on sol.id = po.sale_line_id
+                                                 
+                           WHERE  
+                              sm.id in %(move_out_ids)s
+
+                          
+                       """
+
+        params = {
+            'move_out_ids': tuple(move_out_ids),
+        }
+
+        self.env.cr.execute(query, params=params)
+
+        sale_line_ids = []
+        res = self.env.cr.fetchall()
+        for row in res:
+            sale_line_ids += [row[0]]
+
+        sale_line_ids = self.env['sale.order.line'].browse(sale_line_ids)
 
         for product in products:
             line_value = {
@@ -374,23 +404,45 @@ class MonthlyStockReport(models.TransientModel):
             if out_product:
                 line_value.update(out_product)
                 # determinare pret de vanzare din liniile de comanda de vanzare:
+
+                price = 0
+                nr_linii = 0
+                for line in sale_line_ids.filtered(lambda r: r.product_id.id == product.id):
+                    cur = line.order_id.pricelist_id.currency_id
+
+                    taxes = line.tax_id.compute_all(
+                        price_unit=line.price_unit,
+                        quantity=1,
+                        product= line.product_id,
+                        partner=line.order_id.partner_id
+                    )
+                    price += cur.compute(taxes['total_excluded'], self.env.user.company_id.currency_id)
+                    nr_linii += 1
+
+                if nr_linii:
+                    price = price / nr_linii
+                    amount_sale = price * line_value['quantity_out']
+                    line_value['amount_sale'] += amount_sale
+
                 # move_line.procurement_id.sale_line_id
-                moves = self.env['stock.move'].browse(out_product['move_out_ids'][0][2])
-                for move_line in moves:
-                    if move_line.procurement_id.sale_line_id:
-                        line = move_line.procurement_id.sale_line_id
+                # rutina este buna dar dureaza foarte mult
 
-                        cur = line.order_id.pricelist_id.currency_id
-
-
-                        taxes = line.tax_id.compute_all(
-                            price_unit=line.price_unit,
-                            quantity=move_line.product_uom_qty,
-                            product=line.product_id,
-                            partner=line.order_id.partner_id
-                        )
-                        amount_sale = cur.compute(taxes['total_excluded'], self.env.user.company_id.currency_id)
-                        line_value['amount_sale'] += amount_sale
+                # moves = self.env['stock.move'].browse(out_product['move_out_ids'][0][2])
+                # for move_line in moves:
+                #     if move_line.procurement_id.sale_line_id:
+                #         line = move_line.procurement_id.sale_line_id
+                #
+                #         cur = line.order_id.pricelist_id.currency_id
+                #
+                #
+                #         taxes = line.tax_id.compute_all(
+                #             price_unit=line.price_unit,
+                #             quantity=move_line.product_uom_qty,
+                #             product=line.product_id,
+                #             partner=line.order_id.partner_id
+                #         )
+                #         amount_sale = cur.compute(taxes['total_excluded'], self.env.user.company_id.currency_id)
+                #         line_value['amount_sale'] += amount_sale
 
             line_value['quantity_finish'] = line_value['quantity_begin'] + line_value['quantity_in'] - line_value[
                 'quantity_out']

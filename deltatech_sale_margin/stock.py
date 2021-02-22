@@ -35,6 +35,7 @@ from datetime import datetime
 class stock_move(models.Model):
     _inherit = "stock.move"
 
+    """
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         qty = 0.0
@@ -46,7 +47,7 @@ class stock_move(models.Model):
             purchase_price =  amount / qty   
             res['purchase_price'] = purchase_price
         return res
-
+    """
  
  
 

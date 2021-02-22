@@ -23,13 +23,13 @@
     'version': '10.0.1.0.0',
     "author" : "Terrabit, Dorin Hongu",
     "website": "www.terrabit.ro",
-    "category" : "Generic Modules",
+    "category" : "Tools",
     "depends" : ['web'],
     "description": '',
     'data': [
         'views/deltatech_assets.xml'
     ],
-    "active": False,
+    "images": ['images/main_screenshot.png'],
     "installable": True,
     'application': True,
    

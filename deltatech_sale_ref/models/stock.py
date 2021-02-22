@@ -33,6 +33,7 @@ class stock_move(models.Model):
     _inherit = "stock.move"
 
     #metoda asata nu cred ca mai este in 10
+    """
     def _get_invoice_line_vals(self, cr, uid, move, partner, inv_type, context=None):
         res = super(stock_move, self)._get_invoice_line_vals(cr, uid, move, partner, inv_type, context=context)
         if inv_type in ('out_invoice', 'out_refund') and move.procurement_id and move.procurement_id.sale_line_id:
@@ -40,6 +41,6 @@ class stock_move(models.Model):
             res['ref'] = sale_line.ref
             
         return res
-
+    """
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

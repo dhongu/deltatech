@@ -8,12 +8,13 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Merge Duplicate Products",
+    "name": "Merge Products",
     "version": "10.0.0.0.7",
     "author": "Vauxoo, Terrabit, Dorin Hongu",
     "category": "Generic Modules",
-    "website": "http://www.vauxoo.com/",
-    "images": ['images/main_screenshot.png'], "license": "LGPL-3",
+    "website": "https://www.terrabit.ro",
+    "images": ['images/main_screenshot.png'],
+    "license": "LGPL-3",
     "depends": [
         "base",
         "stock"
