@@ -5,9 +5,9 @@
 
 {
     "name": "MRP Cost",
-    "version": "2.0",
-    "author" : "Terrabit, Dorin Hongu",
-    "website": "www.terrabit.ro",
+    "version": "10.0.2.0.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
     "description": """
     
 Functionalitati:
@@ -23,15 +23,16 @@ Functionalitati:
         "stock",
         "sale",
         "product",
-        "deltatech_warehouse"
-
+        "deltatech_warehouse",
+        "deltatech_purchase_price"
     ],
-
-    "images": ['images/main_screenshot.png'], "license":"LGPL-3","data": [
+    "license": "LGPL-3",
+    "data": [
         "views/mrp_view.xml",
-        "data/mrp_data.xml"
+        "data/mrp_data.xml",
+        "views/mrp_workcenter_view.xml",
     ],
-
+    "images": ["images/main_screenshot.png"],
     "installable": True,
 }
 
