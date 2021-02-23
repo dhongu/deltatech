@@ -50,8 +50,10 @@ class StockPicking(models.Model):
         # se suprascrie metoda standard petnru a nu mai permite editarea
         return False
 
-    def button_validate(self):
-        return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+    # def button_validate(self):
+    #     if len(self) == 1:
+    #         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+    #     return super(StockPicking, self).button_validate()
 
     def _action_done(self):
         super(StockPicking, self)._action_done()
