@@ -16,9 +16,26 @@ class SaleOrder(models.Model):
 
     def _compute_is_ready(self):
         for order in self:
-
             is_ready = order.state in ["draft", "sent", "sale", "done"] and order.invoice_status != "invoiced"
             if is_ready:
-                for line in order.order_line:
-                    is_ready = is_ready and (line.qty_available_today >= line.product_uom_qty)
+                if order.picking_policy == "direct":
+                    is_ready = False
+                    for line in order.order_line:
+                        is_ready = is_ready or (line.product_id.qty_available >= line.qty_to_deliver)
+                else:
+                    for line in order.order_line:
+                        is_ready = is_ready and (line.product_id.qty_available >= line.qty_to_deliver)
+
+            if is_ready:
+                # verific daca comanzile de livrare au stocul rezervat
+                if order.picking_policy == "direct":
+                    is_ready = False
+                    for picking in order.picking_ids:
+                        for move in picking.move_lines:
+                            is_ready = is_ready or move.reserved_availability > 0
+                else:
+                    for picking in order.picking_ids:
+                        for move in picking.move_lines:
+                            is_ready = is_ready and (move.reserved_availability == move.product_uom_qty)
+
             order.is_ready = is_ready
