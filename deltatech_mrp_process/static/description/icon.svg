@@ -1,13 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70"
-     viewBox="0 0 70 70">
-    <defs>
-        <path id="a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z"/>
-        <linearGradient id="c" x1="100%" x2="0%" y1="0%" y2="100%">
-            <stop offset="0%" stop-color="#A8EB12"/>      <!--2A9566 21a523 #7cc68d-->
-            <stop offset="100%" stop-color="#49a5bf"/>    <!--1C7039 008000-->
-        </linearGradient>
-
-  <path id="f" d="M466.223,233.742c0-27.811-7.576-55.12-21.909-78.974c-13.56-22.567-32.579-41.13-55.091-53.855V80.402
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="70"
+  height="70"
+  viewBox="0 0 70 70"
+>
+  <defs>
+    <path id="a" d="M4 0h61c4 0 5 1 5 5v60c0 4-1 5-5 5H4c-3 0-4-1-4-5V5c0-4 1-5 4-5z" />
+    <linearGradient id="c" x1="100%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#A8EB12" />
+      <!--2A9566 21a523 #7cc68d-->
+      <stop offset="100%" stop-color="#49a5bf" />
+      <!--1C7039 008000-->
+    </linearGradient>
+    <path
+      id="f"
+      d="M466.223,233.742c0-27.811-7.576-55.12-21.909-78.974c-13.56-22.567-32.579-41.13-55.091-53.855V80.402
     c0-12.269-9.981-22.25-22.25-22.25h-21.718V39.75c0-21.918-17.832-39.75-39.75-39.75H56.52C34.602,0,16.77,17.832,16.77,39.75
     v435.864c0,2.348,1.902,4.25,4.25,4.25h35c2.348,0,4.25-1.902,4.25-4.25V43.5h241.485v14.652h-36.782
     c-12.269,0-22.25,9.981-22.25,22.25v20.467c-48.789,26.563-79,77.225-79,132.873c0,20.797,4.268,40.736,12,58.93v168.07
@@ -28,32 +36,25 @@
     c43.723,25.623,70.689,72.817,70.689,124.305c0,13.021-1.777,25.685-5.099,37.75H307.273c-2.348,0-4.25,1.902-4.25,4.25
     c0,2.348,1.902,4.25,4.25,4.25h142.721c-16.728,48.63-59.088,85.977-111.771,94.604v-35.854
     C338.223,326.474,328.241,316.492,315.973,316.492z M445.723,460.742c0,7.582-6.168,13.75-13.75,13.75h-2
-    c-7.582,0-13.75-6.168-13.75-13.75V346.016c11.625-10.515,21.593-22.791,29.5-36.375V460.742z"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd">
-        <mask id="b" fill="#fff">
-            <use xlink:href="#a"/>
-        </mask>
-        <g mask="url(#b)">
-            <path fill="url(#c)" d="M0 0H70V70H0z"/>
-            <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z"/>
-            <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z"/>
-
-<!--            <path fill="#453939" d="M42.881 69H4c-2 0-4-1-4-4V36.86l18.553-24.41L40 12l13 10-.283 33.22L42.881 69z"-->
-<!--                  opacity=".324"/>-->
-
-
-            <svg fill="#FFF" x="10" y="11" width="50" height="50" viewBox="0 0 482.992 482.992">
-                <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#f"/>
-            </svg>
-
-            <svg fill="#FFF" x="10" y="10" width="50" height="50" viewBox="0 0 482.992 482.992">
-                <use fill="#FFF" fill-rule="nonzero" xlink:href="#f"/>
-            </svg>
-
-
-
-
-        </g>
+    c-7.582,0-13.75-6.168-13.75-13.75V346.016c11.625-10.515,21.593-22.791,29.5-36.375V460.742z"
+    />
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="b" fill="#fff">
+      <use xlink:href="#a" />
+    </mask>
+    <g mask="url(#b)">
+      <path fill="url(#c)" d="M0 0H70V70H0z" />
+      <path fill="#FFF" fill-opacity=".383" d="M4 1h61c2.667 0 4.333.667 5 2V0H0v3c.667-1.333 2-2 4-2z" />
+      <path fill="#000" fill-opacity=".383" d="M4 69h61c2.667 0 4.333-1 5-3v4H0v-4c.667 2 2 3 4 3z" />
+      <!--            <path fill="#453939" d="M42.881 69H4c-2 0-4-1-4-4V36.86l18.553-24.41L40 12l13 10-.283 33.22L42.881 69z"-->
+      <!--                  opacity=".324"/>-->
+      <svg fill="#FFF" x="10" y="11" width="50" height="50" viewBox="0 0 482.992 482.992">
+        <use fill="#000" fill-rule="nonzero" opacity=".3" xlink:href="#f" />
+      </svg>
+      <svg fill="#FFF" x="10" y="10" width="50" height="50" viewBox="0 0 482.992 482.992">
+        <use fill="#FFF" fill-rule="nonzero" xlink:href="#f" />
+      </svg>
     </g>
+  </g>
 </svg>

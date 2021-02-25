@@ -15,10 +15,10 @@
                         />
                     </group>
                     <footer>
-                  <button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />
-                  or
-                  <button string="Cancel" class="oe_link" special="cancel" />
-               </footer>
+                        <button name="do_change_number" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>

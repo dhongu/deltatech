@@ -80,8 +80,14 @@ class StockRevaluation(models.Model):
 
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True, related="company_id.currency_id")
 
-    old_amount_total = fields.Float(string="Old Amount Total", readonly=True,)
-    new_amount_total = fields.Float(string="New Amount Total", readonly=True,)
+    old_amount_total = fields.Float(
+        string="Old Amount Total",
+        readonly=True,
+    )
+    new_amount_total = fields.Float(
+        string="New Amount Total",
+        readonly=True,
+    )
     account_symbol = fields.Char(string="Cont", default="21.03")
 
     location_id = fields.Many2one("stock.location")

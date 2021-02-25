@@ -4,9 +4,10 @@
         <record id="invoice_personal_rule" model="ir.rule">
             <field name="name">Personal invoice</field>
             <field name="model_id" ref="account.model_account_invoice" />
-            <field
-                name="domain_force"
-            >['|','|',('user_id','=',user.id), ('user_id','=',False), ('message_follower_ids','in',[user.partner_id.id]) ]</field>
+            <field name="domain_force">
+                ['|','|',('user_id','=',user.id), ('user_id','=',False),
+                ('message_follower_ids','in',[user.partner_id.id]) ]
+            </field>
             <field name="groups" eval="[(4, ref('account.group_account_invoice'))]" />
         </record>
         <record id="invoice_see_all_rule" model="ir.rule">
@@ -56,9 +57,9 @@
         <record id="group_stock_no_transfer" model="res.groups">
             <field name="name">Stock transfer not allowed</field>
             <field name="category_id" ref="base.module_category_hidden" />
-            <field
-                name="comment"
-            >Se permite transferul doar din locatia proprie in locatiile de productie si clienti</field>
+            <field name="comment">
+                Se permite transferul doar din locatia proprie in locatiile de productie si clienti
+            </field>
         </record>
         <!--
      <record model="ir.rule" id="stock_quant_personal_rule">

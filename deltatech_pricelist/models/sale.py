@@ -14,11 +14,11 @@ class SaleOrderLine(models.Model):
     # commitul 3f3db89ece3f8df9bfa58e278843d07a84c66741 rezolva aceasta problema
     def _get_real_price_currency(self, product, rule_id, qty, uom, pricelist_id):
         """Retrieve the price before applying the pricelist
-            :param obj product: object of current product record
-            :parem float qty: total quentity of product
-            :param tuple price_and_rule: tuple(price, suitable_rule) coming from pricelist computation
-            :param obj uom: unit of measure of current order line
-            :param integer pricelist_id: pricelist id of sales order"""
+        :param obj product: object of current product record
+        :parem float qty: total quentity of product
+        :param tuple price_and_rule: tuple(price, suitable_rule) coming from pricelist computation
+        :param obj uom: unit of measure of current order line
+        :param integer pricelist_id: pricelist id of sales order"""
         PricelistItem = self.env["product.pricelist.item"]
         field_name = "lst_price"
         currency_id = None

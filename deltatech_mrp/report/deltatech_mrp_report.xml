@@ -164,9 +164,10 @@
             <field name="view_mode">pivot,tree,graph</field>
             <field name="search_view_id" ref="view_deltatech_mrp_report_filter" />
             <field name="help">This reporting allows you to analysis your manufacturing cost.</field>
-            <field
-                name="context"
-            >{ 'search_default_done':1,'search_default_Product': 1,'search_default_month':1,'group_by_no_leaf':1,'group_by':[]}</field>
+            <field name="context">
+                { 'search_default_done':1,'search_default_Product':
+                1,'search_default_month':1,'group_by_no_leaf':1,'group_by':[]}
+            </field>
         </record>
         <menuitem
             name="Production Cost Analysis"

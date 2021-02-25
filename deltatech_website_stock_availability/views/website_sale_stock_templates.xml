@@ -7,9 +7,7 @@
     </template>
     <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//div[@id='product_details']//hr" position="before">
-            <div class="lead_time_messages o_not_editable">
-                Buy now, get in 2 days
-            </div>
+            <div class="lead_time_messages o_not_editable">Buy now, get in 2 days</div>
         </xpath>
     </template>
 </odoo>

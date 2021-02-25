@@ -92,12 +92,12 @@
                         </notebook>
                     </sheet>
                     <footer invisible="not context.get('from_quants',False)">
-                  <button name="do_update" string="Save" type="object" class="oe_highlight" />
-                  or
-                  <button name="do_revaluation" string="Confirm" type="object" class="oe_highlight" />
-                  or
-                  <button string="Cancel" class="oe_link" special="cancel" />
-               </footer>
+                        <button name="do_update" string="Save" type="object" class="oe_highlight" />
+                        or
+                        <button name="do_revaluation" string="Confirm" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
                     <div class="oe_chatter" invisible="context.get('from_quants',False)">
                         <field name="message_follower_ids" widget="mail_followers" groups="base.group_user" />
                         <field name="message_ids" widget="mail_thread" placeholder="Share a message..." />

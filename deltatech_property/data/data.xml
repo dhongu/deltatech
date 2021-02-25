@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-
         <!--
         <record id="product.uom_categ_surface" model="product.uom.categ">
             <field name="name">Surface</field>
@@ -23,6 +22,5 @@
             <field name="rounding" eval="1"/>
         </record>
         -->
-
     </data>
 </odoo>

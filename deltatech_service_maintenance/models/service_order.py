@@ -84,7 +84,11 @@ class ServiceOrder(models.Model):
         states={"draft": [("readonly", False)]},
         domain=[("order_id", "=", False)],
     )
-    plan_call_id = fields.Many2one("service.plan.call", string="Plan Call", readonly=True,)
+    plan_call_id = fields.Many2one(
+        "service.plan.call",
+        string="Plan Call",
+        readonly=True,
+    )
 
     reason_id = fields.Many2one(
         "service.order.reason", string="Reason", readonly=False, states={"done": [("readonly", True)]}

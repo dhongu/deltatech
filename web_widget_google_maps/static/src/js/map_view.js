@@ -1,4 +1,4 @@
-odoo.define("web_map.MapView", function(require) {
+odoo.define("web_map.MapView", function (require) {
     "use strict";
 
     var MapModel = require("web_map.MapModel");
@@ -21,7 +21,7 @@ odoo.define("web_map.MapView", function(require) {
         mobile_friendly: true,
         searchMenuTypes: ["filter", "favorite"],
 
-        init: function(viewInfo, params) {
+        init: function (viewInfo, params) {
             this._super.apply(this, arguments);
 
             var fieldNames = [];
@@ -40,9 +40,9 @@ odoo.define("web_map.MapView", function(require) {
             this.rendererParams.defaultOrder = this.arch.attrs.default_order;
             this.rendererParams.panelTitle = this.arch.attrs.panel_title || params.displayName || _t("Items");
 
-            this.arch.children.forEach(function(node) {
+            this.arch.children.forEach(function (node) {
                 if (node.tag === "marker-popup") {
-                    node.children.forEach(function(child) {
+                    node.children.forEach(function (child) {
                         if (child.tag === "field") {
                             fieldNames.push(child.attrs.name);
                             fieldNamesMarkerPopup.push({fieldName: child.attrs.name, string: child.attrs.string});
@@ -53,7 +53,7 @@ odoo.define("web_map.MapView", function(require) {
             this.loadParams.fieldNames = _.uniq(fieldNames);
             this.rendererParams.fieldNamesMarkerPopup = fieldNamesMarkerPopup;
 
-            this.rendererParams.hasFormView = params.actionViews.find(function(view) {
+            this.rendererParams.hasFormView = params.actionViews.find(function (view) {
                 return view.type === "form";
             });
         },

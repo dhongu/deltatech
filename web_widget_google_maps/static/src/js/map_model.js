@@ -1,4 +1,4 @@
-odoo.define("web_map.MapModel", function(require) {
+odoo.define("web_map.MapModel", function (require) {
     "use strict";
     var AbstractModel = require("web.AbstractModel");
     var session = require("web.session");
@@ -8,17 +8,17 @@ odoo.define("web_map.MapModel", function(require) {
         // -----------------------------------------------------------------------------------
         // Public
         // ----------------------------------------------------------------------------------
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this.data = {};
             this.data.mapBoxToken = session.map_box_token;
         },
 
-        get: function() {
+        get: function () {
             return this.data;
         },
 
-        load: function(params) {
+        load: function (params) {
             this.data.count = 0;
             this.data.offset = 0;
             this.data.limit = 80;
@@ -36,7 +36,7 @@ odoo.define("web_map.MapModel", function(require) {
             return this._fetchData();
         },
 
-        reload: function(handle, params) {
+        reload: function (handle, params) {
             var options = params || {};
             this.partnerToCache = [];
             this.partnerIds = [];
@@ -65,7 +65,7 @@ odoo.define("web_map.MapModel", function(require) {
          * @private
          * @returns {Promise}
          */
-        _fetchData: async function() {
+        _fetchData: async function () {
             // Case of empty map
             if (!this.resPartnerField) {
                 this.data.records = [];
@@ -77,7 +77,7 @@ odoo.define("web_map.MapModel", function(require) {
             this.data.count = results.length;
             this.partnerIds = [];
             if (this.model === "res.partner" && this.resPartnerField === "id") {
-                this.data.records.forEach(record => {
+                this.data.records.forEach((record) => {
                     this.partnerIds.push(record.id);
                     record.partner_id = [record.id];
                 });
@@ -97,14 +97,14 @@ odoo.define("web_map.MapModel", function(require) {
          * @param {Number[]} partnerIds this array contains the ids from the partner that are linked to records
          * @returns {Promise}
          */
-        _partnerFetching: async function(partnerIds) {
+        _partnerFetching: async function (partnerIds) {
             this.data.partners = partnerIds.length ? await this._fetchRecordsPartner(partnerIds) : [];
             if (this.data.mapBoxToken) {
                 return this._maxBoxAPI()
                     .then(() => {
                         this._writeCoordinatesUsers();
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this._mapBoxErrorHandling(err);
                         this.data.mapBoxToken = "";
                         return this._openStreetMapAPI();
@@ -120,7 +120,7 @@ odoo.define("web_map.MapModel", function(require) {
          * @param {Object} err contains the error returned by the requests
          * @param {Number} err.status contains the status_code of the failed http request
          */
-        _mapBoxErrorHandling: function(err) {
+        _mapBoxErrorHandling: function (err) {
             switch (err.status) {
                 case 401:
                     this.do_warn(
@@ -146,9 +146,9 @@ odoo.define("web_map.MapModel", function(require) {
          * Adds the corresponding partner to a record
          * @private
          */
-        _addPartnerToRecord: function() {
-            this.data.records.forEach(record => {
-                this.data.partners.forEach(partner => {
+        _addPartnerToRecord: function () {
+            this.data.records.forEach((record) => {
+                this.data.partners.forEach((partner) => {
                     var recordPartnerId = "";
                     if (this.model === "res.partner" && this.resPartnerField === "id") {
                         recordPartnerId = record.id;
@@ -171,13 +171,13 @@ odoo.define("web_map.MapModel", function(require) {
          * @private
          * @returns {Promise[]} returns an array of promise that fetches the coordinates from the address
          */
-        _openStreetMapAPI: function() {
+        _openStreetMapAPI: function () {
             var self = this;
             var promises = [];
-            this.data.partners.forEach(partner => {
+            this.data.partners.forEach((partner) => {
                 if (partner.contact_address_complete && (!partner.partner_latitude || !partner.partner_longitude)) {
                     promises.push(
-                        self._fetchCoordinatesFromAddressOSM(partner).then(function(coordinates) {
+                        self._fetchCoordinatesFromAddressOSM(partner).then(function (coordinates) {
                             if (coordinates.length) {
                                 partner.partner_longitude = coordinates[0].lon;
                                 partner.partner_latitude = coordinates[0].lat;
@@ -190,18 +190,18 @@ odoo.define("web_map.MapModel", function(require) {
                     partner.partner_longitude = undefined;
                 }
             });
-            return Promise.all(promises).then(function() {
+            return Promise.all(promises).then(function () {
                 self._addPartnerToRecord();
             });
         },
 
-        _maxBoxAPI: function() {
+        _maxBoxAPI: function () {
             var self = this;
             var promises = [];
-            this.data.partners.forEach(partner => {
+            this.data.partners.forEach((partner) => {
                 if (partner.contact_address_complete && (!partner.partner_latitude || !partner.partner_longitude)) {
                     promises.push(
-                        self._fetchCoordinatesFromAddressMB(partner).then(function(coordinates) {
+                        self._fetchCoordinatesFromAddressMB(partner).then(function (coordinates) {
                             if (coordinates.features.length) {
                                 partner.partner_longitude = coordinates.features[0].geometry.coordinates[0];
                                 partner.partner_latitude = coordinates.features[0].geometry.coordinates[1];
@@ -214,11 +214,11 @@ odoo.define("web_map.MapModel", function(require) {
                     partner.partner_longitude = undefined;
                 }
             });
-            return Promise.all(promises).then(function() {
+            return Promise.all(promises).then(function () {
                 self._addPartnerToRecord();
                 self.data.route = {routes: []};
                 if (self.numberOfLocatedRecords > 1 && self.routing) {
-                    return self._fetchRoute().then(function(routeResult) {
+                    return self._fetchRoute().then(function (routeResult) {
                         self.data.route = routeResult;
                     });
                 }
@@ -230,8 +230,8 @@ odoo.define("web_map.MapModel", function(require) {
          * @param {Object[]} records the records that are going to be filtered
          * @returns {Object[]} Array of records that contains a partner_id
          */
-        _fillPartnerIds: function(records) {
-            return records.forEach(record => {
+        _fillPartnerIds: function (records) {
+            return records.forEach((record) => {
                 if (record[this.resPartnerField]) {
                     this.partnerIds.push(record[this.resPartnerField][0]);
                 }
@@ -247,7 +247,7 @@ odoo.define("web_map.MapModel", function(require) {
          * @returns {Boolean}
          * @private
          */
-        _checkCoordinatesValidity: function(partner) {
+        _checkCoordinatesValidity: function (partner) {
             if (
                 partner.partner_latitude &&
                 partner.partner_longitude &&
@@ -266,7 +266,7 @@ odoo.define("web_map.MapModel", function(require) {
          * @param {Number[]} ids contains the ids from the partners
          * @returns {Promise}
          */
-        _fetchRecordsPartner: function(ids) {
+        _fetchRecordsPartner: function (ids) {
             return this._rpc({
                 model: "res.partner",
                 method: "search_read",
@@ -285,14 +285,14 @@ odoo.define("web_map.MapModel", function(require) {
          * @returns {Promise<result>} result.query contains the query the the api received
          * result.features contains results in descendant order of relevance
          */
-        _fetchCoordinatesFromAddressMB: function(record) {
+        _fetchCoordinatesFromAddressMB: function (record) {
             var encodedUrl =
                 "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
                 encodeURIComponent(record.contact_address_complete) +
                 ".json?access_token=" +
                 this.data.mapBoxToken +
                 "&cachebuster=1552314159970&autocomplete=true";
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 $.ajax({
                     url: encodedUrl,
                     method: "GET",
@@ -311,13 +311,13 @@ odoo.define("web_map.MapModel", function(require) {
          * result[i].lon is the longitude of the converted address
          * result[i].importance is a float that the relevance of the result the closer the float is to one the best it is.
          */
-        _fetchCoordinatesFromAddressOSM: function(record) {
+        _fetchCoordinatesFromAddressOSM: function (record) {
             var contact_address_complete = record.contact_address_complete.replace("/", " ");
             var encodedUrl =
                 "https://nominatim.openstreetmap.org/search/" +
                 encodeURIComponent(contact_address_complete) +
                 "?format=jsonv2";
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 $.ajax({
                     url: encodedUrl,
                     method: "GET",
@@ -327,7 +327,7 @@ odoo.define("web_map.MapModel", function(require) {
             });
         },
 
-        _writeCoordinatesUsers: function() {
+        _writeCoordinatesUsers: function () {
             var self = this;
             if (this.partnerToCache.length) {
                 this._rpc({
@@ -345,7 +345,7 @@ odoo.define("web_map.MapModel", function(require) {
          * @private
          * @returns {Promise<results>}
          */
-        _fetchRecordData: function() {
+        _fetchRecordData: function () {
             return this._rpc({
                 route: "/web/dataset/search_read",
                 model: this.model,
@@ -368,9 +368,9 @@ odoo.define("web_map.MapModel", function(require) {
          * results.geometry.legs[i].duration the duration of the leg
          * results.geometry.coordinates contains the sets of coordinates to go from the first to the last marker without the notion of waypoint
          */
-        _fetchRoute: function() {
+        _fetchRoute: function () {
             var coordinatesParam = "";
-            this.data.records.forEach(function(record) {
+            this.data.records.forEach(function (record) {
                 if (record.partner.partner_latitude && record.partner.partner_longitude) {
                     coordinatesParam += record.partner.partner_longitude + "," + record.partner.partner_latitude + ";";
                 }
@@ -382,7 +382,7 @@ odoo.define("web_map.MapModel", function(require) {
                 "?access_token=" +
                 this.data.mapBoxToken +
                 "&steps=true&geometries=geojson";
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
                 $.ajax({
                     url: encodedUrl,
                     method: "GET",

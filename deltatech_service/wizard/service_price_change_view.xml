@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Price Change">
                     <group string="Price Change">
-                        <div class="oe_grey">
-                            Mass price change
-                        </div>
+                        <div class="oe_grey">Mass price change</div>
                     </group>
                     <group>
                         <group>

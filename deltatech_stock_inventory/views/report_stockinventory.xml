@@ -14,9 +14,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <h2>
-                                Stock Inventory by position
-                            </h2>
+                            <h2>Stock Inventory by position</h2>
                             <table class="table table-condensed">
                                 <thead>
                                     <tr>
@@ -71,11 +69,11 @@
                                                     <span>Rack:</span>
                                                     <span t-field="line.loc_rack" />
                                                     <t t-if="line.loc_row">
-                                                        <span> Row:</span>
+                                                        <span>Row:</span>
                                                         <span t-field="line.loc_row" />
                                                     </t>
                                                     <t t-if="line.loc_case">
-                                                        <span> Case:</span>
+                                                        <span>Case:</span>
                                                         <span t-field="line.loc_case" />
                                                     </t>
                                                 </strong>
@@ -127,9 +125,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <h2>
-                                Stock Inventory
-                            </h2>
+                            <h2>Stock Inventory</h2>
                             <table class="table table-condensed">
                                 <thead>
                                     <tr>

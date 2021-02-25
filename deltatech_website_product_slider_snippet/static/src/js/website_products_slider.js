@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_product_slider_snippet.product_slider", function(require) {
+odoo.define("deltatech_website_product_slider_snippet.product_slider", function (require) {
     "use strict";
 
     var concurrency = require("web.concurrency");
@@ -20,7 +20,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
         /**
          * @class
          */
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this._dp = new concurrency.DropPrevious();
             this.uniqueId = _.uniqueId("o_carousel_products_slider_");
@@ -29,7 +29,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
         /**
          * @override
          */
-        start: function() {
+        start: function () {
             this._dp.add(this._fetch()).then(this._render.bind(this));
             $(window).resize(() => {
                 this._onResizeChange();
@@ -39,19 +39,19 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
         /**
          * @override
          */
-        destroy: function() {
+        destroy: function () {
             this._super(...arguments);
             this.$el.addClass("d-none");
             this.$el.find(".slider").html("");
         },
 
-        _fetch: function() {
+        _fetch: function () {
             return this._rpc({
                 route: "/shop/products/slider",
                 params: {
                     list_id: this.$target.data("id"),
                 },
-            }).then(res => {
+            }).then((res) => {
                 var products = res.products;
 
                 // In edit mode, if the current visitor has no recently viewed
@@ -91,12 +91,12 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
             });
         },
 
-        _render: function(res) {
+        _render: function (res) {
             var products = res.products;
             var mobileProducts = [],
                 webProducts = [],
                 productsTemp = [];
-            _.each(products, function(product) {
+            _.each(products, function (product) {
                 if (productsTemp.length === 4) {
                     webProducts.push(productsTemp);
                     productsTemp = [];
@@ -129,11 +129,9 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
          * Add the right carousel depending on screen size.
          * @private
          */
-        _addCarousel: function() {
+        _addCarousel: function () {
             var carousel = config.device.size_class <= config.device.SIZES.SM ? this.mobileCarousel : this.webCarousel;
-            this.$(".slider")
-                .html(carousel)
-                .css("display", "");
+            this.$(".slider").html(carousel).css("display", "");
             // TODO removing the style is useless in master
         },
 
@@ -146,7 +144,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
          * @private
          * @param {Event} ev
          */
-        _onAddToCart: function(ev) {
+        _onAddToCart: function (ev) {
             var $card = $(ev.currentTarget).closest(".card");
             this._rpc({
                 route: "/shop/cart/update_json",
@@ -168,7 +166,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
         /**
          * @class
          */
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this._onProductChange = _.debounce(this._onProductChange, this.debounceValue);
         },
@@ -182,7 +180,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
          * @private
          * @param {HTMLInputElement} $input
          */
-        _updateProductView: function($input) {
+        _updateProductView: function ($input) {
             var productId = parseInt($input.val(), 10);
             var cookieName = "seen_product_id_" + productId;
             if (!parseInt(this.el.dataset.viewTrack, 10)) {
@@ -202,7 +200,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
                 params: {
                     product_id: productId,
                 },
-            }).then(function(res) {
+            }).then(function (res) {
                 if (res && res.visitor_uuid) {
                     utils.set_cookie("visitor_uuid", res.visitor_uuid);
                 }
@@ -219,7 +217,7 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function(
          * @private
          * @param {Event} ev
          */
-        _onProductChange: function(ev) {
+        _onProductChange: function (ev) {
             this._updateProductView($(ev.currentTarget));
         },
     });

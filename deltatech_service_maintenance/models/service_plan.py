@@ -145,7 +145,7 @@ class ServicePlan(models.Model):
     @api.multi
     def call_next(self):
         """
-         Face urmatorul apel din lista
+        Face urmatorul apel din lista
         """
         for plan in self:
             for call in plan.call_ids:
@@ -246,9 +246,18 @@ class ServicePlanCall(models.Model):
         default="draft",
     )
 
-    plan_id = fields.Many2one("service.plan", required=True, string="Plan", readonly=True,)
+    plan_id = fields.Many2one(
+        "service.plan",
+        required=True,
+        string="Plan",
+        readonly=True,
+    )
 
-    order_id = fields.Many2one("service.order", string="Order", readonly=True,)
+    order_id = fields.Many2one(
+        "service.order",
+        string="Order",
+        readonly=True,
+    )
 
     call_date = fields.Date(
         string="Call Date", required=True, readonly=True, index=True, help="Date on which the system creates an order"

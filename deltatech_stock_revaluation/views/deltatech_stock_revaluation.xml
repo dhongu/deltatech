@@ -5,25 +5,25 @@
         <template id="stock_revaluation_document">
             <div class="page">
                 <style type="text/css">
-                        tbody.default td {
-                        border: 1px solid gray;
-                        text-align: center;
-                        font-size: 75%;
-                        }
-                        tbody.bold td {
-                        border: 1px solid gray;
-                        text-align: right;
-                        font-size: 75%;
-                        font-weight:bold;
-                        background-color:#BBBBBB;
-                        text-align: center;
-                        }
-                        thead.default th{
-                        border: 1px solid gray;
-                        background-color:#BBBBBB;
-                        font-size: 75%;
-                        }
-                    </style>
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
                 <!-- HEADER -->
                 <h3>ROMSYSTEMS SRL</h3>
                 <div class="row zero_min_height">
@@ -34,13 +34,14 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div>
-                            <p>Str. Abatorului nr. 4 Bacau
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
                              Tel: 0334 401 939
                              CIF: RO15437993
                              NRC: J04/535/2003
                              Capital social: 200.00
                              E-mail: office@romsystem.ro
-                             </p>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -57,31 +58,84 @@
                     </h3>
                 </div>
                 <div class="row">
-                    <p>Data: <span t-field="o.date" /></p>
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
                 </div>
                 <table width="100%">
                     <thead class="default">
                         <tr>
-                            <th>Nr.<br />crt.
-                                </th>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
                             <th>Mijloc Fix</th>
                             <th>UM</th>
                             <!-- <th>Simbol clasa<br />mijloc fix</th> -->
-                            <th>Nr.<br />inv.</th>
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
                             <th>Cont</th>
                             <th>Cant</th>
-                            <th>Pret<br />initial</th>
-                            <th>Valoare<br />initiala</th>
-                            <th>Valoare dupa<br /> amort. precedenta</th>
-                            <th>Amortizare<br />curenta</th>
-                            <th>Valoare ramasa de amortizat<br /></th>
-                            <th>Grad<br />utilizare(%)</th>
-                            <th>An/luna<br />prima rata</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
                             <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
-                            <th>Tip<br />amortiz.</th>
-                            <th>Durata<br />norm.(ani)</th>
-                            <th>Durata<br />ramasa.(luni)</th>
-                            <th>Amortizare<br />totala</th>
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="default">
@@ -229,25 +283,25 @@
         <template id="stock_revaluation_document2">
             <div class="page">
                 <style type="text/css">
-                        tbody.default td {
-                        border: 1px solid gray;
-                        text-align: center;
-                        font-size: 75%;
-                        }
-                        tbody.bold td {
-                        border: 1px solid gray;
-                        text-align: right;
-                        font-size: 75%;
-                        font-weight:bold;
-                        background-color:#BBBBBB;
-                        text-align: center;
-                        }
-                        thead.default th{
-                        border: 1px solid gray;
-                        background-color:#BBBBBB;
-                        font-size: 75%;
-                        }
-                    </style>
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
                 <!-- HEADER -->
                 <h3>ROMSYSTEMS SRL</h3>
                 <div class="row zero_min_height">
@@ -258,13 +312,14 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div>
-                            <p>Str. Abatorului nr. 4 Bacau
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
                              Tel: 0334 401 939
                              CIF: RO15437993
                              NRC: J04/535/2003
                              Capital social: 200.00
                              E-mail: office@romsystem.ro
-                             </p>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -280,31 +335,84 @@
                     </h3>
                 </div>
                 <div class="row">
-                    <p>Data: <span t-field="o.date" /></p>
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
                 </div>
                 <table width="100%">
                     <thead class="default">
                         <tr>
-                            <th>Nr.<br />crt.
-                                </th>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
                             <th>Mijloc transport</th>
                             <th>UM</th>
                             <!-- <th>Simbol clasa<br />mijloc transport</th> -->
-                            <th>Nr.<br />inv.</th>
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
                             <th>Cont</th>
                             <th>Cant</th>
-                            <th>Pret<br />initial</th>
-                            <th>Valoare<br />initiala</th>
-                            <th>Valoare dupa<br /> amort. precedenta</th>
-                            <th>Amortizare<br />curenta</th>
-                            <th>Valoare ramasa de amortizat<br /></th>
-                            <th>Grad<br />utilizare(%)</th>
-                            <th>An/luna<br />prima rata</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
                             <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
-                            <th>Tip<br />amortiz.</th>
-                            <th>Durata<br />norm.(ani)</th>
-                            <th>Durata<br />ramasa.(luni)</th>
-                            <th>Amortizare<br />totala</th>
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="default">
@@ -452,25 +560,25 @@
         <template id="stock_revaluation_document3">
             <div class="page">
                 <style type="text/css">
-                        tbody.default td {
-                        border: 1px solid gray;
-                        text-align: center;
-                        font-size: 75%;
-                        }
-                        tbody.bold td {
-                        border: 1px solid gray;
-                        text-align: right;
-                        font-size: 75%;
-                        font-weight:bold;
-                        background-color:#BBBBBB;
-                        text-align: center;
-                        }
-                        thead.default th{
-                        border: 1px solid gray;
-                        background-color:#BBBBBB;
-                        font-size: 75%;
-                        }
-                    </style>
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
                 <!-- HEADER -->
                 <h3>ROMSYSTEMS SRL</h3>
                 <div class="row zero_min_height">
@@ -481,13 +589,14 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div>
-                            <p>Str. Abatorului nr. 4 Bacau
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
                              Tel: 0334 401 939
                              CIF: RO15437993
                              NRC: J04/535/2003
                              Capital social: 200.00
                              E-mail: office@romsystem.ro
-                             </p>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -503,31 +612,84 @@
                     </h3>
                 </div>
                 <div class="row">
-                    <p>Data: <span t-field="o.date" /></p>
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
                 </div>
                 <table width="100%">
                     <thead class="default">
                         <tr>
-                            <th>Nr.<br />crt.
-                                </th>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
                             <th>Mijloc transport</th>
                             <th>UM</th>
                             <!-- <th>Simbol clasa<br />mijloc transport</th> -->
-                            <th>Nr.<br />inv.</th>
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
                             <th>Cont</th>
                             <th>Cant</th>
-                            <th>Pret<br />initial</th>
-                            <th>Valoare<br />initiala</th>
-                            <th>Valoare dupa<br /> amort. precedenta</th>
-                            <th>Amortizare<br />curenta</th>
-                            <th>Valoare ramasa de amortizat<br /></th>
-                            <th>Grad<br />utilizare(%)</th>
-                            <th>An/luna<br />prima rata</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
                             <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
-                            <th>Tip<br />amortiz.</th>
-                            <th>Durata<br />norm.(ani)</th>
-                            <th>Durata<br />ramasa.(luni)</th>
-                            <th>Amortizare<br />totala</th>
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="default">

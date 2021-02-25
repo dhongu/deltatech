@@ -1,4 +1,4 @@
-odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require) {
+odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function (require) {
     "use strict";
 
     var core = require("web.core");
@@ -23,16 +23,16 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
             "click .fa-info-circle": "_onClickButton",
         }),
 
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this.data = this.record.data;
         },
-        _render: function() {
+        _render: function () {
             var self = this;
             self._setPopOver();
         },
 
-        _setPopOver: function() {
+        _setPopOver: function () {
             // Var self = this;
             this.data = this.record.data;
             if (!this.data.product_id) {
@@ -54,7 +54,7 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
             };
             this.$el.popover(options);
         },
-        _onClickButton: function() {
+        _onClickButton: function () {
             // We add the property special click on the widget link.
             // This hack allows us to trigger the popover (see _setPopOver) without
             // triggering the _onRowClicked that opens the order line form view.
@@ -73,19 +73,19 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
          * @param {Widget|null} parent
          * @param {Object} params
          */
-        init: function(parent, params) {
+        init: function (parent, params) {
             this.data = params.data;
             this._super(parent);
         },
 
-        start: function() {
+        start: function () {
             var self = this;
-            return this._super.apply(this, arguments).then(function() {
+            return this._super.apply(this, arguments).then(function () {
                 self._setPopOver();
             });
         },
 
-        updateState: function(state) {
+        updateState: function (state) {
             this.$el.popover("dispose");
             var candidate = state.data[this.getParent().currentRow];
             if (candidate) {
@@ -101,7 +101,7 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
          * Set a bootstrap popover on the current QtyAtDate widget that display available
          * quantity.
          */
-        _setPopOver: function() {
+        _setPopOver: function () {
             // Var $content;
             // var options;
             // var self = this;
@@ -128,7 +128,7 @@ odoo.define("deltatech_sale_qty_available.QtyAvailableWidget", function(require)
         // --------------------------------------------------------------------------
         // Handlers
         // --------------------------------------------------------------------------
-        _onClickButton: function() {
+        _onClickButton: function () {
             // We add the property special click on the widget link.
             // This hack allows us to trigger the popover (see _setPopOver) without
             // triggering the _onRowClicked that opens the order line form view.

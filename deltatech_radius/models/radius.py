@@ -278,7 +278,11 @@ class RadiusRadreply(models.Model):
         "OP",
         default="==",
     )
-    value = fields.Char("Value", size=253, default="",)
+    value = fields.Char(
+        "Value",
+        size=253,
+        default="",
+    )
 
 
 # ----------------------------------------------------------

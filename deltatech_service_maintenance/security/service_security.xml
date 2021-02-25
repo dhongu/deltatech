@@ -8,9 +8,10 @@
         <record id="service_notification_personal_rule" model="ir.rule">
             <field name="name">Personal Service Notification</field>
             <field name="model_id" ref="model_service_notification" />
-            <field
-                name="domain_force"
-            > ['|', ('address_id','child_of',[user.partner_id.parent_id.id] ), ('contact_id','=',[user.partner_id.id]) ]</field>
+            <field name="domain_force">
+                ['|', ('address_id','child_of',[user.partner_id.parent_id.id] ), ('contact_id','=',[user.partner_id.id])
+                ]
+            </field>
             <field name="groups" eval="[(4, ref('deltatech_service.group_service_client'))]" />
         </record>
         <record id="service_notification_see_all_rule" model="ir.rule">
@@ -22,9 +23,10 @@
         <record id="service_order_personal_rule" model="ir.rule">
             <field name="name">Personal Service Order</field>
             <field name="model_id" ref="model_service_order" />
-            <field
-                name="domain_force"
-            > ['|', ('address_id','child_of',[user.partner_id.parent_id.id] ), ('contact_id','=',[user.partner_id.id]) ]</field>
+            <field name="domain_force">
+                ['|', ('address_id','child_of',[user.partner_id.parent_id.id] ), ('contact_id','=',[user.partner_id.id])
+                ]
+            </field>
             <field name="groups" eval="[(4, ref('deltatech_service.group_service_client'))]" />
         </record>
         <record id="service_order_see_all_rule" model="ir.rule">

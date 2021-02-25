@@ -172,7 +172,12 @@ class RequiredOrderLine(models.Model):
     qty_available = fields.Float(related="product_id.qty_available", string="Quantity On Hand")
     virtual_available = fields.Float(related="product_id.virtual_available", string="Quantity Available")
 
-    date_planned = fields.Datetime(string="Scheduled Date", readonly=True, compute="_compute_date_planned", store=True,)
+    date_planned = fields.Datetime(
+        string="Scheduled Date",
+        readonly=True,
+        compute="_compute_date_planned",
+        store=True,
+    )
 
     @api.onchange("product_id")
     def onchange_product_id(self):

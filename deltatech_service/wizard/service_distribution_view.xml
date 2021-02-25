@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Distribution">
                     <group string="Distribution">
-                        <div class="oe_grey">
-                            Distribution services consumed quantities / values
-                        </div>
+                        <div class="oe_grey">Distribution services consumed quantities / values</div>
                     </group>
                     <group>
                         <group>

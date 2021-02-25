@@ -18,7 +18,9 @@ class ResConfigSettings(models.TransientModel):
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
         category_rule = self.env.ref("deltatech_product_category.product_category_comp_rule")
-        res.update(company_share_product_category=not bool(category_rule.active),)
+        res.update(
+            company_share_product_category=not bool(category_rule.active),
+        )
 
         return res
 

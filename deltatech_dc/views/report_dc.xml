@@ -22,7 +22,6 @@
                                 <span t-field="res_company.partner_id.vat" />
                                 ,
                                 <span t-field="res_company.partner_id.nrc" />
-
                                 <span>, with its headquarters in</span>
                                 <span t-field="res_company.partner_id.city" />
                                 <span>street</span>
@@ -71,9 +70,11 @@
                                 </t>
                             </div>
                             <br />
-                            <div
-                            > We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the
-                                requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory
+                            <div>
+                                We hereby certify that the above mentioned materials has been inspected by ourselves and
+                                meets our manufacturing specification and the
+                                requirements of your order. Final physical properties and compliance with any finished
+                                product specification depends on satisfactory
                                 processing by yourselves.
                             </div>
                             <br />

@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Compute Commission">
                     <group string="Compute Commission">
-                        <div class="oe_grey">
-                            For the selected invoice line will compute commission
-                        </div>
+                        <div class="oe_grey">For the selected invoice line will compute commission</div>
                     </group>
                     <group>
                         <field name="invoice_line_ids" nolabel="1" />

@@ -84,12 +84,12 @@
                     name="movelines_button"
                 >
                     <div>
-<!--                                    <strong>-->
-<!--                                        <field name="total_costs" widget="monetary"/>-->
-<!--                                    </strong>-->
-<!--                                    <br/>-->
-                                    Produse livrate
-                                </div>
+                        <!--                                    <strong>-->
+                        <!--                                        <field name="total_costs" widget="monetary"/>-->
+                        <!--                                    </strong>-->
+                        <!--                                    <br/>-->
+                        Produse livrate
+                    </div>
                 </button>
             </button>
         </field>

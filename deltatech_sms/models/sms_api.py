@@ -18,8 +18,7 @@ class SmsApi(models.AbstractModel):
 
     @api.model
     def _send_sms(self, numbers, message):
-        """ Send sms
-        """
+        """Send sms"""
         account = self.env["iap.account"].get("sms")
 
         params = {

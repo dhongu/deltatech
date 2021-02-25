@@ -5,7 +5,7 @@
     "version": "12.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
-    "website": "www.terrabit.ro",
+    "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
     "depends": ["account"],
     "data": ["views/account_invoice_view.xml", "views/res_config_settings_views.xml"],

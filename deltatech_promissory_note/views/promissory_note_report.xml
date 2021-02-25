@@ -22,25 +22,25 @@
                 <t t-foreach="docs" t-as="o">
                     <div class="page">
                         <style type="text/css">
-                            tbody.default td {
-                            border: 1px solid black;
-                            text-align: center;
-                            vertical-align:middle;
-                            font-size: 100%;
-                            font-weight:bold;
-                            }
-                            tbody.bold td {
-                            border: 1px solid gray;
-                            text-align: right;
-                            font-size: 75%;
-                            font-weight:bold;
-                            background-color:#BBBBBB;
-                            }
-                            thead.default th{
-                            border: 1px solid gray;
-                            background-color:#BBBBBB;
-                            font-size: 75%;
-                            }
+tbody.default td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 100%;
+    font-weight: bold;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
                         </style>
                         <table style="width:100%;">
                             <tr>
@@ -107,7 +107,10 @@
                                     </tr>
                                     <tr>
                                         <td style="width:50%;">
-                                            <span>VALUTA<sup>1</sup></span>
+                                            <span>
+                                                VALUTA
+                                                <sup>1</sup>
+                                            </span>
                                         </td>
                                         <td />
                                     </tr>
@@ -153,7 +156,9 @@
                                 <li>
                                     Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
                                     decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in
-                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca
+                                    valuta echivalentul in LEI
+                                    <b>nu va fi completat</b>
+                                    , urmand a fi calculat de banca
                                     platitorului in T-1 in data prezentarii la plata
                                 </li>
                                 <li>
@@ -177,7 +182,8 @@
                                     BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de
                                     debit de tipul cecului, cambiei si biletului la ordin in format vechi
                                 </li>
-                                <li>Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
+                                <li>
+                                    Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
                                     incasare cu acest borderou
                                 </li>
                                 <li>
@@ -194,19 +200,27 @@
                                         <tr>
                                             <td style="width:100%;height:80px;border: 2px solid black;">
 
-                                        </td>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="float:right;width:48%;">
-                                <p style="font-weight:bold;font-size:90%;">Data receptiei<sup
-                                    >2</sup>........................</p>
-                                <p
-                                    style="font-weight:bold;font-size:90%;"
-                                >Data remiterii pe circuit a ID = Data receptiei<sup>3</sup>........................</p>
-                                <p style="font-weight:bold;font-size:90%;">Data receptiei in Centrul de Procesare<sup
-                                    >4</sup>........................</p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data receptiei
+                                    <sup>2</sup>
+                                    ........................
+                                </p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data remiterii pe circuit a ID = Data receptiei
+                                    <sup>3</sup>
+                                    ........................
+                                </p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data receptiei in Centrul de Procesare
+                                    <sup>4</sup>
+                                    ........................
+                                </p>
                             </div>
                         </div>
                         <br />
@@ -279,7 +293,10 @@
                                     </tr>
                                     <tr>
                                         <td style="width:50%;">
-                                            <span>VALUTA<sup>1</sup></span>
+                                            <span>
+                                                VALUTA
+                                                <sup>1</sup>
+                                            </span>
                                         </td>
                                         <td />
                                     </tr>
@@ -325,7 +342,9 @@
                                 <li>
                                     Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
                                     decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in
-                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca
+                                    valuta echivalentul in LEI
+                                    <b>nu va fi completat</b>
+                                    , urmand a fi calculat de banca
                                     platitorului in T-1 in data prezentarii la plata
                                 </li>
                                 <li>
@@ -349,7 +368,8 @@
                                     BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de
                                     debit de tipul cecului, cambiei si biletului la ordin in format vechi
                                 </li>
-                                <li>Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
+                                <li>
+                                    Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
                                     incasare cu acest borderou
                                 </li>
                                 <li>
@@ -366,19 +386,27 @@
                                         <tr>
                                             <td style="width:100%;height:80px;border: 2px solid black;">
 
-                                        </td>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="float:right;width:48%;">
-                                <p style="font-weight:bold;font-size:90%;">Data receptiei<sup
-                                    >2</sup>........................</p>
-                                <p
-                                    style="font-weight:bold;font-size:90%;"
-                                >Data remiterii pe circuit a ID = Data receptiei<sup>3</sup>........................</p>
-                                <p style="font-weight:bold;font-size:90%;">Data receptiei in Centrul de Procesare<sup
-                                    >4</sup>........................</p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data receptiei
+                                    <sup>2</sup>
+                                    ........................
+                                </p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data remiterii pe circuit a ID = Data receptiei
+                                    <sup>3</sup>
+                                    ........................
+                                </p>
+                                <p style="font-weight:bold;font-size:90%;">
+                                    Data receptiei in Centrul de Procesare
+                                    <sup>4</sup>
+                                    ........................
+                                </p>
                             </div>
                         </div>
                         <br />
@@ -393,26 +421,30 @@
             <t t-call="web.html_container">
                 <div class="page">
                     <style type="text/css">
-                                tbody.default td {
-                                border: 1px solid black;
-                                text-align: center;
-                                vertical-align:middle;
-                                font-size: 100%;
-                                }
-                            </style>
+tbody.default td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 100%;
+}
+                    </style>
                     <div style="font-weight:bold;font-size:150%;text-align:center;">
                         <p>PROCES VERBAL PREDARE PRIMIRE BILETE LA ORDIN</p>
                         <p>
                             <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')" />
                         </p>
                     </div>
-                    <p
-                    >SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO 15437993, Nr. Reg. Com. J04/535/2003  , </p>
-                    <p style="font-weight:bold;">A  PREDAT  CATRE </p>
-                    <p>SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu   </p>
-                    <p style="font-weight:bold;">BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI , <span
-                            t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"
-                        />: </p>
+                    <p>
+                        SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO 15437993, Nr. Reg.
+                        Com. J04/535/2003  ,
+                    </p>
+                    <p style="font-weight:bold;">A  PREDAT  CATRE</p>
+                    <p>SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu</p>
+                    <p style="font-weight:bold;">
+                        BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI ,
+                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')" />
+                        :
+                    </p>
                     <table style="width:100%;">
                         <tbody class="default">
                             <tr>
@@ -466,7 +498,7 @@
                                 <strong>SC  ROMSYSTEMS  SRL</strong>
                             </td>
                             <td style="width:40%;">
-                                <strong>SUCURSALA BACAU BCR  </strong>
+                                <strong>SUCURSALA BACAU BCR</strong>
                             </td>
                         </tr>
                     </table>

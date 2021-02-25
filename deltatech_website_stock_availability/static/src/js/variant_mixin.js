@@ -1,4 +1,4 @@
-odoo.define("deltatech_website_stock_availability.VariantMixin", function(require) {
+odoo.define("deltatech_website_stock_availability.VariantMixin", function (require) {
     "use strict";
 
     var ProductConfiguratorMixin = require("sale.ProductConfiguratorMixin");
@@ -14,7 +14,7 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function(requir
         QWeb
     );
 
-    ProductConfiguratorMixin._onChangeCombinationStock2 = function(ev, $parent, combination) {
+    ProductConfiguratorMixin._onChangeCombinationStock2 = function (ev, $parent, combination) {
         var product_id = 0;
         // Needed for list view of variants
         if ($parent.find("input.product_id:checked").length) {
@@ -25,18 +25,18 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function(requir
         var isMainProduct =
             combination.product_id &&
             ($parent.is(".js_main_product") || $parent.is(".main_product")) &&
-            combination.product_id === parseInt(product_id);
+            combination.product_id === parseInt(product_id, 10);
 
         if (!this.isWebsite || !isMainProduct) {
             return;
         }
 
         if (combination.product_type === "product" && combination.inventory_availability === "preorder") {
-            combination.virtual_available -= parseInt(combination.cart_qty);
+            combination.virtual_available -= parseInt(combination.cart_qty, 10);
             if (combination.virtual_available < 0) {
                 combination.virtual_available = 0;
             }
-            xml_load.then(function() {
+            xml_load.then(function () {
                 $(".oe_website_sale")
                     .find(".availability_message_" + combination.product_template)
                     .remove();
@@ -48,7 +48,7 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function(requir
         var qty = $parent.find('input[name="add_qty"]').val();
         combination.selected_qty = qty;
         if (combination.product_type === "product") {
-            xml_load.then(function() {
+            xml_load.then(function () {
                 $(".oe_website_sale")
                     .find(".lead_time_messages_" + combination.product_template)
                     .remove();
@@ -64,7 +64,7 @@ odoo.define("deltatech_website_stock_availability.VariantMixin", function(requir
          * Adds the stock checking to the regular _onChangeCombination method
          * @override
          */
-        _onChangeCombination: function() {
+        _onChangeCombination: function () {
             this._super.apply(this, arguments);
             ProductConfiguratorMixin._onChangeCombinationStock2.apply(this, arguments);
         },

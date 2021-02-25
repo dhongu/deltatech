@@ -1,4 +1,4 @@
-odoo.define("deltatech_download.ActionManager", function(require) {
+odoo.define("deltatech_download.ActionManager", function (require) {
     "use strict";
 
     var ActionManager = require("web.ActionManager");
@@ -6,11 +6,11 @@ odoo.define("deltatech_download.ActionManager", function(require) {
     var _t = core._t;
 
     ActionManager.include({
-        _triggerDownload: function(action, options, type) {
+        _triggerDownload: function (action, options, type) {
             var self = this;
             var reportUrls = this._makeReportUrls(action);
             if (type === "pdf") {
-                return this._openReportPDF(reportUrls[type]).then(function() {
+                return this._openReportPDF(reportUrls[type]).then(function () {
                     if (action.close_on_report_download) {
                         var closeAction = {type: "ir.actions.act_window_close"};
                         return self.doAction(closeAction, _.pick(options, "on_close"));
@@ -21,7 +21,7 @@ odoo.define("deltatech_download.ActionManager", function(require) {
             return this._super.apply(this, arguments);
         },
 
-        _openReportPDF: function(url) {
+        _openReportPDF: function (url) {
             var def = $.Deferred();
 
             if (!window.open(url)) {

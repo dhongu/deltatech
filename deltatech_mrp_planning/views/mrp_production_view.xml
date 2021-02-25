@@ -8,7 +8,8 @@
             <field name="arch" type="xml">
                 <button name="button_plan" position="attributes">
                     <attribute name="string">Plan</attribute>
-                    <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ('confirmed', 'planned')), '|',
+                    <attribute name="attrs">
+                        {'invisible': ['|', ('state', 'not in', ('confirmed', 'planned')), '|',
                         ('routing_id', '=', False), '|', ('date_planned_start_wo', '!=', False),
                         ('date_planned_finished_wo', '!=', False)]}
                     </attribute>

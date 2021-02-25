@@ -6,7 +6,7 @@
     "version": "12.0.1.0.0",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
-    "website": "",
+    "website": "https://www.terrabit.ro",
     "depends": ["sale_margin", "account"],
     "license": "LGPL-3",
     "data": [

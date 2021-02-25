@@ -72,6 +72,7 @@
                                 icon="fa-location-arrow"
                                 string="Location"
                             >
+
                             </button>
                         </div>
                         <field name="image" widget="image" class="float-left" style="max-width:200px;margin:3px;" />

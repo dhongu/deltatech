@@ -6,9 +6,7 @@
         <field name="inherit_id" ref="account.invoice_supplier_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_invoice_open']" position="attributes">
-                <attribute name="context">
-                        {'create_purchase_and_receipt':1}
-                    </attribute>
+                <attribute name="context">{'create_purchase_and_receipt':1}</attribute>
             </xpath>
         </field>
     </record>

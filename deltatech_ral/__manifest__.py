@@ -5,6 +5,7 @@
     "name": "RAL",
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
     "license": "AGPL-3",
     "category": "Manufacturing",
     "depends": ["base", "stock", "mrp"],
