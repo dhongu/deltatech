@@ -17,7 +17,7 @@
         "deltatech_partner_generic",
         "deltatech_select_journal",
     ],
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "data": [
         "wizard/account_invoice_export_bf_view.xml",
         "views/res_config_settings_views.xml",
