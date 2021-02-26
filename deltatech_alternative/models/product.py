@@ -39,16 +39,18 @@ class ProductCatalog(models.Model):
                 if buy:
                     route_ids += [buy.id]
 
-                if self.list_price_currency_id:
-                    price_currency_id = self.list_price_currency_id
-                else:
-                    price_currency_id = self.env.user.company_id.currency_id
+                currency = self.list_price_currency_id or self.env.user.company_id.currency_id
+                list_price = currency._convert(
+                    prod_cat.list_price,
+                    self.env.user.company_id.currency_id,
+                    self.env.user.company_id,
+                    fields.Date.today(),
+                )
 
                 values = {
                     "name": prod_cat.name,
                     "default_code": prod_cat.code,
-                    "lst_price": prod_cat.list_price,
-                    "price_currency_id": price_currency_id.id,
+                    "lst_price": list_price,
                     "categ_id": prod_cat.categ_id.id,
                     "route_ids": [(6, 0, route_ids)],
                     "sale_delay": prod_cat.sale_delay,
@@ -61,7 +63,7 @@ class ProductCatalog(models.Model):
                             {
                                 "name": prod_cat.supplier_id.id,
                                 "price": prod_cat.purchase_price,
-                                "currency_id": price_currency_id.id,
+                                "currency_id": currency.id,
                                 "delay": prod_cat.purchase_delay,
                             },
                         )
