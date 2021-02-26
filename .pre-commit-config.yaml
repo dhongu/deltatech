@@ -34,9 +34,6 @@ repos:
       - id: oca-gen-addons-table
         stages: [manual]
 
-      #- id: oca-gen-addon-icon
-      #  args:
-      #    - --addons-dir=.
   - repo: local
     hooks:
       # These files are most likely copier diff rejection junks; if found,
@@ -103,6 +100,7 @@ repos:
       - id: check-xml
       - id: mixed-line-ending
         args: ["--fix=lf"]
+
   - repo: https://github.com/asottile/pyupgrade
     rev: v2.10.0
     hooks:
