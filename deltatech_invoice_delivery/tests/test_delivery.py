@@ -12,11 +12,12 @@ class TestInvoiceDelivery(TransactionCase):
     def setUp(self):
         super(TestInvoiceDelivery, self).setUp()
         self.partner_a = self.env["res.partner"].create({"name": "Test"})
+        seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150}
+            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150}
+            {"name": "Test B", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
         )
 
     def create_in_invoice(self):
