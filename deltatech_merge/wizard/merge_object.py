@@ -46,18 +46,6 @@ class MergeObject(models.TransientModel):
     _model_merge = "merge.dummy"
     _table_merge = "merge_dummy"
 
-    @api.model
-    def default_get(self, fields_list):
-        res = super(MergeObject, self).default_get(fields_list)
-        active_ids = self.env.context.get("active_ids")
-        if self.env.context.get("active_model") == self._model_merge and active_ids:
-            res["state"] = "selection"
-            res["object_ids"] = [(6, 0, active_ids)]
-            res["dst_object_id"] = self._get_ordered_object(active_ids)[-1].id
-        return res
-
-    # Group by
-
     group_by_name = fields.Boolean("Name")
 
     state = fields.Selection(
@@ -75,6 +63,16 @@ class MergeObject(models.TransientModel):
     dst_object_id = fields.Many2one(_model_merge, string="Destination Object")
 
     maximum_group = fields.Integer("Maximum of Group of Objects")
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(MergeObject, self).default_get(fields_list)
+        active_ids = self.env.context.get("active_ids")
+        if self.env.context.get("active_model") == self._model_merge and active_ids:
+            res["state"] = "selection"
+            res["object_ids"] = [(6, 0, active_ids)]
+            res["dst_object_id"] = self._get_ordered_object(active_ids)[-1].id
+        return res
 
     # ----------------------------------------
     # Update method. Core methods to merge steps
