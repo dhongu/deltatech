@@ -22,7 +22,7 @@ class PurchaseOrder(models.Model):
 
     def receipt_to_stock(self):
         """
-        Matoda aceasta este utilizata si in fast purchase
+        Metoda aceasta este utilizata si in fast purchase
         """
         for purchase_order in self:
             for picking in purchase_order.picking_ids:
