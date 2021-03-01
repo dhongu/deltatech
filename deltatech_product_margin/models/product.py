@@ -44,11 +44,14 @@ class ProductTemplate(models.Model):
 
     def _inverse_margin(self):
         for product in self:
-            list_price = product.standard_price / (1 - product.margin / 100)
-            list_price_tax = 0
-            if product.taxes_id.price_include:
-                list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
-            product.list_price = list_price + list_price_tax
+            if product.margin != 100:
+                list_price = product.standard_price / (1 - product.margin / 100)
+                list_price_tax = 0
+                if product.taxes_id.price_include:
+                    list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(
+                        list_price, 1
+                    )
+                product.list_price = list_price + list_price_tax
 
     @api.onchange("trade_markup", "standard_price")
     def onchange_trade_markup(self):
