@@ -17,10 +17,10 @@ class SaleMarginReport(models.Model):
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
     # 'purchase_price = fields.float('Purchase price', readonly=True )
-    sale_val = fields.Float("Sale value", readonly=True, help="Sale value in company currency")
+    sale_val = fields.Monetary("Sale value", readonly=True, help="Sale value in company currency")
 
-    stock_val = fields.Float("Stock value", readonly=True, help="Stock value in company currency")
-    profit_val = fields.Float("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
+    stock_val = fields.Monetary("Stock value", readonly=True, help="Stock value in company currency")
+    profit_val = fields.Monetary("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission = fields.Float("Commission")
@@ -148,7 +148,8 @@ class SaleMarginReport(models.Model):
 
     def _where(self):
         where_str = """
-              s.move_type in ( 'out_invoice', 'out_refund') and s.state in ( 'open','paid')
+              s.move_type in ( 'out_invoice', 'out_refund') and s.state='posted' and l.display_type is null
+              and l.exclude_from_invoice_tab != true
         """
         return where_str
 
