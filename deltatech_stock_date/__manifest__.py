@@ -10,7 +10,7 @@
     "category": "Warehouse",
     "depends": ["base", "stock"],
     "license": "LGPL-3",
-    "data": ["wizard/stock_immediate_transfer_view.xml"],
+    "data": ["wizard/stock_immediate_transfer_view.xml", "wizard/stock_backorder_confirmation_view.xml"],
     "application": False,
     "images": ["images/main_screenshot.png"],
     "installable": True,
