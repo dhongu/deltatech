@@ -31,15 +31,16 @@ class AccountInvoiceLine(models.Model):
         )
         return price
 
-    @api.model
-    def create(self, vals):
-        if "purchase_price" not in vals:
-            invoice_id = self.env["account.move"].browse(vals["move_id"])
-            product_id = self.env["product.product"].browse(vals["product_id"])
-            uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
-            vals["purchase_price"] = self._compute_margin(invoice_id, product_id, uom_id)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "purchase_price" not in vals:
+                invoice_id = self.env["account.move"].browse(vals["move_id"])
+                product_id = self.env["product.product"].browse(vals["product_id"])
+                uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
+                vals["purchase_price"] = self._compute_margin(invoice_id, product_id, uom_id)
 
-        return super(AccountInvoiceLine, self).create(vals)
+        return super(AccountInvoiceLine, self).create(vals_list)
 
     @api.depends("product_id")
     def _compute_purchase_price(self):
