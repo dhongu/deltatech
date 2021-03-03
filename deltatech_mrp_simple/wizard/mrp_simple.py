@@ -27,7 +27,7 @@ class MRPSimple(models.TransientModel):
     validation_consume = fields.Boolean()
     validation_receipt = fields.Boolean(default=True)
 
-    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
+    sale_order_id = fields.Many2one("sale.order", string="Sale Order")
 
     def do_transfer(self):
 
@@ -71,12 +71,8 @@ class MRPSimple(models.TransientModel):
 
         # adaugare picking ids in sale order
         if self.sale_order_id:
-            self.sale_order_id.update({
-                'picking_ids': [(4, picking_in.id, False)]
-            })
-            self.sale_order_id.update({
-                'picking_ids': [(4, picking_out.id, False)]
-            })
+            self.sale_order_id.update({"picking_ids": [(4, picking_in.id, False)]})
+            self.sale_order_id.update({"picking_ids": [(4, picking_out.id, False)]})
 
         # se face consumul
         if picking_out.move_lines:
