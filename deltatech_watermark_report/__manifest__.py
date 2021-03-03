@@ -1,20 +1,19 @@
-# ©  2008-2019 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Deltatech POS - Numpad Dot as decimal separator",
-    "summary": "Numpad Dot as decimal separator",
+    "name": "Watermark report",
+    "summary": "Watermark in report",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Sales/Point of Sale",
-    "depends": ["point_of_sale"],
+    "category": "Tools",
+    "depends": ["deltatech_watermark"],
     "license": "LGPL-3",
-    "data": [
-        "views/assets.xml",
-    ],
+    "data": ["views/report_templates.xml"],
     "images": ["static/description/main_screenshot.png"],
+    "installable": True,
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }
