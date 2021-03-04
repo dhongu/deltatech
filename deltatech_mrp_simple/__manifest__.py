@@ -7,7 +7,7 @@
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
-    "depends": ["stock"],
+    "depends": ["stock", "sale"],
     "license": "LGPL-3",
     "data": ["wizard/mrp_simple_view.xml"],
     "images": ["images/main_screenshot.png"],

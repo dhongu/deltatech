@@ -27,6 +27,8 @@ class MRPSimple(models.TransientModel):
     validation_consume = fields.Boolean()
     validation_receipt = fields.Boolean(default=True)
 
+    sale_order_id = fields.Many2one("sale.order", string="Sale Order")
+
     def do_transfer(self):
 
         picking_type_consume = self.picking_type_consume
@@ -48,7 +50,6 @@ class MRPSimple(models.TransientModel):
 
         for line in self.product_in_ids:
             if line.price_unit:
-                line.product_id.write({"standard_price": line.price_unit})
                 self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
@@ -67,6 +68,11 @@ class MRPSimple(models.TransientModel):
                 uom=line.uom_id,
                 price_unit=line.product_id.standard_price,
             )
+
+        # adaugare picking ids in sale order
+        if self.sale_order_id:
+            self.sale_order_id.update({"picking_ids": [(4, picking_in.id, False)]})
+            self.sale_order_id.update({"picking_ids": [(4, picking_out.id, False)]})
 
         # se face consumul
         if picking_out.move_lines:
@@ -159,6 +165,7 @@ class MRPSimpleLineOut(models.TransientModel):
     price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
 
-    @api.onchange("product_id")
+    @api.onchange("product_id", "quantity")
     def onchange_product_id(self):
         self.uom_id = self.product_id.uom_id
+        self.price_unit = self.product_id.standard_price

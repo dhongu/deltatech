@@ -16,6 +16,7 @@ from odoo.exceptions import UserError
 
 ecr_commands = {
     "optima": {
+        "cui": "K,1,______,_,__;{text};\r\n",
         "print": "2;{text}\r\n",
         "in": "2;%s\r\n",
         "out": "2;%s\r\n",
@@ -29,6 +30,7 @@ ecr_commands = {
         "cod_tva": {0: "6", 19: "19%", 9: "9%", 5: "5%"},
     },
     "datecs": {
+        "cui": "K,1,______,_,__;{text};\r\n",
         "print": "P,1,______,_,__;{text};;;;\r\n",
         "in": "I,1,______,_,__;0;%s;;;;\r\n",
         "out": "I,1,______,_,__;1;%s;;;;\r\n",
@@ -42,6 +44,7 @@ ecr_commands = {
         "cod_tva": {0: "6", 19: "19%", 9: "9%", 5: "5%"},
     },
     "datecs18": {
+        "cui": "K,1,______,_,__;{text};\r\n",
         "print": "P,1,______,_,__;{text};;;;\r\n",
         "in": "I,1,______,_,__;0;%s;;;;\r\n",
         "out": "I,1,______,_,__;1;%s;;;;\r\n",
@@ -76,10 +79,9 @@ class AccountInvoiceExportBf(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         defaults = super(AccountInvoiceExportBf, self).default_get(fields_list)
-        invoice_id = False
         active_id = defaults.get("invoice_id", self.env.context.get("active_id", False))
 
-        invoice_id = self.env["account.move"].browse(active_id)
+        invoice_id = self.env["account.move"].browse(active_id) or False
         defaults["invoice_id"] = invoice_id.id
 
         self.check_invoice(invoice_id)
@@ -92,8 +94,10 @@ class AccountInvoiceExportBf(models.TransientModel):
 
         with contextlib.closing(StringIO()) as buf:
 
+            # print VAT
+            if invoice_id.partner_id.company_type == "company" and invoice_id.partner_id.vat:
+                buf.write(ecr_comm["cui"].format(text=invoice_id.partner_id.vat))
             # printing reference
-
             buf.write(ecr_comm["print"].format(text=_("Ref:" + invoice_id.name)))
             # initial values for negative total test
             negative_price = 0.0
