@@ -10,14 +10,19 @@ class AccountInvoice(models.Model):
     _inherit = "account.move"
 
     def action_post(self):
+        pos_mod = self.env["ir.module.module"].search([("name", "=", "point_of_sale"), ("state", "=", "installed")])
         sale_invoices = self.filtered(lambda inv: inv.move_type == "out_invoice")
+        if pos_mod:
+            sale_invoices = sale_invoices.filtered(lambda inv: not inv.pos_order_ids)
         if sale_invoices:
             sale_invoices.add_to_sale()
             sale_invoices.delivery_form_stock()
         return super(AccountInvoice, self).action_post()
 
     def add_to_sale(self):
+
         for invoice in self:
+
             # exista o comanda de achizitie legata de aceasta factura ?
             sale_order = self.env["sale.order"]
             for line in invoice.invoice_line_ids:
