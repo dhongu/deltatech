@@ -1,7 +1,6 @@
 ![Licence](https://img.shields.io/badge/licence-LGPL--3-blue.svg)
-[![Build Status](https://travis-ci.org/dhongu/deltatech.svg?branch=12.0)](https://travis-ci.org/dhongu/deltatech)
-[![Coverage Status](https://coveralls.io/repos/github/dhongu/deltatech/badge.svg?branch=12.0)](https://coveralls.io/github/dhongu/deltatech?branch=12.0)
-[![codecov](https://codecov.io/gh/dhongu/deltatech/branch/12.0/graph/badge.svg)](https://codecov.io/gh/dhongu/deltatech)
+[![Build Status](https://travis-ci.org/dhongu/deltatech.svg?branch=14.0)](https://travis-ci.org/dhongu/deltatech)
+[![codecov](https://codecov.io/gh/dhongu/deltatech/branch/14.0/graph/badge.svg)](https://codecov.io/gh/dhongu/deltatech)
 
 
 

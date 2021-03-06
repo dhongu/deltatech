@@ -1,0 +1,1 @@
+Modulul permite afișarea stocului pe website sub un anumit prag cu posibilitatea de a comanda chiar dacă stocul nu este suficient. Modulul calculează și numărul de zile de în care se va face livrare ținând cont de timpul de livrare din produs, numărul de zile de siguranță și numărul de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
