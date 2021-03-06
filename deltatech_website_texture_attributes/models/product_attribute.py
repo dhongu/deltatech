@@ -9,7 +9,7 @@ from odoo import fields, models
 class ProductAttribute(models.Model):
     _inherit = "product.attribute"
 
-    display_type = fields.Selection(selection_add=[("texture", "Texture")])
+    display_type = fields.Selection(selection_add=[("texture", "Texture")], ondelete={"texture": "set default"})
 
 
 class ProductAttributeValue(models.Model):
