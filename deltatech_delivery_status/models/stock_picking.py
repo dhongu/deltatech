@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockPicking(models.Model):
@@ -48,3 +49,12 @@ class StockPicking(models.Model):
                 raise UserError(_("The transfer %s is postponed") % picking.name)
 
         return super(StockPicking, self).button_validate()
+
+    def _create_backorder(self):
+        backorders = super(StockPicking, self)._create_backorder()
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        postponed = get_param("backorders.postponed", default="False")
+        postponed = safe_eval(postponed)
+        if postponed:
+            backorders.write({"postponed": True})
+        return backorders
