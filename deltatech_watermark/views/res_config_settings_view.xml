@@ -24,14 +24,4 @@
             </xpath>
         </field>
     </record>
-    <!--        <template id="styles_company_report" inherit_id="web.styles_company_report">-->
-    <!--            <t t-set="layout" position="after">-->
-    <!--                <t t-if="company.watermark_image">-->
-    <!--                   -->
-    <!--                    .o_report_layout_background {-->
-    <!--                         background-image: url(/web/image/res.company/<t t-esc="company.id"/>/watermark_image);-->
-    <!--                    }-->
-    <!--                </t>-->
-    <!--            </t>-->
-    <!--        </template>-->
 </odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="styles_company_report" inherit_id="web.styles_company_report">
+        <t t-set="layout" position="after">
+            <t t-if="company and company.watermark_image">
+                .o_report_layout_background {
+                background-image: url(/web/image/res.company/<t t-esc="company.id" />/watermark_image);
+                background-position: center;
+                }
+            </t>
+        </t>
+    </template>
+</odoo>
