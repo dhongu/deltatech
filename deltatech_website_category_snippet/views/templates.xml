@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="script[last()]" position="after">
+            <script
+                type="text/javascript"
+                src="/deltatech_website_category_snippet/static/src/js/website_category_card.js"
+            />
+        </xpath>
+        <xpath expr="//link[last()]" position="after">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/deltatech_website_category_snippet/static/src/scss/s_category_card.scss"
+            />
+        </xpath>
+    </template>
+    <template id="assets_editor" inherit_id="website.assets_editor">
+        <xpath expr="//script[last()]" position="after">
+            <script
+                type="text/javascript"
+                src="/deltatech_website_category_snippet/static/src/js/website_category_card_editor.js"
+            />
+        </xpath>
+    </template>
+
+
+    <template
+        id="product_category"
+        inherit_id="website_sale.products"
+        active="True"
+        customize_show="True"
+        name="Subcategory List"
+    >
+        <xpath expr="//div[@id='category_header']" position="before">
+            <section t-if="category.child_id" class=" pt24 pb24 " style="min-height: 200px;" data-name="Category Card">
+                <div class="container">
+                    <div class="row category-list">
+                        <t t-foreach="category.child_id" t-as="c">
+                            <div class="category-item col-6 col-sm-4 col-md-3 col-lg-2">
+                                <a t-att-href="c.website_url">
+                                    <div class="p-2 text-center">
+                                        <img
+                                            class="category-image"
+                                            t-attf-src="/web/image/product.public.category/#{c.id}/image_256"
+                                            t-att-alt="c.display_name"
+                                        />
+                                    </div>
+                                    <div class="category-text">
+                                        <span t-raw="c.name" />
+                                    </div>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+</odoo>
