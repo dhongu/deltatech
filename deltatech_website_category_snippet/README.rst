@@ -20,7 +20,7 @@ eCommerce Category Snippet
 |badge1| |badge2| |badge3| 
 
 Features:
- -
+ - Snippet to display website categories from a parent website category
 
 **Table of contents**
 
