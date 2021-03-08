@@ -3,7 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import safe_eval
+from odoo.tools.safe_eval import safe_eval
 
 
 class StockPicking(models.Model):
