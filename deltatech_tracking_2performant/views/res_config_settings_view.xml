@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="100" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='seo_settings']" position="inside">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    id="tracking_2performant"
+                    title="Analyze the efficiency of your marketing campaigns by using 2performant."
+                >
+                    <div class="o_setting_left_pane">
+                        <field name="has_2performant" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="has_2performant" />
+                        <div class="text-muted">Track the sales generated through 2Performant</div>
+                        <div class="content-group" attrs="{'invisible': [('has_2performant', '=', False)]}">
+                            <div class="row mt16">
+                                <label
+                                    class="col-lg-3 o_light_label"
+                                    string="Campaign Unique"
+                                    for="campaign_unique_2p"
+                                />
+                                <field
+                                    name="campaign_unique_2p"
+                                    attrs="{'required': [('has_2performant', '=', True)]}"
+                                />
+                            </div>
+                        </div>
+                        <div class="content-group" attrs="{'invisible': [('has_2performant', '=', False)]}">
+                            <div class="row mt16">
+                                <label class="col-lg-3 o_light_label" string="Confirm" for="confirm_2p" />
+                                <field name="confirm_2p" attrs="{'required': [('has_2performant', '=', True)]}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

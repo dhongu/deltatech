@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="s_category_card" name="Category Card">
+        <section
+            class="s_wsale_category_card d-none pt24 pb24"
+            style="min-height: 200px;"
+            data-id="0"
+            data-object="product.public.category"
+        >
+            <div class="container">
+                <div
+                    class="alert alert-info alert-dismissible rounded-0 fade show d-print-none css_non_editable_mode_hidden o_not_editable"
+                >
+                    This is a preview of the category card.
+                    <br />
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">×</button>
+                </div>
+                <div class="subcategory_list o_not_editable" />
+            </div>
+        </section>
+    </template>
+    <template id="snippets" inherit_id="website.snippets" name="e-commerce snippets">
+        <xpath expr="//div[@id='snippet_feature']//t[@t-snippet][last()]" position="after">
+            <t
+                t-snippet="deltatech_website_category_snippet.s_category_card"
+                t-thumbnail="/deltatech_website_category_snippet/static/src/img/s_category_card.png"
+            />
+        </xpath>
+        <xpath expr="//div[@id='snippet_options']" position="inside">
+            <div
+                data-js='edit_category_card'
+                data-selector=".s_wsale_category_card"
+                data-drop-near="p, h1, h2, h3, blockquote, .subcategory_list"
+            >
+                <we-button data-select_category="" data-no-preview="true">Change category</we-button>
+            </div>
+        </xpath>
+    </template>
+</odoo>
