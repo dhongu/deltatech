@@ -349,65 +349,65 @@ class MergeObject(models.TransientModel):
     # Helpers
     # ----------------------------------------
 
-    @api.model
-    def _generate_query(self, fields, maximum_group=100):
-        """Build the SQL query on res.object table to group them according to given criteria
-        :param fields : list of column names to group by the objects
-        :param maximum_group : limit of the query
-        """
-        # make the list of column to group by in sql query
-        sql_fields = []
-        for field in fields:
-            if field in ["email", "name"]:
-                sql_fields.append("lower(%s)" % field)
-            elif field in ["vat"]:
-                sql_fields.append("replace(%s, ' ', '')" % field)
-            else:
-                sql_fields.append(field)
-        group_fields = ", ".join(sql_fields)
+    # @api.model
+    # def _generate_query(self, fields, maximum_group=100):
+    #     """Build the SQL query on res.object table to group them according to given criteria
+    #     :param fields : list of column names to group by the objects
+    #     :param maximum_group : limit of the query
+    #     """
+    #     # make the list of column to group by in sql query
+    #     sql_fields = []
+    #     for field in fields:
+    #         if field in ["email", "name"]:
+    #             sql_fields.append("lower(%s)" % field)
+    #         elif field in ["vat"]:
+    #             sql_fields.append("replace(%s, ' ', '')" % field)
+    #         else:
+    #             sql_fields.append(field)
+    #     group_fields = ", ".join(sql_fields)
+    #
+    #     # where clause : for given group by columns, only keep the 'not null' record
+    #     filters = []
+    #     for field in fields:
+    #         if field in ["email", "name", "vat"]:
+    #             filters.append((field, "IS NOT", "NULL"))
+    #     criteria = " AND ".join("{} {} {}".format(field, operator, value) for field, operator, value in filters)
+    #
+    #     # build the query
+    #     text = [
+    #         "SELECT min(id), array_agg(id)",
+    #         "FROM %s" % self._table_merge,
+    #     ]
+    #
+    #     if criteria:
+    #         text.append("WHERE %s" % criteria)
+    #
+    #     text.extend(["GROUP BY %s" % group_fields, "HAVING COUNT(*) >= 2", "ORDER BY min(id)"])
+    #
+    #     if maximum_group:
+    #         text.append(
+    #             "LIMIT %s" % maximum_group,
+    #         )
+    #
+    #     return " ".join(text)
 
-        # where clause : for given group by columns, only keep the 'not null' record
-        filters = []
-        for field in fields:
-            if field in ["email", "name", "vat"]:
-                filters.append((field, "IS NOT", "NULL"))
-        criteria = " AND ".join("{} {} {}".format(field, operator, value) for field, operator, value in filters)
-
-        # build the query
-        text = [
-            "SELECT min(id), array_agg(id)",
-            "FROM %s" % self._table_merge,
-        ]
-
-        if criteria:
-            text.append("WHERE %s" % criteria)
-
-        text.extend(["GROUP BY %s" % group_fields, "HAVING COUNT(*) >= 2", "ORDER BY min(id)"])
-
-        if maximum_group:
-            text.append(
-                "LIMIT %s" % maximum_group,
-            )
-
-        return " ".join(text)
-
-    @api.model
-    def _compute_selected_groupby(self):
-        """Returns the list of field names the object can be grouped (as merge
-        criteria) according to the option checked on the wizard
-        """
-        groups = []
-        group_by_prefix = "group_by_"
-
-        for field_name in self._fields:
-            if field_name.startswith(group_by_prefix):
-                if getattr(self, field_name, False):
-                    groups.append(field_name[len(group_by_prefix) :])
-
-        if not groups:
-            raise UserError(_("You have to specify a filter for your selection."))
-
-        return groups
+    # @api.model
+    # def _compute_selected_groupby(self):
+    #     """Returns the list of field names the object can be grouped (as merge
+    #     criteria) according to the option checked on the wizard
+    #     """
+    #     groups = []
+    #     group_by_prefix = "group_by_"
+    #
+    #     for field_name in self._fields:
+    #         if field_name.startswith(group_by_prefix):
+    #             if getattr(self, field_name, False):
+    #                 groups.append(field_name[len(group_by_prefix) :])
+    #
+    #     if not groups:
+    #         raise UserError(_("You have to specify a filter for your selection."))
+    #
+    #     return groups
 
     @api.model
     def _object_use_in(self, aggr_ids, models):
@@ -479,78 +479,78 @@ class MergeObject(models.TransientModel):
             "target": "new",
         }
 
-    def _process_query(self, query):
-        """Execute the select request and write the result in this wizard
-        :param query : the SQL query used to fill the wizard line
-        """
-        self.ensure_one()
-        model_mapping = self._compute_models()
+    # def _process_query(self, query):
+    #     """Execute the select request and write the result in this wizard
+    #     :param query : the SQL query used to fill the wizard line
+    #     """
+    #     self.ensure_one()
+    #     model_mapping = self._compute_models()
+    #
+    #     # group object query
+    #     self._cr.execute(query)
+    #
+    #     counter = 0
+    #     for min_id, aggr_ids in self._cr.fetchall():
+    #         # To ensure that the used objects are accessible by the user
+    #         objects = self.env[self._model_merge].search([("id", "in", aggr_ids)])
+    #         if len(objects) < 2:
+    #             continue
+    #
+    #         # exclude object according to options
+    #         if model_mapping and self._object_use_in(objects.ids, model_mapping):
+    #             continue
+    #
+    #         self.env["merge.object.line"].create({"wizard_id": self.id, "min_id": min_id, "aggr_ids": objects.ids})
+    #         counter += 1
+    #
+    #     self.write({"state": "selection", "number_group": counter})
+    #
+    #     _logger.info("counter: %s", counter)
 
-        # group object query
-        self._cr.execute(query)
+    # def action_start_manual_process(self):
+    #     """Start the process 'Merge with Manual Check'. Fill the wizard according to the group_by and exclude
+    #     options, and redirect to the first step (treatment of first wizard line). After, for each subset of
+    #     object to merge, the wizard will be actualized.
+    #         - Compute the selected groups (with duplication)
+    #         - If the user has selected the 'exclude_xxx' fields, avoid the objects
+    #     """
+    #     self.ensure_one()
+    #     groups = self._compute_selected_groupby()
+    #     query = self._generate_query(groups, self.maximum_group)
+    #     self._process_query(query)
+    #     return self._action_next_screen()
 
-        counter = 0
-        for min_id, aggr_ids in self._cr.fetchall():
-            # To ensure that the used objects are accessible by the user
-            objects = self.env[self._model_merge].search([("id", "in", aggr_ids)])
-            if len(objects) < 2:
-                continue
+    # def action_start_automatic_process(self):
+    #     """Start the process 'Merge Automatically'. This will fill the wizard with the same mechanism as 'Merge
+    #     with Manual Check', but instead of refreshing wizard with the current line, it will automatically process
+    #     all lines by merging object grouped according to the checked options.
+    #     """
+    #     self.ensure_one()
+    #     self.action_start_manual_process()  # here we don't redirect to the next screen, since it is automatic process
+    #
+    #     self.write({"state": "finished"})
+    #     return {
+    #         "type": "ir.actions.act_window",
+    #         "res_model": self._name,
+    #         "res_id": self.id,
+    #         "view_mode": "form",
+    #         "target": "new",
+    #     }
 
-            # exclude object according to options
-            if model_mapping and self._object_use_in(objects.ids, model_mapping):
-                continue
+    # def parent_migration_process_cb(self):
+    #     self.ensure_one()
+    #     return {
+    #         "type": "ir.actions.act_window",
+    #         "res_model": self._name,
+    #         "res_id": self.id,
+    #         "view_mode": "form",
+    #         "target": "new",
+    #     }
 
-            self.env["merge.object.line"].create({"wizard_id": self.id, "min_id": min_id, "aggr_ids": objects.ids})
-            counter += 1
-
-        self.write({"state": "selection", "number_group": counter})
-
-        _logger.info("counter: %s", counter)
-
-    def action_start_manual_process(self):
-        """Start the process 'Merge with Manual Check'. Fill the wizard according to the group_by and exclude
-        options, and redirect to the first step (treatment of first wizard line). After, for each subset of
-        object to merge, the wizard will be actualized.
-            - Compute the selected groups (with duplication)
-            - If the user has selected the 'exclude_xxx' fields, avoid the objects
-        """
-        self.ensure_one()
-        groups = self._compute_selected_groupby()
-        query = self._generate_query(groups, self.maximum_group)
-        self._process_query(query)
-        return self._action_next_screen()
-
-    def action_start_automatic_process(self):
-        """Start the process 'Merge Automatically'. This will fill the wizard with the same mechanism as 'Merge
-        with Manual Check', but instead of refreshing wizard with the current line, it will automatically process
-        all lines by merging object grouped according to the checked options.
-        """
-        self.ensure_one()
-        self.action_start_manual_process()  # here we don't redirect to the next screen, since it is automatic process
-
-        self.write({"state": "finished"})
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
-
-    def parent_migration_process_cb(self):
-        self.ensure_one()
-        return {
-            "type": "ir.actions.act_window",
-            "res_model": self._name,
-            "res_id": self.id,
-            "view_mode": "form",
-            "target": "new",
-        }
-
-    def action_update_all_process(self):
-        self.ensure_one()
-
-        return self._action_next_screen()
+    # def action_update_all_process(self):
+    #     self.ensure_one()
+    #
+    #     return self._action_next_screen()
 
     def action_merge(self):
         """Merge Object button. Merge the selected objects, and redirect to
