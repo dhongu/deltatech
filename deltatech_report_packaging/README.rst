@@ -51,10 +51,13 @@ Maintainers
 .. |maintainer-cojocariudaniel1| image:: https://github.com/cojocariudaniel1.png?size=40px
     :target: https://github.com/cojocariudaniel1
     :alt: cojocariudaniel1
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
 
-Current maintainer:
+Current maintainers:
 
-|maintainer-cojocariudaniel1| 
+|maintainer-cojocariudaniel1| |maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/12.0/deltatech_report_packaging>`_ project on GitHub.
 

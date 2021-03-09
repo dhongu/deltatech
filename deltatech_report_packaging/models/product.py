@@ -5,12 +5,12 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     packaging_material_ids = fields.One2many(
-        "product.packaging_material", "product_tmpl_id", string="Packaging materials"
+        "packaging.product.material", "product_tmpl_id", string="Packaging materials"
     )
 
 
 class ProductPackagingMaterial(models.Model):
-    _name = "product.packaging_material"
+    _name = "packaging.product.material"
     _description = "Packaging materials"
 
     product_tmpl_id = fields.Many2one("product.template")

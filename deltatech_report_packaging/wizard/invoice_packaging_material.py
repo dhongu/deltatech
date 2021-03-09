@@ -2,11 +2,11 @@ from odoo import fields, models
 
 
 class InvoicePackaging(models.TransientModel):
-    _name = "invoice.packaging.material"
+    _name = "packaging.report.material"
     _description = "Invoice Packaging Material"
 
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")
-    line_ids = fields.One2many("invoice.packaging.material.line", "report_id", string="Lines")
+    line_ids = fields.One2many("packaging.report.material.line", "report_id", string="Lines")
 
     def do_raport(self):
         active_ids = self.env.context.get("active_ids", False)
@@ -32,13 +32,13 @@ class InvoicePackaging(models.TransientModel):
         for material_type in qty_packaging:
             lines += [{"report_id": self.id, "material_type": material_type, "qty": qty_packaging[material_type]}]
 
-        self.env["invoice.packaging.material.line"].create(lines)
+        self.env["packaging.report.material.line"].create(lines)
 
         self.write({"state": "get"})
 
         return {
             "type": "ir.actions.act_window",
-            "res_model": "invoice.packaging.material",
+            "res_model": "packaging.report.material",
             "view_mode": "form",
             "view_type": "form",
             "res_id": self.id,
@@ -48,9 +48,9 @@ class InvoicePackaging(models.TransientModel):
 
 
 class InvoicePackagingLine(models.TransientModel):
-    _name = "invoice.packaging.material.line"
+    _name = "packaging.report.material.line"
     _description = "Invoice Packaging Material Line"
 
-    report_id = fields.Many2one("invoice.packaging.material")
+    report_id = fields.Many2one("packaging.report.material")
     material_type = fields.Selection([("plastic", "Plastic"), ("wood", "Wood"), ("paper", "Paper"), ("pet", "Pet")])
     qty = fields.Float(string="Quantity")
