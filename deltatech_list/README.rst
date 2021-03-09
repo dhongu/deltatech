@@ -21,7 +21,7 @@ List View Extension
 
 Functions:
  - Keep selection after sorting
- - Display a legend button in the list view.  The legend is extracted from the action-help field if it defines a tag with id "legend".
+ - Display a legend button in the list view.  The legend is extracted from the action's help field if it contains a tag with id "legend".
 
 
 
