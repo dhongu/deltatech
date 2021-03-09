@@ -42,7 +42,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             lines = self.invoice_line_ids
 
         for line in lines:
-            invoice_line = self.env["account.invoice.line"].browse(line.id)
+            invoice_line = self.env["account.move.line"].browse(line.id)
             purchase_price = 0.0
             pickings = self.env["stock.picking"]
             if self.price_from_doc:
