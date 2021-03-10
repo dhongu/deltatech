@@ -11,7 +11,7 @@
                             <div>Report packing materials used for products invoiced</div>
                         </group>
                         <group states="get">
-                            <field name="line_ids" nolabel="1">
+                            <field name="line_ids" nolabel="1" readonly="1">
                                 <tree>
                                     <field name="material_type" />
                                     <field name="qty" />

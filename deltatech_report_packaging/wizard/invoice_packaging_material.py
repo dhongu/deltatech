@@ -10,23 +10,14 @@ class InvoicePackaging(models.TransientModel):
 
     def do_raport(self):
         active_ids = self.env.context.get("active_ids", False)
-        products = self.env["product.product"]
-
-        qty = {}
         qty_packaging = {}
         invoices = self.env["account.invoice"].browse(active_ids)
         for invoice in invoices:
-            for item in invoice.invoice_line_ids:
-                products |= item.product_id
-                if item.product_id.id in qty:
-                    qty[item.product_id.id] += item.quantity
+            for material in invoice.packaging_material_ids:
+                if material.material_type not in qty_packaging:
+                    qty_packaging[material.material_type] = material.qty
                 else:
-                    qty[item.product_id.id] = item.quantity
-
-        for product in products:
-            for packaging_material in product.product_tmpl_id.packaging_material_ids:
-                q = qty_packaging.get(packaging_material.material_type, 0.0)
-                qty_packaging[packaging_material.material_type] = q + qty[product.id] * packaging_material.qty
+                    qty_packaging[material.material_type] += material.qty
 
         lines = []
         for material_type in qty_packaging:
