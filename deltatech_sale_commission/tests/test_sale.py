@@ -19,6 +19,26 @@ class TestSale(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
         )
+        self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
+        inventory = self.env["stock.inventory"].create(
+            {
+                "location_ids": [(4, self.stock_location.id)],
+                "product_ids": [(4, self.product_a.id)],
+            }
+        )
+        inventory.action_start()
+        inventory.line_ids.product_qty = 1000
+        inventory.action_validate()
+
+        inventory = self.env["stock.inventory"].create(
+            {
+                "location_ids": [(4, self.stock_location.id)],
+                "product_ids": [(4, self.product_b.id)],
+            }
+        )
+        inventory.action_start()
+        inventory.line_ids.product_qty = 1000
+        inventory.action_validate()
 
     def test_sale(self):
         so = Form(self.env["sale.order"])
