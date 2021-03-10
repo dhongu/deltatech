@@ -2,7 +2,7 @@
     <data>
         <record id="invoice_packaging_material_form" model="ir.ui.view">
             <field name="name">Raport packaging wizard</field>
-            <field name="model">invoice.packaging.material</field>
+            <field name="model">packaging.report.material</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -11,7 +11,7 @@
                             <div>Report packing materials used for products invoiced</div>
                         </group>
                         <group states="get">
-                            <field name="line_ids" nolabel="1">
+                            <field name="line_ids" nolabel="1" readonly="1">
                                 <tree>
                                     <field name="material_type" />
                                     <field name="qty" />
@@ -35,7 +35,7 @@
         id="action_packaging_wizard"
         name="Raport packaging list"
         src_model="account.invoice"
-        res_model="invoice.packaging.material"
+        res_model="packaging.report.material"
         view_mode="form"
         key2="client_action_multi"
         target="new"
