@@ -68,3 +68,13 @@ class TestSale(TransactionCase):
         invoice = Form(invoice)
         invoice = invoice.save()
         invoice.post()
+
+    def test_commission_compute(self):
+        wizard = Form(self.env["commission.compute"])
+        wizard = wizard.save()
+        wizard.do_compute()
+
+    def test_commission_update_purchase_price(self):
+        wizard = Form(self.env["commission.update.purchase.price"])
+        wizard = wizard.save()
+        wizard.do_compute()
