@@ -10,17 +10,21 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def action_button_confirm_to_invoice(self):
-
-        if self.state in ["draft", "sent"]:
-            self.action_confirm()  # confirma comanda
-
+    def _prepare_pickings(self):
         for picking in self.picking_ids:
             if picking.state not in ["done", "cancel"]:
                 picking.action_assign()  # verifica disponibilitate
                 if not all(move.state == "assigned" for move in picking.move_lines):
                     raise UserError(_("Not all products are available."))
 
+    def action_button_confirm_to_invoice(self):
+
+        if self.state in ["draft", "sent"]:
+            self.action_confirm()  # confirma comanda
+
+        self._prepare_pickings()
+        for picking in self.picking_ids:
+            if picking.state not in ["done", "cancel"]:
                 for move_line in picking.move_lines:
                     if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                         move_line.write({"quantity_done": move_line.product_uom_qty})
@@ -39,6 +43,7 @@ class SaleOrder(models.Model):
         return invoice_vals
 
     def action_button_confirm_notice(self):
+        self._prepare_pickings()
 
         picking_ids = self.env["stock.picking"]
         for picking in self.picking_ids:
@@ -49,7 +54,7 @@ class SaleOrder(models.Model):
         if not picking_ids:
             return
 
-        action = self.env.ref("stock.action_picking_tree")
+        action = self.env.ref("stock.action_picking_tree_all")
         result = action.read()[0]
 
         result["context"] = {}
