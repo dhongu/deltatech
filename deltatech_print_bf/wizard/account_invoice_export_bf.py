@@ -106,7 +106,7 @@ class AccountInvoiceExportBf(models.TransientModel):
                     taxes = line.invoice_line_tax_ids.compute_all(
                         price, currency, quantity=1, product=line.product_id, partner=line.invoice_id.partner_id
                     )
-                    tax = ecr_comm["cod_tva"][line.tax_ids[0].amount]
+                    tax = ecr_comm["cod_tva"][line.invoice_line_tax_ids[0].amount]
                     price = taxes["total_included"]
 
                 # if value <0, add to to discount
