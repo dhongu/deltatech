@@ -7,16 +7,8 @@ from odoo import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    trade_markup = fields.Float(
-        string="Trade Markup",
-        compute="_compute_trade_markup",
-        inverse="_inverse_trade_markup",
-        readonly=False,
-        store=True,
-    )
-    margin = fields.Float(
-        string="Margin", compute="_compute_trade_markup", inverse="_inverse_margin", readonly=False, store=True
-    )
+    trade_markup = fields.Float(string="Trade Markup", compute="_compute_trade_markup", readonly=False, store=True)
+    margin = fields.Float(string="Margin", compute="_compute_trade_markup", readonly=False, store=True)
 
     @api.depends("standard_price", "list_price")
     def _compute_trade_markup(self):
@@ -34,7 +26,7 @@ class ProductTemplate(models.Model):
                 margin = (list_price - product.standard_price) / list_price * 100
             product.margin = margin
 
-    def _inverse_trade_markup(self):
+    def set_inverse_trade_markup(self):
         for product in self:
             list_price = product.standard_price * (1 + product.trade_markup / 100)
             list_price_tax = 0
@@ -42,7 +34,7 @@ class ProductTemplate(models.Model):
                 list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
             product.list_price = list_price + list_price_tax
 
-    def _inverse_margin(self):
+    def set_inverse_margin(self):
         for product in self:
             if product.margin != 100:
                 list_price = product.standard_price / (1 - product.margin / 100)
@@ -52,11 +44,3 @@ class ProductTemplate(models.Model):
                         list_price, 1
                     )
                 product.list_price = list_price + list_price_tax
-
-    @api.onchange("trade_markup", "standard_price")
-    def onchange_trade_markup(self):
-        self._inverse_trade_markup()
-
-    @api.onchange("margin", "standard_price")
-    def onchange_margin(self):
-        self._inverse_margin()
