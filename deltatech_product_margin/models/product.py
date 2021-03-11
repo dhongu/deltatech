@@ -7,10 +7,8 @@ from odoo import api, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-
     trade_markup = fields.Float(string="Trade Markup", compute="_compute_trade_markup", readonly=False, store=True)
     margin = fields.Float(string="Margin", compute="_compute_trade_markup", readonly=False, store=True)
-
 
     @api.depends("standard_price", "list_price")
     def _compute_trade_markup(self):
@@ -28,7 +26,6 @@ class ProductTemplate(models.Model):
                 margin = (list_price - product.standard_price) / list_price * 100
             product.margin = margin
 
-
     def set_inverse_trade_markup(self):
 
         for product in self:
@@ -37,7 +34,6 @@ class ProductTemplate(models.Model):
             if product.taxes_id.price_include:
                 list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
             product.list_price = list_price + list_price_tax
-
 
     def set_inverse_margin(self):
 
@@ -50,4 +46,3 @@ class ProductTemplate(models.Model):
                         list_price, 1
                     )
                 product.list_price = list_price + list_price_tax
-
