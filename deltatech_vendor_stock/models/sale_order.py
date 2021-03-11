@@ -20,9 +20,10 @@ class SaleOrderLine(models.Model):
             if not line.display_qty_widget:
                 continue
             qty_available = 0
-            for vendor in line.product_id.seller_ids:
-                qty_available += vendor.qty_available
-            line.vendor_qty_available = vendor.qty_available
-            treated |= line
+            if line.product_id.seller_ids:
+                for vendor in line.product_id.seller_ids:
+                    qty_available += vendor.qty_available
+                line.vendor_qty_available = vendor.qty_available
+                treated |= line
         remaining = self - treated
         remaining.vendor_qty_available = False
