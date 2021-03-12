@@ -2,16 +2,20 @@
 <templates id="template">
 
     <t t-extend="sale_stock.QtyDetailPopOver">
-         <t t-jquery="t:first" t-operation="prepend">
-            <tr>
-                <td>
-                    <strong>Vendor Stock</strong>
-                </td>
-                <td>
-                    <b t-esc="data.vendor_qty_available" />
-                    <t t-esc='data.product_uom.data.display_name' />
-                </td>
-            </tr>
+        <t t-jquery="table" t-operation="append">
+            <table class="table table-borderless table-sm">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Vendor Stock</strong>
+                        </td>
+                        <td>
+                            <b t-esc="data.vendor_qty_available" />
+                            <t t-esc='data.product_uom.data.display_name' />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </t>
     </t>
 </templates>
