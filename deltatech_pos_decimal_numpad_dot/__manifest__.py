@@ -8,7 +8,7 @@
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Generic Modules",
+    "category": "Sales/Point of Sale",
     "depends": ["point_of_sale"],
     "license": "LGPL-3",
     "data": [

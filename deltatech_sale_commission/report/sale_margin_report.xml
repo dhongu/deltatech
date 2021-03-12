@@ -204,7 +204,8 @@
     <menuitem
         name="Commission"
         id="menu_commission"
-        parent="sale.sale_menu_root"
+        parent="sale.sale_order_menu"
+        sequence="700"
         groups="sales_team.group_sale_manager"
     />
     <menuitem
