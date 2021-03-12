@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="is_ready" invisible="1" />
+                </field>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-success">is_ready</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <field name="state" position="after">
+                    <field name="is_ready" invisible="1" />
+                </field>
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="decoration-success">is_ready</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <filter name="my_sale_orders_filter" position="after">
+                    <filter string="Is Ready" domain="[('is_ready', '=', True)]" name="is_ready" />
+                </filter>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

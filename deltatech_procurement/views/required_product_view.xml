@@ -95,7 +95,7 @@
                                 <field
                                     name="location_id"
                                     domain="[('usage','=','internal')]"
-                                    groups="stock.group_locations"
+                                    groups="stock.group_stock_multi_locations"
                                 />
                             </group>
                         </group>

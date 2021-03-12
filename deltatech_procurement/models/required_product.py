@@ -155,7 +155,7 @@ class RequiredOrderLine(models.Model):
     qty_available = fields.Float(related="product_id.qty_available", string="Quantity On Hand")
     virtual_available = fields.Float(related="product_id.virtual_available", string="Quantity Available")
 
-    date_planned = fields.Datetime(
+    date_planned = fields.Date(
         string="Scheduled Date",
         readonly=True,
         compute="_compute_date_planned",
