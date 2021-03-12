@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_sale_sort
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-30 13:01+0000\n"
+"PO-Revision-Date: 2020-10-30 13:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_website_sale_sort
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+msgid "Best Review"
+msgstr "Recenzii bune"
+
+#. module: deltatech_website_sale_sort
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+msgid "Best discount"
+msgstr "Cel mai bun discount"
+
+#. module: deltatech_website_sale_sort
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+msgid "Best sellers"
+msgstr "Cele mai bune vânzări"
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__comment_count
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_template__comment_count
+msgid "Comments"
+msgstr "Comentarii"
+
+#. module: deltatech_website_sale_sort
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+msgid "Most Visited"
+msgstr "Cele mai vizitate"
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model,name:deltatech_website_sale_sort.model_product_product
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model,name:deltatech_website_sale_sort.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_website_sale_sort
+#: model:ir.actions.server,name:deltatech_website_sale_sort.ir_cron_product_sale_scheduled_ir_actions_server
+#: model:ir.cron,cron_name:deltatech_website_sale_sort.ir_cron_product_sale_scheduled
+#: model:ir.cron,name:deltatech_website_sale_sort.ir_cron_product_sale_scheduled
+msgid "Products: Update products sales"
+msgstr ""
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__rating_avg2
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_template__rating_avg2
+msgid "Rating Average2"
+msgstr ""
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__rating_count2
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_template__rating_count2
+msgid "Rating count2"
+msgstr ""
+
+#. module: deltatech_website_sale_sort
+#: model_terms:ir.ui.view,arch_db:deltatech_website_sale_sort.sort
+msgid "Reviews"
+msgstr "Recenzii"
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__sales_count2
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_template__sales_count2
+msgid "Sold2"
+msgstr ""
+
+#. module: deltatech_website_sale_sort
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__visit_count
+#: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_template__visit_count
+msgid "Visits"
+msgstr "Vizite"
