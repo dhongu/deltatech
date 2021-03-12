@@ -22,7 +22,8 @@ Mail Extension
 
 Features:
  - filtrare emailuri si redirectionare la alta adresa
- - email filtration and redirecting to another adress
+ - email filtration and redirecting to another address
+
 
 **Table of contents**
 

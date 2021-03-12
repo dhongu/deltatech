@@ -5,7 +5,9 @@ from email.utils import formataddr
 
 from odoo import _, models
 from odoo.exceptions import UserError
-from odoo.tools import safe_eval
+
+from odoo.tools.safe_eval import safe_eval
+
 
 
 class MailMail(models.Model):

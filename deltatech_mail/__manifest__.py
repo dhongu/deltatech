@@ -7,13 +7,13 @@
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Other",
+
+    "category": "Productivity/Discuss",
     "depends": ["mail"],
     "license": "LGPL-3",
     "data": ["security/ir.model.access.csv", "views/mail_substitution_view.xml"],
-    "qweb": [],
-    "images": ["images/main_screenshot.png"],
-    "installable": True,
+    "images": ["static/description/main_screenshot.png"],
+
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

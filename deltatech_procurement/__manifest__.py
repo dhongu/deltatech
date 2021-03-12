@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
-    "depends": ["stock"],
+    "depends": ["stock", "purchase"],
     "license": "AGPL-3",
     "data": ["views/required_product_view.xml", "security/ir.model.access.csv", "data/data.xml"],
     "images": ["static/description/main_screenshot.png"],

@@ -92,7 +92,13 @@
                             </group>
                             <group>
                                 <field name="warehouse_id" groups="stock.group_stock_manager" />
-                                <field name="location_id" domain="[('usage','=','internal')]" />
+
+                                <field
+                                    name="location_id"
+                                    domain="[('usage','=','internal')]"
+                                    groups="stock.group_stock_multi_locations"
+                                />
+
                             </group>
                         </group>
 
