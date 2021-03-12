@@ -56,6 +56,25 @@
                     <filter name="suppliergroup" string='Supplier' context="{'group_by' : 'supplier_id'}"/>
                     <filter name="customergroup" string='Customer' context="{'group_by' : 'customer_id'}"/>
                 </filter>
+
+                <xpath expr="//group" position="inside">
+                    <filter name="date_90" string="Intrare cu 90 zile inainte" domain="[
+                    ('location_id.usage','=', 'internal'),
+                    ('in_date','&lt;=', ((context_today()-datetime.timedelta(days=90)).strftime('%Y-%m-%d')))
+                    ]"/>
+                    <filter name="date_180" string="Intrare cu 180 zile inainte" domain="[
+                    ('location_id.usage','=', 'internal'),
+                    ('in_date','&lt;=', ((context_today()-datetime.timedelta(days=180)).strftime('%Y-%m-%d')))
+                    ]"/>
+                    <filter name="date_360" string="Intrare cu 360 zile inainte" domain="[
+                    ('location_id.usage','=', 'internal'),
+                    ('in_date','&lt;=', ((context_today()-datetime.timedelta(days=360)).strftime('%Y-%m-%d')))
+                    ]"/>
+                    <filter name="date_720" string="Intrare cu 720 zile inainte" domain="[
+                    ('location_id.usage','=', 'internal'),
+                    ('in_date','&lt;=', ((context_today()-datetime.timedelta(days=720)).strftime('%Y-%m-%d')))
+                    ]"/>
+                </xpath>
             </field>
         </record>
 
