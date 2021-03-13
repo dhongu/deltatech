@@ -12,6 +12,6 @@
     "depends": ["website_sale", "deltatech_website_product_url_image", "deltatech_website_category"],
     "data": ["views/product_template_view.xml", "views/product_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Mature",
+    "development_status": "Alpha",
     "maintainers": ["dhongu"],
 }

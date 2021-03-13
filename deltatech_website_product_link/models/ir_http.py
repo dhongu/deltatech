@@ -17,7 +17,8 @@ class IrHttp(models.AbstractModel):
     def _dispatch(cls):
         """Handle SEO-redirected URLs."""
         # Only handle redirections for HTTP requests
-        if not hasattr(request, "jsonrequest"):
+        path = request.httprequest.path
+        if not (hasattr(request, "jsonrequest") or path.startswith("/web") or path.startswith("/shop")):
             wsr = request.env["ir.http"].sudo()
 
             # Requests at this point have no user, must remove `env` to force
@@ -28,15 +29,15 @@ class IrHttp(models.AbstractModel):
                 return cls.reroute(wsr.find_origin())
             except NoOriginError:
                 pass
-            # try:
-            #     # Redirect user to SEO version of this URL if possible
-            #     return wsr.redirect_auto()
-            # except NoRedirectionError:
-            #     try:
-            #         # Make Odoo believe it is in the original controller
-            #         return cls.reroute(wsr.find_origin())
-            #     except NoOriginError:
-            #         pass
+            try:
+                # Redirect user to SEO version of this URL if possible
+                return wsr.redirect_auto()
+            except NoRedirectionError:
+                try:
+                    # Make Odoo believe it is in the original controller
+                    return cls.reroute(wsr.find_origin())
+                except NoOriginError:
+                    pass
 
         return super(IrHttp, cls)._dispatch()
 
@@ -82,9 +83,8 @@ class IrHttp(models.AbstractModel):
             raise NoRedirectionError(_("Duplicated redirection."))
 
         # Add language prefix to URL
-        # if (website.default_lang_code != request.lang and
-        #         request.lang in website.language_ids.mapped("code")):
-        #     destination = u"/{}{}".format(request.lang, destination)
+        if website.default_lang_code != request.lang and request.lang in website.language_ids.mapped("code"):
+            destination = u"/{}{}".format(request.lang, destination)
 
         # Redirect to the SEO URL
         return local_redirect(destination, dict(request.httprequest.args), True, code=code)
