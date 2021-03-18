@@ -29,5 +29,4 @@ class AccountInvoiceChangeNumber(models.TransientModel):
             values = {"name": self.internal_number}
 
             invoice.write(values)
-            if invoice.state == "open":
-                invoice.action_number()
+            invoice.action_number()
