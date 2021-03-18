@@ -31,58 +31,58 @@ class AccountPayment(models.Model):
                 values = {"journal_id": self.journal_id.id, "date": self.date, "name": "/"}
                 self.statement_id = self.env["account.bank.statement"].sudo().create(values)
 
-    def _add_payment_to_statement(self):
-        lines = self.env["account.bank.statement.line"]
-        statement_payment = {}
-
-        for payment in self:
-            auto_statement = payment.journal_id.auto_statement
-            if auto_statement and not payment.reconciled_statement_ids:
-
-                if not payment.statement_line_id and payment.statement_id:
-                    ref = ""
-                    for invoice in payment.reconciled_bill_ids:
-                        ref += invoice.name
-                    for invoice in payment.reconciled_invoice_ids:
-                        ref += invoice.name
-                    values = {
-                        # "name": payment.name or "/",
-                        "statement_id": payment.statement_id.id,
-                        "date": payment.date,
-                        "partner_id": payment.partner_id.id,
-                        "amount": payment.amount,
-                        # "payment_id": payment.id,
-                        "ref": ref,
-                        "payment_ref": payment.name,
-                        # "payment_ids":[(4, payment.id, 0)]
-                    }
-                    if payment.payment_type == "outbound":
-                        values["amount"] = -1 * payment.amount
-
-                    line = self.env["account.bank.statement.line"].sudo().create(values)
-                    lines |= line
-                    payment.write({"statement_line_id": line.id})
-                    statement_payment[payment] = {"line": line}
-                    # if payment.payment_type == "transfer":
-                    #     domain = [
-                    #         ("date", "=", payment.date),
-                    #         ("journal_id", "=", payment.destination_journal_id.id),
-                    #     ]
-                    #     detination_statement = self.env["account.bank.statement"].search(domain, limit=1)
-                    #     if not detination_statement:
-                    #         statement_values = {
-                    #             "journal_id": payment.destination_journal_id.id,
-                    #             "date": payment.date,
-                    #             "name": "/",
-                    #         }
-                    #         detination_statement = self.env["account.bank.statement"].create(statement_values)
-                    #     values["statement_id"] = detination_statement.id
-                    #     values["amount"] = payment.amount
-                    #     line = self.env["account.bank.statement.line"].create(values)
-                    #     lines |= line
-                    #     statement_payment[payment]["line_destination"] = line
-
-        return lines
+    # def _add_payment_to_statement(self):
+    #     lines = self.env["account.bank.statement.line"]
+    #     statement_payment = {}
+    #
+    #     for payment in self:
+    #         auto_statement = payment.journal_id.auto_statement
+    #         if auto_statement and not payment.reconciled_statement_ids:
+    #
+    #             if not payment.statement_line_id and payment.statement_id:
+    #                 ref = ""
+    #                 for invoice in payment.reconciled_bill_ids:
+    #                     ref += invoice.name
+    #                 for invoice in payment.reconciled_invoice_ids:
+    #                     ref += invoice.name
+    #                 values = {
+    #                     # "name": payment.name or "/",
+    #                     "statement_id": payment.statement_id.id,
+    #                     "date": payment.date,
+    #                     "partner_id": payment.partner_id.id,
+    #                     "amount": payment.amount,
+    #                     # "payment_id": payment.id,
+    #                     "ref": ref,
+    #                     "payment_ref": payment.name,
+    #                     # "payment_ids":[(4, payment.id, 0)]
+    #                 }
+    #                 if payment.payment_type == "outbound":
+    #                     values["amount"] = -1 * payment.amount
+    #
+    #                 line = self.env["account.bank.statement.line"].sudo().create(values)
+    #                 lines |= line
+    #                 payment.write({"statement_line_id": line.id})
+    #                 statement_payment[payment] = {"line": line}
+    #                 # if payment.payment_type == "transfer":
+    #                 #     domain = [
+    #                 #         ("date", "=", payment.date),
+    #                 #         ("journal_id", "=", payment.destination_journal_id.id),
+    #                 #     ]
+    #                 #     detination_statement = self.env["account.bank.statement"].search(domain, limit=1)
+    #                 #     if not detination_statement:
+    #                 #         statement_values = {
+    #                 #             "journal_id": payment.destination_journal_id.id,
+    #                 #             "date": payment.date,
+    #                 #             "name": "/",
+    #                 #         }
+    #                 #         detination_statement = self.env["account.bank.statement"].create(statement_values)
+    #                 #     values["statement_id"] = detination_statement.id
+    #                 #     values["amount"] = payment.amount
+    #                 #     line = self.env["account.bank.statement.line"].create(values)
+    #                 #     lines |= line
+    #                 #     statement_payment[payment]["line_destination"] = line
+    #
+    #     return lines
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()

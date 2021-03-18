@@ -62,3 +62,49 @@ class TestSale(TransactionCase):
         wizard.amount = "50"
         wizard = wizard.save()
         wizard.create_invoices()
+
+    def test_sale_eur_percentage(self):
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+        # so.price_list_id.write({'currency_id': self.ref('base.EUR').id})
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_a
+            so_line.product_uom_qty = 100
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_b
+            so_line.product_uom_qty = 10
+
+        self.so = so.save()
+        self.so.action_confirm()
+
+        wizard = Form(self.env["sale.advance.payment.inv"].with_context(active_ids=self.so.ids))
+        wizard.advance_payment_method = "percentage"
+        wizard.amount = "50"
+        wizard = wizard.save()
+        wizard.journal_id.write({"currency_id": self.env.ref("base.EUR").id})
+        wizard.create_invoices()
+
+    def test_sale_eur_fix(self):
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+        # so.price_list_id.write({'currency_id': self.ref('base.EUR').id})
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_a
+            so_line.product_uom_qty = 100
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_b
+            so_line.product_uom_qty = 10
+
+        self.so = so.save()
+        self.so.action_confirm()
+
+        wizard = Form(self.env["sale.advance.payment.inv"].with_context(active_ids=self.so.ids))
+        wizard.advance_payment_method = "fixed"
+        wizard.fixed_amount = "50"
+        wizard = wizard.save()
+        wizard.journal_id.write({"currency_id": self.env.ref("base.EUR").id})
+        wizard.create_invoices()
+
+        self.so.invoice_ids.action_post()
