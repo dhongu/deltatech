@@ -1,6 +1,14 @@
 <?xml version="1.0" ?>
 <odoo>
     <data>
+        <record id="mt_state_cashed" model="mail.message.subtype">
+            <field name="name">BO Cashed</field>
+            <field name="res_model">promissory.note</field>
+            <field name="default" eval="True" />
+            <field name="description">BO Cashed</field>
+        </record>
+    </data>
+    <data>
         <record id="view_promissory_note_tree" model="ir.ui.view">
             <field name="name">Promissory Notes</field>
             <field name="model">promissory.note</field>
