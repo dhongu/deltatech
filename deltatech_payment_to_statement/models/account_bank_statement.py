@@ -28,17 +28,6 @@ class AccountBankStatement(models.Model):
         return result
 
 
-# class AccountReconciliation(models.AbstractModel):
-#     _inherit = "account.reconciliation.widget"
-#
-#     @api.model
-#     def _prepare_move_lines(self, move_lines, target_currency=False, target_date=False, recs_count=0):
-#         move_lines = move_lines.sorted(key=lambda r: r.date_maturity)
-#         return super(AccountReconciliation, self)._prepare_move_lines(
-#             move_lines, target_currency, target_date, recs_count
-#         )
-
-
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
 
