@@ -65,3 +65,22 @@ class TestInvoiceNumer(TransactionCase):
         wizard.internal_number = "test_1234"
         wizard = wizard.save()
         wizard.do_change_number()
+
+    def test_action_get_number(self):
+        invoice = Form(self.env["account.move"].with_context(default_move_type="out_invoice"))
+        invoice.partner_id = self.partner_a
+
+        with invoice.invoice_line_ids.new() as line:
+            line.product_id = self.product_a
+            line.quantity = 10
+            line.price_unit = 150
+
+        with invoice.invoice_line_ids.new() as line:
+            line.product_id = self.product_b
+            line.quantity = 10
+            line.price_unit = 150
+
+        invoice.invoice_date = "2099-01-01"
+        invoice = invoice.save()
+        invoice.journal_id.journal_sequence_id = self.env["ir.sequence"].create({"name": "test"})
+        invoice.action_get_number()
