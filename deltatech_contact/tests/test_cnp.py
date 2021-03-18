@@ -26,3 +26,5 @@ class TestCNP(TransactionCase):
 
         partner = self.env["res.partner"].name_search("20603502")
         self.assertEqual(partner[0][1], "Test 2")
+
+        partner._get_contact_name()
