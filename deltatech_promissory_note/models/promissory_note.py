@@ -20,7 +20,11 @@ class PromissoryNote(models.Model):
     _order = "date_due"
 
     state = fields.Selection(
-        [("not_cashed", "Not Cashed"), ("cashed", "Cashed")], default="not_cashed", string="Status", copy=False
+        [("not_cashed", "Not Cashed"), ("cashed", "Cashed")],
+        default="not_cashed",
+        string="Status",
+        copy=False,
+        tracking=True,
     )
 
     type = fields.Selection(
@@ -79,7 +83,7 @@ class PromissoryNote(models.Model):
     acc_beneficiary = fields.Char(
         "Bank Account Beneficiary", size=64, readonly=True, states={"not_cashed": [("readonly", False)]}, required=False
     )
-
+    # todo: de utilizat modelul res.bank
     bank_issuer = fields.Char(
         "Bank Issuer", size=64, readonly=True, states={"not_cashed": [("readonly", False)]}, required=False
     )
@@ -129,6 +133,12 @@ class PromissoryNote(models.Model):
             if promissory.amount <= 0.0:
                 raise UserError(_("Campul <Valoare> trebuie sa fie mai mare decat 0!"))
 
+    def _track_subtype(self, init_values):
+        self.ensure_one()
+        if "state" in init_values and self.state == "cashed":
+            return self.env.ref("deltatech_promissory_note.mt_state_cashed")
+        return super(PromissoryNote, self)._track_subtype(init_values)
+
     def action_cashed(self):
         self.write({"state": "cashed"})
         if self.is_last_bo:
@@ -145,6 +155,8 @@ class PromissoryNote(models.Model):
                         self.agreement,
                     )
                     partner_id = user.partner_id.id
+                    # todo: de corectat si folosit metda standard de timitere email message_post
+                    # msg = self.message_post(body=msg, subject=subject)
                     mail_message = self.env["mail.message"].with_context(
                         {"default_starred": True, "mail_notify_noemail": False}
                     )
@@ -153,8 +165,8 @@ class PromissoryNote(models.Model):
                             "model": "promissory.note",
                             "res_id": document.id,
                             "record_name": document.name_get()[0][1],
-                            "email_from": self.env["mail.message"]._get_default_from(),
-                            "reply_to": self.env["mail.message"]._get_default_from(),
+                            # "email_from": self.env["mail.message"]._get_default_from(),
+                            # "reply_to": self.env["mail.message"]._get_default_from(),
                             "subject": subject,
                             "body": msg,
                             "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),

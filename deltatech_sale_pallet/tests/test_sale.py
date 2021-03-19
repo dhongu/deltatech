@@ -14,11 +14,26 @@ class TestSale(TransactionCase):
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test A",
+                "type": "product",
+                "standard_price": 100,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+            }
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test B",
+                "type": "product",
+                "standard_price": 70,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "pallet_product_id": self.product_a.id,
+                "pallet_qty_min": 10,
+            }
         )
+
         self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
         inv_line_a = {
             "product_id": self.product_a.id,
@@ -47,42 +62,7 @@ class TestSale(TransactionCase):
         so.partner_id = self.partner_a
 
         with so.order_line.new() as so_line:
-            so_line.product_id = self.product_a
+            so_line.product_id = self.product_b
             so_line.product_uom_qty = 100
 
-        with so.order_line.new() as so_line:
-            so_line.product_id = self.product_b
-            so_line.product_uom_qty = 10
-
         self.so = so.save()
-
-        self.so.action_confirm()
-
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move_line in self.picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        self.picking._action_done()
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        invoice.action_post()
-
-    def test_commission_compute(self):
-        wizard = Form(self.env["commission.compute"])
-        wizard = wizard.save()
-        wizard.do_compute()
-
-    def test_commission_update_purchase_price(self):
-        self.test_sale()
-        wizard = Form(self.env["commission.update.purchase.price"])
-        wizard.for_all = True
-        wizard = wizard.save()
-        wizard.do_compute()
-
-        wizard = Form(self.env["commission.update.purchase.price"])
-        wizard.for_all = True
-        wizard.price_from_doc = False
-        wizard = wizard.save()
-        wizard.do_compute()

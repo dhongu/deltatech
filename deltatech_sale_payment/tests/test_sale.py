@@ -55,34 +55,12 @@ class TestSale(TransactionCase):
             so_line.product_uom_qty = 10
 
         self.so = so.save()
-
         self.so.action_confirm()
 
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move_line in self.picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        self.picking._action_done()
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        invoice.action_post()
+        self.so.action_payment_link()
 
-    def test_commission_compute(self):
-        wizard = Form(self.env["commission.compute"])
+        wizard = Form(self.env["sale.confirm.payment"].with_context(active_id=self.so.id))
+        wizard.amount = 100
+        wizard.acquirer_id = self.env["payment.acquirer"].search([], limit=1)
         wizard = wizard.save()
-        wizard.do_compute()
-
-    def test_commission_update_purchase_price(self):
-        self.test_sale()
-        wizard = Form(self.env["commission.update.purchase.price"])
-        wizard.for_all = True
-        wizard = wizard.save()
-        wizard.do_compute()
-
-        wizard = Form(self.env["commission.update.purchase.price"])
-        wizard.for_all = True
-        wizard.price_from_doc = False
-        wizard = wizard.save()
-        wizard.do_compute()
+        wizard.do_confirm()
