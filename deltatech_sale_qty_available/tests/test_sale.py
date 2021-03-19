@@ -43,7 +43,7 @@ class TestSale(TransactionCase):
         inventory.action_start()
         inventory.action_validate()
 
-    def test_sale(self):
+    def test_sale_picking_policy_direct(self):
         so = Form(self.env["sale.order"])
         so.partner_id = self.partner_a
 
@@ -66,7 +66,42 @@ class TestSale(TransactionCase):
             if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
                 move_line.write({"quantity_done": move_line.product_uom_qty})
         self.picking._action_done()
+        self.so._compute_is_ready()
+
         invoice = self.so._create_invoices()
         invoice = Form(invoice)
         invoice = invoice.save()
         invoice.post()
+
+    def test_sale_picking_policy_one(self):
+        so = Form(self.env["sale.order"])
+        so.partner_id = self.partner_a
+        so.picking_policy = "one"
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_a
+            so_line.product_uom_qty = 100
+
+        with so.order_line.new() as so_line:
+            so_line.product_id = self.product_b
+            so_line.product_uom_qty = 10
+
+        self.so = so.save()
+        self.so._compute_is_ready()
+        self.so.action_confirm()
+        self.so._compute_is_ready()
+
+        self.picking = self.so.picking_ids
+        self.picking.action_assign()
+        for move_line in self.picking.move_lines:
+            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
+                move_line.write({"quantity_done": move_line.product_uom_qty})
+        self.picking._action_done()
+        self.so._compute_is_ready()
+
+        invoice = self.so._create_invoices()
+        invoice = Form(invoice)
+        invoice = invoice.save()
+        invoice.post()
+
+    def test_sale_search_search_is_ready(self):
+        self.env["sale.order"].search([("is_ready", "=", True)])
