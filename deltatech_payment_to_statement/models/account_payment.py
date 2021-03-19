@@ -34,11 +34,6 @@ class AccountPayment(models.Model):
     def action_post(self):
         res = super(AccountPayment, self).action_post()
         self.add_statement_line()
-        for payment in self:
-            auto_statement = payment.journal_id.auto_statement
-            if auto_statement:
-                payment.reconciliation_statement_line(raise_error=False)
-
         self.force_cash_sequence()
 
         return res
@@ -95,8 +90,6 @@ class AccountPayment(models.Model):
                 line = payment.env["account.bank.statement.line"].create(values)
                 lines |= line
                 payment.write({"statement_line_id": line.id})
-
-                payment.reconciliation_statement_line()
 
     def unlink(self):
         statement_line_ids = self.env["account.bank.statement.line"]
