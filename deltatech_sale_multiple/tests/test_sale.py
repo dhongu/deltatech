@@ -70,14 +70,3 @@ class TestSale(TransactionCase):
             so_line.product_uom_qty = 1
 
         self.so = so.save()
-
-        self.picking = self.so.picking_ids
-        self.picking.action_assign()
-        for move_line in self.picking.move_lines:
-            if move_line.product_uom_qty > 0 and move_line.quantity_done == 0:
-                move_line.write({"quantity_done": move_line.product_uom_qty})
-        self.picking._action_done()
-        invoice = self.so._create_invoices()
-        invoice = Form(invoice)
-        invoice = invoice.save()
-        invoice.post()
