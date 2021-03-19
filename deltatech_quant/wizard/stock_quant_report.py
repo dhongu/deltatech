@@ -19,17 +19,18 @@ class StockQuantReport(models.TransientModel):
         WITH
             q AS (
                     SELECT  
-                        sq.product_id, 
-                        sum(sq.qty) as qty, 
+                        sq.product_id,
+                        sum(sq.qty) as qty,
                         sum(coalesce(sq.cost*sq.qty,0.0)) as amount,
                         sum(coalesce(pt.list_price*sq.qty,0.0)) as sale_value,
                         pt.manufacturer,
+                        pt.description,
                         pt.categ_id
                         from stock_quant sq
                             join product_product pp on (sq.product_id=pp.id)
                             join product_template pt on (pp.product_tmpl_id=pt.id)
                         where sq.location_id = %s
-                        group by sq.product_id, pt.manufacturer, pt.categ_id
+                        group by sq.product_id, pt.manufacturer, pt.categ_id, pt.description
 
             )
         INSERT INTO
@@ -64,6 +65,7 @@ class StockQuantReport(models.TransientModel):
                 '''
         query_inject_params = (self.location_id.id, self.id, self.env.uid)
         self.env.cr.execute(query_inject, query_inject_params)
+        
         self.refresh()
         self.lines_ids.refresh()
         self.lines_ids._compute_sale_value()
@@ -109,7 +111,34 @@ class StockQuantReportValue(models.TransientModel):
     sale_value = fields.Float('Sale Value', compute='_compute_sale_value', store=True, readonly=True)
     categ_id = fields.Many2one('product.category', string='Internal Category', readonly=True)
     manufacturer = fields.Many2one('res.partner', string='Manufacturer', readonly=True)
+    pret_final = fields.Float("Pret final")
+    pret_revanzator = fields.Float("Pret revanzator")
+    description = fields.Char()
 
     @api.one
     def _compute_sale_value(self):
         self.sale_value = self.qty * self.product_id.list_price
+        price_type = self.env['product.price.type'].search([('field', '=', 'list_price')])
+        if price_type:
+            sale_currency_id = price_type.currency_id
+        else:
+            sale_currency_id = self.env.user.company_id
+        if 'pricelist_id' in self.env.context:
+            pricelist = self.env['product.pricelist'].browse(self.env.context['pricelist_id'])
+        else:
+            pricelist = self.env['product.pricelist'].browse(6)
+        list_currency_id = pricelist.currency_id
+        # if 'pricelist_id' in self.env.context:
+        #     pricelist = self.env['product.pricelist'].browse(self.env.context['pricelist_id'])
+        #     list_currency_id = pricelist.currency_id
+        for quant in self:
+            quant.pret_final = quant.product_id.list_price
+            quant.pret_final_currency_id = sale_currency_id
+            if pricelist:
+                price = pricelist.price_get(quant.product_id.id, quant.qty)[pricelist.id]
+                if price:
+                    quant.pret_revanzator = price
+                    quant.pret_revanzator_currency_id = list_currency_id
+            else:
+                quant.pret_revanzator = quant.product_id.list_price
+                quant.pret_revanzator_currency_id = sale_currency_id
