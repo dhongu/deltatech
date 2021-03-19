@@ -24,7 +24,7 @@ class StockQuantReport(models.TransientModel):
                         sum(coalesce(sq.cost*sq.qty,0.0)) as amount,
                         sum(coalesce(pt.list_price*sq.qty,0.0)) as sale_value,
                         pt.manufacturer,
-                        pt.description,
+                        pt.description as description,
                         pt.categ_id
                         from stock_quant sq
                             join product_product pp on (sq.product_id=pp.id)
@@ -39,7 +39,7 @@ class StockQuantReport(models.TransientModel):
             report_id,
             create_uid,
             create_date,
-            
+            description,
             product_id,
             qty,
             amount,
@@ -52,7 +52,7 @@ class StockQuantReport(models.TransientModel):
             %s AS report_id,
             %s AS create_uid,
             NOW() AS create_date,
-        
+            description,
             product_id,
             qty,
             amount,
