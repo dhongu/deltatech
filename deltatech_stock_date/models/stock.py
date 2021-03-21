@@ -35,9 +35,10 @@ class StockMove(models.Model):
                 for move in self:
                     today = fields.Date.today()
                     if "date" in vals:
-                        if move.date_expected.date() < today and move.date_expected < vals["date"]:
+                        val_date = fields.Date.to_date(vals["date"])
+                        if move.date_expected.date() < today and move.date_expected.date() < val_date:
                             vals["date"] = move.date_expected
-                        if move.date.date() < today and move.date.date() < vals["date"]:
+                        if move.date.date() < today and move.date.date() < val_date:
                             vals["date"] = move.date
                         move.move_line_ids.write({"date": vals["date"]})
             else:
