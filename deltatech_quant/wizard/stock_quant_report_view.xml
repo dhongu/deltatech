@@ -9,7 +9,7 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree create="0" edit="0" delete="0" decoration-danger="qty&lt;0">
-
+                    <field name="categ_id"/>
                     <field name="product_id"/>
                     <field name="description"/>
 <!--                    <field name="qty"/>-->
