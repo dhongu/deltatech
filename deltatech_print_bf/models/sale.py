@@ -43,3 +43,23 @@ class SaleOrder(models.Model):
         if self.partner_id == partner_generic:
             action["context"] = {"default_move_type": "out_receipt"}
         return action
+
+
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    @api.depends("invoice_lines.move_id.state", "invoice_lines.quantity", "untaxed_amount_to_invoice")
+    def _get_invoice_qty(self):
+
+        super(SaleOrderLine, self)._get_invoice_qty()
+
+        for line in self:
+            qty_invoiced = 0.0
+            for invoice_line in line.invoice_lines:
+                if invoice_line.move_id.state != "cancel":
+                    if invoice_line.move_id.move_type == "out_receipt":
+                        qty_invoiced += invoice_line.product_uom_id._compute_quantity(
+                            invoice_line.quantity, line.product_uom
+                        )
+
+            line.qty_invoiced += qty_invoiced

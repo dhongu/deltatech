@@ -12,7 +12,7 @@
     "depends": [
         "account",
         "web",
-        "sale",
+        "sale_management",
         "deltatech_download",
         "deltatech_partner_generic",
         "deltatech_select_journal",
