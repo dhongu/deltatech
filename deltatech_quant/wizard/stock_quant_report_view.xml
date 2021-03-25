@@ -12,13 +12,13 @@
                     <field name="categ_id"/>
                     <field name="product_id"/>
                     <field name="description"/>
-<!--                    <field name="qty"/>-->
+                    <field name="qty"/>
 <!--                    <field name="product_uom_id"/>-->
 <!--                    <field name="amount" sum="amount"/>-->
 <!--                    <field name="sale_value" sum="sale_value"/>-->
 <!--                    <field name="categ_id"/>-->
-                    <field name="pret_revanzator"/>
-                    <field name="pret_final"/>
+                    <field name="pret_revanzator" string="Pret revanzator euro fara TVA" />
+                    <field name="pret_final" string="Pret client final euro fara TVA" />
 <!--                    <field name="manufacturer"/>-->
                 </tree>
             </field>
