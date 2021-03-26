@@ -5,6 +5,15 @@
         <field name="model">delivery.carrier</field>
         <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
         <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='amount']" position="after">
+                <label for="weight_min" string="Weight limits" />
+                <div class="o_row">
+                    <field name="weight_min" placeholder="Min" />-
+                    <field name="weight_max" placeholder="Max" />
+                </div>
+            </xpath>
+
             <xpath expr="//page[@name='destination']" position='after'>
                 <page string="Payment Acquirer">
                     <group>

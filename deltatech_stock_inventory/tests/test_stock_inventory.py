@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-
+from odoo.tests import Form
 from odoo.tests.common import TransactionCase
 
 
@@ -52,3 +52,11 @@ class TestStockInventory(TransactionCase):
     def test_new_inventory(self):
         inventory = self.env["stock.inventory"].create({"location_ids": [(6, 0, self.stock_location.ids)]})
         inventory.action_start()
+
+    def test_stock_change_product_qty(self):
+        wizard = Form(self.env["stock.change.product.qty"].with_context(active_ids=self.product_a.ids))
+        wizard.product_id = self.product_a
+        wizard.product_tmpl_id = self.product_a.product_tmpl_id
+        wizard.new_quantity = 50
+        wizard = wizard.save()
+        wizard.change_product_qty()
