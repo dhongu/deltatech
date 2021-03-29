@@ -15,14 +15,11 @@ class SaleOrderLine(models.Model):
 
     def _compute_qty_at_date(self):
         super(SaleOrderLine, self)._compute_qty_at_date()
-        treated = self.browse()
+        treated = self.env["sale.order.line"]
         for line in self:
             if not line.display_qty_widget:
                 continue
-            qty_available = 0
-            for vendor in line.product_id.seller_ids:
-                qty_available += vendor.qty_available
-            line.vendor_qty_available = vendor.qty_available
+            line.vendor_qty_available = line.product_id.vendor_qty_available
             treated |= line
         remaining = self - treated
         remaining.vendor_qty_available = False

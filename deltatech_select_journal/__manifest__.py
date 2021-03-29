@@ -10,7 +10,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Selectie jurnal",
     "category": "Sales",
-    "depends": ["sale"],
+    "depends": ["sale_stock"],
     "data": ["wizard/sale_make_invoice_advance_views.xml"],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",

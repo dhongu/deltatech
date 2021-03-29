@@ -11,7 +11,7 @@ class AccountMove(models.Model):
     def write(self, vals):
         if "state" in vals and vals.get("state") == "posted":
             for move in self:
-                if move.journal_id.journal_sequence_id:
+                if (not move.name or move.name == "/") and move.journal_id.journal_sequence_id:
                     new_number = move.journal_id.journal_sequence_id.next_by_id()
                     super(AccountMove, move).write({"name": new_number})
 

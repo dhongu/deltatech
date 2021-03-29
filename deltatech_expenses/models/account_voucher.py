@@ -10,8 +10,9 @@ class AccountVoucher(models.Model):
 
     expenses_deduction_id = fields.Many2one("deltatech.expenses.deduction", string="Expenses Deduction", required=False)
 
-    def voucher_pay_now_payment_create(self):
-        value = super(AccountVoucher, self).voucher_pay_now_payment_create()
-        if "expenses_deduction_id" in self.env.context:
-            value["expenses_deduction_id"] = self.env.context["expenses_deduction_id"]
-        return value
+    # nu exista metoda in 14.0
+    # def voucher_pay_now_payment_create(self):
+    #     value = super(AccountVoucher, self).voucher_pay_now_payment_create()
+    #     if "expenses_deduction_id" in self.env.context:
+    #         value["expenses_deduction_id"] = self.env.context["expenses_deduction_id"]
+    #     return value
