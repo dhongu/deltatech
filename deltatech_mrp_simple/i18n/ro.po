@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-26 15:22+0000\n"
-"PO-Revision-Date: 2021-03-26 15:22+0000\n"
+"POT-Creation-Date: 2021-03-29 09:06+0000\n"
+"PO-Revision-Date: 2021-03-29 09:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Categorie produs finit"
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__partner_id
 msgid "Client"
-msgstr ""
+msgstr "Client"
 
 #. module: deltatech_mrp_simple
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
@@ -44,33 +44,15 @@ msgstr "Consum și recepție"
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__auto_create_sale
 msgid "Create product & sale"
-msgstr "Creează produs și comandă"
+msgstr "Creează produs și comandă vânzare"
 
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__create_uid
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__create_uid
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__create_uid
-msgid "Created by"
-msgstr ""
 
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__create_date
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__create_date
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__create_date
-msgid "Created on"
-msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__date
 msgid "Date"
-msgstr ""
+msgstr "Dată"
 
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__display_name
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__display_name
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__display_name
-msgid "Display Name"
-msgstr ""
 
 #. module: deltatech_mrp_simple
 #: code:addons/deltatech_mrp_simple/wizard/mrp_simple.py:0
@@ -83,33 +65,7 @@ msgstr "Eroare la crearea produsului finit"
 msgid "Final product name"
 msgstr "Denumire produs finit"
 
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__id
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__id
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__id
-msgid "ID"
-msgstr ""
 
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple____last_update
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in____last_update
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__write_uid
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__write_uid
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__write_uid
-msgid "Last Updated by"
-msgstr ""
-
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__write_date
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__write_date
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__write_date
-msgid "Last Updated on"
-msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model,name:deltatech_mrp_simple.model_mrp_simple
@@ -157,12 +113,12 @@ msgstr "Produs"
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_in_ids
 msgid "Product In"
-msgstr ""
+msgstr "Produse Consumate"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_out_ids
 msgid "Product Out"
-msgstr ""
+msgstr "Produse rezultate"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__final_product_qty
@@ -195,7 +151,7 @@ msgstr "Producție simplă"
 #. module: deltatech_mrp_simple
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__price_unit
@@ -229,4 +185,4 @@ msgstr "Este necesar cel puțin un produs finit"
 #. module: deltatech_mrp_simple
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
 msgid "or"
-msgstr ""
+msgstr "sau"

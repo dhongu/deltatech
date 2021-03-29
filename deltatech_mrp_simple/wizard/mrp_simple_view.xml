@@ -18,6 +18,8 @@
                         <field name="picking_type_consume" />
                         <field name="picking_type_receipt_production" />
                     </group>
+                </group>
+                <group>
                     <group>
                         <field name="auto_create_sale" groups="deltatech_mrp_simple.group_sale_simple_production" />
                         <field
@@ -28,6 +30,8 @@
                             name="final_product_name"
                             attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
                         />
+                    </group>
+                    <group>
                         <field
                             name="final_product_qty"
                             attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
