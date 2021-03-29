@@ -67,7 +67,7 @@ class AccountInvoiceExportBf(models.TransientModel):
     invoice_id = fields.Many2one("account.move")
 
     def check_invoice(self, invoice_id):
-        if not invoice_id or invoice_id.move_type != "out_invoice":
+        if not invoice_id or invoice_id.move_type not in ["out_invoice", "out_receipt"]:
             raise UserError(_("Please select Customer Invoice %s") % invoice_id.name)
 
         if invoice_id.payment_state == "not_paid":
