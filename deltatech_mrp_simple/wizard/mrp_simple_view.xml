@@ -20,6 +20,33 @@
                     </group>
                 </group>
                 <group>
+                    <group>
+                        <field name="auto_create_sale" groups="deltatech_mrp_simple.group_sale_simple_production" />
+                        <field
+                            name="partner_id"
+                            attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
+                        />
+                        <field
+                            name="final_product_name"
+                            attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="final_product_qty"
+                            attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
+                        />
+                        <field
+                            name="final_product_uom_id"
+                            attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
+                        />
+                        <field
+                            name="final_product_category"
+                            attrs="{'invisible': [('auto_create_sale', '=', False)], 'required': [('auto_create_sale', '=', True)]}"
+                        />
+                    </group>
+                </group>
+                <group>
                     <group string="Consumption">
                         <field name="product_out_ids" nolabel="1">
                             <tree editable="bottom">
@@ -36,6 +63,7 @@
                                 <field name="quantity" sum="1" />
                                 <field name="uom_id" />
                                 <field name="price_unit" />
+<!--                                <field name="sale_price" />-->
                             </tree>
                         </field>
                     </group>
