@@ -9,7 +9,11 @@
     "category": "Manufacturing",
     "depends": ["stock", "sale"],
     "license": "LGPL-3",
-    "data": ["wizard/mrp_simple_view.xml", "security/groups.xml"],
+    "data": [""
+             "wizard/mrp_simple_view.xml",
+             "security/groups.xml",
+             "views/sale_order.xml",
+             ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",

@@ -1,4 +1,4 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -82,8 +82,8 @@ class MRPSimple(models.TransientModel):
             )
 
         if self.sale_order_id:
-            self.sale_order_id.update({"picking_ids": [(4, picking_in.id, False)]})
-            self.sale_order_id.update({"picking_ids": [(4, picking_out.id, False)]})
+            self.sale_order_id.update({"simple_mrp_picking_ids": [(4, picking_in.id, False)]})
+            self.sale_order_id.update({"simple_mrp_picking_ids": [(4, picking_out.id, False)]})
 
         # se face consumul
         if picking_out.move_lines:
