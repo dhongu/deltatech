@@ -3,18 +3,18 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Fast Purchase",
+    "name": "Refund Purchase",
+    "summary": "Generare factura storno pentru retururi",
     "version": "13.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "summary": "Achizitie rapida",
     "category": "Purchases",
-    "depends": ["base", "purchase_stock", "stock", "deltatech_purchase_refund"],
+    "depends": ["base", "purchase_stock", "stock"],
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",
-    "data": ["views/purchase_view.xml", "views/stock_view.xml"],
-    "images": ["images/main_screenshot.png"],
+    "data": ["views/account_invoice_view.xml"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],

@@ -6,7 +6,6 @@
 from odoo import _, models
 from odoo.exceptions import UserError
 from odoo.tools import safe_eval
-from odoo.tools.float_utils import float_compare
 
 
 class PurchaseOrder(models.Model):
@@ -79,54 +78,5 @@ class PurchaseOrder(models.Model):
             return
 
         result = self.action_view_picking()
-        # action = self.env.ref('stock.action_picking_tree')
-        # result = action.read()[0]
-        #
-        # result['context'] = {}
-        #
-        # pick_ids = picking_ids.ids
-        # # choose the view_mode accordingly
-        # if len(pick_ids) > 1:
-        #     result['domain'] = "[('id','in',%s)]" % (pick_ids.ids)
-        # elif len(pick_ids) == 1:
-        #     res = self.env.ref('stock.view_picking_form', False)
-        #     result['views'] = [(res and res.id or False, 'form')]
-        #     result['res_id'] = picking_ids.id
+
         return result
-
-    def action_view_invoice(self):
-        action = super(PurchaseOrder, self).action_view_invoice()
-        invoice_type = "in_invoice"
-        for line in self.order_line:
-            if line.product_id.purchase_method == "purchase":
-                qty = line.product_qty - line.qty_invoiced
-            else:
-                qty = line.qty_received - line.qty_invoiced
-            if qty < 0:
-                invoice_type = "in_refund"
-        action["context"]["default_type"] = invoice_type
-        action["context"]["default_invoice_date"] = self.date_planned
-
-        notice = self.env.context.get("notice", False)
-        if not notice:
-            for picking in self.picking_ids:
-                notice = notice or picking.notice
-
-        action["context"]["notice"] = notice
-        return action
-
-
-class PurchaseOrderLine(models.Model):
-    _inherit = "purchase.order.line"
-
-    def _prepare_account_move_line(self, move):
-        res = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
-        if move.type == "in_refund":
-            if self.product_id.purchase_method == "purchase":
-                qty = self.qty_invoiced - self.product_qty
-            else:
-                qty = self.qty_invoiced - self.qty_received
-            if float_compare(qty, 0.0, precision_rounding=self.product_uom.rounding) <= 0:
-                qty = 0.0
-            res["quantity"] = qty
-        return res
