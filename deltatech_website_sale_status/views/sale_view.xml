@@ -15,9 +15,7 @@
                     decoration-danger="stage in ['canceled','waiting','postponed']"
                     decoration-success="stage == 'delivered'"
                 />
-
             </field>
-
         </field>
     </record>
     <record id="view_order_tree" model="ir.ui.view">
@@ -84,4 +82,17 @@
             [('state', 'in', ['sent','sale']), ('website_id', '!=', False),('payment_status','!=','done')]
         </field>
     </record>
+
+
+      <record id="sale.action_orders" model="ir.actions.act_window">
+           <field name="context">
+               {
+                   'general_buttons': [{
+                       'action': "procure_calculation",
+                       'name': "Run Scheduler",
+                       'model':'stock.scheduler.compute'
+                   }]
+               }
+           </field>
+      </record>
 </odoo>
