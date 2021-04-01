@@ -75,3 +75,9 @@ class SaleOrder(models.Model):
     #                 # is_ready = is_ready and (line.qty_available_today >= line.product_uom_qty)
     #
     #         order.is_ready = is_ready
+
+    def procure_calculation(self):
+        # action = self.env.ref("stock.action_procurement_compute").read()[0]
+        self.env["stock.scheduler.compute"].procure_calculation()
+
+        return {"type": "ir.actions.client", "tag": "reload"}

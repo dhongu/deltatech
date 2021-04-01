@@ -90,7 +90,7 @@
                    'general_buttons': [{
                        'action': "procure_calculation",
                        'name': "Run Scheduler",
-                       'model':'stock.scheduler.compute'
+                       'model':'sale.order'
                    }]
                }
            </field>
