@@ -1,4 +1,4 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -29,6 +29,14 @@ class MRPSimple(models.TransientModel):
 
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")
 
+    # advanced simple production
+    auto_create_sale = fields.Boolean("Create product & sale", default=False)
+    partner_id = fields.Many2one("res.partner", string="Client")
+    final_product_name = fields.Char("Final product name")
+    final_product_qty = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
+    final_product_category = fields.Many2one("product.category", string="Category for final product")
+    final_product_uom_id = fields.Many2one("uom.uom", "Unit of Measure")
+
     def do_transfer(self):
 
         picking_type_consume = self.picking_type_consume
@@ -48,6 +56,10 @@ class MRPSimple(models.TransientModel):
             .create({"picking_type_id": picking_type_consume.id, "date": self.date})
         )
 
+        self.create_sale()
+
+        if not self.product_in_ids:
+            raise UserError(_("You need at least one final product"))
         for line in self.product_in_ids:
             if line.price_unit:
                 self.add_picking_line(
@@ -69,10 +81,9 @@ class MRPSimple(models.TransientModel):
                 price_unit=line.product_id.standard_price,
             )
 
-        # adaugare picking ids in sale order
         if self.sale_order_id:
-            self.sale_order_id.update({"picking_ids": [(4, picking_in.id, False)]})
-            self.sale_order_id.update({"picking_ids": [(4, picking_out.id, False)]})
+            self.sale_order_id.update({"simple_mrp_picking_ids": [(4, picking_in.id, False)]})
+            self.sale_order_id.update({"simple_mrp_picking_ids": [(4, picking_out.id, False)]})
 
         # se face consumul
         if picking_out.move_lines:
@@ -130,6 +141,59 @@ class MRPSimple(models.TransientModel):
             move = self.env["stock.move"].create(values)
         return move
 
+    def create_final_product(self):
+        if self.final_product_name:
+            standard_price = 0.0
+            list_price = 0.0
+            for line in self.product_out_ids:
+                standard_price += line.product_id.standard_price * line.quantity
+                list_price += line.product_id.list_price * line.quantity
+            standard_price = standard_price / self.final_product_qty
+            vals = {
+                "type": "product",
+                "name": self.final_product_name,
+                "categ_id": self.final_product_category.id,
+                "standard_price": standard_price,
+                "list_price": list_price,
+                "uom_id": self.final_product_uom_id.id,
+            }
+            product = self.env["product.product"].create(vals)
+            return product.id
+        else:
+            return False
+
+    def create_sale(self):
+        # adaugare picking ids in sale order
+        if self.auto_create_sale:
+            product_id = self.create_final_product()
+            if not product_id:
+                raise UserError(_("Error creating final product!"))
+            standard_price = 0.0
+            for line in self.product_out_ids:
+                standard_price += line.product_id.list_price * line.quantity
+            standard_price = standard_price / self.final_product_qty
+            vals = {
+                "mrp_simple_id": self.id,
+                "product_id": product_id,
+                "quantity": self.final_product_qty,
+                "price_unit": standard_price,
+                "uom_id": self.final_product_uom_id.id,
+            }
+            self.product_in_ids.create(vals)
+
+            vals = {
+                "partner_id": self.partner_id.id,
+            }
+            sale_order = self.env["sale.order"].create(vals)
+            vals = {
+                "order_id": sale_order.id,
+                "product_id": product_id,
+                "product_uom_qty": self.final_product_qty,
+                "product_uom": self.final_product_uom_id.id,
+            }
+            sale_order.order_line.create(vals)
+            self.sale_order_id = sale_order
+
 
 class MRPSimpleLineIn(models.TransientModel):
     _name = "mrp.simple.line.in"
@@ -140,6 +204,7 @@ class MRPSimpleLineIn(models.TransientModel):
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
+    # sale_price = fields.Float("Sale price")
 
     @api.onchange("product_id")
     def onchange_product_id(self):
@@ -149,10 +214,13 @@ class MRPSimpleLineIn(models.TransientModel):
     def compute_finit_price(self):
         mrpsimple = self.mrp_simple_id
         price = 0.0
+        # list_price = 0.0
         for line in mrpsimple.product_out_ids:
             price += line.product_id.standard_price * line.quantity
+            # list_price += line.product_id.list_price * line.quantity
         for line in mrpsimple.product_in_ids:
             line.price_unit = price / line.quantity
+            # line.sale_price = list_price / line.quantity
 
 
 class MRPSimpleLineOut(models.TransientModel):
