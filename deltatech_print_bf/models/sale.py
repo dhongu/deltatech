@@ -57,7 +57,7 @@ class SaleOrderLine(models.Model):
             qty_invoiced = 0.0
             for invoice_line in line.invoice_lines:
                 if invoice_line.move_id.state != "cancel":
-                    if invoice_line.move_id.move_type == "out_receipt":
+                    if invoice_line.move_id.type == "out_receipt":
                         qty_invoiced += invoice_line.product_uom_id._compute_quantity(
                             invoice_line.quantity, line.product_uom
                         )
