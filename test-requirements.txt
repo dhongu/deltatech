@@ -1,0 +1,1 @@
+odoo14-addon-web_list_view_general_buttons @ git+https://github.com/OCA/web@refs/pull/1884/head#subdirectory=setup/web_list_view_general_buttons
