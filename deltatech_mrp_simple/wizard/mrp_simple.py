@@ -143,12 +143,7 @@ class MRPSimple(models.TransientModel):
 
     def create_final_product(self):
         if self.final_product_name:
-            standard_price = 0.0
-            list_price = 0.0
-            for line in self.product_out_ids:
-                standard_price += line.product_id.standard_price * line.quantity
-                list_price += line.product_id.list_price * line.quantity
-            standard_price = standard_price / self.final_product_qty
+            standard_price, list_price = self.get_final_product_prices()
             vals = {
                 "type": "product",
                 "name": self.final_product_name,
@@ -161,6 +156,15 @@ class MRPSimple(models.TransientModel):
             return product.id
         else:
             return False
+
+    def get_final_product_prices(self):
+        standard_price = 0.0
+        list_price = 0.0
+        for line in self.product_out_ids:
+            standard_price += line.product_id.standard_price * line.quantity
+            list_price += line.product_id.list_price * line.quantity
+        standard_price = standard_price / self.final_product_qty
+        return standard_price, list_price
 
     def create_sale(self):
         # adaugare picking ids in sale order
