@@ -9,11 +9,8 @@ class DeltatechDc(models.Model):
     _name = "deltatech.dc"
     _description = "Declaration of Conformity"
 
-    name = fields.Char(
-        "Number",
-        size=32,
-        required=True,
-    )
+    name = fields.Char("Number", required=True)
+
     date = fields.Date("Date of Declaration", required=True, index=True, default=fields.Date.context_today)
     product_id = fields.Many2one(
         "product.product", "Product", required=True, index=True, domain=[("sale_ok", "=", "True")]
