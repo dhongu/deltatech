@@ -64,6 +64,8 @@ class SaleOrderLine(models.Model):
     @api.one
     @api.constrains("price_unit", "purchase_price")
     def _check_sale_price(self):
+        if self.display_type or self.product_id.type == "service":
+            return
         if self.price_unit == 0:
             if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                 raise UserError(_("You can not sell without price."))
