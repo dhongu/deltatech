@@ -53,13 +53,18 @@ class ServiceDistribution(models.TransientModel):
                 qty = self.quantity / len(consumptions)
             else:
                 qty = self.quantity
-            consumptions.write({"quantity": qty, "name": self.reference})
+            if self.add_values:
+                for cons in consumptions:
+                    crt_qty = cons.quantity + qty
+                    cons.write({"quantity": crt_qty})
+            else:
+                consumptions.write({"quantity": qty, "name": self.reference})
         else:
             price_unit = self.amount / len(consumptions)
             if self.add_values:
                 for cons in consumptions:
                     crt_value = cons.price_unit + price_unit
-                    name = cons.name or "" + self.reference or ""
+                    name = cons.name or "" + (self.reference or "")
                     cons.write({"quantity": 1, "price_unit": crt_value, "name": name})
             else:
                 consumptions.write({"quantity": 1, "price_unit": price_unit, "name": self.reference})

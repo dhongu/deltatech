@@ -154,7 +154,7 @@ class ServiceAgreement(models.Model):
     invoicing_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
         string="Invoicing Status",
-        compute="_compute_invoicing_status",
+        # compute="_compute_invoicing_status",
         store=True,
     )
 
