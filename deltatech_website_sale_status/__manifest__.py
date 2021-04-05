@@ -13,7 +13,7 @@
         "website_sale_stock",
         "deltatech_delivery_status",
         "deltatech_widget_badge",
-        # "web_list_view_general_buttons",
+        "web_list_view_general_buttons",
     ],
     "data": ["views/sale_view.xml", "views/assets.xml"],
     "qweb": ["static/src/xml/*.xml"],
