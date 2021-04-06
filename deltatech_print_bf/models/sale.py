@@ -22,7 +22,7 @@ class SaleOrder(models.Model):
         is_bf = self.env.context.get("is_bf", False)
         partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
         if is_bf or self.partner_id == partner_generic:
-            invoice_vals["move_type"] = "out_receipt"
+            invoice_vals["type"] = "out_receipt"
         return invoice_vals
 
     @api.depends("order_line.invoice_lines")
@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
         for order in self:
             if order.partner_id == partner_generic:
                 invoices = order.order_line.invoice_lines.move_id.filtered(
-                    lambda r: r.move_type in ("out_invoice", "out_receipt")
+                    lambda r: r.type in ("out_invoice", "out_receipt")
                 )
                 order.invoice_ids |= invoices
                 order.invoice_count += len(invoices)
@@ -41,7 +41,7 @@ class SaleOrder(models.Model):
         action = super(SaleOrder, self).action_view_invoice()
         partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
         if self.partner_id == partner_generic:
-            action["context"] = {"default_move_type": "out_receipt"}
+            action["context"] = {"default_type": "out_receipt"}
         return action
 
 
