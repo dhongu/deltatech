@@ -70,7 +70,7 @@ class AccountInvoiceExportBf(models.TransientModel):
     invoice_id = fields.Many2one("account.move")
 
     def check_invoice(self, invoice_id):
-        if not invoice_id or invoice_id.type != "out_invoice":
+        if not invoice_id or invoice_id.type not in ["out_invoice", "out_receipt"]:
             raise UserError(_("Please select Customer Invoice %s") % invoice_id.name)
 
         if invoice_id.invoice_payment_state != "paid":
@@ -168,9 +168,9 @@ class AccountInvoiceExportBf(models.TransientModel):
 
             payments = self.env["account.payment"].browse(payment_ids)
 
-            for payment in payments.filtered(lambda p: p.journal_id.type == "cash"):
-                if payment.journal_id.code == "VOUC" or payment.journal_id.code == "VOUPR":
-                    buf.write(ecr_comm["print"].format(text=_("Voucher:") + payment.communication))
+            # for payment in payments.filtered(lambda p: p.journal_id.type == "cash"):
+            #     if payment.journal_id.code == "VOUC" or payment.journal_id.code == "VOUPR":
+            #         buf.write(ecr_comm["print"].format(text=_("Voucher:") + payment.communication))
 
             # print payments
             for payment in payments.filtered(lambda p: p.state != "draft"):
