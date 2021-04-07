@@ -9,11 +9,9 @@ from odoo.exceptions import UserError
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    def change_price_or_product(self, res):
-        if not res:
-            res = {}
-        if not res.get("warning", False):
-            # check if price_unit is with taxes
+    def get_price_unit_w_taxes(self):
+        # check if price_unit is with taxes
+        if not self.display_type:
             with_taxes = False
             for tax in self.tax_id:
                 if tax.price_include:
@@ -22,7 +20,16 @@ class SaleOrderLine(models.Model):
                 price_unit = self.price_unit - self.price_tax / self.product_uom_qty
             else:
                 price_unit = self.price_unit
-            if price_unit < self.purchase_price and self.purchase_price > 0:
+            return price_unit
+        else:
+            return False
+
+    def change_price_or_product(self, res):
+        if not res:
+            res = {}
+        if not res.get("warning", False):
+            price_unit = self.get_price_unit_w_taxes()
+            if price_unit and price_unit < self.purchase_price and self.purchase_price > 0:
                 warning = {"title": _("Price Error!"), "message": _("Do not sell below the purchase price.")}
                 res["warning"] = warning
         return res
@@ -50,16 +57,8 @@ class SaleOrderLine(models.Model):
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
                     self.order_id.message_post(body=message)
-            # check if price_unit is with taxes
-            with_taxes = False
-            for tax in self.tax_id:
-                if tax.price_include:
-                    with_taxes = True
-            if with_taxes:
-                price_unit = self.price_unit - self.price_tax / self.product_uom_qty
-            else:
-                price_unit = self.price_unit
-            if price_unit < line.purchase_price:
+            price_unit = self.get_price_unit_w_taxes()
+            if price_unit and price_unit < line.purchase_price:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell below the purchase price."))
                 else:
