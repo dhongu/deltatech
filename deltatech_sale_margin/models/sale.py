@@ -17,7 +17,10 @@ class SaleOrderLine(models.Model):
                 if tax.price_include:
                     with_taxes = True
             if with_taxes:
-                price_unit = self.price_unit - self.price_tax / self.product_uom_qty
+                if self.product_uom_qty != 0.0:
+                    price_unit = self.price_unit - self.price_tax / self.product_uom_qty
+                else:
+                    price_unit = self.price_unit - self.price_tax
             else:
                 price_unit = self.price_unit
             return price_unit
