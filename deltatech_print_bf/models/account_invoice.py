@@ -21,3 +21,11 @@ class AccountInvoice(models.Model):
         )
         self.write({"receipt_print": True})
         return wizard_download.do_download_file()
+
+    def action_switch_invoice_into_refund_credit_note(self):
+        receipts = self.filtered(lambda m: m.type == "out_receipt")
+        if receipts:
+            receipts.write({"type": "out_invoice"})
+        super(AccountInvoice, self).action_switch_invoice_into_refund_credit_note()
+        if receipts:
+            receipts.write({"type": "out_receipt"})

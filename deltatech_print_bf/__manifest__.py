@@ -18,6 +18,8 @@
         "deltatech_select_journal",
     ],
     "license": "LGPL-3",
+    "price": 10.00,
+    "currency": "EUR",
     "data": [
         "wizard/account_invoice_export_bf_view.xml",
         "views/res_config_settings_views.xml",
