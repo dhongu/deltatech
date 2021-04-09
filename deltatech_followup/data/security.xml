@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_manage_followups" model="res.groups">
+            <field name="name">Followup manager</field>
+            <field name="category_id" ref="base.module_category_usability" />
+        </record>
+        <record id="invoice_followup_manager" model="ir.model.access">
+            <field name="name">Access for invoice followup</field>
+            <field name="model_id" ref="model_account_invoice_followup" />
+            <field name="group_id" ref="deltatech_followup.group_manage_followups" />
+            <field name="perm_read" eval="1" />
+            <field name="perm_create" eval="1" />
+            <field name="perm_write" eval="1" />
+            <field name="perm_unlink" eval="1" />
+        </record>
+    </data>
+</odoo>
