@@ -18,6 +18,7 @@
         "views/res_partner.xml",
         "views/invoice_followup.xml",
         "data/security.xml",
+        "security/ir.model.access.csv",
     ],
     "license": "LGPL-3",
     "images": ["static/description/icon.png"],
