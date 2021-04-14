@@ -46,3 +46,15 @@ class ProductTemplate(models.Model):
                         list_price, 1
                     )
                 product.list_price = list_price + list_price_tax
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    def set_inverse_trade_markup(self):
+        for product in self:
+            product.product_tmpl_id.set_inverse_trade_markup()
+
+    def set_inverse_margin(self):
+        for product in self:
+            product.product_tmpl_id.set_inverse_margin()
