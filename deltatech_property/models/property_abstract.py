@@ -73,6 +73,7 @@ class PropertyProperty(models.AbstractModel):
 
     price = fields.Monetary()
     currency_id = fields.Many2one("res.currency", default=_default_currency)
+    total_price = fields.Monetary(compute="_compute_total_price")
     property_value_at_purchase = fields.Monetary()
 
     def show_map(self):
@@ -88,6 +89,11 @@ class PropertyProperty(models.AbstractModel):
         for record in self:
             domain = [("res_model", "=", self._name), ("res_id", "=", record.id)]
             record.doc_count = self.env["ir.attachment"].search_count(domain)
+
+    @api.multi
+    def _compute_total_price(self):
+        for record in self:
+            record.total_price = record.price * record.surface
 
     @api.multi
     def attachment_tree_view(self):

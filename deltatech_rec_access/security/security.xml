@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="invoice_personal_rule" model="ir.rule">
+            <field name="name">Personal invoice</field>
+            <field name="model_id" ref="account.model_account_invoice" />
+            <field name="domain_force">
+                ['|','|',('user_id','=',user.id), ('user_id','=',False),
+                ('message_follower_ids','in',[user.partner_id.id]) ]
+            </field>
+            <field name="groups" eval="[(4, ref('account.group_account_invoice'))]" />
+        </record>
+        <record id="invoice_see_all_rule" model="ir.rule">
+            <field name="name">All invoices</field>
+            <field name="model_id" ref="account.model_account_invoice" />
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('account.group_account_user'))]" />
+        </record>
+        <!--
+     <record id="stock_location_personal_rule" model="ir.rule">
+        <field name="name">Personal stock</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="domain_force">['|',('user_id','=',user.id),('user_id','=',False)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+    </record>
+
+    <record id="stock_location_see_all" model="ir.rule">
+        <field name="name">All stock</field>
+        <field name="model_id" ref="stock.model_stock_location"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+    </record>
+   -->
+        <!--
+     <record model="ir.rule" id="stock_move_personal_rule">
+        <field name="name">Personal stock move</field>
+        <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+        <field name="domain_force">['|',('location_id.user_id','=',user.id),('location_dest_id.user_id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1" />
+     </record>
+
+     <record model="ir.rule" id="stock_move_see_all_rule">
+        <field name="name">All stock move</field>
+        <field name="model_id" search="[('model','=','stock.move')]" model="ir.model"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+     </record>
+     -->
+        <record id="group_sale_order_no_confirm" model="res.groups">
+            <field name="name">Confirm sale order not allowed</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+        </record>
+        <record id="group_stock_no_transfer" model="res.groups">
+            <field name="name">Stock transfer not allowed</field>
+            <field name="category_id" ref="base.module_category_hidden" />
+            <field name="comment">
+                Se permite transferul doar din locatia proprie in locatiile de productie si clienti
+            </field>
+        </record>
+        <!--
+     <record model="ir.rule" id="stock_quant_personal_rule">
+        <field name="name">Personal stock quant</field>
+        <field name="active">0</field>
+        <field name="model_id" search="[('model','=','stock.quant')]" model="ir.model"/>
+        <field name="domain_force">['|',('location_id.user_id','=',user.id), ('location_id.user_id','=',False) ]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_user'))]"/>
+     </record>
+
+     <record model="ir.rule" id="stock_quant_see_all_rule">
+        <field name="name">All stock quant</field>
+        <field name="model_id" search="[('model','=','stock.quant')]" model="ir.model"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('stock.group_stock_manager'))]"/>
+     </record>
+   -->
+    </data>
+</odoo>

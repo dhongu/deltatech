@@ -1,19 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#    * deltatech_stock_inventory
+#   * deltatech_stock_inventory
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-16 11:23+0000\n"
-"PO-Revision-Date: 2019-04-16 11:23+0000\n"
+"POT-Creation-Date: 2021-01-21 15:37+0000\n"
+"PO-Revision-Date: 2021-01-21 15:37+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr "<span class=\"o_stat_text\">În stoc</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
@@ -102,7 +107,7 @@ msgstr "<strong>Cantitate faptică</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory
 msgid "<strong>Subtotal</strong>"
-msgstr "<strong>Subtotal</strong>"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
@@ -112,12 +117,17 @@ msgstr "<strong>Cantitate teoretică</strong>"
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
 msgid "<strong>Total general</strong>"
-msgstr "<strong>Total general</strong>"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_header
 msgid "<strong>Unit of measure</strong>"
 msgstr "<strong>UM</strong>"
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_change_inventory_date
+msgid "Allow to change inventory date"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_case
@@ -139,6 +149,7 @@ msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 msgid "Inventory"
 msgstr "Inventar"
 
@@ -150,7 +161,7 @@ msgstr "Data inventar"
 #. module: deltatech_stock_inventory
 #: model:ir.actions.report,name:deltatech_stock_inventory.action_report_inventory_diff
 msgid "Inventory Diff"
-msgstr ""
+msgstr "Diferență"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory_line
@@ -205,9 +216,19 @@ msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Product Name"
+msgstr "Nume produs"
+
+#. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_template
 msgid "Product Template"
 msgstr "Șablon produs"
+
+#. module: deltatech_stock_inventory
+#: model:ir.actions.act_window,name:deltatech_stock_inventory.action_product_template_warehouse
+msgid "Products - readonly"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_rack
@@ -227,9 +248,10 @@ msgstr "Rând"
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory_line__categ_id
 msgid "Select category for the current product"
-msgstr ""
+msgstr "Selectați categoria pentru produsul curent"
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Stock"
 msgstr "Stoc"
@@ -245,12 +267,28 @@ msgid "Stock Inventory by position"
 msgstr "Inventar după așezare produse"
 
 #. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Update"
 msgstr "Actualizează"
 
 #. module: deltatech_stock_inventory
-#: code:addons/deltatech_stock_inventory/models/stock.py:26
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+msgid "Update Stock"
+msgstr "Actualizează stoc"
+
+#. module: deltatech_stock_inventory
+#: model:res.groups,name:deltatech_stock_inventory.group_view_inventory_button
+msgid "View inventory button in product"
+msgstr "Buton inventar în produs"
+
+#. module: deltatech_stock_inventory
+#: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse
+msgid "Warehouse Products"
+msgstr "Produse stocabile"
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/stock.py:24
 #, python-format
 msgid "You can only delete draft inventory."
-msgstr "Puteți șterge inventare în starea ciornă"
+msgstr "Se poate șterge doar un inventar ciornă"

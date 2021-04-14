@@ -56,7 +56,8 @@
             <field name="name">Purchase Expenses</field>
             <field name="res_model">account.voucher</field>
             <field name="view_type">form</field>
-            <field name="domain">[('journal_id.type','in',['purchase','purchase_refund']),
+            <field name="domain">
+                [('journal_id.type','in',['purchase','purchase_refund']),
                 ('voucher_type','=','purchase')]
             </field>
             <field name="context">{'default_voucher_type': 'purchase', 'voucher_type': 'purchase'}</field>
@@ -64,9 +65,7 @@
             <field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor" />
             <field name="target">current</field>
             <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to register a purchase receipt.
-                </p>
+                <p class="oe_view_nocontent_create">Click to register a purchase receipt.</p>
                 <p>
                     When the purchase receipt is confirmed, you can record the
                     supplier payment related to this purchase receipt.

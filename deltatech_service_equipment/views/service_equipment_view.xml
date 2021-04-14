@@ -145,7 +145,7 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Meters">
+                            <page id='meters' string="Meters">
                                 <field name="meter_ids" mode="kanban,tree">
                                     <tree string="Meters" editable="bottom">
                                         <field name="name" />

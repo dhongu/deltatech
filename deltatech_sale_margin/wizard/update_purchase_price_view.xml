@@ -7,14 +7,10 @@
             <field name="arch" type="xml">
                 <form string="Update Purchase Price">
                     <group string="Update Purchase Price" attrs="{'invisible': [('for_all', '=', True)]}">
-                        <div class="oe_grey">
-                            For the selected invoice line will update purchase price
-                        </div>
+                        <div class="oe_grey">For the selected invoice line will update purchase price</div>
                     </group>
                     <group string="Update Purchase Price" attrs="{'invisible': [('for_all', '=', False)]}">
-                        <div class="oe_grey">
-                            For the ALL invoice line will update purchase price
-                        </div>
+                        <div class="oe_grey">For the ALL invoice line will update purchase price</div>
                     </group>
                     <group>
                         <group>

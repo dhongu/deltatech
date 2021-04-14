@@ -55,7 +55,9 @@ class ProductTemplate(models.Model):
             has_discounted_price = pricelist.currency_id.compare_amounts(list_price, price) == 1
 
             combination_info.update(
-                price=price, list_price=list_price, has_discounted_price=has_discounted_price,
+                price=price,
+                list_price=list_price,
+                has_discounted_price=has_discounted_price,
             )
         return combination_info
 

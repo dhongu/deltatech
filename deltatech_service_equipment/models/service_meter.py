@@ -79,7 +79,7 @@ class ServiceMeter(models.Model):
     _sql_constraints = [
         (
             "equipment_uom_uniq",
-            "unique(equipment_id,uom_id)",
+            "unique(equipment_id,uom_id,meter_categ_id)",
             "Two meter for one equipment with the same unit of measure? Impossible!",
         )
     ]
@@ -129,7 +129,7 @@ class ServiceMeter(models.Model):
                 if meter.meter_reading_ids:
                     meter.last_meter_reading_id = meter.meter_reading_ids[0]
                     meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
-                    total_counter_value = self.last_meter_reading_id.counter_value
+                    total_counter_value = meter.last_meter_reading_id.counter_value
             else:
                 for meter in meter.meter_ids:
                     total_counter_value += meter.meter_reading_ids[0].counter_value

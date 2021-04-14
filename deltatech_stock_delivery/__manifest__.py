@@ -6,6 +6,7 @@
     "name": "Invoice Delivery / Reception",
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
     "category": "Generic Modules/Other",
     "depends": [

@@ -6,7 +6,7 @@
     "version": "12.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
-    "website": "",
+    "website": "https://www.terrabit.ro",
     "category": "Human Resources",
     "depends": ["maintenance", "stock"],
     "data": [

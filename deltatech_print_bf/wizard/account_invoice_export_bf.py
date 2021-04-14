@@ -26,6 +26,7 @@ ecr_commands = {
         "qty": lambda value: value * 100000,
         "stl": "",
         "limit": 18,
+        "cod_tva": {0: "6", 19: "19%", 9: "9%", 5: "5%"},
     },
     "datecs": {
         "print": "P,1,______,_,__;{text};;;;\r\n",
@@ -38,6 +39,7 @@ ecr_commands = {
         "qty": lambda value: round(value, 3),
         "stl": "",
         "limit": 18,
+        "cod_tva": {0: "6", 19: "19%", 9: "9%", 5: "5%"},
     },
     "datecs18": {
         "print": "P,1,______,_,__;{text};;;;\r\n",
@@ -50,6 +52,7 @@ ecr_commands = {
         "qty": lambda value: round(value, 3),
         "stl": "L,1,______,_,__;\r\n",
         "limit": 72,
+        "cod_tva": {0: "6", 19: "19%", 9: "9%", 5: "5%"},
     },
 }
 
@@ -98,12 +101,13 @@ class AccountInvoiceExportBf(models.TransientModel):
             for line in invoice_id.invoice_line_ids:
 
                 price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-                taxes = False
+                tax = ecr_comm["cod_tva"][0]
                 if line.invoice_line_tax_ids:
                     taxes = line.invoice_line_tax_ids.compute_all(
                         price, currency, quantity=1, product=line.product_id, partner=line.invoice_id.partner_id
                     )
-                price = taxes["total_included"]
+                    tax = ecr_comm["cod_tva"][line.invoice_line_tax_ids[0].amount]
+                    price = taxes["total_included"]
 
                 # if value <0, add to to discount
                 if price < 0 or line.quantity < 0:
@@ -127,7 +131,7 @@ class AccountInvoiceExportBf(models.TransientModel):
                         "qty": str(ecr_comm["qty"](line.quantity)),
                         "dep": "1",
                         "group": "1",
-                        "tax": "1",  # todo: de determinat codul de taxa
+                        "tax": tax,
                         "uom": "",
                     }
                     if (len(prod_name_array)) > 1:  # printing the first lines
@@ -170,7 +174,7 @@ class AccountInvoiceExportBf(models.TransientModel):
 
         extension = self.env["ir.config_parameter"].sudo().get_param("account_invoice.ecr_extension", "inp")
 
-        defaults["name"] = "%s.%s" % (filename, extension)
+        defaults["name"] = "{}.{}".format(filename, extension)
         defaults["data_file"] = out
 
         return defaults

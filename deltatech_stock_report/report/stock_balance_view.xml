@@ -122,9 +122,9 @@
             <field name="view_id" ref="view_stock_balance_tree" />
             <field name="search_view_id" ref="view_stock_balance_filter" />
             <field name="help">This reporting allows you to analyse stock movements.</field>
-            <field
-                name="context"
-            >{'search_default_location': 1,'search_default_category': 1, 'group_by':['location_id']}</field>
+            <field name="context">
+                {'search_default_location': 1,'search_default_category': 1, 'group_by':['location_id']}
+            </field>
         </record>
         <record model="ir.actions.act_window.view" id="action_stock_balance_graph">
             <field name="sequence" eval="1" />

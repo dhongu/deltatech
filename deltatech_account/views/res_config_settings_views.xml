@@ -23,9 +23,7 @@
                             aria-label="Values set here are company-specific."
                             groups="base.group_multi_company"
                         />
-                        <div class="text-muted">
-                            Record cost of goods sold in your journal entries
-                        </div>
+                        <div class="text-muted">Record cost of goods sold in your journal entries</div>
                     </div>
                 </div>
             </div>
@@ -38,9 +36,7 @@
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
                         <span class="o_form_label">Inter-Banks Transfers</span>
-                        <div class="text-muted">
-                            Account used when transferring between banks
-                        </div>
+                        <div class="text-muted">Account used when transferring between banks</div>
                         <div class="content-group">
                             <div class="row mt16">
                                 <label for="transfer_account_id" class="col-lg-3 o_light_label" />

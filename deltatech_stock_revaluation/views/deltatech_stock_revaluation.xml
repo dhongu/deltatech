@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Stock Reevaluation Report -->
+<openerp>
+    <data>
+        <template id="stock_revaluation_document">
+            <div class="page">
+                <style type="text/css">
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
+                <!-- HEADER -->
+                <h3>ROMSYSTEMS SRL</h3>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div>
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END HEADER -->
+                <div class="row">
+                    <!-- <h3 style="text-align:center;font-weight:bold;">PLAN AMORTIZARE ECHIPAMENTE INCHIRIATE</h3> -->
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.title" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.name" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
+                </div>
+                <table width="100%">
+                    <thead class="default">
+                        <tr>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
+                            <th>Mijloc Fix</th>
+                            <th>UM</th>
+                            <!-- <th>Simbol clasa<br />mijloc fix</th> -->
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
+                            <th>Cont</th>
+                            <th>Cant</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
+                            <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="default">
+                        <t t-set="count" t-value="1" />
+                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
+                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="qty_reval" t-value="0" />
+                        <t t-set="init_value" t-value="0" />
+                        <t t-set="prev_reval" t-value="0" />
+                        <t t-set="current_reval" t-value="0" />
+                        <t t-set="remaining_reval" t-value="0" />
+                        <t t-set="total_reval" t-value="0" />
+                        <tr t-foreach="o.line_ids" t-as="l">
+                            <!-- Set initial values for calculated fields -->
+                            <t t-set="crt_reval" t-value="l.old_value-l.new_value" />
+                            <t t-set="crt_reval_int" t-value="int(crt_reval)" />
+                            <t t-if="crt_reval_int==0">
+                                <t t-set="months_passed" t-value="47" />
+                            </t>
+                            <t t-if="crt_reval_int!=0">
+                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))" />
+                            </t>
+                            <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
+                            <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
+                                <t t-set="months_ago" t-value="months_passed%12"/>
+                                <t t-set="original_month" t-value="(crt_month-months_ago+12)%12"/>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td style="text-align: left;">
+                                <span t-field="l.quant_id.product_id" />
+                            </td>
+                            <td>
+                                <span>Buc</span>
+                            </td>
+                            <!--
+                                <td>
+                                    <span>214</span>
+                                </td>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td>
+                                <span t-field="o.account_symbol" />
+                            </td>
+                            <td>
+                                <span>
+                                    <span t-field="l.quant_id.qty" />
+                                </span>
+                            </td>
+                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <td>
+                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                            </td>
+                            <td>
+                                <span t-field="l.init_value" />
+                            </td>
+                            <t t-set="init_value" t-value="init_value+l.init_value" />
+                            <td>
+                                <span t-field="l.old_value" />
+                            </td>
+                            <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
+                            <td>
+                                <span t-esc="crt_reval" />
+                            </td>
+                            <t t-set="current_reval" t-value="current_reval+crt_reval" />
+                            <td>
+                                <span t-field="l.new_value" />
+                            </td>
+                            <t t-set="remaining_reval" t-value="remaining_reval+l.new_value" />
+                            <td>
+                                <span>100</span>
+                            </td>
+                            <td>
+                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                            </td>
+                            <!--
+                                <td>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
+                                    </t>
+                                    <t t-if="not l.mentor_rates">
+                                       <span>0</span>
+                                    </t>
+                                </td>
+                                 -->
+                            <td>
+                                <span>AL(liniar)</span>
+                            </td>
+                            <td>
+                                <span>4</span>
+                            </td>
+                            <td>
+                                <span>
+                                    <t t-esc="48-(months_passed+1)" />
+                                </span>
+                            </td>
+                            <td>
+                                <span t-esc="l.init_value-l.new_value" />
+                            </td>
+                            <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
+                            <t t-set="count" t-value="count+1" />
+                        </tr>
+                    </tbody>
+                    <tbody class="bold">
+                        <tr>
+                            <td colspan="2">
+                                <span>Total MIJLOACE FIXE</span>
+                            </td>
+                            <!-- <td></td> -->
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="qty_reval" />
+                            </td>
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(init_value)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(prev_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(current_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(remaining_reval)" />
+                            </td>
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(total_reval)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template id="stock_revaluation_document2">
+            <div class="page">
+                <style type="text/css">
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
+                <!-- HEADER -->
+                <h3>ROMSYSTEMS SRL</h3>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div>
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END HEADER -->
+                <div class="row">
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.title" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.name" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
+                </div>
+                <table width="100%">
+                    <thead class="default">
+                        <tr>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
+                            <th>Mijloc transport</th>
+                            <th>UM</th>
+                            <!-- <th>Simbol clasa<br />mijloc transport</th> -->
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
+                            <th>Cont</th>
+                            <th>Cant</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
+                            <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="default">
+                        <t t-set="count" t-value="1" />
+                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
+                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="qty_reval" t-value="0" />
+                        <t t-set="init_value" t-value="0" />
+                        <t t-set="prev_reval" t-value="0" />
+                        <t t-set="current_reval" t-value="0" />
+                        <t t-set="remaining_reval" t-value="0" />
+                        <t t-set="total_reval" t-value="0" />
+                        <tr t-foreach="o.line_ids" t-as="l">
+                            <!-- Set initial values for calculated fields -->
+                            <t t-set="crt_reval" t-value="l.old_value-l.new_value" />
+                            <t t-set="crt_reval_int" t-value="int(crt_reval)" />
+                            <t t-if="crt_reval_int==0">
+                                <t t-set="months_passed" t-value="59" />
+                            </t>
+                            <t t-if="crt_reval_int!=0">
+                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))" />
+                            </t>
+                            <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
+                            <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
+                                <t t-set="months_ago" t-value="months_passed%12"/>
+                                <t t-set="original_month" t-value="(crt_month-months_ago+12)%12"/>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td style="text-align: left;">
+                                <span t-field="l.quant_id.product_id" />
+                            </td>
+                            <td>
+                                <span>Buc</span>
+                            </td>
+                            <!--
+                                <td>
+                                    <span>214</span>
+                                </td>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td>
+                                <span t-field="o.account_symbol" />
+                            </td>
+                            <td>
+                                <span>
+                                    <span t-field="l.quant_id.qty" />
+                                </span>
+                            </td>
+                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <td>
+                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                            </td>
+                            <td>
+                                <span t-field="l.init_value" />
+                            </td>
+                            <t t-set="init_value" t-value="init_value+l.init_value" />
+                            <td>
+                                <span t-field="l.old_value" />
+                            </td>
+                            <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
+                            <td>
+                                <span t-esc="crt_reval" />
+                            </td>
+                            <t t-set="current_reval" t-value="current_reval+crt_reval" />
+                            <td>
+                                <span t-field="l.new_value" />
+                            </td>
+                            <t t-set="remaining_reval" t-value="remaining_reval+l.new_value" />
+                            <td>
+                                <span>100</span>
+                            </td>
+                            <td>
+                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                            </td>
+                            <!--
+                                <td>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
+                                    </t>
+                                    <t t-if="not l.mentor_rates">
+                                       <span>0</span>
+                                    </t>
+                                </td>
+                                 -->
+                            <td>
+                                <span>AL(liniar)</span>
+                            </td>
+                            <td>
+                                <span>5</span>
+                            </td>
+                            <td>
+                                <span>
+                                    <t t-esc="60-(months_passed+1)" />
+                                </span>
+                            </td>
+                            <td>
+                                <span t-esc="l.init_value-l.new_value" />
+                            </td>
+                            <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
+                            <t t-set="count" t-value="count+1" />
+                        </tr>
+                    </tbody>
+                    <tbody class="bold">
+                        <tr>
+                            <td colspan="2">
+                                <span>Total MIJLOACE FIXE</span>
+                            </td>
+                            <!-- <td></td> -->
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="qty_reval" />
+                            </td>
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(init_value)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(prev_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(current_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(remaining_reval)" />
+                            </td>
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(total_reval)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template id="stock_revaluation_document3">
+            <div class="page">
+                <style type="text/css">
+tbody.default td {
+    border: 1px solid gray;
+    text-align: center;
+    font-size: 75%;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                </style>
+                <!-- HEADER -->
+                <h3>ROMSYSTEMS SRL</h3>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div>
+                            <p>
+                                Str. Abatorului nr. 4 Bacau
+                             Tel: 0334 401 939
+                             CIF: RO15437993
+                             NRC: J04/535/2003
+                             Capital social: 200.00
+                             E-mail: office@romsystem.ro
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END HEADER -->
+                <div class="row">
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.title" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <h3 style="text-align:center;font-weight:bold;">
+                        <span t-field="o.name" />
+                    </h3>
+                </div>
+                <div class="row">
+                    <p>
+                        Data:
+                        <span t-field="o.date" />
+                    </p>
+                </div>
+                <table width="100%">
+                    <thead class="default">
+                        <tr>
+                            <th>
+                                Nr.
+                                <br />
+                                crt.
+                            </th>
+                            <th>Mijloc transport</th>
+                            <th>UM</th>
+                            <!-- <th>Simbol clasa<br />mijloc transport</th> -->
+                            <th>
+                                Nr.
+                                <br />
+                                inv.
+                            </th>
+                            <th>Cont</th>
+                            <th>Cant</th>
+                            <th>
+                                Pret
+                                <br />
+                                initial
+                            </th>
+                            <th>
+                                Valoare
+                                <br />
+                                initiala
+                            </th>
+                            <th>
+                                Valoare dupa
+                                <br />
+                                amort. precedenta
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                curenta
+                            </th>
+                            <th>
+                                Valoare ramasa de amortizat
+                                <br />
+                            </th>
+                            <th>
+                                Grad
+                                <br />
+                                utilizare(%)
+                            </th>
+                            <th>
+                                An/luna
+                                <br />
+                                prima rata
+                            </th>
+                            <!-- <th>Rate<br/> amort. in<br/>Mentor</th> -->
+                            <th>
+                                Tip
+                                <br />
+                                amortiz.
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                norm.(ani)
+                            </th>
+                            <th>
+                                Durata
+                                <br />
+                                ramasa.(luni)
+                            </th>
+                            <th>
+                                Amortizare
+                                <br />
+                                totala
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="default">
+                        <t t-set="count" t-value="1" />
+                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
+                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="qty_reval" t-value="0" />
+                        <t t-set="init_value" t-value="0" />
+                        <t t-set="prev_reval" t-value="0" />
+                        <t t-set="current_reval" t-value="0" />
+                        <t t-set="remaining_reval" t-value="0" />
+                        <t t-set="total_reval" t-value="0" />
+                        <tr t-foreach="o.line_ids" t-as="l">
+                            <!-- Set initial values for calculated fields -->
+                            <t t-set="crt_reval" t-value="l.old_value-l.new_value" />
+                            <t t-set="crt_reval_int" t-value="int(crt_reval)" />
+                            <t t-if="crt_reval_int==0">
+                                <t t-set="months_passed" t-value="71" />
+                            </t>
+                            <t t-if="crt_reval_int!=0">
+                                <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))" />
+                            </t>
+                            <!-- <t t-set="months_passed" t-value="int(round((l.init_value-l.old_value)/crt_reval))"/> -->
+                            <!-- <t t-set="years_ago" t-value="int(months_passed/12)"/>
+                                <t t-set="months_ago" t-value="months_passed%12"/>
+                                <t t-set="original_month" t-value="(crt_month-months_ago+12)%12"/>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td style="text-align: left;">
+                                <span t-field="l.quant_id.product_id" />
+                            </td>
+                            <td>
+                                <span>Buc</span>
+                            </td>
+                            <!--
+                                <td>
+                                    <span>214</span>
+                                </td>
+                                 -->
+                            <td>
+                                <t t-esc="count" />
+                            </td>
+                            <td>
+                                <span t-field="o.account_symbol" />
+                            </td>
+                            <td>
+                                <span>
+                                    <span t-field="l.quant_id.qty" />
+                                </span>
+                            </td>
+                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <td>
+                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                            </td>
+                            <td>
+                                <span t-field="l.init_value" />
+                            </td>
+                            <t t-set="init_value" t-value="init_value+l.init_value" />
+                            <td>
+                                <span t-field="l.old_value" />
+                            </td>
+                            <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
+                            <td>
+                                <span t-esc="crt_reval" />
+                            </td>
+                            <t t-set="current_reval" t-value="current_reval+crt_reval" />
+                            <td>
+                                <span t-field="l.new_value" />
+                            </td>
+                            <t t-set="remaining_reval" t-value="remaining_reval+l.new_value" />
+                            <td>
+                                <span>100</span>
+                            </td>
+                            <td>
+                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                            </td>
+                            <!--
+                                <td>
+                                   <t t-if="l.mentor_rates">
+                                       <span t-field="l.mentor_rates"/>
+                                    </t>
+                                    <t t-if="not l.mentor_rates">
+                                       <span>0</span>
+                                    </t>
+                                </td>
+                                 -->
+                            <td>
+                                <span>AL(liniar)</span>
+                            </td>
+                            <td>
+                                <span>6</span>
+                            </td>
+                            <td>
+                                <span>
+                                    <t t-esc="72-(months_passed+1)" />
+                                </span>
+                            </td>
+                            <td>
+                                <span t-esc="l.init_value-l.new_value" />
+                            </td>
+                            <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
+                            <t t-set="count" t-value="count+1" />
+                        </tr>
+                    </tbody>
+                    <tbody class="bold">
+                        <tr>
+                            <td colspan="2">
+                                <span>Total MIJLOACE FIXE</span>
+                            </td>
+                            <!-- <td></td> -->
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="qty_reval" />
+                            </td>
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(init_value)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(prev_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(current_reval)" />
+                            </td>
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(remaining_reval)" />
+                            </td>
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td />
+                            <td>
+                                <span t-esc="'{0:,.2f}'.format(total_reval)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template id="report_stock_revaluation">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t
+                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document')"
+                    />
+                </t>
+            </t>
+        </template>
+        <template id="report_stock_revaluation2">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t
+                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document2')"
+                    />
+                </t>
+            </t>
+        </template>
+        <template id="report_stock_revaluation3">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t
+                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document3')"
+                    />
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

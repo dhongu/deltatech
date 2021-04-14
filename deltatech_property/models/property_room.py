@@ -55,6 +55,7 @@ class PropertyRoom(models.Model):
         help="The purpose of using the room",
         default="bedroom",
     )
+    usage_id = fields.Many2one("room.usage", string="Room usage", help="The purpose of using the room")
 
     rented_room = fields.Boolean()
     tenant_id = fields.Many2one("res.partner", string="Tenant")
@@ -74,3 +75,10 @@ class PropertyRoom(models.Model):
     def _check_cleaning_surface(self):
         if self.cleaning_surface > self.surface:
             raise ValidationError(_("Cleaning surface most by lower that surface area"))
+
+
+class RoomUsage(models.Model):
+    _name = "room.usage"
+    _description = "Room usage"
+
+    name = fields.Char(string="Usage")

@@ -3,19 +3,13 @@
     <template id="product_data_sheet" inherit_id="website_sale.product" name="Show Data Sheet">
         <xpath expr="//hr[@t-if='product.description_sale']" position="before">
             <hr t-if='product.data_sheet_id'>
-                <a
-                    role="button"
-                    class="btn btn-primary"
-                    t-attf-href="/web/content/{{product.data_sheet_id.id}}"
-                >Show Data Sheet
+                <a role="button" class="btn btn-primary" t-attf-href="/web/content/{{product.data_sheet_id.id}}">
+                    Show Data Sheet
                 </a>
             </hr>
             <hr t-if='product.safety_data_sheet_id'>
-                <a
-                    role="button"
-                    class="btn btn-primary"
-                    t-attf-href="/web/content/{{product.safety_data_sheet_id.id}}"
-                >Show Safety Data Sheet
+                <a role="button" class="btn btn-primary" t-attf-href="/web/content/{{product.safety_data_sheet_id.id}}">
+                    Show Safety Data Sheet
                 </a>
             </hr>
         </xpath>

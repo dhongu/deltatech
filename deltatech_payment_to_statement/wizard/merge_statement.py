@@ -11,9 +11,9 @@ _logger = logging.getLogger("merge.object")
 
 class MergeStatement(models.TransientModel):
     """
-        The idea behind this wizard is to create a list of potential statement to
-        merge. We use two objects, the first one is the wizard for the end-user.
-        And the second will contain the object list to merge.
+    The idea behind this wizard is to create a list of potential statement to
+    merge. We use two objects, the first one is the wizard for the end-user.
+    And the second will contain the object list to merge.
     """
 
     _inherit = "merge.object.wizard"

@@ -38,7 +38,8 @@
                                 <strong>Scheduled Date:</strong>
                                 <br />
                                 <span t-field="o.date_planned_start" />
-                                <span t-if="o.date_planned_finished">-
+                                <span t-if="o.date_planned_finished">
+                                    -
                                     <span t-field="o.date_planned_finished" />
                                 </span>
                             </div>
@@ -86,7 +87,8 @@
                                 </div>
                                 <div class="col-4" t-if="operation.state == 'done'">
                                     <strong>Interval:</strong>
-                                    <span t-field="operation.date_start" />-
+                                    <span t-field="operation.date_start" />
+                                    -
                                     <span t-field="operation.date_finished" />
                                 </div>
                                 <div class="col-4">

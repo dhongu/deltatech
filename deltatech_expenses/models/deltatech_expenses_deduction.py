@@ -46,7 +46,11 @@ class DeltatechExpensesDeduction(models.Model):
                 account_id = False
         return account_id
 
-    number = fields.Char(string="Number", size=32, readonly=True,)
+    number = fields.Char(
+        string="Number",
+        size=32,
+        readonly=True,
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("done", "Done"), ("cancel", "Cancelled")],
         string="Status",

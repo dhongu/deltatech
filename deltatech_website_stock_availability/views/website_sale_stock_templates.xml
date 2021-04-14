@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Sale Stock Availability">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/deltatech_website_stock_availability/static/src/js/variant_mixin.js" />
+        </xpath>
+    </template>
+    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
+        <xpath expr="//div[@id='product_details']//hr" position="before">
+            <div class="lead_time_messages o_not_editable">Buy now, get in 2 days</div>
+        </xpath>
+    </template>
+</odoo>

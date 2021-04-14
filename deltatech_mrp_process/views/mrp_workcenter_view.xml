@@ -37,9 +37,7 @@
                 <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">
                     <div class="row">
                         <div class="col-6">
-                            <a name="%(action_mrp_cleaning)d" type="action">
-                                Cleaning
-                            </a>
+                            <a name="%(action_mrp_cleaning)d" type="action">Cleaning</a>
                         </div>
                         <div class="col-6 text-right">
                             <field name="cleaning_date" />

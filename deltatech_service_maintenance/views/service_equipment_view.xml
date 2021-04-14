@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_service_equipment_form" model="ir.ui.view">
+        <field name="name">Service equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment.view_service_equipment_form" />
+        <field name="arch" type="xml">
+            <button id="picking_button" position="after">
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="notification_button"
+                    icon="fa-bell-o"
+                    name="notification_button"
+                >
+                    <div>Notifications</div>
+                </button>
+                <button type="object" class="oe_stat_button" id="order_button" icon="fa-ticket" name="order_button">
+                    <div>Orders</div>
+                </button>
+            </button>
+            <page id="meters" position="after">
+                <page string="Plans" groups="base.group_use_service_plan">
+                    <field name="plan_ids" nolabel="1" context="{'default_equipment_id':id  }">
+                        <tree string="Plans">
+                            <field name="name" />
+                            <field name='state' invisible="1" />
+                            <field name="cycle_id" />
+                            <field name='last_call_done_date' />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

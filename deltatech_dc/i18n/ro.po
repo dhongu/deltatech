@@ -202,5 +202,5 @@ msgstr "Specificație tehnică"
 msgid "We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the\n"
 "                                requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory\n"
 "                                processing by yourselves."
-msgstr "Declarăm pe propria raspundere, conform prevederilor art. 5 din HG 1022/2002, privind regimul produselor și serviciilor care pot pune în pericol viața, sanatătea, securitatea muncii și protecția mediului, că produsul nu pune în pericol sanatătea utilizatorilor și nu este toxic pentru mediul înconjurător."
+msgstr "Declarăm pe propria raspundere, privind regimul produselor și serviciilor care pot pune în pericol viața, sanatătea, securitatea muncii și protecția mediului, că produsul nu pune în pericol sanatătea utilizatorilor și nu este toxic pentru mediul înconjurător."
 

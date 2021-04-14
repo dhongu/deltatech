@@ -1,4 +1,4 @@
-odoo.define("web_map.MapRenderer", function(require) {
+odoo.define("web_map.MapRenderer", function (require) {
     "use strict";
     var core = require("web.core");
     var AbstractRenderer = require("web.AbstractRenderer");
@@ -10,7 +10,7 @@ odoo.define("web_map.MapRenderer", function(require) {
         // Public
         // --------------------------------------------------------------------------
 
-        init: function(parent, state, params) {
+        init: function (parent, state, params) {
             this._super.apply(this, arguments);
             this.fieldsMarkerPopup = params.fieldNamesMarkerPopup;
             this.numbering = params.numbering;
@@ -34,7 +34,7 @@ odoo.define("web_map.MapRenderer", function(require) {
         /*
          * Called each time the renderer is attached into the DOM.
          */
-        on_attach_callback: function() {
+        on_attach_callback: function () {
             this.isInDom = true;
             this._initializeMap();
             var initialCoord = this._getLatLng();
@@ -52,7 +52,7 @@ odoo.define("web_map.MapRenderer", function(require) {
         /*
          *Called each time the renderer is detached from the DOM.
          */
-        on_detach_callback: function() {
+        on_detach_callback: function () {
             this.isInDom = false;
         },
 
@@ -61,11 +61,11 @@ odoo.define("web_map.MapRenderer", function(require) {
          * manually destroys the handlers to avoid memory leaks
          * destroys manually the map
          */
-        destroy: function() {
-            this.markers.forEach(function(marker) {
+        destroy: function () {
+            this.markers.forEach(function (marker) {
                 marker.off("click");
             });
-            this.polylines.forEach(function(polyline) {
+            this.polylines.forEach(function (polyline) {
                 polyline.off("click");
             });
             this.leafletMap.remove();
@@ -84,7 +84,7 @@ odoo.define("web_map.MapRenderer", function(require) {
          *the greater the user will be able to zoom.
          *@private
          */
-        _initializeMap: function() {
+        _initializeMap: function () {
             if (this.mapIsInit) {
                 return;
             }
@@ -113,9 +113,9 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @private
          * @returns {latLngBounds|Boolean} objects containing the coordinates that allows all the records to be shown on the map or returns false if the records does not contain any located record
          */
-        _getLatLng: function() {
+        _getLatLng: function () {
             var tabLatLng = [];
-            this.state.records.forEach(function(record) {
+            this.state.records.forEach(function (record) {
                 if (record.partner && record.partner.partner_latitude && record.partner.partner_longitude) {
                     tabLatLng.push(google.latLng(record.partner.partner_latitude, record.partner.partner_longitude));
                 }
@@ -132,9 +132,9 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @param {Object} fields is an object that contain all the field that are going to be shown in the view
          * @returns {Object} field: contains the value of the field and string contains the value of the xml's string attribute
          */
-        _getMarkerPopupFields: function(record, fields) {
+        _getMarkerPopupFields: function (record, fields) {
             var fieldsView = [];
-            fields.forEach(function(field) {
+            fields.forEach(function (field) {
                 if (record[field.fieldName]) {
                     if (record[field.fieldName] instanceof Array) {
                         fieldsView.push({field: record[field.fieldName][1], string: field.string});
@@ -155,10 +155,10 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @param {float} records.partner.partner_latitude latitude of the partner and thus of the record
          * @param {float} records.partner.partner_longitude longitude of the partner and thus of the record
          */
-        _addMakers: function(records) {
+        _addMakers: function (records) {
             var self = this;
             this._removeMakers();
-            records.forEach(function(record) {
+            records.forEach(function (record) {
                 if (record.partner && record.partner.partner_latitude && record.partner.partner_longitude) {
                     var popup = {};
                     popup.records = self._getMarkerPopupFields(record, self.fieldsMarkerPopup);
@@ -170,7 +170,7 @@ odoo.define("web_map.MapRenderer", function(require) {
                     var $popup = $(qweb.render("map-popup", {records: popup}));
                     var openButton = $popup.find("button.btn.btn-primary.edit")[0];
                     if (self.hasFormView) {
-                        openButton.onclick = function() {
+                        openButton.onclick = function () {
                             self.trigger_up("open_clicked", {id: record.id});
                         };
                     } else {
@@ -193,9 +193,9 @@ odoo.define("web_map.MapRenderer", function(require) {
                         offset = new google.Point(0, 0);
                     }
                     marker.addTo(self.leafletMap).bindPopup(
-                        function() {
+                        function () {
                             var divPopup = document.createElement("div");
-                            $popup.each(function(i, element) {
+                            $popup.each(function (i, element) {
                                 divPopup.appendChild(element);
                             });
                             return divPopup;
@@ -210,7 +210,7 @@ odoo.define("web_map.MapRenderer", function(require) {
          * Adds the list of records to the dom
          * @private
          */
-        _addPinList: function() {
+        _addPinList: function () {
             this.$pinList = $(qweb.render("MapView.pinlist", {widget: this}));
             var $container = this.$el.find(".o_pin_list_container");
             if ($container.length) {
@@ -228,17 +228,17 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @private
          * @param {Object} route contains the data that allows to draw the rout between the records.
          */
-        _addRoutes: function(route) {
+        _addRoutes: function (route) {
             this._removeRoutes();
             var self = this;
             if (!this.mapBoxToken || !route.routes.length) {
                 return;
             }
 
-            route.routes[0].legs.forEach(function(leg) {
+            route.routes[0].legs.forEach(function (leg) {
                 var latLngs = [];
-                leg.steps.forEach(function(step) {
-                    step.geometry.coordinates.forEach(function(coordinate) {
+                leg.steps.forEach(function (step) {
+                    step.geometry.coordinates.forEach(function (coordinate) {
                         latLngs.push(google.latLng(coordinate[1], coordinate[0]));
                     });
                 });
@@ -251,8 +251,8 @@ odoo.define("web_map.MapRenderer", function(require) {
                     })
                     .addTo(self.leafletMap);
 
-                polyline.on("click", function() {
-                    self.polylines.forEach(function(poly) {
+                polyline.on("click", function () {
+                    self.polylines.forEach(function (poly) {
                         poly.setStyle({color: "blue", opacity: 0.3});
                     });
                     this.setStyle({color: "darkblue", opacity: 1.0});
@@ -270,10 +270,10 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @param {Number} ev.target.dataset.lng the longitude to pass leaflet
          * @private
          */
-        _centerAndOpenPin: function(ev) {
+        _centerAndOpenPin: function (ev) {
             ev.preventDefault();
             this.leafletMap.panTo(ev.target.dataset, {animate: true});
-            var marker = this.markers.find(m => {
+            var marker = this.markers.find((m) => {
                 return m._latlng.lat === ev.target.dataset.lat && m._latlng.lng === ev.target.dataset.lng;
             });
             if (marker) {
@@ -285,9 +285,9 @@ odoo.define("web_map.MapRenderer", function(require) {
          * Remove the markers from the map and empties the markers array
          * @private
          */
-        _removeMakers: function() {
+        _removeMakers: function () {
             var self = this;
-            this.markers.forEach(function(marker) {
+            this.markers.forEach(function (marker) {
                 self.leafletMap.removeLayer(marker);
             });
             this.markers = [];
@@ -297,9 +297,9 @@ odoo.define("web_map.MapRenderer", function(require) {
          * Remove the routes from the map and empties the the polyline array
          * @private
          */
-        _removeRoutes: function() {
+        _removeRoutes: function () {
             var self = this;
-            this.polylines.forEach(function(polyline) {
+            this.polylines.forEach(function (polyline) {
                 self.leafletMap.removeLayer(polyline);
             });
             this.polylines = [];
@@ -310,7 +310,7 @@ odoo.define("web_map.MapRenderer", function(require) {
          * @private
          * @returns {Promise}
          */
-        _render: function() {
+        _render: function () {
             if (this.isInDom) {
                 var initialCoord = this._getLatLng();
                 if (initialCoord) {

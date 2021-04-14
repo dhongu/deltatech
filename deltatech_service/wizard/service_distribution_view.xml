@@ -7,15 +7,13 @@
             <field name="arch" type="xml">
                 <form string="Distribution">
                     <group string="Distribution">
-                        <div class="oe_grey">
-                            Distribution services consumed quantities / values
-                        </div>
+                        <div class="oe_grey">Distribution services consumed quantities / values</div>
                     </group>
                     <group>
                         <group>
                             <field name="type" />
                             <field name="mode" attrs="{'invisible': [('type', '=', 'val')]}" />
-                            <field name="add_values" attrs="{'invisible': [('type', '=', 'qty')]}" />
+                            <field name="add_values" />
                         </group>
                         <group>
                             <field name="product_id" />

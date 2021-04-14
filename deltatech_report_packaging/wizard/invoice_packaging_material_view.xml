@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+        <record id="invoice_packaging_material_form" model="ir.ui.view">
+            <field name="name">Raport packaging wizard</field>
+            <field name="model">packaging.report.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="state" invisible="1" />
+                        <group states="choose">
+                            <div>Report packing materials used for products invoiced</div>
+                        </group>
+                        <group states="get">
+                            <field name="line_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <field name="material_type" />
+                                    <field name="qty" />
+                                </tree>
+                            </field>
+                        </group>
+                        <footer states="choose">
+                            <button name="do_raport" string="_Apply" type="object" class="oe_highlight" />
+                            or
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </footer>
+                        <footer states="get">
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+    <act_window
+        id="action_packaging_wizard"
+        name="Raport packaging list"
+        src_model="account.invoice"
+        res_model="packaging.report.material"
+        view_mode="form"
+        key2="client_action_multi"
+        target="new"
+    />
+</odoo>

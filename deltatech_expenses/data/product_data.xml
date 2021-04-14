@@ -409,7 +409,7 @@
             <field name="cost_method" eval="'average'" />
             <field name="uom_id" ref="product.product_uom_unit" />
             <field name="uom_po_id" ref="product.product_uom_unit" />
-            <field name="name">Cheltuieli servicii diverse executate de terti    </field>
+            <field name="name">Cheltuieli servicii diverse executate de terti</field>
             <field name="categ_id" ref="cat_chelt_servicii" />
         </record>
     </data>

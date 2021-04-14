@@ -11,7 +11,10 @@ class ServiceEquiAgreement(models.TransientModel):
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
     partner_id = fields.Many2one("res.partner", string="Customer", required=True, domain=[("customer", "=", True)])
-    agreement_id = fields.Many2one("service.agreement", string="Contract Service",)
+    agreement_id = fields.Many2one(
+        "service.agreement",
+        string="Contract Service",
+    )
 
     @api.model
     def default_get(self, fields_list):

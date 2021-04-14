@@ -11,7 +11,12 @@ class ServiceMeterReadingEstimate(models.TransientModel):
     _name = "service.meter.reading.estimate"
     _description = "Meter Reading Estimate"
 
-    period_id = fields.Many2one("account.period", string="Period", domain=[("state", "!=", "done")], required=True,)
+    period_id = fields.Many2one(
+        "account.period",
+        string="Period",
+        domain=[("state", "!=", "done")],
+        required=True,
+    )
 
     meter_ids = fields.Many2many("service.meter", "service_meter_estimate", "estimate_id", "meter_id", string="Meters")
 

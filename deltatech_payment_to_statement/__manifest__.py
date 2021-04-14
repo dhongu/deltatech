@@ -16,6 +16,7 @@
         "views/account_view.xml",
         "views/account_journal_dashboard_view.xml",
         "wizard/merge_statement_view.xml",
+        "data/data.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "post_init_hook": "_set_auto_auto_statement",

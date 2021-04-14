@@ -23,9 +23,9 @@ class AccountInvoice(models.Model):
     @api.multi
     def add_to_purchase(self):
         """
-            Verifica daca toate pozitiile din factura de achizitie se regasesc intr-o comanda de achizitie.
-            sunt 2 variante: sa caut o comanda de aprovizonare
-                                sau sa fac o comanda noua.
+        Verifica daca toate pozitiile din factura de achizitie se regasesc intr-o comanda de achizitie.
+        sunt 2 variante: sa caut o comanda de aprovizonare
+                            sau sa fac o comanda noua.
         """
 
         for invoice in self:

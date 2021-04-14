@@ -16,13 +16,25 @@ Watermark
 
 |badge1| |badge2| 
 
-Features:
- - define field watermark in the company
+This module allows you to define the field watermark in the company
+
+This field is used in other modules
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+Go to:
+ Setting -> General Settings - Business Documents
+
+
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/12.0/deltatech_watermark/static/description/settings.png
+    :align: center
+    :alt: Settings
 
 Bug Tracker
 ===========
