@@ -10,6 +10,7 @@
                     <group name="product_code">
                         <group string="Products">
                             <field name="sequence_id" />
+                            <field name="generate_barcode" />
                         </group>
                     </group>
                 </group>
