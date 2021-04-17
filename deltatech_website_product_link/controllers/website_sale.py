@@ -10,12 +10,18 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleAlternativeLink(WebsiteSale):
-    @http.route(["/<category>"], type="http", auth="public", website=True, sitemap=False)
-    def shop_category(self, page=0, category=None, search="", ppg=False, **post):
-        if category:
+    @http.route(["/<string:alternative_link>"], type="http", auth="public", website=True, sitemap=False)
+    def shop_alternative_link(self, alternative_link=None, **post):
+        if alternative_link:
             Category = request.env["product.public.category"]
-            category = Category.search([("alternative_link", "=", category)], limit=1)
+            category = Category.search([("alternative_link", "=", alternative_link)], limit=1)
             if category:
-                res = self.shop(page=page, category=category.id, search=search, ppg=ppg, **post)
+                res = self.shop(category=category.id, **post)
+                return res
+
+            Product = request.env["product.template"]
+            product = Product.search([("alternative_link", "=", alternative_link)], limit=1)
+            if product:
+                res = self.product(product=product, **post)
                 return res
         raise request.not_found()

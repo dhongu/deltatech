@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="option_collapse_categories_recursive"
+        name="Collapse Category Recursive"
+        inherit_id="website_sale.option_collapse_categories_recursive"
+    >
+        <xpath expr="//a[@t-field='c.name']" position="attributes">
+            <attribute name="t-att-href">keep(c.website_url, category=0)</attribute>
+        </xpath>
+    </template>
+
+    <template id="categories_recursive" name="Category list" inherit_id="website_sale.categories_recursive">
+        <xpath expr="//a" position="attributes">
+            <attribute name="t-att-href">keep(c.website_url, category=0)</attribute>
+        </xpath>
+    </template>
+
+    <template id="product" name="Product" inherit_id="website_sale.product">
+        <xpath expr="//a[@t-field='category.name']" position="attributes">
+            <attribute name="t-att-href">keep(category.website_url, category=0)</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -21,9 +21,7 @@ eCommerce Product Link
 
 Features:
  - Product alternative link address
-
-
-Nu functioneaza in website cu mai multe limbi
+ - Categories alternative link address
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
