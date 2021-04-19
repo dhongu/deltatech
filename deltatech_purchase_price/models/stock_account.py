@@ -28,7 +28,7 @@ class StockMove(models.Model):
                                 seller_price_unit = self.purchase_line_id.price_unit
                             else:
                                 seller_price_unit = self.env.user.company_id.currency_id.compute(
-                                    price_unit, seller.currency
+                                    price_unit, seller.currency_id
                                 )
                         else:
                             seller_price_unit = price_unit
