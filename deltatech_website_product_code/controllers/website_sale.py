@@ -56,10 +56,13 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                 values = {
                     "name": combination_info["display_name"],
                     "default_code": product.default_code,
+                    "categories": [],
                     "price": combination_info["price"],
                     "list_price": combination_info["list_price"],
                     "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image/",
                 }
+                for categ in product.public_categ_ids:
+                    values["categories"] += [categ.display_name]
                 if alternative_code_mod:
                     alternative_code = []
                     for alternative in product.alternative_ids:
