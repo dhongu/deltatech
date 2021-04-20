@@ -3,10 +3,14 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
+
 from odoo import http
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
+
+_logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleAlternativeLink(WebsiteSale):
@@ -28,7 +32,9 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         return str(res)
 
     def _search_products_by_code(self, search):
+
         domain = request.website.sale_product_domain()
+        _logger.info("_search_products_by_code: %s", search)
         if search:
             for srch in search.split(" "):
                 domain += [
@@ -41,7 +47,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                     ("product_variant_ids.default_code", "ilike", srch),
                 ]
 
-        products = request.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=100)
+        products = request.env["product.template"].with_context(bin_size=True).sudo().search(domain, limit=10)
         res = []
         alternative_code_mod = (
             request.env["ir.module.module"]
