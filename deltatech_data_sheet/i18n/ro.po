@@ -1,0 +1,35 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#    * deltatech_data_sheet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-15 10:19+0000\n"
+"PO-Revision-Date: 2020-03-15 10:19+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_data_sheet
+#: model:ir.model.fields,field_description:deltatech_data_sheet.field_product_product__data_sheet_id
+#: model:ir.model.fields,field_description:deltatech_data_sheet.field_product_template__data_sheet_id
+#: model_terms:ir.ui.view,arch_db:deltatech_data_sheet.product_template_form_view
+msgid "Data Sheet"
+msgstr "Fișă tehnică"
+
+#. module: deltatech_data_sheet
+#: model:ir.model,name:deltatech_data_sheet.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_data_sheet
+#: model:ir.model.fields,field_description:deltatech_data_sheet.field_product_product__safety_data_sheet_id
+#: model:ir.model.fields,field_description:deltatech_data_sheet.field_product_template__safety_data_sheet_id
+msgid "Safety Data Sheet"
+msgstr "Fișă securitate"
+
