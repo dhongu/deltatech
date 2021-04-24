@@ -1,4 +1,4 @@
-# ©  2015-2020 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -10,6 +10,19 @@ class SaleOrder(models.Model):
 
     @api.onchange("order_line")
     def onchange_order_line(self):
+        pallets = self.recompute_pallet_lines()
+        if pallets:
+            for line in self.order_line:
+                pallet = pallets.pop(line.product_id.id, False)
+                if pallet:
+                    line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
+
+        for product_id in pallets:
+            order_line = self.order_line.new(pallets[product_id])
+            order_line.product_id_change()
+            order_line.product_uom_change()
+
+    def recompute_pallet_lines(self):
         pallets = {}
         for line in self.order_line:
             if (
@@ -32,14 +45,4 @@ class SaleOrder(models.Model):
                     "state": "draft",
                     "order_id": self.id,
                 }
-
-        if pallets:
-            for line in self.order_line:
-                pallet = pallets.pop(line.product_id.id, False)
-                if pallet:
-                    line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
-
-        for product_id in pallets:
-            order_line = self.order_line.new(pallets[product_id])
-            order_line.product_id_change()
-            order_line.product_uom_change()
+        return pallets
