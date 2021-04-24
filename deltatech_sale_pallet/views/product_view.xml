@@ -10,6 +10,7 @@
                 <group name="palletizing" string="Palletizing">
                     <field name="pallet_product_id" />
                     <field name="pallet_qty_min" />
+                    <field name="pallet_price" />
                 </group>
             </group>
         </field>
