@@ -65,17 +65,18 @@ class SaleOrderLine(models.Model):
                     message = _("Sale %s without price.") % line.product_id.name
                     self.order_id.message_post(body=message)
             price_unit = line.price_reduce_taxexcl
-            if price_unit and price_unit < line.purchase_price:
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(_("You can not sell below the purchase price."))
-                else:
-                    message = _("Sale %s under the purchase price.") % line.product_id.name
-                    self.order_id.message_post(body=message)
+            if price_unit:
+                if price_unit < line.purchase_price:
+                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                        raise UserError(_("You can not sell below the purchase price."))
+                    else:
+                        message = _("Sale %s under the purchase price.") % line.product_id.name
+                        self.order_id.message_post(body=message)
 
-            margin = (price_unit - line.purchase_price) / price_unit * 100
-            if margin < margin_limit:
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
-                    raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
-                else:
-                    message = _("Sale %s below margin.") % line.product_id.name
-                    self.order_id.message_post(body=message)
+                margin = (price_unit - line.purchase_price) / price_unit * 100
+                if margin < margin_limit:
+                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
+                        raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
+                    else:
+                        message = _("Sale %s below margin.") % line.product_id.name
+                        self.order_id.message_post(body=message)
