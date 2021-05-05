@@ -50,7 +50,7 @@ class SaleOrder(models.Model):
             if order.stage == "in_process" and order.postponed_delivery:
                 order.stage = "postponed"
 
-            if order.stage == "in_process" and order.state == "sale":
+            if order.stage == "in_process" and order.state in ["sale", "done"]:
                 qty_to_deliver = 0
                 order.stage = "delivered"
                 for line in order.order_line:
