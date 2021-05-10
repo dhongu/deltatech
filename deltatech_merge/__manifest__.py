@@ -11,7 +11,9 @@
     "category": "Tools",
     "depends": ["base"],
     "license": "LGPL-3",
-    "data": [],
+    "data": [
+        "security/merge_security.xml"
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
