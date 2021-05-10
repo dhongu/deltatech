@@ -3,3 +3,4 @@
 
 
 from . import merge_object
+from . import partner_merge
