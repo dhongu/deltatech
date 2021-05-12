@@ -33,7 +33,8 @@ class AccountPayment(models.Model):
 
     def action_post(self):
         res = super(AccountPayment, self).action_post()
-        self.add_statement_line()
+        if self.env.context.get("add_statement_line", True):
+            self.add_statement_line()
         self.force_cash_sequence()
 
         return res
