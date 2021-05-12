@@ -22,12 +22,23 @@ class TestExpenses(TransactionCase):
             }
         )
 
+        self.account_cash_advances = self.env["account.account"].create(
+            {
+                "name": "account_cash_advances",
+                "code": "542xxx",
+                "user_type_id": self.env.ref("account.data_account_type_liquidity").id,
+                "company_id": self.env.user.company_id.id,
+            }
+        )
+
     def test_create_expenses(self):
         form_expenses = Form(self.env["deltatech.expenses.deduction"])
         form_expenses.date_advance = fields.Date.today()
         form_expenses.advance = 1000
         form_expenses.employee_id = self.employee
         form_expenses.account_diem_id = self.account_diem
+        if not form_expenses.journal_id.account_cash_advances_id:
+            form_expenses.journal_id.account_cash_advances_id = self.account_cash_advances
 
         expenses = form_expenses.save()
         expenses.validate_advance()

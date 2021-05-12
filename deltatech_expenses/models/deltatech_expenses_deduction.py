@@ -268,7 +268,7 @@ class DeltatechExpensesDeduction(models.Model):
             ("company_id", "=", self.company_id.id),
         ]
         purchase_journal = self.env["account.journal"].search(domain, limit=1)
-        generic_parnter = self.env.ref("deltatech_partner_generic.partner_generic", raise_if_not_found=False)
+        generic_partner = self.env.ref("deltatech_partner_generic.partner_generic", raise_if_not_found=False)
 
         for expenses in self:
 
@@ -280,7 +280,7 @@ class DeltatechExpensesDeduction(models.Model):
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
             for line in expenses.expenses_line_ids:
-                partner_id = line.partner_id or generic_parnter
+                partner_id = line.partner_id or generic_partner
 
                 if line.type == "expenses":
 
@@ -321,12 +321,21 @@ class DeltatechExpensesDeduction(models.Model):
                     "journal_id": expenses.journal_id.id,
                     "payment_method_id": payment_methods and payment_methods[0].id or False,
                     "amount": line.tax_amount + line.price_subtotal,
+                    # "destination_account_id": expenses.journal_id.account_cash_advances_id.id,
                     "expenses_deduction_id": expenses.id,
                 }
                 payments |= self.env["account.payment"].create(payment_value)
             # vouchers.with_context(expenses_deduction_id=expenses.id).proforma_voucher()  # validare
             vouchers.action_post()
-            payments.action_post()
+
+            for payment in payments:
+                for payment_line in payment.move_id.line_ids:
+                    if payment_line.account_id in (
+                        payment.journal_id.payment_debit_account_id,
+                        payment.journal_id.payment_credit_account_id,
+                    ):
+                        payment_line.account_id = payment.journal_id.account_cash_advances_id
+            payments.with_context(add_statement_line=False).action_post()
 
             move_lines = self.env["account.move.line"]
             for voucher in vouchers:
@@ -354,7 +363,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "journal_id": expenses.journal_id.id,
                     "ref": expenses.number,
                     "expenses_deduction_id": expenses.id,
-                    "payment_ref": "Deferenta Avans",
+                    "payment_ref": _("Deferenta Avans"),
                     "counterpart_account_id": account.id,
                     "backup_counterpart_account_id": account.id,
                 }
