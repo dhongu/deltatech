@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+    <template id="report_map_sheet">
+
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <h3>
+                            <span>Map Sheet:</span>
+                            <span t-field="o.name" />
+                        </h3>
+
+
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div t-if="o.company_id">
+                                    <strong>Company:</strong>
+                                    <span t-field="o.company_id" />
+                                </div>
+                                <div>
+                                    <strong>Data:</strong>
+                                    <span t-field="o.date" />
+                                </div>
+                                <div>
+                                    <strong>Total distance:</strong>
+                                    <span t-field="o.distance_total" />
+                                </div>
+                                <div>
+                                    <strong>Total amount:</strong>
+                                    <span t-field="o.amount_total" />
+                                </div>
+                                <div>
+                                    <strong>Normal consumption:</strong>
+                                    <span t-field="o.norm_cons" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-xs-offset-2">
+                                <div>
+                                    <strong>Vehicle:</strong>
+                                    <span t-field="o.vehicle_id" />
+                                </div>
+                                <div t-if="o.category_id">
+                                    <strong>Category:</strong>
+                                    <span t-field="o.category_id" />
+                                </div>
+                                <div t-if="o.driver_id">
+                                    <strong>Driver:</strong>
+                                    <span t-field="o.driver_id" />
+                                </div>
+                                <div>
+                                    <strong>Average consumption:</strong>
+                                    <span t-field="o.avg_cons" />
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <div>
+                                    <strong>Start date:</strong>
+                                    <span t-field="o.date_start" />
+                                </div>
+                                <div>
+                                    <strong>Odometer start:</strong>
+                                    <span t-field="o.odometer_start" />
+                                </div>
+                                <div>
+                                    <strong>Reservoir lever start:</strong>
+                                    <span t-field="o.reservoir_level_start" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5 col-xs-offset-2">
+                                <div>
+                                    <strong>Start end:</strong>
+                                    <span t-field="o.date_end" />
+                                </div>
+                                <div>
+                                    <strong>Odometer start:</strong>
+                                    <span t-field="o.odometer_end" />
+                                </div>
+                                <div>
+                                    <strong>Reservoir lever start:</strong>
+                                    <span t-field="o.reservoir_level_end" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <p>
+                            <strong>Route log:</strong>
+                        </p>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <strong>Data begin</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Data end</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Route</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Scope</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Distance</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Cons.</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr t-foreach="o.route_log_ids" t-as="route_log">
+
+                                    <td>
+                                        <span t-field="route_log.date_begin" />
+                                    </td>
+                                    <td>
+                                        <span t-field="route_log.date_end" />
+                                    </td>
+                                    <td>
+                                        <span t-field="route_log.route_id" />
+                                    </td>
+
+                                    <td>
+                                        <span t-field="route_log.scope_id" />
+                                    </td>
+
+                                    <td class="text-right">
+                                        <span t-field="route_log.distance" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="route_log.norm_cons" />
+                                    </td>
+
+                                </tr>
+
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td />
+                                    <td />
+                                    <td />
+                                    <td class="text-right">
+                                        <strong t-field="o.distance_total" />
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-field="o.norm_cons" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <br />
+                        <p>
+                            <strong>Fuel log:</strong>
+                        </p>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <strong>Data</strong>
+                                    </th>
+                                    <th>
+                                        <strong>Invoice ref</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Liter</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Price</strong>
+                                    </th>
+                                    <th class="text-right">
+                                        <strong>Amount</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr t-foreach="o.log_fuel_ids" t-as="log_fuel">
+                                    <td>
+                                        <span t-field="log_fuel.date" />
+                                    </td>
+                                    <td>
+                                        <span t-field="log_fuel.inv_ref" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="log_fuel.liter" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="log_fuel.price_per_liter" />
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="log_fuel.amount" />
+                                    </td>
+                                </tr>
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-field="o.liter_total" />
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong t-field="o.amount_total" />
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+
+                        <div class="oe_structure" />
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>
