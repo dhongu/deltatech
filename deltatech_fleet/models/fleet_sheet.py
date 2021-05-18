@@ -94,18 +94,14 @@ class FleetMapSheet(models.Model):
     @api.depends("vehicle_id", "date_start")
     def _compute_reservoir_level_start(self):
         for sheet in self:
-            if sheet.vehicle_id:
-                sheet.reservoir_level_start = self.env["fleet.reservoir.level"].get_level_to(
-                    sheet.vehicle_id.id, sheet.date_start
-                )
+            sheet.reservoir_level_start = self.env["fleet.reservoir.level"].get_level_to(
+                sheet.vehicle_id, sheet.date_start
+            )
 
     @api.depends("vehicle_id", "date_end")
     def _compute_reservoir_level_end(self):
         for sheet in self:
-            if sheet.vehicle_id:
-                sheet.reservoir_level_end = self.env["fleet.reservoir.level"].get_level_to(
-                    sheet.vehicle_id.id, sheet.date_end
-                )
+            sheet.reservoir_level_end = self.env["fleet.reservoir.level"].get_level_to(sheet.vehicle_id, sheet.date_end)
 
     @api.model
     def _get_default_date_start(self):
