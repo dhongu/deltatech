@@ -147,6 +147,9 @@ class FleetReservoirLevel(models.Model):
     @api.model
     def get_level(self, vehicle_id):
         level = 0.0
+        if not vehicle_id:
+            return level
+
         self.env.cr.execute(
             """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
@@ -173,8 +176,12 @@ class FleetReservoirLevel(models.Model):
         return level
 
     @api.model
-    def get_level_to(self, vehicle_id, to_date):
+    def get_level_to(self, vehicle, to_date):
         level = 0.0
+        if not vehicle:
+            return level
+
+        vehicle_id = vehicle.id
         self.env.cr.execute(
             """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
