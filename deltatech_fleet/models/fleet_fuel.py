@@ -69,12 +69,11 @@ class FleetVehicleLogFuel(models.Model):
         elif amount > 0 and price_per_liter > 0 and round(amount / price_per_liter, 2) != liter:
             self.liter = round(amount / price_per_liter, 2)
 
+    @api.depends("vehicle_id", "date_time")
     def _compute_reservoir_level(self):
-        for vehicle in self:
-            if vehicle.vehicle_id and vehicle.date_time:
-                vehicle.reservoir_level = self.env["fleet.reservoir.level"].get_level_to(
-                    vehicle.vehicle_id.id, vehicle.date_time
-                )
+        for item in self:
+            if item.vehicle_id and item.date_time:
+                item.reservoir_level = self.env["fleet.reservoir.level"].get_level_to(item.vehicle_id, item.date_time)
 
     @api.onchange("vehicle_id")
     def _onchange_vehicle(self):
