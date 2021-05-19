@@ -9,8 +9,8 @@ class ProductCatalog(models.Model):
     _name = "product.catalog"
     _description = "Product catalog"
 
-    name = fields.Char(string="Name", index=True)
-    code = fields.Char(string="Code", index=True)
+    name = fields.Char(string="Name", required=True, index=True)
+    code = fields.Char(string="Code", required=True, index=True)
     code_new = fields.Char(string="Code New", index=True)
     list_price = fields.Float(string="Sale Price", required=True, digits="Product Price")
     purchase_price = fields.Float(string="Purchase Price", digits="Product Price")
@@ -48,7 +48,7 @@ class ProductCatalog(models.Model):
                     "name": prod_cat.name,
                     "default_code": prod_cat.code,
                     "lst_price": prod_cat.list_price,
-                    "price_currency_id": price_currency_id.id,
+                    # "price_currency_id": price_currency_id.id,
                     "categ_id": prod_cat.categ_id.id,
                     "route_ids": [(6, 0, route_ids)],
                     "sale_delay": prod_cat.sale_delay,
