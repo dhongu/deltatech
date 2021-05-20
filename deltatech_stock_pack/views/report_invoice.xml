@@ -19,7 +19,7 @@
       <template id="report_package_document">
          <t t-call="report.html_container">
             <t t-foreach="docs" t-as="o">
-               <t t-call="report.external_layout">
+<!--               <t t-call="report.external_layout">-->
                   <div class="page">
                      <h2 style="text-align:center;">
                                     <span>D.D.T. n. </span>
@@ -100,7 +100,7 @@
                         </tbody>
                      </table>
                   </div>
-               </t>
+<!--               </t>-->
             </t>
          </t>
       </template>
