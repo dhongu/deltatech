@@ -67,7 +67,7 @@ class TestSale(TransactionCase):
         invoice = self.so._create_invoices()
         invoice = Form(invoice)
         invoice = invoice.save()
-        invoice.post()
+        invoice.action_post()
 
     def test_commission_compute(self):
         wizard = Form(self.env["commission.compute"])
@@ -75,6 +75,14 @@ class TestSale(TransactionCase):
         wizard.do_compute()
 
     def test_commission_update_purchase_price(self):
+        self.test_sale()
         wizard = Form(self.env["commission.update.purchase.price"])
+        wizard.for_all = True
+        wizard = wizard.save()
+        wizard.do_compute()
+
+        wizard = Form(self.env["commission.update.purchase.price"])
+        wizard.for_all = True
+        wizard.price_from_doc = False
         wizard = wizard.save()
         wizard.do_compute()

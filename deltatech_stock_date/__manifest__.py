@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
-    "depends": ["base", "stock"],
+    "depends": ["base", "stock_account"],
     "license": "LGPL-3",
     "data": ["wizard/stock_immediate_transfer_view.xml", "wizard/stock_backorder_confirmation_view.xml"],
     "application": False,
