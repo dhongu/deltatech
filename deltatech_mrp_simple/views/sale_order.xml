@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_order_form_inherit_simple_mrp" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.stock</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_invoice']" position="before">
+                    <field name="simple_mrp_picking_ids" invisible="1" />
+                    <button
+                        type="object"
+                        name="action_view_mrp_transfers"
+                        class="oe_stat_button"
+                        icon="fa-random"
+                        attrs="{'invisible': [('simple_mrp_count', '=', 0)]}"
+                        groups="base.group_user"
+                    >
+                        <field name="simple_mrp_count" widget="statinfo" string="MRP Simple" />
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
