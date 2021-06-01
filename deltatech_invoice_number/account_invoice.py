@@ -75,7 +75,12 @@ class account_invoice(models.Model):
     def action_number(self):
         msg = self.check_data()
         if msg != '':
-            raise except_orm(_('Date Inconsistency'), msg )            
+            # the next number of the sequence is allready incremented here. Must decrement it
+            if self.journal_id:
+                if self.journal_id.sequence_id:
+                    number_next = self.journal_id.sequence_id.number_next_actual
+                    self.journal_id.sequence_id.write({"number_next_actual": number_next - self.journal_id.sequence_id.number_increment})
+            raise except_orm(_('Date Inconsistency'), msg )
         super(account_invoice, self).action_number()
         return True
 
