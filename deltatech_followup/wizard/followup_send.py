@@ -73,6 +73,7 @@ class FollowupSend(models.TransientModel):
                                 partner_id = partner.id
                             email_values = {
                                 "body_html": new_body.replace("[invoices]", invoices_content),
+                                "body_html": new_body.replace("${object.name}", partner.name),
                                 "recipient_ids": [(4, partner_id)],
                             }
                         followup.mail_template.send_mail(partner.id, False, False, email_values)
