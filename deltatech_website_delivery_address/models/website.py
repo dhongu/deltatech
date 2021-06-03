@@ -2,13 +2,12 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import api, models
+from odoo import models
 
 
 class Website(models.Model):
     _inherit = "website"
 
-    @api.multi
     def _prepare_sale_order_values(self, partner, pricelist):
         values = super(Website, self)._prepare_sale_order_values(partner, pricelist)
         web_user_id = self.env.context.get("uid", False)
