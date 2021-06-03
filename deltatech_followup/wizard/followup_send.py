@@ -65,10 +65,13 @@ class FollowupSend(models.TransientModel):
                             override_id = (
                                 self.env["ir.config_parameter"]
                                 .sudo()
-                                .get_param("followup.override_partner_id", default=True)
+                                .get_param("followup.override_partner_id", default=False)
                             )
                             if override_id:
-                                partner_id = int(override_id)
+                                try:
+                                    partner_id = int(override_id)
+                                except ValueError:
+                                    partner_id = partner.id
                             else:
                                 partner_id = partner.id
                             body = new_body.replace("[invoices]", invoices_content)
