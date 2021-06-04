@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="product_qty_restrictions" inherit_id="website_sale.product" name="Product Qty Restrictions">
+        <xpath expr="//p[@t-field='product.description_sale']" position="after">
+            <p t-if="product.qty_multiple and product.qty_multiple>1" class="text-muted" id="product_qty_restrictions">
+                <span>Multiple:</span>
+                <span t-field="product.qty_multiple" />
+            </p>
+            <p t-if="product.qty_minim and product.qty_minim>1" class="text-muted" id="product_qty_min_restrictions">
+                <span>Minim:</span>
+                <span t-field="product.qty_minim" />
+            </p>
+        </xpath>
+    </template>
+    <template
+        id="cart_line_description_following_lines"
+        inherit_id="website_sale.cart_line_description_following_lines"
+        name="Cart Product Qty Restrictions"
+    >
+        <xpath expr="//div" position="after">
+            <din class="text-muted small" t-if="line.product_id.qty_multiple and line.product_id.qty_multiple>1">
+                <span>Multiple:</span>
+                <span t-field="line.product_id.qty_multiple" />
+            </din>
+            <din class="text-muted small" t-if="line.product_id.qty_minim and line.product_id.qty_minim>1">
+                <span>Minim:</span>
+                <span t-field="line.product_id.qty_minim" />
+            </din>
+        </xpath>
+    </template>
+    <template id="product_variants" inherit_id="website_sale.product_variants" name="Product Variant Qty Restrictions">
+        <xpath expr="//span[hasclass('badge')]" position="after">
+            <span t-if="variant_id.qty_multiple and variant_id.qty_multiple>1" class="text-muted small">(Multiple:<span
+                    t-esc="variant_id.qty_multiple"
+                    t-options='{"widget": "float", "precision": 1}'
+                />)</span>
+            <span t-if="variant_id.qty_minim and variant_id.qty_minim>1" class="text-muted small">(Minim:<span
+                    t-esc="variant_id.qty_minim"
+                    t-options='{"widget": "float", "precision": 1}'
+                />)</span>
+        </xpath>
+    </template>
+</odoo>

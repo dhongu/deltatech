@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_sale_bf" model="ir.actions.act_window">
+        <field name="name">Vanzare BF</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">form,tree</field>
+        <field name="context">{'is_bf': True}</field>
+    </record>
+    <menuitem
+        name="Vanzare PF"
+        id="menu_sale_bf"
+        action="action_sale_bf"
+        parent="sale.sale_order_menu"
+        sequence="700"
+    />
+</odoo>

@@ -1,0 +1,641 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_expenses
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-01 05:25+0000\n"
+"PO-Revision-Date: 2021-02-01 05:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__state
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__state
+msgid ""
+" * The 'Draft' status is used when a user is encoding a new and unconfirmed expenses deduction.             \n"
+"* The 'Done' status is set automatically when the expenses deduction is confirm.              \n"
+"* The 'Cancelled' status is used when user cancel expenses deduction."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid ""
+"<span attrs=\"{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}\">Draft\n"
+"                            </span>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "<span class=\"o_form_label\">Expenses Deduction</span>"
+msgstr "<span class=\"o_form_label\">Decont cheltuieli</span>"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<span> având funcția de</span>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<span>Decont cheltuieli:</span>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<span>Subsemnatul</span>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<strong>Date</strong>"
+msgstr "<strong>Data</strong>"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<strong>Document</strong>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "<strong>Suma</strong>"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__backup_counterpart_account_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__account_diem_id
+msgid "Account"
+msgstr "Cont"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__move_id
+msgid "Account Entry"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction
+msgid "Action Needed"
+msgstr "Intervenție necesară"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__advance
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__advance
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Advance"
+msgstr "Avans"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__date_advance
+msgid "Advance Date"
+msgstr "Dată avans"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_attachment_count
+msgid "Attachment Count"
+msgstr "Număr atașamente"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Avans primit in data"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linie extras bacă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__cancel
+msgid "Cancelled"
+msgstr "Anulată"
+
+#. module: deltatech_expenses
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+#, python-format
+msgid "Cannot delete Expenses Deduction(s) which are already done."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__journal_id
+msgid "Cash Journal"
+msgstr "Jurnal numerar"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__account_cash_advances_id
+msgid "Cash advances"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Chelt. conf. borderou de mai jos"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.actions.act_window,help:deltatech_expenses.action_deltatech_expenses_deduction
+msgid "Click to create a Expenses Deduction."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__create_uid
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__create_date
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__currency_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "DEC/2021/00001"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__date
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__days
+msgid "Days"
+msgstr "Zile"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__expense_account_id
+msgid "Default Expense Account"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Description"
+msgstr "Descriere"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__diem
+msgid "Diem"
+msgstr "Diurnă"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Diferenţă"
+msgstr "Diferenţă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__difference
+msgid "Difference"
+msgstr "Diferență"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Din care diurna"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__done
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__employee_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "Employee"
+msgstr "Angajat"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__date_expense
+msgid "Expense Date"
+msgstr "Dată Cheltuială"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__expenses_line_ids
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction_line__type__expenses
+msgid "Expenses"
+msgstr "Cheltuieli"
+
+#. module: deltatech_expenses
+#: model:ir.actions.act_window,name:deltatech_expenses.action_deltatech_expenses_deduction
+#: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__expenses_deduction_id
+#: model:ir.ui.menu,name:deltatech_expenses.menu_deltatech_expenses_deduction
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_tree
+msgid "Expenses Deduction"
+msgstr "Decont Cheltuieli"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_deltatech_expenses_deduction_line
+msgid "Expenses Deduction Line"
+msgstr "Linie decont cheltuieli"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Expenses Sheet"
+msgstr "Foaie de cheltueli"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_follower_ids
+msgid "Followers"
+msgstr "Persoane interesate"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Urmăritori (Canale)"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Urmăritori (Parteneri)"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Free Notes"
+msgstr "Notă"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "Group By..."
+msgstr "Grupează după..."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__id
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Dacă este selectat, mesajele noi necesită atenția dumneavoastră."
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Dacă este bifată, unele mesaje au o eroare de livrare."
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Invalidate"
+msgstr "Invalidare"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_is_follower
+msgid "Is Follower"
+msgstr "Este urmăritor"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__move_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Journal Items"
+msgstr "Elemente registru"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_bank_statement_line____last_update
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_journal____last_update
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_expenses.field_account_payment____last_update
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction____last_update
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__write_uid
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__write_date
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_ids
+msgid "Messages"
+msgstr "Mesaje"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "Month"
+msgstr "Luna"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "My Expenses"
+msgstr "Cheltuielile mele"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "New"
+msgstr "Nou"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_filter
+msgid "New Expenses Deduction"
+msgstr "Nou Decont Cheltuieli"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Notes"
+msgstr "Note"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__number
+msgid "Number"
+msgstr "Număr"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Număr de acțiuni"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error_counter
+msgid "Number of errors"
+msgstr "Număr de erori"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Număr de mesaje ce necesită intervenție"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Numărul de mesaje cu eroare de livrare"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Număr de mesaje necitite"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_ids
+msgid "Only for tax excluded from price"
+msgstr "Numai pentru taxele excluse din preț"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Other information"
+msgstr "Alte infromații"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Payment Items"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model,name:deltatech_expenses.model_account_payment
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__payment_ids
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Payments"
+msgstr "Plăți"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__price_subtotal
+msgid "Price Subtotal"
+msgstr "Subtotal"
+
+#. module: deltatech_expenses
+#: model:ir.actions.report,name:deltatech_expenses.action_report_deltatech_expenses_deduction
+msgid "Print Expenses Deduction"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__name
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid ""
+"Se certifica îndeplinirea obiectivului delegației\n"
+"                                        <br/>\n"
+"                                        Șef compartiment"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Semnătură titular"
+msgstr "Semnătură titular"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__state
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__state
+msgid "Status"
+msgstr "Stare"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Supplier"
+msgstr "Furnizor"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields.selection,name:deltatech_expenses.selection__deltatech_expenses_deduction_line__type__supplier_payment
+msgid "Supplier Payment"
+msgstr "Plată furnizor"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_ids
+msgid "Tax"
+msgstr "Taxă"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__tax_amount
+msgid "Tax Amount"
+msgstr "Valoare taxă"
+
+#. module: deltatech_expenses
+#: code:addons/deltatech_expenses/models/deltatech_expenses_deduction.py:0
+#, python-format
+msgid ""
+"The cash statement of journal %s from date is not in open state, please open it \n"
+"to create the line in  it \"%s\"."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__amount
+msgid "Total"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_tree
+msgid "Total Amount"
+msgstr "Valoare totală"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__total_diem
+msgid "Total Diem"
+msgstr "Total Diurnă"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Total Tax"
+msgstr "Total TVA"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__travel_order
+msgid "Travel Order"
+msgstr "Ordin deplasare"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction_line__type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_unread
+msgid "Unread Messages"
+msgstr "Mesaje necitite"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Contor mesaje necitite"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.view_deltatech_expenses_deduction_form
+msgid "Validate"
+msgstr "Validează"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__voucher_ids
+msgid "Vouchers"
+msgstr "Chitanțe"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__amount_vouchers
+msgid "Vouchers Amount"
+msgstr "Total chitante"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,field_description:deltatech_expenses.field_deltatech_expenses_deduction__website_message_ids
+msgid "Website Messages"
+msgstr "Mesaje Website"
+
+#. module: deltatech_expenses
+#: model:ir.model.fields,help:deltatech_expenses.field_deltatech_expenses_deduction__website_message_ids
+msgid "Website communication history"
+msgstr "Istoric comunicare website"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "acte justificative specificate"
+msgstr "acte justificative specificate"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "anexez prezentului"
+msgstr "anexez prezentului"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "de primit"
+msgstr "de primit"
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "de restituit"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "un act justificativ specificat"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "în baza ordinului de deplasare nr."
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid ""
+"în borderoul de mai jos pentru justificarea avansului primit la data de"
+msgstr ""
+
+#. module: deltatech_expenses
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses.report_deltatech_expenses_deduction
+msgid "Șef contabil"
+msgstr ""

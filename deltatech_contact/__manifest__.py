@@ -4,7 +4,8 @@
 
 {
     "name": "Deltatech Contacts",
-    "version": "14.0.1.0.0",
+    "summary": "New fields in partner",
+    "version": "14.0.1.4.0",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
@@ -15,8 +16,8 @@
         # 'security/partner_security.xml',
         # 'security/ir.model.access.csv'
     ],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

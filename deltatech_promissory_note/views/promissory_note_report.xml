@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+            string="Promissory Note Bill"
+            id="action_report_promissory_note"
+            model="promissory.note"
+            report_type="qweb-pdf"
+            name="deltatech_promissory_note.report_promissory_note"
+            file="deltatech_promissory_note.report_promissory_note"
+        />
+        <report
+            string="Promissory Note Content"
+            id="action_report_promissory_note_content"
+            model="promissory.note"
+            report_type="qweb-pdf"
+            name="deltatech_promissory_note.report_promissory_note_content"
+            file="deltatech_promissory_note.report_promissory_note_content"
+        />
+        <template id="report_promissory_note">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <style type="text/css">
+tbody.default td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 100%;
+    font-weight: bold;
+}
+tbody.bold td {
+    border: 1px solid gray;
+    text-align: right;
+    font-size: 75%;
+    font-weight: bold;
+    background-color: #bbbbbb;
+}
+thead.default th {
+    border: 1px solid gray;
+    background-color: #bbbbbb;
+    font-size: 75%;
+}
+                        </style>
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:10%;">
+                                    <img src="/deltatech_promissory_note/static/src/img/BCR.png" style="width:70px;" />
+                                </td>
+                                <td style="width:80%;text-align:center;">
+                                    <span>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</span>
+                                </td>
+                                <td style="width:10%;">
+                                    <span>Anexa nr. 3</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:15px;width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Beneficiar</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN Beneficiar</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca beneficiarului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span>ROMSYSTEMS S.R.L.</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_beneficiary" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_beneficiary" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="float:left;width:45%;margin-bottom:20px;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;">
+                                            <span>Seria si numar ID</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100%;line-height: 2.95;">
+                                            <span t-field="o.name" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="float:right;width:45%;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;" colspan="2">
+                                            <span>Suma</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span>VALUTA<sup>1</sup></span>
+                                        </td>
+                                        <td />
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span t-field="o.currency_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.amount" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table style="width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Platitor</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN platitor</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca platitorului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span t-field="o.issuer_id" />
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_issuer" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_issuer" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="font-size: 80%;margin-top:15px;">
+                            <ol>
+                                <li>
+                                    Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
+                                    decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in
+                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca
+                                    platitorului in T-1 in data prezentarii la plata
+                                </li>
+                                <li>
+                                    Campul va fi completat de banca beneficiarului la primirea ID si va fi confirmat
+                                    prin aplicarea semnaturii si stampilei functionarului bancar
+                                </li>
+                                <li>
+                                    Data remiterii pe circuit intrabancar catre Centrul de Procesare a ID este data
+                                    receptiei, daca ID au fost depuse in unitati pana la ora 13:00 si daca sunt
+                                    indeplinite toate conditiile de forma, continut si mandat (semnatura) ale
+                                    borderoului si ID
+                                </li>
+                                <li>
+                                    ID va fi incasat/refuzat in 11 zile lucratoare de la data receptiei daca a fost
+                                    depus pana la ora 13:00. In cazul in care sunt prezentate ID la termene ce determina
+                                    pierderea dreptului de protest si regres clientul este responsabil si imputerniceste
+                                    banca sa transmita spre incasare ID luand la cunostinta si acceptand acest risc
+                                </li>
+                                <li>
+                                    Anexez documentele justificative stabilite in conformitate cu prevederile Circularei
+                                    BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de
+                                    debit de tipul cecului, cambiei si biletului la ordin in format vechi
+                                </li>
+                                <li>Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
+                                    incasare cu acest borderou
+                                </li>
+                                <li>
+                                    Instructez BCR sa procedeze conform prevederilor legale si informatiilor mentionate
+                                    la punctele 1, 2, 3, 4, 5, 6 din prezentul borderou.
+                                </li>
+                            </ol>
+                        </div>
+                        <div id="container" style="height:110px;">
+                            <p style="font-weight:bold;">SEMNATURA POSESOR</p>
+                            <div style="float:left;width:48%;margin-bottom:13px;">
+                                <table style="width:100%;">
+                                    <tbody class="default">
+                                        <tr>
+                                            <td style="width:100%;height:80px;border: 2px solid black;">
+
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="float:right;width:48%;">
+                                <p style="font-weight:bold;font-size:90%;">Data receptiei<sup
+                                    >2</sup>........................</p>
+                                <p
+                                    style="font-weight:bold;font-size:90%;"
+                                >Data remiterii pe circuit a ID = Data receptiei<sup>3</sup>........................</p>
+                                <p style="font-weight:bold;font-size:90%;">Data receptiei in Centrul de Procesare<sup
+                                    >4</sup>........................</p>
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                            <p>*Prezentul BORDEROU va fi completat in 4 exemplare</p>
+                        </div>
+                        <hr />
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="width:10%;">
+                                    <img src="/deltatech_promissory_note/static/src/img/BCR.png" style="width:70px;" />
+                                </td>
+                                <td style="width:80%;text-align:center;">
+                                    <span>BORDEROU* DE ÎNCASARE CEC / CAMBIE / BILET LA ORDIN</span>
+                                </td>
+                                <td style="width:10%;">
+                                    <span>Anexa nr. 3</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top:15px;width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Beneficiar</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN Beneficiar</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca beneficiarului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span>ROMSYSTEMS S.R.L.</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_beneficiary" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_beneficiary" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="float:left;width:45%;margin-bottom:20px;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;">
+                                            <span>Seria si numar ID</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100%;line-height: 2.95;">
+                                            <span t-field="o.name" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="float:right;width:45%;">
+                            <table style="width:100%;margin-top:20px;">
+                                <tbody class="default">
+                                    <tr>
+                                        <td style="width:100%;" colspan="2">
+                                            <span>Suma</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span>VALUTA<sup>1</sup></span>
+                                        </td>
+                                        <td />
+                                    </tr>
+                                    <tr>
+                                        <td style="width:50%;">
+                                            <span t-field="o.currency_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.amount" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <table style="width:100%;">
+                            <tbody class="default">
+                                <tr>
+                                    <td style="width:25%;">
+                                        <span>Nume/Denumire Platitor</span>
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span>IBAN platitor</span>
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span>Banca platitorului</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:25%;height:25px;">
+                                        <span t-field="o.issuer_id" />
+                                    </td>
+                                    <td style="width:50%;">
+                                        <span t-field="o.acc_issuer" />
+                                    </td>
+                                    <td style="width:25%;">
+                                        <span t-field="o.bank_issuer" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="font-size: 80%;margin-top:15px;">
+                            <ol>
+                                <li>
+                                    Daca ID este emis in valuta si platibil in LEI, cursul de schimb utilizat pentru
+                                    decontarea ID este cel utilizat de reglementarile in vigoare pentru ID emise in
+                                    valuta echivalentul in LEI <b>nu va fi completat</b> , urmand a fi calculat de banca
+                                    platitorului in T-1 in data prezentarii la plata
+                                </li>
+                                <li>
+                                    Campul va fi completat de banca beneficiarului la primirea ID si va fi confirmat
+                                    prin aplicarea semnaturii si stampilei functionarului bancar
+                                </li>
+                                <li>
+                                    Data remiterii pe circuit intrabancar catre Centrul de Procesare a ID este data
+                                    receptiei, daca ID au fost depuse in unitati pana la ora 13:00 si daca sunt
+                                    indeplinite toate conditiile de forma, continut si mandat (semnatura) ale
+                                    borderoului si ID
+                                </li>
+                                <li>
+                                    ID va fi incasat/refuzat in 11 zile lucratoare de la data receptiei daca a fost
+                                    depus pana la ora 13:00. In cazul in care sunt prezentate ID la termene ce determina
+                                    pierderea dreptului de protest si regres clientul este responsabil si imputerniceste
+                                    banca sa transmita spre incasare ID luand la cunostinta si acceptand acest risc
+                                </li>
+                                <li>
+                                    Anexez documentele justificative stabilite in conformitate cu prevederile Circularei
+                                    BNR nr. 39/28.11.2008 privind interzicerea utilizarii instrumentelor de plata de
+                                    debit de tipul cecului, cambiei si biletului la ordin in format vechi
+                                </li>
+                                <li>Declar pe proprie raspundere ca sunt posesorul de drept al ID prezentat spre
+                                    incasare cu acest borderou
+                                </li>
+                                <li>
+                                    Instructez BCR sa procedeze conform prevederilor legale si informatiilor mentionate
+                                    la punctele 1, 2, 3, 4, 5, 6 din prezentul borderou.
+                                </li>
+                            </ol>
+                        </div>
+                        <div id="container" style="height:110px;">
+                            <p style="font-weight:bold;">SEMNATURA POSESOR</p>
+                            <div style="float:left;width:48%;margin-bottom:13px;">
+                                <table style="width:100%;">
+                                    <tbody class="default">
+                                        <tr>
+                                            <td style="width:100%;height:80px;border: 2px solid black;">
+
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="float:right;width:48%;">
+                                <p style="font-weight:bold;font-size:90%;">Data receptiei<sup
+                                    >2</sup>........................</p>
+                                <p
+                                    style="font-weight:bold;font-size:90%;"
+                                >Data remiterii pe circuit a ID = Data receptiei<sup>3</sup>........................</p>
+                                <p style="font-weight:bold;font-size:90%;">Data receptiei in Centrul de Procesare<sup
+                                    >4</sup>........................</p>
+                            </div>
+                        </div>
+                        <br />
+                        <div>
+                            <p>*Prezentul BORDEROU va fi completat in 4 exemplare</p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <template id="report_promissory_note_content">
+            <t t-call="web.html_container">
+                <div class="page">
+                    <style type="text/css">
+tbody.default td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 100%;
+}
+                    </style>
+                    <div style="font-weight:bold;font-size:150%;text-align:center;">
+                        <p>PROCES VERBAL PREDARE PRIMIRE BILETE LA ORDIN</p>
+                        <p>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')" />
+                        </p>
+                    </div>
+                    <p
+                    >SC ROMSYSTEMS SRL, cu sediul in Bacau, Str. Abatorului nr. 4, cod fiscal RO 15437993, Nr. Reg. Com. J04/535/2003  , </p>
+                    <p style="font-weight:bold;">A  PREDAT  CATRE </p>
+                    <p>SUCURSALA BACAU BCR  , cu sediul  Bacau , Aleea Iulian Antonescu   </p>
+                    <p style="font-weight:bold;">BILETELE LA ORDIN DIN TABELUL DE MAI JOS   , AZI , <span
+                            t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"
+                        />: </p>
+                    <table style="width:100%;">
+                        <tbody class="default">
+                            <tr>
+                                <td>
+                                    <span>SERIE SI NR. BO</span>
+                                </td>
+                                <td>
+                                    <span>SUMA</span>
+                                </td>
+                                <td>
+                                    <span>VALUTA</span>
+                                </td>
+                                <td>
+                                    <span>EMITENT</span>
+                                </td>
+                                <td>
+                                    <span>DATA SCADENTEI</span>
+                                </td>
+                            </tr>
+                            <tr t-foreach="docs" t-as="o">
+                                <td>
+                                    <span t-field="o.name" />
+                                </td>
+                                <td>
+                                    <span t-field="o.amount" />
+                                </td>
+                                <td>
+                                    <span t-field="o.currency_id" />
+                                </td>
+                                <td>
+                                    <span t-field="o.issuer_id" />
+                                </td>
+                                <td>
+                                    <span t-field="o.date_due" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:60%;">
+                                <strong>SC  ROMSYSTEMS  SRL</strong>
+                            </td>
+                            <td style="width:40%;">
+                                <strong>SUCURSALA BACAU BCR  </strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>

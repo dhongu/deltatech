@@ -5,14 +5,15 @@
 
 {
     "name": "Products Code",
-    "version": "14.0.1.0.0",
+    "summary": "Product codification internal",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "depends": ["product"],
+    "depends": ["product", "barcodes"],
     "data": ["views/product_view.xml"],
     "images": ["images/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

@@ -5,7 +5,8 @@
 
 {
     "name": "Deltatech Invoice Receipt",
-    "version": "14.0.1.0.0",
+    "summary": "Create receipt form invoice",
+    "version": "14.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
@@ -16,6 +17,6 @@
         #  'views/invoice_view.xml'
     ],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

@@ -40,29 +40,29 @@ class Partner(models.Model):
         if not res:
             raise ValidationError(_("CNP invalid"))
 
-    @api.model
-    def check_single_cnp(self, cnp):
-        if not cnp:
-            return True
-        cnp = cnp.strip()
-        if not cnp:
-            return True
-        if len(cnp) != 13:
-            return False
+    def _get_cnp_checksum(self, cnp):
         key = "279146358279"
         suma = 0
         for i in range(len(key)):
             suma += int(cnp[i]) * int(key[i])
-
         if suma % 11 == 10:
             rest = 1
         else:
             rest = suma % 11
+        return rest
 
-        if rest == int(cnp[12]):
+    @api.model
+    def check_single_cnp(self, cnp):
+        if not cnp or not cnp.strip():
             return True
-        else:
+        cnp = cnp.strip()
+        if len(cnp) != 13:
             return False
+
+        rest = self._get_cnp_checksum(cnp)
+
+        ok = rest == int(cnp[12])
+        return ok
 
     @api.onchange("cnp")
     def cnp_change(self):
@@ -83,14 +83,9 @@ class Partner(models.Model):
         if self.cnp and self.birthdate:
             cnp = self.cnp
             cnp = cnp[0] + self.birthdate.strftime("%y%m%d") + cnp[7:12]
-            key = "279146358279"
-            suma = 0
-            for i in range(len(key)):
-                suma += int(cnp[i]) * int(key[i])
-            if suma % 11 == 10:
-                rest = 1
-            else:
-                rest = suma % 11
+
+            rest = self._get_cnp_checksum(cnp)
+
             self.cnp = cnp + str(rest)
 
     @api.depends("type", "is_company")
@@ -127,7 +122,7 @@ class Partner(models.Model):
 
         if context.get("show_phone", False):
             if partner.phone or partner.mobile:
-                name = "%s\n<%s>" % (name, partner.phone or partner.mobile)
+                name = "{}\n<{}>".format(name, partner.phone or partner.mobile)
         if context.get("show_category") and partner.category_id:
             cat = []
             for category in partner.category_id:

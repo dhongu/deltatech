@@ -4,6 +4,7 @@
 
 {
     "name": "Merge Objects",
+    "summary": "Base module for merging",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -12,6 +13,6 @@
     "license": "LGPL-3",
     "data": ["security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "beta",
+    "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="view_deltatech_expenses_deduction_form" model="ir.ui.view">
+        <field name="name">deltatech.expenses.deduction.form</field>
+        <field name="model">deltatech.expenses.deduction</field>
+        <field eval="25" name="priority" />
+        <field name="arch" type="xml">
+            <form string="Expenses Sheet">
+                <header>
+                    <button
+                        name="validate_advance"
+                        string="Advance"
+                        states="draft"
+                        class="oe_highlight"
+                        type="object"
+                    />
+                    <button
+                        name="validate_expenses"
+                        string="Validate"
+                        states="advance"
+                        class="oe_highlight"
+                        type="object"
+                    />
+                    <button name="invalidate_expenses" string="Invalidate" states="done" type="object" />
+                    <!-- <button name="cancel_expenses" string="Cancel" states="draft" type="object" />  -->
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,advance,done"
+                        statusbar_colors='{"cancel":"red"}'
+                    />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <!-- Invoice draft header -->
+                        <span class="o_form_label">Expenses Deduction</span>
+                        <h1>
+                            <span attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('number', '!=', '/')]}">Draft
+                            </span>
+                        </h1>
+
+                        <!-- Number -->
+                        <h1 class="mt0" attrs="{'invisible':[('number', '=', '/')]}">
+                            <field
+                                name="number"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                                placeholder="DEC/2021/00001"
+                            />
+                        </h1>
+
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="employee_id" domain="[('is_company','=',False)]" />
+                        </group>
+                        <group>
+                            <field name="journal_id" widget="selection" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_advance" />
+                            <field name="date_expense" />
+                        </group>
+                        <group>
+                            <field name="advance" />
+                            <field name="difference" widget="monetary" options="{'currency_field': 'currency_id'}" />
+
+                        </group>
+
+                    </group>
+                    <group>
+                        <group>
+                            <field name="travel_order" />
+                            <field name="account_diem_id" />
+                        </group>
+                        <group>
+                            <field name="days" />
+                            <field name="diem" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="expenses_line_ids">
+                                <tree editable="bottom">
+                                    <field name="date" />
+                                    <field name="name" />
+
+                                    <field name="amount" sum="Total Amount" />
+                                    <field
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        optional="hide"
+                                        domain="[('type_tax_use','=','purchase')]"
+                                        context="{'default_type_tax_use': 'purchase'}"
+                                    />
+                                    <field name="tax_amount" sum="Total Tax" optional="hide" />
+                                    <field
+                                        name="partner_id"
+                                        string="Supplier"
+                                        attrs="{'required': [('type','!=', 'expenses')]}"
+                                        context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
+                                    />
+                                    <field
+                                        name="expense_account_id"
+                                        groups="account.group_account_user"
+                                        optional="hide"
+                                    />
+                                    <field name="type" />
+                                    <field name="state" optional="hide" />
+                                    <field name="currency_id" invisible="1" />
+                                </tree>
+                                <form>
+                                    <field name="date" />
+                                    <field name="name" />
+                                    <field
+                                        name="tax_ids"
+                                        widget="many2many_tags"
+                                        domain="[('type_tax_use','=','purchase')]"
+                                        context="{'default_type_tax_use': 'purchase'}"
+                                    />
+                                    <field name="amount" sum="Total Amount" />
+                                    <field name="tax_amount" sum="Total Tax" />
+                                    <field
+                                        name="partner_id"
+                                        string="Supplier"
+                                        context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
+                                    />
+                                    <field name="expense_account_id" groups="account.group_account_user" />
+                                    <field name="state" />
+                                    <field name="currency_id" invisible="1" />
+                                </form>
+                            </field>
+                            <group>
+                                <div>
+                                    <separator string="Notes" />
+                                    <field name="note" placeholder="Free Notes" />
+                                </div>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field
+                                        name="amount_vouchers"
+                                        widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                    />
+                                    <field
+                                        name="total_diem"
+                                        widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                    />
+                                    <field
+                                        name="amount"
+                                        widget="monetary"
+                                        options="{'currency_field': 'currency_id'}"
+                                        class="oe_subtotal_footer_separator"
+                                    />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Journal Items">
+                            <field name="move_ids" readonly="1">
+                                <tree string="Journal Items">
+                                    <field name="move_id" />
+                                    <field name="ref" />
+                                    <field name="date" />
+                                    <field name="statement_id" />
+                                    <field name="partner_id" />
+                                    <field name="account_id" />
+                                    <field name="name" />
+                                    <field name="debit" />
+                                    <field name="credit" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payments">
+                            <field name="payment_ids" readonly="1">
+                                <tree string="Payment Items">
+                                    <field name="partner_id" />
+                                    <field name="amount" sum="Total Amount" />
+                                    <field name="state" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Other information">
+                            <group>
+                                <field name="journal_id" widget="selection" />
+                                <!--                                    <field name="journal_payment_id" widget="selection" string="Payment" />-->
+                                <field name="company_id" groups="base.group_multi_company" />
+                                <field name="currency_id" invisible="1" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_deltatech_expenses_deduction_tree">
+        <field name="name">deltatech.expenses.deduction.tree</field>
+        <field name="model">deltatech.expenses.deduction</field>
+        <field name="arch" type="xml">
+            <tree sample="1" string="Expenses Deduction">
+                <field name="number" />
+                <field name="date_expense" />
+                <field name="employee_id" />
+                <field name="amount" sum="Total Amount" />
+                <field
+                    name="state"
+                    widget="badge"
+                    decoration-info="(state == 'draft')"
+                    decoration-warning="(state == 'advance')"
+                    decoration-muted="(state == 'close')"
+                />
+            </tree>
+        </field>
+    </record>
+    <record id="view_deltatech_expenses_deduction_filter" model="ir.ui.view">
+        <field name="name">deltatech.expenses.deduction.filter</field>
+        <field name="model">deltatech.expenses.deduction</field>
+        <field name="arch" type="xml">
+            <search string="Expenses Deduction">
+                <field name="number" string="Expenses Deduction" />
+                <field name="date_expense" />
+                <filter name="state_new" domain="[('state','=','draft')]" string="New" help="New Expenses Deduction" />
+                <separator />
+                <filter name="my_expenses" domain="[('employee_id', '=', uid)]" string="My Expenses" />
+                <group expand="0" string="Group By...">
+                    <filter name="employee" string="Employee" domain="[]" context="{'group_by':'employee_id'}" />
+                    <filter name="group_by_month" string="Month" domain="[]" context="{'group_by':'date_expense'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_deltatech_expenses_deduction" model="ir.actions.act_window">
+        <field name="name">Expenses Deduction</field>
+        <field name="res_model">deltatech.expenses.deduction</field>
+
+        <field name="target">current</field>
+        <field name="search_view_id" ref="view_deltatech_expenses_deduction_filter" />
+        <field name="view_id" ref="view_deltatech_expenses_deduction_tree" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a Expenses Deduction.</p>
+            <p />
+        </field>
+    </record>
+    <menuitem
+        id="menu_deltatech_expenses_deduction"
+        action="action_deltatech_expenses_deduction"
+        parent="account.menu_finance_payables"
+        sequence="15"
+    />
+
+</odoo>

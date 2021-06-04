@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <report
+            string="Inventory Position"
+            id="action_report_inventory_position"
+            model="stock.inventory"
+            report_type="qweb-pdf"
+            name="deltatech_stock_inventory.report_inventory_position"
+            file="deltatech_stock_inventory.report_inventory_position"
+        />
+        <template id="report_inventory_position">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>
+                                Stock Inventory by position
+                            </h2>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Inventory</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Location</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span t-field="o.name" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date" />
+                                        </td>
+                                        <td>
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm">
+                                <thead>
+                                    <t t-call="deltatech_stock_inventory.report_inventory_header" />
+                                </thead>
+                                <t t-set="total_plus" t-value="0" />
+                                <t t-set="total_minus" t-value="0" />
+                                <t t-set="total_amount" t-value="0" />
+                                <t t-set="total_before" t-value="0" />
+                                <t t-set="loc_rack" t-value="False" />
+                                <t t-set="loc_row" t-value="False" />
+                                <t t-set="loc_case" t-value="False" />
+                                <t t-set="plus" t-value="0" />
+                                <t t-set="minus" t-value="0" />
+                                <t
+                                    t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))"
+                                    t-as="line"
+                                >
+                                    <t
+                                        t-if="loc_rack!=line.loc_rack or loc_row!=line.loc_row or loc_case!=line.loc_case "
+                                    >
+                                        <tr>
+                                            <td colspan="6">
+                                                <strong>
+                                                    <span>Rack:</span>
+                                                    <span t-field="line.loc_rack" />
+                                                    <t t-if="line.loc_row">
+                                                        <span>Row:</span>
+                                                        <span t-field="line.loc_row" />
+                                                    </t>
+                                                    <t t-if="line.loc_case">
+                                                        <span>Case:</span>
+                                                        <span t-field="line.loc_case" />
+                                                    </t>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <t t-set="loc_rack" t-value="line.loc_rack" />
+                                        <t t-set="loc_row" t-value="line.loc_row" />
+                                        <t t-set="loc_case" t-value="line.loc_case" />
+                                    </t>
+                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                                    <t
+                                        t-set="total_amount"
+                                        t-value="total_amount+line.product_qty*line.standard_price"
+                                    />
+                                    <t
+                                        t-set="total_before"
+                                        t-value="total_before+line.theoretical_qty*line.standard_price"
+                                    />
+                                    <t t-if='dif&gt;0'>
+                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                    </t>
+                                    <t t-if='dif&lt;0'>
+                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                    </t>
+                                    <t t-call="deltatech_stock_inventory.report_inventory_line" />
+                                </t>
+                                <t t-call="deltatech_stock_inventory.report_inventory_total" />
+                            </table>
+                            <div>
+                                <span t-field="o.note" />
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+            string="Inventory Diff"
+            id="action_report_inventory_diff"
+            model="stock.inventory"
+            report_type="qweb-pdf"
+            name="deltatech_stock_inventory.report_inventory_diff"
+            file="deltatech_stock_inventory.report_inventory_diff"
+        />
+        <template id="report_inventory_diff">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>
+                                Stock Inventory
+                            </h2>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Inventory</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Location</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span t-field="o.name" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date" />
+                                        </td>
+                                        <td>
+                                            <t t-foreach="o.location_ids" t-as="location">
+                                                <span t-field="location.name" />
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm">
+                                <thead>
+                                    <t t-call="deltatech_stock_inventory.report_inventory_header" />
+                                </thead>
+                                <t t-set="total_plus" t-value="0" />
+                                <t t-set="total_minus" t-value="0" />
+                                <t t-set="total_amount" t-value="0" />
+                                <t t-set="total_before" t-value="0" />
+                                <t t-set="plus" t-value="0" />
+                                <t t-set="minus" t-value="0" />
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                                    <t
+                                        t-set="total_amount"
+                                        t-value="total_amount+line.product_qty*line.standard_price"
+                                    />
+                                    <t
+                                        t-set="total_before"
+                                        t-value="total_before+line.theoretical_qty*line.standard_price"
+                                    />
+                                    <t t-if='dif&gt;0'>
+                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                        <t t-call="deltatech_stock_inventory.report_inventory_line" />
+                                    </t>
+                                </t>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                                    <t t-if='dif&lt;0'>
+                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                        <t t-call="deltatech_stock_inventory.report_inventory_line" />
+                                    </t>
+                                </t>
+                                <t t-call="deltatech_stock_inventory.report_inventory_total" />
+                            </table>
+                            <div>
+                                <span t-field="o.note" />
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <template id="report_inventory_header">
+            <tr>
+                <th>
+                    <strong>Product</strong>
+                </th>
+                <th>
+                    <strong>Production Lot</strong>
+                </th>
+                <th>
+                    <strong>Package</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Theoretical Quantity</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Real Quantity</strong>
+                </th>
+                <th>
+                    <strong>Unit of measure</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Amount</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Difference Quantity</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Plus Amount</strong>
+                </th>
+                <th class="text-right">
+                    <strong>Minus Amount</strong>
+                </th>
+            </tr>
+        </template>
+        <template id="report_inventory_line">
+            <tr>
+                <td>
+                    <span t-field="line.product_id" />
+                </td>
+                <td>
+                    <span t-field="line.prod_lot_id" />
+                </td>
+                <td>
+                    <span t-field="line.package_id" />
+                </td>
+                <td class="text-right">
+                    <span t-field="line.theoretical_qty" />
+                </td>
+                <td class="text-right">
+                    <t t-if="line.state == 'done'">
+                        <span t-field="line.product_qty" />
+                    </t>
+                </td>
+                <td>
+                    <span t-field="line.product_uom_id" groups="uom.group_uom" />
+                </td>
+                <td class="text-right">
+                    <span
+                        t-esc="round(line.product_qty*line.standard_price,2)"
+                        t-options='{"widget": "float", "precision": 2}'
+                    />
+                </td>
+                <td class="text-right">
+                    <t t-if='dif!=0'>
+                        <span t-esc="round(dif)" t-options='{"widget": "float", "precision": 0}' />
+                    </t>
+                </td>
+                <td class="text-right">
+                    <t t-if='dif&gt;0'>
+                        <span
+                            t-esc="round(dif*line.standard_price,2)"
+                            t-options='{"widget": "float", "precision": 2}'
+                        />
+                    </t>
+                </td>
+                <td class="text-right">
+                    <t t-if='dif&lt;0'>
+                        <span
+                            t-esc="round(-1*dif*line.standard_price,2)"
+                            t-options='{"widget": "float", "precision": 2}'
+                        />
+                    </t>
+                </td>
+            </tr>
+        </template>
+        <template id="report_inventory_total">
+            <tr>
+                <td>
+                    <strong>Total general</strong>
+                </td>
+                <td />
+                <td />
+                <td class="text-right" />
+                <td class="text-right" />
+                <td>
+                    <div>
+                        <strong>Before:</strong>
+                    </div>
+                    <div>
+                        <strong>After:</strong>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div>
+                        <strong t-esc="round(total_amount,2)" t-options='{"widget": "float", "precision": 2}' />
+                    </div>
+                    <div>
+                        <strong
+                            t-esc="round(total_amount+total_plus-total_minus,2)"
+                            t-options='{"widget": "float", "precision": 2}'
+                        />
+                    </div>
+                </td>
+                <td class="text-right" />
+                <td class="text-right">
+                    <strong t-esc="round(total_plus,2)" t-options='{"widget": "float", "precision": 2}' />
+                </td>
+                <td class="text-right">
+                    <strong t-esc="round(total_minus,2)" t-options='{"widget": "float", "precision": 2}' />
+                </td>
+            </tr>
+        </template>
+        <template id="report_inventory" inherit_id="stock.report_inventory">
+            <xpath expr="//table/thead//tr" position="replace">
+                <t t-call="deltatech_stock_inventory.report_inventory_header" />
+                <t t-set="categ_id" t-value="0" />
+            </xpath>
+            <xpath expr="//table/tbody/t" position="replace">
+                <t t-set="total_plus" t-value="0" />
+                <t t-set="total_minus" t-value="0" />
+                <t t-set="total_amount" t-value="0" />
+                <t t-set="total_before" t-value="0" />
+                <t t-set="plus" t-value="0" />
+                <t t-set="minus" t-value="0" />
+                <!-- t t-foreach="o.line_ids" t-as="line" -->
+                <t t-foreach="o.line_ids.sorted(key=lambda r: r.categ_id)" t-as="line">
+                    <t t-if="categ_id!=line.categ_id.id">
+                        <t t-if="plus or minus">
+                            <tr>
+                                <td>
+                                    <strong>Subtotal</strong>
+                                </td>
+                                <td />
+                                <td />
+                                <td class="text-right" />
+                                <td class="text-right" />
+                                <td />
+                                <td class="text-right" />
+                                <td class="text-right" />
+                                <td class="text-right">
+                                    <strong t-esc="plus" t-options='{"widget": "float", "precision": 2}' />
+                                </td>
+                                <td class="text-right">
+                                    <strong t-esc="minus" t-options='{"widget": "float", "precision": 2}' />
+                                </td>
+                            </tr>
+                            <tr />
+                            <t t-set="plus" t-value="0" />
+                            <t t-set="minus" t-value="0" />
+                        </t>
+                        <tr>
+                            <td colspan="6">
+                                <strong>
+                                    <span t-field="line.categ_id" />
+                                </strong>
+                            </td>
+                        </tr>
+                        <t t-set="categ_id" t-value="line.categ_id.id" />
+                    </t>
+                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                    <t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
+                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price" />
+                    <t t-if='dif&gt;0'>
+                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
+                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                    </t>
+                    <t t-if='dif&lt;0'>
+                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
+                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                    </t>
+                    <t t-call="deltatech_stock_inventory.report_inventory_line" />
+                </t>
+                <tr>
+                    <td>
+                        <strong>Subtotal</strong>
+                    </td>
+                    <td />
+                    <td />
+                    <td class="text-right" />
+                    <td class="text-right" />
+                    <td />
+                    <td class="text-right" />
+                    <td class="text-right" />
+                    <td class="text-right">
+                        <strong t-esc="plus" t-options='{"widget": "float", "precision": 2}' />
+                    </td>
+                    <td class="text-right">
+                        <strong t-esc="minus" t-options='{"widget": "float", "precision": 2}' />
+                    </td>
+                </tr>
+                <t t-call="deltatech_stock_inventory.report_inventory_total" />
+            </xpath>
+        </template>
+    </data>
+</odoo>

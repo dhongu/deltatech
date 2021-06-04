@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="report_deltatech_expenses_deduction">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <br />
+                            <h3>
+                                <span>Decont cheltuieli:</span>
+                                <span t-field="o.number" />/
+                                <span t-field="o.date_expense" />
+                            </h3>
+                            <t t-set="nr_docs" t-value="len(o.expenses_line_ids)" />
+                            <t t-if="o.days">
+                                <t t-set="nr_docs" t-value="nr_docs+1" />
+                            </t>
+                            <div>
+                                <span>Subsemnatul</span>
+                                <strong t-field="o.employee_id" />
+                                <t t-if="o.employee_id.function">
+                                    <span> având funcția de</span>
+                                    <span t-field="o.employee_id.function" />
+                                </t>
+                                anexez prezentului
+                                <t t-if="nr_docs!=1">
+                                    <t t-esc="nr_docs" />
+                                    acte justificative specificate
+                                </t>
+                                <t t-if="nr_docs==1">
+                                    un act justificativ specificat
+                                </t>
+                                 în borderoul de mai jos pentru justificarea avansului primit la data de
+                                <span t-field="o.date_expense" />
+                                <t t-if="o.travel_order">
+                                    în baza ordinului de deplasare nr.
+                                    <strong t-field="o.travel_order" />
+                                </t>
+                            </div>
+                            <br />
+                            <div>
+                                Avans primit in data <span t-field="o.date_advance" />
+                                :<span t-field="o.advance" />
+                            </div>
+                            <br />
+                            <div>
+                                Chelt. conf. borderou de mai jos <span t-field="o.amount" />
+                            </div>
+                            <t t-if="o.total_diem">
+                                <div>
+                                    Din care diurna <span t-field="o.days" /> * <span t-field="o.diem" /> = <span
+                                        t-field="o.total_diem"
+                                    />
+                                </div>
+                            </t>
+                            <br />
+                            <div>
+                                Diferenţă  <span t-if="o.difference &gt; 0">de primit</span>
+                                <span t-if="o.difference &lt; 0">de restituit</span>
+
+                                <span t-field="o.difference" />
+                            </div>
+                            <br />
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <strong>Document</strong>
+                                        </th>
+                                        <th>
+                                            <strong>Date</strong>
+                                        </th>
+                                        <th class="text-right">
+                                            <strong>Suma</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.expenses_line_ids" t-as="l">
+                                        <td>
+                                            <span t-field="l.name" />
+                                            <span t-field="l.partner_id" />
+                                        </td>
+                                        <td>
+                                            <span t-field="l.date" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="l.amount" />
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.days">
+                                        <td>
+                                            <span t-field="o.travel_order" />
+                                        </td>
+                                        <td>
+                                            <span t-field="o.date_advance" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="o.total_diem" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br />
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        Semnătură titular
+                                    </td>
+                                    <td>
+                                        Se certifica îndeplinirea obiectivului delegației
+                                        <br />
+                                        Șef compartiment
+                                    </td>
+                                    <td>
+                                        Șef contabil
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -28,29 +28,17 @@ class StockMove(models.Model):
         use_date = self.env.context.get("force_period_date", False)
         if date_fields.intersection(vals):
             if not use_date:
-
                 for move in self:
                     today = fields.Date.today()
                     if "date" in vals:
-                        if move.date_expected.date() < today and move.date_expected < vals["date"]:
-                            vals["date"] = move.date_expected
-                        if move.date.date() < today and move.date < vals["date"]:
-                            vals["date"] = move.date
+                        date = fields.Date.to_date(vals["date"])
+                        move_date = fields.Date.to_date(move.date)
+                        if move_date < today and move_date < date:
+                            vals["date"] = move_date
                         move.move_line_ids.write({"date": vals["date"]})
-                        # move.quant_ids.write({'in_date': vals['date']})
-
-                    # if 'date_expected' in vals:
-                    #     if isinstance(vals['date_expected'], str):  # de unde ajunge aici cu string ?
-                    #         vals['date_expected'] = fields.Datetime.to_datetime(vals['date_expected'])
-                    #     move_date = vals.get('date', move.date)
-                    #     if move_date.date() < today and move_date < vals['date_expected']:
-                    #         vals['date_expected'] = move_date
             else:
-
                 if "date" in vals:
                     vals["date"] = use_date
-                # if 'date_expected' in vals:
-                #     vals['date_expected'] = use_date
 
         return super(StockMove, self).write(vals)
 
@@ -58,11 +46,17 @@ class StockMove(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def button_validate(self):
-        return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+    def action_toggle_is_locked(self):
+        # se suprascrie metoda standard petnru a nu mai permite editarea
+        return False
 
-    def action_done(self):
-        super(StockPicking, self).action_done()
+    # def button_validate(self):
+    #     if len(self) == 1:
+    #         return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+    #     return super(StockPicking, self).button_validate()
+
+    def _action_done(self):
+        super(StockPicking, self)._action_done()
         use_date = self.env.context.get("force_period_date", False)
         if use_date:
             self.write({"date": use_date, "date_done": use_date})

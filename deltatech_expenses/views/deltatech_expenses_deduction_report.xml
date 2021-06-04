@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <report
+            id="action_report_deltatech_expenses_deduction"
+            string="Print Expenses Deduction"
+            model="deltatech.expenses.deduction"
+            report_type="qweb-pdf"
+            name="deltatech_expenses.report_deltatech_expenses_deduction"
+            file="deltatech_expenses.report_deltatech_expenses_deduction"
+        />
+    </data>
+</odoo>

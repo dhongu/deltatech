@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+
+        <!--Account vouchers-->
+        <record id="expenses_deduction_from_account_voucher_view" model="ir.ui.view">
+            <field name="name">Create Expenses Deduction</field>
+            <field name="model">expenses.deduction.from.account.voucher</field>
+            <field name="arch" type="xml">
+                <form string="Create Expenses Deduction" version="7.0">
+                    <group>
+<field name="date_expense" />
+                    </group>
+                    <footer>
+                        <button string="Create" name="create_expenses_deduction" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <act_window
+        name="Create Expenses Deduction"
+        res_model="expenses.deduction.from.account.voucher"
+        src_model="account.voucher"
+        key2="client_action_multi"
+        multi="True"
+        view_mode="form"
+        view_type="form"
+        target="new"
+        id="action_expenses_deduction_from_account_voucher"
+    />
+
+
+</odoo>

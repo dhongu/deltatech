@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_substitution_all,mail.substitution.all,model_mail_substitution,,1,0,0,0
-access_substitution_user,mail.substitution.user,model_mail_substitution,base.group_user,1,1,1,0
-access_substitution_system,mail.substitution.system,model_mail_substitution,base.group_system,1,1,1,1
-
