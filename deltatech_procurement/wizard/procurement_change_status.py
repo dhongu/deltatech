@@ -49,9 +49,15 @@ class procurement_change_status(models.TransientModel):
             procurement_ids.run()
         if self.flag_cancel_no_check:
             for procurement in procurement_ids:
+                moves_ok = True
                 for move in procurement.move_ids:
-                    move.action_cancel()
-            procurement_ids.write( {'state': 'cancel'} )
+                    if move.state not in ["draft", "cancel", "done", "assigned"]:
+                        moves_ok = False
+                if moves_ok:
+                    for move in procurement.move_ids:
+                        if move.state in ["draft", "assigned"]:
+                            move.action_cancel()
+                    procurement_ids.write( {'state': 'cancel'} )
             
         return {'type': 'ir.actions.act_window_close'}
         
