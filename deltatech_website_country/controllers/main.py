@@ -1,5 +1,6 @@
-# Copyright 2015, 2017 Jairo Llopis <jairo.llopis@tecnativa.com>
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# ©  2015-2021 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
 
 from odoo.http import request, route
 
