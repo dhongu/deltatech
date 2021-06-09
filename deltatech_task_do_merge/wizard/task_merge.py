@@ -22,7 +22,6 @@ class MergeTask(models.TransientModel):
     dst_object_id = fields.Many2one(_model_merge, string="Destination Task")
 
     def action_merge(self):
-        vasile = False
         for task in self.object_ids:
             if task != self.dst_object_id:
                 for message in task.message_ids:
