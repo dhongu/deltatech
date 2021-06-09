@@ -20,3 +20,11 @@ class MergeTask(models.TransientModel):
 
     object_ids = fields.Many2many(_model_merge, string="Task")
     dst_object_id = fields.Many2one(_model_merge, string="Destination Task")
+
+    def action_merge(self):
+        vasile = False
+        for task in self.object_ids:
+            if task != self.dst_object_id:
+                for message in task.message_ids:
+                    message.write({"res_id": self.dst_object_id.id})
+        return super(MergeTask, self).action_merge()
