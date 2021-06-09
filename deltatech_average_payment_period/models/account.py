@@ -35,6 +35,7 @@ class account_move_line(models.Model):
     def _compute_payment_days(self):
         for aml in self:
             if aml.reconcile_id and aml.journal_id.type in ['sale', 'purchase', 'sale_refund', 'purchase_refund']:
+                payment_date = fields.Date.context_today(self)
                 if aml.debit > 0:
                     for line in aml.reconcile_id.line_id:
                         if line.credit > 0:
