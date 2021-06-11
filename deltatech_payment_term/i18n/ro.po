@@ -1,0 +1,330 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_payment_term
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-11 05:09+0000\n"
+"PO-Revision-Date: 2021-06-11 05:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.invoice_form1
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_partner_form
+msgid "<span class=\"o_stat_text\">Rates</span>"
+msgstr "<span class=\"o_stat_text\">Rate</span>"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Account"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Accounting Documents"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__advance
+msgid "Advance"
+msgstr "Avans"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Analytic"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_payment_term_rate_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model,name:deltatech_payment_term.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_payment_term_form
+msgid "Create Rate"
+msgstr "Generare rate"
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Currency"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Dates"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__day_of_the_month
+msgid "Day of the Month"
+msgstr "Ziua din lună"
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__display_name
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_res_partner__display_name
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields.selection,name:deltatech_payment_term.selection__account_payment_term_rate_wizard__value__fixed
+msgid "Fixed Amount"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Group By"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__id
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_res_partner__id
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_bank_statement_line__in_rates
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_move__in_rates
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment__in_rates
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "In Rates"
+msgstr "În rate"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Information"
+msgstr "Informații"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_payment_term
+#: model:ir.model,name:deltatech_payment_term.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_payment_term
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_account_moves_all_tree
+msgid "Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard____last_update
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_res_partner____last_update
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Move"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Number (Move)"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__rate
+msgid "Number of rates"
+msgstr "Număr de rate"
+
+#. module: deltatech_payment_term
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_account_moves_sale
+#: model:ir.ui.menu,name:deltatech_payment_term.menu_action_account_moves_all
+msgid "Open Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_invoice_payment_term_rate_wizard
+#: model:ir.actions.act_window,name:deltatech_payment_term.action_sale_payment_term_rate_wizard
+#: model:ir.model,name:deltatech_payment_term.model_account_payment_term_rate_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_payment_term_rate_wizard_form
+msgid "Payment Term Rate Wizard"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields.selection,name:deltatech_payment_term.selection__account_payment_term_rate_wizard__value__percent
+msgid "Percent"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: code:addons/deltatech_payment_term/wizard/payment_term.py:0
+#, python-format
+msgid "Percentages for Advance must be between 0 and 100."
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Posted"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Posted Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Purchase"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__rate_value
+msgid "Rate Value"
+msgstr "Valoare rată"
+
+#. module: deltatech_payment_term
+#: code:addons/deltatech_payment_term/wizard/payment_term.py:0
+#, python-format
+msgid "Rate must be greater than 1"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "Reconciliation"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_tree
+msgid "Restanta"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_sale_order__sale_in_rates
+msgid "Sale in Rates"
+msgstr "Vânzare în rate"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Sales"
+msgstr "Vânzări"
+
+#. module: deltatech_payment_term
+#: model:ir.model,name:deltatech_payment_term.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,help:deltatech_payment_term.field_account_payment_term_rate_wizard__value
+msgid "Select here the kind of valuation related to this payment terms line."
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_form
+msgid "States"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__term_id
+msgid "Term"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_tree
+msgid "Total Credit"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_move_line_tree
+msgid "Total Debit"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model:ir.model.fields,field_description:deltatech_payment_term.field_account_payment_term_rate_wizard__value
+msgid "Type"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unbalanced"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unbalanced Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unposted"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unposted Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unreconciled"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_move_line_filter
+msgid "Unreconciled Journal Items"
+msgstr ""
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_payment_term_rate_wizard_form
+msgid "_Apply"
+msgstr "_Aplică"
+
+#. module: deltatech_payment_term
+#: model_terms:ir.ui.view,arch_db:deltatech_payment_term.view_account_payment_term_rate_wizard_form
+msgid "or"
+msgstr "sau"
