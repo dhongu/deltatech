@@ -10,8 +10,6 @@
                     <button class="oe_stat_button" name="view_rate" type="object" icon="fa-money">
                         <span class="o_stat_text">Rates</span>
                     </button>
-
-
                 </div>
             </field>
         </record>
