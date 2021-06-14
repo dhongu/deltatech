@@ -12,9 +12,13 @@ class SaleOrderLine(models.Model):
     vendor_qty_available = fields.Float(
         "Vendor Quantity Available", digits="Product Unit of Measure", compute="_compute_qty_at_date"
     )
+    other_qty_available = fields.Float(
+        "Other Quantity Available", digits="Product Unit of Measure", compute="_compute_qty_at_date"
+    )
 
     def _compute_qty_at_date(self):
         super(SaleOrderLine, self)._compute_qty_at_date()
+        self.other_qty_available = 0
         treated = self.env["sale.order.line"]
         for line in self:
             if not line.display_qty_widget:

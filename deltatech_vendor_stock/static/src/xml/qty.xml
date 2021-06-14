@@ -14,6 +14,15 @@
                             <t t-esc='data.product_uom.data.display_name' />
                         </td>
                     </tr>
+                    <tr t-if="data.other_qty_available">
+                        <td>
+                            <strong>Other Stock</strong>
+                        </td>
+                        <td>
+                            <b t-esc="data.other_qty_available" />
+                            <t t-esc='data.product_uom.data.display_name' />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </t>
