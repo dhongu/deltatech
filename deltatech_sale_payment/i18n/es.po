@@ -148,7 +148,7 @@ msgstr "Transacción"
 #. module: deltatech_sale_payment
 #: model:ir.model.fields.selection,name:deltatech_sale_payment.selection__sale_order__payment_status__without
 msgid "Without"
-msgstr "Sin"
+msgstr "Sin pago"
 
 #. module: deltatech_sale_payment
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_payment.view_sale_confirm_payment_form
