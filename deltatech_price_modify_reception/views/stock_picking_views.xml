@@ -9,7 +9,8 @@
                 expr="//page[@name='operations']/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']"
                 position="after"
             >
-                <field name="price_list" />
+                <field name="picking_type" invisible="1" />
+                <field name="price_list" attrs='{"invisible":[("picking_type","!=","incoming")]}' />
             </xpath>
         </field>
     </record>
