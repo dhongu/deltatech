@@ -8,7 +8,7 @@
     "depends": ["stock", "product"],
     "data": ["views/stock_picking_views.xml"],
     "license": "LGPL-3",
-    "images": [],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "",
     "maintainers": ["cojocariudaniel1"],
 }
