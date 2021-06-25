@@ -18,12 +18,6 @@ class StockInventory(models.Model):
     note = fields.Text(string="Note")
     filterbyrack = fields.Char("Rack")
 
-    # exista in standard
-    # def unlink(self):
-    #     if any(inventory.state not in ("draft", "cancel") for inventory in self):
-    #         raise UserError(_("You can only delete draft inventory."))
-    #     return super(StockInventory, self).unlink()
-
     def _get_inventory_lines_values(self):
         lines = super(StockInventory, self)._get_inventory_lines_values()
         for line in lines:
