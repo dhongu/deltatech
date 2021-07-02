@@ -5,11 +5,16 @@ class AccountPayment(models.Model):
     _inherit = "account.payment"
     _description = "Restrict Journals"
 
-    partner_id_check = fields.Integer(compute="_compute_value")
-
-    @api.onchange("partner_id")
-    def _compute_value(self):
+    @api.onchange('journal_id')
+    def _onchange_journal(self):
         if self.partner_id.name == "Generic":
-            self.partner_id_check = 1
+            return {'domain': {'journal_id': [('restriction', '=', False), ('type', 'in', ('bank', 'cash'))]}}
         else:
-            self.partner_id_check = 0
+            return {'domain': {'journal_id': [('type', 'in', ('bank', 'cash'))]}}
+
+
+class AccountJournal(models.Model):
+    _inherit = "account.journal"
+    _description = ""
+
+    restriction = fields.Boolean(string="Generic Restriction")
