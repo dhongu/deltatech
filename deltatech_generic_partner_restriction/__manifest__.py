@@ -8,7 +8,7 @@
     "website": "https://www.terrabit.ro",
     "category": "",
     "depends": ["account"],
-    "data": ['views/account_view_jurnal.xml'],
+    "data": ["views/account_view_jurnal.xml"],
     "images": [],
     "development_status": "Beta",
     "maintainers": ["cojocariudaniel1"],
