@@ -7,7 +7,7 @@
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "",
-    "depends": ["account"],
+    "depends": ["account", "deltatech_partner_generic"],
     "data": ["views/account_view_jurnal.xml"],
     "images": [],
     "development_status": "Beta",
