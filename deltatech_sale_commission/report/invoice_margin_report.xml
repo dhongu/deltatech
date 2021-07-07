@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
-    <record id="view_sale_margin_report_tree" model="ir.ui.view">
-        <field name="name">sale.margin.report.tree</field>
-        <field name="model">sale.margin.report</field>
+    <record id="view_invoice_margin_report_tree" model="ir.ui.view">
+        <field name="name">invoice.margin.report.tree</field>
+        <field name="model">invoice.margin.report</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Sale margin report" create="false">
+            <tree string="Invoice margin report" create="false">
                 <field name="date" invisible="1" />
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" invisible="1" />
@@ -31,12 +31,12 @@
     </record>
 
 
-    <record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
-        <field name="name">sale.margin.report.commission.tree</field>
-        <field name="model">sale.margin.report</field>
+    <record id="view_invoice_margin_report_commission_tree" model="ir.ui.view">
+        <field name="name">invoice.margin.report.commission.tree</field>
+        <field name="model">invoice.margin.report</field>
         <field name="type">tree</field>
         <field name="arch" type="xml">
-            <tree string="Sale margin report" delete="false" create="false">
+            <tree string="invoice margin report" delete="false" create="false">
                 <field name="date" invisible="1" />
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" />
@@ -65,11 +65,11 @@
     </record>
 
 
-    <record id="view_sale_margin_report_pivot" model="ir.ui.view">
-        <field name="name">sale.margin.report.pivot</field>
-        <field name="model">sale.margin.report</field>
+    <record id="view_invoice_margin_report_pivot" model="ir.ui.view">
+        <field name="name">invoice.margin.report.pivot</field>
+        <field name="model">invoice.margin.report</field>
         <field name="arch" type="xml">
-            <pivot string="Sale margin report">
+            <pivot string="invoice margin report">
                 <field name="categ_id" type="row" />
                 <field name="date" type="row" />
                 <field name="product_uom_qty" type="measure" />
@@ -83,9 +83,9 @@
     </record>
 
 
-    <record id="view_sale_margin_report_filter" model="ir.ui.view">
-        <field name="name">sale.margin.report.select</field>
-        <field name="model">sale.margin.report</field>
+    <record id="view_invoice_margin_report_filter" model="ir.ui.view">
+        <field name="name">invoice.margin.report.select</field>
+        <field name="model">invoice.margin.report</field>
         <field name="type">search</field>
         <field name="arch" type="xml">
             <search string="Search">
@@ -137,39 +137,43 @@
     </record>
 
 
-    <record id="action_sale_margin_report" model="ir.actions.act_window">
-        <field name="name">Sale margin report</field>
-        <field name="res_model">sale.margin.report</field>
+    <record id="action_invoice_margin_report" model="ir.actions.act_window">
+        <field name="name">Invoice margin report</field>
+        <field name="res_model">invoice.margin.report</field>
 
         <field name="view_mode">tree,pivot</field>
-        <field name="search_view_id" ref="view_sale_margin_report_filter" />
+        <field name="search_view_id" ref="view_invoice_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
         <field name="context">{'search_default_product':1, 'group_by':['user_id']}</field>
     </record>
 
-<!--    <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">-->
+<!--    <record model="ir.actions.act_window.view" id="action_invoice_margin_report_pivot">-->
 <!--        <field name="sequence" eval="1" />-->
 <!--        <field name="view_mode">pivot</field>-->
-<!--        <field name="view_id" ref="view_sale_margin_report_pivot" />-->
-<!--        <field name="act_window_id" ref="action_sale_margin_report" />-->
+<!--        <field name="view_id" ref="view_invoice_margin_report_pivot" />-->
+<!--        <field name="act_window_id" ref="action_invoice_margin_report" />-->
 <!--    </record>-->
 
-<!--    <record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">-->
+<!--    <record model="ir.actions.act_window.view" id="action_invoice_margin_report_tree">-->
 <!--        <field name="sequence" eval="2" />-->
 <!--        <field name="view_mode">tree</field>-->
-<!--        <field name="view_id" ref="view_sale_margin_report_tree" />-->
-<!--        <field name="act_window_id" ref="action_sale_margin_report" />-->
+<!--        <field name="view_id" ref="view_invoice_margin_report_tree" />-->
+<!--        <field name="act_window_id" ref="action_invoice_margin_report" />-->
 <!--    </record>-->
 
-    <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="sale.menu_sale_report" />
+    <menuitem
+        action="action_invoice_margin_report"
+        id="menu_invoice_margin_report_tree"
+        parent="sale.menu_sale_report"
+    />
 
-    <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
-        <field name="name">Sale Commission</field>
-        <field name="res_model">sale.margin.report</field>
+    <record id="action_invoice_margin_commission_report" model="ir.actions.act_window">
+        <field name="name">Invoice Commission</field>
+        <field name="res_model">invoice.margin.report</field>
 
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="view_sale_margin_report_commission_tree" />
-        <field name="search_view_id" ref="view_sale_margin_report_filter" />
+        <field name="view_id" ref="view_invoice_margin_report_commission_tree" />
+        <field name="search_view_id" ref="view_invoice_margin_report_filter" />
         <field name="context">{'search_default_paid':1}</field>
         <field name="domain">[('type','in',['out_invoice','out_refund'])]</field>
     </record>
@@ -183,8 +187,8 @@
         groups="sales_team.group_sale_manager"
     />
     <menuitem
-        action="action_sale_margin_commission_report"
-        id="menu_sale_margin_commission_report_tree"
+        action="action_invoice_margin_commission_report"
+        id="menu_invoice_margin_commission_report_tree"
         parent="menu_commission"
     />
 

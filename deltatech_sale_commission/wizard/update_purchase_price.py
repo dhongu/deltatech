@@ -13,7 +13,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
     price_from_doc = fields.Boolean(string="Price from delivery", default=True)
 
     invoice_line_ids = fields.Many2many(
-        "sale.margin.report",
+        "invoice.margin.report",
         "commission_update_purchase_price_inv_rel",
         "compute_id",
         "invoice_line_id",
@@ -30,14 +30,14 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
             domain = [("id", "in", active_ids)]
         else:
             domain = [("state", "=", "paid"), ("commission", "=", 0.0)]
-        res = self.env["sale.margin.report"].search(domain)
+        res = self.env["invoice.margin.report"].search(domain)
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
     def do_compute(self):
 
         if self.for_all:
-            lines = self.env["sale.margin.report"].search([])
+            lines = self.env["invoice.margin.report"].search([])
         else:
             lines = self.invoice_line_ids
 
@@ -49,7 +49,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
                 for sale_line in invoice_line.sale_line_ids:
                     pickings |= sale_line.order_id.picking_ids
 
-                # sont doar livrari ?
+                #  doar livrari ?
                 moves = self.env["stock.move"].search(
                     [("picking_id", "in", pickings.ids), ("product_id", "=", invoice_line.product_id.id)]
                 )

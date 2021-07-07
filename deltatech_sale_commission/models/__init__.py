@@ -3,3 +3,4 @@
 
 from . import commission_users
 from . import account_invoice
+from . import sale

@@ -4,9 +4,9 @@
 from odoo import fields, models, tools
 
 
-class SaleMarginReport(models.Model):
-    _name = "sale.margin.report"
-    _description = "Sale Margin Report"
+class InvoiceMarginReport(models.Model):
+    _name = "invoice.margin.report"
+    _description = "Invoice Margin Report"
     _auto = False
     _order = "date desc"
 
@@ -39,6 +39,15 @@ class SaleMarginReport(models.Model):
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
     currency_rate = fields.Float("Currency Rate", readonly=True)
 
+    type = fields.Selection(
+        [
+            ("out_invoice", "Customer Invoice"),
+            ("in_invoice", "Vendor Bill"),
+            ("out_refund", "Customer Refund"),
+            ("in_refund", "Vendor Refund"),
+        ],
+        readonly=True,
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")], string="Invoice Status", readonly=True
     )
@@ -115,6 +124,14 @@ class SaleMarginReport(models.Model):
                     s.type, s.state , s.journal_id, s.currency_id
         """
 
+        # x = """
+        # SUM(CASE
+        #              WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
+        #              'in_invoice'::character varying::text])
+        #                 THEN -(l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+        #                 ELSE  (l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+        #             END) AS sale_val,
+        # """
         return select_str
 
     def _from(self):
@@ -123,7 +140,6 @@ class SaleMarginReport(models.Model):
                     left join account_move_line l on (s.id=l.move_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
-                    left
                     left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
                     left join commission_users cu on (s.invoice_user_id = cu.user_id)
@@ -204,5 +220,5 @@ class SaleMarginReport(models.Model):
         if "user_id" in vals:
             invoice = self.env["account.invoice"].browse(self.invoice_id)
             invoice.write({"user_id": vals["user_id"]})
-        super(SaleMarginReport, self).write(vals)
+        super(InvoiceMarginReport, self).write(vals)
         return True
