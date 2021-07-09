@@ -11,9 +11,11 @@ class AccountPayment(models.Model):
         generic_partner_id = int(self.env["ir.config_parameter"].sudo().get_param("sale.partner_generic_id"))
         if customer_id == generic_partner_id:
             if "domain" in res:
-                res["domain"].update({
-                    "journal_id": [("restriction", "=", False), ("type", "in", ("bank", "cash"))],
-                })
+                res["domain"].update(
+                    {
+                        "journal_id": [("restriction", "=", False), ("type", "in", ("bank", "cash"))],
+                    }
+                )
         return res
 
 
