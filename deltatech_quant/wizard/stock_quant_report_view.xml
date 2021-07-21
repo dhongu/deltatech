@@ -9,10 +9,10 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree create="0" edit="0" delete="0" decoration-danger="qty&lt;0">
-                    <field name="categ_id"/>
-                    <field name="product_id"/>
-                    <field name="description"/>
-                    <field name="qty"/>
+                    <field name="categ_id" string="Categorie interna"/>
+                    <field name="product_id" string="Produs"/>
+                    <field name="description" string="Descriere"/>
+                    <field name="qty" string="Cantitate"/>
 <!--                    <field name="product_uom_id"/>-->
 <!--                    <field name="amount" sum="amount"/>-->
 <!--                    <field name="sale_value" sum="sale_value"/>-->

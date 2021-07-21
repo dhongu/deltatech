@@ -36,7 +36,23 @@ _logger = logging.getLogger(__name__)
 class stock_transfer_details_items(models.TransientModel):
     _inherit = 'stock.transfer_details_items'
 
-    ref = fields.Char(string="Reference", related="packop_id.ref" , copy=True)  #related=False
+    # ref = fields.Char(string="Reference", related="packop_id.ref" , copy=True, store=True)  #related=False
+    ref = fields.Char(string="Reference", related=False , copy=True, store=True)  #related=False
+
+    # @api.model
+    # def default_get(self, fields):
+    #     defaults = super(stock_transfer_details_items, self).default_get(fields)
+    #     if defaults.get('packop_id'):
+    #         packop = self.env['stock.pack.operation'].browse(defaults['packop_id'])
+    #         defaults['ref'] = packop.ref
+    #     return defaults
+
+    @api.model
+    def create(self, vals):
+        if vals.get('packop_id'):
+            packop = self.env['stock.pack.operation'].browse(vals['packop_id'])
+            vals['ref'] = packop.ref
+        return super(stock_transfer_details_items, self).create(vals)
 
 class stock_pack_operation(models.Model):
     _inherit = "stock.pack.operation"
