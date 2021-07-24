@@ -39,6 +39,15 @@ class SaleMarginReport(models.Model):
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
     currency_rate = fields.Float("Currency Rate", readonly=True)
 
+    type = fields.Selection(
+        [
+            ("out_invoice", "Customer Invoice"),
+            ("in_invoice", "Vendor Bill"),
+            ("out_refund", "Customer Refund"),
+            ("in_refund", "Vendor Refund"),
+        ],
+        readonly=True,
+    )
     state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")], string="Invoice Status", readonly=True
     )
@@ -78,7 +87,7 @@ class SaleMarginReport(models.Model):
     def _sub_select(self):
         select_str = """
                 SELECT
-                    min(l.id) as id,
+                    l.id as id,
                     s.invoice_date as date,
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
@@ -109,12 +118,20 @@ class SaleMarginReport(models.Model):
 
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
-                    s.invoice_user_id as user_id,
+                    l.sale_user_id as user_id,
 
                     s.company_id as company_id,
                     s.type, s.state , s.journal_id, s.currency_id
         """
 
+        # x = """
+        # SUM(CASE
+        #              WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
+        #              'in_invoice'::character varying::text])
+        #                 THEN -(l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+        #                 ELSE  (l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
+        #             END) AS sale_val,
+        # """
         return select_str
 
     def _from(self):
@@ -123,10 +140,9 @@ class SaleMarginReport(models.Model):
                     left join account_move_line l on (s.id=l.move_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
-                    left
                     left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.invoice_user_id = cu.user_id)
+                    left join commission_users cu on (l.sale_user_id = cu.user_id)
 
         """
         return from_str
@@ -140,6 +156,7 @@ class SaleMarginReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
+                    l.id,
                     l.product_id,
                     l.account_id,
                     l.move_id,
@@ -148,7 +165,7 @@ class SaleMarginReport(models.Model):
                     s.invoice_date,
                     s.partner_id,
                     s.commercial_partner_id,
-                    s.invoice_user_id,
+                    l.sale_user_id,
                     cu.rate,
                     cu.manager_rate,
                     cu.manager_user_id,
@@ -201,8 +218,8 @@ class SaleMarginReport(models.Model):
                 value["purchase_price"] = invoice_line.product_id.standard_price
 
         invoice_line.write(value)
-        if "user_id" in vals:
-            invoice = self.env["account.invoice"].browse(self.invoice_id)
-            invoice.write({"user_id": vals["user_id"]})
+        # if "user_id" in vals:
+        #     invoice = self.env["account.move.line"].browse(self.id)
+        #     invoice.write({"sale_user_id": vals["sale_user_id"]})
         super(SaleMarginReport, self).write(vals)
         return True
