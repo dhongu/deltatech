@@ -15,7 +15,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     # the standard field sales_count is not store
-    # urmatoarele campuri sunt caclulata prin cron
+    # urmatoarele campuri sunt calculeaza prin cron
 
     sales_count2 = fields.Float(string="Sold2", store=True)
     visit_count = fields.Integer(string="Visits", store=True)
@@ -23,6 +23,7 @@ class ProductTemplate(models.Model):
 
     rating_count2 = fields.Integer("Rating count2")
     rating_avg2 = fields.Float("Rating Average2")
+    in_stock = fields.Boolean()
 
     def _update_statistics(self):
         domain = [("res_model", "=", self._name), ("res_id", "in", self.ids), ("consumed", "=", True)]
@@ -44,6 +45,7 @@ class ProductTemplate(models.Model):
                     "visit_count": visit_count,
                     "rating_count2": rating_count2,
                     "rating_avg2": rating_avg2,
+                    "in_stock": record.qty_available > 0,
                 }
             )
 
