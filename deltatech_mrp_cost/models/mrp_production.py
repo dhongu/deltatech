@@ -81,18 +81,17 @@ class MrpProduction(models.Model):
 
             # adaugare manopera la costul estimat
 
-            if production.routing_id:
-                for operation in production.routing_id.operation_ids:
-                    time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
+            for operation in production.bom_id.operation_ids:
+                time_cycle = operation.get_time_cycle(quantity=product_qty, product=production.product_id)
 
-                    cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
-                    duration_expected = (
-                        operation.workcenter_id.time_start
-                        + operation.workcenter_id.time_stop
-                        + cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency
-                    )
+                cycle_number = math.ceil(product_qty / operation.workcenter_id.capacity)
+                duration_expected = (
+                    operation.workcenter_id.time_start
+                    + operation.workcenter_id.time_stop
+                    + cycle_number * time_cycle * 100.0 / operation.workcenter_id.time_efficiency
+                )
 
-                    amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
+                amount += (duration_expected / 60) * operation.workcenter_id.costs_hour
 
             amount += production.service_amount
             calculate_price = amount / product_qty
