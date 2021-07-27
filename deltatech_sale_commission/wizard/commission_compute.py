@@ -10,7 +10,7 @@ class CommissionCompute(models.TransientModel):
     _description = "Compute commission"
 
     invoice_line_ids = fields.Many2many(
-        "invoice.margin.report",
+        "sale.margin.report",
         "commission_compute_inv_rel",
         "compute_id",
         "invoice_line_id",
@@ -27,7 +27,7 @@ class CommissionCompute(models.TransientModel):
             domain = [("id", "in", active_ids)]
         else:
             domain = [("state", "=", "paid"), ("commission", "=", 0.0)]
-        res = self.env["invoice.margin.report"].search(domain)
+        res = self.env["sale.margin.report"].search(domain)
         defaults["invoice_line_ids"] = [(6, 0, [rec.id for rec in res])]
         return defaults
 
@@ -36,15 +36,15 @@ class CommissionCompute(models.TransientModel):
         for line in self.invoice_line_ids:
             value = {"commission": line.commission_computed}
             # if line.purchase_price == 0 and line.product_id:
-            #    value['purchase_price'] = line.product_id.standard_price
-
-            line.write(value)
+            #     value['purchase_price'] = line.product_id.standard_price
+            invoice_line = self.env["account.move.line"].browse(line.id)
+            invoice_line.write(value)
             res.append(line.id)
         return {
             "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
             "name": _("Commission"),
             "view_mode": "tree,form",
-            "res_model": "invoice.margin.report",
+            "res_model": "sale.margin.report",
             "view_id": False,
             "type": "ir.actions.act_window",
         }

@@ -101,3 +101,14 @@ class AccountInvoiceLine(models.Model):
         res = super(AccountInvoiceLine, self)._onchange_product_id()
         self._compute_purchase_price()
         return res
+
+    @api.model
+    def create(self, vals):
+        if "purchase_price" not in vals and ("display_type" not in vals or not vals["display_type"]):
+            move_id = self.env["account.move"].browse(vals["move_id"])
+            product_id = self.env["product.product"].browse(vals["product_id"])
+            product_uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
+
+            vals["purchase_price"] = self._compute_margin(move_id, product_id, product_uom_id)
+
+        return super(AccountInvoiceLine, self).create(vals)
