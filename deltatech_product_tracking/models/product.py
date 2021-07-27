@@ -43,6 +43,15 @@ class ProductProduct(models.Model):
         return res
 
     def fill_lot_in_stock_docs(self):
+        def get_lot(name):
+            domain_lot = [("name", "=", name), ("product_id", "=", product.id), ("company_id", "=", company.id)]
+            production_lot = self.env["stock.production.lot"].search(domain_lot, limit=1)
+            if not production_lot:
+                production_lot = self.env["stock.production.lot"].create(
+                    {"name": name, "product_id": product.id, "company_id": company.id}
+                )
+            return production_lot
+
         warehouses = self.env["stock.warehouse"].with_context(active_test=False).search([])
         for product in self:
             # Parse warehouses
@@ -63,29 +72,14 @@ class ProductProduct(models.Model):
                         lot = lots[0]
                     else:
                         lot_name = war.code + "000001"
-                        lot = self.env["stock.production.lot"].search(
-                            [
-                                ("name", "=", lot_name),
-                                ("product_id", "=", product.id),
-                                ("company_id", "=", company.id),
-                            ],
-                            limit=1,
-                        )
-                        if not lot:
-                            lot = self.env["stock.production.lot"].create(
-                                {
-                                    "name": lot_name,
-                                    "product_id": product.id,
-                                    "company_id": company.id,
-                                }
-                            )
+                        lot = get_lot(lot_name)
                     if lot:
                         domain = [("lot_id", "=", False)] + domain
                         st_move_lines = self.env["stock.move.line"].search(domain)
 
                         if st_move_lines:
                             self.env.cr.execute(
-                                """update stock_move_line   set lot_id = %s  where id in %s""",
+                                "update stock_move_line set lot_id = %s  where id in %s",
                                 (lot.id, tuple(st_move_lines.ids)),
                             )
                         quants = self.env["stock.quant"].search(
@@ -97,5 +91,13 @@ class ProductProduct(models.Model):
                         )
                         if quants:
                             self.env.cr.execute(
-                                "update stock_quant  set lot_id = %s where id in %s", (lot.id, tuple(quants.ids))
+                                "update stock_quant set lot_id = %s where id in %s", (lot.id, tuple(quants.ids))
                             )
+
+            other_quants = self.env["stock.quant"].search([("product_id", "=", product.id), ("lot_id", "=", False)])
+            if other_quants:
+                lot_name = "000000001"
+                lot = get_lot(lot_name)
+                self.env.cr.execute(
+                    "update stock_quant  set lot_id = %s where id in %s", (lot.id, tuple(other_quants.ids))
+                )
