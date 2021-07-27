@@ -103,7 +103,7 @@ class MrpProduction(models.Model):
         self.ensure_one()
         production = self
 
-        self._calculate_amount()  # refac calculul
+        # self._calculate_amount()  # refac calculul
         price_unit = production.calculate_price
         self.move_finished_ids.write({"price_unit": price_unit})
         # functia standard nu permite si de aceea am facut o modificare in deltatech_purchase_price
