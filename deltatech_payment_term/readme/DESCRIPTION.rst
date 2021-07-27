@@ -1,0 +1,2 @@
+Features:
+ - Rate generation
