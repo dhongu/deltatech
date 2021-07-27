@@ -13,7 +13,7 @@ odoo.define("deltatech_download.ActionManager", function (require) {
         _triggerDownload: function (action, options, type) {
             var self = this;
             var reportUrls = this._makeReportUrls(action);
-            if (type === "pdf") {
+            if (type === "pdf" && !action.direct_download) {
                 var pdfWindow = window.open(reportUrls.pdf, "_blank");
                 pdfWindow.document.title = "Download";
                 if (action.close_on_report_download) {
@@ -25,12 +25,12 @@ odoo.define("deltatech_download.ActionManager", function (require) {
             return this._super.apply(this, arguments);
         },
 
-        _executeReportAction: function (action, options) {
-            var self = this;
-            if (action.report_type === "pdf") {
-                return self._triggerDownload(action, options, "pdf");
-            }
-            return this._super.apply(this, arguments);
-        },
+        // _executeReportAction: function (action, options) {
+        //     var self = this;
+        //     if (action.report_type === "pdf") {
+        //         return self._triggerDownload(action, options, "pdf");
+        //     }
+        //     return this._super.apply(this, arguments);
+        // },
     });
 });
