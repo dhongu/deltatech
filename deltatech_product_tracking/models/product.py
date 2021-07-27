@@ -8,10 +8,15 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     def write(self, vals):
-        res = super(ProductTemplate, self).write(vals)
+
         if vals.get("tracking", "none") == "lot":
+            templates_without_lot = self.filtered(lambda p: p.tracking == "none")
+        else:
+            templates_without_lot = False
+        res = super(ProductTemplate, self).write(vals)
+        if templates_without_lot:
             products = self.env["product.product"]
-            for template in self:
+            for template in templates_without_lot:
                 products |= template.product_variant_ids
             products.fill_lot_in_stock_docs()
         return res
@@ -28,9 +33,13 @@ class ProductProduct(models.Model):
         return res
 
     def write(self, vals):
-        res = super(ProductProduct, self).write(vals)
         if vals.get("tracking", "none") == "lot":
-            self.fill_lot_in_stock_docs()
+            products_without_lot = self.filtered(lambda p: p.tracking == "none")
+        else:
+            products_without_lot = False
+        res = super(ProductProduct, self).write(vals)
+        if products_without_lot:
+            products_without_lot.fill_lot_in_stock_docs()
         return res
 
     def fill_lot_in_stock_docs(self):
