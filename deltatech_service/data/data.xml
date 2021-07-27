@@ -10,8 +10,13 @@
         <menuitem name="Service" id="menu_service" parent="menu_service_app" sequence="100" />
         <menuitem name="Agreement" id="menu_service_agr" parent="menu_service_app" sequence="200" />
         <menuitem name="Reports" id="menu_service_report" parent="menu_service_app" sequence="300" />
-        <menuitem name="Configuration" id="menu_service_config"
-                  parent="menu_service_app" groups="group_service_manager" sequence="900" />
+        <menuitem
+            name="Configuration"
+            id="menu_service_config"
+            parent="menu_service_app"
+            groups="group_service_manager"
+            sequence="900"
+        />
     </data>
     <data noupdate="1">
         <record id="sequence_agreement" model="ir.sequence">
