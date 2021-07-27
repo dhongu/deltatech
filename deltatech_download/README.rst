@@ -21,6 +21,7 @@ Download File
 
 Features:
  - Downloading files
+ - A direct download option can be set in the report
 
 **Table of contents**
 
