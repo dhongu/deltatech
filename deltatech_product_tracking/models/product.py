@@ -64,40 +64,33 @@ class ProductProduct(models.Model):
                     ("location_id", "=", war_loc.id),
                     ("location_dest_id", "=", war_loc.id),
                 ]
-                st_moves = self.env["stock.move"].search(domain)
+                lot_name = war.code + "000001"
+                lot = get_lot(lot_name)
+                if lot:
+                    domain = [("lot_id", "=", False)] + domain
+                    st_move_lines = self.env["stock.move.line"].search(domain)
 
-                if st_moves:
-                    lots = st_moves.mapped("lot_ids")
-                    if lots:
-                        lot = lots[0]
-                    else:
-                        lot_name = war.code + "000001"
-                        lot = get_lot(lot_name)
-                    if lot:
-                        domain = [("lot_id", "=", False)] + domain
-                        st_move_lines = self.env["stock.move.line"].search(domain)
-
-                        if st_move_lines:
-                            self.env.cr.execute(
-                                "update stock_move_line set lot_id = %s  where id in %s",
-                                (lot.id, tuple(st_move_lines.ids)),
-                            )
-                        quants = self.env["stock.quant"].search(
-                            [
-                                ("product_id", "=", product.id),
-                                ("lot_id", "=", False),
-                                ("location_id", "=", war_loc.id),
-                            ]
+                    if st_move_lines:
+                        self.env.cr.execute(
+                            "update stock_move_line set lot_id = %s  where id in %s",
+                            (lot.id, tuple(st_move_lines.ids)),
                         )
-                        if quants:
-                            self.env.cr.execute(
-                                "update stock_quant set lot_id = %s where id in %s", (lot.id, tuple(quants.ids))
-                            )
+                    quants = self.env["stock.quant"].search(
+                        [
+                            ("product_id", "=", product.id),
+                            ("lot_id", "=", False),
+                            ("location_id", "=", war_loc.id),
+                        ]
+                    )
+                    if quants:
+                        self.env.cr.execute(
+                            "update stock_quant set lot_id = %s where id in %s", (lot.id, tuple(quants.ids))
+                        )
 
             other_quants = self.env["stock.quant"].search([("product_id", "=", product.id), ("lot_id", "=", False)])
             if other_quants:
                 lot_name = "000000001"
                 lot = get_lot(lot_name)
                 self.env.cr.execute(
-                    "update stock_quant  set lot_id = %s where id in %s", (lot.id, tuple(other_quants.ids))
+                    "update stock_quant set lot_id = %s where id in %s", (lot.id, tuple(other_quants.ids))
                 )
