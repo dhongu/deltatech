@@ -64,13 +64,13 @@ class SaleMarginReport(models.Model):
                 CASE
                      WHEN (stock_val ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val    - stock_val ) / stock_val
+                      ELSE  100 * (sale_val    - stock_val ) / abs(stock_val)
                 END  AS indicator_supplement,
 
                 CASE
                      WHEN (sale_val  ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
+                      ELSE  100 * (sale_val   - stock_val ) / abs(sale_val  )
                 END  AS indicator_profit,
 
 
@@ -103,7 +103,12 @@ class SaleMarginReport(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
-                    SUM(l.price_subtotal) AS sale_val,
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
+                      'in_invoice'::character varying::text])
+                        THEN -l.price_subtotal
+                        ELSE  l.price_subtotal
+                    END)  AS sale_val,
 
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,

@@ -53,13 +53,13 @@
                 <field name="profit_val" sum="Profit" />
                 <field name="commission_computed" sum="Commission Computed" />
                 <field name="commission" sum="Commission" />
-                <field name="indicator_supplement" avg="Supplement Indicator" />
-                <field name="indicator_profit" avg="Profit Indicator" />
+                <field name="indicator_supplement" avg="Supplement Indicator" optional="hide" />
+                <field name="indicator_profit" avg="Profit Indicator" optional="hide" />
                 <field name="company_id" invisible="1" groups="base.group_multi_company" />
                 <field name="type" invisible="1" />
                 <field name="state" invisible="1" />
-                <field name="currency_id" />
-                <field name="currency_rate" />
+                <field name="currency_id" optional="hide" />
+                <field name="currency_rate" optional="hide" />
             </tree>
         </field>
     </record>
