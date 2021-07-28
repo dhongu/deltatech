@@ -65,7 +65,7 @@ class SaleOrderLine(models.Model):
                     raise UserError(_("You can not sell without price."))
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
-                    self.order_id.message_post(body=message)
+                    line.order_id.message_post(body=message)
             price_unit = line.price_reduce_taxexcl
             if price_unit:
                 if price_unit < line.purchase_price:
