@@ -64,13 +64,13 @@ class SaleMarginReport(models.Model):
                 CASE
                      WHEN (stock_val ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val    - stock_val ) / stock_val
+                      ELSE  100 * (sale_val    - stock_val ) / abs(stock_val)
                 END  AS indicator_supplement,
 
                 CASE
                      WHEN (sale_val  ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
+                      ELSE  100 * (sale_val   - stock_val ) / abs(sale_val  )
                 END  AS indicator_profit,
 
 
@@ -87,7 +87,7 @@ class SaleMarginReport(models.Model):
     def _sub_select(self):
         select_str = """
                 SELECT
-                    min(l.id) as id,
+                    l.id as id,
                     s.invoice_date as date,
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
@@ -103,7 +103,12 @@ class SaleMarginReport(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
-                    SUM(l.price_subtotal) AS sale_val,
+                    SUM(CASE
+                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
+                      'in_invoice'::character varying::text])
+                        THEN -l.price_subtotal
+                        ELSE  l.price_subtotal
+                    END)  AS sale_val,
 
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
@@ -118,20 +123,19 @@ class SaleMarginReport(models.Model):
 
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id,
-                    s.invoice_user_id as user_id,
+
 
                     s.company_id as company_id,
                     s.type, s.state , s.journal_id, s.currency_id
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
 
-        # x = """
-        # SUM(CASE
-        #              WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
-        #              'in_invoice'::character varying::text])
-        #                 THEN -(l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-        #                 ELSE  (l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-        #             END) AS sale_val,
-        # """
+        if sale_user_detail == "invoice":
+            select_str += ", s.invoice_user_id as user_id"
+        else:
+            select_str += ", l.sale_user_id as user_id"
+
         return select_str
 
     def _from(self):
@@ -142,9 +146,15 @@ class SaleMarginReport(models.Model):
                             left join product_template t on (p.product_tmpl_id=t.id)
                     left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
-                    left join commission_users cu on (s.invoice_user_id = cu.user_id)
 
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+
+        if sale_user_detail == "invoice":
+            from_str += " left join commission_users cu on (s.invoice_user_id = cu.user_id)"
+        else:
+            from_str += " left join commission_users cu on (l.sale_user_id = cu.user_id)"
         return from_str
 
     def _where(self):
@@ -156,6 +166,7 @@ class SaleMarginReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
+                    l.id,
                     l.product_id,
                     l.account_id,
                     l.move_id,
@@ -164,7 +175,7 @@ class SaleMarginReport(models.Model):
                     s.invoice_date,
                     s.partner_id,
                     s.commercial_partner_id,
-                    s.invoice_user_id,
+
                     cu.rate,
                     cu.manager_rate,
                     cu.manager_user_id,
@@ -174,8 +185,14 @@ class SaleMarginReport(models.Model):
                     s.state,
                     s.journal_id,
                     s.currency_id
-
         """
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        sale_user_detail = get_param("sale_commission.sale_user_detail", "invoice")
+
+        if sale_user_detail == "invoice":
+            group_by_str += "  , s.invoice_user_id"
+        else:
+            group_by_str += " , l.sale_user_id"
         return group_by_str
 
     def init(self):
@@ -210,7 +227,7 @@ class SaleMarginReport(models.Model):
         )
 
     def write(self, vals):
-        invoice_line = self.env["account.invoice.line"].browse(self.id)
+        invoice_line = self.env["account.move.line"].browse(self.id)
         value = {"commission": vals.get("commission", False)}
         if invoice_line.purchase_price == 0 and invoice_line.product_id:
             if invoice_line.product_id.standard_price > 0:
@@ -218,7 +235,7 @@ class SaleMarginReport(models.Model):
 
         invoice_line.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.invoice"].browse(self.invoice_id)
+            invoice = self.env["account.move"].browse(self.invoice_id)
             invoice.write({"user_id": vals["user_id"]})
         super(SaleMarginReport, self).write(vals)
         return True

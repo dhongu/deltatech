@@ -10,17 +10,17 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     purchase_price = fields.Float(string="Cost", digits="Product Price")
-
-    # purchase_price = fields.Float(
-    #     string="Cost Price",
-    #     compute="_compute_purchase_price",
-    #     digits="Product Price",
-    #     store=True,
-    #     readonly=False,
-    #     groups="base.group_user",
-    # )
+    sale_user_id = fields.Many2one("res.users", string="Salesperson", compute="_compute_sale_user_id", store=True)
 
     commission = fields.Float(string="Commission", default=0.0)
+
+    @api.depends("sale_line_ids")
+    def _compute_sale_user_id(self):
+        for line in self:
+            if line.sale_line_ids:
+                line.sale_user_id = line.sale_line_ids[0].order_id.user_id
+            else:
+                line.sale_user_id = False
 
     def _compute_margin(self, invoice_id, product_id, product_uom_id):
         frm_cur = self.env.user.company_id.currency_id
@@ -36,20 +36,6 @@ class AccountInvoiceLine(models.Model):
             round=False,
         )
         return price
-
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     for vals in vals_list:
-    #         if vals.get("exclude_from_invoice_tab", False) or vals.get("display_type", False):
-    #             continue
-    #         if "purchase_price" not in vals:
-    #             invoice_id = self.env["account.move"].browse(vals["move_id"])
-    #             if "product_id" in vals:
-    #                 product_id = self.env["product.product"].browse(vals["product_id"])
-    #                 uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
-    #                 vals["purchase_price"] = self._compute_margin(invoice_id, product_id, uom_id)
-    #
-    #     return super(AccountInvoiceLine, self).create(vals_list)
 
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
@@ -115,3 +101,14 @@ class AccountInvoiceLine(models.Model):
         res = super(AccountInvoiceLine, self)._onchange_product_id()
         self._compute_purchase_price()
         return res
+
+    @api.model
+    def create(self, vals):
+        if "purchase_price" not in vals and ("display_type" not in vals or not vals["display_type"]):
+            move_id = self.env["account.move"].browse(vals["move_id"])
+            product_id = self.env["product.product"].browse(vals["product_id"])
+            product_uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
+
+            vals["purchase_price"] = self._compute_margin(move_id, product_id, product_uom_id)
+
+        return super(AccountInvoiceLine, self).create(vals)
