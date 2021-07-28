@@ -73,7 +73,7 @@ class SaleOrderLine(models.Model):
                         raise UserError(_("You can not sell below the purchase price."))
                     else:
                         message = _("Sale %s under the purchase price.") % line.product_id.name
-                        self.order_id.message_post(body=message)
+                        line.order_id.message_post(body=message)
 
                 margin = (price_unit - line.purchase_price) / price_unit * 100
                 if margin < margin_limit:
@@ -81,4 +81,4 @@ class SaleOrderLine(models.Model):
                         raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
                     else:
                         message = _("Sale %s below margin.") % line.product_id.name
-                        self.order_id.message_post(body=message)
+                        line.order_id.message_post(body=message)
