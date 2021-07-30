@@ -12,9 +12,13 @@
                 <div class="col-12 col-lg-6 o_setting_box">
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
-                        <span class="o_form_label">Salesperson</span>
+
+                        <span class="o_form_label">Salesperson commision compute</span>
                         <div class="text-muted">
-                            Salesperson detail
+                            Salesperson compute on:<br />
+                            - Invoice: the salesperson from the invoice will get the commision<br />
+                            - Sale order: the salesperson from the Sale Order will get the commision
+
                         </div>
                         <div class="content-group">
                             <div class="mt16">
