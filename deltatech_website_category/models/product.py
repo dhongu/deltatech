@@ -23,3 +23,26 @@ class ProductPublicCategory(models.Model):
     def _compute_website_url(self):
         for category in self:
             category.website_url = "/shop/category/%s" % slug(category)
+
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+
+    public_categ_id = fields.Many2one(
+        "product.public.category", compute="_compute_public_categ_id", inverse="_inverse_public_categ_id", store=True
+    )
+
+    @api.depends("public_categ_ids")
+    def _compute_public_categ_id(self):
+        for product in self:
+            if product.public_categ_ids:
+                product.public_categ_id = product.public_categ_ids[0]
+            else:
+                product.public_categ_id = False
+
+    def _inverse_public_categ_id(self):
+        for product in self:
+            if product.public_categ_id:
+                product.public_categ_ids |= product.public_categ_id
+            else:
+                product.public_categ_ids = False

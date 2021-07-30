@@ -21,6 +21,7 @@ eCommerce Product Category
 
 Features:
  - Arhivarea categorii publice
+ - Cautare si grupare produse dupa categoria publica
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
