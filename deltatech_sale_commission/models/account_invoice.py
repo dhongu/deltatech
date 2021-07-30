@@ -102,13 +102,15 @@ class AccountInvoiceLine(models.Model):
         self._compute_purchase_price()
         return res
 
-    @api.model
-    def create(self, vals):
-        if "purchase_price" not in vals and ("display_type" not in vals or not vals["display_type"]):
-            move_id = self.env["account.move"].browse(vals["move_id"])
-            product_id = self.env["product.product"].browse(vals["product_id"])
-            product_uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get("exclude_from_invoice_tab", True):
+                if "purchase_price" not in vals and ("display_type" not in vals or not vals["display_type"]):
+                    move_id = self.env["account.move"].browse(vals["move_id"])
+                    product_id = self.env["product.product"].browse(vals["product_id"])
+                    product_uom_id = self.env["uom.uom"].browse(vals["product_uom_id"])
 
-            vals["purchase_price"] = self._compute_margin(move_id, product_id, product_uom_id)
+                    vals["purchase_price"] = self._compute_margin(move_id, product_id, product_uom_id)
 
-        return super(AccountInvoiceLine, self).create(vals)
+        return super(AccountInvoiceLine, self).create(vals_list)
