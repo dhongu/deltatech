@@ -60,14 +60,22 @@ class MRPSimple(models.TransientModel):
 
         if not self.product_in_ids:
             raise UserError(_("You need at least one final product"))
+        standard_price, list_price = self.get_final_product_prices()
         for line in self.product_in_ids:
             if line.price_unit:
+                if self.auto_create_sale:
+                    unit_price = standard_price
+                else:
+                    if line.quantity:
+                        unit_price = line.price_unit / line.quantity
+                    else:
+                        unit_price = 0
                 self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
                     quantity=line.quantity,
                     uom=line.uom_id,
-                    price_unit=line.price_unit,
+                    price_unit=unit_price,
                 )
             else:
                 raise UserError(_("Price 0 for result product!"))
