@@ -15,25 +15,19 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.sale_simple_mrp_id:
                 sale_order = self.sale_simple_mrp_id
-                mrp_pickings = sale_order.simple_mrp_picking_ids
-                other_pickings = mrp_pickings - picking
+                other_pickings = sale_order.simple_mrp_picking_ids - picking
                 consumed_value = other_pickings.get_out_svl()
                 svls = picking.move_lines.stock_valuation_layer_ids
-                init_value = 0.0
-                for svl in svls:
-                    init_value += svl.value
-                if init_value != consumed_value:
-                    diff = consumed_value - init_value
-                    if len(svls) == 1:
-                        new_svl = svls.copy()
-                        new_svl.update(
-                            {
-                                "unit_cost": diff / svls.quantity,
-                                "value": diff,
-                                "quantity": 0.0,
-                                "description": "mrp_simple reevaluation, SO " + sale_order.name,
-                            }
-                        )
+                if len(svls) == 1:
+                    new_svl = svls.copy()
+                    new_svl.update(
+                        {
+                            "unit_cost": consumed_value / svls.quantity,
+                            "value": consumed_value,
+                        }
+                    )
+                    svls.unlink()
+                    picking.move_lines.correction_valuation()
 
     def get_out_svl(self):
         value = 0.0
