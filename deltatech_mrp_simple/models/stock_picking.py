@@ -26,12 +26,14 @@ class StockPicking(models.Model):
                     diff = consumed_value - init_value
                     if len(svls) == 1:
                         new_svl = svls.copy()
-                        new_svl.update({
-                            "unit_cost": diff / svls.quantity,
-                            "value": diff,
-                            "quantity": 0.0,
-                            "description": "mrp_simple reevaluation, SO " + sale_order.name
-                        })
+                        new_svl.update(
+                            {
+                                "unit_cost": diff / svls.quantity,
+                                "value": diff,
+                                "quantity": 0.0,
+                                "description": "mrp_simple reevaluation, SO " + sale_order.name,
+                            }
+                        )
 
     def get_out_svl(self):
         value = 0.0
@@ -40,4 +42,3 @@ class StockPicking(models.Model):
             for svl in svls:
                 value += svl.value
         return abs(value)
-
