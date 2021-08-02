@@ -62,12 +62,13 @@ class MRPSimple(models.TransientModel):
             raise UserError(_("You need at least one final product"))
         for line in self.product_in_ids:
             if line.price_unit:
+                unit_price = line.get_cost_price()
                 self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
                     quantity=line.quantity,
                     uom=line.uom_id,
-                    price_unit=line.price_unit,
+                    price_unit=unit_price,
                 )
             else:
                 raise UserError(_("Price 0 for result product!"))
@@ -225,6 +226,16 @@ class MRPSimpleLineIn(models.TransientModel):
         for line in mrpsimple.product_in_ids:
             line.price_unit = price / line.quantity
             # line.sale_price = list_price / line.quantity
+
+    def get_cost_price(self):
+        cost_price = 0.0
+        if self.mrp_simple_id.auto_create_sale:
+            standard_price, list_price = self.mrp_simple_id.get_final_product_prices()
+            cost_price = standard_price
+        else:
+            if self.quantity:
+                cost_price = self.price_unit / self.quantity
+        return cost_price
 
 
 class MRPSimpleLineOut(models.TransientModel):
