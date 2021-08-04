@@ -2,7 +2,11 @@
 # See README.rst file on addons root folder for license details
 
 
+import logging
+
 from odoo import fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class StockPicking(models.Model):
@@ -28,6 +32,21 @@ class StockPicking(models.Model):
                     )
                     svls.unlink()
                     picking.move_lines.correction_valuation()
+                    _logger.info("Corrected svl for mrp pick %s" % picking.name)
+                delivery_pickings = sale_order.picking_ids
+                if len(delivery_pickings) == 1:
+                    svls = delivery_pickings.move_lines.stock_valuation_layer_ids
+                    if len(svls) == 1:
+                        new_svl = svls.copy()
+                        new_svl.update(
+                            {
+                                "unit_cost": consumed_value / svls.quantity,
+                                "value": consumed_value,
+                            }
+                        )
+                        svls.unlink()
+                        delivery_pickings.move_lines.correction_valuation()
+                        _logger.info("Corrected svl for delivery pick %s" % delivery_pickings.name)
 
     def get_out_svl(self):
         value = 0.0
