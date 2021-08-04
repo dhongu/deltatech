@@ -10,14 +10,14 @@
                 </div>
                 <group>
                     <group>
-                        <field name="data_file" widget="binary" filename="name"/>
-                        <field name="vendor_id"/>
+                        <field name="data_file" widget="binary" filename="name" />
+                        <field name="vendor_id" />
                     </group>
                 </group>
                 <footer>
-                    <button name="do_import" string="_Apply" type="object" class="oe_highlight"/>
+                    <button name="do_import" string="_Apply" type="object" class="oe_highlight" />
                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>
         </field>
