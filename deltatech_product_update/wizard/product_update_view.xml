@@ -10,6 +10,7 @@
                 </div>
                 <group>
                     <group>
+                        <field name="name" invisible="1" />
                         <field name="data_file" widget="binary" filename="name" />
                         <field name="vendor_id" />
                     </group>
