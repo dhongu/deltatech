@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_action_product_import" model="ir.ui.view">
+        <field name="name">product.import.file.form</field>
+        <field name="model">product.import.file</field>
+        <field name="arch" type="xml">
+            <form string="Import Product">
+                <div>
+                    Fisierul excel trebuie sa contina 3 coloane
+                </div>
+                <group>
+                    <group>
+                        <field name="data_file" widget="binary" filename="name"/>
+                        <field name="vendor_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="do_import" string="_Apply" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_import_file" model="ir.actions.act_window">
+        <field name="name">Import product file</field>
+        <field name="res_model">product.import.file</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        name="Update Price"
+        id="menu_action_product_import"
+        action="action_product_import_file"
+        parent="purchase.menu_purchase_config"
+    />
+
+</odoo>
