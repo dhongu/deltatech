@@ -35,6 +35,9 @@ class StockPicking(models.Model):
                     _logger.info("Corrected svl for mrp pick %s" % picking.name)
                 delivery_pickings = sale_order.picking_ids
                 if len(delivery_pickings) == 1:
+                    moves = delivery_pickings.move_lines
+                    if len(moves) == 1:
+                        moves.price_unit = consumed_value
                     svls = delivery_pickings.move_lines.stock_valuation_layer_ids
                     if len(svls) == 1:
                         new_svl = svls.copy()
