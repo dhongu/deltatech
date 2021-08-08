@@ -1,5 +1,5 @@
 {
-    "name": "Wizard manufacturer price update ",
+    "name": "Wizard vendor product update ",
     "summary": "",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Cojocariu Daniel",
