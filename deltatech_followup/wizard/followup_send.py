@@ -22,6 +22,7 @@ class FollowupSend(models.TransientModel):
         if followups:
             for followup in followups:
                 for partner in partners:
+                    partner_debit = 0.0
                     lang_id = self.env["res.lang"].search([("code", "=", partner.lang)])[0]
                     domain = [
                         ("partner_id", "=", partner.id),
@@ -59,6 +60,7 @@ class FollowupSend(models.TransientModel):
                                 amount_due=invoice.amount_residual,
                             )
                             invoices_content += crt_row
+                            partner_debit += invoice.amount_residual
                         email_values = {}
                         if "[invoices]" in followup.mail_template.body_html:
                             new_body = followup.mail_template.body_html
@@ -76,6 +78,7 @@ class FollowupSend(models.TransientModel):
                                 partner_id = partner.id
                             body = new_body.replace("[invoices]", invoices_content)
                             body = body.replace("${object.name}", partner.name)
+                            body = body.replace("$total_debit", "{:,.2f}".format(partner_debit))
                             email_values = {
                                 "body_html": body,
                                 "recipient_ids": [(4, partner_id)],
