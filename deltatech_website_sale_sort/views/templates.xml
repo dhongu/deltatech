@@ -7,6 +7,7 @@
             <t t-set="visited_desc_label">Most Visited</t>
             <t t-set="review_desc_label">Reviews</t>
             <t t-set="best_review_desc_label">Best Review</t>
+            <t t-set="availability_label">Availability</t>
             <t
                 t-set="website_sale_sortable"
                 t-value="website_sale_sortable + [
@@ -14,6 +15,7 @@
                  (visited_desc_label, 'visit_count desc'),
                   (review_desc_label, 'rating_count2 desc'),
                   (best_review_desc_label, 'rating_avg2 desc'),
+                  (availability_label, 'in_stock desc'),
             ]"
             />
         </xpath>
