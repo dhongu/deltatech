@@ -20,7 +20,7 @@ Wizard vendor product update
 |badge1| |badge2| |badge3| 
 
 Features:
- -
+ - Update vendor products: quantity and price
 
 **Table of contents**
 

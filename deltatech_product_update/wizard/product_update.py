@@ -39,7 +39,7 @@ class ProductImportFile(models.TransientModel):
 
         for key in table_values:
             product = self.env["product.supplierinfo"].search(
-                [("name", "=", self.vendor_id.name), ("product_code", "=", key[0])]
+                [("name", "=", self.vendor_id.id), ("product_code", "=", key[0])]
             )
             if product:
                 for item in product:
