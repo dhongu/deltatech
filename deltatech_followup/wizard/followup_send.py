@@ -63,7 +63,10 @@ class FollowupSend(models.TransientModel):
                             partner_debit += invoice.amount_residual
                         email_values = {}
                         if "[invoices]" in followup.mail_template.body_html:
-                            new_body = followup.mail_template.body_html
+                            mail_values = followup.mail_template.with_context(
+                                template_preview_lang=partner.lang
+                            ).generate_email(partner.id)
+                            new_body = mail_values["body"]
                             override_id = (
                                 self.env["ir.config_parameter"]
                                 .sudo()
