@@ -16,9 +16,11 @@ class SaleAdvancePaymentInv(models.TransientModel):
             sale_obj = self.env["sale.order"]
             order = sale_obj.browse(self._context.get("active_ids"))[0]
 
-            generic_parnter = self.env.ref("deltatech_partner_generic.partner_generic")
+            partner_generic = order.company_id.generic_partner_id
+            if not partner_generic:
+                partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
 
-            if generic_parnter == order.partner_id:
+            if partner_generic == order.partner_id:
                 journal_bf_id = self.env["ir.config_parameter"].sudo().get_param("sale.journal_bf_id")
                 journal_bf = self.env["account.journal"].browse(int(journal_bf_id)).exists()
                 if journal_bf:
