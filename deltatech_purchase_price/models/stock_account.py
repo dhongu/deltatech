@@ -40,3 +40,13 @@ class StockMove(models.Model):
             return price_unit
 
         return super(StockMove, self)._get_price_unit()
+
+
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
+
+    def button_validate(self):
+        for move in self.move_lines:
+            if move.product_id.product_tmpl_id.trade_markup:
+                move.product_id.product_tmpl_id.onchange_last_purchase_price()
+        return super(StockPicking, self).button_validate()

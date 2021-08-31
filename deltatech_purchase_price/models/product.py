@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
 
     list_price = fields.Float(tracking=True)
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
-    trade_markup = fields.Float(string="Trade Markup", tracking=True)  #
+    trade_markup = fields.Float(string="Trade Markup", tracking=True)
 
     @api.depends("property_cost_method", "categ_id.property_cost_method")
     def _compute_cost_method(self):
