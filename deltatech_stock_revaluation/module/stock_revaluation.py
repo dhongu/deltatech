@@ -164,6 +164,8 @@ class stock_revaluation(models.Model):
             if self.type == 'reduction':
                 ajust = -1 * ajust
             new_value = quant.inventory_value + ajust
+            if new_value < 0.0:
+                new_value = 0.0
             new_cost = new_value / quant.qty
             old_amount_total += quant.inventory_value
             new_amount_total += new_value
@@ -204,6 +206,8 @@ class stock_revaluation(models.Model):
             if self.type == 'reduction':
                 ajust = -1 * ajust
             new_value = quant.inventory_value + ajust
+            if new_value < 0.0:
+                new_value = 0.0
             new_cost = new_value / quant.qty
             value['cost'] = new_cost
             quant.write(value)
@@ -263,6 +267,8 @@ class stock_revaluation_line(models.Model):
         if self.revaluation_id.type == 'reduction':
             ajust = -1 * ajust
         new_value = quant.inventory_value + ajust
+        if new_value < 0.0:
+            new_value = 0.0
         self.product_id = quant.product_id
         self.init_value = init_value
         self.old_value = quant.inventory_value
