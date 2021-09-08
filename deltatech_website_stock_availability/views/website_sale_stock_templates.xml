@@ -4,10 +4,11 @@
 
     <template id="product_price" inherit_id="website_sale.product_price">
         <xpath expr="//div[@itemprop='offers']" position="attributes">
-                <attribute name="t-if">combination_info['list_price'] &gt; 1</attribute>
+                <attribute name="t-if">combination_info['list_price'] != 0</attribute>
         </xpath>
         <xpath expr="//div[@itemprop='offers']" position="after">
-            <div t-if="combination_info['list_price'] &lt;= 1">
+            <div t-if="combination_info['list_price'] == 0">
+
                 <i class="fa fa-info" />
                 <span>Vă rog să ne contactați pentru detalii legate de preț</span>
             </div>

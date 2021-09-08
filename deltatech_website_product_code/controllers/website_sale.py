@@ -58,14 +58,16 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
         for product in products:
             if product.is_published:
-                combination_info = product._get_combination_info(pricelist=pricelist)
+                combination_info = product.with_context(display_default_code=False)._get_combination_info(
+                    pricelist=pricelist
+                )
                 values = {
                     "name": combination_info["display_name"],
                     "default_code": product.default_code,
                     "categories": [],
                     "price": combination_info["price"],
                     "list_price": combination_info["list_price"],
-                    "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image/",
+                    "image_url": base_url + "/web/image/product.template/" + str(product.id) + "/image_1024/",
                 }
                 for categ in product.public_categ_ids:
                     values["categories"] += [categ.display_name]
