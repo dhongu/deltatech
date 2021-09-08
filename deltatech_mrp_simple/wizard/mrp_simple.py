@@ -77,6 +77,7 @@ class MRPSimple(models.TransientModel):
             self.add_picking_line(
                 picking=picking_out,
                 product=line.product_id,
+                # quantity=qty,
                 quantity=line.quantity,
                 uom=line.uom_id,
                 price_unit=line.product_id.standard_price,
@@ -165,6 +166,7 @@ class MRPSimple(models.TransientModel):
             standard_price += line.product_id.standard_price * line.quantity
             list_price += line.product_id.list_price * line.quantity
         standard_price = standard_price / self.final_product_qty
+        list_price = list_price / self.final_product_qty
         return standard_price, list_price
 
     def create_sale(self):
@@ -202,7 +204,7 @@ class MRPSimple(models.TransientModel):
 
 class MRPSimpleLineIn(models.TransientModel):
     _name = "mrp.simple.line.in"
-    _description = "MRP Simple Line IN"
+    _description = "MRP Simple Line IN (reception)"
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")
@@ -240,7 +242,7 @@ class MRPSimpleLineIn(models.TransientModel):
 
 class MRPSimpleLineOut(models.TransientModel):
     _name = "mrp.simple.line.out"
-    _description = "MRP Simple Line OUT"
+    _description = "MRP Simple Line OUT (consume)"
 
     mrp_simple_id = fields.Many2one("mrp.simple")
     product_id = fields.Many2one("product.product")

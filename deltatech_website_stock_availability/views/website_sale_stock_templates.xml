@@ -8,6 +8,7 @@
         </xpath>
         <xpath expr="//div[@itemprop='offers']" position="after">
             <div t-if="combination_info['list_price'] == 0">
+
                 <i class="fa fa-info" />
                 <span>Vă rog să ne contactați pentru detalii legate de preț</span>
             </div>
