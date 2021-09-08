@@ -1,0 +1,131 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-08 07:59+0000\n"
+"PO-Revision-Date: 2021-09-08 07:59+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.product_markup_wizard_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__last_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__last_purchase_price
+msgid "Last Purchase Price"
+msgstr "Ultimul preț de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__partner_id
+msgid "Partner"
+msgstr "Furnizor"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_product__list_price
+#: model:ir.model.fields,help:deltatech_purchase_price.field_product_template__list_price
+msgid "Price at which the product is sold to customers."
+msgstr "Prețul la care produsul este vândut clienților."
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__list_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__list_price
+msgid "Sales Price"
+msgstr "Preț vânzare"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__selected_line
+msgid "Selected Line"
+msgstr "Liniile selectate"
+
+#. module: deltatech_purchase_price
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_price.product_markup_wizard_form
+msgid "Set"
+msgstr "Aplică"
+
+#. module: deltatech_purchase_price
+#: model:ir.actions.act_window,name:deltatech_purchase_price.action_product_template_markup_wizard
+msgid "Set Trade Markup"
+msgstr "Aplică marja"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_stock_move
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: deltatech_purchase_price
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_markup_wizard__trade_markup
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_product__trade_markup
+#: model:ir.model.fields,field_description:deltatech_purchase_price.field_product_template__trade_markup
+msgid "Trade Markup"
+msgstr "Marja"
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_purchase_price
+#: model:ir.model,name:deltatech_purchase_price.model_product_markup_wizard
+msgid "product.markup.wizard"
+msgstr ""
