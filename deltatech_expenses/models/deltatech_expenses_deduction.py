@@ -268,7 +268,9 @@ class DeltatechExpensesDeduction(models.Model):
             ("company_id", "=", self.company_id.id),
         ]
         purchase_journal = self.env["account.journal"].search(domain, limit=1)
-        generic_partner = self.env.ref("deltatech_partner_generic.partner_generic", raise_if_not_found=False)
+        partner_generic = self.company_id.generic_partner_id
+        if not partner_generic:
+            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
 
         for expenses in self:
 
@@ -280,7 +282,7 @@ class DeltatechExpensesDeduction(models.Model):
             # reconcile = self.env['account.full.reconcile'].create({'name':name})
 
             for line in expenses.expenses_line_ids:
-                partner_id = line.partner_id or generic_partner
+                partner_id = line.partner_id or partner_generic
 
                 if line.type == "expenses":
 
