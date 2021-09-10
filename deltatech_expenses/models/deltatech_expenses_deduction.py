@@ -351,6 +351,10 @@ class DeltatechExpensesDeduction(models.Model):
                         move_lines |= aml
 
             move_lines.reconcile()
+
+            # change state for vouchers without residual. If not in statement, remains "in_payment"
+            vouchers.set_paid()
+
             # Create the account move record.
             line_ids = []
 
