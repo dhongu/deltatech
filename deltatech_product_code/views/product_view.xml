@@ -20,13 +20,13 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='default_code']" position="after">
+                <xpath expr="//header" position="inside">
                     <button
                         name="button_new_code"
                         string="New internal code"
                         type="object"
                         class="oe_edit_only"
-                        attrs="{'invisible': [('product_variant_count', '&gt;', 1),('default_code','=',False)]}"
+                        attrs="{'invisible': ['|',('product_variant_count', '&gt;', 1),('default_code','!=',False)]}"
                     />
                 </xpath>
             </field>
@@ -42,7 +42,7 @@
                         string="New internal code"
                         type="object"
                         class="oe_edit_only"
-                        attrs="{'invisible': [('default_code','=',False)]}"
+                        attrs="{'invisible': [('default_code','!=',False)]}"
                     />
                 </xpath>
             </field>

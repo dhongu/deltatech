@@ -60,7 +60,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
             if product.is_published:
                 combination_info = product._get_combination_info(pricelist=pricelist)
                 values = {
-                    "name": combination_info["display_name"],
+                    "name": combination_info["display_name"],  # asta are si cod intern in el
                     "default_code": product.default_code,
                     "categories": [],
                     "price": combination_info["price"],
