@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class ProductCategory(models.Model):
@@ -25,6 +25,17 @@ class ProductTemplate(models.Model):
             if self.categ_id.sequence_id:
                 default_code = self.categ_id.sequence_id.next_by_id()
                 self.write({"default_code": default_code})
+
+    # codificare automata  la creare
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
+                categ = self.env["product.category"].browse(vals.get("categ_id"))
+                if categ and categ.sequence_id:
+                    vals["default_code"] = categ.sequence_id.next_by_id()
+
+        return super(ProductTemplate, self).create(vals_list)
 
 
 class ProductProduct(models.Model):

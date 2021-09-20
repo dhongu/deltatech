@@ -79,7 +79,7 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                 )
                 values = {
                     "name": combination_info["display_name"],
-                    "default_code": product.default_code,
+                    "default_code": product.default_code or "ID_%s" % product.id,
                     "categories": [],
                     "price": combination_info["price"],
                     "list_price": combination_info["list_price"],
@@ -92,6 +92,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                     for alternative in product.alternative_ids:
                         alternative_code += [{"name": alternative.name, "hide": alternative.hide}]
                     values["alternative_code"] = alternative_code
+
+                values["images"] = []
+                for media in product.product_template_image_ids:
+                    values["images"] += [base_url + "/web/image/product.image/" + str(media.id) + "/image_1024/"]
 
                 res += [values]
 
