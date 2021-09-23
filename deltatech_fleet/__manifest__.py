@@ -6,7 +6,7 @@
     "version": "14.0.1.0.0",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
-    "category": "Managing vehicles and contracts",
+    "category": "Human Resources/Fleet",
     "license": "AGPL-3",
     "summary": "Vehicle, route, map sheet",
     "depends": ["fleet"],
