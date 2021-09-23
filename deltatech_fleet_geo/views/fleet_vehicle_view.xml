@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<odoo>
+        <record id="fleet_vehicle_view_form" model="ir.ui.view">
+            <field name="name">fleet.fleet.form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state_id']" position="before">
+                    <button name="action_get_location" type='object' string="Get location" />
+                </xpath>
+            </field>
+        </record>
+</odoo>
