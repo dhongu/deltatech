@@ -4,9 +4,20 @@
 
 from datetime import datetime
 
-from odoo import fields, models
+import pytz
+
+from odoo import api, fields, models
 
 selection_year = [(str(num), str(num)) for num in range(2000, (datetime.now().year) + 10)]
+
+
+class FleetVehicleLocation(models.Model):
+    _name = "fleet.vehicle.location"
+    _description = "vehicle Location"
+
+    vehicle_id = fields.Many2one("fleet.vehicle")
+    date = fields.Datetime()
+    name = fields.Char(string="Address")
 
 
 class FleetVehicle(models.Model):
@@ -63,3 +74,18 @@ class FleetVehicle(models.Model):
         for vehicle in self:
             if not isinstance(vehicle.id, models.NewId):
                 vehicle.reservoir_level = self.env["fleet.reservoir.level"].get_level(vehicle.id)
+
+    @api.model
+    def _conv_local_datetime_to_utc(self, date):
+        tz_name = self.env.context["tz"]
+        local = pytz.timezone(tz_name)
+        if isinstance(date, str):
+            naive = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+        else:
+            naive = date
+        if naive.tzinfo is None:
+            local_dt = local.localize(naive, is_dst=None)
+        else:
+            local_dt = naive
+        utc_dt = local_dt.astimezone(pytz.utc)
+        return utc_dt.strftime("%Y-%m-%d %H:%M:%S")
