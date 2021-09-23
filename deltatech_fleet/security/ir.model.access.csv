@@ -13,3 +13,5 @@ access_fleet_division,access_fleet_division,model_fleet_division,,1,0,0,0
 access_fleet_scope_categ,access_fleet_scope_categ,model_fleet_scope_categ,,1,0,0,0
 
 fleet_vehicle_log_fuel_access_right,fleet_vehicle_log_fuel_access_right,model_fleet_vehicle_log_fuel,fleet.fleet_group_user,1,1,1,1
+
+access_fleet_vehicle_location,access_fleet_vehicle_location,model_fleet_vehicle_location,fleet.fleet_group_user,1,1,1,1

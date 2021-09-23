@@ -2,23 +2,18 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
-    "name": "Deltatech Fleet",
+    "name": "Deltatech Fleet Geo",
+    "summary": "Fleet Geographical Information",
     "version": "14.0.1.0.0",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",
     "license": "AGPL-3",
-    "summary": "Vehicle, route, map sheet",
-    "depends": ["fleet"],
-    "data": [
-        "data/fleet_data.xml",
-        "views/fleet_fuel_view.xml",
-        "views/fleet_view.xml",
-        "views/fleet_sheet_view.xml",
-        "views/fleet_report.xml",
-        "views/report_map_sheet.xml",
-        "security/ir.model.access.csv",
+    "depends": [
+        "deltatech_fleet",
+        # 'web_map'
     ],
+    "data": ["views/fleet_view.xml", "views/fleet_vehicle_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
 }

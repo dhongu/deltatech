@@ -4,9 +4,7 @@
 
 
 import math
-from datetime import datetime, timedelta
-
-import pytz
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -107,7 +105,7 @@ class FleetMapSheet(models.Model):
     def _get_default_date_start(self):
         context = self.env.context
         if context and "date" in context:
-            res = self._conv_local_datetime_to_utc(context["date"][:10] + " 00:00:00")
+            res = self.vehicle_id._conv_local_datetime_to_utc(context["date"][:10] + " 00:00:00")
         else:
             res = fields.Datetime.now()
         return res
@@ -116,7 +114,7 @@ class FleetMapSheet(models.Model):
     def _get_default_date_end(self):
         context = self.env.context
         if context and "date" in context:
-            res = self._conv_local_datetime_to_utc(context["date"][:10] + " 23:59:59")
+            res = self.vehicle_id._conv_local_datetime_to_utc(context["date"][:10] + " 23:59:59")
         else:
             res = fields.Datetime.now()
         return res
@@ -170,7 +168,7 @@ class FleetMapSheet(models.Model):
         states={"done": [("readonly", True)]},
         default=_get_default_date_start,
     )
-    date_start_old = fields.Datetime(string="Date Start")  # Camp tehnic
+    date_start_old = fields.Datetime(string="Old Date Start")  # Camp tehnic
     date_end = fields.Datetime(
         string="Date End",
         help="Date time at the end of this map sheet",
@@ -269,14 +267,14 @@ class FleetMapSheet(models.Model):
                     % (sheet.date_end, sheet.date_start)
                 )
 
-    @api.model
-    def _conv_local_datetime_to_utc(self, date):
-        tz_name = self.env.context["tz"]
-        local = pytz.timezone(tz_name)
-        naive = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
-        local_dt = local.localize(naive, is_dst=None)
-        utc_dt = local_dt.astimezone(pytz.utc)
-        return utc_dt.strftime("%Y-%m-%d %H:%M:%S")
+    # @api.model
+    # def _conv_local_datetime_to_utc(self, date):
+    #     tz_name = self.env.context["tz"]
+    #     local = pytz.timezone(tz_name)
+    #     naive = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    #     local_dt = local.localize(naive, is_dst=None)
+    #     utc_dt = local_dt.astimezone(pytz.utc)
+    #     return utc_dt.strftime("%Y-%m-%d %H:%M:%S")
 
     def copy(self, default=None):
         if not default:
