@@ -74,6 +74,8 @@ class FleetVehicleLogFuel(models.Model):
         for item in self:
             if item.vehicle_id and item.date_time:
                 item.reservoir_level = self.env["fleet.reservoir.level"].get_level_to(item.vehicle_id, item.date_time)
+            else:
+                item.reservoir_level = 0
 
     @api.onchange("vehicle_id")
     def _onchange_vehicle(self):

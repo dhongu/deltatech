@@ -40,9 +40,7 @@
             <field name="vin_sn" position="after">
                 <field name="engine_sn" />
             </field>
-            <field name="car_value" position="after">
-                <field name="year_prod" />
-            </field>
+
             <field name="color" position="after">
                 <field name="mass_cap" />
                 <field name="weight" />
