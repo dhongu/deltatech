@@ -8,8 +8,6 @@ import pytz
 
 from odoo import api, fields, models
 
-selection_year = [(str(num), str(num)) for num in range(2000, (datetime.now().year) + 10)]
-
 
 class FleetVehicleLocation(models.Model):
     _name = "fleet.vehicle.location"
@@ -41,7 +39,6 @@ class FleetVehicle(models.Model):
     category_id = fields.Many2one("fleet.vehicle.category", string="Vehicle Category")
 
     engine_sn = fields.Char("Engine Serial Number", copy=False)
-    year_prod = fields.Selection(selection_year, "Year")
 
     # usage_mod = fields.Selection([()])
     allocation_mode = fields.Char("Allocation mode")
@@ -74,6 +71,8 @@ class FleetVehicle(models.Model):
         for vehicle in self:
             if not isinstance(vehicle.id, models.NewId):
                 vehicle.reservoir_level = self.env["fleet.reservoir.level"].get_level(vehicle.id)
+            else:
+                vehicle.reservoir_level = 0
 
     @api.model
     def _conv_local_datetime_to_utc(self, date):
