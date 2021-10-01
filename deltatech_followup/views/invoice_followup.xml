@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_invoice_followup_tree" model="ir.ui.view">
+            <field name="name">invoice.followup.tree</field>
+            <field name="model">account.invoice.followup</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Followups">
+                    <field name="name" />
+                    <field name="code" />
+                    <field name="active" />
+                    <field name="date_field" />
+                    <field name="relative_days" />
+<!--                    <field name="subject"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_followups_form" model="ir.ui.view">
+            <field name="name">Invoice Followup</field>
+            <field name="model">account.invoice.followup</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Followup">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" />
+                                <field name="active" widget="boolean_toggle" />
+                                <field name="code" />
+                                <field name="date_field" required="1" />
+                                <field name="match" required="1" />
+                                <field name="relative_days" />
+                                <field name="only_open" />
+                            </group>
+                            <group>
+                                <field name="mail_template" />
+                            </group>
+                            <group colspan="2">
+                                <field name="invoice_html" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_invoice_followup" model="ir.actions.act_window">
+            <field name="name">Invoice Followup</field>
+            <field name="res_model">account.invoice.followup</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            name="Followups"
+            id="menu_invoice_followup"
+            action="action_invoice_followup"
+            parent="account.account_management_menu"
+        />
+         <record id="action_send_followup" model="ir.actions.server">
+            <field name="name">Send now</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="deltatech_followup.model_account_invoice_followup" />
+            <field name="state">code</field>
+            <field name="code">record.send_now()</field>
+        </record>
+    </data>
+</odoo>

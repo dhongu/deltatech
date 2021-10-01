@@ -68,7 +68,9 @@ class SaleAdvancePaymentInv(models.TransientModel):
             if self.advance_payment_method != "fixed":
                 for line in invoice.invoice_line_ids:
                     price_unit = from_currency._convert(line.price_unit, to_currency, invoice.company_id, date_eval)
-                    line.with_context(check_move_validity=False).write({"price_unit": price_unit})
+                    line.with_context(check_move_validity=False).write(
+                        {"price_unit": price_unit, "currency_id": to_currency.id}
+                    )
                 invoice.with_context(check_move_validity=False)._recompute_dynamic_lines()
             else:
                 for line in invoice.invoice_line_ids:
@@ -76,7 +78,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
                     price_w_taxes = self.fixed_amount
                     for tax in taxes:
                         price_w_taxes = self.fixed_amount / (1 + tax.amount / 100)
-                    line.write({"price_unit": price_w_taxes})
+                    line.write({"price_unit": price_w_taxes, "currency_id": to_currency.id})
                     price_unit_saleorder = to_currency._convert(
                         self.fixed_amount, from_currency, invoice.company_id, date_eval
                     )

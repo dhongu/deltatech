@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="invoice_form1" model="ir.ui.view">
+            <field name="name">account.invoice.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+
+                <button
+                        type="object"
+                        name="view_rate"
+                        class="oe_stat_button"
+                        icon="fa-money"
+                        attrs="{'invisible':[('move_type', 'not in', ('out_invoice', 'out_refund'))]}"
+                    >
+                    <span class="o_stat_text">Rates</span>
+
+                </button>
+
+
+                </div>
+                <xpath expr="//field[@name='payment_reference']" position="after">
+                    <field name="in_rates" />
+                    <!--                    <button name="%(action_account_payment_term_rate_wizard)d" string="Create Rate"
+                            type="action"  class="oe_edit_only" groups="base.group_user"/>
+                    <newline/>-->
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
