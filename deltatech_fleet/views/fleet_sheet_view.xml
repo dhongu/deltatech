@@ -18,12 +18,13 @@
                         statusbar_colors='{"draft":"red","open":"black", "done":"gray"}'
                     />
                 </header>
+
                 <sheet>
                     <h1>
                         <label string="Map Sheet" for="name" />
                         <field name="name" class="oe_inline" />
                     </h1>
-                    <group col="2">
+                    <group>
                         <group>
                             <field name="date" />
                             <field name="distance_total" />
@@ -42,15 +43,42 @@
                         <group>
                             <field name="date_start_old" invisible="1" />
                             <field name="date_start" />
-                            <field name="odometer_start" />
+                            <label for="odometer_start" />
+                            <div class="o_row">
+                                <button
+                                    name="action_read_odometer_start"
+                                    type="object"
+                                    class="oe_inline oe_edit_only"
+                                    string=""
+                                    states="draft"
+                                    icon="fa-calculator"
+                                />
+                                <field name="odometer_start" class="oe_inline" />
+                            </div>
+
+
                             <field name="reservoir_level_start" />
                         </group>
                         <group>
                             <field name="date_end" />
-                            <field name="odometer_end" />
+
+
+                            <label for="odometer_end" />
+                            <div class="o_row">
+                                <button
+                                    name="action_read_odometer_end"
+                                    type="object"
+                                    class="oe_inline oe_edit_only"
+                                    string=""
+                                    states="draft"
+                                    icon="fa-calculator"
+                                />
+                                <field name="odometer_end" class="oe_inline" />
+                            </div>
                             <field name="reservoir_level_end" />
                         </group>
                     </group>
+
                     <notebook>
                         <page string="Route Log">
                             <button
@@ -65,21 +93,23 @@
                                 nolabel="1"
                                 context="{ 'date': date_start, 'route_log_ids':route_log_ids, 'default_vehicle_id': vehicle_id, }"
                             >
-                                <tree editable="bottom" colors="red:week_day in (0,6)">
+                                <tree editable="bottom" decoration-danger="week_day in (0,6)">
                                     <field name="vehicle_id" invisible="1" />
                                     <field name="state" invisible="1" />
                                     <field name="week_day" invisible="1" />
                                     <field name="date_begin" />
                                     <field name="date_end" />
-                                    <field name="scope_id" widget="selection" />
-                                    <field name="full" />
+                                    <field name="scope_id" widget="selection" optional="show" />
+                                    <field name="full" optional="show" />
                                     <field name="route_id" />
-                                    <field name="dist_c1" optional="hide" />/>
-                                    <field name="dist_c2" optional="hide" />/>
-                                    <field name="dist_c3" optional="hide" />/>
+                                    <field name="dist_c1" optional="hide" />
+
+                                    <field name="dist_c2" optional="hide" />
+                                    <field name="dist_c3" optional="hide" />
                                     <field name="distance" sum="Total Distance" />
-                                    <field name="dist_echiv" sum="Total Distance" />
+                                    <field name="dist_echiv" sum="Total Distance" optional="show" />
                                 </tree>
+
                             </field>
                         </page>
 
@@ -122,6 +152,8 @@
                     </notebook>
 
                 </sheet>
+
+
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}' />
@@ -134,7 +166,7 @@
         <field name="model">fleet.map.sheet</field>
         <field name="arch" type="xml">
             <tree string="Map Sheet">
-<!--                colors="blue:state in ('draft');black:state in ('open');gray:state in ('done') ">-->
+                <!--                colors="blue:state in ('draft');black:state in ('open');gray:state in ('done') ">-->
                 <field name="name" />
                 <field name="state" />
                 <field name="date" />
