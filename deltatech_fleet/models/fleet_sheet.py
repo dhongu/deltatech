@@ -57,19 +57,21 @@ class FleetMapSheet(models.Model):
 
     def _inverse_odometer_start(self):
         for sheet in self:
-            data = {"value": sheet.odometer_start, "date": sheet.date_start, "vehicle_id": sheet.vehicle_id.id}
-            if sheet.odometer_start_id:
-                sheet.odometer_start_id.write(data)
-            else:
-                sheet.odometer_start_id = self.env["fleet.vehicle.odometer"].create(data)
+            if sheet.odometer_start:
+                data = {"value": sheet.odometer_start, "date": sheet.date_start, "vehicle_id": sheet.vehicle_id.id}
+                if sheet.odometer_start_id:
+                    sheet.odometer_start_id.write(data)
+                else:
+                    sheet.odometer_start_id = self.env["fleet.vehicle.odometer"].create(data)
 
     def _inverse_odometer_end(self):
         for sheet in self:
-            data = {"value": sheet.odometer_end, "date": sheet.date_end, "vehicle_id": sheet.vehicle_id.id}
-            if sheet.odometer_end_id:
-                sheet.odometer_end_id.write(data)
-            else:
-                sheet.odometer_end_id = self.env["fleet.vehicle.odometer"].create(data)
+            if sheet.odometer_end:
+                data = {"value": sheet.odometer_end, "date": sheet.date_end, "vehicle_id": sheet.vehicle_id.id}
+                if sheet.odometer_end_id:
+                    sheet.odometer_end_id.write(data)
+                else:
+                    sheet.odometer_end_id = self.env["fleet.vehicle.odometer"].create(data)
 
     @api.depends("route_log_ids", "log_fuel_ids")
     def _compute_amount_all(self):
@@ -149,7 +151,7 @@ class FleetMapSheet(models.Model):
         states={"draft": [("readonly", False)]},
     )
     category_id = fields.Many2one(
-        related="vehicle_id.category_id", readonly=True, relation="fleet.vehicle.category", string="Vehicle Category"
+        "fleet.vehicle.category", related="vehicle_id.category_id", readonly=True, string="Vehicle Category"
     )
     driver_id = fields.Many2one(
         "res.partner", string="Driver", help="Driver of the vehicle", states={"done": [("readonly", True)]}
@@ -237,13 +239,7 @@ class FleetMapSheet(models.Model):
         compute="_compute_amount_all", string="Normal Consumption", store=True, help="The Normal Consumption"
     )
 
-    company_id = fields.Many2one(
-        "res.company",
-        "Company",
-        required=True,
-        states={"done": [("readonly", True)]},
-        default=lambda self: self.env["res.company"]._company_default_get("fleet.map.sheet"),
-    )
+    company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.user.company_id)
 
     reservoir_level_start = fields.Float(
         compute="_compute_reservoir_level_start",
@@ -257,6 +253,12 @@ class FleetMapSheet(models.Model):
         store=False,
         help="Fuel level in the reservoir at the beginning of road map",
     )
+
+    def action_read_odometer_start(self):
+        self._compute_odometer_start()
+
+    def action_read_odometer_end(self):
+        self._compute_odometer_end()
 
     @api.constrains("date_start", "date_end")
     def _check_dates(self):
@@ -322,50 +324,12 @@ class FleetMapSheet(models.Model):
         # new_date_end_int = fields.Datetime.from_string(self.date_end)
         # date_end = fields.Datetime.to_string(new_date_end_int + date_dif)
         for route_log in self.route_log_ids:
+            if route_log.state == "done":
+                continue
             date_begin_int = fields.Datetime.from_string(route_log.date_begin)
             date_end_int = fields.Datetime.from_string(route_log.date_end)
             route_log.date_begin = fields.Datetime.to_string(date_begin_int + date_dif)
             route_log.date_end = fields.Datetime.to_string(date_end_int + date_dif)
-
-    # """
-    # @api.multi
-    # def on_change_date_start(self, date_start, date_end, date_start_old, route_log_ids):
-    #     # se determina diferenta din dintre data veche si noua data !!
-    #     if len(self.ids) != 1:
-    #         return {}
-    #
-    #     if not date_start_old:
-    #         # date_start_old   = self.read(cr, uid, ids, ['date_start'], context=context)[0]['date_start']
-    #         date_start_old = self.date_start
-    #
-    #     # map_sheet = self.browse(cr, uid, ids, context=context)[0]
-    #     new_date_start_int = fields.Datetime.from_string(date_start)
-    #     old_date_start_int = fields.Datetime.from_string(date_start_old)
-    #
-    #     date_dif = new_date_start_int - old_date_start_int
-    #
-    #     new_date_end_int = fields.Datetime.from_string(date_end)
-    #     date_end = fields.Datetime.to_string(new_date_end_int + date_dif)
-    #
-    #     route_log_list = self.resolve_2many_commands('route_log_ids', route_log_ids, ['id', 'date_begin', 'date_end'])
-    #
-    #     if len(route_log_ids) > 0:
-    #         for i in range(len(route_log_ids)):
-    #             routes = [x for x in route_log_list if x['id'] == route_log_ids[i][1]]
-    #             if routes:
-    #                 route = routes[0]
-    #                 date_begin_int = fields.Datetime.from_string(route['date_begin'])
-    #                 date_end_int = fields.Datetime.from_string(route['date_end'])
-    #                 route_log_ids[i][2] = {'date_begin': fields.Datetime.to_string(date_begin_int + date_dif),
-    #                                        'date_end': fields.Datetime.to_string(date_end_int + date_dif)}
-    #                 route_log_ids[i][0] = 1
-    #
-    #     return {
-    #         'value': {'date_end': date_end,
-    #                   'date_start_old': date_start,
-    #                   'route_log_ids': route_log_ids}
-    #     }
-    # """
 
     @api.onchange("route_log_ids")
     def on_change_route_log(self):
@@ -410,6 +374,7 @@ class FleetMapSheet(models.Model):
         return True
 
     def action_get_log_fuel(self):
+
         for record in self:
             fuel_log_ids = self.env["fleet.vehicle.log.fuel"].search(
                 [
@@ -424,6 +389,7 @@ class FleetMapSheet(models.Model):
         return True
 
     def action_get_route_log(self):
+
         for record in self:
             domain = [
                 ("vehicle_id", "=", record.vehicle_id.id),
