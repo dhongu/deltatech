@@ -153,7 +153,8 @@ class FleetReservoirLevel(models.Model):
         self.env.cr.execute(
             """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
-              WHERE vehicle_id = %s
+                   JOIN fleet_vehicle_log_services as sl on sl.id = log_service_id
+              WHERE sl.vehicle_id = %s
            """,
             (vehicle_id,),
         )
@@ -185,7 +186,8 @@ class FleetReservoirLevel(models.Model):
         self.env.cr.execute(
             """SELECT  sum(liter) AS liter
               FROM fleet_vehicle_log_fuel
-              WHERE vehicle_id = %s and
+              JOIN fleet_vehicle_log_services as sl on sl.id = log_service_id
+              WHERE sl.vehicle_id = %s and
                    date_time <= %s
            """,
             (
