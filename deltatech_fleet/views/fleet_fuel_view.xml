@@ -14,7 +14,7 @@
                             <field name="reservoir_level" />
                             <field name="date_time" required="1" />
                             <field name="card_id" />
-
+                            <field name="service_type_id" />
                         </group>
                         <group string="Refueling Details">
                             <field name="liter" />

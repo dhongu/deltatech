@@ -363,12 +363,12 @@ class FleetMapSheet(models.Model):
         res = super(FleetMapSheet, self).write(vals)
         return res
 
-    def unlink(self):
-        """Allows to delete map sheet in draft,cancel states"""
-        for rec in self:
-            if rec.state not in ["draft", "cancel"]:
-                raise UserError(_("Cannot delete a map sheet which is in state '%s'.") % (rec.state,))
-        return super(FleetMapSheet, self).unlink()
+    # def unlink(self):
+    #     """Allows to delete map sheet in draft,cancel states"""
+    #     for rec in self:
+    #         if rec.state not in ["draft", "cancel"]:
+    #             raise UserError(_("Cannot delete a map sheet which is in state '%s'.") % (rec.state,))
+    #     return super(FleetMapSheet, self).unlink()
 
     def button_dummy(self):
         return True
@@ -568,9 +568,9 @@ class FleetRouteLog(models.Model):
             self.date_end = date_end
             self.week_day = week_day
 
-    def unlink(self):
-        """ Allows to delete route log in draft states """
-        for rec in self:
-            if rec.state not in ["draft", False]:
-                raise UserError(_("Cannot delete a route log which is in state '%s'.") % (rec.state,))
-        return super(FleetRouteLog, self).unlink()
+    # def unlink(self):
+    #     """ Allows to delete route log in draft states """
+    #     for rec in self:
+    #         if rec.state not in ["draft", False]:
+    #             raise UserError(_("Cannot delete a route log which is in state '%s'.") % (rec.state,))
+    #     return super(FleetRouteLog, self).unlink()
