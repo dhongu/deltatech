@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="1">
+
+      <record id="type_service_service_fuel" model="fleet.service.type">
+          <field name="name">Fuel</field>
+          <field name="category">fuel</field>
+      </record>
+
+
         <!--
         <record id="sequence_fleet_road_map_type" model="ir.sequence.type">
             <field name="name">Map Sheet</field>

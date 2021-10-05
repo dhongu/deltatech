@@ -15,3 +15,7 @@ access_fleet_scope_categ,access_fleet_scope_categ,model_fleet_scope_categ,,1,0,0
 fleet_vehicle_log_fuel_access_right,fleet_vehicle_log_fuel_access_right,model_fleet_vehicle_log_fuel,fleet.fleet_group_user,1,1,1,1
 
 access_fleet_vehicle_location,access_fleet_vehicle_location,model_fleet_vehicle_location,fleet.fleet_group_user,1,1,1,1
+
+
+access_fleet_distance_report,access_fleet_distance_report,model_fleet_distance_report,fleet.fleet_group_manager,1,1,1,1
+access_fleet_distance_report_line,access_fleet_distance_report_line,model_fleet_distance_report_line,fleet.fleet_group_manager,1,1,1,1
