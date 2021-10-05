@@ -7,3 +7,4 @@ from . import fleet_fuel
 from . import fleet
 from . import fleet_vehicle
 from . import fleet_sheet
+from . import fleet_report

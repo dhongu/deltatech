@@ -32,8 +32,8 @@ from odoo import api, fields, models
 class FleetVehicleOdometer(models.Model):
     _inherit = "fleet.vehicle.odometer"
 
-    date_time = fields.Datetime(string="Date Time")
-    real = fields.Boolean(string="Is real", default=fields.Datetime.now)
+    date_time = fields.Datetime(string="Date Time", default=fields.Datetime.now)
+    real = fields.Boolean(string="Is real")
 
     def write(self, vals):
         if "date_time" in vals and "date" not in vals:
@@ -125,7 +125,7 @@ class FleetLocation(models.Model):
     _description = "Location"
 
     name = fields.Char(string="Location", size=100, required=True)
-    type = fields.Selection([("0", "Other"), ("1", "Partner"), ("2", "Station")], string="Type")
+    type = fields.Selection([("0", "Other"), ("1", "Partner"), ("2", "Station")], default="0", string="Type")
 
 
 class FleetVehicleCategory(models.Model):
