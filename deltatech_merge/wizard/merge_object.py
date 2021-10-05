@@ -292,6 +292,24 @@ class MergeObject(models.TransientModel):
                     "Skip recursive object hierarchies for parent_id %s of object: %s", parent_id, dst_object.id
                 )
 
+    @api.model
+    def _update_computed_fields(self, dst_object):
+        """ Update stored computed fields of dst_object.
+            :param dst_object : record of destination res.object
+        """
+        Object = self.env[self._model_merge]
+        for field_name in Object._fields:
+            field = Object._fields[field_name]
+            if field.compute and field.store:
+                # print(field_name, type(field), field.compute)
+                obj = dst_object
+                if field.compute_sudo:
+                    obj = obj.sudo()
+                obj._recompute_todo(field)
+        # In a testing environment (shell) it is necessary to call cache
+        # invalidation before recompute using `self.env.cache.invalidate()`
+        Object.recompute()
+
     def _merge(self, object_ids, dst_object=None, extra_checks=True):
         """private implementation of merge object
         :param object_ids : ids of object to merge
@@ -333,6 +351,7 @@ class MergeObject(models.TransientModel):
         self._update_foreign_keys(src_objects, dst_object)
         self._update_reference_fields(src_objects, dst_object)
         self._update_values(src_objects, dst_object)
+        self._update_computed_fields(dst_object)
 
         self._log_merge_operation(src_objects, dst_object)
 
