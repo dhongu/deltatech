@@ -17,6 +17,7 @@
         "views/fleet_sheet_view.xml",
         "views/fleet_report.xml",
         "views/report_map_sheet.xml",
+        "wizard/fleet_dist_report_view.xml",
         "security/ir.model.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
