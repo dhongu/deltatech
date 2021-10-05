@@ -7,8 +7,15 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
+class FleetServiceType(models.Model):
+    _inherit = "fleet.service.type"
+
+    category = fields.Selection(selection_add=[("fuel", "Fuel")], default="service", ondelete={"fuel": "set default"})
+
+
 class FleetVehicleLogFuel(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherits = {"fleet.vehicle.log.services": "log_service_id"}
     _name = "fleet.vehicle.log.fuel"
     _description = "Vehicle Fuel Log"
     _order = "date desc"
@@ -16,9 +23,37 @@ class FleetVehicleLogFuel(models.Model):
     name = fields.Char()
     liter = fields.Float()
     price_per_liter = fields.Float()
-    amount = fields.Float(string="Amount", store=True, readonly=False)
 
-    vehicle_id = fields.Many2one("fleet.vehicle", string="Vehicle")
+    log_service_id = fields.Many2one("fleet.vehicle.log.services", ondelete="cascade")
+
+    # comune cu: fleet.vehicle.log.services
+    # amount = fields.Float(string="Amount", store=True, readonly=False)
+    # vehicle_id = fields.Many2one("fleet.vehicle", string="Vehicle")
+    # odometer_id = fields.Many2one(
+    #     "fleet.vehicle.odometer", "Odometer", help="Odometer measure of the vehicle at the moment of this log"
+    # )
+    # odometer = fields.Float(
+    #     compute="_compute_odometer",
+    #     inverse="_inverse_odometer",
+    #     string="Odometer Value",
+    #     help="Odometer measure of the vehicle at the moment of this log",
+    # )
+    # odometer_unit = fields.Selection(related="vehicle_id.odometer_unit", string="Unit", readonly=True)
+    # date = fields.Datetime(help="Date when the cost has been executed")  # de ce nu e Date?
+    # state = fields.Selection(
+    #     [("draft", "Draft"), ("done", "Done")],
+    #     string="Status",
+    #     readonly=True,
+    #     help="When the Log Fuel is created the status is set to 'Draft'.\n\
+    #                                   When the Log Fuel is closed, the status is set to 'Done'.",
+    # )
+    # notes = fields.Text()
+    #
+    # service_type_id = fields.Many2one(
+    #     'fleet.service.type', 'Service Type', required=True,
+    #     default=lambda self: self.env.ref('deltatech_fleet.type_service_service_fuel', raise_if_not_found=False),
+    # )
+
     map_sheet_id = fields.Many2one(
         "fleet.map.sheet",
         string="Map Sheet",
@@ -28,27 +63,7 @@ class FleetVehicleLogFuel(models.Model):
     card_id = fields.Many2one("fleet.card", string="Card")
     full = fields.Boolean(string="To full", help="Fuel supply was made up to full")
     reservoir_level = fields.Float(compute="_compute_reservoir_level", string="Level Reservoir", store=False)
-    state = fields.Selection(
-        [("draft", "Draft"), ("done", "Done")],
-        string="Status",
-        readonly=True,
-        help="When the Log Fuel is created the status is set to 'Draft'.\n\
-                                      When the Log Fuel is closed, the status is set to 'Done'.",
-    )
-
-    odometer_id = fields.Many2one(
-        "fleet.vehicle.odometer", "Odometer", help="Odometer measure of the vehicle at the moment of this log"
-    )
-    odometer = fields.Float(
-        compute="_compute_odometer",
-        inverse="_inverse_odometer",
-        string="Odometer Value",
-        help="Odometer measure of the vehicle at the moment of this log",
-    )
-    odometer_unit = fields.Selection(related="vehicle_id.odometer_unit", string="Unit", readonly=True)
-    date = fields.Datetime(help="Date when the cost has been executed")
     date_time = fields.Datetime(help="Date when the cost has been executed")
-    notes = fields.Text()
 
     @api.onchange("liter", "price_per_liter", "amount")
     def _onchange_liter_price_amount(self):
