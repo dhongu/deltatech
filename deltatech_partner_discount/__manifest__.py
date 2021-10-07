@@ -11,7 +11,11 @@
     "category": "Sale",
     "depends": ["sale", "account"],
     "license": "LGPL-3",
-    "data": ["views/res_partner.xml", "views/account_move.xml"],
+    "data": [
+        "views/res_partner.xml",
+        "views/account_move.xml",
+        "security/groups.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["danila12"],
