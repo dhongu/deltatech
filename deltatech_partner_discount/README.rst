@@ -22,6 +22,7 @@ Deltatech partner discount
 Features:
  - creates a discount field in partner
  - a discount proposal bar is displayed in the partner's (or child partner's) draft invoice
+ - only users in group "Can modify partner discount" can modify the discount on partners
 
 **Table of contents**
 
