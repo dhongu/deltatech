@@ -2,7 +2,7 @@
 #              Dan Stoica <danila(@)terrabit(.)ro
 # See README.rst file on addons root folder for license details
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
 class StockLotTag(models.Model):
@@ -10,6 +10,7 @@ class StockLotTag(models.Model):
     _description = "Stock Lot Tag"
 
     name = fields.Char(string="Name")
+
 
 class ProductionLot(models.Model):
     _inherit = "stock.production.lot"

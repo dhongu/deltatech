@@ -13,10 +13,7 @@
     "depends": ["stock"],
     "license": "AGPL-3",
     "images": ["static/description/main_screenshot.png"],
-    "data": [
-        "views/stock_production_lot.xml",
-        "security/ir.model.access.csv"
-    ],
+    "data": ["views/stock_production_lot.xml", "security/ir.model.access.csv"],
     "development_status": "Beta",
     "maintainers": ["danila12"],
 }
