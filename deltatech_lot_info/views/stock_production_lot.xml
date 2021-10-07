@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_lot_info" model="ir.ui.view">
+        <field name="name">lot.info.form.view</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form" />
+        <field name="arch" type="xml">
+            <group name="main_group" position="after">
+                <group name="lot_info">
+                    <group>
+                        <field name="has_info" />
+                        <field name="inventory_value" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="categ_id" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="input_price" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="input_amount" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="input_date" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="output_price" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="output_date" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="output_amount" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                    </group>
+                    <group>
+                        <field name="customer_id" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="supplier_id" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="origin" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="sale_invoice_id" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="tag_ids" attrs="{'invisible':[('has_info','=',False)]}" widget="many2many_tags" />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>
