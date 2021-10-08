@@ -294,8 +294,8 @@ class MergeObject(models.TransientModel):
 
     @api.model
     def _update_computed_fields(self, dst_object):
-        """ Update stored computed fields of dst_object.
-            :param dst_object : record of destination res.object
+        """Update stored computed fields of dst_object.
+        :param dst_object : record of destination res.object
         """
         Object = self.env[self._model_merge]
         for field_name in Object._fields:
