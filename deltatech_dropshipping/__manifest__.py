@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Drop Shipping",
     "summary": "Delivery address in picking",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
