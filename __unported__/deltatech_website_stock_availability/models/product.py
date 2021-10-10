@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     inventory_availability = fields.Selection(
-        selection_add=[("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
+        [("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
     )
 
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)

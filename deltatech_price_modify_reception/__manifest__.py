@@ -1,6 +1,6 @@
 {
     "name": "Price modify at the reception",
-    "version": "14.0.1.0.2",
+    "version": "15.0.1.0.2",
     "author": "cojocariudaniel1, Terrabit",
     "website": "https://www.terrabit.ro",
     "summary": "Editarea pretului de lista la receptie",

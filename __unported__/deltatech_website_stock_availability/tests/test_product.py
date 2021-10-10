@@ -50,16 +50,16 @@ class TestProduct(TransactionCase):
             "location_id": self.stock_location.id,
         }
 
-        inventory = self.env["stock.inventory"].create(
-            {
-                "name": "Inv. productserial1",
-                "line_ids": [
-                    (0, 0, inv_line_a),
-                ],
-            }
-        )
-        inventory.action_start()
-        inventory.action_validate()
+        # inventory = self.env["stock.inventory"].create(
+        #     {
+        #         "name": "Inv. productserial1",
+        #         "line_ids": [
+        #             (0, 0, inv_line_a),
+        #         ],
+        #     }
+        # )
+        # inventory.action_start()
+        # inventory.action_validate()
 
     def test_product(self):
         product = self.product_a

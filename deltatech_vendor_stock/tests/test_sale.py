@@ -20,27 +20,27 @@ class TestSale(TransactionCase):
             {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
         )
         self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
-        inv_line_a = {
-            "product_id": self.product_a.id,
-            "product_qty": 10000,
-            "location_id": self.stock_location.id,
-        }
-        inv_line_b = {
-            "product_id": self.product_b.id,
-            "product_qty": 10000,
-            "location_id": self.stock_location.id,
-        }
-        inventory = self.env["stock.inventory"].create(
-            {
-                "name": "Inv. productserial1",
-                "line_ids": [
-                    (0, 0, inv_line_a),
-                    (0, 0, inv_line_b),
-                ],
-            }
-        )
-        inventory.action_start()
-        inventory.action_validate()
+        # inv_line_a = {
+        #     "product_id": self.product_a.id,
+        #     "product_qty": 10000,
+        #     "location_id": self.stock_location.id,
+        # }
+        # inv_line_b = {
+        #     "product_id": self.product_b.id,
+        #     "product_qty": 10000,
+        #     "location_id": self.stock_location.id,
+        # }
+        # inventory = self.env["stock.inventory"].create(
+        #     {
+        #         "name": "Inv. productserial1",
+        #         "line_ids": [
+        #             (0, 0, inv_line_a),
+        #             (0, 0, inv_line_b),
+        #         ],
+        #     }
+        # )
+        # inventory.action_start()
+        # inventory.action_validate()
 
     def test_sale(self):
         so = Form(self.env["sale.order"])

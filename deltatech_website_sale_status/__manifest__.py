@@ -5,15 +5,23 @@
     "name": "eCommerce Sale Order status",
     "category": "Website",
     "summary": "Additional filters sales orders by status ",
-    "version": "14.0.2.0.0",
+    "version": "15.0.2.0.0",
     "license": "AGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale_stock", "deltatech_delivery_status"],
-    "data": ["views/sale_view.xml", "views/assets.xml"],
+    "data": [
+        "views/sale_view.xml",
+        # "views/assets.xml"
+    ],
     "qweb": ["static/src/xml/*.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
+    "assets": {
+        "web.assets_backend": [
+            # "/deltatech_website_sale_status/static/src/js/website_sale_backend.js"
+        ],
+    },
 }

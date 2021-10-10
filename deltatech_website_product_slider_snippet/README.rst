@@ -14,7 +14,7 @@ eCommerce Product Slider
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_website_product_slider_snippet
+    :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_website_product_slider_snippet
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3| 
@@ -34,37 +34,37 @@ Usage
 - Configure product list:
       - Sales -> Products -> Product list
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img1.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img1.png
     :align: center
     :alt: Product list
 
 - Create a new product list and define domain :
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img2.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img2.png
     :align: center
     :alt: Product list details
 
 - Insert snipped in webpage
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img3.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img3.png
     :align: center
     :alt: Insert snipped
 
 - Select product list:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img4.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img4.png
     :align: center
     :alt: Select list
 
 - Edit description for product list in website:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img5.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img5.png
     :align: center
     :alt: Edit
 
 - Save page:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_website_product_slider_snippet/static/description/img6.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_website_product_slider_snippet/static/description/img6.png
     :align: center
     :alt: Result
 
@@ -74,7 +74,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/dhongu/deltatech/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_website_product_slider_snippet%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_website_product_slider_snippet%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -98,6 +98,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_website_product_slider_snippet>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/15.0/deltatech_website_product_slider_snippet>`_ project on GitHub.
 
 You are welcome to contribute.

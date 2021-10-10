@@ -5,7 +5,7 @@
 {
     "name": "MRP Warehouse",
     "summary": "MRP Warehouse",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

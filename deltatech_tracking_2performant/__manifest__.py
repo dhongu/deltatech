@@ -5,7 +5,7 @@
 {
     "name": "2Performant tracking",
     "summary": "2Performant tracking",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",

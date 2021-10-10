@@ -3,7 +3,7 @@
 {
     "name": "Deltatch Discount in purchase order line",
     "summary": "Discount in purchase order line",
-    "version": "14.0.1.0.1",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

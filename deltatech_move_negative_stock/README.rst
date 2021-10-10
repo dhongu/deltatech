@@ -14,7 +14,7 @@ Replenish negative stock
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_move_negative_stock
+    :target: https://github.com/dhongu/deltatech/tree/15.0/deltatech_move_negative_stock
     :alt: dhongu/deltatech
 
 |badge1| |badge2| |badge3| 
@@ -34,31 +34,31 @@ Usage
 - Configure your operation type:
       - Inventory -> Configuration -> Operation Types
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_move_negative_stock/static/description/op-type.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_move_negative_stock/static/description/op-type.png
     :align: center
     :alt: Operation type
 
 - Sell some stuff from your location, resulting in negative stock:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_move_negative_stock/static/description/negative-stock.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_move_negative_stock/static/description/negative-stock.png
     :align: center
     :alt: Products with negative stock
 
 - Create a picking with the previuous Operation type
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_move_negative_stock/static/description/picking1.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_move_negative_stock/static/description/picking1.png
     :align: center
     :alt: New picking
 
 - Press the <Get negative products> button:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_move_negative_stock/static/description/picking2.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_move_negative_stock/static/description/picking2.png
     :align: center
     :alt: Button
 
 - You products will be added to the picking:
 
-.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/14.0/deltatech_move_negative_stock/static/description/picking3.png
+.. figure:: https://raw.githubusercontent.com/dhongu/deltatech/15.0/deltatech_move_negative_stock/static/description/picking3.png
     :align: center
     :alt: Button
 
@@ -72,7 +72,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/dhongu/deltatech/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_move_negative_stock%0Aversion:%2014.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/dhongu/deltatech/issues/new?body=module:%20deltatech_move_negative_stock%0Aversion:%2015.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -96,6 +96,6 @@ Current maintainer:
 
 |maintainer-danila| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_move_negative_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/15.0/deltatech_move_negative_stock>`_ project on GitHub.
 
 You are welcome to contribute.

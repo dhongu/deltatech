@@ -5,7 +5,7 @@
 {
     "name": "Deltatech Product Margin",
     "summary": "Product margin and trade markup",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "AGPL-3",

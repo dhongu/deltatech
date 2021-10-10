@@ -4,7 +4,7 @@
 {
     "name": "Deltatech Fleet Geo",
     "summary": "Fleet Geographical Information",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Dorin Hongu, Terrabit",
     "website": "https://www.terrabit.ro",
     "category": "Human Resources/Fleet",

@@ -29,7 +29,8 @@
             customize_show="True"
             name="Alternative code"
         >
-            <xpath expr="//hr[@t-if='product.description_sale']" position="before">
+
+            <xpath expr="//p[@t-field='product.description_sale']" position="before">
                 <t t-foreach="product.alternative_ids" t-as="alternative">
                     <span itemprop="alternateName" style="display:none;" t-field="alternative.name" />
                 </t>
@@ -51,7 +52,7 @@
             customize_show="True"
             name="Used For"
         >
-            <xpath expr="//hr[@t-if='product.description_sale']" position="after">
+            <xpath expr="//p[@t-field='product.description_sale']" position="after">
                 <t t-if="product.used_for">
                     <div>
                         <span>User for:</span>

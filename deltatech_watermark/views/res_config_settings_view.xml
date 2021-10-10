@@ -4,9 +4,9 @@
         <field name="name">res.config.settings.view.form</field>
         <field name="model">res.config.settings</field>
         <field name="priority" eval="11" />
-        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='business_documents']//div" position="inside">
+            <xpath expr="//div[@name='companies_setting_container']//div" position="inside">
                 <div class="col-12 col-lg-6 o_setting_box" id="watermark_image_setting">
                     <div class="o_setting_right_pane">
                         <label for="watermark_image" />

@@ -5,7 +5,7 @@
     "name": "eCommerce Product Slider",
     "category": "Website",
     "summary": "eCommerce extension",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
@@ -16,4 +16,12 @@
     "qweb": ["static/src/xml/*.xml"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
+    "assets": {
+        "website.assets_frontend": [
+            "/deltatech_website_product_slider_snippet/static/src/js/website_products_slider.js"
+        ],
+        "website.assets_editor": [
+            "/deltatech_website_product_slider_snippet/static/src/js/website_products_slider_editor.js"
+        ],
+    },
 }

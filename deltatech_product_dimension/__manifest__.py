@@ -6,7 +6,7 @@
 {
     "name": "Products Dimension",
     "summary": "Product dimension",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",

@@ -5,7 +5,7 @@
 {
     "name": "Deltatech POS Margin",
     "summary": "Point of sale margin",
-    "version": "14.0.1.0.0",
+    "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales/Point of Sale",

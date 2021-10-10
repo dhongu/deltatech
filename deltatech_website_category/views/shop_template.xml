@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template
+<!--    <template
         id="option_collapse_categories_recursive"
         name="Collapse Category Recursive"
         inherit_id="website_sale.option_collapse_categories_recursive"
@@ -21,4 +21,12 @@
             <attribute name="t-att-href">keep(category.website_url, category=0)</attribute>
         </xpath>
     </template>
+    -->
+
+    <template id="categorie_link" inherit_id="website_sale.categorie_link">
+        <xpath expr="//div" position="attributes">
+            <attribute name="t-attf-onclick">location.href='#{keep(c.website_url, category=0)}';</attribute>
+        </xpath>
+    </template>
+
 </odoo>
