@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mrp_simple,access_mrp_simple,model_mrp_simple,base.group_user,1,1,1,01
+access_mrp_simple,access_mrp_simple,model_mrp_simple,base.group_user,1,1,1,1
 access_mrp_simple_line_in,access_mrp_simple_line_in,model_mrp_simple_line_in,base.group_user,1,1,1,1
 access_mrp_simple_line_out,access_mrp_simple_line_out,model_mrp_simple_line_out,base.group_user,1,1,1,1
