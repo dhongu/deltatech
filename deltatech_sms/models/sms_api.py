@@ -1,4 +1,4 @@
-# ©  2015-2019 Deltatech
+# ©  2008-2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 #              Dan Stoica
 # See README.rst file on addons root folder for license details

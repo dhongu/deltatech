@@ -12,7 +12,7 @@
     "depends": ["sale"],
     "license": "LGPL-3",
     "data": ["data/data.xml", "views/res_config_settings_views.xml"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
