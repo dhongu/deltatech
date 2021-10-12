@@ -44,17 +44,18 @@ class ProductionLot(models.Model):
     rezervat_date = fields.Date('Data rezervarii')
     equi_categ_id = fields.Many2one('service.equipment.category', string="Categorie echipament")
 
-    # pret_final = fields.Float(string="Pret client final", compute='_compute_price')
-    # pret_final_currency_id = fields.Many2one('res.currency', string='Moneda pret lista', compute='_compute_price',
-    #                                          readonly=True)
-    # pret_revanzator = fields.Float(string="Pret revanzator", compute='_compute_price')
-    # pret_revanzator_currency_id = fields.Many2one('res.currency', string='Moneda pret revanzator',
-    #                                               compute='_compute_price', readonly=True)
+    pret_final = fields.Float(string="Pret client final", compute='_compute_price')
+    pret_final_currency_id = fields.Many2one('res.currency', string='Moneda pret lista', compute='_compute_price',
+                                             readonly=True)
+    pret_revanzator = fields.Float(string="Pret revanzator", compute='_compute_price')
+    pret_revanzator_currency_id = fields.Many2one('res.currency', string='Moneda pret revanzator',
+                                                  compute='_compute_price', readonly=True)
 
-    pret_final = fields.Float(string="Pret client final")
-    pret_final_currency_id = fields.Many2one('res.currency', string='Moneda pret lista')
-    pret_revanzator = fields.Float(string="Pret revanzator")
-    pret_revanzator_currency_id = fields.Many2one('res.currency', string='Moneda pret revanzator')
+
+    # pret_final = fields.Float(string="Pret client final")
+    # pret_final_currency_id = fields.Many2one('res.currency', string='Moneda pret lista')
+    # pret_revanzator = fields.Float(string="Pret revanzator")
+    # pret_revanzator_currency_id = fields.Many2one('res.currency', string='Moneda pret revanzator')
 
     verificat = fields.Boolean('Echipament Verificat')
     verificat_user_id = fields.Many2one('res.users', string="Verificat de")
@@ -71,5 +72,52 @@ class ProductionLot(models.Model):
     def _compute_output_amount(self):
         for lot in self:
             lot.output_amount = lot.output_price * lot.product_qty
+
+    def _compute_price(self):
+        if "pricelist_id" in self.env.context:
+            pricelist = self.env["product.pricelist"].browse(self.env.context["pricelist_id"])
+            list_currency_id = pricelist.currency_id
+        else:
+            pricelist = False
+
+        for serial in self:
+            serial.pret_final = serial.product_id.list_price
+            serial.pret_final_currency_id = serial.product_id.currency_id
+            if pricelist:
+                price = pricelist.price_get(serial.product_id.id, serial.qty)
+                if price:
+                    serial.pret_revanzator = price
+                    serial.pret_revanzator_currency_id = list_currency_id
+                else:
+                    serial.pret_revanzator = serial.product_id.list_price
+                    serial.pret_revanzator_currency_id = serial.product_id.currency_id
+            else:
+                serial.pret_revanzator = serial.product_id.list_price
+                serial.pret_revanzator_currency_id = serial.product_id.currency_id
+
+        #
+        # price_type = self.env['product.price.type'].search([('field', '=', 'list_price')])
+        # if price_type:
+        #     sale_currency_id = price_type.currency_id
+        # else:
+        #     sale_currency_id = self.env.user.company_id
+        #
+        # if 'pricelist_id' in self.env.context:
+        #     pricelist = self.env['product.pricelist'].browse(self.env.context['pricelist_id'])
+        #     list_currency_id = pricelist.currency_id
+        # else:
+        #     pricelist = False
+        #
+        # for quant in self:
+        #     quant.pret_final = quant.product_id.list_price
+        #     quant.pret_final_currency_id = sale_currency_id
+        #     if pricelist:
+        #         price = pricelist.price_get(quant.product_id.id, quant.qty)[pricelist.id]
+        #         if price:
+        #             quant.pret_revanzator = price
+        #             quant.pret_revanzator_currency_id = list_currency_id
+        #     else:
+        #         quant.pret_revanzator = quant.product_id.list_price
+        #         quant.pret_revanzator_currency_id = sale_currency_id
 
 
