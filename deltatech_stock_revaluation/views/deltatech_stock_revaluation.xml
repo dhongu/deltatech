@@ -177,7 +177,12 @@
                                 </td>
                                 <td>
                                     <span>
-                                        <t t-esc="48-(months_passed+1)"/>
+                                        <t t-if="(48-(months_passed+1)) &gt;= 0">
+                                            <t t-esc="48-(months_passed+1)"/>
+                                        </t>
+                                        <t t-if="(48-(months_passed+1)) &lt; 0">
+                                            <span>0</span>
+                                        </t>
                                     </span>
                                 </td>
                                 <td>
