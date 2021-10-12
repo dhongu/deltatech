@@ -405,7 +405,12 @@
                                 </td>
                                 <td>
                                     <span>
-                                        <t t-esc="60-(months_passed+1)"/>
+                                        <t t-if="(60-(months_passed+1)) &gt;= 0">
+                                            <t t-esc="60-(months_passed+1)"/>
+                                        </t>
+                                        <t t-if="(60-(months_passed+1)) &lt; 0">
+                                            <span>0</span>
+                                        </t>
                                     </span>
                                 </td>
                                 <td>
@@ -627,9 +632,12 @@
                                     <span>6</span>
                                 </td>
                                 <td>
-                                    <span>
+                                    <t t-if="(72-(months_passed+1)) &gt;= 0">
                                         <t t-esc="72-(months_passed+1)"/>
-                                    </span>
+                                    </t>
+                                    <t t-if="(72-(months_passed+1)) &lt; 0">
+                                        <span>0</span>
+                                    </t>
                                 </td>
                                 <td>
                                     <span t-esc="l.init_value-l.new_value"/>
