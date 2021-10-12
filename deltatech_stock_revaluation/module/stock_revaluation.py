@@ -169,8 +169,12 @@ class stock_revaluation(models.Model):
             new_cost = new_value / quant.qty
             old_amount_total += quant.inventory_value
             new_amount_total += new_value
+            if quant.inventory_value < 0.0:
+                old_value = 0.0
+            else:
+                old_value = quant.inventory_value
             values = {'init_value': init_value,
-                      'old_value': quant.inventory_value,
+                      'old_value': old_value,
                       'new_value': new_value}
             if init_value == quant.inventory_value:
                 values['first_revaluation'] = self.date
