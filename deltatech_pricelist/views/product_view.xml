@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <field name="list_price" position="replace">
+                    <field name="list_price" widget='monetary' options="{'currency_field': 'price_currency_id'}" />
+                    <field name="price_currency_id" />
+                </field>
+            </field>
+        </record>
+        <record id="product_template_kanban_view" model="ir.ui.view">
+            <field name="name">Product.template.product.kanban</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view" />
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <field name="currency_id" position="after">
+                    <field name="price_currency_id" />
+                </field>
+                <xpath expr="//templates//field[@name='lst_price']" position="replace">
+                    <field name="lst_price" widget='monetary' options="{'currency_field': 'price_currency_id'}" />
+                </xpath>
+            </field>
+        </record>
+        <record id="product_variant_easy_edit_view" model="ir.ui.view">
+            <field name="name">product.product.view.form.easy</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_variant_easy_edit_view" />
+            <field name="priority">99</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lst_price']" position="replace">
+                    <field
+                        name="lst_price"
+                        widget='monetary'
+                        options="{'currency_field': 'price_currency_id'}"
+                        attrs="{'readonly': [('product_variant_count', '&gt;', 1)]}"
+                    />
+                    <field name="price_currency_id" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
