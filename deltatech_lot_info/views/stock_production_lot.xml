@@ -25,6 +25,24 @@
                         <field name="sale_invoice_id" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
                         <field name="tag_ids" attrs="{'invisible':[('has_info','=',False)]}" widget="many2many_tags" />
                     </group>
+                    <group>
+                        <field name="contor_monocrom" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="contor_color" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="rezervat" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="rezervat_pentru" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="rezervat_nota" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="rezervat_user_id" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="rezervat_date" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="equi_categ_id" attrs="{'invisible':[('has_info','=',False)]}" />
+<!--                        <field name="pret_final" attrs="{'invisible':[('has_info','=',False)]}" />-->
+<!--                        <field name="pret_final_currency_id" attrs="{'invisible':[('has_info','=',False)]}" />-->
+<!--                        <field name="pret_revanzator" attrs="{'invisible':[('has_info','=',False)]}" />-->
+<!--                        <field name="pret_revanzator_currency_id" attrs="{'invisible':[('has_info','=',False)]}" />-->
+                        <field name="verificat" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="verificat_user_id" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="verificat_date" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="nota_interna" attrs="{'invisible':[('has_info','=',False)]}" />
+                    </group>
                 </group>
             </group>
         </field>
