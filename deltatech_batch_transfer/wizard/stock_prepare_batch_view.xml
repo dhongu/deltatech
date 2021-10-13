@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- add picking to batch  -->
+    <record id="stock_prepare_batch_form" model="ir.ui.view">
+        <field name="name">stock.prepare.batch.form</field>
+        <field name="model">stock.prepare.batch</field>
+        <field name="arch" type="xml">
+            <form string="Add pickings to">
+                <group>
+                    <group>
+
+                        <field name="partner_id" />
+                        <field name="user_id" options="{'no_create_edit': True}" />
+                    </group>
+                    <group>
+                        <label for="mode" string="Mode" />
+                        <field name="mode" widget="radio" nolabel="1" />
+                    </group>
+                    <field name="line_ids" nolabel="1" attrs="{'invisible': [('mode', '=', 'sale')]}">
+                            <tree editable="bottom">
+                                <field name="product_id" />
+                                <field name="quantity" />
+                            </tree>
+                        </field>
+                </group>
+
+                <footer>
+                    <button name="attach_pickings" type="object" string="Confirm" class="btn-primary" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_prepare_batch" model="ir.actions.act_window">
+        <field name="name">Prepare batch</field>
+        <field name="res_model">stock.prepare.batch</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <record id="action_prepare_batch_sale_order" model="ir.actions.act_window">
+        <field name="name">Prepare batch</field>
+        <field name="res_model">stock.prepare.batch</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="sale.model_sale_order" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+        <menuitem
+        id="menu_action_prepare_batch"
+        action="action_prepare_batch"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="10"
+    />
+
+</odoo>
