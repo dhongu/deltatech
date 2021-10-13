@@ -76,17 +76,18 @@ class StockPrepareBatch(models.TransientModel):
             batch.move_line_ids.write({"qty_done": 0})
 
             for line in self.line_ids:
-                quality = line.quantity
+                quantity = line.quantity
                 for move_line in batch.move_line_ids:
                     if line.product_id == move_line.product_id:
-                        if quality > move_line.product_uom_qty:
+                        if quantity > move_line.product_uom_qty:
                             move_line.qty_done = move_line.product_uom_qty
-                            quality -= move_line.product_uom_qty
+                            quantity -= move_line.product_uom_qty
                         else:
-                            move_line.qty_done = quality
-                            quality = 0
-                if quality > 0:
-                    line.write({"additional_quantity": quality})
+                            move_line.qty_done = quantity
+                            quantity = 0
+                if quantity > 0:
+                    # line.write({"additional_quantity": quality})
+                    raise UserError(_("The quantity %s of %s is additional.") % (str(quantity), line.product.name))
         else:
             for move_line in batch.move_line_ids:
                 move_line.write({"qty_done": move_line.product_uom_qty})
