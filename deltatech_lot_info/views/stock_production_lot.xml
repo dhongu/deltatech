@@ -22,10 +22,20 @@
                         <field name="contor_color" attrs="{'invisible':[('has_info','=',False)]}" />
                     </group>
                     <group>
-                        <field name="pret_final" attrs="{'invisible':[('has_info','=',False)]}" />
-                        <field name="pret_final_currency_id" attrs="{'invisible':[('has_info','=',False)]}" />
-                        <field name="pret_revanzator" attrs="{'invisible':[('has_info','=',False)]}" />
-                        <field name="pret_revanzator_currency_id" attrs="{'invisible':[('has_info','=',False)]}" />
+                        <field name="pret_final_currency_id" invisible="1" />
+                        <field
+                            name="pret_final"
+                            attrs="{'invisible':[('has_info','=',False)]}"
+                            widget="monetary"
+                            options="{'currency_field': 'pret_final_currency_id'}"
+                        />
+                        <field name="pret_revanzator_currency_id" invisible="1" />
+                        <field
+                            name="pret_revanzator"
+                            attrs="{'invisible':[('has_info','=',False)]}"
+                            widget="monetary"
+                            options="{'currency_field': 'pret_revanzator_currency_id'}"
+                        />
                         <field name="verificat" attrs="{'invisible':[('has_info','=',False)]}" />
                         <field name="verificat_user_id" attrs="{'invisible':[('has_info','=',False)]}" />
                         <field name="verificat_date" attrs="{'invisible':[('has_info','=',False)]}" />
