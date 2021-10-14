@@ -67,9 +67,9 @@ class ProductionLot(models.Model):
             serial.pret_final = serial.product_id.list_price
             serial.pret_final_currency_id = serial.product_id.currency_id
             if pricelist:
-                price = pricelist.price_get(serial.product_id.id, serial.qty)
+                price = pricelist.price_get(serial.product_id.id, serial.product_qty)
                 if price:
-                    serial.pret_revanzator = price
+                    serial.pret_revanzator = price[pricelist.id]
                     serial.pret_revanzator_currency_id = list_currency_id
                 else:
                     serial.pret_revanzator = serial.product_id.list_price
