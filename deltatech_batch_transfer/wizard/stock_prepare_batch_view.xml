@@ -50,7 +50,7 @@
         <field name="binding_view_types">list</field>
     </record>
 
-        <menuitem
+    <menuitem
         id="menu_action_prepare_batch"
         action="action_prepare_batch"
         parent="stock.menu_stock_warehouse_mgmt"
