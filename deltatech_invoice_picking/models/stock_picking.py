@@ -18,8 +18,9 @@ class StockPicking(models.Model):
             {
                 "active_id": self.sale_id.id if len(self) == 1 else False,
                 "active_ids": self.mapped("sale_id").ids,
-                # "active_model": "stock.picking",
+                "active_model": "sale.order",
                 "default_company_id": self.company_id.id,
+                "pinking_ids": self.ids,
             }
         )
         action["context"] = context

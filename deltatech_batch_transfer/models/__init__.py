@@ -1,7 +1,7 @@
-# ©  2008-2021 Deltatech
-#              Dorin Hongu <dhongu(@)gmail(.)com
+# ©  2015-2020 Deltatech
 # See README.rst file on addons root folder for license details
 
 
+from . import stock_picking_batch
 from . import stock_picking
-from . import sale
+from . import stock_move_line
