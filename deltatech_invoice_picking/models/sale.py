@@ -12,7 +12,6 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, **optional_values):
         invoice_line = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
         if "pinking_ids" in self.env.context:
-            products_qty = {}
             pinkings = self.env["stock.picking"].browse(self.env.context["pinking_ids"])
             for move_line in pinkings.move_lines:
                 if "product_id" in invoice_line and invoice_line["product_id"] == move_line.product_id.id:
