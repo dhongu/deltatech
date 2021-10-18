@@ -13,6 +13,7 @@
     "data": [
         "wizard/stock_prepare_batch_view.xml",
         "security/ir.model.access.csv",
+        "views/stock_picking_batch.xml",
     ],
     "license": "LGPL-3",
     "development_status": "Beta",

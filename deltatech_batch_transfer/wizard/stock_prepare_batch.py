@@ -35,12 +35,12 @@ class StockPrepareBatch(models.TransientModel):
 
     def attach_pickings(self):
         pickings = self.env["stock.picking"]
-
         if self.mode == "sale":
             order_model = "sale.order"
+            picking_type_code = "outgoing"
         else:
             order_model = "purchase.order"
-
+            picking_type_code = "incoming"
         active_ids = self.env.context.get("active_ids", [])
 
         domain = [
@@ -52,7 +52,12 @@ class StockPrepareBatch(models.TransientModel):
 
         orders = self.env[order_model].search(domain)
         for order in orders:
-            pickings |= order.picking_ids
+            for order_picking in order.picking_ids:
+                if (
+                    order_picking.state in ["waiting", "confirmed", "assigned"]
+                    and order_picking.picking_type_code == picking_type_code
+                ):
+                    pickings |= order_picking
 
         if not pickings:
             action = self.env["ir.actions.actions"]._for_xml_id("deltatech_batch_transfer.action_prepare_batch")
@@ -72,30 +77,53 @@ class StockPrepareBatch(models.TransientModel):
         if batch.show_check_availability:
             batch.action_assign()
 
-        if self.line_ids:
-            batch.move_line_ids.write({"qty_done": 0})
-
-            for line in self.line_ids:
-                quantity = line.quantity
-                for move_line in batch.move_line_ids:
-                    if line.product_id == move_line.product_id:
-                        if quantity > move_line.product_uom_qty:
-                            move_line.qty_done = move_line.product_uom_qty
-                            quantity -= move_line.product_uom_qty
-                        else:
-                            move_line.qty_done = quantity
-                            quantity = 0
-                if quantity > 0:
-                    # line.write({"additional_quantity": quality})
-                    raise UserError(_("The quantity %s of %s is additional.") % (str(quantity), line.product.name))
-        else:
-            for move_line in batch.move_line_ids:
-                move_line.write({"qty_done": move_line.product_uom_qty})
+        self.prepare_lines(batch)
 
         action = self.env["ir.actions.actions"]._for_xml_id("stock_picking_batch.stock_picking_batch_action")
         action["context"] = {}
         action["domain"] = [("id", "=", batch.id)]
         return action
+
+    def prepare_lines(self, batch_id):
+        if self.line_ids:
+            batch_id.move_line_ids.write({"qty_done": 0})
+            received_move_line_ids = self.env["stock.move.line"]
+            for line in self.line_ids:
+                qty_error = ""
+                quantity = line.quantity
+                found = False
+                for move_line in batch_id.move_line_ids:
+                    if line.product_id == move_line.product_id:
+                        found = True
+                        if quantity > move_line.product_uom_qty:
+                            move_line.qty_done = move_line.product_uom_qty
+                            qty_error += _(
+                                "Quantity match error for product [%s]%s, quantity ordered: %s, quantity in "
+                                "batch: %s."
+                            ) % (
+                                line.product_id.default_code,
+                                line.product_id.name,
+                                str(move_line.product_uom_qty),
+                                str(quantity),
+                            )
+                            quantity -= move_line.product_uom_qty
+                        else:
+                            move_line.qty_done = quantity
+                            received_move_line_ids |= move_line
+                            quantity = 0
+                if not found:
+                    raise UserError(
+                        _("The product [%s]%s was not found for this partner.")
+                        % (line.product_id.default_code, line.product_id.name)
+                    )
+                if quantity > 0:
+                    line.write({"additional_quantity": quantity})
+                if qty_error:
+                    raise UserError(qty_error)
+                received_move_line_ids.write({"batch_picking_id": batch_id.id})
+        else:
+            for move_line in batch_id.move_line_ids:
+                move_line.write({"qty_done": move_line.product_uom_qty})
 
 
 class StockPrepareBatchLine(models.TransientModel):

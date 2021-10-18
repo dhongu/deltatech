@@ -2,7 +2,7 @@
 # See LICENSE file for full copyright and licensing details.
 
 
-from odoo import models
+from odoo import fields, models
 from odoo.tools.safe_eval import safe_eval
 
 # from odoo.exceptions import UserError
@@ -10,6 +10,14 @@ from odoo.tools.safe_eval import safe_eval
 
 class StockPickingBatch(models.Model):
     _inherit = "stock.picking.batch"
+
+    received_move_line_ids = fields.One2many(
+        "stock.move.line",
+        "batch_picking_id",
+        string="Selected move lines",
+        readonly=True,
+        states={"draft": [("readonly", False)], "in_progress": [("readonly", False)]},
+    )
 
     def action_done(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
