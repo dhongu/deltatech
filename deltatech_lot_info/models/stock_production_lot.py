@@ -16,7 +16,8 @@ class ProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     has_info = fields.Boolean("Has other info")
-    inventory_value = fields.Float(store=True)
+    location_id = fields.Many2one("stock.location", compute="_compute_location", store=True)
+    inventory_value = fields.Float("Inventory value")
     categ_id = fields.Many2one("product.category", related="product_id.categ_id", store=True)
     input_price = fields.Float(string="Input Price")
     input_date = fields.Date(string="Input date")
@@ -77,6 +78,13 @@ class ProductionLot(models.Model):
             else:
                 serial.pret_revanzator = serial.product_id.list_price
                 serial.pret_revanzator_currency_id = serial.product_id.currency_id
+
+    def _compute_location(self):
+        for lot in self:
+            if len(lot.quant_ids) != 1:
+                lot.location_id = False
+            else:
+                lot.location_id = lot.quant_ids.location_id
 
     def write(self, values):
         if "rezervat" in values:

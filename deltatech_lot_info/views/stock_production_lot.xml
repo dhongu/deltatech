@@ -16,6 +16,7 @@
                         <field name="input_date" readonly="1" attrs="{'invisible':[('has_info','=',False)]}" />
                     </group>
                     <group>
+                        <field name="location_id" />
                         <field name="tag_ids" attrs="{'invisible':[('has_info','=',False)]}" widget="many2many_tags" />
                         <field name="equi_categ_id" attrs="{'invisible':[('has_info','=',False)]}" />
                         <field name="contor_monocrom" attrs="{'invisible':[('has_info','=',False)]}" />
