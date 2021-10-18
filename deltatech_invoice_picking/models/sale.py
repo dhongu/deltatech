@@ -17,6 +17,8 @@ class SaleOrderLine(models.Model):
                 if "product_id" in invoice_line and invoice_line["product_id"] == move_line.product_id.id:
                     invoice_line.update({"quantity": move_line.quantity_done})
         return invoice_line
+
+
 # class SaleOrder(models.Model):
 #     _inherit = "sale.order"
 #
