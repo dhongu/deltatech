@@ -74,7 +74,8 @@ class StockInventoryLine(models.Model):
     _inherit = "stock.inventory.line"
     _order = "inventory_id, location_id, categ_id, product_id, prod_lot_id"
 
-    categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
+    # categ_id exista standard in 13
+    # categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string="Price")
     loc_rack = fields.Char("Rack", size=16, related="product_id.loc_rack", store=True)
     loc_row = fields.Char("Row", size=16, related="product_id.loc_row", store=True)
