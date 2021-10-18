@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- todo: de adaugat si detaliile de formare a listei de pret -->
+        <record id="list_price_bronze" model="product.pricelist">
+            <field name="name">Bronze Pricelist</field>
+            <field name="sequence">100</field>
+        </record>
+        <record id="list_price_silver" model="product.pricelist">
+            <field name="name">Silver Pricelist</field>
+            <field name="sequence">101</field>
+        </record>
+        <record id="list_price_gold" model="product.pricelist">
+            <field name="name">Gold Pricelist</field>
+            <field name="sequence">102</field>
+        </record>
+        <!--        <record id="list_price_platinum" model="product.pricelist">
+            <field name="name">Platinum Pricelist</field>
+            <field name="sequence">103</field>
+        </record>-->
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.common.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <group name="group_standard_price" position="after">
+                    <group>
+                        <field name="list_price_base" />
+<!--                        <field name="item_ids" invisible="1" />-->
+                    </group>
+                    <group />
+                    <group>
+                        <field name="percent_bronze" />
+                        <field name="percent_silver" />
+                        <field name="percent_gold" />
+                        <!--                            <field name="percent_platinum"/>-->
+                    </group>
+                    <group>
+                        <field name="list_price_bronze" />
+                        <field name="list_price_silver" />
+                        <field name="list_price_gold" />
+                        <!--                            <field name="list_price_platinum"/>-->
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>
