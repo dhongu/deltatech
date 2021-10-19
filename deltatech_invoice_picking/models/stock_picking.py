@@ -20,7 +20,7 @@ class StockPicking(models.Model):
                 "active_ids": self.mapped("sale_id").ids,
                 "active_model": "sale.order",
                 "default_company_id": self.company_id.id,
-                "pinking_ids": self.ids,
+                "picking_ids": self.ids,
             }
         )
         action["context"] = context
