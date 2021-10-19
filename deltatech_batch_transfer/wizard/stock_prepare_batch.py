@@ -87,7 +87,6 @@ class StockPrepareBatch(models.TransientModel):
     def prepare_lines(self, batch_id):
         if self.line_ids:
             batch_id.move_line_ids.write({"qty_done": 0})
-            received_move_line_ids = self.env["stock.move.line"]
             for line in self.line_ids:
                 qty_error = ""
                 quantity = line.quantity
@@ -109,7 +108,6 @@ class StockPrepareBatch(models.TransientModel):
                             quantity -= move_line.product_uom_qty
                         else:
                             move_line.qty_done = quantity
-                            received_move_line_ids |= move_line
                             quantity = 0
                 if not found:
                     raise UserError(
@@ -120,7 +118,6 @@ class StockPrepareBatch(models.TransientModel):
                     line.write({"additional_quantity": quantity})
                 if qty_error:
                     raise UserError(qty_error)
-                received_move_line_ids.write({"batch_picking_id": batch_id.id})
         else:
             for move_line in batch_id.move_line_ids:
                 move_line.write({"qty_done": move_line.product_uom_qty})
