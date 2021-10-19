@@ -4,7 +4,8 @@
 
 
 from ast import literal_eval
-from odoo import models, _
+
+from odoo import _, models
 from odoo.exceptions import UserError
 
 
