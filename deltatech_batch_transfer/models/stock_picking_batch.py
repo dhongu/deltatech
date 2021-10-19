@@ -5,15 +5,12 @@
 from odoo import fields, models
 from odoo.tools.safe_eval import safe_eval
 
-# from odoo.exceptions import UserError
-
 
 class StockPickingBatch(models.Model):
     _inherit = "stock.picking.batch"
 
     received_move_line_ids = fields.One2many(
         "stock.move.line",
-        # "batch_picking_id",
         compute="_compute_move_ids",
         string="Selected move lines",
         readonly=True,
