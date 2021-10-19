@@ -4,14 +4,17 @@
 
 
 from ast import literal_eval
-
-from odoo import models
+from odoo import models, _
+from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def action_create_invoice(self):
+        for picking in self:
+            if picking.state != "done":
+                raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
         action = self.env["ir.actions.actions"]._for_xml_id("sale.action_view_sale_advance_payment_inv")
         context = literal_eval(action.get("context", "{}"))
         context.update(
@@ -20,7 +23,7 @@ class StockPicking(models.Model):
                 "active_ids": self.mapped("sale_id").ids,
                 "active_model": "sale.order",
                 "default_company_id": self.company_id.id,
-                "pinking_ids": self.ids,
+                "picking_ids": self.ids,
             }
         )
         action["context"] = context
