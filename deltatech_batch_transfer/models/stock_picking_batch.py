@@ -20,9 +20,12 @@ class StockPickingBatch(models.Model):
     def _compute_move_ids(self):
         super(StockPickingBatch, self)._compute_move_ids()
         for batch in self:
-            for move_line in batch.move_line_ids:
-                if move_line.qty_done > 0:
-                    batch.received_move_line_ids |= move_line
+            if batch.move_line_ids:
+                for move_line in batch.move_line_ids:
+                    if move_line.qty_done > 0:
+                        batch.received_move_line_ids |= move_line
+            else:
+                batch.received_move_line_ids = False
 
     def action_done(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
