@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.account.accountant</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <div data-key="account" position="attributes">
+                <attribute name="data-string">Accounting</attribute>
+                <attribute name="string">Accounting</attribute>
+            </div>
+             <xpath expr="//div[@data-key='account']/div" position="after">
+                <div class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                    <div class="o_setting_left_pane">
+                        <field name="use_anglo_saxon" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="use_anglo_saxon" />
+                        <span
+                            class="fa fa-lg fa-building-o"
+                            title="Values set here are company-specific."
+                            role="img"
+                            aria-label="Values set here are company-specific."
+                            groups="base.group_multi_company"
+                        />
+                        <div class="text-muted">Record cost of goods sold in your journal entries</div>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='bank_cash']" position="inside">
+                <field name="module_account_accountant" invisible="1" />
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    attrs="{'invisible': [('chart_template_id','=',False), ('module_account_accountant','=',False)]}"
+                >
+                    <div class="o_setting_left_pane" />
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Inter-Banks Transfers</span>
+                        <div class="text-muted">Account used when transferring between banks</div>
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="transfer_account_id" class="col-lg-3 o_light_label" />
+                                <field name="transfer_account_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <menuitem name="Accounting" id="account.menu_finance" />
+    <record id="account.action_account_payments" model="ir.actions.act_window">
+        <field name="name">Incoming Payments</field>
+    </record>
+    <record id="account.menu_action_account_payments_receivable" model="ir.ui.menu">
+        <field name="name">Incoming payments</field>
+    </record>
+</odoo>
