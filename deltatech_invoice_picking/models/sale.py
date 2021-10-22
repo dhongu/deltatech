@@ -47,15 +47,5 @@ class SaleOrder(models.Model):
                 if line.quantity == 0.0:
                     line.with_context(check_move_validity=False).unlink()
         else:
-            for move in moves:
-                for account_move_line in move.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
-                    sale_line_ids = account_move_line.sale_line_ids
-                    for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
-                        if not stock_move.picking_id.account_move_id:
-                            stock_move.picking_id.update(
-                                {
-                                    "account_move_id": move.id,
-                                    "to_invoice": False,
-                                }
-                            )
+            moves.update_pickings()
         return moves

@@ -29,6 +29,28 @@ class AccountMove(models.Model):
                     )
         return res
 
+    def update_pickings(self):
+        for move in self:
+            for account_move_line in move.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
+                sale_line_ids = account_move_line.sale_line_ids
+                for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
+                    if not stock_move.picking_id.account_move_id or (
+                        stock_move.picking_id.account_move_id and stock_move.picking_id.to_invoice
+                        # picking seems to be partially invoiced
+                    ):
+                        # Check if qty in invoice is not all the qty in stock move.
+                        # If not all the qty in invoice, to_invoice will be set to True
+                        if account_move_line.quantity < stock_move.quantity_done:
+                            to_invoice = True
+                        else:
+                            to_invoice = False
+                        stock_move.picking_id.update(
+                            {
+                                "account_move_id": move.id,
+                                "to_invoice": to_invoice,
+                            }
+                        )
+
     def unlink(self):
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
         res = super(AccountMove, self).unlink()
@@ -52,3 +74,7 @@ class AccountMove(models.Model):
             }
         )
         return res
+
+    def button_draft(self):
+        self.update_pickings()
+        return super(AccountMove, self).button_draft()
