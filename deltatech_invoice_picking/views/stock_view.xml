@@ -14,6 +14,10 @@
                     attrs="{'invisible': ['|',('state', 'not in', ('done')),('sale_id','=',False)]}"
                 />
             </button>
+            <xpath expr="//group[@name='other_infos']" position="inside">
+                <field name="account_move_id" readonly="0" />
+                <field name="to_invoice" />
+            </xpath>
         </field>
     </record>
 
@@ -30,5 +34,15 @@
         </field>
     </record>
 
+    <record id="view_picking_internal_search_inherit_invoice_picking" model="ir.ui.view">
+        <field name="name">stock.picking.search.invoice</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_transfers']" position="before">
+                <filter name="to_invoice" string="To invoice" domain="[('to_invoice', '=', True)]" />
+            </xpath>
+        </field>
+    </record>
 
 </odoo>
