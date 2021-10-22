@@ -5,3 +5,4 @@
 
 from . import stock_picking
 from . import sale
+from . import account_move
