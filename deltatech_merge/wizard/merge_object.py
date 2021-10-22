@@ -434,7 +434,7 @@ class MergeObject(models.TransientModel):
         )
 
     def _compute_models(self):
-        """ Compute the different models needed by the system if you want to exclude some objects. """
+        """Compute the different models needed by the system if you want to exclude some objects."""
         model_mapping = {}
 
         return model_mapping
@@ -444,7 +444,7 @@ class MergeObject(models.TransientModel):
     # ----------------------------------------
 
     def action_skip(self):
-        """ Skip this wizard line. Don't compute any thing, and simply redirect to the new step."""
+        """Skip this wizard line. Don't compute any thing, and simply redirect to the new step."""
         if self.current_line_id:
             self.current_line_id.unlink()
         return self._action_next_screen()
