@@ -5,12 +5,22 @@
 
 from ast import literal_eval
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+
+    account_move_id = fields.Many2one("account.move")
+    to_invoice = fields.Boolean("To invoice")
+
+    def button_validate(self):
+        res = super(StockPicking, self).button_validate()
+        for picking in self:
+            if picking.sale_id:
+                picking.update({"to_invoice": True})
+        return res
 
     def action_create_invoice(self):
         for picking in self:

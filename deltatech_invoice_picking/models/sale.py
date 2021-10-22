@@ -3,7 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import UserError
 
 
 class SaleOrderLine(models.Model):
@@ -19,7 +20,12 @@ class SaleOrderLine(models.Model):
                 # update quantity with move quantity
                 qty = 0.0
                 for move in moves:
-                    qty += move.quantity_done
+                    if move.picking_id.picking_type_code == "outgoing":
+                        qty += move.quantity_done
+                    elif move.picking_id.picking_type_code == "incoming":
+                        qty -= move.quantity_done
+                    else:
+                        raise UserError(_("You cannot invoice this type of transfer: %s") % move.picking_id)
                 invoice_line.update({"quantity": qty})
                 return invoice_line
             else:
@@ -35,8 +41,21 @@ class SaleOrder(models.Model):
 
     def _create_invoices(self, grouped=False, final=False, date=None):
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
-        if "pinking_ids" in self.env.context:
-            for line in moves.line_ids:
+        # delete qty=0 lines
+        if "picking_ids" in self.env.context:
+            for line in moves.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
                 if line.quantity == 0.0:
                     line.with_context(check_move_validity=False).unlink()
+        else:
+            for move in moves:
+                for account_move_line in move.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
+                    sale_line_ids = account_move_line.sale_line_ids
+                    for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
+                        if not stock_move.picking_id.account_move_id:
+                            stock_move.picking_id.update(
+                                {
+                                    "account_move_id": move.id,
+                                    "to_invoice": False,
+                                }
+                            )
         return moves
