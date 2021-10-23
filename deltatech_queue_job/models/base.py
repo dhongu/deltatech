@@ -27,7 +27,7 @@ class Base(models.AbstractModel):
         eta=None,
         max_retries=None,
         description=None,
-        # channel=None,
+        channel=None,
         identity_key=None,
     ):
         """Return a ``DelayableRecordset``

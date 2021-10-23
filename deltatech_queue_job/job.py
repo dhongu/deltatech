@@ -56,7 +56,7 @@ class DelayableRecordset(object):
         eta=None,
         max_retries=None,
         description=None,
-        channel=None,
+        # channel=None,
         identity_key=None,
     ):
         self.recordset = recordset
@@ -64,7 +64,7 @@ class DelayableRecordset(object):
         self.eta = eta
         self.max_retries = max_retries
         self.description = description
-        self.channel = channel
+        # self.channel = channel
         self.identity_key = identity_key
 
     def __getattr__(self, name):
@@ -81,7 +81,7 @@ class DelayableRecordset(object):
                 max_retries=self.max_retries,
                 eta=self.eta,
                 description=self.description,
-                channel=self.channel,
+                # channel=self.channel,
                 identity_key=self.identity_key,
             )
 
@@ -379,7 +379,7 @@ class Job(object):
         job_uuid=None,
         max_retries=None,
         description=None,
-        channel=None,
+        # channel=None,
         identity_key=None,
     ):
         """Create a Job
