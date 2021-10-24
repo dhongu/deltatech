@@ -13,4 +13,5 @@ class ResConfigSettings(models.TransientModel):
         "Generic Partner",
         related="company_id.generic_partner_id",
         # config_parameter="sale.partner_generic_id"
+        readonly=False,
     )
