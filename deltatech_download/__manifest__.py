@@ -4,14 +4,14 @@
 
 {
     "name": "Download File",
-    "version": "12.0.0.0.0",
+    "version": "12.0.0.1.0",
     "author": "Terrabit,Dorin Hongu",
     "summary": "Generare fisier",
     "website": "https://www.terrabit.ro",
     "category": "Base",
     "depends": [],
     "license": "LGPL-3",
-    "data": ["views/assets.xml"],
+    "data": ["views/assets.xml", "views/ir_action_report_view.xml"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "stable",

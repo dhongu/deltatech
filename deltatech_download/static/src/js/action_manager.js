@@ -9,7 +9,7 @@ odoo.define("deltatech_download.ActionManager", function (require) {
         _triggerDownload: function (action, options, type) {
             var self = this;
             var reportUrls = this._makeReportUrls(action);
-            if (type === "pdf") {
+            if (type === "pdf" && !action.direct_download) {
                 return this._openReportPDF(reportUrls[type]).then(function () {
                     if (action.close_on_report_download) {
                         var closeAction = {type: "ir.actions.act_window_close"};
