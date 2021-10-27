@@ -29,7 +29,7 @@ class StockQuantReport(models.TransientModel):
                         from stock_quant sq
                             join product_product pp on (sq.product_id=pp.id)
                             join product_template pt on (pp.product_tmpl_id=pt.id)
-                        where sq.location_id = %s
+                        where sq.location_id = %s and sq.reservation_id IS NULL
                         group by sq.product_id, pt.manufacturer, pt.categ_id, pt.description
 
             )

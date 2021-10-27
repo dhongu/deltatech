@@ -12,7 +12,7 @@
                     <field name="categ_id" string="Categorie interna"/>
                     <field name="product_id" string="Produs"/>
                     <field name="description" string="Descriere"/>
-                    <field name="qty" string="Cantitate"/>
+                    <field name="qty" string="Cantitate nerezervata"/>
 <!--                    <field name="product_uom_id"/>-->
 <!--                    <field name="amount" sum="amount"/>-->
 <!--                    <field name="sale_value" sum="sale_value"/>-->
