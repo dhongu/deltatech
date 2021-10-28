@@ -2,6 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
 import logging
+import threading
+import time
 import traceback
 from datetime import datetime, timedelta
 from io import StringIO
@@ -365,13 +367,27 @@ class QueueJob(models.Model):
         for record in self:
             self.runjob(record.uuid)
 
+    def background_run(self):
+        threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job")
+        threaded_job.start()
+
+    def _do_run_background(self):
+        time.sleep(10)
+        with api.Environment.manage():
+            with self.pool.cursor() as new_cr:
+                job = self.with_env(self.env(cr=new_cr))
+                job.write({"state": ENQUEUED})
+                new_cr.commit()
+                job.runjob(job.uuid)
+                new_cr.commit()
+
     def _cron_runjob(self):
-        records = self.search([("state", "=", ENQUEUED)])
-        if not records:
-            records = self.search([("state", "=", PENDING)], limit=5)
+        records = self.search([("state", "=", PENDING)], limit=5)
+        records |= self.search([("state", "=", [ENQUEUED])])
 
         for record in records:
-            record._change_job_state(ENQUEUED)
+            if record.state == PENDING:
+                record._change_job_state(ENQUEUED)
             record.runjob(record.uuid)
 
     def _try_perform_job(self, env, job):
