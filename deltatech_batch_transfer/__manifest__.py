@@ -9,12 +9,14 @@
     "support": "odoo@terrabit.ro",
     "category": "Stock",
     "external_dependencies": {"python": []},
-    "depends": [
-        "stock",
-        "stock_picking_batch",
+    "depends": ["stock", "stock_picking_batch", "sale_stock", "purchase_stock"],
+    "data": [
+        "wizard/stock_prepare_batch_view.xml",
+        "security/ir.model.access.csv",
+        "views/stock_picking_batch.xml",
     ],
-    "data": [],
     "license": "LGPL-3",
     "development_status": "Beta",
+    "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],
 }
