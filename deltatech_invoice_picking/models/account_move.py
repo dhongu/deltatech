@@ -3,15 +3,19 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    from_pickings = fields.Boolean("Created from pickings", default=False)
+
     def create(self, vals_list):
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
+            res.update({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["picking_ids"])
             for move in res:  # if multiple invoices from multiple SO are created
                 sale_orders = self.env["sale.order"]
@@ -54,6 +58,7 @@ class AccountMove(models.Model):
 
     def unlink(self):
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
+        self = self.with_context(unlink_all=True)
         res = super(AccountMove, self).unlink()
         if res:
             # update linked pickings
@@ -79,3 +84,32 @@ class AccountMove(models.Model):
     def button_draft(self):
         self.update_pickings()
         return super(AccountMove, self).button_draft()
+
+
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    @api.onchange("quantity", "product_id")
+    def onchange_qty(self):
+        for line in self:
+            if (
+                line.move_id.from_pickings
+                and line.product_id.type == "product"
+                and not line.exclude_from_invoice_tab
+                and not line.display_type
+                and line.move_id.move_type in ["out_invoice", "out_refunt", "in_invoice", "in_refund"]
+            ):
+                raise UserError(_("You cannot change this line, the invoice was generated from pickings"))
+
+    def unlink(self):
+        for line in self:
+            if (
+                line.move_id.from_pickings
+                and line.product_id.type == "product"
+                and not line.exclude_from_invoice_tab
+                and not line.display_type
+                and line.move_id.move_type in ["out_invoice", "out_refunt", "in_invoice", "in_refund"]
+            ):
+                if "unlink_all" not in self.env.context:
+                    raise UserError(_("You cannot delete lines, the invoice was generated from pickings"))
+        return super(AccountMoveLine, self).unlink()
