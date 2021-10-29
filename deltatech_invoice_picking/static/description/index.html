@@ -377,7 +377,7 @@ ul.auto-toc {
 <li>a picking must be in “done” state to be invoiced</li>
 <li>a “to invoice” field is added to pickings, for filtering purposes. When a sale picking is created, the field is set to True. When an invoice is created, the field is set to False. When an invoice is cancelled or deleted, it’s set to True</li>
 <li>a field with link to the invoice is added to pickings. The field is computed to point to the invoice generated from the picking</li>
-<li><strong>if changes are made to the invoice (lines deleted, qty’s modified), the invoice fields will not be updated in linked pickings.</strong></li>
+<li><strong>Modifications to product lines in invoices created from pickings are restricted.</strong></li>
 </ul>
 </dd>
 </dl>
