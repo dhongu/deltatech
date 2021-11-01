@@ -29,6 +29,17 @@ class PosOrder(models.Model):
 
         return defaults
 
+    def action_confirm(self):
+        for order in self:
+            if not order.picking_ids:
+                # todo: de pus in configurare daca se confirma automat miscarile de stoc
+                order.with_context(from_pos_order_confirm=True)._create_order_picking()
+
+    def unlink(self):
+        for order in self:
+            order.picking_ids.unlink()
+        super(PosOrder, self).unlink()
+
 
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
