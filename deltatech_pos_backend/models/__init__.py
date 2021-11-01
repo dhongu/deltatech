@@ -3,3 +3,4 @@
 # See README.rst file on addons root folder for license details
 
 from . import pos_order
+from . import stock_picking
