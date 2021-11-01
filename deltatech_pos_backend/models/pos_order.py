@@ -21,6 +21,7 @@ class PosOrder(models.Model):
             defaults["fiscal_position_id"] = pos_config.default_fiscal_position_id.id
             defaults["company_id"] = pos_config.company_id.id
 
+
             defaults["pos_reference"] = "{}-{}-{}".format(
                 str(session_id.id).zfill(5),
                 str(session_id.login()).zfill(3),
