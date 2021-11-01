@@ -20,7 +20,12 @@ class PosOrder(models.Model):
             defaults["pricelist_id"] = pos_config.pricelist_id.id
             defaults["fiscal_position_id"] = pos_config.default_fiscal_position_id.id
             defaults["company_id"] = pos_config.company_id.id
-            defaults["amount_return"] = 0
+
+            defaults["pos_reference"] = "{}-{}-{}".format(
+                str(session_id.id).zfill(5),
+                str(session_id.login()).zfill(3),
+                str(session_id.sequence_number).zfill(4),
+            )
 
         return defaults
 
