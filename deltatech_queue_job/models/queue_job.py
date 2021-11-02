@@ -240,11 +240,11 @@ class QueueJob(models.Model):
         for record in self:
             msg = record._message_failed_job()
             if msg:
-                record.message_post(body=msg, subtype_xmlid="queue_job.mt_job_failed")
+                record.message_post(body=msg, subtype_xmlid="deltatech_queue_job.mt_job_failed")
 
     def _subscribe_users_domain(self):
         """Subscribe all users having the 'Queue Job Manager' group"""
-        group = self.env.ref("queue_job.group_queue_job_manager")
+        group = self.env.ref("deltatech_queue_job.group_queue_job_manager")
         if not group:
             return None
         companies = self.mapped("company_id")
@@ -365,14 +365,24 @@ class QueueJob(models.Model):
 
     def run(self):
         for record in self:
-            self.runjob(record.uuid)
+            record._change_job_state(ENQUEUED)
+            record.runjob(record.uuid)
+
+    def stop(self):
+        for thread in threading.enumerate():
+            _logger.info(thread.name)
+            if thread.name == "background_job_%s" % self.id:
+                _logger.info("It's still running")
+                thread.join()
+                # todo: de oprit rularea
+        self.write({"state": "failed"})
 
     def background_run(self):
-        threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job")
+        threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job_%s" % self.id)
         threaded_job.start()
 
     def _do_run_background(self):
-        time.sleep(10)
+        time.sleep(10)  # sa apuce sistemul sa salveze datele
         with api.Environment.manage():
             with self.pool.cursor() as new_cr:
                 job = self.with_env(self.env(cr=new_cr))
@@ -383,7 +393,7 @@ class QueueJob(models.Model):
 
     def _cron_runjob(self):
         records = self.search([("state", "=", PENDING)], limit=5)
-        records |= self.search([("state", "=", [ENQUEUED])])
+        records |= self.search([("state", "=", ENQUEUED)])
 
         for record in records:
             if record.state == PENDING:

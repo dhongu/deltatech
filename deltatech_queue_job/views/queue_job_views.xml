@@ -15,6 +15,16 @@
                         type="object"
                         groups="deltatech_queue_job.group_queue_job_manager"
                     />
+
+                    <button
+                        name="stop"
+                        states="started"
+                        class="oe_highlight"
+                        string="Stop"
+                        type="object"
+                        groups="deltatech_queue_job.group_queue_job_manager"
+                    />
+
                     <button
                         name="requeue"
                         states="failed"
