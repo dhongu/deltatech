@@ -26,4 +26,11 @@
             <field name="code">model.autovacuum()</field>
         </record>
     </data>
+
+    <!-- Queue-job-related subtypes for messaging / Chatter -->
+    <record id="mt_job_failed" model="mail.message.subtype">
+        <field name="name">Job failed</field>
+        <field name="res_model">queue.job</field>
+        <field name="default" eval="True" />
+    </record>
 </odoo>
