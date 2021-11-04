@@ -22,16 +22,16 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         return self.product(product, **kwargs)
 
     @http.route(["/shop/products-json"], type="json", auth="public", website=True, sitemap=False)
-    def products_json_by_code(self, search="", **kwargs):
-        res = self._search_products_by_code(search)
+    def products_json_by_code(self, search="", vat="", **kwargs):
+        res = self._search_products_by_code(search, vat)
         return res
 
     @http.route(["/shop/products-search"], type="http", auth="public", website=True, sitemap=False)
-    def products_search_by_code(self, search="", **kwargs):
-        res = self._search_products_by_code(search)
+    def products_search_by_code(self, search="", vat="", **kwargs):
+        res = self._search_products_by_code(search, vat)
         return str(res)
 
-    def _search_products_by_code(self, search):
+    def _search_products_by_code(self, search, vat=""):
 
         domain = request.website.sale_product_domain()
         _logger.info("_search_products_by_code: %s", search)
@@ -56,12 +56,30 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
         )
         pricelist = request.website.get_current_pricelist()
         base_url = request.env["ir.config_parameter"].sudo().get_param("web.base.url")
-        for product in products:
+
+        # filtrare dupa furnizor
+        if not vat:
+            filtred_products = products
+        else:
+            filtred_products = request.env["product.template"]
+
+            for product in products:
+                ok = True
+                for supplier in product.seller_ids:
+                    if supplier.name.vat == vat:
+                        ok = False
+                if ok:
+                    filtred_products |= product
+
+        for product in filtred_products:
             if product.is_published:
-                combination_info = product._get_combination_info(pricelist=pricelist)
+
+                combination_info = product.with_context(display_default_code=False)._get_combination_info(
+                    pricelist=pricelist
+                )
                 values = {
-                    "name": combination_info["display_name"],  # asta are si cod intern in el
-                    "default_code": product.default_code,
+                    "name": combination_info["display_name"],
+                    "default_code": product.default_code or "ID_%s" % product.id,
                     "categories": [],
                     "price": combination_info["price"],
                     "list_price": combination_info["list_price"],
@@ -74,6 +92,10 @@ class WebsiteSaleAlternativeLink(WebsiteSale):
                     for alternative in product.alternative_ids:
                         alternative_code += [{"name": alternative.name, "hide": alternative.hide}]
                     values["alternative_code"] = alternative_code
+
+                values["images"] = []
+                for media in product.product_image_ids:
+                    values["images"] += [base_url + "/web/image/product.image/" + str(media.id) + "/image/"]
 
                 res += [values]
 
