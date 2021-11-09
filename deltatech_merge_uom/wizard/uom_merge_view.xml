@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="merge_uom_wizard_form" model="ir.ui.view">
+        <field name='name'>merge.uom.wizard.form</field>
+        <field name='model'>merge.uom.wizard</field>
+        <field name='arch' type='xml'>
+            <form string='Merge Wizard'>
+                <sheet>
+                    <field name="state" invisible="1" />
+                    <p class="oe_grey" attrs="{'invisible': [('state', '!=', ('option'))]}">
+                        Select the list of fields used to search for
+                        duplicated records. If you select several fields,
+                        Odoo will propose you to merge only those having
+                        all these fields in common. (not one of the fields).
+                    </p>
+                    <group
+                        attrs="{'invisible': ['|', ('state', 'not in', ('selection', 'finished')), ('number_group', '=', 0)]}"
+                    >
+                        <field name="number_group" />
+                    </group>
+                    <group
+                        string="Search duplicates based on duplicated data in"
+                        attrs="{'invisible': [('state', 'not in', ('option',))]}"
+                    >
+                        <field name='group_by_name' />
+                    </group>
+                    <separator string="Options" attrs="{'invisible': [('state', 'not in', ('option',))]}" />
+                    <group attrs="{'invisible': [('state', 'not in', ('option','finished'))]}">
+                        <field name='maximum_group' attrs="{'readonly': [('state', 'in', ('finished'))]}" />
+                    </group>
+                    <separator
+                        string="Merge the following units of measure"
+                        attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}"
+                    />
+                    <group attrs="{'invisible': [('state', 'in', ('option', 'finished'))]}" col="1">
+                        <p class="oe_grey">
+                            Selected units of measure will be merged together.
+                            All documents linked to one of these units of measure
+                            will be redirected to the destination uom.
+                            You can remove units of measure from this list to avoid merging them.
+                        </p>
+                        <group col="2">
+                            <field
+                                name="dst_object_id"
+                                domain="[('id', 'in', object_ids or False)]"
+                                attrs="{'required': [('state', '=', 'selection')]}"
+                            />
+                        </group>
+                        <field name="object_ids" nolabel="1" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name='action_merge'
+                        string='Merge units of measure'
+                        class='oe_highlight'
+                        type='object'
+                        attrs="{'invisible': [('state', 'in', ('option', 'finished' ))]}"
+                    />
+                    <button
+                        name='action_skip'
+                        string='Skip these units of measure'
+                        type='object'
+                        attrs="{'invisible': [('state', '!=', 'selection')]}"
+                    />
+                    <button
+                        special="cancel"
+                        string="Cancel"
+                        type="object"
+                        class="btn btn-secondary oe_inline"
+                        attrs="{'invisible': [('state', '=', 'finished')]}"
+                    />
+                    <button
+                        special="cancel"
+                        string="Close"
+                        type="object"
+                        class="btn btn-secondary oe_inline"
+                        attrs="{'invisible': [('state', '!=', 'finished')]}"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <act_window
+        id="action_uom_merge"
+        res_model="merge.uom.wizard"
+        src_model="uom.uom"
+        target="new"
+        multi="True"
+        key2="client_action_multi"
+        view_mode="form"
+        name="Merge"
+        groups='res_group_uom_do_merge'
+    />
+</odoo>
