@@ -31,30 +31,68 @@ class AccountMove(models.Model):
                             "to_invoice": False,
                         }
                     )
+        if "receipt_picking_ids" in self.env.context:
+            res.update({"from_pickings": True})
+            pickings = self.env["stock.picking"].browse(self.env.context["receipt_picking_ids"])
+            for move in res:  # if multiple invoices from multiple SO are created
+                purchase_orders = self.env["purchase.order"]
+                for line in move.invoice_line_ids:
+                    if line.purchase_line_id:
+                        for purchase_line in line.purchase_line_id:
+                            if purchase_line.order_id not in purchase_orders:
+                                purchase_orders |= purchase_line.order_id
+                    invoice_pickings = pickings.filtered(lambda p: p.purchase_id in purchase_orders)
+                    invoice_pickings.update(
+                        {
+                            "account_move_id": move.id,
+                            "to_invoice": False,
+                        }
+                    )
         return res
 
     def update_pickings(self):
         for move in self:
             for account_move_line in move.line_ids.filtered(lambda l: l.exclude_from_invoice_tab is False):
-                sale_line_ids = account_move_line.sale_line_ids
-                for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
-                    if not stock_move.picking_id.account_move_id or (
-                        stock_move.picking_id.account_move_id
-                        and stock_move.picking_id.to_invoice
-                        # picking seems to be partially invoiced
-                    ):
-                        # Check if qty in invoice is not all the qty in stock move.
-                        # If not all the qty in invoice, to_invoice will be set to True
-                        if account_move_line.quantity < stock_move.quantity_done:
-                            to_invoice = True
-                        else:
-                            to_invoice = False
-                        stock_move.picking_id.update(
-                            {
-                                "account_move_id": move.id,
-                                "to_invoice": to_invoice,
-                            }
-                        )
+                if account_move_line.sale_line_ids:
+                    sale_line_ids = account_move_line.sale_line_ids
+                    for stock_move in sale_line_ids.move_ids.filtered(lambda m: m.state == "done"):
+                        if not stock_move.picking_id.account_move_id or (
+                            stock_move.picking_id.account_move_id
+                            and stock_move.picking_id.to_invoice
+                            # picking seems to be partially invoiced
+                        ):
+                            # Check if qty in invoice is not all the qty in stock move.
+                            # If not all the qty in invoice, to_invoice will be set to True
+                            if account_move_line.quantity < stock_move.quantity_done:
+                                to_invoice = True
+                            else:
+                                to_invoice = False
+                            stock_move.picking_id.update(
+                                {
+                                    "account_move_id": move.id,
+                                    "to_invoice": to_invoice,
+                                }
+                            )
+                if account_move_line.purchase_line_id:
+                    purchase_line_ids = account_move_line.purchase_line_id
+                    for stock_move in purchase_line_ids.move_ids.filtered(lambda m: m.state == "done"):
+                        if not stock_move.picking_id.account_move_id or (
+                            stock_move.picking_id.account_move_id
+                            and stock_move.picking_id.to_invoice
+                            # picking seems to be partially invoiced
+                        ):
+                            # Check if qty in invoice is not all the qty in stock move.
+                            # If not all the qty in invoice, to_invoice will be set to True
+                            if account_move_line.quantity < stock_move.quantity_done:
+                                to_invoice = True
+                            else:
+                                to_invoice = False
+                            stock_move.picking_id.update(
+                                {
+                                    "account_move_id": move.id,
+                                    "to_invoice": to_invoice,
+                                }
+                            )
 
     def unlink(self):
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
