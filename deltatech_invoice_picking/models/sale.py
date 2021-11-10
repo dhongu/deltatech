@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -35,11 +35,19 @@ class SaleOrderLine(models.Model):
         else:
             return invoice_line
 
+    def _get_to_invoice_qty(self):
+        super(SaleOrderLine, self)._get_to_invoice_qty()
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
+    force_invoice_order = fields.Boolean()
+
     def _create_invoices(self, grouped=False, final=False, date=None):
+        if self.force_invoice_order:
+            self._force_lines_to_invoice_policy_order()
+
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
         # delete qty=0 lines
         if "picking_ids" in self.env.context:
