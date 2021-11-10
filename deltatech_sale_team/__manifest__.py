@@ -1,4 +1,4 @@
-# ©  2015-2019 Deltatech
+# ©  2021 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
@@ -8,9 +8,12 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "depends": ["sales_team", "account"],
+    "depends": ["sales_team", "account", "stock", "sale_stock"],
     "license": "LGPL-3",
-    "data": ["security/sales_team_security.xml"],
+    "data": [
+        "security/sales_team_security.xml",
+        "views/sale_team_view.xml",
+    ],
     "images": ["images/main_screenshot.png"],
     "installable": True,
 }
