@@ -19,7 +19,7 @@ class StockPicking(models.Model):
         res = super(StockPicking, self).button_validate()
         for picking in self:
             if picking.sale_id or picking.purchase_id:
-                picking.update({"to_invoice": True})
+                picking.write({"to_invoice": True})
         return res
 
     def action_create_invoice(self):
