@@ -18,8 +18,8 @@ class StockPicking(models.Model):
     def button_validate(self):
         res = super(StockPicking, self).button_validate()
         for picking in self:
-            if picking.sale_id:
-                picking.update({"to_invoice": True})
+            if picking.sale_id or picking.purchase_id:
+                picking.write({"to_invoice": True})
         return res
 
     def action_create_invoice(self):
@@ -39,3 +39,10 @@ class StockPicking(models.Model):
         )
         action["context"] = context
         return action
+
+    def action_create_supplier_invoice(self):
+        for picking in self:
+            if picking.state != "done":
+                raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
+
+        return self.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()
