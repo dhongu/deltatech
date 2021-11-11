@@ -21,6 +21,7 @@ Invoice Pickings
 
 Features:
  - an invoice can be created from one or more pickings
+ - an invoice can be created from a batch
  - only the products in the picking(s) with their respective done quantities will be added to the invoice
  - only pickings that come from a sale order (delivery or returns) can be invoiced
  - a picking must be in "done" state to be invoiced

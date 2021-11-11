@@ -6,3 +6,5 @@
 from . import stock_picking
 from . import sale
 from . import account_move
+from . import stock_picking_batch
+from . import purchase
