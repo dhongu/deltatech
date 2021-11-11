@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Facturare livrari",
     "category": "Sales",
-    "depends": ["base", "sale_management", "stock", "sale_stock"],
+    "depends": ["base", "sale_management", "stock", "sale_stock", "stock_picking_batch"],
     "price": 5.00,
     "currency": "EUR",
     "license": "LGPL-3",

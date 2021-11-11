@@ -9,7 +9,7 @@ from odoo.exceptions import UserError
 class StockPickingBatch(models.Model):
     _inherit = "stock.picking.batch"
 
-    invoiced = fields.Boolean(compute="_compute_invoiced")
+    invoiced = fields.Boolean(compute="_compute_invoiced", search="_search_invoiced")
 
     def _compute_invoiced(self):
         for batch in self:
@@ -18,6 +18,10 @@ class StockPickingBatch(models.Model):
                 if not picking.account_move_id:
                     invoiced = False
             batch.invoiced = invoiced
+
+    def _search_invoiced(self, operator, value):
+        batches = self.search([]).filtered(lambda x: x.invoiced == value)
+        return [('id', operator, [x.id for x in batches] if batches else False)]
 
     def action_create_invoice(self):
         for batch in self:
