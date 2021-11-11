@@ -15,7 +15,7 @@ class AccountMove(models.Model):
     def create(self, vals_list):
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
-            res.update({"from_pickings": True})
+            res.write({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["picking_ids"])
             for move in res:  # if multiple invoices from multiple SO are created
                 sale_orders = self.env["sale.order"]
@@ -32,7 +32,7 @@ class AccountMove(models.Model):
                         }
                     )
         if "receipt_picking_ids" in self.env.context:
-            res.update({"from_pickings": True})
+            res.write({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["receipt_picking_ids"])
             for move in res:  # if multiple invoices from multiple SO are created
                 purchase_orders = self.env["purchase.order"]
