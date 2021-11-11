@@ -21,7 +21,7 @@ class StockPickingBatch(models.Model):
 
     def _search_invoiced(self, operator, value):
         batches = self.search([]).filtered(lambda x: x.invoiced == value)
-        return [('id', operator, [x.id for x in batches] if batches else False)]
+        return [("id", operator, [x.id for x in batches] if batches else False)]
 
     def action_create_invoice(self):
         for batch in self:
