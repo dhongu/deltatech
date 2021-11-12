@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form" />
         <field name="arch" type="xml">
             <xpath expr="//notebook/page" position="before">
-                <page string="Received" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('direction', '=', 'outgoing')]}">
+                <page
+                    string="Received"
+                    attrs="{'invisible': ['|', ('state', '=', 'draft'), ('direction', '=', 'outgoing')]}"
+                >
                     <field
                         name="received_move_line_ids"
                         context="{'tree_view_ref': 'stock_picking_batch.view_move_line_tree'}"

@@ -17,9 +17,7 @@ class StockPickingBatch(models.Model):
         states={"draft": [("readonly", False)], "in_progress": [("readonly", False)]},
     )
 
-    direction = fields.Selection(
-        [("incoming", "Incoming"), ("outgoing", "Outgoing")]
-    )
+    direction = fields.Selection([("incoming", "Incoming"), ("outgoing", "Outgoing")])
 
     reference = fields.Char("Reference")
 
