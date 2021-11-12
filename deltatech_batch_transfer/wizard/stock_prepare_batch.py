@@ -13,6 +13,7 @@ class StockPrepareBatch(models.TransientModel):
     partner_id = fields.Many2one("res.partner")
     mode = fields.Selection([("sale", "Sale"), ("purchase", "Purchase")], default="purchase")
     user_id = fields.Many2one("res.users", string="Responsible", help="Person responsible for this batch transfer")
+    reference = fields.Char("Reference")
 
     line_ids = fields.One2many("stock.prepare.batch.line", "wizard_id")
 
@@ -70,6 +71,8 @@ class StockPrepareBatch(models.TransientModel):
                 "user_id": self.user_id.id,
                 "company_id": pickings[0].company_id.id,
                 "picking_type_id": pickings[0].picking_type_id.id,
+                "direction": picking_type_code,
+                "reference": self.reference,
             }
         )
         pickings.write({"batch_id": batch.id})

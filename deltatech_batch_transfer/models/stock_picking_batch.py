@@ -17,6 +17,12 @@ class StockPickingBatch(models.Model):
         states={"draft": [("readonly", False)], "in_progress": [("readonly", False)]},
     )
 
+    direction = fields.Selection([("incoming", "Incoming"), ("outgoing", "Outgoing")])
+
+    reference = fields.Char("Reference")
+
+    note = fields.Text("Note")
+
     def _compute_move_ids(self):
         super(StockPickingBatch, self)._compute_move_ids()
         for batch in self:
@@ -38,3 +44,10 @@ class StockPickingBatch(models.Model):
                 if not move_lines:  # picking has no qty done lines
                     self.write({"picking_ids": [(3, picking.id)]})  # remove picking from batch
             return super(StockPickingBatch, self).action_done()
+
+    def action_cancel(self):
+        res = super(StockPickingBatch, self).action_cancel()
+        if res:
+            batch_pickings = self.env["stock.picking"].search([("batch_id", "=", self.id)])
+            batch_pickings.write({"batch_id": False})
+        return res
