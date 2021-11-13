@@ -149,7 +149,7 @@
             <div style="border-bottom: 1px solid black;" />
         </div>
         <div class="article o_report_layout_background">
-            <t t-raw="0" />
+            <t t-out="0" />
         </div>
         <div class="footer">
             <div class="text-center" style="border-top: 1px solid black;">

@@ -49,7 +49,7 @@
                                         />
                                     </div>
                                     <div class="category-text">
-                                        <span t-raw="c.name" />
+                                        <span t-out="c.name" />
                                     </div>
                                 </a>
                             </div>

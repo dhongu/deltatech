@@ -25,12 +25,12 @@
                                                     t-raw="product.display_name"
                                                 />
                                             </a>
-                                            <t t-if="product.rating" t-raw="product.rating" />
+                                            <t t-if="product.rating" t-out="product.rating" />
                                         </div>
                                         <div
                                             class="o_carousel_product_card_footer card-footer d-flex align-items-center"
                                         >
-                                            <div class="d-block font-weight-bold" t-raw="product.price" />
+                                            <div class="d-block font-weight-bold" t-out="product.price" />
                                             <button
                                                 type="button"
                                                 role="button"

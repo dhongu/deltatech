@@ -14,7 +14,7 @@
                                 />
                             </div>
                             <div class="category-text">
-                                <span t-raw="category.name" />
+                                <span t-out="category.name" />
                             </div>
                         </a>
                     </div>
