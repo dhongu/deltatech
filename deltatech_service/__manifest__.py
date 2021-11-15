@@ -11,9 +11,9 @@
     "depends": ["base", "product", "account", "date_range"],
     "license": "AGPL-3",
     "data": [
-        "data/data.xml",
         "security/service_security.xml",
         "security/ir.model.access.csv",
+        "data/data.xml",
         "views/service_consumption_view.xml",
         "views/service_agreement_view.xml",
         "wizard/service_billing_preparation_view.xml",
