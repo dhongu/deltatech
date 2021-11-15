@@ -52,8 +52,9 @@ class ServiceEquipment(models.Model):
     address_id = fields.Many2one(
         "res.partner", string="Location", readonly=True, help="The address where the equipment is located"
     )
-    # emplacement = fields.Char(string='Emplacement',  readonly=True,
-    #                           help='Detail of location of the equipment in working point')
+    emplacement = fields.Char(
+        string="Emplacement", readonly=True, help="Detail of location of the equipment in working point"
+    )
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
 
