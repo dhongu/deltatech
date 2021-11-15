@@ -6,10 +6,14 @@ from odoo import api, fields, models
 
 
 class StockLotTag(models.Model):
-    _name = "stock.lot.tag"
+    _name = "stock.lots.tag"
     _description = "Stock Lot Tag"
 
     name = fields.Char(string="Name")
+
+    _sql_constraints = [
+        ("lot_tag_unique", "unique(name)", "Lot tag name must be unique !"),
+    ]
 
 
 class ProductionLot(models.Model):
@@ -22,7 +26,7 @@ class ProductionLot(models.Model):
     input_price = fields.Float(string="Input Price")
     input_date = fields.Date(string="Input date")
     input_amount = fields.Float(string="Input Amount", compute="_compute_input_amount", store=True)
-    tag_ids = fields.Many2many("stock.lot.tag", "stock_lot_tags", "lot_id", "tag_id", string="Tags")
+    tag_ids = fields.Many2many("stock.lots.tag", "lot_tag_relation", string="Tags")
     # RSY fields
     contor_monocrom = fields.Integer(string="Contor monocrom")
     contor_color = fields.Integer(string="Contor color")

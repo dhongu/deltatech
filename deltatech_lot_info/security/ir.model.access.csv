@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-stoc_operator_stock.lot.tag,access_stock.lot.tag,deltatech_lot_info.model_stock_lot_tag,stock.group_stock_user,1,1,1,1
+stoc_operator_stock.lot.tag,access_stock.lot.tag,deltatech_lot_info.model_stock_lots_tag,stock.group_stock_user,1,1,1,1
