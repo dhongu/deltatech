@@ -16,8 +16,6 @@ class SaleOrder(models.Model):
 class SaleAdvancePaymentInv(models.TransientModel):
     _inherit = "sale.advance.payment.inv"
 
-    journal_id = fields.Many2one("account.journal", string="Journal", domain="[('type', '=', 'sale')]")
-
     @api.model
     def default_get(self, fields_list):
         defaults = super(SaleAdvancePaymentInv, self).default_get(fields_list)

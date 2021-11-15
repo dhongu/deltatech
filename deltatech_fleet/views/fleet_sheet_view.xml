@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+<odoo>
+
+
+    <!-- Mapsheep Foi de parcurs-->
+    <record id='fleet_map_sheet_form' model='ir.ui.view'>
+        <field name="name">fleet.map.sheet.form</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Map Sheet">
+                <header>
+                    <button name="action_open" type="object" states="draft" string="Confirm" />
+                    <button name="action_done" type="object" states="open" string="Done" />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,open,done"
+                        statusbar_colors='{"draft":"red","open":"black", "done":"gray"}'
+                    />
+                </header>
+
+                <sheet>
+                    <h1>
+                        <label string="Map Sheet" for="name" />
+                        <field name="name" class="oe_inline" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="date" />
+                            <field name="distance_total" />
+                            <field name="amount_total" widget='monetary' />
+                            <field name="liter_total" />
+                            <field name="norm_cons" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                        <group>
+                            <field name="vehicle_id" />
+                            <field name="category_id" />
+                            <field name="driver_id" />
+                            <field name="driver2_id" />
+                            <field name="avg_cons" />
+                        </group>
+                        <group>
+                            <field name="date_start_old" invisible="1" />
+                            <field name="date_start" />
+                            <label for="odometer_start" />
+                            <div class="o_row">
+                                <button
+                                    name="action_read_odometer_start"
+                                    type="object"
+                                    class="oe_inline oe_edit_only"
+                                    string=""
+                                    states="draft"
+                                    icon="fa-calculator"
+                                />
+                                <field name="odometer_start" class="oe_inline" />
+                            </div>
+
+
+                            <field name="reservoir_level_start" />
+                        </group>
+                        <group>
+                            <field name="date_end" />
+
+
+                            <label for="odometer_end" />
+                            <div class="o_row">
+                                <button
+                                    name="action_read_odometer_end"
+                                    type="object"
+                                    class="oe_inline oe_edit_only"
+                                    string=""
+                                    states="draft"
+                                    icon="fa-calculator"
+                                />
+                                <field name="odometer_end" class="oe_inline" />
+                            </div>
+                            <field name="reservoir_level_end" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Route Log">
+                            <button
+                                name="action_get_route_log"
+                                states="draft,open"
+                                string="Get route log"
+                                type="object"
+                                class="oe_edit_only oe_link"
+                            />
+                            <field
+                                name="route_log_ids"
+                                nolabel="1"
+                                context="{ 'date': date_start, 'route_log_ids':route_log_ids, 'default_vehicle_id': vehicle_id, }"
+                            >
+                                <tree editable="bottom" decoration-danger="week_day in (0,6)">
+                                    <field name="vehicle_id" invisible="1" />
+                                    <field name="state" invisible="1" />
+                                    <field name="week_day" invisible="1" />
+                                    <field name="date_begin" />
+                                    <field name="date_end" />
+                                    <field name="scope_id" widget="selection" optional="show" />
+                                    <field name="full" optional="show" />
+                                    <field name="route_id" />
+                                    <field name="dist_c1" optional="hide" />
+
+                                    <field name="dist_c2" optional="hide" />
+                                    <field name="dist_c3" optional="hide" />
+                                    <field name="distance" sum="Total Distance" />
+                                    <field name="dist_echiv" sum="Total Distance" optional="show" />
+                                </tree>
+
+                            </field>
+                        </page>
+
+                        <page string="Fuel Logs">
+                            <button
+                                name="action_get_log_fuel"
+                                states="draft,open"
+                                string="Get fuel log"
+                                type="object"
+                                class="oe_edit_only oe_link"
+                            />
+                            <field
+                                name="log_fuel_ids"
+                                nolabel="1"
+                                context="{'default_vehicle_id': vehicle_id, 'default_date_time': date_start}"
+                            >
+                                <tree editable="bottom">
+                                    <field name="vehicle_id" invisible="1" />
+                                    <field name="date_time" />
+                                    <field name="name" />
+                                    <field name="full" />
+                                    <field name="liter" sum="Total Liter" />
+                                    <field name="price_per_liter" avg="Average Price" />
+                                    <field name="amount" sum="Total Amount" />
+                                </tree>
+
+                            </field>
+                            <!--
+                            <group class="oe_subtotal_footer oe_right">
+                            <div class="oe_subtotal_footer_separator oe_inline">
+                            <label for="amount_total"/>
+                            <button name="button_dummy"
+                            states="draft" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                            </div>
+                            <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
+                            -->
+                        </page>
+                    </notebook>
+
+                </sheet>
+
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}' />
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id='fleet_map_sheet_tree' model='ir.ui.view'>
+        <field name="name">fleet.map.sheet.tree</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <tree string="Map Sheet">
+                <!--                colors="blue:state in ('draft');black:state in ('open');gray:state in ('done') ">-->
+                <field name="name" />
+                <field name="state" />
+                <field name="date" />
+                <field name="vehicle_id" />
+                <field name="driver_id" />
+                <field name="category_id" />
+                <field name="distance_total" sum="Total Odometer" />
+                <field name="liter_total" sum="Total liter" />
+                <field name="norm_cons" sum="Total Normal Consumption" />
+                <field name="reservoir_level_start" />
+                <field name="reservoir_level_end" />
+            </tree>
+        </field>
+    </record>
+    <!--
+    <record id="fleet_map_sheet_gantt" model="ir.ui.view">
+        <field name="name">fleet.map.sheet.gantt</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <gantt date_start="date_start" date_stop="date_end" mode="week" string="Map Sheet"
+                   default_group_by="vehicle_id"></gantt>
+        </field>
+    </record>
+    -->
+    <record id="fleet_map_sheet_calendar" model="ir.ui.view">
+        <field name="name">fleet.map.sheet.calendar</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" mode="week" string="Map Sheet">
+                <field name="name" />
+                <field name="vehicle_id" />
+            </calendar>
+        </field>
+    </record>
+    <record id="fleet_map_sheet_graph" model="ir.ui.view">
+        <field name="name">fleet.map.sheet.graph</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <graph string="Map Sheets" type="bar">
+                <field name="vehicle_id" />
+                <field name="distance_total" operator="+" />
+                <field name="liter_total" operator="+" />
+            </graph>
+        </field>
+    </record>
+    <record id='fleet_map_sheet_search' model='ir.ui.view'>
+        <field name="name">fleet.map.sheet.search</field>
+        <field name="model">fleet.map.sheet</field>
+        <field name="arch" type="xml">
+            <search string="Map Sheet">
+                <field name="vehicle_id" />
+                <field name="date" />
+                <group expand="1" string="Group By...">
+                    <filter name="groupby_date" context="{'group_by' : 'date'}" string="Date" />
+                    <filter name="groupby_vehicle_id" context="{'group_by' : 'vehicle_id'}" string="Vehicle" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id='fleet_map_sheet_act' model='ir.actions.act_window'>
+        <field name="name">Map Sheets</field>
+        <field name="res_model">fleet.map.sheet</field>
+        <field name="view_mode">tree,form,calendar,graph</field>
+        <!--	<field name="context">{"search_default_groupby_date": True,  "search_default_groupby_vehicle_id" : True,}</field> -->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Click to create a new map sheet.</p>
+            <p>Here you can add map sheet for all vehicles.</p>
+        </field>
+    </record>
+    <menuitem
+        action="fleet_map_sheet_act"
+        parent="fleet.fleet_vehicles"
+        id="fleet_map_sheet_menu"
+        groups="fleet.fleet_group_user"
+    />
+
+
+</odoo>
