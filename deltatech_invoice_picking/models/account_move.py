@@ -15,7 +15,7 @@ class AccountMove(models.Model):
     def create(self, vals_list):
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
-            res.update({"from_pickings": True})
+            res.write({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["picking_ids"])
             for move in res:  # if multiple invoices from multiple SO are created
                 sale_orders = self.env["sale.order"]
@@ -25,14 +25,14 @@ class AccountMove(models.Model):
                             if sale_line.order_id not in sale_orders:
                                 sale_orders |= sale_line.order_id
                     invoice_pickings = pickings.filtered(lambda p: p.sale_id in sale_orders)
-                    invoice_pickings.update(
+                    invoice_pickings.write(
                         {
                             "account_move_id": move.id,
                             "to_invoice": False,
                         }
                     )
         if "receipt_picking_ids" in self.env.context:
-            res.update({"from_pickings": True})
+            res.write({"from_pickings": True})
             pickings = self.env["stock.picking"].browse(self.env.context["receipt_picking_ids"])
             for move in res:  # if multiple invoices from multiple SO are created
                 purchase_orders = self.env["purchase.order"]
@@ -42,7 +42,7 @@ class AccountMove(models.Model):
                             if purchase_line.order_id not in purchase_orders:
                                 purchase_orders |= purchase_line.order_id
                     invoice_pickings = pickings.filtered(lambda p: p.purchase_id in purchase_orders)
-                    invoice_pickings.update(
+                    invoice_pickings.write(
                         {
                             "account_move_id": move.id,
                             "to_invoice": False,
@@ -67,7 +67,7 @@ class AccountMove(models.Model):
                                 to_invoice = True
                             else:
                                 to_invoice = False
-                            stock_move.picking_id.update(
+                            stock_move.picking_id.write(
                                 {
                                     "account_move_id": move.id,
                                     "to_invoice": to_invoice,
@@ -87,7 +87,7 @@ class AccountMove(models.Model):
                                 to_invoice = True
                             else:
                                 to_invoice = False
-                            stock_move.picking_id.update(
+                            stock_move.picking_id.write(
                                 {
                                     "account_move_id": move.id,
                                     "to_invoice": to_invoice,
@@ -100,7 +100,7 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).unlink()
         if res:
             # update linked pickings
-            pickings_to_update.update(
+            pickings_to_update.write(
                 {
                     "to_invoice": True,
                 }
@@ -111,7 +111,7 @@ class AccountMove(models.Model):
         res = super(AccountMove, self).button_cancel()
         # update linked pickings
         pickings_to_update = self.env["stock.picking"].search([("account_move_id", "in", self.ids)])
-        pickings_to_update.update(
+        pickings_to_update.write(
             {
                 "to_invoice": True,
                 "account_move_id": False,
@@ -135,7 +135,7 @@ class AccountMoveLine(models.Model):
                 and line.product_id.type == "product"
                 and not line.exclude_from_invoice_tab
                 and not line.display_type
-                and line.move_id.move_type in ["out_invoice", "out_refunt", "in_invoice", "in_refund"]
+                and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
             ):
                 raise UserError(_("You cannot change this line, the move was generated from pickings"))
 
@@ -146,7 +146,7 @@ class AccountMoveLine(models.Model):
                 and line.product_id.type == "product"
                 and not line.exclude_from_invoice_tab
                 and not line.display_type
-                and line.move_id.move_type in ["out_invoice", "out_refunt", "in_invoice", "in_refund"]
+                and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
             ):
                 if "unlink_all" not in self.env.context:
                     raise UserError(_("You cannot delete lines, the move was generated from pickings"))

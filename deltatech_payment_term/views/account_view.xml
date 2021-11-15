@@ -183,36 +183,35 @@
         </record>
 
 
+        <record id="action_account_moves_all_tree" model="ir.actions.act_window">
+            <field name="name">Journal Items</field>
+            <field name="res_model">account.move.line</field>
+            <field name="context">{'search_default_partner_id': [active_id], 'default_partner_id': active_id}
+            </field>
+            <field name="view_id" ref="view_move_line_tree" />
+        </record>
+        <record id="action_account_moves_sale" model="ir.actions.act_window">
+            <field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
+            <field name="name">Open Journal Items</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_id" ref="view_move_line_tree" />
+            <field name="search_view_id" ref="view_account_move_line_filter" />
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_account_moves_sale_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence" />
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_move_line_tree" />
+            <field name="act_window_id" ref="action_account_moves_sale" />
+        </record>
+        <record id="action_account_moves_sale_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_move_line_form" />
+            <field name="act_window_id" ref="action_account_moves_sale" />
+        </record>
 
-             <record id="action_account_moves_all_tree" model="ir.actions.act_window">
-                 <field name="name">Journal Items</field>
-                 <field name="res_model">account.move.line</field>
-                 <field
-                name="context"
-            >{'search_default_partner_id': [active_id], 'default_partner_id': active_id}</field>
-                 <field name="view_id" ref="view_move_line_tree" />
-             </record>
-             <record id="action_account_moves_sale" model="ir.actions.act_window">
-                 <field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
-                 <field name="name">Open Journal Items</field>
-                 <field name="res_model">account.move.line</field>
-                 <field name="view_id" ref="view_move_line_tree" />
-                 <field name="search_view_id" ref="view_account_move_line_filter" />
-                 <field name="view_mode">tree,form</field>
-             </record>
-             <record id="action_account_moves_sale_tree" model="ir.actions.act_window.view">
-                 <field eval="1" name="sequence" />
-                 <field name="view_mode">tree</field>
-                 <field name="view_id" ref="view_move_line_tree" />
-                 <field name="act_window_id" ref="action_account_moves_sale" />
-             </record>
-             <record id="action_account_moves_sale_form" model="ir.actions.act_window.view">
-                 <field eval="2" name="sequence" />
-                 <field name="view_mode">form</field>
-                 <field name="view_id" ref="view_move_line_form" />
-                 <field name="act_window_id" ref="action_account_moves_sale" />
-             </record>
-             <menuitem
+        <menuitem
             action="action_account_moves_sale"
             id="menu_action_account_moves_all"
             parent="account.menu_finance_entries"

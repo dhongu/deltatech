@@ -31,6 +31,33 @@
                     res_model="account.payment.term.rate.wizard" src_model="sale.order"
                     view_mode="form" multi="False" target="new"/>
          -->
+
+        <record id="action_sale_payment_term_rate_wizard" model="ir.actions.act_window">
+            <field name="name">Payment Term Rate Wizard</field>
+            <field name="res_model">account.payment.term.rate.wizard</field>
+            <field name="binding_model_id" ref="sale.model_sale_order" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="action_account_payment_term_rate_wizard" model="ir.actions.act_window">
+            <field name="name">Payment Term Rate Wizard</field>
+            <field name="res_model">account.payment.term.rate.wizard</field>
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--        <act_window
+            id="action_sale_payment_term_rate_wizard"
+            name="Payment Term Rate Wizard"
+            binding_model="sale.order"
+            view_mode="form"
+            res_model="account.payment.term.rate.wizard"
+            target="new"
+        />
+
         <act_window
             id="action_account_payment_term_rate_wizard"
             name="Payment Term Rate Wizard"
@@ -38,7 +65,7 @@
             view_mode="form"
             res_model="account.payment.term.rate.wizard"
             target="new"
-        />
+        />-->
         <!--  menuitem name="Payment Term Rate Wizard" id="menu_service_billing_preparation"
             action="action_service_billing_preparation" parent="base.menu_service" sequence="101"/ -->
         <record id="view_payment_term_form" model="ir.ui.view">

@@ -13,6 +13,8 @@
     "depends": [
         "account",
         "stock",
+        "purchase",
+        "sale",
         #    "deltatech_account",  # pentru adaugare grup de butoane
     ],
     "data": ["views/account_invoice_view.xml"],

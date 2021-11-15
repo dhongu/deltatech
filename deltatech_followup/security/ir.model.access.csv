@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_invoice_followup_manager,followup.access,deltatech_followup.model_account_invoice_followup,deltatech_followup.group_manage_followups,1,1,1,1
+access_invoice_followup_wizard_manager,followup.wizard.access,deltatech_followup.model_followup_send,deltatech_followup.group_manage_followups,1,1,1,1
