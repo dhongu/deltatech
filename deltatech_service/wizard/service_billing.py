@@ -61,9 +61,14 @@ class ServiceBilling(models.TransientModel):
 
     def add_invoice_line(self, cons, pre_invoice, price_unit, name, key):
 
-        account_id = self.env["account.move.line"].get_invoice_line_account(
-            "out_invoice", cons.product_id, "", self.env.user.company_id
-        )
+        # nu mai exista get_invoice_line_account  in V14
+        # account_id = self.env["account.move.line"].get_invoice_line_account(
+        #     "out_invoice", cons.product_id, "", self.env.user.company_id
+        # )
+
+        accounts = cons.product_id.product_tmpl_id.get_product_accounts()
+        account_id = accounts["income"]
+
         invoice_line = {
             "product_id": cons.product_id.id,
             "quantity": cons.quantity - cons.agreement_line_id.quantity_free,
@@ -178,7 +183,7 @@ class ServiceBilling(models.TransientModel):
                     "payment_term_id": payment_term_id,
                     # todo: de determinat contul
                     # 'account_id': pre_invoice[date_invoice][key]['account_id'],
-                    "type": "out_invoice",
+                    "move_type": "out_invoice",
                     "state": "draft",
                     "invoice_line_ids": [(0, 0, x) for x in pre_invoice[date_invoice][key]["lines"]],
                     "comment": comment,
