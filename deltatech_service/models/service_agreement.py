@@ -130,12 +130,47 @@ class ServiceAgreement(models.Model):
                                  If it's positive, it gives the day of the month. Set 0 for net days .""",
     )
 
+    prepare_invoice_day = fields.Integer(
+        string="Prepare Invoice Day",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=-1,
+        help="""Day of the month, set -1 for the last day of the month.
+                                 If it's positive, it gives the day of the month. Set 0 for net days .""",
+    )
+
     next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_last_invoice_id")
 
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
+
+    total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
+    total_percent = fields.Float(string="Total percent", readonly=True)  # se va calcula (consum/factura)*100
+
+    invoicing_status = fields.Selection(
+        [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
+        string="Invoicing Status",
+        # compute="_compute_invoicing_status",
+        store=True,
+    )
+
+    billing_automation = fields.Selection(
+        [("auto", "Auto"), ("manual", "Manual")], string="Billing automation", default="manual"
+    )
+
+    notes = fields.Text(string="Notes")
+
+    user_id = fields.Many2one(
+        "res.users",
+        string="Salesperson",
+        tracking=True,
+        readonly=True,
+        states={"draft": [("readonly", False)]},
+        default=lambda self: self.env.user,
+    )
+
     group_id = fields.Many2one(
         "service.agreement.group", string="Service Group", readonly=True, states={"draft": [("readonly", False)]}
     )
@@ -143,7 +178,7 @@ class ServiceAgreement(models.Model):
     doc_count = fields.Integer(string="Number of documents attached", compute="_compute_attached_docs")
 
     _sql_constraints = [
-        ("name_uniq", "unique(name, company_id)", "Reference must be unique per Company!"),
+        ("name_uniq", "unique(name, partner_id, company_id)", "Reference must be unique!"),
     ]
 
     def _compute_attached_docs(self):
@@ -261,7 +296,11 @@ class ServiceAgreementGroup(models.Model):
 class ServiceAgreementLine(models.Model):
     _name = "service.agreement.line"
     _description = "Service Agreement Line"
+    _order = "sequence,id desc,agreement_id"
 
+    sequence = fields.Integer(
+        string="Sequence", default=1, help="Gives the sequence of this line when displaying the agreement."
+    )
     agreement_id = fields.Many2one("service.agreement", string="Contract Services", ondelete="cascade")
     product_id = fields.Many2one(
         "product.product",
@@ -277,6 +316,10 @@ class ServiceAgreementLine(models.Model):
     currency_id = fields.Many2one(
         "res.currency", string="Currency", required=True, domain=[("name", "in", ["RON", "EUR"])]
     )
+
+    active = fields.Boolean(default=True)  # pentru a ascunde liniile din contract care nu
+    invoice_description = fields.Char(string="Invoice Description")
+
     company_id = fields.Many2one(
         "res.company",
         string="Company",
