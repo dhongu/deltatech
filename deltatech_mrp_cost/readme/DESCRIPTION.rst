@@ -9,3 +9,6 @@ Features:
  - Asigns a picking for consumed materials and one for the receptioned ones
  - Registration of services costs provided by third parties
  - the variants have the same price
+
+
+  De testat cum functioneaza cu mrp_account instalat
