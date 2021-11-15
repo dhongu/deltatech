@@ -111,7 +111,7 @@ class StockRevaluation(models.Model):
             defaults["line_ids"] = []
             for quant in quants:
                 if not quant.init_value:
-                    init_value = quant.inventory_value
+                    init_value = quant.value
                 else:
                     init_value = quant.init_value
                 defaults["line_ids"] += [
@@ -122,8 +122,8 @@ class StockRevaluation(models.Model):
                             "quant_id": quant.id,
                             "product_id": quant.product_id.id,
                             "init_value": init_value,
-                            "old_value": quant.inventory_value,
-                            "new_value": quant.inventory_value,
+                            "old_value": quant.value,
+                            "new_value": quant.value,
                         },
                     )
                 ]
@@ -145,7 +145,7 @@ class StockRevaluation(models.Model):
         for line in self.line_ids:
             quant = line.quant_id
             if not quant.init_value:
-                init_value = quant.inventory_value
+                init_value = quant.value
             else:
                 init_value = quant.init_value
 
@@ -156,12 +156,12 @@ class StockRevaluation(models.Model):
 
             if self.type == "reduction":
                 ajust = -1 * ajust
-            new_value = quant.inventory_value + ajust
+            new_value = quant.value + ajust
             # new_cost = new_value / quant.quantity
-            old_amount_total += quant.inventory_value
+            old_amount_total += quant.value
             new_amount_total += new_value
-            values = {"init_value": init_value, "old_value": quant.inventory_value, "new_value": new_value}
-            if init_value == quant.inventory_value:
+            values = {"init_value": init_value, "old_value": quant.value, "new_value": new_value}
+            if init_value == quant.value:
                 values["first_revaluation"] = self.date
             line.write(values)
         self.write({"old_amount_total": old_amount_total, "new_amount_total": new_amount_total})
@@ -182,7 +182,7 @@ class StockRevaluation(models.Model):
             quant = line.quant_id
             value = {}
             if not quant.init_value:
-                init_value = quant.inventory_value
+                init_value = quant.value
                 value["init_value"] = init_value
                 value["first_revaluation"] = self.date
             else:
@@ -193,7 +193,7 @@ class StockRevaluation(models.Model):
                 ajust = self.value
             if self.type == "reduction":
                 ajust = -1 * ajust
-            new_value = quant.inventory_value + ajust
+            new_value = quant.value + ajust
             new_cost = new_value / quant.quantity
             value["cost"] = new_cost
             quant.write(value)
@@ -241,14 +241,14 @@ class StockRevaluationLine(models.Model):
         quant = self.quant_id
 
         if not quant.init_value:
-            init_value = quant.inventory_value
+            init_value = quant.value
         else:
             init_value = quant.init_value
         ajust = init_value * self.revaluation_id.percent / 100.0
         if self.revaluation_id.type == "reduction":
             ajust = -1 * ajust
-        new_value = quant.inventory_value + ajust
+        new_value = quant.value + ajust
         self.product_id = quant.product_id
         self.init_value = init_value
-        self.old_value = quant.inventory_value
+        self.old_value = quant.value
         self.new_value = new_value
