@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="view_service_agreement_form" model="ir.ui.view">
+            <field name="name">Service Agreement</field>
+            <field name="model">service.agreement</field>
+            <field name="inherit_id" ref="deltatech_service.view_service_agreement_form" />
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field
+                        name="equipment_id"
+                        domain="[('address_id','child_of', parent.partner_id )]"
+                        options="{'no_create': True}"
+                    />
+                    <field
+                        name="meter_id"
+                        domain="[('equipment_id','=', equipment_id )]"
+                        options="{'no_create': True}"
+                    />
+                </field>
+            </field>
+        </record>
+        <record id="view_service_consumption_filter" model="ir.ui.view">
+            <field name="name">service.consumption.select</field>
+            <field name="model">service.consumption</field>
+            <field name="inherit_id" ref="deltatech_service.view_service_consumption_filter" />
+            <field name="arch" type="xml">
+                <field name="product_id" position="before">
+                    <field name="equipment_id" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
