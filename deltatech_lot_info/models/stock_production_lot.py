@@ -83,9 +83,10 @@ class ProductionLot(models.Model):
                 serial.pret_revanzator = serial.product_id.list_price
                 serial.pret_revanzator_currency_id = serial.product_id.currency_id
 
+    @api.depends("quant_ids")
     def _compute_location(self):
         for lot in self:
-            if len(lot.quant_ids) != 1:
+            if len(lot.quant_ids) > 1: # multiple quants, can be in different locations
                 lot.location_id = False
             else:
                 lot.location_id = lot.quant_ids.location_id
