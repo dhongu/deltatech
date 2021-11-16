@@ -73,11 +73,11 @@ class ServiceBilling(models.TransientModel):
             "product_id": cons.product_id.id,
             "quantity": cons.quantity - cons.agreement_line_id.quantity_free,
             "price_unit": price_unit,
-            "uos_id": cons.agreement_line_id.uom_id.id,
+            "product_uom_id": cons.agreement_line_id.uom_id.id,
             "name": name,
             # todo: de determinat contul
             "account_id": account_id.id,
-            "invoice_line_tax_ids": [(6, 0, ([rec.id for rec in cons.product_id.taxes_id]))],
+            "tax_ids": [(6, 0, ([rec.id for rec in cons.product_id.taxes_id]))],
             "agreement_line_id": cons.agreement_line_id.id,
             "analytic_account_id": cons.analytic_account_id.id,
         }
@@ -179,14 +179,14 @@ class ServiceBilling(models.TransientModel):
                     "partner_id": pre_invoice[date_invoice][key]["partner_id"],
                     "journal_id": self.journal_id.id,
                     "company_id": self.company_id.id,
-                    "date_invoice": date_invoice,
-                    "payment_term_id": payment_term_id,
+                    "invoice_date": date_invoice,
+                    "invoice_payment_term_id": payment_term_id,
                     # todo: de determinat contul
                     # 'account_id': pre_invoice[date_invoice][key]['account_id'],
                     "move_type": "out_invoice",
                     "state": "draft",
                     "invoice_line_ids": [(0, 0, x) for x in pre_invoice[date_invoice][key]["lines"]],
-                    "comment": comment,
+                    "narration": comment,
                     # 'agreement_id':pre_invoice[key]['agreement_id'],
                 }
                 invoice_id = self.env["account.move"].create(invoice_value)
