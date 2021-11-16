@@ -81,16 +81,7 @@
             </form>
         </field>
     </record>
-<!--    <act_window-->
-<!--        id="action_uom_merge"-->
-<!--        res_model="merge.uom.wizard"-->
-<!--        target="new"-->
-<!--        name="Merge"-->
-<!--        groups="res_group_uom_do_merge"-->
-<!--        view_mode="form"-->
-<!--        binding_model="uom.uom"-->
-<!--        binding_views="list"-->
-<!--    />-->
+
     <record id="action_uom_merge" model="ir.actions.act_window">
         <field name="name">Merge</field>
         <field name="res_model">merge.uom.wizard</field>

@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class UoMProduct(models.TransientModel):
@@ -20,14 +20,3 @@ class UoMProduct(models.TransientModel):
 
     object_ids = fields.Many2many(_model_merge, string="UoM")
     dst_object_id = fields.Many2one(_model_merge, string="Destination UoM")
-
-    @api.model
-    def default_get(self, fields_list):
-        res = super(UoMProduct, self).default_get(fields_list)
-        active_ids = self.env.context.get("active_ids")
-        if self.env.context.get("active_model") == self._model_merge and active_ids:
-            res["state"] = "selection"
-            res["object_ids"] = active_ids
-            res["dst_object_id"] = self._get_ordered_object(active_ids)[-1].id
-
-        return res
