@@ -40,7 +40,7 @@ class ServiceNotification(models.Model):
         tracking=True,
     )
 
-    equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
+    # equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"new": [("readonly", False)]}
     )
@@ -51,14 +51,9 @@ class ServiceNotification(models.Model):
     address_id = fields.Many2one(
         "res.partner", string="Location", readonly=True, states={"new": [("readonly", False)]}
     )  # ,  related='equipment_history_id.address_id', readonly=True)
-    emplacement = fields.Char(
-        string="Emplacement",
-        # related="equipment_history_id.emplacement",
-        related=False,
-        readonly=True,
-    )
+    emplacement = fields.Char(string="Emplacement", related=False, readonly=True)
     agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="equipment_history_id.agreement_id", readonly=True
+        "service.agreement", string="Service Agreement", related="equipment_id.agreement_id", readonly=True
     )
 
     contact_id = fields.Many2one(
@@ -83,7 +78,7 @@ class ServiceNotification(models.Model):
     subject = fields.Char("Subject", readonly=True, states={"new": [("readonly", False)]})
     description = fields.Text("Notes", readonly=True, states={"new": [("readonly", False)]})
 
-    date_assing = fields.Datetime("Assigning Date", readonly=True, copy=False)
+    date_assign = fields.Datetime("Assigning Date", readonly=True, copy=False)
     date_start = fields.Datetime("Start Date", readonly=True, copy=False)
     date_done = fields.Datetime("Done Date", readonly=True, copy=False)
 
@@ -143,12 +138,9 @@ class ServiceNotification(models.Model):
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.equipment_history_id = self.equipment_id.get_history_id(self.date)
-            self.user_id = self.equipment_id.user_id
-            self.partner_id = self.equipment_history_id.partner_id
-            self.address_id = self.equipment_history_id.address_id
-        else:
-            self.equipment_history_id = False
+            self.user_id = self.equipment_id.technician_user_id
+            self.partner_id = self.equipment_id.partner_id
+            self.address_id = self.equipment_id.address_id
 
     @api.model
     def create(self, vals):
@@ -188,7 +180,7 @@ class ServiceNotification(models.Model):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):
             sequence_notification = self.env.ref("deltatech_service_maintenance.sequence_notification")
             if sequence_notification:
-                vals["name"] = self.env["ir.sequence"].next_by_id(sequence_notification.id)
+                vals["name"] = sequence_notification.next_by_id()
         return super(ServiceNotification, self).create(vals)
 
     def write(self, vals):
@@ -198,12 +190,12 @@ class ServiceNotification(models.Model):
         result = super(ServiceNotification, self).write(vals)
         return result
 
-    def action_cancel_assing(self):
+    def action_cancel_assign(self):
         if self.state != "assigned":
             raise UserError(_("Notification is not assigned."))
-        self.write({"state": "new", "date_assing": fields.Datetime.now()})
+        self.write({"state": "new", "date_assign": fields.Datetime.now()})
 
-    def action_assing(self):
+    def action_assign(self):
         if not self.user_id:
             raise UserError(_("Please select a responsible."))
         if self.state != "new":
@@ -224,8 +216,8 @@ class ServiceNotification(models.Model):
                         "model": "service.notification",
                         "res_id": document.id,
                         "record_name": document.name_get()[0][1],
-                        "email_from": self.env["mail.message"]._get_default_from(),
-                        "reply_to": self.env["mail.message"]._get_default_from(),
+                        # "email_from": self.env["mail.message"]._get_default_from_address(),
+                        # "reply_to": self.env["mail.message"]._get_default_from_address(),
                         "subject": self.subject,
                         "body": msg,
                         "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),
@@ -236,14 +228,14 @@ class ServiceNotification(models.Model):
     def action_taking(self):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
-        self.message_mark_as_read()
+
         self.write({"state": "assigned", "date_assing": fields.Datetime.now(), "user_id": self.env.user.id})
 
     def action_start(self):
         # for notification in self:
         #    if not notification.partner_id:
         #        raise Warning(_('Notification %s without partner.') % notification.name )
-        self.message_mark_as_read()
+
         self.write({"state": "progress", "date_start": fields.Datetime.now()})
 
     def action_order(self):
@@ -295,8 +287,8 @@ class ServiceNotification(models.Model):
                         "model": "service.notification",
                         "res_id": document.id,
                         "record_name": document.name_get()[0][1],
-                        "email_from": self.env["mail.message"]._get_default_from(),
-                        "reply_to": self.env["mail.message"]._get_default_from(),
+                        # "email_from": self.env["mail.message"]._get_default_from_address(),
+                        # "reply_to": self.env["mail.message"]._get_default_from_address(),
                         "subject": self.subject,
                         "body": msg,
                         "message_id": self.env["mail.message"]._get_message_id({"no_auto_thread": True}),

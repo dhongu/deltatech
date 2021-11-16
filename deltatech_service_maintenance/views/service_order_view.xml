@@ -92,7 +92,7 @@
                                 options="{'always_reload': True}"
                             />
                                 <field name="agreement_id" />
-                                <field name="equipment_history_id" invisible="1" />
+                                <field name="equipment_id" invisible="1" />
                             </group>
                             <group>
                                 <field name="reason_id" />

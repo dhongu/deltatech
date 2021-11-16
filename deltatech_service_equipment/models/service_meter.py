@@ -122,15 +122,17 @@ class ServiceMeter(models.Model):
     def _compute_last_meter_reading(self):
         for meter in self:
             total_counter_value = 0
+            last_meter_reading_id = False
             if meter.type == "counter":
                 if meter.meter_reading_ids:
-                    meter.last_meter_reading_id = meter.meter_reading_ids[0]
+                    last_meter_reading_id = meter.meter_reading_ids[0]
                     meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
                     total_counter_value = meter.last_meter_reading_id.counter_value
             else:
                 for child_meter in meter.meter_ids:
                     total_counter_value += child_meter.meter_reading_ids[0].counter_value
 
+            meter.last_meter_reading_id = last_meter_reading_id
             meter.total_counter_value = total_counter_value
 
     def _compute_estimated_value(self):

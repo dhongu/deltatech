@@ -43,7 +43,7 @@ class ServiceOrder(models.Model):
     date_start = fields.Datetime("Start Date", readonly=True, copy=False)
     date_done = fields.Datetime("Done Date", readonly=True, copy=False)
 
-    equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
+    # equipment_history_id = fields.Many2one("service.equipment.history", string="Equipment history")
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", index=True, readonly=True, states={"draft": [("readonly", False)]}
     )
@@ -53,20 +53,18 @@ class ServiceOrder(models.Model):
         string="Partner",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        related="equipment_history_id.partner_id",
+        related="equipment_id.partner_id",
     )
     address_id = fields.Many2one(
         "res.partner",
         string="Location",
         readonly=True,
         states={"draft": [("readonly", False)]},
-        related="equipment_history_id.address_id",
+        related="equipment_id.address_id",
     )
 
-    emplacement = fields.Char(string="Emplacement", related="equipment_history_id.emplacement", readonly=True)
-    agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="equipment_history_id.agreement_id", readonly=True
-    )
+    emplacement = fields.Char(string="Emplacement", readonly=True)
+    agreement_id = fields.Many2one("service.agreement", string="Service Agreement", readonly=True)
 
     contact_id = fields.Many2one("res.partner", string="Contact person", tracking=True)
 
@@ -153,24 +151,20 @@ class ServiceOrder(models.Model):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):
             sequence_order = self.env.ref("deltatech_service_maintenance.sequence_order")
             if sequence_order:
-                vals["name"] = self.env["ir.sequence"].next_by_id(sequence_order.id)
+                vals["name"] = sequence_order.next_by_id()
         return super(ServiceOrder, self).create(vals)
 
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.equipment_history_id = self.equipment_id.get_history_id(self.date)
             self.user_id = self.equipment_id.user_id
-            self.partner_id = self.equipment_history_id.partner_id
-            self.address_id = self.equipment_history_id.address_id
-        else:
-            self.equipment_history_id = False
+            self.partner_id = self.equipment_id.partner_id
+            self.address_id = self.equipment_id.address_id
 
     @api.onchange("notification_id")
     def onchange_notification_id(self):
         if self.notification_id:
             self.equipment_id = self.notification_id.equipment_id
-            self.equipment_history_id = self.notification_id.equipment_history_id
             self.notification_id.order_id = self  # oare e bine ?
 
     def action_cancel(self):

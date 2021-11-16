@@ -12,7 +12,7 @@
     "depends": [
         "deltatech_service",
         "deltatech_service_equipment",
-        "deltatech_service_history",
+        # "deltatech_service_history",
         "deltatech_procurement",
         "sale",
         "stock",

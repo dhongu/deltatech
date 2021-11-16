@@ -11,7 +11,7 @@ class ServiceEquipment(models.Model):
 
     plan_ids = fields.One2many("service.plan", "equipment_id", string="Plans")
 
-    # canda a fost facuta ultima revizie ? si trebuie putin modificata
+    # cand a fost facuta ultima revizie ? si trebuie putin modificata
     last_call_done = fields.Date(string="Last call done", compute="_compute_last_call_done")
 
     def _compute_last_call_done(self):

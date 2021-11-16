@@ -57,7 +57,7 @@
                         />
                             </span>
                             <button
-                        name="action_assing"
+                        name="action_assign"
                         type="object"
                         string="Assign"
                         class="oe_highlight"
@@ -72,7 +72,7 @@
                         states="assigned"
                     />
                             <button
-                        name="action_cancel_assing"
+                        name="action_cancel_assign"
                         type="object"
                         string="Assign Cancel"
                         states="assigned,progress"
@@ -143,7 +143,7 @@
                                 options="{'always_reload': True}"
                             />
                                     <field name="agreement_id" />
-                                    <field name="equipment_history_id" invisible="1" />
+                                    <field name="equipment_id" invisible="1" />
                                 </group>
                                 <group>
                                     <field name="priority" widget="priority" />
@@ -151,7 +151,7 @@
                                     <field name="description" />
                                 </group>
                                 <group>
-                                    <field name="date_assing" />
+                                    <field name="date_assign" />
                                     <field name="date_start" />
                                     <field name="date_done" />
                                 </group>
@@ -207,7 +207,7 @@
                                             </t>
 
                                             <li>
-                                                <a name="action_assing" type="object" states="new">Assign</a>
+                                                <a name="action_assign" type="object" states="new">Assign</a>
                                             </li>
                                             <li>
                                                 <a name="action_cancel_assing" type="object" states="assigned">Assign Cancel</a>
