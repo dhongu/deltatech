@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<openerp>
+    <data>
+        <record id="view_service_meter_reading_estimate_form" model="ir.ui.view">
+            <field name="name">Meter Reading Estimate</field>
+            <field name="model">service.meter.reading.estimate</field>
+            <field name="arch" type="xml">
+                <form string="Meter Reading Estimate">
+                    <group string="Meter Reading Estimate">
+                        <div class="oe_grey">For the selected meters will generate estimate readings</div>
+                    </group>
+                    <group>
+                        <field name="period_id" options="{'no_create': True}" />
+                    </group>
+                    <group>
+                        <field name="meter_ids" nolabel="1" />
+                    </group>
+                    <footer>
+                        <button name="do_estimation" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window
+            id="action_service_meter_reading_estimate"
+            name="Meter Reading Estimate"
+            res_model="service.meter.reading.estimate"
+            binding_model="service.meter"
+            view_mode="form"
+            target="new"
+        />
+    </data>
+</openerp>

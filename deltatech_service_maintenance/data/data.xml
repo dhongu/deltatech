@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <menuitem
+            name="Planing"
+            id="menu_service_planing"
+            groups="group_use_service_plan"
+            parent="deltatech_service.menu_service_app"
+            sequence="200"
+        />
+    </data>
+    <data noupdate="1">
+        <record id="sequence_notification" model="ir.sequence">
+            <field name="name">Service Notification</field>
+            <field name="prefix">NO/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="sequence_order" model="ir.sequence">
+            <field name="name">Service Order</field>
+            <field name="prefix">ORD/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        <record id="sequence_plan" model="ir.sequence">
+            <field name="name">Service Plan</field>
+            <field name="prefix">P/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="equi_work" model="service.operating.parameter">
+            <field name="name">the equipment works</field>
+        </record>
+        <record id="equi_work_again" model="service.operating.parameter">
+            <field name="name">the defect was fixed equipment works</field>
+        </record>
+        <record id="equi_work_with_faulty" model="service.operating.parameter">
+            <field name="name">the defect was not removed equipment works</field>
+        </record>
+        <record id="equi_not_work" model="service.operating.parameter">
+            <field name="name">the equipment not works</field>
+        </record>
+    </data>
+</odoo>
