@@ -42,7 +42,6 @@ class StockQuant(models.Model):
                     ) % (lot_qty, product_id.name, location_id.name, lot_id.name, quantity)
                 raise UserError(err)
 
-
         return super(StockQuant, self)._update_available_quantity(
             product_id, location_id, quantity, lot_id, package_id, owner_id, in_date
         )
