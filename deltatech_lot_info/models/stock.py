@@ -21,5 +21,5 @@ class StockPicking(models.Model):
                         values["input_date"] = move_line.picking_id.scheduled_date
                         if move_line.product_id.tracking == "serial":
                             values["location_id"] = move_line.location_dest_id.id
-                        move_line.lot_id.update(values)
+                        move_line.lot_id.write(values)
         return res
