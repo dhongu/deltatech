@@ -244,7 +244,7 @@ class SaleMarginReport(models.Model):
         )
 
     def write(self, vals):
-        invoice_line = self.env["account.invoice.line"].browse(self.id)
+        invoice_line = self.env["account.move.line"].sudo().browse(self.id)
         value = {"commission": vals.get("commission", False)}
         if invoice_line.purchase_price == 0 and invoice_line.product_id:
             if invoice_line.product_id.standard_price > 0:
@@ -253,7 +253,7 @@ class SaleMarginReport(models.Model):
         #    value['purchase_price'] = vals['purchase_price']
         invoice_line.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.invoice"].browse(self.invoice_id)
+            invoice = self.env["account.move"].browse(self.invoice_id)
             invoice.write({"user_id": vals["user_id"]})
         super(SaleMarginReport, self).write(vals)
         return True
