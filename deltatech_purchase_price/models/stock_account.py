@@ -21,6 +21,7 @@ class StockMove(models.Model):
             update_standard_price = safe_eval(get_param("purchase.update_standard_price", default="False"))
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
+            self.product_id.write({"last_purchase_price": price_unit})
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
             for seller in self.product_id.seller_ids:

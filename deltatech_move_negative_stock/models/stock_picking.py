@@ -20,7 +20,7 @@ class StockPicking(models.Model):
                     "product_id": quant.product_id.id,
                     "product_uom": quant.product_id.uom_id.id,
                     "product_uom_qty": -1 * quant.quantity,
-                    "date_expected": self.scheduled_date,
+                    "date": self.scheduled_date,
                     "location_id": self.location_id.id,
                     "location_dest_id": self.location_dest_id.id,
                     "state": "draft",

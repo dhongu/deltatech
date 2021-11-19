@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="product_template_form_view" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="deltatech_website_product_url_image.product_template_form_view" />
+            <field name="arch" type="xml">
+                <group name="link" position="inside">
+<!--                    <field name='website_rewrite_id' invisible="1" force_save="1" />-->
+                    <field name='alternative_link' />
+                    <field name='legacy_id' />
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>

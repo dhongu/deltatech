@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_fleet_distance_report_form" model="ir.ui.view">
+        <field name="name">fleet.distance.report</field>
+        <field name="model">fleet.distance.report</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group name="filters">
+
+                    <group name="date_range">
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="company_id" invisible="1" />
+                    </group>
+
+                </group>
+                <footer>
+                    <button
+                        name="button_show_report"
+                        string="Show Report"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fleet_distance_report" model="ir.actions.act_window">
+        <field name="name">Distance Report</field>
+        <field name="res_model">fleet.distance.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem
+        id="menu_fleet_distance_report"
+        name="Distance Report"
+        action="action_fleet_distance_report"
+        parent="fleet.menu_fleet_reporting"
+        groups="fleet.fleet_group_manager"
+    />
+
+    <record id="view_fleet_distance_report_line_tree" model="ir.ui.view">
+        <field name="name">fleet.distance.report.line.tree</field>
+        <field name="model">fleet.distance.report.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" import="0">
+
+                <field name="vehicle_id" />
+                <field name="cost" />
+                <field name="distance" />
+                <field name="price" />
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_fleet_distance_report_line_search" model="ir.ui.view">
+        <field name="name">fleet.distance.report.line.search</field>
+        <field name="model">fleet.distance.report.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vehicle_id" />
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_fleet_distance_report_line" model="ir.actions.act_window">
+        <field name="name">Distance Report</field>
+        <field name="res_model">fleet.distance.report.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('report_id','=',active_id)]</field>
+    </record>
+
+
+
+</odoo>

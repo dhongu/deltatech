@@ -4,7 +4,7 @@
 {
     "name": "MRP Bom",
     "summary": "MRP Bom",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",

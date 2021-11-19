@@ -89,21 +89,16 @@
                                         <t t-set="loc_case" t-value="line.loc_case" />
                                     </t>
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                                    <t
-                                        t-set="total_amount"
-                                        t-value="total_amount+line.product_qty*line.standard_price"
-                                    />
-                                    <t
-                                        t-set="total_before"
-                                        t-value="total_before+line.theoretical_qty*line.standard_price"
-                                    />
+                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+                                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                                     <t t-if='dif&gt;0'>
-                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                        <t t-set="plus" t-value="plus+dif*price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                                     </t>
                                     <t t-if='dif&lt;0'>
-                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                        <t t-set="minus" t-value="minus-1*dif*price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                                     </t>
                                     <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                 </t>
@@ -175,25 +170,20 @@
                                 <t t-set="minus" t-value="0" />
                                 <t t-foreach="o.line_ids" t-as="line">
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                                    <t
-                                        t-set="total_amount"
-                                        t-value="total_amount+line.product_qty*line.standard_price"
-                                    />
-                                    <t
-                                        t-set="total_before"
-                                        t-value="total_before+line.theoretical_qty*line.standard_price"
-                                    />
+                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+                                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                                     <t t-if='dif&gt;0'>
-                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                        <t t-set="plus" t-value="plus+dif*price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                                         <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                     </t>
                                 </t>
                                 <t t-foreach="o.line_ids" t-as="line">
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
                                     <t t-if='dif&lt;0'>
-                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                        <t t-set="minus" t-value="minus-1*dif*price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                                         <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                     </t>
                                 </t>
@@ -264,10 +254,7 @@
                     <span t-field="line.product_uom_id" groups="uom.group_uom" />
                 </td>
                 <td class="text-right">
-                    <span
-                        t-esc="round(line.product_qty*line.standard_price,2)"
-                        t-options='{"widget": "float", "precision": 2}'
-                    />
+                    <span t-esc="round(line.product_qty*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </td>
                 <td class="text-right">
                     <t t-if='dif!=0'>
@@ -276,18 +263,12 @@
                 </td>
                 <td class="text-right">
                     <t t-if='dif&gt;0'>
-                        <span
-                            t-esc="round(dif*line.standard_price,2)"
-                            t-options='{"widget": "float", "precision": 2}'
-                        />
+                        <span t-esc="round(dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                     </t>
                 </td>
                 <td class="text-right">
                     <t t-if='dif&lt;0'>
-                        <span
-                            t-esc="round(-1*dif*line.standard_price,2)"
-                            t-options='{"widget": "float", "precision": 2}'
-                        />
+                        <span t-esc="round(-1*dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                     </t>
                 </td>
             </tr>
@@ -377,15 +358,18 @@
                         <t t-set="categ_id" t-value="line.categ_id.id" />
                     </t>
                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                    <t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
-                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price" />
+                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+
+
+                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                     <t t-if='dif&gt;0'>
-                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                        <t t-set="plus" t-value="plus+dif*price" />
+                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                     </t>
                     <t t-if='dif&lt;0'>
-                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                        <t t-set="minus" t-value="minus-1*dif*price" />
+                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                     </t>
                     <t t-call="deltatech_stock_inventory.report_inventory_line" />
                 </t>
