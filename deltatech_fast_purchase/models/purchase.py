@@ -55,6 +55,7 @@ class PurchaseOrder(models.Model):
                 "type": action["context"]["type"],
                 "date_invoice": self.date_order.date(),
                 "reference": self.partner_ref,
+                "company_id":self.env.user.company_id.id,
             }
             invoice = self.env["account.invoice"].with_context(action["context"]).new(vals)
             invoice.purchase_order_change()
