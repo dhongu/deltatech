@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_service_plan_tree" model="ir.ui.view">
+        <field name="name">Plan</field>
+        <field name="model">service.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Services Plan">
+                <field name="name" />
+                <field name="equipment_id" />
+                <field name='state' />
+                <field name='last_call_done_date' />
+            </tree>
+        </field>
+    </record>
+    <record id="view_service_plan_form" model="ir.ui.view">
+        <field name="name">Plan</field>
+        <field name="model">service.plan</field>
+        <field name="arch" type="xml">
+            <form string="Services Plan">
+                <header>
+                    <button name="action_start" states="draft,stopped" string="Start" type="object" />
+                    <button name="action_stop" states="active" string="Stop" type="object" />
+                    <button name="action_restart" states="stopped" string="Restart" type="object" />
+                    <button name="action_draft" states="stopped" string="Set to draft" type="object" />
+                    <button name="action_rescheduling" states="active" string="Rescheduling" type="object" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" class="oe_inline" attrs="{'invisible': [('name','=','/')]}" readonly="1" />
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="equipment_id" />
+                            <field name="unit" invisible="1" />
+                            <field name="meter_id" attrs="{'required': [('unit','=','counter')]}" />
+                            <field name="reason_id" />
+                            <field name="order_type_id" />
+                        </group>
+                        <group>
+                            <field name="cycle_id" />
+                            <field name="start_date" attrs="{'required': [('unit','!=','counter')]}" />
+                            <field name="start_counter" attrs="{'required': [('unit','=','counter')]}" />
+                            <field name="horizon" />
+                            <field name="period" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_service_plan_filter" model="ir.ui.view">
+        <field name="name">service.plan.select</field>
+        <field name="model">service.plan</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="equipment_id" />
+            </search>
+        </field>
+    </record>
+    <record id="action_service_plan" model="ir.actions.act_window">
+        <field name="name">Services Plan</field>
+        <field name="res_model">service.plan</field>
+
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Plan" id="menu_service_plan" action="action_service_plan" parent="menu_service_planing" />
+    <record id="view_service_plan_call_tree" model="ir.ui.view">
+        <field name="name">Plan</field>
+        <field name="model">service.plan.call</field>
+        <field name="arch" type="xml">
+            <tree string="Services Plan Call" create="0" edit="0">
+                <field name="plan_id" />
+                <field name="plan_date" />
+                <field name="completion_date" />
+                <field name='state' />
+                <field name='order_id' />
+            </tree>
+        </field>
+    </record>
+    <record id="view_service_plan_call_form" model="ir.ui.view">
+        <field name="name">Plan</field>
+        <field name="model">service.plan.call</field>
+        <field name="arch" type="xml">
+            <form string="Services Plan Call" create="0" edit="0">
+                <header>
+                    <button name="action_call" states="draft" string="Call" type="object" />
+                    <button name="action_complete" states="called" string="Complete" type="object" />
+                    <button name="action_skip" states="draft,called" string="Skip" type="object" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="plan_id" />
+                            <field name="sequence" />
+                            <field name="call_date" />
+                            <field name="plan_date" />
+                            <field name="plan_counter" />
+                            <field name="order_id" />
+                        </group>
+                        <group>
+                            <field name="completion_date" />
+                            <field name="completion_counter" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_service_plan_call_filter" model="ir.ui.view">
+        <field name="name">service.plan.call.select</field>
+        <field name="model">service.plan.call</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="plan_id" />
+                <newline />
+                <group expand="1" string="Group By...">
+                    <filter string="Plan" name="plan" context="{'group_by':'plan_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_service_plan_call" model="ir.actions.act_window">
+        <field name="name">Services Plan Call</field>
+        <field name="res_model">service.plan.call</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem
+        name="Plan Calls"
+        id="menu_service_plan_call"
+        action="action_service_plan_call"
+        parent="menu_service_planing"
+    />
+</odoo>
