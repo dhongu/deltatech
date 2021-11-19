@@ -63,7 +63,7 @@ class SaleConfirmPayment(models.TransientModel):
             transaction = transaction.with_context(payment_date=self.payment_date)
             transaction._set_pending()
             transaction._set_done()
-            transaction._post_process_after_done()
+            transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()
             # transaction.write({'is_processed':True})
