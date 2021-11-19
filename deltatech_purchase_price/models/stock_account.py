@@ -11,7 +11,7 @@ class StockMove(models.Model):
     _inherit = "stock.move"
 
     def _get_price_unit(self):
-        """ Returns the unit price to store on the quant """
+        """Returns the unit price to store on the quant"""
         if self.purchase_line_id:
             get_param = self.env["ir.config_parameter"].sudo().get_param
             update_product_price = get_param("purchase.update_product_price", default="False")
