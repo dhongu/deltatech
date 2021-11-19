@@ -54,15 +54,15 @@ class SaleConfirmPayment(models.TransientModel):
                     "partner_id": order.partner_id.id,
                     "sale_order_ids": [(4, order.id, False)],
                     "currency_id": self.currency_id.id,
-                    "date": self.payment_date,
+                    # "date": self.payment_date,
                     "state": "draft",
                 }
             )
 
         if transaction.state != "done":
             transaction = transaction.with_context(payment_date=self.payment_date)
-            transaction._set_transaction_pending()
-            transaction._set_transaction_done()
+            transaction._set_pending()
+            transaction._set_done()
             transaction._post_process_after_done()
 
             # transaction._reconcile_after_transaction_done()
