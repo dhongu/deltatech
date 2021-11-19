@@ -27,7 +27,6 @@ class ProductionLot(models.Model):
     input_date = fields.Date(string="Input date")
     input_amount = fields.Float(string="Input Amount", compute="_compute_input_amount", store=True)
     tag_ids = fields.Many2many("stock.lots.tag", "lot_tag_relation", string="Tags")
-    # RSY fields
     contor_monocrom = fields.Integer(string="Contor monocrom")
     contor_color = fields.Integer(string="Contor color")
     rezervat = fields.Boolean(string="Rezervat")
@@ -83,9 +82,10 @@ class ProductionLot(models.Model):
                 serial.pret_revanzator = serial.product_id.list_price
                 serial.pret_revanzator_currency_id = serial.product_id.currency_id
 
+    @api.depends("quant_ids")
     def _compute_location(self):
         for lot in self:
-            if len(lot.quant_ids) != 1:
+            if len(lot.quant_ids) > 1:  # multiple quants, can be in different locations
                 lot.location_id = False
             else:
                 lot.location_id = lot.quant_ids.location_id
