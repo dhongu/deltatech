@@ -19,5 +19,7 @@ class StockPicking(models.Model):
                         values["inventory_value"] = move_line.move_id.price_unit * move_line.qty_done
                         values["input_price"] = move_line.move_id.price_unit
                         values["input_date"] = move_line.picking_id.scheduled_date
-                        move_line.lot_id.update(values)
+                        if move_line.product_id.tracking == "serial":
+                            values["location_id"] = move_line.location_dest_id.id
+                        move_line.lot_id.write(values)
         return res
