@@ -14,13 +14,18 @@ class SaleOrder(models.Model):
         defaults = super(SaleOrder, self).default_get(fields)
         is_bf = self.env.context.get("is_bf", False)
         if is_bf:
-            defaults["partner_id"] = self.env.ref("deltatech_partner_generic.partner_generic").id
+            partner_generic = self.company_id.generic_partner_id
+            if not partner_generic:
+                partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
+            defaults["partner_id"] = partner_generic.id
         return defaults
 
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
         is_bf = self.env.context.get("is_bf", False)
-        partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
+        partner_generic = self.company_id.generic_partner_id
+        if not partner_generic:
+            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
         if is_bf or self.partner_id == partner_generic:
             invoice_vals["move_type"] = "out_receipt"
         return invoice_vals
@@ -28,7 +33,9 @@ class SaleOrder(models.Model):
     @api.depends("order_line.invoice_lines")
     def _get_invoiced(self):
         super(SaleOrder, self)._get_invoiced()
-        partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
+        partner_generic = self.company_id.generic_partner_id
+        if not partner_generic:
+            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
         for order in self:
             if order.partner_id == partner_generic:
                 invoices = order.order_line.invoice_lines.move_id.filtered(
@@ -39,7 +46,9 @@ class SaleOrder(models.Model):
 
     def action_view_invoice(self):
         action = super(SaleOrder, self).action_view_invoice()
-        partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
+        partner_generic = self.company_id.generic_partner_id
+        if not partner_generic:
+            partner_generic = self.env.ref("deltatech_partner_generic.partner_generic")
         if self.partner_id == partner_generic:
             action["context"] = {"default_move_type": "out_receipt"}
         return action

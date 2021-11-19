@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <button name="do_print_picking" position="after">
+                <field name="sale_id" invisible="1" />
+                <field name="purchase_id" invisible="1" />
+                <button
+                    name="action_create_invoice"
+                    string="Invoice"
+                    type="object"
+                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('sale_id','=',False)]}"
+                />
+                <button
+                    name="action_create_supplier_invoice"
+                    string="Bill"
+                    type="object"
+                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('purchase_id','=',False)]}"
+                />
+            </button>
+            <xpath expr="//group[@name='other_infos']" position="inside">
+                <field name="account_move_id" readonly="0" />
+                <field name="to_invoice" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="action_picking_invoice" model="ir.actions.server">
+        <field name="name">Create Sale Invoices</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.action_create_invoice()
+        </field>
+    </record>
+
+    <record id="action_picking_supplier_invoice" model="ir.actions.server">
+        <field name="name">Create Purchase Invoices</field>
+        <field name="model_id" ref="stock.model_stock_picking" />
+        <field name="binding_model_id" ref="stock.model_stock_picking" />
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.action_create_supplier_invoice()
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search_inherit_invoice_picking" model="ir.ui.view">
+        <field name="name">stock.picking.search.invoice</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_transfers']" position="before">
+                <filter name="to_invoice" string="To invoice" domain="[('to_invoice', '=', True)]" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_batch_form_invoice" model="ir.ui.view">
+        <field name="name">stock.batch.form.invoice</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="inherit_id" ref="stock_picking_batch.stock_picking_batch_form" />
+        <field name="arch" type="xml">
+            <button name="action_print" position="after">
+                <field name="invoiced" invisible="1" />
+                <button
+                    name="action_create_invoice"
+                    string="Invoice"
+                    type="object"
+                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('invoiced','=',True)]}"
+                />
+            </button>
+        </field>
+    </record>
+
+</odoo>
