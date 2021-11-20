@@ -7,17 +7,41 @@
             <field name="inherit_id" ref="stock.view_template_property_form" />
             <field name="arch" type="xml">
                 <group name="group_lots_and_weight" position="after">
-                    <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
-                        <field name="loc_rack" />
-                        <field name="loc_row" />
-                        <field name="loc_case" />
+                    <group
+                        string='Stock'
+                        name="store"
+                        invisible="not context.get('warehouse')"
+                        attrs="{'invisible':[('type','=','service')]}"
+                    >
+                        <label for="loc_rack" string="Location" />
+                        <div class="o_row">
+                            <field name="loc_rack" placeholder="Rack" />
+                            <field name="loc_row" placeholder="Row" />
+                            <field name="loc_case" placeholder="Case" />
+                        </div>
+                    </group>
+                    <group
+                        string='Stock'
+                        groups="stock.group_stock_multi_warehouses"
+                        invisible="context.get('warehouse')"
+                    >
+                        <field name="warehouse_loc_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="warehouse_id" />
+                                <field name="loc_rack" />
+                                <field name="loc_row" />
+                                <field name="loc_case" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Inventory">
                         <field name="last_inventory_date" />
                         <field name="last_inventory_id" />
                         <button
                             string="Update"
                             name="get_last_inventory_date"
                             type="object"
-                            class="oe_link"
+                            class="oe_link oe_edit_only"
                             groups="deltatech_stock_inventory.group_view_inventory_button"
                         />
                     </group>
@@ -66,17 +90,42 @@
                                         <field name="default_code" />
                                         <field name="qty_available" />
                                     </group>
-                                    <group string='Stock' name="store" attrs="{'invisible':[('type','=','service')]}">
-                                        <field name="loc_rack" />
-                                        <field name="loc_row" />
-                                        <field name="loc_case" />
+                                    <group
+                                        string='Stock'
+                                        name="store"
+                                        invisible="not context.get('warehouse')"
+                                        attrs="{'invisible':[('type','=','service')]}"
+                                    >
+                                        <label for="loc_rack" string="Location" />
+                                        <div class="o_row">
+                                            <field name="loc_rack" placeholder="Rack" />
+                                            <field name="loc_row" placeholder="Row" />
+                                            <field name="loc_case" placeholder="Case" />
+                                        </div>
+                                    </group>
+                                    <group
+                                        string='Stock'
+                                        groups="stock.group_stock_multi_warehouses"
+                                        invisible="context.get('warehouse')"
+                                    >
+                                        <field name="warehouse_loc_ids" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="warehouse_id" />
+                                                <field name="loc_rack" />
+                                                <field name="loc_row" />
+                                                <field name="loc_case" />
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group string="Inventory">
                                         <field name="last_inventory_date" />
                                         <field name="last_inventory_id" />
                                         <button
                                             string="Update"
                                             name="get_last_inventory_date"
                                             type="object"
-                                            class="oe_link"
+                                            class="oe_link oe_edit_only"
+                                            groups="deltatech_stock_inventory.group_view_inventory_button"
                                         />
                                     </group>
                                 </group>

@@ -7,7 +7,7 @@
 
 {
     "name": "Stock Inventory",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -18,7 +18,8 @@
         "data/data.xml",
         "views/stock_view.xml",
         "views/product_view.xml",
-        "views/report_stockinventory.xml",
+        "views/report_stock_inventory.xml",
+        "security/ir.model.access.csv",
     ],
     "images": ["images/main_screenshot.png"],
     "installable": True,

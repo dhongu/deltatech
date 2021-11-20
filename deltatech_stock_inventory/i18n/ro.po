@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#   * deltatech_stock_inventory
+#	* deltatech_stock_inventory
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-21 15:37+0000\n"
-"PO-Revision-Date: 2021-01-21 15:37+0000\n"
+"POT-Creation-Date: 2021-11-20 04:53+0000\n"
+"PO-Revision-Date: 2021-11-20 04:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,18 +22,18 @@ msgstr "<span class=\"o_stat_text\">În stoc</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span> Case:</span>"
+msgid "<span>Case:</span>"
 msgstr "<span> Cutie:</span>"
-
-#. module: deltatech_stock_inventory
-#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
-msgid "<span> Row:</span>"
-msgstr "<span> Rând:</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
 msgid "<span>Rack:</span>"
 msgstr "<span>Raft:</span>"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_position
+msgid "<span>Row:</span>"
+msgstr "<span> Rând:</span>"
 
 #. module: deltatech_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.report_inventory_total
@@ -132,7 +132,10 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_case
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_case
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_case
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_case
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Case"
 msgstr "Cutie"
 
@@ -140,6 +143,26 @@ msgstr "Cutie"
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__categ_id
 msgid "Category"
 msgstr "Categorie"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__id
+msgid "ID"
+msgstr ""
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,help:deltatech_stock_inventory.field_stock_inventory__date
@@ -150,6 +173,7 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_stock_inventory
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Inventory"
 msgstr "Inventar"
 
@@ -191,6 +215,27 @@ msgid "Last Inventory Date"
 msgstr "Data ultimului inventar"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__name
 msgid "Name"
 msgstr "Nume"
@@ -212,6 +257,7 @@ msgstr "Preț"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model,name:deltatech_stock_inventory.model_product_product
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__product_id
 msgid "Product"
 msgstr "Produs"
 
@@ -226,6 +272,11 @@ msgid "Product Template"
 msgstr "Șablon produs"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model,name:deltatech_stock_inventory.model_product_warehouse_location
+msgid "Product Warehouse Location"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.actions.act_window,name:deltatech_stock_inventory.action_product_template_warehouse
 msgid "Products - readonly"
 msgstr ""
@@ -233,15 +284,21 @@ msgstr ""
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_rack
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_rack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory__filterbyrack
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_rack
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Rack"
 msgstr "Raft"
 
 #. module: deltatech_stock_inventory
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__loc_row
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__loc_row
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__loc_row
 #: model:ir.model.fields,field_description:deltatech_stock_inventory.field_stock_inventory_line__loc_row
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_product_template_warehouse_form
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.view_template_property_form
 msgid "Row"
 msgstr "Rând"
 
@@ -283,12 +340,28 @@ msgid "View inventory button in product"
 msgstr "Buton inventar în produs"
 
 #. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_warehouse_location__warehouse_id
+msgid "Warehouse"
+msgstr "Depozit"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_product__warehouse_loc_ids
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_product_template__warehouse_loc_ids
+msgid "Warehouse Loc"
+msgstr ""
+
+#. module: deltatech_stock_inventory
 #: model:ir.ui.menu,name:deltatech_stock_inventory.menu_product_template_warehouse
 msgid "Warehouse Products"
 msgstr "Produse stocabile"
 
 #. module: deltatech_stock_inventory
-#: code:addons/deltatech_stock_inventory/models/stock.py:24
+#: sql_constraint:product.warehouse.location:0
+msgid "Warehouse must be unique per product!"
+msgstr ""
+
+#. module: deltatech_stock_inventory
+#: code:addons/deltatech_stock_inventory/models/stock.py:25
 #, python-format
 msgid "You can only delete draft inventory."
-msgstr "Se poate șterge doar un inventar ciornă"
+msgstr ""

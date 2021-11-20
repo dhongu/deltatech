@@ -60,9 +60,7 @@ class StockInventory(models.Model):
         return res
 
     @api.multi
-    def action_done(
-        self,
-    ):
+    def action_done(self):
         super(StockInventory, self).action_done()
         for inv in self:
             for move in inv.move_ids:
@@ -90,10 +88,19 @@ class StockInventoryLine(models.Model):
 
     categ_id = fields.Many2one("product.category", string="Category", related="product_id.categ_id", store=True)
     standard_price = fields.Float(string="Price")
-    loc_rack = fields.Char("Rack", size=16, related="product_id.loc_rack", store=True)
-    loc_row = fields.Char("Row", size=16, related="product_id.loc_row", store=True)
-    loc_case = fields.Char("Case", size=16, related="product_id.loc_case", store=True)
+    loc_rack = fields.Char("Rack", size=16, compute="_compute_loc", store=True)
+    loc_row = fields.Char("Row", size=16, compute="_compute_loc", store=True)
+    loc_case = fields.Char("Case", size=16, compute="_compute_loc", store=True)
     is_ok = fields.Boolean("Is Ok", default=True)
+
+    @api.depends("location_id", "product_id")
+    def _compute_loc(self):
+        for line in self:
+            warehouse = line.location_id.get_warehouse()
+            product = line.product_id.with_context(warehouse=warehouse.id)
+            line.loc_rack = product.loc_rack
+            line.loc_row = product.loc_row
+            line.loc_case = product.loc_case
 
     @api.onchange("product_id")
     def _onchange_product(self):
