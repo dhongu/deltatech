@@ -55,6 +55,7 @@ class PurchaseOrder(models.Model):
                 "type": action["context"]["type"],
                 "date_invoice": self.date_order.date(),
                 "reference": self.partner_ref,
+                "company_id": self.env.user.company_id.id,
             }
             invoice = self.env["account.invoice"].with_context(action["context"]).new(vals)
             invoice.purchase_order_change()
@@ -88,7 +89,7 @@ class PurchaseOrder(models.Model):
         pick_ids = picking_ids.ids
         # choose the view_mode accordingly
         if len(pick_ids) > 1:
-            result["domain"] = "[('id','in',%s)]" % (pick_ids.ids)
+            result["domain"] = "[('id','in',%s)]" % pick_ids.ids
         elif len(pick_ids) == 1:
             res = self.env.ref("stock.view_picking_form", False)
             result["views"] = [(res and res.id or False, "form")]
