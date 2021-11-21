@@ -161,16 +161,13 @@ class ServiceEquiOperation(models.TransientModel):
                 }
 
             if context:
-                picking = self.env["stock.picking"].with_context(context)
-
                 context["default_move_lines"] = []
 
-                value = picking.move_lines.onchange_product_id(prod_id=self.equipment_id.product_id.id)["value"]
-                value["location_id"] = picking.move_lines._default_location_source()
-                value["location_dest_id"] = picking.move_lines._default_location_destination()
-                value["date_expected"] = self.date
+                value = {}
+
                 value["product_id"] = self.equipment_id.product_id.id
-                value["quant_ids"] = [(6, False, [self.equipment_id.quant_id.id])]
+                # de inlocuit  quant_ids cu numerele seriale aferente.
+                # value["quant_ids"] = [(6, False, [self.equipment_id.quant_id.id])]
                 context["default_move_lines"] += [(0, 0, value)]
 
                 action = {
