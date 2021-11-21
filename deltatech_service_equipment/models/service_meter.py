@@ -61,8 +61,8 @@ class ServiceMeter(models.Model):
     last_meter_reading_id = fields.Many2one(
         "service.meter.reading", string="Last Meter Reading", compute="_compute_last_meter_reading"
     )
-    # last_reading_date = fields.Date(string='Last reading date', compute='_compute_last_meter_reading')
-    last_reading_date = fields.Date(string="Last reading date")
+    last_reading_date = fields.Date(string="Last reading date", compute="_compute_last_meter_reading", store=True)
+
     total_counter_value = fields.Float(
         string="Total Counter Value", digits="Meter Value", compute="_compute_last_meter_reading"
     )
@@ -126,8 +126,8 @@ class ServiceMeter(models.Model):
             if meter.type == "counter":
                 if meter.meter_reading_ids:
                     last_meter_reading_id = meter.meter_reading_ids[0]
-                    meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
-                    total_counter_value = meter.last_meter_reading_id.counter_value
+                    meter.last_reading_date = meter.meter_reading_ids[0].date
+                    total_counter_value = last_meter_reading_id.counter_value
             else:
                 for child_meter in meter.meter_ids:
                     total_counter_value += child_meter.meter_reading_ids[0].counter_value
@@ -140,7 +140,7 @@ class ServiceMeter(models.Model):
             date = self.env.context.get("date", fields.Date.today())
             meter.estimated_value = meter.get_forcast(date)
 
-    def calc_forcast_coef(self):
+    def calc_forecast_coef(self):
         def linreg(X, Y):
             """
             return a,b in solution to y = ax + b such that root mean square distance between
@@ -294,7 +294,7 @@ class ServiceMeterReading(models.Model):
         if vals.get("date", False):
             for reading in self:
                 reading.meter_id.recheck_value()
-                reading.meter_id.calc_forcast_coef()
+                reading.meter_id.calc_forecast_coef()
         return res
 
     def unlink(self):

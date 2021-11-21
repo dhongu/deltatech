@@ -33,7 +33,7 @@
             <field name="arch" type="xml">
                 <form string="Meter">
                     <header>
-                        <button name="calc_forcast_coef" type="object" string="Compute Estimated" />
+                        <button name="calc_forecast_coef" type="object" string="Compute Estimated" />
                         <button name="recheck_value" type="object" string="Recheck Value " />
                     </header>
                     <sheet>
