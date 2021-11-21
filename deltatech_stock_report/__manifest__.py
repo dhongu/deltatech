@@ -14,7 +14,7 @@
     "data": [
         "security/ir.model.access.csv",
         "report/stock_picking_report.xml",
-        "report/monthly_stock_report_view.xml",
+        # "report/monthly_stock_report_view.xml",
         # "report/stock_balance_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
