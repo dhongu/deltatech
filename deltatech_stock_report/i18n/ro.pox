@@ -1,0 +1,177 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#    * deltatech_stock_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-15 19:18+0000\n"
+"PO-Revision-Date: 2015-07-15 19:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
+#: field:stock.picking.report,amount:0
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,categ_id:0
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,company_id:0
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,date:0
+msgid "Date"
+msgstr "Data"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Extended Filters..."
+msgstr "Filtre extinse..."
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Group By..."
+msgstr "Grupează După..."
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,invoice_state:0
+msgid "Invoice Control"
+msgstr "Control facturare"
+
+#. module: deltatech_stock_report
+#: selection:stock.picking.report,invoice_state:0
+msgid "Invoiced"
+msgstr "Facturat"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,location_id:0
+msgid "Location"
+msgstr "Locație"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,location_dest_id:0
+msgid "Location Destination"
+msgstr "Locație destinație"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: filter:stock.picking.report,year:0
+msgid "This Year"
+msgstr "Anul aceasta"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: filter:stock.picking.report,month:0
+msgid "This Month"
+msgstr "Luna aceasta"
+
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: filter:stock.picking.report,prev_month:0
+msgid "Previous Month"
+msgstr "Luna anterioara"
+
+
+#. module: deltatech_stock_report
+#: selection:stock.picking.report,invoice_state:0
+msgid "Not Applicable"
+msgstr "Nefacturabil"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,partner_id:0
+msgid "Partner"
+msgstr "Partner"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
+msgid "Picking Report"
+msgstr "Raport operații stoc"
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,picking_type_id:0
+msgid "Picking Type"
+msgstr "Tip operație"
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,picking_type_code:0
+msgid "Picking Type Code"
+msgstr "Cod operație"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Picking type"
+msgstr "Tip operație"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+#: field:stock.picking.report,product_id:0
+msgid "Product"
+msgstr "Produs"
+
+
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,product_qty:0
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_tree
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_stock_report
+#: model:ir.ui.menu,name:deltatech_stock_report.menu_stock_picking_report_tree
+msgid "Ricking Analysis"
+msgstr "Analiză operații stoc"
+
+#. module: deltatech_stock_report
+#: view:stock.picking.report:deltatech_stock_report.view_stock_picking_report_filter
+msgid "Search"
+msgstr "Caută"
+
+#. module: deltatech_stock_report
+#: model:ir.model,name:deltatech_stock_report.model_stock_picking_report
+msgid "Stock picking report"
+msgstr "Raport operații stoc"
+
+#. module: deltatech_stock_report
+#: model:ir.actions.act_window,help:deltatech_stock_report.action_stock_picking_report
+msgid "This reporting allows you to analysis stock pickings."
+msgstr "cest raport vă permite să analizați operațiile de stoc."
+
+#. module: deltatech_stock_report
+#: selection:stock.picking.report,invoice_state:0
+msgid "To Be Invoiced"
+msgstr "Va fi facturat"
+
+#. module: deltatech_stock_report
+#: field:stock.picking.report,product_uom:0
+msgid "Unit of Measure"
+msgstr "UM"
+
+#. module: deltatech_stock_report
+#: model:ir.actions.act_window,name:deltatech_stock_report.action_stock_picking_report
+msgid "Picking Report"
+msgstr "Raport operații stoc"
