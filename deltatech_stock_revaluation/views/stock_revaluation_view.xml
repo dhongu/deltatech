@@ -55,7 +55,7 @@
                             <page string="Lines">
                                 <field name="line_ids" nolabel="1">
                                     <tree editable="bottom">
-                                        <field name="quant_id" />
+                                        <field name="serial_id" />
                                         <field name="product_id" />
                                         <field name="init_value" />
                                         <field name="old_value" />
@@ -110,7 +110,7 @@
             <field name="res_model">stock.revaluation</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <act_window
+ <!--       <act_window
             id="action_stock_revaluation_from_quants"
             name="Stock Revaluation"
             res_model="stock.revaluation"
@@ -118,8 +118,8 @@
             context="{'from_quants':True}"
             view_mode="form"
             target="new"
-        />
-        <act_window
+        />-->
+<!--        <act_window
             id="action_stock_revaluation_from_loc"
             name="Stock Revaluation"
             res_model="stock.revaluation"
@@ -127,7 +127,7 @@
             context="{'from_quants':True}"
             view_mode="form"
             target="new"
-        />
+        />-->
         <menuitem
             action="action_stock_revaluation"
             id="menu_stock_revaluation"
@@ -141,7 +141,7 @@
                 <tree>
                     <field name="revaluation_id" />
                     <field name="date" />
-                    <field name="quant_id" />
+                    <field name="serial_id" />
                     <field name="product_id" />
                     <field name="init_value" />
                     <field name="old_value" />

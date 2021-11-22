@@ -86,8 +86,8 @@ thead.default th {
                     </thead>
                     <tbody class="default">
                         <t t-set="count" t-value="1" />
-                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
-                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="crt_year" t-value="o.date.year" />
+                        <t t-set="crt_month" t-value="o.date.month" />
                         <t t-set="qty_reval" t-value="0" />
                         <t t-set="init_value" t-value="0" />
                         <t t-set="prev_reval" t-value="0" />
@@ -113,7 +113,7 @@ thead.default th {
                                 <t t-esc="count" />
                             </td>
                             <td style="text-align: left;">
-                                <span t-field="l.quant_id.product_id" />
+                                <span t-field="l.product_id" />
                             </td>
                             <td>
                                 <span>Buc</span>
@@ -131,12 +131,12 @@ thead.default th {
                             </td>
                             <td>
                                 <span>
-                                    <span t-field="l.quant_id.qty" />
+                                    1
                                 </span>
                             </td>
-                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <t t-set="qty_reval" t-value="qty_reval + 1" />
                             <td>
-                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                                <span t-esc="(l.init_value)/1" />
                             </td>
                             <td>
                                 <span t-field="l.init_value" />
@@ -147,7 +147,7 @@ thead.default th {
                             </td>
                             <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
                             <td>
-                                <span t-esc="crt_reval" />
+                                <span t-esc="crt_reval" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="current_reval" t-value="current_reval+crt_reval" />
                             <td>
@@ -158,7 +158,7 @@ thead.default th {
                                 <span>100</span>
                             </td>
                             <td>
-                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                                <span t-esc="l.serial_id.first_revaluation" t-options="{'widget': 'date'}" />
                             </td>
                             <!--
                                 <td>
@@ -182,7 +182,7 @@ thead.default th {
                                 </span>
                             </td>
                             <td>
-                                <span t-esc="l.init_value-l.new_value" />
+                                <span t-esc="l.init_value-l.new_value" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
                             <t t-set="count" t-value="count+1" />
@@ -309,8 +309,8 @@ thead.default th {
                     </thead>
                     <tbody class="default">
                         <t t-set="count" t-value="1" />
-                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
-                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="crt_year" t-value="o.date.year" />
+                        <t t-set="crt_month" t-value="o.date.month" />
                         <t t-set="qty_reval" t-value="0" />
                         <t t-set="init_value" t-value="0" />
                         <t t-set="prev_reval" t-value="0" />
@@ -336,7 +336,7 @@ thead.default th {
                                 <t t-esc="count" />
                             </td>
                             <td style="text-align: left;">
-                                <span t-field="l.quant_id.product_id" />
+                                <span t-field="l.serial_id.product_id" />
                             </td>
                             <td>
                                 <span>Buc</span>
@@ -354,12 +354,12 @@ thead.default th {
                             </td>
                             <td>
                                 <span>
-                                    <span t-field="l.quant_id.qty" />
+                                   1
                                 </span>
                             </td>
-                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <t t-set="qty_reval" t-value="qty_reval+ 1" />
                             <td>
-                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                                <span t-esc="(l.init_value)/(1)" />
                             </td>
                             <td>
                                 <span t-field="l.init_value" />
@@ -370,7 +370,7 @@ thead.default th {
                             </td>
                             <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
                             <td>
-                                <span t-esc="crt_reval" />
+                                <span t-esc="crt_reval" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="current_reval" t-value="current_reval+crt_reval" />
                             <td>
@@ -381,7 +381,7 @@ thead.default th {
                                 <span>100</span>
                             </td>
                             <td>
-                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                                <span t-esc="l.serial_id.first_revaluation" t-options="{'widget': 'date'}" />
                             </td>
                             <!--
                                 <td>
@@ -405,7 +405,7 @@ thead.default th {
                                 </span>
                             </td>
                             <td>
-                                <span t-esc="l.init_value-l.new_value" />
+                                <span t-esc="l.init_value-l.new_value" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
                             <t t-set="count" t-value="count+1" />
@@ -532,8 +532,8 @@ thead.default th {
                     </thead>
                     <tbody class="default">
                         <t t-set="count" t-value="1" />
-                        <t t-set="crt_year" t-value="int(o.date[0:4])" />
-                        <t t-set="crt_month" t-value="int(o.date[5:7])" />
+                        <t t-set="crt_year" t-value="o.date.year" />
+                        <t t-set="crt_month" t-value="o.date.month" />
                         <t t-set="qty_reval" t-value="0" />
                         <t t-set="init_value" t-value="0" />
                         <t t-set="prev_reval" t-value="0" />
@@ -559,7 +559,7 @@ thead.default th {
                                 <t t-esc="count" />
                             </td>
                             <td style="text-align: left;">
-                                <span t-field="l.quant_id.product_id" />
+                                <span t-field="l.product_id" />
                             </td>
                             <td>
                                 <span>Buc</span>
@@ -577,12 +577,12 @@ thead.default th {
                             </td>
                             <td>
                                 <span>
-                                    <span t-field="l.quant_id.qty" />
+                                   1
                                 </span>
                             </td>
-                            <t t-set="qty_reval" t-value="qty_reval+l.quant_id.qty" />
+                            <t t-set="qty_reval" t-value="qty_reval+1" />
                             <td>
-                                <span t-esc="(l.init_value)/(l.quant_id.qty)" />
+                                <span t-esc="(l.init_value)/(1)" />
                             </td>
                             <td>
                                 <span t-field="l.init_value" />
@@ -593,7 +593,7 @@ thead.default th {
                             </td>
                             <t t-set="prev_reval" t-value="prev_reval+l.old_value" />
                             <td>
-                                <span t-esc="crt_reval" />
+                                <span t-esc="crt_reval" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="current_reval" t-value="current_reval+crt_reval" />
                             <td>
@@ -604,7 +604,7 @@ thead.default th {
                                 <span>100</span>
                             </td>
                             <td>
-                                <span t-esc="l.quant_id.first_revaluation[0:7]" />
+                                <span t-field="l.serial_id.first_revaluation" t-options="{'widget': 'date'}" />
                             </td>
                             <!--
                                 <td>
@@ -628,7 +628,7 @@ thead.default th {
                                 </span>
                             </td>
                             <td>
-                                <span t-esc="l.init_value-l.new_value" />
+                                <span t-esc="l.init_value-l.new_value" t-options="{'widget':'float', 'precision':2}" />
                             </td>
                             <t t-set="total_reval" t-value="total_reval+l.init_value-l.new_value" />
                             <t t-set="count" t-value="count+1" />
@@ -673,29 +673,24 @@ thead.default th {
             </div>
         </template>
         <template id="report_stock_revaluation">
-            <t t-call="report.html_container">
-                <t t-foreach="doc_ids" t-as="doc_id">
-                    <t
-                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document')"
-                    />
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                     <t t-call="deltatech_stock_revaluation.stock_revaluation_document" t-lang='user.lang' />
                 </t>
             </t>
         </template>
         <template id="report_stock_revaluation2">
-            <t t-call="report.html_container">
-                <t t-foreach="doc_ids" t-as="doc_id">
-                    <t
-                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document2')"
-                    />
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="deltatech_stock_revaluation.stock_revaluation_document2" t-lang='user.lang' />
                 </t>
             </t>
         </template>
         <template id="report_stock_revaluation3">
-            <t t-call="report.html_container">
-                <t t-foreach="doc_ids" t-as="doc_id">
-                    <t
-                        t-raw="translate_doc(doc_id, doc_model, 'env.user.partner_id.lang', 'deltatech_stock_revaluation.stock_revaluation_document3')"
-                    />
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                     <t t-call="deltatech_stock_revaluation.stock_revaluation_document3" t-lang='user.lang' />
+
                 </t>
             </t>
         </template>

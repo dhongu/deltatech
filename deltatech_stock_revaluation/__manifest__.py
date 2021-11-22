@@ -4,12 +4,12 @@
 
 {
     "name": "Deltatech Stock Revaluation",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Generic module",
     "category": "Administration",
-    "depends": ["stock", "stock_account"],
+    "depends": ["stock", "stock_account", "deltatech_lot_info"],
     "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "data": [
