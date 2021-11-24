@@ -1,8 +1,9 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2020 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools import safe_eval
 
 
 class PurchaseOrder(models.Model):
@@ -11,10 +12,8 @@ class PurchaseOrder(models.Model):
     @api.multi
     def _add_supplier_to_product(self):
         # todo: de adaugat parametru in configurare
-        config_parameter = self.env["ir.config_parameter"].sudo()
-        add_supplier_to_product = config_parameter.get_param("purchase.add_supplier_to_product", default=True)
-        if add_supplier_to_product == "False":
-            add_supplier_to_product = False
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        add_supplier_to_product = safe_eval(get_param("purchase.add_supplier_to_product", "True"))
         if add_supplier_to_product:
             super(PurchaseOrder, self)._add_supplier_to_product()
 
