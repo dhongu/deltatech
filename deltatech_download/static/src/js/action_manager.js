@@ -6,6 +6,12 @@ odoo.define("deltatech_download.ActionManager", function (require) {
     var _t = core._t;
 
     ActionManager.include({
+        _executeURLAction: function (action) {
+            var result = this._super.apply(this, arguments);
+            this._closeDialog({infos: action.infos});
+            return result;
+        },
+
         _triggerDownload: function (action, options, type) {
             var self = this;
             var reportUrls = this._makeReportUrls(action);
