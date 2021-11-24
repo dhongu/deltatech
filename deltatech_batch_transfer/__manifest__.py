@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Batch Transfer",
     "summary": "Batch transfer improvements",
-    "version": "14.0.0.0.0",
+    "version": "14.0.0.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
