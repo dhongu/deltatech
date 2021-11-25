@@ -5,6 +5,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 # sesizari primite din partea clientilor
 
@@ -299,29 +300,24 @@ class ServiceNotification(models.Model):
                 # TODO: De anuntat utilizatorul ca are o sesizare
 
     def new_delivery_button(self):
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+
         context = {
             "default_equipment_id": self.equipment_id.id,
             "default_agreement_id": self.agreement_id.id,
             "default_origin": self.name,
             "default_picking_type_code": "outgoing",
-            "default_picking_type_id": self.env.ref("stock.picking_type_outgoing_not2binvoiced").id,
+            "default_picking_type_id": picking_type_id,
             "default_partner_id": self.address_id.id or self.partner_id.id,
         }
 
         if self.item_ids:
-
-            picking = self.env["stock.picking"].with_context(context)
-
             context["default_move_lines"] = []
 
             for item in self.item_ids:
-                res = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)
-                value = res.get("value", {})
-                value["location_id"] = picking.move_lines._default_location_source()
-                value["location_dest_id"] = picking.move_lines._default_location_destination()
-                value["date_expected"] = fields.Datetime.now()
-                value["product_id"] = item.product_id.id
-                value["product_uom_qty"] = item.quantity
+                value = {"product_id": item.product_id.id, "product_uom_qty": item.quantity}
                 context["default_move_lines"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
@@ -358,20 +354,9 @@ class ServiceNotification(models.Model):
         }
 
         if self.item_ids:
-
-            picking = self.env["stock.picking"].with_context(context)
-
             context["default_move_lines"] = []
-
             for item in self.item_ids:
-                res = picking.move_lines.onchange_product_id(prod_id=item.product_id.id)
-                value = res.get("value", {})
-
-                value["location_id"] = picking.move_lines._default_location_source()
-                value["location_dest_id"] = picking.move_lines._default_location_destination()
-                value["date_expected"] = fields.Datetime.now()
-                value["product_id"] = item.product_id.id
-                value["product_uom_qty"] = item.quantity
+                value = {"product_id": item.product_id.id, "product_uom_qty": item.quantity}
                 context["default_move_lines"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
