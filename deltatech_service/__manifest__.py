@@ -7,7 +7,9 @@
     "version": "14.0.2.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Services/Service",
+
+    "category": "Services/Agreement",
+
     "depends": ["base", "product", "account", "date_range"],
     "license": "AGPL-3",
     "data": [
