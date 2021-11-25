@@ -1,0 +1,2 @@
+Features:
+ - reevaluare stoc
