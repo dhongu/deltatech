@@ -61,8 +61,8 @@ class ServiceMeter(models.Model):
     last_meter_reading_id = fields.Many2one(
         "service.meter.reading", string="Last Meter Reading", compute="_compute_last_meter_reading"
     )
-    # last_reading_date = fields.Date(string='Last reading date', compute='_compute_last_meter_reading')
-    last_reading_date = fields.Date(string="Last reading date")
+    last_reading_date = fields.Date(string="Last reading date", compute="_compute_last_meter_reading", store=True)
+
     total_counter_value = fields.Float(
         string="Total Counter Value", digits="Meter Value", compute="_compute_last_meter_reading"
     )
@@ -126,8 +126,8 @@ class ServiceMeter(models.Model):
             if meter.type == "counter":
                 if meter.meter_reading_ids:
                     last_meter_reading_id = meter.meter_reading_ids[0]
-                    meter.write({"last_reading_date": meter.meter_reading_ids[0].date})
-                    total_counter_value = meter.last_meter_reading_id.counter_value
+                    meter.last_reading_date = meter.meter_reading_ids[0].date
+                    total_counter_value = last_meter_reading_id.counter_value
             else:
                 for child_meter in meter.meter_ids:
                     total_counter_value += child_meter.meter_reading_ids[0].counter_value
@@ -140,7 +140,7 @@ class ServiceMeter(models.Model):
             date = self.env.context.get("date", fields.Date.today())
             meter.estimated_value = meter.get_forcast(date)
 
-    def calc_forcast_coef(self):
+    def calc_forecast_coef(self):
         def linreg(X, Y):
             """
             return a,b in solution to y = ax + b such that root mean square distance between
@@ -254,35 +254,39 @@ class ServiceMeterReading(models.Model):
     consumption_id = fields.Many2one("service.consumption", string="Consumption", readonly=True)
     read_by = fields.Many2one("res.partner", string="Read by", domain=[("is_company", "=", False)])
     note = fields.Text(string="Notes")
+    imported = fields.Boolean(string="Imported")
 
     # todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
 
     @api.depends("date", "meter_id", "equipment_id")
     def _compute_previous_counter_value(self):
-        self.previous_counter_value = self.meter_id.start_value
-        if self.date and self.meter_id:
-            previous = self.env["service.meter.reading"].search(
-                [("meter_id", "=", self.meter_id.id), ("date", "<", self.date)], limit=1, order="date desc, id desc"
-            )
-            if previous:
-                self.previous_counter_value = previous.counter_value
-                self.difference = self.counter_value - self.previous_counter_value
-                # self.invalidate_cache() # asta e solutia ?
+        for reading in self:
+            reading.previous_counter_value = reading.meter_id.start_value
+            if reading.date and reading.meter_id:
+                previous = self.env["service.meter.reading"].search(
+                    [("meter_id", "=", reading.meter_id.id), ("date", "<", reading.date)],
+                    limit=1,
+                    order="date desc, id desc",
+                )
+                if previous:
+                    reading.previous_counter_value = previous.counter_value
+                    reading.difference = reading.counter_value - reading.previous_counter_value
+                    # self.invalidate_cache() # asta e solutia ?
 
     @api.depends("counter_value", "previous_counter_value")
     def _compute_difference(self):
-        self.difference = self.counter_value - self.previous_counter_value
-        next_reading = self.env["service.meter.reading"].search(
-            [("meter_id", "=", self.meter_id.id), ("date", ">", self.date)], limit=1, order="date, id"
-        )
-        if next_reading and next_reading.previous_counter_value != self.counter_value:
-            next_reading.write(
-                {
-                    "previous_counter_value": self.counter_value,
-                    "difference": (next_reading.counter_value - self.counter_value),
-                }
+        for reading in self:
+            reading.difference = reading.counter_value - reading.previous_counter_value
+            next_reading = self.env["service.meter.reading"].search(
+                [("meter_id", "=", reading.meter_id.id), ("date", ">", reading.date)], limit=1, order="date, id"
             )
-            # next._compute_difference()
+            if next_reading and next_reading.previous_counter_value != reading.counter_value:
+                next_reading.write(
+                    {
+                        "previous_counter_value": reading.counter_value,
+                        "difference": (next_reading.counter_value - reading.counter_value),
+                    }
+                )
 
     @api.onchange("meter_id")
     def onchange_meter_id(self):
@@ -294,7 +298,7 @@ class ServiceMeterReading(models.Model):
         if vals.get("date", False):
             for reading in self:
                 reading.meter_id.recheck_value()
-                reading.meter_id.calc_forcast_coef()
+                reading.meter_id.calc_forecast_coef()
         return res
 
     def unlink(self):

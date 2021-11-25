@@ -8,7 +8,7 @@
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Services",
+    "category": "Services/Equipment",
     "depends": ["deltatech_service", "analytic", "maintenance"],
     "license": "AGPL-3",
     "data": [
@@ -32,6 +32,7 @@
         #
         # 'demo.xml',
         # # 'service.meter.reading.csv'
+        "views/res_config_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
