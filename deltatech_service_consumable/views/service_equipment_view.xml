@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="view_service_equipment_form" model="ir.ui.view">
+        <field name="name">Service equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment.view_service_equipment_form" />
+        <field name="arch" type="xml">
+
+            <header position="inside">
+                <button name="new_piking_button" type="object" string="Delivery for service" />
+            </header>
+
+
+            <page id="meters" position="after">
+                <page string="Consumable">
+                    <group>
+                        <field
+                            name="consumable_item_ids"
+                            widget="many2many_kanban"
+                            nolabel="1"
+                            context="{'equipment_id': id}"
+                        >
+                            <kanban>
+                                <field name="product_id" />
+                                <field name="shelf_life" />
+                                <field name="colors" />
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div class="oe_kanban_content">
+                                            <div class="o_kanban_record_top">
+                                                <div class="o_kanban_record_title">
+                                                    <field name="product_id" />
+                                                </div>
+                                            </div>
+                                            <div class="o_kanban_record_body">
+
+                                                <field
+                                                    name="quantity"
+                                                    widget="progressbar"
+                                                    title="Quantity"
+                                                    options="{  'max_value': 'shelf_life', 'editable': false }"
+                                                />
+
+
+
+
+                                            </div>
+
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                        </field>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
