@@ -8,7 +8,7 @@
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "category": "Administration",
+    "category": "Services/Maintenance",
     "depends": [
         "deltatech_service",
         "deltatech_service_equipment",
