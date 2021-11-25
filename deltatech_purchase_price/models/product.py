@@ -51,7 +51,7 @@ class ProductTemplate(models.Model):
             list_price = product.last_purchase_price * (1 + product.trade_markup / 100)
             list_price_tax = 0
             if product.taxes_id.price_include:
-                list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
+                list_price_tax = product.taxes_id.with_context(handle_price_include=False)._compute_amount(list_price, 1)
             product.list_price = list_price + list_price_tax
 
 
