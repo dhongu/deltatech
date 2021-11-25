@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+from odoo.tools import safe_eval
 
 
 class StockMove(models.Model):
@@ -13,18 +14,15 @@ class StockMove(models.Model):
         """ Returns the unit price to store on the quant """
         if self.purchase_line_id:
             get_param = self.env["ir.config_parameter"].sudo().get_param
-            update_supplier_price = get_param(
-                "purchase.update_supplier_price", default=True
-            )  # mai bine era update_supplier_price
-            if update_supplier_price == "False":
-                update_supplier_price = False
 
-            update_product_standard_price = get_param("purchase.update_product_standard_price", default=False)
-            if update_product_standard_price == "False":
-                update_product_standard_price = False
+            update_supplier_price = safe_eval(get_param("purchase.update_supplier_price", default="True"))
+
+            update_standard_price = safe_eval(get_param("purchase.update_product_standard_price", default="False"))
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
-            if update_product_standard_price:
+            self.product_id.write({"last_purchase_price": price_unit})
+            self.product_id.onchange_last_purchase_price()
+            if update_standard_price:
                 product_template = self.product_id.product_tmpl_id
                 msg_body = "Update purchase price from PO %s:\nOld price: %s -> New price: %s" % (
                     self.purchase_line_id.order_id.name,

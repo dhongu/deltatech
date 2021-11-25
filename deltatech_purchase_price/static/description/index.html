@@ -372,6 +372,24 @@ ul.auto-toc {
 <dt>Features:</dt>
 <dd><ul class="first last simple">
 <li>Update purchase price after receipt</li>
+<li>If the product has average cost, the cost will be overwritten (if parameter set to True)</li>
+<li><dl class="first docutils">
+<dt>New fields added in product template:</dt>
+<dd><ul class="first last">
+<li>last_purchase_price - last purchase price. It’s updated at receipt validation</li>
+<li>trade_markup - trade parkup for the product. It can be updated with a wizard (Action-&gt;Set trade markup)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>New feature:</dt>
+<dd><ul class="first last">
+<li>if trade_markup <strong>is set</strong> for a product, at reception the sale price will be computed from last_purchase_price and trade_markup</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </dd>
 </dl>
