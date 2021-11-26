@@ -17,5 +17,5 @@ class PurchaseOrderLine(models.Model):
 
     @api.onchange("price_without_discount", "discount_received")
     def onchange_discount(self):
-        if self.discount_received and self.price_without_discount:
+        if self.price_without_discount:
             self.price_unit = self.price_without_discount * (1.0 - self.discount_received / 100.0)
