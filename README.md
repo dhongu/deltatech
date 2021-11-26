@@ -46,7 +46,6 @@ addon | version | summary
 [deltatech_invoice_product_filter](deltatech_invoice_product_filter/) | 14.0.1.0.0 | Searching invoice using product
 [deltatech_invoice_receipt](deltatech_invoice_receipt/) | 14.0.2.0.0 | Create receipt form invoice
 [deltatech_list](deltatech_list/) | 14.0.1.0.0 | List View Extension
-[deltatech_lot_info](deltatech_lot_info/) | 14.0.1.0.0 | Adds more info on product lot/serial number
 [deltatech_mail](deltatech_mail/) | 14.0.1.0.0 | Substitution
 [deltatech_merge](deltatech_merge/) | 14.0.1.0.0 | Base module for merging
 [deltatech_merge_product](deltatech_merge_product/) | 14.0.0.0.7 | Merge products
@@ -74,7 +73,6 @@ addon | version | summary
 [deltatech_product_extension](deltatech_product_extension/) | 14.0.1.0.0 | New fields in product: Manufacturer Dimensions, Shelf Life and Unit of Measure for Shelf Life
 [deltatech_product_list](deltatech_product_list/) | 14.0.1.0.0 | Define products lists
 [deltatech_product_margin](deltatech_product_margin/) | 14.0.1.0.0 | Product margin and trade markup
-[deltatech_promissory_note](deltatech_promissory_note/) | 14.0.1.0.0 | gestionare bilete la ordin
 [deltatech_purchase_discount](deltatech_purchase_discount/) | 14.0.1.0.1 | Discount in purchase order line
 [deltatech_purchase_price](deltatech_purchase_price/) | 14.0.1.0.2 | Update vendor price after reception
 [deltatech_purchase_xls](deltatech_purchase_xls/) | 14.0.1.0.0 | Import/export purchase line from Excel
@@ -102,7 +100,6 @@ addon | version | summary
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 14.0.2.0.0 | Inventory enhancements
 [deltatech_stock_negative](deltatech_stock_negative/) | 14.0.1.0.1 | Negative stocks are not allowed
 [deltatech_stock_report](deltatech_stock_report/) | 14.0.1.0.0 | Report with positions from picking lists
-[deltatech_stock_revaluation](deltatech_stock_revaluation/) | 14.0.1.0.1 | Generic module
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 14.0.1.0.0 | 2Performant tracking
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 14.0.1.0.1 | Vendor stock availability
 [deltatech_warehouse](deltatech_warehouse/) | 14.0.1.0.0 | MRP Warehouse
