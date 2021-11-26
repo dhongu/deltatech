@@ -44,7 +44,8 @@ class StockRevaluation(models.Model):
     date = fields.Date(
         string="Date", readonly=True, required=True, states={"draft": [("readonly", False)]}, default=fields.Date.today
     )
-    value_type = fields.Selection([("percent", "Percent"), ("velue", "Value")], default="percent", string="Value Type")
+    first_revaluation = fields.Date(string="First Revaluation")
+    value_type = fields.Selection([("percent", "Percent"), ("value", "Value")], default="percent", string="Value Type")
 
     type = fields.Selection(
         [("reduction", "Reduction"), ("growth", "Growth")],
@@ -61,7 +62,7 @@ class StockRevaluation(models.Model):
     line_ids = fields.One2many(
         "stock.revaluation.line",
         "revaluation_id",
-        string="Revaluation line quants",
+        string="Revaluation line",
         readonly=True,
         required=True,
         copy=True,
@@ -91,39 +92,39 @@ class StockRevaluation(models.Model):
     location_id = fields.Many2one("stock.location")
 
     @api.model
-    def default_get(self, fields):
-        defaults = super(StockRevaluation, self).default_get(fields)
+    def default_get(self, fields_list):
+        defaults = super(StockRevaluation, self).default_get(fields_list)
 
         active_ids = self.env.context.get("active_ids", False)
         active_id = self.env.context.get("active_id", False)
         model = self.env.context.get("active_model", False)
 
         domain = False
-
-        if model == "stock.quant":
+        if model == "stock.production.lot":
             domain = [("id", "in", active_ids)]
+
         if model == "stock.location":
             domain = [("location_id", "=", active_id)]
             defaults["location_id"] = active_id
 
         if domain:
-            quants = self.env["stock.quant"].search(domain)
+            serials = self.env["stock.production.lot"].search(domain)
             defaults["line_ids"] = []
-            for quant in quants:
-                if not quant.init_value:
-                    init_value = quant.value
+            for serial in serials:
+                if not serial.init_value:
+                    init_value = serial.inventory_value
                 else:
-                    init_value = quant.init_value
+                    init_value = serial.init_value
                 defaults["line_ids"] += [
                     (
                         0,
                         0,
                         {
-                            "quant_id": quant.id,
-                            "product_id": quant.product_id.id,
+                            "serial_id": serial.id,
+                            "product_id": serial.product_id.id,
                             "init_value": init_value,
-                            "old_value": quant.value,
-                            "new_value": quant.value,
+                            "old_value": serial.value,
+                            "new_value": serial.value,
                         },
                     )
                 ]
@@ -143,11 +144,11 @@ class StockRevaluation(models.Model):
         old_amount_total = 0.0
         new_amount_total = 0.0
         for line in self.line_ids:
-            quant = line.quant_id
-            if not quant.init_value:
-                init_value = quant.value
+
+            if not line.serial_id.init_value:
+                init_value = line.serial_id.inventory_value
             else:
-                init_value = quant.init_value
+                init_value = line.serial_id.init_value
 
             if self.value_type == "percent":
                 ajust = init_value * self.percent / 100.0
@@ -156,17 +157,18 @@ class StockRevaluation(models.Model):
 
             if self.type == "reduction":
                 ajust = -1 * ajust
-            new_value = quant.value + ajust
-            # new_cost = new_value / quant.quantity
-            old_amount_total += quant.value
+            new_value = line.serial_id.inventory_value + ajust
+
+            # new_cost = new_value / 1  # quant.quantity
+            old_amount_total += line.serial_id.inventory_value
             new_amount_total += new_value
-            values = {"init_value": init_value, "old_value": quant.value, "new_value": new_value}
-            if init_value == quant.value:
+            values = {"init_value": init_value, "old_value": line.serial_id.inventory_value, "new_value": new_value}
+            if init_value == line.serial_id.inventory_value:
                 values["first_revaluation"] = self.date
             line.write(values)
         self.write({"old_amount_total": old_amount_total, "new_amount_total": new_amount_total})
 
-        if self.env.context.get("from_quants", False):
+        if self.env.context.get("from_serial", False):
             return {
                 "domain": "[('id','=', " + str(self.id) + ")]",
                 "name": _("Stock Revaluation"),
@@ -179,26 +181,26 @@ class StockRevaluation(models.Model):
 
     def do_revaluation(self):
         for line in self.line_ids:
-            quant = line.quant_id
+
             value = {}
-            if not quant.init_value:
-                init_value = quant.value
+            if not line.serial_id.init_value:
+                init_value = line.serial_id.inventory_value
                 value["init_value"] = init_value
                 value["first_revaluation"] = self.date
             else:
-                init_value = quant.init_value
+                init_value = line.serial_id.init_value
             if self.value_type == "percent":
                 ajust = init_value * self.percent / 100.0
             else:
                 ajust = self.value
             if self.type == "reduction":
                 ajust = -1 * ajust
-            new_value = quant.value + ajust
-            new_cost = new_value / quant.quantity
+            new_value = line.serial_id.inventory_value + ajust
+            new_cost = new_value / 1  # line.serial_id.quantity
             value["cost"] = new_cost
-            quant.write(value)
+            line.serial_id.write(value)
         self.write({"state": "posted"})
-        if self.env.context.get("from_quants", False):
+        if self.env.context.get("from_serials", False):
             return {
                 "domain": "[('id','=', " + str(self.id) + ")]",
                 "name": _("Stock Revaluation"),
@@ -216,39 +218,40 @@ class StockRevaluationLine(models.Model):
 
     revaluation_id = fields.Many2one("stock.revaluation", "Revaluation", required=True, readonly=True)
 
-    product_id = fields.Many2one("product.product", "Product", readonly=True, related="quant_id.product_id")
+    product_id = fields.Many2one("product.product", "Product", readonly=True, related="serial_id.product_id")
 
-    quant_id = fields.Many2one(
-        "stock.quant", "Quant", required=True, ondelete="cascade", domain=[("product_id.type", "=", "product")]
-    )
+    # quant_id = fields.Many2one(
+    #     "stock.quant", "Quant", required=True, ondelete="cascade", domain=[("product_id.type", "=", "product")]
+    # )
+    serial_id = fields.Many2one("stock.production.lot", "Serial Number", domain=[("product_id.type", "=", "product")])
 
     init_value = fields.Float("Value from receipt", readonly=True)
 
-    old_value = fields.Float("Previous value", help="Shows the previous value of the quant", readonly=True)
+    old_value = fields.Float("Previous value", help="Shows the previous value of the equipment", readonly=True)
 
     new_value = fields.Float(
         "New Value",
-        help="Enter the new value you wish to assign to the Quant.",
+        help="Enter the new value you wish to assign to the equipment.",
         digits="Product Price",
         copy=False,
     )
 
     date = fields.Date("Date", related="revaluation_id.date")
     mentor_rates = fields.Integer()
+    first_revaluation = fields.Date(string="First Revaluation")
 
-    @api.onchange("quant_id")
-    def onchange_quant_id(self):
-        quant = self.quant_id
+    @api.onchange("serial_id")
+    def onchange_serial_id(self):
 
-        if not quant.init_value:
-            init_value = quant.value
+        if not self.serial_id.init_value:
+            init_value = self.serial_id.inventory_value
         else:
-            init_value = quant.init_value
+            init_value = self.serial_id.init_value
         ajust = init_value * self.revaluation_id.percent / 100.0
         if self.revaluation_id.type == "reduction":
             ajust = -1 * ajust
-        new_value = quant.value + ajust
-        self.product_id = quant.product_id
+        new_value = self.serial_id.inventory_value + ajust
+        self.product_id = self.serial_id.product_id
         self.init_value = init_value
-        self.old_value = quant.value
+        self.old_value = self.serial_id.inventory_value
         self.new_value = new_value
