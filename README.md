@@ -100,7 +100,6 @@ addon | version | summary
 [deltatech_stock_inventory](deltatech_stock_inventory/) | 14.0.2.0.0 | Inventory enhancements
 [deltatech_stock_negative](deltatech_stock_negative/) | 14.0.1.0.1 | Negative stocks are not allowed
 [deltatech_stock_report](deltatech_stock_report/) | 14.0.1.0.0 | Report with positions from picking lists
-[deltatech_stock_revaluation](deltatech_stock_revaluation/) | 14.0.1.0.1 | Generic module
 [deltatech_tracking_2performant](deltatech_tracking_2performant/) | 14.0.1.0.0 | 2Performant tracking
 [deltatech_vendor_stock](deltatech_vendor_stock/) | 14.0.1.0.1 | Vendor stock availability
 [deltatech_warehouse](deltatech_warehouse/) | 14.0.1.0.0 | MRP Warehouse
