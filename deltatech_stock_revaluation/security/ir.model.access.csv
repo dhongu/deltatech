@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_revaluation,stock.revaluation,model_stock_revaluation,deltatech_stock_revaluation.group_stock_valuation,1,1,1,1
-access_stock_revaluation_line,stock.revaluation.line,model_stock_revaluation_line,deltatech_stock_revaluation.group_stock_valuation,1,1,1,1
-access_stock_revaluation_account_user,stock.revaluation account user,model_stock_revaluation,account.group_account_user,1,0,0,0
