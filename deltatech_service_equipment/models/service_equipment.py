@@ -26,7 +26,13 @@ class ServiceEquipment(models.Model):
     # categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
 
     state = fields.Selection(
-        [("available", "Available"), ("installed", "Installed"), ("backuped", "Backuped")],
+        [
+            ("available", "Available"),
+            ("installing", "In installing"),
+            ("installed", "Installed"),
+            ("inactive", "Inactive"),
+            ("backuped", "Backuped"),
+        ],
         default="available",
         string="Status",
         copy=False,
