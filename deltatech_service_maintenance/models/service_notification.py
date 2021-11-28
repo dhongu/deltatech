@@ -105,7 +105,7 @@ class ServiceNotification(models.Model):
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")  # legatua la comanda de vanzare
     required_order_id = fields.Many2one("required.order", string="Required Products Order")
 
-    related_doc = fields.Boolean(_compute="_get_related_doc")
+    related_doc = fields.Boolean(compute="_compute_related_doc")
 
     item_ids = fields.One2many(
         "service.notification.item",
@@ -116,10 +116,11 @@ class ServiceNotification(models.Model):
         copy=True,
     )
 
-    def _get_related_doc(self):
-        self.related_doc = False
-        if self.piking_id or self.sale_order_id or self.required_order_id:
-            return True
+    def _compute_related_doc(self):
+        for item in self:
+            item.related_doc = False
+            if item.piking_id or item.sale_order_id or item.required_order_id:
+                item.related_doc = True
 
     @api.model
     def company_user(self, present_ids, domain, **kwargs):

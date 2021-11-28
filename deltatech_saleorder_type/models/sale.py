@@ -31,6 +31,7 @@ class SaleAdvancePaymentInv(models.TransientModel):
 
 class SaleOrderType(models.Model):
     _name = "sale.order.type"
+    _description = "SaleOrderType"
 
     name = fields.Char()
     is_default = fields.Boolean()
