@@ -8,6 +8,7 @@ from odoo import api, fields, models
 class ServiceEfficiencyReport(models.Model):
     _name = "service.efficiency.report"
     _inherit = "stock.picking.report"
+    _description = "ServiceEfficiencyReport"
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", index=True)
     agreement_id = fields.Many2one("service.agreement", string="Contract Services")

@@ -139,10 +139,23 @@
                                     <field name="technician_user_id" />
                                 </group>
                             </group>
-                            <group string="Tehnical Details">
+                            <group string="Technical Details">
                                 <field name="group_id" />
                                 <field name="type_id" required="1" />
                                 <field name="start_date" />
+                            </group>
+                            <group string="Stock">
+                                <field name="product_id" />
+                                <field
+                                    name="serial_id"
+                                    domain="[('product_id','=',product_id)]"
+                                    context="{'default_product_id':product_id, 'product_id':product_id }"
+                                />
+
+                                <field name="vendor_id" />
+                                <field name="manufacturer_id" />
+
+
                             </group>
                             <group>
                                 <field name="analytic_account_id" />
