@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
+    <template id="s_snippet_category_slider" name="Category Slider">
+        <t t-call="website.s_dynamic_snippet_template">
+            <t t-set="snippet_name" t-value="'s_snippet_category_slider'" />
+        </t>
+    </template>
+
+
+    <template id="snippets" inherit_id="website.snippets">
+        <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]" position="after">
+            <t
+                t-snippet="deltatech_website_category_snippet.s_snippet_category_slider"
+                t-thumbnail="/deltatech_website_category_snippet/static/src/img/s_category_slider.svg"
+            />
+        </xpath>
+    </template>
+
+
+    <template id="snippet_options" inherit_id="website.snippet_options" name="e-commerce snippet options">
+        <xpath expr="." position="inside">
+            <t t-call="website.dynamic_snippet_carousel_options_template">
+                <t t-set="snippet_name" t-value="'snippet_category_slider'" />
+                <t t-set="snippet_selector" t-value="'.s_snippet_category_slider'" />
+                <we-select string="Filter" data-name="filter_opt" data-attribute-name="filterId">
+                </we-select>
+                <we-select
+                    string="Product Category"
+                    data-name="product_category_opt"
+                    data-attribute-name="productCategoryId"
+                    data-no-preview="true"
+                >
+                    <we-button data-select-data-attribute="-1">All Products</we-button>
+                </we-select>
+            </t>
+        </xpath>
+    </template>
+
+
+
+<!--
     <template id="s_category_card" name="Category Card">
         <section
             class="s_wsale_category_card d-none pt24 pb24"
@@ -35,5 +75,5 @@
                 <we-button data-select_category="" data-no-preview="true">Change category</we-button>
             </div>
         </xpath>
-    </template>
+    </template>-->
 </odoo>

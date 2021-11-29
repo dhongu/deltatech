@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale", "deltatech_website_category"],
-    "data": ["views/templates.xml", "views/snippets.xml"],
+    "data": ["views/templates.xml", "views/snippets.xml", "data/website_data.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
