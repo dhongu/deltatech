@@ -79,10 +79,10 @@ class AccountInvoice(models.Model):
         for inv in self:
 
             if inv.move_type in ("in_invoice", "in_refund"):
-                if not inv.reference:
+                if not inv.ref:
                     ref = inv.name
                 else:
-                    ref = inv.reference
+                    ref = inv.ref
             else:
                 ref = inv.name
 
