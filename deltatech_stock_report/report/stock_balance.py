@@ -35,7 +35,7 @@ class StockBalance(models.Model):
     amount_in = fields.Float("Amount In", digits="Account", readonly=True)
     qty_out = fields.Float("Qty Out", digits="Product Unit of Measure", readonly=True)
     amount_out = fields.Float("Amount Out", digits="Account", readonly=True)
-    product_qty = fields.Float("Quantity", digits_="Product Unit of Measure", readonly=True)
+    product_qty = fields.Float("Quantity", digits="Product Unit of Measure", readonly=True)
     amount = fields.Float("Amount", digits="Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
 

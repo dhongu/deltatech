@@ -4,7 +4,7 @@
 {
     "name": "eCommerce Category Snippet",
     "category": "Website",
-    "summary": "eCommerce extension Category Snipped",
+    "summary": "eCommerce extension Category Snippet",
     "version": "14.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",

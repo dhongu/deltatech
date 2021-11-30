@@ -32,6 +32,7 @@
         #
         # 'demo.xml',
         # # 'service.meter.reading.csv'
+        "views/res_config_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
