@@ -12,6 +12,7 @@ class AccountMove(models.Model):
 
     from_pickings = fields.Boolean("Created from pickings", default=False)
 
+    @api.model_create_multi
     def create(self, vals_list):
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
