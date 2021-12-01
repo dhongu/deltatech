@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <report
+<!--        <report
             string="Inventory Position"
             id="action_report_inventory_position"
             model="stock.inventory"
             report_type="qweb-pdf"
             name="deltatech_stock_inventory.report_inventory_position"
             file="deltatech_stock_inventory.report_inventory_position"
-        />
+        />-->
+
+        <record id="action_report_inventory_position" model="ir.actions.report">
+            <field name="name">Inventory Position</field>
+            <field name="model">stock.inventory</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
+            <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
+        </record>
+
         <template id="report_inventory_position">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -112,7 +121,7 @@
                 </t>
             </t>
         </template>
-        <report
+<!--        <report
             string="Inventory Diff"
             id="action_report_inventory_diff"
             model="stock.inventory"
@@ -120,6 +129,15 @@
             name="deltatech_stock_inventory.report_inventory_diff"
             file="deltatech_stock_inventory.report_inventory_diff"
         />
+        -->
+        <record id="action_report_inventory_diff" model="ir.actions.report">
+            <field name="name">Inventory Diff</field>
+            <field name="model">stock.inventory</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_stock_inventory.report_inventory_diff</field>
+            <field name="report_file">deltatech_stock_inventory.report_inventory_diff</field>
+        </record>
+
         <template id="report_inventory_diff">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
