@@ -1,0 +1,363 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_store
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-16 07:14+0000\n"
+"PO-Revision-Date: 2021-04-16 07:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.res_config_settings_view_form_sale
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-"
+"specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_order_form
+msgid "<span>Sale from store with fiscal receipt only</span>"
+msgstr "<span>Vânzare din magazin doar cu bon fiscal</span>"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_order_form
+msgid "<span>Sale from store</span>"
+msgstr "<span>Vânzare din magazin cu factură și bon fiscal</span>"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_order_form
+msgid "<span>Sale from warehouse</span>"
+msgstr "<span>Vânzare din depozit</span>"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__amount
+msgid "Amount"
+msgstr "Valoare"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_move_form
+msgid "Are you sure you want to print the fiscal receipt?"
+msgstr "Ești sigur că dorești să tipărești bonul fiscal?"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_sale_store_form
+msgid "Cancel"
+msgstr "Renunță"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_bank_statement_import_journal_creation__cod_ecr
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_journal__cod_ecr
+msgid "Cod ECR"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_sale_store
+#: model:ir.actions.act_window,name:deltatech_sale_store.action_sale_store
+msgid "Confirm sale"
+msgstr "Confirmă vanzarea"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__create_uid
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__create_date
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_export_datecs_form
+msgid "Export"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_export_datecs_form
+msgid "Export BF"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_account_invoice_export_bf
+msgid "Export File to ECR"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__data_file
+msgid "File"
+msgstr "Fișier"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_export_datecs_form
+msgid "File BF:"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__name
+msgid "File Name"
+msgstr "Nume fișier"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/models/account_invoice.py:0
+#, python-format
+msgid "File receipt %s has been generated"
+msgstr "Fișierul %s de bon fiscal a fost generat"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_res_company__journal_invoice_with_receipt_id
+msgid "Fiscal Invoice Receipt"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_res_company__journal_fiscal_receipt_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.journal_bf_form
+msgid "Fiscal Receipt"
+msgstr "Bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_bank_statement_import_journal_creation__fiscal_receipt
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_journal__fiscal_receipt
+msgid "Fiscal Receipts Journal"
+msgstr "Jurnal bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__id
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Invoice %s is not paid"
+msgstr "Factura %s nu este plătită"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_account_journal
+msgid "Journal"
+msgstr "Jurnal"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_account_move
+msgid "Journal Entries"
+msgstr "Note contabile"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_res_config_settings__journal_invoice_with_receipt_id
+msgid "Journal Fiscal Invoice Receipt"
+msgstr "Jurnal Facturi cu bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_res_config_settings__journal_fiscal_receipt_id
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.res_config_settings_view_form_sale
+msgid "Journal Fiscal Receipt"
+msgstr "Jurnal bon fiscal"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.res_config_settings_view_form_sale
+msgid "Journal Invoice with Fiscal Receipt"
+msgstr "Jurnal facturi cu bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf____last_update
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__write_uid
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__write_date
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/sale_store.py:0
+#, python-format
+msgid "Not all products are available."
+msgstr "Nu sunt toate produsele disponibile"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Nu se poate emite bon cu valoare negativa!!!"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_move__only_fiscal_receipt
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__only_fiscal_receipt
+msgid "Only Fiscal Receipt"
+msgstr "Numai bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__order_id
+msgid "Order"
+msgstr "Comanda"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__payment_date
+msgid "Payment Date"
+msgstr "Dată încasare"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_store__payment_journal_id
+msgid "Payment Journal"
+msgstr "Jurnal încasare"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/models/sale.py:0
+#, python-format
+msgid "Please define Journal Invoice Fiscal Receipt"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/models/sale.py:0
+#, python-format
+msgid "Please define Journal for Fiscal Receipt"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Please select Customer Invoice %s"
+msgstr "Slectați vă rog o facrură de vânzare %s"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/sale_store.py:0
+#, python-format
+msgid "Please select a sale order"
+msgstr "Vă rog să selectați o comandă de vânzare"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_sale_store_form
+msgid "Print"
+msgstr "Tipărire"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_move_form
+msgid "Print Fiscal Receipt"
+msgstr "Tipărire bon fiscal"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_move__receipt_print
+msgid "Receipt Print"
+msgstr "Tipărire bon"
+
+#. module: deltatech_sale_store
+#: code:addons/deltatech_sale_store/wizard/account_invoice_export_bf.py:0
+#, python-format
+msgid "Ref:"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.actions.act_window,name:deltatech_sale_store.action_sale_fiscal_receipt
+msgid "Sale Fiscal Receipt"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.actions.act_window,name:deltatech_sale_store.action_sale_generic_fiscal_receipt
+msgid "Sale Generic Fiscal Receipt"
+msgstr "Vânzare generică"
+
+#. module: deltatech_sale_store
+#: model:ir.ui.menu,name:deltatech_sale_store.menu_sale_generic_fiscal_receipt
+msgid "Sale Generic Receipt"
+msgstr "Vânzare generic bon"
+
+#. module: deltatech_sale_store
+#: model:ir.ui.menu,name:deltatech_sale_store.menu_sale_fiscal_receipt
+msgid "Sale Receipt"
+msgstr "Vânzare cu bon"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_sale_store
+msgid "Sale Store"
+msgstr "Vânzare magazin"
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.res_config_settings_view_form_sale
+msgid "Sale from Store"
+msgstr "Vânzare din magazin"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_move__sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_order__sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_stock_picking__sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_order_form
+msgid "Sale from store"
+msgstr "Vânzare din magazin"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_sale_order__only_fiscal_receipt
+msgid "Sale without invoice"
+msgstr "Vânzare fără factură"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_sale_advance_payment_inv
+msgid "Sales Advance Payment Invoice"
+msgstr "Factura Vânzare cu Plată în Avans"
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_store
+#: model:ir.model.fields,field_description:deltatech_sale_store.field_account_invoice_export_bf__text_data
+msgid "Text"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model:ir.model,name:deltatech_sale_store.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_sale_store
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_store.view_export_datecs_form
+msgid "_Close"
+msgstr ""

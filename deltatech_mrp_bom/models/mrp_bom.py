@@ -3,7 +3,28 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
+
+
+class MrpBom(models.Model):
+    _inherit = "mrp.bom"
+
+    @api.onchange("product_tmpl_id")
+    def onchange_product_tmpl_id(self):
+        if self.product_tmpl_id:
+            self.product_uom_id = self.product_tmpl_id.uom_id.id
+            if self.product_id.product_tmpl_id != self.product_tmpl_id:
+                self.product_id = False
+
+            for line in self.bom_line_ids:
+                bom_product_template_attribute_value_ids = self.env["product.template.attribute.value"]
+
+                for attribute_value in line.bom_product_template_attribute_value_ids:
+                    for possible_value in line.possible_bom_product_template_attribute_value_ids:
+                        if attribute_value.name == possible_value.name:
+                            bom_product_template_attribute_value_ids |= possible_value
+
+                line.bom_product_template_attribute_value_ids = bom_product_template_attribute_value_ids
 
 
 class MrpBomLine(models.Model):

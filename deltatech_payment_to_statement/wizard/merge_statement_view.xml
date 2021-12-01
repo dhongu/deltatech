@@ -90,7 +90,7 @@
             </form>
         </field>
     </record>
-    <act_window
+<!--    <act_window
         id="action_statement_merge"
         res_model="merge.statement.wizard"
         binding_model="account.bank.statement"
@@ -98,5 +98,15 @@
         target="new"
         view_mode="form"
         name="Merge"
-    />
+    />-->
+    <record id="action_statement_merge" model="ir.actions.act_window">
+        <field name="name">Merge</field>
+        <field name="res_model">merge.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_bank_statement" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+
 </odoo>

@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <report
+<!--        <report
             string="Inventory Position"
             id="action_report_inventory_position"
             model="stock.inventory"
             report_type="qweb-pdf"
             name="deltatech_stock_inventory.report_inventory_position"
             file="deltatech_stock_inventory.report_inventory_position"
-        />
+        />-->
+
+        <record id="action_report_inventory_position" model="ir.actions.report">
+            <field name="name">Inventory Position</field>
+            <field name="model">stock.inventory</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
+            <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
+        </record>
+
         <template id="report_inventory_position">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -89,21 +98,16 @@
                                         <t t-set="loc_case" t-value="line.loc_case" />
                                     </t>
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                                    <t
-                                        t-set="total_amount"
-                                        t-value="total_amount+line.product_qty*line.standard_price"
-                                    />
-                                    <t
-                                        t-set="total_before"
-                                        t-value="total_before+line.theoretical_qty*line.standard_price"
-                                    />
+                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+                                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                                     <t t-if='dif&gt;0'>
-                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                        <t t-set="plus" t-value="plus+dif*price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                                     </t>
                                     <t t-if='dif&lt;0'>
-                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                        <t t-set="minus" t-value="minus-1*dif*price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                                     </t>
                                     <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                 </t>
@@ -117,7 +121,7 @@
                 </t>
             </t>
         </template>
-        <report
+<!--        <report
             string="Inventory Diff"
             id="action_report_inventory_diff"
             model="stock.inventory"
@@ -125,6 +129,15 @@
             name="deltatech_stock_inventory.report_inventory_diff"
             file="deltatech_stock_inventory.report_inventory_diff"
         />
+        -->
+        <record id="action_report_inventory_diff" model="ir.actions.report">
+            <field name="name">Inventory Diff</field>
+            <field name="model">stock.inventory</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_stock_inventory.report_inventory_diff</field>
+            <field name="report_file">deltatech_stock_inventory.report_inventory_diff</field>
+        </record>
+
         <template id="report_inventory_diff">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
@@ -175,25 +188,20 @@
                                 <t t-set="minus" t-value="0" />
                                 <t t-foreach="o.line_ids" t-as="line">
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                                    <t
-                                        t-set="total_amount"
-                                        t-value="total_amount+line.product_qty*line.standard_price"
-                                    />
-                                    <t
-                                        t-set="total_before"
-                                        t-value="total_before+line.theoretical_qty*line.standard_price"
-                                    />
+                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+                                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                                     <t t-if='dif&gt;0'>
-                                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                                        <t t-set="plus" t-value="plus+dif*price" />
+                                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                                         <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                     </t>
                                 </t>
                                 <t t-foreach="o.line_ids" t-as="line">
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
                                     <t t-if='dif&lt;0'>
-                                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                                        <t t-set="minus" t-value="minus-1*dif*price" />
+                                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                                         <t t-call="deltatech_stock_inventory.report_inventory_line" />
                                     </t>
                                 </t>
@@ -264,10 +272,7 @@
                     <span t-field="line.product_uom_id" groups="uom.group_uom" />
                 </td>
                 <td class="text-right">
-                    <span
-                        t-esc="round(line.product_qty*line.standard_price,2)"
-                        t-options='{"widget": "float", "precision": 2}'
-                    />
+                    <span t-esc="round(line.product_qty*price,2)" t-options='{"widget": "float", "precision": 2}' />
                 </td>
                 <td class="text-right">
                     <t t-if='dif!=0'>
@@ -276,18 +281,12 @@
                 </td>
                 <td class="text-right">
                     <t t-if='dif&gt;0'>
-                        <span
-                            t-esc="round(dif*line.standard_price,2)"
-                            t-options='{"widget": "float", "precision": 2}'
-                        />
+                        <span t-esc="round(dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                     </t>
                 </td>
                 <td class="text-right">
                     <t t-if='dif&lt;0'>
-                        <span
-                            t-esc="round(-1*dif*line.standard_price,2)"
-                            t-options='{"widget": "float", "precision": 2}'
-                        />
+                        <span t-esc="round(-1*dif*price,2)" t-options='{"widget": "float", "precision": 2}' />
                     </t>
                 </td>
             </tr>
@@ -377,15 +376,18 @@
                         <t t-set="categ_id" t-value="line.categ_id.id" />
                     </t>
                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
-                    <t t-set="total_amount" t-value="total_amount+line.product_qty*line.standard_price" />
-                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*line.standard_price" />
+                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
+
+
+                    <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
+                    <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
                     <t t-if='dif&gt;0'>
-                        <t t-set="plus" t-value="plus+dif*line.standard_price" />
-                        <t t-set="total_plus" t-value="total_plus+dif*line.standard_price" />
+                        <t t-set="plus" t-value="plus+dif*price" />
+                        <t t-set="total_plus" t-value="total_plus+dif*price" />
                     </t>
                     <t t-if='dif&lt;0'>
-                        <t t-set="minus" t-value="minus-1*dif*line.standard_price" />
-                        <t t-set="total_minus" t-value="total_minus-1*dif*line.standard_price" />
+                        <t t-set="minus" t-value="minus-1*dif*price" />
+                        <t t-set="total_minus" t-value="total_minus-1*dif*price" />
                     </t>
                     <t t-call="deltatech_stock_inventory.report_inventory_line" />
                 </t>
