@@ -5,6 +5,13 @@
 from odoo import _, api, fields, models
 
 
+class ServiceAgreementType(models.Model):
+    _inherit = "service.agreement.type"
+
+    permits_pickings = fields.Boolean("Allows non-billable deliveries", default=False)
+    readings_required = fields.Boolean("Requires readings for billing", default=False)
+
+
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
 

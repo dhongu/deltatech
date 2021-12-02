@@ -1,13 +1,21 @@
 <?xml version="1.0" ?>
 <odoo>
-    <data>
-        <report
+
+<!--        <report
             id="action_report_deltatech_expenses_deduction"
             string="Print Expenses Deduction"
             model="deltatech.expenses.deduction"
             report_type="qweb-pdf"
             name="deltatech_expenses.report_deltatech_expenses_deduction"
             file="deltatech_expenses.report_deltatech_expenses_deduction"
-        />
-    </data>
+        />-->
+
+        <record id="action_report_deltatech_expenses_deduction" model="ir.actions.report">
+            <field name="name">Print Expenses Deduction</field>
+            <field name="model">deltatech.expenses.deduction</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">deltatech_expenses.report_deltatech_expenses_deduction</field>
+            <field name="report_file">deltatech_expenses.report_deltatech_expenses_deduction</field>
+        </record>
+
 </odoo>
