@@ -26,7 +26,13 @@ class ServiceEquipment(models.Model):
     # categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
 
     state = fields.Selection(
-        [("available", "Available"), ("installed", "Installed"), ("backuped", "Backuped")],
+        [
+            ("available", "Available"),
+            ("installing", "In installing"),
+            ("installed", "Installed"),
+            ("inactive", "Inactive"),
+            ("backuped", "Backuped"),
+        ],
         default="available",
         string="Status",
         copy=False,
@@ -88,6 +94,14 @@ class ServiceEquipment(models.Model):
     internal_type = fields.Selection([("equipment", "Equipment")], default="equipment")
 
     analytic_account_id = fields.Many2one("account.analytic.account", string="Analytic", ondelete="restrict")
+
+    product_id = fields.Many2one(
+        "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
+    )
+    serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
+    # quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict", copy=False)
+    vendor_id = fields.Many2one("res.partner", string="Vendor")
+    manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
 
     @api.model
     def create(self, vals):
@@ -221,6 +235,14 @@ class ServiceEquipment(models.Model):
 
     def do_agreement(self):
         pass
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        if self.product_id:
+            domain = [("product_id", "=", self.product_id.id)]
+        else:
+            domain = []
+        return {"domain": {"serial_id": domain}}
 
 
 # se va utiliza maintenance.equipment.category
