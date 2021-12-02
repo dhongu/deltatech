@@ -16,7 +16,7 @@ class ServiceEquipment(models.Model):
     _inherits = {"maintenance.equipment": "base_equipment_id"}
     _inherit = "mail.thread"
 
-    base_equipment_id = fields.Many2one("maintenance.equipment")
+    base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
 
     # campuri care se gasesc in echipament
     # name = fields.Char(string='Name', index=True, required=True, copy=False)
@@ -42,6 +42,16 @@ class ServiceEquipment(models.Model):
     agreement_type_id = fields.Many2one(
         "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
     )
+    agreement_state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("open", "In Progress"),
+            ("closed", "Terminated"),
+        ],
+        string="Status contract",
+        store=True,
+        related="agreement_id.state",
+    )
 
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
@@ -56,10 +66,21 @@ class ServiceEquipment(models.Model):
         help="The owner of the equipment",
     )
     address_id = fields.Many2one(
-        "res.partner", string="Location", readonly=True, help="The address where the equipment is located"
+        "res.partner",
+        string="Address",
+        readonly=True,
+        help="The address where the equipment is located",
+    )
+    location_state_id = fields.Many2one(
+        "res.country.state",
+        string="Region",
+        related="address_id.state_id",
+        store=True,
     )
     emplacement = fields.Char(
-        string="Emplacement", readonly=True, help="Detail of location of the equipment in working point"
+        string="Emplacement",
+        readonly=True,
+        help="Detail of location of the equipment in working point",
     )
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
@@ -98,8 +119,9 @@ class ServiceEquipment(models.Model):
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
     )
-    serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
-    # quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict", copy=False)
+    serial_id = fields.Many2one("stock.production.lot", string="Serial", ondelete="restrict", copy=False)
+    # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
+    location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
 
