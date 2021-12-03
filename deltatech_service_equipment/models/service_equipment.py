@@ -124,6 +124,7 @@ class ServiceEquipment(models.Model):
     location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
+    common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
 
     @api.model
     def create(self, vals):
@@ -208,7 +209,7 @@ class ServiceEquipment(models.Model):
                 equipment.partner_id = agreements[0].partner_id
 
     def invoice_button(self):
-        invoices = self.env["account.invoice"]
+        invoices = self.env["account.move"]
         for meter in self.meter_ids:
             for meter_reading in meter.meter_reading_ids:
                 if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
@@ -219,9 +220,9 @@ class ServiceEquipment(models.Model):
             "name": _("Services Invoices"),
             "view_type": "form",
             "view_mode": "tree,form",
-            "res_model": "account.invoice",
+            "res_model": "account.move",
             "view_id": False,
-            "context": "{'type':'out_invoice', 'journal_type': 'sale'}",
+            "context": "{'move_type':'out_invoice', 'journal_type': 'sale'}",
             "type": "ir.actions.act_window",
         }
 
@@ -243,9 +244,11 @@ class ServiceEquipment(models.Model):
             lines = self.env["service.agreement.line"].search(
                 [("agreement_id", "=", self.agreement_id.id), ("equipment_id", "=", self.id)]
             )
-            lines.unlink()
-            if not self.agreement_id.agreement_line:
-                self.agreement_id.unlink()
+            # lines.unlink()
+            # if not self.agreement_id.agreement_line:
+            #     self.agreement_id.unlink()
+            lines.write({"active": False, "quantity": 0})
+            self.agreement_id = False
         else:
             raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
 
@@ -265,6 +268,17 @@ class ServiceEquipment(models.Model):
         else:
             domain = []
         return {"domain": {"serial_id": domain}}
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
 
 
 # se va utiliza maintenance.equipment.category

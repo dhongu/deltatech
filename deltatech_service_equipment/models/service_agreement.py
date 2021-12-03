@@ -15,6 +15,8 @@ class ServiceAgreementType(models.Model):
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
 
+    common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
+
     def service_equipment(self):
         equipments = self.env["service.equipment"]
 
@@ -38,6 +40,17 @@ class ServiceAgreement(models.Model):
 
     def do_agreement(self):
         pass
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
 
 
 class ServiceAgreementLine(models.Model):

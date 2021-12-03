@@ -248,7 +248,7 @@ class ServiceMeterReading(models.Model):
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", required=True, ondelete="restrict")
 
-    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.today())
+    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.context_today)
     previous_counter_value = fields.Float(
         string="Previous Counter Value",
         readonly=True,

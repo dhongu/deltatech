@@ -4,5 +4,4 @@
 # import estimate
 from . import enter_readings
 
-# import service_equi_operation
-from . import service_equi_agreement
+from . import service_equi_operation

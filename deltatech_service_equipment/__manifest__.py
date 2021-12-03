@@ -23,15 +23,12 @@
         #
         # 'wizard/estimate_view.xml',
         "wizard/enter_readings_view.xml",
-        # 'wizard/service_equi_operation_view.xml',
-        "wizard/service_equi_agreement_view.xml",
+        "wizard/service_equi_operation_view.xml",
+        # "wizard/service_equi_agreement_view.xml",
         #
         "views/service_meter_view.xml",
         "views/service_equipment_view.xml",
-        # 'service_consumable_view.xml',
-        #
-        # 'demo.xml',
-        # # 'service.meter.reading.csv'
+        "views/service_history_view.xml",
         "views/res_config_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
