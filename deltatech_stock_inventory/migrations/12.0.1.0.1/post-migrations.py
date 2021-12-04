@@ -6,8 +6,8 @@ def migrate(cr, version):
     cr.execute(
         """
              insert into product_warehouse_location
-              (id, product_id, warehouse_id, loc_rack, loc_row, loc_case)
-               select id, id as product_id, 1, loc_rack, loc_row, loc_case
+              ( product_id, warehouse_id, loc_rack, loc_row, loc_case)
+               select  id as product_id, 1, loc_rack, loc_row, loc_case
                 from product_template
     """
     )
