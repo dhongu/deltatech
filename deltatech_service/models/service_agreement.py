@@ -227,12 +227,12 @@ class ServiceAgreement(models.Model):
         )
 
         if self.last_invoice_id:
-            date_invoice = self.last_invoice_id.date_invoice
+            invoice_date = self.last_invoice_id.invoice_date
         else:
-            date_invoice = self.date_agreement
+            invoice_date = self.date_agreement
 
-        if date_invoice and self.cycle_id:
-            next_date = fields.Date.from_string(date_invoice) + self.cycle_id.get_cyle()
+        if invoice_date and self.cycle_id:
+            next_date = fields.Date.from_string(invoice_date) + self.cycle_id.get_cyle()
             if self.invoice_day < 0:
                 next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
                 next_date = next_first_date + relativedelta(days=self.invoice_day)
