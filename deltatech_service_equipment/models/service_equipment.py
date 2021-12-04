@@ -16,7 +16,7 @@ class ServiceEquipment(models.Model):
     _inherits = {"maintenance.equipment": "base_equipment_id"}
     _inherit = "mail.thread"
 
-    base_equipment_id = fields.Many2one("maintenance.equipment")
+    base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
 
     # campuri care se gasesc in echipament
     # name = fields.Char(string='Name', index=True, required=True, copy=False)
@@ -42,6 +42,16 @@ class ServiceEquipment(models.Model):
     agreement_type_id = fields.Many2one(
         "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
     )
+    agreement_state = fields.Selection(
+        [
+            ("draft", "Draft"),
+            ("open", "In Progress"),
+            ("closed", "Terminated"),
+        ],
+        string="Status contract",
+        store=True,
+        related="agreement_id.state",
+    )
 
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
@@ -56,10 +66,21 @@ class ServiceEquipment(models.Model):
         help="The owner of the equipment",
     )
     address_id = fields.Many2one(
-        "res.partner", string="Location", readonly=True, help="The address where the equipment is located"
+        "res.partner",
+        string="Address",
+        readonly=True,
+        help="The address where the equipment is located",
+    )
+    location_state_id = fields.Many2one(
+        "res.country.state",
+        string="Region",
+        related="address_id.state_id",
+        store=True,
     )
     emplacement = fields.Char(
-        string="Emplacement", readonly=True, help="Detail of location of the equipment in working point"
+        string="Emplacement",
+        readonly=True,
+        help="Detail of location of the equipment in working point",
     )
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
@@ -98,10 +119,12 @@ class ServiceEquipment(models.Model):
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
     )
-    serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
-    # quant_id = fields.Many2one('stock.quant', string='Quant', ondelete="restrict", copy=False)
+    serial_id = fields.Many2one("stock.production.lot", string="Serial", ondelete="restrict", copy=False)
+    # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
+    location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
+    common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
 
     @api.model
     def create(self, vals):
@@ -186,7 +209,7 @@ class ServiceEquipment(models.Model):
                 equipment.partner_id = agreements[0].partner_id
 
     def invoice_button(self):
-        invoices = self.env["account.invoice"]
+        invoices = self.env["account.move"]
         for meter in self.meter_ids:
             for meter_reading in meter.meter_reading_ids:
                 if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
@@ -197,9 +220,9 @@ class ServiceEquipment(models.Model):
             "name": _("Services Invoices"),
             "view_type": "form",
             "view_mode": "tree,form",
-            "res_model": "account.invoice",
+            "res_model": "account.move",
             "view_id": False,
-            "context": "{'type':'out_invoice', 'journal_type': 'sale'}",
+            "context": "{'move_type':'out_invoice', 'journal_type': 'sale'}",
             "type": "ir.actions.act_window",
         }
 
@@ -221,9 +244,11 @@ class ServiceEquipment(models.Model):
             lines = self.env["service.agreement.line"].search(
                 [("agreement_id", "=", self.agreement_id.id), ("equipment_id", "=", self.id)]
             )
-            lines.unlink()
-            if not self.agreement_id.agreement_line:
-                self.agreement_id.unlink()
+            # lines.unlink()
+            # if not self.agreement_id.agreement_line:
+            #     self.agreement_id.unlink()
+            lines.write({"active": False, "quantity": 0})
+            self.agreement_id = False
         else:
             raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
 
@@ -243,6 +268,17 @@ class ServiceEquipment(models.Model):
         else:
             domain = []
         return {"domain": {"serial_id": domain}}
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
 
 
 # se va utiliza maintenance.equipment.category

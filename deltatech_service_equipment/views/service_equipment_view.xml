@@ -31,25 +31,30 @@
                 <form string="Service Equipment">
                     <header>
                         <button
+                            name="%(action_service_equi_ins)d"
+                            type="action"
+                            string="Add to Agreement"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('agreement_id','!=',False)]}"
+                            groups="deltatech_service.group_service_manager"
+                        />
+
+                        <button
+                            name="%(action_service_equi_rem)d"
+                            type="action"
+                            string="Remove from Agreement"
+                            attrs="{'invisible':[('agreement_id','==',False)]}"
+                            groups="deltatech_service.group_service_manager"
+                        />
+
+
+                        <button
                             name="create_meters_button"
                             type="object"
                             string="Create Meters"
                             attrs="{'invisible':[('meter_ids','!=',[])]}"
                         />
-                        <button
-                            name="%(action_service_equi_agreement)d"
-                            type="action"
-                            string="Add to Agreement"
-                            state="installed"
-                            attrs="{'invisible':[('agreement_id','!=',False)]}"
-                        />
-                        <button
-                            name="remove_from_agreement_button"
-                            type="object"
-                            string="Remove from Agreement"
-                            state="available"
-                            attrs="{'invisible':[('agreement_id','==',False)]}"
-                        />
+
                         <field
                             name="state"
                             widget="statusbar"
@@ -220,9 +225,17 @@
                     <field name="partner_id" />
                     <field name="group_id" />
                     <field name="agreement_type_id" />
+
                     <newline />
                     <group expand="1" string="Group By...">
                         <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
+                        <filter string="Location" name="location" context="{'group_by':'location_id'}" />
+                        <filter string="Region" name="state_id" context="{'group_by':'location_state_id'}" />
+                        <filter
+                            string="Status agreement"
+                            name="agreement_state"
+                            context="{'group_by':'agreement_state'}"
+                        />
                     </group>
                 </search>
             </field>
