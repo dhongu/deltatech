@@ -8,20 +8,20 @@ from odoo import _, fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    inventory_availability = fields.Selection(
-        [("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
-    )
-
+    # inventory_availability = fields.Selection(
+    #     [("preorder", "Show inventory below a threshold and allow sales if not enough stock")]
+    # )
+    # in loc de inventory_availability se vor utiliza campurile standard allow_out_of_stock_order show_availability
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
 
     availability_text = fields.Char(compute="_compute_availability_text")
 
     def _compute_availability_text(self):
         for product in self.sudo():
-            if product.qty_available > 0 or product.inventory_availability == "never":
+            if product.qty_available > 0:
                 product.availability_text = _("In stock")
             else:
-                if product.inventory_availability != "preorder":
+                if not product.allow_out_of_stock_order:
                     product.availability_text = _("Not in stock")
                 else:
                     product.availability_text = _("At order")

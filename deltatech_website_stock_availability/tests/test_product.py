@@ -25,7 +25,7 @@ class TestProduct(TransactionCase):
             {
                 "name": "Test B",
                 "type": "product",
-                "inventory_availability": "preorder",
+                # "inventory_availability": "preorder",
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
@@ -36,7 +36,7 @@ class TestProduct(TransactionCase):
             {
                 "name": "Test C",
                 "type": "product",
-                "inventory_availability": "preorder",
+                # "inventory_availability": "preorder",
                 "standard_price": 70,
                 "list_price": 150,
                 "seller_ids": seller_ids,
@@ -44,11 +44,11 @@ class TestProduct(TransactionCase):
         )
 
         self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
-        inv_line_a = {
-            "product_id": self.product_a.id,
-            "product_qty": 10000,
-            "location_id": self.stock_location.id,
-        }
+        # inv_line_a = {
+        #     "product_id": self.product_a.id,
+        #     "product_qty": 10000,
+        #     "location_id": self.stock_location.id,
+        # }
 
         # inventory = self.env["stock.inventory"].create(
         #     {
