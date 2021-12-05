@@ -222,9 +222,8 @@ class ServiceAgreement(models.Model):
 
     # TODO: de legat acest contract la un cont analitic ...
     def _compute_last_invoice_id(self):
-        self.last_invoice_id = self.env["account.move"].search(
-            [("agreement_id", "=", self.id), ("state", "in", ["open", "paid"])], order="date desc, id desc", limit=1
-        )
+        domain = [("agreement_id", "=", self.id), ("state", "=", "posted"), ("move_type", "=", "out_invoice")]
+        self.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
         if self.last_invoice_id:
             invoice_date = self.last_invoice_id.invoice_date
@@ -232,14 +231,14 @@ class ServiceAgreement(models.Model):
             invoice_date = self.date_agreement
 
         if invoice_date and self.cycle_id:
-            next_date = fields.Date.from_string(invoice_date) + self.cycle_id.get_cyle()
+            next_date = invoice_date + self.cycle_id.get_cyle()
             if self.invoice_day < 0:
                 next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
                 next_date = next_first_date + relativedelta(days=self.invoice_day)
             if self.invoice_day > 0:
                 next_date += relativedelta(day=self.invoice_day, months=0)
 
-            self.next_date_invoice = fields.Date.to_string(next_date)
+            self.next_date_invoice = next_date  # fields.Date.to_string(next_date)
 
     @api.depends("name", "date_agreement")
     def _compute_display_name(self):
@@ -277,7 +276,33 @@ class ServiceAgreement(models.Model):
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
         return super(ServiceAgreement, self).unlink()
 
-    # CAT, CATG CATPG
+    def get_agreements_auto_billing(self):
+        agreements = self.search([("billing_automation", "=", "auto"), ("state", "=", "open")])
+        for agreement in agreements:
+            # check billing prepare date
+            if agreement.next_date_invoice != fields.Date.context_today(self):
+                agreements = agreements - agreement
+        return agreements
+
+    @api.model
+    def make_billing_automation(self):
+        agreements = self.get_agreements_auto_billing()
+        from_date = fields.Date.context_today(self) + relativedelta(day=1, months=0, days=0)
+        to_date = fields.Date.context_today(self) + relativedelta(day=1, months=1, days=-1)
+        domain = [("date_start", "=", from_date), ("date_end", "=", to_date)]
+        period = self.env["date.range"].search(domain)
+        domain = [("period_id", "in", period.ids), ("agreement_id", "in", agreements.ids)]
+        consumptions = self.env["service.consumption"].search(domain)
+        for consumption in consumptions:  # check if has consumptions in current period
+            agreements = agreements - consumption.agreement_id
+        if agreements:
+            wizard_preparation = self.env["service.billing.preparation"]
+            wizard_preparation = wizard_preparation.with_context(active_ids=agreements.ids).create({})
+            res = wizard_preparation.do_billing_preparation()
+            if res:
+                self = self.with_context(auto=True)
+                wizard_billing = self.env["service.billing"].with_context(active_ids=res["consumption_ids"]).create({})
+                wizard_billing.do_billing()
 
 
 class ServiceAgreementType(models.Model):

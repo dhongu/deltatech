@@ -138,6 +138,16 @@ class ServiceEquipment(models.Model):
         compute="_compute_location_type",
     )
 
+    reading_day = fields.Integer(
+        string="Reading Day",
+        default=-1,
+        help="""Day of the month, set -1 for the last day of the month.
+                                     If it's positive, it gives the day of the month. Set 0 for net days .""",
+    )
+    last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
+    next_reading = fields.Date("Next reading date", readonly=True, default="2000-01-01")
+    last_reading_value = fields.Float(string="Last reading value")
+
     @api.model
     def create(self, vals):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):
@@ -193,20 +203,52 @@ class ServiceEquipment(models.Model):
                 equipment.location_type = "rental"
 
     def _compute_readings_status(self):
-        from_date = date.today() + relativedelta(day=1, months=0, days=0)
-        to_date = date.today() + relativedelta(day=1, months=1, days=-1)
-        from_date = fields.Date.to_string(from_date)
-        to_date = fields.Date.to_string(to_date)
-
         for equi in self:
+            if equi.last_reading:
+                next_date = max(date.today(), equi.last_reading)
+            else:
+                next_date = date.today()
+
+            if equi.reading_day < 0:
+                next_first_date = next_date + relativedelta(day=1, months=0)
+                next_date = next_first_date + relativedelta(days=equi.reading_day)
+            if equi.reading_day > 0:
+                next_date += relativedelta(day=equi.reading_day, months=0)
+
+            next_reading_date = fields.Date.to_string(next_date)
+
             equi.readings_status = "done"
             for meter in equi.meter_ids:
                 if not meter.last_meter_reading_id:
                     equi.readings_status = "unmade"
                     break
-                if not (from_date <= meter.last_meter_reading_id.date <= to_date):
+                else:
+                    equi.last_reading = meter.last_meter_reading_id.date
+                if not (meter.last_meter_reading_id.date >= next_reading_date):
                     equi.readings_status = "unmade"
                     break
+
+            if next_reading_date < equi.last_reading:
+                next_date += relativedelta(months=1)
+            equi.next_reading = fields.Date.to_string(next_date)
+
+    # def _compute_readings_status(self):
+    #     from_date = date.today() + relativedelta(day=1, months=0, days=0)
+    #     to_date = date.today() + relativedelta(day=1, months=1, days=-1)
+    #     from_date = fields.Date.to_string(from_date)
+    #     to_date = fields.Date.to_string(to_date)
+    #
+    #     for equi in self:
+    #         equi.readings_status = "done"
+    #         for meter in equi.meter_ids:
+    #             if not meter.last_meter_reading_id:
+    #                 equi.readings_status = "unmade"
+    #                 break
+    #             if not (from_date <= meter.last_meter_reading_id.date <= to_date):
+    #                 equi.readings_status = "unmade"
+    #                 break
+    #             else:
+    #                 equi.last_reading
 
     def _compute_agreement_id(self):
         for equipment in self:

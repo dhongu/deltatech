@@ -305,6 +305,13 @@ class ServiceNotification(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 
+        # check if agreement permits
+        if not self.agreement_id:
+            raise UserError(_("You must have an agreement."))
+        else:
+            if not self.agreement_id.type_id.permits_pickings:
+                raise UserError(_("This agreement type does not allow pickings."))
+
         context = {
             "default_equipment_id": self.equipment_id.id,
             "default_agreement_id": self.agreement_id.id,
