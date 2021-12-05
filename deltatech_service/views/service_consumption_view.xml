@@ -59,34 +59,18 @@
                     <field name="partner_id" />
                     <field name="period_id" options="{'no_create': True}" />
                     <field name="agreement_id" />
-                    <filter
-                        string="This Month"
-                        name="month"
-                        domain="[('date_invoice','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-('date_invoice','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
-                    <filter
-                        string="Previous Month"
-                        name="prev_month"
-                        domain="[('date_invoice','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
- ('date_invoice','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+
+                    <separator />
+                    <filter name="date_invoice" date="date_invoice" default_period="this_month" />
+                    <separator />
+
+
                     <filter name="draft" string="To Be Invoiced" domain="[('state','=','draft')]" />
                     <filter name="done" string="Invoiced" domain="[('state','=','done')]" />
                     <newline />
                     <group expand="1" string="Group By...">
-                        <filter
-                            string="Period"
-                            name="period"
-                            icon="terp-gtk-jump-to-rtl"
-                            context="{'group_by':'period_id'}"
-                        />
-                        <filter
-                            string="Product"
-                            name="product"
-                            icon="terp-accessories-archiver"
-                            context="{'group_by':'product_id'}"
-                        />
+                        <filter string="Period" name="period" context="{'group_by':'period_id'}" />
+                        <filter string="Product" name="product" context="{'group_by':'product_id'}" />
                         <filter string="Service Group" name="group" context="{'group_by':'group_id'}" />
                     </group>
                 </search>
@@ -106,5 +90,9 @@
             parent="menu_service_agr"
             sequence="102"
         />
+
+
+
+
     </data>
 </odoo>

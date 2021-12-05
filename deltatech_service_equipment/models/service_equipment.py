@@ -1,4 +1,4 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -126,6 +126,18 @@ class ServiceEquipment(models.Model):
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
     common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
 
+    location_type = fields.Selection(
+        [
+            ("stock", "In Stock"),
+            ("rental", "In rental"),  # green  success
+            ("customer", "Customer"),  # blue  info
+            ("unavailable", "Unavailable"),  # red  danger
+        ],
+        default="stock",
+        store=True,
+        compute="_compute_location_type",
+    )
+
     @api.model
     def create(self, vals):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):
@@ -165,6 +177,20 @@ class ServiceEquipment(models.Model):
                     )
 
             equi.write({"total_costs": cost, "total_revenues": revenues})
+
+    @api.depends("location_id")
+    def _compute_location_type(self):
+        for equipment in self:
+
+            if equipment.location_id.usage == "customer":
+                equipment.location_type = "customer"
+            elif equipment.location_id.usage == "internal":
+                equipment.location_type = "stock"
+            else:
+                equipment.location_type = "unavailable"
+
+            if equipment.location_id.rental:
+                equipment.location_type = "rental"
 
     def _compute_readings_status(self):
         from_date = date.today() + relativedelta(day=1, months=0, days=0)
@@ -253,9 +279,6 @@ class ServiceEquipment(models.Model):
             raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
 
     def picking_button(self):
-        pass
-
-    def movelines_button(self):
         pass
 
     def do_agreement(self):
