@@ -5,16 +5,26 @@
             <field name="name">Services equipment</field>
             <field name="model">service.equipment</field>
             <field name="arch" type="xml">
-                <tree string="Services Equipment">
+                <tree string="Services Equipment" decoration-bf="agreement_id!=False">
                     <field name="name" />
                     <field name="partner_id" />
-                    <field name="group_id" />
-                    <field name="agreement_type_id" />
-                    <field name="readings_status" />
+                    <field name="group_id" optional="hide" />
+                    <field name="agreement_id" optional="hide" />
+                    <field name="agreement_type_id" optional="hide" />
+                    <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
                     <field name="total_revenues" sum="total" />
                     <field name="total_costs" sum="total" />
-                    <field name="analytic_account_id" />
+                    <field name="analytic_account_id" optional="hide" />
                     <field name="message_unread" invisible="1" />
+                    <field
+                        name="location_type"
+                        widget="badge"
+                        decoration-success="location_type == 'rental'"
+                        decoration-info="location_type == 'customer'"
+                        decoration-danger="location_type == 'unavailable'"
+                    />
+
+                    <field name="location_id" optional="hide" />
                 </tree>
             </field>
         </record>
@@ -100,11 +110,7 @@
                                 id="consumption_button"
                                 icon="fa-line-chart"
                                 name="%(deltatech_service.action_service_consumption)d"
-                                context="{'search_default_equipment_id': id,
-
-  'search_default_done': 1,
-
-  'default_partner_id': partner_id }"
+                                context="{'search_default_equipment_id': id,  'search_default_done': 1,  'default_partner_id': partner_id }"
                             >
                                 <div class="o_form_field o_stat_info">
                                     <span class="o_stat_value">
@@ -127,6 +133,16 @@
                                     <span class="o_stat_text">Costs</span>
                                 </div>
                             </button>
+                            <button
+                                type="object"
+                                class="oe_stat_button"
+                                id="common_history_button"
+                                icon="fa-book"
+                                name="common_history_button"
+                            >
+                                  <span class="o_stat_text">History</span>
+                            </button>
+
                         </div>
                         <div class="oe_title">
                             <h1>

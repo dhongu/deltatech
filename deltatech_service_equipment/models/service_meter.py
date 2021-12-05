@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
 
 
-# de deinit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
+# de definit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
 
 
 # face legatura dintre categorie si unitatea de masura

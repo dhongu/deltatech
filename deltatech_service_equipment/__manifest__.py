@@ -5,11 +5,11 @@
 {
     "name": "Services Equipment",
     "summary": "Service Equipment Management",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
-    "depends": ["deltatech_service", "analytic", "maintenance"],
+    "depends": ["deltatech_service", "analytic", "maintenance", "stock"],
     "license": "AGPL-3",
     "data": [
         "data/data.xml",
@@ -29,6 +29,7 @@
         "views/service_meter_view.xml",
         "views/service_equipment_view.xml",
         "views/service_history_view.xml",
+        "views/stock_location_view.xml",
         "views/res_config_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
