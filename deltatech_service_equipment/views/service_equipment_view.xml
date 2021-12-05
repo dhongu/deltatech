@@ -8,9 +8,12 @@
                 <tree string="Services Equipment" decoration-bf="agreement_id!=False">
                     <field name="name" />
                     <field name="partner_id" />
+                    <field name="address_id" optional="show" />
+                    <field name="emplacement" optional="show" />
                     <field name="group_id" optional="hide" />
                     <field name="agreement_id" optional="hide" />
                     <field name="agreement_type_id" optional="hide" />
+
                     <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
                     <field name="total_revenues" sum="total" />
                     <field name="total_costs" sum="total" />
@@ -150,7 +153,7 @@
                             </h1>
                         </div>
                         <group>
-                            <group col="1">
+
                                 <group string="Agreement">
                                     <!--<field name="contact_id" context="{'search_default_customer':1,   'show_phone':1}"-->
                                     <!--options="{'always_reload': True}"/>-->
@@ -159,11 +162,12 @@
                                     <field name="agreement_type_id" />
                                     <field name="technician_user_id" />
                                 </group>
-                            </group>
+
                             <group string="Technical Details">
                                 <field name="group_id" />
                                 <field name="type_id" required="1" />
                                 <field name="start_date" />
+                                <field name="manufacturer_id" />
                             </group>
                             <group string="Stock">
                                 <field name="product_id" />
@@ -174,13 +178,11 @@
                                 />
 
                                 <field name="vendor_id" />
-                                <field name="manufacturer_id" />
-
-
-                            </group>
-                            <group>
                                 <field name="analytic_account_id" />
+
+
                             </group>
+
                         </group>
                         <notebook>
                             <page id='meters' string="Meters">
