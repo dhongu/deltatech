@@ -23,7 +23,7 @@
                         decoration-info="location_type == 'customer'"
                         decoration-danger="location_type == 'unavailable'"
                     />
-
+                    <field name="last_reading" />
                     <field name="location_id" optional="hide" />
                 </tree>
             </field>
@@ -74,7 +74,7 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button
+<!--                            <button
                                 type="action"
                                 class="oe_stat_button"
                                 id="meter_button"
@@ -93,7 +93,7 @@
                                 context="{'search_default_equipment_id': id,'default_equipment_id': id}"
                             >
                                 <span class="o_stat_text">Meter Readings</span>
-                            </button>
+                            </button>-->
                             <button
                                 type="object"
                                 class="oe_stat_button"
@@ -140,7 +140,7 @@
                                 icon="fa-book"
                                 name="common_history_button"
                             >
-                                  <span class="o_stat_text">History</span>
+                                <span class="o_stat_text">History</span>
                             </button>
 
                         </div>
@@ -184,6 +184,18 @@
                         </group>
                         <notebook>
                             <page id='meters' string="Meters">
+                                <group>
+                                    <group>
+                                        <field name="reading_day" />
+                                        <field name="last_reading" />
+                                    </group>
+                                    <group>
+                                        <field name="next_reading" />
+                                        <field name="readings_status" />
+                                    </group>
+
+
+                                </group>
                                 <field name="meter_ids" mode="kanban,tree">
                                     <tree string="Meters" editable="bottom">
                                         <field name="name" />
@@ -241,8 +253,9 @@
                     <field name="partner_id" />
                     <field name="group_id" />
                     <field name="agreement_type_id" />
-
-                    <newline />
+                    <separator />
+                    <filter name="last_reading" date="last_reading" default_period="this_month" />
+                    <separator />
                     <group expand="1" string="Group By...">
                         <filter string="Partner" name="partner" context="{'group_by':'partner_id'}" />
                         <filter string="Location" name="location" context="{'group_by':'location_id'}" />

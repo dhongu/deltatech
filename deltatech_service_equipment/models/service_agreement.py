@@ -17,6 +17,14 @@ class ServiceAgreement(models.Model):
 
     common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
 
+    def get_agreements_auto_billing(self):
+        agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
+        for agreement in agreements:
+            # check if readings done
+            if not agreement.meter_reading_status:
+                agreements = agreements - agreement
+        return agreements
+
     def service_equipment(self):
         equipments = self.env["service.equipment"]
 
