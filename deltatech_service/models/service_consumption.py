@@ -93,12 +93,29 @@ class ServiceConsumption(models.Model):
     date_invoice = fields.Date(string="Invoice Date", readonly=True)
     with_free_cycle = fields.Boolean("Created with free cycle")
 
+    revenues = fields.Float(string="Revenues", compute="_compute_revenues", store=True)
+    group_id = fields.Many2one(
+        "service.agreement.group",
+        string="Service Group",
+        readonly=True,
+        ondelete="restrict",
+        copy=False,
+        index=True,
+    )
+
     _sql_constraints = [
         ("agreement_line_period_uniq", "unique(period_id,agreement_line_id)", "Agreement line in period already exist!")
     ]
-    group_id = fields.Many2one(
-        "service.agreement.group", string="Service Group", readonly=True, ondelete="restrict", copy=False, index=True
-    )
+
+    @api.depends("price_unit", "invoiced_qty", "date_invoice")
+    def _compute_revenues(self):
+        for consumption in self:
+            consumption.revenues = consumption.currency_id._convert(
+                from_amount=consumption.price_unit * consumption.invoiced_qty,
+                to_currency=self.env.user.company_id.currency_id,
+                company=self.env.user.company_id,
+                date=consumption.date_invoice or fields.Date.today(),
+            )
 
     def unlink(self):
         for item in self:
