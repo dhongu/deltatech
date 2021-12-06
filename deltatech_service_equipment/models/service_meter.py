@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
 
 
-# de deinit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
+# de definit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
 
 
 # face legatura dintre categorie si unitatea de masura
@@ -59,12 +59,22 @@ class ServiceMeter(models.Model):
 
     start_value = fields.Float(string="Start Value", digits="Meter Value")
     last_meter_reading_id = fields.Many2one(
-        "service.meter.reading", string="Last Meter Reading", compute="_compute_last_meter_reading"
+        "service.meter.reading",
+        string="Last Meter Reading",
+        compute="_compute_last_meter_reading",
+        store=True,
     )
-    last_reading_date = fields.Date(string="Last reading date", compute="_compute_last_meter_reading", store=True)
+    last_reading_date = fields.Date(
+        string="Last reading date",
+        compute="_compute_last_meter_reading",
+        store=True,
+    )
 
     total_counter_value = fields.Float(
-        string="Total Counter Value", digits="Meter Value", compute="_compute_last_meter_reading"
+        string="Total Counter Value",
+        digits="Meter Value",
+        compute="_compute_last_meter_reading",
+        store=True,
     )
     estimated_value = fields.Float(string="Estimated Value", digits="Meter Value", compute="_compute_estimated_value")
 
@@ -238,7 +248,7 @@ class ServiceMeterReading(models.Model):
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", required=True, ondelete="restrict")
 
-    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.today())
+    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.context_today)
     previous_counter_value = fields.Float(
         string="Previous Counter Value",
         readonly=True,

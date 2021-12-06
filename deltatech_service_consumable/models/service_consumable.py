@@ -2,7 +2,8 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import RedirectWarning
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -25,6 +26,10 @@ class ServiceConsumableItem(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+
+        if not picking_type_id:
+            action = self.env.ref("stock.action_stock_config_settings")
+            raise RedirectWarning(_("Please define the picking type for service."), action.id, _("Stock Settings"))
 
         equipment_id = self.env.context.get("equipment_id", False)
         pickings = self.env["stock.picking"]

@@ -6,3 +6,5 @@ from . import service_equipment
 from . import service_meter
 from . import service_agreement
 from . import res_config_settings
+from . import service_history
+from . import stock_location
