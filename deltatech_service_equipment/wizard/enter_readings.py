@@ -69,6 +69,6 @@ class ServiceEnterReadingItem(models.TransientModel):
     _description = "Enter Meter Reading Item"
 
     enter_reading_id = fields.Many2one("service.enter.reading", string="Enter Reading")
-    meter_id = fields.Many2one("service.meter", string="Meter", readonly=True)
-    equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
+    meter_id = fields.Many2one("service.meter", string="Meter")
+    equipment_id = fields.Many2one("service.equipment", string="Equipment")
     counter_value = fields.Float(string="Counter Value", digits="Meter Value", required=True)

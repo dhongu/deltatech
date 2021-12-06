@@ -5,8 +5,25 @@
 from odoo import _, api, fields, models
 
 
+class ServiceAgreementType(models.Model):
+    _inherit = "service.agreement.type"
+
+    permits_pickings = fields.Boolean("Allows non-billable deliveries", default=False)
+    readings_required = fields.Boolean("Requires readings for billing", default=False)
+
+
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
+
+    common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
+
+    def get_agreements_auto_billing(self):
+        agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
+        for agreement in agreements:
+            # check if readings done
+            if not agreement.meter_reading_status:
+                agreements = agreements - agreement
+        return agreements
 
     def service_equipment(self):
         equipments = self.env["service.equipment"]
@@ -31,6 +48,17 @@ class ServiceAgreement(models.Model):
 
     def do_agreement(self):
         pass
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
 
 
 class ServiceAgreementLine(models.Model):

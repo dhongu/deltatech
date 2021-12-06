@@ -7,31 +7,46 @@
             <field name="arch" type="xml">
                 <form string="Service Equipment Operation">
                     <group string="Operation">
-                        <field name="state" />
-                        <field name="date" />
-                        <field name="equipment_id" />
-                        <field name="stock_move" state="ins,rem" />
+                        <group>
+                            <field name="state" />
+                            <field name="date" />
+                        </group>
+                        <group>
+                            <field name="equipment_id" />
+                        </group>
+
                     </group>
                     <group string="Location" states="ins">
-                        <field name="partner_id" attrs="{'required':[('state', '=', 'ins')]}" />
+                        <group>
+                         <field name="partner_id" attrs="{'required':[('state', '=', 'ins')]}" />
                         <field
-                            name="address_id"
-                            attrs="{'required':[('state', '=', 'ins')]}"
-                            domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
-                            context="{ 'search_default_parent_id':partner_id, 'default_parent_id':partner_id,
+                                name="agreement_id"
+                                domain="[('partner_id','=',partner_id)]"
+                                placeholder="Leave empty to create a new agreement"
+                            />
+
+                        </group>
+                        <group>
+                         <field
+                                name="address_id"
+                                attrs="{'required':[('state', '=', 'ins')]}"
+                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                                context="{ 'search_default_parent_id':partner_id, 'default_parent_id':partner_id,
                             'default_filter_parent_id':partner_id}"
-                        />
+                            />
                         <field name="emplacement" />
+                        </group>
+
                     </group>
-                    <group string="Replace with" states="ebk">
-                        <field name="equipment_backup_id" domain="[('state','=','available')]" />
+                    <group string="Remove" states="rem">
+                        <field name="can_remove" />
                     </group>
                     <group string="Readings">
                         <field name="read_by" />
-                        <field name="items">
-                            <tree editable="bootom" create="0" delete="0">
-                                <field name="equipment_id" />
-                                <field name="meter_id" />
+                        <field name="items" nolabel="1">
+                            <tree editable="bottom" create="0" delete="0">
+                                 <field name="equipment_id" invisible="1" readonly="1" force_save="1" />
+                                <field name="meter_id" readonly="1" force_save="1" />
                                 <field name="counter_value" />
                             </tree>
                         </field>
@@ -52,27 +67,8 @@
             <field name="target">new</field>
             <field name="context">{'default_state':'ins'}</field>
         </record>
-        <record id="action_service_equi_rep" model="ir.actions.act_window">
-            <field name="name">Replacement</field>
-            <field name="res_model">service.equi.operation</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{'default_state':'rep'}</field>
-        </record>
-        <record id="action_service_equi_ebk" model="ir.actions.act_window">
-            <field name="name">Enable Backup</field>
-            <field name="res_model">service.equi.operation</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{'default_state':'ebk'}</field>
-        </record>
-        <record id="action_service_equi_dbk" model="ir.actions.act_window">
-            <field name="name">Disable Backup</field>
-            <field name="res_model">service.equi.operation</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{'default_state':'dbk'}</field>
-        </record>
+
+
         <record id="action_service_equi_rem" model="ir.actions.act_window">
             <field name="name">Removal</field>
             <field name="res_model">service.equi.operation</field>

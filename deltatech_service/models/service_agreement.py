@@ -222,24 +222,23 @@ class ServiceAgreement(models.Model):
 
     # TODO: de legat acest contract la un cont analitic ...
     def _compute_last_invoice_id(self):
-        self.last_invoice_id = self.env["account.move"].search(
-            [("agreement_id", "=", self.id), ("state", "in", ["open", "paid"])], order="date desc, id desc", limit=1
-        )
+        domain = [("agreement_id", "=", self.id), ("state", "=", "posted"), ("move_type", "=", "out_invoice")]
+        self.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
         if self.last_invoice_id:
-            date_invoice = self.last_invoice_id.date_invoice
+            invoice_date = self.last_invoice_id.invoice_date
         else:
-            date_invoice = self.date_agreement
+            invoice_date = self.date_agreement
 
-        if date_invoice and self.cycle_id:
-            next_date = fields.Date.from_string(date_invoice) + self.cycle_id.get_cyle()
+        if invoice_date and self.cycle_id:
+            next_date = invoice_date + self.cycle_id.get_cyle()
             if self.invoice_day < 0:
                 next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
                 next_date = next_first_date + relativedelta(days=self.invoice_day)
             if self.invoice_day > 0:
                 next_date += relativedelta(day=self.invoice_day, months=0)
 
-            self.next_date_invoice = fields.Date.to_string(next_date)
+            self.next_date_invoice = next_date  # fields.Date.to_string(next_date)
 
     @api.depends("name", "date_agreement")
     def _compute_display_name(self):
@@ -277,7 +276,33 @@ class ServiceAgreement(models.Model):
                 raise UserError(_("You cannot delete a service agreement which is not draft."))
         return super(ServiceAgreement, self).unlink()
 
-    # CAT, CATG CATPG
+    def get_agreements_auto_billing(self):
+        agreements = self.search([("billing_automation", "=", "auto"), ("state", "=", "open")])
+        for agreement in agreements:
+            # check billing prepare date
+            if agreement.next_date_invoice != fields.Date.context_today(self):
+                agreements = agreements - agreement
+        return agreements
+
+    @api.model
+    def make_billing_automation(self):
+        agreements = self.get_agreements_auto_billing()
+        from_date = fields.Date.context_today(self) + relativedelta(day=1, months=0, days=0)
+        to_date = fields.Date.context_today(self) + relativedelta(day=1, months=1, days=-1)
+        domain = [("date_start", "=", from_date), ("date_end", "=", to_date)]
+        period = self.env["date.range"].search(domain)
+        domain = [("period_id", "in", period.ids), ("agreement_id", "in", agreements.ids)]
+        consumptions = self.env["service.consumption"].search(domain)
+        for consumption in consumptions:  # check if has consumptions in current period
+            agreements = agreements - consumption.agreement_id
+        if agreements:
+            wizard_preparation = self.env["service.billing.preparation"]
+            wizard_preparation = wizard_preparation.with_context(active_ids=agreements.ids).create({})
+            res = wizard_preparation.do_billing_preparation()
+            if res:
+                self = self.with_context(auto=True)
+                wizard_billing = self.env["service.billing"].with_context(active_ids=res["consumption_ids"]).create({})
+                wizard_billing.do_billing()
 
 
 class ServiceAgreementType(models.Model):
@@ -358,44 +383,3 @@ class ServiceAgreementLine(models.Model):
     @api.model
     def after_create_consumption(self, consumption):
         return [consumption.id]
-
-
-# e posibil ca o factura sa contina mai multe contracte
-class AccountInvoice(models.Model):
-    _inherit = "account.move"
-
-    agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="invoice_line_ids.agreement_line_id.agreement_id"
-    )
-
-    def action_cancel(self):
-        res = super(AccountInvoice, self).action_cancel()
-        consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])
-        if consumptions:
-            consumptions.write({"state": "draft", "invoice_id": False})
-            for consumption in consumptions:
-                consumption.agreement_id.compute_totals()
-        return res
-
-    def unlink(self):
-        consumptions = self.env["service.consumption"].search([("invoice_id", "in", self.ids)])
-        if consumptions:
-            consumptions.write({"state": "draft"})
-            for consumption in consumptions:
-                consumption.agreement_id.compute_totals()
-        return super(AccountInvoice, self).unlink()
-
-    def invoice_validate(self):
-        res = super(AccountInvoice, self).invoice_validate()
-        agreements = self.env["service.agreement"]
-        for invoice in self:
-            for line in invoice.invoice_line_ids:
-                agreements |= line.agreement_line_id.agreement_id
-        agreements.compute_totals()
-        return res
-
-
-class AccountInvoiceLine(models.Model):
-    _inherit = "account.move.line"
-
-    agreement_line_id = fields.Many2one("service.agreement.line", string="Service Agreement Line")

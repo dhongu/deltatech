@@ -1,4 +1,4 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -15,21 +15,19 @@ class ServiceEquiOperation(models.TransientModel):
         "service.enter.reading", string="Enter Reading", required=True, ondelete="cascade"
     )
     state = fields.Selection(
-        [("ins", "Installation"), ("ebk", "Enable backup"), ("dbk", "Disable backup"), ("rem", "Removal")],
+        [("ins", "Installation"), ("rem", "Removal")],
         string="Operation",
         default="ins",
         readonly=True,
     )
     equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
 
-    equipment_backup_id = fields.Many2one(
-        "service.equipment", string="Backup Equipment", domain=[("state", "=", "available")]
-    )
-
     partner_id = fields.Many2one("res.partner", string="Customer", domain=[("is_company", "=", True)])
     address_id = fields.Many2one("res.partner", string="Location")  # sa fac un nou tip de partener? locatie ?
     emplacement = fields.Char(string="Emplacement")
-    stock_move = fields.Boolean(string="Stock Move", help="Generate stock move using setting from equipment category")
+    agreement_id = fields.Many2one("service.agreement", string="Contract Service")
+
+    can_remove = fields.Boolean(compute="_compute_can_remove")
 
     @api.model
     def default_get(self, fields_list):
@@ -42,6 +40,9 @@ class ServiceEquiOperation(models.TransientModel):
             defaults["partner_id"] = equipment.partner_id.id
             defaults["address_id"] = equipment.address_id.id
             defaults["emplacement"] = equipment.emplacement
+            agreement = self.env["service.agreement"].search([("partner_id", "=", equipment.partner_id.id)], limit=1)
+            if agreement:
+                defaults["agreement_id"] = agreement.id
         else:
             raise UserError(_("Please select equipment."))
         return defaults
@@ -50,94 +51,59 @@ class ServiceEquiOperation(models.TransientModel):
     def onchange_partner_id(self):
         self.address_id = self.partner_id
 
-    @api.onchange("equipment_backup_id", "date")
-    def onchange_equipment_backup_id(self):
-        items = []
-        for meter in self.equipment_id.meter_ids:
-            if meter.type == "counter":
-                meter = meter.with_context({"date": self.date})
-                items += [
-                    (
-                        0,
-                        0,
-                        {
-                            "meter_id": meter.id,
-                            "equipment_id": meter.equipment_id.id,
-                            "counter_value": meter.estimated_value,
-                        },
-                    )
-                ]
-
-        if self.equipment_backup_id:
-            for meter in self.equipment_backup_id.meter_ids:
-                if meter.type == "counter":
-                    meter = meter.with_context({"date": self.date})
-                    items += [
-                        (
-                            0,
-                            0,
-                            {
-                                "meter_id": meter.id,
-                                "equipment_id": meter.equipment_id.id,
-                                "counter_value": meter.estimated_value,
-                            },
-                        )
-                    ]
-
-        items = self._convert_to_cache({"items": items}, validate=False)
-        self.update(items)
+    def _compute_can_remove(self):
+        # ca sa se poata elimina dintr-un contract trebuie ca:
+        # citirea introdusa sa fie egala cu ultima citire de pe contor
+        # ultima citire trebuie sa fie facturata
+        can_remove = True
+        for reading in self.items:
+            last_meter_reading_id = reading.meter_id.last_meter_reading_id
+            # ultima citire trebuie sa fie egala cu citirea actuala
+            if last_meter_reading_id.counter_value != reading.counter_value:
+                can_remove = False
+            # ultima citire trebuie sa aiba consum generat
+            if not last_meter_reading_id.consumption_id:
+                can_remove = False
+            #  consumul generat de ultima citire trebuie sa fie facturat.
+            if not last_meter_reading_id.consumption_id.invoice_id:
+                can_remove = False
+        self.can_remove = can_remove
 
     def do_operation(self):
-
-        if self.equipment_id.equipment_history_id:
-            if self.date < self.equipment_id.equipment_history_id.from_date:
-                raise UserError(_("Date must be greater than %s") % self.equipment_id.equipment_history_id.from_date)
-
-        values = {
-            "equipment_id": self.equipment_id.id,
-            "from_date": self.date,
-            "partner_id": self.partner_id.id,
-            "address_id": self.address_id.id,
-            "emplacement": self.emplacement,
-        }
-
-        if self.state in ("rem", "dbk"):
-            values["partner_id"] = False
-            values["address_id"] = False
-            values["emplacement"] = False
-
-        if self.state == "ebk":
-            values["equipment_backup_id"] = self.equipment_backup_id.id
-
-        new_hist = self.env["service.equipment.history"].create(values)
+        counters = ""
+        for reading in self.items:
+            counters += str(reading.meter_id.uom_id.name) + ": " + str(reading.counter_value) + "\r\n"
 
         if self.state == "ins":
-            self.equipment_id.write({"equipment_history_id": new_hist.id, "state": "installed"})
-        elif self.state == "rem":
-            self.equipment_id.write({"equipment_history_id": new_hist.id, "state": "available"})
-        elif self.state == "ebk":
-            self.equipment_id.write({"equipment_history_id": new_hist.id, "state": "backuped"})
-            values["equipment_id"] = self.equipment_backup_id.id
-            new_hist = self.env["service.equipment.history"].create(values)
-            self.equipment_backup_id.write({"state": "installed", "equipment_history_id": new_hist.id})
-        elif self.state == "dbk":
-            self.equipment_id.write({"equipment_history_id": new_hist.id, "state": "installed"})
-            values = {
-                "equipment_id": self.equipment_backup_id.id,
-                "from_date": self.date,
-                "partner_id": False,
-                "address_id": False,
-                "emplacement": False,
-            }
-            new_hist = self.env["service.equipment.history"].create(values)
-            self.equipment_backup_id.write({"state": "available", "equipment_history_id": new_hist.id})
+            emplacement = self.emplacement or ""
+            message = _("Equipment installation at %s, address %s, emplacement %s.\r\rMeters: %s") % (
+                self.partner_id.name,
+                self.address_id.name,
+                emplacement,
+                counters,
+            )
+
+            values = {"name": _("Installation"), "equipment_id": self.equipment_id.id, "description": message}
+            self.env["service.history"].create(values)
+
+        if self.state == "rem":
+            if not self.can_remove:
+                raise UserError(_("You must bill consumption before uninstalling"))
+            emplacement = self.equipment_id.emplacement or ""
+            message = _("Uninstalling equipment from %s, address %s, emplacement %s.\r\rMeters: %s") % (
+                self.partner_id.name,
+                self.address_id.name,
+                emplacement,
+                counters,
+            )
+            values = {"name": _("Uninstall"), "equipment_id": self.equipment_id.id, "description": message}
+            self.env["service.history"].create(values)
 
         for item in self.items:
             self.env["service.meter.reading"].create(
                 {
                     "meter_id": item.meter_id.id,
                     "equipment_id": item.meter_id.equipment_id.id,
-                    "equipment_history_id": new_hist.id,
                     "date": self.date,
                     "read_by": self.read_by.id,
                     "note": self.note,
@@ -146,39 +112,64 @@ class ServiceEquiOperation(models.TransientModel):
             )
 
         action = True
-        if self.stock_move and self.equipment_id.quant_id:
-            context = {}
-            if self.state == "ins" and self.equipment_id.type_id.categ_id.out_type_id:
-                context = {
-                    "default_picking_type_id": self.equipment_id.type_id.categ_id.out_type_id.id,
-                    "default_partner_id": self.equipment_id.partner_id.id,
-                }
+        if self.state == "ins":
+            action = self.do_agreement()
 
-            if self.state == "rem" and self.equipment_id.type_id.categ_id.in_type_id:
-                context = {
-                    "default_picking_type_id": self.equipment_id.type_id.categ_id.in_type_id.id,
-                    "default_partner_id": self.equipment_id.partner_id.id,
-                }
+        return action
 
-            if context:
-                context["default_move_lines"] = []
+    def do_agreement(self):
 
-                value = {}
+        counters = ""
+        if self.equipment_id.meter_ids:
+            for meter in self.equipment_id.meter_ids:
+                counters += str(meter.uom_id.name) + ": " + str(meter.total_counter_value) + "\r\n"
+        emplacement = self.equipment_id.emplacement or ""
+        message = _("Add to contract %s, partner %s, address %s, emplacement %s.") % (
+            self.agreement_id.name,
+            self.equipment_id.partner_id.name,
+            self.equipment_id.address_id.name,
+            emplacement,
+        )
+        message += "\r\n"
+        message += _("Meters: %s") % counters
+        values = {
+            "name": _("Add to contract"),
+            "equipment_id": self.equipment_id.id,
+            "agreement_id": self.agreement_id.id,
+            "description": message,
+        }
+        self.env["service.history"].create(values)
 
-                value["product_id"] = self.equipment_id.product_id.id
-                # de inlocuit  quant_ids cu numerele seriale aferente.
-                # value["quant_ids"] = [(6, False, [self.equipment_id.quant_id.id])]
-                context["default_move_lines"] += [(0, 0, value)]
+        if not self.agreement_id:
+            cycle = self.env.ref("deltatech_service.cycle_monthly")
+            values = {"partner_id": self.partner_id.id, "cycle_id": cycle.id}
+            self.agreement_id = self.env["service.agreement"].create(values)
 
-                action = {
-                    "name": _("Equipment Transfer"),
-                    "view_type": "form",
-                    "view_mode": "form",
-                    "res_model": "stock.picking",
-                    "view_id": False,
-                    "views": [[False, "form"]],
-                    "context": context,
-                    "type": "ir.actions.act_window",
-                }
+        # self.equipment_id.write({'agreement_id':self.agreement_id.id,
+        #                         'partner_id':self.partner_id.id})
+        for template in self.equipment_id.type_id.template_meter_ids:
+            values = {
+                "agreement_id": self.agreement_id.id,
+                "equipment_id": self.equipment_id.id,
+                "currency_id": template.currency_id.id,
+                "product_id": template.product_id.id,
+                # "analytic_account_id": template.analytic_account_id.id,
+            }
+            for meter in self.equipment_id.meter_ids:
+                if meter.meter_categ_id == template.meter_categ_id:
+                    values["meter_id"] = meter.id
+                    values["uom_id"] = template.meter_categ_id.bill_uom_id.id
 
+            self.env["service.agreement.line"].create(values)
+
+        action = {
+            "domain": "[('id','=',%s)]" % self.agreement_id.id,
+            "name": _("Service Agreement"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "service.agreement",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+            "res_id": self.agreement_id.id,
+        }
         return action
