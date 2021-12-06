@@ -52,7 +52,7 @@ class SaleOrderLine(models.Model):
     @api.constrains("price_unit", "purchase_price")
     def _check_sale_price(self):
         for line in self:
-            if line.display_type:
+            if line.display_type or line.product_type == "service":
                 continue
             if line.is_delivery:
                 continue
