@@ -9,3 +9,4 @@ from . import res_config_settings
 from . import service_history
 from . import stock_location
 from . import product
+# from . import account_move
