@@ -108,6 +108,7 @@ class ServiceEquipment(models.Model):
         [("", "N/A"), ("unmade", "Unmade"), ("done", "Done")],
         string="Readings Status",
         compute="_compute_readings_status",
+        default="unmade",
         store=True,
     )
 
@@ -215,7 +216,7 @@ class ServiceEquipment(models.Model):
             if equi.reading_day > 0:
                 next_date += relativedelta(day=equi.reading_day, months=0)
 
-            next_reading_date = fields.Date.to_string(next_date)
+            next_reading_date = next_date
 
             equi.readings_status = "done"
             for meter in equi.meter_ids:
@@ -230,7 +231,7 @@ class ServiceEquipment(models.Model):
 
             if next_reading_date < equi.last_reading:
                 next_date += relativedelta(months=1)
-            equi.next_reading = fields.Date.to_string(next_date)
+            equi.next_reading = next_date
 
     # def _compute_readings_status(self):
     #     from_date = date.today() + relativedelta(day=1, months=0, days=0)
