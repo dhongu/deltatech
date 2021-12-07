@@ -6,7 +6,7 @@
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_form_view" />
             <field name="arch" type="xml">
-            	 <field name="type" position="after">
+                <field name="type" position="after">
                      <field name="equi_type_required" />
                  </field>
             </field>

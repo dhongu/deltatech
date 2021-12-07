@@ -122,20 +122,7 @@
                                     <span class="o_stat_text">Revenues</span>
                                 </div>
                             </button>
-                            <button
-                                type="object"
-                                class="oe_stat_button"
-                                id="picking_button"
-                                icon="fa-sign-out"
-                                name="picking_button"
-                            >
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field string="Costs" name="total_costs" widget="monetary" />
-                                    </span>
-                                    <span class="o_stat_text">Costs</span>
-                                </div>
-                            </button>
+
                             <button
                                 type="object"
                                 class="oe_stat_button"
