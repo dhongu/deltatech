@@ -320,9 +320,6 @@ class ServiceEquipment(models.Model):
         else:
             raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
 
-    def picking_button(self):
-        pass
-
     def do_agreement(self):
         pass
 
