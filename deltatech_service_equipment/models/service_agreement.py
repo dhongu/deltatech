@@ -15,7 +15,19 @@ class ServiceAgreementType(models.Model):
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
 
+    equipment_count = fields.Integer(compute="_compute_equipment_count")
     common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
+
+    @api.depends("agreement_line")
+    def _compute_equipment_count(self):
+        for agreement in self:
+            equipments = self.env["service.equipment"]
+
+            for item in agreement.agreement_line:
+                if item.equipment_id:
+                    equipments |= item.equipment_id
+
+            agreement.equipment_count = len(equipments)
 
     def get_agreements_auto_billing(self):
         agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
