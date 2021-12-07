@@ -73,3 +73,28 @@ class ServiceEquipment(models.Model):
             # 'context': context,
             "type": "ir.actions.act_window",
         }
+
+    def picking_button(self):
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+
+        pickings = self.env["stock.picking"].search([("equipment_id", "in", self.ids)])
+        context = {
+            "default_equipment_id": self.id,
+            "default_agreement_id": self.agreement_id.id,
+            "default_picking_type_code": "outgoing",
+            "default_picking_type_id": picking_type_id,
+            "default_partner_id": self.address_id.id,
+        }
+
+        return {
+            "domain": "[('id','in', [" + ",".join(map(str, pickings.ids)) + "])]",
+            "name": _("Delivery for service"),
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "stock.picking",
+            "view_id": False,
+            "context": context,
+            "type": "ir.actions.act_window",
+        }
