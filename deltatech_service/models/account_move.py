@@ -5,13 +5,8 @@
 from odoo import fields, models
 
 
-# e posibil ca o factura sa contina mai multe contracte
 class AccountInvoice(models.Model):
     _inherit = "account.move"
-
-    agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="invoice_line_ids.agreement_line_id.agreement_id"
-    )
 
     def action_cancel(self):
         res = super(AccountInvoice, self).action_cancel()
