@@ -10,9 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
     "depends": ["deltatech_service", "analytic", "maintenance", "stock"],
-
     "external_dependencies": {"python": ["xlwt"]},
-
     "license": "AGPL-3",
     "data": [
         "data/data.xml",

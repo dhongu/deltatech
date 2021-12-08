@@ -250,7 +250,7 @@
             </tr>
         </template>
         <template id="report_inventory_line">
-            <tr>
+            <tr t-if="line.theoretical_qty or line.product_qty">
                 <td>
                     <span t-field="line.product_id" />
                 </td>
@@ -310,11 +310,11 @@
                 </td>
                 <td class="text-right">
                     <div>
-                        <strong t-esc="round(total_amount,2)" t-options='{"widget": "float", "precision": 2}' />
+                        <strong t-esc="round(total_before,2)" t-options='{"widget": "float", "precision": 2}' />
                     </div>
                     <div>
                         <strong
-                            t-esc="round(total_amount+total_plus-total_minus,2)"
+                            t-esc="round(total_before+total_plus-total_minus,2)"
                             t-options='{"widget": "float", "precision": 2}'
                         />
                     </div>
