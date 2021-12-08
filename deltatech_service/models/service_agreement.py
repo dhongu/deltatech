@@ -222,7 +222,11 @@ class ServiceAgreement(models.Model):
 
     # TODO: de legat acest contract la un cont analitic ...
     def _compute_last_invoice_id(self):
-        domain = [("agreement_id", "=", self.id), ("state", "=", "posted"), ("move_type", "=", "out_invoice")]
+        domain = [
+            ("invoice_line_ids.agreement_line_id.agreement_id", "=", self.id),
+            ("state", "=", "posted"),
+            ("move_type", "=", "out_invoice"),
+        ]
         self.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
         if self.last_invoice_id:
