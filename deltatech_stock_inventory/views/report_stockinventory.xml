@@ -23,6 +23,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
+                            <t t-call="l10n_ro_config.report_address_company" />
                             <h2>
                                 Stock Inventory by position
                             </h2>
@@ -143,6 +144,7 @@
                 <t t-foreach="docs" t-as="o">
                     <t t-call="web.external_layout">
                         <div class="page">
+                            <t t-call="l10n_ro_config.report_address_company" />
                             <h2>
                                 Stock Inventory
                             </h2>
@@ -329,6 +331,9 @@
             </tr>
         </template>
         <template id="report_inventory" inherit_id="stock.report_inventory">
+            <xpath expr="//h2" position="before">
+                <t t-call="l10n_ro_config.report_address_company" />
+            </xpath>
             <xpath expr="//table/thead//tr" position="replace">
                 <t t-call="deltatech_stock_inventory.report_inventory_header" />
                 <t t-set="categ_id" t-value="0" />

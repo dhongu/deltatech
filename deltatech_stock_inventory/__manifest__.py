@@ -8,11 +8,11 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory enhancements",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
-    "depends": ["deltatech_stock_date", "stock_account"],
+    "depends": ["deltatech_stock_date", "stock_account", "l10n_ro_config"],
     "license": "LGPL-3",
     "data": [
         "data/data.xml",
