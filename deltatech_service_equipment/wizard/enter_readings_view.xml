@@ -9,6 +9,13 @@
                     <group string="Enter Meter Readings">
                         <div class="oe_grey">For the selected meters please enter readings</div>
                     </group>
+
+                     <div attrs="{'invisible':[ ('error', '=', '')]}">
+                          <div class="alert alert-danger  alert-dismissible text-left" role="alert">
+                             <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                             <field name="error" />
+                          </div>
+                       </div>
                     <group>
                         <group>
                           <field name="date" />
@@ -21,7 +28,9 @@
                             <tree editable="bottom" create="0" delete="0">
                                 <field name="equipment_id" readonly="1" force_save="1" />
                                 <field name="meter_id" readonly="1" force_save="1" />
+                                <field name="prev_value" readonly="1" />
                                 <field name="counter_value" />
+                                <field name="estimated" />
                             </tree>
                         </field>
                         <field name="note" />
