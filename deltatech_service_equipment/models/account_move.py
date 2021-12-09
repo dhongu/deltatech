@@ -25,19 +25,19 @@ class AccountInvoice(models.Model):
         for meter_id in meters_ids:
             line = {}
             line["date"] = "2000-01-01"
-            min = 9999999999
-            max = 0
+            value_min = 9999999999
+            value_max = 0
             for reading in readings:
                 if reading.meter_id == meter_id:
-                    if reading.previous_counter_value < min:
-                        min = reading.previous_counter_value
-                    if reading.counter_value > max:
-                        max = reading.counter_value
+                    if reading.previous_counter_value < value_min:
+                        value_min = reading.previous_counter_value
+                    if reading.counter_value > value_max:
+                        value_max = reading.counter_value
                         line["date"] = reading.date
                     line["equipment_id"] = reading.equipment_id.display_name
                     # line[reading.id] = reading
-                    line["min"] = min
-                    line["max"] = max
+                    line["min"] = value_min
+                    line["max"] = value_max
                     line["serial_id"] = reading.equipment_id.serial_id.name
                     line["meter_id"] = reading.meter_id.name
                     line["address_id"] = reading.address_id.display_name

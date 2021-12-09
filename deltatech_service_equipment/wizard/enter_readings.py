@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 
 class ServiceEnterReading(models.TransientModel):
@@ -14,6 +14,22 @@ class ServiceEnterReading(models.TransientModel):
     read_by = fields.Many2one("res.partner", string="Read by", domain=[("is_company", "=", False)])
     note = fields.Text(string="Notes")
     items = fields.One2many("service.enter.reading.item", "enter_reading_id")
+    error = fields.Text(compute="_compute_error")
+
+    @api.depends("items.counter_value")
+    def _compute_error(self):
+        self.error = ""
+        for item in self.items:
+            domain = [("date", ">", self.date), ("meter_id", "=", item.meter_id.id)]
+            future_readings = self.env["service.meter.reading"].search(domain)
+            if future_readings:
+                self.error += _("The counter %s has readings in the future!!!") % (item.meter_id.name)
+                self.error += "\r\n"
+            if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
+                self.error += _("The counter %s value must be greater than %s") % (
+                    item.meter_id.name,
+                    item.meter_id.total_counter_value,
+                )
 
     @api.model
     def default_get(self, fields_list):
@@ -25,15 +41,17 @@ class ServiceEnterReading(models.TransientModel):
         defaults["items"] = []
         for meter in meters:
             if meter.type == "counter":
+                values = {
+                    "meter_id": meter.id,
+                    "equipment_id": meter.equipment_id.id,
+                    "counter_value": meter.estimated_value,
+                    "prev_value": meter.total_counter_value,
+                }
                 defaults["items"] += [
                     (
                         0,
                         0,
-                        {
-                            "meter_id": meter.id,
-                            "equipment_id": meter.equipment_id.id,
-                            "counter_value": meter.estimated_value,
-                        },
+                        values,
                     )
                 ]
 
@@ -60,6 +78,8 @@ class ServiceEnterReading(models.TransientModel):
                         "read_by": enter_reading.read_by.id,
                         "note": enter_reading.note,
                         "counter_value": item.counter_value,
+                        "estimated": item.estimated,
+                        "previous_counter_value": item.prev_value,
                     }
                 )
 
@@ -72,3 +92,5 @@ class ServiceEnterReadingItem(models.TransientModel):
     meter_id = fields.Many2one("service.meter", string="Meter")
     equipment_id = fields.Many2one("service.equipment", string="Equipment")
     counter_value = fields.Float(string="Counter Value", digits="Meter Value", required=True)
+    prev_value = fields.Float(string="Previous Value", digits="Meter Value", required=False)
+    estimated = fields.Boolean(string="Estimated")

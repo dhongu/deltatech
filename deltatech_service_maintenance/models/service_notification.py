@@ -203,7 +203,7 @@ class ServiceNotification(models.Model):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assing": fields.Datetime.now()})
+        self.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
         new_follower_ids = [self.user_id.partner_id.id]
 

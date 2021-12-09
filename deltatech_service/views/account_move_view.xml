@@ -16,7 +16,7 @@
                     <field
                     name="invoice_line_ids"
                     string="Agreement"
-                    filter_domain="[('invoice_line_ids.agreement_line_id.agreement_id', 'ilike', self)]"
+                    filter_domain="[('invoice_line_ids.agreement_id', 'ilike', self)]"
                 />
                 </field>
             </field>

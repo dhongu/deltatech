@@ -14,7 +14,7 @@ class ServiceEquipment(models.Model):
     _name = "service.equipment"
     _description = "Service Equipment"
     _inherits = {"maintenance.equipment": "base_equipment_id"}
-    _inherit = "mail.thread"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
 
@@ -42,16 +42,7 @@ class ServiceEquipment(models.Model):
     agreement_type_id = fields.Many2one(
         "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
     )
-    agreement_state = fields.Selection(
-        [
-            ("draft", "Draft"),
-            ("open", "In Progress"),
-            ("closed", "Terminated"),
-        ],
-        string="Status contract",
-        store=True,
-        related="agreement_id.state",
-    )
+    agreement_state = fields.Selection(string="Status contract", store=True, related="agreement_id.state")
 
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
