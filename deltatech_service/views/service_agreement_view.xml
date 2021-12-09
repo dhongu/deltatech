@@ -53,17 +53,21 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
-                            type="action"
+                            type="object"
                             class="oe_stat_button"
+                            name="show_invoices"
                             id="invoice_button"
                             icon="fa-pencil-square-o"
-                            name="%(action_service_invoice)d"
-                            context="{'search_default_agreement_id': id,  'default_agreement_id': id,  'default_partner_id': partner_id }"
                             groups="account.group_account_invoice"
                         >
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_value">
-                                    <field string="Invoices" name="total_invoiced" widget="monetary" />
+                                    <field
+                                        string="Invoices"
+                                        name="total_invoiced"
+                                        widget="monetary"
+                                        options="{'currency_field': 'company_currency_id'}"
+                                    />
                                 </span>
                                 <span class="o_stat_text">Invoiced</span>
                             </div>
@@ -78,7 +82,12 @@
                         >
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_value">
-                                    <field string="Revenues" name="total_consumption" widget="monetary" />
+                                    <field
+                                        string="Revenues"
+                                        name="total_consumption"
+                                        widget="monetary"
+                                        options="{'currency_field': 'company_currency_id'}"
+                                    />
                                 </span>
                                 <span class="o_stat_text">Revenues</span>
                             </div>
@@ -101,6 +110,7 @@
                             <field name="partner_id" />
                             <field name="description" />
                             <field name="currency_id" options="{'no_create': True}" />
+                            <field name="company_currency_id" />
                         </group>
                         <group>
                             <field name="cycle_id" />

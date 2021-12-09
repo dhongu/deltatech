@@ -67,6 +67,7 @@ class ServiceAgreement(models.Model):
     company_id = fields.Many2one(
         "res.company", string="Company", required=True, default=lambda self: self.env.user.company_id
     )
+    company_currency_id = fields.Many2one("res.currency", related="company_id.currency_id")
 
     agreement_line = fields.One2many(
         "service.agreement.line",
@@ -110,8 +111,7 @@ class ServiceAgreement(models.Model):
         "res.currency",
         string="Currency",
         required=True,
-        default=_default_currency,
-        domain=[("name", "in", ["RON", "EUR"])],
+        default=lambda self: self.env.company.currency_id,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -199,6 +199,17 @@ class ServiceAgreement(models.Model):
             "limit": 80,
             "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
+
+    def show_invoices(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        domain = [
+            ("invoice_line_ids.agreement_id", "=", self.id),
+            ("state", "=", "posted"),
+            ("move_type", "=", "out_invoice"),
+        ]
+        invoices = self.env["account.move"].search(domain)
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
 
     def compute_totals(self):
         for agreement in self:
