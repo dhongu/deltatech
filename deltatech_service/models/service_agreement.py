@@ -38,7 +38,7 @@ class ServiceCycle(models.Model):
 class ServiceAgreement(models.Model):
     _name = "service.agreement"
     _description = "Service Agreement"
-    _inherit = "mail.thread"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     @api.model
     def _default_currency(self):

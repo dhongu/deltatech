@@ -15,7 +15,7 @@ from odoo.exceptions import UserError
 class ServiceOrder(models.Model):
     _name = "service.order"
     _description = "Service Order"
-    _inherit = "mail.thread"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Reference", readonly=True, default="/")
     date = fields.Date(

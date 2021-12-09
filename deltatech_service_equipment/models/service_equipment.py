@@ -14,7 +14,7 @@ class ServiceEquipment(models.Model):
     _name = "service.equipment"
     _description = "Service Equipment"
     _inherits = {"maintenance.equipment": "base_equipment_id"}
-    _inherit = "mail.thread"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
 
