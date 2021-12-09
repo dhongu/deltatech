@@ -5,8 +5,8 @@
         <field name="name">notification</field>
         <field name="model">service.notification</field>
         <field name="arch" type="xml">
-            <tree string="Services notification" default_order='date DESC'>
-                <field name="name" />
+            <tree string="Services notification" default_order='date DESC' sample="1">
+                <field name="name" decoration-bf="1" />
                 <field name="date" />
                 <field name="type" optional="hide" />
                 <field

@@ -5,7 +5,7 @@
         <field name="name">Services equipment</field>
         <field name="model">service.equipment</field>
         <field name="arch" type="xml">
-            <tree string="Services Equipment" decoration-bf="agreement_id!=False">
+            <tree string="Services Equipment" decoration-bf="agreement_id!=False" sample="1">
                 <field name="name" />
                 <field name="partner_id" />
                 <field name="address_id" optional="show" />
@@ -15,6 +15,7 @@
                 <field name="agreement_type_id" optional="hide" />
 
                 <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
+                <field name="activity_ids" widget="list_activity" optional="show" />
                 <field name="total_revenues" sum="total" />
                 <field name="total_costs" sum="total" />
                 <field name="analytic_account_id" optional="hide" />
@@ -26,7 +27,10 @@
                     decoration-info="location_type == 'customer'"
                     decoration-danger="location_type == 'unavailable'"
                 />
-                <field name="last_reading" />
+                <field name="last_reading" optional="show" />
+                <field name="next_reading" optional="show" widget="remaining_days" />
+
+
                 <field name="location_id" optional="hide" />
             </tree>
         </field>
@@ -163,11 +167,8 @@
                                 domain="[('product_id','=',product_id)]"
                                 context="{'default_product_id':product_id, 'product_id':product_id }"
                             />
-
                             <field name="vendor_id" />
                             <field name="analytic_account_id" />
-
-
                         </group>
 
                     </group>
@@ -182,7 +183,6 @@
                                     <field name="next_reading" />
                                     <field name="readings_status" />
                                 </group>
-
 
                             </group>
                             <field name="meter_ids" mode="kanban,tree">

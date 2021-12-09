@@ -25,8 +25,8 @@ class AccountInvoice(models.Model):
                 consumption.agreement_id.compute_totals()
         return super(AccountInvoice, self).unlink()
 
-    def invoice_validate(self):
-        res = super(AccountInvoice, self).invoice_validate()
+    def action_post(self):
+        res = super(AccountInvoice, self).action_post()
         agreements = self.env["service.agreement"]
         for invoice in self:
             for line in invoice.invoice_line_ids:
@@ -39,3 +39,4 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     agreement_line_id = fields.Many2one("service.agreement.line", string="Service Agreement Line")
+    agreement_id = fields.Many2one("service.agreement", related="agreement_line_id.agreement_id", store=True)

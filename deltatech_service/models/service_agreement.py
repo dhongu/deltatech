@@ -222,27 +222,42 @@ class ServiceAgreement(models.Model):
 
     # TODO: de legat acest contract la un cont analitic ...
     def _compute_last_invoice_id(self):
-        domain = [
-            ("invoice_line_ids.agreement_line_id.agreement_id", "=", self.id),
-            ("state", "=", "posted"),
-            ("move_type", "=", "out_invoice"),
-        ]
-        self.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
-        if self.last_invoice_id:
-            invoice_date = self.last_invoice_id.invoice_date
-        else:
-            invoice_date = self.date_agreement
+        # query = """
+        #     select distinct *
+        #         from  (
+        #             select am.id, aml.agreement_id,
+        #                    rank() over (partition by aml.agreement_id  order by am.date desc) as rnk
+        #             from account_move as am
+        #             join account_move_line as aml on am.id = aml.move_id
+        #             where am.state = 'posted' and move_type = 'out_invoice' and  agreement_line_id is not null
+        #         ) as ts
+        #
+        #         where rnk = 1 ;
+        # """
 
-        if invoice_date and self.cycle_id:
-            next_date = invoice_date + self.cycle_id.get_cyle()
-            if self.invoice_day < 0:
-                next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
-                next_date = next_first_date + relativedelta(days=self.invoice_day)
-            if self.invoice_day > 0:
-                next_date += relativedelta(day=self.invoice_day, months=0)
+        for agreement in self:
+            domain = [
+                ("invoice_line_ids.agreement_id", "=", agreement.id),
+                ("state", "=", "posted"),
+                ("move_type", "=", "out_invoice"),
+            ]
+            agreement.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
-            self.next_date_invoice = next_date  # fields.Date.to_string(next_date)
+            if agreement.last_invoice_id:
+                invoice_date = agreement.last_invoice_id.invoice_date
+            else:
+                invoice_date = agreement.date_agreement
+
+            if invoice_date and agreement.cycle_id:
+                next_date = invoice_date + agreement.cycle_id.get_cyle()
+                if agreement.invoice_day < 0:
+                    next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
+                    next_date = next_first_date + relativedelta(days=agreement.invoice_day)
+                if agreement.invoice_day > 0:
+                    next_date += relativedelta(day=agreement.invoice_day, months=0)
+
+                agreement.next_date_invoice = next_date  # fields.Date.to_string(next_date)
 
     @api.depends("name", "date_agreement")
     def _compute_display_name(self):

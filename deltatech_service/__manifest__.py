@@ -4,7 +4,7 @@
 {
     "name": "Services Agreement",
     "summary": "Manage Services Agreement",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",

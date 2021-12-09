@@ -4,7 +4,7 @@
         <field name="name">Plan</field>
         <field name="model">service.plan</field>
         <field name="arch" type="xml">
-            <tree string="Services Plan">
+            <tree string="Services Plan" sample="1">
                 <field name="name" />
                 <field name="equipment_id" />
                 <field name='state' />
