@@ -120,8 +120,6 @@ class ServiceAgreement(models.Model):
         "service.cycle", string="Billing Cycle", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
 
-    last_invoice_id = fields.Many2one("account.move", string="Last Invoice", compute="_compute_last_invoice_id")
-
     invoice_day = fields.Integer(
         string="Invoice Day",
         readonly=True,
@@ -139,15 +137,14 @@ class ServiceAgreement(models.Model):
                                  If it's positive, it gives the day of the month. Set 0 for net days .""",
     )
 
-    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_last_invoice_id")
+    # se va seta automat la postarea facturii. Am scos  # compute="_compute_last_invoice_id")
+    last_invoice_id = fields.Many2one("account.move", string="Last Invoice")
+    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_last_invoice_id", store=True)
 
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
-
-    total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
-    total_percent = fields.Float(string="Total percent", readonly=True)  # se va calcula (consum/factura)*100
 
     invoicing_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
@@ -221,6 +218,7 @@ class ServiceAgreement(models.Model):
             agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
 
     # TODO: de legat acest contract la un cont analitic ...
+    @api.depends("last_invoice_id")
     def _compute_last_invoice_id(self):
 
         # query = """
@@ -237,12 +235,13 @@ class ServiceAgreement(models.Model):
         # """
 
         for agreement in self:
-            domain = [
-                ("invoice_line_ids.agreement_id", "=", agreement.id),
-                ("state", "=", "posted"),
-                ("move_type", "=", "out_invoice"),
-            ]
-            agreement.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
+            if not agreement.last_invoice_id:
+                domain = [
+                    ("invoice_line_ids.agreement_id", "=", agreement.id),
+                    ("state", "=", "posted"),
+                    ("move_type", "=", "out_invoice"),
+                ]
+                agreement.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
             if agreement.last_invoice_id:
                 invoice_date = agreement.last_invoice_id.invoice_date

@@ -29,8 +29,14 @@ class AccountInvoice(models.Model):
         res = super(AccountInvoice, self).action_post()
         agreements = self.env["service.agreement"]
         for invoice in self:
-            for line in invoice.invoice_line_ids:
-                agreements |= line.agreement_line_id.agreement_id
+            if invoice.move_type == "out_invoice":
+                invoice_agreements = self.env["service.agreement"]
+                for line in invoice.invoice_line_ids:
+                    invoice_agreements |= line.agreement_line_id.agreement_id
+
+                invoice_agreements.write({"last_invoice_id": invoice.id})
+                agreements |= invoice_agreements
+
         agreements.compute_totals()
         return res
 

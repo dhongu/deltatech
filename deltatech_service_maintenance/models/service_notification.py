@@ -493,5 +493,6 @@ class ServiceNotificationItem(models.Model):
 class ServiceNotificationType(models.Model):
     _name = "service.notification.type"
     _description = "Service Notification Type"
-    name = fields.Char(string="Type", translate=True)
+
+    name = fields.Char(string="Notification Type", translate=True)
     scope = fields.Selection([("external", "External"), ("internal", "Internal")], default="external", string="Type")
