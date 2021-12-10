@@ -306,11 +306,14 @@ class MergeObject(models.TransientModel):
         object_ids = Object.browse(object_ids).exists()
         if len(object_ids) < 2:
             return
-        #
-        # get_param = self.env["ir.config_parameter"].sudo().get_param
-        # max_no_objects = safe_eval(get_param("deltatech_merge.merge_objects_max_number", default=3))
         params = self.env["ir.config_parameter"].sudo()
-        max_no_objects = int(params.get_param("deltatech_merge.merge_objects_max_number", default=3))
+        try:
+            max_no_objects = int(params.get_param("deltatech_merge.merge_objects_max_number", default=3))
+        except Exception:
+            raise UserError(
+                _("Invalid system parameter value (deltatech_merge.merge_objects_max_number): %s")
+                % params.get_param("deltatech_merge.merge_objects_max_number")
+            )
         if len(object_ids) > max_no_objects:
             raise UserError(
                 _(
