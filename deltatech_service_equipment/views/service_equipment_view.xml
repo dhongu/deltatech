@@ -180,7 +180,7 @@
                                     <field name="last_reading" />
                                 </group>
                                 <group>
-                                    <field name="next_reading" />
+                                    <field name="next_reading" widget="remaining_days" />
                                     <field name="readings_status" />
                                 </group>
 
@@ -235,6 +235,33 @@
             </form>
         </field>
     </record>
+
+    <record id="view_service_equipment_kanban" model="ir.ui.view">
+        <field name="name">service.equipment.kanban</field>
+        <field name="model">service.equipment</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top mb16">
+                                <div class="o_kanban_record_headings mt4">
+                                    <strong class="o_kanban_record_title">
+                                        <span>
+                                            <t t-esc="record.name.value" />
+                                        </span>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
     <record id="view_service_equipment_filter" model="ir.ui.view">
         <field name="name">service.equipment.select</field>
         <field name="model">service.equipment</field>
@@ -270,7 +297,7 @@
     <record id="action_service_equipment" model="ir.actions.act_window">
         <field name="name">Equipments</field>
         <field name="res_model">service.equipment</field>
-        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="view_mode">tree,form,kanban,pivot,activity</field>
     </record>
     <menuitem
         name="Equipment"

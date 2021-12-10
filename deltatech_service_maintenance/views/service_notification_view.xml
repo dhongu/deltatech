@@ -139,13 +139,47 @@
                             <field name="date_done" />
                         </group>
                     </group>
-                    <field name="item_ids">
+                    <field name="item_ids" mode="tree,kanban">
                         <tree editable="bottom">
                             <field name="product_id" />
                             <field name="quantity" />
                             <field name="product_uom" />
                             <field name="note" />
                         </tree>
+
+                        <kanban class="o_kanban_mobile">
+                            <field name="product_id" />
+                            <field name="quantity" />
+                            <field name="product_uom" />
+
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <strong>
+                                                    <span>
+                                                        <t t-esc="record.product_id.value" />
+                                                    </span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 text-muted">
+                                                <span>
+                                                    Quantity:
+                                                    <t t-esc="record.quantity.value" />
+                                                    <t t-esc="record.product_uom.value" />
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </t>
+                            </templates>
+                        </kanban>
+
+
                     </field>
                 </sheet>
                 <div class="oe_chatter">
@@ -162,7 +196,7 @@
         <field name="model">service.notification</field>
         <field name="arch" type="xml">
 
-            <kanban class="o_kanban_mobile" default_group_by="user_id" sample="1">
+            <kanban class="o_kanban_mobile" sample="1">
                     <field name="name" />
                     <field name="partner_id" />
                     <field name="state" />

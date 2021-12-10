@@ -40,10 +40,6 @@ class ServiceAgreement(models.Model):
     _description = "Service Agreement"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    @api.model
-    def _default_currency(self):
-        return self.env.user.company_id.currency_id
-
     name = fields.Char(
         string="Reference", index=True, default="/", readonly=True, states={"draft": [("readonly", False)]}, copy=False
     )
@@ -67,7 +63,7 @@ class ServiceAgreement(models.Model):
     company_id = fields.Many2one(
         "res.company", string="Company", required=True, default=lambda self: self.env.user.company_id
     )
-    company_currency_id = fields.Many2one("res.currency", related="company_id.currency_id")
+    company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
 
     agreement_line = fields.One2many(
         "service.agreement.line",
@@ -139,7 +135,7 @@ class ServiceAgreement(models.Model):
 
     # se va seta automat la postarea facturii. Am scos  # compute="_compute_last_invoice_id")
     last_invoice_id = fields.Many2one("account.move", string="Last Invoice")
-    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_last_invoice_id", store=True)
+    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_next_date_invoice", store=True)
 
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
 
@@ -219,18 +215,18 @@ class ServiceAgreement(models.Model):
             invoices = self.env["account.move"]
             for consumption in consumptions:
                 if consumption.state == "done":
-                    total_consumption += consumption.currency_id.compute(
-                        consumption.price_unit * consumption.quantity, self.env.user.company_id.currency_id
-                    )
+                    total_consumption += consumption.revenues
                     invoices |= consumption.invoice_id
             for invoice in invoices:
-                if invoice.state in ["open", "paid"]:
-                    total_invoiced += invoice.amount_untaxed
+                if invoice.state == "posted":
+                    for line in invoice.invoice_line_ids:
+                        if line.agreement_line_id in agreement.agreement_line:
+                            total_invoiced += line.price_subtotal
             agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
 
     # TODO: de legat acest contract la un cont analitic ...
     @api.depends("last_invoice_id")
-    def _compute_last_invoice_id(self):
+    def _compute_next_date_invoice(self):
 
         # query = """
         #     select distinct *
