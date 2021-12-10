@@ -11,7 +11,7 @@ import psycopg2
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, safe_eval
 
 _logger = logging.getLogger("merge.object")
 
@@ -308,13 +308,15 @@ class MergeObject(models.TransientModel):
         object_ids = Object.browse(object_ids).exists()
         if len(object_ids) < 2:
             return
-
-        if len(object_ids) > 3:
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        max_no_objects = int(safe_eval(get_param("deltatech_merge.merge_objects_max_number", default=3)))
+        if len(object_ids) > max_no_objects:
             raise UserError(
                 _(
-                    "For safety reasons, you cannot merge more than 3 objects together."
+                    "For safety reasons, you cannot merge more than %s objects together."
                     " You can re-open the wizard several times if needed."
                 )
+                % max_no_objects
             )
 
         # check if the list of objects to merge contains child/parent relation
