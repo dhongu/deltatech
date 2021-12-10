@@ -81,26 +81,27 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <!--                            <button
-                                                        type="action"
-                                                        class="oe_stat_button"
-                                                        id="meter_button"
-                                                        icon="fa-slack"
-                                                        name="%(action_service_meter)d"
-                                                        context="{'search_default_equipment_id': id,'default_equipment_id': id}"
-                                                    >
-                                                        <span class="o_stat_text">Meters</span>
-                                                    </button>
-                                                    <button
-                                                        type="action"
-                                                        class="oe_stat_button"
-                                                        id="meter_reading_button"
-                                                        icon="fa-tachometer"
-                                                        name="%(action_service_meter_reading)d"
-                                                        context="{'search_default_equipment_id': id,'default_equipment_id': id}"
-                                                    >
-                                                        <span class="o_stat_text">Meter Readings</span>
-                                                    </button>-->
+                    <!--
+                    <button
+                            type="action"
+                            class="oe_stat_button"
+                            id="meter_button"
+                            icon="fa-slack"
+                            name="%(action_service_meter)d"
+                            context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                        >
+                            <span class="o_stat_text">Meters</span>
+                        </button>
+                        <button
+                            type="action"
+                            class="oe_stat_button"
+                            id="meter_reading_button"
+                            icon="fa-tachometer"
+                            name="%(action_service_meter_reading)d"
+                            context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                        >
+                            <span class="o_stat_text">Meter Readings</span>
+                        </button>-->
                         <button
                             type="object"
                             class="oe_stat_button"
@@ -109,7 +110,12 @@
                             name="invoice_button"
                             groups="account.group_account_invoice"
                         >
-                            <span class="o_stat_text">Invoiced</span>
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_value">
+                                    <field string="Invoiced" name="total_invoiced" widget="monetary" />
+                                </span>
+                                <span class="o_stat_text">Invoiced</span>
+                            </div>
                         </button>
                         <button
                             type="action"
@@ -159,6 +165,7 @@
                             <field name="type_id" required="1" />
                             <field name="start_date" />
                             <field name="manufacturer_id" />
+                            <field name="ean_code" />
                         </group>
                         <group string="Stock">
                             <field name="product_id" />
@@ -182,6 +189,7 @@
                                 <group>
                                     <field name="next_reading" widget="remaining_days" />
                                     <field name="readings_status" />
+
                                 </group>
 
                             </group>
@@ -191,7 +199,7 @@
                                     <field name="meter_categ_id" />
                                     <field name="uom_id" />
                                     <field name="total_counter_value" />
-                                    <field name="estimated_value" />
+                                    <field name="estimated_value" optional="show" />
                                 </tree>
                                 <kanban class="o_kanban">
                                     <field name="name" />
@@ -337,6 +345,25 @@
             <field name="value" eval="'ir.actions.server,%d'%action_update_costs_and_revenues" />
         </record>
 -->
+
+    <record id="action_update_meter_status" model="ir.actions.server">
+        <field name="name">Update Meter Status</field>
+        <field name="model_id" ref="model_service_equipment" />
+        <field name="state">code</field>
+        <field name="code">action = records._compute_readings_status()</field>
+        <field name="binding_model_id" ref="model_service_equipment" />
+    </record>
+
+
+    <record id="action_update_totals" model="ir.actions.server">
+        <field name="name">Update Revenues</field>
+        <field name="model_id" ref="model_service_equipment" />
+        <field name="state">code</field>
+        <field name="code">action = records.compute_totals()</field>
+        <field name="binding_model_id" ref="model_service_equipment" />
+    </record>
+
+
     <record id="view_service_equipment_type_form" model="ir.ui.view">
         <field name="name">Services Equipment Type</field>
         <field name="model">service.equipment.type</field>
