@@ -135,6 +135,7 @@ class ServiceAgreement(models.Model):
 
     # se va seta automat la postarea facturii. Am scos  # compute="_compute_last_invoice_id")
     last_invoice_id = fields.Many2one("account.move", string="Last Invoice")
+    last_date_invoice = fields.Date(string="Last Invoice Date", compute="_compute_next_date_invoice", store=True)
     next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_next_date_invoice", store=True)
 
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
@@ -252,8 +253,10 @@ class ServiceAgreement(models.Model):
 
             if agreement.last_invoice_id:
                 invoice_date = agreement.last_invoice_id.invoice_date
+                agreement.last_date_invoice = invoice_date
             else:
                 invoice_date = agreement.date_agreement
+                agreement.last_date_invoice = False
 
             if invoice_date and agreement.cycle_id:
                 next_date = invoice_date + agreement.cycle_id.get_cyle()
