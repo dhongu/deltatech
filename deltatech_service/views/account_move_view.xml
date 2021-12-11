@@ -12,6 +12,7 @@
                     icon="fa-line-chart"
                     name="%(action_service_consumption)d"
                     context="{'search_default_invoice_id': id, 'search_default_draft':0 }"
+                    attrs="{'invisible':[ ('move_type', '!=', 'out_invoice')]}"
                 >
                     <div class="o_form_field o_stat_info">
                         <span class="o_stat_text">Consumption</span>
