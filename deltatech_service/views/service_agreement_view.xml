@@ -193,6 +193,20 @@
             </form>
         </field>
     </record>
+
+    <record id="view_service_agreement_pivot" model="ir.ui.view">
+        <field name="name">service.agreement.pivot</field>
+        <field name="model">service.agreement</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="type_id" type="row" />
+                <field name="total_consumption" type="measure" />
+                <field name="total_invoiced" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+
     <record id="view_service_agreement_filter" model="ir.ui.view">
         <field name="name">service.agreement.select</field>
         <field name="model">service.agreement</field>
@@ -214,7 +228,7 @@
     <record id="action_service_agreement" model="ir.actions.act_window">
         <field name="name">Services Agreements</field>
         <field name="res_model">service.agreement</field>
-        <field name="view_mode">tree,form,activity</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
     </record>
     <menuitem
         name="Services Agreements"
