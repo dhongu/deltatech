@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-05 11:37+0000\n"
-"PO-Revision-Date: 2021-12-05 11:37+0000\n"
+"POT-Creation-Date: 2021-12-11 07:57+0000\n"
+"PO-Revision-Date: 2021-12-11 07:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,21 +55,25 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_ids
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_ids
 msgid "Activities"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_exception_decoration
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_state
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_state
 msgid "Activity State"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_type_icon
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_type_icon
 msgid "Activity Type Icon"
 msgstr ""
 
@@ -87,12 +91,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__state__assigned
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "Assigned"
-msgstr ""
+msgstr "Alocat"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date_assign
 msgid "Assigning Date"
-msgstr ""
+msgstr "Dată alocare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_attachment_count
@@ -266,7 +270,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__delivery
 msgid "Delivery"
-msgstr ""
+msgstr "Livrare"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
@@ -274,7 +278,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 #, python-format
 msgid "Delivery for service"
-msgstr ""
+msgstr "Livrare pentru service"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_required_order__display_name
@@ -308,7 +312,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Done"
-msgstr ""
+msgstr "Efectuat"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date_done
@@ -321,13 +325,13 @@ msgstr "Dată efectuare"
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_plan__state__draft
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_plan_call__state__draft
 msgid "Draft"
-msgstr ""
+msgstr "Ciornă"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_operation__duration
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order_operation__duration
 msgid "Duration"
-msgstr ""
+msgstr "Durată"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__eta
@@ -374,6 +378,7 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__activity_type_icon
+#: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
@@ -430,11 +435,13 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_exception_icon
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_exception_icon
 msgid "Icon"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__activity_exception_icon
+#: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
 
@@ -459,13 +466,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order__state__progress
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "In Progress"
-msgstr ""
+msgstr "În progres"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__type__internal
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification_type__scope__internal
 msgid "Internal"
-msgstr ""
+msgstr "Internă"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_is_follower
@@ -595,10 +602,11 @@ msgstr "Citiri contori"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "My"
-msgstr ""
+msgstr "Personal"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__my_activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
 
@@ -611,17 +619,17 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__state__new
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "New"
-msgstr ""
+msgstr "Nouă"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "New Delivery"
-msgstr ""
+msgstr "livrare nouă"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_order_form
 msgid "New Notification"
-msgstr ""
+msgstr "Sesizare nouă"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
@@ -640,16 +648,19 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_date_deadline
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_summary
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_type_id
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
 
@@ -673,7 +684,7 @@ msgstr "Note"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Notes..."
-msgstr ""
+msgstr "Note..."
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/sale.py:0
@@ -706,91 +717,92 @@ msgid "Notification Lines"
 msgstr "Linii notificare"
 
 #. module: deltatech_service_maintenance
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_type__name
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_notification_type
 msgid "Notification Type"
-msgstr ""
+msgstr "Tip sesizare"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is already assigned."
-msgstr ""
+msgstr "Sesizarea este daja alocată"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is assigned."
-msgstr ""
+msgstr "Sesizarea este alocată."
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is not assigned."
-msgstr ""
+msgstr "Sesizarea nu este alocată."
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_equipment.py:0
 #, python-format
 msgid "Notifications"
-msgstr ""
+msgstr "Sesizări"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "Notifications that are assigned to me"
-msgstr ""
+msgstr "Sesizări care mi-au fost atribuite"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_needaction_counter
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Numărul de Acțiuni"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_has_error_counter
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Numărul de erori"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__message_needaction_counter
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "NUmărul de mesaje care necesită o acțiune"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__message_has_error_counter
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Numărul de mesaje cu eroare de livrare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__message_unread_counter
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Numărul de mesaje necitite"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order__state__on_way
 msgid "On the way"
-msgstr ""
+msgstr "În curs"
 
 #. module: deltatech_service_maintenance
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_operating_parameter
 msgid "Operating Parameter"
-msgstr ""
+msgstr "Parametri de Operare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_operation__name
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order_operation__operation_id
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_operation
 msgid "Operation"
-msgstr ""
+msgstr "Operațiune"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Operations"
-msgstr ""
+msgstr "Operații"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__order_id
@@ -806,7 +818,7 @@ msgstr "Comandă"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__component_ids
 msgid "Order Components"
-msgstr ""
+msgstr "Componentele Comenzii"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__operation_ids
@@ -823,7 +835,7 @@ msgstr "Tip comandă"
 #: code:addons/deltatech_service_maintenance/models/service_equipment.py:0
 #, python-format
 msgid "Orders"
-msgstr ""
+msgstr "Comenzi"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_operating_parameter__name
@@ -835,14 +847,14 @@ msgstr "paramentru"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__partner_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Partener"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan_call__plan_id
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_plan
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_call_filter
 msgid "Plan"
-msgstr ""
+msgstr "Plan"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__plan_call_id
@@ -880,7 +892,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_plan_call__plan_date
 msgid "Planned date describes the time at which an order is to be executed."
-msgstr ""
+msgstr "Data planifică descrie timpul la care o comanda trebuie executată"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_equipment__plan_ids
@@ -892,7 +904,7 @@ msgstr "Planuri"
 #: code:addons/deltatech_service_maintenance/models/service_order.py:0
 #, python-format
 msgid "Please select a parameter."
-msgstr ""
+msgstr "Vă rugăm selectați un parametru"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
@@ -915,7 +927,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order_type__category__pre
 msgid "Preventive"
-msgstr ""
+msgstr "Preventiv"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__priority
@@ -935,6 +947,11 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_service_maintenance
+#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
+msgid "Quantity:"
+msgstr "Cantitate:"
+
+#. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__reason_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order_reason__name
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan__reason_id
@@ -944,7 +961,7 @@ msgstr "Motiv"
 #. module: deltatech_service_maintenance
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_order_reason
 msgid "Reasons"
-msgstr ""
+msgstr "Motive"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__name
@@ -956,7 +973,7 @@ msgstr "Referință"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order__state__rejected
 msgid "Rejected"
-msgstr ""
+msgstr "Respins"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__related_doc
@@ -971,7 +988,7 @@ msgstr "Raportat de"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__required
 msgid "Required"
-msgstr ""
+msgstr "Necesar"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_required_order
@@ -989,7 +1006,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_form
 msgid "Rescheduling"
-msgstr ""
+msgstr "Reprogramare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__user_id
@@ -1000,13 +1017,14 @@ msgstr "Responsabil"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__activity_user_id
+#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Responsabil"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_form
 msgid "Restart"
-msgstr ""
+msgstr "Restart"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_has_sms_error
@@ -1017,7 +1035,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__sale
 msgid "Sale"
-msgstr ""
+msgstr "Vânzare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__sale_order_id
@@ -1034,7 +1052,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__sale_support
 msgid "Sale Support"
-msgstr ""
+msgstr "Suport vânzări"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_sale_order
@@ -1050,7 +1068,7 @@ msgstr "Perioadă planificare"
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_call_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_filter
 msgid "Search"
-msgstr ""
+msgstr "Caută"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__access_token
@@ -1060,18 +1078,18 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan_call__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Secvență"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__agreement_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__agreement_id
 msgid "Service Agreement"
-msgstr ""
+msgstr "Contract servicii"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_service_equipment
 msgid "Service Equipment"
-msgstr ""
+msgstr "Echipament"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_service_notification_type
@@ -1134,7 +1152,7 @@ msgstr "Sesizări"
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_notification_type
 msgid "Services Notification Type"
-msgstr ""
+msgstr "Tipul Notificărilor Service"
 
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_operation
@@ -1187,12 +1205,6 @@ msgid "Set to draft"
 msgstr ""
 
 #. module: deltatech_service_maintenance
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
-msgid "Share a message..."
-msgstr ""
-
-#. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__signature
 msgid "Signature"
 msgstr "Semnatură"
@@ -1211,7 +1223,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_form
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__date_start
@@ -1251,10 +1263,11 @@ msgstr "Stare"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__state
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_plan__state
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__activity_state
+#: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__activity_state
 msgid ""
 "Status based on activities\n"
 "Overdue: Due date is already passed\n"
@@ -1265,7 +1278,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_plan_form
 msgid "Stop"
-msgstr ""
+msgstr "Stop"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_plan__state__stopped
@@ -1285,7 +1298,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__address_id
 msgid "The address where the equipment is located"
-msgstr ""
+msgstr "Adresa la care este localizat echipamentul"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_plan__horizon
@@ -1297,11 +1310,6 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_plan__start_counter
 msgid "The counter reading which the schedule should be started."
-msgstr ""
-
-#. module: deltatech_service_maintenance
-#: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__partner_id
-msgid "The owner of the equipment"
 msgstr ""
 
 #. module: deltatech_service_maintenance
@@ -1325,7 +1333,7 @@ msgstr ""
 #: model:ir.model,name:deltatech_service_maintenance.model_stock_picking
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__category__transfer
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
@@ -1336,7 +1344,6 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__type
-#: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_type__name
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_type__scope
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__type_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order_type__name
@@ -1345,13 +1352,14 @@ msgstr "Tip"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_notification__activity_exception_decoration
+#: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "Unassigned"
-msgstr ""
+msgstr "Nealocat"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_cycle__unit
@@ -1419,7 +1427,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order__state__work_done
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Work Done"
-msgstr ""
+msgstr "Lucru efectuat"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
