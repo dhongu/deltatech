@@ -47,21 +47,15 @@ class ServiceEquipment(models.Model):
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
 
-    # proprietarul  echipamentului
-    partner_id = fields.Many2one(
-        "res.partner",
-        string="Customer",
-        related="agreement_id.partner_id",
-        store=True,
-        readonly=True,
-        help="The owner of the equipment",
-    )
+    partner_id = fields.Many2one("res.partner", string="Customer", readonly=True)
+
     address_id = fields.Many2one(
         "res.partner",
         string="Address",
         readonly=True,
         help="The address where the equipment is located",
     )
+
     location_state_id = fields.Many2one(
         "res.country.state",
         string="Region",
@@ -83,10 +77,12 @@ class ServiceEquipment(models.Model):
         domain=[("type", "=", "contact"), ("is_company", "=", False)],
     )
 
-    total_revenues = fields.Float(
-        string="Total Revenues", readonly=True
-    )  # se va calcula din suma consumurilor de servicii
-    total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
+    # se va calcula din suma consumurilor de servicii
+
+    total_invoiced = fields.Float(string="Total invoiced", readonly=True)
+    total_revenues = fields.Float(string="Total Revenues", readonly=True)
+    # se va calcula din suma avizelor
+    total_costs = fields.Float(string="Total cost", readonly=True)
 
     note = fields.Text(string="Notes")
     start_date = fields.Date(string="Start Date")
@@ -114,6 +110,9 @@ class ServiceEquipment(models.Model):
     serial_id = fields.Many2one("stock.production.lot", string="Serial", ondelete="restrict", copy=False)
     # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
     location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
+
+    ean_code = fields.Char(string="EAN Code")
+
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
     common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
@@ -140,6 +139,10 @@ class ServiceEquipment(models.Model):
     next_reading = fields.Date("Next reading date", readonly=True, default="2000-01-01")
     last_reading_value = fields.Float(string="Last reading value")
 
+    _sql_constraints = [
+        ("ean_code_uniq", "unique(ean_code)", "EAN Code already exist!"),
+    ]
+
     @api.model
     def create(self, vals):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):
@@ -157,28 +160,25 @@ class ServiceEquipment(models.Model):
                 vals["name"] = sequence.next_by_id()
         return super(ServiceEquipment, self).write(vals)
 
-    def costs_and_revenues(self):
-        for equi in self:
-            cost = 0.0
-            pickings = self.env["stock.picking"].search([("equipment_id", "=", equi.id), ("state", "=", "done")])
-            for picking in pickings:
-                for move in picking.move_lines:
-                    move_value = 0.0
-                    for quant in move.quant_ids:
-                        move_value += quant.cost * quant.qty
-                    if move.location_id.usage == "internal":
-                        cost += move_value
-                    else:
-                        cost -= move_value
-            revenues = 0.0
-            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equi.id)])
+    def compute_totals(self):
+        for equipment in self:
+            total_consumption = 0.0
+            total_invoiced = 0.0
+            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equipment.id)])
+            invoices = self.env["account.move"]
             for consumption in consumptions:
                 if consumption.state == "done":
-                    revenues += consumption.currency_id.compute(
-                        consumption.price_unit * consumption.quantity, self.env.user.company_id.currency_id
-                    )
+                    total_consumption += consumption.revenues
+                    invoices |= consumption.invoice_id
+            for invoice in invoices:
+                if invoice.state == "posted":
+                    for line in invoice.invoice_line_ids:
+                        if line.agreement_line_id.equipment_id == equipment:
+                            total_invoiced += line.price_subtotal
+            equipment.write({"total_invoiced": total_invoiced, "total_revenues": total_consumption})
 
-            equi.write({"total_costs": cost, "total_revenues": revenues})
+    def costs_and_revenues(self):
+        self.compute_totals()
 
     @api.depends("location_id")
     def _compute_location_type(self):
@@ -269,22 +269,16 @@ class ServiceEquipment(models.Model):
                 equipment.partner_id = agreements[0].partner_id
 
     def invoice_button(self):
-        invoices = self.env["account.move"]
-        for meter in self.meter_ids:
-            for meter_reading in meter.meter_reading_ids:
-                if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
-                    invoices = invoices | meter_reading.consumption_id.invoice_id
+        consumptions = self.env["service.consumption"].search([("equipment_id", "=", self.id)])
 
-        return {
-            "domain": "[('id','in', [" + ",".join(map(str, invoices.ids)) + "])]",
-            "name": _("Services Invoices"),
-            "view_type": "form",
-            "view_mode": "tree,form",
-            "res_model": "account.move",
-            "view_id": False,
-            "context": "{'move_type':'out_invoice', 'journal_type': 'sale'}",
-            "type": "ir.actions.act_window",
-        }
+        invoices = self.env["account.move"]
+        for consumption in consumptions:
+            if consumption.state == "done":
+                invoices |= consumption.invoice_id
+
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
 
     def create_meters_button(self):
         categs = self.env["service.meter.category"]

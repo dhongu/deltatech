@@ -24,9 +24,9 @@ class ServiceEnterReading(models.TransientModel):
             future_readings = self.env["service.meter.reading"].search(domain)
             if future_readings:
                 self.error += _("The counter %s has readings in the future!!!") % (item.meter_id.name)
-                self.error += "\r\n"
+                self.error += "<br/>\r\n"
             if item.counter_value <= item.meter_id.total_counter_value and item.meter_id.total_counter_value > 0:
-                self.error += _("The counter %s value must be greater than %s") % (
+                self.error += _("The counter %s value must be greater than %s.<br/>") % (
                     item.meter_id.name,
                     item.meter_id.total_counter_value,
                 )
@@ -68,6 +68,7 @@ class ServiceEnterReading(models.TransientModel):
                 item.counter_value = meter.estimated_value
 
     def do_enter(self):
+        equipments = self.env["service.equipment"]
         for enter_reading in self:
             for item in enter_reading.items:
                 self.env["service.meter.reading"].create(
@@ -82,6 +83,8 @@ class ServiceEnterReading(models.TransientModel):
                         "previous_counter_value": item.prev_value,
                     }
                 )
+                equipments |= item.equipment_id
+        equipments.update_meter_status()
 
 
 class ServiceEnterReadingItem(models.TransientModel):
