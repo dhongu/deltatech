@@ -47,21 +47,15 @@ class ServiceEquipment(models.Model):
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
 
-    # proprietarul  echipamentului
-    partner_id = fields.Many2one(
-        "res.partner",
-        string="Customer",
-        related="agreement_id.partner_id",
-        store=True,
-        readonly=True,
-        help="The owner of the equipment",
-    )
+    partner_id = fields.Many2one("res.partner", string="Customer", readonly=True)
+
     address_id = fields.Many2one(
         "res.partner",
         string="Address",
         readonly=True,
         help="The address where the equipment is located",
     )
+
     location_state_id = fields.Many2one(
         "res.country.state",
         string="Region",
