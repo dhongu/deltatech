@@ -38,11 +38,7 @@ class ServiceCycle(models.Model):
 class ServiceAgreement(models.Model):
     _name = "service.agreement"
     _description = "Service Agreement"
-    _inherit = "mail.thread"
-
-    @api.model
-    def _default_currency(self):
-        return self.env.user.company_id.currency_id
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Reference", index=True, default="/", readonly=True, states={"draft": [("readonly", False)]}, copy=False
@@ -67,6 +63,7 @@ class ServiceAgreement(models.Model):
     company_id = fields.Many2one(
         "res.company", string="Company", required=True, default=lambda self: self.env.user.company_id
     )
+    company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
 
     agreement_line = fields.One2many(
         "service.agreement.line",
@@ -110,8 +107,7 @@ class ServiceAgreement(models.Model):
         "res.currency",
         string="Currency",
         required=True,
-        default=_default_currency,
-        domain=[("name", "in", ["RON", "EUR"])],
+        default=lambda self: self.env.company.currency_id,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -119,8 +115,6 @@ class ServiceAgreement(models.Model):
     cycle_id = fields.Many2one(
         "service.cycle", string="Billing Cycle", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
-
-    last_invoice_id = fields.Many2one("account.move", string="Last Invoice", compute="_compute_last_invoice_id")
 
     invoice_day = fields.Integer(
         string="Invoice Day",
@@ -139,15 +133,14 @@ class ServiceAgreement(models.Model):
                                  If it's positive, it gives the day of the month. Set 0 for net days .""",
     )
 
-    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_last_invoice_id")
+    # se va seta automat la postarea facturii. Am scos  # compute="_compute_last_invoice_id")
+    last_invoice_id = fields.Many2one("account.move", string="Last Invoice")
+    next_date_invoice = fields.Date(string="Next Invoice Date", compute="_compute_next_date_invoice", store=True)
 
     payment_term_id = fields.Many2one("account.payment.term", string="Payment Terms")
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
     total_consumption = fields.Float(string="Total consumption", readonly=True)
-
-    total_costs = fields.Float(string="Total Cost", readonly=True)  # se va calcula din suma avizelor
-    total_percent = fields.Float(string="Total percent", readonly=True)  # se va calcula (consum/factura)*100
 
     invoicing_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("progress", "In progress"), ("done", "Done")],
@@ -203,6 +196,17 @@ class ServiceAgreement(models.Model):
             "context": "{{'default_res_model': '{}','default_res_id': {}}}".format(self._name, self.id),
         }
 
+    def show_invoices(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        domain = [
+            ("invoice_line_ids.agreement_id", "=", self.id),
+            ("state", "=", "posted"),
+            ("move_type", "=", "out_invoice"),
+        ]
+        invoices = self.env["account.move"].search(domain)
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
+
     def compute_totals(self):
         for agreement in self:
             total_consumption = 0.0
@@ -211,34 +215,55 @@ class ServiceAgreement(models.Model):
             invoices = self.env["account.move"]
             for consumption in consumptions:
                 if consumption.state == "done":
-                    total_consumption += consumption.currency_id.compute(
-                        consumption.price_unit * consumption.quantity, self.env.user.company_id.currency_id
-                    )
+                    total_consumption += consumption.revenues
                     invoices |= consumption.invoice_id
             for invoice in invoices:
-                if invoice.state in ["open", "paid"]:
-                    total_invoiced += invoice.amount_untaxed
+                if invoice.state == "posted":
+                    for line in invoice.invoice_line_ids:
+                        if line.agreement_line_id in agreement.agreement_line:
+                            total_invoiced += line.price_subtotal
             agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
 
     # TODO: de legat acest contract la un cont analitic ...
-    def _compute_last_invoice_id(self):
-        domain = [("agreement_id", "=", self.id), ("state", "=", "posted"), ("move_type", "=", "out_invoice")]
-        self.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
+    @api.depends("last_invoice_id")
+    def _compute_next_date_invoice(self):
 
-        if self.last_invoice_id:
-            invoice_date = self.last_invoice_id.invoice_date
-        else:
-            invoice_date = self.date_agreement
+        # query = """
+        #     select distinct *
+        #         from  (
+        #             select am.id, aml.agreement_id,
+        #                    rank() over (partition by aml.agreement_id  order by am.date desc) as rnk
+        #             from account_move as am
+        #             join account_move_line as aml on am.id = aml.move_id
+        #             where am.state = 'posted' and move_type = 'out_invoice' and  agreement_line_id is not null
+        #         ) as ts
+        #
+        #         where rnk = 1 ;
+        # """
 
-        if invoice_date and self.cycle_id:
-            next_date = invoice_date + self.cycle_id.get_cyle()
-            if self.invoice_day < 0:
-                next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
-                next_date = next_first_date + relativedelta(days=self.invoice_day)
-            if self.invoice_day > 0:
-                next_date += relativedelta(day=self.invoice_day, months=0)
+        for agreement in self:
+            if not agreement.last_invoice_id:
+                domain = [
+                    ("invoice_line_ids.agreement_id", "=", agreement.id),
+                    ("state", "=", "posted"),
+                    ("move_type", "=", "out_invoice"),
+                ]
+                agreement.last_invoice_id = self.env["account.move"].search(domain, order="date desc, id desc", limit=1)
 
-            self.next_date_invoice = next_date  # fields.Date.to_string(next_date)
+            if agreement.last_invoice_id:
+                invoice_date = agreement.last_invoice_id.invoice_date
+            else:
+                invoice_date = agreement.date_agreement
+
+            if invoice_date and agreement.cycle_id:
+                next_date = invoice_date + agreement.cycle_id.get_cyle()
+                if agreement.invoice_day < 0:
+                    next_first_date = next_date + relativedelta(day=1, months=1)  # Getting 1st of next month
+                    next_date = next_first_date + relativedelta(days=agreement.invoice_day)
+                if agreement.invoice_day > 0:
+                    next_date += relativedelta(day=agreement.invoice_day, months=0)
+
+                agreement.next_date_invoice = next_date  # fields.Date.to_string(next_date)
 
     @api.depends("name", "date_agreement")
     def _compute_display_name(self):

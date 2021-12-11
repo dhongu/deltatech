@@ -15,7 +15,7 @@ class ServiceEquiOperation(models.TransientModel):
         "service.enter.reading", string="Enter Reading", required=True, ondelete="cascade"
     )
     state = fields.Selection(
-        [("ins", "Installation"), ("rem", "Removal")],
+        [("add", "Add to Agreement"), ("ins", "Installation"), ("rem", "Removal")],
         string="Operation",
         default="ins",
         readonly=True,
@@ -65,8 +65,8 @@ class ServiceEquiOperation(models.TransientModel):
             if not last_meter_reading_id.consumption_id:
                 can_remove = False
             #  consumul generat de ultima citire trebuie sa fie facturat.
-            if not last_meter_reading_id.consumption_id.invoice_id:
-                can_remove = False
+            # if not last_meter_reading_id.consumption_id.invoice_id:
+            #     can_remove = False
         self.can_remove = can_remove
 
     def do_operation(self):
@@ -86,6 +86,16 @@ class ServiceEquiOperation(models.TransientModel):
             values = {"name": _("Installation"), "equipment_id": self.equipment_id.id, "description": message}
             self.env["service.history"].create(values)
 
+        if self.state in ["ins", "add"]:
+            self.equipment_id.write(
+                {
+                    "partner_id": self.partner_id.id,
+                    "address_id": self.address_id.id,
+                    "emplacement": self.emplacement,
+                    "state": "installed",
+                }
+            )
+
         if self.state == "rem":
             if not self.can_remove:
                 raise UserError(_("You must bill consumption before uninstalling"))
@@ -98,6 +108,15 @@ class ServiceEquiOperation(models.TransientModel):
             )
             values = {"name": _("Uninstall"), "equipment_id": self.equipment_id.id, "description": message}
             self.env["service.history"].create(values)
+
+            self.equipment_id.write(
+                {
+                    "partner_id": False,
+                    "address_id": False,
+                    "emplacement": False,
+                    "state": "available",
+                }
+            )
 
         for item in self.items:
             self.env["service.meter.reading"].create(
@@ -112,9 +131,10 @@ class ServiceEquiOperation(models.TransientModel):
             )
 
         action = True
-        if self.state == "ins":
+        if self.state == "add":
             action = self.do_agreement()
 
+        self.equipment_id.update_meter_status()
         return action
 
     def do_agreement(self):
@@ -142,7 +162,7 @@ class ServiceEquiOperation(models.TransientModel):
 
         if not self.agreement_id:
             cycle = self.env.ref("deltatech_service.cycle_monthly")
-            values = {"partner_id": self.partner_id.id, "cycle_id": cycle.id}
+            values = {"partner_id": self.partner_id.id, "cycle_id": cycle.id, "state": "draft"}
             self.agreement_id = self.env["service.agreement"].create(values)
 
         # self.equipment_id.write({'agreement_id':self.agreement_id.id,

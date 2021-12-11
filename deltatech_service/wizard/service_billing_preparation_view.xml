@@ -24,21 +24,15 @@
                 </form>
             </field>
         </record>
-<!--        <act_window
-            id="action_service_billing_preparation"
-            name="Billing Preparation"
-            res_model="service.billing.preparation"
-            binding_model="service.agreement"
-            view_mode="form"
-            target="new"
-        />-->
-                <record id="action_service_billing_preparation" model="ir.actions.act_window">
+
+
+    <record id="action_service_billing_preparation" model="ir.actions.act_window">
         <field name="name">Billing Preparation</field>
         <field name="res_model">service.billing.preparation</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_service_agreement" />
-        <field name="binding_view_types">list</field>
+        <field name="binding_view_types">list,form</field>
     </record>
 
         <menuitem
@@ -48,5 +42,6 @@
             parent="menu_service_agr"
             sequence="101"
         />
+
     </data>
 </odoo>
