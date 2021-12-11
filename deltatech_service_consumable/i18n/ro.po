@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-05 11:39+0000\n"
-"PO-Revision-Date: 2021-12-05 11:39+0000\n"
+"POT-Creation-Date: 2021-12-11 07:56+0000\n"
+"PO-Revision-Date: 2021-12-11 07:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "<span class=\"o_stat_text\">Costs</span>"
+msgstr "<span class=\"o_stat_text\">Costuri</span>"
 
 #. module: deltatech_service_consumable
 #: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
@@ -62,6 +67,11 @@ msgid "Contract Services"
 msgstr "Contracte servicii"
 
 #. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "Costs"
+msgstr "Costuri"
+
+#. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__create_uid
 msgid "Created by"
 msgstr "Creat de"
@@ -79,12 +89,14 @@ msgstr "Dată"
 #. module: deltatech_service_consumable
 #: code:addons/deltatech_service_consumable/models/service_equipment.py:0
 #: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
 #, python-format
 msgid "Delivery for service"
 msgstr "Livrări pentru servicii"
 
 #. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__display_name
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__display_name
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__display_name
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment__display_name
@@ -104,6 +116,7 @@ msgid "HTML Colors Index"
 msgstr "Culoare HTML"
 
 #. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__id
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__id
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__id
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment__id
@@ -112,6 +125,7 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement____last_update
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item____last_update
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report____last_update
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment____last_update
@@ -157,7 +171,7 @@ msgstr "Partener"
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__picking_id
 msgid "Picking"
-msgstr "ridicare"
+msgstr "Ridicare"
 
 #. module: deltatech_service_consumable
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__picking_type_id
@@ -201,9 +215,10 @@ msgstr "Cantitate maximă"
 #. module: deltatech_service_consumable
 #: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_picking_form
 msgid "Service"
-msgstr ""
+msgstr "Serviciu"
 
 #. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_service_agreement
 #: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking__agreement_id
 msgid "Service Agreement"
 msgstr "Contract servicii"
@@ -211,7 +226,7 @@ msgstr "Contract servicii"
 #. module: deltatech_service_consumable
 #: model:ir.model,name:deltatech_service_consumable.model_service_equipment
 msgid "Service Equipment"
-msgstr ""
+msgstr "Echipament"
 
 #. module: deltatech_service_consumable
 #: model:ir.model,name:deltatech_service_consumable.model_service_efficiency_report
@@ -234,6 +249,16 @@ msgstr ""
 #: code:addons/deltatech_service_consumable/models/service_equipment.py:0
 #, python-format
 msgid "Stock Settings"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_costs
+msgid "Total Cost"
+msgstr "Total costuri"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
+msgid "Total percent"
 msgstr ""
 
 #. module: deltatech_service_consumable
