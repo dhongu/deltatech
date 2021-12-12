@@ -567,8 +567,8 @@ class Job(object):
             # if self.channel:
             #     vals.update({"channel": self.channel})
 
-            job = job_model.with_context(_job_edit_sentinel=edit_sentinel).sudo().create(vals)
-            job.background_run()  # incercare de rulare in background
+            job_model.with_context(_job_edit_sentinel=edit_sentinel).sudo().create(vals)
+            # job.background_run()  # incercare de rulare in background
 
     def db_record(self):
         return self.db_record_from_uuid(self.env, self.uuid)

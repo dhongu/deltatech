@@ -49,12 +49,32 @@
                             <field name="analytic_account_id" />
                             <field name="agreement_id" />
                             <field name="invoice_id" />
+                             <field name="company_currency_id" invisible="1" />
+                            <field
+                                name="revenues"
+                                sum="1"
+                                widget="monetary"
+                                options="{'currency_field': 'company_currency_id'}"
+                            />
                         </group>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
+    <record id="view_service_consumption_pivot" model="ir.ui.view">
+        <field name="name">Service consumption Pivot</field>
+        <field name="model">service.consumption</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="date_invoice" interval="year" type="col" />
+                <field name="agreement_id" type="row" />
+                <field name="revenues" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
     <record id="view_service_consumption_filter" model="ir.ui.view">
         <field name="name">service.consumption.select</field>
         <field name="model">service.consumption</field>
@@ -85,7 +105,7 @@
     <record id="action_service_consumption" model="ir.actions.act_window">
         <field name="name">Services Consumption</field>
         <field name="res_model">service.consumption</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,pivot</field>
         <field name="context">{"search_default_draft":0}</field>
     </record>
     <menuitem
