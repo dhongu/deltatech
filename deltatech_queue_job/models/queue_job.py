@@ -378,8 +378,11 @@ class QueueJob(models.Model):
         self.write({"state": "failed"})
 
     def background_run(self):
-        threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job_%s" % self.id)
-        threaded_job.start()
+        try:
+            threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job_%s" % self.id)
+            threaded_job.start()
+        except RuntimeError:
+            pass
 
     def _do_run_background(self):
         time.sleep(10)  # sa apuce sistemul sa salveze datele
@@ -392,13 +395,16 @@ class QueueJob(models.Model):
                 new_cr.commit()
 
     def _cron_runjob(self):
-        records = self.search([("state", "=", PENDING)], limit=5)
-        records |= self.search([("state", "=", ENQUEUED)])
-
-        for record in records:
-            if record.state == PENDING:
-                record._change_job_state(ENQUEUED)
-            record.runjob(record.uuid)
+        run = True
+        while run:
+            records = self.search([("state", "=", PENDING)], limit=5)
+            records |= self.search([("state", "=", ENQUEUED)], limit=5)  # agatate
+            if not records:
+                run = False
+            for record in records:
+                if record.state == PENDING:
+                    record._change_job_state(ENQUEUED)
+                record.runjob(record.uuid)
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
