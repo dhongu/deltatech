@@ -6,19 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+ec\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-05 11:25+0000\n"
-"PO-Revision-Date: 2021-12-05 11:25+0000\n"
+"POT-Creation-Date: 2021-12-11 19:58+0000\n"
+"PO-Revision-Date: 2021-12-11 19:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: deltatech_service_equipment
-#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
-msgid "<span class=\"o_stat_text\">Costs</span>"
-msgstr "<span class=\"o_stat_text\">Costuri</span>"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
@@ -31,20 +26,14 @@ msgid "<span class=\"o_stat_text\">Invoiced</span>"
 msgstr "<span class=\"o_stat_text\">Facturi</span>"
 
 #. module: deltatech_service_equipment
-#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_form
 msgid "<span class=\"o_stat_text\">Meter Readings</span>"
 msgstr "<span class=\"o_stat_text\">Citiri</span>"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
-msgid "<span class=\"o_stat_text\">Meters</span>"
-msgstr "<span class=\"o_stat_text\">Contoare</span>"
-
-#. module: deltatech_service_equipment
-#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 msgid "<span class=\"o_stat_text\">Revenues</span>"
-msgstr  "<span class=\"o_stat_text\">Venituri</span>"
+msgstr "<span class=\"o_stat_text\">Venituri</span>"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__message_needaction
@@ -59,7 +48,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Activități"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__activity_exception_decoration
@@ -77,6 +66,13 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
+msgid "Add Readings"
+msgstr "Adaugă citiri"
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_add
+#: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equi_operation__state__add
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 msgid "Add to Agreement"
 msgstr "Adaugă la contract"
@@ -96,7 +92,7 @@ msgstr "Adaugat la contract %s, partener %s, adresa %s, amplasare %s. "
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__address_id
 msgid "Address"
-msgstr ""
+msgstr "Adresa"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.service_history_search
@@ -107,7 +103,7 @@ msgstr "Contract"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement__common_history_ids
 msgid "Agreement History"
-msgstr ""
+msgstr "Istoric contract"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__agreement_type_id
@@ -118,6 +114,12 @@ msgstr "Tip contract"
 #: model:ir.model.constraint,message:deltatech_service_equipment.constraint_service_consumption_agreement_line_period_uniq
 msgid "Agreement line in period already exist!"
 msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Agreement: %s "
+msgstr "Contract: %s"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_type__permits_pickings
@@ -158,7 +160,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_category__bill_uom_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_template_meter__bill_uom_id
 msgid "Billing Unit of Measure"
-msgstr "UM de facturare"
+msgstr "UM facturare"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__can_remove
@@ -201,7 +203,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__company_id
 msgid "Company"
-msgstr ""
+msgstr "Companie"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_form
@@ -221,23 +223,18 @@ msgstr "Consum"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__contact_id
 msgid "Contact Person"
-msgstr ""
+msgstr "Persoană contact"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__agreement_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__agreement_id
 msgid "Contract Service"
-msgstr "Contract Service"
+msgstr "Contract service"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__cost
 msgid "Cost"
 msgstr "Cost"
-
-#. module: deltatech_service_equipment
-#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
-msgid "Costs"
-msgstr "Costuri"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_meter_category__type__counter
@@ -296,12 +293,21 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__partner_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__partner_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading__partner_id
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equipment__location_type__customer
 msgid "Customer"
 msgstr "Client"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Customer: %s"
+msgstr "Client: %s"
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.service_history_search
+#, python-format
 msgid "Data"
 msgstr ""
 
@@ -340,7 +346,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_history__description
 msgid "Description"
-msgstr ""
+msgstr "descriere"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment__emplacement
@@ -348,11 +354,16 @@ msgid "Detail of location of the equipment in working point"
 msgstr ""
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading__difference
+#, python-format
 msgid "Difference"
 msgstr "Diferență"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_category__display_name
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_template__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_line__display_name
@@ -371,7 +382,7 @@ msgstr "Diferență"
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_template_meter__display_name
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_stock_location__display_name
 msgid "Display Name"
-msgstr "Nume Afişat"
+msgstr "Afiseaza nume"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equipment__readings_status__done
@@ -379,9 +390,19 @@ msgid "Done"
 msgstr "Făcută"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__ean_code
+msgid "EAN Code"
+msgstr "Cod EAN"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.constraint,message:deltatech_service_equipment.constraint_service_equipment_ean_code_uniq
+msgid "EAN Code already exist!"
+msgstr ""
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__effective_date
 msgid "Effective Date"
-msgstr ""
+msgstr "Dată efectivă"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__emplacement
@@ -408,6 +429,7 @@ msgid "Enter Reading"
 msgstr "Introducere citiri"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_line__equipment_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_consumption__equipment_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading_item__equipment_id
@@ -420,14 +442,9 @@ msgstr "Introducere citiri"
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.service_history_search
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_reading_filter
+#, python-format
 msgid "Equipment"
 msgstr "Echipament"
-
-#. module: deltatech_service_equipment
-#: code:addons/deltatech_service_equipment/models/service_equipment.py:0
-#, python-format
-msgid "Equipment %s assigned to many agreements."
-msgstr ""
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__category_id
@@ -435,9 +452,14 @@ msgid "Equipment Category"
 msgstr "Categorie Echipament"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement__equipment_count
+msgid "Equipment Count"
+msgstr ""
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__common_history_ids
 msgid "Equipment History"
-msgstr ""
+msgstr "Istoric echipament"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__name
@@ -462,13 +484,37 @@ msgid ""
 "\r"
 "Meters: %s"
 msgstr ""
+"Instalarea echipamentului la %s, adresa %s, locația %s.\r"
+"\r"
+"Contori: %s"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_product__equi_type_id
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_template__equi_type_id
+msgid "Equipment type"
+msgstr "Tip echipament"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_category__equi_type_required
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_product__equi_type_required
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_template__equi_type_required
+msgid "Equipment type required"
+msgstr "Tip echipament necesar"
 
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_agreement_form
 msgid "Equipments"
 msgstr "Echipamente"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading__error
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__error
+msgid "Error"
+msgstr "Eroare"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading_item__estimated
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading__estimated
 msgid "Estimated"
 msgstr "Estimat"
@@ -489,6 +535,11 @@ msgstr "Estimare"
 #, python-format
 msgid "Estimation executed in background was terminated"
 msgstr "Estimarea executată în fundal a fost terminată"
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_move_form
+msgid "Export meters XLS"
+msgstr "Export contoare XLS"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__message_follower_ids
@@ -526,14 +577,17 @@ msgstr "Grupează după..."
 #. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.service_history_action
 msgid "History"
-msgstr ""
+msgstr "Istoric"
 
 #. module: deltatech_service_equipment
 #: model:ir.ui.menu,name:deltatech_service_equipment.service_history_menu
 msgid "History Equipment/Agreement"
-msgstr ""
+msgstr "Istoric Echipamente"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_category__id
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_template__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement__id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_line__id
@@ -599,7 +653,12 @@ msgstr "Închirate"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equipment__state__inactive
 msgid "Inactive"
-msgstr ""
+msgstr "Inactive"
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
+msgid "Install"
+msgstr "Instalează"
 
 #. module: deltatech_service_equipment
 #: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:0
@@ -615,14 +674,31 @@ msgid "Installed"
 msgstr "Instalat"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Installed at"
+msgstr "Instalat la"
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__internal_type
 msgid "Internal Type"
-msgstr ""
+msgstr "Tip intern"
 
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_stock_location
 msgid "Inventory Locations"
 msgstr "Locații inventar"
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Invoice: %s / %s"
+msgstr "Factura: %s / %s"
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
+msgid "Invoiced"
+msgstr "Facturat"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__message_is_follower
@@ -641,11 +717,19 @@ msgid "Items"
 msgstr "Poziții"
 
 #. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter__last_meter_reading_id
 msgid "Last Meter Reading"
 msgstr "Ultima citire"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_category____last_update
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_product_template____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_res_config_settings____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_line____last_update
@@ -664,12 +748,12 @@ msgstr "Ultima citire"
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_template_meter____last_update
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_stock_location____last_update
 msgid "Last Modified on"
-msgstr "Ultima actualizare în"
+msgstr "Ultima modificare la"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__last_reading
 msgid "Last Reading Date"
-msgstr ""
+msgstr "Data ultima citire"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading__write_uid
@@ -702,25 +786,26 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter__last_reading_date
 msgid "Last reading date"
-msgstr ""
+msgstr "Data ultimei citiri"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__last_reading_value
 msgid "Last reading value"
-msgstr ""
+msgstr "Valoare citire"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 msgid "Leave empty to create a new agreement"
-msgstr ""
+msgstr "Lăsați necompletat pentru a crea un nou contract"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__address_id
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__location
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading__address_id
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_filter
 msgid "Location"
-msgstr "Locație"
+msgstr "Punct de lucru"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__location_type
@@ -773,6 +858,7 @@ msgid "Messages"
 msgstr "Mesaje"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter
 #: model:ir.model,name:deltatech_service_equipment.model_service_meter
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement_line__meter_id
@@ -783,6 +869,7 @@ msgstr "Mesaje"
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_reading_filter
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_tree
+#, python-format
 msgid "Meter"
 msgstr "Contor"
 
@@ -871,7 +958,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__note
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter_reading__note
 msgid "Notes"
-msgstr ""
+msgstr "Note"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__message_needaction_counter
@@ -908,7 +995,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equi_operation__state
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 msgid "Operation"
-msgstr ""
+msgstr "Operație"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_res_config_settings__picking_type_for_service
@@ -918,12 +1005,12 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__owner_user_id
 msgid "Owner"
-msgstr ""
+msgstr "Proprietar"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_filter
 msgid "Partner"
-msgstr ""
+msgstr "Partener"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.res_config_settings_view_form_stock
@@ -942,9 +1029,30 @@ msgid "Previous Counter Value"
 msgstr "Valoare anterioară contor"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading_item__prev_value
+msgid "Previous Value"
+msgstr "Valoare precedentă"
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Previous value"
+msgstr "Valoare precedentă"
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__product_id
 msgid "Product"
 msgstr "Produs"
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_product_category
+msgid "Product Category"
+msgstr "Categoria Produsului"
+
+#. module: deltatech_service_equipment
+#: model:ir.model,name:deltatech_service_equipment.model_product_template
+msgid "Product Template"
+msgstr "Sablon Produs"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_enter_reading__read_by
@@ -954,9 +1062,15 @@ msgid "Read by"
 msgstr "Citit de"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
+#, python-format
+msgid "Read value"
+msgstr ""
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__reading_day
 msgid "Reading Day"
-msgstr ""
+msgstr "Data citirii"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
@@ -969,9 +1083,15 @@ msgid "Readings Status"
 msgstr "Stare citiri"
 
 #. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_agreement__meter_reading_status
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_agreement_filter
+msgid "Readings done"
+msgstr "Citire efectată"
+
+#. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_form
 msgid "Recheck Value"
-msgstr ""
+msgstr "Reverificare valori"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__location_state_id
@@ -983,7 +1103,7 @@ msgstr "Județ"
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_equi_rem
 #: model:ir.model.fields.selection,name:deltatech_service_equipment.selection__service_equi_operation__state__rem
 msgid "Removal"
-msgstr ""
+msgstr "Dezinstlare"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
@@ -993,7 +1113,7 @@ msgstr "Elimină"
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 msgid "Remove from Agreement"
-msgstr ""
+msgstr "Elimină din contract"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_stock_location__rental
@@ -1008,7 +1128,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Responsabil"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
@@ -1023,7 +1143,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__scrap_date
 msgid "Scrap Date"
-msgstr ""
+msgstr "Dată casare"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.service_history_search
@@ -1034,7 +1154,9 @@ msgid "Search"
 msgstr "Caută"
 
 #. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/models/account_move.py:0
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__serial_id
+#, python-format
 msgid "Serial"
 msgstr "Serial"
 
@@ -1075,13 +1197,13 @@ msgstr "Pregătire facturare servicii"
 #: model:ir.model,name:deltatech_service_equipment.model_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 msgid "Service Equipment"
-msgstr ""
+msgstr "Echipament"
 
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_equi_operation
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 msgid "Service Equipment Operation"
-msgstr ""
+msgstr "Operație echipament service"
 
 #. module: deltatech_service_equipment
 #: model:ir.model,name:deltatech_service_equipment.model_service_equipment_type
@@ -1126,12 +1248,6 @@ msgid "Services Equipment Type"
 msgstr "Services Tip Echipament"
 
 #. module: deltatech_service_equipment
-#: code:addons/deltatech_service_equipment/models/service_equipment.py:0
-#, python-format
-msgid "Services Invoices"
-msgstr ""
-
-#. module: deltatech_service_equipment
 #: model:ir.actions.act_window,name:deltatech_service_equipment.action_service_meter_category
 msgid "Services Meter Category"
 msgstr ""
@@ -1139,11 +1255,6 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_meter_reading_tree
 msgid "Services equipment"
-msgstr ""
-
-#. module: deltatech_service_equipment
-#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
-msgid "Share a message..."
 msgstr ""
 
 #. module: deltatech_service_equipment
@@ -1159,12 +1270,12 @@ msgstr "Valoare start"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__state
 msgid "Status"
-msgstr ""
+msgstr "Stare"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_filter
 msgid "Status agreement"
-msgstr ""
+msgstr "Stare contract"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment__activity_state
@@ -1178,7 +1289,7 @@ msgstr ""
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__agreement_state
 msgid "Status contract"
-msgstr ""
+msgstr "Stare contract"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
@@ -1193,7 +1304,7 @@ msgstr "Locație stoc"
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_form
 msgid "Technical Details"
-msgstr ""
+msgstr "Detalii tehnice"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__technician_user_id
@@ -1213,6 +1324,7 @@ msgstr ""
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment__address_id
+#: model:ir.model.fields,help:deltatech_service_equipment.field_service_meter_reading__address_id
 msgid "The address where the equipment is located"
 msgstr ""
 
@@ -1223,7 +1335,19 @@ msgid "The agreement %s is in state %s"
 msgstr ""
 
 #. module: deltatech_service_equipment
-#: model:ir.model.fields,help:deltatech_service_equipment.field_service_equipment__partner_id
+#: code:addons/deltatech_service_equipment/wizard/enter_readings.py:0
+#, python-format
+msgid "The counter %s has readings in the future!!!"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: code:addons/deltatech_service_equipment/wizard/enter_readings.py:0
+#, python-format
+msgid "The counter %s value must be greater than %s.<br/>"
+msgstr "Valoarea contorului %s trebuie să fie mai mare decât %s.<br/>"
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,help:deltatech_service_equipment.field_service_meter_reading__partner_id
 msgid "The owner of the equipment"
 msgstr ""
 
@@ -1240,12 +1364,18 @@ msgstr "Total Venituri"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__total_costs
 msgid "Total cost"
-msgstr "Total cost"
+msgstr ""
+
+#. module: deltatech_service_equipment
+#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__total_invoiced
+msgid "Total invoiced"
+msgstr "Total facturat"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.constraint,message:deltatech_service_equipment.constraint_service_meter_equipment_uom_uniq
 msgid "Two meter for one equipment with the same unit of measure? Impossible!"
-msgstr "Două contoare cu aceeași unitate de măsură pentru un echipament? Imposibil!"
+msgstr ""
+"Două contoare cu aceeași unitate de măsură pentru un echipament? Imposibil!"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__type_id
@@ -1273,7 +1403,7 @@ msgstr "Nedisponibil"
 #: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:0
 #, python-format
 msgid "Uninstall"
-msgstr ""
+msgstr "Dezinstalat"
 
 #. module: deltatech_service_equipment
 #: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:0
@@ -1283,6 +1413,9 @@ msgid ""
 "\r"
 "Meters: %s"
 msgstr ""
+"Dezinstalare echipament de la %s, punct de lucru %s, amplasare %s.\r"
+"\r"
+"Contori: %s"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter__uom_id
@@ -1306,6 +1439,16 @@ msgid "Unread Messages Counter"
 msgstr ""
 
 #. module: deltatech_service_equipment
+#: model:ir.actions.server,name:deltatech_service_equipment.action_update_meter_status
+msgid "Update Meter Status"
+msgstr "Actualizare stare citire"
+
+#. module: deltatech_service_equipment
+#: model:ir.actions.server,name:deltatech_service_equipment.action_update_totals
+msgid "Update Revenues"
+msgstr "Actualizare venituri"
+
+#. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_meter__value_a
 msgid "Value A"
 msgstr ""
@@ -1323,7 +1466,7 @@ msgstr "Furnizor"
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__partner_ref
 msgid "Vendor Reference"
-msgstr ""
+msgstr "Referintă furnizor"
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__warranty_date
@@ -1341,16 +1484,28 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_agreement_filter
+msgid "Without readings"
+msgstr "Fără citiri"
+
+#. module: deltatech_service_equipment
 #: code:addons/deltatech_service_equipment/wizard/service_equi_operation.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 #, python-format
 msgid "You must bill consumption before uninstalling"
-msgstr ""
+msgstr "Trebuie să facturați consumul înainte de dezinstalare"
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_enter_reading_form
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
 msgid "_Apply"
 msgstr "_Aplică"
+
+#. module: deltatech_service_equipment
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_enter_reading_form
+#: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equi_operation_form
+msgid "close"
+msgstr ""
 
 #. module: deltatech_service_equipment
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_enter_reading_form

@@ -48,6 +48,16 @@
             <form string="Service Equipment">
                 <header>
 
+
+                    <button
+                        name="%(action_service_enter_reading)d"
+                        type="action"
+                        string="Add Readings"
+                        class="oe_highlight"
+                        attrs="{'invisible':[('meter_ids','=',[])]}"
+                    />
+
+
                     <button
                         name="%(action_service_equi_add)d"
                         type="action"
@@ -65,6 +75,7 @@
                         attrs="{'invisible':[('partner_id','!=',False)]}"
                         groups="deltatech_service.group_service_manager"
                     />
+
 
                     <button
                         name="%(action_service_equi_rem)d"
