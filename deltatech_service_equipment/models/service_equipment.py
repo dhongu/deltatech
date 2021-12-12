@@ -38,7 +38,7 @@ class ServiceEquipment(models.Model):
         copy=False,
     )
 
-    agreement_id = fields.Many2one("service.agreement", string="Contract Service", compute="_compute_agreement_id")
+    agreement_id = fields.Many2one("service.agreement", string="Contract Service")
     agreement_type_id = fields.Many2one(
         "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
     )
@@ -241,32 +241,6 @@ class ServiceEquipment(models.Model):
     #                 break
     #             else:
     #                 equi.last_reading
-
-    def _compute_agreement_id(self):
-        for equipment in self:
-            equipment.agreement_id = False
-
-            if isinstance(equipment.id, models.NewId):
-                equipment.agreement_id = False
-                return
-            agreements = self.env["service.agreement"]
-            agreement_line = self.env["service.agreement.line"].search([("equipment_id", "=", equipment.id)])
-            for line in agreement_line:
-                if line.agreement_id.state == "open":
-                    agreements = agreements | line.agreement_id
-            if len(agreements) > 1:
-                msg = _("Equipment %s assigned to many agreements.")
-                equipment.message_post(body=msg)
-
-            # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
-            if not agreements:
-                for line in agreement_line:
-                    if line.agreement_id.state == "draft":
-                        agreements = agreements | line.agreement_id
-
-            if len(agreements) > 0:
-                equipment.agreement_id = agreements[0]
-                equipment.partner_id = agreements[0].partner_id
 
     def invoice_button(self):
         consumptions = self.env["service.consumption"].search([("equipment_id", "=", self.id)])

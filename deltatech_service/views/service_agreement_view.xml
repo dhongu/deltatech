@@ -17,6 +17,7 @@
                 <field name="total_invoiced" sum="invoiced" />
                 <field name="message_unread" invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                <field name="last_date_invoice" />
                 <field name="next_date_invoice" optional="hide" widget="remaining_days" />
             </tree>
         </field>
@@ -32,7 +33,7 @@
                         states="open"
                         type="object"
                         class="oe_highlight"
-                        string="Terminate Contract"
+                        string="Close Contract"
                     />
                     <button
                         name="contract_open"
@@ -115,8 +116,10 @@
                         <group>
                             <field name="cycle_id" />
                             <field name="invoice_mode" />
-                            <field name="last_invoice_id" />
+
                             <field name="invoice_day" />
+                            <field name="last_invoice_id" />
+                            <field name="last_date_invoice" />
                             <field name="next_date_invoice" widget="remaining_days" />
                             <field name="payment_term_id" />
                             <field name="user_id" widget="many2one_avatar_user" />
@@ -127,7 +130,9 @@
                     </group>
                     <field name="agreement_line" mode="tree,kanban" context="{'default_currency_id':currency_id}">
                         <tree string="Agreement Lines" editable="bottom">
+                            <field name="sequence" widget="handle" />
                             <field name="product_id" context="{'default_type':'service'}" />
+                            <field name="invoice_description" optional="hide" />
                             <field name="quantity" />
                             <field name="uom_id" groups="uom.group_uom" />
                             <field name="price_unit" />
@@ -184,6 +189,7 @@
                             </templates>
                         </kanban>
                     </field>
+                    <field name="notes" />
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
