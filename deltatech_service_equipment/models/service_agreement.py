@@ -1,12 +1,44 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
+
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 
 
+class ServiceAgreementType(models.Model):
+    _inherit = "service.agreement.type"
+
+    permits_pickings = fields.Boolean("Allows non-billable deliveries", default=False)
+    readings_required = fields.Boolean("Requires readings for billing", default=False)
+
+
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
+
+    equipment_count = fields.Integer(compute="_compute_equipment_count")
+    common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
+    meter_reading_status = fields.Boolean(default=False, string="Readings done", tracking=True)
+
+    @api.depends("agreement_line")
+    def _compute_equipment_count(self):
+        for agreement in self:
+            equipments = self.env["service.equipment"]
+
+            for item in agreement.agreement_line:
+                if item.equipment_id:
+                    equipments |= item.equipment_id
+
+            agreement.equipment_count = len(equipments)
+
+    def get_agreements_auto_billing(self):
+        agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
+        for agreement in agreements:
+            # check if readings done
+            if not agreement.meter_reading_status:
+                agreements = agreements - agreement
+        return agreements
 
     def service_equipment(self):
         equipments = self.env["service.equipment"]
@@ -31,6 +63,35 @@ class ServiceAgreement(models.Model):
 
     def do_agreement(self):
         pass
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
+
+    @api.onchange("meter_reading_status")
+    def check_reading_status(self):
+        # self.error = ''
+        if self.meter_reading_status:
+            date_today = fields.Date.context_today(self)
+            limit_date = date_today - timedelta(days=7)
+            self.ensure_one()
+            equipments = self.env["service.equipment"]
+            for item in self.agreement_line:
+                if item.equipment_id:
+                    equipments |= item.equipment_id
+            for equipment in equipments:
+                equipment._compute_readings_status()
+                if equipment.last_reading < limit_date:
+                    self.meter_reading_status = False
+                    # self.error += "Echipament %s/%s (serial: %s): nu exista citiri mai noi de 7 zile | " %
+                    # (equipment.name, equipment.address_id.name, equipment.serial_id.name)
 
 
 class ServiceAgreementLine(models.Model):

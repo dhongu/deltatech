@@ -9,7 +9,33 @@
             <header position="inside">
                 <button name="new_piking_button" type="object" string="Delivery for service" />
             </header>
+            <div name="button_box" position="inside">
 
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="picking_button"
+                    icon="fa-sign-out"
+                    name="picking_button"
+                >
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field string="Costs" name="total_costs" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Costs</span>
+                                </div>
+                            </button>
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    id="picking_button"
+                    icon="fa-sign-out"
+                    name="delivered_button"
+                >
+                    <span class="o_stat_text">Products delivered</span>
+
+                </button>
+            </div>
 
             <page id="meters" position="after">
                 <page string="Consumable">
@@ -40,8 +66,6 @@
                                                     title="Quantity"
                                                     options="{  'max_value': 'shelf_life', 'editable': false }"
                                                 />
-
-
 
 
                                             </div>

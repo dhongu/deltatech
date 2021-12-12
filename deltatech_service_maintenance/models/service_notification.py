@@ -105,7 +105,7 @@ class ServiceNotification(models.Model):
     sale_order_id = fields.Many2one("sale.order", string="Sale Order")  # legatua la comanda de vanzare
     required_order_id = fields.Many2one("required.order", string="Required Products Order")
 
-    related_doc = fields.Boolean(_compute="_get_related_doc")
+    related_doc = fields.Boolean(compute="_compute_related_doc")
 
     item_ids = fields.One2many(
         "service.notification.item",
@@ -116,10 +116,11 @@ class ServiceNotification(models.Model):
         copy=True,
     )
 
-    def _get_related_doc(self):
-        self.related_doc = False
-        if self.piking_id or self.sale_order_id or self.required_order_id:
-            return True
+    def _compute_related_doc(self):
+        for item in self:
+            item.related_doc = False
+            if item.piking_id or item.sale_order_id or item.required_order_id:
+                item.related_doc = True
 
     @api.model
     def company_user(self, present_ids, domain, **kwargs):
@@ -202,7 +203,7 @@ class ServiceNotification(models.Model):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assing": fields.Datetime.now()})
+        self.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
         new_follower_ids = [self.user_id.partner_id.id]
 
@@ -303,6 +304,13 @@ class ServiceNotification(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
+
+        # check if agreement permits
+        if not self.agreement_id:
+            raise UserError(_("You must have an agreement."))
+        else:
+            if not self.agreement_id.type_id.permits_pickings:
+                raise UserError(_("This agreement type does not allow pickings."))
 
         context = {
             "default_equipment_id": self.equipment_id.id,
@@ -485,5 +493,6 @@ class ServiceNotificationItem(models.Model):
 class ServiceNotificationType(models.Model):
     _name = "service.notification.type"
     _description = "Service Notification Type"
-    name = fields.Char(string="Type", translate=True)
+
+    name = fields.Char(string="Notification Type", translate=True)
     scope = fields.Selection([("external", "External"), ("internal", "Internal")], default="external", string="Type")

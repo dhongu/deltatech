@@ -1,4 +1,4 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
 
@@ -14,9 +14,9 @@ class ServiceEquipment(models.Model):
     _name = "service.equipment"
     _description = "Service Equipment"
     _inherits = {"maintenance.equipment": "base_equipment_id"}
-    _inherit = "mail.thread"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    base_equipment_id = fields.Many2one("maintenance.equipment")
+    base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
 
     # campuri care se gasesc in echipament
     # name = fields.Char(string='Name', index=True, required=True, copy=False)
@@ -26,34 +26,46 @@ class ServiceEquipment(models.Model):
     # categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
 
     state = fields.Selection(
-        [("available", "Available"), ("installed", "Installed"), ("backuped", "Backuped")],
+        [
+            ("available", "Available"),
+            ("installing", "In installing"),
+            ("installed", "Installed"),
+            ("inactive", "Inactive"),
+            ("backuped", "Backuped"),
+        ],
         default="available",
         string="Status",
         copy=False,
     )
 
-    agreement_id = fields.Many2one("service.agreement", string="Contract Service", compute="_compute_agreement_id")
+    agreement_id = fields.Many2one("service.agreement", string="Contract Service")
     agreement_type_id = fields.Many2one(
         "service.agreement.type", string="Agreement Type", related="agreement_id.type_id"
     )
+    agreement_state = fields.Selection(string="Status contract", store=True, related="agreement_id.state")
 
     # se gaseste in echipmanet campul technician_user_id
     # user_id = fields.Many2one('res.users', string='Responsible', tracking=True)
 
-    # proprietarul  echipamentului
-    partner_id = fields.Many2one(
-        "res.partner",
-        string="Customer",
-        related="agreement_id.partner_id",
-        store=True,
-        readonly=True,
-        help="The owner of the equipment",
-    )
+    partner_id = fields.Many2one("res.partner", string="Customer", readonly=True)
+
     address_id = fields.Many2one(
-        "res.partner", string="Location", readonly=True, help="The address where the equipment is located"
+        "res.partner",
+        string="Address",
+        readonly=True,
+        help="The address where the equipment is located",
+    )
+
+    location_state_id = fields.Many2one(
+        "res.country.state",
+        string="Region",
+        related="address_id.state_id",
+        store=True,
     )
     emplacement = fields.Char(
-        string="Emplacement", readonly=True, help="Detail of location of the equipment in working point"
+        string="Emplacement",
+        readonly=True,
+        help="Detail of location of the equipment in working point",
     )
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
@@ -65,10 +77,12 @@ class ServiceEquipment(models.Model):
         domain=[("type", "=", "contact"), ("is_company", "=", False)],
     )
 
-    total_revenues = fields.Float(
-        string="Total Revenues", readonly=True
-    )  # se va calcula din suma consumurilor de servicii
-    total_costs = fields.Float(string="Total cost", readonly=True)  # se va calcula din suma avizelor
+    # se va calcula din suma consumurilor de servicii
+
+    total_invoiced = fields.Float(string="Total invoiced", readonly=True)
+    total_revenues = fields.Float(string="Total Revenues", readonly=True)
+    # se va calcula din suma avizelor
+    total_costs = fields.Float(string="Total cost", readonly=True)
 
     note = fields.Text(string="Notes")
     start_date = fields.Date(string="Start Date")
@@ -81,6 +95,7 @@ class ServiceEquipment(models.Model):
         [("", "N/A"), ("unmade", "Unmade"), ("done", "Done")],
         string="Readings Status",
         compute="_compute_readings_status",
+        default="unmade",
         store=True,
     )
 
@@ -88,6 +103,45 @@ class ServiceEquipment(models.Model):
     internal_type = fields.Selection([("equipment", "Equipment")], default="equipment")
 
     analytic_account_id = fields.Many2one("account.analytic.account", string="Analytic", ondelete="restrict")
+
+    product_id = fields.Many2one(
+        "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
+    )
+    serial_id = fields.Many2one("stock.production.lot", string="Serial", ondelete="restrict", copy=False)
+    # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
+    location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
+
+    ean_code = fields.Char(string="EAN Code")
+
+    vendor_id = fields.Many2one("res.partner", string="Vendor")
+    manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
+    common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
+
+    location_type = fields.Selection(
+        [
+            ("stock", "In Stock"),
+            ("rental", "In rental"),  # green  success
+            ("customer", "Customer"),  # blue  info
+            ("unavailable", "Unavailable"),  # red  danger
+        ],
+        default="stock",
+        store=True,
+        compute="_compute_location_type",
+    )
+
+    reading_day = fields.Integer(
+        string="Reading Day",
+        default=-1,
+        help="""Day of the month, set -1 for the last day of the month.
+                                     If it's positive, it gives the day of the month. Set 0 for net days .""",
+    )
+    last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
+    next_reading = fields.Date("Next reading date", readonly=True, default="2000-01-01")
+    last_reading_value = fields.Float(string="Last reading value")
+
+    _sql_constraints = [
+        ("ean_code_uniq", "unique(ean_code)", "EAN Code already exist!"),
+    ]
 
     @api.model
     def create(self, vals):
@@ -106,88 +160,99 @@ class ServiceEquipment(models.Model):
                 vals["name"] = sequence.next_by_id()
         return super(ServiceEquipment, self).write(vals)
 
-    def costs_and_revenues(self):
-        for equi in self:
-            cost = 0.0
-            pickings = self.env["stock.picking"].search([("equipment_id", "=", equi.id), ("state", "=", "done")])
-            for picking in pickings:
-                for move in picking.move_lines:
-                    move_value = 0.0
-                    for quant in move.quant_ids:
-                        move_value += quant.cost * quant.qty
-                    if move.location_id.usage == "internal":
-                        cost += move_value
-                    else:
-                        cost -= move_value
-            revenues = 0.0
-            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equi.id)])
+    def compute_totals(self):
+        for equipment in self:
+            total_consumption = 0.0
+            total_invoiced = 0.0
+            consumptions = self.env["service.consumption"].search([("equipment_id", "=", equipment.id)])
+            invoices = self.env["account.move"]
             for consumption in consumptions:
                 if consumption.state == "done":
-                    revenues += consumption.currency_id.compute(
-                        consumption.price_unit * consumption.quantity, self.env.user.company_id.currency_id
-                    )
+                    total_consumption += consumption.revenues
+                    invoices |= consumption.invoice_id
+            for invoice in invoices:
+                if invoice.state == "posted":
+                    for line in invoice.invoice_line_ids:
+                        if line.agreement_line_id.equipment_id == equipment:
+                            total_invoiced += line.price_subtotal
+            equipment.write({"total_invoiced": total_invoiced, "total_revenues": total_consumption})
 
-            equi.write({"total_costs": cost, "total_revenues": revenues})
+    def costs_and_revenues(self):
+        self.compute_totals()
+
+    @api.depends("location_id")
+    def _compute_location_type(self):
+        for equipment in self:
+
+            if equipment.location_id.usage == "customer":
+                equipment.location_type = "customer"
+            elif equipment.location_id.usage == "internal":
+                equipment.location_type = "stock"
+            else:
+                equipment.location_type = "unavailable"
+
+            if equipment.location_id.rental:
+                equipment.location_type = "rental"
 
     def _compute_readings_status(self):
-        from_date = date.today() + relativedelta(day=1, months=0, days=0)
-        to_date = date.today() + relativedelta(day=1, months=1, days=-1)
-        from_date = fields.Date.to_string(from_date)
-        to_date = fields.Date.to_string(to_date)
-
         for equi in self:
+            if equi.last_reading:
+                next_date = max(date.today(), equi.last_reading)
+            else:
+                next_date = date.today()
+
+            if equi.reading_day < 0:
+                next_first_date = next_date + relativedelta(day=1, months=0)
+                next_date = next_first_date + relativedelta(days=equi.reading_day)
+            if equi.reading_day > 0:
+                next_date += relativedelta(day=equi.reading_day, months=0)
+
+            next_reading_date = next_date
+
             equi.readings_status = "done"
             for meter in equi.meter_ids:
                 if not meter.last_meter_reading_id:
                     equi.readings_status = "unmade"
                     break
-                if not (from_date <= meter.last_meter_reading_id.date <= to_date):
+                else:
+                    equi.last_reading = meter.last_meter_reading_id.date
+                if not (meter.last_meter_reading_id.date >= next_reading_date):
                     equi.readings_status = "unmade"
                     break
 
-    def _compute_agreement_id(self):
-        for equipment in self:
-            equipment.agreement_id = False
+            if next_reading_date < equi.last_reading:
+                next_date += relativedelta(months=1)
+            equi.next_reading = next_date
 
-            if isinstance(equipment.id, models.NewId):
-                equipment.agreement_id = False
-                return
-            agreements = self.env["service.agreement"]
-            agreement_line = self.env["service.agreement.line"].search([("equipment_id", "=", equipment.id)])
-            for line in agreement_line:
-                if line.agreement_id.state == "open":
-                    agreements = agreements | line.agreement_id
-            if len(agreements) > 1:
-                msg = _("Equipment %s assigned to many agreements.")
-                equipment.message_post(body=msg)
-
-            # daca nu e activ intr-un contract poate se gaseste pe un contract ciorna
-            if not agreements:
-                for line in agreement_line:
-                    if line.agreement_id.state == "draft":
-                        agreements = agreements | line.agreement_id
-
-            if len(agreements) > 0:
-                equipment.agreement_id = agreements[0]
-                equipment.partner_id = agreements[0].partner_id
+    # def _compute_readings_status(self):
+    #     from_date = date.today() + relativedelta(day=1, months=0, days=0)
+    #     to_date = date.today() + relativedelta(day=1, months=1, days=-1)
+    #     from_date = fields.Date.to_string(from_date)
+    #     to_date = fields.Date.to_string(to_date)
+    #
+    #     for equi in self:
+    #         equi.readings_status = "done"
+    #         for meter in equi.meter_ids:
+    #             if not meter.last_meter_reading_id:
+    #                 equi.readings_status = "unmade"
+    #                 break
+    #             if not (from_date <= meter.last_meter_reading_id.date <= to_date):
+    #                 equi.readings_status = "unmade"
+    #                 break
+    #             else:
+    #                 equi.last_reading
 
     def invoice_button(self):
-        invoices = self.env["account.invoice"]
-        for meter in self.meter_ids:
-            for meter_reading in meter.meter_reading_ids:
-                if meter_reading.consumption_id and meter_reading.consumption_id.invoice_id:
-                    invoices = invoices | meter_reading.consumption_id.invoice_id
+        consumptions = self.env["service.consumption"].search([("equipment_id", "=", self.id)])
 
-        return {
-            "domain": "[('id','in', [" + ",".join(map(str, invoices.ids)) + "])]",
-            "name": _("Services Invoices"),
-            "view_type": "form",
-            "view_mode": "tree,form",
-            "res_model": "account.invoice",
-            "view_id": False,
-            "context": "{'type':'out_invoice', 'journal_type': 'sale'}",
-            "type": "ir.actions.act_window",
-        }
+        invoices = self.env["account.move"]
+        for consumption in consumptions:
+            if consumption.state == "done":
+                invoices |= consumption.invoice_id
+
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action["domain"] = [("id", "=", invoices.ids)]
+        return action
 
     def create_meters_button(self):
         categs = self.env["service.meter.category"]
@@ -207,20 +272,35 @@ class ServiceEquipment(models.Model):
             lines = self.env["service.agreement.line"].search(
                 [("agreement_id", "=", self.agreement_id.id), ("equipment_id", "=", self.id)]
             )
-            lines.unlink()
-            if not self.agreement_id.agreement_line:
-                self.agreement_id.unlink()
+            # lines.unlink()
+            # if not self.agreement_id.agreement_line:
+            #     self.agreement_id.unlink()
+            lines.write({"active": False, "quantity": 0})
+            self.agreement_id = False
         else:
             raise UserError(_("The agreement %s is in state %s") % (self.agreement_id.name, self.agreement_id.state))
 
-    def picking_button(self):
-        pass
-
-    def movelines_button(self):
-        pass
-
     def do_agreement(self):
         pass
+
+    @api.onchange("product_id")
+    def onchange_product_id(self):
+        if self.product_id:
+            domain = [("product_id", "=", self.product_id.id)]
+        else:
+            domain = []
+        return {"domain": {"serial_id": domain}}
+
+    def common_history_button(self):
+        return {
+            "domain": [("id", "in", self.common_history_ids.ids)],
+            "name": "History",
+            "view_type": "form",
+            "view_mode": "tree,form",
+            "res_model": "service.history",
+            "view_id": False,
+            "type": "ir.actions.act_window",
+        }
 
 
 # se va utiliza maintenance.equipment.category

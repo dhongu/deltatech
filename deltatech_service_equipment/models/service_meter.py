@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 READING_TYPE_SELECTION = [("inc", "Increase"), ("dec", "Decrease"), ("cng", "Change"), ("src", "Meter")]
 
 
-# de deinit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
+# de definit o tabela de configurare pentru unitatile de masura utilizate pentru contorizare....
 
 
 # face legatura dintre categorie si unitatea de masura
@@ -36,13 +36,7 @@ class ServiceMeter(models.Model):
     display_name = fields.Char(compute="_compute_display_name")
 
     meter_categ_id = fields.Many2one("service.meter.category", string="Category", required=True)
-    type = fields.Selection(
-        [("counter", "Counter"), ("collector", "Collector")],
-        string="Type",
-        default="counter",
-        related="meter_categ_id.type",
-        readonly=True,
-    )
+    type = fields.Selection(string="Type", default="counter", related="meter_categ_id.type", readonly=True)
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", required=True, ondelete="cascade", index=True
     )
@@ -59,12 +53,22 @@ class ServiceMeter(models.Model):
 
     start_value = fields.Float(string="Start Value", digits="Meter Value")
     last_meter_reading_id = fields.Many2one(
-        "service.meter.reading", string="Last Meter Reading", compute="_compute_last_meter_reading"
+        "service.meter.reading",
+        string="Last Meter Reading",
+        compute="_compute_last_meter_reading",
+        store=True,
     )
-    last_reading_date = fields.Date(string="Last reading date", compute="_compute_last_meter_reading", store=True)
+    last_reading_date = fields.Date(
+        string="Last reading date",
+        compute="_compute_last_meter_reading",
+        store=True,
+    )
 
     total_counter_value = fields.Float(
-        string="Total Counter Value", digits="Meter Value", compute="_compute_last_meter_reading"
+        string="Total Counter Value",
+        digits="Meter Value",
+        compute="_compute_last_meter_reading",
+        store=True,
     )
     estimated_value = fields.Float(string="Estimated Value", digits="Meter Value", compute="_compute_estimated_value")
 
@@ -237,8 +241,23 @@ class ServiceMeterReading(models.Model):
     )
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", required=True, ondelete="restrict")
+    partner_id = fields.Many2one(
+        "res.partner",
+        string="Customer",
+        related="equipment_id.partner_id",
+        store=True,
+        readonly=True,
+        help="The owner of the equipment",
+    )
+    address_id = fields.Many2one(
+        "res.partner",
+        string="Location",
+        related="equipment_id.address_id",
+        readonly=True,
+        help="The address where the equipment is located",
+    )
 
-    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.today())
+    date = fields.Date(string="Date", index=True, required=True, default=fields.Date.context_today)
     previous_counter_value = fields.Float(
         string="Previous Counter Value",
         readonly=True,

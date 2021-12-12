@@ -20,7 +20,7 @@
         </field>
     </record>
 
-    <act_window
+<!--    <act_window
         id="action_product_template_markup_wizard"
         res_model="product.markup.wizard"
         binding_model="product.template"
@@ -28,6 +28,15 @@
         target="new"
         view_mode="form"
         name="Set Trade Markup"
-    />
+    />-->
+
+    <record id="action_product_template_markup_wizard" model="ir.actions.act_window">
+        <field name="name">Set Trade Markup</field>
+        <field name="res_model">product.markup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="product.model_product_template" />
+        <field name="binding_view_types">list</field>
+    </record>
 
 </odoo>

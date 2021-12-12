@@ -21,17 +21,26 @@
         </record>
 
 
-        <act_window
-        name="Create Expenses Deduction"
-        res_model="expenses.deduction.from.account.voucher"
-        src_model="account.voucher"
-        key2="client_action_multi"
-        multi="True"
-        view_mode="form"
-        view_type="form"
-        target="new"
-        id="action_expenses_deduction_from_account_voucher"
-    />
+<!--        <act_window
+            name="Create Expenses Deduction"
+            res_model="expenses.deduction.from.account.voucher"
+            src_model="account.voucher"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_expenses_deduction_from_account_voucher"
+        />-->
+
+    <record id="action_expenses_deduction_from_account_voucher" model="ir.actions.act_window">
+        <field name="name">Create Expenses Deduction</field>
+        <field name="res_model">expenses.deduction.from.account.voucher</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_voucher" />
+        <field name="binding_view_types">list</field>
+    </record>
 
 
 </odoo>

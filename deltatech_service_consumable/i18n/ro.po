@@ -1,0 +1,297 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_service_consumable
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-11 07:56+0000\n"
+"PO-Revision-Date: 2021-12-11 07:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "<span class=\"o_stat_text\">Costs</span>"
+msgstr "<span class=\"o_stat_text\">Costuri</span>"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "<span class=\"o_stat_text\">Products delivered</span>"
+msgstr "<span class=\"o_stat_text\">Produse livrate</span>"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__categ_id
+msgid "Category"
+msgstr "Categorie"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__commercial_partner_id
+msgid "Commercial Entity"
+msgstr "Entitate comericală"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__company_id
+msgid "Company"
+msgstr "Compania"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__product_id
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "Consumable"
+msgstr "Consumabil"
+
+#. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_service_consumable_item
+msgid "Consumable Item"
+msgstr "Poziție consumabil"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment__consumable_item_ids
+msgid "Consumables"
+msgstr "Consumabile"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__agreement_id
+msgid "Contract Services"
+msgstr "Contracte servicii"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "Costs"
+msgstr "Costuri"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__date
+msgid "Date"
+msgstr "Dată"
+
+#. module: deltatech_service_consumable
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+#, python-format
+msgid "Delivery for service"
+msgstr "Livrări pentru servicii"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__display_name
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__display_name
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__display_name
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment__display_name
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__equipment_id
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking__equipment_id
+msgid "Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__colors
+msgid "HTML Colors Index"
+msgstr "Culoare HTML"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__id
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__id
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__id
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment__id
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement____last_update
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item____last_update
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report____last_update
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_equipment____last_update
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__location_id
+msgid "Location"
+msgstr "Punct de lucru"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__location_dest_id
+msgid "Location Destination"
+msgstr "Locație destinație"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,help:deltatech_service_consumable.field_service_consumable_item__max_qty
+msgid "Maximum Quantity allowed"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__picking_id
+msgid "Picking"
+msgstr "Ridicare"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__picking_type_id
+msgid "Picking Type"
+msgstr "Tip Ridicare"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__picking_type_code
+msgid "Picking Type Code"
+msgstr "Cod tip ridicare"
+
+#. module: deltatech_service_consumable
+#: code:addons/deltatech_service_consumable/models/service_consumable.py:0
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#, python-format
+msgid "Please define the picking type for service."
+msgstr "Vă rugăm să definiți tipul de ridicare pentru service."
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__price
+msgid "Price Unit"
+msgstr "Preț unitar"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__quantity
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__product_qty
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_service_equipment_form
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__max_qty
+msgid "Quantity Max"
+msgstr "Cantitate maximă"
+
+#. module: deltatech_service_consumable
+#: model_terms:ir.ui.view,arch_db:deltatech_service_consumable.view_picking_form
+msgid "Service"
+msgstr "Serviciu"
+
+#. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_service_agreement
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_stock_picking__agreement_id
+msgid "Service Agreement"
+msgstr "Contract servicii"
+
+#. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_service_equipment
+msgid "Service Equipment"
+msgstr "Echipament"
+
+#. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_service_efficiency_report
+msgid "ServiceEfficiencyReport"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__shelf_life
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__shelf_life
+msgid "Shelf Life"
+msgstr "Durată de viață"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__uom_shelf_life
+msgid "Shelf Life UoM"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: code:addons/deltatech_service_consumable/models/service_consumable.py:0
+#: code:addons/deltatech_service_consumable/models/service_equipment.py:0
+#, python-format
+msgid "Stock Settings"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_costs
+msgid "Total Cost"
+msgstr "Total costuri"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_agreement__total_percent
+msgid "Total percent"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model,name:deltatech_service_consumable.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_consumable_item__type_id
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__product_uom
+msgid "Unit of Measure"
+msgstr "Unitate de măsură"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__uom_usage
+msgid "Unit of Measure Usage"
+msgstr "Unitate măsură utilizare"
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,help:deltatech_service_consumable.field_service_consumable_item__uom_shelf_life
+msgid "Unit of Measure for Shelf Life"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,help:deltatech_service_consumable.field_service_efficiency_report__uom_usage
+msgid "Unit of Measure for Usage"
+msgstr ""
+
+#. module: deltatech_service_consumable
+#: model:ir.model.fields,field_description:deltatech_service_consumable.field_service_efficiency_report__usage
+msgid "Usage"
+msgstr "Utilizare"
