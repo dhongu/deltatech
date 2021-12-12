@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["stock", "stock_account", "purchase_stock"],
-    "data": ["views/product_view.xml", "wizard/trade_markup_view.xml"],
+    "data": ["views/product_view.xml", "wizard/trade_markup_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",

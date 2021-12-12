@@ -25,15 +25,8 @@
                 </form>
             </field>
         </record>
-<!--        <act_window
-            id="action_service_change_invoice_date"
-            name="Change Invoice Date"
-            res_model="service.change.invoice.date"
-            binding_model="service.consumption"
-            view_mode="form"
-            target="new"
-        />-->
-        <record id="action_service_change_invoice_date" model="ir.actions.act_window">
+
+    <record id="action_service_change_invoice_date" model="ir.actions.act_window">
         <field name="name">Change Invoice Date</field>
         <field name="res_model">service.change.invoice.date</field>
         <field name="view_mode">form</field>

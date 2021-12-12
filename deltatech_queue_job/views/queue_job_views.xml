@@ -5,7 +5,7 @@
         <field name="name">queue.job.form</field>
         <field name="model">queue.job</field>
         <field name="arch" type="xml">
-            <form string="Jobs" create="false" delete="false">
+            <form string="Jobs" create="false" delete="true">
                 <header>
                     <button
                         name="run"
@@ -108,12 +108,7 @@
         <field name="name">queue.job.tree</field>
         <field name="model">queue.job</field>
         <field name="arch" type="xml">
-            <tree
-                create="false"
-                delete="false"
-                decoration-danger="state == 'failed'"
-                decoration-muted="state == 'done'"
-            >
+            <tree create="false" delete="true" decoration-danger="state == 'failed'" decoration-muted="state == 'done'">
                 <field name="name" />
                 <field name="model_name" />
                 <field name="state" />

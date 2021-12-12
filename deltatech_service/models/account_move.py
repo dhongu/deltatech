@@ -5,13 +5,8 @@
 from odoo import fields, models
 
 
-# e posibil ca o factura sa contina mai multe contracte
 class AccountInvoice(models.Model):
     _inherit = "account.move"
-
-    agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="invoice_line_ids.agreement_line_id.agreement_id"
-    )
 
     def action_cancel(self):
         res = super(AccountInvoice, self).action_cancel()
@@ -30,12 +25,18 @@ class AccountInvoice(models.Model):
                 consumption.agreement_id.compute_totals()
         return super(AccountInvoice, self).unlink()
 
-    def invoice_validate(self):
-        res = super(AccountInvoice, self).invoice_validate()
+    def action_post(self):
+        res = super(AccountInvoice, self).action_post()
         agreements = self.env["service.agreement"]
         for invoice in self:
-            for line in invoice.invoice_line_ids:
-                agreements |= line.agreement_line_id.agreement_id
+            if invoice.move_type == "out_invoice":
+                invoice_agreements = self.env["service.agreement"]
+                for line in invoice.invoice_line_ids:
+                    invoice_agreements |= line.agreement_line_id.agreement_id
+
+                invoice_agreements.write({"last_invoice_id": invoice.id})
+                agreements |= invoice_agreements
+
         agreements.compute_totals()
         return res
 
@@ -44,3 +45,4 @@ class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
     agreement_line_id = fields.Many2one("service.agreement.line", string="Service Agreement Line")
+    agreement_id = fields.Many2one("service.agreement", related="agreement_line_id.agreement_id", store=True)

@@ -36,13 +36,7 @@ class ServiceMeter(models.Model):
     display_name = fields.Char(compute="_compute_display_name")
 
     meter_categ_id = fields.Many2one("service.meter.category", string="Category", required=True)
-    type = fields.Selection(
-        [("counter", "Counter"), ("collector", "Collector")],
-        string="Type",
-        default="counter",
-        related="meter_categ_id.type",
-        readonly=True,
-    )
+    type = fields.Selection(string="Type", default="counter", related="meter_categ_id.type", readonly=True)
     equipment_id = fields.Many2one(
         "service.equipment", string="Equipment", required=True, ondelete="cascade", index=True
     )
@@ -247,6 +241,21 @@ class ServiceMeterReading(models.Model):
     )
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", required=True, ondelete="restrict")
+    partner_id = fields.Many2one(
+        "res.partner",
+        string="Customer",
+        related="equipment_id.partner_id",
+        store=True,
+        readonly=True,
+        help="The owner of the equipment",
+    )
+    address_id = fields.Many2one(
+        "res.partner",
+        string="Location",
+        related="equipment_id.address_id",
+        readonly=True,
+        help="The address where the equipment is located",
+    )
 
     date = fields.Date(string="Date", index=True, required=True, default=fields.Date.context_today)
     previous_counter_value = fields.Float(

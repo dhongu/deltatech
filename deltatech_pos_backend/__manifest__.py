@@ -5,7 +5,7 @@
 {
     "name": "Deltatech POS Backend",
     "summary": "Point of sale create/edit order form backend",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales/Point of Sale",

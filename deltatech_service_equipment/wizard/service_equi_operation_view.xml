@@ -1,80 +1,109 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        <record id="view_service_equi_operation_form" model="ir.ui.view">
-            <field name="name">Service Equipment Operation</field>
-            <field name="model">service.equi.operation</field>
-            <field name="arch" type="xml">
-                <form string="Service Equipment Operation">
-                    <group string="Operation">
-                        <group>
-                            <field name="state" />
-                            <field name="date" />
-                        </group>
-                        <group>
-                            <field name="equipment_id" />
-                        </group>
 
+    <record id="view_service_equi_operation_form" model="ir.ui.view">
+        <field name="name">Service Equipment Operation</field>
+        <field name="model">service.equi.operation</field>
+        <field name="arch" type="xml">
+            <form string="Service Equipment Operation">
+                <group string="Operation">
+                    <group>
+                        <field name="state" />
+                        <field name="date" />
                     </group>
-                    <group string="Location" states="ins">
-                        <group>
-                         <field name="partner_id" attrs="{'required':[('state', '=', 'ins')]}" />
+                    <group>
+                        <field name="equipment_id" />
+                    </group>
+
+                </group>
+                <group string="Location" states="ins,add">
+                    <group>
+                        <field name="partner_id" attrs="{'required':[('state', '=', 'ins')]}" />
                         <field
-                                name="agreement_id"
-                                domain="[('partner_id','=',partner_id)]"
-                                placeholder="Leave empty to create a new agreement"
-                            />
-
-                        </group>
-                        <group>
-                         <field
-                                name="address_id"
-                                attrs="{'required':[('state', '=', 'ins')]}"
-                                domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
-                                context="{ 'search_default_parent_id':partner_id, 'default_parent_id':partner_id,
+                            name="agreement_id"
+                            domain="[('partner_id','=',partner_id)]"
+                            attrs="{'invisible':[ ('state', '!=', 'add')]}"
+                            placeholder="Leave empty to create a new agreement"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="address_id"
+                            attrs="{'required':[('state', '=', 'ins')]}"
+                            domain="['|',('parent_id','child_of',partner_id),('id','=',partner_id)]"
+                            context="{ 'search_default_parent_id':partner_id, 'default_parent_id':partner_id,
                             'default_filter_parent_id':partner_id}"
-                            />
+                        />
                         <field name="emplacement" />
-                        </group>
+                    </group>
 
+                </group>
+                <group string="Remove" states="rem">
+                    <field name="can_remove" invisible="1" />
+                    <div
+                        attrs="{'invisible':[ ('can_remove', '=', True)]}"
+                        class="alert alert-danger  alert-dismissible text-left"
+                        role="alert"
+                    >
+                        You must bill consumption before uninstalling
+                    </div>
+                </group>
+                <group string="Readings">
+                    <group>
+                        <field name="date" />
                     </group>
-                    <group string="Remove" states="rem">
-                        <field name="can_remove" />
-                    </group>
-                    <group string="Readings">
+                    <group>
                         <field name="read_by" />
-                        <field name="items" nolabel="1">
-                            <tree editable="bottom" create="0" delete="0">
-                                 <field name="equipment_id" invisible="1" readonly="1" force_save="1" />
-                                <field name="meter_id" readonly="1" force_save="1" />
-                                <field name="counter_value" />
-                            </tree>
-                        </field>
-                        <field name="note" />
                     </group>
-                    <footer>
-                        <button name="do_operation" string="_Apply" type="object" class="oe_highlight" />
-                        or
-                        <button string="Cancel" class="oe_link" special="cancel" />
-                    </footer>
-                </form>
-            </field>
-        </record>
-        <record id="action_service_equi_ins" model="ir.actions.act_window">
-            <field name="name">Installation</field>
-            <field name="res_model">service.equi.operation</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{'default_state':'ins'}</field>
-        </record>
 
+                    <div
+                        attrs="{'invisible':[ ('error', '=', '')]}"
+                        class="alert alert-danger  alert-dismissible text-left"
+                        role="alert"
+                    >
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="error" widget="html" />
+                    </div>
 
-        <record id="action_service_equi_rem" model="ir.actions.act_window">
-            <field name="name">Removal</field>
-            <field name="res_model">service.equi.operation</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-            <field name="context">{'default_state':'rem'}</field>
-        </record>
-    </data>
+                    <field name="items" nolabel="1">
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="equipment_id" invisible="1" readonly="1" force_save="1" />
+                            <field name="meter_id" readonly="1" force_save="1" />
+                            <field name="counter_value" />
+                        </tree>
+                    </field>
+                    <field name="note" />
+                </group>
+                <footer>
+                    <button name="do_operation" string="_Apply" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_service_equi_ins" model="ir.actions.act_window">
+        <field name="name">Installation</field>
+        <field name="res_model">service.equi.operation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_state':'ins'}</field>
+    </record>
+
+    <record id="action_service_equi_add" model="ir.actions.act_window">
+        <field name="name">Add to Agreement</field>
+        <field name="res_model">service.equi.operation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_state':'add'}</field>
+    </record>
+
+    <record id="action_service_equi_rem" model="ir.actions.act_window">
+        <field name="name">Removal</field>
+        <field name="res_model">service.equi.operation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_state':'rem'}</field>
+    </record>
+
 </odoo>
