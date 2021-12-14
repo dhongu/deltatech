@@ -396,6 +396,7 @@ class QueueJob(models.Model):
 
     def _cron_runjob(self):
         run = True
+        _logger.info("Start CRON job")
         while run:
             records = self.search([("state", "=", PENDING)], limit=5)
             records |= self.search([("state", "=", ENQUEUED)], limit=5)  # agatate
@@ -404,7 +405,11 @@ class QueueJob(models.Model):
             for record in records:
                 if record.state == PENDING:
                     record._change_job_state(ENQUEUED)
+
+                _logger.info("Start job: %s" % record.uuid)
                 record.runjob(record.uuid)
+                _logger.info("End job: %s" % record.uuid)
+        _logger.info("End CRON job")
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
