@@ -203,7 +203,7 @@ class ServiceNotification(models.Model):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assing": fields.Datetime.now()})
+        self.write({"state": "assigned", "date_assign": fields.Datetime.now()})
 
         new_follower_ids = [self.user_id.partner_id.id]
 
@@ -493,5 +493,6 @@ class ServiceNotificationItem(models.Model):
 class ServiceNotificationType(models.Model):
     _name = "service.notification.type"
     _description = "Service Notification Type"
-    name = fields.Char(string="Type", translate=True)
+
+    name = fields.Char(string="Notification Type", translate=True)
     scope = fields.Selection([("external", "External"), ("internal", "Internal")], default="external", string="Type")

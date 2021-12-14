@@ -1,6 +1,8 @@
-# ©  2015-2018 Deltatech
+# ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
+
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 
@@ -15,7 +17,20 @@ class ServiceAgreementType(models.Model):
 class ServiceAgreement(models.Model):
     _inherit = "service.agreement"
 
+    equipment_count = fields.Integer(compute="_compute_equipment_count")
     common_history_ids = fields.One2many("service.history", "agreement_id", string="Agreement History")
+    meter_reading_status = fields.Boolean(default=False, string="Readings done", tracking=True)
+
+    @api.depends("agreement_line")
+    def _compute_equipment_count(self):
+        for agreement in self:
+            equipments = self.env["service.equipment"]
+
+            for item in agreement.agreement_line:
+                if item.equipment_id:
+                    equipments |= item.equipment_id
+
+            agreement.equipment_count = len(equipments)
 
     def get_agreements_auto_billing(self):
         agreements = super(ServiceAgreement, self).get_agreements_auto_billing()
@@ -59,6 +74,24 @@ class ServiceAgreement(models.Model):
             "view_id": False,
             "type": "ir.actions.act_window",
         }
+
+    @api.onchange("meter_reading_status")
+    def check_reading_status(self):
+        # self.error = ''
+        if self.meter_reading_status:
+            date_today = fields.Date.context_today(self)
+            limit_date = date_today - timedelta(days=7)
+            self.ensure_one()
+            equipments = self.env["service.equipment"]
+            for item in self.agreement_line:
+                if item.equipment_id:
+                    equipments |= item.equipment_id
+            for equipment in equipments:
+                equipment._compute_readings_status()
+                if equipment.last_reading < limit_date:
+                    self.meter_reading_status = False
+                    # self.error += "Echipament %s/%s (serial: %s): nu exista citiri mai noi de 7 zile | " %
+                    # (equipment.name, equipment.address_id.name, equipment.serial_id.name)
 
 
 class ServiceAgreementLine(models.Model):
