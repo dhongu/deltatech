@@ -3,7 +3,6 @@
 
 import logging
 import threading
-import time
 import traceback
 from datetime import datetime, timedelta
 from io import StringIO
@@ -378,6 +377,10 @@ class QueueJob(models.Model):
         self.write({"state": "failed"})
 
     def background_run(self):
+        threading_active = threading.active_count()
+        _logger.info(threading_active)
+        if threading_active > 15:
+            return
         try:
             threaded_job = threading.Thread(target=self._do_run_background, args=(), name="background_job_%s" % self.id)
             threaded_job.start()
@@ -385,26 +388,51 @@ class QueueJob(models.Model):
             pass
 
     def _do_run_background(self):
-        time.sleep(10)  # sa apuce sistemul sa salveze datele
+        # time.sleep(10)  # sa apuce sistemul sa salveze datele
         with api.Environment.manage():
             with self.pool.cursor() as new_cr:
                 job = self.with_env(self.env(cr=new_cr))
-                job.write({"state": ENQUEUED})
-                new_cr.commit()
-                job.runjob(job.uuid)
-                new_cr.commit()
+                cron = job.env.ref("deltatech_queue_job.ir_cron_queue_job")
+                new_cr.execute(
+                    """SELECT *   FROM ir_cron   WHERE id=%s   FOR UPDATE NOWAIT""",
+                    (cron.id,),
+                    log_exceptions=False,
+                )
+
+                locked_job = new_cr.fetchone()
+                if not locked_job:
+                    _logger.debug("Job `%s` already executed by another process/thread. skipping it", cron.name)
+
+                # job = self.with_env(self.env(cr=new_cr))
+                # job._change_job_state(ENQUEUED)
+                # job.runjob(job.uuid)
+                # new_cr.commit()
 
     def _cron_runjob(self):
         run = True
+        _logger.info("Start CRON job")
         while run:
-            records = self.search([("state", "=", PENDING)], limit=5)
-            records |= self.search([("state", "=", ENQUEUED)], limit=5)  # agatate
+            records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=5)  # agatate
+            records |= self.search([("state", "=", PENDING)], order="date_created", limit=5)
+
             if not records:
                 run = False
             for record in records:
                 if record.state == PENDING:
+                    if record.eta and record.eta > fields.Datetime.now():
+                        continue
                     record._change_job_state(ENQUEUED)
-                record.runjob(record.uuid)
+                    # pylint: disable=E8102
+                    # self.env.cr.commit()
+
+                _logger.info("Start job: %s" % record.uuid)
+                try:
+                    record.runjob(record.uuid)
+                    _logger.info("End job: %s" % record.uuid)
+                except Exception:
+                    _logger.info("End with error job : %s" % record.uuid)
+
+        _logger.info("End CRON job")
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
@@ -435,16 +463,9 @@ class QueueJob(models.Model):
                     new_cr.commit()
 
         # ensure the job to run is in the correct state and lock the record
-        env.cr.execute(
-            "SELECT state FROM queue_job WHERE uuid=%s AND state=%s FOR UPDATE",
-            (job_uuid, ENQUEUED),
-        )
+        env.cr.execute("SELECT state FROM queue_job WHERE uuid=%s  FOR UPDATE", (job_uuid,))
         if not env.cr.fetchone():
-            _logger.warning(
-                "was requested to run job %s, but it does not exist, " "or is not in state %s",
-                job_uuid,
-                ENQUEUED,
-            )
+            _logger.warning("was requested to run job %s, but it does not exist ", job_uuid)
             return ""
 
         job = Job.load(env, job_uuid)
