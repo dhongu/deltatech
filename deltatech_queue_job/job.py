@@ -568,6 +568,7 @@ class Job(object):
             #     vals.update({"channel": self.channel})
 
             job_model.with_context(_job_edit_sentinel=edit_sentinel).sudo().create(vals)
+            # _logger.info("Try to run in background")
             # job.background_run()  # incercare de rulare in background
 
     def db_record(self):
