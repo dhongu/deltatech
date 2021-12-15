@@ -10,6 +10,7 @@
             </xpath>
             <xpath expr="//header" position="inside">
                 <button name="action_confirm" states="draft" string="Confirm" type="object" />
+                <button name="action_pos_order_cancel" states="draft" string="Cancel" type="object" />
             </xpath>
             <xpath expr="//page[@name='products']//tree//field[@name='full_product_name']" position="before">
                 <field name="product_id" />
