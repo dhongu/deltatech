@@ -1,42 +1,83 @@
 odoo.define("deltatech_website_product_slider_snippet.product_slider_editor", function (require) {
     "use strict";
 
-    var core = require("web.core");
+    const options = require("web_editor.snippets.options");
+    const s_dynamic_snippet_carousel_options = require("website.s_dynamic_snippet_carousel_options");
 
-    var wUtils = require("website.utils");
-    var options = require("web_editor.snippets.options");
-
-    var _t = core._t;
-
-    options.registry.edit_product_list = options.Class.extend({
-        select_product_list: function () {
-            var self = this;
-            return wUtils
-                .prompt({
-                    id: "editor_product_list_slider",
-                    window_title: _t("Select a Product List"),
-                    select: _t("Product List"),
-                    init: function () {
-                        return self._rpc({
-                            model: "product.list",
-                            method: "name_search",
-                            args: ["", []],
-                        });
-                    },
-                })
-                .then(function (result) {
-                    self.$target.attr("data-id", result.val);
-                });
+    const SnippetProductsSliderOptions = s_dynamic_snippet_carousel_options.extend({
+        init: function () {
+            this._super.apply(this, arguments);
+            this.modelNameFilter = 'product.product';
+            const productTemplateId = $("input.product_template_id");
+            this.hasProductTemplateId = productTemplateId.val();
+            if (!this.hasProductTemplateId) {
+                this.contextualFilterDomain.push(['product_cross_selling', '=', false]);
+            }
+            this.productLists = {};
         },
+
         onBuilt: function () {
-            var self = this;
-            this._super();
-            this.select_product_list("click").guardedCatch(function () {
-                self.getParent().removeSnippet();
+            this._super.apply(this, arguments);
+            this._rpc({
+                route: "/website/snippet/options_filters",
+            }).then((data) => {
+                if (data.length) {
+                    this.$target.get(0).dataset.filterId = data[0].id;
+                    this.$target.get(0).dataset.numberOfRecords = this.dynamicFilters[data[0].id].limit;
+                    this._refreshPublicWidgets();
+                    // Refresh is needed because default values are obtained after start()
+                }
             });
         },
-        cleanForSave: function () {
-            this.$target.addClass("d-none");
+
+        _computeWidgetVisibility: function (widgetName) {
+            if (widgetName === "filter_opt") {
+                return false;
+            }
+            return this._super.apply(this, arguments);
+        },
+
+        _fetchProductLists: function () {
+            return this._rpc({
+                model: "product.list",
+                method: "search_read",
+                kwargs: {
+                    domain: [],
+                    fields: ["id", "name"],
+                },
+            });
+        },
+
+        _renderCustomXML: async function (uiFragment) {
+            await this._super.apply(this, arguments);
+            await this._renderProductListSelector(uiFragment);
+        },
+
+        _renderProductListSelector: async function (uiFragment) {
+            const productLists = await this._fetchProductLists();
+            for (const index in productLists) {
+                this.productLists[productLists[index].id] = productLists[index];
+            }
+            const productListSelectorEl = uiFragment.querySelector('[data-name="product_list_opt"]');
+            return this._renderSelectUserValueWidgetButtons(productListSelectorEl, this.productLists);
+        },
+
+        _setOptionsDefaultValues: function () {
+            this._super.apply(this, arguments);
+            const templateKeys = this.$el.find(
+                "we-select[data-attribute-name='templateKey'] we-selection-items we-button"
+            );
+            if (templateKeys.length > 0) {
+                this._setOptionValue("templateKey", templateKeys.attr("data-select-data-attribute"));
+            }
+            const productLists = this.$el.find(
+                "we-select[data-attribute-name='productListId'] we-selection-items we-button"
+            );
+            if (productLists.length > 0) {
+                this._setOptionValue("productListId", productLists.attr("data-select-data-attribute"));
+            }
         },
     });
+
+    options.registry.snippet_products_slider = SnippetProductsSliderOptions;
 });
