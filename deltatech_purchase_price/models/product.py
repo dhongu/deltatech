@@ -31,8 +31,9 @@ class ProductTemplate(models.Model):
                 list_price = AccountTax._fix_tax_included_price_company(
                     product.list_price, product.taxes_id, AccountTax, product.company_id
                 )
-                trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
-                product.trade_markup = trade_markup
+                if product.last_purchase_price:
+                    trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
+                    product.trade_markup = trade_markup
             list_price = product.last_purchase_price * (1 + product.trade_markup / 100)
             list_price_tax = 0
             if product.taxes_id.price_include:
