@@ -306,13 +306,21 @@ class MergeObject(models.TransientModel):
         object_ids = Object.browse(object_ids).exists()
         if len(object_ids) < 2:
             return
-
-        if len(object_ids) > 3:
+        params = self.env["ir.config_parameter"].sudo()
+        try:
+            max_no_objects = int(params.get_param("deltatech_merge.merge_objects_max_number", default=3))
+        except Exception:
+            raise UserError(
+                _("Invalid system parameter value (deltatech_merge.merge_objects_max_number): %s")
+                % params.get_param("deltatech_merge.merge_objects_max_number")
+            )
+        if len(object_ids) > max_no_objects:
             raise UserError(
                 _(
-                    "For safety reasons, you cannot merge more than 3 objects together."
+                    "For safety reasons, you cannot merge more than %s objects together."
                     " You can re-open the wizard several times if needed."
                 )
+                % max_no_objects
             )
 
         # check if the list of objects to merge contains child/parent relation
