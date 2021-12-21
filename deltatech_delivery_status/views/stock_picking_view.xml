@@ -1,25 +1,40 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
-        <record id="view_picking_form" model="ir.ui.view">
-            <field name="name">stock.picking.form.view</field>
-            <field name="model">stock.picking</field>
-            <field name="inherit_id" ref="stock.view_picking_form" />
-            <field name="arch" type="xml">
+
+
+    <record id="view_picking_type_form" model="ir.ui.view">
+        <field name="name">stock.picking.type.inherit</field>
+        <field name="model">stock.picking.type</field>
+        <field name="inherit_id" ref="stock.view_picking_type_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warehouse_id']" position="after">
+               <field name="postponed" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
                 <xpath expr="//div[@name='button_box']" position="after">
                     <widget
-                        name="web_ribbon"
-                        title="Postponed"
-                        bg_color="bg-warning"
-                        attrs="{'invisible': [('postponed', '=', False)]}"
-                    />
+                    name="web_ribbon"
+                    title="Postponed"
+                    bg_color="bg-warning"
+                    attrs="{'invisible': [('postponed', '=', False)]}"
+                />
                 </xpath>
 
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="delivery_state" attrs="{'invisible':[('state','!=','done')]}" />
-                     <field name="postponed" />
+                    <field
+                    name="delivery_state"
+                    attrs="{'invisible':['|',('state','!=','done'),('picking_type_code','!=','outgoing')]}"
+                />
+                    <field name="postponed" attrs="{'invisible':[('picking_type_code','!=','outgoing')]}" />
                 </xpath>
-            </field>
-        </record>
-    </data>
+        </field>
+    </record>
+
 </odoo>
