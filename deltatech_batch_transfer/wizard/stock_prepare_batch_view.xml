@@ -17,6 +17,7 @@
                     <group>
                         <label for="mode" string="Mode" />
                         <field name="mode" widget="radio" nolabel="1" />
+                        <field name="set_done_qty" />
                     </group>
                     <field name="line_ids" nolabel="1" attrs="{'invisible': [('mode', '=', 'sale')]}">
                             <tree editable="bottom">
