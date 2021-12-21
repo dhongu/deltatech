@@ -6,13 +6,26 @@ from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
+class StockPickingType(models.Model):
+    _inherit = "stock.picking.type"
+
+    postponed = fields.Boolean(string="Postponed")
+
+
 class StockPicking(models.Model):
     _inherit = "stock.picking"
+
+    @api.model
+    def _default_postponed(self):
+        picking_type = self.env["stock.picking.type"].browse(self._context.get("default_picking_type_id"))
+
+        return picking_type.postponed
 
     postponed = fields.Boolean(
         string="Postponed",
         tracking=True,
         states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
+        default=_default_postponed,
     )
     delivery_state = fields.Selection(
         [
