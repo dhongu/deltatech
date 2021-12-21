@@ -49,8 +49,10 @@ class PurchaseOrder(models.Model):
                     quality -= rfq_line.product_qty
                     rfq_line.write({"product_qty": 0})
             if quality != 0:
-                message = _("The quantity of %s of the %s product is not found in a rfq") % (
-                    quality,
-                    line.product_id.name,
+                UserError(
+                    _("The quantity of %s of the %s product is not found in a rfq")
+                    % (
+                        quality,
+                        line.product_id.name,
+                    )
                 )
-                self.message_post(body=message)
