@@ -29,6 +29,7 @@
         "views/stock_location_view.xml",
         "views/res_config_view.xml",
         "views/account_move_view.xml",
+        "views/product_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
