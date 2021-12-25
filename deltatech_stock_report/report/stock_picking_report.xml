@@ -47,24 +47,10 @@
                     <field name="partner_id" />
                     <field name="picking_type_id" />
                     <field name="picking_type_code" />
-                    <field name="date" />
-                    <filter
-                        string="This Year"
-                        name="year"
-                        domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-                    />
-                    <filter
-                        string="This Month"
-                        name="month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
-                    <filter
-                        string="Previous Month"
-                        name="prev_month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                    />
+
+
+                    <filter name="date" date="date" default_period="this_month" />
+
                     <filter
                         name="picking_type_incoming"
                         string="Incoming"
