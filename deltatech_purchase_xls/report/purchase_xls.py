@@ -9,6 +9,7 @@ from odoo import models
 class PurchaseOrderXlsx(models.AbstractModel):
     _name = "report.report_xlsx.purchase_order_xlsx"
     _inherit = "report.report_xlsx.abstract"
+    _description = "PurchaseOrderXlsx"
 
     def generate_xlsx_report(self, workbook, data, objs):
         sheet = workbook.add_worksheet("Import")
