@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Deltatech reception_note",
-    "summary": "Batch reception_note",
+    "summary": "Batch reception note",
     "version": "14.0.0.0.1",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
