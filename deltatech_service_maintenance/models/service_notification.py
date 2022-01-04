@@ -305,6 +305,8 @@ class ServiceNotification(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 
+        picking_type = self.env["stock.picking.type"].browse(picking_type_id)
+
         # check if agreement permits
         if not self.agreement_id:
             raise UserError(_("You must have an agreement."))
@@ -322,11 +324,20 @@ class ServiceNotification(models.Model):
         }
 
         if self.item_ids:
-            context["default_move_lines"] = []
+            context["default_move_ids_without_package"] = []
 
             for item in self.item_ids:
-                value = {"product_id": item.product_id.id, "product_uom_qty": item.quantity}
-                context["default_move_lines"] += [(0, 0, value)]
+
+                value = {
+                    "name": item.product_id.name,
+                    "product_id": item.product_id.id,
+                    "product_uom": item.product_id.uom_id.id,
+                    "product_uom_qty": item.quantity,
+                    "location_id": picking_type.default_location_src_id.id,
+                    "location_dest_id": picking_type.default_location_dest_id.id,
+                    "price_unit": item.product_id.standard_price,
+                }
+                context["default_move_ids_without_package"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
             "name": _("Delivery for service"),
@@ -353,18 +364,28 @@ class ServiceNotification(models.Model):
             }
 
     def new_transfer_button(self):
-
+        picking_type = self.env.ref("stock.picking_type_internal")
         context = {
             # 'default_equipment_id': self.equipment_id.id,
             # 'default_agreement_id': self.agreement_id.id,
             "default_picking_type_code": "internal",
-            "default_picking_type_id": self.env.ref("stock.picking_type_internal").id,
+            "default_picking_type_id": picking_type.id,
         }
 
         if self.item_ids:
             context["default_move_lines"] = []
             for item in self.item_ids:
-                value = {"product_id": item.product_id.id, "product_uom_qty": item.quantity}
+
+                value = {
+                    "name": item.product_id.name,
+                    "product_id": item.product_id.id,
+                    "product_uom": item.product_id.uom_id.id,
+                    "product_uom_qty": item.quantity,
+                    "location_id": picking_type.default_location_src_id.id,
+                    "location_dest_id": picking_type.default_location_dest_id.id,
+                    "price_unit": item.product_id.standard_price,
+                }
+
                 context["default_move_lines"] += [(0, 0, value)]
                 context["notification_id"] = self.id
         return {
