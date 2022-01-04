@@ -64,7 +64,7 @@ class ServiceEquipment(models.Model):
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 
         if not picking_type_id:
-            action = self.env.ref("stock.action_stock_config_settings")
+            action = self.env.ref("stock.action_stock_config_settings").sudo()
             raise RedirectWarning(_("Please define the picking type for service."), action.id, _("Stock Settings"))
 
         domain = [("equipment_id", "in", self.ids), ("picking_type_id", "=", picking_type_id)]
