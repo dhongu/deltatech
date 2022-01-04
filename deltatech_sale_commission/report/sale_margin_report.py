@@ -51,6 +51,18 @@ class SaleMarginReport(models.Model):
     state = fields.Selection(
         [("draft", "Draft"), ("posted", "Posted"), ("cancel", "Cancelled")], string="Invoice Status", readonly=True
     )
+    payment_state = fields.Selection(
+        selection=[
+            ("not_paid", "Not Paid"),
+            ("in_payment", "In Payment"),
+            ("paid", "Paid"),
+            ("partial", "Partially Paid"),
+            ("reversed", "Reversed"),
+            ("invoicing_legacy", "Invoicing App Legacy"),
+        ],
+        string="Payment Status",
+        readonly=True,
+    )
 
     def _select(self):
 
@@ -78,7 +90,7 @@ class SaleMarginReport(models.Model):
                 sub.manager_rate * (sale_val    - stock_val )  as commission_manager_computed,
                 commission,
                 partner_id, commercial_partner_id, user_id, manager_user_id,     sub.company_id,
-                move_type,  state ,  journal_id,
+                move_type,  state , payment_state, journal_id,
                 cr.rate as currency_rate,
                  sub.currency_id
         """
@@ -120,7 +132,7 @@ class SaleMarginReport(models.Model):
                     s.invoice_user_id as user_id,
 
                     s.company_id as company_id,
-                    s.move_type, s.state , s.journal_id, s.currency_id
+                    s.move_type, s.state , s.payment_state , s.journal_id, s.currency_id
         """
 
         # x = """
@@ -170,6 +182,7 @@ class SaleMarginReport(models.Model):
 
                     s.move_type,
                     s.state,
+                    s.payment_state,
                     s.journal_id,
                     s.currency_id
 

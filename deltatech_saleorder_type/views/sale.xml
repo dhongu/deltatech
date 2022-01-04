@@ -40,9 +40,25 @@
             sequence="200"
             action="action_saleorder_type"
         />
+
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="so_type" optional="show" />
+                </field>
+
+            </field>
+        </record>
+
+
         <!--        Sale order form view-->
-        <record model="ir.ui.view" id="view_saleorder_type_saleorder_form">
-            <field name="name">saleorder.type.saleorder.form</field>
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field eval="500" name="priority" />
             <field name="inherit_id" ref="sale.view_order_form" />
@@ -53,8 +69,8 @@
             </field>
         </record>
         <!--        Sale order search view-->
-        <record model="ir.ui.view" id="view_saleorder_type_saleorder_filter">
-            <field name="name">saleorder.type.saleorder.filter</field>
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.filter</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_sales_order_filter" />
             <field name="arch" type="xml">

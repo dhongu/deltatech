@@ -11,9 +11,9 @@
                 <field name="address_id" optional="show" />
                 <field name="emplacement" optional="show" />
                 <field name="group_id" optional="hide" />
-                <field name="agreement_id" optional="hide" />
+                <field name="agreement_id" optional="show" />
                 <field name="agreement_type_id" optional="hide" />
-
+                <field name="serial_id" optional="show" />
                 <field name="readings_status" widget="badge" decoration-success="readings_status == 'done'" />
                 <field name="activity_ids" widget="list_activity" optional="show" />
                 <field name="total_revenues" sum="total" />
@@ -305,6 +305,7 @@
                 <field name="partner_id" />
                 <field name="group_id" />
                 <field name="agreement_type_id" />
+                <field name="serial_id" />
                 <separator />
                 <filter name="last_reading" date="last_reading" default_period="this_month" />
                 <separator />
