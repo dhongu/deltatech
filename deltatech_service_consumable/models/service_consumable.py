@@ -7,6 +7,12 @@ from odoo.exceptions import RedirectWarning
 from odoo.tools.safe_eval import safe_eval
 
 
+class ServiceEquipmentType(models.Model):
+    _inherit = "service.equipment.type"
+
+    consumable_item_ids = fields.One2many("service.consumable.item", "type_id", string="Consumables")
+
+
 class ServiceConsumableItem(models.Model):
     _name = "service.consumable.item"
     _description = "Consumable Item"

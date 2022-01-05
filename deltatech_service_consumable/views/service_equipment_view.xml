@@ -18,13 +18,13 @@
                     icon="fa-sign-out"
                     name="picking_button"
                 >
-                                <div class="o_form_field o_stat_info">
-                                    <span class="o_stat_value">
-                                        <field string="Costs" name="total_costs" widget="monetary" />
-                                    </span>
-                                    <span class="o_stat_text">Costs</span>
-                                </div>
-                            </button>
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field string="Costs" name="total_costs" widget="monetary" />
+                        </span>
+                        <span class="o_stat_text">Costs</span>
+                    </div>
+                </button>
                 <button
                     type="object"
                     class="oe_stat_button"
@@ -80,4 +80,28 @@
             </page>
         </field>
     </record>
+
+    <record id="view_service_equipment_type_form" model="ir.ui.view">
+        <field name="name">Services Equipment Type</field>
+        <field name="model">service.equipment.type</field>
+
+        <field name="inherit_id" ref="deltatech_service_equipment.view_service_equipment_type_form" />
+        <field name="arch" type="xml">
+            <field name="template_meter_ids" position="after">
+                <field name="consumable_item_ids">
+                    <tree editable="bottom">
+                        <field name="product_id" />
+                        <field name="colors" />
+
+                        <field name="shelf_life" />
+                        <field name="uom_shelf_life" />
+
+                        <field name="max_qty" />
+                    </tree>
+                </field>
+            </field>
+
+        </field>
+    </record>
+
 </odoo>
