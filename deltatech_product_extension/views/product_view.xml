@@ -12,7 +12,7 @@
                 <xpath expr="//group[@name='group_standard_price']" position="inside">
                     <field name="dimensions" />
                     <label for="shelf_life" />
-                    <div>
+                    <div class="o_row">
                         <field name="shelf_life" class="oe_inline" />
                         <field name="uom_shelf_life" class="oe_inline" />
                     </div>

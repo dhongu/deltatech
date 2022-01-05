@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Queue Job",
     "summary": "Queue Job using Crone",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu, Camptocamp,ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
@@ -15,6 +15,8 @@
         "views/queue_job_views.xml",
         "views/queue_job_menus.xml",
         "data/ir_cron_data.xml",
+        "wizards/queue_jobs_to_done_views.xml",
+        "wizards/queue_requeue_job_views.xml",
     ],
     "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],

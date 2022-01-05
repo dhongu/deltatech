@@ -13,5 +13,6 @@
     "depends": ["sale", "deltatech_select_journal"],
     "license": "LGPL-3",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
 }

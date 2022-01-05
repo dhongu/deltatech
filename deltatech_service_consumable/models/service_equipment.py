@@ -25,7 +25,7 @@ class ServiceEquipment(models.Model):
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
-
+        picking_type = self.env["stock.picking.type"].browse(picking_type_id)
         context = {
             "default_equipment_id": self.id,
             "default_agreement_id": self.agreement_id.id,
@@ -35,10 +35,18 @@ class ServiceEquipment(models.Model):
         }
 
         if self.consumable_item_ids:
-            context["default_move_lines"] = []
+            context["default_move_ids_without_package"] = []
             for item in self.consumable_item_ids:
-                value = {"product_id": item.product_id.id}
-                context["default_move_lines"] += [(0, 0, value)]
+                value = {
+                    "name": item.product_id.name,
+                    "product_id": item.product_id.id,
+                    "product_uom": item.product_id.uom_id.id,
+                    "product_uom_qty": 1,
+                    "location_id": picking_type.default_location_src_id.id,
+                    "location_dest_id": picking_type.default_location_dest_id.id,
+                    "price_unit": item.product_id.standard_price,
+                }
+                context["default_move_ids_without_package"] += [(0, 0, value)]
 
         return {
             "name": _("Delivery for service"),
@@ -56,7 +64,7 @@ class ServiceEquipment(models.Model):
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 
         if not picking_type_id:
-            action = self.env.ref("stock.action_stock_config_settings")
+            action = self.env.ref("stock.action_stock_config_settings").sudo()
             raise RedirectWarning(_("Please define the picking type for service."), action.id, _("Stock Settings"))
 
         domain = [("equipment_id", "in", self.ids), ("picking_type_id", "=", picking_type_id)]
