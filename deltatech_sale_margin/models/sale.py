@@ -52,6 +52,8 @@ class SaleOrderLine(models.Model):
 
     @api.constrains("price_reduce_taxexcl", "purchase_price")
     def _check_sale_price(self):
+        if self.env.context.get("ignore_price_check", False):
+            return True
         get_param = self.env["ir.config_parameter"].sudo().get_param
         margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
 
@@ -65,7 +67,7 @@ class SaleOrderLine(models.Model):
                     raise UserError(_("You can not sell without price."))
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
-                    self.order_id.message_post(body=message)
+                    line.order_id.message_post(body=message)
             price_unit = line.price_reduce_taxexcl
             if price_unit:
                 if price_unit < line.purchase_price:
@@ -73,7 +75,7 @@ class SaleOrderLine(models.Model):
                         raise UserError(_("You can not sell below the purchase price."))
                     else:
                         message = _("Sale %s under the purchase price.") % line.product_id.name
-                        self.order_id.message_post(body=message)
+                        line.order_id.message_post(body=message)
 
                 margin = (price_unit - line.purchase_price) / price_unit * 100
                 if margin < margin_limit:
@@ -81,4 +83,4 @@ class SaleOrderLine(models.Model):
                         raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
                     else:
                         message = _("Sale %s below margin.") % line.product_id.name
-                        self.order_id.message_post(body=message)
+                        line.order_id.message_post(body=message)

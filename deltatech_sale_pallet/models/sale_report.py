@@ -11,7 +11,7 @@ from odoo.tools.safe_eval import safe_eval
 class SaleReport(models.Model):
     _inherit = "sale.report"
 
-    price_unit = fields.Float(string="Price Unit", group_operator="avg")
+    price_unit = fields.Float(string="Price Unit", digits="Product Price", group_operator="avg")
 
     def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
         if fields is None:
@@ -65,7 +65,7 @@ class SaleReport(models.Model):
                 amount = line.get("untaxed_amount_invoiced", 0.0)
                 qty = line.get("qty_invoiced", 0.0)
                 if amount and qty:
-                    line["price_unit"] = price_coef * amount / qty
+                    line["price_unit"] = round(price_coef * amount / qty, 2)
                 else:
                     line["price_unit"] = 0.0
 

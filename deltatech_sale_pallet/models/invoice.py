@@ -28,7 +28,7 @@ class AccountInvoice(models.Model):
         action["context"] = {
             "pivot_measures": ["qty_delivered", "qty_invoiced", "price_unit"],
             "pivot_column_groupby": [],
-            "pivot_row_groupby": ["product_id"],
+            "pivot_row_groupby": ["product_id", "price_unit"],
             "active_id": self._context.get("active_id"),
             "active_model": "sale.report",
         }

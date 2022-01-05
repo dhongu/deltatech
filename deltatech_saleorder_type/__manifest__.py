@@ -10,8 +10,9 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Other",
-    "depends": ["sale"],
+    "depends": ["sale", "deltatech_select_journal"],
     "license": "LGPL-3",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
 }

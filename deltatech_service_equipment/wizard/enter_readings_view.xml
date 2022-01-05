@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_service_enter_reading_form" model="ir.ui.view">
+        <field name="name">Enter Meter Readings</field>
+        <field name="model">service.enter.reading</field>
+        <field name="arch" type="xml">
+            <form string="Enter Meter Readings">
+                <group string="Enter Meter Readings">
+                    <div class="oe_grey">For the selected meters please enter readings</div>
+                </group>
+
+                <div attrs="{'invisible':[ ('error', '=', '')]}">
+                    <div class="alert alert-danger  alert-dismissible text-left" role="alert">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">x</a>
+                        <field name="error" widget="html" />
+                    </div>
+                </div>
+                <group>
+                    <group>
+                        <field name="date" />
+                    </group>
+                    <group>
+                        <field name="read_by" />
+                    </group>
+
+                    <field name="items" nolabel="1">
+                        <tree editable="bottom" create="0" delete="0">
+                            <field name="equipment_id" readonly="1" force_save="1" />
+                            <field name="meter_id" readonly="1" force_save="1" />
+                            <field name="prev_value" readonly="1" />
+                            <field name="counter_value" />
+                            <field name="estimated" />
+                        </tree>
+                    </field>
+                    <field name="note" />
+                </group>
+                <footer>
+                    <button name="do_enter" string="_Apply" type="object" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_service_enter_reading" model="ir.actions.act_window">
+        <field name="name">Enter Meter Readings</field>
+        <field name="res_model">service.enter.reading</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_service_equipment" />
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+
+</odoo>

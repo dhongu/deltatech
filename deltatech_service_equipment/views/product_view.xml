@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_category_form_equi" model="ir.ui.view">
+        <field name="name">category.equip.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="after">
+                <group string="Equipment">
+                    <field name="equi_type_required" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_equipment_type" model="ir.ui.view">
+        <field name="name">product.equip.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group>
+                    <field name="equi_type_required" readonly="1" />
+                    <field
+                        name="equi_type_id"
+                        attrs="{'invisible': [('equi_type_required', '!=', True)], 'required': [('equi_type_required', '=', True)]}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

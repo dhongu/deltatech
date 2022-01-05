@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Filter for Dynamic Snippet -->
+    <record id="dynamic_snippet_category_filter" model="ir.filters">
+        <field name="name">Categories</field>
+        <field name="model_id">product.public.category</field>
+        <field name="user_id" eval="False" />
+    </record>
+
+
+    <!-- Dynamic Snippet Data Source -->
+    <record id="dynamic_snippet_data_source_category" model="website.snippet.filter">
+        <field name="field_names">name,image_512</field>
+        <field name="filter_id" ref="dynamic_snippet_category_filter" />
+        <field name="limit" eval="16" />
+        <field name="name">Categories</field>
+        <field name="website_id" ref="website.default_website" />
+    </record>
+
+</odoo>

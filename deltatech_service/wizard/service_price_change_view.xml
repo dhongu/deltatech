@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_service_price_change_form" model="ir.ui.view">
+            <field name="name">Service Price Change</field>
+            <field name="model">service.price.change</field>
+            <field name="arch" type="xml">
+                <form string="Price Change">
+                    <group string="Price Change">
+                        <div class="oe_grey">Mass price change</div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="price_unit" />
+                            <field name="currency_id" options="{'no_create': True}" />
+                        </group>
+                        <group>
+                            <field name="reference" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="do_price_change" string="_Apply" type="object" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+      <!--  <act_window
+            id="action_service_price_change"
+            name="Price Change"
+            res_model="service.price.change"
+            binding_model="service.consumption"
+            view_mode="form"
+            target="new"
+        />-->
+        <record id="action_service_price_change" model="ir.actions.act_window">
+        <field name="name">Price Change</field>
+        <field name="res_model">service.price.change</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_service_consumption" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+    </data>
+</odoo>

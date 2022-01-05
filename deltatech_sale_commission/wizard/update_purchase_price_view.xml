@@ -39,7 +39,7 @@
   </record>
 
 
-  <act_window
+<!--  <act_window
             id="action_commission_update_purchase_price"
             name="Update Purchase Price"
             res_model="commission.update.purchase.price"
@@ -48,7 +48,15 @@
             view_mode="form"
             target="new"
         />
-
+        -->
+        <record id="action_commission_update_purchase_price" model="ir.actions.act_window">
+        <field name="name">Update Purchase Price</field>
+        <field name="res_model">commission.update.purchase.price</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_sale_margin_report" />
+        <field name="binding_view_types">list</field>
+    </record>
 
 
 
