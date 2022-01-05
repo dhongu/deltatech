@@ -18,7 +18,7 @@ class ProductionLot(models.Model):
                     {
                         "type_id": lot.product_id.equi_type_id.id,
                         "serial_id": lot.id,
-                        "product_id": lot.product_id.equi_type_id,
+                        "product_id": lot.product_id.id,
                         "start_date": fields.Date.today(),
                     }
                 ]
