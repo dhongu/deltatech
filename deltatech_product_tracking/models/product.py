@@ -59,7 +59,8 @@ class ProductProduct(models.Model):
             for war in warehouses:
                 war_loc = war.lot_stock_id
                 domain = [
-                    ("product_id", "=", product.id),
+                    ("picking_code", "!=", "incoming"),
+                    ("state", "!=", "done"),
                     "|",
                     ("location_id", "=", war_loc.id),
                     ("location_dest_id", "=", war_loc.id),
@@ -67,7 +68,7 @@ class ProductProduct(models.Model):
                 lot_name = war.code + "000001"
                 lot = get_lot(lot_name)
                 if lot:
-                    domain = [("lot_id", "=", False)] + domain
+                    domain = [("lot_id", "=", False), ("lot_name", "=", False)] + domain
                     st_move_lines = self.env["stock.move.line"].search(domain)
 
                     if st_move_lines:
