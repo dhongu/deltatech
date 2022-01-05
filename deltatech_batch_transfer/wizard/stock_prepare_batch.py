@@ -14,7 +14,7 @@ class StockPrepareBatch(models.TransientModel):
     mode = fields.Selection([("sale", "Sale"), ("purchase", "Purchase")], default="purchase")
     user_id = fields.Many2one("res.users", string="Responsible", help="Person responsible for this batch transfer")
     reference = fields.Char("Reference")
-
+    set_done_qty = fields.Boolean()
     line_ids = fields.One2many("stock.prepare.batch.line", "wizard_id")
 
     def default_get(self, fields_list):
@@ -88,10 +88,15 @@ class StockPrepareBatch(models.TransientModel):
         return action
 
     def prepare_lines(self, batch_id):
+        if self.set_done_qty:
+            self.prepare_lines_and_set_qty_done(batch_id)
+        else:
+            self.prepare_lines_and_wo_qty_done(batch_id)
+
+    def prepare_lines_and_set_qty_done(self, batch_id):
         if self.line_ids:
             batch_id.move_line_ids.write({"qty_done": 0})
             for line in self.line_ids:
-                qty_error = ""
                 quantity = line.quantity
                 found = False
                 for move_line in batch_id.move_line_ids:
@@ -99,15 +104,6 @@ class StockPrepareBatch(models.TransientModel):
                         found = True
                         if quantity > move_line.product_uom_qty:
                             move_line.qty_done = move_line.product_uom_qty
-                            qty_error += _(
-                                "Quantity match error for product [%s]%s, quantity ordered: %s, quantity in "
-                                "batch: %s."
-                            ) % (
-                                line.product_id.default_code,
-                                line.product_id.name,
-                                str(move_line.product_uom_qty),
-                                str(quantity),
-                            )
                             quantity -= move_line.product_uom_qty
                         else:
                             move_line.qty_done = quantity
@@ -119,11 +115,40 @@ class StockPrepareBatch(models.TransientModel):
                     )
                 if quantity > 0:
                     line.write({"additional_quantity": quantity})
-                if qty_error:
-                    raise UserError(qty_error)
+
         else:
             for move_line in batch_id.move_line_ids:
                 move_line.write({"qty_done": move_line.product_uom_qty})
+
+    def prepare_lines_and_wo_qty_done(self, batch_id):
+        if self.line_ids:
+            for line in self.line_ids:
+                quantity = line.quantity
+                found = False
+                for move_line in batch_id.move_line_ids:
+                    if line.product_id == move_line.product_id:
+                        found = True
+                        if quantity > move_line.product_uom_qty:
+                            quantity -= move_line.product_uom_qty
+                        else:
+                            if self.set_done_qty:
+                                move_line.qty_done = quantity
+                            else:
+                                move_line.product_uom_qty = quantity
+                            quantity = 0
+                if not found:
+                    raise UserError(
+                        _("The product [%s]%s was not found for this partner.")
+                        % (line.product_id.default_code, line.product_id.name)
+                    )
+                if quantity > 0:
+                    line.write({"additional_quantity": quantity})
+
+            products = self.line_ids.mapped("product_id")
+            for move_line in batch_id.move_line_ids:
+                if move_line.product_id not in products:
+                    move_line.product_uom_qty = 0
+            batch_id.move_line_ids.write({"qty_done": 0})
 
 
 class StockPrepareBatchLine(models.TransientModel):

@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+
+    <!--        inherit for add to batch button-->
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">view.picking.form.rsy</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <button name="do_print_picking" position="before">
+                <field name="batch_id" invisible="1" />
+                <button
+                    name="add_to_batch"
+                    type="object"
+                    string="Add to batch"
+                    attrs="{'invisible': [('batch_id', '!=', False), ('state', 'not in', ['done', 'cancel'])]}"
+                />
+            </button>
+        </field>
+    </record>
+
+
     <record id="batch_form_view_selected_lines" model="ir.ui.view">
         <field name="name">batch.form.view.selected.lines</field>
         <field name="model">stock.picking.batch</field>
