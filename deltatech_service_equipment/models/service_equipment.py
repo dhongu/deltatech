@@ -304,11 +304,10 @@ class ServiceEquipment(models.Model):
 
 
 # se va utiliza maintenance.equipment.category
-# class service_equipment_category(models.Model):
-#     _name = 'service.equipment.category'
-#     _description = "Service Equipment Category"
-#
-#     name = fields.Char(string='Category', translate=True)
+class ServiceEquipmentCategory(models.Model):
+    _inherit = "maintenance.equipment.category"
+
+    template_meter_ids = fields.One2many("service.template.meter", "categ_id")
 
 
 class ServiceEquipmentType(models.Model):
@@ -318,7 +317,12 @@ class ServiceEquipmentType(models.Model):
 
     categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
 
-    template_meter_ids = fields.One2many("service.template.meter", "type_id")
+    template_meter_ids = fields.One2many("service.template.meter", related="categ_id.template_meter_ids")
+
+    @api.depends("categ_id")
+    def _compute_template_meter_ids(self):
+        for equipment_type in self:
+            equipment_type.template_meter_ids = equipment_type.categ_id.template_meter_ids
 
 
 # este utilizat pentru generare de pozitii noi in contract si pentru adugare contori noi
@@ -326,6 +330,7 @@ class ServiceTemplateMeter(models.Model):
     _name = "service.template.meter"
     _description = "Service Template Meter"
 
+    categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
     type_id = fields.Many2one("service.equipment.type", string="Type")
     product_id = fields.Many2one(
         "product.product", string="Service", ondelete="set null", domain=[("type", "=", "service")]
