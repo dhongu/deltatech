@@ -48,8 +48,9 @@ class SaleOrder(models.Model):
 
     def _create_invoices(self, grouped=False, final=False, date=None):
 
-        if self.force_invoice_order:
-            self._force_lines_to_invoice_policy_order()
+        for order in self:
+            if order.force_invoice_order:
+                order._force_lines_to_invoice_policy_order()
 
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
         # delete qty=0 lines
