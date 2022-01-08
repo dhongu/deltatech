@@ -1,0 +1,2 @@
+Functions:
+ - Evaloarea pe loturi
