@@ -8,9 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
-    "depends": [
-        # "stock_account"
-    ],
+    "depends": ["stock_account"],
     "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
