@@ -323,9 +323,7 @@ class ServiceEquipment(models.Model):
             equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
             if equipment_ids:
                 res_serial = equipment_ids.name_get()
-        res = (
-            super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
-        )
+        res = super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
 
