@@ -47,7 +47,7 @@ class PurchaseOrder(models.Model):
             if not rfq_lines:
                 raise UserError(
                     _("The %s product (%s) is not found in a rfq")
-                    % (line.product_id.name, line.product_id.defaul_tcode)
+                    % (line.product_id.name, line.product_id.default_code)
                 )
             for rfq_line in rfq_lines:
                 if quality < rfq_line.product_qty:
