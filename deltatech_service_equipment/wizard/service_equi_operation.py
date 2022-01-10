@@ -182,6 +182,8 @@ class ServiceEquiOperation(models.TransientModel):
 
             self.env["service.agreement.line"].create(values)
 
+        self.equipment_id.write({"agreement_id": self.agreement_id})
+
         action = {
             "domain": "[('id','=',%s)]" % self.agreement_id.id,
             "name": _("Service Agreement"),
