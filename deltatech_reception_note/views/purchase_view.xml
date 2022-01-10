@@ -25,12 +25,47 @@
         </field>
     </record>
 
+    <record id="purchase_order_draft_tree_type" model="ir.ui.view">
+        <field name="name">purchase.order.draft.tree.type</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="reception_type" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_view_tree_type" model="ir.ui.view">
+        <field name="name">purchase.order.view.tree.type</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="reception_type" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_tree_type" model="ir.ui.view">
+        <field name="name">purchase.order.tree.type</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="reception_type" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
     <record id='prepare_reception_note_action' model='ir.actions.act_window'>
         <field name="name">Reception note</field>
         <field name="res_model">purchase.order</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{"default_reception_type" : "note"}</field>
-        <field name="domain">[("reception_type", "=", "note")]</field>
+        <field
+            name="domain"
+        >[("reception_type", "=", "note"), ("invoice_status", "!=", "invoiced"), ("state", "not in", ["cancel", "purchase"])]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new reception note
@@ -41,14 +76,11 @@
         </field>
     </record>
 
-     <record id='view_reception_note_confirmed_action' model='ir.actions.act_window'>
-        <field name="name">Reception note</field>
-        <field name="res_model">purchase.order</field>
+     <record id='view_reception_assigned_action' model='ir.actions.act_window'>
+        <field name="name">Receptions</field>
+        <field name="res_model">stock.picking</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{"default_reception_type" : "note"}</field>
-        <field
-            name="domain"
-        >[("reception_type", "=", "note"), ("state","=","purchase"), ("invoice_status", "!=", "invoiced")]</field>
+        <field name="domain">[("picking_type_code", "=", "incoming"), ("state", "=", "assigned")]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new reception note
@@ -82,7 +114,7 @@
         parent="deltatech_reception_note.menu_action_reception_notes"
     />
     <menuitem
-        action="view_reception_note_confirmed_action"
+        action="view_reception_assigned_action"
         id="menu_action_reception_note_view"
         name="To arrive"
         parent="deltatech_reception_note.menu_action_reception_notes"
