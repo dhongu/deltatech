@@ -17,6 +17,10 @@ class PurchaseOrder(models.Model):
         if self.reception_type != "note":
             return super(PurchaseOrder, self).action_rfq_send()
 
+    def set_sent(self):
+        self.ensure_one()
+        self.write({"state": "sent"})
+
     def button_confirm(self):
         orders = self
         for order in self:
@@ -43,10 +47,7 @@ class PurchaseOrder(models.Model):
             if not rfq_lines:
                 raise UserError(
                     _("The %s product (%s) is not found in a rfq")
-                    % (
-                        line.product_id.name,
-                        line.product_id.defaul_tcode
-                    )
+                    % (line.product_id.name, line.product_id.defaul_tcode)
                 )
             for rfq_line in rfq_lines:
                 if quality < rfq_line.product_qty:
