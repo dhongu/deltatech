@@ -410,4 +410,35 @@ class ServiceAgreementLine(models.Model):
 
     @api.model
     def after_create_consumption(self, consumption):
-        return [consumption.id]
+        pass
+
+    def do_billing_preparation(self, period_id):
+        consumptions = self.env["service.consumption"]
+        for line in self:
+            agreement = line.agreement_id
+            cons_value = line.get_value_for_consumption()
+            if cons_value:
+                cons_value.update(
+                    {
+                        "partner_id": agreement.partner_id.id,
+                        "period_id": period_id.id,
+                        "agreement_id": agreement.id,
+                        "agreement_line_id": line.id,
+                        "date_invoice": agreement.next_date_invoice,
+                        "group_id": agreement.group_id.id,
+                        "analytic_account_id": line.analytic_account_id.id,
+                        "state": "draft",
+                    }
+                )
+                consumption = self.env["service.consumption"].create(cons_value)
+                if consumption:
+                    if line.has_free_cycles and line.cycles_free > 0:
+                        new_cycles = line.cycles_free - 1
+                        line.write({"cycles_free": new_cycles})  # decrementing free cycle
+                        consumption.update(
+                            {"with_free_cycle": True}
+                        )  # noting that was created with free cycle - used to increment it back on delete
+                line.after_create_consumption(consumption)
+                consumptions |= consumption
+
+        return consumptions

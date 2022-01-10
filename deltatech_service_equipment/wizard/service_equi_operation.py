@@ -20,6 +20,8 @@ class ServiceEquiOperation(models.TransientModel):
         default="ins",
         readonly=True,
     )
+    period_id = fields.Many2one("date.range", string="Period")
+
     equipment_id = fields.Many2one("service.equipment", string="Equipment", readonly=True)
 
     partner_id = fields.Many2one("res.partner", string="Customer", domain=[("is_company", "=", True)])
@@ -96,7 +98,24 @@ class ServiceEquiOperation(models.TransientModel):
                 }
             )
 
+        for item in self.items:
+            self.env["service.meter.reading"].create(
+                {
+                    "meter_id": item.meter_id.id,
+                    "equipment_id": item.meter_id.equipment_id.id,
+                    "date": self.date,
+                    "read_by": self.read_by.id,
+                    "note": self.note,
+                    "counter_value": item.counter_value,
+                }
+            )
+
         if self.state == "rem":
+            domain = [("equipment_id", "=", self.equipment_id.id)]
+            agreement_lines = self.env["service.agreement.line"].search(domain)
+            agreement_lines.do_billing_preparation(self.period_id)
+            self._compute_can_remove()
+
             if not self.can_remove:
                 raise UserError(_("You must bill consumption before uninstalling"))
             emplacement = self.equipment_id.emplacement or ""
@@ -115,18 +134,6 @@ class ServiceEquiOperation(models.TransientModel):
                     "address_id": False,
                     "emplacement": False,
                     "state": "available",
-                }
-            )
-
-        for item in self.items:
-            self.env["service.meter.reading"].create(
-                {
-                    "meter_id": item.meter_id.id,
-                    "equipment_id": item.meter_id.equipment_id.id,
-                    "date": self.date,
-                    "read_by": self.read_by.id,
-                    "note": self.note,
-                    "counter_value": item.counter_value,
                 }
             )
 
