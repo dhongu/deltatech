@@ -109,7 +109,9 @@ class ServiceEquipment(models.Model):
     )
     serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
     # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
-    location_id = fields.Many2one("stock.location", "Stock Location", store=True)  # related='quant_id.location_id'
+    location_id = fields.Many2one(
+        "stock.location", "Stock Location", store=True, compute="_compute_location"
+    )  # related='quant_id.location_id'
 
     ean_code = fields.Char(string="EAN Code")
 
@@ -159,6 +161,18 @@ class ServiceEquipment(models.Model):
             if sequence:
                 vals["name"] = sequence.next_by_id()
         return super(ServiceEquipment, self).write(vals)
+
+    @api.depends("serial_id.quant_ids")
+    def _compute_location(self):
+        for equipment in self:
+            if not equipment.serial_id:  # multiple quants, can be in different locations
+                equipment.location_id = False
+            else:
+                quants = equipment.serial_id.quant_ids.filtered(lambda x: x.quantity > 0)
+                if len(quants) == 1:
+                    equipment.location_id = equipment.serial_id.quant_ids.location_id
+                else:
+                    equipment.location_id = False
 
     def compute_totals(self):
         for equipment in self:
