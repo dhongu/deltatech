@@ -39,6 +39,7 @@
 
                 </group>
                 <group string="Remove" states="rem">
+                    <field name="period_id" />
                     <field name="can_remove" invisible="1" />
                     <div
                         attrs="{'invisible':[ ('can_remove', '=', True)]}"
