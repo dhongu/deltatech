@@ -25,4 +25,73 @@
         </field>
     </record>
 
+    <record id='prepare_reception_note_action' model='ir.actions.act_window'>
+        <field name="name">Reception note</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"default_reception_type" : "note"}</field>
+        <field name="domain">[("reception_type", "=", "note")]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new reception note
+            </p>
+            <p>
+                Reception notes
+            </p>
+        </field>
+    </record>
+
+     <record id='view_reception_note_confirmed_action' model='ir.actions.act_window'>
+        <field name="name">Reception note</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"default_reception_type" : "note"}</field>
+        <field
+            name="domain"
+        >[("reception_type", "=", "note"), ("state","=","purchase"), ("invoice_status", "!=", "invoiced")]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new reception note
+            </p>
+            <p>
+                Reception notes
+            </p>
+        </field>
+    </record>
+
+    <record id='view_receptions' model='ir.actions.act_window'>
+        <field name="name">Receptions</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[("picking_type_code", "=", "incoming"), ("to_invoice", "=", True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new reception note
+            </p>
+            <p>
+                Reception notes
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_action_reception_notes" name="Reception notes" parent="purchase.menu_purchase_root" />
+    <menuitem
+        action="prepare_reception_note_action"
+        id="menu_action_reception_note_prepare"
+        name="Prepare reception note"
+        parent="deltatech_reception_note.menu_action_reception_notes"
+    />
+    <menuitem
+        action="view_reception_note_confirmed_action"
+        id="menu_action_reception_note_view"
+        name="To arrive"
+        parent="deltatech_reception_note.menu_action_reception_notes"
+    />
+    <menuitem
+        action="view_receptions"
+        id="menu_action_reception_view"
+        name="To invoice"
+        parent="deltatech_reception_note.menu_action_reception_notes"
+    />
+
 </odoo>
