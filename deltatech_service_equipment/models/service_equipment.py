@@ -318,18 +318,13 @@ class ServiceEquipment(models.Model):
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
-        res_ean = []
-        if name and len(name) > 2:
-            equipment_ids = self.search([("ean_code", "ilike", name)], limit=10)
-            if equipment_ids:
-                res_ean = equipment_ids.name_get()
         res_serial = []
         if name and len(name) > 3:
-            equipment_ids = self.search([("serial_id", "ilike", name)], limit=10)
+            equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
             if equipment_ids:
                 res_serial = equipment_ids.name_get()
         res = (
-            super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_ean + res_serial
+            super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
         )
         return res
 
