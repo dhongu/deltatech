@@ -12,6 +12,7 @@ class SaleOrderLine(models.Model):
 
     def _prepare_invoice_line(self, **optional_values):
         invoice_line = super(SaleOrderLine, self)._prepare_invoice_line(**optional_values)
+        invoice_original_qty = invoice_line["quantity"]
         if "picking_ids" in self.env.context:
             # search moves from current pickings and current sale order line
             domain = [("sale_line_id", "=", self.id), ("picking_id", "in", self.env.context["picking_ids"])]
@@ -26,11 +27,15 @@ class SaleOrderLine(models.Model):
                         qty -= move.quantity_done
                     else:
                         raise UserError(_("You cannot invoice this type of transfer: %s") % move.picking_id)
+                if qty > invoice_original_qty:  # probabil set. De verificat
+                    qty = invoice_original_qty
                 invoice_line.update({"quantity": qty})
                 return invoice_line
             else:
                 # update quantity with 0 (lines will be deleted)
-                invoice_line.update({"quantity": 0})
+                product_id = self.env["product.product"].browse(invoice_line["product_id"])
+                if product_id.type == "product":
+                    invoice_line.update({"quantity": 0})
                 return invoice_line
         else:
             return invoice_line
@@ -43,8 +48,9 @@ class SaleOrder(models.Model):
 
     def _create_invoices(self, grouped=False, final=False, date=None):
 
-        if self.force_invoice_order:
-            self._force_lines_to_invoice_policy_order()
+        for order in self:
+            if order.force_invoice_order:
+                order._force_lines_to_invoice_policy_order()
 
         moves = super(SaleOrder, self)._create_invoices(grouped, final, date)
         # delete qty=0 lines

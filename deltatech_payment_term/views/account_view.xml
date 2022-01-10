@@ -182,7 +182,6 @@
             </field>
         </record>
 
-
         <record id="action_account_moves_all_tree" model="ir.actions.act_window">
             <field name="name">Journal Items</field>
             <field name="res_model">account.move.line</field>
@@ -190,7 +189,7 @@
             </field>
             <field name="view_id" ref="view_move_line_tree" />
         </record>
-        <record id="action_account_moves_sale" model="ir.actions.act_window">
+       <record id="action_account_moves_sale" model="ir.actions.act_window">
             <field name="context">{'journal_type':'sale','search_default_unreconciled':True}</field>
             <field name="name">Open Journal Items</field>
             <field name="res_model">account.move.line</field>
