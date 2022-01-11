@@ -115,12 +115,8 @@ class ServiceAgreementLine(models.Model):
 
     @api.model
     def after_create_consumption(self, consumption):
-        # readings = self.env['service.meter.reading']
-        # la data citirii echipamentul functiona in baza contractului???\\
-        # daca echipamentul a fost inlocuit de unul de rezeva ?
-
         self.ensure_one()
-        res = [consumption.id]  # trebuie musai fa folosesc super ???
+        super(ServiceAgreementLine, self).after_create_consumption(consumption)
         if self.equipment_id:
 
             meter = self.meter_id
@@ -171,7 +167,6 @@ class ServiceAgreementLine(models.Model):
 
             else:  # echipament fara contor
                 consumption.write({"name": self.equipment_id.display_name, "equipment_id": equipment.id})
-        return res
 
 
 class ServiceConsumption(models.Model):

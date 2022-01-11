@@ -41,34 +41,14 @@ class ServiceBillingPreparation(models.TransientModel):
         return defaults
 
     def do_billing_preparation(self):
-        res = []
+        # res = []
+        consumptions = self.env["service.consumption"]
         for agreement in self.agreement_ids:
-            for line in agreement.agreement_line:
-                cons_value = line.get_value_for_consumption()
-                if cons_value:
-                    cons_value.update(
-                        {
-                            "partner_id": agreement.partner_id.id,
-                            "period_id": self.period_id.id,
-                            "agreement_id": agreement.id,
-                            "agreement_line_id": line.id,
-                            "date_invoice": agreement.next_date_invoice,
-                            "group_id": agreement.group_id.id,
-                            "analytic_account_id": line.analytic_account_id.id,
-                        }
-                    )
-                    consumption = self.env["service.consumption"].create(cons_value)
-                    if consumption:
-                        if line.has_free_cycles and line.cycles_free > 0:
-                            new_cycles = line.cycles_free - 1
-                            line.write({"cycles_free": new_cycles})  # decrementing free cycle
-                            consumption.update(
-                                {"with_free_cycle": True}
-                            )  # noting that was created with free cycle - used to increment it back on delete
-                    res.extend(line.after_create_consumption(consumption))
+            consumptions = agreement.agreement_line.do_billing_preparation(self.period_id)
         self.agreement_ids.compute_totals()
         return {
-            "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
+            # "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
+            "domain": [("id", "in", consumptions.ids)],
             "name": _("Service Consumption"),
             "view_type": "form",
             "view_mode": "tree,form",
