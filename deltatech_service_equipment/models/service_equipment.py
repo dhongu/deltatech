@@ -326,6 +326,17 @@ class ServiceEquipment(models.Model):
         res = super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
         return res
 
+    def name_get(self):
+        res = []
+        for equipment in self:
+            name = equipment.name
+            if equipment.address_id:
+                name += "/" + equipment.address_id.name
+            if equipment.serial_id:
+                name += "/" + equipment.serial_id.name
+            res.append((equipment.id, name))
+        return res
+
 
 # se va utiliza maintenance.equipment.category
 class ServiceEquipmentCategory(models.Model):
