@@ -221,7 +221,7 @@ class ServiceAgreement(models.Model):
             for invoice in invoices:
                 if invoice.state == "posted":
                     for line in invoice.invoice_line_ids:
-                        if line.agreement_line_id in agreement.agreement_line:
+                        if line.agreement_line_id in agreement.with_context(test_active=False).agreement_line:
                             total_invoiced += line.price_subtotal
             agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
 

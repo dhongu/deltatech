@@ -138,7 +138,7 @@ class ServiceEquiOperation(models.TransientModel):
                 }
             )
 
-            agreement_lines.unlink()
+            agreement_lines.write({"active": False})
 
         action = True
         if self.state == "add":
