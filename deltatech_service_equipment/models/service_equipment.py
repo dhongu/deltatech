@@ -170,7 +170,7 @@ class ServiceEquipment(models.Model):
             else:
                 quants = equipment.serial_id.quant_ids.filtered(lambda x: x.quantity > 0)
                 if len(quants) == 1:
-                    equipment.location_id = equipment.serial_id.quant_ids.location_id
+                    equipment.location_id = quants.location_id
                 else:
                     equipment.location_id = False
 
