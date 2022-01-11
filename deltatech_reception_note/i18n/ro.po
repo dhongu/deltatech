@@ -1,0 +1,175 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_reception_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-10 15:13+0000\n"
+"PO-Revision-Date: 2022-01-10 15:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "Are you sure you want to create a reception note?"
+msgstr "Sunteți sigur că doriți crearea unui RFQ?"
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_discount
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.prepare_reception_note_action
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_reception_assigned_action
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_receptions
+msgid "Create a new reception note"
+msgstr "Crează RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.actions.act_window,name:deltatech_reception_note.action_reception_note_create
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "Create reception note"
+msgstr "Crează RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__normal
+msgid "Normal"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_note_prepare
+msgid "Prepare reception note"
+msgstr "Note recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.model,name:deltatech_reception_note.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__rfq_only
+msgid "RFQ Only"
+msgstr "Doar RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__note
+msgid "Reception Note"
+msgstr "Notă recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.model,name:deltatech_reception_note.model_reception_note_create
+msgid "Reception Note Create Wizard"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.actions.act_window,name:deltatech_reception_note.prepare_reception_note_action
+msgid "Reception note"
+msgstr "Notă recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_notes
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.prepare_reception_note_action
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_reception_assigned_action
+#: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_receptions
+msgid "Reception notes"
+msgstr "Note recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.actions.act_window,name:deltatech_reception_note.view_reception_assigned_action
+#: model:ir.actions.act_window,name:deltatech_reception_note.view_receptions
+msgid "Receptions"
+msgstr "Recepții"
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_sent
+msgid "Set as sent"
+msgstr "Setează trimis"
+
+#. module: deltatech_reception_note
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+#, python-format
+msgid "The %s product (%s) is not found in a rfq"
+msgstr "Produsul %s (%s) nu a fost gasit în RFQ"
+
+#. module: deltatech_reception_note
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+#, python-format
+msgid "The quantity of %s of the [%s] %s product is not found in a rfq"
+msgstr "Cantitatea %s din produsul [%s] %s nu a fost găsită în RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_note_view
+msgid "To arrive"
+msgstr "Pe drum"
+
+#. module: deltatech_reception_note
+#: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_view
+msgid "To invoice"
+msgstr "De facturat"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__reception_type
+msgid "Type"
+msgstr "Tip"
+
+#. module: deltatech_reception_note
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+#, python-format
+msgid "Unable to confirm"
+msgstr "Nu se poate confirma acest tip de comandă"
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "_Apply"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "or"
+msgstr ""
