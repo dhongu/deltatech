@@ -20,6 +20,7 @@ class ProductionLot(models.Model):
                         "serial_id": lot.id,
                         "product_id": lot.product_id.id,
                         "start_date": fields.Date.today(),
+                        "name": lot.product_id.name,
                     }
                 ]
         if equipment_vals_list:

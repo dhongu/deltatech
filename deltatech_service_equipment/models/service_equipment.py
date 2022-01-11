@@ -170,7 +170,7 @@ class ServiceEquipment(models.Model):
             else:
                 quants = equipment.serial_id.quant_ids.filtered(lambda x: x.quantity > 0)
                 if len(quants) == 1:
-                    equipment.location_id = equipment.serial_id.quant_ids.location_id
+                    equipment.location_id = quants.location_id
                 else:
                     equipment.location_id = False
 
@@ -315,6 +315,16 @@ class ServiceEquipment(models.Model):
             "view_id": False,
             "type": "ir.actions.act_window",
         }
+
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        res_serial = []
+        if name and len(name) > 3:
+            equipment_ids = self.search(["|", ("serial_id", "ilike", name), ("ean_code", "ilike", name)], limit=10)
+            if equipment_ids:
+                res_serial = equipment_ids.name_get()
+        res = super(ServiceEquipment, self).name_search(name, args, operator=operator, limit=limit) + res_serial
+        return res
 
 
 # se va utiliza maintenance.equipment.category

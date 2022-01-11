@@ -137,6 +137,7 @@ class ServiceEquiOperation(models.TransientModel):
                     "state": "available",
                 }
             )
+
             agreement_lines.unlink()
 
         action = True
