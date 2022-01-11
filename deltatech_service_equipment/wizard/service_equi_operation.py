@@ -133,9 +133,12 @@ class ServiceEquiOperation(models.TransientModel):
                     "partner_id": False,
                     "address_id": False,
                     "emplacement": False,
+                    "agreement_id": False,
                     "state": "available",
                 }
             )
+
+            agreement_lines.unlink()
 
         action = True
         if self.state == "add":
