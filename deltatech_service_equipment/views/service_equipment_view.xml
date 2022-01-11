@@ -307,6 +307,8 @@
                 <field name="group_id" />
                 <field name="agreement_type_id" />
                 <field name="serial_id" />
+                <field name="ean_code" />
+                <field name="product_id" />
                 <separator />
                 <filter name="last_reading" date="last_reading" default_period="this_month" />
                 <separator />
