@@ -8,9 +8,9 @@
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="reception_type" />
             </xpath>
-            <xpath expr="//button[@name='button_cancel']" position="after">
-                <button name="set_sent" states="draft" string="Cancel" type="object" />
-            </xpath>
+<!--            <xpath expr="//button[@name='button_cancel']" position="after">-->
+<!--                <button name="set_sent" attrs="{'invisible': ['|', ('reception_type', '!=', 'rfq_only'), ('state', '=', 'sent')]}" string="Set as sent" type="object" />-->
+<!--            </xpath>-->
         </field>
     </record>
 
@@ -20,7 +20,12 @@
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='button_cancel']" position="after">
-                <button name="set_sent" states="draft" string="Set as sent" type="object" />
+                <button
+                    name="set_sent"
+                    string="Set as sent"
+                    type="object"
+                    attrs="{'invisible': ['|', ('reception_type', '!=', 'rfq_only'), ('state', '!=', 'draft')]}"
+                />
             </xpath>
         </field>
     </record>
