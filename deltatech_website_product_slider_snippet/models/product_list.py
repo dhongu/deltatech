@@ -3,9 +3,9 @@
 # See README.rst file on addons root folder for license details
 
 import json
+
 from odoo import fields, models
 from odoo.tools.safe_eval import safe_eval
-
 
 
 class ProductList(models.Model):

@@ -17,7 +17,7 @@
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        'website.assets_wysiwyg': [
+        "website.assets_wysiwyg": [
             "/deltatech_website_product_slider_snippet/static/src/js/website_products_slider_editor.js"
         ],
     },
