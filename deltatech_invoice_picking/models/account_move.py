@@ -49,6 +49,9 @@ class AccountMove(models.Model):
                             "to_invoice": False,
                         }
                     )
+            for line in res.invoice_line_ids:
+                if line.quantity == 0.0:
+                    line.with_context(unlink_all=True).unlink()
         return res
 
     def update_pickings(self):
@@ -148,6 +151,7 @@ class AccountMoveLine(models.Model):
                 and not line.exclude_from_invoice_tab
                 and not line.display_type
                 and line.move_id.move_type in ["out_invoice", "out_refund", "in_invoice", "in_refund"]
+                and line.quantity > 0.0
             ):
                 if "unlink_all" not in self.env.context:
                     raise UserError(_("You cannot delete lines, the move was generated from pickings"))
