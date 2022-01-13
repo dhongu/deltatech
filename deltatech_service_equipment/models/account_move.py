@@ -85,7 +85,7 @@ class AccountInvoice(models.Model):
             worksheet.write(crt_row, 2, line["serial_id"])
             worksheet.write(crt_row, 3, line["meter_id"])
             worksheet.write(crt_row, 4, line["address_id"])
-            worksheet.write(crt_row, 5, line["max"])  # "{:,.0f}".format(line["min"]))
+            worksheet.write(crt_row, 5, line["min"])  # "{:,.0f}".format(line["min"]))
             worksheet.write(crt_row, 6, line["max"])  # "{:,.0f}".format(line["max"]))
             worksheet.write(crt_row, 7, line["max"] - line["min"])  # "{:,.0f}".format(line["max"] - line["min"]))
             crt_row += 1
