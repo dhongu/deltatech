@@ -418,6 +418,9 @@ class ServiceAgreementLine(models.Model):
             agreement = line.agreement_id
             cons_value = line.get_value_for_consumption()
             if cons_value:
+                from_uninstall = False
+                if self.env.context.get("from_uninstall"):
+                    from_uninstall = True
                 cons_value.update(
                     {
                         "partner_id": agreement.partner_id.id,
@@ -428,6 +431,7 @@ class ServiceAgreementLine(models.Model):
                         "group_id": agreement.group_id.id,
                         "analytic_account_id": line.analytic_account_id.id,
                         "state": "draft",
+                        "from_uninstall": from_uninstall,
                     }
                 )
                 consumption = self.env["service.consumption"].create(cons_value)
