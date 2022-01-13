@@ -48,7 +48,14 @@ class ServiceBillingPreparation(models.TransientModel):
         self.agreement_ids.compute_totals()
         return {
             # "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
-            "domain": [("id", "in", consumptions.ids)],
+            # "domain": [("id", "in", consumptions.ids)],
+            "domain": [
+                "|",
+                "&",
+                ("id", "in", consumptions.ids),
+                ("agreement_id", "in", self.agreement_ids.ids),
+                ("state", "=", "draft"),
+            ],
             "name": _("Service Consumption"),
             "view_type": "form",
             "view_mode": "tree,form",

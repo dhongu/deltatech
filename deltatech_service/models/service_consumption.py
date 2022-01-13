@@ -99,6 +99,7 @@ class ServiceConsumption(models.Model):
         copy=False,
         index=True,
     )
+    from_uninstall = fields.Boolean(default=False)  # used to mark consumptions made in the uninstall process
 
     _sql_constraints = [
         ("agreement_line_period_uniq", "unique(period_id,agreement_line_id)", "Agreement line in period already exist!")
@@ -118,6 +119,13 @@ class ServiceConsumption(models.Model):
         for item in self:
             if item.state == "done":
                 raise UserError(_("You cannot delete a service consumption which is invoiced."))
+            if item.from_uninstall:
+                raise UserError(
+                    _(
+                        "You cannot delete a service consumption generated from an uninstall operation (%s / %s)."
+                        % (item.agreement_line_id.equipment_id.name, item.agreement_id.name)
+                    )
+                )
             if item.with_free_cycle:
                 # incrementing the free cycle on agreement line
                 cycles_free = item.agreement_line_id.cycles_free + 1
