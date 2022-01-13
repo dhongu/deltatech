@@ -120,7 +120,12 @@ class ServiceConsumption(models.Model):
             if item.state == "done":
                 raise UserError(_("You cannot delete a service consumption which is invoiced."))
             if item.from_uninstall:
-                raise UserError(_("You cannot delete a service consumption generated from an uninstall operation (%s / %s)." % (item.agreement_line_id.equipment_id.name, item.agreement_id.name)))
+                raise UserError(
+                    _(
+                        "You cannot delete a service consumption generated from an uninstall operation (%s / %s)."
+                        % (item.agreement_line_id.equipment_id.name, item.agreement_id.name)
+                    )
+                )
             if item.with_free_cycle:
                 # incrementing the free cycle on agreement line
                 cycles_free = item.agreement_line_id.cycles_free + 1
