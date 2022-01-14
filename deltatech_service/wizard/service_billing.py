@@ -179,7 +179,10 @@ class ServiceBilling(models.TransientModel):
                     if invoice_line["quantity"] < 0:
                         plus_qty = 0.0
                         for positive_line in pre_invoice[date_invoice][key]["lines"]:
-                            if positive_line["product_id"] == invoice_line["product_id"] and positive_line["quantity"] > 0.0:
+                            if (
+                                positive_line["product_id"] == invoice_line["product_id"]
+                                and positive_line["quantity"] > 0.0
+                            ):
                                 plus_qty += positive_line["quantity"]
                         if abs(invoice_line["quantity"]) >= plus_qty:
                             invoice_line["quantity"] = -1 * plus_qty
