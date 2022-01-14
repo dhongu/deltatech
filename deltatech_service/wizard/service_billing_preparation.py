@@ -46,16 +46,15 @@ class ServiceBillingPreparation(models.TransientModel):
         for agreement in self.agreement_ids:
             consumptions = agreement.agreement_line.do_billing_preparation(self.period_id)
         self.agreement_ids.compute_totals()
+        domain = [
+            "|",
+            ("id", "in", consumptions.ids),
+            "&",
+            ("agreement_id", "in", self.agreement_ids.ids),
+            ("state", "=", "draft"),
+        ]
         return {
-            # "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
-            # "domain": [("id", "in", consumptions.ids)],
-            "domain": [
-                "|",
-                "&",
-                ("id", "in", consumptions.ids),
-                ("agreement_id", "in", self.agreement_ids.ids),
-                ("state", "=", "draft"),
-            ],
+            "domain": domain,
             "name": _("Service Consumption"),
             "view_type": "form",
             "view_mode": "tree,form",
