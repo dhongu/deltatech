@@ -16,14 +16,19 @@ class SaleOrder(models.Model):
             to_currency = invoice.journal_id.currency_id or self.env.user.company_id.currency_id
             date_eval = date or invoice.invoice_date or fields.Date.context_today(self)
             from_currency = invoice.currency_id.with_context(date=date_eval)
+            company = invoice.company_id
             if from_currency != to_currency:
                 invoice.write({"currency_id": to_currency.id, "invoice_date": date_eval})
-                for line in invoice.invoice_line_ids:
-                    price_unit = from_currency._convert(line.price_unit, to_currency, invoice.company_id, date_eval)
+
+                for line in invoice.line_ids:
+                    price_unit = from_currency._convert(line.price_unit, to_currency, company, date_eval)
+                    amount_currency = from_currency._convert(line.amount_currency, to_currency, company, date_eval)
                     line.with_context(check_move_validity=False).write(
-                        {"price_unit": price_unit, "currency_id": to_currency.id}
+                        {"price_unit": price_unit, "currency_id": to_currency.id, "amount_currency": amount_currency}
                     )
-                invoice.with_context(check_move_validity=False)._recompute_dynamic_lines()
+
+                invoice._onchange_currency()
+                invoice._recompute_dynamic_lines()
         return moves
 
 
