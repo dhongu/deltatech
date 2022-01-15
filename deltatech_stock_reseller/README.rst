@@ -17,10 +17,13 @@ Stock Reports
     :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_stock_report
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 Features:
- - Report with positions from picking lists
+ - Report with positions from stock location, with pricelist
+ - Choose stock location
+ - Choose partner or pricelist for price computation
+ - Two thresholds can be set for "text" quantities (i.e. Low stock, Limited stock, Stock) with their respective stock texts
 
 **Table of contents**
 
@@ -55,7 +58,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu| 
+|maintainer-dhongu|
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_stock_report>`_ project on GitHub.
 
