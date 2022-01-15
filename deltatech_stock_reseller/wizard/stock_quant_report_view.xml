@@ -12,6 +12,7 @@
                     <field name="description" optional="show" />
 
                     <field name="qty" />
+                    <field name="qty_text" />
                     <field name="price_reseller" />
                     <field name="list_price" />
                     <field name="list_currency_id" invisible="1" />
@@ -59,6 +60,15 @@
                         <field name="location_id" domain="[('usage','=','internal')]" />
                         <field name="partner_id" />
                         <field name="pricelist_id" />
+                        <field name="show_thresholds" />
+                        <field name="stock_threshold_1" attrs="{'invisible': [('show_thresholds', '=', False)]}" />
+                        <field name="stock_threshold_1_text" attrs="{'invisible': [('show_thresholds', '=', False)]}" />
+                        <field name="stock_threshold_2" attrs="{'invisible': [('show_thresholds', '=', False)]}" />
+                        <field name="stock_threshold_2_text" attrs="{'invisible': [('show_thresholds', '=', False)]}" />
+                        <field
+                        name="stock_no_threshold_text"
+                        attrs="{'invisible': [('show_thresholds', '=', False)]}"
+                    />
                         <field name="refresh_report" />
                     </group>
                     <footer>
