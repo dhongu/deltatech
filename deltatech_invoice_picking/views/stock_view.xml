@@ -8,17 +8,18 @@
             <button name="do_print_picking" position="after">
                 <field name="sale_id" invisible="1" />
                 <field name="purchase_id" invisible="1" />
+                <field name="to_invoice" invisible="1" />
                 <button
                     name="action_create_invoice"
                     string="Invoice"
                     type="object"
-                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('sale_id','=',False)]}"
+                    attrs="{'invisible': ['|', '|', ('state', 'not in', ('done')), ('sale_id','=',False), ('to_invoice','=',False)]}"
                 />
                 <button
                     name="action_create_supplier_invoice"
                     string="Bill"
                     type="object"
-                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('purchase_id','=',False)]}"
+                    attrs="{'invisible': ['|', '|', ('state', 'not in', ('done')), ('purchase_id','=',False), ('to_invoice','=',False)]}"
                 />
             </button>
             <xpath expr="//group[@name='other_infos']" position="inside">
@@ -75,7 +76,7 @@
                     name="action_create_invoice"
                     string="Invoice"
                     type="object"
-                    attrs="{'invisible': ['|',('state', 'not in', ('done')),('invoiced','=',True)]}"
+                    attrs="{'invisible': [('state', 'not in', ('done')),('invoiced','=',True)]}"
                 />
             </button>
         </field>
