@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class StockMoveLine(models.Model):
@@ -18,3 +18,13 @@ class StockMoveLine(models.Model):
         return False
 
     lot_name = fields.Char(default=_default_lot_name)
+
+    @api.onchange("location_id")
+    def onchange_location_id(self):
+        domain = [("product_id", "=", self.product_id.id), ("company_id", "=", self.company_id.id)]
+        if self.location_id and self.product_id.tracking != "none":
+            quant_domain = [("product_id", "=", self.product_id.id), ("location_id", "=", self.location_id.id)]
+            quants = self.env["stock.quant"].search(quant_domain)
+            domain += [("quant_ids", "in", quants.ids)]
+
+        return {"domain": {"lot_id": domain}}
