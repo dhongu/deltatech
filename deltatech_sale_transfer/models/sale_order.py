@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import models
+from odoo import _, models
 from odoo.tools import float_compare
 
 
@@ -24,6 +24,8 @@ class SaleOrder(models.Model):
             if not warehouse:
                 continue
 
+            pick_type = warehouse.pick_type_auto_transfer_id or warehouse.int_type_id
+
             location_source = warehouse.int_type_id.default_location_src_id
             location_dest = order.warehouse_id.int_type_id.default_location_dest_id
 
@@ -42,9 +44,11 @@ class SaleOrder(models.Model):
                         if not picking:
                             picking = self.env["stock.picking"].create(
                                 {
+                                    "partner_id": order.partner_id.id,
                                     "location_id": location_source.id,
                                     "location_dest_id": location_dest.id,
-                                    "picking_type_id": warehouse.int_type_id.id,
+                                    "picking_type_id": pick_type.id,
+                                    "origin": order.name,
                                 }
                             )
 
@@ -65,3 +69,15 @@ class SaleOrder(models.Model):
                                 "location_dest_id": location_dest.id,
                             }
                         )
+            if picking:
+                picking.message_post_with_view(
+                    "mail.message_origin_link",
+                    values={"self": picking, "origin": order},
+                    subtype_id=self.env.ref("mail.mt_note").id,
+                )
+
+                link = (
+                    "<a href=# data-oe-model=stock.picking data-oe-id=" + str(picking.id) + ">" + picking.name + "</a>"
+                )
+                message = _("Transfer document %s was generated") % link
+                order.message_post(body=message)
