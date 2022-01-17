@@ -10,6 +10,8 @@
     "category": "Sales",
     "depends": ["sale_stock"],
     "license": "LGPL-3",
-    "data": [],
+    "data": [
+        "views/stock_warehouse_view.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
 }
