@@ -28,6 +28,10 @@ class SaleOrder(models.Model):
 
             location_source = warehouse.int_type_id.default_location_src_id
             location_dest = order.warehouse_id.int_type_id.default_location_dest_id
+            if order.warehouse_id.group_transfer_with_delivery:
+                group_id = order.procurement_group_id.id
+            else:
+                group_id = False
 
             picking = self.env["stock.picking"]
             for line in order.order_line:
@@ -39,6 +43,8 @@ class SaleOrder(models.Model):
 
                 if float_compare(product.virtual_available, product_qty, precision_digits=precision) == -1:
                     demand = line.product_uom_qty - product.qty_available
+                    if demand <= 0:
+                        continue
                     qty_available = line.product_id.with_context(warehouse=warehouse.id).qty_available
                     if qty_available > 0:
                         if not picking:
@@ -67,6 +73,7 @@ class SaleOrder(models.Model):
                                 "name": product.name,
                                 "location_id": location_source.id,
                                 "location_dest_id": location_dest.id,
+                                "group_id": group_id,
                             }
                         )
 
@@ -76,9 +83,11 @@ class SaleOrder(models.Model):
                     values={"self": picking, "origin": order},
                     subtype_id=self.env.ref("mail.mt_note").id,
                 )
-
+                picking.action_assign()
                 link = (
                     "<a href=# data-oe-model=stock.picking data-oe-id=" + str(picking.id) + ">" + picking.name + "</a>"
                 )
                 message = _("Transfer document %s was generated") % link
                 order.message_post(body=message)
+
+                # order.picking_ids.message_post(body=message)

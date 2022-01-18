@@ -14,3 +14,4 @@ class Warehouse(models.Model):
     _inherit = "stock.warehouse"
 
     pick_type_auto_transfer_id = fields.Many2one("stock.picking.type", string="Type auto transfer")
+    group_transfer_with_delivery = fields.Boolean()
