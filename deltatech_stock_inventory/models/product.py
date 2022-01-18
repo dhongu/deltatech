@@ -38,6 +38,11 @@ class ProductTemplate(models.Model):
 
     def _compute_loc(self):
         warehouse_id = self.env.context.get("warehouse", False)
+        location_id = self.env.context.get("location", False)
+        if not warehouse_id and location_id:
+            if isinstance(location_id, int):
+                location = self.env["stock.location"].browse(location_id)
+                warehouse_id = location.get_warehouse().id
         if not warehouse_id:
             warehouse_id = self.env.ref("stock.warehouse0").id
 
