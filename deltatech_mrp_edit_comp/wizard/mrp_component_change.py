@@ -44,3 +44,7 @@ class MRPComponentChange(models.TransientModel):
                 "state": "confirmed",
             }
         )
+
+        # modifica produsul si pe linie
+        for move_line in move.move_line_ids:
+            move_line.write({"product_id": self.product_id.id})
