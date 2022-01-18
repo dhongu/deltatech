@@ -41,10 +41,10 @@ class MRPComponentChange(models.TransientModel):
                 "product_id": self.product_id.id,
                 "product_uom_qty": self.product_uom_qty,
                 "unit_factor": unit_factor,
-                "state": "confirmed",
+                "state": "draft",
             }
         )
 
         # modifica produsul si pe linie
         for move_line in move.move_line_ids:
-            move_line.write({"product_id": self.product_id.id})
+            move_line.write({"product_id": self.product_id.id, "state": "draft"})
