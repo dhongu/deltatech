@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+       <template id="assets_backend" name="stock_barcode assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/deltatech_alternative_barcode/static/src/js/client_action.js" />
+            </xpath>
+       </template>
+    </data>
+</odoo>
