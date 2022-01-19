@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-<!--        <report
-            string="Inventory Position"
-            id="action_report_inventory_position"
-            model="stock.inventory"
-            report_type="qweb-pdf"
-            name="deltatech_stock_inventory.report_inventory_position"
-            file="deltatech_stock_inventory.report_inventory_position"
-        />-->
 
         <record id="action_report_inventory_position" model="ir.actions.report">
             <field name="name">Inventory Position</field>
@@ -121,15 +113,7 @@
                 </t>
             </t>
         </template>
-<!--        <report
-            string="Inventory Diff"
-            id="action_report_inventory_diff"
-            model="stock.inventory"
-            report_type="qweb-pdf"
-            name="deltatech_stock_inventory.report_inventory_diff"
-            file="deltatech_stock_inventory.report_inventory_diff"
-        />
-        -->
+
         <record id="action_report_inventory_diff" model="ir.actions.report">
             <field name="name">Inventory Diff</field>
             <field name="model">stock.inventory</field>
@@ -291,6 +275,7 @@
                 </td>
             </tr>
         </template>
+
         <template id="report_inventory_total">
             <tr>
                 <td>
@@ -310,11 +295,11 @@
                 </td>
                 <td class="text-right">
                     <div>
-                        <strong t-esc="round(total_amount,2)" t-options='{"widget": "float", "precision": 2}' />
+                        <strong t-esc="round(total_before,2)" t-options='{"widget": "float", "precision": 2}' />
                     </div>
                     <div>
                         <strong
-                            t-esc="round(total_amount+total_plus-total_minus,2)"
+                            t-esc="round(total_before+total_plus-total_minus,2)"
                             t-options='{"widget": "float", "precision": 2}'
                         />
                     </div>
@@ -328,7 +313,8 @@
                 </td>
             </tr>
         </template>
-        <template id="report_inventory" inherit_id="stock.report_inventory">
+
+        <template id="report_inventory_by_category" inherit_id="stock.report_inventory">
             <xpath expr="//table/thead//tr" position="replace">
                 <t t-call="deltatech_stock_inventory.report_inventory_header" />
                 <t t-set="categ_id" t-value="0" />

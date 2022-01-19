@@ -15,6 +15,9 @@
                         type="object"
                     />
                 </field>
+                <xpath expr="//sheet" position="inside">
+                    <field name="line_ids" />
+                </xpath>
                 <!--                <field name="package_id" position="after">-->
                 <!--                    <field name="filterbyrack"/>-->
                 <!--                </field>-->
