@@ -57,4 +57,22 @@
             </xpath>
         </field>
     </record>
+
+    <record id="delivery_batch_print" model="ir.actions.report">
+        <field name="name">Deliveries</field>
+        <field name="model">stock.picking.batch</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_batch_transfer.delivery_batch_report</field>
+        <field name="report_file">deltatech_batch_transfer.delivery_batch_report</field>
+        <field name="binding_model_id" ref="stock_picking_batch.model_stock_picking_batch" />
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="delivery_batch_report">
+        <t t-foreach="docs" t-as="batch">
+            <t t-foreach="batch.picking_ids" t-as="o">
+                <t t-call="stock.report_delivery_document" />
+            </t>
+        </t>
+    </template>
 </odoo>
