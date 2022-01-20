@@ -62,6 +62,7 @@
                                 <t t-set="loc_case" t-value="False" />
                                 <t t-set="plus" t-value="0" />
                                 <t t-set="minus" t-value="0" />
+                                <t t-set="dif" t-value="0" />
                                 <t
                                     t-foreach="o.line_ids.sorted(key=lambda r: (r.loc_rack, r.loc_row, r.loc_case))"
                                     t-as="line"
@@ -170,8 +171,10 @@
                                 <t t-set="total_before" t-value="0" />
                                 <t t-set="plus" t-value="0" />
                                 <t t-set="minus" t-value="0" />
+                                <t t-set="dif" t-value="0" />
+                                <t t-set="price" t-value="0" />
                                 <t t-foreach="o.line_ids" t-as="line">
-                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty " />
                                     <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
                                     <t t-set="total_amount" t-value="total_amount+line.product_qty*price" />
                                     <t t-set="total_before" t-value="total_before+line.theoretical_qty*price" />
@@ -182,7 +185,7 @@
                                     </t>
                                 </t>
                                 <t t-foreach="o.line_ids" t-as="line">
-                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty" />
+                                    <t t-set="dif" t-value="line.product_qty-line.theoretical_qty or 0" />
                                     <t t-if='dif&lt;0'>
                                         <t t-set="minus" t-value="minus-1*dif*price" />
                                         <t t-set="total_minus" t-value="total_minus-1*dif*price" />
@@ -314,7 +317,7 @@
             </tr>
         </template>
 
-        <template id="report_inventory_by_category" inherit_id="stock.report_inventory">
+        <template id="report_inventory" inherit_id="stock.report_inventory">
             <xpath expr="//table/thead//tr" position="replace">
                 <t t-call="deltatech_stock_inventory.report_inventory_header" />
                 <t t-set="categ_id" t-value="0" />
@@ -326,6 +329,7 @@
                 <t t-set="total_before" t-value="0" />
                 <t t-set="plus" t-value="0" />
                 <t t-set="minus" t-value="0" />
+                <t t-set="dif" t-value="0" />
                 <!-- t t-foreach="o.line_ids" t-as="line" -->
                 <t t-foreach="o.line_ids.sorted(key=lambda r: r.categ_id)" t-as="line">
                     <t t-if="categ_id!=line.categ_id.id">
