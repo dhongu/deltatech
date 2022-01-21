@@ -16,6 +16,10 @@ class StockBackorderConfirmation(models.TransientModel):
         res["date"] = self.env.context.get("force_period_date", fields.Datetime.now())
         return res
 
-    def _process(self, cancel_backorder=False):
+    def process(self):
         self.pick_ids.write({"date": self.date})
-        super(StockBackorderConfirmation, self.with_context(force_period_date=self.date))._process(cancel_backorder)
+        super(StockBackorderConfirmation, self.with_context(force_period_date=self.date)).process()
+
+    def process_cancel_backorder(self):
+        self.pick_ids.write({"date": self.date})
+        super(StockBackorderConfirmation, self.with_context(force_period_date=self.date)).process_cancel_backorder()
