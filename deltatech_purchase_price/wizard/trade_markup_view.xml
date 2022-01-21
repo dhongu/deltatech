@@ -20,15 +20,7 @@
         </field>
     </record>
 
-<!--    <act_window
-        id="action_product_template_markup_wizard"
-        res_model="product.markup.wizard"
-        binding_model="product.template"
-        binding_views="list"
-        target="new"
-        view_mode="form"
-        name="Set Trade Markup"
-    />-->
+
 
     <record id="action_product_template_markup_wizard" model="ir.actions.act_window">
         <field name="name">Set Trade Markup</field>

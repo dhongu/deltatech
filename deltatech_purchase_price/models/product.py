@@ -4,22 +4,22 @@
 
 from odoo import api, fields, models
 
-# in versiunea 14 campul cost_method este related
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    standard_price = fields.Float(tracking=True)
+
+    @api.onchange("last_purchase_price", "trade_markup")
+    def onchange_last_purchase_price(self):
+        self.product_tmpl_id.onchange_last_purchase_price()
 
 
 class ProductTemplate(models.Model):
-    _name = "product.template"
     _inherit = "product.template"
 
     list_price = fields.Float(tracking=True)
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
-    trade_markup = fields.Float(string="Trade Markup", tracking=True)
-
-    # @api.depends("property_cost_method", "categ_id.property_cost_method")
-    # def _compute_cost_method(self):
-    #     super(ProductTemplate, self)._compute_cost_method()
-    #     if self.cost_method == "fifo" and self.env.context.get("force_fifo_to_average", False):
-    #         self.cost_method = "average"
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -38,4 +38,31 @@ class ProductTemplate(models.Model):
             list_price_tax = 0
             if product.taxes_id.price_include:
                 list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
+
+            list_price = list_price + list_price_tax
+            list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
             product.list_price = list_price + list_price_tax
+
+
+class SupplierInfo(models.Model):
+    _inherit = "product.supplierinfo"
+
+    def update_last_purchase_price(self):
+        for item in self:
+            price = item.product_uom._compute_price(item.price, item.product_tmpl_id.uom_id)
+            if item.currency_id:
+                price = item.currency_id.compute(price, self.env.user.company_id.currency_id)
+            if price:
+                item.product_tmpl_id.last_purchase_price = price
+                item.product_tmpl_id.onchange_last_purchase_price()
+
+    def write(self, vals):
+        res = super(SupplierInfo, self).write(vals)
+        if "price" in vals:
+            self.update_last_purchase_price()
+        return res
+
+    def create(self, vals_list):
+        res = super(SupplierInfo, self).create(vals_list)
+        res.update_last_purchase_price()
+        return res
