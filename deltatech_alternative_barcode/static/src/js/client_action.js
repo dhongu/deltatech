@@ -30,10 +30,14 @@ odoo.define("deltatech_alternative_barcode.picking_client_action", function (req
             if (product) {
                 return product;
             }
+            const barcode_short = barcode.substring(1, barcode.length - 1);
             product = await this._rpc({
                 model: "product.product",
                 method: "search_read",
-                args: [[["alternative_ids.name", "=", barcode]], ["barcode", "display_name", "uom_id", "tracking"]],
+                args: [
+                    [["alternative_ids.name", "in", [barcode, barcode_short]]],
+                    ["barcode", "display_name", "uom_id", "tracking"],
+                ],
             });
             if (product.length) {
                 product[0].barcode = barcode;

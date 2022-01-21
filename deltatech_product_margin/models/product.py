@@ -27,7 +27,7 @@ class ProductTemplate(models.Model):
             product.margin = margin
 
     def set_inverse_trade_markup(self):
-
+        super(ProductTemplate, self).set_inverse_trade_markup()
         for product in self:
             list_price = product.standard_price * (1 + product.trade_markup / 100)
             list_price_tax = 0
