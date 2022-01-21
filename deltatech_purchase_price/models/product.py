@@ -38,6 +38,9 @@ class ProductTemplate(models.Model):
             list_price_tax = 0
             if product.taxes_id.price_include:
                 list_price_tax = product.taxes_id.with_context(force_price_include=False)._compute_amount(list_price, 1)
+
+            list_price = list_price + list_price_tax
+            list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
             product.list_price = list_price + list_price_tax
 
 
@@ -50,13 +53,13 @@ class SupplierInfo(models.Model):
             if item.currency_id:
                 price = item.currency_id.compute(price, self.env.user.company_id.currency_id)
             if price:
-                item.product_tmpl_id.write({"last_purchase_price": price})
+                item.product_tmpl_id.last_purchase_price = price
                 item.product_tmpl_id.onchange_last_purchase_price()
 
     def write(self, vals):
         if "price" in vals:
             self.update_last_purchase_price()
-        return super(SupplierInfo, self).write()
+        return super(SupplierInfo, self).write(vals)
 
     def create(self, vals_list):
         res = super(SupplierInfo, self).create(vals_list)
