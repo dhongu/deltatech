@@ -13,3 +13,7 @@ class AccountMove(models.Model):
         access = self.env["res.users"].has_group("deltatech_invoice_to_draft.group_reset_to_draft_account_move")
         for move in self:
             move.show_reset_to_draft_button = move.show_reset_to_draft_button and access
+
+    def button_draft_cancel(self):
+        self.button_draft()
+        self.button_cancel()
