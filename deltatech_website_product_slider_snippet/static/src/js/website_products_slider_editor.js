@@ -7,19 +7,13 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider_editor", fu
     const SnippetProductsSliderOptions = s_dynamic_snippet_carousel_options.extend({
         init: function () {
             this._super.apply(this, arguments);
-            this.modelNameFilter = "product.product";
-            const productTemplateId = $("input.product_template_id");
-            this.hasProductTemplateId = productTemplateId.val();
-            if (!this.hasProductTemplateId) {
-                this.contextualFilterDomain.push(["product_cross_selling", "=", false]);
-            }
             this.productLists = {};
         },
 
         onBuilt: function () {
             this._super.apply(this, arguments);
             this._rpc({
-                route: "/website/snippet/options_filters",
+                route: "/website_sale/snippet/options_filters",
             }).then((data) => {
                 if (data.length) {
                     this.$target.get(0).dataset.filterId = data[0].id;

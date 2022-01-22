@@ -74,6 +74,9 @@
                                         <th class="text-right">
                                             <strong>Suma</strong>
                                         </th>
+                                        <th class="text-right">
+                                            <strong>TVA</strong>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,6 +90,9 @@
                                         </td>
                                         <td class="text-right">
                                             <span t-field="l.amount" />
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="l.tax_amount" />
                                         </td>
                                     </tr>
                                     <tr t-if="o.days">

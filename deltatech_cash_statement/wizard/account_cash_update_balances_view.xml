@@ -16,13 +16,14 @@
             </form>
         </field>
     </record>
-    <act_window
-        id="action_account_cash_update_balances"
-        name="Cash Update Balances"
-        res_model="account.cash.update.balances"
-        binding_model="account.bank.statement"
-        binding_views="list"
-        view_mode="form"
-        target="new"
-    />
+
+    <record id="action_account_cash_update_balances" model="ir.actions.act_window">
+        <field name="name">Cash Update Balances</field>
+        <field name="res_model">account.cash.update.balances</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_bank_statement" />
+        <field name="binding_view_types">list</field>
+    </record>
+
 </odoo>

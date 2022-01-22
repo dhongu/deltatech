@@ -2,7 +2,6 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function 
     "use strict";
 
     const publicWidget = require("web.public.widget");
-    const core = require("web.core");
     const DynamicSnippetCarousel = require("website.s_dynamic_snippet_carousel");
 
     const SnippetProductsSlider = DynamicSnippetCarousel.extend({
@@ -21,28 +20,23 @@ odoo.define("deltatech_website_product_slider_snippet.product_slider", function 
             // if it is not set yet, we know it is the drop call and we can avoid showing the message.
             return isInitialDrop || this._super.apply(this, arguments);
         },
-        //
-        // willStart: function () {
-        //     return this._getDomain().then(this._super.bind(this));
-        // },
+
+        willStart: function () {
+            return this._getDomain().then(this._super.bind(this));
+        },
 
         _getDomain: function () {
             var self = this;
             const productListId = parseInt(this.$el.get(0).dataset.productListId, 10);
-            if (productListId > 0) {
-                return this._rpc({
-                    model: "product.list",
-                    method: "get_domain_json",
-                    args: [productListId],
-                }).then(function (result) {
-                    if (result.length > 0) {
-                        self.domain = JSON.parse(result);
-                    }
-                    return Promise.resolve();
-                });
-            }
-            return new Promise(function () {
-                return [];
+            return this._rpc({
+                model: "product.list",
+                method: "read",
+                args: [productListId, ["products_domain"]],
+            }).then(function (result) {
+                if (result.length > 0) {
+                    self.domain = JSON.parse(result[0].products_domain)[0];
+                }
+                return Promise.resolve();
             });
         },
 

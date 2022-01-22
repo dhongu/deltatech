@@ -35,7 +35,7 @@ class ProductCatalog(models.Model):
 
                 if mto:
                     route_ids += [mto.id]
-                buy = self.env.ref("purchase.route_warehouse0_buy", raise_if_not_found=False)
+                buy = self.env.ref("purchase_stock.route_warehouse0_buy", raise_if_not_found=False)
                 if buy:
                     route_ids += [buy.id]
 
