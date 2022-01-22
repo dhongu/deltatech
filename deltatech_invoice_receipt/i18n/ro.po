@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_invoice_receipt
+# 	* deltatech_invoice_receipt
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-22 17:55+0000\n"
-"PO-Revision-Date: 2015-07-22 17:55+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-01-22 07:55+0000\n"
+"PO-Revision-Date: 2022-01-22 07:55+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,137 +16,82 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_invoice_receipt
-#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Are you sure you want to receive products without purchase order?  If these products exist items in a purchase order they will stay open."
-msgstr "Sunteți sigur că doriți recepța produselor fără comanda de achiziție? Dacă pentru aceste produsele există poziții în comenzi de aprovizionare atunci ele vor râmâne deschise."
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
 
 #. module: deltatech_invoice_receipt
-#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Create receipt"
-msgstr "Creare recepție"
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order__from_invoice_id
+msgid "Generated from the invoice"
+msgstr "Generat din factura"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:69
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order_line__id
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_stock_picking__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_invoice_receipt
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_stock_picking__notice
+msgid "Is a notice"
+msgstr "Este un aviz"
+
+#. module: deltatech_invoice_receipt
+#: model:ir.model,name:deltatech_invoice_receipt.model_account_move
+msgid "Journal Entry"
+msgstr "Notă contabilă"
+
+#. module: deltatech_invoice_receipt
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_account_move____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_purchase_order_line____last_update
+#: model:ir.model.fields,field_description:deltatech_invoice_receipt.field_stock_picking____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_invoice_receipt
+#: code:addons/deltatech_invoice_receipt/models/account_invoice.py:0
 #, python-format
-msgid "Delivery not found!"
-msgstr "Livrare negăsită!"
+msgid "Please enter invoice date"
+msgstr ""
 
 #. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_stock_inventory
-msgid "Inventory"
-msgstr "Inventar"
+#: model:ir.model,name:deltatech_invoice_receipt.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
 
 #. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: model:ir.model,name:deltatech_invoice_receipt.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:50
+#: code:addons/deltatech_invoice_receipt/models/account_invoice.py:0
 #, python-format
-msgid "Invoice %s was refunded by %s"
-msgstr "Factura %s a fost stornata de %s"
+msgid "The purchase order %s was generated."
+msgstr ""
 
 #. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice_line
-msgid "Invoice Line"
-msgstr "Linie factură"
-
-#. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_account_invoice_refund
-msgid "Invoice Refund"
-msgstr "Factură retur"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:70
+#: code:addons/deltatech_invoice_receipt/models/purchase.py:0
 #, python-format
-msgid "No delivery line for product %s"
-msgstr "Nu există livrare pentru produsul %s"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:168
-#, python-format
-msgid "No purchase orders from this supplier"
-msgstr "Nu există comenzi de achiziție pentru acest furnizor"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:232
-#, python-format
-msgid "No purchase orders line from product %s in quantity of %s "
-msgstr "Nu există produsul %s cu cantitatea %s în comenzile de achiziție deschise"
-
-#. module: deltatech_invoice_receipt
-#: field:account.invoice,origin_refund_invoice_id:0
-msgid "Origin Invoice"
-msgstr "Origine factură"
-
-#. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_stock_pack_operation
-msgid "Packing Operation"
-msgstr "Operație ambalare"
+msgid "The stock transfer cannot be validated!"
+msgstr "Transferul de stoc nu poate fi validat"
 
 #. module: deltatech_invoice_receipt
 #: model:ir.model,name:deltatech_invoice_receipt.model_stock_picking
-msgid "Picking List"
-msgstr "Listă ridicare"
+msgid "Transfer"
+msgstr ""
 
 #. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:287
-#, python-format
-msgid "Picking list %s was receipted"
-msgstr "Documentul de intrare %s a fost recepționat."
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice_refund.py:81
-#, python-format
-msgid "Picking list %s was refunded by %s"
-msgstr "Operația de stoc %s a fost rambursată de %s"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:101
-#, python-format
-msgid "Picking list %s without reference to purchase order was created"
-msgstr "Recepția %s fără referință la comandă de achiziție a fost realizată"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:167
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:231
-#, python-format
-msgid "Picking not found!"
-msgstr "Operație de stoc negasită!"
-
-#. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_stock_quant
-msgid "Quants"
-msgstr "Poziții de stoc"
-
-#. module: deltatech_invoice_receipt
-#: view:account.invoice:deltatech_invoice_receipt.invoice_supplier_form
-msgid "Receipt without purchase order"
-msgstr "Recepție fără comandă de achiziție"
-
-#. module: deltatech_invoice_receipt
-#: field:account.invoice,refund_invoice_id:0
-msgid "Refund Invoice"
-msgstr "Factură rembursare"
-
-#. module: deltatech_invoice_receipt
-#: model:ir.model,name:deltatech_invoice_receipt.model_stock_move
-msgid "Stock Move"
-msgstr "Mișcare stoc"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:264
-#, python-format
-msgid "Was enter reception for purchase order:"
-msgstr "A fost făcută recepția pentru comenzile de achiziție:"
-
-#. module: deltatech_invoice_receipt
-#: code:addons/deltatech_invoice_receipt/account_invoice.py:262
-#, python-format
-msgid "Was entered invoice %s"
-msgstr "A fost introdusă factura %s"
-
-
-
-
+#: model:ir.model.fields,help:deltatech_invoice_receipt.field_stock_picking__notice
+msgid ""
+"With this field the reception/delivery is set as a notice. The generated "
+"account move will contain accounts 408/418."
+msgstr ""
+"Cu acest câmp se indică ca recepția/livrare este facuta cu aviz. Astfel nota"
+" contabiă generată se va conține 408/418."
