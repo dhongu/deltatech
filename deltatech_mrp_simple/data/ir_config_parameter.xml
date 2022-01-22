@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.config_parameter" id="simple_production_allow_zero_cost" forcecreate="False">
+        <field name="key">deltatech_mrp_simple.allow_zero_cost</field>
+        <field name="value">0</field>
+    </record>
+</odoo>

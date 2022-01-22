@@ -4,6 +4,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class MRPSimple(models.TransientModel):
@@ -49,7 +50,9 @@ class MRPSimple(models.TransientModel):
         )
 
         for line in self.product_in_ids:
-            if line.price_unit:
+            params = self.env["ir.config_parameter"].sudo()
+            allow_zero = safe_eval(params.get_param("deltatech_mrp_simple.allow_zero_cost", False))
+            if line.price_unit or allow_zero:
                 self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
