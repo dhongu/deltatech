@@ -11,7 +11,7 @@ from odoo.tools.safe_eval import safe_eval
 class SaleReport(models.Model):
     _inherit = "sale.report"
 
-    price_unit = fields.Float(string="Price Unit", group_operator="avg")
+    price_unit = fields.Float(string="Price Unit", digits="Product Price", group_operator="avg")
 
     def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
         if fields is None:
