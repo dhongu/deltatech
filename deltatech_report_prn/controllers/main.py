@@ -21,7 +21,7 @@ class ReportController(report.ReportController):
         return super(ReportController, self).report_routes(reportname, docids, converter, **data)
 
     @route()
-    def report_download(self, data, token, context=None):
+    def report_download(self, data, context=None):
         """This function is used by 'action_manager_report.js' in order to trigger the download of
         a pdf/controller report.
 
@@ -64,7 +64,6 @@ class ReportController(report.ReportController):
                     report_name = safe_eval(report.print_report_name, {"object": obj, "time": time})
                     filename = "{}.{}".format(report_name, extension)
             response.headers.add("Content-Disposition", content_disposition(filename))
-            response.set_cookie("fileToken", token)
             return response
 
-        return super(ReportController, self).report_download(data, token, context)
+        return super(ReportController, self).report_download(data, context)
