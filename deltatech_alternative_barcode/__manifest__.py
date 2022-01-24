@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "Products Alternative Barcode",
-    "version": "14.0.1.0.3",
+    "version": "14.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Scann alternative product barcode",

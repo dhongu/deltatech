@@ -10,18 +10,29 @@ odoo.define("deltatech_alternative_barcode.picking_client_action", function (req
             if (product) {
                 if (product.tracking === "lot" && self.requireLotNumber) {
                     self.requireLotNumber = false;
+                    product.tracking = "none";
                 }
             }
             return product;
         },
 
+        _isAbleToCreateNewLine: function () {
+            return false;
+        },
+
         _incrementLines: function (params) {
+            var product = params.product;
+            if (product.tracking === "lot") {
+                product.tracking = "none";
+            }
+
             const values = this._super.apply(this, arguments);
-            var line = this._findCandidateLineToIncrement(params);
+            var line = values.lineDescription;
             if (params.barcode && line) {
                 line.product_id.barcode = params.barcode;
                 line.product_barcode = params.barcode;
             }
+
             return values;
         },
 
