@@ -57,18 +57,22 @@ class ServiceEquiOperation(models.TransientModel):
         # ca sa se poata elimina dintr-un contract trebuie ca:
         # citirea introdusa sa fie egala cu ultima citire de pe contor
         # ultima citire trebuie sa fie facturata
+        # sau echipamentul sa nu aiba linii cu contori
         can_remove = True
-        for reading in self.items:
-            last_meter_reading_id = reading.meter_id.last_meter_reading_id
-            # ultima citire trebuie sa fie egala cu citirea actuala
-            if last_meter_reading_id.counter_value != reading.counter_value:
-                can_remove = False
-            # ultima citire trebuie sa aiba consum generat
-            if not last_meter_reading_id.consumption_id:
-                can_remove = False
-            #  consumul generat de ultima citire trebuie sa fie facturat.
-            # if not last_meter_reading_id.consumption_id.invoice_id:
-            #     can_remove = False
+        # check if equipment has lines with meters
+        agreement_lines = self.agreement_id.agreement_line.filtered(
+            lambda l: l.equipment_id == self.equipment_id and l.meter_id
+        )
+        if agreement_lines:
+            for reading in self.items:
+                last_meter_reading_id = reading.meter_id.last_meter_reading_id
+                # ultima citire trebuie sa fie egala cu citirea actuala
+                if last_meter_reading_id.counter_value != reading.counter_value:
+                    can_remove = False
+                # ultima citire trebuie sa aiba consum generat
+                if not last_meter_reading_id.consumption_id:
+                    can_remove = False
+
         self.can_remove = can_remove
 
     def do_operation(self):
