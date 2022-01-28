@@ -75,6 +75,8 @@ class AccountPayment(models.Model):
                     ref += invoice.name
                 for invoice in payment.reconciled_invoice_ids:
                     ref += invoice.name
+                if len(ref) == 0:
+                    ref = payment.ref
                 values = {
                     # "name": payment.communication or payment.name,
                     "statement_id": payment.statement_id.id,
