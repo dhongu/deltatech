@@ -60,7 +60,7 @@ class AccountInvoice(models.Model):
         # style = xlwt.easyxf('font: bold True, name Arial;')
         style = workbook.add_format({"bold": True, "font_name": "Arial"})
 
-        date_default_style = workbook.add_format({"num_format": "dd/mm/yy"})
+        # date_default_style = workbook.add_format({"num_format": "dd/mm/yy"})
 
         worksheet.write(0, 0, _("Invoice: %s / %s") % (self.name, self.invoice_date), style)
         worksheet.write(1, 0, _("Customer: %s") % self.partner_id.name, style)
