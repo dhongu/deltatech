@@ -92,7 +92,7 @@ class sale_order(models.Model):
     def button_update_price(self):
         for order in self:
             for resource in order.resource_ids:
-                if resource.product_uom.name != '%':
+                if resource.product_uom.name not in ['%', '%%']:
                     price = order.pricelist_id.price_get(resource.product_id.id, resource.product_uom_qty or 1.0,
                                                          order.partner_id.id)[order.pricelist_id.id]
                     price = self.env['product.uom']._compute_price(resource.product_id.uom_id.id, price,
