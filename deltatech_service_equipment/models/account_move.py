@@ -79,8 +79,9 @@ class AccountInvoice(models.Model):
         crt_row = 4
         for line in lines:
             date = line["date"]
-            worksheet.write_datetime(crt_row, 0, date, date_default_style)
-            # worksheet.write(crt_row, 0, date.strftime("%d/%m/%Y"))
+            # date = line["date"].strftime("dd/mm/YYYY")
+            # worksheet.write_datetime(crt_row, 0, date, date_default_style)
+            worksheet.write(crt_row, 0, date.strftime("%d/%m/%Y"))
             worksheet.write(crt_row, 1, line["equipment_id"])
             worksheet.write(crt_row, 2, line["serial_id"])
             worksheet.write(crt_row, 3, line["meter_id"])
