@@ -101,7 +101,7 @@ class sale_order(models.Model):
                     from_currency = self.env.user.company_id.currency_id.with_context(date=order.date_order)
 
                     purchase_price = from_currency.compute(
-                        resource.product_id.standard_price or self.product_id.product_tmpl_id.standard_price,
+                        resource.product_id.standard_price or resource.product_id.product_tmpl_id.standard_price,
                         order.pricelist_id.currency_id)
 
                     amount = resource.product_uom_qty * resource.price_unit
