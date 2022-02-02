@@ -49,6 +49,7 @@
                                 <field name="product_id" />
                                 <field name="quantity" sum="1" />
                                 <field name="uom_id" />
+                                <field name="price_unit" />
                             </tree>
                         </field>
                     </group>
