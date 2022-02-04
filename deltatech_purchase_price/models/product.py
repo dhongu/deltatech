@@ -41,7 +41,7 @@ class ProductTemplate(models.Model):
 
             list_price = list_price + list_price_tax
             list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
-            product.list_price = list_price + list_price_tax
+            product.list_price = list_price
 
 
 class SupplierInfo(models.Model):
