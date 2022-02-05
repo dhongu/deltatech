@@ -9,7 +9,11 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock", "purchase"],
-    "data": ["views/product_view.xml", "views/website_sale_stock_templates.xml"],
+    "data": [
+        "views/product_view.xml",
+        # todo: de gasit cum se face in 15
+        # "views/website_sale_stock_templates.xml"
+    ],
     "assets": {
         "web.assets_frontend": ["/deltatech_website_stock_availability/static/src/js/variant_mixin.js"],
     },
