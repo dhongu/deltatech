@@ -47,8 +47,9 @@ class StockPickingReport(models.Model):
             pt.categ_id, sm.product_id,  pt.uom_id as product_uom,
             sm.location_id,sm.location_dest_id,
             sum(sm.product_qty) as product_qty,
-            avg(sm.price_unit) as price,
-            sum(sm.product_qty*sm.price_unit) as amount
+
+            COALESCE(abs(SUM(svl.value)/COALESCE(sum(sm.product_qty),1)), avg(sm.price_unit)) as price,
+            COALESCE(abs(SUM(svl.value)),sum(sm.product_qty*sm.price_unit)) as amount
         """
         return select_str
 
@@ -57,6 +58,12 @@ class StockPickingReport(models.Model):
             FROM stock_picking as sp
             LEFT JOIN res_partner as rp ON rp.id = sp.partner_id
             LEFT JOIN stock_move as sm ON sp.id = sm.picking_id
+
+            INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id and
+              (
+              svl.valued_type != 'internal_transfer' or (svl.valued_type = 'internal_transfer' and quantity > 0 )
+              )
+
            /*
             LEFT JOIN stock_quant_move_rel ON sm.id = stock_quant_move_rel.move_id
             LEFT JOIN stock_quant as sq ON stock_quant_move_rel.quant_id = sq.id
