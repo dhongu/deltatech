@@ -90,7 +90,6 @@ class SaleMarginReport(models.Model):
                 commission,
                 partner_id, commercial_partner_id,  state_id, user_id, manager_user_id,     sub.company_id,
                 move_type,  state , payment_state, journal_id,
-                cr.rate as currency_rate,
                  sub.currency_id
         """
         return select_str
@@ -134,14 +133,6 @@ class SaleMarginReport(models.Model):
                     s.move_type, s.state , s.payment_state , s.journal_id, s.currency_id
         """
 
-        # x = """
-        # SUM(CASE
-        #              WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
-        #              'in_invoice'::character varying::text])
-        #                 THEN -(l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-        #                 ELSE  (l.quantity * l.price_unit_without_taxes * (100.0-COALESCE( l.discount, 0 )) / 100.0)
-        #             END) AS sale_val,
-        # """
         return select_str
 
     def _from(self):
@@ -190,42 +181,6 @@ class SaleMarginReport(models.Model):
         """
         return group_by_str
 
-    # '''
-    # @api.model_cr
-    # def init(self):
-    #     # self._table = sale_report
-    #     tools.drop_view_if_exists(self.env.cr, self._table)
-    #     # CREATE MATERIALIZED VIEW
-    #     # CREATE or REPLACE VIEW
-    #     sql = """CREATE or REPLACE VIEW %s as (
-    #         WITH currency_rate (currency_id, rate, date_start, date_end) AS (
-    #             SELECT r.currency_id, r.rate, r.name AS date_start,
-    #                 (SELECT name FROM res_currency_rate r2
-    #                  WHERE r2.name > r.name AND
-    #                        r2.currency_id = r.currency_id
-    #                  ORDER BY r2.name ASC
-    #                  LIMIT 1) AS date_end
-    #             FROM res_currency_rate r
-    #         )
-    #         %s
-    #         FROM
-    #         (
-    #             %s
-    #             FROM %s
-    #             WHERE %s
-    #             GROUP BY %s
-    #         ) AS sub
-    #         JOIN currency_rate cr ON
-    #             (cr.currency_id = sub.currency_id AND
-    #              cr.date_start <= COALESCE(sub.date, NOW()) AND
-    #              (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
-    #     )"""
-    #     sql = sql % (self._table,
-    #                  self._select(), self._sub_select(), self._from(), self._where(), self._group_by())
-    #     # print sql
-    #     self.env.cr.execute(sql)
-    # '''
-
     def init(self):
 
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -240,11 +195,6 @@ class SaleMarginReport(models.Model):
                 WHERE %s
                 GROUP BY %s
             ) AS sub
-            LEFT JOIN currency_rate cr ON
-                (cr.currency_id = sub.currency_id AND
-                 cr.company_id = sub.company_id AND
-                 cr.date_start <= COALESCE(sub.date, NOW()) AND
-                 (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
         )"""
             % (
                 self._table,
