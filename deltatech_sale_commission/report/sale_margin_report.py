@@ -17,10 +17,19 @@ class SaleMarginReport(models.Model):
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
     # 'purchase_price = fields.float('Purchase price', readonly=True )
-    sale_val = fields.Monetary("Sale value", readonly=True, help="Sale value in company currency")
+    sale_val = fields.Monetary(
+        "Sale value", readonly=True, help="Sale value in company currency", currency_field="company_currency_id"
+    )
 
-    stock_val = fields.Monetary("Stock value", readonly=True, help="Stock value in company currency")
-    profit_val = fields.Monetary("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
+    stock_val = fields.Monetary(
+        "Stock value", readonly=True, help="Stock value in company currency", currency_field="company_currency_id"
+    )
+    profit_val = fields.Monetary(
+        "Profit",
+        readonly=True,
+        help="Profit obtained at invoicing in company currency",
+        currency_field="company_currency_id",
+    )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission = fields.Float("Commission")
@@ -35,6 +44,7 @@ class SaleMarginReport(models.Model):
     indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
+    company_currency_id = fields.Many2one("res.currency", "Currency", readonly=True, related="company_id.currency_id")
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
 
     move_type = fields.Selection(
@@ -112,12 +122,7 @@ class SaleMarginReport(models.Model):
                     END) AS product_uom_qty,
 
 
-                    SUM(CASE
-                     WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
-                     'in_invoice'::character varying::text])
-                        THEN -l.price_subtotal
-                        ELSE  l.price_subtotal
-                    END) AS sale_val,
+                    SUM(-l.balance) AS sale_val,
 
 
                     SUM(CASE
