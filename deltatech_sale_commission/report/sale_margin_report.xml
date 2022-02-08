@@ -59,7 +59,7 @@
                 <field name="move_type" invisible="1" />
                 <field name="state" invisible="1" />
                 <field name="currency_id" />
-                <field name="currency_rate" />
+
             </tree>
         </field>
     </record>

@@ -36,7 +36,6 @@ class SaleMarginReport(models.Model):
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
-    currency_rate = fields.Float("Currency Rate", readonly=True)
 
     move_type = fields.Selection(
         [
@@ -112,7 +111,14 @@ class SaleMarginReport(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
-                    SUM(l.price_subtotal) AS sale_val,
+
+                    SUM(CASE
+                     WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
+                     'in_invoice'::character varying::text])
+                        THEN -l.price_subtotal
+                        ELSE  l.price_subtotal
+                    END) AS sale_val,
+
 
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
