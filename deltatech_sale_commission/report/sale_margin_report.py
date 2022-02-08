@@ -128,8 +128,8 @@ class SaleMarginReport(models.Model):
                     SUM(CASE
                      WHEN s.move_type::text = ANY (ARRAY['out_refund'::character varying::text,
                      'in_invoice'::character varying::text])
-                        THEN -(l.quantity * COALESCE( l.purchase_price , 0 ) )
-                        ELSE  (l.quantity * COALESCE( l.purchase_price , 0 ) )
+                        THEN -(l.quantity * COALESCE( l.purchase_price, 0 ) )
+                        ELSE  (l.quantity * COALESCE( l.purchase_price, 0 ) )
                     END) AS stock_val,
 
 
