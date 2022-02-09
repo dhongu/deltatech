@@ -87,6 +87,8 @@ class ServiceAgreement(models.Model):
                 if item.equipment_id:
                     equipments |= item.equipment_id
             for equipment in equipments:
+                if not equipment.meter_ids:
+                    continue
                 equipment._compute_readings_status()
                 if equipment.last_reading < limit_date:
                     self.meter_reading_status = False
