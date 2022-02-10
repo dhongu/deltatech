@@ -14,8 +14,6 @@ class CustomerPortalCity(CustomerPortal):
 
     def _prepare_portal_layout_values(self):
         values = super(CustomerPortalCity, self)._prepare_portal_layout_values()
-        # cities = request.env['res.city'].sudo().search([])
-        # values['cities'] = cities
         values["city_id"] = request.env.user.partner_id.city_id.id
         return values
 
@@ -26,7 +24,7 @@ class CustomerPortalCity(CustomerPortal):
         methods=["POST"],
         website=True,
     )
-    def country_infos(self, state, mode, **kw):
+    def state_infos(self, state, **kw):
         return dict(
-            cities=[(st.id, st.name, st.zipcode or "") for st in state.get_website_sale_cities(mode=mode)],
+            cities=[(st.id, st.name, st.zipcode or "") for st in state.get_website_sale_cities()],
         )

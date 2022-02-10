@@ -10,5 +10,5 @@ class CountryState(models.Model):
 
     city_ids = fields.One2many("res.city", "state_id")
 
-    def get_website_sale_cities(self, mode="billing"):
+    def get_website_sale_cities(self):
         return self.sudo().city_ids
