@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Begin Document specification 6 -->
+        <template id="report_saleorder_document_specification6">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <!--begin header-->
+                    <div class="headerFirstPage">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo"
+                                     style="max-height: 45px;"/>
+                            </div>
+                            <div class="col-xl-2">
+                                <div t-field="res_company.partner_id"
+                                     t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"
+                                     style="margin-bottom:-20px;;"/>
+                            </div>
+                            <div style="margin-top:18px;">Telefon: 0234 537436; 0746 016 626</div>
+                            <div class="col-xs-9 text-right" style="margin-top:10px;"
+                                 t-field="res_company.rml_header1"/>
+                        </div>
+                        <div class="row zero_min_height">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 1px solid black;"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-3">
+                            </div>
+                        </div>
+                    </div>
+                    <!--end header-->
+                    <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <strong>Client:</strong>
+                            <div t-field="o.partner_id"
+                                 t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;, &quot;fax&quot;], &quot;no_marker&quot;: true}"/>
+                            <p t-if="o.partner_id.vat">
+                                VAT:
+                                <span t-field="o.partner_id.vat"/>
+                            </p>
+                        </div>
+                        <div class="col-xs-5 col-xs-offset-1">
+                            <strong>Colaborator:</strong>
+                            <p class="oe_editable" t-field="o.user_id.parent_id.name"/>
+                        </div>
+                    </div>
+                    <h4 style="margin-top:10px;font-weight:bold;">
+                        <span t-if="o.state not in ['draft','sent']">Order N°</span>
+                        <span t-if="o.state in ['draft','sent']">Cod de identificare deviz:</span>
+                        <span t-field="o.name"/>
+                    </h4>
+                    <div class="row" id="informations">
+                        <div t-if="o.client_order_ref" class="col-xs-3">
+                            <b>Denumire proiect</b>
+                            <p class="oe_editable" t-field="o.client_order_ref"/>
+                        </div>
+                        <div t-if="o.date_order" class="col-xs-3">
+                            <strong t-if="o.state not in ['draft','sent']">Date Ordered:</strong>
+                            <strong t-if="o.state in ['draft','sent']">Data Ofertei:</strong>
+                            <p t-field="o.date_order"/>
+                        </div>
+                        <div t-if="o.payment_term" class="col-xs-3">
+                            <strong>Payment Term:</strong>
+                            <p t-field="o.payment_term"/>
+                        </div>
+<!--                        <div class="col-xs-3">-->
+<!--                            <strong>Agent de vânzări:</strong>-->
+<!--                            <p class="oe_editable" t-field="o.user_id.name"/>-->
+<!--                        </div>-->
+                        <div t-if="o.specification" class="col-xs-3">
+                            <strong>Suprafata casei:</strong>
+                            <p>
+                                <t t-set="qty_primary" t-value="o.qty_primary or 1"/>
+                                <span t-esc="round(o.qty_primary,2)"/>
+                                <span t-field="o.primary_uom"/>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" id="informations-line2">
+                        <div class="col-xs-3"/>
+                        <div class="col-xs-3"/>
+                        <div class="col-xs-3"/>
+                        <div class="col-xs-3">
+                            <strong>Nr zile montaj:</strong>
+                            <span t-field="o.add_inst_day"/>
+                        </div>
+                    </div>
+                    <div class="row zero_min_height">
+                        <div class="col-xs-12">
+                            <div style="border-bottom: 1px solid #cadb34;"/>
+                        </div>
+                    </div>
+                    <p style="margin-bottom:-7px;margin-top:75px;font-size:1.3em;">
+                        <span>Casele Ecokit Prod sunt realizate cu lemn uscat , tratat si rindeluit. Proiectele sunt
+                            realizate conform normelor de calcul EUROCODE 5. Ecokit Prod foloseste in proiectarea
+                            structurilor sale programe specializate –CADWORK, RoofCoon- TrussCon, toate piesele metalice
+                            și conectorii utilizați provin de la furnizori certificați european.
+                        </span>
+                    </p>
+                    <p>
+                        <span>
+                            <li style="font-size:1.3em;">
+                                Lemnul nostru este uscat in uscatoare industriale, controlate electronic, umiditatea
+                                lemnului folosit este intre 14-16 %
+                            </li>
+                            <li style="font-size:1.3em;">
+                                Lemnul folosit in structura caselor este tratat cu un produs special, ce il protejeaza
+                                impotriva agentilor biologici. Tratarea lemnului se realizeaza prin imersie in cuve
+                                speciale, la noi in fabrica. Produsul folosit pentru tratare este omologat si
+                                certificat.
+                            </li>
+                            <li style="font-size:1.3em;">
+                                Lemnul folosit pentru talpa de fixare pe beton este tratat in autoclava. Acest tratament
+                                ofera lemnului protectie impotriva putregaiului si a atacurilor insectelor, in aplicatii
+                                cu sau fara contact cu solul.
+                            </li>
+                        </span>
+                    </p>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr style="height:40px;"/>
+                            <tr>
+                                <th colspan="2"/>
+                                <th class="text-right"/>
+                                <th class="text-right"/>
+                                <th class="text-right"/>
+                                <th class="text-right"></th>
+                            </tr>
+                        </thead>
+                        <t>
+                            <t t-set="total_kit" t-value="0"/>
+                            <t t-set="total_primary" t-value="0"/>
+                            <t t-set="total_opt" t-value="0"/>
+                            <t t-set="total_service" t-value="0"/>
+                            <t t-set="total_opt_serv" t-value="0"/>
+                            <t t-set="total_labor_kit" t-value="0"/>
+                            <t t-set="total_labor_optional" t-value="0"/>
+                            <t t-foreach="o.article_ids" t-as="a">
+                                <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
+                                    <t t-set="total_kit" t-value="total_kit + a.amount"/>
+                                </t>
+                                <t t-if="a.item_categ==&quot;primary&quot;">
+                                    <t t-set="total_primary" t-value="total_primary + a.amount"/>
+                                </t>
+                                <t t-if="a.item_categ==&quot;optional&quot;">
+                                    <t t-set="article_amount" t-value="0"/>
+                                    <t t-foreach="a.resource_ids" t-as="resource">
+                                        <t t-set="article_amount" t-value="article_amount+resource.amount"/>
+                                    </t>
+                                    <t t-set="total_opt" t-value="total_opt + article_amount"/>
+                                </t>
+                                <t t-if="a.item_categ==&quot;service&quot;">
+                                    <t t-set="total_service" t-value="total_service + a.amount"/>
+                                </t>
+                                <t t-if="a.item_categ==&quot;opt_serv&quot;">
+                                    <t t-set="total_opt_serv" t-value="total_opt_serv + a.amount"/>
+                                </t>
+                            </t>
+                            <t t-set="total1" t-value="total_kit+total_opt"/>
+                            <t t-set="total2" t-value="total1+total_service"/>
+                            <t t-set="total3" t-value="total2+total_opt_serv"/>
+                        </t>
+                        <tbody class="sale1_tbody">
+                            <tr style="background-color:#cadb34;">
+                                <td colspan="5">
+                                    <h4 style="margin: 00 0 0 0;font-weight:bold;">KIT</h4>
+                                    <t t-set="qty_only" t-value="1"/>
+                                    <t t-set="with_price" t-value="0"/>
+                                    <t t-set="with_qty" t-value="1"/>
+                                </td>
+                                <td/>
+                            </tr>
+                            <t t-foreach="o.article_ids" t-as="a">
+                                <t t-if="a.item_categ==&quot;normal&quot; or a.item_categ==&quot;primary&quot;">
+                                    <t t-if="a.item_categ==&quot;normal&quot;">
+                                        <t t-call="deltatech_mrp_sale.report_specification_article6"/>
+                                    </t>
+                                    <t t-foreach="a.resource_ids" t-as="resource">
+                                        <t t-if="resource.item_categ=='labor'">
+                                            <t t-set="total_labor_kit" t-value="total_labor_kit + resource.amount"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="background-color:#A9E2F3;">
+                                <td colspan="3">
+                                    <h4 style="margin:0 0 0 0;">
+                                        <strong>Proiect de executie structura lemn</strong>
+                                    </h4>
+                                </td>
+                                <td class="text-right"/>
+                                <td class="text-right"/>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span>Incluse</span>
+                                </td>
+                            </tr>
+                            <tr style="height:3px;"/>
+                            <tr style="background-color:#A9E2F3">
+                                <td colspan="6">
+                                    <h4 style="margin:0 0 0 0;">
+                                        <b>Tratare lemn + piese metalice asamblare structura</b>
+                                    </h4>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+<!--                                    <div sytle="margin-left: 40px;">-->
+<!--                                        <ul>-->
+<!--                                            <li>-->
+<!--                                                <div>-->
+<!--                                                    <small style="font-style: normal;">Lemnul nostru este uscat in-->
+<!--                                                        uscatoare industriale, controlate electronic, umiditatea-->
+<!--                                                        lemnului folosit este intre 14-16 %-->
+<!--                                                    </small>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <div>-->
+<!--                                                    <small style="font-style: normal;">-->
+<!--                                                        <span>Tot lemnul folosit este tratat prin imersie (nu pensulare,-->
+<!--                                                            nu pulverizare) in cuve speciale. Produsul folosit pentru-->
+<!--                                                            tratare este omologat si certificat.-->
+<!--                                                        </span>-->
+<!--                                                    </small>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <div>-->
+<!--                                                    <small style="font-style: normal;">Lemnul folosit pentru talpa de-->
+<!--                                                        fixare pe beton este tratat in autoclava-->
+<!--                                                    </small>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">MATERIALE KIT</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total_kit-total_labor_kit,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">MONTAJ KIT</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total_labor_kit,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="4">
+                                    <h4>
+                                        <strong>TOTAL KIT STRUCTURA</strong>
+                                    </h4>
+                                </td>
+                                <td/>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <strong>
+                                        <span t-esc="round(total_kit,2)"/>
+                                        <span t-field="o.pricelist_id.currency_id.symbol"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="4">PRET / M
+                                    <sup>2</sup>
+                                </td>
+                                <td/>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <t t-if="o.qty_primary">
+                                        <t t-set="price" t-value="total_kit/qty_primary"/>
+                                        <span t-esc="round(price,2)"/>
+                                        <span t-field="o.pricelist_id.currency_id.symbol"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <br/>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th colspan="2"/>
+                                <th/>
+                                <th/>
+                                <th/>
+                                <th class="text-right"/>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="6"/>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="6">
+                                    <h4 style="margin: 0 0 0 0;font-weight:bold;">OPTIONALE</h4>
+                                    <t t-set="with_qty" t-value="0"/>
+                                    <t t-set="with_price" t-value="0"/>
+                                    <t t-set="qty_only" t-value="0"/>
+                                    <t t-set="with_qty" t-value="0"/>
+                                </td>
+                            </tr>
+                            <tr style="height:36px;"/>
+                            <t t-foreach="o.article_ids" t-as="a">
+                                <t t-if="a.item_categ==&quot;optional&quot;">
+                                    <t t-call="deltatech_mrp_sale.report_specification_article6"/>
+                                    <t t-foreach="a.resource_ids" t-as="resource">
+                                        <t t-if="resource.item_categ=='labor'">
+                                            <t t-set="total_labor_optional"
+                                               t-value="total_labor_optional + resource.amount"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                            <tr style="height:10px;"/>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">MATERIALE</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total_opt-total_labor_optional,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">MONTAJ</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total_labor_optional,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#A9E2F3">
+                                <td colspan="5">
+                                    <h4>
+                                        <strong>TOTAL OPTIONALE</strong>
+                                    </h4>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;font-weight:bold;">
+                                    <span t-esc="round(total_opt,2)"/>
+                                    <span t-field="o.pricelist_id.currency_id.symbol"/>
+                                </td>
+                            </tr>
+                            <tr style="height:20px;"/>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">TOTAL MATERIALE</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
+                                </td>
+                            </tr>
+                            <t t-if="o.discount_value">
+                                <t t-set="discount_value" t-value="o.discount_value"/>
+                                <t t-set="total1" t-value="total1-discount_value"/>
+                            </t>
+                            <t t-if=" not o.discount_value">
+                                <t t-set="discount_value" t-value="0"/>
+                            </t>
+                            <tr t-if="o.discount_value" style="background-color:#cadb34">
+                                <td colspan="5">DISCOUNT</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span class="oe_editable" t-field="o.discount_value"/>
+                                </td>
+                            </tr>
+                            <tr t-if="o.discount_value" style="background-color:#cadb34">
+                                <td colspan="5">TOTAL MATERIALE CU DISCOUNT INCLUS</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total1 - total_labor_kit - total_labor_optional,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">TOTAL MONTAJ</td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span t-esc="round(total_labor_kit + total_labor_optional,2)"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">
+                                    <h4>
+                                        <strong>TOTAL KIT STRUCTURA + OPTIONALE</strong>
+                                    </h4>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <span style="font-weight:bold;" t-esc="round(total1,2)"/>
+                                    <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">PRET / M
+                                    <sup>2</sup>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <t t-if="o.qty_primary">
+                                        <t t-set="price" t-value="total1/qty_primary"/>
+                                        <span t-esc="round(price,2)"/>
+                                        <span t-field="o.pricelist_id.currency_id.symbol"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6"/>
+                            </tr>
+                            <t t-set="with_qty" t-value="0"/>
+                            <t t-set="with_price" t-value="1"/>
+                            <t t-set="qty_only" t-value="1"/>
+                            <t t-foreach="o.article_ids" t-as="a">
+                                <t t-if="a.item_categ==&quot;service&quot;">
+                                    <t t-call="deltatech_mrp_sale.report_specification_article6"/>
+                                </t>
+                            </t>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">
+                                    <h4>
+                                        <strong>TOTAL KIT STRUCTURA + OPTIONALE + MONTAJ + TRANSPORT</strong>
+                                    </h4>
+                                    <t t-set="with_price" t-value="1"/>
+                                    <t t-set="with_qty" t-value="1"/>
+                                </td>
+                                <t t-if="o.discount_value">
+                                    <t t-set="total2" t-value="total2-o.discount_value"/>
+                                </t>
+                                <td style="text-align:right;vertical-align:middle;">
+                                    <span style="font-weight:bold;" t-esc="round(total2,2)"/>
+                                    <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#cadb34">
+                                <td colspan="5">
+                                    PRET / M
+                                    <sup>2</sup>
+                                    <t t-set="with_price" t-value="1"/>
+                                    <t t-set="with_qty" t-value="1"/>
+                                </td>
+                                <td class="text-right" style="white-space: nowrap;">
+                                    <t t-if="o.qty_primary">
+                                        <t t-set="price" t-value="total2/qty_primary"/>
+                                        <span t-esc="round(price,2)"/>
+                                        <span t-field="o.pricelist_id.currency_id.symbol"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6"/>
+                            </tr>
+                            <t t-foreach="o.article_ids" t-as="a">
+                                <t t-if="a.item_categ==&quot;opt_serv&quot;">
+                                    <t t-set="with_qty" t-value="0"/>
+                                    <t t-set="with_price" t-value="0"/>
+                                    <t t-set="qty_only" t-value="0"/>
+                                    <t t-set="with_qty" t-value="0"/>
+                                    <t t-call="deltatech_mrp_sale.report_specification_article6"/>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>TOTAL GENERAL</strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span style="font-weight:bold;" t-esc="round(total2+total_opt_serv,2)"/>
+                                        <span style="font-weight:bold;" t-field="o.pricelist_id.currency_id.symbol"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 pull-right">
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong/>
+                                    </td>
+                                    <td class="text-right">
+                                        <strong>PRET FARA TVA</strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <t t-if="o.partner_id.lang=='ro_RO'">
+                        <p style="width:75px;"/>
+                        <p style="background-color:#F8F8F8; color:#FF0000">
+                            <span>Prezentul deviz este un document contractual pentru care EcoKit Prod isi asuma
+                                responsabilitatea
+                                numai
+                                daca el este semnat de catre client .Orice alta informatie tehnico-comerciala comunicata
+                                in timpul
+                                corespondentei noastre pentru acest proiect si nu figureaza in acest deviz nu va fi
+                                luata in calcul.
+                            </span>
+                        </p>
+                        <p style="background-color:#D0D0D0">
+                            <span>Ce nu figurează în deviz nu va fi livrat!</span>
+                        </p>
+                        <p style="background-color:#F8F8F8; color:#FF0000">
+                            <span>
+                                Semnarea prezentului document semnifica acceptarea ofertei tehnico-comerciale si
+                                angajarea
+                                responsabilitatii clientului. Orice alta solicitare ulterioara dupa semnarea prezentului
+                                deviz va
+                                face
+                                obiectul unui nou calcul si a unei oferte anexate prezentului deviz.
+                            </span>
+                        </p>
+                        <div>
+                            <p>
+                                <span style="font-weight:bold;">Precizari :</span>
+                            </p>
+                            <div sytle="margin-left: 40px;">Transportul, cazarea si masa echipei de montaj cade in
+                                sarcina ECOKIT PROD;
+                            </div>
+                            <div sytle="margin-left: 40px;">
+                                Pretul transportului elementelor din oferta este calculat pentru o distanta de 300 km
+                                fata de fabrica din Bacau;
+                            </div>
+                            <div style="/*margin-left: 40px;*/">
+                                <span style="font-weight:bold;">
+                                    Utilajul de ridicare cu sofer necesar la descarcarea materialelor pe santier si
+                                    schela
+                                    metalica necesara la montaj, raman in sarcina clientului;
+                                </span>
+                            </div>
+                            <div sytle="margin-left: 40px;">
+                                <span style="font-weight:bold;">
+                                    Descarcarea materialelor trebuie sa se faca obligatoriu pe
+                                    santier. Dacă acest lucru nu este posibil, transportul materialelor către santier
+                                    este
+                                    responsabilitatea clientului.
+                                </span>
+                            </div>
+                            <div sytle="margin-left: 40px;">
+                                Oferta este valabilă 30 de zile, datorită instabilității prețurilor materialelor.
+                            </div>
+                            <p/>
+                            <p>
+                                <div sytle="margin-left: 40px;">
+                                    <span style="font-weight:bold;">Durata de execuție în fabrică:</span>
+                                    80 de zile calendaristice din momentul semnării contractului până la încărcarea
+                                    casei
+                                    în camion
+                                </div>
+                                <div sytle="margin-left: 40px;">
+                                    <span style="font-weight:bold;">Condiții de plată:</span>
+                                </div>
+                                <div sytle="margin-left: 45px;">
+                                    - 40% avans la semnarea contractului
+                                </div>
+                                <div sytle="margin-left: 45px;">
+                                    - 40% la descărcarea mărfii din camion pe șantier
+                                </div>
+                                <div sytle="margin-left: 45px;">
+                                    - 15% după montajul structurii de lemn
+                                </div>
+                                <div sytle="margin-left: 45px;">
+                                    - 5% la finalizarea montajului
+                                </div>
+                            </p>
+                        </div>
+                        <br/>
+                        <br/>
+                        <p>Semnatura client :</p>
+                    </t>
+                    <!--                    <t t-if="o.partner_id.lang=='fr_FR'">-->
+                    <!--                        <p style="width:75px;"/>-->
+                    <!--                        <p style="background-color:#F8F8F8; color:#FF0000">-->
+                    <!--                            <span>-->
+                    <!--                                Ce présent devis est un document contractuel et engage la responsabilité d'Ecokit Prod-->
+                    <!--                                uniquement-->
+                    <!--                                s’il est signé par le client. Toute autre informationtechnicocommerciale communiquée le-->
+                    <!--                                long de-->
+                    <!--                                notre correspondance sur le présent dossier qui n'apparait pas dans ce devis n'est pas-->
+                    <!--                                prise-->
+                    <!--                                en compte.-->
+                    <!--                            </span>-->
+                    <!--                        </p>-->
+                    <!--                        <p style="background-color:#D0D0D0">-->
+                    <!--                            <span>Tout ce qui n'est pas marqué n'est pas livré!</span>-->
+                    <!--                        </p>-->
+                    <!--                        <p style="background-color:#F8F8F8; color:#FF0000">-->
+                    <!--                            <span>-->
+                    <!--                                La signature du présent document signifie l'acceptation de l'offre technico-commerciale-->
+                    <!--                                et engage-->
+                    <!--                                la responsabilité du client. Toute autre demande ultérieureà la signature du présent-->
+                    <!--                                devis fera-->
+                    <!--                                l'objet d'un chiffrage et d'une offre annexée au présent devis.-->
+                    <!--                            </span>-->
+                    <!--                        </p>-->
+                    <!--                        <div>-->
+                    <!--                            <p>-->
+                    <!--                                <span style="font-weight:bold;">Précisions:</span>-->
+                    <!--                            </p>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                L'équipe de pose est prise en charge par le client pour le transport, la restauration et-->
+                    <!--                                l'hébergement;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                Coût du transport Roumanie-France: 1500 euros; coût de la restauration / équipe / jour:-->
+                    <!--                                100 euros;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                L'hébergement est à votre choix; L'équipe est formée par 5 personnes;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                Si le chantier est plus loin de 10 km, une plus-value combustible sera calculée;-->
+                    <!--                            </div>-->
+                    <!--                            <div style="/*margin-left: 40px;*/">-->
+                    <!--                                L’engin de levage avec chauffeur pour le déchargement et l'échafaudage nécessaire pour-->
+                    <!--                                le montage-->
+                    <!--                                sont à la charge du client;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                Le déchargement des fournitures doit obligatoirement se faire sur chantier. Si cela-->
+                    <!--                                n’est pas-->
+                    <!--                                possible, le transport des fournitures au chantier est à la charge du client;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                La présente offre est valable 3 mois, sauf l’offre de prix des menuiseries qui est-->
+                    <!--                                valable 1 mois;-->
+                    <!--                            </div>-->
+                    <!--                            <p/>-->
+                    <!--                        </div>-->
+                    <!--                        <br/>-->
+                    <!--                        <br/>-->
+                    <!--                        <p>Signature du client:</p>-->
+                    <!--                    </t>-->
+                    <!--                    <t t-if="o.partner_id.lang=='en_GB'">-->
+                    <!--                        <p style="width:75px;"/>-->
+                    <!--                        <p style="background-color:#F8F8F8; color:#FF0000">-->
+                    <!--                            <span>-->
+                    <!--                                This estimate is a contractual document for which EcoKit Prod takes responsibility only-->
+                    <!--                                if the-->
+                    <!--                                document is signed by the client. Any other commercial andtechnical information-->
+                    <!--                                communicated during-->
+                    <!--                                our correspondence on this project and not included in this estimate will not be-->
+                    <!--                                counted.-->
+                    <!--                            </span>-->
+                    <!--                        </p>-->
+                    <!--                        <p style="background-color:#D0D0D0">-->
+                    <!--                            <span>What is not included in the estimate will not be delivered!</span>-->
+                    <!--                        </p>-->
+                    <!--                        <p style="background-color:#F8F8F8; color:#FF0000">-->
+                    <!--                            <span>-->
+                    <!--                                Signing this document means accepting the offer commercial and technical commitment to-->
+                    <!--                                the-->
+                    <!--                                responsibility. Any other request later after signing thisestimate will be subject to-->
+                    <!--                                recalculation-->
+                    <!--                                and a tender attached to this estimate.-->
+                    <!--                            </span>-->
+                    <!--                        </p>-->
+                    <!--                        <div>-->
+                    <!--                            <p>-->
+                    <!--                                Gypsum board or paneling interior (when this elements appears in the estimation) are-->
+                    <!--                                installed only-->
+                    <!--                                if the client electrician and the plumber make their workbefore.-->
+                    <!--                            </p>-->
+                    <!--                            <p>-->
+                    <!--                                <span style="font-weight:bold;">Specifications:</span>-->
+                    <!--                            </p>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                Transport, accommodation, and meals for the team of workers is the responsibility of the-->
+                    <!--                                customer;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                The cost of transporting team of workers from Romania round-trip is EUR 1,500; the cost-->
+                    <!--                                meal / team / day: 100 Euro;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                Accommodation is customer choice;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                If the site is 10 km away, plus it will calculate a value for fuel;-->
+                    <!--                            </div>-->
+                    <!--                            <div style="/*margin-left: 40px;*/">-->
+                    <!--                                The fork lift truck (Manitou) with driver (for download) and scaffolding required during-->
+                    <!--                                the-->
+                    <!--                                construction site is the responsibility of the customer;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                The download of materials must be made obligatory on site. If this is not possible, the-->
+                    <!--                                transport-->
+                    <!--                                of materials to the site is the responsibility of the customer;-->
+                    <!--                            </div>-->
+                    <!--                            <div sytle="margin-left: 40px;">-->
+                    <!--                                The offer is valid for 3 months, excepting the offer for the exterior joinery that is-->
+                    <!--                                valid for one month;-->
+                    <!--                            </div>-->
+                    <!--                            <p/>-->
+                    <!--                        </div>-->
+                    <!--                        <br/>-->
+                    <!--                        <br/>-->
+                    <!--                        <p>Client's signature:</p>-->
+                    <!--                    </t>-->
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p t-field="o.note"/>
+                    <p t-if="o.payment_term.note">
+                        <strong>Payment Term:</strong>
+                        <span t-field="o.payment_term.note"/>
+                    </p>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+        <!-- End Document specification 6 -->
+
+
+        <!-- Begin Specification article 6 -->
+        <template id="report_specification_article6">
+            <t t-if="a.product_uom_qty != 0.0 and a.product_uom.name != '%' and a.product_uom.name != '%%'">
+
+                <t t-if="a.amount&gt;0.0">
+                    <tr style="background-color:#A9E2F3;border-top: 16px solid white;border-bottom: 16px solid white;">
+                        <td colspan="4" style="white-space: nowrap;">
+                            <h4 style="margin:0 0 0 0;">
+                                <strong t-field="a.name"/>
+                            </h4>
+                        </td>
+                        <t t-if="a.resource_ids and len(a.resource_ids)==1">
+                            <td class="text-right" style="white-space: nowrap;">
+                                <!--                                <t t-if="with_qty and qty_only==0">-->
+                                <!--                                    <span t-esc="round(a.product_uom_qty,2)"/>-->
+                                <!--                                    <span groups="product.group_uom" t-field="a.product_uom"/>-->
+                                <!--                                </t>-->
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <!--                                <t t-if="with_price and (a.amount&gt;0 or a.item_categ=='opt_serv')">-->
+                                <!--                                    <span t-field="a.amount"-->
+                                <!--                                          t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-if="with_qty and qty_only">-->
+                                <!--                                    <span t-esc="round(a.product_uom_qty,2)"/>-->
+                                <!--                                    <span groups="product.group_uom" t-field="a.product_uom"/>-->
+                                <!--                                </t>-->
+                            </td>
+                        </t>
+                        <t t-if="a.resource_ids and len(a.resource_ids)!=1">
+                            <td class="text-right" style="white-space: nowrap;">
+                                <!--                                <t t-if="with_qty and qty_only==0">-->
+                                <!--                                    <span t-esc="round(a.product_uom_qty,2)"/>-->
+                                <!--                                    <span groups="product.group_uom" t-field="a.product_uom"/>-->
+                                <!--                                </t>-->
+                            </td>
+                            <td class="text-right" style="white-space: nowrap;">
+                                <!--                                <t t-if="with_price and a.amount&gt;0">-->
+                                <!--                                    <strong t-field="a.amount"-->
+                                <!--                                            t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.pricelist_id.currency_id&quot;}"/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-if="qty_only">-->
+                                <!--                                    <span t-esc="round(a.product_uom_qty,2)"/>-->
+                                <!--                                    <span groups="product.group_uom" t-field="a.product_uom"/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-if="with_price and a.amount&lt;0">-->
+                                <!--                                    <span></span>-->
+                                <!--                                </t>-->
+                            </td>
+                        </t>
+                    </tr>
+                    <t t-if="a.note">
+                        <tr>
+                            <td colspan="6">
+                                <small style="font-style: normal;color:red;" t-field="a.note"/>
+                            </td>
+                        </tr>
+                    </t>
+                    <t t-if="a.product_id">
+                        <td colspan="6">
+
+                            <small t-field="a.product_id.description_sale"/>
+
+                            <t t-if="not a.product_id">
+                                <small t-field="a.product_template.description_sale"/>
+                            </t>
+                        </td>
+                    </t>
+                    <t t-if="a.resource_ids">
+                        <tr t-foreach="a.resource_ids" t-as="r">
+                            <t t-if="r.product_uom_qty &gt; 0.0">
+                                <td style="width:25px;">
+                                    <span/>
+                                </td>
+                                <td colspan="4">
+                                    <em>
+                                        <p style="margin:0px;">
+                                            <strong t-field="r.product_id.name"/>
+                                        </p>
+                                        <div t-if="r.product_id.description_sale">
+                                            <small style="font-style: normal;"
+                                                   t-field="r.product_id.description_sale"/>
+                                        </div>
+                                    </em>
+                                </td>
+                                <td/>
+                            </t>
+                        </tr>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <!-- End Specification article 6 -->
+
+
+        <template id="report_specification6">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'deltatech_mrp_sale.report_saleorder_document_specification6')"/>
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</openerp>
