@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <group id="other_tab_group" position="inside">
                 <group id="from_picking">
-                    <field name="from_pickings" groups="account.group_account_manager" />
+                    <field name="from_pickings" readonly="1" />
                 </group>
             </group>
         </field>

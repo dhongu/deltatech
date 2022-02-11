@@ -10,7 +10,7 @@ from odoo.exceptions import UserError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    from_pickings = fields.Boolean("Created from pickings", default=False, tracking=True)
+    from_pickings = fields.Boolean("Created from pickings", default=False, copy=False)
 
     @api.model_create_multi
     def create(self, vals_list):
