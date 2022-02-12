@@ -17,7 +17,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             Partner = order.partner_id.with_context(show_address=1).sudo()
             billings_addresses = Partner.search(
                 [
-                    '|',
+                    "|",
                     ("user_id", "=", request.env.user.id),
                     ("id", "child_of", order.partner_id.commercial_partner_id.ids),
                     ("type", "in", ["invoice"]),
@@ -34,15 +34,14 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         values["billings_addresses"] = billings_addresses
         return values
 
-
     def values_postprocess(self, order, mode, values, errors, error_msg):
         new_values, errors, error_msg = super(WebsiteSaleBillingAddresses, self).values_postprocess(
             order, mode, values, errors, error_msg
         )
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ('new', 'invoice'):
-            new_values['parent_id'] = order.partner_id.commercial_partner_id.id
+        if mode == ("new", "invoice"):
+            new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
         return new_values, errors, error_msg
 
