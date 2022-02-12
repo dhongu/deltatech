@@ -13,6 +13,7 @@ class ProductTemplate(models.Model):
     loc_row = fields.Char("Row", size=16)
     loc_case = fields.Char("Case", size=16)
 
+
 #     last_inventory_date = fields.Date(
 #         string="Last Inventory Date", readonly=True, compute="_compute_last_inventory", store=True
 #     )

@@ -31,7 +31,7 @@ class SaleOrderLine(models.Model):
     def _onchange_product_uom_qty(self):
         product_uom = self.product_uom or self.product_id.uom_id
         self.product_uom_qty = self.fix_qty_multiple(self.product_id, product_uom, self.product_uom_qty)
-        super(SaleOrderLine, self)._onchange_product_uom_qty()
+        # super(SaleOrderLine, self)._onchange_product_uom_qty()
 
     def write(self, vals):
         if len(self) == 1 and "product_uom_qty" in vals:
