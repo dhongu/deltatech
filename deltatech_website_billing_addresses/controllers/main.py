@@ -34,18 +34,16 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         values["billings_addresses"] = billings_addresses
         return values
 
-    # def _get_country_related_render_values(self, kw, render_values):
-    #     res = super(WebsiteSaleBillingAddresses, self)._get_country_related_render_values(kw, render_values)
-    #     if kw.get('type'):
-    #         res['type'] = kw.get('type')
-    #     return res
-    #
+
     def values_postprocess(self, order, mode, values, errors, error_msg):
         new_values, errors, error_msg = super(WebsiteSaleBillingAddresses, self).values_postprocess(
             order, mode, values, errors, error_msg
         )
         if values.get("type", False):
             new_values["type"] = values.get("type")
+        if mode == ('new', 'invoice'):
+            new_values['parent_id'] = order.partner_id.commercial_partner_id.id
+
         return new_values, errors, error_msg
 
     @http.route()

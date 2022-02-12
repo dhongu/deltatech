@@ -103,8 +103,6 @@
 
 
     <template id="address" inherit_id="website_sale.address">
-
-
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />
         </input>
