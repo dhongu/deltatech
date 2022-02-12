@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Queue Job",
     "summary": "Queue Job using Crone",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Camptocamp,ACSONE SA/NV,Odoo Community Association (OCA)",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
