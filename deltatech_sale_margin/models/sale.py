@@ -58,7 +58,7 @@ class SaleOrderLine(models.Model):
                 continue
             if line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(_("You can not sell without price."))
+                    raise UserError(_("You can not sell %s without price.") % line.product_id.name)
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
                     self.order_id.message_post(body=message)

@@ -51,6 +51,7 @@
                                 <field name="uom_id" />
                                 <field name="price_unit" readonly="1" force_save="1" />
                                 <field name="amount" readonly="1" />
+
                             </tree>
                         </field>
                     </group>

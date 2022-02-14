@@ -221,13 +221,10 @@ class MRPSimpleLineIn(models.TransientModel):
     def compute_finit_price(self):
         mrpsimple = self.mrp_simple_id
         price = 0.0
-        # list_price = 0.0
-        for line in mrpsimple.product_out_ids:
-            price += line.product_id.standard_price * line.quantity
-            # list_price += line.product_id.list_price * line.quantity
-        for line in mrpsimple.product_in_ids:
-            line.price_unit = price / line.quantity
-            # line.sale_price = list_price / line.quantity
+        for out_line in mrpsimple.product_out_ids:
+            price += out_line.product_id.standard_price * out_line.quantity
+        for in_line in mrpsimple.product_in_ids:
+            in_line.price_unit = price / in_line.quantity
 
     def get_cost_price(self):
         cost_price = 0.0
@@ -259,3 +256,5 @@ class MRPSimpleLineOut(models.TransientModel):
 
     def _compute_amout(self):
         self.amount = self.quantity * self.price_unit
+
+
