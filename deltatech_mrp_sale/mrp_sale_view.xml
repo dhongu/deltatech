@@ -51,7 +51,7 @@
             file="deltatech_mrp_sale.report_specification5"    />
          <report
             string="Specification V5"
-            id="action_report_specification5"
+            id="action_report_specification6"
             model="sale.order"
             report_type="qweb-pdf"
             name="deltatech_mrp_sale.report_specification6"
