@@ -248,9 +248,14 @@ class MRPSimpleLineOut(models.TransientModel):
     product_id = fields.Many2one("product.product")
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     price_unit = fields.Float("Unit Price", digits="Product Price")
+    amount = fields.Float("Amount", digits="Product Price", compute="_compute_amount")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
 
     @api.onchange("product_id", "quantity")
     def onchange_product_id(self):
         self.uom_id = self.product_id.uom_id
         self.price_unit = self.product_id.standard_price
+        self.amount = self.quantity * self.price_unit
+
+    def _compute_amout(self):
+        self.amount = self.quantity * self.price_unit
