@@ -29,20 +29,13 @@
         </field>
     </record>
 
-<!--    <act_window
-        id="action_import_purchase_line"
-        name="Import Purchase Line"
-        res_model="import.purchase.line"
-        binding_model="purchase.order"
-        view_mode="form"
-        target="new"
-    />-->
+
     <record id="action_import_purchase_line" model="ir.actions.act_window">
         <field name="name">Import Purchase Line</field>
         <field name="res_model">import.purchase.line</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="purchase.model_purchase_order" />
-        <field name="binding_view_types">list</field>
+        <field name="binding_view_types">list,form</field>
     </record>
 </odoo>
