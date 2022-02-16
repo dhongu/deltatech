@@ -70,4 +70,4 @@ class ServiceConsumableItem(models.Model):
                     usage = line["usage"]
                 item.quantity = move_qtys - usage
             else:
-                item.quantity = item.quantity
+                item.quantity = 0
