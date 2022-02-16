@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
                         qty -= move.quantity_done
                     else:
                         raise UserError(_("You cannot invoice this type of transfer: %s") % move.picking_id)
-                if qty > invoice_original_qty:  # probabil set. De verificat
+                if abs(qty) > abs(invoice_original_qty):  # probabil set. De verificat
                     qty = invoice_original_qty
                 invoice_line.update({"quantity": qty})
                 return invoice_line
