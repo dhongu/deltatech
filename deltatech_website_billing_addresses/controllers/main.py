@@ -43,6 +43,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if mode == ("new", "invoice"):
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
+        new_values['is_company'] = values.get("is_company", False) == 'on'
+
         return new_values, errors, error_msg
 
     @http.route()
@@ -80,6 +82,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                     can_edit_vat = order.partner_invoice_id.can_edit_vat()
                 if mode and partner_id != -1:
                     values = Partner.browse(partner_id)
+
             elif partner_id == -1:
                 mode = ("new", "invoice")
             else:  # no mode - refresh without post?
@@ -110,12 +113,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             "partner_id": partner_id,
             "mode": mode,
             "checkout": values,
-            "can_edit_vat": can_edit_vat,
+            "can_edit_vat": True,
             "error": errors,
             "callback": kw.get("callback"),
             "only_services": order and order.only_services,
             "type": "invoice",
             "use_same": False,
+
         }
         render_values.update(self._get_country_related_render_values(kw, render_values))
         return request.render("website_sale.address", render_values)

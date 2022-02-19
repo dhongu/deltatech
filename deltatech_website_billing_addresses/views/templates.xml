@@ -15,14 +15,8 @@
         </form>
         <div t-attf-class="card #{selected and 'border border-primary' or 'js_change_billing'}">
             <div class='card-body' style='min-height: 130px;'>
-                <a
-                    t-if="allow_edit"
-                    href="#"
-                    class="btn btn-link float-right p-0 js_edit_billing_address no-decoration"
-                    role="button"
-                    title="Edit this address"
-                    aria-label="Edit this address"
-                >
+                <a t-if="allow_edit" href="#" class="btn btn-link float-right p-0 js_edit_billing_address no-decoration"
+                   role="button" title="Edit this address" aria-label="Edit this address">
                     <i class='fa fa-edit' />
                 </a>
                 <t t-esc="contact" t-options="dict(widget='contact', fields=['name', 'address'], no_marker=True)" />
@@ -76,10 +70,8 @@
                                     <t t-set='selected' t-value="order.partner_invoice_id==billing" />
                                     <t t-set='readonly' t-value="bool(len(billings_addresses)==1)" />
                                     <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
-                                    <t
-                                        t-set="allow_edit"
-                                        t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)"
-                                    />
+                                    <t t-set="allow_edit"  t-value="True" />
+<!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
                                 </t>
                             </div>
                         </t>
@@ -93,11 +85,9 @@
 
     <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
         <xpath expr="//span[@t-esc='order.partner_id']" position="replace">
-            <span
-                t-esc="order.partner_invoice_id"
-                t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
-                class="address-inline"
-            />
+            <span t-esc="order.partner_invoice_id"
+                  t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
+                  class="address-inline" />
         </xpath>
     </template>
 
@@ -106,6 +96,23 @@
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />
         </input>
+
+
+    </template>
+
+
+    <template id="address_b2b" inherit_id="website_sale.address_b2b">
+
+        <xpath expr="//t[@t-set='vat_warning']" position="after">
+
+            <div t-attf-class="form-group col-lg-6 mb-0">
+
+                <input type="checkbox" id="is_company" name="is_company" t-att-checked="'is_company' in checkout and checkout['is_company']" />
+                <label class="label-optional" for="is_company">Is Company</label>
+
+            </div>
+            <div class="w-100"/>
+        </xpath>
     </template>
 
 
