@@ -18,7 +18,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             billings_addresses = Partner.search(
                 [
                     "|",
-                    ("user_id", "=", request.env.user.id),
+                    ("access_for_user_id", "=", request.env.user.id),
                     ("id", "child_of", order.partner_id.commercial_partner_id.ids),
                     ("type", "in", ["invoice"]),
                     # ("id", "=", order.partner_id.commercial_partner_id.id),
@@ -43,7 +43,15 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if mode == ("new", "invoice"):
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
-        new_values['is_company'] = values.get("is_company", False) == 'on'
+        if values.get("vat", False):
+            domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
+            parent = request.env["res.partner"].sudo().search(domain)
+            if parent:
+                new_values["parent_id"] = parent.id
+
+        if not new_values.get("parent_id", False):
+            new_values["is_company"] = values.get("is_company", False) == "on"
+        new_values["access_for_user_id"] = request.env.user.id
 
         return new_values, errors, error_msg
 
@@ -119,7 +127,6 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             "only_services": order and order.only_services,
             "type": "invoice",
             "use_same": False,
-
         }
         render_values.update(self._get_country_related_render_values(kw, render_values))
         return request.render("website_sale.address", render_values)
