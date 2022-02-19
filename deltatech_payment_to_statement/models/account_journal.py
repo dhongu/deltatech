@@ -15,6 +15,7 @@ class AccountJournal(models.Model):
     journal_sequence_id = fields.Many2one("ir.sequence", string="Sequence", copy=False)
     cash_in_sequence_id = fields.Many2one("ir.sequence", string="Sequence for cash in")
     cash_out_sequence_id = fields.Many2one("ir.sequence", string="Sequence for cash out")
+    supplier_cash_out_sequence_id = fields.Many2one("ir.sequence", string="Sequence for supplier cash out")
 
     def get_journal_dashboard_datas(self):
         currency = self.currency_id or self.company_id.currency_id
