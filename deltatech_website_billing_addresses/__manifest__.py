@@ -5,12 +5,12 @@
     "name": "Website Billing Addresses",
     "category": "Website/Website",
     "summary": "ebsite Billing Addresses",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
-    "data": ["views/templates.xml"],
+    "data": ["views/templates.xml", "views/res_partner_view.xml", "security/base_security.xml"],
     "images": ["static/description/main_screenshot.png"],
     "assets": {
         "web.assets_frontend": [

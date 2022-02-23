@@ -109,6 +109,7 @@
     </template>
 
 
+<!--
     <template id="address_b2b" inherit_id="website_sale.address_b2b">
 
         <xpath expr="//t[@t-set='vat_warning']" position="after">
@@ -127,6 +128,7 @@
             <div class="w-100" />
         </xpath>
     </template>
+-->
 
 
 </odoo>
