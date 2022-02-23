@@ -9,4 +9,6 @@ from odoo import fields, models
 class ProductPricelistItem(models.Model):
     _inherit = "product.pricelist.item"
 
-    base = fields.Selection(selection_add=[("last_purchase_price", "Last Purchase Price")])
+    base = fields.Selection(
+        selection_add=[("last_purchase_price", "Last Purchase Price")], ondelete={"last_purchase_price": "set default"}
+    )

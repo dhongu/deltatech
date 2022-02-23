@@ -1,7 +1,13 @@
 Features:
  - Update purchase price after receipt
  - If the product has average cost, the cost will be overwritten (if parameter set to True)
-
+ - Depends on system parameters:
+    - *purchase.update_product_price* - if set to False, the product price will not be modified, if set to True, the
+      product price will be allways overwritten
+    - *purchase.add_supplier_to_product* - if set to True, the supplier and the price will be automatically added to the
+      supplier info of the product, if set to False, no modifications will be made in the supplier info of the product
+    - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
+      If set to False, the list price will not be updated
  - New fields added in product template:
     - last_purchase_price - last purchase price. It's updated at receipt validation
     - trade_markup - trade parkup for the product. It can be updated with a wizard (Action->Set trade markup)

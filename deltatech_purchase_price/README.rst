@@ -7,19 +7,28 @@ Purchase Price
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+    :target: https://odoo-community.org/page/development-status
+    :alt: Beta
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
-.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/12.0/deltatech_purchase_price
     :alt: dhongu/deltatech
 
-|badge1| |badge2| 
+|badge1| |badge2| |badge3| 
 
 Features:
  - Update purchase price after receipt
  - If the product has average cost, the cost will be overwritten (if parameter set to True)
-
+ - Depends on system parameters:
+    - *purchase.update_product_price* - if set to False, the product price will not be modified, if set to True, the
+      product price will be allways overwritten
+    - *purchase.add_supplier_to_product* - if set to True, the supplier and the price will be automatically added to the
+      supplier info of the product, if set to False, no modifications will be made in the supplier info of the product
+    - *purchase.update_list_price* - if set to True, the list price will be updated according to trade markup value.
+      If set to False, the list price will not be updated
  - New fields added in product template:
     - last_purchase_price - last purchase price. It's updated at receipt validation
     - trade_markup - trade parkup for the product. It can be updated with a wizard (Action->Set trade markup)

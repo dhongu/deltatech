@@ -15,39 +15,30 @@ class StockMove(models.Model):
         if self.purchase_line_id:
             get_param = self.env["ir.config_parameter"].sudo().get_param
 
-            update_supplier_price = safe_eval(get_param("purchase.update_supplier_price", default="True"))
+            update_product_price = safe_eval(get_param("purchase.update_product_price", default="True"))
 
-            update_standard_price = safe_eval(get_param("purchase.update_product_standard_price", default="False"))
+            # este neidicat de a se forta actualizarea pretului standard
+            update_standard_price = safe_eval(get_param("purchase.update_standard_price", default="False"))
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             self.product_id.write({"last_purchase_price": price_unit})
-            self.product_id.onchange_last_purchase_price()
-            if update_standard_price:
-                product_template = self.product_id.product_tmpl_id
-                msg_body = "Update purchase price from PO %s:\nOld price: %s -> New price: %s" % (
-                    self.purchase_line_id.order_id.name,
-                    product_template.standard_price,
-                    self.price_unit,
-                )
-                product_template.message_post(body=msg_body)
-                self.product_id.write({"standard_price": price_unit})
-
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
+            # from_currency = self.purchase_line_id.order_id.currency_id or self.env.user.company_id.currency_id
+
             for seller in self.product_id.seller_ids:
                 if seller.name == self.purchase_line_id.order_id.partner_id:
-                    if seller.min_qty <= 1.0 and seller.date_start is False and seller.date_end is False:
-                        if seller.currency_id:
-                            if seller.currency_id == self.purchase_line_id.order_id.currency_id:
-                                seller_price_unit = self.purchase_line_id.price_unit
-                            else:
-                                seller_price_unit = self.env.user.company_id.currency_id.compute(
-                                    price_unit, seller.currency_id
-                                )
-                        else:
-                            seller_price_unit = price_unit
-                        if update_supplier_price:
+                    if seller.min_qty == 0.0 and seller.date_start is False and seller.date_end is False:
+                        # conversia ar trebui deja sa fie facuta de _get_stock_move_price_unit()
+                        # to_currency = seller.currency_id or self.env.user.company_id.currency_id
+                        # seller_price_unit = from_currency.compute(price_unit, to_currency)
+                        seller_price_unit = price_unit
+                        if update_product_price:
                             seller.write({"price": seller_price_unit})
+
+            # pretul standard se actualizeaza prin rutinele standard. Aici este o fortare pe ultimul pret
+            if update_standard_price:
+                self.product_id.write({"standard_price": price_unit})
 
             return price_unit
 
