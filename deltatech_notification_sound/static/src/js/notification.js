@@ -1,6 +1,7 @@
 odoo.define("deltatech_notification_sound.Notification", function (require) {
     "use strict";
 
+
     // Var Notification = require("web.Notification");
     const AbstractWebClient = require("web.AbstractWebClient");
 
