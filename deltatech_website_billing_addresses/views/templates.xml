@@ -116,11 +116,16 @@
 
             <div t-attf-class="form-group col-lg-6 mb-0">
 
-                <input type="checkbox" id="is_company" name="is_company" t-att-checked="'is_company' in checkout and checkout['is_company']" />
+                <input
+                    type="checkbox"
+                    id="is_company"
+                    name="is_company"
+                    t-att-checked="'is_company' in checkout and checkout['is_company']"
+                />
                 <label class="label-optional" for="is_company">Is Company</label>
 
             </div>
-            <div class="w-100"/>
+            <div class="w-100" />
         </xpath>
     </template>
 -->

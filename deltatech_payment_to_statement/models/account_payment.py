@@ -47,6 +47,14 @@ class AccountPayment(models.Model):
                     payment.name = payment.journal_id.cash_in_sequence_id.next_by_id()
                 if payment.journal_id.cash_out_sequence_id and payment.payment_type == "outbound":
                     payment.name = payment.journal_id.cash_out_sequence_id.next_by_id()
+            # if cash to supplier
+            if (
+                payment.partner_type == "supplier"
+                and payment.payment_type == "outbound"
+                and payment.journal_id.type == "cash"
+            ):
+                if payment.journal_id.supplier_cash_out_sequence_id:
+                    payment.name = payment.journal_id.supplier_cash_out_sequence_id.next_by_id()
 
     def get_reconciled_statement_line(self):
         for payment in self:

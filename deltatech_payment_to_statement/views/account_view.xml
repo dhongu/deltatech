@@ -9,6 +9,7 @@
                 <xpath expr="//field[@name='refund_sequence']" position="before">
                     <field name="journal_sequence_id" />
                     <field name="statement_sequence_id" />
+                    <field name="supplier_cash_out_sequence_id" />
                     <field name="auto_statement" />
                     <field name="cash_in_sequence_id" />
                     <field name="cash_out_sequence_id" />

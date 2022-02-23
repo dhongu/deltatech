@@ -43,6 +43,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if mode == ("new", "invoice"):
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
+ 
         if values.get("vat", False):
             domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
             parent = request.env["res.partner"].sudo().search(domain)
@@ -72,8 +73,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if redirection:
             return redirection
 
-        mode = (False, False)
-        can_edit_vat = False
+        # mode = (False, False)
+        # can_edit_vat = False
         values, errors = {}, {}
 
         partner_id = int(kw.get("partner_id", -1))
@@ -81,13 +82,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         # IF PUBLIC ORDER
         if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
             mode = ("new", "billing")
-            can_edit_vat = True
+            # can_edit_vat = True
         # IF ORDER LINKED TO A PARTNER
         else:
             if partner_id > 0:
                 mode = ("edit", "billing")
-                if partner_id == order.partner_invoice_id.id:
-                    can_edit_vat = order.partner_invoice_id.can_edit_vat()
+                # if partner_id == order.partner_invoice_id.id:
+                #     can_edit_vat = order.partner_invoice_id.can_edit_vat()
                 if mode and partner_id != -1:
                     values = Partner.browse(partner_id)
 
