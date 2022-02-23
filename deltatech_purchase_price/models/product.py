@@ -82,12 +82,14 @@ class SupplierInfo(models.Model):
                 item.product_tmpl_id.last_purchase_price = price
                 item.product_tmpl_id.onchange_last_purchase_price()
 
+    @api.multi
     def write(self, vals):
         res = super(SupplierInfo, self).write(vals)
         if "price" in vals:
             self.update_last_purchase_price()
         return res
 
+    @api.model_create_multi
     def create(self, vals_list):
         res = super(SupplierInfo, self).create(vals_list)
         res.update_last_purchase_price()

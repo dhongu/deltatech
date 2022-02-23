@@ -8,7 +8,7 @@ from odoo import fields, models
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    trade_markup = fields.Float(string="Trade Markup", tracking=True)
+    trade_markup = fields.Float(string="Trade Markup", track_visibility="always")
 
     def set_inverse_trade_markup(self):
         pass
