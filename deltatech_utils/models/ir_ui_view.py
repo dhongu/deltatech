@@ -9,7 +9,7 @@ class View(models.Model):
 
     def unlink(self):
         for view in self:
-            if view.website_id:
+            if view.exists().website_id:
                 view.inherit_children_ids.unlink()
 
         super(View, self.exists()).unlink()
