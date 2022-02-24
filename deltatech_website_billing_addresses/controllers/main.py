@@ -73,7 +73,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             return redirection
 
         # mode = (False, False)
-        # can_edit_vat = False
+        can_edit_vat = False
         values, errors = {}, {}
 
         partner_id = int(kw.get("partner_id", -1))
