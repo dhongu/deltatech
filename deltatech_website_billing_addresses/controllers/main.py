@@ -40,7 +40,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         )
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ("new", "invoice"):
+        if mode == ("new", "billing"):
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
             if values.get("vat", False):
@@ -92,7 +92,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                     values = Partner.browse(partner_id)
 
             elif partner_id == -1:
-                mode = ("new", "invoice")
+                mode = ("new", "billing")
                 can_edit_vat = True
             else:  # no mode - refresh without post?
                 return request.redirect("/shop/checkout")
