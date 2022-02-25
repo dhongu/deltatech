@@ -4,7 +4,7 @@
 
 from odoo import http
 from odoo.http import request
-
+from odoo.osv import expression
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
@@ -15,16 +15,23 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         billings_addresses = []
         if order.partner_id != request.website.user_id.sudo().partner_id:
             Partner = order.partner_id.with_context(show_address=1).sudo()
-            billings_addresses = Partner.search(
-                [
-                    "|",
-                    ("access_for_user_id", "=", request.env.user.id),
-                    ("id", "child_of", order.partner_id.commercial_partner_id.ids),
-                    ("type", "in", ["invoice"]),
-                    # ("id", "=", order.partner_id.commercial_partner_id.id),
-                ],
-                order="id desc",
-            )
+
+
+
+            domain = [("access_for_user_id", "=", request.env.user.id)]
+            domain = expression.OR([domain, [("id", "child_of", order.partner_id.commercial_partner_id.ids)]])
+            domain = expression.AND([domain, [("type", "in", ["invoice"])]])
+            domain = expression.OR([domain, [("id", "in", [order.partner_invoice_id.id,order.partner_id.id])]])
+
+            # domain = [
+            #         "|",
+            #         ("access_for_user_id", "=", request.env.user.id),
+            #         ("id", "child_of", order.partner_id.commercial_partner_id.ids),
+            #         ("type", "in", ["invoice"]),
+            #         # ("id", "=", order.partner_id.commercial_partner_id.id),
+            #     ]
+
+            billings_addresses = Partner.search(domain, order="id desc")
             if billings_addresses:
                 if kw.get("partner_id") or kw.get("type") == "invoice":
                     partner_id = int(kw.get("partner_id"))

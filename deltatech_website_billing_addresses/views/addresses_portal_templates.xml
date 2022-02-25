@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <template id="portal_my_home_shipping_addresses" name="Show shipping Addresses" customize_show="True
+                                                    " inherit_id="portal.portal_my_home" priority="70">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Shipping Addresses</t>
+                <t t-set="url" t-value="'/my/shipping_addresses'" />
+                <t t-set="placeholder_count" t-value="'shipping_addresses_count'" />
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="shipping_addresses_portal_my_requests" name="My Shipping Addresses">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Shipping Addresses</t>
+            </t>
+            <div t-if="not shipping_addresses" class="alert alert-warning mt8" role="alert">
+                There are no shipping addresses request.
+            </div>
+            <t t-if="shipping_addresses" t-call="portal.portal_table">
+                <thead>
+                    <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                        <th>Name</th>
+                        <th>Street</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="shipping_addresses" t-as="shipping_address">
+                        <tr>
+                            <td>
+
+                                <a t-attf-href="/shop/address?partner_id=#{shipping_address.id}">
+                                    <t t-esc="shipping_address.name or 'None'" />
+                                </a>
+                            </td>
+                            <td>
+                                 <t t-esc="shipping_address.street" />
+                            </td>
+                             <td>
+                                 <t t-esc="shipping_address.city" />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+
+            </t>
+        </t>
+    </template>
+
+
+
+    <template id="portal_my_home_billing_addresses" name="Show Billing Addresses" customize_show="True
+                                                    " inherit_id="portal.portal_my_home" priority="60">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Billing Addresses</t>
+                <t t-set="url" t-value="'/my/billing_addresses'" />
+                <t t-set="placeholder_count" t-value="'billing_addresses_count'" />
+            </t>
+        </xpath>
+    </template>
+
+
+    <template id="billing_addresses_portal_my_requests" name="My Billing Addresses">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Billing Addresses</t>
+            </t>
+            <div t-if="not billing_addresses" class="alert alert-warning mt8" role="alert">
+                There are no billing addresses request.
+            </div>
+            <t t-if="billing_addresses" t-call="portal.portal_table">
+                <thead>
+                    <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                        <th>Name</th>
+                        <th>Street</th>
+                         <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="billing_addresses" t-as="billing_address">
+                        <tr>
+                            <td>
+
+                                <a t-attf-href="/shop/billing_address?partner_id=#{billing_address.id}">
+                                    <t t-esc="billing_address.name" />
+                                </a>
+                            </td>
+                            <td>
+                                 <t t-esc="billing_address.street" />
+                            </td>
+                             <td>
+                                 <t t-esc="billing_address.city" />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

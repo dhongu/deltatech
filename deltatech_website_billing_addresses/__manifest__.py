@@ -10,7 +10,11 @@
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale"],
-    "data": ["views/templates.xml", "views/res_partner_view.xml", "security/base_security.xml"],
+    "data": [
+        "views/templates.xml",
+        "views/addresses_portal_templates.xml",
+        "views/res_partner_view.xml", "security/base_security.xml"
+    ],
     "images": ["static/description/main_screenshot.png"],
     "assets": {
         "web.assets_frontend": [
