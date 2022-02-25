@@ -53,8 +53,14 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             if values.get("vat", False):
                 domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
                 parent = request.env["res.partner"].sudo().search(domain)
-                if parent:
-                    new_values["parent_id"] = parent.id
+                if not parent:
+                    parent =  request.env["res.partner"].sudo().with_context(tracking_disable=True).create({
+                        'name': values['company_name'],
+                        'vat': values["vat"]
+                    })
+                new_values["parent_id"] = parent.id
+
+
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = values.get("is_company", False) == "on"

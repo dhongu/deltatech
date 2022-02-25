@@ -104,7 +104,7 @@
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />
         </input>
-        <xpath expr="//div[@id='div_phone']" position="after">
+<!--        <xpath expr="//div[@id='div_phone']" position="after">
             <t t-if="mode == ('edit', 'billing')">
                 <div t-attf-class="form-group #{error.get('company_name') and 'o_has_error' or ''} col-lg-6 mb-0">
                     <label
@@ -143,8 +143,7 @@
                     >Changing company name or VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
                 </div>
             </t>
-        </xpath>
-
+        </xpath>-->
     </template>
 
 
