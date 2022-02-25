@@ -1,0 +1,88 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_delivery_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-22 06:02+0000\n"
+"PO-Revision-Date: 2020-12-22 06:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__delivered
+msgid "Delivered"
+msgstr "Livrat"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_transit
+msgid "In Transit"
+msgstr "În tranzit"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_warehouse
+msgid "In Warehouse"
+msgstr "În depozit"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__in_delivery
+msgid "In delivery"
+msgstr "În livrare"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Postpone delivery"
+msgstr "Amână livrarea"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__postponed
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_picking_form
+msgid "Postponed"
+msgstr "Amânată"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_sale_order__postponed_delivery
+msgid "Postponed delivery"
+msgstr "Livrare amânată"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields.selection,name:deltatech_delivery_status.selection__stock_picking__delivery_state__pre_advice
+msgid "Pre advice"
+msgstr "Avizat"
+
+#. module: deltatech_delivery_status
+#: model_terms:ir.ui.view,arch_db:deltatech_delivery_status.view_order_form
+msgid "Release delivery"
+msgstr "Eliberează livrarea"
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_delivery_status
+#: model:ir.model.fields,field_description:deltatech_delivery_status.field_stock_picking__delivery_state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_delivery_status
+#: code:addons/deltatech_delivery_status/models/stock_picking.py:0
+#, python-format
+msgid "The transfer %s is postponed"
+msgstr "Transferul %s este amânat"
+
+#. module: deltatech_delivery_status
+#: model:ir.model,name:deltatech_delivery_status.model_stock_picking
+msgid "Transfer"
+msgstr "Transfer"
