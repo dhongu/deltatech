@@ -5,6 +5,7 @@
 from odoo import http
 from odoo.http import request
 from odoo.osv import expression
+
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
@@ -16,12 +17,10 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if order.partner_id != request.website.user_id.sudo().partner_id:
             Partner = order.partner_id.with_context(show_address=1).sudo()
 
-
-
             domain = [("access_for_user_id", "=", request.env.user.id)]
             domain = expression.OR([domain, [("id", "child_of", order.partner_id.commercial_partner_id.ids)]])
             domain = expression.AND([domain, [("type", "in", ["invoice"])]])
-            domain = expression.OR([domain, [("id", "in", [order.partner_invoice_id.id,order.partner_id.id])]])
+            domain = expression.OR([domain, [("id", "in", [order.partner_invoice_id.id, order.partner_id.id])]])
 
             # domain = [
             #         "|",
@@ -54,13 +53,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
                 parent = request.env["res.partner"].sudo().search(domain)
                 if not parent:
-                    parent =  request.env["res.partner"].sudo().with_context(tracking_disable=True).create({
-                        'name': values['company_name'],
-                        'vat': values["vat"]
-                    })
+                    parent = (
+                        request.env["res.partner"]
+                        .sudo()
+                        .with_context(tracking_disable=True)
+                        .create({"name": values["company_name"], "vat": values["vat"]})
+                    )
                 new_values["parent_id"] = parent.id
-
-
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = values.get("is_company", False) == "on"

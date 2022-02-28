@@ -13,7 +13,8 @@
     "data": [
         "views/templates.xml",
         "views/addresses_portal_templates.xml",
-        "views/res_partner_view.xml", "security/base_security.xml"
+        "views/res_partner_view.xml",
+        "security/base_security.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "assets": {

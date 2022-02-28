@@ -4,6 +4,7 @@
 
 from odoo import models
 
+
 class View(models.Model):
     _inherit = "ir.ui.view"
 
