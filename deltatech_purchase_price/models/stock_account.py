@@ -24,15 +24,15 @@ class StockMove(models.Model):
             self.product_id.write({"last_purchase_price": price_unit})
             self.write({"price_unit": price_unit})  # mai trebuie sa pun o conditie de status ?
             # update price form last receipt
-            # from_currency = self.purchase_line_id.order_id.currency_id or self.env.user.company_id.currency_id
+            from_currency = self.env.user.company_id.currency_id
 
             for seller in self.product_id.seller_ids:
                 if seller.name == self.purchase_line_id.order_id.partner_id:
                     if seller.min_qty == 0.0 and seller.date_start is False and seller.date_end is False:
                         # conversia ar trebui deja sa fie facuta de _get_stock_move_price_unit()
-                        # to_currency = seller.currency_id or self.env.user.company_id.currency_id
-                        # seller_price_unit = from_currency.compute(price_unit, to_currency)
-                        seller_price_unit = price_unit
+                        to_currency = seller.currency_id or self.env.user.company_id.currency_id
+                        seller_price_unit = from_currency.compute(price_unit, to_currency)
+                        # seller_price_unit = price_unit
                         if update_product_price:
                             seller.write({"price": seller_price_unit})
 
