@@ -90,8 +90,7 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <filter name="date" string="Date" date="date" />
-
+                <filter name="date" date="date" default_period="last_month" />
 
                 <separator />
                 <filter string="My Sales" name="mysale" domain="[('user_id','=',uid)]" />
@@ -129,7 +128,7 @@
                         groups="base.group_multi_company"
                         context="{'group_by':'company_id'}"
                     />
-                    <filter string="Date" name='date' context="{'group_by':'date:month'}" />
+                    <filter string="Date" name='group_by_date' context="{'group_by':'date:month'}" />
 
                 </group>
             </search>
@@ -142,35 +141,38 @@
         <field name="res_model">sale.margin.report</field>
 
         <field name="view_mode">tree,pivot</field>
+        <field name="view_id" ref="view_sale_margin_report_tree" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
-        <field name="context">{'search_default_product':1, 'group_by':['user_id']}</field>
+        <field
+            name="context"
+        >{"search_default_date":1, 'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}</field>
     </record>
 
-<!--    <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">-->
-<!--        <field name="sequence" eval="1" />-->
-<!--        <field name="view_mode">pivot</field>-->
-<!--        <field name="view_id" ref="view_sale_margin_report_pivot" />-->
-<!--        <field name="act_window_id" ref="action_sale_margin_report" />-->
-<!--    </record>-->
+    <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_sale_margin_report_pivot" />
+        <field name="act_window_id" ref="action_sale_margin_report" />
+    </record>
 
-<!--    <record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">-->
-<!--        <field name="sequence" eval="2" />-->
-<!--        <field name="view_mode">tree</field>-->
-<!--        <field name="view_id" ref="view_sale_margin_report_tree" />-->
-<!--        <field name="act_window_id" ref="action_sale_margin_report" />-->
-<!--    </record>-->
+    <record model="ir.actions.act_window.view" id="action_sale_margin_report_tree">
+        <field name="sequence" eval="2" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_sale_margin_report_tree" />
+        <field name="act_window_id" ref="action_sale_margin_report" />
+    </record>
 
     <menuitem action="action_sale_margin_report" id="menu_sale_margin_report_tree" parent="sale.menu_sale_report" />
 
     <record id="action_sale_margin_commission_report" model="ir.actions.act_window">
-        <field name="name">Sale Commission</field>
+        <field name="name">Commission</field>
         <field name="res_model">sale.margin.report</field>
 
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_sale_margin_report_commission_tree" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
-        <field name="context">{'search_default_paid':1}</field>
+        <field name="context">{"search_default_date":1, 'search_default_paid':1}</field>
         <field name="domain">[('type','in',['out_invoice','out_refund'])]</field>
     </record>
 

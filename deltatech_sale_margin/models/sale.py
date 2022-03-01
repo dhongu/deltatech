@@ -4,6 +4,7 @@
 
 from odoo import _, api, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class SaleOrderLine(models.Model):
@@ -51,8 +52,15 @@ class SaleOrderLine(models.Model):
 
     @api.constrains("price_unit", "purchase_price")
     def _check_sale_price(self):
+        if self.env.context.get("ignore_price_check", False):
+            return True
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
+
         for line in self:
             if line.display_type or line.product_type == "service":
+                continue
+            if line.product_uom_qty < 0:
                 continue
             if line.is_delivery:
                 continue
@@ -61,11 +69,20 @@ class SaleOrderLine(models.Model):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
-                    self.order_id.message_post(body=message)
-            price_unit = self.get_price_unit_w_taxes()
-            if price_unit and price_unit < line.purchase_price:
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(_("You can not sell below the purchase price."))
-                else:
-                    message = _("Sale %s under the purchase price.") % line.product_id.name
-                    self.order_id.message_post(body=message)
+                    line.order_id.message_post(body=message)
+            price_unit = line.get_price_unit_w_taxes()
+            if price_unit:
+                if price_unit < line.purchase_price:
+                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                        raise UserError(_("You can not sell below the purchase price."))
+                    else:
+                        message = _("Sale %s under the purchase price.") % line.product_id.name
+                        line.order_id.message_post(body=message)
+
+                margin = (price_unit - line.purchase_price) / price_unit * 100
+                if margin < margin_limit:
+                    if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_margin"):
+                        raise UserError(_("You can not sell below margin: %s") % line.product_id.name)
+                    else:
+                        message = _("Sale %s below margin.") % line.product_id.name
+                        line.order_id.message_post(body=message)

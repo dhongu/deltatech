@@ -17,10 +17,19 @@ class SaleMarginReport(models.Model):
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
     # 'purchase_price = fields.float('Purchase price', readonly=True )
-    sale_val = fields.Monetary("Sale value", readonly=True, help="Sale value in company currency")
+    sale_val = fields.Monetary(
+        "Sale value", readonly=True, help="Sale value in company currency", currency_field="company_currency_id"
+    )
 
-    stock_val = fields.Monetary("Stock value", readonly=True, help="Stock value in company currency")
-    profit_val = fields.Monetary("Profit", readonly=True, help="Profit obtained at invoicing in company currency")
+    stock_val = fields.Monetary(
+        "Stock value", readonly=True, help="Stock value in company currency", currency_field="company_currency_id"
+    )
+    profit_val = fields.Monetary(
+        "Profit",
+        readonly=True,
+        help="Profit obtained at invoicing in company currency",
+        currency_field="company_currency_id",
+    )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
     commission = fields.Float("Commission")
@@ -28,14 +37,15 @@ class SaleMarginReport(models.Model):
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
     user_id = fields.Many2one("res.users", "Salesperson")
     manager_user_id = fields.Many2one("res.users", "Sale manager", readonly=True)
+    state_id = fields.Many2one("res.country.state", "Region", readonly=True)
     account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
-
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
     indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
     indicator_profit = fields.Float("Profit Indicator", readonly=True, digits=(12, 2), group_operator="avg")
 
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
+    company_currency_id = fields.Many2one("res.currency", "Currency", readonly=True, related="company_id.currency_id")
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
     currency_rate = fields.Float("Currency Rate", readonly=True)
 
@@ -64,22 +74,21 @@ class SaleMarginReport(models.Model):
                 CASE
                      WHEN (stock_val ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val    - stock_val ) / abs(stock_val)
+                      ELSE  100 * (sale_val    - stock_val ) / stock_val
                 END  AS indicator_supplement,
 
                 CASE
                      WHEN (sale_val  ) = 0
                       THEN 0
-                      ELSE  100 * (sale_val   - stock_val ) / abs(sale_val  )
+                      ELSE  100 * (sale_val   - stock_val ) / (sale_val  )
                 END  AS indicator_profit,
 
 
                 sub.rate * (sale_val  - stock_val ) as commission_computed,
                 sub.manager_rate * (sale_val    - stock_val )  as commission_manager_computed,
                 commission,
-                partner_id, commercial_partner_id, user_id, manager_user_id,     sub.company_id,
+                partner_id, commercial_partner_id, state_id, user_id, manager_user_id,     sub.company_id,
                 type,  state ,  journal_id,
-                cr.rate as currency_rate,
                  sub.currency_id
         """
         return select_str
@@ -103,12 +112,9 @@ class SaleMarginReport(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
-                    SUM(CASE
-                     WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
-                      'in_invoice'::character varying::text])
-                        THEN -l.price_subtotal
-                        ELSE  l.price_subtotal
-                    END)  AS sale_val,
+
+                    SUM(-l.balance) AS sale_val,
+
 
                     SUM(CASE
                      WHEN s.type::text = ANY (ARRAY['out_refund'::character varying::text,
@@ -122,7 +128,7 @@ class SaleMarginReport(models.Model):
                     cu.rate, cu.manager_rate, cu.manager_user_id,
 
                     s.partner_id as partner_id,
-                    s.commercial_partner_id as commercial_partner_id,
+                    s.commercial_partner_id as commercial_partner_id, res_partner.state_id,
 
 
                     s.company_id as company_id,
@@ -144,6 +150,7 @@ class SaleMarginReport(models.Model):
                     left join account_move_line l on (s.id=l.move_id)
                         left join product_product p on (l.product_id=p.id)
                             left join product_template t on (p.product_tmpl_id=t.id)
+                    left join res_partner on (res_partner.id=s.partner_id)
                     left join uom_uom u on (u.id=l.product_uom_id)
                     left join uom_uom u2 on (u2.id=t.uom_id)
 
@@ -174,6 +181,7 @@ class SaleMarginReport(models.Model):
                     t.categ_id,
                     s.invoice_date,
                     s.partner_id,
+                    res_partner.state_id,
                     s.commercial_partner_id,
 
                     cu.rate,
@@ -209,11 +217,6 @@ class SaleMarginReport(models.Model):
                 WHERE %s
                 GROUP BY %s
             ) AS sub
-            LEFT JOIN currency_rate cr ON
-                (cr.currency_id = sub.currency_id AND
-                 cr.company_id = sub.company_id AND
-                 cr.date_start <= COALESCE(sub.date, NOW()) AND
-                 (cr.date_end IS NULL OR cr.date_end > COALESCE(sub.date, NOW())))
         )"""
             % (
                 self._table,

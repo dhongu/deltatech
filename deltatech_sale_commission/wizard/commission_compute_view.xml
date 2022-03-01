@@ -26,7 +26,7 @@
             </field>
         </record>
 
-
+<!--
         <act_window
             id="action_commission_compute"
             name="Compute Commission"
@@ -35,8 +35,27 @@
             binding_views="list"
             view_mode="form"
             target="new"
-        />
+        />-->
 
+        <record id="action_commission_compute" model="ir.actions.act_window">
+        <field name="name">Compute Commission</field>
+        <field name="res_model">commission.compute</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_sale_margin_report" />
+        <field name="binding_view_types">list</field>
+    </record>
+
+        <!--
+
+          <menuitem
+                    name="Compute Commission"
+                    id="menu_commission_compute"
+                    action="action_commission_compute"
+                    parent="menu_commission"
+                    groups="sales_team.group_sale_manager"
+                />
+        -->
 
 
     </data>
