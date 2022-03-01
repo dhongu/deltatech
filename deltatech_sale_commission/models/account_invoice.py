@@ -68,8 +68,8 @@ class AccountInvoiceLine(models.Model):
                 purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
                 purchase_price = frm_cur.with_context(date=invoice_date).compute(purchase_price, to_cur, round=False)
-            if invoice_line.move_id.type == "out_refund":
-                purchase_price = -1 * purchase_price
+            # if invoice_line.move_id.move_type == "out_refund":
+            #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
     @api.constrains("price_unit", "purchase_price")

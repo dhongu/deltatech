@@ -7,6 +7,7 @@ class ResConfigSettings(models.TransientModel):
     sale_user_detail = fields.Selection(
         [("invoice", "Invoice"), ("sale", "Sale order")],
         config_parameter="sale_commission.sale_user_detail",
+        default="invoice",
         readonly=False,
     )
 
