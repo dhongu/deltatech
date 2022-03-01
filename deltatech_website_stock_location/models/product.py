@@ -20,8 +20,6 @@ class ProductTemplate(models.Model):
 
         website = self.env["website"].get_current_website()
         location = website.sudo().location_id
-        if location:
-            self = self.with_context(location=location.id)
 
         combination_info = super(ProductTemplate, self)._get_combination_info(
             combination=combination,
@@ -34,5 +32,16 @@ class ProductTemplate(models.Model):
 
         if not self.env.context.get("website_sale_stock_get_quantity"):
             return combination_info
+        if combination_info["product_id"]:
+            product = self.env["product.product"].sudo().browse(combination_info["product_id"])
+            free_qty = product.with_context(location=location.id).free_qty
+            combination_info.update(
+                {
+                    "virtual_available": free_qty,
+                    "virtual_available_formatted": self.env["ir.qweb.field.float"].value_to_html(
+                        free_qty, {"precision": 0}
+                    ),
+                }
+            )
 
         return combination_info
