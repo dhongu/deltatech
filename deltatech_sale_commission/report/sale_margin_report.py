@@ -47,7 +47,6 @@ class SaleMarginReport(models.Model):
     journal_id = fields.Many2one("account.journal", "Journal", readonly=True)
     company_currency_id = fields.Many2one("res.currency", "Currency", readonly=True, related="company_id.currency_id")
     currency_id = fields.Many2one("res.currency", "Currency", readonly=True)
-    currency_rate = fields.Float("Currency Rate", readonly=True)
 
     move_type = fields.Selection(
         [
