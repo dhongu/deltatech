@@ -10,6 +10,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
+
     def checkout_values(self, **kw):
         values = super(WebsiteSaleBillingAddresses, self).checkout_values(**kw)
         order = request.website.sale_get_order(force_create=1)
@@ -18,17 +19,10 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             Partner = order.partner_id.with_context(show_address=1).sudo()
 
             domain = [("access_for_user_id", "=", request.env.user.id)]
+            domain = expression.OR([domain, [("user_id", "=", request.env.user.id)]])
             domain = expression.OR([domain, [("id", "child_of", order.partner_id.commercial_partner_id.ids)]])
             domain = expression.AND([domain, [("type", "in", ["invoice"])]])
             domain = expression.OR([domain, [("id", "in", [order.partner_invoice_id.id, order.partner_id.id])]])
-
-            # domain = [
-            #         "|",
-            #         ("access_for_user_id", "=", request.env.user.id),
-            #         ("id", "child_of", order.partner_id.commercial_partner_id.ids),
-            #         ("type", "in", ["invoice"]),
-            #         # ("id", "=", order.partner_id.commercial_partner_id.id),
-            #     ]
 
             billings_addresses = Partner.search(domain, order="id desc")
             if billings_addresses:
@@ -46,7 +40,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         )
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ("new", "billing"):
+        if mode == ("new", "invoice"):
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
             if values.get("vat", False):
@@ -55,9 +49,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 if not parent:
                     parent = (
                         request.env["res.partner"]
-                        .sudo()
-                        .with_context(tracking_disable=True)
-                        .create({"name": values["company_name"], "vat": values["vat"]})
+                            .sudo()
+                            .with_context(tracking_disable=True)
+                            .create({"name": values["company_name"], "vat": values["vat"]})
                     )
                 new_values["parent_id"] = parent.id
 
@@ -137,9 +131,10 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             "can_edit_vat": can_edit_vat,
             "error": errors,
             "callback": kw.get("callback"),
-            "only_services": order and order.only_services,
+
             "type": "invoice",
             "use_same": False,
+            "only_services":True
         }
         render_values.update(self._get_country_related_render_values(kw, render_values))
         return request.render("website_sale.address", render_values)

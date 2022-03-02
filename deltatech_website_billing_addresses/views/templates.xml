@@ -104,6 +104,19 @@
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />
         </input>
+
+        <t t-if="mode == ('new', 'billing')" position="before">
+            <t t-if="mode[1] == 'billing'">
+                <h2 class="o_page_header mt8">Billing Address</h2>
+            </t>
+            <t t-set="mode_backup" t-value="mode"/>
+            <t t-set="mode" t-value="False"/>
+        </t>
+
+        <t t-if="mode == ('new', 'billing')" position="after">
+            <t t-set="mode" t-value="mode_backup"/>
+        </t>
+
 <!--        <xpath expr="//div[@id='div_phone']" position="after">
             <t t-if="mode == ('edit', 'billing')">
                 <div t-attf-class="form-group #{error.get('company_name') and 'o_has_error' or ''} col-lg-6 mb-0">
