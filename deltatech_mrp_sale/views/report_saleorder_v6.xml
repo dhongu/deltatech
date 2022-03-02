@@ -94,7 +94,7 @@
                             <div style="border-bottom: 1px solid #cadb34;"/>
                         </div>
                     </div>
-                    <p style="margin-bottom:-7px;margin-top:75px;font-size:1.3em;">
+                    <p style="margin-bottom:-7px;margin-top:10px;font-size:1.3em;">
                         <span>Casele Ecokit Prod sunt realizate cu lemn uscat , tratat si rindeluit. Proiectele sunt
                             realizate conform normelor de calcul EUROCODE 5. Ecokit Prod foloseste in proiectarea
                             structurilor sale programe specializate –CADWORK, RoofCoon- TrussCon, toate piesele metalice
@@ -122,7 +122,7 @@
                     </p>
                     <table class="table table-condensed">
                         <thead>
-                            <tr style="height:40px;"/>
+                            <tr style="height:1px;"/>
                             <tr>
                                 <th colspan="2"/>
                                 <th class="text-right"/>
@@ -280,8 +280,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <br/>
-                    <br/>
                     <table class="table table-condensed">
                         <thead>
                             <tr>
@@ -305,7 +303,7 @@
                                     <t t-set="with_qty" t-value="0"/>
                                 </td>
                             </tr>
-                            <tr style="height:36px;"/>
+                            <tr style="height:10px;"/>
                             <t t-foreach="o.article_ids" t-as="a">
                                 <t t-if="a.item_categ==&quot;optional&quot;">
                                     <t t-call="deltatech_mrp_sale.report_specification_article6"/>
