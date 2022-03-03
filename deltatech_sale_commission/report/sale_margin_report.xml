@@ -31,6 +31,40 @@
     </record>
 
 
+    <record id="view_sale_margin_report_commission_form" model="ir.ui.view">
+        <field name="name">sale.margin.report.commission.form</field>
+        <field name="model">sale.margin.report</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="product_id" />
+                            <field name="partner_id" invisible="1" />
+                            <field name="commercial_partner_id" />
+                        </group>
+                        <group>
+                            <field name="purchase_price" />
+                            <field name="user_id" />
+                        </group>
+                        <group>
+                            <field name="product_uom_qty" />
+                            <field name="sale_val" />
+                            <field name="stock_val" />
+                            <field name="profit_val" />
+                            <field name="currency_id" />
+                        </group>
+                        <group>
+                            <field name="commission_computed" />
+                            <field name="commission" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
     <record id="view_sale_margin_report_commission_tree" model="ir.ui.view">
         <field name="name">sale.margin.report.commission.tree</field>
         <field name="model">sale.margin.report</field>
@@ -48,6 +82,7 @@
                 <field name="period_id" />
                 -->
                 <field name="product_uom_qty" sum="Qty" />
+                <field name="purchase_price" optional="hide" />
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
                 <field name="profit_val" sum="Profit" />
@@ -144,9 +179,9 @@
         <field name="view_id" ref="view_sale_margin_report_tree" />
         <field name="search_view_id" ref="view_sale_margin_report_filter" />
         <field name="help">This report performs analysis on your invoices.</field>
-        <field
-            name="context"
-        >{"search_default_date":1, 'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}</field>
+        <field name="context">{"search_default_date":1,
+            'search_default_product':1,'group_by_no_leaf':1,'group_by':['user_id']}
+        </field>
     </record>
 
     <record model="ir.actions.act_window.view" id="action_sale_margin_report_pivot">
