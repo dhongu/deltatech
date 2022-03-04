@@ -39,13 +39,7 @@
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button
-                        name="button_new_code"
-                        string="New internal code"
-                        type="object"
-                        class="oe_edit_only"
-                        attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"
-                    />
+                    <button name="button_new_code" string="New internal code" type="object" class="oe_edit_only" />
                 </xpath>
             </field>
         </record>
