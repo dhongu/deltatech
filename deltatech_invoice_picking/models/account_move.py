@@ -14,7 +14,8 @@ class AccountMove(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        self.check_block_invoice(vals_list)
+        if ("picking_ids" in self.env.context) or ("receipt_picking_ids" in self.env.context):
+            self.check_block_invoice(vals_list)
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
             res.write({"from_pickings": True})
