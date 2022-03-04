@@ -9,7 +9,7 @@
     "summary": "Generare fisier",
     "website": "https://www.terrabit.ro",
     "category": "Base",
-    "depends": [],
+    "depends": ["web"],
     "license": "LGPL-3",
     "data": ["views/assets.xml", "views/ir_action_report_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],

@@ -10,10 +10,12 @@ from odoo.exceptions import UserError
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    from_pickings = fields.Boolean("Created from pickings", default=False)
+    from_pickings = fields.Boolean("Created from pickings", default=False, copy=False)
 
     @api.model_create_multi
     def create(self, vals_list):
+        if ("picking_ids" in self.env.context) or ("receipt_picking_ids" in self.env.context):
+            self.check_block_invoice(vals_list)
         res = super(AccountMove, self).create(vals_list)
         if "picking_ids" in self.env.context:
             res.write({"from_pickings": True})
@@ -53,6 +55,13 @@ class AccountMove(models.Model):
                 if line.quantity == 0.0:
                     line.with_context(unlink_all=True).unlink()
         return res
+
+    def check_block_invoice(self, vals_list):
+        for vals in vals_list:
+            if "partner_id" in vals:
+                partner = self.env["res.partner"].browse(vals["partner_id"])
+                if partner.invoice_warn == "block":
+                    raise UserError(partner.invoice_warn_msg)
 
     def update_pickings(self):
         for move in self:

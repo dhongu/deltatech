@@ -5,7 +5,7 @@
         <field name="name">notification</field>
         <field name="model">service.notification</field>
         <field name="arch" type="xml">
-            <tree string="Services notification" default_order='date DESC' sample="1">
+            <tree string="Services notification" default_order='date desc' sample="1">
                 <field name="name" decoration-bf="1" />
                 <field name="date" />
                 <field name="type" optional="hide" />
@@ -68,6 +68,12 @@
                             attrs="{'invisible': [('category','!=','required')]}"
                         />
                     </span>
+                    <button
+                        name="new_delivery_button"
+                        type="object"
+                        string="New Delivery"
+                        attrs="{'invisible': ['|', ('category','!=','delivery' ), ('piking_id','!=',False )]}"
+                    />
                     <button name="action_assign" type="object" string="Assign" class="oe_highlight" states="new" />
                     <button name="action_taking" type="object" string="Taking " states="new" />
                     <button name="action_start" type="object" string="Start" class="oe_highlight" states="assigned" />

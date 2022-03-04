@@ -87,9 +87,19 @@ class ServiceAgreement(models.Model):
                 if item.equipment_id:
                     equipments |= item.equipment_id
             for equipment in equipments:
+                if not equipment.meter_ids:
+                    continue
                 equipment._compute_readings_status()
                 if equipment.last_reading < limit_date:
                     self.meter_reading_status = False
+                    message = "Device {}/{} (serial:{}): no reads older than 7 days ".format(
+                        equipment.name,
+                        equipment.address_id.name,
+                        equipment.serial_id.name,
+                    )
+                    return {
+                        "warning": {"title": "Warning", "message": message, "type": "notification"},
+                    }
                     # self.error += "Echipament %s/%s (serial: %s): nu exista citiri mai noi de 7 zile | " %
                     # (equipment.name, equipment.address_id.name, equipment.serial_id.name)
 

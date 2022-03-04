@@ -41,7 +41,9 @@ class SaleAdvancePaymentInv(models.TransientModel):
         return defaults
 
     def create_invoices(self):
-        new_self = self.with_context(default_journal_id=self.journal_id.id)
+        new_self = self.with_context(
+            default_journal_id=self.journal_id.id, default_payment_term_id=self.payment_term_id.id
+        )
         return super(SaleAdvancePaymentInv, new_self).create_invoices()
 
     def _get_advance_details(self, order):

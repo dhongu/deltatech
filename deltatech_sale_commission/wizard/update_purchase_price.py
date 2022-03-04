@@ -49,7 +49,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
                 for sale_line in invoice_line.sale_line_ids:
                     pickings |= sale_line.order_id.picking_ids
 
-                # sont doar livrari ?
+                #  doar livrari ?
                 moves = self.env["stock.move"].search(
                     [("picking_id", "in", pickings.ids), ("product_id", "=", invoice_line.product_id.id)]
                 )

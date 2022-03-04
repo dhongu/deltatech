@@ -17,6 +17,9 @@ class SaleOrder(models.Model):
             to_currency = journal.currency_id
             if res.get("currency_id", False) != to_currency.id:
                 res["currency_id"] = journal.currency_id.id or self.env.user.company_id.currency_id.id
+        payment_term = self.env.context.get("default_payment_term_id", False)
+        if payment_term:
+            res["invoice_payment_term_id"] = payment_term
         return res
 
 

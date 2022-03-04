@@ -12,6 +12,7 @@ from psycopg2 import OperationalError
 from odoo import SUPERUSER_ID, _, api, exceptions, fields, models, tools
 from odoo.osv import expression
 from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
+from odoo.tools.safe_eval import safe_eval
 
 from ..exception import FailedJobError, NothingToDoJob, RetryableJobError
 from ..fields import JobSerialized
@@ -411,9 +412,14 @@ class QueueJob(models.Model):
     def _cron_runjob(self):
         run = True
         _logger.info("Start CRON job")
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        limit = safe_eval(get_param("queue_job.select_limit", "100"))
+
         while run:
-            records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=5)  # agatate
-            records |= self.search([("state", "=", PENDING)], order="date_created", limit=5)
+            records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=limit)  # agatate
+            limit = limit - len(records)
+            if limit > 0:
+                records |= self.search([("state", "=", PENDING)], order="date_created", limit=limit)
 
             if not records:
                 run = False

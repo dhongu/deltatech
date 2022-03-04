@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class StockMoveLine(models.Model):
@@ -17,9 +17,7 @@ class StockMoveLine(models.Model):
                 return self.env["ir.sequence"].next_by_code("stock.lot.serial")
         return False
 
-    lot_name = fields.Char(default=_default_lot_name)
-
-    @api.onchange("location_id")
+    @api.onchange("location_id", "lot_id")
     def onchange_location_id(self):
         domain = [("product_id", "=", self.product_id.id), ("company_id", "=", self.company_id.id)]
         if self.location_id and self.product_id.tracking != "none":

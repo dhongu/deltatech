@@ -624,7 +624,7 @@ msgstr "Nouă"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "New Delivery"
-msgstr "livrare nouă"
+msgstr "Livrare nouă"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_order_form

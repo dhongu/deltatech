@@ -80,8 +80,8 @@ class AccountInvoiceLine(models.Model):
                 purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
                 purchase_price = frm_cur.with_context(date=invoice_date).compute(purchase_price, to_cur, round=False)
-            if invoice_line.move_id.move_type == "out_refund":
-                purchase_price = -1 * purchase_price
+            # if invoice_line.move_id.move_type == "out_refund":
+            #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
     @api.constrains("price_unit", "purchase_price")
@@ -92,7 +92,7 @@ class AccountInvoiceLine(models.Model):
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 continue
             if invoice_line.move_id.move_type == "out_invoice":
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     date_eval = invoice_line.move_id.invoice_date or fields.Date.context_today(invoice_line)
                     if (
                         invoice_line.move_id.currency_id

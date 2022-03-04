@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <div name="pricing" position="after">
 
-                <label for="trade_markup" />
+         <!--       <label for="trade_markup" />
                 <div class="o_row">
                       <field name="trade_markup" />
                         <button
@@ -18,7 +18,7 @@
                         type="object"
                         class="oe_link oe_edit_only"
                     />
-                </div>
+                </div>-->
               <label for="margin" />
                 <div class="o_row">
                       <field name="margin" />
