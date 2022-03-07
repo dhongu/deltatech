@@ -12,3 +12,10 @@ class ProductTemplate(models.Model):
 
     def set_inverse_trade_markup(self):
         pass
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    def set_inverse_trade_markup(self):
+        pass
