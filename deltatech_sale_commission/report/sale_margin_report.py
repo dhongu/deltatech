@@ -16,7 +16,7 @@ class SaleMarginReport(models.Model):
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
-    # 'purchase_price = fields.float('Purchase price', readonly=True )
+    purchase_price = fields.Float("Purchase price", readonly=False)
     sale_val = fields.Monetary(
         "Sale value", readonly=True, help="Sale value in company currency", currency_field="company_currency_id"
     )
@@ -38,6 +38,7 @@ class SaleMarginReport(models.Model):
     user_id = fields.Many2one("res.users", "Salesperson")
     manager_user_id = fields.Many2one("res.users", "Sale manager", readonly=True)
     state_id = fields.Many2one("res.country.state", "Region", readonly=True)
+    account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
     # period_id = fields.Many2one('account.period', 'Period', readonly=True)
     indicator_supplement = fields.Float("Supplement Indicator", readonly=True, digits=(12, 2), group_operator="avg")
@@ -76,7 +77,8 @@ class SaleMarginReport(models.Model):
 
         select_str = """
             SELECT
-                id, date, invoice_id, categ_id, product_id, product_uom, product_uom_qty ,
+                id, date, invoice_id, categ_id, product_id,  account_id, product_uom, product_uom_qty ,
+                purchase_price,
                 sale_val ,
                 stock_val  as stock_val,
                 (sale_val  - stock_val ) as profit_val,
@@ -111,6 +113,7 @@ class SaleMarginReport(models.Model):
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
                     l.product_id as product_id,
+                    l.account_id as account_id,
                     t.uom_id as product_uom,
 
 
@@ -121,6 +124,7 @@ class SaleMarginReport(models.Model):
                         ELSE  (l.quantity / u.factor * u2.factor)
                     END) AS product_uom_qty,
 
+                    avg(purchase_price) as purchase_price,
 
                     SUM(-l.balance) AS sale_val,
 
@@ -170,6 +174,7 @@ class SaleMarginReport(models.Model):
     def _group_by(self):
         group_by_str = """
                     l.product_id,
+                    l.account_id,
                     l.move_id,
                     t.uom_id,
                     t.categ_id,
@@ -219,16 +224,16 @@ class SaleMarginReport(models.Model):
         )
 
     def write(self, vals):
-        invoice_line = self.env["account.invoice.line"].browse(self.id)
+        invoice_line = self.env["account.move.line"].browse(self.id)
         value = {"commission": vals.get("commission", False)}
         if invoice_line.purchase_price == 0 and invoice_line.product_id:
             if invoice_line.product_id.standard_price > 0:
                 value["purchase_price"] = invoice_line.product_id.standard_price
-        # if 'purchase_price' in vals:
-        #    value['purchase_price'] = vals['purchase_price']
+        if "purchase_price" in vals:
+            value["purchase_price"] = vals.pop("purchase_price")
         invoice_line.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.invoice"].browse(self.invoice_id)
+            invoice = self.env["account.move"].browse(self.invoice_id)
             invoice.write({"user_id": vals["user_id"]})
         super(SaleMarginReport, self).write(vals)
         return True

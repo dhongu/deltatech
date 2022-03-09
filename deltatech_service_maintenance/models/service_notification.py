@@ -302,6 +302,14 @@ class ServiceNotification(models.Model):
 
     def new_delivery_button(self):
 
+        # block picking if partner blocked
+        if self.partner_id:
+            if self.partner_id.picking_warn == "block":
+                raise UserError(self.partner_id.picking_warn_msg)
+            if self.partner_id.parent_id:
+                if self.partner_id.parent_id.picking_warn == "block":
+                    raise UserError(self.partner_id.parent_id.picking_warn_msg)
+
         get_param = self.env["ir.config_parameter"].sudo().get_param
         picking_type_id = safe_eval(get_param("service.picking_type_for_service", "False"))
 

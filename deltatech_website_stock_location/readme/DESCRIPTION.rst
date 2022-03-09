@@ -1,0 +1,1 @@
+- afisare disponiblitate stoc doar dintr-o locatie

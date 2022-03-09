@@ -92,7 +92,7 @@ class AccountInvoiceLine(models.Model):
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 continue
             if invoice_line.move_id.move_type == "out_invoice":
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     date_eval = invoice_line.move_id.invoice_date or fields.Date.context_today(invoice_line)
                     if (
                         invoice_line.move_id.currency_id
