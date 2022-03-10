@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_quotation_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="deltatech_website_sale_status.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <field name="stage" position="replace">
+                <field
+                    name="stage"
+                    widget="badge"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
+                    decoration-warning="stage == 'in_process'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
+                    decoration-success="stage == 'delivered'"
+                />
+            </field>
+        </field>
+    </record>
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="deltatech_website_sale_status.view_order_tree" />
+        <field name="arch" type="xml">
+            <field name="stage" position="replace">
+                <field
+                    name="stage"
+                    widget="badge"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
+                    decoration-warning="stage == 'in_process'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
+                    decoration-success="stage == 'delivered'"
+                />
+            </field>
+
+        </field>
+    </record>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="deltatech_website_sale_status.view_order_form" />
+        <field name="arch" type="xml">
+            <field name="stage" position="replace">
+                <field
+                    name="stage"
+                    widget="badge"
+                    decoration-info="stage in ['in_delivery','to_be_delivery']"
+                    decoration-warning="stage == 'in_process'"
+                    decoration-primary="stage in ['placed']"
+                    decoration-danger="stage in ['canceled','waiting','postponed']"
+                    decoration-success="stage == 'delivered'"
+                />
+            </field>
+        </field>
+    </record>
+
+
+
+
+
+
+</odoo>

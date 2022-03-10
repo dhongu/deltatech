@@ -6,15 +6,7 @@
         <field name="inherit_id" ref="sale.view_quotation_tree" />
         <field name="arch" type="xml">
             <field name="invoice_status" position="after">
-                <field
-                    name="stage"
-                    widget="badge"
-                    decoration-info="stage in ['in_delivery','to_be_delivery']"
-                    decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting','postponed']"
-                    decoration-success="stage == 'delivered'"
-                />
+                <field name="stage" />
             </field>
         </field>
     </record>
@@ -24,15 +16,7 @@
         <field name="inherit_id" ref="sale.view_order_tree" />
         <field name="arch" type="xml">
             <field name="invoice_status" position="after">
-                <field
-                    name="stage"
-                    widget="badge"
-                    decoration-info="stage in ['in_delivery','to_be_delivery']"
-                    decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting','postponed']"
-                    decoration-success="stage == 'delivered'"
-                />
+                <field name="stage" />
             </field>
 
         </field>
@@ -43,15 +27,7 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <field name="payment_term_id" position="after">
-                <field
-                    name="stage"
-                    widget="badge"
-                    decoration-info="stage in ['in_delivery','to_be_delivery']"
-                    decoration-warning="stage == 'in_process'"
-                    decoration-primary="stage in ['placed']"
-                    decoration-danger="stage in ['canceled','waiting','postponed']"
-                    decoration-success="stage == 'delivered'"
-                />
+                <field name="stage" />
             </field>
         </field>
     </record>
