@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* deltatech_portal_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0+ec\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-12 06:32+0000\n"
+"PO-Revision-Date: 2022-03-12 06:32+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:48
+#, python-format
+msgid "All"
+msgstr "Toate"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:50
+#, python-format
+msgid "Bills"
+msgstr "Facturi achiziție"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:33
+#, python-format
+msgid "Due Date"
+msgstr "Scadență"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:32
+#, python-format
+msgid "Invoice Date"
+msgstr "Dată factură"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:49
+#, python-format
+msgid "Invoices"
+msgstr "Facturi vânzare"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:34
+#, python-format
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_portal_invoice
+#: code:addons/deltatech_portal_invoice/controllers/portal.py:35
+#, python-format
+msgid "Status"
+msgstr "Stare"
