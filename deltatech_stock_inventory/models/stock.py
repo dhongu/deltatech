@@ -82,6 +82,14 @@ class StockInventoryLine(models.Model):
     loc_case = fields.Char("Case", size=16, related="product_id.loc_case", store=True)
     is_ok = fields.Boolean("Is Ok", default=True)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for values in vals_list:
+            if "standard_price" not in values:
+                product = self.env["product.product"].browse(values["product_id"])
+                values["standard_price"] = product.standard_price
+        return super(StockInventoryLine, self).create(vals_list)
+
     @api.onchange("product_id", "location_id", "product_uom_id", "prod_lot_id", "partner_id", "package_id")
     def _onchange_quantity_context(self):
         res = super(StockInventoryLine, self)._onchange_quantity_context()
