@@ -8,7 +8,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory enhancements",
-    "version": "13.0.2.0.1",
+    "version": "13.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

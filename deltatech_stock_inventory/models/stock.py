@@ -18,6 +18,15 @@ class StockInventory(models.Model):
     )
     note = fields.Text(string="Note")
     filterbyrack = fields.Char("Rack")
+    inventory_amount = fields.Float(_compute="_compute_inventory_amount", store=True)
+
+    @api.depends("line_ids")
+    def _compute_inventory_amount(self):
+        for inventory in self:
+            inventory_amount = 0
+            for line in inventory.line_ids:
+                inventory_amount += line.standard_price * line.product_qty
+            inventory.inventory_amount = inventory_amount
 
     def unlink(self):
         if any(inventory.state not in ("draft", "cancel") for inventory in self):
