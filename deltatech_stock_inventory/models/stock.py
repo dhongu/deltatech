@@ -18,7 +18,7 @@ class StockInventory(models.Model):
     )
     note = fields.Text(string="Note")
     filterbyrack = fields.Char("Rack")
-    inventory_amount = fields.Float(_compute="_compute_inventory_amount", store=True)
+    inventory_amount = fields.Float(compute="_compute_inventory_amount", store=True)
 
     @api.depends("line_ids")
     def _compute_inventory_amount(self):
