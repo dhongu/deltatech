@@ -254,5 +254,5 @@ class MRPSimpleLineOut(models.TransientModel):
         self.price_unit = self.product_id.standard_price
         self.amount = self.quantity * self.price_unit
 
-    def _compute_amout(self):
+    def _compute_amount(self):
         self.amount = self.quantity * self.price_unit
