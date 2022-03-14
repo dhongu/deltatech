@@ -250,9 +250,11 @@ class MRPSimpleLineOut(models.TransientModel):
 
     @api.onchange("product_id", "quantity")
     def onchange_product_id(self):
-        self.uom_id = self.product_id.uom_id
-        self.price_unit = self.product_id.standard_price
-        self.amount = self.quantity * self.price_unit
+        for line in self:
+            line.uom_id = line.product_id.uom_id
+            line.price_unit = line.product_id.standard_price
+            line.amount = line.quantity * line.price_unit
 
     def _compute_amount(self):
-        self.amount = self.quantity * self.price_unit
+        for line in self:
+            line.amount = line.quantity * line.price_unit
