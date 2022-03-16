@@ -49,6 +49,26 @@ class AccountInvoiceLine(models.Model):
     #
     #     return super(AccountInvoiceLine, self).create(vals_list)
 
+    def get_purchase_price(self):
+        self.ensure_one()
+        purchase_price = 0.0
+        pickings = self.env["stock.picking"]
+        for sale_line in self.sale_line_ids:
+            pickings |= sale_line.order_id.picking_ids
+
+        domain = [("picking_id", "in", pickings.ids), ("product_id", "=", self.product_id.id)]
+        moves = self.env["stock.move"].search(domain)
+
+        # preluare pret in svl
+        svls = moves.mapped("stock_valuation_layer_ids")
+        price_unit_list = svls.mapped("unit_cost")
+        if not price_unit_list:
+            price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+        if price_unit_list:
+            purchase_price = abs(sum(price_unit_list) / float(len(price_unit_list)))
+
+        return purchase_price
+
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         for invoice_line in self:
@@ -73,6 +93,9 @@ class AccountInvoiceLine(models.Model):
                     price = from_currency.with_context(date=invoice_date).compute(price, to_cur, round=False)
                     purchase_price += price
                 purchase_price = purchase_price / len(invoice_line.sale_line_ids)
+
+                purchase_price = invoice_line.get_purchase_price()
+
             else:
                 frm_cur = self.env.user.company_id.currency_id
 

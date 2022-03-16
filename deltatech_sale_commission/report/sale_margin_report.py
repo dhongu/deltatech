@@ -108,7 +108,7 @@ class SaleMarginReport(models.Model):
     def _sub_select(self):
         select_str = """
                 SELECT
-                    min(l.id) as id,
+                    l.id as id,
                     s.invoice_date as date,
                     l.move_id as invoice_id,
                     t.categ_id as categ_id,
@@ -173,6 +173,7 @@ class SaleMarginReport(models.Model):
 
     def _group_by(self):
         group_by_str = """
+                    l.id,
                     l.product_id,
                     l.account_id,
                     l.move_id,
