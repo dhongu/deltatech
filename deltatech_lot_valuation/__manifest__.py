@@ -10,6 +10,9 @@
     "category": "Inventory/Inventory",
     "depends": ["stock_account"],
     "license": "LGPL-3",
+    "data": [
+        "views/stock_production_lot.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
 }
