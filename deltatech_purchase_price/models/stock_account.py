@@ -16,6 +16,8 @@ class StockMove(models.Model):
             get_param = self.env["ir.config_parameter"].sudo().get_param
             update_product_price = get_param("purchase.update_product_price", default="False")
             update_product_price = safe_eval(update_product_price)
+            update_list_price = get_param("purchase.update_list_price", default="False")
+            update_list_price = safe_eval(update_list_price)
 
             price_unit = self.purchase_line_id.with_context(date=self.date)._get_stock_move_price_unit()
             self.product_id.write({"last_purchase_price": price_unit})
@@ -36,6 +38,8 @@ class StockMove(models.Model):
                             seller_price_unit = price_unit
                         if update_product_price:
                             self.product_id.write({"standard_price": seller_price_unit})
+            if update_list_price:
+                self.product_id.product_tmpl_id.onchange_last_purchase_price()
 
             return price_unit
 
@@ -45,8 +49,8 @@ class StockMove(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    def button_validate(self):
-        for move in self.move_lines:
-            if move.product_id.product_tmpl_id.trade_markup:
-                move.product_id.product_tmpl_id.onchange_last_purchase_price()
-        return super(StockPicking, self).button_validate()
+    # def button_validate(self):
+    #     for move in self.move_lines:
+    #         if move.product_id.product_tmpl_id.trade_markup:
+    #             move.product_id.product_tmpl_id.onchange_last_purchase_price()
+    #     return super(StockPicking, self).button_validate()
