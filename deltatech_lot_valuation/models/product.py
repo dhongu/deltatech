@@ -10,6 +10,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def _prepare_out_svl_vals(self, quantity, company):
+        unit_cost = 0
         if "lot_ids" in self.env.context:
             vals = {
                 "product_id": self.id,
@@ -17,7 +18,7 @@ class ProductProduct(models.Model):
                 "unit_cost": self.standard_price,
                 "quantity": quantity,
             }
-            lots = self.env.context["lot_ids"]
+            lots = self.env.context["lot_ids"].filtered(lambda l: l.product_id.id == self.id)
 
             quants = self.env["stock.quant"]
             for lot in lots:
@@ -33,6 +34,7 @@ class ProductProduct(models.Model):
             unit_cost = amount / (qty or 1)
             vals["unit_cost"] = round(unit_cost, 2)
             vals["value"] = round(unit_cost * quantity, 2)
-        else:
+
+        if not unit_cost:
             vals = super(ProductProduct, self)._prepare_out_svl_vals(quantity, company)
         return vals
