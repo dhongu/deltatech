@@ -59,6 +59,7 @@ class AccountInvoiceLine(models.Model):
         domain = [("picking_id", "in", pickings.ids), ("product_id", "=", self.product_id.id)]
         moves = self.env["stock.move"].search(domain)
 
+        kit = False
         if not moves:
             mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
             if mrp_mod and self.product_id.bom_count:
@@ -66,6 +67,7 @@ class AccountInvoiceLine(models.Model):
                 components = bom.bom_line_ids.mapped("product_id")
                 domain = [("picking_id", "in", pickings.ids), ("product_id", "in", components.ids)]
                 moves = self.env["stock.move"].search(domain)
+                kit = True
 
         # preluare pret in svl
         svls = moves.mapped("stock_valuation_layer_ids")
@@ -73,7 +75,10 @@ class AccountInvoiceLine(models.Model):
         if not price_unit_list:
             price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
         if price_unit_list:
-            purchase_price = abs(sum(price_unit_list))
+            if kit:
+                purchase_price = abs(sum(price_unit_list))
+            else:
+                purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
         return purchase_price
 
