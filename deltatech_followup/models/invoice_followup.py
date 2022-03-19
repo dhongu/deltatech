@@ -75,5 +75,5 @@ class InvoiceFollowup(models.Model):
 
     @api.model
     def send_now(self):
-        wizard = self.env["followup.send"].create([])
+        wizard = self.env["followup.send.wizard"].create([])
         wizard.run_followup()
