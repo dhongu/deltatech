@@ -59,14 +59,6 @@ class AccountInvoiceLine(models.Model):
         domain = [("picking_id", "in", pickings.ids), ("product_id", "=", self.product_id.id)]
         moves = self.env["stock.move"].search(domain)
 
-        if not moves:
-            mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
-            if mrp_mod and self.product_id.bom_count:
-                bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
-                components = bom.bom_line_ids.mapped("product_id")
-                domain = [("picking_id", "in", pickings.ids), ("product_id", "in", components.ids)]
-                moves = self.env["stock.move"].search(domain)
-
         kit = False
         if not moves:
             mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
