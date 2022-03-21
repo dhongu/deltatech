@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="journal_restrict_date_form" model="ir.ui.view">
+        <field name="name">journal.restrict.date.form</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/group/group[2]" position="after">
+                <group name="restrict_date" attrs="{'invisible': [('type', '!=', 'sale')]}">
+                    <field name="restrict_date" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

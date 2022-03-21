@@ -4,8 +4,8 @@
 
 {
     "name": "Invoice Number",
-    "summary": "Renumbering invoice",
-    "version": "14.0.1.0.0",
+    "summary": "Renumbering invoice, date restriction",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
@@ -13,7 +13,7 @@
     "license": "LGPL-3",
     "data": [
         "security/sale_security.xml",
-        # "views/account_invoice_view.xml",
+        "views/account_journal.xml",
         "wizard/account_invoice_change_number_view.xml",
         "security/ir.model.access.csv",
     ],
