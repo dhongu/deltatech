@@ -7,12 +7,14 @@
             <field name="inherit_id" ref="stock.view_picking_form" />
             <field name="arch" type="xml">
                 <button name="action_confirm" position="before">
+                    <field name="force_number" invisible="1" />
                     <button
                         name="action_get_number"
                         string="Allocate number"
                         type="object"
                         class="oe_highlight"
                         groups="base.group_user"
+                        attrs="{'invisible': [('force_number','=', True)]}"
                     />
                 </button>
             </field>
@@ -23,7 +25,8 @@
             <field name="inherit_id" ref="stock.view_picking_type_form" />
             <field name="arch" type="xml">
                 <field name="sequence_id" position="after">
-                    <field name="request_sequence_id" />
+                    <field name="request_sequence_id" attrs="{'required': [('request_sequence_force', '=', True)]}" />
+                    <field name="request_sequence_force" />
                 </field>
             </field>
         </record>
