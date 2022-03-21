@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#    * deltatech_picking_number
+# 	* deltatech_picking_number
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-12 11:14+0000\n"
-"PO-Revision-Date: 2019-04-12 11:14+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-03-21 12:31+0000\n"
+"PO-Revision-Date: 2022-03-21 12:31+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +21,61 @@ msgid "Allocate number"
 msgstr "Număr alocat"
 
 #. module: deltatech_picking_number
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking__display_name
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking_type__display_name
+msgid "Display Name"
+msgstr "Afiseaza nume"
+
+#. module: deltatech_picking_number
+#: model:ir.model.fields,help:deltatech_picking_number.field_stock_picking__force_number
+#: model:ir.model.fields,help:deltatech_picking_number.field_stock_picking_type__request_sequence_force
+msgid ""
+"For pickings of this type, the request sequence will be forced in number "
+"field at picking validation"
+msgstr ""
+"Pentru transferurile de acest tip, secvența la cerere va fi alocată transferului "
+"la validarea acestuia"
+
+#. module: deltatech_picking_number
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking__force_number
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking_type__request_sequence_force
+msgid "Force request sequence"
+msgstr "Forțează secvența la validare"
+
+#. module: deltatech_picking_number
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking__id
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking_type__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_picking_number
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking____last_update
+#: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking_type____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificare la"
+
+#. module: deltatech_picking_number
 #: model:ir.model,name:deltatech_picking_number.model_stock_picking_type
 msgid "Picking Type"
-msgstr "Tip ridicare"
+msgstr "Tip operație"
 
 #. module: deltatech_picking_number
 #: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking__request_number
 msgid "Request Number"
-msgstr "Număr solicitat"
+msgstr "Număr cerut"
 
 #. module: deltatech_picking_number
 #: model:ir.model.fields,field_description:deltatech_picking_number.field_stock_picking_type__request_sequence_id
 msgid "Sequence on Request"
-msgstr "Gama de numere la cerere"
+msgstr "Secvență la cerere"
 
 #. module: deltatech_picking_number
-#: code:addons/deltatech_picking_number/models/stock.py:31
+#: code:addons/deltatech_picking_number/models/stock.py:0
 #, python-format
 msgid "The document %s has been numbered"
-msgstr ""
+msgstr "Documentul %s a fost numerotat"
 
 #. module: deltatech_picking_number
 #: model:ir.model,name:deltatech_picking_number.model_stock_picking
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
