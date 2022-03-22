@@ -3,7 +3,7 @@
 {
     "name": "Picking Number",
     "summary": "Picking Number",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
