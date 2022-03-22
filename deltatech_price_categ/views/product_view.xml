@@ -6,6 +6,10 @@
             <field name="name">Bronze Pricelist</field>
             <field name="sequence">100</field>
         </record>
+        <record id="list_price_copper" model="product.pricelist">
+            <field name="name">Copper Pricelist</field>
+            <field name="sequence">100</field>
+        </record>
         <record id="list_price_silver" model="product.pricelist">
             <field name="name">Silver Pricelist</field>
             <field name="sequence">101</field>
@@ -31,12 +35,14 @@
                     <group />
                     <group>
                         <field name="percent_bronze" />
+                        <field name="percent_copper" />
                         <field name="percent_silver" />
                         <field name="percent_gold" />
                         <!--                            <field name="percent_platinum"/>-->
                     </group>
                     <group>
                         <field name="list_price_bronze" />
+                        <field name="list_price_copper" />
                         <field name="list_price_silver" />
                         <field name="list_price_gold" />
                         <!--                            <field name="list_price_platinum"/>-->

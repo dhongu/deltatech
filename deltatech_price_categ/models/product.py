@@ -30,6 +30,7 @@ class ProductTemplate(models.Model):
     )
 
     percent_bronze = fields.Float(string="Bronze Percent")
+    percent_copper = fields.Float(string="Copper Percent")
     percent_silver = fields.Float(string="Silver Percent")
     percent_gold = fields.Float(string="Gold Percent")
     # percent_platinum = fields.Float(string="Platinum Percent")
@@ -43,6 +44,16 @@ class ProductTemplate(models.Model):
         readonly=True,
         compute_sudo=True,
     )
+
+    list_price_copper = fields.Float(
+        string="Copper Price",
+        compute="_compute_price_list",
+        track_visibility="always",
+        store=True,
+        readonly=True,
+        compute_sudo=True,
+    )
+
     list_price_silver = fields.Float(
         string="Silver Price",
         compute="_compute_price_list",
@@ -77,7 +88,10 @@ class ProductTemplate(models.Model):
         for product in self:
 
             if (
-                not product.percent_bronze and not product.percent_silver and not product.percent_gold
+                not product.percent_bronze
+                and not product.percent_copper
+                and not product.percent_silver
+                and not product.percent_gold
             ):  # and not product.percent_platinum:
                 return
             tax_inc = False
@@ -109,6 +123,7 @@ class ProductTemplate(models.Model):
                 price = round(price, 2)
 
             product.list_price_bronze = price * (1 + product.percent_bronze)
+            product.list_price_copper = price * (1 + product.percent_copper)
             product.list_price_silver = price * (1 + product.percent_silver)
             product.list_price_gold = price * (1 + product.percent_gold)
             # product.list_price_platinum = price * (1 + product.percent_platinum)
