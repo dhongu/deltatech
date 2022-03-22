@@ -79,6 +79,7 @@ class ProductTemplate(models.Model):
         "standard_price",
         "list_price",
         "percent_bronze",
+        "percent_copper",
         "percent_silver",
         "percent_gold",
         "taxes_id",
@@ -86,14 +87,6 @@ class ProductTemplate(models.Model):
     def _compute_price_list(self):
 
         for product in self:
-
-            if (
-                not product.percent_bronze
-                and not product.percent_copper
-                and not product.percent_silver
-                and not product.percent_gold
-            ):  # and not product.percent_platinum:
-                return
             tax_inc = False
             # de regula este o singura  taxa
             taxe = product.taxes_id.sudo()
