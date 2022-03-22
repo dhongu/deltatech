@@ -22,6 +22,16 @@ class ProductTemplate(models.Model):
     list_price = fields.Float(tracking=True)
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
 
+    @api.onchange("list_price")
+    def onchange_list_price(self):
+        AccountTax = self.env["account.tax"]
+        list_price = AccountTax._fix_tax_included_price_company(
+            self.list_price, self.taxes_id, AccountTax, self.company_id
+        )
+        if self.last_purchase_price:
+            trade_markup = (list_price - self.last_purchase_price) / self.last_purchase_price * 100
+            self.trade_markup = trade_markup
+
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
@@ -46,7 +56,7 @@ class ProductTemplate(models.Model):
                     )
                 list_price = list_price + list_price_tax
                 list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
-                product.list_price = list_price
+                product.list_price = round(list_price, 0)
 
 
 class SupplierInfo(models.Model):
