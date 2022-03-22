@@ -13,6 +13,16 @@ class ProductTemplate(models.Model):
     last_purchase_price = fields.Float(digits="Product Price", tracking=True)
     trade_markup = fields.Float(string="Trade Markup", tracking=True)
 
+    @api.onchange("list_price")
+    def onchange_list_price(self):
+        AccountTax = self.env["account.tax"]
+        list_price = AccountTax._fix_tax_included_price_company(
+            self.list_price, self.taxes_id, AccountTax, self.company_id
+        )
+        if self.last_purchase_price:
+            trade_markup = (list_price - self.last_purchase_price) / self.last_purchase_price * 100
+            self.trade_markup = trade_markup
+
     @api.depends("property_cost_method", "categ_id.property_cost_method")
     def _compute_cost_method(self):
         super(ProductTemplate, self)._compute_cost_method()
