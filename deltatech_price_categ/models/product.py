@@ -12,6 +12,7 @@ class PricelistItem(models.Model):
     base = fields.Selection(
         selection_add=[
             ("list_price_bronze", "Bronze Price"),
+            ("list_price_copper", "Copper Price"),
             ("list_price_silver", "Silver Price"),
             ("list_price_gold", "Gold Price"),
             #    ('list_price_platinum', 'Platinum Price'),
