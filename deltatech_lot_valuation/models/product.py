@@ -19,21 +19,28 @@ class ProductProduct(models.Model):
                 "quantity": quantity,
             }
             lots = self.env.context["lot_ids"].filtered(lambda l: l.product_id.id == self.id)
+            if lots:
+                if self.tracking == "serial":
+                    qty = 0.0
+                    amount = 0.0
+                    for lot in lots:
+                        amount += lot.inventory_value
+                        qty += 1
+                    unit_cost = amount / qty
+                else:
+                    quants = self.env["stock.quant"]
+                    for lot in lots:
+                        quants |= lot.quant_ids
 
-            quants = self.env["stock.quant"]
-            for lot in lots:
-                quants |= lot.quant_ids
-
-            qty = 0
-            amount = 0
-            for quant in quants:
-                if quant.quantity > 0:
-                    amount += quant.value
-                    qty += quant.quantity
-
-            unit_cost = amount / (qty or 1)
-            vals["unit_cost"] = round(unit_cost, 2)
-            vals["value"] = round(unit_cost * quantity, 2)
+                    qty = 0
+                    amount = 0
+                    for quant in quants:
+                        if quant.quantity > 0:
+                            amount += quant.value
+                            qty += quant.quantity
+                    unit_cost = amount / (qty or 1)
+                vals["unit_cost"] = round(unit_cost, 2)
+                vals["value"] = round(unit_cost * quantity, 2)
 
         if not unit_cost:
             vals = super(ProductProduct, self)._prepare_out_svl_vals(quantity, company)
