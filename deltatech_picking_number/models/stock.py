@@ -30,7 +30,14 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.force_number:
                 number = picking.picking_type_id.request_sequence_id.next_by_id()
-                self.write({"request_number": number, "name": number})
+                self.write(
+                    {
+                        "request_number": number,
+                        "name": number,
+                        "date": fields.Date.today(),
+                        "date_done": fields.Date.today(),
+                    }
+                )
         return result
 
 
