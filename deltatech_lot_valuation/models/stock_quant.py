@@ -30,7 +30,7 @@ class StockQuant(models.Model):
                     quant.price_unit = value / quant.quantity
             else:
                 quants += quant
-
+            quant.currency_id = quant.company_id.currency_id
         res = super(StockQuant, quants)._compute_value()
         for quant in quants:
             if quant.quantity:
