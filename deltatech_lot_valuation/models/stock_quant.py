@@ -23,7 +23,6 @@ class StockQuant(models.Model):
                 else:
                     value = quant.lot_id.input_price * quant.quantity
 
-            if value:
                 quant.currency_id = quant.company_id.currency_id
                 quant.value = value
                 if quant.quantity:
