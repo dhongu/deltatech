@@ -10,7 +10,7 @@ class ProductProduct(models.Model):
     _inherit = "product.product"
 
     def _prepare_out_svl_vals(self, quantity, company):
-        unit_cost = 0
+
         if "lot_ids" in self.env.context:
             vals = {
                 "product_id": self.id,
@@ -41,7 +41,13 @@ class ProductProduct(models.Model):
                     unit_cost = amount / (qty or 1)
                 vals["unit_cost"] = round(unit_cost, 2)
                 vals["value"] = round(unit_cost * quantity, 2)
+            return vals
 
-        if not unit_cost:
-            vals = super(ProductProduct, self)._prepare_out_svl_vals(quantity, company)
+        vals = super(ProductProduct, self)._prepare_out_svl_vals(quantity, company)
         return vals
+
+    def _run_fifo(self, quantity, company):
+        return super(ProductProduct, self)._run_fifo(quantity, company)
+
+    def _run_fifo_vacuum(self, company=None):
+        return super(ProductProduct, self)._run_fifo_vacuum(company)
