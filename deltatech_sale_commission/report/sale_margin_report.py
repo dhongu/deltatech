@@ -32,11 +32,16 @@ class SaleMarginReport(models.Model):
     )
     commission_computed = fields.Float("Commission Computed", readonly=True)
     commission_manager_computed = fields.Float("Commission Manager Computed", readonly=True)
+    commission_director_computed = fields.Float("Commission Director Computed", readonly=True)
+
     commission = fields.Float("Commission")
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     commercial_partner_id = fields.Many2one("res.partner", "Commercial Partner", readonly=True)
+
     user_id = fields.Many2one("res.users", "Salesperson")
-    manager_user_id = fields.Many2one("res.users", "Sale manager", readonly=True)
+    manager_user_id = fields.Many2one("res.users", "Sales Manager", readonly=True)
+    director_user_id = fields.Many2one("res.users", "Sales Director", readonly=True)
+
     state_id = fields.Many2one("res.country.state", "Region", readonly=True)
     account_id = fields.Many2one("account.account", "Account", readonly=True)
     company_id = fields.Many2one("res.company", "Company", readonly=True)
@@ -98,8 +103,10 @@ class SaleMarginReport(models.Model):
 
                 sub.rate * (sale_val  - stock_val ) as commission_computed,
                 sub.manager_rate * (sale_val    - stock_val )  as commission_manager_computed,
+                sub.director_rate * (sale_val    - stock_val )  as commission_director_computed,
+
                 commission,
-                partner_id, commercial_partner_id,  state_id, user_id, manager_user_id,     sub.company_id,
+                partner_id, commercial_partner_id,  state_id, user_id, manager_user_id, director_user_id,   sub.company_id,
                 move_type,  state , payment_state, journal_id,
                  sub.currency_id
         """
@@ -138,7 +145,7 @@ class SaleMarginReport(models.Model):
 
 
                     sum(l.commission) as commission,
-                    cu.rate, cu.manager_rate, cu.manager_user_id,
+                    cu.rate, cu.manager_rate, cu.director_rate, cu.manager_user_id, cu.director_user_id,
 
                     s.partner_id as partner_id,
                     s.commercial_partner_id as commercial_partner_id, res_partner.state_id,
@@ -186,7 +193,9 @@ class SaleMarginReport(models.Model):
                     s.invoice_user_id,
                     cu.rate,
                     cu.manager_rate,
+                    cu.director_rate,
                     cu.manager_user_id,
+                    cu.director_user_id,
                     s.company_id,
 
                     s.move_type,

@@ -14,4 +14,6 @@ class CommissionUsers(models.Model):
     rate = fields.Float(string="Rate", default=0.01, digits=(12, 3))
     manager_rate = fields.Float(string="Rate manager", default=0, digits=(12, 3))
     manager_user_id = fields.Many2one("res.users", string="Sales Manager")
+    director_rate = fields.Float(string="Rate director", default=0, digits=(12, 3))
+    director_user_id = fields.Many2one("res.users", string="Sales Director")
     journal_id = fields.Many2one("account.journal", string="Journal", domain="[('type', 'in', ['sale','sale_refund'])]")
