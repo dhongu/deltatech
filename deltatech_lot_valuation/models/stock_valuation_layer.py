@@ -9,6 +9,8 @@ from odoo import models
 class StockValuationLayer(models.Model):
     _inherit = "stock.valuation.layer"
 
+    # lot_id = fields.Many2one("stock.production.lot", "Lot/Serial Number")
+
     def search(self, args, offset=0, limit=None, order=None, count=False):
         if self.env.context.get("lot_ids", False):
             lots = self.env.context["lot_ids"]
