@@ -140,6 +140,7 @@ class ServiceEquipment(models.Model):
     last_reading = fields.Date("Last Reading Date", readonly=True, default="2000-01-01")
     next_reading = fields.Date("Next reading date", readonly=True, default="2000-01-01")
     last_reading_value = fields.Float(string="Last reading value")
+    installation_date = fields.Date("Installation Date")
 
     _sql_constraints = [
         ("ean_code_uniq", "unique(ean_code)", "EAN Code already exist!"),
