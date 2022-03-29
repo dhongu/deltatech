@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="Portal Assets" priority="16">
+        <xpath expr="//script[last()]" position="after">
+            <script
+                type="text/javascript"
+                src="/deltatech_website_billing_addresses/static/src/js/billing_addresses.js"
+            />
+        </xpath>
+    </template>
+</odoo>
