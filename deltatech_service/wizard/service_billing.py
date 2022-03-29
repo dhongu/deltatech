@@ -174,7 +174,7 @@ class ServiceBilling(models.TransientModel):
                     user_id = False
                 else:
                     for agreement in pre_invoice[date_invoice][key]["agreement_ids"]:
-                        payment_term_id = agreement.payment_term_id.id
+                        payment_term_id = agreement.payment_term_id.id or agreement.partner_id.property_payment_term_id
                         user_id = agreement.user_id.id
                 # check if negative values greater than positive ones for the same product
                 for invoice_line in pre_invoice[date_invoice][key]["lines"]:
