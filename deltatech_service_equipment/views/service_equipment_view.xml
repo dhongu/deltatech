@@ -29,7 +29,7 @@
                 />
                 <field name="last_reading" optional="show" />
                 <field name="next_reading" optional="show" widget="remaining_days" />
-
+                <field name="installation_date" optional="show" />
 
                 <field name="location_id" optional="hide" />
             </tree>
@@ -188,6 +188,7 @@
                             <field name="group_id" />
                             <field name="type_id" required="1" />
                             <field name="start_date" />
+                            <field name="installation_date" />
                             <field name="manufacturer_id" />
                             <field name="ean_code" />
                         </group>
