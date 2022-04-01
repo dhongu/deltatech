@@ -11,7 +11,7 @@ class SaleOrderGroup(models.TransientModel):
     _description = "Sele Order Group"
 
     group_id = fields.Many2one("procurement.group", string="Procurement Group")
-    sale_order_ids = fields.Many2many("sale.order", string="Production Order")
+    sale_order_ids = fields.Many2many("sale.order", relation="sale_order_group_sale_order_rel", string="Sale Order")
     date_planned = fields.Datetime(related="group_id.date_planned")
 
     @api.model
