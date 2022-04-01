@@ -15,6 +15,7 @@ class WebsiteSaleAttribute(WebsiteSale):
         domain = super()._get_search_domain(
             search, category, attrib_values, search_in_description=search_in_description
         )
+
         if search and search_in_description:
             attribute_value_ids = request.env["product.attribute.value"].search([("name", "ilike", search)])
             if attribute_value_ids:
