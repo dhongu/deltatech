@@ -18,6 +18,7 @@ class StockPicking(models.Model):
                     if move_line.location_id.usage == "supplier" and move_line.location_dest_id.usage in ["internal"]:
                         values["inventory_value"] = move_line.move_id.price_unit * move_line.qty_done
                         values["input_price"] = move_line.move_id.price_unit
+                        values["unit_price"] = move_line.move_id.price_unit
                         values["input_date"] = move_line.picking_id.scheduled_date
                         if move_line.product_id.tracking == "serial":
                             values["location_id"] = move_line.location_dest_id.id

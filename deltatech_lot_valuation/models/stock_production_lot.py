@@ -9,6 +9,7 @@ class ProductionLot(models.Model):
     _inherit = "stock.production.lot"
 
     inventory_value = fields.Float("Inventory value")
+    unit_price = fields.Float("Unit Price")
     input_price = fields.Float("Input Price")
     input_date = fields.Date(string="Input date")
     location_id = fields.Many2one("stock.location", compute="_compute_location", store=True)

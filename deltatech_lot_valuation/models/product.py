@@ -14,9 +14,9 @@ class ProductProduct(models.Model):
         if "lot_ids" in self.env.context:
             vals = {
                 "product_id": self.id,
-                "value": quantity * self.standard_price,
+                "value": -1 * quantity * self.standard_price,
                 "unit_cost": self.standard_price,
-                "quantity": quantity,
+                "quantity": -1 * quantity,
             }
             lots = self.env.context["lot_ids"].filtered(lambda l: l.product_id.id == self.id)
             if lots:
@@ -26,6 +26,7 @@ class ProductProduct(models.Model):
                     for lot in lots:
                         amount += lot.inventory_value
                         qty += 1
+                        self.with_context(lot_ids=lot)._run_fifo(1, company)
                     unit_cost = amount / qty
                 else:
                     quants = self.env["stock.quant"]
@@ -39,9 +40,10 @@ class ProductProduct(models.Model):
                             amount += quant.value
                             qty += quant.quantity
                     unit_cost = amount / (qty or 1)
+                    self.with_context(lot_ids=lots)._run_fifo(abs(quantity), company)
                 vals["unit_cost"] = round(unit_cost, 2)
-                vals["value"] = round(unit_cost * quantity, 2)
-            return vals
+                vals["value"] = round(-1 * unit_cost * quantity, 2)
+                return vals
 
         vals = super(ProductProduct, self)._prepare_out_svl_vals(quantity, company)
         return vals
