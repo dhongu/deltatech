@@ -10,9 +10,25 @@
                     <group>
                         <field name="inventory_value" readonly="1" />
                         <field name="input_price" readonly="1" />
+                        <field name="unit_price" />
                     </group>
                 </group>
             </group>
         </field>
     </record>
+
+
+
+    <record id="view_production_lot_tree" model="ir.ui.view">
+        <field name="name">stock.production.lot.tree</field>
+        <field name="model">stock.production.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="inventory_value" sum="1" />
+                <field name="unit_price" />
+            </field>
+        </field>
+    </record>
+
 </odoo>
