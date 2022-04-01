@@ -177,10 +177,10 @@
             <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'">
                 <label class="col-form-label" for="country_id">Is Company</label>
                 <select id="is_company" name="is_company" t-attf-class="form-control" t-att-mode="mode[1]">
-                        <option t-att-value="True" t-att-selected="checkout['is_company']">
+                        <option t-att-value="True" t-att-selected="checkout.get('is_company',False)">
                             Yes
                         </option>
-                        <option t-att-value="False" t-att-selected="not checkout['is_company']">
+                        <option t-att-value="False" t-att-selected="not checkout.get('is_company',False)">
                             No
                         </option>
                 </select>
