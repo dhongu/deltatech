@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
         string="Stage",
         copy=False,
         index=True,
-        tracking=True,
+        tracking=False,
         compute="_compute_stage",
         store=True,
     )
@@ -66,16 +66,6 @@ class SaleOrder(models.Model):
                 for picking in order.picking_ids:
                     if picking.state in ["waiting", "confirmed"]:
                         order.stage = "waiting"
-
-    # def _compute_is_ready(self):
-    #     for order in self:
-    #         is_ready = order.state in ["draft", "sent", "sale", "done"] and order.invoice_status != "invoiced"
-    #         if is_ready:
-    #             for line in order.order_line:
-    #                 is_ready = is_ready and (line.product_id.qty_available >= line.product_uom_qty)
-    #                 # is_ready = is_ready and (line.qty_available_today >= line.product_uom_qty)
-    #
-    #         order.is_ready = is_ready
 
     def procure_calculation(self):
         # action = self.env.ref("stock.action_procurement_compute").read()[0]
