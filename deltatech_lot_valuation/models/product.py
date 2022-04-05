@@ -26,7 +26,11 @@ class ProductProduct(models.Model):
                     for lot in lots:
                         amount += lot.inventory_value
                         qty += 1
-                        self.with_context(lot_ids=lot)._run_fifo(1, company)
+                        try:
+                            self.with_context(lot_ids=lot)._run_fifo(1, company)
+                        except ZeroDivisionError:
+                            pass
+
                     unit_cost = amount / qty
                 else:
                     quants = self.env["stock.quant"]
@@ -40,7 +44,10 @@ class ProductProduct(models.Model):
                             amount += quant.value
                             qty += quant.quantity
                     unit_cost = amount / (qty or 1)
-                    self.with_context(lot_ids=lots)._run_fifo(abs(quantity), company)
+                    try:
+                        self.with_context(lot_ids=lots)._run_fifo(abs(quantity), company)
+                    except ZeroDivisionError:
+                        pass
                 vals["unit_cost"] = round(unit_cost, 2)
                 vals["value"] = round(-1 * unit_cost * quantity, 2)
                 return vals
