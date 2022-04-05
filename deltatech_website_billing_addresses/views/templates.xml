@@ -176,11 +176,12 @@
        <xpath expr="//div[@id='div_phone']" position="after">
             <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'">
                 <label class="col-form-label" for="country_id">Is Company</label>
+                <t t-set="is_company" t-value=" 'is_company' in checkout and  checkout['is_company']  " />
                 <select id="is_company" name="is_company" t-attf-class="form-control" t-att-mode="mode[1]">
-                        <option t-att-value="True" t-att-selected="checkout.get('is_company',False)">
+                        <option t-att-value="True" t-att-selected="is_company">
                             Yes
                         </option>
-                        <option t-att-value="False" t-att-selected="not checkout.get('is_company',False)">
+                        <option t-att-value="False" t-att-selected="not is_company">
                             No
                         </option>
                 </select>
