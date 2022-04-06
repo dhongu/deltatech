@@ -36,9 +36,11 @@ class ProductTemplate(models.Model):
     def onchange_last_purchase_price(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         change_list_price = safe_eval(get_param("purchase.update_list_price", "True"))
-        if change_list_price:
-            AccountTax = self.env["account.tax"]
-            for product in self:
+        if not change_list_price:
+            return
+        AccountTax = self.env["account.tax"]
+        for product in self:
+            if product.trade_markup:
                 if not product.last_purchase_price:
                     product.last_purchase_price = product.standard_price
                 if not product.trade_markup:
