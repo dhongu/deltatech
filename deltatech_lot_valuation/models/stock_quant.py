@@ -21,7 +21,7 @@ class StockQuant(models.Model):
                 if quant.product_id.tracking == "serial":
                     value = quant.lot_id.inventory_value
                 else:
-                    value = quant.lot_id.input_price * quant.quantity
+                    value = quant.lot_id.unit_price * quant.quantity
 
                 quant.currency_id = quant.company_id.currency_id
                 quant.value = value
