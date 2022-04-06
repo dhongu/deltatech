@@ -19,6 +19,7 @@ class ProductProduct(models.Model):
                 "quantity": -1 * quantity,
             }
             lots = self.env.context["lot_ids"].filtered(lambda l: l.product_id.id == self.id)
+            move_lines = self.env.context["move_lines"].filtered(lambda l: l.product_id.id == self.id)
             if lots:
                 if self.tracking == "serial":
                     qty = 0.0
@@ -33,16 +34,22 @@ class ProductProduct(models.Model):
 
                     unit_cost = amount / qty
                 else:
-                    quants = self.env["stock.quant"]
-                    for lot in lots:
-                        quants |= lot.quant_ids
 
+                    # quants = self.env["stock.quant"]
+                    # for lot in lots:
+                    #     quants |= lot.quant_ids
+                    #
                     qty = 0
                     amount = 0
-                    for quant in quants:
-                        if quant.quantity > 0:
-                            amount += quant.value
-                            qty += quant.quantity
+                    # for quant in quants:
+                    #     if quant.quantity > 0:
+                    #         amount += quant.value
+                    #         qty += quant.quantity
+
+                    for line in move_lines:
+                        amount += line.lot_id.unit_price * line.qty_done
+                        qty += line.qty_done
+
                     unit_cost = amount / (qty or 1)
                     try:
                         self.with_context(lot_ids=lots)._run_fifo(abs(quantity), company)

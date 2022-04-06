@@ -23,10 +23,14 @@ class StockMove(models.Model):
 
     def _action_done(self, cancel_backorder=False):
         lots = self.env["stock.production.lot"]
+        move_lines = self.env["stock.move.line"]
         for move in self:
             for line in move.move_line_ids:
                 lots |= line.lot_id
+                move_lines |= line
         if lots:
-            return super(StockMove, self.with_context(lot_ids=lots))._action_done(cancel_backorder)
+            return super(StockMove, self.with_context(lot_ids=lots, move_lines=move_lines))._action_done(
+                cancel_backorder
+            )
         else:
             return super(StockMove, self)._action_done(cancel_backorder)
