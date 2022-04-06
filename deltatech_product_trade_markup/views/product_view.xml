@@ -9,12 +9,12 @@
                 <label for="trade_markup" />
                 <div class="o_row">
                       <field name="trade_markup" />
-                        <button
-                        string="Update sale price"
-                        name="set_inverse_trade_markup"
-                        type="object"
-                        class="oe_link oe_edit_only"
-                    />
+<!--                        <button-->
+<!--                        string="Update sale price"-->
+<!--                        name="set_inverse_trade_markup"-->
+<!--                        type="object"-->
+<!--                        class="oe_link oe_edit_only"-->
+<!--                    />-->
                 </div>
             </div>
         </field>
