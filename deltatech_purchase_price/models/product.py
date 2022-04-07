@@ -58,7 +58,8 @@ class ProductTemplate(models.Model):
                     )
                 list_price = list_price + list_price_tax
                 list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
-                product.list_price = round(list_price, 0)
+                list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
+                product.list_price = round(list_price, list_price_round)
 
 
 class SupplierInfo(models.Model):
