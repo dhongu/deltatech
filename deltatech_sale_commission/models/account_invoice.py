@@ -6,6 +6,16 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
+class AccountInvoice(models.Model):
+    _inherit = "account.move"
+
+    def compute_purchase_price(self):
+        for invoice in self:
+            for invoice_line in invoice.invoice_line_ids:
+                purchase_price = invoice_line.get_purchase_price()
+                invoice_line.write({"purchase_price": purchase_price})
+
+
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
@@ -56,29 +66,24 @@ class AccountInvoiceLine(models.Model):
         for sale_line in self.sale_line_ids:
             pickings |= sale_line.order_id.picking_ids
 
-        domain = [("picking_id", "in", pickings.ids), ("product_id", "=", self.product_id.id)]
+        domain = [("picking_id", "in", pickings.ids), ("sale_line_id", "in", self.sale_line_ids.ids)]
         moves = self.env["stock.move"].search(domain)
 
-        kit = False
-        if not moves:
-            mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
-            if mrp_mod and self.product_id.bom_count:
-                bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
-                components = bom.bom_line_ids.mapped("product_id")
-                domain = [("picking_id", "in", pickings.ids), ("product_id", "in", components.ids)]
-                moves = self.env["stock.move"].search(domain)
-                kit = True
-
-        # preluare pret in svl
-        svls = moves.mapped("stock_valuation_layer_ids")
-        price_unit_list = svls.mapped("unit_cost")
-        if not price_unit_list:
-            price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
-        if price_unit_list:
-            purchase_price = abs(sum(price_unit_list))
-            if kit:
-                purchase_price = abs(sum(price_unit_list))
-            else:
+        mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
+        if mrp_mod and self.product_id.bom_count:
+            bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
+            purchase_price = 0
+            for move in moves:
+                bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
+                price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
+                purchase_price += sum(price_unit_comp) * bom_line.product_qty
+        else:
+            # preluare pret in svl
+            svls = moves.mapped("stock_valuation_layer_ids")
+            price_unit_list = svls.mapped("unit_cost")
+            if not price_unit_list:
+                price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+            if price_unit_list:
                 purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
 
         return purchase_price
