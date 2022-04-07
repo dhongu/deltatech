@@ -245,4 +245,6 @@ class SaleMarginReport(models.Model):
         if "user_id" in vals:
             invoice = self.env["account.move"].browse(self.invoice_id.id)
             invoice.write({"invoice_user_id": vals["user_id"]})
+        if 1 == 2:
+            super(SaleMarginReport, self).write(vals)
         return True
