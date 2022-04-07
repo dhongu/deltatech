@@ -243,7 +243,6 @@ class SaleMarginReport(models.Model):
             value["purchase_price"] = vals.pop("purchase_price")
         invoice_line.write(value)
         if "user_id" in vals:
-            invoice = self.env["account.move"].browse(self.invoice_id)
-            invoice.write({"user_id": vals["user_id"]})
-        super(SaleMarginReport, self).write(vals)
+            invoice = self.env["account.move"].browse(self.invoice_id.id)
+            invoice.write({"invoice_user_id": vals["user_id"]})
         return True

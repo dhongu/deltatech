@@ -11,13 +11,9 @@
                 <field name="categ_id" invisible="1" />
                 <field name="product_id" invisible="1" />
                 <field name="product_uom" invisible="not context.get('set_visible',False)" groups="uom.group_uom" />
-
                 <field name="user_id" invisible="1" />
-
                 <field name="partner_id" invisible="1" />
                 <field name="commercial_partner_id" invisible="1" />
-
-
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="sale_val" sum="Sale value" />
                 <field name="stock_val" sum="Stock value" />
@@ -25,7 +21,6 @@
                 <field name="company_id" invisible="1" groups="base.group_multi_company" />
                 <field name="move_type" invisible="1" />
                 <field name="state" invisible="1" />
-
             </tree>
         </field>
     </record>
@@ -58,6 +53,12 @@
                             <field name="commission_computed" />
                             <field name="commission" />
                         </group>
+                        <group name="managers">
+                            <field name="manager_user_id" />
+                            <field name="commission_manager_computed" />
+                            <field name="director_user_id" />
+                            <field name="commission_director_computed" />
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -78,9 +79,6 @@
                 <field name="partner_id" invisible="1" />
                 <field name="commercial_partner_id" />
                 <field name="invoice_id" />
-                <!--
-                <field name="period_id" />
-                -->
                 <field name="product_uom_qty" sum="Qty" />
                 <field name="purchase_price" optional="hide" />
                 <field name="sale_val" sum="Sale value" />
@@ -90,11 +88,14 @@
                 <field name="commission" sum="Commission" />
                 <field name="indicator_supplement" avg="Supplement Indicator" optional="hide" />
                 <field name="indicator_profit" avg="Profit Indicator" optional="hide" />
+                <field name="manager_user_id" optional="hide" />
+                <field name="commission_manager_computed" optional="hide" />
+                <field name="director_user_id" optional="hide" />
+                <field name="commission_director_computed" optional="hide" />
                 <field name="company_id" invisible="1" groups="base.group_multi_company" />
                 <field name="move_type" invisible="1" />
                 <field name="state" invisible="1" />
                 <field name="currency_id" optional="hide" />
-
             </tree>
         </field>
     </record>
