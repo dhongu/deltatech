@@ -25,21 +25,23 @@ class MailMail(models.Model):
                 raise UserError(_("Unable to post message, please configure the company's email address."))
 
         model = self.model
-        if model:
-            substitutions = self.env["mail.substitution"].search(["|", ("name", "=", model), ("name", "=", False)])
-        else:
-            substitutions = self.env["mail.substitution"].search([])
+        substitutions = self.env["mail.substitution"].search(["|", ("name", "=", model), ("name", "=", False)])
 
         if substitutions:
             email_to = []
+            email_from = []
             if model:
                 for substitution in substitutions:
                     email_to += [substitution.email]
             else:
                 for substitution in substitutions:
                     if not substitution.name or substitution.name in self.message_id:
-                        email_to += [substitution.email]
+                        if substitution.type == "receiver":
+                            email_to += [substitution.email]
+                        else:
+                            email_from += [substitution.email]
             if email_to:
                 res["email_to"] = email_to
-
+            if email_from:
+                res["email_from"] = email_from
         return res

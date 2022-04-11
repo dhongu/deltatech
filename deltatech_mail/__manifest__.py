@@ -2,9 +2,9 @@
 # See README.rst file on addons root folder for license details
 
 {
-    "name": "Mail Extension",
-    "summary": "Substitution",
-    "version": "14.0.1.0.0",
+    "name": "Mail Substitution",
+    "summary": "Mail Substitution",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Productivity/Discuss",

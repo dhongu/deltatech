@@ -8,6 +8,7 @@
                 <tree string="Substitution">
                     <field name="name" />
                     <field name="email" />
+                    <field name="type" />
                 </tree>
             </field>
         </record>
