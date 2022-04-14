@@ -5,7 +5,7 @@
     "name": "eCommerce Stock location",
     "category": "Website",
     "summary": "Stock Availability From Location",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["website", "website_sale_stock"],
