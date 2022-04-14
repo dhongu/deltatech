@@ -41,18 +41,18 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ("new", "invoice"):
+        if mode[0] == "new":
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
-            if values.get("vat", False) and values.get("is_company", False):
+            if values.get("vat", False) and is_company:
                 domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
-                parent = request.env["res.partner"].sudo().search(domain)
+                parent = request.env["res.partner"].sudo().search(domain, limit=1)
                 if not parent:
                     parent = (
                         request.env["res.partner"]
                         .sudo()
                         .with_context(tracking_disable=True)
-                        .create({"name": values["company_name"], "vat": values["vat"]})
+                        .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
                     )
                 new_values["parent_id"] = parent.id
 
