@@ -52,7 +52,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         request.env["res.partner"]
                         .sudo()
                         .with_context(tracking_disable=True)
-                        .create({"name": values["company_name"], "vat": values["vat"]})
+                        .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
                     )
                 new_values["parent_id"] = parent.id
 
