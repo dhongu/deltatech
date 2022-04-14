@@ -41,10 +41,10 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ("new", "invoice"):
+        if mode[0] == "new":
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
-            if values.get("vat", False) and values.get("is_company", False):
+            if values.get("vat", False) and is_company:
                 domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
                 parent = request.env["res.partner"].sudo().search(domain)
                 if not parent:
