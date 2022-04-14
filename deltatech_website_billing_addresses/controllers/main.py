@@ -46,7 +46,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
             if values.get("vat", False) and is_company:
                 domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
-                parent = request.env["res.partner"].sudo().search(domain)
+                parent = request.env["res.partner"].sudo().search(domain, limit=1)
                 if not parent:
                     parent = (
                         request.env["res.partner"]
