@@ -45,12 +45,3 @@ class ProductTemplate(models.Model):
             )
 
         return combination_info
-
-
-class Product(models.Model):
-    _inherit = "product.product"
-
-    def _search_qty_available(self, operator, value):
-        website = self.env["website"].get_current_website()
-        location = website.sudo().location_id
-        return super(Product, self.with_context(location=location.id).sudo())._search_qty_available(operator, value)
