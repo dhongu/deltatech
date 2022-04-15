@@ -44,17 +44,17 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         if mode[0] == "new":
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
-            if values.get("vat", False) and is_company:
-                domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
-                parent = request.env["res.partner"].sudo().search(domain, limit=1)
-                if not parent:
-                    parent = (
-                        request.env["res.partner"]
-                        .sudo()
-                        .with_context(tracking_disable=True)
-                        .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
-                    )
-                new_values["parent_id"] = parent.id
+        if values.get("vat", False) and is_company:
+            domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
+            parent = request.env["res.partner"].sudo().search(domain, limit=1)
+            if not parent:
+                parent = (
+                    request.env["res.partner"]
+                    .sudo()
+                    .with_context(tracking_disable=True)
+                    .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
+                )
+            new_values["parent_id"] = parent.id
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = is_company
