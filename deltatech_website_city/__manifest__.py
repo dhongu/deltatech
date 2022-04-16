@@ -21,6 +21,6 @@
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        "web.assets_frontend": ["/deltatech_website_city/static/src/js/portal.js"],
+        "web.assets_frontend": ["deltatech_website_city/static/src/js/portal.js"],
     },
 }
