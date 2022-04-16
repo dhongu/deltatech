@@ -3,6 +3,7 @@
 
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class ServiceBillingPreparation(models.TransientModel):
@@ -41,34 +42,26 @@ class ServiceBillingPreparation(models.TransientModel):
         return defaults
 
     def do_billing_preparation(self):
-        res = []
+        # check for blocked partners
         for agreement in self.agreement_ids:
-            for line in agreement.agreement_line:
-                cons_value = line.get_value_for_consumption()
-                if cons_value:
-                    cons_value.update(
-                        {
-                            "partner_id": agreement.partner_id.id,
-                            "period_id": self.period_id.id,
-                            "agreement_id": agreement.id,
-                            "agreement_line_id": line.id,
-                            "date_invoice": agreement.next_date_invoice,
-                            "group_id": agreement.group_id.id,
-                            "analytic_account_id": line.analytic_account_id.id,
-                        }
-                    )
-                    consumption = self.env["service.consumption"].create(cons_value)
-                    if consumption:
-                        if line.has_free_cycles and line.cycles_free > 0:
-                            new_cycles = line.cycles_free - 1
-                            line.write({"cycles_free": new_cycles})  # decrementing free cycle
-                            consumption.update(
-                                {"with_free_cycle": True}
-                            )  # noting that was created with free cycle - used to increment it back on delete
-                    res.extend(line.after_create_consumption(consumption))
+            if agreement.partner_id.invoice_warn == "block":
+                raise UserError(agreement.partner_id.invoice_warn_msg)
+            if agreement.partner_id.parent_id and agreement.partner_id.parent_id.invoice_warn == "block":
+                raise UserError(agreement.partner_id.parent_id.invoice_warn_msg)
+
+        consumptions = self.env["service.consumption"]
+        for agreement in self.agreement_ids:
+            consumptions = agreement.agreement_line.do_billing_preparation(self.period_id)
         self.agreement_ids.compute_totals()
+        domain = [
+            "|",
+            ("id", "in", consumptions.ids),
+            "&",
+            ("agreement_id", "in", self.agreement_ids.ids),
+            ("state", "=", "draft"),
+        ]
         return {
-            "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
+            "domain": domain,
             "name": _("Service Consumption"),
             "view_type": "form",
             "view_mode": "tree,form",

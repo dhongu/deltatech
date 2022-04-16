@@ -221,7 +221,7 @@ class ServiceAgreement(models.Model):
             for invoice in invoices:
                 if invoice.state == "posted":
                     for line in invoice.invoice_line_ids:
-                        if line.agreement_line_id in agreement.agreement_line:
+                        if line.agreement_line_id in agreement.with_context(test_active=False).agreement_line:
                             total_invoiced += line.price_subtotal
             agreement.write({"total_invoiced": total_invoiced, "total_consumption": total_consumption})
 
@@ -410,4 +410,39 @@ class ServiceAgreementLine(models.Model):
 
     @api.model
     def after_create_consumption(self, consumption):
-        return [consumption.id]
+        pass
+
+    def do_billing_preparation(self, period_id):
+        consumptions = self.env["service.consumption"]
+        for line in self:
+            agreement = line.agreement_id
+            cons_value = line.get_value_for_consumption()
+            if cons_value:
+                from_uninstall = False
+                if self.env.context.get("from_uninstall"):
+                    from_uninstall = True
+                cons_value.update(
+                    {
+                        "partner_id": agreement.partner_id.id,
+                        "period_id": period_id.id,
+                        "agreement_id": agreement.id,
+                        "agreement_line_id": line.id,
+                        "date_invoice": agreement.next_date_invoice,
+                        "group_id": agreement.group_id.id,
+                        "analytic_account_id": line.analytic_account_id.id,
+                        "state": "draft",
+                        "from_uninstall": from_uninstall,
+                    }
+                )
+                consumption = self.env["service.consumption"].create(cons_value)
+                if consumption:
+                    if line.has_free_cycles and line.cycles_free > 0:
+                        new_cycles = line.cycles_free - 1
+                        line.write({"cycles_free": new_cycles})  # decrementing free cycle
+                        consumption.update(
+                            {"with_free_cycle": True}
+                        )  # noting that was created with free cycle - used to increment it back on delete
+                line.after_create_consumption(consumption)
+                consumptions |= consumption
+
+        return consumptions

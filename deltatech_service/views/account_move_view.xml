@@ -29,6 +29,13 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter" />
         <field name="arch" type="xml">
+            <filter name="unpaid" position="after">
+                <filter
+                    name="service"
+                    string="Services Agreements"
+                    domain="[('journal_id.service_invoice','=',True)]"
+                />
+            </filter>
             <field name="date" position="after">
                 <field
                     name="invoice_line_ids"

@@ -171,9 +171,23 @@ class ServiceBilling(models.TransientModel):
                     comment += _("%s from %s \n") % (agreement.name or "____", agreement.date_agreement or "____")
                 if len(pre_invoice[date_invoice][key]["agreement_ids"]) > 1:
                     payment_term_id = False
+                    user_id = False
                 else:
                     for agreement in pre_invoice[date_invoice][key]["agreement_ids"]:
-                        payment_term_id = agreement.payment_term_id.id
+                        payment_term_id = agreement.payment_term_id.id or agreement.partner_id.property_payment_term_id
+                        user_id = agreement.user_id.id
+                # check if negative values greater than positive ones for the same product
+                for invoice_line in pre_invoice[date_invoice][key]["lines"]:
+                    if invoice_line["quantity"] < 0:
+                        plus_qty = 0.0
+                        for positive_line in pre_invoice[date_invoice][key]["lines"]:
+                            if (
+                                positive_line["product_id"] == invoice_line["product_id"]
+                                and positive_line["quantity"] > 0.0
+                            ):
+                                plus_qty += positive_line["quantity"]
+                        if abs(invoice_line["quantity"]) >= plus_qty:
+                            invoice_line["quantity"] = -1 * plus_qty
                 invoice_value = {
                     # 'name': _('Invoice'),
                     "partner_id": pre_invoice[date_invoice][key]["partner_id"],
@@ -187,6 +201,7 @@ class ServiceBilling(models.TransientModel):
                     "state": "draft",
                     "invoice_line_ids": [(0, 0, x) for x in pre_invoice[date_invoice][key]["lines"]],
                     "narration": comment,
+                    "invoice_user_id": user_id,
                     # 'agreement_id':pre_invoice[key]['agreement_id'],
                 }
                 invoice_id = self.env["account.move"].create(invoice_value)
@@ -196,7 +211,6 @@ class ServiceBilling(models.TransientModel):
                 res.append(invoice_id.id)
 
         agreements.compute_totals()
-
-        action = self.env.ref("deltatech_service.action_service_invoice").read()[0]
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
         action["domain"] = "[('id','in', [" + ",".join(map(str, res)) + "])]"
         return action
