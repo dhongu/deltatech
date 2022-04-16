@@ -40,7 +40,6 @@
                     name="city_id"
                     t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}"
                     t-att-data-value="city_id"
-                    data-init="1"
                 >
                     <option value="">select...</option>
                     <t t-foreach="cities or []" t-as="city">

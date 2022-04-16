@@ -190,7 +190,7 @@ odoo.define("deltatech_website_city.website_sale", function (require) {
                 if (selectCities.data("init") === 0 || selectCities.find("option").length === 1) {
                     if (data.cities.length) {
                         $("input[name='city']").parent("div").hide();
-                        selectCities.html("");
+                        selectCities.html("<option value='0'>select...</option>");
                         _.each(data.cities, function (x) {
                             var opt = $("<option>")
                                 .text(x[1])
