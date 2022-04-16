@@ -18,8 +18,8 @@
     "maintainers": ["dhongu"],
     "assets": {
         "website.assets_frontend": [
-            "/deltatech_website_category_snippet/static/src/js/website_category_card.js",
-            "/deltatech_website_category_snippet/static/src/scss/s_category_card.scss",
+            "deltatech_website_category_snippet/static/src/js/website_category_card.js",
+            "deltatech_website_category_snippet/static/src/scss/s_category_card.scss",
         ],
         "website.assets_editor": ["/deltatech_website_category_snippet/static/src/js/website_category_card_editor.js"],
     },

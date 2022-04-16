@@ -109,12 +109,12 @@
             <t t-if="mode[1] == 'billing'">
                 <h2 class="o_page_header mt8">Billing Address</h2>
             </t>
-            <t t-set="mode_backup" t-value="mode"/>
-            <t t-set="mode" t-value="False"/>
+            <t t-set="mode_backup" t-value="mode" />
+            <t t-set="mode" t-value="False" />
         </t>
 
         <t t-if="mode == ('new', 'billing')" position="after">
-            <t t-set="mode" t-value="mode_backup"/>
+            <t t-set="mode" t-value="mode_backup" />
         </t>
 
 <!--        <xpath expr="//div[@id='div_phone']" position="after">

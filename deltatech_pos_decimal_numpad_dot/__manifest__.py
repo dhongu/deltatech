@@ -17,5 +17,5 @@
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu"],
-    "assets": {"point_of_sale.assets": ["/deltatech_pos_decimal_numpad_dot/static/src/js/NumberBuffer.js"]},
+    "assets": {"point_of_sale.assets": ["deltatech_pos_decimal_numpad_dot/static/src/js/NumberBuffer.js"]},
 }

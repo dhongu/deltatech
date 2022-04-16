@@ -20,6 +20,6 @@
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        "web.assets_frontend": ["/deltatech_website_delivery_and_payment/static/src/js/website_sale_delivery.js"],
+        "web.assets_frontend": ["deltatech_website_delivery_and_payment/static/src/js/website_sale_delivery.js"],
     },
 }

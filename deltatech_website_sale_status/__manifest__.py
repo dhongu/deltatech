@@ -21,7 +21,7 @@
     "maintainers": ["dhongu"],
     "assets": {
         "web.assets_backend": [
-            # "/deltatech_website_sale_status/static/src/js/website_sale_backend.js"
+            # "/eltatech_website_sale_status/static/src/js/website_sale_backend.js"
         ],
     },
 }

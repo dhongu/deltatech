@@ -15,7 +15,7 @@
         # "views/website_sale_stock_templates.xml"
     ],
     "assets": {
-        "web.assets_frontend": ["/deltatech_website_stock_availability/static/src/js/variant_mixin.js"],
+        "web.assets_frontend": ["deltatech_website_stock_availability/static/src/js/variant_mixin.js"],
     },
     "images": ["static/description/main_screenshot.png"],
     "price": 1.00,

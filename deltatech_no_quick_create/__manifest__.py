@@ -17,7 +17,7 @@
     "maintainers": ["dhongu"],
     "assets": {
         "web.assets_backend": [
-            "/deltatech_no_quick_create/static/src/js/fields.js",
+            "deltatech_no_quick_create/static/src/js/fields.js",
         ]
     },
 }

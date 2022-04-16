@@ -20,6 +20,6 @@
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        "web.assets_backend": ["/deltatech_download/static/src/js/action_manager.js"],
+        "web.assets_backend": ["deltatech_download/static/src/js/action_manager.js"],
     },
 }

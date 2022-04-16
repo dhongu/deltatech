@@ -16,5 +16,5 @@
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
-    "assets": {"web.assets_backend": ["/deltatech_report_prn/static/src/js/action_manager.js"]},
+    "assets": {"web.assets_backend": ["deltatech_report_prn/static/src/js/action_manager.js"]},
 }

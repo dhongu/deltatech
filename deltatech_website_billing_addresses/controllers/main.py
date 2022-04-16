@@ -10,7 +10,6 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
-
     def checkout_values(self, **kw):
         values = super(WebsiteSaleBillingAddresses, self).checkout_values(**kw)
         order = request.website.sale_get_order(force_create=1)
@@ -49,9 +48,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 if not parent:
                     parent = (
                         request.env["res.partner"]
-                            .sudo()
-                            .with_context(tracking_disable=True)
-                            .create({"name": values["company_name"], "vat": values["vat"]})
+                        .sudo()
+                        .with_context(tracking_disable=True)
+                        .create({"name": values["company_name"], "vat": values["vat"]})
                     )
                 new_values["parent_id"] = parent.id
 
@@ -131,10 +130,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             "can_edit_vat": can_edit_vat,
             "error": errors,
             "callback": kw.get("callback"),
-
             "type": "invoice",
             "use_same": False,
-            "only_services":True
+            "only_services": True,
         }
         render_values.update(self._get_country_related_render_values(kw, render_values))
         return request.render("website_sale.address", render_values)
