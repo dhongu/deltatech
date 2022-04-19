@@ -39,9 +39,9 @@ class Inventory(models.Model):
         readonly=False,
         states={"done": [("readonly", True)]},
     )
-    # move_ids = fields.One2many(
-    #     'stock.move', 'inventory_id', string='Created Moves',
-    #     states={'done': [('readonly', True)]})
+    move_ids = fields.One2many(
+        "stock.move", "inventory_id", string="Created Moves", states={"done": [("readonly", True)]}
+    )
     state = fields.Selection(
         string="Status",
         selection=[("draft", "Draft"), ("cancel", "Cancelled"), ("confirm", "In Progress"), ("done", "Validated")],
@@ -195,12 +195,10 @@ class Inventory(models.Model):
 
     def action_check(self):
         """ Checks the inventory and computes the stock move to do """
-        raise NotImplementedError
-
-        # for inventory in self.filtered(lambda x: x.state not in ('done','cancel')):
-        #     # first remove the existing stock moves linked to this inventory
-        #     inventory.with_context(prefetch_fields=False).mapped('move_ids').unlink()
-        #     inventory.line_ids._generate_moves()
+        for inventory in self.filtered(lambda x: x.state not in ("done", "cancel")):
+            # first remove the existing stock moves linked to this inventory
+            inventory.with_context(prefetch_fields=False).mapped("move_ids").unlink()
+            inventory.line_ids._generate_moves()
 
     def action_cancel_draft(self):
         # self.mapped('move_ids')._action_cancel()
@@ -641,6 +639,7 @@ class InventoryLine(models.Model):
             "restrict_partner_id": self.partner_id.id,
             "location_id": location_id,
             "location_dest_id": location_dest_id,
+            "is_inventory": True,
             "move_line_ids": [
                 (
                     0,

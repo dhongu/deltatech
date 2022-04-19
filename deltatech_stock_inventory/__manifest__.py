@@ -16,7 +16,7 @@
         "data/data.xml",
         "views/stock_inventory_views.xml",
         "views/product_view.xml",
-        # "views/report_stockinventory.xml",
+        "views/report_stockinventory.xml",
         # "wizard/stock_change_product_qty_view.xml",
     ],
     "images": ["images/main_screenshot.png"],

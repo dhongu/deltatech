@@ -337,7 +337,7 @@
     </record>
 
     <record id="action_inventory_form" model="ir.actions.act_window">
-        <field name="name">Inventory Adjustments</field>
+        <field name="name">Inventory Documents</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">stock.inventory</field>
         <field name="view_mode">tree,kanban,form</field>

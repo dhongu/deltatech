@@ -15,17 +15,17 @@
                             <field name="loc_row" placeholder="Row" />
                             <field name="loc_case" placeholder="Case" />
                         </div>
-<!--                        <label for="loc_rack" string="Inventory" />-->
-<!--                        <div class="o_row">-->
-<!--                            <field name="last_inventory_date" />-->
-<!--                            <field name="last_inventory_id" />-->
-<!--                            <button-->
-<!--                                string="Update"-->
-<!--                                name="get_last_inventory_date"-->
-<!--                                type="object"-->
-<!--                                class="oe_link oe_edit_only"-->
-<!--                            />-->
-<!--                        </div>-->
+                        <label for="loc_rack" string="Inventory" />
+                        <div class="o_row">
+                            <field name="last_inventory_date" />
+                            <field name="last_inventory_id" />
+                            <button
+                                string="Update"
+                                name="get_last_inventory_date"
+                                type="object"
+                                class="oe_link oe_edit_only"
+                            />
+                        </div>
 
 
                     </group>

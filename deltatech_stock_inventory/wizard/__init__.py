@@ -3,3 +3,5 @@
 # See README.rst file on addons root folder for license details
 
 # from . import stock_change_product_qty
+
+from . import stock_track_confirmation
