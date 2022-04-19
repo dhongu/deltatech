@@ -37,25 +37,27 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         new_values, errors, error_msg = super(WebsiteSaleBillingAddresses, self).values_postprocess(
             order, mode, values, errors, error_msg
         )
+        is_company = values.get("is_company", False) == "True"
+
         if values.get("type", False):
             new_values["type"] = values.get("type")
-        if mode == ("new", "invoice"):
+        if mode[0] == "new":
             new_values["parent_id"] = order.partner_id.commercial_partner_id.id
 
-            if values.get("vat", False):
-                domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
-                parent = request.env["res.partner"].sudo().search(domain)
-                if not parent:
-                    parent = (
-                        request.env["res.partner"]
-                        .sudo()
-                        .with_context(tracking_disable=True)
-                        .create({"name": values["company_name"], "vat": values["vat"]})
-                    )
-                new_values["parent_id"] = parent.id
+        if values.get("vat", False) and is_company:
+            domain = [("parent_id", "=", False), ("vat", "=", values["vat"])]
+            parent = request.env["res.partner"].sudo().search(domain, limit=1)
+            if not parent:
+                parent = (
+                    request.env["res.partner"]
+                    .sudo()
+                    .with_context(tracking_disable=True)
+                    .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
+                )
+            new_values["parent_id"] = parent.id
 
         if not new_values.get("parent_id", False):
-            new_values["is_company"] = values.get("is_company", False) == "on"
+            new_values["is_company"] = is_company
         new_values["access_for_user_id"] = request.env.user.id
 
         return new_values, errors, error_msg
@@ -98,6 +100,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
             elif partner_id == -1:
                 mode = ("new", "billing")
+                values = {"is_company": True}
                 can_edit_vat = True
             else:  # no mode - refresh without post?
                 return request.redirect("/shop/checkout")
