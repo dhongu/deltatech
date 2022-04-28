@@ -35,8 +35,8 @@ class ProductTemplate(models.Model):
         }
 
         for record in self:
-            sales_count2 = sum([p.sales_count2 for p in record.with_context(active_test=False).product_variant_ids])
-            visit_count = sum([p.visit_count for p in record.with_context(active_test=False).product_variant_ids])
+            sales_count2 = sum(p.sales_count2 for p in record.with_context(active_test=False).product_variant_ids)
+            visit_count = sum(p.visit_count for p in record.with_context(active_test=False).product_variant_ids)
             rating_count2 = mapping.get(record.id, {}).get("rating_count", 0)
             rating_avg2 = mapping.get(record.id, {}).get("rating_avg", 0)
             record.write(
