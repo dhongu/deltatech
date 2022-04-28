@@ -68,11 +68,12 @@
                             attrs="{'invisible': [('category','!=','required')]}"
                         />
                     </span>
+                    <field name="can_create_delivery" invisible="1" />
                     <button
                         name="new_delivery_button"
                         type="object"
                         string="New Delivery"
-                        attrs="{'invisible': ['|', ('category','!=','delivery' ), ('piking_id','!=',False )]}"
+                        attrs="{'invisible': ['|', '|', ('category','!=','delivery' ), ('can_create_delivery','=',False ), ('piking_id','!=',False )]}"
                     />
                     <button name="action_assign" type="object" string="Assign" class="oe_highlight" states="new" />
                     <button name="action_taking" type="object" string="Taking " states="new" />
@@ -132,6 +133,11 @@
                                 options="{'always_reload': True}"
                             />
                             <field name="agreement_id" />
+                            <field
+                                name="piking_id"
+                                attrs="{'invisible': [('category','!=','delivery' )]}"
+                                readonly="1"
+                            />
                             <field name="equipment_id" invisible="1" />
                         </group>
                         <group>
