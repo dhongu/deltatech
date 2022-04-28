@@ -410,35 +410,45 @@ class QueueJob(models.Model):
                 # new_cr.commit()
 
     def _cron_runjob(self):
-        run = True
-        _logger.info("Start CRON job")
-        get_param = self.env["ir.config_parameter"].sudo().get_param
-        limit = safe_eval(get_param("queue_job.select_limit", "100"))
+        threaded_job = threading.Thread(target=self._run_job_in_threaded, args=(), name="queue_job")
+        threaded_job.start()
 
-        while run:
-            records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=limit)  # agatate
-            limit = limit - len(records)
-            if limit > 0:
-                records |= self.search([("state", "=", PENDING)], order="date_created", limit=limit)
+    def _run_job_in_threaded(self):
+        with api.Environment.manage():
+            new_cr = self.pool.cursor()
+            self = self.with_env(self.env(cr=new_cr))
 
-            if not records:
-                run = False
-            for record in records:
-                if record.state == PENDING:
-                    if record.eta and record.eta > fields.Datetime.now():
-                        continue
-                    record._change_job_state(ENQUEUED)
-                    # pylint: disable=E8102
-                    # self.env.cr.commit()
+            run = True
+            _logger.info("Start CRON job")
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            limit = safe_eval(get_param("queue_job.select_limit", "100"))
 
-                _logger.info("Start job: %s" % record.uuid)
-                try:
-                    record.runjob(record.uuid)
-                    _logger.info("End job: %s" % record.uuid)
-                except Exception:
-                    _logger.info("End with error job : %s" % record.uuid)
+            while run:
+                records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=limit)  # agatate
+                limit = limit - len(records)
+                if limit > 0:
+                    records |= self.search([("state", "=", PENDING)], order="date_created", limit=limit)
 
-        _logger.info("End CRON job")
+                if not records:
+                    run = False
+                for record in records:
+                    if record.state == PENDING:
+                        if record.eta and record.eta > fields.Datetime.now():
+                            continue
+                        record._change_job_state(ENQUEUED)
+                        new_cr.commit()
+                        # pylint: disable=E8102
+                        # self.env.cr.commit()
+
+                    _logger.info("Start job: %s" % record.uuid)
+                    try:
+                        record.runjob(record.uuid)
+                        _logger.info("End job: %s" % record.uuid)
+                    except Exception:
+                        _logger.info("End with error job : %s" % record.uuid)
+
+            _logger.info("End CRON job")
+            new_cr.close()
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
