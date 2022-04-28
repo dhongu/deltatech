@@ -12,6 +12,22 @@
                 </tree>
             </field>
         </record>
+
+        <record id="mail_substitution_form" model="ir.ui.view">
+            <field name="name">email.substitution.form</field>
+            <field name="model">mail.substitution</field>
+            <field name="arch" type="xml">
+                <form string="Substitution">
+                    <group>
+                        <field name="name" />
+                        <field name="email" />
+                        <field name="type" />
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
         <record id="action_mail_substitution" model="ir.actions.act_window">
             <field name="name">Substitution</field>
             <field name="res_model">mail.substitution</field>
