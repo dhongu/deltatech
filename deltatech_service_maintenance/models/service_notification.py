@@ -56,6 +56,7 @@ class ServiceNotification(models.Model):
     agreement_id = fields.Many2one(
         "service.agreement", string="Service Agreement", related="equipment_id.agreement_id", readonly=True
     )
+    can_create_delivery = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 
     contact_id = fields.Many2one(
         "res.partner",
