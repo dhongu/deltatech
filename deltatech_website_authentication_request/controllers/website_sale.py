@@ -8,9 +8,9 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale as WebsiteSale
 
 
 class WebsiteSale(WebsiteSaleBase):
-    @http.route(auth="user")
-    def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
-        return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty, display)
+    # @http.route(auth="user")
+    # def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
+    #     return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty, display)
 
     @http.route(auth="user")
     def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
