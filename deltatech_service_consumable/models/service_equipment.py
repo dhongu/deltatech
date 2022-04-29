@@ -14,6 +14,7 @@ class ServiceEquipment(models.Model):
     consumable_item_ids = fields.Many2many(
         "service.consumable.item", string="Consumables", compute="_compute_consumable_item_ids", readonly=True
     )
+    permits_pickings = fields.Boolean(related="agreement_id.type_id.permits_pickings")
 
     def _compute_consumable_item_ids(self):
         for equipment in self:
