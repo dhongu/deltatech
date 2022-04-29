@@ -7,7 +7,13 @@
         <field name="arch" type="xml">
 
             <header position="inside">
-                <button name="new_piking_button" type="object" string="Delivery for service" />
+                <field name="permits_pickings" invisible="1" />
+                <button
+                    name="new_piking_button"
+                    type="object"
+                    string="Delivery for service"
+                    attrs="{'invisible': [('permits_pickings','=',False )]}"
+                />
             </header>
             <div name="button_box" position="inside">
 
