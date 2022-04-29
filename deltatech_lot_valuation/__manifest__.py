@@ -12,6 +12,7 @@
     "license": "LGPL-3",
     "data": [
         "views/stock_production_lot.xml",
+        "views/stock_quant_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

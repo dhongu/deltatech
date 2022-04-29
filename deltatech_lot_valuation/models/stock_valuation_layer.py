@@ -39,3 +39,5 @@ class StockValuationLayer(models.Model):
             if moves:
                 domain += [("stock_move_id", "in", moves.ids)]
         return super(StockValuationLayer, self).read_group(domain, fields, groupby, offset, limit, orderby, lazy)
+
+

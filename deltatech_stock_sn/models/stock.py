@@ -25,7 +25,7 @@ class StockProductionLot(models.Model):
         compute="_compute_stock_available",
         store=True,
         help="By unchecking the active field, you may hide an Lot Number without deleting it.",
-        defualt=True,
+        default=True,
     )
 
     stock_available = fields.Float(
