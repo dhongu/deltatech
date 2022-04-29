@@ -4,28 +4,28 @@
         <record id="uom_categ_page" model="product.uom.categ">
             <field name="name">Page</field>
         </record>
-        <record id="uom_page" model="product.uom">
+        <record id="uom_page" model="uom.uom">
             <field name="category_id" ref="uom_categ_page" />
             <field name="name">Page</field>
             <field name="factor" eval="1.0" />
         </record>
-        <record id="uom_kpage" model="product.uom">
+        <record id="uom_kpage" model="uom.uom">
             <field name="category_id" ref="uom_categ_page" />
             <field name="name">KPage</field>
             <field name="factor_inv" eval="1000" />
             <field name="uom_type">bigger</field>
         </record>
-        <record id="uom_page_color" model="product.uom">
+        <record id="uom_page_color" model="uom.uom">
             <field name="category_id" ref="uom_categ_page" />
             <field name="name">Color Page</field>
             <field name="factor" eval="1.0" />
         </record>
-        <record id="uom_page_black" model="product.uom">
+        <record id="uom_page_black" model="uom.uom">
             <field name="category_id" ref="uom_categ_page" />
             <field name="name">Black Page</field>
             <field name="factor" eval="1.0" />
         </record>
-        <record id="uom_page_scanned" model="product.uom">
+        <record id="uom_page_scanned" model="uom.uom">
             <field name="category_id" ref="uom_categ_page" />
             <field name="name">Scanned Page</field>
             <field name="factor" eval="1.0" />
