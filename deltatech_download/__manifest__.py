@@ -22,5 +22,4 @@
     "assets": {
         "web.assets_backend": ["deltatech_download/static/src/js/action_manager.js"],
     },
-
 }

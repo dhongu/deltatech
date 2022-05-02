@@ -4,7 +4,8 @@ import {download} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
 
 async function pdfReportHandler(action, options, env) {
-    if (action.report_type === "qweb-pdf") {  //&& !action.direct_download) {
+    if (action.report_type === "qweb-pdf") {
+        //&& !action.direct_download) {
 
         const type = "pdf";
         // COPY actionManager._getReportUrl
@@ -21,9 +22,7 @@ async function pdfReportHandler(action, options, env) {
                 url_ += `/${actionContext.active_ids.join(",")}`;
             }
             if (type === "pdf") {
-                const context = encodeURIComponent(
-                    JSON.stringify(env.services.user.context)
-                );
+                const context = encodeURIComponent(JSON.stringify(env.services.user.context));
                 url_ += `?context=${context}`;
             }
         }
@@ -45,10 +44,7 @@ async function pdfReportHandler(action, options, env) {
         }
         const onClose = options.onClose;
         if (action.close_on_report_download) {
-            return env.services.action.doAction(
-                {type: "ir.actions.act_window_close"},
-                {onClose}
-            );
+            return env.services.action.doAction({type: "ir.actions.act_window_close"}, {onClose});
         } else if (onClose) {
             onClose();
         }

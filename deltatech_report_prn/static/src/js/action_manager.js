@@ -20,9 +20,7 @@ async function prnReportHandler(action, options, env) {
                 url_ += `/${actionContext.active_ids.join(",")}`;
             }
             if (type === "prn") {
-                const context = encodeURIComponent(
-                    JSON.stringify(env.services.user.context)
-                );
+                const context = encodeURIComponent(JSON.stringify(env.services.user.context));
                 url_ += `?context=${context}`;
             }
         }
@@ -41,10 +39,7 @@ async function prnReportHandler(action, options, env) {
         }
         const onClose = options.onClose;
         if (action.close_on_report_download) {
-            return env.services.action.doAction(
-                {type: "ir.actions.act_window_close"},
-                {onClose}
-            );
+            return env.services.action.doAction({type: "ir.actions.act_window_close"}, {onClose});
         } else if (onClose) {
             onClose();
         }
@@ -56,7 +51,6 @@ async function prnReportHandler(action, options, env) {
 }
 
 registry.category("ir.actions.report handlers").add("prn_handler", prnReportHandler);
-
 
 // odoo.define("deltatech_report_prn.ActionManager", function (require) {
 //     "use strict";
