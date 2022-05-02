@@ -1,36 +1,62 @@
-odoo.define("deltatech_download.ActionManager", function (require) {
-    "use strict";
+/** @odoo-module **/
 
-    var ActionManager = require("web.ActionManager");
+import {download} from "@web/core/network/download";
+import {registry} from "@web/core/registry";
 
-    ActionManager.include({
-        _executeURLAction: function (action) {
-            var result = this._super.apply(this, arguments);
-            this._closeDialog({infos: action.infos});
-            return result;
-        },
+async function pdfReportHandler(action, options, env) {
+    if (action.report_type === "qweb-pdf") {  //&& !action.direct_download) {
 
-        _triggerDownload: function (action, options, type) {
-            var self = this;
-            var reportUrls = this._makeReportUrls(action);
-            if (type === "pdf" && !action.direct_download) {
-                var pdfWindow = window.open(reportUrls.pdf, "_blank");
-                pdfWindow.document.title = "Download";
-                if (action.close_on_report_download) {
-                    var closeAction = {type: "ir.actions.act_window_close"};
-                    return self.doAction(closeAction, _.pick(options, "on_close"));
-                }
-                return options.on_close();
+        const type = "pdf";
+        // COPY actionManager._getReportUrl
+        let url_ = `/report/${type}/${action.report_name}`;
+        const actionContext = action.context || {};
+        if (action.data && JSON.stringify(action.data) !== "{}") {
+            // Build a query string with `action.data` (it's the place where reports
+            // using a wizard to customize the output traditionally put their options)
+            const options_ = encodeURIComponent(JSON.stringify(action.data));
+            const context_ = encodeURIComponent(JSON.stringify(actionContext));
+            url_ += `?options=${options_}&context=${context_}`;
+        } else {
+            if (actionContext.active_ids) {
+                url_ += `/${actionContext.active_ids.join(",")}`;
             }
-            return this._super.apply(this, arguments);
-        },
+            if (type === "pdf") {
+                const context = encodeURIComponent(
+                    JSON.stringify(env.services.user.context)
+                );
+                url_ += `?context=${context}`;
+            }
+        }
+        // COPY actionManager._triggerDownload
+        env.services.ui.block();
+        try {
+            // await download({
+            //     url: "/report/download",
+            //     data: {
+            //         data: JSON.stringify([url_, action.report_type]),
+            //         context: JSON.stringify(env.services.user.context),
+            //     },
+            // });
 
-        // _executeReportAction: function (action, options) {
-        //     var self = this;
-        //     if (action.report_type === "pdf") {
-        //         return self._triggerDownload(action, options, "pdf");
-        //     }
-        //     return this._super.apply(this, arguments);
-        // },
-    });
-});
+            var pdfWindow = window.open(url_, "_blank");
+            pdfWindow.document.title = "Download";
+        } finally {
+            env.services.ui.unblock();
+        }
+        const onClose = options.onClose;
+        if (action.close_on_report_download) {
+            return env.services.action.doAction(
+                {type: "ir.actions.act_window_close"},
+                {onClose}
+            );
+        } else if (onClose) {
+            onClose();
+        }
+        // DIFF: need to inform success to the original method. Otherwise it
+        // will think our hook function did nothing and run the original
+        // method.
+        return Promise.resolve(true);
+    }
+}
+
+registry.category("ir.actions.report handlers").add("pdf_handler", pdfReportHandler);

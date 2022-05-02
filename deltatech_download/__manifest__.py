@@ -4,7 +4,7 @@
 
 {
     "name": "Download File",
-    "version": "15.0.0.1.0",
+    "version": "15.0.0.1.1",
     "author": "Terrabit,Dorin Hongu",
     "summary": "Generare fisier",
     "website": "https://www.terrabit.ro",
@@ -22,4 +22,5 @@
     "assets": {
         "web.assets_backend": ["deltatech_download/static/src/js/action_manager.js"],
     },
+
 }
