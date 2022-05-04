@@ -54,6 +54,9 @@ class SaleOrderLine(models.Model):
     def _check_sale_price(self):
         if self.env.context.get("ignore_price_check", False):
             return True
+        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
+        if self.env.context.get("website_id", False):
+            return True
         get_param = self.env["ir.config_parameter"].sudo().get_param
         margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
 
@@ -62,9 +65,11 @@ class SaleOrderLine(models.Model):
                 continue
             if line.product_uom_qty < 0:
                 continue
+            if line.is_delivery:
+                continue
             if line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(_("You can not sell without price."))
+                    raise UserError(_("You can not sell %s without price.") % line.product_id.name)
                 else:
                     message = _("Sale %s without price.") % line.product_id.name
                     line.order_id.message_post(body=message)

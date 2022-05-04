@@ -12,5 +12,6 @@
     "license": "LGPL-3",
     "data": ["views/sale_view.xml"],
     "development_status": "Beta",
+    "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],
 }
