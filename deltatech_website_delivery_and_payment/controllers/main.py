@@ -30,7 +30,7 @@ class WebsiteSale(Base):
 
         if acquirer_id:
             acquirer = request.env["payment.acquirer"].sudo().browse(int(acquirer_id))
-            if acquirer:
+            if acquirer and order.acquirer_id != acquirer:
                 order.write({"acquirer_id": acquirer.id})
 
             if acquirer.value_limit and order.amount_total > acquirer.value_limit:

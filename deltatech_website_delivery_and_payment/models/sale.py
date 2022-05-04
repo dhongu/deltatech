@@ -15,3 +15,15 @@ class SaleOrder(models.Model):
         carriers = carriers.filtered(lambda c: not c.weight_min or c.weight_min <= weight)
         carriers = carriers.filtered(lambda c: not c.weight_max or c.weight_max >= weight)
         return carriers
+
+    def _check_carrier_quotation(self, force_carrier_id=None):
+        if force_carrier_id and force_carrier_id == self.carrier_id.id == int(force_carrier_id):
+            return True
+        return super(SaleOrder, self)._check_carrier_quotation(force_carrier_id)
+
+    def _action_confirm(self):
+        for order in self:
+            tx = order.sudo().transaction_ids.get_last_transaction()
+            if tx:
+                order.write({"acquirer_id": tx.acquirer_id.id})
+        return super(SaleOrder, self)._action_confirm()
