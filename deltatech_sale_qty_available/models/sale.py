@@ -20,7 +20,8 @@ class SaleOrder(models.Model):
             is_ready = order.state in ["sent", "sale", "done"] and order.invoice_status != "invoiced"
             if is_ready:
                 for line in order.order_line:
-                    is_ready = is_ready and (line.qty_available >= line.product_uom_qty)
+                    if line.product_id.type == "product":
+                        is_ready = is_ready and (line.qty_available >= line.product_uom_qty)
             order.is_ready = is_ready
 
 
