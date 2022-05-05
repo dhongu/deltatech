@@ -77,6 +77,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
     @http.route()
     def address(self, **kw):
+        request.website.sale_get_order(force_create=True)
         if kw.get("type") == "invoice" and "submitted" in kw and request.httprequest.method == "POST":
             return self.billing_address(**kw)
         return super(WebsiteSaleBillingAddresses, self).address(**kw)
@@ -86,7 +87,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
     )
     def billing_address(self, **kw):
         Partner = request.env["res.partner"].with_context(show_address=1).sudo()
-        order = request.website.sale_get_order()
+        order = request.website.sale_get_order(force_create=True)
 
         # redirection = self.checkout_redirection(order)
         # if redirection:

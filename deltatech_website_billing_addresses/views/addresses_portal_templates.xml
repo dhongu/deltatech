@@ -53,6 +53,19 @@
                             </td>
                         </tr>
                     </t>
+                    <tr>
+                            <td>
+                                <a t-attf-href="/shop/address">
+                                    New
+                                </a>
+                            </td>
+                            <td>
+
+                            </td>
+                             <td>
+
+                            </td>
+                        </tr>
                 </tbody>
 
             </t>
@@ -113,6 +126,19 @@
                             </td>
                         </tr>
                     </t>
+                    <tr>
+                            <td>
+                                <a t-attf-href="/shop/billing_address">
+                                    New
+                                </a>
+                            </td>
+                            <td>
+
+                            </td>
+                             <td>
+
+                            </td>
+                        </tr>
                 </tbody>
 
             </t>
