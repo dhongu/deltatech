@@ -10,6 +10,13 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
+
+    @http.route()
+    def checkout(self, **post):
+        post.pop('express', False)
+        return super(WebsiteSaleBillingAddresses, self).checkout(**post)
+
+
     def checkout_values(self, **kw):
         values = super(WebsiteSaleBillingAddresses, self).checkout_values(**kw)
         order = request.website.sale_get_order(force_create=1)
