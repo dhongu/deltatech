@@ -10,6 +10,11 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
+    @http.route()
+    def checkout(self, **post):
+        post.pop("express", False)
+        return super(WebsiteSaleBillingAddresses, self).checkout(**post)
+
     def checkout_values(self, **kw):
         values = super(WebsiteSaleBillingAddresses, self).checkout_values(**kw)
         order = request.website.sale_get_order(force_create=1)
@@ -31,6 +36,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         order.partner_invoice_id = partner_id
 
         values["billings_addresses"] = billings_addresses
+        shippings = values.get("shippings", [])
+        if shippings and len(shippings) > 1:
+            values["shippings"] = shippings.filtered(lambda p: p.type == "delivery")
         return values
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
@@ -51,7 +59,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 parent = (
                     request.env["res.partner"]
                     .sudo()
-                    .with_context(tracking_disable=True)
+                    .with_context(tracking_disable=True, no_vat_validation=True)
                     .create(
                         {
                             "name": values["company_name"],
@@ -77,6 +85,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
     @http.route()
     def address(self, **kw):
+        request.website.sale_get_order(force_create=True)
         if kw.get("type") == "invoice" and "submitted" in kw and request.httprequest.method == "POST":
             return self.billing_address(**kw)
         return super(WebsiteSaleBillingAddresses, self).address(**kw)
@@ -86,7 +95,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
     )
     def billing_address(self, **kw):
         Partner = request.env["res.partner"].with_context(show_address=1).sudo()
-        order = request.website.sale_get_order()
+        order = request.website.sale_get_order(force_create=True)
 
         redirection = self.checkout_redirection(order)
         if redirection:
