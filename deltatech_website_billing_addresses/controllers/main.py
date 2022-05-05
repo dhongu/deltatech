@@ -51,8 +51,21 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 parent = (
                     request.env["res.partner"]
                     .sudo()
-                    .with_context(tracking_disable=True)
-                    .create({"name": values["company_name"], "vat": values["vat"], "is_company": is_company})
+                    .with_context(tracking_disable=True, no_vat_validation=True)
+                    .create(
+                        {
+                            "name": values["company_name"],
+                            "vat": values["vat"],
+                            "is_company": is_company,
+                            "street": values.get("street", False),
+                            "street2": values.get("street2", False),
+                            "city": values.get("city", False),
+                            "state_id": values.get("state_id", False),
+                            "country_id": values.get("country_id", False),
+                            "phone": values.get("phone", False),
+                            "email": values.get("email", False),
+                        }
+                    )
                 )
             new_values["parent_id"] = parent.id
 
@@ -75,9 +88,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         Partner = request.env["res.partner"].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
 
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
+        # redirection = self.checkout_redirection(order)
+        # if redirection:
+        #     return redirection
 
         # mode = (False, False)
         can_edit_vat = False
