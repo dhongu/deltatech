@@ -90,6 +90,7 @@
     </template>
 
 
+<!--
     <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
         <xpath expr="//span[@t-esc='order.partner_id']" position="replace">
             <span
@@ -99,7 +100,31 @@
             />
         </xpath>
     </template>
+-->
 
+
+        <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
+        <xpath expr="//div[@id='shipping_and_billing']" position="replace">
+            <div class="card-body" id="shipping_and_billing">
+                <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit" /> Edit</a>
+                <t
+                    t-set="same_shipping"
+                    t-value="bool(order.partner_shipping_id==order.partner_invoice_id or only_services)"
+                />
+                <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span
+                        t-esc='order.partner_invoice_id'
+                        t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
+                        class="address-inline"
+                    /></div>
+                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b
+                    >Shipping: </b><span
+                        t-esc='order.partner_shipping_id'
+                        t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
+                        class="address-inline"
+                    /></div>
+            </div>
+        </xpath>
+    </template>
 
     <template id="address" inherit_id="website_sale.address">
         <input name="csrf_token" position="after">
