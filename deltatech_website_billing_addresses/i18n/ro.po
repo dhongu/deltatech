@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.payment
 msgid "&amp; Shipping"
-msgstr ""
+msgstr "&amp; Livrare"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.payment
@@ -53,7 +53,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__access_for_user_id
 #: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__access_for_user_id
 msgid "Access For User"
-msgstr ""
+msgstr "Acces utilizator"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
@@ -88,12 +88,12 @@ msgstr "Adresa Facturare"
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
 msgid "City"
-msgstr ""
+msgstr "Oraș"
 
 #. module: deltatech_website_billing_addresses
 #: model:ir.model,name:deltatech_website_billing_addresses.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: deltatech_website_billing_addresses
 #: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__display_name
@@ -103,7 +103,7 @@ msgstr "Nume afișat"
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_billing_kanban
 msgid "Edit this address"
-msgstr ""
+msgstr "Editează această adresă"
 
 #. module: deltatech_website_billing_addresses
 #: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__id
@@ -136,14 +136,14 @@ msgstr "Nu"
 #: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
 #, python-format
 msgid "None"
-msgstr ""
+msgstr "Fără"
 
 #. module: deltatech_website_billing_addresses
 #: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
 #: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
 #, python-format
 msgid "Search <span class=\"nolabel\"> (in Document)</span>"
-msgstr ""
+msgstr "Caută <span class=\"nolabel\"> (în Document)</span>"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_billing_kanban
