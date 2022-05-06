@@ -5,3 +5,5 @@
 # from . import stock_change_product_qty
 
 from . import stock_track_confirmation
+from . import stock_request_count
+from . import stock_inventory_adjustment_name

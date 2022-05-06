@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Inventory Old Method",
-    "version": "15.0.2.0.1",
+    "version": "15.0.2.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
@@ -17,6 +17,7 @@
         "views/stock_inventory_views.xml",
         "views/product_view.xml",
         "views/report_stockinventory.xml",
+        "views/stock_requests_count_view.xml",
         # "wizard/stock_change_product_qty_view.xml",
     ],
     "images": ["images/main_screenshot.png"],

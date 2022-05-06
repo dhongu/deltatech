@@ -28,8 +28,8 @@ class Inventory(models.Model):
         required=True,
         default=fields.Datetime.now,
         help="If the inventory adjustment is not validated, "
-        "date at which the theoritical quantities have been checked.\n"
-        "If the inventory adjustment is validated, date at which the inventory adjustment has been validated.",
+             "date at which the theoritical quantities have been checked.\n"
+             "If the inventory adjustment is validated, date at which the inventory adjustment has been validated.",
     )
     line_ids = fields.One2many(
         "stock.inventory.line",
@@ -81,7 +81,7 @@ class Inventory(models.Model):
     prefill_counted_quantity = fields.Selection(
         string="Counted Quantities",
         help="Allows to start with a pre-filled counted quantity for each lines or "
-        "with all counted quantities set to zero.",
+             "with all counted quantities set to zero.",
         default="counted",
         selection=[("counted", "Default to stock on hand"), ("zero", "Default to zero")],
     )
@@ -133,13 +133,13 @@ class Inventory(models.Model):
             )
         inventory_lines = self.line_ids.filtered(
             lambda l: l.product_id.tracking in ["lot", "serial"]
-            and not l.prod_lot_id
-            and l.theoretical_qty != l.product_qty
+                      and not l.prod_lot_id
+                      and l.theoretical_qty != l.product_qty
         )
         lines = self.line_ids.filtered(
             lambda l: float_compare(l.product_qty, 1, precision_rounding=l.product_uom_id.rounding) > 0
-            and l.product_id.tracking == "serial"
-            and l.prod_lot_id
+                      and l.product_id.tracking == "serial"
+                      and l.prod_lot_id
         )
         if inventory_lines and not lines:
             wiz_lines = [
@@ -223,6 +223,24 @@ class Inventory(models.Model):
             if not inventory.line_ids and not inventory.start_empty:
                 self.env["stock.inventory.line"].create(inventory._get_inventory_lines_values())
             inventory.write(vals)
+
+            # completare qunaturi
+            for line in inventory.line_ids:
+                quants = line.get_quants()
+                if not quants:
+                    quants = self.env['stock.quant'].create({
+                        'product_id': line.product_id.id,
+                        'lot_id': line.prod_lot_id.id,
+                        'owner_id': line.partner_id.id,
+                        'location_id': line.location_id.id,
+                        'package_id': line.package_id.id
+                    })
+                for quant in quants:
+                    quants.write({
+                        'inventory_quantity': quant.quantity,
+                        'inventory_date': vals['date'],
+                        'user_id': self.env.user.id
+                    })
 
     def action_open_inventory_lines(self):
         self.ensure_one()
@@ -461,7 +479,7 @@ class InventoryLine(models.Model):
     company_id = fields.Many2one(
         "res.company", "Company", related="inventory_id.company_id", index=True, readonly=True, store=True
     )
-    state = fields.Selection(string="Status", related="inventory_id.state")
+    state = fields.Selection(string="Status", related="inventory_id.state", store=True)
     theoretical_qty = fields.Float("Theoretical Quantity", digits="Product Unit of Measure", readonly=True)
     difference_qty = fields.Float(
         "Difference",
@@ -479,6 +497,7 @@ class InventoryLine(models.Model):
     )
     outdated = fields.Boolean(string="Quantity outdated", compute="_compute_outdated", search="_search_outdated")
     product_tracking = fields.Selection(string="Tracking", related="product_id.tracking", readonly=True)
+    quant_id = fields.Many2one('stock.quant')
 
     @api.depends("product_qty", "theoretical_qty")
     def _compute_difference(self):
@@ -571,6 +590,12 @@ class InventoryLine(models.Model):
 
     def write(self, vals):
         res = super(InventoryLine, self).write(vals)
+        if 'product_qty' in vals:
+            for line in self:
+                quants = line.get_quants()
+                if len(quants) == 1:
+                    if quants.inventory_quantity != line.product_qty:
+                        quants.write({'inventory_quantity': line.product_qty})
         self._check_no_duplicate_line()
         return res
 
@@ -677,18 +702,32 @@ class InventoryLine(models.Model):
             vals_list.append(vals)
         return self.env["stock.move"].create(vals_list)
 
+    def get_quants(self, create=False):
+        self.ensure_one()
+        quants = self.env["stock.quant"]._gather(
+            self.product_id,
+            self.location_id,
+            lot_id=self.prod_lot_id,
+            package_id=self.package_id,
+            owner_id=self.partner_id,
+            strict=True,
+        )
+        if not quants and create:
+            quants = self.env['stock.quant'].create({
+                'product_id': self.product_id.id,
+                'lot_id': self.prod_lot_id.id,
+                'owner_id': self.partner_id.id,
+                'location_id': self.location_id.id,
+                'package_id': self.package_id.id
+            })
+        return quants
+
     def action_refresh_quantity(self):
         filtered_lines = self.filtered(lambda l: l.state != "done")
         for line in filtered_lines:
             if line.outdated:
-                quants = self.env["stock.quant"]._gather(
-                    line.product_id,
-                    line.location_id,
-                    lot_id=line.prod_lot_id,
-                    package_id=line.package_id,
-                    owner_id=line.partner_id,
-                    strict=True,
-                )
+
+                quants = line.get_quants()
                 if quants.exists():
                     quantity = sum(quants.mapped("quantity"))
                     if line.theoretical_qty != quantity:
@@ -720,7 +759,7 @@ class InventoryLine(models.Model):
         lines = self.search([("inventory_id", "=", self.env.context.get("default_inventory_id"))])
         line_ids = lines.filtered(
             lambda line: float_is_zero(line.difference_qty, precision_rounding=line.product_id.uom_id.rounding)
-            == result
+                         == result
         ).ids
         return [("id", "in", line_ids)]
 

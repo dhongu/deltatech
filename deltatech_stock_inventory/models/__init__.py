@@ -7,3 +7,4 @@ from . import stock_inventory
 from . import stock
 from . import product
 from . import stock_move
+from . import stock_quant
