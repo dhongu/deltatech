@@ -25,7 +25,7 @@
                 >
                     <i class='fa fa-edit' />
                 </a>
-                <t t-esc="contact.commercial_company_name or contact.name"/>
+                <t t-esc="contact.commercial_company_name or contact.name" />
                 <t t-esc="contact" t-options="dict(widget='contact', fields=['address'], no_marker=True)" />
             </div>
             <div class='card-footer' t-if='not readonly'>
