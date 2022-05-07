@@ -90,29 +90,10 @@
         <field name="arch" type="xml">
             <search string="Search">
 
-                <field name="date" />
+                 <filter name="date" date="date" default_period="this_month" />
 
 
-                <filter
-                    string="This Year"
-                    name="year"
-                    domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-                    help="Sales performed during current year"
-                />
 
-                <filter
-                    string="This Month"
-                    name="month"
-                    domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-         ('date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                />
-
-                <filter
-                    string="Previous Month"
-                    name="prev_month"
-                    domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-         ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                />
 
 
                 <separator />
