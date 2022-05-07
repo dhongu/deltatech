@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">account.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <page name="other_info" position="after">
+                <page string="Packaging materials">
+                    <header>
+                        <button name="refresh_packaging_material" string="Refresh" type="object" />
+                    </header>
+                    <field name="packaging_material_ids" nolabel="1">
+                        <tree editable="bottom">
+                            <field name="material_type" />
+                            <field name="qty" />
+                            <field name="invoice_id" invisible="1" />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
