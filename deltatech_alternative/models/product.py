@@ -9,8 +9,8 @@ class ProductCatalog(models.Model):
     _name = "product.catalog"
     _description = "Product catalog"
 
-    name = fields.Char(string="Name", index=True)
-    code = fields.Char(string="Code", index=True)
+    name = fields.Char(string="Name", required=True, index=True)
+    code = fields.Char(string="Code", required=True, index=True)
     code_new = fields.Char(string="Code New", index=True)
     list_price = fields.Float(string="Sale Price", required=True, digits="Product Price")
     purchase_price = fields.Float(string="Purchase Price", digits="Product Price")
