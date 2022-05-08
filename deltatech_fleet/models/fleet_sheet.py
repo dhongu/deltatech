@@ -239,7 +239,7 @@ class FleetMapSheet(models.Model):
         compute="_compute_amount_all", string="Normal Consumption", store=True, help="The Normal Consumption"
     )
 
-    company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
 
     reservoir_level_start = fields.Float(
         compute="_compute_reservoir_level_start",
