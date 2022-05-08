@@ -1,7 +1,7 @@
 # ©  2015-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountInvoice(models.Model):
@@ -35,7 +35,6 @@ class AccountInvoice(models.Model):
                     ]
 
                 self.env["packaging.invoice.material"].create(lines)
-
 
     def action_invoice_open(self):
         res = super(AccountInvoice, self).action_invoice_open()

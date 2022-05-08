@@ -76,6 +76,7 @@ class ServiceMeter(models.Model):
 
     value_a = fields.Float()
     value_b = fields.Float()
+    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     _sql_constraints = [
         (
@@ -274,6 +275,7 @@ class ServiceMeterReading(models.Model):
     read_by = fields.Many2one("res.partner", string="Read by", domain=[("is_company", "=", False)])
     note = fields.Text(string="Notes")
     imported = fields.Boolean(string="Imported")
+    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     # todo: de adaugat status: ciorna, valid, neplauzibil, facturat ?
 

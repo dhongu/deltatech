@@ -22,4 +22,26 @@
     </record>
 
 
+        <data noupdate="1">
+
+        <record id="service_equipment_comp_rule" model="ir.rule">
+            <field name="name">Service Equipment multi-company</field>
+            <field name="model_id" ref="model_service_equipment" />
+            <field name="global" eval="True" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="service_meter_comp_rule" model="ir.rule">
+            <field name="name">Service Meter multi-company</field>
+            <field name="model_id" ref="model_service_meter" />
+            <field name="global" eval="True" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="service_meter_reading_comp_rule" model="ir.rule">
+            <field name="name">Service Meter Reading multi-company</field>
+            <field name="model_id" ref="model_service_reading" />
+            <field name="global" eval="True" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+
 </odoo>

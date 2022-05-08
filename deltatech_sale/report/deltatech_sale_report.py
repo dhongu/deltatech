@@ -52,15 +52,15 @@ class DeltatechSaleReport(models.Model):
                 line["profit_val"] = sale_val - inv_value
         return res
 
-    date = fields.Datetime("Date",   readonly=True)
+    date = fields.Datetime("Date", readonly=True)
     categ_id = fields.Many2one("product.category", "Category", readonly=True)
     product_id = fields.Many2one("product.product", "Product", readonly=True)
     product_uom = fields.Many2one("uom.uom", "Unit of Measure", readonly=True)
     product_uom_qty = fields.Float("Quantity", readonly=True)
     sale_val = fields.Float("Sale value", readonly=True)
 
-    stock_val = fields.Float(string="Stock value", readonly=True, compute="_get_stock_val", store=True)
-    profit_val = fields.Float(string="Profit", readonly=True, compute="_get_profit_val", store=True)
+    stock_val = fields.Float(string="Stock value", readonly=True, compute="_compute_stock_val", store=True)
+    profit_val = fields.Float(string="Profit", readonly=True, compute="_compute_profit_val", store=True)
     partner_id = fields.Many2one("res.partner", "Partner", readonly=True)
     user_id = fields.Many2one("res.users", "Salesperson", readonly=True)
     warehouse_id = fields.Many2one("stock.warehouse", "Warehouse", required=True)
@@ -81,16 +81,17 @@ class DeltatechSaleReport(models.Model):
     )
     pricelist_id = fields.Many2one("product.pricelist", "Pricelist", readonly=True)
 
-    def _get_stock_val(self):
+    def _compute_stock_val(self):
         for line in self:
             # nu mai exista get_history_price
-            price_unit = line.product_id.standard_price # product_tmpl_id.get_history_price(line.company_id.id, date=line.date)
+            price_unit = (
+                line.product_id.standard_price
+            )  # product_tmpl_id.get_history_price(line.company_id.id, date=line.date)
             line.stock_val = line.product_uom_qty * price_unit
 
-    def _get_profit_val(self):
+    def _compute_profit_val(self):
         for line in self:
             line.profit_val = line.sale_val - line.stock_val
-
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, "deltatech_sale_report")

@@ -15,7 +15,7 @@ class ServiceBilling(models.TransientModel):
         "account.journal", "Journal", required=True, domain="[('type', '=',  'sale' ), ('company_id', '=', company_id)]"
     )
 
-    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
 
     # facturile pot fi facute grupat dupa partner sau dupa contract
     group_invoice = fields.Selection(

@@ -14,3 +14,4 @@ class ProductList(models.Model):
     products_domain = fields.Char(string="Products", default=[["sale_ok", "=", True]])
     active = fields.Boolean(default=True)
     limit = fields.Integer(string="Limit", default=80, required=True)
+    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)

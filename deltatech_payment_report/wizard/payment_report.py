@@ -11,7 +11,7 @@ class PaymentReport(models.TransientModel):
 
     date_from = fields.Date(string="Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date(string="End Date", required=True, default=fields.Date.today)
-    company_id = fields.Many2one("res.company", "Company", required=True, default=lambda self: self.env.user.company_id)
+    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
     journal_payment_ids = fields.Many2many(
         "account.journal", domain=[("type", "in", ["cash", "bank"])], string="Incasari"
     )

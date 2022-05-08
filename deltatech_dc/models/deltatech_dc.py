@@ -20,6 +20,7 @@ class DeltatechDC(models.Model):
         related="product_id.technical_specification", string="Technical Specification", store=False
     )
     standards = fields.Text(related="product_id.standards", string="Standards", store=False)
+    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     def name_get(self):
         result = []

@@ -23,6 +23,7 @@
         "views/deltatech_dc_report.xml",
         "views/report_dc.xml",
         "security/ir.model.access.csv",
+        "security/security.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

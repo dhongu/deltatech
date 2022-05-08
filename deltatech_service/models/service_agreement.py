@@ -60,9 +60,7 @@ class ServiceAgreement(models.Model):
         "res.partner", string="Partner", required=True, readonly=True, states={"draft": [("readonly", False)]}
     )
 
-    company_id = fields.Many2one(
-        "res.company", string="Company", required=True, default=lambda self: self.env.user.company_id
-    )
+    company_id = fields.Many2one("res.company", string="Company", default=lambda self: self.env.company, required=True)
     company_currency_id = fields.Many2one("res.currency", string="Company Currency", related="company_id.currency_id")
 
     agreement_line = fields.One2many(

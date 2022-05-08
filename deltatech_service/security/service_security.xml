@@ -36,21 +36,23 @@
             <field name="domain_force">[(1,'=',1)]</field>
             <field name="groups" eval="[(4, ref('group_service_user'))]" />
         </record>
+
+    </data>
+
+    <data noupdate="1">
+
         <record id="service_agreement_comp_rule" model="ir.rule">
             <field name="name">Service Agreement multi-company</field>
             <field name="model_id" ref="model_service_agreement" />
             <field name="global" eval="True" />
-            <field name="domain_force">
-                ['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]
-            </field>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
         </record>
         <record id="service_consumption_comp_rule" model="ir.rule">
             <field name="name">Service Consumption multi-company</field>
             <field name="model_id" ref="model_service_consumption" />
             <field name="global" eval="True" />
-            <field name="domain_force">
-                ['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]
-            </field>
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
         </record>
+
     </data>
 </odoo>

@@ -15,7 +15,7 @@ class StockQuant(models.Model):
 
     def create_inventory_lines(self):
         inventory = False
-        vals = []
+
         for quant in self:
             if not quant.inventory_id and not inventory:
                 inventory = self.env["stock.inventory"].create(

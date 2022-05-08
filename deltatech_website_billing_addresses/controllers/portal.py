@@ -9,7 +9,7 @@ from odoo.http import request
 from odoo.osv import expression
 
 from odoo.addons.portal.controllers import portal
-from odoo.addons.portal.controllers.portal import get_records_pager, pager as portal_pager
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 
 class CustomerPortal(portal.CustomerPortal):

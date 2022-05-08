@@ -14,7 +14,11 @@
     "maintainer": "Terrabit",
     "website": "https://www.terrabit.ro",
     "depends": ["product", "sale"],
-    "data": ["views/product_list_view.xml", "security/ir.model.access.csv"],
+    "data": [
+        "views/product_list_view.xml",
+        "security/ir.model.access.csv",
+        "security/security.xml",
+    ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],

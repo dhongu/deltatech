@@ -17,6 +17,7 @@
         "views/report_expenses.xml",
         "views/account_journal_view.xml",
         "security/ir.model.access.csv",
+        "security/security.xml",
         "data/data.xml",
     ],
     "images": ["images/main_screenshot.png"],
