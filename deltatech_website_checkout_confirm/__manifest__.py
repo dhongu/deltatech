@@ -4,8 +4,8 @@
 {
     "name": "eCommerce Checkout Confirm Order",
     "category": "Website",
-    "summary": "eCommerce extension",
-    "version": "14.0.1.0.0",
+    "summary": "eCommerce Checkout Confirm Order",
+    "version": "14.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
