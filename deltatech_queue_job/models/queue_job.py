@@ -448,7 +448,7 @@ class QueueJob(models.Model):
                         _logger.info("End with error job : %s" % record.uuid)
 
             _logger.info("End CRON job")
-            new_cr.close()
+            # new_cr.close()
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
