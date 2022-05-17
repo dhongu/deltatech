@@ -13,6 +13,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
     @http.route()
     def checkout(self, **post):
         post.pop("express", False)
+        new_context = dict(request.env.context, ignore_check_address=True)
+        request.context = new_context
         return super(WebsiteSaleBillingAddresses, self).checkout(**post)
 
     def checkout_values(self, **kw):
@@ -173,12 +175,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 Partner.browse(partner_id).sudo().write(checkout)
         return partner_id
 
-
     def checkout_check_address(self, order):
+        if request.env.context.get("ignore_check_address", False):
+            return
         billing_fields_required = self._get_mandatory_fields_billing(order.partner_invoice_id.country_id.id)
         if not all(order.partner_invoice_id.read(billing_fields_required)[0].values()):
-            return request.redirect('/shop/address?partner_id=%d' % order.partner_invoice_id.id)
+            return request.redirect("/shop/address?partner_id=%d" % order.partner_invoice_id.id)
 
         shipping_fields_required = self._get_mandatory_fields_shipping(order.partner_shipping_id.country_id.id)
         if not all(order.partner_shipping_id.read(shipping_fields_required)[0].values()):
-            return request.redirect('/shop/address?partner_id=%d' % order.partner_shipping_id.id)
+            return request.redirect("/shop/address?partner_id=%d" % order.partner_shipping_id.id)
