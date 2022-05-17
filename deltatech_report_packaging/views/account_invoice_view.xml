@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <page name="other_info" position="after">
-                <page string="Packaging materials">
+                <page string="Packaging materials" attrs="{'invisible': [('move_type', '=', 'entry')]}">
                     <header>
                         <button name="refresh_packaging_material" string="Refresh" type="object" />
                     </header>
