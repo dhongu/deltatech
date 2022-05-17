@@ -90,17 +90,6 @@
     </template>
 
 
-<!--
-    <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
-        <xpath expr="//span[@t-esc='order.partner_id']" position="replace">
-            <span
-                t-esc="order.partner_invoice_id"
-                t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
-                class="address-inline"
-            />
-        </xpath>
-    </template>
--->
 
 
         <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
@@ -157,7 +146,7 @@
         </input>
 
         <t t-if="mode == ('new', 'billing')" position="before">
-            <t t-if="mode[1] == 'billing'">
+            <t t-if="type == 'invoice'">
                 <h2 class="o_page_header mt8">Billing Address</h2>
             </t>
             <t t-set="mode_backup" t-value="mode" />
@@ -168,46 +157,7 @@
             <t t-set="mode" t-value="mode_backup" />
         </t>
 
-<!--        <xpath expr="//div[@id='div_phone']" position="after">
-            <t t-if="mode == ('edit', 'billing')">
-                <div t-attf-class="form-group #{error.get('company_name') and 'o_has_error' or ''} col-lg-6 mb-0">
-                    <label
-                        class="col-form-label font-weight-normal label-optional"
-                        for="company_name"
-                    >Company Name</label>
-                    <input
-                        type="text"
-                        name="company_name"
-                        t-attf-class="form-control #{error.get('company_name') and 'is-invalid' or ''}"
-                        t-att-value="'commercial_company_name' in checkout and checkout['commercial_company_name'] or 'company_name' in checkout and checkout['company_name']"
-                        t-att-readonly="'1'"
-                    />
-                    <small
-                        t-if="vat_warning"
-                        class="form-text text-muted d-block d-lg-none"
-                    >Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
-                </div>
-                <div t-attf-class="form-group #{error.get('vat') and 'o_has_error' or ''} col-lg-6 div_vat mb-0">
-                    <label class="col-form-label font-weight-normal label-optional" for="vat">TIN / VAT </label>
-                    <input
-                        type="text"
-                        name="vat"
-                        t-attf-class="form-control #{error.get('vat') and 'is-invalid' or ''}"
-                        t-att-value="'vat' in checkout and checkout['vat']"
-                        t-att-readonly="'1'"
-                    />
-                    <small
-                        t-if="vat_warning"
-                        class="form-text text-muted d-block d-lg-none"
-                    >Changing VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
-                </div>
-                <div t-if="vat_warning" class="col-12 d-none d-lg-block mb-1">
-                    <small
-                        class="form-text text-muted"
-                    >Changing company name or VAT number is not allowed once document(s) have been issued for your account. Please contact us directly for this operation.</small>
-                </div>
-            </t>
-        </xpath>-->
+
     </template>
 
     <template id="address_b2b" inherit_id="website_sale.address_b2b">
@@ -226,13 +176,6 @@
             </div>
        </xpath>
     </template>
-
-<!--    <template id="address_b2b" inherit_id="website_sale.address_b2b">-->
-<!--       <xpath expr="//t[2]" position="after">-->
-<!--           <div>Pe o bara</div>-->
-<!--       </xpath>-->
-<!--    </template>-->
-
 
 
 </odoo>

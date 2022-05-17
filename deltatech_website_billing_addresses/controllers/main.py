@@ -36,6 +36,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         order.partner_invoice_id = partner_id
 
         values["billings_addresses"] = billings_addresses
+        shippings = values.get("shippings", [])
+        if shippings and len(shippings) > 1:
+            values["shippings"] = shippings.filtered(lambda p: p.type == "delivery")
         return values
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
@@ -169,3 +172,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             if partner_id:
                 Partner.browse(partner_id).sudo().write(checkout)
         return partner_id
+
+
+    def checkout_check_address(self, order):
+        billing_fields_required = self._get_mandatory_fields_billing(order.partner_invoice_id.country_id.id)
+        if not all(order.partner_invoice_id.read(billing_fields_required)[0].values()):
+            return request.redirect('/shop/address?partner_id=%d' % order.partner_invoice_id.id)
+
+        shipping_fields_required = self._get_mandatory_fields_shipping(order.partner_shipping_id.country_id.id)
+        if not all(order.partner_shipping_id.read(shipping_fields_required)[0].values()):
+            return request.redirect('/shop/address?partner_id=%d' % order.partner_shipping_id.id)
