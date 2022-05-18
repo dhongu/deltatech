@@ -62,7 +62,14 @@ class StockQuant(models.Model):
             if inventor_line:
                 inventor_line.write({"is_ok": True})
 
-        inventory.write({"state": "done"})
+        date = inventory.date
+        values = {"date": date, "state": "done"}
+        if inventory.name == "/":
+            sequence = self.env.ref("deltatech_stock_inventory.sequence_inventory_doc")
+            if sequence:
+                values["name"] = sequence.next_by_id()
+
+        inventory.write(values)
         self.write({"inventory_id": False, "inventory_line_id": False})
 
     def write(self, vals):
