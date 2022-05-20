@@ -23,7 +23,7 @@ class StockQuant(models.Model):
             for quant in quants:
                 lot_qty += quant.quantity
         else:
-            lot_qty = product_id.qty_available
+            lot_qty = product_id.with_context(location=location_id.id).qty_available
         uom_precision_digits = self.env["decimal.precision"].precision_get("Product Unit of Measure")
         result_qty = float_compare(lot_qty + quantity, 0.0, uom_precision_digits)
         if not location_id.allow_negative_stock and location_id.usage == "internal" and result_qty < 0:
