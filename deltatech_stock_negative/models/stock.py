@@ -13,12 +13,8 @@ class StockQuant(models.Model):
     def _update_available_quantity(
         self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
     ):
-
-        if (
-            not location_id.allow_negative_stock
-            and location_id.usage == "internal"
-            and (product_id.qty_available + quantity) < 0
-        ):
+        qty_available = product_id.with_context(location=location_id.id).qty_available
+        if not location_id.allow_negative_stock and location_id.usage == "internal" and (qty_available + quantity) < 0:
             if location_id.company_id.no_negative_stock:
                 raise UserError(
                     _(
@@ -27,7 +23,7 @@ class StockQuant(models.Model):
                         %s pieces. Please adjust your quantities or \
                         correct your stock with an inventory adjustment."
                     )
-                    % (product_id.qty_available, product_id.name, location_id.name, quantity)
+                    % (qty_available, product_id.name, location_id.name, quantity)
                 )
 
         return super(StockQuant, self)._update_available_quantity(
