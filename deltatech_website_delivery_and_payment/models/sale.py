@@ -23,7 +23,7 @@ class SaleOrder(models.Model):
 
     def _action_confirm(self):
         for order in self:
-            tx = order.sudo().transaction_ids.get_last_transaction()
+            tx = order.sudo().transaction_ids._get_last()
             if tx:
                 order.write({"acquirer_id": tx.acquirer_id.id})
         return super(SaleOrder, self)._action_confirm()
