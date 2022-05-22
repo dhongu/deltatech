@@ -284,7 +284,7 @@
                         confirm="If you cancel this inventory adjustment, all its inventory adjustment lines will be lost. Are you sure you want to discard it ?"
                     />
 
-                    <button name="action_remove_not_ok" states="confirm" string="Remove Not Ok" type="object"/>
+                    <button name="action_remove_not_ok" states="confirm" string="Remove Not Ok" type="object" />
                     <button
                         name="action_new_for_not_ok"
                         states="confirm"

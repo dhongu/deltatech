@@ -313,7 +313,7 @@ class DeltatechExpensesDeduction(models.Model):
                         ],
                     }
                     vouchers |= self.env["account.move"].create(voucher_value)
-                payment_methods = expenses.journal_id.outbound_payment_method_ids
+                payment_methods = expenses.journal_id.outbound_payment_method_line_ids
 
                 payment_value = {
                     "payment_type": "outbound",
@@ -332,10 +332,12 @@ class DeltatechExpensesDeduction(models.Model):
 
             for payment in payments:
                 for payment_line in payment.move_id.line_ids:
-                    if payment_line.account_id in (
-                        payment.journal_id.payment_debit_account_id,
-                        payment.journal_id.payment_credit_account_id,
-                    ):
+                    if payment_line.account_id == self.company_id.account_journal_payment_credit_account_id:
+                        #(
+                        #     payment.journal_id.default_account_id,
+                        #     # payment.journal_id.payment_debit_account_id,
+                        #     # payment.journal_id.payment_credit_account_id,
+                        # ):
                         payment_line.account_id = payment.journal_id.account_cash_advances_id
             payments.with_context(add_statement_line=False).action_post()
 
