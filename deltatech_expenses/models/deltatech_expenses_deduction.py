@@ -321,7 +321,7 @@ class DeltatechExpensesDeduction(models.Model):
                     "partner_type": "supplier",
                     "partner_id": partner_id.id,
                     "journal_id": expenses.journal_id.id,
-                    "payment_method_id": payment_methods and payment_methods[0].id or False,
+                    # "payment_method_id": payment_methods and payment_methods[0].id or False,
                     "amount": line.tax_amount + line.price_subtotal,
                     # "destination_account_id": expenses.journal_id.account_cash_advances_id.id,
                     "expenses_deduction_id": expenses.id,
