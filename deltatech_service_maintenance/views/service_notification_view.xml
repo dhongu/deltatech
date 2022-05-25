@@ -40,40 +40,19 @@
         <field name="arch" type="xml">
             <form string="Services Notification">
                 <header>
-                    <span
-                        attrs="{'invisible': ['|','|', ('piking_id','!=',False ),('sale_order_id','!=',False),('required_order_id','!=',False)]}"
-                    >
-                        <button
-                            name="new_delivery_button"
-                            type="object"
-                            string="New Delivery"
-                            attrs="{'invisible': [('category','!=','delivery' )]}"
-                        />
-                        <button
-                            name="new_transfer_button"
-                            type="object"
-                            string="New Transfer"
-                            attrs="{'invisible': [('category','!=','transfer' )]}"
-                        />
-                        <button
-                            name="new_sale_order_button"
-                            type="object"
-                            string="New Sale Order"
-                            attrs="{'invisible': [('category','!=','sale'     )]}"
-                        />
-                        <button
-                            name="new_required_order_button"
-                            type="object"
-                            string="New Required Order"
-                            attrs="{'invisible': [('category','!=','required')]}"
-                        />
-                    </span>
                     <field name="can_create_delivery" invisible="1" />
                     <button
                         name="new_delivery_button"
                         type="object"
                         string="New Delivery"
                         attrs="{'invisible': ['|', '|', ('category','!=','delivery' ), ('can_create_delivery','=',False ), ('piking_id','!=',False )]}"
+                    />
+                    <button
+                        name="new_transfer_button"
+                        type="object"
+                        class="oe_highlight"
+                        string="New transfer"
+                        attrs="{'invisible': ['|', ('category','!=','transfer' ), ('piking_id','!=',False )]}"
                     />
                     <button name="action_assign" type="object" string="Assign" class="oe_highlight" states="new" />
                     <button name="action_taking" type="object" string="Taking " states="new" />
