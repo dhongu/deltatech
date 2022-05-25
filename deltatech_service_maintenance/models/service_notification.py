@@ -92,11 +92,9 @@ class ServiceNotification(models.Model):
 
     category = fields.Selection(
         [
-            ("sale_support", "Sale Support"),
             ("delivery", "Delivery"),
-            ("sale", "Sale"),
             ("transfer", "Transfer"),
-            ("required", "Required"),
+            ("sale", "Sale"),
         ],
         default="sale_support",
         string="Category",
