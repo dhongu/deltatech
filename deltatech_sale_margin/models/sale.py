@@ -67,7 +67,7 @@ class SaleOrderLine(models.Model):
             domain = [("name", "=", "website_sale"), ("state", "=", "installed")]
             website_sale_module = self.env["ir.module.module"].sudo().search(domain)
             if website_sale_module:
-                if self.website_id:
+                if self.order_id.website_id:
                     return True
 
         for line in self:
