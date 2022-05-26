@@ -54,6 +54,7 @@
                         type="action"
                         string="Add Readings"
                         class="oe_highlight"
+                        groups="deltatech_service.group_service_user"
                         attrs="{'invisible':[('meter_ids','=',[])]}"
                     />
 
