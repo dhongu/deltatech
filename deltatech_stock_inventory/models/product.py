@@ -14,10 +14,10 @@ class ProductTemplate(models.Model):
     loc_case = fields.Char("Case", size=16)
 
     last_inventory_date = fields.Date(
-        string="Last Inventory Date", readonly=True, compute="_compute_last_inventory", store=True
+        string="Last Inventory Date", readonly=True, compute="_compute_last_inventory", store=False
     )
     last_inventory_id = fields.Many2one(
-        "stock.inventory", string="Last Inventory", readonly=True, compute="_compute_last_inventory", store=True
+        "stock.inventory", string="Last Inventory", readonly=True, compute="_compute_last_inventory", store=False
     )
 
     def get_last_inventory_date(self):
@@ -54,8 +54,8 @@ class ProductTemplate(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    last_inventory_date = fields.Date(string="Last Inventory Date", readonly=True)
-    last_inventory_id = fields.Many2one("stock.inventory", string="Last Inventory", readonly=True)
+    last_inventory_date = fields.Date(string="Last Inventory Date", readonly=True,store=False)
+    last_inventory_id = fields.Many2one("stock.inventory", string="Last Inventory", readonly=True,store=False)
 
     def get_last_inventory_date(self):
         for product in self:
