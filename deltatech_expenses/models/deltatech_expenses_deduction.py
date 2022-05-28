@@ -333,7 +333,7 @@ class DeltatechExpensesDeduction(models.Model):
             for payment in payments:
                 for payment_line in payment.move_id.line_ids:
                     if payment_line.account_id == self.company_id.account_journal_payment_credit_account_id:
-                        #(
+                        # (
                         #     payment.journal_id.default_account_id,
                         #     # payment.journal_id.payment_debit_account_id,
                         #     # payment.journal_id.payment_credit_account_id,
