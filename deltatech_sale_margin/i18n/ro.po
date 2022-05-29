@@ -100,5 +100,5 @@ msgstr "Nu puteți vinde sub prețul de achiziție."
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
 #, python-format
-msgid "You can not sell without price."
-msgstr "Nu puteți vinde fără preț."
+msgid "You can not sell %s without price."
+msgstr "Nu puteți vinde %s fără preț."
