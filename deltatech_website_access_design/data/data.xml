@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record model="res.groups" id="group_user_internal">
+            <field name="name">Access Partners, Sale, Invoice</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+        </record>
+    </data>
+
+
+    <data>
+        <record model="ir.ui.menu" id="contacts.menu_contacts">
+          <field name="groups_id" eval="[(6,0, [ref('group_user_internal')])]" />
+        </record>
+
+        <record model="ir.ui.menu" id="sale.sale_menu_root">
+          <field name="groups_id" eval="[(6,0, [ref('group_user_internal')])]" />
+        </record>
+
+        <record model="ir.ui.menu" id="account.menu_finance_receivables">
+          <field name="groups_id" eval="[(6,0, [ref('group_user_internal')])]" />
+        </record>
+
+        <record model="ir.ui.menu" id="account.menu_finance_payables">
+          <field name="groups_id" eval="[(6,0, [ref('group_user_internal')])]" />
+        </record>
+
+    </data>
+</odoo>
