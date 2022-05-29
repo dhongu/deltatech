@@ -1,11 +1,12 @@
 /** @odoo-module **/
 
-import {download} from "@web/core/network/download";
 import {registry} from "@web/core/registry";
 
-async function prnReportHandler(action, options, env) {
-    if (action.report_type === "qweb-prn") {
-        const type = "prn";
+async function pdfReportHandler(action, options, env) {
+    if (action.report_type === "qweb-pdf") {
+        // && !action.direct_download) {
+
+        const type = "pdf";
         // COPY actionManager._getReportUrl
         let url_ = `/report/${type}/${action.report_name}`;
         const actionContext = action.context || {};
@@ -19,7 +20,7 @@ async function prnReportHandler(action, options, env) {
             if (actionContext.active_ids) {
                 url_ += `/${actionContext.active_ids.join(",")}`;
             }
-            if (type === "prn") {
+            if (type === "pdf") {
                 const context = encodeURIComponent(JSON.stringify(env.services.user.context));
                 url_ += `?context=${context}`;
             }
@@ -27,13 +28,8 @@ async function prnReportHandler(action, options, env) {
         // COPY actionManager._triggerDownload
         env.services.ui.block();
         try {
-            await download({
-                url: "/report/download",
-                data: {
-                    data: JSON.stringify([url_, action.report_type]),
-                    context: JSON.stringify(env.services.user.context),
-                },
-            });
+            var pdfWindow = window.open(url_, "_blank");
+            pdfWindow.document.title = "Download";
         } finally {
             env.services.ui.unblock();
         }
@@ -50,26 +46,4 @@ async function prnReportHandler(action, options, env) {
     }
 }
 
-registry.category("ir.actions.report handlers").add("prn_handler", prnReportHandler);
-
-// odoo.define("deltatech_report_prn.ActionManager", function (require) {
-//     "use strict";
-//
-//     var ActionManager = require("web.ActionManager");
-//
-//     ActionManager.include({
-//         _executeReportAction: function (action, options) {
-//             var self = this;
-//             if (action.report_type === "qweb-prn") {
-//                 return self._triggerDownload(action, options, "prn");
-//             }
-//             return this._super.apply(this, arguments);
-//         },
-//
-//         _makeReportUrls: function () {
-//             var reportUrls = this._super.apply(this, arguments);
-//             reportUrls.prn = reportUrls.text.replace("/report/text/", "/report/prn/");
-//             return reportUrls;
-//         },
-//     });
-// });
+registry.category("ir.actions.report handlers").add("pdf_handler", pdfReportHandler);
