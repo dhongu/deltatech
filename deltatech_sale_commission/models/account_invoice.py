@@ -6,6 +6,16 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
+class AccountInvoice(models.Model):
+    _inherit = "account.move"
+
+    def compute_purchase_price(self):
+        for invoice in self:
+            for invoice_line in invoice.invoice_line_ids:
+                purchase_price = invoice_line.get_purchase_price()
+                invoice_line.write({"purchase_price": purchase_price})
+
+
 class AccountInvoiceLine(models.Model):
     _inherit = "account.move.line"
 
@@ -49,6 +59,35 @@ class AccountInvoiceLine(models.Model):
     #
     #     return super(AccountInvoiceLine, self).create(vals_list)
 
+    def get_purchase_price(self):
+        self.ensure_one()
+        purchase_price = 0.0
+        pickings = self.env["stock.picking"]
+        for sale_line in self.sale_line_ids:
+            pickings |= sale_line.order_id.picking_ids
+
+        domain = [("picking_id", "in", pickings.ids), ("sale_line_id", "in", self.sale_line_ids.ids)]
+        moves = self.env["stock.move"].search(domain)
+
+        mrp_mod = self.env["ir.module.module"].search([("name", "=", "mrp"), ("state", "=", "installed")])
+        if mrp_mod and self.product_id.bom_count:
+            bom = self.product_id.bom_ids.filtered(lambda b: b.type == "phantom")
+            purchase_price = 0
+            for move in moves:
+                bom_line = bom.bom_line_ids.filtered(lambda b: b.product_id == move.product_id)
+                price_unit_comp = move.mapped("stock_valuation_layer_ids").mapped("unit_cost")
+                purchase_price += sum(price_unit_comp) * bom_line.product_qty
+        else:
+            # preluare pret in svl
+            svls = moves.mapped("stock_valuation_layer_ids")
+            price_unit_list = svls.mapped("unit_cost")
+            if not price_unit_list:
+                price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
+            if price_unit_list:
+                purchase_price = abs(sum(price_unit_list)) / len(price_unit_list)
+
+        return purchase_price
+
     @api.depends("product_id", "company_id", "currency_id", "product_uom_id")
     def _compute_purchase_price(self):
         for invoice_line in self:
@@ -73,6 +112,9 @@ class AccountInvoiceLine(models.Model):
                     price = from_currency.with_context(date=invoice_date).compute(price, to_cur, round=False)
                     purchase_price += price
                 purchase_price = purchase_price / len(invoice_line.sale_line_ids)
+
+                purchase_price = invoice_line.get_purchase_price()
+
             else:
                 frm_cur = self.env.user.company_id.currency_id
 
@@ -80,8 +122,8 @@ class AccountInvoiceLine(models.Model):
                 purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
                 purchase_price = frm_cur.with_context(date=invoice_date).compute(purchase_price, to_cur, round=False)
-            if invoice_line.move_id.move_type == "out_refund":
-                purchase_price = -1 * purchase_price
+            # if invoice_line.move_id.move_type == "out_refund":
+            #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
 
     @api.constrains("price_unit", "purchase_price")
@@ -92,7 +134,7 @@ class AccountInvoiceLine(models.Model):
             if invoice_line.exclude_from_invoice_tab or invoice_line.display_type:
                 continue
             if invoice_line.move_id.move_type == "out_invoice":
-                if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
+                if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     date_eval = invoice_line.move_id.invoice_date or fields.Date.context_today(invoice_line)
                     if (
                         invoice_line.move_id.currency_id

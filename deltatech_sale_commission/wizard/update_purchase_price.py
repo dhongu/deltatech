@@ -44,24 +44,16 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
         for line in lines:
             invoice_line = self.env["account.move.line"].sudo().browse(line.id)
             purchase_price = 0.0
-            pickings = self.env["stock.picking"]
+
             if self.price_from_doc:
-                for sale_line in invoice_line.sale_line_ids:
-                    pickings |= sale_line.order_id.picking_ids
 
-                # sont doar livrari ?
-                moves = self.env["stock.move"].search(
-                    [("picking_id", "in", pickings.ids), ("product_id", "=", invoice_line.product_id.id)]
-                )
-
-                price_unit_list = moves.mapped("price_unit")  # preturile din livare sunt negative
-                if price_unit_list:
-                    purchase_price = abs(sum(price_unit_list) / float(len(price_unit_list)))
+                purchase_price = invoice_line.get_purchase_price()
 
                 if not purchase_price:
                     if invoice_line.product_id:
                         if invoice_line.product_id.standard_price > 0:
                             purchase_price = invoice_line.product_id.standard_price
+
             else:
                 if invoice_line.product_id:
                     if invoice_line.product_id.standard_price > 0:

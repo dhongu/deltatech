@@ -36,9 +36,9 @@ class CommissionCompute(models.TransientModel):
         for line in self.invoice_line_ids:
             value = {"commission": line.commission_computed}
             # if line.purchase_price == 0 and line.product_id:
-            #    value['purchase_price'] = line.product_id.standard_price
-
-            line.write(value)
+            #     value['purchase_price'] = line.product_id.standard_price
+            invoice_line = self.env["account.move.line"].browse(line.id)
+            invoice_line.write(value)
             res.append(line.id)
         return {
             "domain": "[('id','in', [" + ",".join(map(str, res)) + "])]",
