@@ -17,11 +17,13 @@
         <record id="group_sale_below_purchase_price" model="res.groups">
             <field name="name">Sell below the purchase price</field>
             <field name="category_id" ref="base.module_category_hidden" />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
         </record>
 
         <record id="group_sale_below_margin" model="res.groups">
             <field name="name">Sell below margin limit</field>
             <field name="category_id" ref="base.module_category_hidden" />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
         </record>
 
 

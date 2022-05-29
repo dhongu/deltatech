@@ -25,6 +25,10 @@ Features:
  - New technical access group to allow sale price  below the purchase price
  - Warning/Error on sale order if sale price is below the purchase price
 
+
+
+sale.check_price_website - parmanetru pentru verificare pret pentru comenzile de pe website
+
 **Table of contents**
 
 .. contents::
