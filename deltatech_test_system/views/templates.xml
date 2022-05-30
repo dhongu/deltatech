@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="test_ribbon" inherit_id="web.layout">
+        <xpath expr="//body" position="inside">
+            <div>
+                <span
+                    style="width: 400px;
+                            bottom: 55px;
+                            right: -100px;
+                            font-size: 40px;
+                            text-align: center;
+                            padding: 10px;
+                            line-height: 30px;
+                            color: #f0f0f0;
+                            transform: rotate(-45deg);
+                            position: fixed;
+                            box-shadow: 0 0 3px rgb(0 0 0 / 30%);
+                            background: #D0442C;
+                            opacity: 0.3;
+                            pointer-events: none;
+                            text-transform: uppercase;
+                            z-index: 9999;"
+                >
+                    test
+                </span>
+            </div>
+        </xpath>
+    </template>
+    <template id="test_banner" inherit_id="web.layout">
+        <xpath expr="//body" position="inside">
+            <div>
+                <span
+                    style="text-align: center;                         color: #FFFFFF;                         background-color: #D0442C;                         position: relative;                         display: block;                         font-size: 16px;"
+                >
+                    This is a test database.
+                </span>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
