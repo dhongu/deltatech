@@ -1,8 +1,12 @@
 /** @odoo-module **/
 
 import {registry} from "@web/core/registry";
+import config from 'web.config';
 
 async function pdfReportHandler(action, options, env) {
+    if (config.device.isMobile) {
+        return;
+    }
     if (action.report_type === "qweb-pdf") {
         // && !action.direct_download) {
 
