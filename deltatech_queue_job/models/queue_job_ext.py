@@ -182,12 +182,14 @@ class QueueJob(models.Model):
             traceback.print_exc(file=buff)
             _logger.error(buff.getvalue())
             job.env.clear()
-            with api.Environment.manage():
-                with self.pool.cursor() as new_cr:
-                    job.env = job.env(cr=new_cr)
-                    job.set_failed(exc_info=buff.getvalue())
-                    job.store()
-                    new_cr.commit()
-            raise
+
+            new_cr = registry(job._cr.dbname).cursor()
+            env = api.Environment(new_cr, SUPERUSER_ID, {})
+            job = job.with_env(env(cr=new_cr))
+
+            job.set_failed(exc_info=buff.getvalue())
+            job.store()
+            new_cr.commit()
+            raise Exception
 
         return ""
