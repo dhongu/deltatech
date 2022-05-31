@@ -13,7 +13,7 @@ from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
 from odoo.tools.safe_eval import safe_eval
 
 from ..exception import FailedJobError, NothingToDoJob, RetryableJobError
-from ..job import  ENQUEUED, PENDING,  Job
+from ..job import ENQUEUED, PENDING, Job
 
 PG_RETRY = 5  # seconds
 _logger = logging.getLogger(__name__)
