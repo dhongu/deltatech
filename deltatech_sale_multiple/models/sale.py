@@ -11,7 +11,10 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     @api.model
-    def fix_qty_multiple(self, product, product_uom, qty):
+    def fix_qty_multiple(self, product, product_uom, qty=None):
+        if qty is None:
+            qty = 0
+
         if product.qty_multiple and product.qty_multiple != 1:
             qty_multiple = product.qty_multiple
             remainder = qty % qty_multiple

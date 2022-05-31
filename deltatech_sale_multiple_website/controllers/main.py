@@ -20,6 +20,6 @@ class WebsiteSaleQty(WebsiteSale):
         value = super(WebsiteSaleQty, self).cart_update_json(product_id, line_id, add_qty, set_qty, display)
         if add_qty or set_qty:
             line = request.env["sale.order.line"].sudo()
-            value["quantity"] = line.fix_qty_multiple(product, product.uom_id, value["quantity"])
+            value["quantity"] = line.fix_qty_multiple(product, product.uom_id, value.get("quantity", 0))
 
         return value
