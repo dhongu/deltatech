@@ -71,9 +71,9 @@ class QueueJob(models.Model):
     #     # new_cr.commit()
 
     def _cron_runjob(self):
-
-        threaded_job = threading.Thread(target=self._run_job_in_threaded, args=(), name="queue_job")
-        threaded_job.start()
+        self._run_job_in_threaded()
+        # threaded_job = threading.Thread(target=self._run_job_in_threaded, args=(), name="queue_job")
+        # threaded_job.start()
 
     def _run_job_in_threaded(self):
         new_cr = registry(self._cr.dbname).cursor()
