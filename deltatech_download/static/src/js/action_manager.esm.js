@@ -7,6 +7,15 @@ async function pdfReportHandler(action, options, env) {
     if (config.device.isMobile) {
         return;
     }
+    if (action.device_id) {
+        // Raportul se va tipari prin IoT
+        return;
+    }
+    if (action.direct_download) {
+        // Raportul PDF trebuie descarcat standard
+        return;
+    }
+
     if (action.report_type === "qweb-pdf") {
         // && !action.direct_download) {
 
