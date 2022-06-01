@@ -10,7 +10,7 @@
     "category": "Accounting & Finance",
     "depends": ["account"],
     "data": ["views/account_invoice_view.xml", "views/res_config_settings_views.xml"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
