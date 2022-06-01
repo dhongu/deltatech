@@ -16,6 +16,9 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_dc.report_dc</field>
             <field name="report_file">deltatech_dc.report_dc</field>
+            <field name="binding_type">report</field>
+            <field name="binding_view_types">form</field>
+            <field name="binding_model_id" ref="model_deltatech_dc" />
         </record>
 
 
@@ -34,6 +37,8 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_dc.report_dc_lot</field>
             <field name="report_file">deltatech_dc.report_dc_lot</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="stock.model_stock_production_lot" />
         </record>
 
 
@@ -53,6 +58,10 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_dc.report_dc_invoice</field>
             <field name="report_file">deltatech_dc.report_dc_invoice</field>
+            <field name="binding_type">report</field>
+             <field name="binding_view_types">form</field>
+           <field name="binding_model_id" ref="account.model_account_move" />
+
         </record>
 
     </data>

@@ -16,6 +16,8 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_expenses.report_deltatech_expenses_deduction</field>
             <field name="report_file">deltatech_expenses.report_deltatech_expenses_deduction</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_deltatech_expenses_deduction" />
         </record>
 
 </odoo>

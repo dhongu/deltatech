@@ -8,6 +8,8 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
             <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_stock_inventory" />
         </record>
 
 
@@ -17,6 +19,8 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_stock_inventory.report_inventory_position</field>
             <field name="report_file">deltatech_stock_inventory.report_inventory_position</field>
+            <field name="binding_type">report</field>
+             <field name="binding_model_id" ref="model_stock_inventory" />
         </record>
 
         <template id="report_inventory_position">
@@ -130,6 +134,8 @@
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">deltatech_stock_inventory.report_inventory_diff</field>
             <field name="report_file">deltatech_stock_inventory.report_inventory_diff</field>
+            <field name="binding_type">report</field>
+            <field name="binding_model_id" ref="model_stock_inventory" />
         </record>
 
         <template id="report_inventory_diff">
