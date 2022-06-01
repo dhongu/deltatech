@@ -21,6 +21,6 @@
         "security/ir.model.access.csv",
     ],
     "license": "LGPL-3",
-    "images": ["static/description/icon.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
 }

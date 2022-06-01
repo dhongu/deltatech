@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["website_blog"],
     "data": [],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],

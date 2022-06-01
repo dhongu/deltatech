@@ -11,7 +11,7 @@
     "category": "Manufacturing",
     "depends": ["base", "stock", "mrp"],
     "data": ["views/stock_view.xml", "views/mrp_view.xml"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
     "installable": True,
 }

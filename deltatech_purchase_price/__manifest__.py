@@ -12,7 +12,7 @@
     "category": "Purchase",
     "depends": ["stock", "stock_account", "purchase_stock", "deltatech_product_trade_markup"],
     "data": ["views/product_view.xml", "wizard/trade_markup_view.xml", "security/ir.model.access.csv"],
-    "images": ["images/main_screenshot.png"],
+    "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu"],

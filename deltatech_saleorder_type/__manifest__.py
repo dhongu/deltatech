@@ -14,4 +14,5 @@
     "license": "LGPL-3",
     "data": ["views/sale.xml", "security/ir.model.access.csv"],
     "development_status": "Beta",
+    "images": ["static/description/main_screenshot.png"],
 }
