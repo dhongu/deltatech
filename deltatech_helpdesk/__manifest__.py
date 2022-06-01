@@ -8,7 +8,7 @@
     "summary": "Helpdesk addons",
     "version": "15.0.0.0.1",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "category": "Hidden",
     "depends": ["website_helpdesk", "website_helpdesk_form"],
