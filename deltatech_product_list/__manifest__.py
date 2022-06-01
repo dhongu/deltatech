@@ -9,7 +9,7 @@
     "version": "15.0.1.0.0",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "company": "Terrabit",
     "maintainer": "Terrabit",
     "website": "https://www.terrabit.ro",

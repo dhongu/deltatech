@@ -7,7 +7,7 @@
     "summary": "eCommerce extension",
     "version": "15.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
     "depends": ["website_sale", "deltatech_product_list"],
     "data": ["views/templates.xml", "views/snippets.xml"],
