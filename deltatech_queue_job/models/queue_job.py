@@ -2,23 +2,14 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
 import logging
-import threading
-import traceback
 from datetime import datetime, timedelta
-from io import StringIO
 
-from psycopg2 import OperationalError
-
-from odoo import SUPERUSER_ID, _, api, exceptions, fields, models, tools
+from odoo import _, api, exceptions, fields, models
 from odoo.osv import expression
-from odoo.service.model import PG_CONCURRENCY_ERRORS_TO_RETRY
-from odoo.tools.safe_eval import safe_eval
 
-from ..exception import FailedJobError, NothingToDoJob, RetryableJobError
 from ..fields import JobSerialized
 from ..job import DONE, ENQUEUED, PENDING, STATES, Job
 
-PG_RETRY = 5  # seconds
 _logger = logging.getLogger(__name__)
 
 
