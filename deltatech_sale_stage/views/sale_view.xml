@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!--    Sale.order Stage views and actions    -->
+        <record id="view_sale_order_stage_form" model="ir.ui.view">
+            <field name="name">sale.order.stage.form</field>
+            <field name="model">sale.order.stage</field>
+            <field eval="50" name="priority" />
+            <field name="arch" type="xml">
+                <form string="Sale Order Stage">
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group>
+                         <field name="delivery" />
+                         <field name="invoice" />
+                         <field name="paid" />
+                         <field name="send_email" />
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="view_sale_order_stage_tree" model="ir.ui.view">
+            <field name="name">sale.order.stage.tree</field>
+            <field name="model">sale.order.stage</field>
+            <field name="arch" type="xml">
+                <tree string="Sale Order Stage">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_sale_order_stage" model="ir.actions.act_window">
+            <field name="name">Sale Order Stage</field>
+            <field name="res_model">sale.order.stage</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem
+            id="menu_sale_order_stage"
+            name="Sale Order Stage"
+            parent="sale.menu_sale_config"
+            sequence="200"
+            action="action_sale_order_stage"
+        />
+
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="stage_id" optional="show" />
+                </field>
+
+            </field>
+        </record>
+
+
+        <!--        Sale order form view-->
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field eval="500" name="priority" />
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group" position="inside">
+                    <field name="stage_id" options="{'no_create':True}" />
+                </xpath>
+            </field>
+        </record>
+        <!--        Sale order search view-->
+        <record id="view_sales_order_filter" model="ir.ui.view">
+            <field name="name">sale.order.filter</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="stage_id" />
+                </field>
+                <xpath expr="//group" position="inside">
+                    <filter name='group_by_stage' string="Stage" domain="[]" context="{'group_by':'stage_id'}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
