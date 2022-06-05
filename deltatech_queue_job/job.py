@@ -570,7 +570,7 @@ class Job(object):
             job_model.with_context(tracking_disable=True, _job_edit_sentinel=edit_sentinel).sudo().create(vals)
             # _logger.info("Try to run in background")
             # job.background_run()  # incercare de rulare in background
-            # self.env.ref("deltatech_queue_job.ir_cron_queue_job")._trigger()
+            self.env.ref("deltatech_queue_job.ir_cron_queue_job").sudo()._trigger()
 
     def db_record(self):
         return self.db_record_from_uuid(self.env, self.uuid)
