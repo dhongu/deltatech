@@ -134,7 +134,6 @@ class QueueJob(models.Model):
             with api.Environment.manage():
                 with self.pool.cursor() as new_cr:
                     env = api.Environment(new_cr, SUPERUSER_ID, {})
-
                     job.env = env
                     job.postpone(result=message, seconds=seconds)
                     job.set_pending(reset_retry=False)
@@ -188,6 +187,6 @@ class QueueJob(models.Model):
                     job.set_failed(exc_info=buff.getvalue())
                     job.store()
                     new_cr.commit()
-            raise
+            raise Exception
 
         return ""
