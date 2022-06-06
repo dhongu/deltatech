@@ -25,7 +25,13 @@ class QueueJob(models.Model):
     def run(self):
         for record in self:
             record._change_job_state(ENQUEUED)
-            record.runjob(record.uuid)
+            _logger.info("Start job: %s" % record.uuid)
+            try:
+                record.runjob(record.uuid)
+                _logger.info("End job: %s" % record.uuid)
+            except Exception:
+                # new_cr.rollback()
+                _logger.info("End with error job")
 
     def stop(self):
         for thread in threading.enumerate():
@@ -106,7 +112,8 @@ class QueueJob(models.Model):
                         record.runjob(record.uuid)
                         _logger.info("End job: %s" % record.uuid)
                     except Exception:
-                        _logger.info("End with error job : %s" % record.uuid)
+                        # new_cr.rollback()
+                        _logger.info("End with error job")
 
                     _logger.info("Next Job")
             _logger.info("End CRON job")
@@ -179,13 +186,15 @@ class QueueJob(models.Model):
         except (FailedJobError, Exception):
             buff = StringIO()
             traceback.print_exc(file=buff)
-            _logger.error(buff.getvalue())
+            traceback_txt = buff.getvalue()
+            # _logger.error(traceback_txt)
+            _logger.warning("Job Error")
             job.env.clear()
             with api.Environment.manage():
                 with self.pool.cursor() as new_cr:
                     env = api.Environment(new_cr, SUPERUSER_ID, {})
                     job.env = env
-                    job.set_failed(exc_info=buff.getvalue())
+                    job.set_failed(traceback_txt)
                     job.store()
                     new_cr.commit()
             raise Exception
