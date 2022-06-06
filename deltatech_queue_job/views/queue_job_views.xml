@@ -58,6 +58,7 @@
                         <field name="func_string" />
 <!--                        <field name="job_function_id" />-->
 <!--                        <field name="channel" />-->
+                        <field name="identity_key" />
                     </group>
                     <group>
                         <group>
