@@ -568,7 +568,7 @@ class Job(object):
             #     vals.update({"channel": self.channel})
 
             job_model.with_context(tracking_disable=True, _job_edit_sentinel=edit_sentinel).sudo().create(vals)
-            # _logger.info("Try to run in background")
+            _logger.info("Trigger ir_cron_queue_job ")
             # job.background_run()  # incercare de rulare in background
             self.env.ref("deltatech_queue_job.ir_cron_queue_job").sudo()._trigger()
 
