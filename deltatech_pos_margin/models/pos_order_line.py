@@ -27,7 +27,7 @@ class PosOrderLine(models.Model):
             if not line.product_id:
                 line.purchase_price = 0.0
                 continue
-            line = line.with_company(line.company_id)
+            line = line.with_context(force_company=line.company_id.id)
             product = line.product_id
             product_cost = product.standard_price
             if not product_cost:
