@@ -12,6 +12,7 @@
                             <field name="sequence_id" />
                             <field name="generate_barcode" />
                             <field name="prefix_barcode" />
+                            <field name="barcode_random" />
                         </group>
                     </group>
                 </group>
