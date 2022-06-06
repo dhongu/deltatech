@@ -108,6 +108,7 @@ class QueueJob(models.Model):
                     except Exception:
                         _logger.info("End with error job : %s" % record.uuid)
 
+                    _logger.info("Next Job")
             _logger.info("End CRON job")
             new_cr.close()
 
