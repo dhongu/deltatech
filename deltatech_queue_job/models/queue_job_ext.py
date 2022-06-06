@@ -75,40 +75,40 @@ class QueueJob(models.Model):
 
     def _run_job_in_threaded(self):
         new_cr = registry(self._cr.dbname).cursor()
-        with api.Environment(new_cr, SUPERUSER_ID, {}) as env:
-            self = self.with_env(env(cr=new_cr))
+        env = api.Environment(new_cr, SUPERUSER_ID, {})
+        self = self.with_env(env(cr=new_cr))
 
-            run = True
-            _logger.info("Start CRON job")
-            get_param = self.env["ir.config_parameter"].sudo().get_param
-            limit = safe_eval(get_param("queue_job.select_limit", "100"))
+        run = True
+        _logger.info("Start CRON job")
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        limit = safe_eval(get_param("queue_job.select_limit", "100"))
 
-            while run:
-                records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=limit)  # agatate
-                limit = limit - len(records)
-                if limit > 0:
-                    records |= self.search([("state", "=", PENDING)], order="date_created", limit=limit)
+        while run:
+            records = self.search([("state", "=", ENQUEUED)], order="date_created", limit=limit)  # agatate
+            limit = limit - len(records)
+            if limit > 0:
+                records |= self.search([("state", "=", PENDING)], order="date_created", limit=limit)
 
-                if not records:
-                    run = False
-                for record in records:
-                    if record.state == PENDING:
-                        if record.eta and record.eta > fields.Datetime.now():
-                            continue
-                        record._change_job_state(ENQUEUED)
-                        new_cr.commit()
-                        # pylint: disable=E8102
-                        # self.env.cr.commit()
+            if not records:
+                run = False
+            for record in records:
+                if record.state == PENDING:
+                    if record.eta and record.eta > fields.Datetime.now():
+                        continue
+                    record._change_job_state(ENQUEUED)
+                    new_cr.commit()
+                    # pylint: disable=E8102
+                    # self.env.cr.commit()
 
-                    _logger.info("Start job: %s" % record.uuid)
-                    try:
-                        record.runjob(record.uuid)
-                        _logger.info("End job: %s" % record.uuid)
-                    except Exception:
-                        _logger.info("End with error job : %s" % record.uuid)
+                _logger.info("Start job: %s" % record.uuid)
+                try:
+                    record.runjob(record.uuid)
+                    _logger.info("End job: %s" % record.uuid)
+                except Exception:
+                    _logger.info("End with error job : %s" % record.uuid)
 
-            _logger.info("End CRON job")
-            new_cr.close()
+        _logger.info("End CRON job")
+        new_cr.close()
 
     def _try_perform_job(self, env, job):
         """Try to perform the job."""
@@ -130,13 +130,14 @@ class QueueJob(models.Model):
 
         def retry_postpone(job, message, seconds=None):
             job.env.clear()
-            with registry(job._cr.dbname).cursor() as new_cr:
-                with api.Environment(new_cr, SUPERUSER_ID, {}) as env:
-                    job.env = env
-                    job.postpone(result=message, seconds=seconds)
-                    job.set_pending(reset_retry=False)
-                    job.store()
-                    new_cr.commit()
+            new_cr = registry(job._cr.dbname).cursor()
+            env = api.Environment(new_cr, SUPERUSER_ID, {})
+
+            job.env = env
+            job.postpone(result=message, seconds=seconds)
+            job.set_pending(reset_retry=False)
+            job.store()
+            new_cr.commit()
 
         # ensure the job to run is in the correct state and lock the record
         env.cr.execute("SELECT state FROM queue_job WHERE uuid=%s  FOR UPDATE", (job_uuid,))
@@ -178,12 +179,12 @@ class QueueJob(models.Model):
             traceback.print_exc(file=buff)
             _logger.error(buff.getvalue())
             job.env.clear()
-            with registry(job._cr.dbname).cursor() as new_cr:
-                with api.Environment(new_cr, SUPERUSER_ID, {}) as env:
-                    job.env = env
-                    job.set_failed(exc_info=buff.getvalue())
-                    job.store()
-                    new_cr.commit()
+            new_cr = registry(job._cr.dbname).cursor()
+            env = api.Environment(new_cr, SUPERUSER_ID, {})
+            job.env = env
+            job.set_failed(exc_info=buff.getvalue())
+            job.store()
+            new_cr.commit()
             raise
 
         return ""
