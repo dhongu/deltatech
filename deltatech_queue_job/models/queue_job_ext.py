@@ -69,13 +69,15 @@ class QueueJob(models.Model):
                 # new_cr.commit()
 
     def _cron_runjob(self):
-        threaded_job = threading.Thread(target=self._run_job_in_threaded, args=(), name="queue_job")
-        threaded_job.start()
+        self._run_job_in_threaded()
+        # threaded_job = threading.Thread(target=self._run_job_in_threaded, args=(), name="queue_job")
+        # threaded_job.start()
 
     def _run_job_in_threaded(self):
         with api.Environment.manage():
             new_cr = self.pool.cursor()
-            self = self.with_env(self.env(cr=new_cr))
+            env = api.Environment(new_cr, SUPERUSER_ID, {})
+            self = self.with_env(env(cr=new_cr))
 
             run = True
             _logger.info("Start CRON job")
@@ -131,7 +133,9 @@ class QueueJob(models.Model):
             job.env.clear()
             with api.Environment.manage():
                 with self.pool.cursor() as new_cr:
-                    job.env = job.env(cr=new_cr)
+                    env = api.Environment(new_cr, SUPERUSER_ID, {})
+
+                    job.env = env
                     job.postpone(result=message, seconds=seconds)
                     job.set_pending(reset_retry=False)
                     job.store()
@@ -179,7 +183,8 @@ class QueueJob(models.Model):
             job.env.clear()
             with api.Environment.manage():
                 with self.pool.cursor() as new_cr:
-                    job.env = job.env(cr=new_cr)
+                    env = api.Environment(new_cr, SUPERUSER_ID, {})
+                    job.env = env
                     job.set_failed(exc_info=buff.getvalue())
                     job.store()
                     new_cr.commit()
