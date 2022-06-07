@@ -32,12 +32,15 @@ class SaleOrder(models.Model):
                     picking.with_context(force_period_date=order.date_order)._action_done()
 
 
-# class SaleOrderLine(models.Model):
-#     _inherit = "sale.order.line"
-#
-#     def _action_launch_stock_rule(self, previous_product_uom_qty=False):
-#
-#         super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
+class SaleOrderLine(models.Model):
+    _inherit = "sale.order.line"
+
+    def _action_launch_stock_rule(self, previous_product_uom_qty=False):
+        super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
+        for line in self:
+            if line.product_uom_qty < 0:
+                line.move_ids.write({'to_refund':True})
+
 #         precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
 #
 #         for line in self:
