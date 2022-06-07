@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_document_file_kanban" model="ir.ui.view">
+        <field name="name">ir.attachment.kanban</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="mail.view_document_file_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="field[@name='datas_fname']" position="after">
+                <field name="datas" />
+            </xpath>
+            <xpath expr="//templates//field[@name='datas_fname']" position="after">
+                <button name="button_download" class="btn btn-primary fa fa-cloud-download" type="object" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
