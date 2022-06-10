@@ -43,7 +43,7 @@ class ProductChangeUoM(models.TransientModel):
         active_id = self.env.context.get("active_id", False)
         if active_id:
             product = self.env["product.template"].browse(active_id)
-            variants = product.product_variant_ids
+            variants = product.with_context(active_test=False).product_variant_ids
 
             # inlocuire in comanda de achizitie
             domain = [("product_id", "in", variants.ids), ("product_uom", "=", product.uom_po_id.id)]
