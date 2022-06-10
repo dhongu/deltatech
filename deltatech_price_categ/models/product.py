@@ -74,6 +74,16 @@ class ProductTemplate(models.Model):
     # list_price_platinum = fields.Float(string="Platinum Price", compute="_compute_price_list",
     #                                    track_visibility='always', store=True, readonly=True, compute_sudo=True)
 
+    price_issue = fields.Boolean(compute="_compute_price_issue", store=True)
+
+    @api.multi
+    @api.depends("list_price", "list_price_copper", "list_price_bronze", "list_price_silver", "list_price_gold")
+    def _compute_price_issue(self):
+        for pr in self:
+            pr.price_issue = not (
+                pr.list_price < pr.list_price_copper < pr.list_price_bronze < pr.list_price_silver < pr.list_price_gold
+            )
+
     @api.multi
     @api.depends(
         "list_price_base",
