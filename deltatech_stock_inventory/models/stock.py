@@ -25,8 +25,12 @@ class StockInventory(models.Model):
         for inventory in self:
             inventory_amount = 0
             for line in inventory.line_ids:
-                inventory_amount += line.standard_price * line.product_qty
+                price = line.standard_price or line.product_id.standard_price
+                inventory_amount += price * line.product_qty
             inventory.inventory_amount = inventory_amount
+
+    def refresh_amount(self):
+        self._compute_inventory_amount()
 
     def unlink(self):
         if any(inventory.state not in ("draft", "cancel") for inventory in self):
