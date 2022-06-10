@@ -30,7 +30,12 @@
                 </field>
                 <xpath expr="//sheet/group" position="inside">
                     <group>
-                        <field name="inventory_amount" />
+                        <label for="inventory_amount" />
+                        <div class="o_row">
+                            <field name="inventory_amount" />
+                            <button name="refresh_amount" string="Refresh" type="object" class="oe_link" />
+                        </div>
+
                     </group>
                 </xpath>
                 <xpath expr="//sheet" position="inside">
@@ -42,10 +47,10 @@
                 <!--                <notebook position="before">-->
                 <!--                    <field name="note"/>-->
                 <!--                </notebook>-->
-                <!--                <field name="product_qty" position="after">-->
-                <!--                    <field name="standard_price"/>-->
-                <!--                    <field name="is_ok"/>-->
-                <!--                </field>-->
+<!--                                <field name="product_qty" position="after">-->
+<!--                                    <field name="standard_price"/>-->
+<!--                                    <field name="is_ok"/>-->
+<!--                                </field>-->
             </field>
         </record>
         <record id="stock_inventory_line_tree2" model="ir.ui.view">
