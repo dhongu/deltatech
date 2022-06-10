@@ -80,7 +80,7 @@ class ProductTemplate(models.Model):
     @api.depends("list_price", "list_price_copper", "list_price_bronze", "list_price_silver", "list_price_gold")
     def _compute_price_issue(self):
         for pr in self:
-            pr.price_issue = not (
+            pr.price_issue = (
                 pr.list_price < pr.list_price_copper < pr.list_price_bronze < pr.list_price_silver < pr.list_price_gold
             )
 
