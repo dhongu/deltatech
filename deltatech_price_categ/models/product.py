@@ -79,9 +79,13 @@ class ProductTemplate(models.Model):
     @api.multi
     @api.depends("list_price", "list_price_copper", "list_price_bronze", "list_price_silver", "list_price_gold")
     def _compute_price_issue(self):
-        for pr in self:
-            pr.price_issue = (
-                pr.list_price < pr.list_price_copper < pr.list_price_bronze < pr.list_price_silver < pr.list_price_gold
+        for product in self:
+            product.price_issue = not (
+                product.list_price
+                >= product.list_price_copper
+                >= product.list_price_bronze
+                >= product.list_price_silver
+                >= product.list_price_gold
             )
 
     @api.multi
@@ -89,8 +93,8 @@ class ProductTemplate(models.Model):
         "list_price_base",
         "standard_price",
         "list_price",
-        "percent_bronze",
         "percent_copper",
+        "percent_bronze",
         "percent_silver",
         "percent_gold",
         "taxes_id",

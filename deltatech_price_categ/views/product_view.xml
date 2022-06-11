@@ -27,6 +27,17 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view" />
             <field name="arch" type="xml">
+                <xpath expr="//header" position="after">
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        style="margin-bottom:0px;"
+                        attrs="{'invisible': [('price_issue', '=', False)]}"
+                    >
+                        <span>Please check the sale prices</span>
+                    </div>
+                    <field name="price_issue" invisible="1" />
+                </xpath>
                 <group name="group_standard_price" position="after">
                     <group>
                         <field name="list_price_base" />
@@ -34,15 +45,15 @@
                     </group>
                     <group />
                     <group>
-                        <field name="percent_bronze" />
                         <field name="percent_copper" />
+                        <field name="percent_bronze" />
                         <field name="percent_silver" />
                         <field name="percent_gold" />
                         <!--                            <field name="percent_platinum"/>-->
                     </group>
                     <group>
-                        <field name="list_price_bronze" />
                         <field name="list_price_copper" />
+                        <field name="list_price_bronze" />
                         <field name="list_price_silver" />
                         <field name="list_price_gold" />
                         <!--                            <field name="list_price_platinum"/>-->
