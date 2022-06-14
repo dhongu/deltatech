@@ -4,6 +4,7 @@
 
 
 from odoo import fields, models
+from odoo.tools import safe_eval
 
 
 class StockInventory(models.Model):
@@ -52,7 +53,16 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def button_validate(self):
-        return super(StockPicking, self.with_context(force_period_date=self.scheduled_date)).button_validate()
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        if self.env.context.get("force_period_date", False):
+            force_period_date = self.env.context["force_period_date"]
+        else:
+            update_product_price = get_param("stock.transfer_at_scheduled_date", default="True")
+            if safe_eval(update_product_price):
+                force_period_date = self.scheduled_date
+            else:
+                force_period_date = fields.Datetime.now()
+        return super(StockPicking, self.with_context(force_period_date=force_period_date)).button_validate()
 
     def action_done(self):
         super(StockPicking, self).action_done()
