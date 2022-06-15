@@ -5,7 +5,6 @@
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import float_compare
 
 
 class SaleOrder(models.Model):
@@ -39,7 +38,8 @@ class SaleOrderLine(models.Model):
         super(SaleOrderLine, self)._action_launch_stock_rule(previous_product_uom_qty)
         for line in self:
             if line.product_uom_qty < 0:
-                line.move_ids.write({'to_refund':True})
+                line.move_ids.write({"to_refund": True})
+
 
 #         precision = self.env["decimal.precision"].precision_get("Product Unit of Measure")
 #
