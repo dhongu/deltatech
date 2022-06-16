@@ -73,6 +73,14 @@ Authors
 Maintainers
 ~~~~~~~~~~~
 
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
+
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/15.0/deltatech_fleet>`_ project on GitHub.
 
 You are welcome to contribute.
