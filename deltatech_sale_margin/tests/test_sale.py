@@ -69,4 +69,4 @@ class TestSale(TransactionCase):
         invoice = self.so._create_invoices()
         invoice = Form(invoice)
         invoice = invoice.save()
-        invoice.post()
+        invoice._post()
