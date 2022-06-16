@@ -19,16 +19,16 @@ class TestMRPSimple(TransactionCase):
             {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
         )
         self.stock_location = self.env.ref("stock.stock_location_stock")
-        inv_line_a = {
-            "product_id": self.product_a.id,
-            "product_qty": 10000,
-            "location_id": self.stock_location.id,
-        }
-        inv_line_b = {
-            "product_id": self.product_b.id,
-            "product_qty": 10000,
-            "location_id": self.stock_location.id,
-        }
+        # inv_line_a = {
+        #     "product_id": self.product_a.id,
+        #     "product_qty": 10000,
+        #     "location_id": self.stock_location.id,
+        # }
+        # inv_line_b = {
+        #     "product_id": self.product_b.id,
+        #     "product_qty": 10000,
+        #     "location_id": self.stock_location.id,
+        # }
 
         warehouse_id = self.stock_location.get_warehouse()
         company_id = warehouse_id.company_id
@@ -58,18 +58,20 @@ class TestMRPSimple(TransactionCase):
                 "company_id": company_id.id,
             }
         )
+        self.env["stock.quant"]._update_available_quantity(self.product_a, self.stock_location, 1000)
+        self.env["stock.quant"]._update_available_quantity(self.product_b, self.stock_location, 1000)
 
-        inventory = self.env["stock.inventory"].create(
-            {
-                "name": "Inv. product",
-                "line_ids": [
-                    (0, 0, inv_line_a),
-                    (0, 0, inv_line_b),
-                ],
-            }
-        )
-        inventory.action_start()
-        inventory.action_validate()
+        # inventory = self.env["stock.inventory"].create(
+        #     {
+        #         "name": "Inv. product",
+        #         "line_ids": [
+        #             (0, 0, inv_line_a),
+        #             (0, 0, inv_line_b),
+        #         ],
+        #     }
+        # )
+        # inventory.action_start()
+        # inventory.action_validate()
 
     def test_sale_mrp_simple(self):
         product_in = {
