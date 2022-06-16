@@ -117,9 +117,11 @@ class ServiceBilling(models.TransientModel):
     def do_billing_step1(self, pre_invoice):
         for cons in self.consumption_ids:
             # convertire pret in moneda companeie
-
+            date = cons.date_invoice or fields.Date.context_today(self)
             currency = cons.currency_id.with_context(date=cons.date_invoice or fields.Date.context_today(self))
-            price_unit = currency.compute(cons.price_unit, self.env.user.company_id.currency_id)
+            to_currency = self.env.user.company_id.currency_id
+            company = self.env.user.company_id
+            price_unit = currency._convert(cons.price_unit, to_currency, company, date)
             name = cons.product_id.name
 
             if cons.name and (cons.agreement_id.invoice_mode == "detail" or not self.group_service):

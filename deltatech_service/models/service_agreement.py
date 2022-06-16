@@ -390,9 +390,8 @@ class ServiceAgreementLine(models.Model):
         if self.price_unit == 0.0:
             product_price_currency = self.product_id.currency_id
             product_price = self.product_id.lst_price
-            price_unit = product_price_currency.with_context(date=fields.Date.context_today(self)).compute(
-                product_price, self.currency_id
-            )
+            date = fields.Date.context_today(self)
+            price_unit = product_price_currency._convert(product_price, self.currency_id, self.env.company, date)
         else:
             price_unit = self.price_unit
         quantity = self.quantity

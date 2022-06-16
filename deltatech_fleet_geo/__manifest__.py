@@ -16,4 +16,5 @@
     "data": ["views/fleet_view.xml", "views/fleet_vehicle_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
+    "maintainers": ["dhongu"],
 }

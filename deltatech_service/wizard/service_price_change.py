@@ -36,7 +36,11 @@ class ServicePriceChange(models.TransientModel):
     @api.onchange("product_id")
     def onchange_scanned_ean(self):
         price_unit = self.product_id.list_price
-        self.price_unit = self.env.user.company_id.currency_id.compute(price_unit, self.currency_id)
+        from_currency = self.env.user.company_id.currency_id
+        company = self.env.user.company_id
+        to_currency = self.currency_id
+        date = self._context.get("date") or fields.Date.today()
+        self.price_unit = from_currency._convert(price_unit, to_currency, company, date)
 
     def do_price_change(self):
         active_ids = self.env.context.get("active_ids", False)
@@ -53,7 +57,11 @@ class ServicePriceChange(models.TransientModel):
 
         consumptions.write({"price_unit": self.price_unit, "currency_id": self.currency_id.id, "name": self.reference})
 
-        price_unit = self.currency_id.compute(self.price_unit, self.env.user.company_id.currency_id)
+        company = self.env.user.company_id
+        to_currency = self.env.user.company_id.currency_id
+        date = self._context.get("date") or fields.Date.today()
+
+        price_unit = self.currency_id._convert(self.price_unit, to_currency, company, date)
 
         self.product_id.write({"list_price": price_unit})
 
