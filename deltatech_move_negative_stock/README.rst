@@ -88,13 +88,13 @@ Authors
 Maintainers
 ~~~~~~~~~~~
 
-.. |maintainer-danila| image:: https://github.com/danila.png?size=40px
-    :target: https://github.com/danila
-    :alt: danila
+.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
+    :target: https://github.com/danila12
+    :alt: danila12
 
 Current maintainer:
 
-|maintainer-danila| 
+|maintainer-danila12| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/15.0/deltatech_move_negative_stock>`_ project on GitHub.
 

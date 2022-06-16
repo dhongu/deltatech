@@ -39,6 +39,11 @@ class ProductTemplate(models.Model):
         if not change_list_price:
             return
         AccountTax = self.env["account.tax"]
+
+        currency = self.env.user.company_id.currency_id
+        company = self.env.user.company_id
+        date = self._context.get("date") or fields.Date.today()
+
         for product in self:
             if product.trade_markup:
                 if not product.last_purchase_price:
@@ -57,7 +62,8 @@ class ProductTemplate(models.Model):
                         list_price, 1
                     )
                 list_price = list_price + list_price_tax
-                list_price = self.env.user.company_id.currency_id.compute(list_price, product.currency_id)
+
+                list_price = currency._convert(list_price, product.currency_id, company, date)
                 list_price_round = safe_eval(get_param("sale.list_price_round", "2"))
                 product.list_price = round(list_price, list_price_round)
 
@@ -66,10 +72,13 @@ class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
     def update_last_purchase_price(self):
+        date = self._context.get("date") or fields.Date.today()
         for item in self:
             price = item.product_uom._compute_price(item.price, item.product_tmpl_id.uom_id)
             if item.currency_id:
-                price = item.currency_id.compute(price, self.env.user.company_id.currency_id)
+                to_currency = self.env.user.company_id.currency_id
+                company = self.env.user.company_id
+                price = item.currency_id._convert(price, to_currency, company, date)
             if price:
                 item.product_tmpl_id.last_purchase_price = price
                 item.product_tmpl_id.onchange_last_purchase_price()

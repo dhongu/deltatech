@@ -102,6 +102,7 @@ class AccountInvoiceLine(models.Model):
                 continue
 
             to_cur = self.env.user.company_id.currency_id
+            company = self.env.user.company_id
             product_uom = invoice_line.product_uom_id
             invoice_date = invoice_line.move_id.invoice_date or fields.Date.today()
             if invoice_line.sale_line_ids:
@@ -109,7 +110,7 @@ class AccountInvoiceLine(models.Model):
                 for line in invoice_line.sale_line_ids:
                     from_currency = line.order_id.currency_id
                     price = line.product_uom._compute_price(line.purchase_price, product_uom)
-                    price = from_currency.with_context(date=invoice_date).compute(price, to_cur, round=False)
+                    price = from_currency._convert(price, to_cur, company, invoice_date, round=False)
                     purchase_price += price
                 purchase_price = purchase_price / len(invoice_line.sale_line_ids)
 
@@ -121,7 +122,7 @@ class AccountInvoiceLine(models.Model):
                 purchase_price = invoice_line.product_id.standard_price
                 purchase_price = invoice_line.product_id.uom_id._compute_price(purchase_price, product_uom)
 
-                purchase_price = frm_cur.with_context(date=invoice_date).compute(purchase_price, to_cur, round=False)
+                purchase_price = frm_cur._convert(purchase_price, to_cur, company, invoice_date, round=False)
             # if invoice_line.move_id.move_type == "out_refund":
             #     purchase_price = -1 * purchase_price
             invoice_line.purchase_price = purchase_price
@@ -141,9 +142,9 @@ class AccountInvoiceLine(models.Model):
                         and invoice_line.move_id.currency_id.id != self.env.user.company_id.currency_id.id
                     ):
                         from_currency = invoice_line.move_id.currency_id.with_context(date=date_eval)
-                        price_unit = from_currency.compute(
-                            invoice_line.price_unit, invoice_line.env.user.company_id.currency_id
-                        )
+                        to_currency = invoice_line.env.user.company_id
+                        company = invoice_line.env.user.company_id.currency_id
+                        price_unit = from_currency._convert(invoice_line.price_unit, to_currency, company, date_eval)
                     else:
                         price_unit = invoice_line.price_unit
                     if 0 < price_unit < invoice_line.purchase_price and invoice_line.move_id.state in ["draft"]:
