@@ -9,7 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules/Stock",
-    "depends": ["deltatech_sale_store"],
+    "depends": [],
     "license": "LGPL-3",
     "data": [],
     "images": [],
