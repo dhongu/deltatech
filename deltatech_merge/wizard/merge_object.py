@@ -158,7 +158,7 @@ class MergeObject(models.TransientModel):
                     self._cr.execute(query, (dst_object.id, src_object.id, dst_object.id))
             else:
                 try:
-                    with mute_logger("odoo.sql_db"), self._cr.savepoint():
+                    with mute_logger("odoo.sql_db"), self.env.clear_upon_failure():
                         query = 'UPDATE "%(table)s" SET "%(column)s" = %%s WHERE "%(column)s" IN %%s' % query_dic
                         self._cr.execute(
                             query,
@@ -208,7 +208,7 @@ class MergeObject(models.TransientModel):
                 return
             records = Model.sudo().search([(field_model, "=", self._model_merge), (field_id, "=", src.id)])
             try:
-                with mute_logger("odoo.sql_db"), self._cr.savepoint(), self.env.clear_upon_failure():
+                with mute_logger("odoo.sql_db"), self.env.clear_upon_failure():
                     records.sudo().write({field_id: dst_object.id})
                     records.flush()
             except psycopg2.Error:

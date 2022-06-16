@@ -14,10 +14,24 @@ class TestSale(TransactionCase):
 
         seller_ids = [(0, 0, {"name": self.partner_a.id})]
         self.product_a = self.env["product.product"].create(
-            {"name": "Test A", "type": "product", "standard_price": 100, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test A",
+                "type": "product",
+                "standard_price": 100,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "company_id": self.env.company,
+            }
         )
         self.product_b = self.env["product.product"].create(
-            {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
+            {
+                "name": "Test B",
+                "type": "product",
+                "standard_price": 70,
+                "list_price": 150,
+                "seller_ids": seller_ids,
+                "company_id": self.env.company,
+            }
         )
         self.stock_location = self.env.ref("stock.stock_location_stock")
         inv_line_a = {
