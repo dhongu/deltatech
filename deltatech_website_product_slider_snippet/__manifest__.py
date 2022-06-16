@@ -9,15 +9,15 @@
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
     "website": "https://www.terrabit.ro",
-    "depends": ["website","website_sale", "deltatech_product_list"],
-    "data": [ "views/snippets.xml"],
+    "depends": ["website", "website_sale", "deltatech_product_list"],
+    "data": ["views/snippets.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
     "development_status": "Mature",
     "maintainers": ["dhongu"],
     "assets": {
-        "website.assets_frontend":[
+        "website.assets_frontend": [
             "deltatech_website_product_slider_snippet/static/src/js/website_products_slider.js"
         ],
         "website.assets_wysiwyg": [
