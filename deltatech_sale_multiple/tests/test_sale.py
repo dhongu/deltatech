@@ -34,7 +34,7 @@ class TestSale(TransactionCase):
             }
         )
 
-        self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
+        self.stock_location = self.env.ref("stock.stock_location_stock")
         inv_line_a = {
             "product_id": self.product_a.id,
             "product_qty": 10000,

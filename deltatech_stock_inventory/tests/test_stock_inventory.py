@@ -18,7 +18,7 @@ class TestStockInventory(TransactionCase):
         self.product_b = self.env["product.product"].create(
             {"name": "Test B", "type": "product", "standard_price": 70, "list_price": 150, "seller_ids": seller_ids}
         )
-        self.stock_location = self.env["ir.model.data"].xmlid_to_object("stock.stock_location_stock")
+        self.stock_location = self.env.ref("stock.stock_location_stock")
 
     def test_stock_inventory(self):
         inv_line_a = {
