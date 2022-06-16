@@ -30,17 +30,17 @@ class TestSale(TransactionCase):
             "product_qty": 10000,
             "location_id": self.stock_location.id,
         }
-        inventory = self.env["stock.inventory"].create(
-            {
-                "name": "Inv. productserial1",
-                "line_ids": [
-                    (0, 0, inv_line_a),
-                    (0, 0, inv_line_b),
-                ],
-            }
-        )
-        inventory.action_start()
-        inventory.action_validate()
+        # inventory = self.env["stock.inventory"].create(
+        #     {
+        #         "name": "Inv. productserial1",
+        #         "line_ids": [
+        #             (0, 0, inv_line_a),
+        #             (0, 0, inv_line_b),
+        #         ],
+        #     }
+        # )
+        # inventory.action_start()
+        # inventory.action_validate()
 
     def test_sale_confirm_to_invoice(self):
         so = Form(self.env["sale.order"])
