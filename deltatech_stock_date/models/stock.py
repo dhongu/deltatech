@@ -79,8 +79,8 @@ class StockPicking(models.Model):
         if self.env.context.get("force_period_date", False):
             force_period_date = self.env.context["force_period_date"]
         else:
-            update_product_price = get_param("stock.transfer_at_scheduled_date", default="True")
-            if safe_eval(update_product_price):
+            transfer_at_scheduled_date = get_param("stock.transfer_at_scheduled_date", default="True")
+            if safe_eval(transfer_at_scheduled_date):
                 force_period_date = self.scheduled_date
             else:
                 force_period_date = fields.Datetime.now()
