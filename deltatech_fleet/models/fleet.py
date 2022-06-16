@@ -120,7 +120,7 @@ class FleetDivision(models.Model):
 
 
 class FleetLocation(models.Model):
-    " Pozitia unei locatii si afisare pozitie pe Google Maps "
+    "Pozitia unei locatii si afisare pozitie pe Google Maps"
     _name = "fleet.location"
     _description = "Location"
 
