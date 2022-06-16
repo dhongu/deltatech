@@ -20,7 +20,7 @@ class ProductChangeQuantity(models.TransientModel):
         return defaults
 
     def change_product_qty(self):
-        """ Sandard se face ajustarea de quant"""
+        """Sandard se face ajustarea de quant"""
 
         inventory = self.env["stock.inventory"].create(
             {"product_ids": [(6, 0, [self.product_id.id])], "location_ids": [(6, 0, [self.location_id.id])]}

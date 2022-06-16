@@ -498,7 +498,7 @@ class DeltatechExpensesDeductionLine(models.Model):
                 tax_info = expenses.tax_ids.compute_all(
                     expenses.amount, expenses.currency_id, quantity=1, partner=expenses.partner_id
                 )
-                tax_amount += sum([t.get("amount", 0.0) for t in tax_info.get("taxes", False)])
+                tax_amount += sum(t.get("amount", 0.0) for t in tax_info.get("taxes", False))
                 price_subtotal = tax_info["total_excluded"]
             expenses.tax_amount = tax_amount
             expenses.price_subtotal = price_subtotal

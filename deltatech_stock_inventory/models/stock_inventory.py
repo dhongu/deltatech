@@ -194,7 +194,7 @@ class Inventory(models.Model):
         return True
 
     def action_check(self):
-        """ Checks the inventory and computes the stock move to do """
+        """Checks the inventory and computes the stock move to do"""
         for inventory in self.filtered(lambda x: x.state not in ("done", "cancel")):
             # first remove the existing stock moves linked to this inventory
             inventory.with_context(prefetch_fields=False).mapped("move_ids").unlink()
@@ -623,7 +623,7 @@ class InventoryLine(models.Model):
         groupby_fields = ["product_id", "location_id", "partner_id", "package_id", "prod_lot_id", "inventory_id"]
         lines_count = {}
         for group in self.read_group(domain, ["product_id"], groupby_fields, lazy=False):
-            key = tuple([group[field] and group[field][0] for field in groupby_fields])
+            key = tuple(group[field] and group[field][0] for field in groupby_fields)
             lines_count[key] = group["__count"]
         for line in self:
             key = (
@@ -743,7 +743,7 @@ class InventoryLine(models.Model):
                 line.inventory_date = fields.Datetime.now()
 
     def action_reset_product_qty(self):
-        """ Write `product_qty` to zero on the selected records. """
+        """Write `product_qty` to zero on the selected records."""
         impacted_lines = self.env["stock.inventory.line"]
         for line in self:
             if line.state == "done":
