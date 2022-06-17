@@ -148,6 +148,6 @@ addon | version | maintainers | summary
 
 Maintainer
 ----------
-[![terrabit](https://terrabit.ro/images/logo-terrabit.png)](https://terrabit.ro)
+[![terrabit](https://www.terrabit.ro/web/image/website/1/logo/TERRABIT%20Solutions?unique=b61ca1c)](https://terrabit.ro)
 
 This modules is maintained by the Terrabit.
