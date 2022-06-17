@@ -26,7 +26,10 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
         _handleCarrierCheckResult: function (result) {
             var $payButton = $("#o_payment_form_pay");
             if (result.status === true) {
-                $payButton.data("disabled_reasons").acquirer_selection = false;
+                // $payButton.data("disabled_reasons").acquirer_selection = false;
+                var disabledReasons = $payButton.data("disabled_reasons") || {};
+                disabledReasons.acquirer_selection = false;
+                $payButton.data("disabled_reasons", disabledReasons);
                 $payButton.prop("disabled", _.contains($payButton.data("disabled_reasons"), true));
             }
             var $acquirers = $('#payment_method input[name="pm_id"]');
@@ -63,8 +66,14 @@ odoo.define("deltatech_website_delivery_and_payment.checkout", function (require
 
             var $payButton = $("#o_payment_form_pay");
             $payButton.prop("disabled", true);
-            $payButton.data("disabled_reasons", $payButton.data("disabled_reasons") || {});
-            $payButton.data("disabled_reasons").acquirer_selection = true;
+
+            var disabledReasons = $payButton.data("disabled_reasons") || {};
+            disabledReasons.acquirer_selection = false;
+            $payButton.data("disabled_reasons", disabledReasons);
+
+            // $payButton.data("disabled_reasons", $payButton.data("disabled_reasons") || {});
+
+            // $payButton.data("disabled_reasons").acquirer_selection = true;
 
             // Se verifica daca combinatia este permisa
             self._rpc({
