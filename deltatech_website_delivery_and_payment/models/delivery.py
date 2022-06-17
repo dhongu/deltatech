@@ -12,3 +12,4 @@ class DeliveryCarrier(models.Model):
 
     weight_min = fields.Float()
     weight_max = fields.Float()
+    logo = fields.Image()

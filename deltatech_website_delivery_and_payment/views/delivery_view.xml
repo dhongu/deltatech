@@ -5,7 +5,9 @@
         <field name="model">delivery.carrier</field>
         <field name="inherit_id" ref="delivery.view_delivery_carrier_form" />
         <field name="arch" type="xml">
-
+            <xpath expr="//div[@name='title']" position="before">
+                <field name="logo" widget="image" class="oe_avatar" />
+            </xpath>
             <xpath expr="//field[@name='amount']" position="after">
                 <label for="weight_min" string="Weight limits" />
                 <div class="o_row">

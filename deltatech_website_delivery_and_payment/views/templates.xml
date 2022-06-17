@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="payment_delivery_methods" inherit_id="website_sale_delivery.payment_delivery_methods">
+        <xpath expr="//input[@name='delivery_type']" position="before">
+            <span t-if="delivery.logo">
+              <img
+                    t-att-src="image_data_uri(delivery.logo)"
+                    class="img o_image_64_max rounded"
+                    t-att-alt="delivery.name"
+                />
+            </span>
+        </xpath>
+    </template>
+</odoo>
