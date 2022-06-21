@@ -38,8 +38,8 @@ jobs:
           - container: ghcr.io/oca/oca-ci/py3.8-odoo14.0:latest
             makepot: "true"
             name: test with Odoo
-#          - container: ghcr.io/oca/oca-ci/py3.8-ocb14.0:latest
-#            name: test with OCB
+    #          - container: ghcr.io/oca/oca-ci/py3.8-ocb14.0:latest
+    #            name: test with OCB
     services:
       postgres:
         image: postgres:9.6

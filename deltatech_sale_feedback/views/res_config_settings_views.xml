@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.stock</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="31" />
+            <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='invoicing_setting_container']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="sale_feedback_email">
+                        <div class="o_setting_left_pane">
+                            <field name="sale_feedback" />
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="sale_feedback" string="Request Feedback" />
+                            <span
+                                class="fa fa-lg fa-building-o"
+                                title="Values set here are company-specific."
+                                groups="base.group_multi_company"
+                            />
+                            <div class="text-muted">
+                                Send an automatic email for request feedback after <field
+                                    name="days_request_feedback"
+                                    class="oe_inline"
+                                />  days from invoice date.
+                            </div>
+                            <div class="row mt16" attrs="{'invisible': [('sale_feedback', '=', False)]}">
+
+                                <label
+                                    for="sale_feedback_template_id"
+                                    string="Email Template"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field
+                                    name="sale_feedback_template_id"
+                                    class="oe_inline"
+                                    attrs="{'required': [('sale_feedback', '=', True)]}"
+                                    context="{'default_model': 'account.move'}"
+                                />
+                            </div>
+
+                        </div>
+
+                    </div>
+                </xpath>
+
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
