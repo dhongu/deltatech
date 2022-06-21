@@ -2,6 +2,8 @@
 <odoo>
     <template id="sort" inherit_id="website_sale.sort" name="Additional Sort by">
         <xpath expr="//t[@t-set='website_sale_sortable_current']" position="before">
+            <t t-set="price_asc_label">Price: Low to High</t>
+            <t t-set="price_desc_label">Price: High to Low</t>
             <t t-set="sale_desc_label">Best sellers</t>
             <t t-set="discount_desc_label">Best discount</t>
             <t t-set="visited_desc_label">Most Visited</t>
@@ -16,6 +18,8 @@
                   (review_desc_label, 'rating_count2 desc'),
                   (best_review_desc_label, 'rating_avg2 desc'),
                   (availability_label, 'in_stock desc'),
+                  (price_asc_label, 'price_from_pricelist asc'),
+                  (price_desc_label, 'price_from_pricelist desc'),
             ]"
             />
         </xpath>

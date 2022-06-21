@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_product_pricelist" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.product.pricelist</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='pricing_setting_container']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box" title="Pricelist for product price compute">
+                    <div class="o_setting_right_pane">
+                        <label for="product_price_pricelist" />
+                        <div class="text-muted">Pricelist for product price compute</div>
+                        <div class="row mt16">
+                            <label for="product_price_pricelist" string="Pricelist" class="col-lg-4 o_light_label" />
+                            <field name="product_price_pricelist" class="oe_inline" />
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
