@@ -17,7 +17,7 @@ class Company(models.Model):
     sale_feedback = fields.Boolean("Email feedback after sale", default=False)
     sale_feedback_template_id = fields.Many2one(
         "mail.template",
-        string="Email Template AWB picked",
+        string="Email Template Request Feedback",
         domain="[('model', '=', 'account.move')]",
         default=_default_sale_feedback_template_id,
         help="Email sent to the customer after invoice for feedback.",
