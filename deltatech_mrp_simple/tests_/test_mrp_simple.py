@@ -86,13 +86,14 @@ class TestMRPSimple(TransactionCase):
             "price_unit": self.product_b.standard_price,
             "uom_id": self.product_b.uom_id.id,
         }
-        wizard = self.env["mrp.simple"].create(
+        mrp = self.env["mrp.simple"].create(
             {
                 "picking_type_consume": self.picking_type_consume.id,
                 "picking_type_receipt_production": self.picking_type_receipt_production.id,
                 "product_in_ids": [(0, 0, product_in)],
                 "product_out_ids": [(0, 0, product_out)],
+                "validation_consume": True,
             }
         )
 
-        wizard.do_transfer()
+        mrp.do_transfer()
