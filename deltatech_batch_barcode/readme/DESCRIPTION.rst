@@ -1,1 +1,0 @@
-- Deschidere interfata de barcode din batch transfer

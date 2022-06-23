@@ -24,6 +24,7 @@ class ProductTemplate(models.Model):
     rating_count2 = fields.Integer("Rating count2")
     rating_avg2 = fields.Float("Rating Average2")
     in_stock = fields.Boolean()
+    price_from_pricelist = fields.Float(string="Price from pricelist (tax included)")
 
     def _update_statistics(self):
         domain = [("res_model", "=", self._name), ("res_id", "in", self.ids), ("consumed", "=", True)]
@@ -55,12 +56,16 @@ class ProductTemplate(models.Model):
         products = self.search([])
         products._update_statistics()
 
+    def set_pricelist_price(self):
+        self.product_variant_ids.set_pricelist_price()
+
 
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     sales_count2 = fields.Float(string="Sold2", store=True)
     visit_count = fields.Integer(string="Visits", store=True)
+    price_from_pricelist = fields.Float(string="Price from pricelist (tax included)")
 
     def _update_statistics(self):
         date_from = fields.Datetime.to_string(
@@ -96,3 +101,31 @@ class ProductProduct(models.Model):
     def _cron_update_statistics(self):
         products = self.search([])
         products._update_statistics()
+
+    def set_pricelist_price(self):
+        pricelist_id = self.env["ir.config_parameter"].sudo().get_param("sale.product_price_pricelist")
+        if pricelist_id:
+            pricelist = self.env["product.pricelist"].browse(int(pricelist_id))
+            quantities = [1] * len(self)
+            partners = [False] * len(self)
+            prices = pricelist.get_products_price(self, quantities, partners)
+            for product in self:
+                pricelist_price = prices.get(product.id, 0.0)
+
+                # get taxes
+                taxes = product.taxes_id.compute_all(pricelist_price, quantity=1, product=product)["taxes"]
+                taxes_amount = 0.0
+                for tax in taxes:
+                    taxes_amount += tax["amount"]
+                pricelist_price += taxes_amount
+                product.write({"price_from_pricelist": pricelist_price})
+                if product.product_tmpl_id.product_variant_count == 1:
+                    product.product_tmpl_id.write({"price_from_pricelist": pricelist_price})
+                else:
+                    # TODO: compute minimum price from variants
+                    pass
+
+    @api.model
+    def set_pricelist_price_cron(self):
+        products = self.search([("website_published", "=", True)])
+        products.set_pricelist_price()

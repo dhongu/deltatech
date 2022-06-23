@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_product_pricelist" model="ir.ui.view">
+        <field name="name">product.template.form.product.pricelist</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <group name="group_standard_price" position="inside">
+                <field name="price_from_pricelist" readonly="1" />
+            </group>
+        </field>
+    </record>
+
+    <record id="product_template_tree_product_pricelist" model="ir.ui.view">
+        <field name="name">product.template.tree.product.pricelist</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view" />
+        <field name="arch" type="xml">
+            <field name="list_price" position="after">
+                <field name="price_from_pricelist" readonly="1" string="Pricelist price" />
+            </field>
+        </field>
+    </record>
+</odoo>
