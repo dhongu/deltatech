@@ -14,7 +14,7 @@ class StockQuant(models.Model):
     def _update_available_quantity(
         self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
     ):
-        if not location_id.allow_negative_stock:
+        if not location_id.allow_negative_stock and location_id.usage == "internal":
             quants = self._gather(
                 product_id, location_id, lot_id=lot_id, package_id=package_id, owner_id=owner_id, strict=True
             )
