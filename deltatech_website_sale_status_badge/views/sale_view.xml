@@ -4,6 +4,7 @@
         <field name="name">sale.order.tree</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="deltatech_website_sale_status.view_quotation_tree" />
+        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="stage" position="replace">
                 <field
@@ -22,6 +23,7 @@
         <field name="name">sale.order.tree</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="deltatech_website_sale_status.view_order_tree" />
+        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="stage" position="replace">
                 <field
@@ -41,6 +43,7 @@
         <field name="name">sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="deltatech_website_sale_status.view_order_form" />
+        <field name="priority" eval="100" />
         <field name="arch" type="xml">
             <field name="stage" position="replace">
                 <field
