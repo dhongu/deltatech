@@ -14,7 +14,7 @@ class StockQuant(models.Model):
         self, product_id, location_id, quantity, lot_id=None, package_id=None, owner_id=None, in_date=None
     ):
 
-        if not location_id.allow_negative_stock:
+        if not location_id.allow_negative_stock and location_id.usage == "internal":
             qty_available = product_id.with_context(location=location_id.id, compute_child=False).qty_available
             if qty_available + quantity < 0:
                 if location_id.company_id.no_negative_stock:
