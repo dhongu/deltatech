@@ -4,15 +4,11 @@
 
 from datetime import date, timedelta
 
-
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-
-from odoo import fields, models
 from odoo.tools import safe_eval
-
 
 
 class StockInventory(models.Model):

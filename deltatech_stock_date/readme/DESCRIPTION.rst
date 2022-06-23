@@ -6,4 +6,3 @@ Features:
 
 
 Paramentrul de sistem stock.transfer_at_scheduled_date se foloseste pentru a indica daca la transfer se va utiliza data planificata sau data curenta.
-

@@ -23,12 +23,6 @@ class ProductTemplate(models.Model):
             trade_markup = (list_price - self.last_purchase_price) / self.last_purchase_price * 100
             self.trade_markup = trade_markup
 
-    @api.depends("property_cost_method", "categ_id.property_cost_method")
-    def _compute_cost_method(self):
-        super(ProductTemplate, self)._compute_cost_method()
-        if self.cost_method == "fifo" and self.env.context.get("force_fifo_to_average", False):
-            self.cost_method = "average"
-
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
         get_param = self.env["ir.config_parameter"].sudo().get_param
