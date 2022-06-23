@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* deltatech_dc
+# 	* deltatech_dc
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-15 08:54+0000\n"
-"PO-Revision-Date: 2019-08-15 08:54+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2022-06-21 13:57+0000\n"
+"PO-Revision-Date: 2022-06-21 13:57+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,8 @@ msgstr "<span>Noi,</span>"
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "<span>and controlled according to Quality Control Plan dated in</span>"
-msgstr "și controlat în conformitate cu Planul de control al calității din data"
+msgstr ""
+"și controlat în conformitate cu Planul de control al calității din data"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
@@ -81,6 +82,11 @@ msgid "<span>with lot number</span>"
 msgstr "cu lot numărul"
 
 #. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_id
+msgid "Company"
+msgstr "Compania"
+
+#. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__create_uid
 msgid "Created by"
 msgstr "Creat de"
@@ -93,6 +99,7 @@ msgstr "Creat în"
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__data_sheet
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_product__data_sheet
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__data_sheet
 msgid "Data Sheet"
 msgstr "Fișa tehnică"
 
@@ -115,9 +122,6 @@ msgstr "Declarație de conformitate"
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__display_name
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc__display_name
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_invoice__display_name
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_lot__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
@@ -126,13 +130,13 @@ msgstr "Nume afișat"
 msgid "F(PP 7.5/4.4.6-01)03"
 msgstr "F(PP 7.5/4.4.6-01)03"
 
-
+#. module: deltatech_dc
+#: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__id
+msgid "ID"
+msgstr "ID"
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc____last_update
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc____last_update
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_invoice____last_update
-#: model:ir.model.fields,field_description:deltatech_dc.field_report_deltatech_dc_report_dc_lot____last_update
 msgid "Last Modified on"
 msgstr "Ultima modificare la"
 
@@ -158,14 +162,14 @@ msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_dc
-#: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
-msgid "Product Label"
-msgstr ""
+#: model:ir.model,name:deltatech_dc.model_product_template
+msgid "Product Template"
+msgstr "Șablon produs"
 
 #. module: deltatech_dc
-#: model_terms:ir.ui.view,arch_db:deltatech_dc.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_dc.product_template_form_view
 msgid "Quality Control"
-msgstr ""
+msgstr "Control calitate"
 
 #. module: deltatech_dc
 #: model:ir.model,name:deltatech_dc.model_report_deltatech_dc_report_dc
@@ -182,25 +186,33 @@ msgstr "Semnatură"
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__company_standard
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_product__company_standard
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__company_standard
 msgid "Standard of Company"
 msgstr "Standardul de firmă"
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__standards
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_product__standards
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__standards
 msgid "Standards"
 msgstr "Standarde"
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__technical_specification
 #: model:ir.model.fields,field_description:deltatech_dc.field_product_product__technical_specification
+#: model:ir.model.fields,field_description:deltatech_dc.field_product_template__technical_specification
 msgid "Technical Specification"
 msgstr "Specificație tehnică"
 
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
-msgid "We hereby certify that the above mentioned materials has been inspected by ourselves and meets our manufacturing specification and the\n"
-"								requirements of your order. Final physical properties and compliance with any finished product specification depends on satisfactory\n"
-"								processing by yourselves."
-msgstr "Declarăm pe propria raspundere, conform prevederilor art. 5 din HG 1022/2002, privind regimul produselor și serviciilor care pot pune în pericol viața, sanatătea, securitatea muncii și protecția mediului, că produsul nu pune în pericol sanatătea utilizatorilor și nu este toxic pentru mediul înconjurător."
-
+msgid ""
+"We hereby certify that the above mentioned materials has been inspected by ourselves and\n"
+"                                meets our manufacturing specification and the\n"
+"                                requirements of your order. Final physical properties and compliance with any finished\n"
+"                                product specification depends on satisfactory\n"
+"                                processing by yourselves."
+msgstr ""
+"Declarăm pe propria răspundere,  că produsul nu pune în pericol viața, sănătatea securitatea muncii utilizatorilor"
+"și nu este toxic pentru mediul înconjurător dacă este folosit în conformitate cu destinația pentru care a fost produs"
+"respectând depozitarea, manipularea din fișa cu date de securitate.  "
