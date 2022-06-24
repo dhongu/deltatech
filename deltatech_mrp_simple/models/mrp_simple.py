@@ -4,6 +4,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.safe_eval import safe_eval
 
 
 class MRPSimple(models.Model):
@@ -214,10 +215,14 @@ class MRPSimple(models.Model):
             line.price_unit = finit_price / line.quantity
 
     def create_picking_lines_in(self, picking_in):
+        if not self.product_in_ids:
+            raise UserError(_("You need at least one final product"))
         for line in self.product_in_ids:
-            if not self.product_in_ids:
-                raise UserError(_("You need at least one final product"))
-            if line.price_unit and line.product_id.type != "service":
+            params = self.env["ir.config_parameter"].sudo()
+            allow_zero = safe_eval(params.get_param("deltatech_mrp_simple.allow_zero_cost", False))
+            if not line.price_unit and not allow_zero:
+                raise UserError(_("Price 0 for result product!"))
+            if line.product_id.type != "service":
                 self.add_picking_line(
                     picking=picking_in,
                     product=line.product_id,
@@ -225,8 +230,6 @@ class MRPSimple(models.Model):
                     uom=line.uom_id,
                     price_unit=line.price_unit,
                 )
-            else:
-                raise UserError(_("Price 0 for result product!"))
 
     def create_picking_lines_out(self, picking_out):
         for line in self.product_out_ids:
