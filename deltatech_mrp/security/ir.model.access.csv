@@ -1,1 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+deltatech_mrp.access_deltatech_cost_detail,access_deltatech_cost_detail,deltatech_mrp.model_deltatech_cost_detail,base.group_user,1,0,0,0
+deltatech_mrp.access_deltatech_mrp_report,access_deltatech_mrp_report,deltatech_mrp.model_deltatech_mrp_report,base.group_user,1,0,0,0

@@ -7,10 +7,7 @@
             <field name="model">deltatech.mrp.report</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree
-                    colors="blue:state in ('draft');black:state in ('picking_except','confirmed','ready','in_production');gray:state in ('done','cancel') "
-                    string="Production"
-                >
+                <tree string="Production">
                     <field name="date" invisible="1" />
                     <field name="product_id" invisible="0" />
                     <field name="categ_id" invisible="1" />
@@ -45,7 +42,7 @@
                     <field name="consumed_pak_val" type="measure" />
                     <field name="consumed_sem_val" type="measure" />
                     <field name="val_prod" type="measure" />
-                    <field name="standard_price" type="measure" />
+<!--                    <field name="standard_price" type="measure" />-->
                     <field name="actually_price" type="measure" />
                 </graph>
             </field>
@@ -63,7 +60,7 @@
                     <field name="consumed_pak_val" type="measure" />
                     <field name="consumed_sem_val" type="measure" />
                     <field name="val_prod" type="measure" />
-                    <field name="standard_price" type="measure" />
+<!--                    <field name="standard_price" type="measure" />-->
                     <field name="actually_price" type="measure" />
                 </pivot>
             </field>
@@ -79,42 +76,11 @@
             <field name="model">deltatech.mrp.report</field>
             <field name="arch" type="xml">
                 <search string="Production Analysis">
-                    <field name="date" />
+
+                    <filter name="date" date="date" default_period="last_month" />
+
                     <field name="product_id" />
-                    <filter
-                        string="This Year"
-                        name="year"
-                        domain="[('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]"
-                        help="Production performed during current year"
-                    />
-                    <filter
-                        string="This Month"
-                        name="month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=0, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                        help="Production performed during current month"
-                    />
-                    <filter
-                        string="Previous Month"
-                        name="prev_month"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-1, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=0, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                        help="Production performed during previous month"
-                    />
-                    <filter
-                        string="Current - 3 Month"
-                        name="month-3"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-2, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=-1, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                        help="Production performed during 3 months ago"
-                    />
-                    <filter
-                        string="Current - 4 Month"
-                        name="month-4"
-                        domain="[('date','&gt;=', (context_today() + relativedelta(day=1, months=-3, days=0)).strftime('%%Y-%%m-%%d')),
-                                 ('date','&lt;=', (context_today() + relativedelta(day=1, months=-2, days=-1)).strftime('%%Y-%%m-%%d')) ]"
-                        help="Production performed during 4 months ago"
-                    />
+
                     <separator />
                     <filter string="Current" name='current' domain="[('state','in',('open','draft'))]" />
                     <filter string="In Production" name="in_production" domain="[('state','=','in_production')]" />
@@ -160,12 +126,11 @@
         <record id="action_deltatech_mrp_report" model="ir.actions.act_window">
             <field name="name">Production Cost Analysis</field>
             <field name="res_model">deltatech.mrp.report</field>
-            <field name="view_type">form</field>
             <field name="view_mode">pivot,tree,graph</field>
             <field name="search_view_id" ref="view_deltatech_mrp_report_filter" />
             <field name="help">This reporting allows you to analysis your manufacturing cost.</field>
             <field name="context">
-                { 'search_default_done':1,'search_default_Product':
+                { "search_default_date":1, 'search_default_done':1,'search_default_Product':
                 1,'search_default_month':1,'group_by_no_leaf':1,'group_by':[]}
             </field>
         </record>
