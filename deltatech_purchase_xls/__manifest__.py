@@ -14,6 +14,6 @@
     "data": ["wizard/import_purchase_line_view.xml", "report/purchase_xls.xml", "security/ir.model.access.csv"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

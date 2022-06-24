@@ -12,6 +12,6 @@
     "depends": ["website_sale"],
     "data": ["views/product_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Alpha",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
