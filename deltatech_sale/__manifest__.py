@@ -5,11 +5,11 @@
 {
     "name": "Sale Extension",
     "summary": "Sale Extension Obsolete",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
-    "depends": ["sale"],
+    "depends": ["sale", "sale_margin"],
     "license": "LGPL-3",
     "data": [
         "report/deltatech_sale_report.xml",

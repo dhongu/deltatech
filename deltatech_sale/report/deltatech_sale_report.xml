@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <record id="view_deltatech_sale_report_tree" model="ir.ui.view">
+<!--        <record id="view_deltatech_sale_report_tree" model="ir.ui.view">
             <field name="name">deltatech.sale.report.tree</field>
             <field name="model">deltatech.sale.report</field>
             <field name="arch" type="xml">
@@ -21,7 +21,7 @@
                     <field name="profit_val" sum="Profit" />
                 </tree>
             </field>
-        </record>
+        </record>-->
         <record id="view_deltatech_sale_report_graph" model="ir.ui.view">
             <field name="name">deltatech.sale.report.graph</field>
             <field name="model">deltatech.sale.report</field>
