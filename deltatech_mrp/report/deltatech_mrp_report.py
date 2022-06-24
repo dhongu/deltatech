@@ -1,7 +1,7 @@
 # ©  2008-2019 Deltatech
 # See README.rst file on addons root folder for license details
 
-from odoo import api, fields, models, tools
+from odoo import fields, models, tools
 
 # TODO: de citit coeficientul  din BOM
 
@@ -10,71 +10,6 @@ class DeltatechMrpReport(models.Model):
     _name = "deltatech.mrp.report"
     _description = "Production Cost Analysis"
     _auto = False
-
-    @api.model
-    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
-
-        res = super(DeltatechMrpReport, self).read_group(
-            domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy
-        )
-
-        prod_dict = {}
-        if (
-            "standard_price" in fields
-            or "product_val" in fields
-            or "consumed_raw_val" in fields
-            or "consumed_pak_val" in fields
-            or "consumed_sem_val" in fields
-        ):
-            for line in res:
-
-                lines = self.search(line.get("__domain", []))
-                standard_price = 0.0
-                itmes = 0
-                product_val = 0
-                # consumed_sem_val = 0
-                # consumed_pak_val = 0
-                # consumed_raw_val = 0
-
-                for line_rec in lines:
-                    if line_rec.product_id.cost_method == "real":
-                        price = line_rec.price_unit_on_quant  # de unde e scos camoul asta
-                    else:
-                        if line_rec.product_id.id not in prod_dict:
-                            prod_dict[line_rec.product_id.id] = line_rec.product_id.get_history_price(
-                                line_rec.company_id.id, date=line_rec.date
-                            )
-                        price = prod_dict[line_rec.product_id.id]
-                    standard_price += price
-                    product_val += line_rec.product_qty * price
-                    itmes += 1
-                # """
-                # for cost in  line_rec.production_id.cost_detail_ids:
-                #     if cost.cost_categ == 'semi':
-                #         consumed_sem_val += cost.amount
-                #     elif cost.cost_categ == 'pak':
-                #         consumed_pak_val += cost.amount
-                #     else:
-                #         consumed_raw_val += cost.amount
-                # """
-                if itmes > 0:
-                    line["standard_price"] = standard_price / itmes
-                    line["product_val"] = product_val
-
-                    # line['consumed_sem_val'] = consumed_sem_val
-                # line['consumed_pak_val'] = consumed_pak_val
-                # line['consumed_raw_val'] = consumed_raw_val
-        return res
-
-    def _compute_standard_price(self):
-        for line in self:
-            line.standard_price = line.product_id.get_history_price(
-                line.company_id.id, date=line.date
-            ) or line.product_id.get_history_price(line.company_id.id)
-
-    def _compute_product_val(self):
-        for line in self:
-            line.product_val = line.product_qty * line.product_id.get_history_price(line.company_id.id, date=line.date)
 
     def _compute_consumed(self):
         for line in self:
@@ -109,7 +44,7 @@ class DeltatechMrpReport(models.Model):
     val_prod = fields.Float("Value production", digits="Account", readonly=True)
 
     standard_price = fields.Float(
-        compute="_compute_standard_price", string="Price Standard", readonly=True, group_operator="avg"
+        related="product_id.standard_price", string="Price Standard", readonly=True, group_operator="avg"
     )
 
     actually_price = fields.Float("Actually Price", digits="Account", readonly=True, group_operator="avg")
@@ -167,9 +102,10 @@ SELECT s.id, s.id as production_id,
      LEFT JOIN uom_uom u ON ((u.id = s.product_uom_id)))
      LEFT JOIN ( SELECT sm.production_id,
             sum(sm.product_qty) AS product_qty_ef,
-            sum(sm.value) AS product_val_ef,
+            sum(svl.value) AS product_val_ef,
             sm.procure_method
            FROM  stock_move sm
+            LEFT JOIN stock_valuation_layer svl on sm.id = svl.stock_move_id
 
           WHERE ((sm.state)::text = 'done'::text)
           GROUP BY sm.production_id, sm.procure_method) sub_prod_ef ON ((sub_prod_ef.production_id = s.id)))
@@ -177,12 +113,13 @@ SELECT s.id, s.id as production_id,
 left join (
 SELECT
     sm.raw_material_production_id AS production_id,
-   SUM (-sm.value) AS consumed_val,
-      CASE WHEN pc.cost_categ='semi' THEN SUM (-sm.value) else 0.0 end as  consumed_sem_val,
-      CASE WHEN pc.cost_categ='pak' THEN SUM (-sm.value) else 0.0 end as  consumed_pak_val,
-      CASE WHEN pc.cost_categ='raw' THEN SUM (-sm.value) else 0.0 end as  consumed_raw_val
+   SUM (-svl.value) AS consumed_val,
+      CASE WHEN pc.cost_categ='semi' THEN SUM (-svl.value) else 0.0 end as  consumed_sem_val,
+      CASE WHEN pc.cost_categ='pak' THEN SUM (-svl.value) else 0.0 end as  consumed_pak_val,
+      CASE WHEN pc.cost_categ='raw' THEN SUM (-svl.value) else 0.0 end as  consumed_raw_val
     FROM
         stock_move sm
+        LEFT JOIN stock_valuation_layer svl on sm.id = svl.stock_move_id
         LEFT JOIN product_product pr ON pr.id = sm.product_id
         LEFT JOIN product_template pt ON pt.id = pr.product_tmpl_id
         LEFT JOIN product_category pc ON pc.id = pt.categ_id
