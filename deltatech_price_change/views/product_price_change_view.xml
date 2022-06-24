@@ -106,7 +106,7 @@
         <record model="ir.actions.act_window" id="action_deltatech_price_change">
             <field name="name">Product Price Change</field>
             <field name="res_model">product.price.change</field>
-            <field name="view_type">form</field>
+
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem
