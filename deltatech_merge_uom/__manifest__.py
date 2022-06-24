@@ -3,7 +3,7 @@
 
 {
     "name": "Merge Unit of Measure",
-    "version": "13.0.0.0.1",
+    "version": "13.0.0.0.2",
     "author": "Terrabit, Dorin Hongu",
     "category": "Generic Modules",
     "website": "https://www.terrabit.ro",
