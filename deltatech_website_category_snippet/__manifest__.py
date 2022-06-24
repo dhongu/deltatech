@@ -14,6 +14,6 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "qweb": ["static/src/xml/*.xml"],
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }
