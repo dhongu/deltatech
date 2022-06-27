@@ -3,15 +3,16 @@
 {
     "name": "Simple MRP",
     "summary": "Simple production",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "author": "Terrabit, Dorin Hongu, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "category": "Manufacturing",
     "depends": ["stock", "sale"],
     "license": "LGPL-3",
     "data": [
-        "wizard/mrp_simple_view.xml",
+        "views/mrp_simple_view.xml",
         "security/ir.model.access.csv",
+        "security/groups.xml",
         "views/sale_order.xml",
         "data/ir_config_parameter.xml",
     ],
