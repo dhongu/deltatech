@@ -84,7 +84,7 @@ class IrHttp(models.AbstractModel):
 
         # Add language prefix to URL
         if website.default_lang_code != request.lang and request.lang in website.language_ids.mapped("code"):
-            destination = u"/{}{}".format(request.lang, destination)
+            destination = "/{}{}".format(request.lang, destination)
 
         # Redirect to the SEO URL
         return local_redirect(destination, dict(request.httprequest.args), True, code=code)
