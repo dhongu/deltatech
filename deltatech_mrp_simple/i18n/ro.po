@@ -4,12 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-
-"POT-Creation-Date: 2021-03-29 09:06+0000\n"
-"PO-Revision-Date: 2021-03-29 09:06+0000\n"
-
+"POT-Creation-Date: 2022-06-20 10:42+0000\n"
+"PO-Revision-Date: 2022-06-20 10:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,19 +17,41 @@ msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
-msgid "Cancel"
-msgstr "Anulează"
+msgid "<span class=\"o_stat_text\">Consume</span>"
+msgstr "<span class=\"o_stat_text\">Consum</span>"
+
+#. module: deltatech_mrp_simple
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
+msgid "<span class=\"o_stat_text\">Receipt</span>"
+msgstr "<span class=\"o_stat_text\">Recepție</span>"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__final_product_category
 msgid "Category for final product"
-msgstr "Categorie produs finit"
+msgstr "Categorie produs"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__partner_id
 msgid "Client"
-msgstr "Client"
+msgstr ""
 
+#. module: deltatech_mrp_simple
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
+msgid "Confirm"
+msgstr "Confirmă"
+
+#. module: deltatech_mrp_simple
+#: code:addons/deltatech_mrp_simple/models/mrp_simple.py:0
+#: model:ir.actions.act_window,name:deltatech_mrp_simple.action_consume
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__consume_id
+#, python-format
+msgid "Consume"
+msgstr "Consum"
+
+#. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_out_ids
+msgid "Consumed products"
+msgstr "Produse consumate"
 
 #. module: deltatech_mrp_simple
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
@@ -47,7 +67,7 @@ msgstr "Consum și recepție"
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__auto_create_sale
 msgid "Create product & sale"
-msgstr "Creează produs și comandă vânzare"
+msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__create_uid
@@ -64,10 +84,19 @@ msgid "Created on"
 msgstr ""
 
 #. module: deltatech_mrp_simple
+#: model:ir.model.fields,help:deltatech_mrp_simple.field_mrp_simple_line_out__stock
+msgid ""
+"Current quantity of products.\n"
+"In a context with a single Stock Location, this includes goods stored at this Location, or any of its children.\n"
+"In a context with a single Warehouse, this includes goods stored in the Stock Location of this Warehouse, or any of its children.\n"
+"stored in the Stock Location of the Warehouse of this Shop, or any of its children.\n"
+"Otherwise, this includes goods stored in any Stock Location with 'internal' type."
+msgstr ""
+
+#. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__date
 msgid "Date"
-msgstr "Dată"
-
+msgstr "Data"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__display_name
@@ -77,15 +106,25 @@ msgid "Display Name"
 msgstr ""
 
 #. module: deltatech_mrp_simple
-#: code:addons/deltatech_mrp_simple/wizard/mrp_simple.py:0
+#: model:ir.model.fields.selection,name:deltatech_mrp_simple.selection__mrp_simple__state__done
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_mrp_simple
+#: model:ir.model.fields.selection,name:deltatech_mrp_simple.selection__mrp_simple__state__draft
+msgid "Draft"
+msgstr "Ciornă"
+
+#. module: deltatech_mrp_simple
+#: code:addons/deltatech_mrp_simple/models/mrp_simple.py:0
 #, python-format
 msgid "Error creating final product!"
-msgstr "Eroare la crearea produsului finit"
+msgstr "Eroare la crearea produsului"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__final_product_name
 msgid "Final product name"
-msgstr "Denumire produs finit"
+msgstr "Nume produs final"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__id
@@ -115,27 +154,33 @@ msgstr ""
 msgid "Last Updated on"
 msgstr ""
 
-
 #. module: deltatech_mrp_simple
 #: model:ir.model,name:deltatech_mrp_simple.model_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_sale_order__simple_mrp_count
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_order_form_inherit_simple_mrp
 msgid "MRP Simple"
-msgstr "Producție simpla"
+msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model,name:deltatech_mrp_simple.model_mrp_simple_line_in
 msgid "MRP Simple Line IN"
-msgstr "Produse finite"
+msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model,name:deltatech_mrp_simple.model_mrp_simple_line_out
 msgid "MRP Simple Line OUT"
-msgstr "Materiale"
+msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__mrp_simple_id
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__mrp_simple_id
 msgid "Mrp Simple"
-msgstr "Producție simpla"
+msgstr ""
+
+#. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__name
+msgid "Name"
+msgstr "Nume"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__picking_type_consume
@@ -148,27 +193,17 @@ msgid "Picking type receipt"
 msgstr "Tip operație recepție"
 
 #. module: deltatech_mrp_simple
+#: code:addons/deltatech_mrp_simple/models/mrp_simple.py:0
 #: code:addons/deltatech_mrp_simple/wizard/mrp_simple.py:0
 #, python-format
 msgid "Price 0 for result product!"
-msgstr "Produsul/produsele finite nu au preț de cost"
+msgstr "Preț 0 rezultat pt. produsul final"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__product_id
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__product_id
 msgid "Product"
 msgstr "Produs"
-
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_in_ids
-msgid "Product In"
-msgstr "Produse Consumate"
-
-
-#. module: deltatech_mrp_simple
-#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_out_ids
-msgid "Product Out"
-msgstr "Produse rezultate"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__final_product_qty
@@ -178,30 +213,72 @@ msgid "Quantity"
 msgstr "Cantitate"
 
 #. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__stock
+msgid "Quantity On Hand"
+msgstr "Stoc"
+
+#. module: deltatech_mrp_simple
+#: code:addons/deltatech_mrp_simple/models/mrp_simple.py:0
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__receipt_id
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
+#, python-format
 msgid "Receipt"
 msgstr "Recepție"
 
 #. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__product_in_ids
+msgid "Received products"
+msgstr "Produse recepționate"
+
+#. module: deltatech_mrp_simple
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
+msgid "Recompute prices"
+msgstr "Recalculare prețuri"
+
+#. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__sale_order_id
 msgid "Sale Order"
-msgstr "Comandă"
+msgstr "Comanda vânzare"
 
 #. module: deltatech_mrp_simple
 #: model:res.groups,name:deltatech_mrp_simple.group_sale_simple_production
 msgid "Sale simple production"
-msgstr "Poate genera comandă din Simple Production"
+msgstr "Comandă de vânzare in Simple Production"
+
+#. module: deltatech_mrp_simple
+#: model:ir.model,name:deltatech_mrp_simple.model_sale_order
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_stock_picking__sale_simple_mrp_id
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_sale_order__simple_mrp_picking_ids
+msgid "Simple MRP Transfers"
+msgstr "Transferuri"
 
 #. module: deltatech_mrp_simple
 #: model:ir.actions.act_window,name:deltatech_mrp_simple.action_mrp_simple
 #: model:ir.ui.menu,name:deltatech_mrp_simple.menu_mrp_simple
 msgid "Simple Production"
-msgstr "Producție simplă"
+msgstr ""
 
 #. module: deltatech_mrp_simple
+#: code:addons/deltatech_mrp_simple/models/sale_order.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.mrp_simple_tree
+#, python-format
+msgid "Simple production"
+msgstr ""
+
+#. module: deltatech_mrp_simple
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__state
+msgid "State"
+msgstr "Status"
+
+#. module: deltatech_mrp_simple
+#: model:ir.model,name:deltatech_mrp_simple.model_stock_picking
 #: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
 msgid "Transfer"
-msgstr "Transfer"
+msgstr ""
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__price_unit
@@ -214,7 +291,7 @@ msgstr "Preț unitar"
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_in__uom_id
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__uom_id
 msgid "Unit of Measure"
-msgstr "Unitate de măsură"
+msgstr "Unitate măsură"
 
 #. module: deltatech_mrp_simple
 #: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple__validation_consume
@@ -227,13 +304,12 @@ msgid "Validation Receipt"
 msgstr "Validează recepția"
 
 #. module: deltatech_mrp_simple
-#: code:addons/deltatech_mrp_simple/wizard/mrp_simple.py:0
-#, python-format
-msgid "You need at least one final product"
-msgstr "Este necesar cel puțin un produs finit"
+#: model:ir.model.fields,field_description:deltatech_mrp_simple.field_mrp_simple_line_out__value
+msgid "Value"
+msgstr "Valoare"
 
 #. module: deltatech_mrp_simple
-#: model_terms:ir.ui.view,arch_db:deltatech_mrp_simple.view_mrp_simple_form
-msgid "or"
-msgstr "sau"
-
+#: code:addons/deltatech_mrp_simple/models/mrp_simple.py:0
+#, python-format
+msgid "You need at least one final product"
+msgstr "Lista de produse finale este goala"
