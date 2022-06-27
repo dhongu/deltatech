@@ -13,7 +13,6 @@
     "license": "LGPL-3",
     "data": [
         "wizard/payment_report_view.xml",
-        "data/account_data.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
