@@ -9,7 +9,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Payment Report",
     "category": "Generic Modules",
-    "depends": ["account", "deltatech_card_payment"],
+    "depends": ["account"],
     "license": "LGPL-3",
     "data": [
         "wizard/payment_report_view.xml",
