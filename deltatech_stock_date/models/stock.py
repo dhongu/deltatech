@@ -55,15 +55,25 @@ class StockMove(models.Model):
     def _action_done(self, cancel_backorder=False):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         restrict_date = safe_eval(get_param("restrict_stock_move_date_last_months", "False"))
+
         if restrict_date:
             last_day_of_prev_month = date.today().replace(day=1) - timedelta(days=1)
             start_day_of_prev_month = date.today().replace(day=1) - timedelta(days=last_day_of_prev_month.day)
             end_day_of_current_month = date.today().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
-            for move in self:
-                if start_day_of_prev_month < move.date.date() < end_day_of_current_month:
+
+            use_date = self.env.context.get("force_period_date", False)
+            if use_date:
+                if start_day_of_prev_month < use_date < end_day_of_current_month:
                     pass
                 else:
                     raise UserError(_("Cannot validate stock move due to date restriction."))
+            else:
+                for move in self:
+                    if start_day_of_prev_month < move.date.date() < end_day_of_current_month:
+                        pass
+                    else:
+                        raise UserError(_("Cannot validate stock move due to date restriction."))
+
         return super(StockMove, self)._action_done(cancel_backorder)
 
 
