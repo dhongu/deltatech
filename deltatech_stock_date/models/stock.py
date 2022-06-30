@@ -63,13 +63,13 @@ class StockMove(models.Model):
 
             use_date = self.env.context.get("force_period_date", False)
             if use_date:
-                if start_day_of_prev_month < use_date < end_day_of_current_month:
+                if start_day_of_prev_month <= use_date.date() <= end_day_of_current_month:
                     pass
                 else:
                     raise UserError(_("Cannot validate stock move due to date restriction."))
             else:
                 for move in self:
-                    if start_day_of_prev_month < move.date.date() < end_day_of_current_month:
+                    if start_day_of_prev_month <= move.date.date() <= end_day_of_current_month:
                         pass
                     else:
                         raise UserError(_("Cannot validate stock move due to date restriction."))
