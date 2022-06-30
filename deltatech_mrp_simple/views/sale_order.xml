@@ -10,7 +10,7 @@
                     <field name="simple_mrp_picking_ids" invisible="1" />
                     <button
                         type="object"
-                        name="action_view_mrp_transfers"
+                        name="action_view_mrp"
                         class="oe_stat_button"
                         icon="fa-random"
                         attrs="{'invisible': [('simple_mrp_count', '=', 0)]}"
