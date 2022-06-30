@@ -5,7 +5,7 @@
 {
     "name": "Stock Date",
     "summary": "Set posting date for stock move",
-    "version": "14.0.1.0.1",
+    "version": "14.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",
