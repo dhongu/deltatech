@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="invoice_form_discount_propose" model="ir.ui.view">
+        <field name="name">invoice.form.discount</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority">150</field>
+        <field name="arch" type="xml">
+        <xpath expr="//header" position="after">
+            <field name="partner_discount" invisible="1" />
+            <div
+                    id="discount"
+                    class="alert alert-danger"
+                    role="discount"
+                    attrs="{'invisible': ['|', ('partner_discount','==',0.0), ('state','!=', 'draft')]}"
+                >
+                Recommended discount: <field name="partner_discount" /> %
+            </div>
+        </xpath>
+
+        </field>
+    </record>
+</odoo>
