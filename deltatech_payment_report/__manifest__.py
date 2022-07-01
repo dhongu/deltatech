@@ -4,7 +4,7 @@
 
 {
     "name": "Deltatech Payment Report",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Payment Report",
@@ -13,7 +13,6 @@
     "license": "LGPL-3",
     "data": [
         "wizard/payment_report_view.xml",
-        "data/account_data.xml",
         "security/ir.model.access.csv",
     ],
     "images": ["static/description/main_screenshot.png"],
