@@ -92,6 +92,7 @@
                 <field name="commission_computed" sum="Commission Computed" />
                 <field name="commission" sum="Commission" />
                 <field name="indicator_supplement" avg="Supplement Indicator" optional="hide" />
+                <field name="payment_state" optional="hide" />
                 <field name="indicator_profit" avg="Profit Indicator" optional="hide" />
                 <field name="manager_user_id" optional="hide" />
                 <field name="commission_manager_computed" optional="hide" />
