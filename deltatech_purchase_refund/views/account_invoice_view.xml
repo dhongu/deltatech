@@ -9,7 +9,7 @@
              <field name="invoice_vendor_bill_id" position="after">
                 <field
                     name="purchase_id"
-                    attrs="{'invisible': ['|', '|', ('state','not in',['draft']), ('state', '=', 'purchase'), ('type', 'not in', ['in_refund'])]}"
+                    attrs="{'invisible': ['|', '|', ('state','not in',['draft']), ('state', '=', 'purchase'), ('move_type', 'not in', ['in_refund'])]}"
                     class="oe_edit_only"
                     domain="[('company_id', '=', company_id), ('partner_id','child_of', [partner_id])]"
                     placeholder="Select a purchase order "
