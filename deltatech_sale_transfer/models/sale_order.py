@@ -91,3 +91,5 @@ class SaleOrder(models.Model):
                 order.message_post(body=message)
 
                 # order.picking_ids.message_post(body=message)
+                if "confirm_transfer" in self.env.context:
+                    picking.auto_transfer()
