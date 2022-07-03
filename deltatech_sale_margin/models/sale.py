@@ -70,7 +70,7 @@ class SaleOrderLine(models.Model):
                 if self.order_id.website_id:
                     return True
 
-        for line in self:
+        for line in self.filtered(lambda l: l.qty_to_deliver):
             if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
                 continue
 
