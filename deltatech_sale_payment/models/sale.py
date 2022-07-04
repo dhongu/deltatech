@@ -69,10 +69,13 @@ class SaleOrder(models.Model):
                 order.payment_status = "without"
                 if order.transaction_ids:
                     order.payment_status = "initiated"
+                    for transaction in order.sudo().transaction_ids:
+                        acquirer = transaction.acquirer_id
+
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
                     if authorized_transaction_ids:
                         order.payment_status = "authorized"
-                        for transaction in transactions:
+                        for transaction in authorized_transaction_ids:
                             acquirer = transaction.acquirer_id
 
             order.acquirer_id = acquirer
