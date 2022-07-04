@@ -7,8 +7,8 @@ from odoo import api, fields, models
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    acquirer_id = fields.Many2one("payment.acquirer", related="transaction_ids.acquirer_id", store=True)
-    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment")
+    acquirer_id = fields.Many2one("payment.acquirer", compute="_compute_payment", store=True)
+    payment_amount = fields.Monetary(string="Amount Payment", compute="_compute_payment", store=True)
 
     payment_status = fields.Selection(
         [
@@ -48,11 +48,16 @@ class SaleOrder(models.Model):
 
             amount = 0
             transactions = order.sudo().transaction_ids.filtered(lambda a: a.state == "done")
+
+            acquirer = self.env["payment.acquirer"]
+
             for invoice in order.invoice_ids:
                 amount += invoice.amount_total - invoice.amount_residual
                 transactions = transactions - invoice.transaction_ids
             for transaction in transactions:
                 amount += transaction.amount
+                acquirer = transaction.acquirer_id
+
             order.payment_amount = amount
             if amount:
                 if amount < order.amount_total:
@@ -67,3 +72,7 @@ class SaleOrder(models.Model):
                     authorized_transaction_ids = order.transaction_ids.filtered(lambda t: t.state == "authorized")
                     if authorized_transaction_ids:
                         order.payment_status = "authorized"
+                        for transaction in transactions:
+                            acquirer = transaction.acquirer_id
+
+            order.acquirer_id = acquirer
