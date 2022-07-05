@@ -10,6 +10,15 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
+    def checkout_form_validate(self, mode, all_form_values, data):
+        error, error_message = super(WebsiteSaleBillingAddresses, self).checkout_form_validate(
+            mode, all_form_values, data
+        )
+        is_company = data.get("is_company", False) == "True"
+        if is_company and not data.get("vat", False):
+            error["vat"] = "missing"
+        return error, error_message
+
     @http.route()
     def checkout(self, **post):
         post.pop("express", False)
