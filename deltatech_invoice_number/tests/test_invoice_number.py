@@ -62,7 +62,7 @@ class TestInvoiceNumer(TransactionCase):
             line.price_unit = 150
 
         invoice = invoice.save()
-        invoice.post()
+        invoice._post()
 
         wizard = self.env["account.invoice.change.number"].with_context(active_id=invoice.id)
 
