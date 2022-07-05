@@ -38,6 +38,7 @@ class WebsiteSale(Base):
             res_product = product.read(["id", "name", "website_url"])[0]
             res_product.update(combination_info)
             res_product["price"] = FieldMonetary.value_to_html(res_product["price"], monetary_options)
+            res_product["list_price"] = FieldMonetary.value_to_html(res_product["list_price"], monetary_options)
             if rating:
                 res_product["rating"] = request.env["ir.ui.view"].render_template(
                     "website_rating.rating_widget_stars_static",

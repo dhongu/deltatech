@@ -30,6 +30,16 @@
                                         <div
                                             class="o_carousel_product_card_footer card-footer d-flex align-items-center"
                                         >
+
+
+                                            <t t-if='has_discounted_price'>
+
+                                                 <del
+                                                    class="text-danger mr-2"
+                                                    style="white-space: nowrap;"
+                                                    t-raw="product.list_price"
+                                                />
+                                            </t>
                                             <div class="d-block font-weight-bold" t-raw="product.price" />
                                             <button
                                                 type="button"
