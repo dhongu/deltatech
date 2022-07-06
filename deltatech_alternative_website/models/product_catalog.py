@@ -19,5 +19,5 @@ class ProductCatalog(models.Model):
         for prod_cat in self:
             if prod_cat.public_categ_ids and prod_cat.product_id:
                 prod_cat.product_id.public_categ_ids = prod_cat.public_categ_ids
-
+        products.website_published = True
         return products
