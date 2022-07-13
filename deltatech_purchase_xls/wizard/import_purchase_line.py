@@ -97,7 +97,7 @@ class ImportPurchaseLine(models.TransientModel):
 
             product_uom = product_id.uom_po_id or product_id.uom_id
             if uom_name and uom_name != product_uom.name:
-                uom = self.env["uom.uom"].serach([("name", "=", uom_name)], limit=1)
+                uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                 if uom:
                     product_uom = uom
 
