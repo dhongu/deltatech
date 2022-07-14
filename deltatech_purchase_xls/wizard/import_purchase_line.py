@@ -23,9 +23,11 @@ class ImportPurchaseLine(models.TransientModel):
 
     data_file = fields.Binary(string="File", required=True)
     filename = fields.Char("File Name")
-    has_header = fields.Boolean("Header row")
+    has_header = fields.Boolean("Header row", default=True)
     new_product = fields.Boolean("Create missing product")
     is_amount = fields.Boolean("Is amount")
+    vat_included = fields.Boolean("VAT included", default=True)
+    vat_amount = fields.Integer("VAT", default=19)
     purchase_id = fields.Many2one("purchase.order")
 
     @api.model
@@ -63,18 +65,25 @@ class ImportPurchaseLine(models.TransientModel):
         for row in table_values:
             if len(row) == 5:
                 product_code, product_name, quantity, price, uom_name = row
+                list_price = price
             elif len(row) == 4:
                 product_code, product_name, quantity, price = row
                 uom_name = False
+                list_price = price
+            elif len(row) == 9:
+                product_code, product_name, reference, shipped, quantity, date, status, list_price, price = row
+                uom_name = False
             else:
                 continue
-
-            product_id = False
+            price = float(price)
+            if self.vat_included:
+                price = price / (1 + self.vat_amount / 100)
             quantity = float(quantity)
             if self.is_amount and quantity:
                 price = float(price) / quantity
             else:
                 price = float(price)
+
             domain = [("product_code", "=", product_code)]
             supplierinfo = self.env["product.supplierinfo"].sudo().search(domain, limit=1)
             if not supplierinfo:
@@ -84,7 +93,12 @@ class ImportPurchaseLine(models.TransientModel):
                         "product_code": product_code,
                         "price": price,
                     }
-                    values = {"type": "product", "name": product_name, "seller_ids": [(0, 0, seller_values)]}
+                    values = {
+                        "type": "product",
+                        "name": product_name,
+                        "seller_ids": [(0, 0, seller_values)],
+                        "list_price": list_price,
+                    }
                     product_tmpl_id = self.env["product.template"].create(values)
                     product_id = product_tmpl_id.product_variant_id
                 else:
@@ -97,7 +111,7 @@ class ImportPurchaseLine(models.TransientModel):
 
             product_uom = product_id.uom_po_id or product_id.uom_id
             if uom_name and uom_name != product_uom.name:
-                uom = self.env["uom.uom"].serach([("name", "=", uom_name)], limit=1)
+                uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                 if uom:
                     product_uom = uom
 
@@ -113,4 +127,5 @@ class ImportPurchaseLine(models.TransientModel):
                 }
             ]
 
-        self.env["purchase.order.line"].create(lines)
+        purchase_lines = self.env["purchase.order.line"].create(lines)
+        purchase_lines._compute_tax_id()
