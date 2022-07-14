@@ -79,3 +79,8 @@ class SaleOrder(models.Model):
                             acquirer = transaction.acquirer_id
 
             order.acquirer_id = acquirer
+
+    def _action_confirm(self):
+        res = super(SaleOrder, self)._action_confirm()
+        self._compute_payment()
+        return res
