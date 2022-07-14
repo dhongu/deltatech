@@ -17,7 +17,12 @@
                     <group>
                         <field name="has_header" />
                         <field name="new_product" />
+
+                    </group>
+                    <group>
                         <field name="is_amount" />
+                        <field name="vat_included" />
+                        <field name="vat_amount" />
                     </group>
                 </group>
                 <footer>
