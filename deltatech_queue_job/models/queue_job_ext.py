@@ -179,7 +179,7 @@ class QueueJob(models.Model):
             traceback.print_exc(file=buff)
             _logger.error(buff.getvalue())
             job.env.clear()
-            new_cr = registry(job._cr.dbname).cursor()
+            new_cr = registry(job.env.cr.dbname).cursor()
             env = api.Environment(new_cr, SUPERUSER_ID, {})
             job.env = env
             job.set_failed(exc_info=buff.getvalue())
