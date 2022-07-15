@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import fields, models
+from odoo import _, api, fields, models
 
 
 class DeltatechDC(models.Model):
@@ -28,4 +28,14 @@ class DeltatechDC(models.Model):
             name = (line.product_id.name or "") + " (" + (line.name or "") + "/" + (str(line.date) or "") + ")"
             result.append((line.id, name))
 
+        return result
+
+    @api.model
+    def create(self, vals):
+        if "company_id" in vals:
+            self = self.with_company(vals["company_id"])
+        if vals.get("name", _("New")) == _("New"):
+            vals["name"] = self.env["ir.sequence"].next_by_code("declaration.conformity") or _("New")
+
+        result = super(DeltatechDC, self).create(vals)
         return result

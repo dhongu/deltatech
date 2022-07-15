@@ -61,12 +61,16 @@ class ReportDCInvoicePrint(models.AbstractModel):
                 domain = [
                     ("product_id", "=", line.product_id.id),
                     ("date", "=", invoice.date),
-                    ("name", "=", invoice.name),
+                    # ("name", "=", invoice.name),
                 ]
                 dc = self.env["deltatech.dc"].search(domain)
                 if not dc:
                     dc = self.env["deltatech.dc"].create(
-                        {"name": invoice.name, "product_id": line.product_id.id, "date": invoice.date}
+                        {
+                            # "name": invoice.name,
+                            "product_id": line.product_id.id,
+                            "date": invoice.date,
+                        }
                     )
                 declarations |= dc
 
