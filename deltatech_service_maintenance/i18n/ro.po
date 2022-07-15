@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-25 12:25+0000\n"
-"PO-Revision-Date: 2022-05-25 12:25+0000\n"
+"POT-Creation-Date: 2022-07-15 14:15+0000\n"
+"PO-Revision-Date: 2022-07-15 14:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -85,12 +85,12 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Assign"
-msgstr ""
+msgstr "Alocare"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Assign Cancel"
-msgstr ""
+msgstr "Anulare alocare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_notification__state__assigned
@@ -283,7 +283,7 @@ msgstr "Aviz nefacturabil service"
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 #, python-format
 msgid "Delivery for service"
-msgstr "Livrare pentru service"
+msgstr "Aviz nefacturabil service"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_required_order__display_name
@@ -629,27 +629,12 @@ msgstr "Nouă"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "New Delivery"
-msgstr "Livrare nouă"
+msgstr "Aviz nefacturabil service"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_order_form
 msgid "New Notification"
 msgstr "Sesizare nouă"
-
-#. module: deltatech_service_maintenance
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
-msgid "New Required Order"
-msgstr ""
-
-#. module: deltatech_service_maintenance
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
-msgid "New Sale Order"
-msgstr ""
-
-#. module: deltatech_service_maintenance
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
-msgid "New Transfer"
-msgstr "Creează transfer intern"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
@@ -948,7 +933,7 @@ msgstr "Prioritate"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_item__product_id
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order_component__product_id
 msgid "Product"
-msgstr "Produse"
+msgstr "Produs"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_item__quantity
@@ -1109,7 +1094,6 @@ msgstr ""
 
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_service_order
-#: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Service Order"
 msgstr "Comandă Service"
 

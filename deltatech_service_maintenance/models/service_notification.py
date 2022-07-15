@@ -230,7 +230,7 @@ class ServiceNotification(models.Model):
         if self.state != "new":
             raise UserError(_("Notification is already assigned."))
 
-        self.write({"state": "assigned", "date_assing": fields.Datetime.now(), "user_id": self.env.user.id})
+        self.write({"state": "assigned", "date_assign": fields.Datetime.now(), "user_id": self.env.user.id})
 
     def action_start(self):
         # for notification in self:
