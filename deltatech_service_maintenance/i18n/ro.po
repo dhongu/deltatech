@@ -1277,7 +1277,7 @@ msgstr "Subiect"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Taking"
-msgstr ""
+msgstr "Alocă mie"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,help:deltatech_service_maintenance.field_service_order__address_id
