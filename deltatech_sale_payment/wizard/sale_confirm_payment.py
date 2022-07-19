@@ -66,4 +66,4 @@ class SaleConfirmPayment(models.TransientModel):
             transaction._finalize_post_processing()
 
             # transaction._reconcile_after_transaction_done()
-            # transaction.write({'is_processed':True})
+            # transaction.write({'is_post_processed':True})
