@@ -5,7 +5,7 @@
     "name": "Website Billing Addresses",
     "category": "Website/Website",
     "summary": "Website Billing Addresses",
-    "version": "15.0.1.0.7",
+    "version": "15.0.1.0.9",
     "author": "Terrabit, Dorin Hongu",
     "license": "AGPL-3",
     "website": "https://www.terrabit.ro",
@@ -16,6 +16,8 @@
         "views/res_partner_view.xml",
         "security/base_security.xml",
     ],
+    "price": 10.00,
+    "currency": "EUR",
     "images": ["static/description/main_screenshot.png"],
     "assets": {
         "web.assets_frontend": [

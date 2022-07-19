@@ -60,28 +60,134 @@
             <div class="row all_billings">
                 <div class="col-lg-12">
                     <div class="row mt8">
+                        <!--       <div class="col-md-12 col-lg-12 one_kanban">
+                                   <form action="/shop/billing_address" method="post" class=''>
+                                       <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                       <a role="button" href="#" class='a-submit btn btn-secondary mb-2 btn-block'>
+                                           <i class="fa fa-plus-square" />
+                                           <span>Add an address</span>
+                                       </a>
+                                   </form>
+                               </div>-->
                         <div class="col-md-12 col-lg-12 one_kanban">
-                            <form action="/shop/billing_address" method="post" class=''>
-                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-                                <a role="button" href="#" class='a-submit btn btn-secondary mb-2 btn-block'>
-                                    <i class="fa fa-plus-square" />
-                                    <span>Add an address</span>
-                                </a>
-                            </form>
-                        </div>
-                        <t t-foreach="billings_addresses" t-as="billing">
-                            <div class="col-md-12 col-lg-6 one_kanban mb-2">
-                                <t t-call="deltatech_website_billing_addresses.address_billing_kanban">
-                                    <t t-set='type' t-value="'invoice'" />
-                                    <t t-set='contact' t-value="billing" />
-                                    <t t-set='selected' t-value="order.partner_invoice_id==billing" />
-                                    <t t-set='readonly' t-value="bool(len(billings_addresses)==1)" />
-                                    <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
-                                    <t t-set="allow_edit" t-value="True" />
-<!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
-                                </t>
+                            <ul class="nav nav-tabs" id="billingTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a
+                                        class="nav-link active"
+                                        id="billing_person-tab"
+                                        data-toggle="tab"
+                                        href="#billing_person"
+                                        role="tab"
+                                        aria-controls="billing_person"
+                                        aria-selected="true"
+                                    >Person
+                                    </a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a
+                                        class="nav-link"
+                                        id="billing_company-tab"
+                                        data-toggle="tab"
+                                        href="#billing_company"
+                                        role="tab"
+                                        aria-controls="billing_company"
+                                        aria-selected="false"
+                                    >Legal entity
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="billingTabContent">
+                                <div
+                                    class="tab-pane fade show active"
+                                    id="billing_person"
+                                    role="tabpanel"
+                                    aria-labelledby="billing_person-tab"
+                                >
+                                    <div class="row mt8">
+                                        <t t-foreach="billings_addresses" t-as="billing">
+                                            <div
+                                                t-if="not billing.commercial_partner_id.is_company"
+                                                class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
+                                            >
+                                                <t t-call="deltatech_website_billing_addresses.address_billing_kanban">
+                                                    <t t-set='type' t-value="'invoice'" />
+                                                    <t t-set='contact' t-value="billing" />
+                                                    <t t-set='selected' t-value="order.partner_invoice_id==billing" />
+                                                    <t t-set='readonly' t-value="bool(len(billings_addresses)==1)" />
+                                                    <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
+                                                    <t t-set="allow_edit" t-value="True" />
+                                                    <input type="hidden" name="field_required" t-att-value="''" />
+                                                    <!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
+                                                </t>
+                                            </div>
+                                        </t>
+                                        <div class="col-md-12 col-lg-6 one_kanban">
+                                            <form action="/shop/billing_address?is_company=no" method="post" class=''>
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf_token"
+                                                    t-att-value="request.csrf_token()"
+                                                />
+                                                <a
+                                                    role="button"
+                                                    href="#"
+                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                >
+                                                    <i class="fa fa-plus-square" />
+                                                    <span>Add an address</span>
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="tab-pane fade"
+                                    id="billing_company"
+                                    role="tabpanel"
+                                    aria-labelledby="billing_company-tab"
+                                >
+                                    <div class="row mt8">
+                                        <t t-foreach="billings_addresses" t-as="billing">
+                                            <div
+                                                t-if="billing.commercial_partner_id.is_company"
+                                                class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
+                                            >
+                                                <t t-call="deltatech_website_billing_addresses.address_billing_kanban">
+                                                    <t t-set='type' t-value="'invoice'" />
+                                                    <t t-set='contact' t-value="billing" />
+                                                    <t t-set='selected' t-value="order.partner_invoice_id==billing" />
+                                                    <t t-set='readonly' t-value="bool(len(billings_addresses)==1)" />
+                                                    <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
+                                                    <t t-set="allow_edit" t-value="True" />
+
+                                                    <!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
+                                                </t>
+                                            </div>
+                                        </t>
+                                        <div class="col-md-12 col-lg-6 one_kanban">
+                                            <form action="/shop/billing_address?is_company=yes" method="post" class=''>
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf_token"
+                                                    t-att-value="request.csrf_token()"
+                                                />
+                                                <a
+                                                    role="button"
+                                                    href="#"
+                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                >
+                                                    <i class="fa fa-plus-square" />
+                                                    <span>Add an address</span>
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </t>
+
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -90,59 +196,86 @@
     </template>
 
 
-
-
-        <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
+    <template id="address_on_payment" inherit_id="website_sale.address_on_payment">
         <xpath expr="//div[@id='shipping_and_billing']" position="replace">
             <div class="card-body" id="shipping_and_billing">
-                <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit" /> Edit</a>
+                <a class='float-right no-decoration' href='/shop/checkout'>
+                    <i class="fa fa-edit" />
+                    Edit
+                </a>
                 <t
                     t-set="same_shipping"
                     t-value="bool(order.partner_shipping_id==order.partner_invoice_id or only_services)"
                 />
-                <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span
+                <div>
+                    <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
+                    </b>
+                    <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
-                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b
-                    >Shipping: </b><span
+                    />
+                </div>
+                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address">
+                    <b>Shipping:</b>
+                    <span
                         t-esc='order.partner_shipping_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
+                    />
+                </div>
             </div>
         </xpath>
     </template>
 
-        <template id="confirmation" inherit_id="website_sale.confirmation">
+    <template id="confirmation" inherit_id="website_sale.confirmation">
 
-            <xpath expr="//t[@t-set='same_shipping']/parent::div" position="replace">
-               <div class="card-body" id="shipping_and_billing">
-                <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit" /> Edit</a>
+        <xpath expr="//t[@t-set='same_shipping']/parent::div" position="replace">
+            <div class="card-body" id="shipping_and_billing">
+                <a class='float-right no-decoration' href='/shop/checkout'>
+                    <i class="fa fa-edit" />
+                    Edit
+                </a>
                 <t
                     t-set="same_shipping"
                     t-value="bool(order.partner_shipping_id==order.partner_invoice_id or only_services)"
                 />
-                <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span
+                <div>
+                    <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
+                    </b>
+                    <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
-                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b
-                    >Shipping: </b><span
+                    />
+                </div>
+                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address">
+                    <b>Shipping:</b>
+                    <span
                         t-esc='order.partner_shipping_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
+                    />
+                </div>
             </div>
-            </xpath>
-        </template>
+        </xpath>
+    </template>
 
 
     <template id="address" inherit_id="website_sale.address">
+
         <input name="csrf_token" position="after">
             <input type="hidden" name="type" t-att-value="type" />
+        </input>
+
+        <input name="field_required" position="replace">
+            <t t-if="type == 'invoice'">
+                <input type="hidden" name="field_required" t-att-value="''" />
+
+            </t>
+            <t t-else="">
+                <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+            </t>
         </input>
 
         <t t-if="mode == ('new', 'billing')" position="before">
@@ -150,10 +283,9 @@
                 <h2 class="o_page_header mt8">Billing Address</h2>
             </t>
             <t t-set="mode_backup" t-value="mode" />
-            <t t-set="mode" t-value="False" />
+            <t t-set="mode" t-value="('new', 'billing_address')" />
         </t>
-
-        <t t-if="mode == ('new', 'billing')" position="after">
+        <t t-if="mode[1] == 'shipping'" position="after">
             <t t-set="mode" t-value="mode_backup" />
         </t>
 
@@ -161,20 +293,25 @@
     </template>
 
     <template id="address_b2b" inherit_id="website_sale.address_b2b">
-       <xpath expr="//div[@id='div_phone']" position="after">
-            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'">
-                <label class="col-form-label" for="country_id">Is Company</label>
+        <xpath expr="//div[@id='div_phone']" position="after">
+            <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: none;">
+                <label class="col-form-label" for="is_company">Is Company</label>
                 <t t-set="is_company" t-value=" 'is_company' in checkout and  checkout['is_company']  " />
-                <select id="is_company" name="is_company" t-attf-class="form-control" t-att-mode="mode[1]">
-                        <option t-att-value="True" t-att-selected="is_company">
-                            Yes
-                        </option>
-                        <option t-att-value="False" t-att-selected="not is_company">
-                            No
-                        </option>
+                <select
+                    id="is_company"
+                    name="is_company"
+                    t-attf-class="form-control js_is_company"
+                    t-att-mode="mode[1]"
+                >
+                    <option value="yes" t-att-selected="is_company">
+                        Yes
+                    </option>
+                    <option value="no" t-att-selected="not is_company">
+                        No
+                    </option>
                 </select>
             </div>
-       </xpath>
+        </xpath>
     </template>
 
 
