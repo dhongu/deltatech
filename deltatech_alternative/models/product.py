@@ -180,7 +180,7 @@ class ProductProduct(models.Model):
             alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
             products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
             if products:
-                args = expression.AND([args, [("id", "in", products.ids)]])
+                args = expression.OR([args, [("id", "in", products.ids)]])
 
         this = self.with_context({"no_catalog": True})
         res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit)
