@@ -5,6 +5,7 @@
 
 from odoo import api, models
 from odoo.http import request
+from odoo.tools import safe_eval
 
 
 class Website(models.Model):
@@ -15,13 +16,18 @@ class Website(models.Model):
         domain = super(Website, self).sale_product_domain()
         search = request.params.get("search", False)
         if search:
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
+            alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10"))
+
             product_ids = []
             alt_domain = [("name", "ilike", search)]
-            # alt_domain = []
-            # for srch in search.split(" "):
-            #     alt_domain += [('name', 'ilike', srch)]
 
-            alternative_ids = self.env["product.alternative"].search(alt_domain, limit=10)
+            if catalog_search:
+                prods = self.env["product.product"].search_in_catalog(search)
+                product_ids += prods.mapped("product_tmpl_id").mapped("id")
+
+            alternative_ids = self.env["product.alternative"].search(alt_domain, limit=alternative_limit)
             for alternative in alternative_ids:
                 product_ids += [alternative.product_tmpl_id.id]
             if product_ids:

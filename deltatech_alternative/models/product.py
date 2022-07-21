@@ -3,16 +3,18 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
+from odoo.osv import expression
+from odoo.tools import safe_eval
 
 import odoo.addons.decimal_precision as dp
 
 
 class ProductCatalog(models.Model):
     _name = "product.catalog"
-    _description = "Product catalog"
+    _description = "Extensive Product Catalog"
 
-    name = fields.Char(string="Name", index=True)
-    code = fields.Char(string="Code", index=True)
+    name = fields.Char(string="Name", required=True, index=True)
+    code = fields.Char(string="Code", required=True, index=True)
     code_new = fields.Char(string="Code New", index=True)
     list_price = fields.Float(string="Sale Price", required=True, digits=dp.get_precision("Product Price"))
     purchase_price = fields.Float(string="Purchase Price", digits=dp.get_precision("Product Price"))
@@ -26,6 +28,8 @@ class ProductCatalog(models.Model):
     list_price_currency_id = fields.Many2one(
         "res.currency", string="Currency List Price", help="Currency for list price."
     )
+    alternative_code = fields.Char()
+    barcode = fields.Char()
 
     @api.multi
     def create_product(self):
@@ -33,28 +37,32 @@ class ProductCatalog(models.Model):
         for prod_cat in self:
             if (not prod_cat.code_new or len(prod_cat.code_new) < 2) and not prod_cat.product_id:
 
-                route_ids = []
-                mto = self.env.ref("stock.route_warehouse0_mto", raise_if_not_found=False)
+                # route_ids = []
+                # mto = self.env.ref("stock.route_warehouse0_mto", raise_if_not_found=False)
+                #
+                # if mto:
+                #     route_ids += [mto.id]
+                # buy = self.env.ref("purchase.route_warehouse0_buy", raise_if_not_found=False)
+                # if buy:
+                #     route_ids += [buy.id]
 
-                if mto:
-                    route_ids += [mto.id]
-                buy = self.env.ref("purchase.route_warehouse0_buy", raise_if_not_found=False)
-                if buy:
-                    route_ids += [buy.id]
-
-                if self.list_price_currency_id:
-                    price_currency_id = self.list_price_currency_id
-                else:
-                    price_currency_id = self.env.user.company_id.currency_id
+                currency = self.list_price_currency_id or self.env.user.company_id.currency_id
+                list_price = currency._convert(
+                    prod_cat.list_price,
+                    self.env.user.company_id.currency_id,
+                    self.env.user.company_id,
+                    fields.Date.today(),
+                )
 
                 values = {
                     "name": prod_cat.name,
-                    "default_code": prod_cat.code,
-                    "lst_price": prod_cat.list_price,
-                    "price_currency_id": price_currency_id.id,
+                    # "default_code": prod_cat.code,
+                    "lst_price": list_price,
                     "categ_id": prod_cat.categ_id.id,
-                    "route_ids": [(6, 0, route_ids)],
+                    # "route_ids": [(6, 0, route_ids)],
                     "sale_delay": prod_cat.sale_delay,
+                    "type": "product",
+                    "barcode": prod_cat.barcode,
                 }
                 if prod_cat.supplier_id:
                     values["seller_ids"] = [
@@ -63,18 +71,24 @@ class ProductCatalog(models.Model):
                             0,
                             {
                                 "name": prod_cat.supplier_id.id,
+                                "product_code": prod_cat.code,
                                 "price": prod_cat.purchase_price,
-                                "currency_id": price_currency_id.id,
+                                "currency_id": currency.id,
                                 "delay": prod_cat.purchase_delay,
                             },
                         )
                     ]
                 old_code = prod_cat.get_echiv()
+                values["alternative_ids"] = []
                 if old_code:
                     alt = []
                     for old in old_code:
                         alt.append((0, 0, {"name": old.code}))
                     values["alternative_ids"] = alt
+                if prod_cat.alternative_code:
+                    alternative_code_items = prod_cat.alternative_code.split(" ")
+                    for alternative_code_item in alternative_code_items:
+                        values["alternative_ids"].append((0, 0, {"name": alternative_code_item}))
 
                 prod_new = prod.with_context({"no_catalog": True}).search([("default_code", "=ilike", prod_cat.code)])
                 if not prod_new:
@@ -91,8 +105,11 @@ class ProductCatalog(models.Model):
         res = self.env["product.catalog"]
         for prod_cat in self:
             ids_old = self.search([("code_new", "=ilike", prod_cat.code)])
-            ids_very_old = ids_old.get_echiv()
-            res = ids_old | ids_very_old
+            if ids_old:
+                ids_very_old = ids_old.get_echiv()
+                res = ids_old | ids_very_old
+            else:
+                res = ids_old
         return res
 
     _sql_constraints = [
@@ -129,13 +146,13 @@ class ProductProduct(models.Model):
     @api.model
     def search_in_catalog(self, name):
         alt = []
-        prod_cat = False
-        res = None
+        prod_cat = self.env["product.catalog"]
+        res = self.env["product.product"]
         while name and len(name) > 2:
             prod_cat = self.env["product.catalog"].search([("code", "=ilike", name)], limit=1)
             if prod_cat:
                 alt.append(name)
-                name = prod_cat.code_new
+                name = prod_cat.code_new  # codul cu care a fost inlocuit
             else:
                 name = ""
         if prod_cat:
@@ -148,24 +165,27 @@ class ProductProduct(models.Model):
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
+        if "not" in operator:
+            return super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit)
+
         args = args or []
-        res_alt = []
-        if name and len(name) > 2:
-            alternative_ids = self.env["product.alternative"].search([("name", "ilike", name)], limit=10)
-            # ids = []
-            products = self.env["product.product"]
-            for alternative in alternative_ids:
-                # ids += alternative.product_tmpl_id.product_variant_ids.ids
-                products = products | alternative.product_tmpl_id.product_variant_ids
+
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        alternative_search = safe_eval(get_param("alternative.search_name", "True"))
+        catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
+        alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
+
+        if alternative_search and name and len(name) > 3:
+            domain = [("name", operator, name)]
+            alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
+            products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
             if products:
-                # recs = self.search([('id', 'in', ids )], limit=limit)
-                # res_alt =  recs.name_get()
-                res_alt = products.name_get()
+                args = expression.AND([args, [("id", "in", products.ids)]])
 
         this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
+        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit)
 
-        if not res:
+        if not res and catalog_search and name and len(name) > 3:
             prod = self.search_in_catalog(name)
             if prod:
                 res = prod.name_get()

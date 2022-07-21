@@ -5,7 +5,7 @@
 
 {
     "name": "Products Alternative",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",
@@ -15,8 +15,8 @@
     "category": "Sales",
     "depends": ["product", "stock"],
     "license": "LGPL-3",
-    "data": ["views/product_view.xml", "security/ir.model.access.csv"],
+    "data": ["views/product_view.xml", "security/ir.model.access.csv", "views/res_config_settings_views.xml"],
     "images": ["images/main_screenshot.png"],
-    "development_status": "stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }
