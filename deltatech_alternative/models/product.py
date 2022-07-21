@@ -169,7 +169,7 @@ class ProductProduct(models.Model):
             return super(ProductProduct, self).name_search(name, args, operator=operator, limit=limit)
 
         args = args or []
-
+        res_alt = []
         get_param = self.env["ir.config_parameter"].sudo().get_param
         alternative_search = safe_eval(get_param("alternative.search_name", "True"))
         catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
@@ -180,10 +180,11 @@ class ProductProduct(models.Model):
             alternative_ids = self.env["product.alternative"].search(domain, limit=alternative_limit)
             products = alternative_ids.mapped("product_tmpl_id").mapped("product_variant_ids")
             if products:
-                args = expression.OR([args, [("id", "in", products.ids)]])
+                res_alt = models.lazy_name_get(products)
+                args = expression.AND([args, [("id", "not in", products.ids)]])
 
         this = self.with_context({"no_catalog": True})
-        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit)
+        res = super(ProductProduct, this).name_search(name, args, operator=operator, limit=limit) + res_alt
 
         if not res and catalog_search and name and len(name) > 3:
             prod = self.search_in_catalog(name)

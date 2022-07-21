@@ -15,10 +15,11 @@
                         <div class="text-muted">Search for alternative products by searching in product name.</div>
                     </div>
                     <div class="o_setting_left_pane">
-                        <field name="alternative_limit" />
+
                     </div>
                     <div class="o_setting_right_pane">
                         <label for="alternative_limit" />
+                        <field name="alternative_limit" />
                         <div class="text-muted">Search limit for alternative products.</div>
                     </div>
                 </div>
