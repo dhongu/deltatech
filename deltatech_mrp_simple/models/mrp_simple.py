@@ -267,7 +267,7 @@ class MRPSimpleLineIn(models.Model):
             line.price_unit = price / line.quantity
 
 
-class MRPSimpleLineOut(models.TransientModel):
+class MRPSimpleLineOut(models.Model):
     _name = "mrp.simple.line.out"
     _description = "MRP Simple Line OUT"
 
