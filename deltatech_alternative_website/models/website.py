@@ -17,7 +17,7 @@ class Website(models.Model):
         search = request.params.get("search", False)
         if search:
             get_param = self.env["ir.config_parameter"].sudo().get_param
-            catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
+            catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
             alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10"))
 
             product_ids = []

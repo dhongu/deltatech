@@ -171,8 +171,8 @@ class ProductProduct(models.Model):
         args = args or []
         res_alt = []
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        alternative_search = safe_eval(get_param("alternative.search_name", "True"))
-        catalog_search = safe_eval(get_param("alternative.search_catalog", "True"))
+        alternative_search = safe_eval(get_param("alternative.search_name", "False"))
+        catalog_search = safe_eval(get_param("alternative.search_catalog", "False"))
         alternative_limit = safe_eval(get_param("alternative.alternative_limit", "10")) or limit
 
         if alternative_search and name and len(name) > 3:
