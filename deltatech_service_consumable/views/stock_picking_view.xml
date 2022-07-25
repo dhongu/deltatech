@@ -8,7 +8,7 @@
             <group name="other_infos" position="after">
                <group string="Service" name="other_infos">
                   <field name="equipment_id" />
-                  <field name="agreement_id" />
+                  <field name="agreement_id" readonly="1" force_save="1" />
                </group>
             </group>
          </field>

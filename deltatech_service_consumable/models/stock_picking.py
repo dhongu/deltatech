@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
@@ -11,9 +11,12 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     equipment_id = fields.Many2one("service.equipment", string="Equipment", store=True)
-    agreement_id = fields.Many2one(
-        "service.agreement", string="Service Agreement", related="equipment_id.agreement_id", store=True, readonly=False
-    )
+    agreement_id = fields.Many2one("service.agreement", string="Service Agreement", store=True, readonly=False)
+
+    @api.onchange("equipment_id")
+    def onchange_equipment_id(self):
+        for picking in self:
+            picking.agreement_id = picking.equipment_id.agreement_id
 
     def check_consumable(self):
         # returns False if all is ok, returns string with error if products exceeds max
