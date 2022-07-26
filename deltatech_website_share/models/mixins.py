@@ -30,5 +30,5 @@ class WebsitePublishedMultiMixin(models.AbstractModel):
             if current_website_id and record.website_id:
                 record.website_published = record.is_published and (
                     record.website_id.id == current_website_id
-                    or current_website_id in record.website_id.website_access_ids
+                    or current_website_id in record.website_id.website_access_ids.ids
                 )
