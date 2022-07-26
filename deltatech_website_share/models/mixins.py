@@ -17,3 +17,18 @@ class WebsiteMultiMixin(models.AbstractModel):
                 if (website_id or record.website_id.id) in website_ids:
                     can_access = True
         return can_access
+
+
+class WebsitePublishedMultiMixin(models.AbstractModel):
+
+    _inherit = "website.published.multi.mixin"
+
+    def _compute_website_published(self):
+        current_website_id = self._context.get("website_id")
+        super(WebsitePublishedMultiMixin, self)._compute_website_published()
+        for record in self:
+            if current_website_id and record.website_id:
+                record.website_published = record.is_published and (
+                    record.website_id.id == current_website_id
+                    or current_website_id in record.website_id.website_access_ids
+                )
