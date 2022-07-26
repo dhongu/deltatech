@@ -10,7 +10,12 @@ class Website(models.Model):
     _inherit = "website"
 
     website_access_ids = fields.Many2many(
-        "website", relation="website_access_rel", column2="website_id", column1="website_access_id", string="Access"
+        "website",
+        relation="website_access_rel",
+        column2="website_id",
+        column1="website_access_id",
+        string="Access",
+        help="Other websites from which the objects can be showed",
     )
 
     @api.model

@@ -5,7 +5,7 @@
     "name": "eCommerce Share data",
     "category": "Website",
     "summary": "eCommerce share product, category",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "license": "LGPL-3",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
