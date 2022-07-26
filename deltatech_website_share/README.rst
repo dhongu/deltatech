@@ -17,7 +17,7 @@ eCommerce Share data
     :target: https://github.com/dhongu/deltatech/tree/14.0/deltatech_website_share
     :alt: dhongu/deltatech
 
-|badge1| |badge2| |badge3| 
+|badge1| |badge2| |badge3|
 
 Features:
  - A website can access other website's objects. For example, if "Site 1" website has acces for "Site 2" and you have a product configured to show on "Site 2", this product will be also shown in "Site 1" website
@@ -56,7 +56,7 @@ Maintainers
 
 Current maintainer:
 
-|maintainer-dhongu| 
+|maintainer-dhongu|
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/14.0/deltatech_website_share>`_ project on GitHub.
 
