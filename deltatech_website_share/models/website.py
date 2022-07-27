@@ -20,6 +20,8 @@ class Website(models.Model):
 
     @api.model
     def website_domain(self, website_id=False):
-        website_ids = self.website_access_ids.ids or []
-        website_ids += [False, website_id or self.id]
-        return [("website_id", "in", website_ids)]
+        domain = super(Website, self).website_domain()
+        if self.website_access_ids and not website_id:
+            website_ids = [False] + self.website_access_ids.ids
+            domain = [("website_id", "in", website_ids)]
+        return domain
