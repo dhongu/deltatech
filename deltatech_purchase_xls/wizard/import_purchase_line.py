@@ -39,7 +39,7 @@ class ImportPurchaseLine(models.TransientModel):
         defaults["purchase_id"] = purchase.id
         return defaults
 
-    def do_import(self):
+    def get_rows(self):
         decoded_data = base64.b64decode(self.data_file)
         book = xlrd.open_workbook(file_contents=decoded_data)
         sheet = book.sheet_by_index(0)
@@ -55,10 +55,14 @@ class ImportPurchaseLine(models.TransientModel):
             table_values.append(values)
 
         if not table_values:
-            return
+            return False
         if self.has_header:
             table_values.pop(0)
+        return table_values
 
+    def do_import(self):
+
+        table_values = self.get_rows()
         lines = []
         for row in table_values:
             if len(row) == 5:
@@ -84,7 +88,18 @@ class ImportPurchaseLine(models.TransientModel):
                         "product_code": product_code,
                         "price": price,
                     }
-                    values = {"type": "product", "name": product_name, "seller_ids": [(0, 0, seller_values)]}
+                    uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+                    if uom:
+                        uom_id = uom.id
+                    else:
+                        uom_id = 1
+                    values = {
+                        "type": "product",
+                        "name": product_name,
+                        "seller_ids": [(0, 0, seller_values)],
+                        "uom_po_id": uom_id,
+                        "uom_id": uom_id,
+                    }
                     product_tmpl_id = self.env["product.template"].create(values)
                     product_id = product_tmpl_id.product_variant_id
                 else:
@@ -99,8 +114,9 @@ class ImportPurchaseLine(models.TransientModel):
             if uom_name and uom_name != product_uom.name:
                 uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                 if uom:
+                    if uom != product_id.uom_po_id and uom != product_id.uom_id:
+                        raise UserError(_("Product %s does not have UOM %s") % (product_id.name, uom.name))
                     product_uom = uom
-
             lines += [
                 {
                     "order_id": self.purchase_id.id,
