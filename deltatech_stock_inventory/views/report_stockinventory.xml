@@ -200,6 +200,7 @@
                                     </t>
                                 </t>
                                 <t t-foreach="o.line_ids" t-as="line">
+                                    <t t-set="price" t-value="line.standard_price or line.product_id.standard_price" />
                                     <t t-set="dif" t-value="line.product_qty-line.theoretical_qty or 0" />
                                     <t t-if='dif&lt;0'>
                                         <t t-set="minus" t-value="minus-1*dif*price" />
