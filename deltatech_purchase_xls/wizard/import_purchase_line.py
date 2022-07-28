@@ -84,7 +84,18 @@ class ImportPurchaseLine(models.TransientModel):
                         "product_code": product_code,
                         "price": price,
                     }
-                    values = {"type": "product", "name": product_name, "seller_ids": [(0, 0, seller_values)]}
+                    uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
+                    if uom:
+                        uom_id = uom.id
+                    else:
+                        uom_id = 1
+                    values = {
+                        "type": "product",
+                        "name": product_name,
+                        "seller_ids": [(0, 0, seller_values)],
+                        "uom_po_id": uom_id,
+                        "uom_id": uom_id,
+                    }
                     product_tmpl_id = self.env["product.template"].create(values)
                     product_id = product_tmpl_id.product_variant_id
                 else:
@@ -99,6 +110,8 @@ class ImportPurchaseLine(models.TransientModel):
             if uom_name and uom_name != product_uom.name:
                 uom = self.env["uom.uom"].search([("name", "=", uom_name)], limit=1)
                 if uom:
+                    if uom != product_id.uom_po_id and uom != product_id.uom_id:
+                        raise UserError("Product %s does not have UOM %s" % (product_id.name, uom.name))
                     product_uom = uom
 
             lines += [
