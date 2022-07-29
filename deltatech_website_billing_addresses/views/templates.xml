@@ -74,27 +74,29 @@
                                 <li class="nav-item" role="presentation">
                                     <a
                                         class="nav-link active"
-                                        id="billing_person-tab"
-                                        data-toggle="tab"
-                                        href="#billing_person"
-                                        role="tab"
-                                        aria-controls="billing_person"
-                                        aria-selected="true"
-                                    >Person
-                                    </a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a
-                                        class="nav-link"
                                         id="billing_company-tab"
                                         data-toggle="tab"
                                         href="#billing_company"
                                         role="tab"
                                         aria-controls="billing_company"
-                                        aria-selected="false"
+                                        aria-selected="true"
                                     >Legal entity
                                     </a>
                                 </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <a
+                                        class="nav-link"
+                                        id="billing_person-tab"
+                                        data-toggle="tab"
+                                        href="#billing_person"
+                                        role="tab"
+                                        aria-controls="billing_person"
+                                        aria-selected="false"
+                                    >Person
+                                    </a>
+                                </li>
+
                             </ul>
                             <div class="tab-content" id="billingTabContent">
                                 <div
@@ -210,6 +212,7 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
+                    <span t-esc='order.partner_invoice_id.name' />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
