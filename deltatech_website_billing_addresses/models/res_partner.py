@@ -19,5 +19,5 @@ class ResPartner(models.Model):
             address = self.env["res.partner"]
             if user:
                 address = self.env["res.partner"].search([("access_for_user_id", "=", user.id)])
-
+                address -= partner.child_ids
             partner.user_address_ids = address
