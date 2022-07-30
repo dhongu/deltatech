@@ -53,19 +53,7 @@
                             </td>
                         </tr>
                     </t>
-                    <tr>
-                            <td>
-                                <a t-attf-href="/shop/address">
-                                    New
-                                </a>
-                            </td>
-                            <td>
 
-                            </td>
-                             <td>
-
-                            </td>
-                        </tr>
                 </tbody>
 
             </t>
@@ -100,9 +88,6 @@
             </t>
             <div t-if="not billing_addresses" class="alert alert-warning mt8" role="alert">
                 There are no billing addresses request.
-                                <a t-attf-href="/shop/billing_address">
-                                    Define a new one
-                                </a>
             </div>
             <t t-if="billing_addresses" t-call="portal.portal_table">
                 <thead>
@@ -129,19 +114,6 @@
                             </td>
                         </tr>
                     </t>
-                    <tr>
-                            <td>
-                                <a t-attf-href="/shop/billing_address">
-                                    New
-                                </a>
-                            </td>
-                            <td>
-
-                            </td>
-                             <td>
-
-                            </td>
-                        </tr>
                 </tbody>
 
             </t>
