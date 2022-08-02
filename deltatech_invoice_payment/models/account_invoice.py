@@ -15,7 +15,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         invoice_payments_widget = json.loads(self.invoice_payments_widget)
         payment_ids = []
-        for item in invoice_payments_widget["content"]:
+        for item in invoice_payments_widget.get("content", []):
             payment_ids.append(item["account_payment_id"])
 
         if self.type == "out_invoice":
