@@ -51,6 +51,10 @@
             <h3 class="o_page_header mt8">Address</h3>
         </xpath>
 
+        <xpath expr="//div[hasclass('oe_cart')]/div" position="replace">
+
+        </xpath>
+
         <xpath expr="//t[@groups='sale.group_delivery_invoice_address']" position="before">
             <div class="row">
                 <div class="col-lg-12">
@@ -193,55 +197,85 @@
             </div>
         </xpath>
 
+        <xpath expr="//div[hasclass('all_shipping')]//div[hasclass('one_kanban')]" position="replace" />
+        <xpath expr="//div[hasclass('all_shipping')]//t" position="after">
+            <div class="col-md-12 col-lg-6 one_kanban">
+                <form action="/shop/address" method="post" class="">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                    <a role="button" href="#" class="a-submit btn btn-secondary mb16 btn-block">
+                        <i class="fa fa-plus-square" />
+                        <span>Add an address</span>
+                    </a>
+                </form>
+            </div>
+        </xpath>
     </template>
 
 
     <template id="payment" inherit_id="website_sale.payment">
         <xpath expr="//div[@id='shipping_and_billing']" position="replace">
             <div class="card-body" id="shipping_and_billing">
-                <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit" /> Edit</a>
+                <a class='float-right no-decoration' href='/shop/checkout'>
+                    <i class="fa fa-edit" />
+                    Edit
+                </a>
                 <t
                     t-set="same_shipping"
                     t-value="bool(order.partner_shipping_id==order.partner_invoice_id or only_services)"
                 />
-                <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span
+                <div>
+                    <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
+                    </b>
+                    <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
-                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b
-                    >Shipping: </b><span
+                    />
+                </div>
+                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address">
+                    <b>Shipping:</b>
+                    <span
                         t-esc='order.partner_shipping_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
+                    />
+                </div>
             </div>
         </xpath>
     </template>
 
-        <template id="confirmation" inherit_id="website_sale.confirmation">
+    <template id="confirmation" inherit_id="website_sale.confirmation">
 
-            <xpath expr="//t[@t-set='same_shipping']/parent::div" position="replace">
-               <div class="card-body" id="shipping_and_billing">
-                <a class='float-right no-decoration' href='/shop/checkout'><i class="fa fa-edit" /> Edit</a>
+        <xpath expr="//t[@t-set='same_shipping']/parent::div" position="replace">
+            <div class="card-body" id="shipping_and_billing">
+                <a class='float-right no-decoration' href='/shop/checkout'>
+                    <i class="fa fa-edit" />
+                    Edit
+                </a>
                 <t
                     t-set="same_shipping"
                     t-value="bool(order.partner_shipping_id==order.partner_invoice_id or only_services)"
                 />
-                <div><b>Billing<t t-if="same_shipping and not only_services"> &amp; Shipping</t>: </b><span
+                <div>
+                    <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
+                    </b>
+                    <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
-                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address"><b
-                    >Shipping: </b><span
+                    />
+                </div>
+                <div t-if="not same_shipping and not only_services" groups="sale.group_delivery_invoice_address">
+                    <b>Shipping:</b>
+                    <span
                         t-esc='order.partner_shipping_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
                         class="address-inline"
-                    /></div>
+                    />
+                </div>
             </div>
-            </xpath>
-        </template>
+        </xpath>
+    </template>
 
 
     <template id="address" inherit_id="website_sale.address">
