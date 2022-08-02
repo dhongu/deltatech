@@ -51,6 +51,10 @@
             <h3 class="o_page_header mt8">Address</h3>
         </xpath>
 
+        <xpath expr="//div[hasclass('oe_cart')]/div" position="replace">
+
+        </xpath>
+
         <xpath expr="//t[@groups='sale.group_delivery_invoice_address']" position="before">
             <div class="row">
                 <div class="col-lg-12">
@@ -74,29 +78,27 @@
                                 <li class="nav-item" role="presentation">
                                     <a
                                         class="nav-link active"
-                                        id="billing_company-tab"
-                                        data-toggle="tab"
-                                        href="#billing_company"
-                                        role="tab"
-                                        aria-controls="billing_company"
-                                        aria-selected="true"
-                                    >Legal entity
-                                    </a>
-                                </li>
-
-                                <li class="nav-item" role="presentation">
-                                    <a
-                                        class="nav-link"
                                         id="billing_person-tab"
                                         data-toggle="tab"
                                         href="#billing_person"
                                         role="tab"
                                         aria-controls="billing_person"
-                                        aria-selected="false"
+                                        aria-selected="true"
                                     >Person
                                     </a>
                                 </li>
-
+                                <li class="nav-item" role="presentation">
+                                    <a
+                                        class="nav-link"
+                                        id="billing_company-tab"
+                                        data-toggle="tab"
+                                        href="#billing_company"
+                                        role="tab"
+                                        aria-controls="billing_company"
+                                        aria-selected="false"
+                                    >Legal entity
+                                    </a>
+                                </li>
                             </ul>
                             <div class="tab-content" id="billingTabContent">
                                 <div
@@ -195,6 +197,18 @@
             </div>
         </xpath>
 
+        <xpath expr="//div[hasclass('all_shipping')]//div[hasclass('one_kanban')]" position="replace" />
+        <xpath expr="//div[hasclass('all_shipping')]//t" position="after">
+            <div class="col-md-12 col-lg-6 one_kanban">
+                <form action="/shop/address" method="post" class="">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                    <a role="button" href="#" class="a-submit btn btn-secondary mb16 btn-block">
+                        <i class="fa fa-plus-square" />
+                        <span>Add an address</span>
+                    </a>
+                </form>
+            </div>
+        </xpath>
     </template>
 
 
@@ -212,7 +226,7 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
-                    <span t-esc='order.partner_invoice_id.name' />,
+                    <span t-field='order.partner_invoice_id' />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
@@ -246,6 +260,7 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
+                    <span t-field='order.partner_invoice_id' />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
