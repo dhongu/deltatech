@@ -11,7 +11,7 @@ class WebsiteMultiMixin(models.AbstractModel):
 
     def can_access_from_current_website(self, website_id=False):
         can_access = super(WebsiteMultiMixin, self).can_access_from_current_website(website_id)
-        if not can_access:
+        if not can_access and self._name in ["product.template", "product.public.category"]:
             for record in self:
                 website_ids = [] or request.website.website_access_ids.ids
                 if (website_id or record.website_id.id) in website_ids:
@@ -20,15 +20,15 @@ class WebsiteMultiMixin(models.AbstractModel):
 
 
 class WebsitePublishedMultiMixin(models.AbstractModel):
-
     _inherit = "website.published.multi.mixin"
 
     def _compute_website_published(self):
         current_website_id = self._context.get("website_id")
         super(WebsitePublishedMultiMixin, self)._compute_website_published()
-        for record in self:
-            if current_website_id and record.website_id:
-                record.website_published = record.is_published and (
-                    record.website_id.id == current_website_id
-                    or current_website_id in record.website_id.website_access_ids.ids
-                )
+        if self._name in ["product.template", "product.public.category"]:
+            for record in self:
+                if current_website_id and record.website_id:
+                    record.website_published = record.is_published and (
+                        record.website_id.id == current_website_id
+                        or current_website_id in record.website_id.website_access_ids.ids
+                    )

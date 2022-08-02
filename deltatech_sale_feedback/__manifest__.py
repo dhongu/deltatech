@@ -4,7 +4,7 @@
 {
     "name": "Sale Feedback",
     "summary": "Sale Feedback",
-    "version": "14.0.1.0.2",
+    "version": "14.0.1.0.3",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

@@ -26,7 +26,8 @@ class AccountInvoice(models.Model):
         res_id = "deltatech_sale_feedback.mail_template_sale_feedback"
         template_id = self.env["ir.model.data"].xmlid_to_res_id(res_id, raise_if_not_found=True)
         for invoice in self.filtered(lambda i: i.move_type == "out_invoice"):
-            message_post = invoice.with_context(force_send=True).message_post_with_template
+            web_base_url = invoice.comapany_id.website
+            message_post = invoice.with_context(force_send=True, web_base_url=web_base_url).message_post_with_template
 
             message_post(template_id, composition_mode="comment", email_layout_xmlid="mail.mail_notification_light")
 
