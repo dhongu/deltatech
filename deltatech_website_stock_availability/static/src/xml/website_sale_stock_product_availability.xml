@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="deltatech_website_stock_availability.product_availability">
-        <t t-if="product_type == 'product' and  inventory_availability == 'preorder'">
+        <t t-if="product_type == 'product' ">
             <t t-if="virtual_available gt 0">
                 <div
                     t-if="virtual_available lte available_threshold"
