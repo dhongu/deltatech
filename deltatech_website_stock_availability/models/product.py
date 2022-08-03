@@ -36,8 +36,8 @@ class ProductTemplate(models.Model):
                     elif supplier_lead_time:
                         d1 = product.sale_delay + supplier_lead_time
                         d2 = d1 + product.sale_delay_safety
-                        if d1 == d2:
-                            product.availability_text = _("Delivery in %s days") % int(d1)
+                        if d1 == d2 or d1 == 0:
+                            product.availability_text = _("Delivery in %s days") % int(d2)
                         else:
                             product.availability_text = _("Delivery in %s - %s days") % (int(d1), int(d2))
 

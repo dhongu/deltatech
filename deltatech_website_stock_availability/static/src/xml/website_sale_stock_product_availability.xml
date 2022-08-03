@@ -56,7 +56,7 @@
                     </span>
                     <span t-else="">
                         Delivery in
-                        <t t-if="sale_delay+purchase_lead_time">
+                        <t t-if="(sale_delay+purchase_lead_time) gt 0">
                             <t t-esc="sale_delay+purchase_lead_time" />
                             -
                         </t>
@@ -76,8 +76,10 @@
                 </span>
                 <span t-else="">
                     Delivery in
-                    <t t-esc="sale_delay" />
-                    -
+                    <t t-if="sale_delay">
+                        <t t-esc="sale_delay" />
+                        -
+                    </t>
                     <t t-esc="sale_delay+sale_delay_safety" />
                     days
                 </span>
