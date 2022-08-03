@@ -13,10 +13,10 @@ class ProductTemplate(models.Model):
     # #c45500!important  - la comanda  Usually dispatched within 4 to 5 days.
 
     # exista  inventory_availability cu care trebuie sa existe o relatie
-    is_qty_available = fields.Selection(
-        [("stock", "In Stock"), ("provider", "In provider stock"), ("order", "At Order")], compute="_compute_available"
-    )
-    at_order = fields.Boolean(string="Available at order")
+    # is_qty_available = fields.Selection(
+    #     [("stock", "In Stock"), ("provider", "In provider stock"), ("order", "At Order")], compute="_compute_available"
+    # )
+    # at_order = fields.Boolean(string="Available at order")
 
     inventory_availability = fields.Selection(default="threshold")
     available_threshold = fields.Float(default=1.0)
@@ -61,16 +61,16 @@ class ProductTemplate(models.Model):
             )
         return combination_info
 
-    @api.multi
-    @api.depends("qty_available", "at_order")
-    def _compute_available(self):
-        res = {}
-        for product in self:
-            if product.sudo().qty_available > 0 or product.sudo().inventory_availability == "always":
-                product.is_qty_available = "stock"
-            else:
-                if product.at_order:
-                    product.is_qty_available = "order"
-                else:
-                    product.is_qty_available = "provider"
-        return res
+    # @api.multi
+    # @api.depends("qty_available", "at_order")
+    # def _compute_available(self):
+    #     res = {}
+    #     for product in self:
+    #         if product.sudo().qty_available > 0 or product.sudo().inventory_availability == "always":
+    #             product.is_qty_available = "stock"
+    #         else:
+    #             if product.at_order:
+    #                 product.is_qty_available = "order"
+    #             else:
+    #                 product.is_qty_available = "provider"
+    #     return res

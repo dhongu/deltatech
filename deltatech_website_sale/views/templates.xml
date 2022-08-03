@@ -20,7 +20,7 @@ fa-times
 fa-ban
 
 -->
-        <template
+        <!--        <template
             id="products_qty_available"
             inherit_id="website_sale.products_item"
             active="False"
@@ -41,7 +41,8 @@ fa-ban
                 </t>
             </xpath>
         </template>
-        <template
+        -->
+        <!--        <template
             id="product_detail_qty_available"
             inherit_id="website_sale.product"
             active="False"
@@ -68,6 +69,6 @@ fa-ban
                     <div class="availability_messages o_not_editable" />
                 </t>
             </xpath>
-        </template>
+        </template>-->
     </data>
 </odoo>
