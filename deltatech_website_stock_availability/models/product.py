@@ -20,8 +20,6 @@ class ProductTemplate(models.Model):
         compute="_compute_availability_text",
     )
 
-    @api.multi
-    @api.depends("qty_available", "inventory_availability")
     def _compute_availability_text(self):
         for product in self:
             qty_available = product.sudo().qty_available
