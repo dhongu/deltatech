@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <template
+        id="product_detail_qty_available"
+        inherit_id="website_sale.product"
+        active="False"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//span[@itemprop='url']" position="before">
+            <t t-if="website.user_id != user_id">
+                <t t-if="product.is_qty_available=='stock' ">
+                    <div class="badge badge-pill badge-success" style="font-size: medium;" contenteditable="false">
+                        <span t-field="product.availability_text" />
+                    </div>
+                </t>
+                <t t-if="product.is_qty_available=='provider' ">
+                    <div class="badge badge-pill badge-info" style="font-size: medium;" contenteditable="false">
+                        <i class="fa fa-info" />
+                        <span t-field="product.availability_text" />
+                    </div>
+                </t>
+                <t t-if="product.is_qty_available=='order' ">
+                    <div class="badge badge-pill badge-warning" style="font-size: medium;" contenteditable="false">
+                        <i class="fa fa-info" />
+                        <span t-field="product.availability_text" />
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
+    <template id="website_sale_stock_product" inherit_id="website_sale_stock.website_sale_stock_product">
+        <xpath expr="//div[hasclass('availability_messages')]" position="replace">
+            <t t-if="website.user_id != user_id">
+                <div class="availability_messages o_not_editable" />
+            </t>
+        </xpath>
+    </template>
     <template id="product_price" inherit_id="website_sale.product_price">
         <xpath expr="//div[@itemprop='offers']" position="attributes">
             <attribute name="t-if">combination_info['list_price'] != 0</attribute>
         </xpath>
         <xpath expr="//div[@itemprop='offers']" position="after">
-            <div t-if="combination_info['list_price'] == 0">
+            <div t-if="combination_info['list_price'] == 0 or combination_info['price'] == 0">
                 <i class="fa fa-info" />
                 <span>Please contact us for pricing details</span>
             </div>
