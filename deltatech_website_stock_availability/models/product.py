@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 
 class ProductTemplate(models.Model):
@@ -30,10 +30,11 @@ class ProductTemplate(models.Model):
             else:
                 if inventory_availability != "preorder":
                     product.availability_text = _("Not in stock")
-                    # product.is_qty_available = "provider"
+                    product.is_qty_available = "provider"
                 else:
                     product.availability_text = _("At order")
                     product.is_qty_available = "order"
+
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
                     if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
                         weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7

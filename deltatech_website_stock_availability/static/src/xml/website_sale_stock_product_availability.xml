@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="deltatech_website_stock_availability.product_availability">
-        <t t-if="product_type == 'product' ">
+        <t t-if="product_type == 'product'  ">
             <t t-if="virtual_available gt 0">
                 <div
                     t-if="virtual_available lte available_threshold"
                     style="font-size: medium;"
-                    t-attf-class="availability_message_#{product_template} badge badge-warning mt16"
+                    t-attf-class="availability_message_#{product_template} badge badge-success mt16"
                 >
                     <i class="fa fa-exclamation-triangle" title="Warning" role="img" aria-label="Warning" />
                     <t t-esc="virtual_available" />
@@ -56,7 +56,7 @@
                     </span>
                     <span t-else="">
                         Delivery in
-                        <t t-if="(sale_delay+purchase_lead_time) gt 0">
+                        <t t-if="sale_delay+purchase_lead_time">
                             <t t-esc="sale_delay+purchase_lead_time" />
                             -
                         </t>
