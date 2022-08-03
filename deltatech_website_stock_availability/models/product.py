@@ -36,7 +36,11 @@ class ProductTemplate(models.Model):
                     product.is_qty_available = "order"
 
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
-                    if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
+                    if (
+                        product.seller_ids
+                        and product.seller_ids[0].date_start
+                        and product.seller_ids[0].date_start > fields.Date.today()
+                    ):
                         weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7
                         if weeks > 2:
                             product.availability_text = _("Delivery in %s weeks") % weeks

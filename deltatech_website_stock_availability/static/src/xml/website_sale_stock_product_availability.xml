@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="deltatech_website_stock_availability.product_availability">
-        <t t-if="product_type == 'product'  ">
+        <t t-if="product_type == 'product'    ">
             <t t-if="virtual_available gt 0">
                 <div
                     t-if="virtual_available lte available_threshold"
@@ -13,25 +13,25 @@
                     <t t-esc="uom_name" />
                     available
                 </div>
-                <div
+                <!--             <div
                     t-if="virtual_available gt available_threshold"
                     style="font-size: medium;"
                     t-attf-class="availability_message_#{product_template} mt16 badge badge-success"
                 >
                     In stock
-                </div>
+                </div>-->
             </t>
             <div
                 t-if="cart_qty and virtual_available gt 0"
                 style="font-size: medium;"
-                t-attf-class="availability_message_#{product_template} badge badge-warning mt8"
+                t-attf-class="availability_message_#{product_template} text-success mt8"
             >
                 You already added
                 <t t-esc="cart_qty" />
                 <t t-esc="uom_name" />
                 in your cart
             </div>
-            <div t-if="virtual_available lte 0 or cart_qty gt virtual_available">
+            <!--            <div t-if="virtual_available lte 0 or cart_qty gt virtual_available">
                 <div
                     t-attf-class="availability_message_#{product_template} badge badge-warning mt16"
                     style="font-size: medium;"
@@ -39,7 +39,7 @@
                     <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning" />
                     At order
                 </div>
-            </div>
+            </div>-->
         </t>
     </t>
     <t t-name="deltatech_website_stock_availability.lead_time">
@@ -65,7 +65,7 @@
                     </span>
                 </t>
                 <t t-else="">
-                    <span>Delivery time unknown</span>
+                    <span class="text-warning">Delivery time unknown</span>
                 </t>
             </t>
             <t t-else="">

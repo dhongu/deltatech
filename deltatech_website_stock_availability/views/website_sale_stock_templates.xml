@@ -11,19 +11,19 @@
             <t t-if="website.user_id != user_id">
                 <t t-if="product.is_qty_available=='stock' ">
                     <div class="badge badge-pill badge-success" style="font-size: medium;" contenteditable="false">
-                        <span t-field="product.availability_text" />
+                        <span t-field="product.is_qty_available" />
                     </div>
                 </t>
                 <t t-if="product.is_qty_available=='provider' ">
                     <div class="badge badge-pill badge-info" style="font-size: medium;" contenteditable="false">
                         <i class="fa fa-info" />
-                        <span t-field="product.availability_text" />
+                        <span t-field="product.is_qty_available" />
                     </div>
                 </t>
                 <t t-if="product.is_qty_available=='order' ">
                     <div class="badge badge-pill badge-warning" style="font-size: medium;" contenteditable="false">
                         <i class="fa fa-info" />
-                        <span t-field="product.availability_text" />
+                        <span t-field="product.is_qty_available" />
                     </div>
                 </t>
             </t>
