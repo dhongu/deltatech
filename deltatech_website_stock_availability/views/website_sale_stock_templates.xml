@@ -21,12 +21,30 @@
         inherit_id="website_sale.products_item"
         active="False"
         customize_show="True"
-        name="Product Available"
+        name="Product Available Text"
     >
         <xpath expr="//div[@itemprop='offers']" position="after">
             <div>
-                <i class="fa fa-info" />
-                <span t-field="product.availability_text" />
+                <t t-if="website.user_id != user_id">
+                    <t t-if="product.is_qty_available=='stock' ">
+                        <div class="badge badge-pill badge-success" contenteditable="false">
+                            <i class="fa fa-info" />
+                            <span t-field="product.availability_text" />
+                        </div>
+                    </t>
+                    <t t-if="product.is_qty_available=='provider' ">
+                        <div class="badge badge-pill badge-info" contenteditable="false">
+                            <i class="fa fa-info" />
+                            <span t-field="product.availability_text" />
+                        </div>
+                    </t>
+                    <t t-if="product.is_qty_available=='order' ">
+                        <div class="badge badge-pill badge-warning" contenteditable="false">
+                            <i class="fa fa-info" />
+                            <span t-field="product.availability_text" />
+                        </div>
+                    </t>
+                </t>
             </div>
         </xpath>
     </template>

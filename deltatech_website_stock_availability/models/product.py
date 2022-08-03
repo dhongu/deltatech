@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 
 class ProductTemplate(models.Model):
@@ -15,16 +15,27 @@ class ProductTemplate(models.Model):
     sale_delay_safety = fields.Float("Customer Safety Lead Time", default=1)
 
     availability_text = fields.Char(compute="_compute_availability_text")
+    is_qty_available = fields.Selection(
+        [("stock", "In Stock"), ("provider", "In provider stock"), ("order", "At Order")],
+        compute="_compute_availability_text",
+    )
 
+    @api.multi
+    @api.depends("qty_available", "inventory_availability")
     def _compute_availability_text(self):
-        for product in self.sudo():
-            if product.qty_available > 0 or product.inventory_availability == "never":
+        for product in self:
+            qty_available = product.sudo().qty_available
+            inventory_availability = product.sudo().inventory_availability
+            if qty_available > 0 or inventory_availability == "never":
                 product.availability_text = _("In stock")
+                product.is_qty_available = "stock"
             else:
-                if product.inventory_availability != "preorder":
+                if inventory_availability != "preorder":
                     product.availability_text = _("Not in stock")
+                    # product.is_qty_available = "provider"
                 else:
                     product.availability_text = _("At order")
+                    product.is_qty_available = "order"
                     supplier_lead_time = product.seller_ids and product.seller_ids[0].delay or 0
                     if product.seller_ids[0].date_start and product.seller_ids[0].date_start > fields.Date.today():
                         weeks = (product.seller_ids[0].date_start - fields.Date.today()).days // 7
