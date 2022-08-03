@@ -7,14 +7,17 @@ eCommerce Stock Availability
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+    :target: https://odoo-community.org/page/development-status
+    :alt: Mature
+.. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
-.. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
+.. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/12.0/deltatech_website_stock_availability
     :alt: dhongu/deltatech
 
-|badge1| |badge2| 
+|badge1| |badge2| |badge3| 
 
 Modulul permite afișarea stocului pe website sub un anumit prag cu posibilitatea de a comanda chiar dacă stocul nu este suficient. Modulul calculează și numărul de zile de în care se va face livrare ținând cont de timpul de livrare din produs, numărul de zile de siguranță și numărul de zile de livrare de la furnizor pentru produsele care nu sunt pe stoc.
 

@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#    * deltatech_website_stock_availability
+#	* deltatech_website_stock_availability
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 13.0\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-15 08:57+0000\n"
-"PO-Revision-Date: 2020-10-15 08:57+0000\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2022-08-03 07:17+0000\n"
+"PO-Revision-Date: 2022-08-03 07:17+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,22 +16,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_website_stock_availability
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_price
+msgid "<i class=\"fa fa-info\"/>\n"
+"                <span>Please contact us for pricing details</span>"
+msgstr "<i class=\"fa fa-info\"/>\n"
+"                <span>Vă rog să ne contactați pentru detalii legate de preț</span>"
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model.fields,help:deltatech_website_stock_availability.field_product_product__inventory_availability
 #: model:ir.model.fields,help:deltatech_website_stock_availability.field_product_template__inventory_availability
 msgid "Adds an inventory availability status on the web product page."
-msgstr ""
-"Adăugă starea disponibilității inventarului pe pagina web a produsului."
+msgstr "Adăugă starea disponibilității inventarului pe pagina web a produsului."
 
 #. module: deltatech_website_stock_availability
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.website_sale_stock_product_lead_time
-msgid "Buy now, get in 2 days"
-msgstr "Livrare în 2 zile"
-
-#. module: deltatech_website_stock_availability
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.website_sale_stock_product_lead_time
-msgid "Delivery time unknown"
-msgstr "Timp de livrare necunoscut"
-
+#: code:addons/deltatech_website_stock_availability/models/product.py:27
+#, python-format
+msgid "At order"
+msgstr "La comandă"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__sale_delay_safety
@@ -41,24 +42,54 @@ msgstr "Timp de sigurantă "
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:46
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:51
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:64
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:69
 #, python-format
 msgid "Delivery in"
 msgstr "Livrare în"
 
 #. module: deltatech_website_stock_availability
+#: code:addons/deltatech_website_stock_availability/models/product.py:42
+#, python-format
+msgid "Delivery in %s - %s days"
+msgstr "Livrare în %s - %s zile"
+
+#. module: deltatech_website_stock_availability
+#: code:addons/deltatech_website_stock_availability/models/product.py:35
+#: code:addons/deltatech_website_stock_availability/models/product.py:40
+#, python-format
+msgid "Delivery in %s days"
+msgstr "Livrare în %s zile"
+
+#. module: deltatech_website_stock_availability
+#: code:addons/deltatech_website_stock_availability/models/product.py:32
+#, python-format
+msgid "Delivery in %s weeks"
+msgstr "Livrare în %s săptămîni"
+
+#. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:60
+#, python-format
+msgid "Delivery time unknown"
+msgstr "Timp de livrare necunoscut"
+
+#. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/models/product.py:22
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:18
 #, python-format
 msgid "In stock"
 msgstr "În stoc"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:33
 #, python-format
-msgid "In the supplier's stock"
-msgstr "În stocul furnizorului"
+msgid "At order"
+msgstr "La comandă"
 
 #. module: deltatech_website_stock_availability
 #: model:ir.model.fields,field_description:deltatech_website_stock_availability.field_product_product__inventory_availability
@@ -67,50 +98,83 @@ msgid "Inventory Availability"
 msgstr "Stoc disponibil"
 
 #. module: deltatech_website_stock_availability
+#: code:addons/deltatech_website_stock_availability/models/product.py:25
+#, python-format
+msgid "Not in stock"
+msgstr "Nu este în stoc"
+
+#. module: deltatech_website_stock_availability
 #: model:ir.model,name:deltatech_website_stock_availability.model_product_template
 msgid "Product Template"
 msgstr "Șablon produs"
 
 #. module: deltatech_website_stock_availability
-#: model:ir.model.fields.selection,name:deltatech_website_stock_availability.selection__product_template__inventory_availability__preorder
+#: selection:product.template,inventory_availability:0
+msgid "Sell regardless of inventory"
+msgstr "Vânzare indiferent de stocul existent"
+
+#. module: deltatech_website_stock_availability
+#: selection:product.template,inventory_availability:0
 msgid "Show inventory below a threshold and allow sales if not enough stock"
-msgstr ""
-"Afișează stocul sub un anumit prag și permite vânzarea dacă nu este stoc "
-"suficient"
+msgstr "Afișați inventarul sub un prag și permiteți vânzările dacă stocul nu este suficient"
+
+#. module: deltatech_website_stock_availability
+#: selection:product.template,inventory_availability:0
+msgid "Show inventory below a threshold and prevent sales if not enough stock"
+msgstr "Arătați stocul sub un prag și împiedicați vânzările, dacă nu aveți suficient stoc"
+
+#. module: deltatech_website_stock_availability
+#: selection:product.template,inventory_availability:0
+msgid "Show inventory on website and prevent sales if not enough stock"
+msgstr "Afișați inventarul pe site și împiedicați vânzările, dacă nu aveți suficient stoc"
+
+#. module: deltatech_website_stock_availability
+#: selection:product.template,inventory_availability:0
+msgid "Show product-specific notifications"
+msgstr "Afișați notificările specifice produsului"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:10
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:33
 #, python-format
 msgid "Warning"
 msgstr "Atenție"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:25
 #, python-format
 msgid "You already added"
-msgstr "Ai adăugat deja"
+msgstr "Ați adăugat deja"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:12
 #, python-format
 msgid "available"
 msgstr "disponibil"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
-#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.product_template_form_view
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:55
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:73
+#: model_terms:ir.ui.view,arch_db:deltatech_website_stock_availability.view_template_property_form
 #, python-format
 msgid "days"
 msgstr "zile"
 
 #. module: deltatech_website_stock_availability
 #. openerp-web
-#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:0
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:28
 #, python-format
 msgid "in your cart"
 msgstr "în coșul tău"
+
+#. module: deltatech_website_stock_availability
+#. openerp-web
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:48
+#: code:addons/deltatech_website_stock_availability/static/src/xml/website_sale_stock_product_availability.xml:66
+#, python-format
+msgid "weeks"
+msgstr "săptămîni"

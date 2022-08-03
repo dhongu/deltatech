@@ -31,7 +31,7 @@
             <div t-if="virtual_available lte 0 or cart_qty gt virtual_available">
                 <div t-attf-class="availability_message_#{product_template} text-warning mt16">
                     <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning" />
-                    In the supplier's stock
+                    At order
                 </div>
             </div>
         </t>
@@ -42,7 +42,13 @@
             <t t-set="po" t-value="0" />
             <t t-if="virtual_available lte 0 or cart_qty+selected_qty gt virtual_available">
                 <t t-if="purchase_lead_time">
-                    <span>
+                    <t t-set="days" t-value="sale_delay+purchase_lead_time" />
+                    <span t-if="days gt 7">
+                        Delivery in
+                        <t t-esc="Math.round(days/7)" />
+                        weeks
+                    </span>
+                    <span t-else="">
                         Delivery in
                         <t t-esc="sale_delay+purchase_lead_time" />
                         -
@@ -55,7 +61,12 @@
                 </t>
             </t>
             <t t-else="">
-                <span>
+                <span t-if="sale_delay gt 7">
+                    Delivery in
+                    <t t-esc="Math.round(days/7)" />
+                    weeks
+                </span>
+                <span t-else="">
                     Delivery in
                     <t t-esc="sale_delay" />
                     -

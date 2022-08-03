@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <template id="product_price" inherit_id="website_sale.product_price">
+        <xpath expr="//div[@itemprop='offers']" position="attributes">
+            <attribute name="t-if">combination_info['list_price'] != 0</attribute>
+        </xpath>
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div t-if="combination_info['list_price'] == 0">
+                <i class="fa fa-info" />
+                <span>Please contact us for pricing details</span>
+            </div>
+        </xpath>
+    </template>
     <template id="assets_frontend" inherit_id="website.assets_frontend" name="Website Sale Stock Availability">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/deltatech_website_stock_availability/static/src/js/variant_mixin.js" />
         </xpath>
     </template>
+    <template
+        id="products_qty_available"
+        inherit_id="website_sale.products_item"
+        active="False"
+        customize_show="True"
+        name="Product Available"
+    >
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div>
+                <i class="fa fa-info" />
+                <span t-field="product.availability_text" />
+            </div>
+        </xpath>
+    </template>
     <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
         <xpath expr="//div[@id='product_details']//hr" position="before">
-            <div class="lead_time_messages o_not_editable">Buy now, get in 2 days</div>
+            <hr />
+            <div class="lead_time_messages o_not_editable">
+                <i class="fa fa-calendar" />
+            </div>
         </xpath>
     </template>
 </odoo>
