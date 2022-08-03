@@ -5,7 +5,8 @@
             <t t-if="virtual_available gt 0">
                 <div
                     t-if="virtual_available lte available_threshold"
-                    t-attf-class="availability_message_#{product_template} text-warning mt16"
+                    style="font-size: medium;"
+                    t-attf-class="availability_message_#{product_template} badge badge-warning mt16"
                 >
                     <i class="fa fa-exclamation-triangle" title="Warning" role="img" aria-label="Warning" />
                     <t t-esc="virtual_available_formatted" />
@@ -14,14 +15,16 @@
                 </div>
                 <div
                     t-if="virtual_available gt available_threshold"
-                    t-attf-class="availability_message_#{product_template} text-success mt16"
+                    style="font-size: medium;"
+                    t-attf-class="availability_message_#{product_template} mt16 badge badge-success"
                 >
                     In stock
                 </div>
             </t>
             <div
                 t-if="cart_qty and virtual_available gt 0"
-                t-attf-class="availability_message_#{product_template} text-warning mt8"
+                style="font-size: medium;"
+                t-attf-class="availability_message_#{product_template} badge badge-warning mt8"
             >
                 You already added
                 <t t-esc="cart_qty" />
@@ -29,7 +32,10 @@
                 in your cart
             </div>
             <div t-if="virtual_available lte 0 or cart_qty gt virtual_available">
-                <div t-attf-class="availability_message_#{product_template} text-warning mt16">
+                <div
+                    t-attf-class="availability_message_#{product_template} badge badge-warning mt16"
+                    style="font-size: medium;"
+                >
                     <i class="fa fa-exclamation-triangle" role="img" aria-label="Warning" title="Warning" />
                     At order
                 </div>
@@ -50,8 +56,10 @@
                     </span>
                     <span t-else="">
                         Delivery in
-                        <t t-esc="sale_delay+purchase_lead_time" />
-                        -
+                        <t t-if="sale_delay+purchase_lead_time">
+                            <t t-esc="sale_delay+purchase_lead_time" />
+                            -
+                        </t>
                         <t t-esc="sale_delay+sale_delay_safety+purchase_lead_time" />
                         days
                     </span>
