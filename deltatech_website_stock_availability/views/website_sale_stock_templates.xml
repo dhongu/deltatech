@@ -15,9 +15,9 @@
                     </div>
                 </t>
                 <t t-if="product.is_qty_available=='provider' ">
-                    <div class="badge badge-pill badge-info" style="font-size: medium;" contenteditable="false">
+                    <div class="badge badge-pill badge-danger" style="font-size: medium;" contenteditable="false">
                         <i class="fa fa-info" />
-                        <span t-field="product.is_qty_available" />
+                        <span t-field="product.availability_text" />
                     </div>
                 </t>
                 <t t-if="product.is_qty_available=='order' ">
@@ -69,7 +69,7 @@
                         </div>
                     </t>
                     <t t-if="product.is_qty_available=='provider' ">
-                        <div class="badge badge-pill badge-info" contenteditable="false">
+                        <div class="badge badge-pill badge-danger" contenteditable="false">
                             <i class="fa fa-info" />
                             <span t-field="product.availability_text" />
                         </div>

@@ -65,7 +65,7 @@
                     </span>
                 </t>
                 <t t-else="">
-                    <span class="text-warning">Delivery time unknown</span>
+                    <span class="text-danger">Delivery time unknown</span>
                 </t>
             </t>
             <t t-else="">
