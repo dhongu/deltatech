@@ -57,7 +57,7 @@ class ReportDCInvoicePrint(models.AbstractModel):
         declarations = self.env["deltatech.dc"]
 
         for invoice in invoices.filtered(lambda x: x.state not in ["draft", "cancel"]):
-            for line in invoice.invoice_line_ids:
+            for line in invoice.invoice_line_ids.filtered(lambda m: not m.display_type):
                 domain = [
                     ("product_id", "=", line.product_id.id),
                     ("date", "=", invoice.date),
@@ -67,7 +67,6 @@ class ReportDCInvoicePrint(models.AbstractModel):
                 if not dc:
                     dc = self.env["deltatech.dc"].create(
                         {
-                            # "name": invoice.name,
                             "product_id": line.product_id.id,
                             "date": invoice.date,
                         }
