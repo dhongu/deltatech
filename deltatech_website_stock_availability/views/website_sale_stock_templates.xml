@@ -33,6 +33,10 @@
         <xpath expr="//div[hasclass('availability_messages')]" position="replace">
             <t t-if="website.user_id != user_id">
                 <div class="availability_messages o_not_editable" />
+                <hr />
+                <div class="lead_time_messages o_not_editable">
+                    <i class="fa fa-calendar" />
+                </div>
             </t>
         </xpath>
     </template>
@@ -81,14 +85,6 @@
                         </div>
                     </t>
                 </t>
-            </div>
-        </xpath>
-    </template>
-    <template id="website_sale_stock_product_lead_time" inherit_id="website_sale.product" priority="99">
-        <xpath expr="//div[@id='product_details']//hr" position="before">
-            <hr />
-            <div class="lead_time_messages o_not_editable">
-                <i class="fa fa-calendar" />
             </div>
         </xpath>
     </template>
