@@ -50,7 +50,8 @@
                                         />
                                                 </div>
                                                 <div class="oe_kanban_details">
-                                                    <field name="name" />
+                                                    <field name="parent_id" />
+<!--                                                    <field name="name" />-->
                                                     <div t-if="record.function.raw_value"><field
                                                 name="function"
                                             /></div>
@@ -83,10 +84,11 @@
                                         _fields_view_get() of partner. It would be better to put those fields there but the web client
                                         dosen't support when a field is displayed several times in the same view.-->
                                         <field name="type" required="1" widget="radio" options="{'horizontal': true}" />
-                                        <field name="parent_id" invisible="1" />
+
                                         <hr />
                                         <group>
                                             <group>
+                                                <field name="parent_id" />
                                                 <field
                                         name="name"
                                         string="Contact Name"
