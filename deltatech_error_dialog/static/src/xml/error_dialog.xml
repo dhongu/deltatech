@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template">
+
+
+
+    <t t-name="ErrorDialogBody" t-inherit="web.ErrorDialogBody" t-inherit-mode="extension" owl="1">
+         <xpath expr="//button" position="after">
+              <button class="btn btn-primary" t-on-click="onClickOpenTicket">
+                  <i class="fa fa-clipboard mr8"/><t>Open ticket</t>
+              </button>
+         </xpath>
+    </t>
+
+
+</templates>
