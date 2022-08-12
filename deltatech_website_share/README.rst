@@ -7,9 +7,9 @@ eCommerce Share data
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Alpha-red.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Mature
+    :alt: Alpha
 .. |badge2| image:: https://img.shields.io/badge/licence-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -22,6 +22,11 @@ eCommerce Share data
 Features:
  - A website can access other website's objects. For example, if "Site 1" website has acces for "Site 2" and you have a product configured to show on "Site 2", this product will be also shown in "Site 1" website
  - Used mainly to show products/categories on multiple sites and forbid access from certain sites
+
+.. IMPORTANT::
+   This is an alpha version, the data model and design can change at any time without warning.
+   Only for development or testing purpose, do not use in production.
+   `More details on development status <https://odoo-community.org/page/development-status>`_
 
 **Table of contents**
 

@@ -4,4 +4,3 @@
 
 from . import mixins
 from . import website
-from . import ir_config_parameter
