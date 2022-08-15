@@ -126,5 +126,32 @@
                 <!--                </xpath>-->
             </field>
         </record>
+
+        <record id="view_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.view.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="type" optional="show" />
+                    <field name="company_type" optional="show" />
+                    <field name="commercial_partner_id" optional="hide" />
+                    <field name="vat" optional="show" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="vat" />
+                </xpath>
+            </field>
+        </record>
+
+
     </data>
 </odoo>
