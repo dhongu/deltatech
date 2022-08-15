@@ -226,6 +226,7 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
+                    <span t-field='order.partner_invoice_id' />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
@@ -259,6 +260,7 @@
                 <div>
                     <b>Billing<t t-if="same_shipping and not only_services">&amp; Shipping</t>:
                     </b>
+                    <span t-field='order.partner_invoice_id' />,
                     <span
                         t-esc='order.partner_invoice_id'
                         t-options="dict(widget='contact', fields=['address'], no_marker=True, separator=', ')"
@@ -319,10 +321,10 @@
                     t-attf-class="form-control js_is_company"
                     t-att-mode="mode[1]"
                 >
-                    <option value="yes" t-att-selected="is_company">
+                    <option value="yes" t-att-selected="is_company == 'yes'">
                         Yes
                     </option>
-                    <option value="no" t-att-selected="not is_company">
+                    <option value="no" t-att-selected="is_company == 'no'">
                         No
                     </option>
                 </select>
