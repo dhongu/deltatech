@@ -103,7 +103,7 @@
                             <td>
 
                                 <a t-attf-href="/shop/billing_address?partner_id=#{billing_address.id}">
-                                    <t t-esc="billing_address.name" />
+                                    <t t-esc="billing_address.commercial_partner_id.name" />
                                 </a>
                             </td>
                             <td>

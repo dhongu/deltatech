@@ -99,6 +99,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = is_company
+        else:
+            new_values["is_company"] = False
+
         new_values["access_for_user_id"] = request.env.user.id
 
         return new_values, errors, error_msg
@@ -117,9 +120,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         Partner = request.env["res.partner"].with_context(show_address=1).sudo()
         order = request.website.sale_get_order(force_create=True)
 
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
+        # redirection = self.checkout_redirection(order)
+        # if redirection:
+        #     return redirection
 
         # mode = (False, False)
         can_edit_vat = False
@@ -173,8 +176,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if is_company == "no":
             can_edit_vat = False
-        else:
-            values["is_company"] = True
+        # else:
+        #     values["is_company"] = True   # modifica contactul si il face companie
 
         render_values = {
             "website_sale_order": order,

@@ -59,6 +59,7 @@ msgstr "Acces utilizator"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
 msgid "Address"
 msgstr "Adresa"
 
@@ -232,12 +233,18 @@ msgstr "Strada..."
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
 msgid "There are no billing addresses request."
-msgstr "Nu există alte adrese de facturare"
+msgstr "Nu există detalii de facturare"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
 msgid "There are no shipping addresses request."
-msgstr "Nu există alte adrese de livrare"
+msgstr "Nu există adrese de livrare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__user_address_ids
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__user_address_ids
+msgid "User Address"
+msgstr ""
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.address_b2b
