@@ -17,7 +17,7 @@ class MailTemplate(models.Model):
         record = self.env[self.model].browse(res_id)
         template = self
         if "company_id" in record and record["company_id"]:
-            web_base_url = record.comapany_id.website
+            web_base_url = record.company_id.website
             if web_base_url:
                 template = self.with_context(web_base_url=web_base_url)
         return super(MailTemplate, template).send_mail(res_id, force_send, raise_exception, email_values, notif_layout)
