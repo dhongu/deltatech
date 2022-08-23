@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-20 07:01+0000\n"
-"PO-Revision-Date: 2022-04-20 07:01+0000\n"
+"POT-Creation-Date: 2022-08-22 11:14+0000\n"
+"PO-Revision-Date: 2022-08-22 11:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -190,6 +190,17 @@ msgstr "Persoană fizică"
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
 msgid "Phone:"
 msgstr "Telefon:"
+
+#. module: deltatech_website_billing_addresses
+#: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.auth_signup_help
+msgid ""
+"Please enter only your personal data. Do not enter your company name.\n"
+"                    <br/>\n"
+"                    The billing data (company name, address and VAT) can be enetered when placing an order."
+msgstr ""
+"Vă rugăm să completați doar datele personale (ex. Nume, Prenume). Nu completați datele unei companii.\n"
+"                    <br/>\n"
+"                    Datele de facturare vor putea fi adăugate la momentul efectuării unei comenzi."
 
 #. module: deltatech_website_billing_addresses
 #: code:addons/deltatech_website_billing_addresses/controllers/portal.py:0
