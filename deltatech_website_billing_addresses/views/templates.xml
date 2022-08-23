@@ -314,7 +314,7 @@
         <xpath expr="//div[@id='div_phone']" position="after">
             <div t-attf-class="form-group col-lg-6 div_is_company" t-if="mode[1]=='billing'" style="display: none;">
                 <label class="col-form-label" for="is_company">Is Company</label>
-                <t t-set="is_company" t-value=" 'is_company' in checkout and  checkout['is_company']  " />
+                <t t-set="is_company" t-value=" request.httprequest.args.get('is_company') " />
                 <select
                     id="is_company"
                     name="is_company"
@@ -327,6 +327,7 @@
                     <option value="no" t-att-selected="is_company == 'no'">
                         No
                     </option>
+
                 </select>
             </div>
         </xpath>
