@@ -243,13 +243,21 @@ msgstr "Strada..."
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.billing_addresses_portal_my_requests
-msgid "There are no billing addresses request."
-msgstr "Nu există detalii de facturare"
+msgid ""
+"There are no billing addresses request. You can add billing addresses when "
+"placing an order."
+msgstr ""
+"Nu există detalii de facturare. Detaliile de facturare se pot adăuga doar la"
+" plasarea unei comenzi."
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.shipping_addresses_portal_my_requests
-msgid "There are no shipping addresses request."
-msgstr "Nu există adrese de livrare"
+msgid ""
+"There are no shipping addresses request. You can add shipping addresses when"
+" placing an order."
+msgstr ""
+"Nu există adrese de livrare. Adresa de livrare se poate adăuga doar la "
+"plasarea unei comenzi."
 
 #. module: deltatech_website_billing_addresses
 #: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__user_address_ids
@@ -276,3 +284,31 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
 msgid "e.g. Sales Director"
 msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__billing_address
+msgid "Billing address"
+msgstr "Adr. facturare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__shipping_address
+msgid "Shipping address"
+msgstr "Adr. livrare"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model,name:deltatech_website_billing_addresses.model_res_partner
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__contact
+msgid "Contact"
+msgstr ""
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields.selection,name:deltatech_website_billing_addresses.selection__res_partner__contact_type__company
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_website_billing_addresses
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_marketplace_customer__contact_type
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_partner__contact_type
+#: model:ir.model.fields,field_description:deltatech_website_billing_addresses.field_res_users__contact_type
+msgid "Contact Type"
+msgstr "Tip contact"
