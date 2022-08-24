@@ -4,7 +4,7 @@
 
 {
     "name": "Invoice Pickings",
-    "version": "14.0.1.0.6",
+    "version": "14.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Facturare livrari",
