@@ -26,6 +26,9 @@
                 <field name="account_move_id" readonly="0" />
                 <field name="to_invoice" />
             </xpath>
+            <xpath expr="//sheet/group/group" position="inside">
+                <field name="supplier_invoice_number" attrs="{'invisible': [('purchase_id', '=', False)]}" />
+            </xpath>
         </field>
     </record>
 
