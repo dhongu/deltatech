@@ -20,7 +20,7 @@ Error Dialog
 |badge1| |badge2| |badge3| 
 
 Features:
- -
+ - Open ticket button in Odoo error screen
 
 **Table of contents**
 
