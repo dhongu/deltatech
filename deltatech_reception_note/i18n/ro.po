@@ -177,4 +177,4 @@ msgstr ""
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__delivery_note_no
 msgid "Delivery Note No"
-msgstr ""
+msgstr "Nr. Delivery Note"
