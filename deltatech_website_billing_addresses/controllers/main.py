@@ -99,6 +99,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = is_company
+        else:
+            new_values["is_company"] = False
+
         new_values["access_for_user_id"] = request.env.user.id
 
         return new_values, errors, error_msg
@@ -173,8 +176,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
 
         if is_company == "no":
             can_edit_vat = False
-        else:
-            values["is_company"] = True
+        # else:
+        #     values["is_company"] = True   # modifica contactul si il face companie
 
         render_values = {
             "website_sale_order": order,
