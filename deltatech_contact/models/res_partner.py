@@ -19,15 +19,15 @@ class Partner(models.Model):
             defaults["parent_id"] = self.env.context["parent_partner_id"]
         return defaults
 
-    @api.model
-    def _fields_view_get(self, view_id=None, view_type="form", toolbar=False, submenu=False):
-        if (not view_id) and (view_type == "form") and self._context.get("simple_form"):
-            view_id = self.env.ref("base.view_partner_simple_form").id
-        res = super(Partner, self)._fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
-        )
-
-        return res
+    # @api.model
+    # def _fields_view_get(self, view_id=None, view_type="form", toolbar=False, submenu=False):
+    #     if (not view_id) and (view_type == "form") and self._context.get("simple_form"):
+    #         view_id = self.env.ref("base.view_partner_simple_form").id
+    #     res = super(Partner, self)._fields_view_get(
+    #         view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
+    #     )
+    #
+    #     return res
 
     @api.constrains("cnp")
     def check_cnp(self):
@@ -88,25 +88,15 @@ class Partner(models.Model):
 
             self.cnp = cnp + str(rest)
 
-    @api.depends("type", "is_company")
-    def _compute_is_department(self):
-        for partner in self:
-            if partner.is_company or partner.type == "contact":
-                partner.is_department = False
-            else:
-                partner.is_department = True
-
     cnp = fields.Char(string="CNP", size=13)
 
     id_nr = fields.Char(string="ID Nr", size=12)
     id_issued_by = fields.Char(string="ID Issued by", size=20)
     mean_transp = fields.Char(string="Mean Transport", size=12)
-    is_department = fields.Boolean(string="Is department", compute="_compute_is_department")
+
     birthdate = fields.Date(string="Birthdate")
 
     gender = fields.Selection([("male", "Male"), ("female", "Female"), ("other", "Other")])
-
-    # _defaults = {'user_id': lambda self, cr, uid, context: uid}  #ToDo de eliminat
 
     # nu se mai afiseaza compania la contacte
     def _get_contact_name(self, partner, name):
@@ -131,35 +121,6 @@ class Partner(models.Model):
         if context.get("address_inline"):
             name = name.replace("\n", ", ")
         return name
-
-    # def name_get(self):
-    #     context = self.env.context
-    #
-    #     res = []
-    #     for record in self:
-    #         name = record.name
-    #         if name:
-    #             if record.parent_id and not record.is_company and record.type != 'contact':
-    #                 name = "%s, %s" % (record.parent_name, name)
-    #             if context.get('show_address_only'):
-    #                 name = record._display_address(without_company=True)
-    #             if context.get('show_address'):
-    #                 name = name + "\n" + record._display_address(without_company=True)
-    #             if context.get('show_email') and record.email:
-    #                 name = "%s <%s>" % (name, record.email)
-    #             if context.get('show_phone') and record.phone:
-    #                 name = "%s\n<%s>" % (name, record.phone)
-    #             if context.get('show_category') and record.category_id:
-    #                 cat = []
-    #                 for category in record.category_id:
-    #                     cat.append(category.name)
-    #                 name = name + "\n[" + ','.join(cat) + "]"
-    #             name = name.replace('\n\n', '\n')
-    #             name = name.replace('\n\n', '\n')
-    #         res.append((record.id, name))
-    #
-    #
-    #     return res
 
     @api.model
     def name_search(self, name="", args=None, operator="ilike", limit=100):
