@@ -77,7 +77,7 @@
                             <ul class="nav nav-tabs" id="billingTab" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a
-                                        class="nav-link active"
+                                        class="btn btn-secondary mb-2 btn-block active select-button"
                                         id="billing_person-tab"
                                         data-toggle="tab"
                                         href="#billing_person"
@@ -86,10 +86,20 @@
                                         aria-selected="true"
                                     >Person
                                     </a>
+<!--                                    <a-->
+<!--                                        class="nav-link active"-->
+<!--                                        id="billing_person-tab"-->
+<!--                                        data-toggle="tab"-->
+<!--                                        href="#billing_person"-->
+<!--                                        role="tab"-->
+<!--                                        aria-controls="billing_person"-->
+<!--                                        aria-selected="true"-->
+<!--                                    >Person-->
+<!--                                    </a>-->
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a
-                                        class="nav-link"
+                                        class="btn btn-secondary mb-2 btn-block select-button"
                                         id="billing_company-tab"
                                         data-toggle="tab"
                                         href="#billing_company"
@@ -138,7 +148,7 @@
                                                     class='a-submit btn btn-secondary mb-2 btn-block'
                                                 >
                                                     <i class="fa fa-plus-square" />
-                                                    <span>Add an address</span>
+                                                    <span>Add a billing address</span>
                                                 </a>
                                             </form>
                                         </div>
@@ -181,7 +191,7 @@
                                                     class='a-submit btn btn-secondary mb-2 btn-block'
                                                 >
                                                     <i class="fa fa-plus-square" />
-                                                    <span>Add an address</span>
+                                                    <span>Add a billing address</span>
                                                 </a>
                                             </form>
                                         </div>
@@ -204,7 +214,7 @@
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
                     <a role="button" href="#" class="a-submit btn btn-secondary mb16 btn-block">
                         <i class="fa fa-plus-square" />
-                        <span>Add an address</span>
+                        <span>Add a delivery address</span>
                     </a>
                 </form>
             </div>
