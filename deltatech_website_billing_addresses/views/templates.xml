@@ -85,7 +85,7 @@
                                         aria-controls="billing_person"
                                         aria-selected="true"
                                     >
-                                        <i class="fa fa-user"/>
+                                        <i class="fa fa-user" />
                                         Person
                                     </a>
 <!--                                    <a-->
@@ -109,7 +109,7 @@
                                         aria-controls="billing_company"
                                         aria-selected="false"
                                     >
-                                        <i class="fa fa-building"/>
+                                        <i class="fa fa-building" />
                                         Legal entity
                                     </a>
                                 </li>
