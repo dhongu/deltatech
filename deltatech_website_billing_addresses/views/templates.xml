@@ -84,7 +84,9 @@
                                         role="tab"
                                         aria-controls="billing_person"
                                         aria-selected="true"
-                                    >Person
+                                    >
+                                        <i class="fa fa-user"/>
+                                        Person
                                     </a>
 <!--                                    <a-->
 <!--                                        class="nav-link active"-->
@@ -106,7 +108,9 @@
                                         role="tab"
                                         aria-controls="billing_company"
                                         aria-selected="false"
-                                    >Legal entity
+                                    >
+                                        <i class="fa fa-building"/>
+                                        Legal entity
                                     </a>
                                 </li>
                             </ul>
@@ -145,7 +149,7 @@
                                                 <a
                                                     role="button"
                                                     href="#"
-                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                    class='a-submit btn btn-secondary mb-2 btn-block add-button'
                                                 >
                                                     <i class="fa fa-plus-square" />
                                                     <span>Add a billing address</span>
@@ -188,7 +192,7 @@
                                                 <a
                                                     role="button"
                                                     href="#"
-                                                    class='a-submit btn btn-secondary mb-2 btn-block'
+                                                    class='a-submit btn btn-secondary mb-2 btn-block add-button'
                                                 >
                                                     <i class="fa fa-plus-square" />
                                                     <span>Add a billing address</span>
