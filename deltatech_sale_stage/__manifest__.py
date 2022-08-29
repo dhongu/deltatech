@@ -11,7 +11,7 @@
     "website": "https://www.terrabit.ro",
     "summary": "Sale Order Stage",
     "category": "Sales",
-    "depends": ["sale"],
+    "depends": ["sale_stock"],
     "data": ["security/ir.model.access.csv", "views/sale_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

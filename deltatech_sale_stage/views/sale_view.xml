@@ -12,10 +12,11 @@
                         <field name="name" />
                     </group>
                     <group>
-                         <field name="delivery" />
-                         <field name="invoice" />
-                         <field name="paid" />
-                         <field name="send_email" />
+                        <field name="send_email" />
+                        <field name="confirmed" />
+                        <field name="delivered" />
+                        <field name="invoiced" />
+                        <field name="paid" />
                     </group>
                 </form>
             </field>
@@ -25,7 +26,13 @@
             <field name="model">sale.order.stage</field>
             <field name="arch" type="xml">
                 <tree string="Sale Order Stage">
+                    <field name="sequence" widget="handle" />
                     <field name="name" />
+                    <field name="send_email" />
+                    <field name="confirmed" />
+                    <field name="delivered" />
+                    <field name="invoiced" />
+                    <field name="paid" />
                 </tree>
             </field>
         </record>

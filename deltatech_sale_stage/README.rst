@@ -20,7 +20,7 @@ Deltatech Sale Order Stage
 |badge1| |badge2| |badge3| 
 
 Features:
- -
+ - Camp suplimentar in comanda de vanzare de pentru a specifica stadiul in care se gaseste o comanda
 
 **Table of contents**
 
