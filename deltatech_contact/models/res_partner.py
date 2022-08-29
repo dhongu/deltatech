@@ -90,8 +90,10 @@ class Partner(models.Model):
 
     cnp = fields.Char(string="CNP", size=13)
 
+    id_series = fields.Char(string="ID series", size=2)
     id_nr = fields.Char(string="ID Nr", size=12)
     id_issued_by = fields.Char(string="ID Issued by", size=20)
+    id_issued_at = fields.Date(string="ID Issued at")
     mean_transp = fields.Char(string="Mean Transport", size=12)
 
     birthdate = fields.Date(string="Birthdate")
