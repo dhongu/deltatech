@@ -63,13 +63,13 @@
                         string="Assign Cancel"
                         states="assigned,progress"
                     />
-                    <button
-                        name="action_order"
-                        type="object"
-                        string="Service Order"
-                        states="progress"
-                        attrs="{'invisible': [('order_id','!=',False)]}"
-                    />
+<!--                    <button-->
+<!--                        name="action_order"-->
+<!--                        type="object"-->
+<!--                        string="Service Order"-->
+<!--                        states="progress"-->
+<!--                        attrs="{'invisible': [('order_id','!=',False)]}"-->
+<!--                    />-->
                     <button name="action_done" type="object" class="oe_highlight" string="Done" states="progress" />
                     <field name="state" widget="statusbar" />
                 </header>

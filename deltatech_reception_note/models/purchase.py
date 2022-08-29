@@ -12,6 +12,7 @@ class PurchaseOrder(models.Model):
     reception_type = fields.Selection(
         [("normal", "Normal"), ("rfq_only", "RFQ Only"), ("note", "Reception Note")], string="Type", default="normal"
     )
+    delivery_note_no = fields.Char(string="Delivery Note No")
 
     def action_rfq_send(self):
         if self.reception_type != "note":

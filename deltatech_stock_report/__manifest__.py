@@ -18,6 +18,6 @@
         # "report/stock_balance_view.xml",
     ],
     "images": ["images/main_screenshot.png"],
-    "development_status": "Production/Stable",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

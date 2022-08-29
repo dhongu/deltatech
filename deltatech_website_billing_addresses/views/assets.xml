@@ -7,5 +7,12 @@
                 src="/deltatech_website_billing_addresses/static/src/js/billing_addresses.js"
             />
         </xpath>
+        <xpath expr="//link[last()]" position="after">
+            <link
+                rel="stylesheet"
+                type="text/scss"
+                href="/deltatech_website_billing_addresses/static/src/scss/override.scss"
+            />
+        </xpath>
     </template>
 </odoo>

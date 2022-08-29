@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record model="ir.config_parameter" id="restrict_date" forcecreate="False">
+            <field name="key">restrict_stock_move_date_last_months</field>
+            <field name="value">0</field>
+        </record>
+    </data>
+</odoo>

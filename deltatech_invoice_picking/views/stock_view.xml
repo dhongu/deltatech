@@ -26,6 +26,9 @@
                 <field name="account_move_id" readonly="0" />
                 <field name="to_invoice" />
             </xpath>
+            <xpath expr="//sheet/group/group" position="inside">
+                <field name="supplier_invoice_number" attrs="{'invisible': [('purchase_id', '=', False)]}" />
+            </xpath>
         </field>
     </record>
 
@@ -79,6 +82,21 @@
                     attrs="{'invisible': [('state', 'not in', ('done')),('invoiced','=',True)]}"
                 />
             </button>
+        </field>
+    </record>
+
+    <record id="stock_tree_invoice" model="ir.ui.view">
+        <field name="name">stock.tree.invoice</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <field name="origin" position="after">
+                <field name="picking_type_code" invisible="1" />
+                <field
+                    name="supplier_invoice_number"
+                    attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"
+                />
+            </field>
         </field>
     </record>
 

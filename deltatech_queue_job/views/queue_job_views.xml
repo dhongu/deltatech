@@ -58,6 +58,7 @@
                         <field name="func_string" />
 <!--                        <field name="job_function_id" />-->
 <!--                        <field name="channel" />-->
+                        <field name="identity_key" />
                     </group>
                     <group>
                         <group>
@@ -116,6 +117,7 @@
                 <field name="date_created" />
                 <field name="date_done" />
                 <field name="uuid" />
+                <field name="identity_key" />
 <!--                <field name="channel" />-->
                 <field name="company_id" groups="base.group_multi_company" />
             </tree>

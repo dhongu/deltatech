@@ -13,6 +13,6 @@
     "depends": ["product", "account"],
     "data": ["views/product_view.xml", "views/res_partner_view.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

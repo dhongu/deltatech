@@ -13,6 +13,6 @@
     "license": "LGPL-3",
     "data": ["security/ir.model.access.csv", "data/ir_config_parameter.xml"],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

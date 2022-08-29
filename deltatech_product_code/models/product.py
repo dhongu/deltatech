@@ -13,7 +13,8 @@ class ProductCategory(models.Model):
 
     sequence_id = fields.Many2one("ir.sequence", string="Code Sequence")
     generate_barcode = fields.Boolean()
-    prefix_barcode = fields.Char(default="20", size=2)
+    prefix_barcode = fields.Char(default="40", size=2)
+    barcode_random = fields.Boolean(default=True)
 
 
 class ProductTemplate(models.Model):
@@ -33,7 +34,7 @@ class ProductTemplate(models.Model):
 
         if not barcode or barcode == "/" or barcode == "auto":
             if categ.generate_barcode:
-                if not default_code:
+                if not default_code or categ.barcode_random:
                     default_code = "%0.10d" % random.randint(0, 999999999999)
                 barcode = "".join([s for s in default_code if s.isdigit()])
                 barcode = categ.prefix_barcode + barcode.zfill(10)

@@ -20,4 +20,5 @@ class QueueRequeueJob(models.TransientModel):
     def requeue(self):
         jobs = self.job_ids
         jobs.requeue()
+        self.env.ref("deltatech_queue_job.ir_cron_queue_job").sudo()._trigger()
         return {"type": "ir.actions.act_window_close"}

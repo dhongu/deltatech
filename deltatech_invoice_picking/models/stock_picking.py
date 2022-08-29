@@ -14,6 +14,7 @@ class StockPicking(models.Model):
 
     account_move_id = fields.Many2one("account.move")
     to_invoice = fields.Boolean("To invoice")
+    supplier_invoice_number = fields.Char("Supplier Invoice No")
 
     def button_validate(self):
         res = super(StockPicking, self).button_validate()
@@ -44,5 +45,7 @@ class StockPicking(models.Model):
         for picking in self:
             if picking.state != "done":
                 raise UserError(_("You cannot invoice unconfirmed pickings (%s)") % picking.name)
-
+            if not picking.supplier_invoice_number:
+                raise UserError(_("Please enter supplier invoice number"))
+            picking.purchase_id.write({"partner_ref": picking.supplier_invoice_number})
         return self.purchase_id.with_context(receipt_picking_ids=self.ids).action_create_invoice()

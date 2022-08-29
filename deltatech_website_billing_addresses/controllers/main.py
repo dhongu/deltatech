@@ -10,9 +10,27 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class WebsiteSaleBillingAddresses(WebsiteSale):
+    def checkout_form_validate(self, mode, all_form_values, data):
+        error, error_message = super(WebsiteSaleBillingAddresses, self).checkout_form_validate(
+            mode, all_form_values, data
+        )
+        is_company = data.get("is_company", False) == "yes"
+        if is_company and not data.get("vat", False):
+            error["vat"] = "missing"
+        return error, error_message
+
+    def _get_mandatory_fields_billing(self, country_id=False):
+        res = super()._get_mandatory_fields_billing(country_id)
+        res.remove("name")
+        res.remove("email")
+
+        return res
+
     @http.route()
     def checkout(self, **post):
         post.pop("express", False)
+        new_context = dict(request.env.context, ignore_check_address=True)
+        request.context = new_context
         return super(WebsiteSaleBillingAddresses, self).checkout(**post)
 
     def checkout_values(self, **kw):
@@ -45,7 +63,8 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         new_values, errors, error_msg = super(WebsiteSaleBillingAddresses, self).values_postprocess(
             order, mode, values, errors, error_msg
         )
-        is_company = values.get("is_company", False) == "True"
+        errors.pop("vat", "")  # sa scrie fiecare ce vrea
+        is_company = values.get("is_company", False) == "yes"
 
         if values.get("type", False):
             new_values["type"] = values.get("type")
@@ -62,9 +81,9 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                     .with_context(tracking_disable=True, no_vat_validation=True)
                     .create(
                         {
-                            "name": values["company_name"],
+                            "name": values["company_name"] or values["name"],
                             "vat": values["vat"],
-                            "is_company": is_company,
+                            "is_company": True,
                             "street": values.get("street", False),
                             "street2": values.get("street2", False),
                             "city": values.get("city", False),
@@ -75,10 +94,14 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         }
                     )
                 )
+            new_values["name"] = request.env.user.name
             new_values["parent_id"] = parent.id
 
         if not new_values.get("parent_id", False):
             new_values["is_company"] = is_company
+        else:
+            new_values["is_company"] = False
+
         new_values["access_for_user_id"] = request.env.user.id
 
         return new_values, errors, error_msg
@@ -97,15 +120,16 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         Partner = request.env["res.partner"].with_context(show_address=1).sudo()
         order = request.website.sale_get_order(force_create=True)
 
-        redirection = self.checkout_redirection(order)
-        if redirection:
-            return redirection
+        # redirection = self.checkout_redirection(order)
+        # if redirection:
+        #     return redirection
 
         # mode = (False, False)
         can_edit_vat = False
         values, errors = {}, {}
 
         partner_id = int(kw.get("partner_id", -1))
+        is_company = request.httprequest.args.get("is_company", "no")
 
         # IF PUBLIC ORDER
         if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
@@ -119,10 +143,13 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                     can_edit_vat = order.partner_invoice_id.can_edit_vat()
                 if mode and partner_id != -1:
                     values = Partner.browse(partner_id)
+                    if values.commercial_partner_id.is_company:
+                        is_company = "yes"
 
             elif partner_id == -1:
                 mode = ("new", "billing")
-                values = {"is_company": True}
+                # is_company = 'yes'
+                # values = {"is_company": True}
                 can_edit_vat = True
             else:  # no mode - refresh without post?
                 return request.redirect("/shop/checkout")
@@ -147,6 +174,11 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                 if not errors:
                     return request.redirect(kw.get("callback") or "/shop/checkout")
 
+        if is_company == "no":
+            can_edit_vat = False
+        # else:
+        #     values["is_company"] = True   # modifica contactul si il face companie
+
         render_values = {
             "website_sale_order": order,
             "partner_id": partner_id,
@@ -158,6 +190,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
             "type": "invoice",
             "use_same": False,
             "only_services": True,
+            "is_company": is_company,
         }
         render_values.update(self._get_country_related_render_values(kw, render_values))
         return request.render("website_sale.address", render_values)
@@ -166,9 +199,20 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
         Partner = request.env["res.partner"]
         partner_id = False
         if mode[0] == "new":
-            partner_id = Partner.sudo().with_context(tracking_disable=True).create(checkout).id
+            partner_id = Partner.sudo().with_context(tracking_disable=True, no_vat_validation=True).create(checkout).id
         elif mode[0] == "edit":
             partner_id = int(all_values.get("partner_id", 0))
             if partner_id:
                 Partner.browse(partner_id).sudo().write(checkout)
         return partner_id
+
+    def checkout_check_address(self, order):
+        if request.env.context.get("ignore_check_address", False):
+            return
+        billing_fields_required = self._get_mandatory_fields_billing(order.partner_invoice_id.country_id.id)
+        if not all(order.partner_invoice_id.read(billing_fields_required)[0].values()):
+            return request.redirect("/shop/address?partner_id=%d" % order.partner_invoice_id.id)
+
+        shipping_fields_required = self._get_mandatory_fields_shipping(order.partner_shipping_id.country_id.id)
+        if not all(order.partner_shipping_id.read(shipping_fields_required)[0].values()):
+            return request.redirect("/shop/address?partner_id=%d" % order.partner_shipping_id.id)

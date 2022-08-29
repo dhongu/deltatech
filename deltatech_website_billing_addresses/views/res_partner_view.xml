@@ -120,6 +120,7 @@
                                     />
                                                 <field
                                         name="title"
+                                        options="{'no_open': True}"
                                         placeholder="e.g. Mr."
                                         attrs="{'invisible': [('type','!=', 'contact')]}"
                                     />
@@ -162,7 +163,6 @@
                                             />
                                                     </div>
                                                 </div>
-                                                <field name="comment" placeholder="Internal notes..." />
                                             </group>
                                             <group colspan="5">
                                                 <field name="email" widget="email" />
@@ -191,5 +191,23 @@
         </field>
     </record>
 
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">res.partner.billing.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field
+                    name="contact_type"
+                    optional="show"
+                    widget="badge"
+                    decoration-success="contact_type == 'company'"
+                    decoration-info="contact_type == 'shipping_address'"
+                    decoration-danger="contact_type == 'billing_address'"
+                    decoration-muted="contact_type == 'contact'"
+                />
+            </field>
+        </field>
+    </record>
 
 </odoo>

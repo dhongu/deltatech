@@ -8,9 +8,9 @@
             <xpath expr="//field[@name='origin']" position="after">
                 <field name="reception_type" />
             </xpath>
-<!--            <xpath expr="//button[@name='button_cancel']" position="after">-->
-<!--                <button name="set_sent" attrs="{'invisible': ['|', ('reception_type', '!=', 'rfq_only'), ('state', '=', 'sent')]}" string="Set as sent" type="object" />-->
-<!--            </xpath>-->
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="delivery_note_no" attrs="{'invisible': [('reception_type','!=', 'note')]}" />
+            </xpath>
         </field>
     </record>
 
