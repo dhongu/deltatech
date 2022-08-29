@@ -17,6 +17,6 @@ class SaleOrderStage(models.Model):
     sequence = fields.Integer()
     send_email = fields.Boolean()  # comanda a fost transmita catre client
     confirmed = fields.Boolean()  # comanda a fost confirmata
-    delivery = fields.Boolean()  # comanda a fost livrata
+    delivered = fields.Boolean()  # comanda a fost livrata
     invoiced = fields.Boolean()  # comanda a fost facturata
     paid = fields.Boolean()  # comanda a fost platita
