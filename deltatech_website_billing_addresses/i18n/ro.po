@@ -190,6 +190,7 @@ msgstr "Ultima modificare în"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
+
 msgid ""
 "<i class=\"fa fa-building\"/>\n"
 "                                        Legal entity"
