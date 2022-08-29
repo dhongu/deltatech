@@ -190,8 +190,13 @@ msgstr "Ultima modificare în"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
-msgid "Legal entity"
-msgstr "Persoană juridică"
+
+msgid ""
+"<i class=\"fa fa-building\"/>\n"
+"                                        Legal entity"
+msgstr ""
+"<i class=\"fa fa-building\"/>\n"
+"                                        Persoană juridică"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
@@ -223,8 +228,12 @@ msgstr "Fără"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.checkout
-msgid "Person"
-msgstr "Persoană fizică"
+msgid ""
+"<i class=\"fa fa-user\"/>\n"
+"                                        Person"
+msgstr ""
+"<i class=\"fa fa-user\"/>\n"
+"                                        Persoană fizică"
 
 #. module: deltatech_website_billing_addresses
 #: model_terms:ir.ui.view,arch_db:deltatech_website_billing_addresses.view_partner_form
