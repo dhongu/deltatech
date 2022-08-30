@@ -11,6 +11,9 @@ class ResCompany(models.Model):
     no_negative_stock = fields.Boolean(
         string="No negative stock", default=True, help="Allows you to prohibit negative stock quantities."
     )
+    set_effective_qty = fields.Boolean(
+        string="Set Effective Qty", default=False, help="Set effective quantity in picking when use negative stock."
+    )
 
 
 class ResConfigSettings(models.TransientModel):
@@ -21,4 +24,11 @@ class ResConfigSettings(models.TransientModel):
         string="No negative stock",
         readonly=False,
         help="Allows you to prohibit negative stock quantities.",
+    )
+    set_effective_qty = fields.Boolean(
+        related="company_id.set_effective_qty",
+        readonly=False,
+        string="Set Effective Qty",
+        default=False,
+        help="Set effective quantity in picking when use negative stock.",
     )
