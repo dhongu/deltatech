@@ -54,8 +54,11 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         order.partner_invoice_id = partner_id
 
         values["billings_addresses"] = billings_addresses
+        if billings_addresses:
+            values["billings_addresses"] = billings_addresses.filtered(lambda p: p.type == "invoice")
+
         shippings = values.get("shippings", [])
-        if shippings and len(shippings) > 1:
+        if shippings:
             values["shippings"] = shippings.filtered(lambda p: p.type == "delivery")
         return values
 
