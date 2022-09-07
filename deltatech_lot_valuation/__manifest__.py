@@ -8,7 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
-    "depends": ["stock_account"],
+    "depends": ["stock_account", "deltatech_stock_inventory"],
     "license": "LGPL-3",
     "data": [
         "views/stock_production_lot.xml",
