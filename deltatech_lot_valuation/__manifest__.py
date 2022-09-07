@@ -4,11 +4,11 @@
 {
     "name": "Lot valuation",
     "summary": "Lot valuation",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.1.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",
-    "depends": ["stock_account"],
+    "depends": ["stock_account", "deltatech_stock_inventory"],
     "license": "LGPL-3",
     "data": [
         "views/stock_production_lot.xml",
