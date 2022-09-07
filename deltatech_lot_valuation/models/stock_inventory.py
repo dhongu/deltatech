@@ -6,6 +6,19 @@
 from odoo import fields, models
 
 
+class Inventory(models.Model):
+    _inherit = "stock.inventory"
+
+    def _get_inventory_lines_values(self):
+        lines = super(Inventory, self)._get_inventory_lines_values()
+        for line in lines:
+            if line["prod_lot_id"]:
+                lot = self.env["stock.production.lot"].browse(line["prod_lot_id"])
+            line["standard_price"] = lot.unit_price
+
+        return lines
+
+
 class InventoryLine(models.Model):
     _inherit = "stock.inventory.line"
 
