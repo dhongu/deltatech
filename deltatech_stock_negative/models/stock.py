@@ -31,7 +31,7 @@ class StockQuant(models.Model):
                 if location_id.company_id.no_negative_stock:
                     if not lot_id:
                         err = _(
-                            "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s"
+                            "You have chosen to avoid negative stock. %s pieces of %s are remaining in location %s "
                             "but you want to transfer %s pieces. "
                             "Please adjust your quantities or correct your stock with an inventory adjustment."
                         ) % (product_id.qty_available, product_id.name, location_id.name, quantity)
