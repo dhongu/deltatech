@@ -25,10 +25,10 @@
                     </div>
                     <div class="col-xs-12 col-md-6 o_setting_box">
                         <div class="o_setting_left_pane">
-                            <field name="set_effective_qty" />
+                            <field name="force_effective_qty" />
                         </div>
                         <div class="o_setting_right_pane">
-                            <label for="set_effective_qty" />
+                            <label for="force_effective_qty" />
                             <span
                                 class="fa fa-lg fa-building-o"
                                 title="Values set here are company-specific."

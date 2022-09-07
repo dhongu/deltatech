@@ -15,7 +15,7 @@ class StockPicking(models.Model):
 
     def button_validate(self):
         for picking in self:
-            if not picking.company_id.no_negative_stock and picking.company_id.set_effective_qty:
+            if not picking.company_id.no_negative_stock and picking.company_id.force_effective_qty:
                 picking.set_effective_qty()
 
         return super(StockPicking, self).button_validate()
