@@ -22,8 +22,8 @@ class ProductProduct(models.Model):
         for product in self:
             if product.type != "product":
                 continue
-            domian = [("product_id", "=", product.id), ("company_id", "=", company_id.id)]
-            rules = self.env["stock.warehouse.orderpoint"].search(domian)
+            domain = [("product_id", "=", product.id), ("company_id", "=", company_id.id)]
+            rules = self.env["stock.warehouse.orderpoint"].search(domain)
             if not rules:
                 self.env["stock.warehouse.orderpoint"].create(
                     {
