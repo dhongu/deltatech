@@ -14,6 +14,7 @@ class DeltatechDC(models.Model):
     product_id = fields.Many2one(
         "product.product", "Product", required=True, index=True, domain=[("sale_ok", "=", "True")]
     )
+    lot_id = fields.Many2one("stock.production.lot", index=True, domain="[('product_id', '=', product_id)]")
     company_standard = fields.Char(related="product_id.company_standard", string="Standard of Company", store=False)
     data_sheet = fields.Integer(related="product_id.data_sheet", string="Data Sheet", store=False)
     technical_specification = fields.Integer(

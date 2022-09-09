@@ -32,13 +32,23 @@ class ReportDCLotPrint(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data=None):
         report = self.env["ir.actions.report"]._get_report_from_name(self._template)
+        lots = self.env[report.model].browse(docids)
+        declarations = self.env["deltatech.dc"]
+        for lot in lots:
+            domain = [("lot_id", "=", lot.id)]
+            dc = self.env["deltatech.dc"].search(domain)
+            if not dc:
+                dc = self.env["deltatech.dc"].create(
+                    {"product_id": lot.product_id.id, "date": lot.create_date, "lot_id": lot.id}
+                )
+            declarations |= dc
         return {
-            "doc_ids": docids,
-            "doc_model": report.model,
+            "doc_ids": declarations.ids,
+            "doc_model": "deltatech.dc",
             "data": data,
             "time": time,
-            "docs": self.env[report.model].browse(docids),
-            "lot": True,
+            "docs": declarations,
+            "lot": False,
         }
 
 
@@ -56,21 +66,28 @@ class ReportDCInvoicePrint(models.AbstractModel):
 
         declarations = self.env["deltatech.dc"]
 
+        product_with_lots = self.env["product.product"]
         for invoice in invoices.filtered(lambda x: x.state not in ["draft", "cancel"]):
-            for line in invoice.invoice_line_ids.filtered(lambda m: not m.display_type):
-                domain = [
-                    ("product_id", "=", line.product_id.id),
-                    ("date", "=", invoice.date),
-                    # ("name", "=", invoice.name),
-                ]
+            lots = invoice._get_invoiced_lot_values()
+            for line in lots:
+                lot = self.env["stock.production.lot"].browse(line["lot_id"])
+                domain = [("lot_id", "=", lot.id)]
                 dc = self.env["deltatech.dc"].search(domain)
                 if not dc:
                     dc = self.env["deltatech.dc"].create(
-                        {
-                            "product_id": line.product_id.id,
-                            "date": invoice.date,
-                        }
+                        {"product_id": lot.product_id.id, "date": invoice.date, "lot_id": lot.id}
                     )
+                product_with_lots |= lot.product_id
+                declarations |= dc
+            for line in invoice.invoice_line_ids.filtered(lambda m: not m.display_type):
+                if line.product_id in product_with_lots:
+                    continue
+                if line.product_id.type != "product":
+                    continue
+                domain = [("product_id", "=", line.product_id.id), ("date", "=", invoice.date)]
+                dc = self.env["deltatech.dc"].search(domain)
+                if not dc:
+                    dc = self.env["deltatech.dc"].create({"product_id": line.product_id.id, "date": invoice.date})
                 declarations |= dc
 
         return {
