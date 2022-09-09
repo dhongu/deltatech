@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <record id="action_add_stock_rule" model="ir.actions.server">
-            <field name="name">Create stock rule</field>
+        <record id="action_add_stock_rule_template" model="ir.actions.server">
+            <field name="name">Create Stock Rule</field>
+            <field name="model_id" ref="product.model_product_template" />
+            <field name="state">code</field>
+            <field name="code">records.create_rule()</field>
+            <field name="binding_model_id" ref="product.model_product_template" />
+        </record>
+        <record id="action_add_stock_rule_variant" model="ir.actions.server">
+            <field name="name">Create Stock Rule</field>
             <field name="model_id" ref="product.model_product_product" />
             <field name="state">code</field>
             <field name="code">records.create_rule()</field>

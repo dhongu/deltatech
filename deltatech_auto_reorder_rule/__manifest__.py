@@ -1,4 +1,4 @@
-# ©  2015-2019 Deltatech
+# ©  2015-2022 Deltatech
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 {
@@ -12,5 +12,5 @@
     "development_status": "Beta",
     "depends": ["stock"],
     "data": ["data/ir_actions_server.xml"],
-    "installable": True,
+    "images": ["static/description/main_screenshot.png"],
 }
