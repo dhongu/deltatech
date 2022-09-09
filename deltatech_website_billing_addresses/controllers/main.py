@@ -54,7 +54,7 @@ class WebsiteSaleBillingAddresses(WebsiteSale):
                         order.partner_invoice_id = partner_id
 
         # filtrare adrese: doar de facturare si de livrare
-        billings_addresses = values["billings_addresses"]
+        # billings_addresses = values["billings_addresses"]
         if billings_addresses:
             values["billings_addresses"] = billings_addresses.filtered(lambda p: p.type == "invoice")
 
