@@ -30,7 +30,13 @@
                                     <strong t-field="o.product_id.name" />
                                     <t t-if="o.lot_id">
                                         <span>with lot number</span>
-                                        <span t-field="o.lot_id.name" />
+
+                                        <strong t-field="o.lot_id.name" />
+                                        <t t-if="o.lot_id.use_expiration_date">
+                                           <span>with expiration date</span>
+                                            <strong t-field="o.lot_id.expiration_date" t-options='{"widget": "date"}' />
+                                        </t>
+
                                     </t>
 
                                 <span>is made in accordance with:</span>
@@ -57,7 +63,14 @@
                             </div>
                             <div>
                                 <span>and controlled according to Quality Control Plan dated in</span>
-                                    <span t-field="o.date" />
+
+                                    <t t-if="o.lot_id.use_expiration_date">
+                                            <strong t-field="o.lot_id.production_date" t-options='{"widget": "date"}' />
+                                        </t>
+                                    <t t-else="">
+                                        <span t-field="o.date" />
+                                    </t>
+
                             </div>
                             <br />
                             <div>
