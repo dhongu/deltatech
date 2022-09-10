@@ -30,6 +30,7 @@
                                     <strong t-field="o.product_id.name" />
                                     <t t-if="o.lot_id">
                                         <span>with lot number</span>
+
                                         <strong t-field="o.lot_id.name" />
                                         <t t-if="o.lot_id.use_expiration_date">
                                            <span>with expiration date</span>
@@ -62,12 +63,14 @@
                             </div>
                             <div>
                                 <span>and controlled according to Quality Control Plan dated in</span>
+
                                     <t t-if="o.lot_id.use_expiration_date">
                                             <strong t-field="o.lot_id.production_date" t-options='{"widget": "date"}' />
                                         </t>
                                     <t t-else="">
                                         <span t-field="o.date" />
                                     </t>
+
                             </div>
                             <br />
                             <div>
