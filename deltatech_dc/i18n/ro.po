@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-21 13:57+0000\n"
-"PO-Revision-Date: 2022-06-21 13:57+0000\n"
+"POT-Creation-Date: 2022-09-09 23:11+0000\n"
+"PO-Revision-Date: 2022-09-09 23:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -128,12 +128,12 @@ msgstr "Nume afișat"
 #. module: deltatech_dc
 #: model_terms:ir.ui.view,arch_db:deltatech_dc.report_dc
 msgid "F(PP 7.5/4.4.6-01)03"
-msgstr "F(PP 7.5/4.4.6-01)03"
+msgstr ""
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: deltatech_dc
 #: model:ir.model.fields,field_description:deltatech_dc.field_deltatech_dc____last_update
@@ -213,6 +213,8 @@ msgid ""
 "                                product specification depends on satisfactory\n"
 "                                processing by yourselves."
 msgstr ""
-"Declarăm pe propria răspundere,  că produsul nu pune în pericol viața, sănătatea securitatea muncii utilizatorilor"
-"și nu este toxic pentru mediul înconjurător dacă este folosit în conformitate cu destinația pentru care a fost produs"
-"respectând depozitarea, manipularea din fișa cu date de securitate.  "
+"Declarăm pe propria răspundere,  că produsul nu pune în pericol viața, "
+"sănătatea securitatea muncii utilizatorilor și nu este toxic pentru mediul "
+"înconjurător dacă este folosit în conformitate cu destinația pentru care a "
+"fost produs respectând depozitarea, manipularea din fișa cu date de "
+"securitate.  "

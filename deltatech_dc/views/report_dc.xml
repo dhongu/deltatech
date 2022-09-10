@@ -8,11 +8,9 @@
                         <div class="page">
                             <h3>
                                 <span>Declaration of Conformity:</span>
-                                <t t-if="not lot">
                                     <span t-field="o.name" />
                                     /
                                     <span t-field="o.date" />
-                                </t>
                             </h3>
                             <br />
                             <div>
@@ -28,15 +26,13 @@
                                 <span t-field="res_company.partner_id.street" />
                                 <span t-field="res_company.partner_id.street2" />
                                 <span>, declare that the product:</span>
-                                <h4>
+
                                     <strong t-field="o.product_id.name" />
-                                    <t t-if="lot">
+                                    <t t-if="o.lot_id">
                                         <span>with lot number</span>
-                                        <span t-field="o.name" />
-                                        /
-                                        <span t-field="o.create_date" t-options='{"widget": "date"}' />
+                                        <span t-field="o.lot_id.name" />
                                     </t>
-                                </h4>
+
                                 <span>is made in accordance with:</span>
                             </div>
                             <div class="col-md-11 col-md-offset-1">
@@ -61,12 +57,7 @@
                             </div>
                             <div>
                                 <span>and controlled according to Quality Control Plan dated in</span>
-                                <t t-if="lot">
-                                    <span t-field="o.create_date" t-options='{"widget": "date"}' />
-                                </t>
-                                <t t-if="not lot">
                                     <span t-field="o.date" />
-                                </t>
                             </div>
                             <br />
                             <div>
