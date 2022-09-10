@@ -3,3 +3,4 @@
 
 from . import deltatech_dc
 from . import product
+from . import production_lot

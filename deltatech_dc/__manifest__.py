@@ -15,10 +15,12 @@
         "product",
         "sale",
         "mrp",
+        "product_expiry"
         # "stock_picking_invoice_link"
     ],
     "data": [
         "views/product_view.xml",
+        "views/production_lot_view.xml",
         "views/deltatech_dc_view.xml",
         "views/deltatech_dc_report.xml",
         "views/report_dc.xml",

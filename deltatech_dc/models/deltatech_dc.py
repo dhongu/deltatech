@@ -8,6 +8,7 @@ from odoo import _, api, fields, models
 class DeltatechDC(models.Model):
     _name = "deltatech.dc"
     _description = "Declaration of Conformity"
+    _order = "date desc"
 
     name = fields.Char("Number", size=32, required=True)
     date = fields.Date("Date of Declaration", required=True, index=True)
