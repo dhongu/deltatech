@@ -1,7 +1,15 @@
-# ©  2020 Terrabit
+# ©  2022 Terrabit
 # See README.rst file on addons root folder for license details
 
 from odoo import api, models
+
+
+class ProductTemplate(models.Model):
+    _inherit = "product.template"
+
+    def create_rule(self):
+        product_variants = self.mapped("product_variant_ids")
+        product_variants.create_rule()
 
 
 class ProductProduct(models.Model):
@@ -12,10 +20,11 @@ class ProductProduct(models.Model):
         warehouse_id = self.env["stock.warehouse"].search([("company_id", "=", company_id.id)], limit=1)
         location_id = warehouse_id.lot_stock_id
         for product in self:
-            rules = self.env["stock.warehouse.orderpoint"].search(
-                [("product_id", "=", product.id), ("company_id", "=", company_id.id)]
-            )
-            if not rules and product.type == "product":
+            if product.type != "product":
+                continue
+            domain = [("product_id", "=", product.id), ("company_id", "=", company_id.id)]
+            rules = self.env["stock.warehouse.orderpoint"].search(domain)
+            if not rules:
                 self.env["stock.warehouse.orderpoint"].create(
                     {
                         "product_id": product.id,
@@ -29,23 +38,8 @@ class ProductProduct(models.Model):
                     }
                 )
 
-    @api.model
-    def create(self, vals):
-        company_id = self.env.company
-        warehouse_id = self.env["stock.warehouse"].search([("company_id", "=", company_id.id)], limit=1)
-        location_id = warehouse_id.lot_stock_id
-        prod_id = super(ProductProduct, self).create(vals)
-        if prod_id.type == "product":
-            self.env["stock.warehouse.orderpoint"].create(
-                {
-                    "product_id": prod_id.id,
-                    "product_min_qty": 0,
-                    "product_max_qty": 0,
-                    "qty_multiple": 0,
-                    "company_id": company_id.id,
-                    "name": prod_id.name,
-                    "warehouse_id": warehouse_id.id,
-                    "location_id": location_id.id,
-                }
-            )
-        return prod_id
+    @api.model_create_multi
+    def create(self, vals_list):
+        products = super(ProductProduct, self).create(vals_list)
+        products.create_rule()
+        return products
