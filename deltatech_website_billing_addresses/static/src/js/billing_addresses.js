@@ -9,6 +9,8 @@ odoo.define("deltatech_website_billing_addresses.billing_addresses", function (r
             "click .js_change_billing": "_onClickChangeBilling",
             "click .js_edit_billing_address": "_onClickEditBillingAddress",
             'change select[name="is_company"]': "_onChangeIsCompany",
+            "click .select-button-company": "_onClickSelectTabCompany",
+            "click .select-button-person": "_onClickSelectTabPerson",
         },
 
         // --------------------------------------------------------------------------
@@ -44,6 +46,16 @@ odoo.define("deltatech_website_billing_addresses.billing_addresses", function (r
                 .find("form.d-none")
                 .attr("action", "/shop/billing_address")
                 .submit();
+        },
+
+        _onClickSelectTabCompany: function () {
+            var $card = $(".all_billings").find("#billing_company").find(".card");
+            $card.click();
+        },
+
+        _onClickSelectTabPerson: function () {
+            var $card = $(".all_billings").find("#billing_person").find(".card");
+            $card.click();
         },
 
         _onChangeIsCompany: function () {
