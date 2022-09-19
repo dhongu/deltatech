@@ -61,7 +61,7 @@ class StockPickingReport(models.Model):
 
             INNER JOIN stock_valuation_layer AS svl ON svl.stock_move_id = sm.id and
               (
-              svl.valued_type != 'internal_transfer' or (svl.valued_type = 'internal_transfer' and quantity > 0 )
+              svl.l10n_ro_valued_type != 'internal_transfer' or (svl.l10n_ro_valued_type = 'internal_transfer' and quantity > 0 )
               )
 
            /*
