@@ -9,7 +9,7 @@ from odoo import fields, models
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    l10n_ro_notice = fields.Boolean()
+    # l10n_ro_notice = fields.Boolean()
 
     def action_view_sale_invoice(self):
         if self.sale_id:
