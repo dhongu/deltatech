@@ -133,9 +133,10 @@
                                     aria-labelledby="billing_person-tab"
                                 >
                                     <div class="row mt8">
-                                        <t t-set="nr_person" t-value="0" />
-                                        <t t-foreach="billings_addresses" t-as="billing">
-                                            <t t-set="nr_person" t-value="nr_person+1" />
+                                        <t
+                                            t-foreach="billings_addresses.filtered(lambda j: j.commercial_partner_id.is_company is False).sorted(key=lambda x: x.id)"
+                                            t-as="billing"
+                                        >
                                             <div
                                                 t-if="not billing.commercial_partner_id.is_company"
                                                 class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
@@ -148,13 +149,10 @@
                                                     <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
                                                     <t t-set="allow_edit" t-value="True" />
                                                     <input type="hidden" name="field_required" t-att-value="''" />
-                                                    <!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
                                                 </t>
                                             </div>
-                                        </t>
-                                        <!--Position allways left for add button-->
-                                        <t t-if="(nr_person % 2) > 0">
-                                            <div id="blank" class="col-md-12 col-lg-6 one_kanban" />
+                                            <!--Position allways left-->
+                                        <div id="blank" class="col-md-12 col-lg-6 one_kanban" />
                                         </t>
                                         <div class="col-md-12 col-lg-6 one_kanban">
                                             <form action="/shop/billing_address?is_company=no" method="post" class=''>
@@ -182,13 +180,12 @@
                                     aria-labelledby="billing_company-tab"
                                 >
                                     <div class="row mt8">
-                                        <t t-set="nr_company" t-value="0" />
-                                        <t t-foreach="billings_addresses" t-as="billing">
-                                            <div
-                                                t-if="billing.commercial_partner_id.is_company"
-                                                class="col-md-12 col-lg-6 one_kanban mt-2 mb-2"
-                                            >
-                                                <t t-set="nr_company" t-value="nr_company+1" />
+                                        <div id="blank" class="col-md-12 col-lg-6 one_kanban mt-2 mb-2" />
+                                        <t
+                                            t-foreach="billings_addresses.filtered(lambda j: j.commercial_partner_id.is_company).sorted(key=lambda x: x.id)"
+                                            t-as="billing"
+                                        >
+                                            <div class="col-md-12 col-lg-6 one_kanban mt-2 mb-2">
                                                 <t t-call="deltatech_website_billing_addresses.address_billing_kanban">
                                                     <t t-set='type' t-value="'invoice'" />
                                                     <t t-set='contact' t-value="billing" />
@@ -196,14 +193,9 @@
                                                     <t t-set='readonly' t-value="bool(len(billings_addresses)==1)" />
                                                     <t t-set='edit_billing' t-value="bool(billing==order.partner_id)" />
                                                     <t t-set="allow_edit" t-value="True" />
-
-                                                    <!--                                       t-value="not order.partner_id or (billing.id in order.partner_id.child_ids.ids)" />-->
                                                 </t>
                                             </div>
-                                        </t>
-                                        <!--Position allways right for add button-->
-                                        <t t-if="(nr_company % 2) == 0">
-                                            <div id="blank" class="col-md-12 col-lg-6 one_kanban mt-2 mb-2" />
+                                            <div id="blank2" class="col-md-12 col-lg-6 one_kanban mt-2 mb-2" />
                                         </t>
                                         <div class="col-md-12 col-lg-6 one_kanban">
                                             <form action="/shop/billing_address?is_company=yes" method="post" class=''>
