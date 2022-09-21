@@ -49,12 +49,12 @@ odoo.define("deltatech_website_billing_addresses.billing_addresses", function (r
         },
 
         _onClickSelectTabCompany: function () {
-            var $card = $(".all_billings").find("#billing_company").find(".card");
+            var $card = $(".all_billings").find("#billing_company").find(".card:first");
             $card.click();
         },
 
         _onClickSelectTabPerson: function () {
-            var $card = $(".all_billings").find("#billing_person").find(".card");
+            var $card = $(".all_billings").find("#billing_person").find(".card:first");
             $card.click();
         },
 
