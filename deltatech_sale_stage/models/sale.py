@@ -33,6 +33,7 @@ class SaleOrder(models.Model):
     def set_stage(self, stage_step):
         domain = [(stage_step, "=", True)]
         stage = self.env["sale.order.stage"].search(domain, limit=1)
-        for order in self:
-            if not order.stage_id or not order.stage_id[stage_step]:
-                order.stage_id = stage
+        if stage:
+            for order in self:
+                if not order.stage_id or not order.stage_id[stage_step]:
+                    order.stage_id = stage
