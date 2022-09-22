@@ -12,7 +12,7 @@ from odoo.tools.translate import _
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    l10n_ro_notice = fields.Boolean()
+    # l10n_ro_notice = fields.Boolean()
 
 
 class PurchaseOrder(models.Model):
