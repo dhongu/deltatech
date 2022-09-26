@@ -32,6 +32,10 @@ class SaleOrderLine(models.Model):
         if not res:
             res = {}
         if not res.get("warning", False) and not self.env.context.get("website_id", False):
+            get_param = self.env["ir.config_parameter"].sudo().get_param
+            check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+            if check_on_validate:
+                return res
             price_unit = self.price_reduce_taxexcl
             if price_unit and price_unit < self.purchase_price and self.purchase_price > 0:
                 warning = {"title": _("Price Error!"), "message": _("Do not sell below the purchase price.")}
@@ -61,6 +65,11 @@ class SaleOrderLine(models.Model):
         get_param = self.env["ir.config_parameter"].sudo().get_param
         margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
 
+        # verificare doar la validare
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+        if check_on_validate and not self.env.context.get("call_from_action_confirm", False):
+            return True
+
         check_price_website = safe_eval(get_param("sale.check_price_website", "False"))
         if check_price_website:
             # pentru comenzile din website nu se face verificarea
@@ -84,7 +93,7 @@ class SaleOrderLine(models.Model):
             if price_unit:
                 if price_unit < line.purchase_price:
                     if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                        raise UserError(_("You can not sell below the purchase price."))
+                        raise UserError(_("You can not sell below the purchase price: %s." % self[0].product_id.name))
                     else:
                         message = _("Sale %s under the purchase price.") % line.product_id.name
                         line.order_id.message_post(body=message)
@@ -96,3 +105,18 @@ class SaleOrderLine(models.Model):
                     else:
                         message = _("Sale %s below margin.") % line.product_id.name
                         line.order_id.message_post(body=message)
+
+
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if self.env.context.get("ignore_price_check", False):
+            return res
+        # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
+        if self.env.context.get("website_id", False):
+            return res
+        for line in self.order_line:
+            line.with_context(call_from_action_confirm=True)._check_sale_price()
+        return res

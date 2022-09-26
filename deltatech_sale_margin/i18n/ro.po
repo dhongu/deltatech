@@ -94,8 +94,8 @@ msgstr "Nu puteți vinde sub marjă: %s"
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
 #, python-format
-msgid "You can not sell below the purchase price."
-msgstr "Nu puteți vinde sub prețul de achiziție."
+msgid "You can not sell below the purchase price: %s."
+msgstr "Nu puteți vinde sub prețul de achiziție: %s."
 
 #. module: deltatech_sale_margin
 #: code:addons/deltatech_sale_margin/models/sale.py:0
