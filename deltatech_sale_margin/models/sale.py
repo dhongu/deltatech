@@ -54,13 +54,14 @@ class SaleOrderLine(models.Model):
         res = self.change_price_or_product(res)
         return res
 
-    @api.constrains("price_reduce_taxexcl", "purchase_price")
+    @api.onchange("price_unit", "price_reduce_taxexcl", "purchase_price")
     def _check_sale_price(self):
+        res = {}
         if self.env.context.get("ignore_price_check", False):
-            return True
+            return res
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
         if self.env.context.get("website_id", False):
-            return True
+            return res
 
         get_param = self.env["ir.config_parameter"].sudo().get_param
         margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
@@ -68,7 +69,7 @@ class SaleOrderLine(models.Model):
         # verificare doar la validare
         check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
         if check_on_validate and not self.env.context.get("call_from_action_confirm", False):
-            return True
+            return res
 
         check_price_website = safe_eval(get_param("sale.check_price_website", "False"))
         if check_price_website:
@@ -77,13 +78,13 @@ class SaleOrderLine(models.Model):
             website_sale_module = self.env["ir.module.module"].sudo().search(domain)
             if website_sale_module:
                 if self.order_id.website_id:
-                    return True
+                    return res
 
         for line in self:
             if line.display_type or line.product_type == "service" or line.product_uom_qty < 0 or line.is_delivery:
                 continue
 
-            if line.price_unit == 0:
+            if line.product_id and line.price_unit == 0:
                 if not self.env["res.users"].has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
                     raise UserError(_("You can not sell %s without price.") % line.product_id.name)
                 else:
@@ -117,6 +118,10 @@ class SaleOrder(models.Model):
         # daca comanda se face in website se ignora verificarea pretului de cost pentru a face unele promotii
         if self.env.context.get("website_id", False):
             return res
-        for line in self.order_line:
-            line.with_context(call_from_action_confirm=True)._check_sale_price()
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+        if check_on_validate:
+            for order in self:
+                for line in order.order_line:
+                    line.with_context(call_from_action_confirm=True)._check_sale_price()
         return res
