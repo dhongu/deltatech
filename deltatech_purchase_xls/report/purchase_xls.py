@@ -16,7 +16,7 @@ class PurchaseOrderXlsx(models.AbstractModel):
         sheet.write(0, 0, "Code")
         sheet.write(0, 1, "Name")
         sheet.write(0, 2, "Qty")
-
+        sheet.write(0, 3, "Price")
         lin = 1
         for order in objs:
             for line in order.order_line:
