@@ -8,10 +8,10 @@ class InvoicePackaging(models.TransientModel):
     state = fields.Selection([("choose", "choose"), ("get", "get")], default="choose")
     line_ids = fields.One2many("packaging.report.material.line", "report_id", string="Lines")
 
-    def do_raport(self):
+    def do_report(self):
         active_ids = self.env.context.get("active_ids", False)
         qty_packaging = {}
-        invoices = self.env["account.invoice"].browse(active_ids)
+        invoices = self.env["account.move"].browse(active_ids)
         for invoice in invoices:
             for material in invoice.packaging_material_ids:
                 if material.material_type not in qty_packaging:

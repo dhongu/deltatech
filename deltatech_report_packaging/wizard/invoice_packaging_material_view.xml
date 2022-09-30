@@ -19,7 +19,7 @@
                             </field>
                         </group>
                         <footer states="choose">
-                            <button name="do_raport" string="_Apply" type="object" class="oe_highlight" />
+                            <button name="do_report" string="_Apply" type="object" class="oe_highlight" />
                             or
                             <button string="Cancel" class="oe_link" special="cancel" />
                         </footer>

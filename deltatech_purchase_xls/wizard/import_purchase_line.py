@@ -129,4 +129,5 @@ class ImportPurchaseLine(models.TransientModel):
                 }
             ]
 
-        self.env["purchase.order.line"].create(lines)
+        purchase_lines = self.env["purchase.order.line"].create(lines)
+        purchase_lines._compute_tax_id()
