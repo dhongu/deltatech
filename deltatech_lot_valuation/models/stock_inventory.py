@@ -11,10 +11,16 @@ class Inventory(models.Model):
 
     def _get_inventory_lines_values(self):
         lines = super(Inventory, self)._get_inventory_lines_values()
+        lot = False
         for line in lines:
             if line["prod_lot_id"]:
                 lot = self.env["stock.production.lot"].browse(line["prod_lot_id"])
-            line["standard_price"] = lot.unit_price
+            if lot:
+                # verificare tracking, daca e serial e posibil sa aiba reevaluari
+                if lot.product_id.tracking == "serial":
+                    line["standard_price"] = lot.inventory_value
+                else:
+                    line["standard_price"] = lot.unit_price
 
         return lines
 
