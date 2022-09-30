@@ -33,7 +33,7 @@ class SaleOrderLine(models.Model):
             res = {}
         if not res.get("warning", False) and not self.env.context.get("website_id", False):
             get_param = self.env["ir.config_parameter"].sudo().get_param
-            check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+            check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
             if check_on_validate:
                 return res
             price_unit = self.price_reduce_taxexcl
@@ -54,8 +54,16 @@ class SaleOrderLine(models.Model):
         res = self.change_price_or_product(res)
         return res
 
-    @api.onchange("price_unit", "price_reduce_taxexcl", "purchase_price")
-    def _check_sale_price(self):
+    def write(self, vals):
+        res = super(SaleOrderLine, self).write(vals)
+        get_param = self.env["ir.config_parameter"].sudo().get_param
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
+        if not check_on_validate:
+            for line in self:
+                line.check_sale_price()
+        return res
+
+    def check_sale_price(self):
         res = {}
         if self.env.context.get("ignore_price_check", False):
             return res
@@ -67,7 +75,7 @@ class SaleOrderLine(models.Model):
         margin_limit = safe_eval(get_param("sale.margin_limit", "0"))
 
         # verificare doar la validare
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if check_on_validate and not self.env.context.get("call_from_action_confirm", False):
             return res
 
@@ -119,9 +127,9 @@ class SaleOrder(models.Model):
         if self.env.context.get("website_id", False):
             return res
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if check_on_validate:
             for order in self:
                 for line in order.order_line:
-                    line.with_context(call_from_action_confirm=True)._check_sale_price()
+                    line.with_context(call_from_action_confirm=True).check_sale_price()
         return res
