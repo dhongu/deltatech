@@ -39,6 +39,7 @@ class AccountPayment(models.Model):
         for payment in self:
             auto_statement = payment.destination_journal_id.auto_statement or payment.journal_id.auto_statement
             if auto_statement:
+                payment.onchange_date_journal()
                 if not payment.statement_line_id and payment.statement_id:
                     ref = ""
                     for invoice in payment.invoice_ids:
