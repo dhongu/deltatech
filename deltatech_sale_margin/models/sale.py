@@ -118,7 +118,7 @@ class SaleOrder(models.Model):
         if self.env.context.get("website_id", False):
             return res
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", False))
+        check_on_validate = safe_eval(get_param("sale.margin_limit_check_validate", "0"))
         if check_on_validate:
             for order in self:
                 for line in order.order_line:
