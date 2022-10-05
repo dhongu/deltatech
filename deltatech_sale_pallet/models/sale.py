@@ -23,13 +23,12 @@ class SaleOrder(models.Model):
             order_line.product_id_change()
             order_line.product_uom_change()
 
-    def recompute_pallet_lines(self):
+    def recompute_pallet_lines(self, delete_if_under=False):
         pallets = {}
         for line in self.order_line:
             if (
                 line.product_id.pallet_product_id
                 and line.product_id.pallet_qty_min
-                and line.product_uom_qty >= line.product_id.pallet_qty_min
             ):
                 # search for lines with same pallet
                 prod_with_pallet_lines = self.order_line.filtered(
@@ -39,7 +38,7 @@ class SaleOrder(models.Model):
                 # compute sum for all lines with pallets
                 qty = 0
                 for prod_with_pallet_line in prod_with_pallet_lines:
-                    qty += prod_with_pallet_line.compute_pallet_number()
+                    qty += prod_with_pallet_line.compute_pallet_number(delete_if_under)
 
                 pallets[line.product_id.pallet_product_id.id] = {
                     "product_uom_qty": qty,
@@ -53,11 +52,17 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
-    def compute_pallet_number(self):
+    def compute_pallet_number(self, delete_if_under=False):
         self.ensure_one()
         if self.product_id.pallet_product_id and self.product_id.pallet_qty_min:
             if self.product_id.pallet_qty_min > self.product_uom_qty:
-                return 1
+                if delete_if_under:
+                    return 0
+                else:
+                    return 1
             else:
                 pallets = self.product_uom_qty / self.product_id.pallet_qty_min
-                return round(pallets + 0.49)  # round up
+                if delete_if_under:
+                    return round(pallets - 0.49)  # round down
+                else:
+                    return round(pallets + 0.49)  # round up
