@@ -26,10 +26,7 @@ class SaleOrder(models.Model):
     def recompute_pallet_lines(self, delete_if_under=False):
         pallets = {}
         for line in self.order_line:
-            if (
-                line.product_id.pallet_product_id
-                and line.product_id.pallet_qty_min
-            ):
+            if line.product_id.pallet_product_id and line.product_id.pallet_qty_min:
                 # search for lines with same pallet
                 prod_with_pallet_lines = self.order_line.filtered(
                     lambda p: p.product_id.pallet_product_id == line.product_id.pallet_product_id
