@@ -112,6 +112,7 @@
                                     <field name="quantity" sum="1" />
                                     <field name="uom_id" />
                                     <field name="price_unit" />
+                                    <field name="value" sum="1" />
                                 </tree>
                             </field>
                         </group>

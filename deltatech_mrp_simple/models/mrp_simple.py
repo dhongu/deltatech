@@ -252,6 +252,7 @@ class MRPSimpleLineIn(models.Model):
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     price_unit = fields.Float("Unit Price", digits="Product Price")
     uom_id = fields.Many2one("uom.uom", "Unit of Measure")
+    value = fields.Float(compute="_compute_value", string="Value", store=True)
 
     @api.onchange("product_id")
     def onchange_product_id(self):
@@ -265,6 +266,11 @@ class MRPSimpleLineIn(models.Model):
             price += line.product_id.standard_price * line.quantity
         for line in mrpsimple.product_in_ids:
             line.price_unit = price / line.quantity
+
+    @api.depends("quantity", "price_unit")
+    def _compute_value(self):
+        for line in self:
+            line.value = line.quantity * line.price_unit
 
 
 class MRPSimpleLineOut(models.TransientModel):
