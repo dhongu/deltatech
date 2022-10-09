@@ -35,7 +35,6 @@ class SaleOrder(models.Model):
         }
 
         if self.order_line:
-
             context["default_item_ids"] = []
 
             for item in self.order_line:

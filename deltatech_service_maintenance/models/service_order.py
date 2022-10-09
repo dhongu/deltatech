@@ -194,7 +194,7 @@ class ServiceOrder(models.Model):
         }
 
         action = {
-            "name": _("Sale Order for Maintenance Order"),
+            "name": _("Sale Order for Service Order"),
             "view_type": "form",
             "view_mode": "form",
             "res_model": "sale.order",

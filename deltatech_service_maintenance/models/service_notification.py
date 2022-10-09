@@ -246,7 +246,7 @@ class ServiceNotification(models.Model):
             res_id = False
 
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
-            raise UserError(_("Acest partener este blocat"))
+            raise UserError(_("This partner is blocked"))
         else:
             return {
                 "domain": domain,
