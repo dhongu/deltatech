@@ -1201,3 +1201,4 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_agreement.view_service_price_change_form
 msgid "or"
 msgstr "sau"
+

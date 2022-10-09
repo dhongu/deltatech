@@ -1513,3 +1513,5 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_service_equipment.view_service_equipment_tree
 msgid "total"
 msgstr ""
+
+
