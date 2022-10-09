@@ -14,6 +14,7 @@
         "security/service_security.xml",
         "security/ir.model.access.csv",
         "data/data.xml",
+        "views/service_cycle_view.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "application": True,
