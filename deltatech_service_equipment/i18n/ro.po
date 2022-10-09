@@ -837,10 +837,6 @@ msgstr ""
 msgid "Maintenance Duration in hours."
 msgstr ""
 
-#. module: deltatech_service_equipment
-#: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__maintenance_team_id
-msgid "Maintenance Team"
-msgstr ""
 
 #. module: deltatech_service_equipment
 #: model:ir.model.fields,field_description:deltatech_service_equipment.field_service_equipment__manufacturer_id

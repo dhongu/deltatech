@@ -9,7 +9,14 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
-    "depends": ["deltatech_service", "analytic", "maintenance", "stock", "deltatech_download"],
+    "depends": [
+        "deltatech_service_agreement",
+        "deltatech_service_equipment_base",
+        "analytic",
+        "maintenance",
+        "stock",
+        "deltatech_download",
+    ],
     "external_dependencies": {"python": ["xlwt"]},
     "license": "AGPL-3",
     "data": [
