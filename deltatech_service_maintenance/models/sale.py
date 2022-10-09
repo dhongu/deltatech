@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     notification_id = fields.Many2one("service.notification", string="Notification", readonly=True)
+    service_order_id = fields.Many2one("service.order", string="Service Order", readonly=True)
 
     @api.model
     @api.returns("self", lambda value: value.id)

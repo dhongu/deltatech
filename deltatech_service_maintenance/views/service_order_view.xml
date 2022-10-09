@@ -9,7 +9,13 @@
                 <field name="name" />
                 <field name="date" />
                 <field name="equipment_id" />
-                <field name='state' />
+                <field
+                    name='state'
+                    widget="badge"
+                    decoration-danger="state == 'draft'  "
+                    decoration-success="state == 'acknowledge'  "
+                    decoration-primary="state == 'progress'  "
+                />
                 <field name='city' />
                 <field name='user_id' />
                 <field name="message_unread" invisible="1" />
@@ -23,18 +29,45 @@
         <field name="arch" type="xml">
             <form string="Services Order">
                 <header>
+                    <field name="with_travel" invisible="1" />
+                    <field name="can_delivered" invisible="1" />
+                    <field name="can_ordered" invisible="1" />
                     <button name="action_acknowledge" type="object" string="Acknowledge" states="draft" />
-                    <button name="action_start_on_way" type="object" string="Start Treveling" states="acknowledge" />
+                    <button
+                        name="action_start_on_way"
+                        type="object"
+                        string="Start Traveling"
+                        attrs="{'invisible': ['|',('state', '!=', 'acknowledge'),('with_travel','=',False)]}"
+                    />
                     <button name="action_start" type="object" string="Start Work" states="draft,acknowledge,on_way" />
                     <button name="action_work_done" type="object" string="Work Done" states="progress" />
                     <button name="action_work_again" type="object" string="Work Again" states="rejected" />
                     <button name="action_done" type="object" string="Done" states="work_done" />
                     <button name="action_cancel" type="object" string="Cancel Order" states="progress,rejected" />
-                    <button name="new_piking_button" type="object" states="progress" string="Delivery for service" />
+                    <button
+                        name="new_piking_button"
+                        type="object"
+                        attrs="{'invisible': ['|',('state', '!=', 'progress'),('can_delivered','=',False)]}"
+                        string="Delivery for service"
+                    />
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        states="acknowledge"
+                        string="Quotation"
+                        attrs="{'invisible': ['|',('state', '!=', 'acknowledge'),('can_ordered','=',False)]}"
+                    />
+                    <button
+                        name="new_sale_order_button"
+                        type="object"
+                        states="progress"
+                        string="Sale Order"
+                        attrs="{'invisible': ['|',('state', '!=', 'progress'),('can_ordered','=',False)]}"
+                    />
                     <field
                         name="state"
                         widget="statusbar"
-                        statusbar_visible="draft,acknowledge,on_way,progress,work_done,done"
+                        statusbar_visible="draft,acknowledge,progress,work_done,done"
                     />
                 </header>
                 <sheet>
@@ -74,6 +107,7 @@
                             <field name="reason_id" />
                         </group>
                         <group>
+                            <field name="date_start_travel" attrs="{'invisible': [('with_travel','=',False)]}" />
                             <field name="date_start" />
                             <field name="date_done" />
                         </group>

@@ -57,13 +57,13 @@
                         string="Assign Cancel"
                         states="assigned,progress"
                     />
-<!--                    <button-->
-<!--                        name="action_order"-->
-<!--                        type="object"-->
-<!--                        string="Service Order"-->
-<!--                        states="progress"-->
-<!--                        attrs="{'invisible': [('order_id','!=',False)]}"-->
-<!--                    />-->
+                    <button
+                        name="action_order"
+                        type="object"
+                        string="Service Order"
+                        states="progress"
+                        attrs="{'invisible': [('order_id','!=',False)]}"
+                    />
                     <button name="action_done" type="object" class="oe_highlight" string="Done" states="progress" />
                     <field name="state" widget="statusbar" />
                 </header>
@@ -82,18 +82,9 @@
                             <field name="category" />
                             <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" />
                             <field name="order_id" />
-                            <field
-                                name="piking_id"
-                                attrs="{'invisible': [('piking_id','=',False ),'|',('category','!=','delivery' ),('category','!=','transfer' )]}"
-                            />
-                            <field
-                                name="sale_order_id"
-                                attrs="{'invisible': [('category','!=','sale' ),('sale_order_id','=',False)]}"
-                            />
-                            <field
-                                name="required_order_id"
-                                attrs="{'invisible': [('category','!=','required' ),('required_order_id','=',False)]}"
-                            />
+                            <field name="piking_id" attrs="{'invisible': [('piking_id','=',False )]}" />
+                            <field name="sale_order_id" attrs="{'invisible': [('sale_order_id','=',False)]}" />
+                            <field name="required_order_id" attrs="{'invisible': [('required_order_id','=',False)]}" />
                         </group>
                         <group>
                             <field
@@ -193,7 +184,7 @@
                     <field name="activity_state" />
                     <progressbar
                     field="activity_state"
-                    colors="{&quot;planned&quot;: &quot;success&quot;, &quot;today&quot;: &quot;warning&quot;, &quot;overdue&quot;: &quot;danger&quot;}"
+                    colors="{'planned': 'success', 'today': 'warning', 'overdue': 'danger'}"
                 />
                     <templates>
                         <t t-name="kanban-box">
@@ -227,80 +218,7 @@
                 </kanban>
 
 
-   <!--
-            <kanban default_group_by="user_id" edit='false' attrs="{'edit': [('state','=','new')]}" quick_create="0"
-                class="oe_notes oe_kanban_quickcreate_textarea">
-                <field name="color" />
-                <field name="name" />
-                <field name="date" />
-                <field name="partner_id" />
-                <field name="subject" />
-                <field name="state" />
-                <field name="description" />
-                <field name="message_follower_ids" />
-                <templates>
-                    <t t-name="kanban-box">
-&lt;!&ndash;
-                        <t t-if="record.state.raw_value=='new'">
-                            <t t-set="drag" t-value="'oe_kanban_draghandle'" />
-                        </t>
-                        <t t-if="record.state.raw_value!='new'">
-                            <t t-set="drag" t-value="''" />
-                        </t>
-                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click #{drag}">
-                            <div class="oe_dropdown_toggle oe_dropdown_kanban">
-                                <span class="oe_e">í</span>
-                                <ul class="oe_dropdown_menu">
-                               <t t-if="widget.view.is_action_enabled('edit')">
-                                        <li>
-                                            <a type="edit">Edit...</a>
-                                        </li>
-                                    </t>
 
-                                    <li>
-                                        <a name="action_assign" type="object" states="new">Assign</a>
-                                    </li>
-                                    <li>
-                                        <a name="action_cancel_assing" type="object" states="assigned">Assign Cancel</a>
-                                    </li>
-
-                                    <li>
-                                        <ul class="oe_kanban_colorpicker" data-field="color" />
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="oe_kanban_content">
-                                <div>
-
-                                    <a name="action_assign" type="object" states="new" title="Lock allocation">
-                                        <i class="fa fa-unlock" />
-                                    </a>
-                                    <a name="action_cancel_assign" type="object" states="assigned">
-                                        <i class="fa fa-lock" />
-                                    </a>
-                                    <b>
-                                        <field name="name" />
-                                    </b>
-                                </div>
-                                <div>
-                                    <field name="subject" />
-                                </div>
-                                <div>
-                                    <field name="description" />
-                                </div>
-                                <div class="oe_kanban_bottom_right">
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24"
-                                        height="24" class="oe_kanban_avatar pull-right" />
-                                </div>
-                            </div>
-
-                            <div class="oe_clear"></div>
-                        </div>
-&ndash;&gt;
-
-                    </t>
-                </templates>
-            </kanban>-->
         </field>
     </record>
 

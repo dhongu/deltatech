@@ -81,12 +81,8 @@ class ServiceNotification(models.Model):
     order_id = fields.Many2one("service.order", string="Order", readonly=True, copy=False, compute="_compute_order_id")
 
     category = fields.Selection(
-        [
-            ("delivery", "Delivery"),
-            ("transfer", "Transfer"),
-            ("sale", "Sale"),
-        ],
-        default="sale_support",
+        [("delivery", "Delivery"), ("transfer", "Transfer"), ("sale", "Sale"), ("defect_finding", "Defect Finding")],
+        default="sale",
         string="Category",
     )
 
@@ -413,11 +409,8 @@ class ServiceNotification(models.Model):
             }
 
     def new_sale_order_button(self):
-        # todo: de pus in config daca livrarea se face la adresa din echipamente sau contract
-        context = {
-            "default_partner_id": self.partner_id.id,
-            # "default_partner_shipping_id": self.address_id.id
-        }
+
+        context = {"default_partner_id": self.partner_id.id, "default_partner_shipping_id": self.address_id.id}
 
         if self.item_ids:
 
@@ -435,6 +428,7 @@ class ServiceNotification(models.Model):
                 value["product_uom_qty"] = item.quantity
                 value["state"] = "draft"
                 context["default_order_line"] += [(0, 0, value)]
+
         context["notification_id"] = self.id
         if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
             raise UserError(_("This partner is blocked"))

@@ -25,7 +25,10 @@ class ServiceEquipment(models.Model):
     product_id = fields.Many2one(
         "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
     )
-    serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
+
+    serial_id = fields.Many2one("stock.production.lot", string="Product Serial Number", ondelete="restrict", copy=False)
+    serial_no = fields.Char("Serial Number", copy=False)
+
     vendor_id = fields.Many2one("res.partner", string="Vendor")
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
@@ -56,6 +59,11 @@ class ServiceEquipment(models.Model):
         else:
             domain = []
         return {"domain": {"serial_id": domain}}
+
+    @api.onchange("serial_id")
+    def onchange_serial_id(self):
+        if self.serial_id:
+            self.serial_no = self.serial_id.name
 
     def name_get(self):
         res = []

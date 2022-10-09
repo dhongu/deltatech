@@ -15,6 +15,7 @@
             </xpath>
             <group name="sale_info" position="inside">
                 <field name="notification_id" />
+                <field name="service_order_id" />
             </group>
         </field>
     </record>

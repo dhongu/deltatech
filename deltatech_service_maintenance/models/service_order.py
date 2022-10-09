@@ -56,8 +56,12 @@ class ServiceOrder(models.Model):
         related="equipment_id.partner_id",
     )
 
-    contact_id = fields.Many2one("res.partner", string="Contact person", tracking=True)
-    address_id = fields.Many2one("res.partner", string="Location", readonly=True, states={"new": [("readonly", False)]})
+    contact_id = fields.Many2one(
+        "res.partner", string="Contact person", tracking=True, readonly=True, states={"draft": [("readonly", False)]}
+    )
+    address_id = fields.Many2one(
+        "res.partner", string="Location", readonly=True, states={"draft": [("readonly", False)]}
+    )
     city = fields.Char(string="City", related="address_id.city")
 
     user_id = fields.Many2one("res.users", string="Responsible", readonly=True, states={"draft": [("readonly", False)]})
@@ -75,8 +79,11 @@ class ServiceOrder(models.Model):
         "service.order.reason", string="Reason", readonly=False, states={"done": [("readonly", True)]}
     )
     type_id = fields.Many2one(
-        "service.order.type", string="Type", readonly=False, states={"done": [("readonly", True)]}
+        "service.order.type", string="Type", readonly=True, states={"draft": [("readonly", False)]}
     )
+    with_travel = fields.Boolean(related="type_id.with_travel")
+    can_delivered = fields.Boolean(related="type_id.can_delivered")
+    can_ordered = fields.Boolean(related="type_id.can_ordered")
 
     parameter_ids = fields.Many2many(
         "service.operating.parameter",
@@ -85,7 +92,7 @@ class ServiceOrder(models.Model):
         "parameter_id",
         string="Parameter",
         readonly=False,
-        states={"done": [("readonly", True)]},
+        states={"done": [("readonly", True)], "cancel": [("readonly", True)]},
     )
 
     component_ids = fields.One2many(
@@ -122,7 +129,7 @@ class ServiceOrder(models.Model):
     @api.onchange("equipment_id", "date")
     def onchange_equipment_id(self):
         if self.equipment_id:
-            self.user_id = self.equipment_id.user_id
+            self.user_id = self.equipment_id.technician_user_id
             self.partner_id = self.equipment_id.partner_id
             # self.address_id = self.equipment_id.address_id
 
@@ -174,6 +181,52 @@ class ServiceOrder(models.Model):
         if self.equipment_id:
             return self.equipment_id.new_piking_button()
 
+    def new_sale_order_button(self):
+        if self.partner_id.sale_warn and self.partner_id.sale_warn == "block":
+            raise UserError(_("This partner is blocked"))
+
+        sale_order = self.env["sale.order"].search([("service_order_id", "=", self.id)])
+
+        context = {
+            "default_partner_id": self.partner_id.id,
+            "default_partner_shipping_id": self.address_id.id,
+            "default_service_order_id": self.id,
+        }
+
+        action = {
+            "name": _("Sale Order for Maintenance Order"),
+            "view_type": "form",
+            "view_mode": "form",
+            "res_model": "sale.order",
+            "view_id": False,
+            "views": [[False, "form"]],
+            "context": context,
+            "type": "ir.actions.act_window",
+        }
+        if sale_order:
+            action["res_id"] = sale_order.id
+        else:
+            context["pricelist_id"] = self.partner_id.property_product_pricelist.id
+            sale_order = self.env["sale.order"].with_context(context).new()
+
+            context["default_order_line"] = []
+            for item in self.component_ids:
+                value = {
+                    "product_id": item.product_id.id,
+                    "product_uom_qty": item.quantity,
+                    "state": "draft",
+                    "order_id": sale_order.id,
+                }
+                line = self.env["sale.order.line"].new(value)
+                line.product_id_change()
+                for field in ["name", "price_unit", "product_uom", "tax_id"]:
+                    value[field] = line._fields[field].convert_to_write(line[field], line)
+
+                context["default_order_line"] += [(0, 0, value)]
+
+        action["context"] = context
+        return action
+
     def unlink(self):
         for order in self:
             if order.state not in ["draft", "cancel"]:
@@ -194,7 +247,7 @@ class ServiceOrderComponent(models.Model):
     _description = "Service Order Component"
 
     order_id = fields.Many2one("service.order", string="Order", readonly=True)
-    product_id = fields.Many2one("product.product", string="Product")
+    product_id = fields.Many2one("product.product", string="Product", domain=[("type", "!=", "service")])
     quantity = fields.Float(string="Quantity", digits="Product Unit of Measure", default=1)
     product_uom = fields.Many2one("uom.uom", string="Unit of Measure ")
     note = fields.Char(string="Note")
@@ -251,6 +304,10 @@ class ServiceOrderType(models.Model):
     _description = "Service Order Type"
     name = fields.Char(string="Type", translate=True)
     category = fields.Selection([("cor", "Corrective"), ("pre", "Preventive")])
+    with_travel = fields.Boolean()
+
+    can_delivered = fields.Boolean()
+    can_ordered = fields.Boolean()
 
 
 class ServiceOperation(models.Model):
@@ -261,6 +318,7 @@ class ServiceOperation(models.Model):
     code = fields.Char(string="Code")
     duration = fields.Float(string="Duration")
     display_name = fields.Char(compute="_compute_display_name")
+    product_id = fields.Many2one("product.product", domain=[("type", "=", "service")])
 
     def name_get(self):
         result = []

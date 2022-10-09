@@ -18,7 +18,7 @@ msgstr ""
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_equipment_form
 msgid "<span class=\"o_stat_text\">Notifications</span>"
-msgstr "<span class=\"o_stat_text\">Sesizări</span>"
+msgstr "<span class=\"o_stat_text\">Notificări</span>"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_equipment_form
@@ -40,7 +40,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_order__state__acknowledge
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Acknowledge"
-msgstr ""
+msgstr "Preluata"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_needaction
@@ -127,7 +127,7 @@ msgstr "Orizont de apel"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields.selection,name:deltatech_service_maintenance.selection__service_plan_call__state__called
 msgid "Called"
-msgstr ""
+msgstr "Apelat"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_order.py:0
@@ -154,7 +154,7 @@ msgstr "Categorie"
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_order__city
 msgid "City"
-msgstr ""
+msgstr "Localitate"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_operation__code
@@ -195,7 +195,7 @@ msgstr "Dată finalizare"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_order_form
 msgid "Components"
-msgstr ""
+msgstr "Componente"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__piking_id
@@ -634,7 +634,7 @@ msgstr "Aviz nefacturabil service"
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_order_form
 msgid "New Notification"
-msgstr "Sesizare nouă"
+msgstr "Notificăre nouă"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
@@ -693,7 +693,7 @@ msgstr "Note..."
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 #, python-format
 msgid "Notification"
-msgstr "Sesizare"
+msgstr "Notificăre"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
@@ -715,37 +715,37 @@ msgstr "Linii notificare"
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification_type__name
 #: model:ir.ui.menu,name:deltatech_service_maintenance.menu_service_notification_type
 msgid "Notification Type"
-msgstr "Tip sesizare"
+msgstr "Tip notificare"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is already assigned."
-msgstr "Sesizarea este daja alocată"
+msgstr "Notificarea este daja alocată"
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is assigned."
-msgstr "Sesizarea este alocată."
+msgstr "Notificarea este alocată."
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_notification.py:0
 #, python-format
 msgid "Notification is not assigned."
-msgstr "Sesizarea nu este alocată."
+msgstr "Notificarea nu este alocată."
 
 #. module: deltatech_service_maintenance
 #: code:addons/deltatech_service_maintenance/models/service_equipment.py:0
 #, python-format
 msgid "Notifications"
-msgstr "Sesizări"
+msgstr "Notificări"
 
 #. module: deltatech_service_maintenance
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_filter
 msgid "Notifications that are assigned to me"
-msgstr "Sesizări care mi-au fost atribuite"
+msgstr "Notificări care mi-au fost atribuite"
 
 #. module: deltatech_service_maintenance
 #: model:ir.model.fields,field_description:deltatech_service_maintenance.field_service_notification__message_needaction_counter
@@ -1079,7 +1079,7 @@ msgstr "Echipament"
 #. module: deltatech_service_maintenance
 #: model:ir.model,name:deltatech_service_maintenance.model_service_notification_type
 msgid "Service Notification Type"
-msgstr "Tip sesizare"
+msgstr "Tip notificare"
 
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_operating_parameter
@@ -1131,7 +1131,7 @@ msgstr "Service Plan Apel"
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_notification
 #: model_terms:ir.ui.view,arch_db:deltatech_service_maintenance.view_service_notification_form
 msgid "Services Notification"
-msgstr "Sesizări"
+msgstr "Notificări"
 
 #. module: deltatech_service_maintenance
 #: model:ir.actions.act_window,name:deltatech_service_maintenance.action_service_notification_type

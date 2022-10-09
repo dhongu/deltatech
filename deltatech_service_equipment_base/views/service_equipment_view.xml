@@ -33,6 +33,7 @@
                          <group string="Technical Details" name="technical_details">
                             <field name="type_id" required="1" />
                             <field name="manufacturer_id" />
+                            <field name="serial_no" />
                         </group>
                         <group string="Identification" name="identification">
                             <field name="product_id" />
