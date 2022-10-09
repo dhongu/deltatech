@@ -47,6 +47,9 @@
                             <field name="partner_id" />
                             <field name="contact_id" />
                         </group>
+                        <group string="Technician" name="technician">
+                             <field name="technician_user_id" />
+                        </group>
                     </group>
 
                     <field name="note" />

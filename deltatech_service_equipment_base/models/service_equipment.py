@@ -30,6 +30,8 @@ class ServiceEquipment(models.Model):
     manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
+    technician_user_id = fields.Many2one("res.users", string="Responsible", tracking=True)
+
     @api.model
     def create(self, vals):
         if ("name" not in vals) or (vals.get("name") in ("/", False)):

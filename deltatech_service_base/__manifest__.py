@@ -18,6 +18,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "application": True,
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

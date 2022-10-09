@@ -21,7 +21,7 @@ class ServiceCycle(models.Model):
     )
 
     @api.model
-    def get_cyle(self):
+    def get_cycle(self):
         self.ensure_one()
         if self.unit == "day":
             return timedelta(days=self.value)

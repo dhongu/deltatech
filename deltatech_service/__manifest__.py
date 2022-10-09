@@ -13,6 +13,6 @@
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "application": False,
-    "development_status": "Mature",
+    "development_status": "Production/Stable",
     "maintainers": ["dhongu"],
 }

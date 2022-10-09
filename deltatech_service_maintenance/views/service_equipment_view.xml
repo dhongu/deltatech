@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_service_equipment_form" model="ir.ui.view">
+        <field name="name">Service equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button type="object" class="oe_stat_button" icon="fa-bell-o" name="notification_button">
+                     <span class="o_stat_text">Notifications</span>
+                </button>
+                <button type="object" class="oe_stat_button" id="order_button" icon="fa-ticket" name="order_button">
+                    <span class="o_stat_text">Orders</span>
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>
