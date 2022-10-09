@@ -266,7 +266,7 @@ class ServiceEquipment(models.Model):
             if consumption.state == "done":
                 invoices |= consumption.invoice_id
 
-        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service_agreement.action_service_invoice")
         action["domain"] = [("id", "=", invoices.ids)]
         return action
 

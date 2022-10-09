@@ -213,6 +213,6 @@ class ServiceBilling(models.TransientModel):
                 res.append(invoice_id.id)
 
         agreements.compute_totals()
-        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service_agreement.action_service_invoice")
         action["domain"] = "[('id','in', [" + ",".join(map(str, res)) + "])]"
         return action

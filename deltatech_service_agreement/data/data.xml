@@ -4,7 +4,7 @@
         <menuitem
             name="Service"
             id="menu_service_app"
-            web_icon="deltatech_service,static/description/icon.png"
+            web_icon="deltatech_service_agreement,static/description/icon.png"
             sequence="25"
         />
         <menuitem name="Service" id="menu_service" parent="menu_service_app" sequence="100" />

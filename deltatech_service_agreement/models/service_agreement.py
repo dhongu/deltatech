@@ -196,7 +196,7 @@ class ServiceAgreement(models.Model):
         }
 
     def show_invoices(self):
-        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service_agreement.action_service_invoice")
         domain = [
             ("invoice_line_ids.agreement_id", "=", self.id),
             ("state", "=", "posted"),
@@ -282,7 +282,7 @@ class ServiceAgreement(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if ("name" not in vals) or (vals.get("name") in ("/", False)):
-                sequence_agreement = self.env.ref("deltatech_service.sequence_agreement")
+                sequence_agreement = self.env.ref("deltatech_service_agreement.sequence_agreement")
                 if sequence_agreement:
                     vals["name"] = sequence_agreement.next_by_id()
         return super(ServiceAgreement, self).create(vals_list)
