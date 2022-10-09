@@ -24,5 +24,5 @@ class ProductionLot(models.Model):
                     }
                 ]
         if equipment_vals_list:
-            self.env["service.equipment"].create(equipment_vals_list)
+            self.env["service.equipment"].sudo().create(equipment_vals_list)
         return lots

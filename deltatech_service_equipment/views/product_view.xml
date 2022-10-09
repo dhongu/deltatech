@@ -19,15 +19,15 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="account.product_template_form_view" />
         <field name="arch" type="xml">
-             <xpath expr="//page/group" position="after">
-                 <group>
-                     <field name="equi_type_required" readonly="1" />
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group>
+                    <field name="equi_type_required" readonly="1" />
                     <field
                         name="equi_type_id"
                         attrs="{'invisible': [('equi_type_required', '!=', True)], 'required': [('equi_type_required', '=', True)]}"
                     />
-                 </group>
-             </xpath>
+                </group>
+            </xpath>
         </field>
     </record>
 

@@ -92,6 +92,7 @@
                         type="object"
                         string="Create Meters"
                         attrs="{'invisible':[('meter_ids','!=',[])]}"
+                        groups="deltatech_service.group_service_manager"
                     />
 
                     <field
@@ -111,6 +112,7 @@
                             icon="fa-slack"
                             name="%(action_service_meter)d"
                             context="{'search_default_equipment_id': id,'default_equipment_id': id}"
+                            groups="deltatech_service.group_service_user"
                         >
                             <span class="o_stat_text">Meters</span>
                         </button>
@@ -147,6 +149,7 @@
                             icon="fa-line-chart"
                             name="%(deltatech_service.action_service_consumption)d"
                             context="{'search_default_equipment_id': id,  'search_default_done': 1,  'default_partner_id': partner_id }"
+                            groups="account.group_account_invoice"
                         >
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_value">
@@ -162,6 +165,7 @@
                             id="common_history_button"
                             icon="fa-book"
                             name="common_history_button"
+                            groups="deltatech_service.group_service_user"
                         >
                             <span class="o_stat_text">History</span>
                         </button>
