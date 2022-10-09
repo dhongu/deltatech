@@ -8,7 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Agreement",
-    "depends": ["base", "product", "account", "date_range"],
+    "depends": ["base", "product", "account", "date_range", "deltatech_service_base"],
     "license": "AGPL-3",
     "data": [
         "security/service_security.xml",
@@ -24,8 +24,8 @@
         "wizard/service_price_change_view.xml",
         "wizard/service_change_invoice_date_view.xml",
     ],
-    "images": ["images/main_screenshot.png"],
-    "application": True,
+    "images": ["static/description/main_screenshot.png"],
+    "application": False,
     "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

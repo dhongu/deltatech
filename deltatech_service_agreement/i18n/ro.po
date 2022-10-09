@@ -184,7 +184,7 @@ msgid "Change Invoice Date"
 msgstr "Modifică dată facturare"
 
 #. module: deltatech_service_agreement
-#: model:res.groups,name:deltatech_service_agreement.group_service_client
+#: model:res.groups,name:deltatech_service_base..group_service_client
 msgid "Client"
 msgstr "Client"
 
@@ -627,7 +627,7 @@ msgid "Main Attachment"
 msgstr ""
 
 #. module: deltatech_service_agreement
-#: model:res.groups,name:deltatech_service_agreement.group_service_manager
+#: model:res.groups,name:deltatech_service_base.group_service_manager
 msgid "Manager"
 msgstr ""
 
@@ -1117,7 +1117,7 @@ msgid "Update Revenues"
 msgstr "Actualizare venituri"
 
 #. module: deltatech_service_agreement
-#: model:res.groups,name:deltatech_service_agreement.group_service_user
+#: model:res.groups,name:deltatech_service_base.group_service_user
 msgid "User"
 msgstr "Utilizator"
 
