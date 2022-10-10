@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_service_equipment_form" model="ir.ui.view">
+        <field name="name">Service equipment</field>
+        <field name="model">service.equipment</field>
+        <field name="inherit_id" ref="deltatech_service_equipment_base.view_service_equipment_form" />
+        <field name="arch" type="xml">
+
+            <page id="meters" position="after">
+                <page string="Plans" groups="deltatech_service_maintenance.group_use_service_plan">
+                    <field name="plan_ids" nolabel="1" context="{'default_equipment_id':id  }">
+                        <tree string="Plans">
+                            <field name="name" />
+                            <field name='state' invisible="1" />
+                            <field name="cycle_id" />
+                            <field name='last_call_done_date' />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

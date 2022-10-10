@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="service_invoice_personal_rule" model="ir.rule">
+            <field name="name">Personal service invoice</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="domain_force">
+                ['|', ('commercial_partner_id','=',[user.commercial_partner_id.id] ),
+                ('message_follower_ids','child_of',[user.commercial_partner_id.id]) ]
+            </field>
+            <field name="groups" eval="[(4, ref('deltatech_service_base.group_service_client'))]" />
+        </record>
+        <record id="service_invoice_see_all_rule" model="ir.rule">
+            <field name="name">All service invoices</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('deltatech_service_base.group_service_user'))]" />
+        </record>
+
+    </data>
+
+    <data noupdate="1">
+
+        <record id="service_agreement_comp_rule" model="ir.rule">
+            <field name="name">Service Agreement multi-company</field>
+            <field name="model_id" ref="model_service_agreement" />
+            <field name="global" eval="True" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+        <record id="service_consumption_comp_rule" model="ir.rule">
+            <field name="name">Service Consumption multi-company</field>
+            <field name="model_id" ref="model_service_consumption" />
+            <field name="global" eval="True" />
+            <field name="domain_force">['|',('company_id','=',False),('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>

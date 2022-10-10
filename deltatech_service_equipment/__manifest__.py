@@ -5,11 +5,18 @@
 {
     "name": "Services Equipment",
     "summary": "Service Equipment Management",
-    "version": "15.0.1.0.8",
+    "version": "15.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Services/Equipment",
-    "depends": ["deltatech_service", "analytic", "maintenance", "stock", "deltatech_download"],
+    "depends": [
+        "deltatech_service_agreement",
+        "deltatech_service_equipment_base",
+        "analytic",
+        "maintenance",
+        "stock",
+        "deltatech_download",
+    ],
     "external_dependencies": {"python": ["xlwt"]},
     "license": "AGPL-3",
     "data": [

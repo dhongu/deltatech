@@ -177,7 +177,7 @@ class ServiceEquiOperation(models.TransientModel):
         self.env["service.history"].create(values)
 
         if not self.agreement_id:
-            cycle = self.env.ref("deltatech_service.cycle_monthly")
+            cycle = self.env.ref("deltatech_service_agreement.cycle_monthly")
             values = {"partner_id": self.partner_id.id, "cycle_id": cycle.id, "state": "draft"}
             self.agreement_id = self.env["service.agreement"].create(values)
 

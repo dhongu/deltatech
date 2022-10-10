@@ -10,7 +10,7 @@
             name="Meter Reading"
             id="menu_service_meter_reading"
             action="action_service_meter_reading"
-            parent="deltatech_service.menu_service"
+            parent="deltatech_service_base.menu_service"
             sequence="502"
         />
         <record id="view_service_meter_tree" model="ir.ui.view">
@@ -108,7 +108,7 @@
             name="Meter"
             id="menu_service_meter"
             action="action_service_meter"
-            parent="deltatech_service.menu_service"
+            parent="deltatech_service_base.menu_service"
             sequence="501"
         />
         <record id="view_service_meter_reading_tree" model="ir.ui.view">
@@ -196,7 +196,7 @@
             name="Meter Category"
             id="menu_service_meter_category"
             action="action_service_meter_category"
-            parent="deltatech_service.menu_service_config"
+            parent="deltatech_service_base.menu_service_config"
             sequence="201"
         />
     </data>
