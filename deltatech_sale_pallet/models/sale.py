@@ -17,8 +17,6 @@ class SaleOrder(models.Model):
                 if pallet:
                     # line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
                     line.product_uom_qty = pallet["product_uom_qty"]
-                    if pallet["product_uom_qty"] == 0.0:
-                        line.unlink()
 
         for product_id in pallets:
             if pallets and pallets[product_id]["product_uom_qty"]:
