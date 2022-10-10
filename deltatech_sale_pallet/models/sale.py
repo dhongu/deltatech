@@ -10,18 +10,21 @@ class SaleOrder(models.Model):
 
     @api.onchange("order_line")
     def onchange_order_line(self):
-        pallets = self.recompute_pallet_lines()
+        pallets = self.recompute_pallet_lines(delete_if_under=True)
         if pallets:
             for line in self.order_line:
                 pallet = pallets.pop(line.product_id.id, False)
                 if pallet:
                     # line.product_uom_qty = max(pallet["product_uom_qty"], line.product_uom_qty)
                     line.product_uom_qty = pallet["product_uom_qty"]
+                    if pallet["product_uom_qty"] == 0.0:
+                        line.unlink()
 
         for product_id in pallets:
-            order_line = self.order_line.new(pallets[product_id])
-            order_line.product_id_change()
-            order_line.product_uom_change()
+            if pallets and pallets[product_id]["product_uom_qty"]:
+                order_line = self.order_line.new(pallets[product_id])
+                order_line.product_id_change()
+                order_line.product_uom_change()
 
     def recompute_pallet_lines(self, delete_if_under=False):
         pallets = {}
