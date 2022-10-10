@@ -160,7 +160,12 @@
 
 
                             </field>
-                            <field name="description" />
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
                         </page>
                         <page string="Other Info" name="other_information">
                             <group>
