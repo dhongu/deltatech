@@ -72,13 +72,26 @@
                     />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            class="oe_stat_button"
+                            name="new_sale_order_button"
+                            attrs="{'invisible': [('can_ordered','=',False)]}"
+                            type="object"
+                            icon="fa-shopping-cart"
+                        >
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Sale Order</span>
+                            </div>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" attrs="{'invisible': [('name','=','/')]}" readonly="1" />
                         </h1>
                     </div>
 
-                    <div class="oe_button_box" name="button_box" />
+
                     <group>
                         <group>
                             <field name="date" />
@@ -110,7 +123,12 @@
                                     <field name="duration" widget="float_time" />
                                 </tree>
                             </field>
-                            <field name="description" />
+                            <field
+                                name="description"
+                                class="oe-bordered-editor"
+                                nolabel="1"
+                                placeholder="Description..."
+                            />
                         </page>
 
                         <page string="Components">
