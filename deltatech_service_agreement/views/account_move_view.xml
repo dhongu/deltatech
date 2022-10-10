@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    type="action"
+                    class="oe_stat_button"
+                    id="consumption_button"
+                    icon="fa-line-chart"
+                    name="%(action_service_consumption)d"
+                    context="{'search_default_invoice_id': id, 'search_default_draft':0 }"
+                    attrs="{'invisible':[ ('move_type', '!=', 'out_invoice')]}"
+                >
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_text">Consumption</span>
+                    </div>
+                </button>
+
+            </div>
+        </field>
+    </record>
+
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.move.select</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <field name="date" position="after">
+                <filter
+                    name="service"
+                    string="Services Agreements"
+                    domain="[('journal_id.service_invoice','=',True)]"
+                />
+                <field
+                    name="invoice_line_ids"
+                    string="Agreement"
+                    filter_domain="[('invoice_line_ids.agreement_id', 'ilike', self)]"
+                />
+                <filter
+                    name="service"
+                    string="Services Agreements"
+                    domain="[('journal_id.service_invoice','=',True)]"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="action_service_invoice" model="ir.actions.act_window">
+        <field name="name">Service Moves</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id" />
+        <field name="domain">[('move_type','=','out_invoice')]</field>
+        <field name="context">
+            {'search_default_service':1, 'default_move_type':'out_invoice', 'move_type':'out_invoice',
+            'journal_type': 'sale'}
+        </field>
+        <field name="search_view_id" ref="account.view_account_invoice_filter" />
+    </record>
+    <record id="action_service_invoice_tree_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="act_window_id" ref="action_service_invoice" />
+    </record>
+    <record id="action_service_invoice_form_view" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="account.view_move_form" />
+        <field name="act_window_id" ref="action_service_invoice" />
+    </record>
+    <menuitem
+        name="Service Invoice"
+        id="menu_service_invoice"
+        action="action_service_invoice"
+        groups="deltatech_service_base.group_service_user"
+        parent="deltatech_service_agreement.menu_service_agr"
+        sequence="110"
+    />
+</odoo>

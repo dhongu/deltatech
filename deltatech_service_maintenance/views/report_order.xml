@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_service_order" model="ir.actions.report">
+        <field name="name">Service Order</field>
+        <field name="model">service.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_service_maintenance.report_service_order</field>
+        <field name="report_file">deltatech_service_maintenance.report_service_order</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+        <field name="binding_model_id" ref="model_service_order" />
+    </record>
+
+
+    <record id="action_report_handover_report" model="ir.actions.report">
+        <field name="name">Handover report</field>
+        <field name="model">service.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">deltatech_service_maintenance.report_handover_report</field>
+        <field name="report_file">deltatech_service_maintenance.report_handover_report</field>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+        <field name="binding_model_id" ref="model_service_order" />
+    </record>
+
+
+    <template id="report_service_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="deltatech_service_maintenance.report_service_order_document" t-lang="doc.partner_id.lang" />
+            </t>
+        </t>
+    </template>
+
+    <template id="report_handover_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t
+                    t-call="deltatech_service_maintenance.report_handover_report_document"
+                    t-lang="doc.partner_id.lang"
+                />
+            </t>
+        </t>
+    </template>
+
+
+    <template id="report_service_order_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+            <div class="page">
+                <div class="oe_structure" />
+
+                <h2 class="mt16">
+                    <span>Service Order</span>
+                    <span t-field="doc.name" />
+                </h2>
+                <br />
+                <div class="row mt32 mb32" id="information">
+                    <div t-if="doc.partner_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Partner:</strong>
+                        <p class="m-0" t-field="doc.partner_id" />
+                    </div>
+                    <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Order Date:</strong>
+                        <p class="m-0" t-field="doc.date" />
+                    </div>
+                    <div t-if="doc.user_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Responsible:</strong>
+                        <p class="m-0" t-field="doc.user_id" />
+                    </div>
+                    <div t-if="doc.notification_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Notification:</strong>
+                        <p class="m-0" t-field="doc.notification_id" />
+                    </div>
+
+                </div>
+                <br />
+                <div class="row mt32 mb32" id="equipment">
+                    <div t-if="doc.equipment_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Equipment:</strong>
+                        <p class="m-0" t-field="doc.equipment_id" />
+                    </div>
+                    <div t-if="doc.equipment_id.serial_no" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Serial Number:</strong>
+                        <p class="m-0" t-field="doc.equipment_id.serial_no" />
+                    </div>
+                </div>
+
+                <br />
+
+                <t t-if="doc.operation_ids">
+                    <div class="row mt32 mb32">
+                        <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Operations:</strong>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm o_main_table">
+                        <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_operation" class="text-left">Operation</th>
+                                <th name="th_quantity" class="text-right">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.operation_ids" t-as="line">
+                                <tr>
+                                    <td name="td_operation">
+                                        <span t-field="line.operation_id" />
+                                    </td>
+                                    <td name="td_duration" class="text-right">
+                                        <span t-field="line.duration" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <br />
+                <t t-if="doc.component_ids">
+                    <div class="row mt32 mb32">
+                        <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Components:</strong>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm o_main_table">
+                        <!-- In case we want to repeat the header, remove "display: table-row-group" -->
+                        <thead style="display: table-row-group">
+                            <tr>
+                                <th name="th_product" class="text-left">Product</th>
+                                <th name="th_quantity" class="text-right">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.component_ids" t-as="line">
+                                <tr>
+                                    <td name="td_name">
+                                        <span t-field="line.product_id" />
+                                    </td>
+                                    <td name="td_quantity" class="text-right">
+                                        <span t-field="line.quantity" />
+                                        <span t-field="line.product_uom" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </t>
+                <div class="oe_structure" />
+                <p t-field="doc.description" />
+
+            </div>
+        </t>
+    </template>
+
+
+    <template id="report_handover_report_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+            <div class="page">
+                <div class="oe_structure" />
+
+                <h2 class="mt16">
+                    <span>Handover report</span>
+                    <t t-if="doc.state in ['work_done','done']">
+                        <span>delivery</span>
+                    </t>
+                    <t t-else="">
+                        <span>reception</span>
+                    </t>
+                    <span t-field="doc.name" />
+                </h2>
+                <br />
+                <div class="row mt32 mb32" id="information">
+                    <div t-if="doc.partner_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Partner:</strong>
+                        <p class="m-0" t-field="doc.partner_id" />
+                    </div>
+                    <t t-if="doc.state in ['work_done','done']">
+                        <div t-if="doc.date_done" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Date:</strong>
+                            <p class="m-0" t-field="doc.date_done" />
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                            <strong>Date:</strong>
+                            <p class="m-0" t-field="doc.date" />
+                        </div>
+                    </t>
+                </div>
+                <br />
+                <div class="row mt32 mb32" id="equipment">
+                    <div t-if="doc.equipment_id.name" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Equipment:</strong>
+                        <p class="m-0" t-field="doc.equipment_id" />
+                    </div>
+                    <div t-if="doc.equipment_id.serial_no" class="col-auto col-3 mw-100 mb-2">
+                        <strong>Serial Number:</strong>
+                        <p class="m-0" t-field="doc.equipment_id.serial_no" />
+                    </div>
+                </div>
+
+                <br />
+                <t t-if="doc.state in ['work_done','done']">
+                    <div class="row mt32 mb32">
+                        <div class="col-auto col-3 mw-100 mb-2">
+                            <strong>During the tests, the machine/equipment works properly, respecting the technical
+                                characteristics.
+                            </strong>
+                        </div>
+                    </div>
+                    <br />
+                </t>
+                <div class="oe_structure" />
+                <div class="row mt32 mb32" id="signatures">
+                    <div class="col-auto col-3 mw-100 mb-2">
+                        <strong>I taught:</strong>
+                    </div>
+                    <div class="col-auto col-3 mw-100 mb-2">
+                        <strong>I received:</strong>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

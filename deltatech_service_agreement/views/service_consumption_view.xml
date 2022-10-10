@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="view_service_consumption_tree" model="ir.ui.view">
+        <field name="name">Services consumption</field>
+        <field name="model">service.consumption</field>
+        <field name="arch" type="xml">
+            <tree string="Services Consumption" create="false">
+                <field name="name" />
+                <field name="period_id" />
+                <field name="date_invoice" />
+                <field name="partner_id" />
+                <field name="group_id" optional="hide" />
+                <field name="product_id" />
+                <field name="quantity" />
+                <field name="uom_id" groups="uom.group_uom" />
+                <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                <field name="currency_id" invisible="1" />
+                <field name="state" invisible="1" />
+                <field name="agreement_id" />
+                <field name="company_id" invisible="1" />
+                <field name="analytic_account_id" optional="hide" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="revenues" sum="1" widget="monetary" options="{'currency_field': 'company_currency_id'}" />
+            </tree>
+        </field>
+    </record>
+    <record id="view_service_consumption_form" model="ir.ui.view">
+        <field name="name">Service consumption</field>
+        <field name="model">service.consumption</field>
+        <field name="arch" type="xml">
+            <form string="Service consumption" create="false">
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="period_id" />
+                            <field name="partner_id" />
+                            <field name="group_id" />
+                            <field name="product_id" />
+                            <field name="quantity" sum="Total Quantity" />
+                            <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="company_id" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="analytic_account_id" />
+                            <field name="agreement_id" />
+                            <field name="invoice_id" />
+                             <field name="company_currency_id" invisible="1" />
+                            <field
+                                name="revenues"
+                                sum="1"
+                                widget="monetary"
+                                options="{'currency_field': 'company_currency_id'}"
+                            />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_service_consumption_pivot" model="ir.ui.view">
+        <field name="name">Service consumption Pivot</field>
+        <field name="model">service.consumption</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="date_invoice" interval="year" type="col" />
+                <field name="agreement_id" type="row" />
+                <field name="revenues" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_service_consumption_filter" model="ir.ui.view">
+        <field name="name">service.consumption.select</field>
+        <field name="model">service.consumption</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="group_id" />
+                <field name="product_id" />
+                <field name="partner_id" />
+                <field name="period_id" options="{'no_create': True}" />
+                <field name="agreement_id" />
+                <field name="invoice_id" />
+                <separator />
+                <filter name="date_invoice" date="date_invoice" default_period="this_month" />
+                <separator />
+
+
+                <filter name="draft" string="To Be Invoiced" domain="[('state','=','draft')]" />
+                <filter name="done" string="Invoiced" domain="[('state','=','done')]" />
+                <newline />
+                <group expand="1" string="Group By...">
+                    <filter string="Period" name="period" context="{'group_by':'period_id'}" />
+                    <filter string="Product" name="product" context="{'group_by':'product_id'}" />
+                    <filter string="Service Group" name="group" context="{'group_by':'group_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_service_consumption" model="ir.actions.act_window">
+        <field name="name">Services Consumption</field>
+        <field name="res_model">service.consumption</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="context">{"search_default_draft":0}</field>
+    </record>
+    <menuitem
+        name="Services Consumption"
+        id="menu_service_consumption"
+        groups="deltatech_service_base.group_service_user"
+        action="action_service_consumption"
+        parent="deltatech_service_agreement.menu_service_agr"
+        sequence="102"
+    />
+
+
+</odoo>

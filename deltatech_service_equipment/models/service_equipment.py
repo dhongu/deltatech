@@ -11,19 +11,11 @@ from odoo.exceptions import UserError
 
 
 class ServiceEquipment(models.Model):
-    _name = "service.equipment"
-    _description = "Service Equipment"
+    _inherit = "service.equipment"
+
     _inherits = {"maintenance.equipment": "base_equipment_id"}
-    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     base_equipment_id = fields.Many2one("maintenance.equipment", required=True, ondelete="cascade")
-
-    # campuri care se gasesc in echipament
-    # name = fields.Char(string='Name', index=True, required=True, copy=False)
-    display_name = fields.Char(compute="_compute_display_name")
-
-    # camp in echipament
-    # categ_id = fields.Many2one('service.equipment.category', related="type_id.categ_id", string="Category")
 
     state = fields.Selection(
         [
@@ -70,13 +62,6 @@ class ServiceEquipment(models.Model):
 
     # install_date = fields.Date(string='Installation Date',  readonly=True)
 
-    contact_id = fields.Many2one(
-        "res.partner",
-        string="Contact Person",
-        tracking=True,
-        domain=[("type", "=", "contact"), ("is_company", "=", False)],
-    )
-
     # se va calcula din suma consumurilor de servicii
 
     total_invoiced = fields.Float(string="Total invoiced", readonly=True)
@@ -84,12 +69,9 @@ class ServiceEquipment(models.Model):
     # se va calcula din suma avizelor
     total_costs = fields.Float(string="Total cost", readonly=True)
 
-    note = fields.Text(string="Notes")
     start_date = fields.Date(string="Start Date")
 
     meter_ids = fields.One2many("service.meter", "equipment_id", string="Meters", copy=True)
-
-    type_id = fields.Many2one("service.equipment.type", required=False, string="Type")
 
     readings_status = fields.Selection(
         [("", "N/A"), ("unmade", "Unmade"), ("done", "Done")],
@@ -104,19 +86,12 @@ class ServiceEquipment(models.Model):
 
     analytic_account_id = fields.Many2one("account.analytic.account", string="Analytic", ondelete="restrict")
 
-    product_id = fields.Many2one(
-        "product.product", string="Product", ondelete="restrict", domain=[("type", "=", "product")]
-    )
-    serial_id = fields.Many2one("stock.production.lot", string="Serial Number", ondelete="restrict", copy=False)
-    # quant_id = fields.Many2one('stock.quant', string='Quant', copy=False)  #  ondelete="restrict",
     location_id = fields.Many2one(
         "stock.location", "Stock Location", store=True, compute="_compute_location"
     )  # related='quant_id.location_id'
 
     ean_code = fields.Char(string="EAN Code")
 
-    vendor_id = fields.Many2one("res.partner", string="Vendor")
-    manufacturer_id = fields.Many2one("res.partner", string="Manufacturer")
     common_history_ids = fields.One2many("service.history", "equipment_id", string="Equipment History")
 
     location_type = fields.Selection(
@@ -141,28 +116,10 @@ class ServiceEquipment(models.Model):
     next_reading = fields.Date("Next reading date", readonly=True, default="2000-01-01")
     last_reading_value = fields.Float(string="Last reading value")
     installation_date = fields.Date("Installation Date")
-    company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
 
     _sql_constraints = [
         ("ean_code_uniq", "unique(ean_code)", "EAN Code already exist!"),
     ]
-
-    @api.model
-    def create(self, vals):
-        if ("name" not in vals) or (vals.get("name") in ("/", False)):
-            sequence = self.env.ref("deltatech_service_equipment.sequence_equipment")
-            if sequence:
-                vals["name"] = sequence.next_by_id()
-
-        return super(ServiceEquipment, self).create(vals)
-
-    def write(self, vals):
-        if ("name" in vals) and (vals.get("name") in ("/", False)):
-            self.ensure_one()
-            sequence = self.env.ref("deltatech_service_equipment.sequence_equipment")
-            if sequence:
-                vals["name"] = sequence.next_by_id()
-        return super(ServiceEquipment, self).write(vals)
 
     @api.depends("serial_id.quant_ids")
     def _compute_location(self):
@@ -266,7 +223,7 @@ class ServiceEquipment(models.Model):
             if consumption.state == "done":
                 invoices |= consumption.invoice_id
 
-        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service.action_service_invoice")
+        action = self.env["ir.actions.actions"]._for_xml_id("deltatech_service_agreement.action_service_invoice")
         action["domain"] = [("id", "=", invoices.ids)]
         return action
 
@@ -298,14 +255,6 @@ class ServiceEquipment(models.Model):
 
     def do_agreement(self):
         pass
-
-    @api.onchange("product_id")
-    def onchange_product_id(self):
-        if self.product_id:
-            domain = [("product_id", "=", self.product_id.id)]
-        else:
-            domain = []
-        return {"domain": {"serial_id": domain}}
 
     def common_history_button(self):
         return {
@@ -348,9 +297,7 @@ class ServiceEquipmentCategory(models.Model):
 
 
 class ServiceEquipmentType(models.Model):
-    _name = "service.equipment.type"
-    _description = "Service Equipment Type"
-    name = fields.Char(string="Type", translate=True)
+    _inherit = "service.equipment.type"
 
     categ_id = fields.Many2one("maintenance.equipment.category", string="Category")
 

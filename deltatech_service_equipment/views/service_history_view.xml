@@ -63,7 +63,7 @@
         <menuitem
             id="service_history_menu"
             name="History Equipment/Agreement"
-            parent="deltatech_service.menu_service"
+            parent="deltatech_service_base.menu_service"
             action="service_history_action"
             sequence="1001"
         />
